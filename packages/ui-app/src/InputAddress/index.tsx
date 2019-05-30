@@ -11,25 +11,30 @@ import React from 'react';
 import store from 'store';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
-import makeOption from '@polkadot/ui-keyring/options/item';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
+import createItem from '@polkadot/ui-keyring/options/item';
+import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
+import { classes, getAddrName } from '../util';
 import addressToAddress from '../util/toAddress';
 
 type Props = BareProps & {
   defaultValue?: string | null,
+  help?: React.ReactNode,
   hideAddress?: boolean;
   isDisabled?: boolean,
   isError?: boolean,
   isInput?: boolean,
+  isMultiple?: boolean,
   label?: string,
-  onChange: (value: string | null) => void,
+  onChange?: (value: string | null) => void,
+  onChangeMulti?: (value: Array<string>) => void,
+  options?: Array<KeyringSectionOption>,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
-  value?: string | Uint8Array,
+  value?: string | Uint8Array | Array<string>,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 
@@ -37,39 +42,62 @@ type State = {
   value?: string
 };
 
-const RECENT_KEY = 'header-recent';
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
+
+const transformToAddress = (value: string | Uint8Array): string | null => {
+  try {
+    return addressToAddress(value) || null;
+  } catch (error) {
+    console.error('Unable to transform address', value);
+  }
+
+  return null;
+};
 
 const transformToAccountId = (value: string): string | null => {
   if (!value) {
     return null;
   }
 
-  let accountId;
-
-  try {
-    accountId = addressToAddress(value);
-  } catch (error) {
-    console.error('Unable to transform address', value);
-  }
+  const accountId = transformToAddress(value);
 
   return !accountId
     ? null
     : accountId;
 };
 
-class InputAddress extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
+const createOption = (address: string) => {
+  let isRecent: boolean | undefined;
+  let name: string | undefined;
 
-    this.state = {};
+  try {
+    name = keyring.getAccount(address).getMeta().name;
+  } catch (error) {
+    try {
+      const meta = keyring.getAddress(address).getMeta();
+
+      name = meta.name;
+      isRecent = meta.isRecent;
+    } catch (error) {
+      // ok, we don't have account or address, treat as recent
+      isRecent = true;
+    }
   }
+
+  return createItem(address, name, !isRecent);
+};
+
+class InputAddress extends React.PureComponent<Props, State> {
+  state: State = {};
 
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
       return {
-        value: addressToAddress(value) || undefined
+        value: Array.isArray(value)
+          ? value.map(addressToAddress)
+          : (addressToAddress(value) || undefined)
+
       } as State;
     } catch (error) {
       return null;
@@ -94,46 +122,77 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, hideAddress = false, isDisabled = false, isError, label, optionsAll, type = DEFAULT_TYPE, style, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
+    const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
-    if (!optionsAll || !Object.keys(optionsAll[type]).length) {
+    if (!hasOptions && !isDisabled) {
       return null;
     }
 
     const lastValue = InputAddress.getLastValue(type);
     const lastOption = this.getLastOptionValue();
-    const actualValue = isDisabled || (defaultValue && this.hasValue(defaultValue))
-      ? defaultValue
+    const actualValue = transformToAddress(
+        isDisabled || (defaultValue && this.hasValue(defaultValue))
+        ? defaultValue
+        : (
+          this.hasValue(lastValue)
+            ? lastValue
+            : (lastOption && lastOption.value)
+        )
+    );
+    const actualOptions = options
+      ? options
       : (
-        this.hasValue(lastValue)
-          ? lastValue
-          : (lastOption && lastOption.value)
+          isDisabled && actualValue
+            ? [createOption(actualValue)]
+            : (optionsAll ? optionsAll[type] : [])
       );
 
     return (
       <Dropdown
         className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
         defaultValue={
-          value !== undefined
+          isMultiple || (value !== undefined)
             ? undefined
             : actualValue
         }
+        help={help}
         isDisabled={isDisabled}
         isError={isError}
+        isMultiple={isMultiple}
         label={label}
-        onChange={this.onChange}
+        onChange={
+          isMultiple
+            ? this.onChangeMulti
+            : this.onChange
+        }
         onSearch={this.onSearch}
-        options={
-          isDisabled && actualValue
-            ? [makeOption(actualValue)]
-            : optionsAll[type]
+        options={actualOptions}
+        placeholder={placeholder}
+        renderLabel={
+          isMultiple
+            ? this.renderLabel
+            : undefined
         }
         style={style}
-        value={value}
+        value={
+          isMultiple
+            ? undefined
+            : value
+        }
+        withEllipsis={withEllipsis}
         withLabel={withLabel}
       />
     );
+  }
+
+  private renderLabel = ({ value }: KeyringSectionOption): string | undefined => {
+    if (!value) {
+      return undefined;
+    }
+
+    return getAddrName(value, true);
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
@@ -169,7 +228,19 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     InputAddress.setLastValue(type, address);
 
-    onChange(transformToAccountId(address));
+    onChange && onChange(transformToAccountId(address));
+  }
+
+  private onChangeMulti = (addresses: Array<string>) => {
+    const { onChangeMulti } = this.props;
+
+    if (onChangeMulti) {
+      onChangeMulti(
+        addresses
+          .map(transformToAccountId)
+          .filter((address) => address) as Array<string>
+      );
+    }
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
@@ -177,9 +248,10 @@ class InputAddress extends React.PureComponent<Props, State> {
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item) =>
-      item.value === null ||
-      item.name.toLowerCase().indexOf(queryLower) !== -1 ||
-      item.value.toLowerCase().indexOf(queryLower) !== -1
+      item.value !== null && (
+        item.name.toLowerCase().indexOf(queryLower) !== -1 ||
+        item.value.toLowerCase().indexOf(queryLower) !== -1
+      )
     );
 
     const valueMatches = matches.filter((item) =>
@@ -190,12 +262,6 @@ class InputAddress extends React.PureComponent<Props, State> {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
-        if (!matches.find((item) => item.key === RECENT_KEY)) {
-          matches.push(
-            keyringOption.createOptionHeader('Recent')
-          );
-        }
-
         matches.push(
           keyring.saveRecent(
             accountId

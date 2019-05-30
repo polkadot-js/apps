@@ -2,133 +2,68 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { DerivedBalances, DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app/index';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
-import { balanceFormat } from '@polkadot/ui-reactive/util/index';
+import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/ui-app';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
   balances: DerivedBalancesMap,
-  intentions: Array<string>,
-  lastLengthChange?: BN,
-  query_staking_validatorCount?: BN,
+  controllers: Array<string>,
+  lastAuthor?: string,
+  lastBlock: string,
+  staking_validatorCount?: BN,
   validators: Array<string>
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { className, intentions, style, t, query_staking_validatorCount, validators } = this.props;
+    const { className, controllers, lastAuthor, lastBlock, style, t, staking_validatorCount, validators } = this.props;
+    const waiting = controllers.length > validators.length
+      ? (controllers.length - validators.length)
+      : 0;
 
     return (
-      <summary
+      <SummaryBox
         className={className}
         style={style}
       >
         <section>
-          <CardSummary
-            label={t('summary.validators', {
-              defaultValue: 'validators'
-            })}
-          >
-            {validators.length}/{query_staking_validatorCount ? query_staking_validatorCount.toString() : '-'}
+          <CardSummary label={t('validators')}>
+            {validators.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
           </CardSummary>
-          <CardSummary
-            label={t('summary.intentions', {
-              defaultValue: 'intentions'
-            })}
-          >
-            {intentions.length}
+          <CardSummary label={t('waiting')}>
+            {waiting}
           </CardSummary>
         </section>
         <section>
-          <SummarySession withBroken={false} />
-        </section>
-        <section>
-          <CardSummary
-            label={t('summary.balances', {
-              defaultValue: 'balances'
-            })}
-          >
-            {this.renderBalances()}
+          <CardSummary label={t('last block')}>
+            {lastAuthor && (
+              <IdentityIcon
+                className='validator--Account-block-icon'
+                size={24}
+                value={lastAuthor}
+              />
+            )}
+            {lastBlock}
           </CardSummary>
         </section>
-      </summary>
+        <section>
+          <SummarySession />
+        </section>
+      </SummaryBox>
     );
-  }
-
-  private renderBalances () {
-    const { t } = this.props;
-    const intentionHigh = this.calcIntentionsHigh();
-    const validatorLow = this.calcValidatorLow();
-    const nominatedLow = validatorLow && validatorLow.nominatedBalance.gtn(0)
-      ? `(+${balanceFormat(validatorLow.nominatedBalance)})`
-      : '';
-    const nominatedHigh = intentionHigh && intentionHigh.nominatedBalance.gtn(0)
-      ? `(+${balanceFormat(intentionHigh.nominatedBalance)})`
-      : '';
-
-    return (
-      <div className='staking--Summary-text'>
-        <div>{t('summary.balance.validator', {
-          defaultValue: 'lowest validator {{validatorLow}}',
-          replace: {
-            validatorLow: validatorLow && validatorLow.stakingBalance
-              ? `${balanceFormat(validatorLow.stakingBalance)} ${nominatedLow}`
-              : '-'
-          }
-        })}</div>
-        <div>{t('summary.balance.stake', {
-          defaultValue: 'highest intention {{intentionHigh}}',
-          replace: {
-            intentionHigh: intentionHigh
-              ? `${balanceFormat(intentionHigh.stakingBalance)} ${nominatedHigh}`
-              : '-'
-          }
-        })}</div>
-      </div>
-    );
-  }
-
-  private calcIntentionsHigh (): DerivedBalances | null {
-    const { balances, intentions, validators } = this.props;
-
-    return intentions.reduce((high: DerivedBalances | null, addr) => {
-      const balance = validators.includes(addr) || !balances[addr]
-        ? null
-        : balances[addr];
-
-      if (high === null || (balance && high.stakingBalance.lt(balance.stakingBalance))) {
-        return balance;
-      }
-
-      return high;
-    }, null);
-  }
-
-  private calcValidatorLow (): DerivedBalances | null {
-    const { balances, validators } = this.props;
-
-    return validators.reduce((low: DerivedBalances | null, addr) => {
-      const balance = balances[addr] || null;
-
-      if (low === null || (balance && low.stakingBalance.gt(balance.stakingBalance))) {
-        return balance;
-      }
-
-      return low;
-    }, null);
   }
 }
 
 export default withMulti(
   Summary,
   translate,
-  withCall('query.staking.validatorCount')
+  withCalls<Props>('query.staking.validatorCount')
 );

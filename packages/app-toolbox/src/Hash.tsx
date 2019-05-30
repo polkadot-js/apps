@@ -5,7 +5,7 @@
 import { I18nProps as Props } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Input, Output, Static } from '@polkadot/ui-app/index';
+import { Input, Output, Static } from '@polkadot/ui-app';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
@@ -38,32 +38,30 @@ class Hash extends React.PureComponent<Props, State> {
     const { data, isHexData } = this.state;
 
     return (
-      <div className='ui--row'>
-        <Input
-          autoFocus
-          className='large'
-          label={t('hash.data', {
-            defaultValue: 'from the following data (hex or string)'
-          })}
-          onChange={this.onChangeData}
-          value={data}
-        />
-        <Static
-          className='small'
-          label={t('hash.isHex', {
-            defaultValue: 'hex input data'
-          })}
-          value={
-            isHexData
-              ? t('hash.isHex.yes', {
-                defaultValue: 'Yes'
-              })
-              : t('hash.isHex.no', {
-                defaultValue: 'No'
-              })
-          }
-        />
-      </div>
+      <>
+        <div className='ui--row'>
+          <Input
+            autoFocus
+            className='full'
+            help={t('The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.')}
+            label={t('from the following data')}
+            onChange={this.onChangeData}
+            value={data}
+          />
+        </div>
+        <div className='ui--row'>
+          <Static
+            className='medium'
+            help={t('Detection on the input string to determine if it is hex or non-hex.')}
+            label={t('hex input data')}
+            value={
+              isHexData
+                ? t('Yes')
+                : t('No')
+            }
+          />
+        </div>
+      </>
     );
   }
 
@@ -74,11 +72,11 @@ class Hash extends React.PureComponent<Props, State> {
     return (
       <div className='ui--row'>
         <Output
-          className='full toolbox--hex'
+          className='full'
+          help={t('The blake2b 256-bit hash of the actual input data.')}
           isHidden={hash.length === 0}
-          label={t('hash.output', {
-            defaultValue: 'the resulting hash is'
-          })}
+          isMonospace
+          label={t('the resulting hash is')}
           value={hash}
           withCopy
         />

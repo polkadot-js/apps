@@ -2,25 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithNamespaces } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { BareProps } from './types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Labelled from './Labelled';
 import translate from './translate';
 
-type Props = BareProps & WithNamespaces & {
+type Props = BareProps & WithTranslation & {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string,
+  clearContent?: boolean,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
-  label: string,
-  onChange?: (contents: Uint8Array) => void,
-  placeholder?: string,
+  label: React.ReactNode,
+  onChange?: (contents: Uint8Array, name: string) => void,
+  placeholder?: React.ReactNode | null,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 
@@ -41,12 +44,14 @@ class InputFile extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
-    const { accept, className, isDisabled, isError = false, label, placeholder, t, withLabel } = this.props;
+    const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
     const { file } = this.state;
 
     return (
       <Labelled
+        help={help}
         label={label}
+        withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
         <Dropzone
@@ -58,12 +63,9 @@ class InputFile extends React.PureComponent<Props, State> {
         >
           <div className='label'>
             {
-              !file
-                ? placeholder || t('file.dnd', {
-                  defaultValue: 'drag and drop the file here'
-                })
-                : placeholder || t('file.description', {
-                  defaultValue: '{{name}} ({{size}} bytes)',
+              !file || clearContent
+                ? placeholder || t('click to select or drag and drop the file here')
+                : placeholder || t('{{name}} ({{size}} bytes)', {
                   replace: file
                 })
             }
@@ -90,12 +92,13 @@ class InputFile extends React.PureComponent<Props, State> {
       // @ts-ignore ummm... events are not properly specified here?
       reader.onload = ({ target: { result } }: LoadEvent) => {
         const data = new Uint8Array(result);
+        const name = file.name;
 
-        onChange && onChange(data);
+        onChange && onChange(data, name);
 
         this.setState({
           file: {
-            name: file.name,
+            name,
             size: data.length
           }
         });

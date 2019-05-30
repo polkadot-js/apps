@@ -4,61 +4,121 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { Route } from '../types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { Route } from '@polkadot/apps-routing/types';
 
 import React from 'react';
-import { withRouter } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import { Icon, Menu } from '@polkadot/ui-app/index';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { Icon, Menu, Tooltip } from '@polkadot/ui-app';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { withApi,withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
 
+import translate from '../translate';
+
 type Props = I18nProps & ApiProps & {
-  route: Route
+  isCollapsed: boolean,
+  onClick: () => void,
+  allAccounts?: SubjectInfo,
+  route: Route,
+  sudo_key: string
 };
 
 class Item extends React.PureComponent<Props> {
   render () {
-    const { route: { i18n, icon, name }, t } = this.props;
+    const { route: { Modal, i18n, icon, name }, t, isCollapsed, onClick } = this.props;
 
-    if (!this.isApiAvailable()) {
+    if (!this.isVisible()) {
       return null;
     }
 
+    const body = (
+      <>
+        <Icon name={icon} />
+        <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+        <Tooltip
+          offset={{ right: -4 }}
+          place='right'
+          text={t(`sidebar.${name}`, i18n)}
+          trigger={`nav-${name}`}
+        />
+      </>
+    );
+
     return (
       <Menu.Item className='apps--SideBar-Item'>
-        <NavLink
-          activeClassName='apps--SideBar-Item-NavLink-active'
-          className='apps--SideBar-Item-NavLink'
-          to={`/${name}`}
-        >
-          <Icon name={icon} /> {t(`sidebar.${name}`, i18n)}
-        </NavLink>
+        {
+          Modal
+            ? (
+              <a
+                className='apps--SideBar-Item-NavLink'
+                data-for={`nav-${name}`}
+                data-tip
+                data-tip-disable={!isCollapsed}
+                onClick={onClick}
+              >
+                {body}
+              </a>
+            )
+            : (
+            <NavLink
+              activeClassName='apps--SideBar-Item-NavLink-active'
+              className='apps--SideBar-Item-NavLink'
+              data-for={`nav-${name}`}
+              data-tip
+              data-tip-disable={!isCollapsed}
+              onClick={onClick}
+              to={`/${name}`}
+            >
+              {body}
+            </NavLink>
+          )
+        }
       </Menu.Item>
     );
   }
 
-  private isApiAvailable () {
-    const { apiPromise, isApiConnected, isApiReady, route: { isApiGated, name, needsApi } } = this.props;
+  private hasApi (endpoint: string): boolean {
+    const { api } = this.props;
+    const [area, section, method] = endpoint.split('.');
 
-    if (isApiGated && (!isApiReady || !isApiConnected)) {
+    try {
+      return isFunction((api as any)[area][section][method]);
+    } catch (error) {
       return false;
-    } else if (!needsApi || !needsApi.length) {
+    }
+  }
+
+  private isVisible () {
+    const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi, needsSudo }, name }, sudo_key: sudoKey } = this.props;
+    const hasAccounts = Object.keys(allAccounts).length !== 0;
+    const hasSudo = !!Object.keys(allAccounts).find(address => address === sudoKey);
+
+    if (isHidden) {
+      return false;
+    } else if (needsAccounts && !hasAccounts) {
+      return false;
+    } else if (!needsApi) {
       return true;
+    } else if (!isApiReady || !isApiConnected) {
+      return false;
+    } else if (needsSudo) {
+      if (!hasSudo) {
+        console.info('Disabling route sudo, no authority');
+        return false;
+      }
     }
 
-    const notFound = needsApi.filter((endpoint) => {
-      const [area, section, method] = endpoint.split('.');
+    const notFound = needsApi.filter((endpoint: string | Array<string>) => {
+      const hasApi = Array.isArray(endpoint)
+        ? endpoint.reduce((hasApi, endpoint) => hasApi || this.hasApi(endpoint), false)
+        : this.hasApi(endpoint);
 
-      try {
-        return !isFunction((apiPromise as any)[area][section][method]);
-      } catch (error) {
-        return true;
-      }
+      return !hasApi;
     });
 
     if (notFound.length !== 0) {
-      console.error(`Disabling route ${name}, API ${notFound} not available`);
+      console.info(`Disabling route ${name}, API ${notFound} not available`);
     }
 
     return notFound.length === 0;
@@ -67,6 +127,10 @@ class Item extends React.PureComponent<Props> {
 
 export default withMulti(
   Item,
-  withRouter,
-  withApi
+  translate,
+  withApi,
+  withCalls<Props>(
+    ['query.sudo.key', { transform: key => key.toString() }]
+  ),
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

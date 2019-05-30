@@ -11,5 +11,6 @@
   "Transaction": {
     "inputs": "Vec<TransactionInput>",
     "outputs": "Vec<TransactionOutput>"
-  }
+  },
+  "blah": "u32"
 }

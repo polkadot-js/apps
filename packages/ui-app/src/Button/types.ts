@@ -13,19 +13,24 @@ export type ButtonProps = BareProps & {
   isBasic?: boolean,
   isCircular?: boolean,
   isDisabled?: boolean,
+  isLoading?: boolean,
   isNegative?: boolean,
   isPositive?: boolean,
   isPrimary?: boolean,
+  label?: React.ReactNode,
   onClick?: () => void | Promise<void>,
+  ref?: any,
   size?: Button$Sizes,
   tabIndex?: number,
-  text?: any
+  tooltip?: React.ReactNode
 };
 
 export type DividerProps = BareProps;
 
 export type GroupProps = BareProps & {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  isBasic?: boolean,
+  isCentered?: boolean
 };
 
 export type GroupType = React.ComponentType<GroupProps> & {

@@ -27,6 +27,12 @@
   margin-right: 1rem;
 }
 
+.validator--Account-block-icon {
+  margin-right: 0.75rem;
+  margin-top: -0.25rem;
+  vertical-align: middle;
+}
+
 .validator--Account-validating {
   opacity: 0.25 !important;
   padding-top: 0.5em;
@@ -38,9 +44,9 @@
   opacity: 1 !important;
 }
 
-.validator--Account-details,.column{
+.validator--Account-details,
+.column{
   flex: 1;
-  border: 1px, solid blue;
 }
 
 .validator--Account-balance,
@@ -49,9 +55,36 @@
   text-align: right;
 }
 
-.validator--IntensionsList,
 .validator--ValidatorsList {
-  display: flex;
+  article {
+    position: relative;
+
+    details {
+      summary {
+        cursor: pointer;
+        outline: none;
+      }
+
+      summary + div {
+        margin-top: 0;
+      }
+    }
+
+    .blockNumber {
+      background: #3f3f3f;
+      border-radius: 0.25rem;
+      bottom: 0.75rem;
+      box-shadow: 0 3px 3px rgba(0,0,0,.2);
+      color: #eee;
+      font-size: 1.5rem;
+      font-weight: 100;
+      line-height: 1.5rem;
+      padding: 0.25rem 0.5rem;
+      position: absolute;
+      right: -0.75rem;
+      vertical-align: middle;
+    }
+  }
 }
 
 .validator--current,

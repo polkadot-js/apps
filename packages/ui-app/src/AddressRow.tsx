@@ -3,38 +3,49 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
 
-import classes from './util/classes';
-import { AddressSummary } from './AddressSummary';
+import { classes } from './util';
+import { AddressSummary, Props } from './AddressSummary';
 import translate from './translate';
 
 class AddressRow extends AddressSummary {
   render () {
-    const { className, style, identIconSize = 64, value } = this.props;
+    const { className, style, identIconSize = 64, isInline, value, withIndex } = this.props;
 
     return (
       <div
-        className={classes('ui--AddressRow', !value && 'invalid', className)}
+        className={classes('ui--AddressRow', !value && 'invalid', isInline && 'inline', className)}
         style={style}
       >
         <div className='ui--AddressRow-base'>
           {this.renderIcon('ui--AddressRow-icon', identIconSize)}
+          {this.renderButtons()}
           <div className='ui--AddressRow-details'>
-            {this.renderAddress()}
-            {this.renderBalance()}
-            {this.renderNonce()}
-            {this.renderChildren()}
+            <div className='ui--AddressSummary-data'>
+              {this.renderName()}
+              {this.renderAddress()}
+              {this.renderAccountIndex(withIndex)}
+            </div>
+            <div className='ui--AddressSummary-balances'>
+              {this.renderAvailable()}
+              {this.renderBalance()}
+              {this.renderBonded()}
+              {this.renderNonce()}
+            </div>
+            {this.renderTags()}
           </div>
         </div>
+        {this.renderChildren()}
+        {this.renderExplorer()}
       </div>
     );
   }
 }
 
-export default withMulti(
-  AddressRow,
-  translate,
-  withCall('derive.balances.accountIdAndIndex', { paramProp: 'value' }),
-  withCall('query.session.validators')
+export default translate(
+  withCalls<Props>(
+    ['derive.accounts.idAndIndex', { paramName: 'value' }],
+    'query.session.validators'
+  )(AddressRow)
 );

@@ -11,6 +11,7 @@ import Labelled from './Labelled';
 type Props = BareProps & {
   children?: React.ReactNode,
   defaultValue?: any,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   isHidden?: boolean,
@@ -21,11 +22,12 @@ type Props = BareProps & {
 
 export default class Static extends React.PureComponent<Props> {
   render () {
-    const { className, children, defaultValue, isHidden, label, style, value, withLabel } = this.props;
+    const { className, children, defaultValue, help, isHidden, label, style, value, withLabel } = this.props;
 
     return (
       <Labelled
         className={className}
+        help={help}
         isHidden={isHidden}
         label={label}
         style={style}

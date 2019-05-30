@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Dropdown } from '@polkadot/ui-app/index';
+import { Dropdown } from '@polkadot/ui-app';
 
 import Bare from './Bare';
 
@@ -27,13 +27,14 @@ export default class BoolParam extends React.PureComponent<Props> {
         style={style}
       >
         <Dropdown
-          className={isDisabled ? 'full' : 'small'}
+          className={isDisabled ? 'full' : 'medium'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
           options={options}
           onChange={this.onChange}
+          withEllipsis
           withLabel={withLabel}
         />
       </Bare>

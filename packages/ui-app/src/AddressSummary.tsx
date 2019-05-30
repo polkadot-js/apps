@@ -2,137 +2,275 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { I18nProps } from './types';
 
+import BN from 'bn.js';
+import { Label } from 'semantic-ui-react';
 import React from 'react';
-import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types';
-import { Nonce } from '@polkadot/ui-reactive/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
+import { Button, Input, InputTags } from '@polkadot/ui-app';
+import BaseIdentityIcon from '@polkadot/ui-identicon';
+import keyring from '@polkadot/ui-keyring';
 
-import classes from './util/classes';
-import toShortAddress from './util/toShortAddress';
+import AvailableDisplay from './Available';
 import BalanceDisplay from './Balance';
+import BondedDisplay from './Bonded';
+import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
+import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
+import LinkPolkascan from './LinkPolkascan';
+import NonceDisplay from './Nonce';
 import translate from './translate';
 
 export type Props = I18nProps & {
-  derive_balances_accountIdAndIndex?: [AccountId | undefined, AccountIndex | undefined],
-  balance?: Balance | Array<Balance>,
+  accounts_idAndIndex?: [AccountId?, AccountIndex?],
+  balance?: BN | Array<BN>,
+  bonded?: BN | Array<BN>,
+  buttons?: React.ReactNode,
   children?: React.ReactNode,
-  name?: string,
-  value: AccountId | AccountIndex | Address | string | null,
-  withBalance?: boolean,
-  withIndex?: boolean,
+  defaultName?: string,
+  extraInfo?: React.ReactNode,
   identIconSize?: number,
+  isEditable?: boolean,
+  isInline?: boolean,
   isShort?: boolean,
-  query_session_validators?: Array<AccountId>,
-  withCopy?: boolean,
+  session_validators?: Array<AccountId>,
+  value: AccountId | AccountIndex | Address | string | null,
+  withAvailable?: boolean,
+  withBalance?: boolean,
+  withBonded?: boolean,
+  withExplorer?: boolean,
   withIcon?: boolean,
-  withNonce?: boolean
+  withIndex?: boolean,
+  withNonce?: boolean,
+  withTags?: boolean
+};
+
+type State = {
+  address: string,
+  isEditingName: boolean,
+  isEditingTags: boolean,
+  name: string,
+  tags: string[]
 };
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
+const ICON_SIZE = 64;
 
-class AddressSummary extends React.PureComponent<Props> {
+class AddressSummary extends React.PureComponent<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.state = this.createState();
+  }
+
+  static defaultProps = {
+    defaultName: '<unknown>'
+  };
+
+  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props, prevState: State): State | null {
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
+    const address = accountId
+      ? accountId.toString()
+      : DEFAULT_ADDR;
+    const name = getAddrName(address, false, defaultName) || '';
+    const tags = getAddrTags(address);
+    const state = { tags } as State;
+    let hasChanged = false;
+
+    if (address !== prevState.address) {
+      state.address = address;
+      hasChanged = true;
+    }
+
+    if (!prevState.isEditingName && name !== prevState.name) {
+      state.name = name;
+      hasChanged = true;
+    }
+
+    return hasChanged
+      ? state
+      : null;
+  }
+
   render () {
-    const { derive_balances_accountIdAndIndex = [], className, style } = this.props;
-    const [accountId, accountIndex] = derive_balances_accountIdAndIndex;
+    const { accounts_idAndIndex = [], className, isInline, style, withIndex } = this.props;
+    const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = accountId || accountIndex;
 
     return (
       <div
-        className={classes('ui--AddressSummary', !isValid && 'invalid', className)}
+        className={classes('ui--AddressSummary', !isValid && 'invalid', isInline && 'inline', className)}
         style={style}
       >
         <div className='ui--AddressSummary-base'>
           {this.renderIcon()}
-          {this.renderAccountId()}
-          {this.renderAccountIndex()}
-          {this.renderBalance()}
-          {this.renderNonce()}
+          {this.renderButtons()}
+          <div className='ui--AddressSummary-data'>
+            {this.renderName()}
+            {this.renderAddress()}
+            {this.renderAccountIndex(withIndex)}
+          </div>
+          <div className='ui--AddressSummary-balances'>
+            {this.renderAvailable()}
+            {this.renderBalance()}
+            {this.renderBonded()}
+            {this.renderNonce()}
+          </div>
+          {this.renderTags()}
         </div>
         {this.renderChildren()}
+        {this.renderExplorer()}
       </div>
     );
   }
 
-  protected renderAddress () {
-    const { name, isShort = true, value } = this.props;
-
-    if (!value) {
-      return null;
-    }
-
-    const address = value.toString();
-
-    return (
-      <div className='ui--AddressSummary-data'>
-        <div className='ui--AddressSummary-name'>
-          {name}
-        </div>
-        <div className='ui--AddressSummary-accountId'>
-          {
-            isShort
-              ? toShortAddress(address)
-              : value
-          }
-        </div>
-      </div>
-    );
-  }
-
-  protected renderAccountId () {
-    const { derive_balances_accountIdAndIndex = [], name, isShort = true } = this.props;
-    const [accountId, accountIndex] = derive_balances_accountIdAndIndex;
-
-    if (!accountId && accountIndex) {
-      return null;
-    }
-
+  private createState () {
+    const { accounts_idAndIndex = [], defaultName, value } = this.props;
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId || value;
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
+    const name = getAddrName(address, false, defaultName) || '';
+    const tags = getAddrTags(address);
+
+    return {
+      address,
+      isEditingName: false,
+      isEditingTags: false,
+      name,
+      tags
+    };
+  }
+
+  protected renderAddress () {
+    const { isShort = true } = this.props;
+    const { address } = this.state;
+    const addrElem = isShort
+      ? (
+          <CopyButton
+            isAddress
+            value={address}
+          >
+            <span>{toShortAddress(address)}</span>
+          </CopyButton>
+      )
+      : address;
 
     return (
-      <div className='ui--AddressSummary-data'>
+      <>
         <div className='ui--AddressSummary-name'>
           {name}
         </div>
         <div className='ui--AddressSummary-accountId'>
-          {
-            isShort
-              ? toShortAddress(address)
-              : address
-          }
+          {addrElem}
         </div>
+      </>
+    );
+  }
+
+  protected renderButtons () {
+    const { buttons } = this.props;
+
+    return buttons
+      ? <div className='ui--AddressSummary-buttons'>{buttons}</div>
+      : null;
+  }
+
+  protected renderExplorer () {
+    const { value, withExplorer } = this.props;
+
+    if (!withExplorer) {
+      return null;
+    }
+
+    return (
+      <div className='ui--AddressSummary-explorer'>
+        <LinkPolkascan
+          className='polkascan'
+          data={value}
+          type='address'
+        />
       </div>
     );
   }
 
-  protected renderAccountIndex () {
-    const { derive_balances_accountIdAndIndex = [] } = this.props;
-    const [, accountIndex] = derive_balances_accountIdAndIndex;
+  protected renderName () {
+    const { isEditable } = this.props;
+    const { isEditingName, name } = this.state;
 
-    if (!accountIndex) {
+    return isEditingName
+      ? (
+        <Input
+          autoFocus
+          defaultValue={name}
+          onBlur={this.saveName}
+          onChange={this.onChangeName}
+          onEnter={this.saveName}
+          withLabel={false}
+        />
+      )
+      : (
+        <div
+          className={classes('ui--AddressSummary-name', isEditable && 'editable')}
+          onClick={isEditable ? this.toggleNameEditor : undefined}
+        >
+          {name}
+          {isEditable && this.renderEditIcon()}
+        </div>
+      );
+  }
+
+  protected onChangeName = (name: string) => {
+    this.setState({ name });
+  }
+
+  protected onChangeTags = (tags: string[]) => {
+    this.setState({ tags });
+  }
+
+  protected renderAvailable () {
+    const { accounts_idAndIndex = [], t, withAvailable } = this.props;
+    const [accountId] = accounts_idAndIndex;
+
+    if (!withAvailable || !accountId) {
       return null;
     }
 
-    const address = accountIndex.toString();
+    return (
+      <AvailableDisplay
+        className='ui--AddressSummary-available'
+        label={<label>{t('available')}</label>}
+        params={accountId}
+      />
+    );
+  }
+
+  protected renderAccountIndex (withIndex?: boolean) {
+    const { accounts_idAndIndex = [] } = this.props;
+    const [, accountIndex] = accounts_idAndIndex;
+
+    if (!accountIndex || !withIndex) {
+      return null;
+    }
 
     return (
-      <div className='ui--AddressSummary-data'>
-        <div className='ui--AddressSummary-name'></div>
-        <div className='ui--AddressSummary-accountIndex'>
-          {address}
-        </div>
+      <div className='ui--AddressSummary-accountIndex'>
+        {accountIndex.toString()}
       </div>
     );
   }
 
   protected renderBalance () {
-    const { balance, t, withBalance = true, value } = this.props;
+    const { accounts_idAndIndex = [], balance, t, withBalance } = this.props;
+    const [accountId] = accounts_idAndIndex;
 
-    if (!withBalance) {
+    if (!withBalance || !accountId) {
       return null;
     }
 
@@ -140,61 +278,34 @@ class AddressSummary extends React.PureComponent<Props> {
       <BalanceDisplay
         balance={balance}
         className='ui--AddressSummary-balance'
-        label={t('addressSummary.balance', {
-          defaultValue: 'balance '
-        })}
-        value={value}
+        label={<label>{t('total')}</label>}
+        params={accountId}
       />
     );
   }
 
-  protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { derive_balances_accountIdAndIndex = [], identIconSize = 96, query_session_validators, value, withIcon = true } = this.props;
+  protected renderBonded () {
+    const { accounts_idAndIndex = [], bonded, t, withBonded } = this.props;
+    const [accountId] = accounts_idAndIndex;
 
-    if (!withIcon) {
+    if (!withBonded || !accountId) {
       return null;
     }
 
-    const [_accountId] = derive_balances_accountIdAndIndex;
-    const accountId = (_accountId || '').toString();
-    const isValidator = (query_session_validators || []).find((validator) =>
-      validator.toString() === accountId
-    );
-
     return (
-      <IdentityIcon
-        className={className}
-        isHighlight={!!isValidator}
-        size={size || identIconSize}
-        value={value ? value.toString() : DEFAULT_ADDR}
+      <BondedDisplay
+        bonded={bonded}
+        className='ui--AddressSummary-bonded'
+        label={<label>{t('bonded')}</label>}
+        params={accountId}
       />
-    );
-  }
-
-  protected renderNonce () {
-    const { derive_balances_accountIdAndIndex = [], t, withNonce = true } = this.props;
-    const [accountId] = derive_balances_accountIdAndIndex;
-
-    if (!withNonce || !accountId) {
-      return null;
-    }
-
-    return (
-      <Nonce
-        className='ui--AddressSummary-nonce'
-        params={accountId.toString()}
-      >
-        {t('addressSummary.transactions', {
-          defaultValue: ' transactions'
-        })}
-      </Nonce>
     );
   }
 
   protected renderChildren () {
     const { children } = this.props;
 
-    if (!children) {
+    if (!children || (Array.isArray(children) && children.length === 0)) {
       return null;
     }
 
@@ -204,6 +315,170 @@ class AddressSummary extends React.PureComponent<Props> {
       </div>
     );
   }
+
+  protected renderEditIcon () {
+    return (
+      <Button
+        className='iconButton'
+        icon='edit'
+        size='mini'
+        isPrimary
+        key='unlock'
+      />
+    );
+  }
+
+  protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
+    const { accounts_idAndIndex = [], identIconSize = ICON_SIZE, withIcon = true } = this.props;
+    const { address } = this.state;
+    const [accountId] = accounts_idAndIndex;
+
+    if (!withIcon) {
+      return null;
+    }
+
+    // Since we do queries to storage in the wrapped example, we don't want
+    // to follow that route if we don't have a valid address.
+    const Component = accountId
+      ? IdentityIcon
+      : BaseIdentityIcon;
+
+    return (
+      <Component
+        className={className}
+        size={size || identIconSize}
+        value={address}
+      />
+    );
+  }
+
+  protected renderNonce () {
+    const { t, withNonce } = this.props;
+    const { address } = this.state;
+
+    if (!withNonce || !address) {
+      return null;
+    }
+
+    return (
+      <NonceDisplay
+        className='ui--AddressSummary-nonce'
+        label={<label>{t('transactions')}</label>}
+        params={address}
+      />
+    );
+  }
+
+  protected renderSaveIcon (callback: () => void) {
+    return (
+      <Button
+        className='saveButton'
+        onClick={callback}
+        icon='save'
+        size='small'
+        isPrimary
+        key='save'
+      />
+    );
+  }
+
+  protected renderTags () {
+    const { isEditingTags, tags } = this.state;
+    const { isEditable, withTags = false } = this.props;
+
+    if (!withTags) {
+      return null;
+    }
+
+    const resultingDom = isEditingTags ?
+      <>
+        <InputTags
+          className='ui--AddressSummary-tags-input'
+          onBlur={this.saveTags}
+          onChange={this.onChangeTags}
+          onClose={this.saveTags}
+          openOnFocus
+          defaultValue = {tags}
+          searchInput={{ autoFocus: true }}
+          value={tags}
+          withLabel={false}
+        />
+      </>
+       :
+        <div
+          className={classes('ui--AddressSummary-tags', isEditable && 'editable')}
+          onClick={isEditable ? this.toggleTagsEditor : undefined}
+        >
+          {
+            !tags.length
+              ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
+              : tags.map((tag) => {
+                return (
+                  <Label key={tag} size='tiny' color='grey'>
+                    {tag}
+                  </Label>
+                );
+              })
+          }
+          {isEditable && this.renderEditIcon()}
+        </div>;
+
+    return resultingDom;
+  }
+
+  protected saveName = () => {
+    const { address, name } = this.state;
+    const trimmedName = name.trim();
+    const meta = {
+      name: trimmedName,
+      whenEdited: Date.now()
+    };
+
+    // Save only if the name was changed or if it's no empty.
+    if (trimmedName && address) {
+      try {
+        const currentKeyring = keyring.getPair(address);
+
+        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+      } catch (error) {
+        keyring.saveAddress(address, meta);
+      }
+
+      this.setState({ isEditingName: false });
+    }
+  }
+
+  protected saveTags = () => {
+    const { address, tags } = this.state;
+    const meta = {
+      tags,
+      whenEdited: Date.now()
+    };
+
+    if (address) {
+      try {
+        const currentKeyring = keyring.getPair(address);
+
+        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+      } catch (error) {
+        keyring.saveAddress(address, meta);
+      }
+
+      this.setState({ isEditingTags: false });
+    }
+  }
+
+  protected toggleNameEditor = () => {
+    this.setState(({ isEditingName }) => ({
+      isEditingName: !isEditingName
+    }));
+  }
+
+  protected toggleTagsEditor = () => {
+    this.setState(({ isEditingTags }) => ({
+      isEditingTags: !isEditingTags
+    }));
+  }
 }
 
 export {
@@ -211,9 +486,8 @@ export {
   AddressSummary
 };
 
-export default withMulti(
-  AddressSummary,
-  translate,
-  withCall('derive.balances.accountIdAndIndex', { paramProp: 'value' }),
-  withCall('query.session.validators')
+export default translate(
+  withCalls<Props>(
+    ['derive.accounts.idAndIndex', { paramName: 'value' }]
+  )(AddressSummary)
 );

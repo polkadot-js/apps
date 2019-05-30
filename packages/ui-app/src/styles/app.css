@@ -17,8 +17,13 @@ body {
   height: 100%;
 }
 
+a {
+  cursor: pointer;
+}
+
 h1, h2, h3, h4, h5 {
   color: rgba(0, 0, 0, .6);
+  font-family: sans-serif;
   font-weight: 100;
 }
 
@@ -30,14 +35,27 @@ h3, h4, h5 {
   margin-bottom: 0.25rem;
 }
 
+label {
+  box-sizing: border-box;
+  color: rgba(78,78,78,.75);
+  display: block;
+  font-family: sans-serif;
+  font-size: 1rem;
+  font-weight: 100;
+  /* margin: 0.25rem; */
+}
+
 /*
 a:hover {
   color: #D75EA1;
 }
 */
 
+br {
+  line-height: 1.5rem;
+}
+
 main {
-  padding: 1em 2em;
   min-height: 100vh;
 }
 
@@ -45,18 +63,31 @@ main > section {
   margin-bottom: 2em;
 }
 
+header > article {
+  background: transparent;
+}
+
 article {
   background: white;
   border: 1px solid #f2f2f2;
-  border-left-width: 0.25rem;
   border-radius: 0.25rem;
-  /* border-top-width: 1px; */
-  margin: 0.5rem;
-  padding: 1rem 1.5rem;
+  box-sizing: border-box;
+  margin: 0.25rem;
+  padding: 1.25rem 1.5rem;
   text-align: left;
 
+  &:hover {
+    /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-color: transparent; */
+  }
+
   &.padded {
-    padding: 1rem 2.5rem;
+    padding: 0.75rem 2.5rem;
+
+    > div {
+      margin: 0.25rem;
+    }
   }
 
   &.error {
@@ -74,41 +105,30 @@ article {
     margin: 0;
     padding: 0;
   }
+
+  &:not(:hover) {
+    .ui.button {
+      background: #eee !important;
+      color: #555 !important;
+    }
+
+    .ui.button.mini {
+      visibility: hidden;
+    }
+  }
 }
 
-header,
-summary {
-  margin-bottom: 2em;
-  text-align: center;
-}
+details {
+  cursor: pointer;
 
-/* header {
-  background: #f5f5f5;
-  margin: -1em -2em 2em;
-  padding: 1em 2em 0;
-} */
+  &[open] > summary {
+    white-space: normal;
+  }
 
-header+header,
-header+summary,
-summary+header {
-  margin-top: -1em;
-}
-
-summary {
-  align-items: stretch;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-summary article {
-  color: rgba(0, 0, 0, 0.6);
-  flex: 0 1 auto;
-  text-align: left;
-}
-
-summary > section {
-  display: flex;
-  flex: 0 1 auto;
-  text-align: left;
+  > summary {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    outline: none;
+  }
 }

@@ -2,30 +2,71 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { TabItem } from '@polkadot/ui-app/Tabs';
 
 import './index.css';
 
 import React from 'react';
+import { Route, Switch } from 'react-router';
+import { HelpOverlay,Tabs } from '@polkadot/ui-app';
+import uiSettings from '@polkadot/ui-settings';
 
-import Proposals from './Proposals';
-import Referendums from './Referendums';
-import Summary from './Summary';
+import basicMd from './md/basic.md';
+import Overview from './Overview';
+import Propose from './Propose';
+import translate from './translate';
 
-type Props = BareProps & {
-  basePath: string,
-  onStatusChange: (status: ActionStatus) => void
+type Props = AppProps & BareProps & I18nProps;
+
+type State = {
+  tabs: Array<TabItem>
 };
 
-export default class App extends React.PureComponent<Props> {
+class App extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    const { t } = props;
+
+    this.state = {
+      tabs: [
+        {
+          name: 'overview',
+          text: t('Democracy overview')
+        },
+        {
+          name: 'propose',
+          text: t('Submit proposal')
+        }
+      ]
+    };
+  }
+
   render () {
+    const { basePath } = this.props;
+    const { tabs } = this.state;
+    const hidden = uiSettings.uiMode === 'full'
+      ? []
+      : ['propose'];
+
     return (
       <main className='democracy--App'>
-        <Summary />
-        <Referendums />
-        <Proposals />
+        <HelpOverlay md={basicMd} />
+        <header>
+          <Tabs
+            basePath={basePath}
+            hidden={hidden}
+            items={tabs}
+          />
+        </header>
+        <Switch>
+          <Route path={`${basePath}/propose`} render={() => <Propose basePath={basePath} />} />
+          <Route component={Overview} />
+        </Switch>
       </main>
     );
   }
 }
+
+export default translate(App);

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/codec';
+import { TypeDef } from '@polkadot/types';
 import { Props, RawParam } from '../types';
 
 import React from 'react';
@@ -20,18 +20,14 @@ type State = {
 };
 
 export default class Tuple extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
+  state: State = {
+    Components: [],
+    sub: [],
+    subTypes: [],
+    values: []
+  };
 
-    this.state = {
-      Components: [],
-      sub: [],
-      subTypes: [],
-      values: []
-    };
-  }
-
-  static getDerivedStateFromProps ({ defaultValue, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
+  static getDerivedStateFromProps ({ defaultValue: { value }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
       return null;
     }
@@ -39,22 +35,27 @@ export default class Tuple extends React.PureComponent<Props, State> {
     const subTypes = sub && Array.isArray(sub)
       ? sub
       : [];
+    const values = (value as Array<any>).map((value) =>
+      isUndefined(value) || isUndefined(value.isValid)
+        ? {
+          isValid: !isUndefined(value),
+          value
+        }
+        : value
+    );
 
     return {
       Components: subTypes.map((type) => findComponent(type)),
       sub: subTypes.map(({ type }) => type),
       subTypes,
       type,
-      values: (defaultValue.value as Array<any>).map((value) => ({
-        isValid: !isUndefined(value),
-        value
-      }))
+      values
     };
   }
 
   render () {
-    const { className, defaultValue: { value = [] }, isDisabled, style, withLabel } = this.props;
-    const { Components, sub, subTypes } = this.state;
+    const { className, isDisabled, onEnter, style, withLabel } = this.props;
+    const { Components, sub, subTypes, values } = this.state;
 
     return (
       <Bare
@@ -63,11 +64,12 @@ export default class Tuple extends React.PureComponent<Props, State> {
       >
         {Components.map((Component, index) => (
           <Component
-            defaultValue={value[index] || {}}
+            defaultValue={values[index] || {}}
             isDisabled={isDisabled}
             key={index}
             label={sub[index]}
             onChange={this.onChange(index)}
+            onEnter={onEnter}
             type={subTypes[index]}
             withLabel={withLabel}
           />
@@ -77,26 +79,24 @@ export default class Tuple extends React.PureComponent<Props, State> {
   }
 
   private onChange = (index: number) => {
-    const { onChange } = this.props;
-
     return (value: RawParam): void => {
-      let isValid = value.isValid;
-      const values = this.state.values.map((svalue, sindex) => {
-        if (sindex === index) {
-          return value;
+      this.setState(
+        ({ values }: State) => ({
+          values: values.map((svalue, sindex) =>
+            (sindex === index)
+              ? value
+              : svalue
+        )}),
+        () => {
+          const { values } = this.state;
+          const { onChange } = this.props;
+
+          onChange && onChange({
+            isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+            value: values.map(({ value }) => value)
+          });
         }
-
-        isValid = isValid && svalue.isValid;
-
-        return svalue;
-      });
-
-      this.setState({ values }, () => {
-        onChange && onChange({
-          isValid,
-          value: values.map(({ value }) => value)
-        });
-      });
+      );
     };
   }
 }

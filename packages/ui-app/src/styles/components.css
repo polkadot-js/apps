@@ -5,26 +5,30 @@
 @import './partials/_variables.css';
 
 .ui--output {
-  background: #f9f9f9;
+  background: #fefefe;
   border-radius: 4px;
-  border: 1px solid #f5f5f5;
+  border: 1px dashed #eee;
   box-sizing: border-box;
-  line-height: 1em;
-  margin-bottom: 0.5em;
-  padding: 0.75em 1em;
+  line-height: 1rem;
+  margin: 0.25rem;
+  padding: .75rem 1rem;
   position: relative;
   word-wrap: break-word;
-}
 
-.ui--output .ui--output-button {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-}
+  &.error {
+    background: #fff6f6;
+    border-color: #e0b4b4;
+  }
 
-.ui--output.error {
-  background: #fff6f6;
-  border-color: #e0b4b4;
+  &.monospace {
+    font-family: monospace;
+  }
+
+  .ui--output-button {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+  }
 }
 
 .ui--Button-Group .button {
@@ -41,37 +45,42 @@ header .ui--Button-Group {
 
 .ui--AddressMini {
   display: inline-block;
-  padding: 0 0.25rem 0 0;
-}
+  padding: 0 0.25rem 0 1rem;
+  white-space: nowrap;
 
-.ui--AddressMini.padded {
-  display: inline-block;
-  padding: 0.25rem 0 0 0;
-}
+  &.padded {
+    display: inline-block;
+    padding: 0.25rem 0 0 1rem;
+  }
 
-.ui--AddressMini-info div {
-  display: inline-block;
-  vertical-align: middle;
+  &.summary {
+    position: relative;
+    top: -0.2rem;
+  }
+
+  .ui--AddressMini-info,
+  .ui--IdentityIcon {
+    display: inline-block;
+    position:relative;
+    vertical-align: middle;
+  }
+
+  .ui--IdentityIcon {
+    margin-left: 0.5rem;
+    margin-right: 0;
+  }
 }
 
 .ui--AddressMini-address {
-  font-family: monospace;
-}
+  &.withAddr {
+    font-family: monospace;
+  }
 
-.ui--AddressMini .ui--IdentityIcon {
-  margin-left: 1rem;
-  margin-right: 0.5rem;
-}
-
-.ui--AddressMini .ui--Balance {
-  font-size: 0.75rem;
-  margin-top: -0.5rem;
-  text-align: right;
-}
-
-.ui--AddressRow {
-  display: flex;
-  width: 100%;
+  &.withName {
+    text-align: right;
+    text-transform: uppercase;
+    min-width: 4em;
+  }
 }
 
 .ui--AddressRow-base {
@@ -83,9 +92,55 @@ header .ui--Button-Group {
 }
 
 .ui--AddressSummary {
+  position: relative;
   padding: 0 1em;
-  /* text-align: left; */
   white-space: nowrap
+}
+
+button.ui.icon.iconButton {
+  padding: 0em .3em .3em .3em !important;
+  color: #2e86ab  !important;
+  background: none  !important;
+  /*trick to let the button in the flow but keep the content centered regardless*/
+  margin-left: -2em  !important;
+  position: relative  !important;
+  right: -2.3em  !important;
+}
+
+.editable {
+  cursor: pointer;
+}
+
+.ui--AddressSummary-tags.editable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > span {
+    border: 1px #00000052 solid;
+    border-radius: .5em;
+    border-style: dashed;
+    color: grey;
+    font-size: x-small;
+    padding: .1em 0.3em 0.1em 0.3em;
+    margin-top: .2em;
+  }
+
+  > div.label {
+    margin-top:.3em
+  }
+}
+
+.ui--AddressSummary-name.editable > button.ui.icon.editButton,
+.ui--AddressSummary-tags.editable > button.ui.icon.editButton {
+  padding: 0em .3em .3em .3em;
+  color: #2e86ab;
+  background: none;
+  /*trick to let the button in the flow but keep the content centered regardless*/
+  margin-left: -2em;
+  position: relative;
+  right: -2.3em;
+  z-index: 1;
 }
 
 .ui--AddressSummary-base {
@@ -99,8 +154,63 @@ header .ui--Button-Group {
   vertical-align: top;
 }
 
-.ui--AddressSummary-children {
-  padding-top: 0.5rem;
+.grow+.ui--AddressRow {
+  padding: 1rem 0 0 1rem;
+}
+
+.ui--AddressRow {
+  &.inline {
+    display: flex;
+
+    .ui--AddressSummary-children {
+      padding: 0 0 0 3rem;
+    }
+  }
+
+  .ui--AddressSummary-children {
+    display: block;
+    padding-top: 1rem;
+  }
+
+  .ui--AddressRow-details {
+    text-align: left;
+    white-space: nowrap;
+
+    .ui--AddressSummary-data,
+    .ui--AddressSummary-name {
+      margin: 0;
+      text-align: left;
+    }
+
+    .ui--AddressSummary-name {
+      padding: 0;
+    }
+  }
+
+  .ui--AddressSummary-balances>span {
+    text-align: left;
+  }
+
+  .ui--AddressSummary-tags.editable {
+    justify-content: left;
+  }
+}
+
+.ui--AddressSummary-explorer {
+  content: ' ';
+  margin-top: 1rem;
+
+  .polkascan {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 1rem;
+  }
+}
+
+.ui--AddressSummary-buttons {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
 }
 
 .ui--AddressSummary .rx--updated {
@@ -109,21 +219,39 @@ header .ui--Button-Group {
 
 .ui--AddressSummary.invalid {
   filter: grayscale(100);
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 .ui--AddressSummary-icon {
   display: block
 }
 
-.ui--Balance,
-.ui--AddressSummary-balance,
-.ui--AddressSummary-nonce {
-  opacity: 0.45;
+.ui--AddressSummary-data+.ui--AddressSummary-balance,
+.ui--AddressSummary-data+.ui--AddressSummary-bonded,
+.ui--AddressSummary-data+.ui--AddressSummary-nonce {
+  padding-top: 0.5em;
 }
 
-.ui--AddressSummary-balance {
-  padding-top: 0.5em;
+.ui--AddressSummary-balances {
+  display: grid;
+  grid-column-gap: 1em;
+
+  label {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+}
+
+.ui--AddressMini-balances {
+  display: grid;
+}
+
+.ui--AddressMini-balances .ui--Bonded.result-bonded,
+.ui--AddressMini-balances .ui--Bonded {
+  font-size: .75rem;
+  margin-right: 2.25rem;
+  margin-top: -.5rem;
+  text-align: right;
 }
 
 .ui--AddressSummary-balance.rx--updated,
@@ -131,57 +259,104 @@ header .ui--Button-Group {
   opacity: 1;
 }
 
+.ui--AddressSummary .ui--AddressSummary-data {
+  margin-top: 0.5rem;
+}
+
 .ui--AddressSummary-data {
   padding: 0;
+  text-align: center;
   white-space: nowrap;
+
+  .ui--AddressSummary-name {
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: normal;
+    width: 17rem;
+  }
 }
 
 .ui--AddressSummary-data * {
-  /* margin: 0 0.25rem !important; */
   vertical-align: middle;
 }
 
 .ui--AddressSummary-accountId,
 .ui--AddressSummary-accountIndex {
-  display: inline-block;
   font-family: monospace;
-  font-size: 1.5em;
+  font-size: 1.25em;
   padding: 0;
+  margin-bottom: 0.25rem;
 }
 
 .ui--AddressSummary-accountIndex {
-  font-size: 1.25em;
   font-style: italic;
 }
 
-.ui--CardSummary .ui.label {
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
+.ui--AddressSummary-data .ui--Input input {
+  height: 1em;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: -0.3em;
+  margin-bottom: -0.35em;
 }
 
-.ui--Chart {
-  position: relative;
-  display: inline-block;
-  padding: 1em 1em 0;
-  height: 15vw;
-  width: 15vw;
+.ui--AddressSummary-tags-input {
+  margin-bottom: -1.4em;
 }
 
-.ui--CardSummary-large {
-  font-size: 2.75rem;
-  font-weight: 100;
-  line-height: 2.75rem;
-  text-align: right;
+.ui--Bubble.ui.label {
+  font-weight: normal;
+  margin: 0.25rem;
+  padding: 0;
+
+  * {
+    vertical-align: middle;
+  }
+
+  .ui--Bubble-children,
+  .ui--Bubble-header {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .ui--Bubble-children {
+    padding: 0 0.75rem 0 0;
+  }
+
+  .ui--Bubble-header {
+    background: rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    border-radius: .28571429rem 0 0 .28571429rem;
+    height: 2.75rem;
+    margin-right: 0.75rem;
+    padding: 0 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+
+    > div {
+      display: inline-block;
+      line-height: 2.75rem !important;
+      vertical-align: middle;
+    }
+
+    > .text {
+      padding: 0 0 0 0.25rem;
+    }
+  }
 }
 
-.ui--CardSummary-progress {
-  margin: 0.25rem 0 -0.5rem !important;
-}
+.ui--DropdownLinked.ui--row {
+  .small .ui.selection.dropdown {
+    min-width: 5rem;
+  }
 
-.ui--CopyButton {
-  cursor: copy !important;
-  margin-left: 0.25rem !important;
+  .ui--DropdownLinked-Items {
+    padding-left: 0.5rem;
+  }
 }
 
 .ui--Input {
@@ -194,6 +369,21 @@ header .ui--Button-Group {
       white-space: nowrap;
     }
   }
+
+  .ui--SiDropdown {
+    width: 6rem;
+    text-align: center;
+  }
+
+  .ui--MaxButton {
+    position: absolute;
+    right: 6.5rem;
+    top: 20%;
+    height: 60%;
+    text-transform: uppercase;
+    padding: 0 0.5rem !important;
+    border-radius: 0.3rem !important;
+  }
 }
 
 .ui--InputFile {
@@ -202,10 +392,10 @@ header .ui--Button-Group {
   border: 1px dashed rgba(34, 36, 38, 0.15);
   border-radius: $small-corner;
   display: flex;
-  font-size: 1.2em;
-  height: 5em;
+  font-size: 1rem;
+  height: 3.5rem;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin: 0.25rem 0;
   width: 100% !important;
 
   &.error {
@@ -224,78 +414,67 @@ header .ui--Button-Group {
   }
 }
 
+.ui--RecentlyOffline {
+  position: absolute;
+  font-size: 12px;
+  cursor: help;
+  display: flex;
+  justify-content: center;
+  left: 1rem;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: red;
+  color: #eee;
+  border-radius: 16px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  top: 1rem;
+  transition: all ease .2s;
+
+  & > * {
+    line-height: 22px;
+    overflow: hidden;
+    transition: all ease 0.25;
+  }
+
+  .badge {
+    font-weight: bold;
+    width: auto;
+  }
+
+  .detail {
+    width: 0;
+  }
+
+  &.expand {
+    width: 300px;
+
+    .badge {
+      width: 0;
+    }
+
+    .detail {
+      width: auto;
+    }
+  }
+
+  &.inline {
+    position: absolute;
+    left: auto;
+    right: -2.75rem;
+    top: -1rem;
+    z-index: 1;
+  }
+}
+
 .ui--Static {
   overflow: hidden;
   word-break: break-all;
 }
 
-.ui--Status {
-  display: inline-block;
-  position: fixed;
-  right: 0.25rem;
-  top: 0.25rem;
-  z-index: 1001;
-
-  .ui--IdentityIcon {
-    margin-left: 0 !important;
-  }
-
-  .item {
-    display: block;
-    text-align: right;
-
-    > .wrapper {
-      display: inline-block;
-
-      > .container {
-        align-items: center;
-        background: #00688b;
-        border-radius: $small-corner;
-        color: white;
-        display: flex;
-        margin-bottom: 0.25rem;
-        padding: 0 0.5rem;
-        text-align: center;
-        opacity: 0.95;
-        vertical-align: middle;
-
-        .desc {
-          padding: 0.5rem 1rem;
-
-          .status {
-            font-weight: 700;
-          }
-        }
-
-        .short {
-          font-size: 2.5rem;
-          padding: 0.5rem;
-
-          i.icon {
-            line-height: 1;
-          }
-        }
-      }
-    }
-
-    &.cancelled > .wrapper > .container {
-      background: #cd9b1d
-    }
-
-    &.event > .wrapper > .container {
-      background: teal;
-    }
-
-    &.completed > .wrapper > .container,
-    &.finalised > .wrapper > .container,
-    &.success > .wrapper > .container {
-      background: green;
-    }
-
-    &.dropped > .wrapper > .container ,
-    &.error > .wrapper > .container ,
-    &.usurped > .wrapper > .container {
-      background: red;
-    }
-  }
+.ui--Tooltip {
+  text-align: center;
+  z-index: 1002;
+  max-width: 300px;
 }

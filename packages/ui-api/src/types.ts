@@ -3,7 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
+
 import ApiPromise from '@polkadot/api/promise';
+
+// helpers for HOC props
+export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type SubtractProps<T, K> = OmitProps<T, keyof K>;
 
 export type BareProps = {
   className?: string,
@@ -11,33 +16,33 @@ export type BareProps = {
 };
 
 export type ApiProps = {
+  api: ApiPromise,
+  apiDefaultTx: SubmittableExtrinsicFunction,
+  currentChain: string,
   isApiConnected: boolean,
   isApiReady: boolean,
-  apiDefaultTx: SubmittableExtrinsicFunction,
-  apiPromise: ApiPromise,
+  isDevelopment: boolean,
+  isWaitingInjected: boolean,
   setApiUrl: (url?: string) => void
 };
 
-export type OnChangeCb$Obs<T> = { next: (value?: T) => any };
-export type OnChangeCb$Fn<T> = (value?: T) => void;
+export type OnChangeCb$Obs = { next: (value?: any) => any };
+export type OnChangeCb$Fn = (value?: any) => any;
+export type OnChangeCb = OnChangeCb$Obs | OnChangeCb$Fn;
 
-export type OnChangeCb<T> = OnChangeCb$Obs<T> | OnChangeCb$Fn<T> | undefined;
-
-export type ChangeProps<T> = {
-  rxChange?: OnChangeCb<T>
+export type ChangeProps = {
+  callOnResult?: OnChangeCb
 };
 
-export type ParamProps = {
-  params?: Array<any>
+export type CallState = {
+  callResult?: any;
+  callUpdated?: boolean;
+  callUpdatedAt?: number;
 };
 
-export type RxProps<T> = {
-  rxUpdated?: boolean;
-  rxUpdatedAt?: number;
-  value?: T;
-};
+export type CallProps = ApiProps & CallState;
 
-export type BaseProps<T> = BareProps & ApiProps & ChangeProps<T> & ParamProps & RxProps<T> & {
+export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
   children?: React.ReactNode,
   label?: string,
   render?: (value?: T) => React.ReactNode

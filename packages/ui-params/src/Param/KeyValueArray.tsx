@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithNamespaces } from 'react-i18next';
+import { WithTranslation } from 'react-i18next';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import { Vector } from '@polkadot/types/codec';
-import { KeyValue as Pair } from '@polkadot/types';
+import { KeyValue as Pair, Vector } from '@polkadot/types';
 import translate from '@polkadot/ui-app/translate';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
@@ -16,7 +15,7 @@ import Bytes from './Bytes';
 import File from './File';
 import KeyValue from './KeyValue';
 
-type Props = BaseProps & WithNamespaces;
+type Props = BaseProps & WithTranslation;
 
 type State = {
   placeholder?: string;
@@ -41,9 +40,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.placeholderEmpty = props.t('kvarray.empty', {
-      defaultValue: 'drag and drop JSON key/value (hex-encoded) file'
-    });
+    this.placeholderEmpty = props.t('click to select or drag and drop JSON key/value (hex-encoded) file');
     this.state = {
       placeholder: this.placeholderEmpty
     };
@@ -72,31 +69,37 @@ class KeyValueArray extends React.PureComponent<Props, State> {
   }
 
   private renderReadOnly () {
-    const { className, defaultValue: { value }, label, style } = this.props;
+    const { className, defaultValue: { value }, label, onEnter, style } = this.props;
     const pairs = value as Vector<Pair>;
 
     return (
-      <Base
-        className={className}
-        label={label}
-        size='full'
-        style={style}
-      >
-        {pairs.map(({ key, value }) => {
-          const keyHex = u8aToHex(key.toU8a(true));
+      <>
+        <Base
+          className={className}
+          label={label}
+          size='full'
+          style={style}
+        >
+          <div />
+        </Base>
+        <div className='ui--Params'>
+          {pairs.map(({ key, value }) => {
+            const keyHex = u8aToHex(key.toU8a(true));
 
-          return (
-            <Bytes
-              defaultValue={{ value } as RawParam}
-              isDisabled
-              key={keyHex}
-              label={keyHex}
-              name={keyHex}
-              type={BYTES_TYPE}
-            />
-          );
-        })}
-      </Base>
+            return (
+              <Bytes
+                defaultValue={{ value } as RawParam}
+                isDisabled
+                key={keyHex}
+                label={keyHex}
+                name={keyHex}
+                onEnter={onEnter}
+                type={BYTES_TYPE}
+              />
+            );
+          })}
+        </div>
+      </>
     );
   }
 
@@ -108,8 +111,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
       encoded = this.parseFile(raw);
 
       this.setState({
-        placeholder: t('kvarray.values', {
-          defaultValue: '{{count}} key/value pairs encoded for submission',
+        placeholder: t('{{count}} key/value pairs encoded for submission', {
           replace: {
             count: encoded.value.length
           }

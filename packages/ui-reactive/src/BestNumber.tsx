@@ -2,23 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { BlockNumber } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
+import { formatNumber } from '@polkadot/util';
 
-import { numberFormat } from './util/index';
-
-type Props = BareProps & {
+type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
-  derive_chain_bestNumber?: BlockNumber
+  label?: React.ReactNode,
+  chain_bestNumber?: BlockNumber
 };
 
-class BestNumber extends React.PureComponent<Props> {
+export class BestNumber extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, derive_chain_bestNumber } = this.props;
+    const { children, className, label = '', style, chain_bestNumber } = this.props;
 
     return (
       <div
@@ -26,13 +25,13 @@ class BestNumber extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          derive_chain_bestNumber
-            ? numberFormat(derive_chain_bestNumber)
+          chain_bestNumber
+            ? formatNumber(chain_bestNumber)
             : '-'
-          }{children}
+        }{children}
       </div>
     );
   }
 }
 
-export default withCall('derive.chain.bestNumber')(BestNumber);
+export default withCalls<Props>('derive.chain.bestNumber')(BestNumber);

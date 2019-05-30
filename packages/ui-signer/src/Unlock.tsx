@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-import { Password } from '@polkadot/ui-app/index';
+import { Password } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
@@ -14,9 +14,8 @@ import translate from './translate';
 type Props = I18nProps & {
   autoFocus?: boolean,
   error?: string,
-  label?: string,
   onChange: (password: string) => void,
-  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
+  onEnter?: () => void,
   password: string,
   tabIndex?: number,
   value?: string | null
@@ -24,48 +23,53 @@ type Props = I18nProps & {
 
 type State = {
   isError: boolean,
+  isInjected: boolean,
   isLocked: boolean,
   pair: KeyringPair
 };
 
 class Unlock extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  state: State = {
+    isLocked: false
+  } as State;
 
-  static getDerivedStateFromProps ({ error, value }: Props): State {
+  static getDerivedStateFromProps ({ error, value }: Props): State | null {
     const pair = keyring.getPair(value as string);
+
+    if (!pair) {
+      return null;
+    }
+
     const isLocked = pair.isLocked();
+    const isInjected = pair.getMeta().isInjected || false;
 
     return {
       isError: !!error,
+      isInjected,
       isLocked,
       pair
     };
   }
 
   render () {
-    const { autoFocus, label, onChange, onKeyDown, password, t, tabIndex } = this.props;
-    const { isError, isLocked } = this.state;
+    const { autoFocus, onChange, onEnter, password, t, tabIndex } = this.props;
+    const { isError, isInjected, isLocked } = this.state;
 
-    if (!isLocked) {
+    if (isInjected || !isLocked) {
       return null;
     }
 
     return (
       <div className='ui--signer-Signer-Unlock'>
-        <div className='ui--row'>
-          <Password
-            autoFocus={autoFocus}
-            className='medium'
-            isError={isError}
-            label={label || t('unlock.password', {
-              defaultValue: 'unlock account using the password'
-            })}
-            onChange={onChange}
-            onKeyDown={onKeyDown}
-            tabIndex={tabIndex}
-            value={password}
-          />
-        </div>
+        <Password
+          autoFocus={autoFocus}
+          isError={isError}
+          label={t('unlock account with password')}
+          onChange={onChange}
+          onEnter={onEnter}
+          tabIndex={tabIndex}
+          value={password}
+        />
       </div>
     );
   }

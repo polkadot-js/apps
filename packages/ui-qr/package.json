@@ -11,7 +11,7 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "@types/react-qr-reader": "^2.1.1",
-    "qrcode-generator": "^1.4.1",
+    "qrcode-generator": "^1.4.3",
     "react-qr-reader": "^2.1.1"
   }
 }

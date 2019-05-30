@@ -2,51 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ActionStatus, QueueProps } from '@polkadot/ui-app/Status/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-
-import './index.css';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
-import accountsObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api/index';
-import translate from './translate';
+import { Tabs } from '@polkadot/ui-app';
 
 import Selection from './Selection';
+import translate from './translate';
 
-type Props = I18nProps & {
-  accountAll?: Array<any>,
-  basePath: string,
-  onStatusChange: (status: ActionStatus) => void
-};
+type Props = AppProps & I18nProps;
 
 class ExtrinsicsApp extends React.PureComponent<Props> {
   render () {
-
-    const { accountAll, t } = this.props;
-
-    if (!accountAll || !Object.keys(accountAll).length) {
-      return (
-        <main className='extrinsics--App'>
-          {t('accounts.none', {
-            defaultValue: 'There are no saved accounts. '
-          })}
-          <Link to='/accounts'>
-          Add Accounts.
-          </Link>
-        </main>
-      );
-    }
+    const { basePath, t } = this.props;
 
     return (
       <main className='extrinsics--App'>
-        <QueueConsumer>
-          {({ queueExtrinsic }: QueueProps) => (
-            <Selection queueExtrinsic={queueExtrinsic} />
-          )}
-        </QueueConsumer>
+        <header>
+          <Tabs
+            basePath={basePath}
+            items={[{
+              name: 'create',
+              text: t('Extrinsic submission')
+            }]}
+          />
+        </header>
+        <Selection />
       </main>
     );
   }
@@ -54,8 +35,4 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
 
 export { ExtrinsicsApp };
 
-export default withMulti(
-  ExtrinsicsApp,
-  translate,
-  withObservable(accountsObservable.subject, { propName: 'accountAll' })
-);
+export default translate(ExtrinsicsApp);

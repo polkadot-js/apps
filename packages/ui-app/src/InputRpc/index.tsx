@@ -13,7 +13,7 @@ import '../InputExtrinsic/InputExtrinsic.css';
 import React from 'react';
 import map from '@polkadot/jsonrpc';
 
-import classes from '../util/classes';
+import Labelled from '../Labelled';
 import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
@@ -22,10 +22,10 @@ import sectionOptions from './options/section';
 
 type Props = I18nProps & {
   defaultValue: RpcMethod,
+  help?: React.ReactNode,
   isError?: boolean,
-  labelMethod?: string,
-  labelSection?: string,
-  onChange: (value: RpcMethod) => void,
+  label: React.ReactNode,
+  onChange?: (value: RpcMethod) => void,
   withLabel?: boolean
 };
 
@@ -51,30 +51,34 @@ class InputRpc extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, labelMethod, labelSection, style, withLabel } = this.props;
+    const { className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
       <div
-        className={classes('ui--DropdownLinked', 'ui--row', className)}
+        className={className}
         style={style}
       >
-        <SelectSection
-          className='small'
-          label={labelSection}
-          onChange={this.onSectionChange}
-          options={optionsSection}
-          value={value}
+        <Labelled
+          help={help}
+          label={label}
           withLabel={withLabel}
-        />
-        <SelectMethod
-          className='large'
-          label={labelMethod}
-          onChange={this.onMethodChange}
-          options={optionsMethod}
-          value={value}
-          withLabel={withLabel}
-        />
+        >
+          <div className=' ui--DropdownLinked ui--row'>
+            <SelectSection
+              className='small'
+              onChange={this.onSectionChange}
+              options={optionsSection}
+              value={value}
+            />
+            <SelectMethod
+              className='large'
+              onChange={this.onMethodChange}
+              options={optionsMethod}
+              value={value}
+            />
+          </div>
+        </Labelled>
       </div>
     );
   }
@@ -88,7 +92,7 @@ class InputRpc extends React.PureComponent<Props, State> {
     }
 
     this.setState({ value: newValue }, () =>
-      onChange(newValue)
+      onChange && onChange(newValue)
     );
   }
 

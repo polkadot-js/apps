@@ -5,8 +5,8 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
-import { Input } from '@polkadot/ui-app/index';
+import { Compact } from '@polkadot/types';
+import { Input } from '@polkadot/ui-app';
 import { hexToU8a, u8aConcat } from '@polkadot/util';
 
 import Bare from './Bare';
@@ -34,7 +34,7 @@ export default class KeyValue extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, isDisabled, label, style, withLabel } = this.props;
+    const { className, isDisabled, label, onEnter, style, withLabel } = this.props;
     const { key, value } = this.state;
 
     return (
@@ -57,6 +57,7 @@ export default class KeyValue extends React.PureComponent<Props, State> {
           isDisabled={isDisabled}
           isError={!value.isValid}
           onChange={this.onChangeValue}
+          onEnter={onEnter}
           placeholder='0x...'
           type='text'
           withLabel={withLabel}

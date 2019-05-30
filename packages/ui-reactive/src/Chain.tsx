@@ -2,31 +2,31 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
 import { Text } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
+import { withCalls } from '@polkadot/ui-api';
 
-type Props = BareProps & {
+type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
-  rpc_system_chain?: Text
+  label?: React.ReactNode,
+  system_chain?: Text
 };
 
-class Chain extends React.PureComponent<Props> {
+export class Chain extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, rpc_system_chain = 'unknown' } = this.props;
+    const { children, className, label = '', style, system_chain = 'unknown' } = this.props;
 
     return (
       <div
         className={className}
         style={style}
       >
-        {label}{rpc_system_chain.toString()}{children}
+        {label}{system_chain.toString()}{children}
       </div>
     );
   }
 }
 
-export default withCall('rpc.system.chain')(Chain);
+export default withCalls<Props>('rpc.system.chain')(Chain);

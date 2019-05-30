@@ -2,48 +2,60 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { Balance } from '@polkadot/types';
+import { BareProps } from '@polkadot/ui-app/types';
+import { ComponentProps } from '../types';
 
 import './index.css';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
+import { HeaderExtended } from '@polkadot/api-derive';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
+import { formatNumber } from '@polkadot/util';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
 
-type Props = I18nProps & {
-  balances: DerivedBalancesMap,
-  balanceArray: (_address: AccountId | string) => Array<Balance> | undefined,
-  intentions: Array<string>,
-  validators: Array<string>
+type Props = BareProps & ComponentProps & {
+  chain_subscribeNewHead?: HeaderExtended
 };
 
 const ZERO = new Balance(0);
 
-export default class Overview extends React.PureComponent<Props> {
+class Overview extends React.PureComponent<Props> {
   render () {
-    const { balances, balanceArray, intentions, validators } = this.props;
-    const intentionsSorted = this.sortByBalance(
-      intentions.filter((address) =>
+    const { balances, chain_subscribeNewHead, controllers, recentlyOffline, validators } = this.props;
+    const nextSorted = this.sortByBalance(
+      controllers.filter((address) =>
         !validators.includes(address)
       )
     );
     const validatorsSorted = this.sortByBalance(validators);
 
+    let lastBlock: string = '—';
+    let lastAuthor: string | undefined;
+
+    if (chain_subscribeNewHead) {
+      lastBlock = formatNumber(chain_subscribeNewHead.blockNumber);
+      lastAuthor = (chain_subscribeNewHead.author || '').toString();
+    }
+
     return (
       <div className='staking--Overview'>
         <Summary
           balances={balances}
-          intentions={intentions}
+          controllers={controllers}
+          lastBlock={lastBlock}
+          lastAuthor={lastAuthor}
           validators={validators}
         />
         <CurrentList
           balances={balances}
-          balanceArray={balanceArray}
           current={validatorsSorted}
-          next={intentionsSorted}
+          lastBlock={lastBlock}
+          lastAuthor={lastAuthor}
+          next={nextSorted}
+          recentlyOffline={recentlyOffline}
         />
       </div>
     );
@@ -53,10 +65,17 @@ export default class Overview extends React.PureComponent<Props> {
     const { balances } = this.props;
 
     return list.sort((a, b) => {
-      const balanceA = balances[a] || { stakingBalance: ZERO };
-      const balanceB = balances[b] || { stakingBalance: ZERO };
+      const balanceA = balances[a] || { freeBalance: ZERO };
+      const balanceB = balances[b] || { freeBalance: ZERO };
 
-      return balanceB.stakingBalance.cmp(balanceA.stakingBalance);
+      return balanceB.freeBalance.cmp(balanceA.freeBalance);
     });
   }
 }
+
+export default withMulti(
+  Overview,
+  withCalls<Props>(
+    'derive.chain.subscribeNewHead'
+  )
+);

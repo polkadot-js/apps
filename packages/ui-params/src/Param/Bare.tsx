@@ -5,7 +5,7 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
+import { classes } from '@polkadot/ui-app/util';
 
 type Props = BareProps & {
   children: React.ReactNode

@@ -5,66 +5,79 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, Input, Labelled } from '@polkadot/ui-app/index';
+import { Button, FilterOverlay, Input, TxComponent } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {};
+type Props = I18nProps & {
+  value?: string
+};
 
 type State = {
-  hash: string
+  value: string
+  isNumber: boolean,
   isValid: boolean
 };
 
-class Query extends React.PureComponent<Props, State> {
-  state: State = {
-    hash: '',
-    isValid: false
-  };
+class Query extends TxComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    const { value } = this.props;
+
+    this.state = this.stateFromValue(value || '');
+  }
 
   render () {
     const { t } = this.props;
-    const { hash, isValid } = this.state;
+    const { value, isValid } = this.state;
 
     return (
-      <header>
-        <div className='ui--row'>
-          <div className='small' />
-          <div className='storage--Query-actionrow medium'>
-            <Input
-              className='storage--Query-actionrow-hash'
-              isError={!isValid && hash.length !== 0}
-              placeholder={t('query', {
-                defaultValue: 'block hash to query'
-              })}
-              onChange={this.setHash}
-            />
-            <Labelled className='storage--Query-actionrow-button'>
-              <Button
-                icon='play'
-                isDisabled={!isValid}
-                isPrimary
-                onClick={this.onQuery}
-              />
-            </Labelled>
-          </div>
-        </div>
-      </header>
+      <FilterOverlay>
+        <Input
+          className='explorer--query'
+          defaultValue={this.props.value}
+          isError={!isValid && value.length !== 0}
+          placeholder={t('block hash or number to query')}
+          onChange={this.setHash}
+          onEnter={this.submit}
+          withLabel={false}
+        >
+          <Button
+            icon='play'
+            isPrimary
+            onClick={this.onQuery}
+            ref={this.button}
+          />
+        </Input>
+      </FilterOverlay>
     );
   }
 
-  private setHash = (hash: string) => {
-    this.setState({
-      hash,
-      isValid: isHex(hash, 256)
-    });
+  private setHash = (value: string) => {
+    this.setState(
+      this.stateFromValue(value)
+    );
   }
 
-  private onQuery = () => {
-    const { hash } = this.state;
+  private onQuery = (): void => {
+    const { isValid, value } = this.state;
 
-    window.location.hash = `/explorer/hash/${hash}`;
+    if (isValid && value.length !== 0) {
+      window.location.hash = `/explorer/query/${value}`;
+    }
+  }
+
+  private stateFromValue (value: string): State {
+    const isValidHex = isHex(value, 256);
+    const isNumber = !isValidHex && /^\d+$/.test(value);
+
+    return {
+      value,
+      isNumber,
+      isValid: isValidHex || isNumber
+    };
   }
 }
 

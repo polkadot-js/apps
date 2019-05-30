@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import React from 'react';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
-import classes from './util/classes';
+import { classes } from './util';
 
 type Props = BareProps & {
   label?: React.ReactNode

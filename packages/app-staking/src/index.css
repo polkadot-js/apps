@@ -2,12 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-.staking--App {
-  padding: 1em 2rem;
-
-  .rx--updated {
-    background: transparent !important;
-  }
+.staking--App .rx--updated {
+  background: transparent !important;
 }
 
 .staking--App-navigation.ui--Button-Group {
@@ -16,16 +12,14 @@
 }
 
 .staking--Account {
-  display: inline-block;
   position: relative;
-}
+  flex: 1 1;
+  min-width: 48%;
 
-.staking--Account .ui--Button-Group {
-  margin-bottom: 1em;
-}
-
-.staking--Account .ui--AddressMini {
-  display: block;
+  .ui--AddressMini {
+    display: block;
+    text-align: right;
+  }
 }
 
 .ui--Nominators {
@@ -34,13 +28,15 @@
   padding-right: 18px;
 }
 
-.staking--Account .ui--AddressSummary {
-  padding: 0;
+.staking--Account-expand {
+  min-width: 18rem;
+  text-align: right;
 }
 
-.staking--Account-expand {
-  min-width: 14rem;
-  text-align: right;
+.staking--Account-links {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
 }
 
 .staking--Account-details {
@@ -101,4 +97,31 @@
   font-size: 1rem;
   font-weight: normal;
   line-height: 1.2rem;
+}
+
+.staking--accounts-info {
+  text-align: right;
+}
+
+.staking--Account-detail {
+  text-align: right;
+
+  .staking--label {
+    margin: 0 1.75rem -0.75rem 0;
+  }
+}
+
+.staking--accounts-info .staking--label {
+  margin: 0 2.25rem -0.75rem 0;
+}
+
+.ui--AddressSummary {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+
+  .ui--AddressSummary-base,
+  .ui--AddressSummary-children {
+    min-width: 0;
+  }
 }

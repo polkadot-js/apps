@@ -2,90 +2,251 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Route } from '@polkadot/apps-routing/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
 
 import React from 'react';
-import { Icon, Menu } from '@polkadot/ui-app/index';
-import polkadotLogo from '@polkadot/ui-assets/polkadot-white.svg';
-import substrateLogo from '@polkadot/ui-assets/parity-substrate-white.svg';
-import settings from '@polkadot/ui-settings';
+import styled from 'styled-components';
+import { Responsive } from 'semantic-ui-react';
+import routing from '@polkadot/apps-routing';
+import { Button, Icon, Menu, media } from '@polkadot/ui-app';
+import { classes } from '@polkadot/ui-app/util';
+import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
 
-import routing from '../routing';
 import translate from '../translate';
 import Item from './Item';
+import NodeInfo from './NodeInfo';
+import getLogo from './logos';
 
 type Props = I18nProps & {
-  children?: React.ReactNode
+  collapse: () => void,
+  handleResize: () => void,
+  isCollapsed: boolean,
+  menuOpen: boolean,
+  toggleMenu: () => void
 };
 
-const LOGOS: Map<string | undefined, any> = new Map([
-  ['polkadot', polkadotLogo],
-  ['substrate', substrateLogo]
-]);
+type State = {
+  modals: {
+    [index: string]: boolean
+  }
+};
 
-const LOGO = LOGOS.get(settings.uiTheme) || polkadotLogo;
+const Toggle = styled.img`
+  background: ${logoBackground};
+  padding: ${logoPadding};
+  border-radius: 50%;
+  cursor: pointer;
+  left: 0.9rem;
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  transition: opacity 0.2s ease-in, top 0.2s ease-in;
+  width: 2.8rem;
 
-class SideBar extends React.PureComponent<Props> {
+  &.delayed {
+    transition-delay: 0.4s;
+  }
+  &.open {
+    opacity: 1;
+    top: 0.9rem;
+  }
+
+  ${media.DESKTOP`
+    opacity: 0 !important;
+    top: -2.9rem !important;
+  `}
+`;
+
+class SideBar extends React.PureComponent<Props, State> {
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+
+    // setup modals for each of the actual modal routes
+    this.state = {
+      modals: routing.routes.reduce((result, route) => {
+        if (route && route.Modal) {
+          result[route.name] = false;
+        }
+
+        return result;
+      }, {} as { [index: string]: boolean })
+    };
+  }
+
   render () {
-    const { children, t } = this.props;
+    const { handleResize, isCollapsed, toggleMenu, menuOpen } = this.props;
+    const logo = getLogo(true);
 
     return (
-      <div className='apps--SideBar'>
-        <Menu
-          secondary
-          vertical
-        >
-          <img
-            alt='polkadot'
-            className='apps--SideBar-logo'
-            src={LOGO}
-          />
-          {
-            routing.routes
-              .filter((route) =>
-                !route || !route.isHidden
-              )
-              .map((route, index) => (
-                route
-                  ? (
-                    <Item
-                      key={route.name}
-                      t={t}
-                      route={route}
-                    />
-                  )
-                  : (
-                    <Menu.Divider
-                      hidden
-                      key={index}
-                    />
-                  )
-              ))
-          }
-          <Menu.Divider hidden />
-          <Menu.Item className='apps--SideBar-Item'>
-            <a
-              className='apps--SideBar-Item-NavLink'
-              href='https://github.com/polkadot-js/apps'
-            >
-              <Icon name='github' /> GitHub
-            </a>
-          </Menu.Item>
-          <Menu.Item className='apps--SideBar-Item'>
-            <a
-              className='apps--SideBar-Item-NavLink'
-              href='https://github.com/w3f/Web3-wiki/wiki/Polkadot'
-            >
-              <Icon name='book' /> Wiki
-            </a>
-          </Menu.Item>
-          <Menu.Divider hidden />
-          {children}
-        </Menu>
-      </div>
+      <Responsive
+        onUpdate={handleResize}
+        className={classes('apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+      >
+        <Toggle
+          alt='logo'
+          className={menuOpen ? 'closed' : 'open delayed'}
+          onClick={toggleMenu}
+          src={logo}
+        />
+        {this.renderModals()}
+        <div className='apps--SideBar'>
+          <Menu
+            secondary
+            vertical
+          >
+            <div className='apps-SideBar-Scroll'>
+              {this.renderLogo()}
+              {this.renderRoutes()}
+              <Menu.Divider hidden />
+              {this.renderGithub()}
+              {this.renderWiki()}
+              <Menu.Divider hidden />
+              {
+                isCollapsed
+                  ? undefined
+                  : <NodeInfo />
+              }
+            </div>
+            {this.renderCollapse()}
+          </Menu>
+          <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
+            <div
+              className='apps--SideBar-toggle'
+              onClick={this.props.collapse}
+            />
+          </Responsive>
+        </div>
+      </Responsive>
     );
+  }
+
+  private renderCollapse () {
+    const { isCollapsed } = this.props;
+
+    return (
+      <Responsive
+        minWidth={SIDEBAR_MENU_THRESHOLD}
+        className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
+      >
+        <Button
+          icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
+          isBasic
+          isCircular
+          onClick={this.props.collapse}
+        />
+      </Responsive>
+    );
+  }
+
+  private renderLogo () {
+    const { isCollapsed } = this.props;
+    const logo = getLogo(isCollapsed);
+
+    return (
+      <img
+        alt='polkadot'
+        className='apps--SideBar-logo'
+        src={logo}
+      />
+    );
+  }
+
+  private renderModals () {
+    const { modals } = this.state;
+    const filtered = routing.routes.filter((route) => route && route.Modal) as Array<Route>;
+
+    return filtered.map(({ name, Modal }) => (
+      Modal && modals[name]
+        ? (
+          <Modal
+            key={name}
+            onClose={this.closeModal(name)}
+          />
+        )
+        : <div key={name} />
+    ));
+  }
+
+  private renderRoutes () {
+    const { handleResize, isCollapsed } = this.props;
+
+    return routing.routes.map((route, index) => (
+      route
+        ? (
+          <Item
+            isCollapsed={isCollapsed}
+            key={route.name}
+            route={route}
+            onClick={
+              route.Modal
+                ? this.openModal(route.name)
+                : handleResize
+            }
+          />
+        )
+        : (
+          <Menu.Divider
+            hidden
+            key={index}
+          />
+        )
+    ));
+  }
+
+  private renderGithub () {
+    return (
+      <Menu.Item className='apps--SideBar-Item'>
+        <a
+          className='apps--SideBar-Item-NavLink'
+          href='https://github.com/polkadot-js/apps'
+          target='_blank'
+        >
+          <Icon name='github' /><span className='text'>GitHub</span>
+        </a>
+      </Menu.Item>
+    );
+  }
+
+  private renderWiki () {
+    return (
+      <Menu.Item className='apps--SideBar-Item'>
+        <a
+          className='apps--SideBar-Item-NavLink'
+          href='https://wiki.polkadot.network'
+          target='_blank'
+        >
+          <Icon name='book' /><span className='text'>Wiki</span>
+        </a>
+      </Menu.Item>
+    );
+  }
+
+  private closeModal = (name: string) => {
+    return () => {
+      this.setState(({ modals }) => ({
+        modals: {
+          ...modals,
+          [name]: false
+        }
+      }));
+    };
+  }
+
+  private openModal = (name: string) => {
+    return () => {
+      this.setState(({ modals }) => ({
+        modals: {
+          ...modals,
+          [name]: true
+        }
+      }));
+    };
   }
 }
 

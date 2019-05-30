@@ -9,21 +9,31 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
 
-import classes from './util/classes';
+import { classes } from './util';
 import Labelled from './Labelled';
 
 type Props<Option> = BareProps & {
+  allowAdd?: boolean,
   defaultValue?: any,
+  dropdownClassName?: string,
+  help?: React.ReactNode,
   isButton?: boolean,
   isDisabled?: boolean,
   isError?: boolean,
+  isMultiple?: boolean,
   label?: React.ReactNode,
-  onChange: (value: any) => void,
+  onAdd?: (value: any) => void,
+  onBlur?: () => void,
+  onChange?: (value: any) => void,
+  onClose?: () => void,
   onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
   options: Array<Option>,
   placeholder?: string,
+  renderLabel?: (item: any) => any,
+  searchInput?: {autoFocus: boolean},
   transform?: (value: any) => any,
   value?: any,
+  withEllipsis?: boolean,
   withLabel?: boolean
 };
 
@@ -54,24 +64,32 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
   }
 
   render () {
-    const { className, defaultValue, isButton, isDisabled, isError, label, onSearch, options, placeholder, style, withLabel, value } = this.props;
+    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, searchInput, style, withEllipsis, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
+        allowAdditions={allowAdd}
+        className={dropdownClassName}
         button={isButton}
         compact={isButton}
         disabled={isDisabled}
         error={isError}
         floating={isButton}
+        multiple={isMultiple}
+        onAddItem={this.onAddItem}
+        onBlur={this.onBlur}
         onChange={this.onChange}
+        onClose={this.onClose}
         options={options}
         placeholder={placeholder}
-        search={onSearch}
+        renderLabel={renderLabel}
+        search={onSearch || allowAdd}
+        searchInput={searchInput}
         selection
         value={
           isUndefined(value)
             ? defaultValue
             : value
-          }
+        }
       />
     );
 
@@ -84,8 +102,10 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       : (
         <Labelled
           className={classes('ui--Dropdown', className)}
+          help={help}
           label={label}
           style={style}
+          withEllipsis={withEllipsis}
           withLabel={withLabel}
         >
           {dropdown}
@@ -93,13 +113,31 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
       );
   }
 
-  private onChange = (event: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
+  private onAddItem = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
+    const { onAdd } = this.props;
+
+    onAdd && onAdd(value);
+  }
+
+  private onBlur = (): void => {
+    const { onBlur } = this.props;
+
+    onBlur && onBlur();
+  }
+
+  private onChange = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
     const { onChange, transform } = this.props;
 
-    onChange(
+    onChange && onChange(
       transform
         ? transform(value)
         : value
     );
+  }
+
+  private onClose = (): void => {
+    const { onClose } = this.props;
+
+    onClose && onClose();
   }
 }

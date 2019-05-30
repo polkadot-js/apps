@@ -31,7 +31,7 @@ export default class Code extends React.PureComponent<Props> {
   }
 
   private renderDisabled () {
-    const { className, defaultValue, isError, label, style, type, withLabel } = this.props;
+    const { className, defaultValue, isError, label, onEnter, style, type, withLabel } = this.props;
 
     return (
       <Bytes
@@ -39,6 +39,7 @@ export default class Code extends React.PureComponent<Props> {
         defaultValue={defaultValue}
         isError={isError}
         label={label}
+        onEnter={onEnter}
         style={style}
         type={type}
         withLabel={withLabel}

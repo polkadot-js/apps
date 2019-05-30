@@ -6,8 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-import { Trans } from 'react-i18next';
-import { Button, IdentityIcon, Modal, Password } from '@polkadot/ui-app/index';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -16,25 +15,20 @@ type Props = I18nProps & {
   pair: KeyringPair | null
 };
 
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
-};
-
 type State = {
   address: string,
   password: string,
-  unlockError: UnlockI18n | null
+  unlockError: string | null
 };
 
-class Unlock extends React.PureComponent<Props, State> {
+class Unlock extends TxComponent<Props, State> {
   state: State = {
     address: '',
     password: '',
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ pair }: Props, prevState: State): State {
+  static getDerivedStateFromProps ({ pair }: Props): State {
     return {
       address: pair
         ? pair.address()
@@ -43,7 +37,11 @@ class Unlock extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { pair, t } = this.props;
+
+    if (!pair) {
+      return null;
+    }
 
     return (
       <Modal
@@ -52,79 +50,65 @@ class Unlock extends React.PureComponent<Props, State> {
         open
       >
         <Modal.Header>
-          {t('unlock.header', {
-            defaultValue: 'Unlock account'
-          })}
+          {t('Unlock account')}
         </Modal.Header>
-        <Modal.Content>
-          {this.renderContent()}
-        </Modal.Content>
-        <Modal.Actions>
-          {this.renderActions()}
-        </Modal.Actions>
+        {this.renderContent()}
+        {this.renderActions()}
       </Modal>
     );
   }
 
-  renderActions () {
+  private renderActions () {
     const { t } = this.props;
 
     return (
-      <Button.Group>
-        <Button
-          isNegative
-          onClick={this.onCancel}
-          text={t('unlock.cancel', {
-            defaultValue: 'Cancel'
-          })}
-        />
-        <Button.Or />
-        <Button
-          isPrimary
-          onClick={this.onUnlock}
-          text={t('unlock.doit', {
-            defaultValue: 'Unlock'
-          })}
-        />
-      </Button.Group>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            onClick={this.onCancel}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={this.onUnlock}
+            label={t('Unlock')}
+            ref={this.button}
+          />
+        </Button.Group>
+      </Modal.Actions>
     );
   }
 
-  renderContent () {
+  private renderContent () {
     const { t } = this.props;
     const { address, password, unlockError } = this.state;
 
-    return [
-      <div className='toolbox--Unlock-Content' key='content'>
-        <div className='expanded'>
-          <p>
-            <Trans i18nKey='unlock.info'>
-              You are about to unlock your account <span className='code'>{address}</span> to allow for the signing of messages.
-            </Trans>
-          </p>
-        </div>
-        <IdentityIcon
-          className='icon'
+    return (
+      <Modal.Content>
+        <AddressRow
+          isInline
           value={address}
-        />
-      </div>,
-      <div className='toolbox--Unlock-Entry' key='entry'>
-        <div className='ui--row'>
-          <Password
-            className='medium'
-            isError={!!unlockError}
-            label={t('unlock.password', {
-              defaultValue: 'unlock account using'
-            })}
-            onChange={this.onChangePassword}
-            value={password}
-          />
-        </div>
-      </div>
-    ];
+        >
+          <p>{t('You are about to unlock your account to allow for the signing of messages. Once active the signature will be generated based on the content provided.')}</p>
+          <div>
+            <Password
+              autoFocus
+              isError={!!unlockError}
+              help={t('The account\'s password specified at the creation of this account.')}
+              label={t('password')}
+              onChange={this.onChangePassword}
+              onEnter={this.submit}
+              value={password}
+            />
+          </div>
+        </AddressRow>
+      </Modal.Content>
+    );
   }
 
-  unlockAccount (password?: string): UnlockI18n | null {
+  private unlockAccount (password?: string): string | null {
     const { pair } = this.props;
 
     if (!pair || !pair.isLocked()) {
@@ -134,31 +118,26 @@ class Unlock extends React.PureComponent<Props, State> {
     try {
       pair.decodePkcs8(password);
     } catch (error) {
-      return {
-        key: 'unlock.generic',
-        value: {
-          defaultValue: error.message
-        }
-      };
+      return error.message;
     }
 
     return null;
   }
 
-  onChangePassword = (password: string): void => {
+  private onChangePassword = (password: string): void => {
     this.setState({
       password,
       unlockError: null
     });
   }
 
-  onCancel = (): void => {
+  private onCancel = (): void => {
     const { onClose } = this.props;
 
     onClose();
   }
 
-  onUnlock = (): void => {
+  private onUnlock = (): void => {
     const { onClose } = this.props;
     const { password } = this.state;
     const unlockError = this.unlockAccount(password);

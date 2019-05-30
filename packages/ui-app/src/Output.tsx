@@ -8,12 +8,14 @@ import React from 'react';
 
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
-import classes from './util/classes';
+import { classes } from './util';
 
 type Props = BareProps & {
   children?: React.ReactNode,
+  help?: React.ReactNode,
   isError?: boolean,
   isHidden?: boolean,
+  isMonospace?: boolean,
   label?: any, // node?
   value?: any,
   withCopy?: boolean,
@@ -22,23 +24,27 @@ type Props = BareProps & {
 
 export default class Output extends React.PureComponent<Props> {
   render () {
-    const { className, children, isError = false, isHidden, label, style, value, withCopy = false, withLabel } = this.props;
+    const { className, children, help, isError, isHidden, isMonospace, label, style, value, withCopy = false, withLabel } = this.props;
 
     return (
       <Labelled
         className={className}
+        help={help}
         isHidden={isHidden}
         label={label}
         style={style}
         withLabel={withLabel}
       >
-        <div className={classes('ui--output', isError && 'error')}>
+        <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
           {value}
           {children}
           {
             withCopy
               ? (
-                <CopyButton className='ui--output-button' value={value} />
+                <CopyButton
+                  className='ui--output-button'
+                  value={value}
+                />
               )
               : null
           }

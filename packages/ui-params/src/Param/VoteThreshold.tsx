@@ -6,7 +6,7 @@ import { Props } from '../types';
 
 import React from 'react';
 import { VoteThreshold } from '@polkadot/types';
-import { Dropdown } from '@polkadot/ui-app/index';
+import { Dropdown } from '@polkadot/ui-app';
 import { bnToBn } from '@polkadot/util';
 
 import Bare from './Bare';
@@ -38,7 +38,7 @@ export default class VoteThresholdParam extends React.PureComponent<Props> {
         style={style}
       >
         <Dropdown
-          className={isDisabled ? 'full' : 'small'}
+          className={isDisabled ? 'full' : 'medium'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}

@@ -7,8 +7,8 @@ import { DropdownOptions } from '../../util/types';
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 
-export default function createOptions (apiPromise: ApiPromise, sectionName: string): DropdownOptions {
-  const section = apiPromise.query[sectionName];
+export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
+  const section = api.query[sectionName];
 
   if (!section) {
     return [];
@@ -32,7 +32,11 @@ export default function createOptions (apiPromise: ApiPromise, sectionName: stri
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${value}:call`}
           >
-            {value}({input}): {type.toString()}
+            {value}({input}): {
+              method.meta.modifier.isOptional
+                ? `Option<${type}>`
+                : type.toString()
+            }
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'

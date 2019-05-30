@@ -9,7 +9,6 @@ import './index.css';
 
 import React from 'react';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
-import Queue, { Props as QueueComponentProps } from '@polkadot/ui-app/Status/Queue';
 
 import Modal from './Modal';
 
@@ -17,39 +16,25 @@ type Props = BareProps & {
   children: React.ReactNode
 };
 
-export type SignerType = React.ComponentType<Props> & {
-  Queue: React.ComponentType<QueueComponentProps>
-};
-
-class Signer extends React.PureComponent<Props> {
-  static Queue = Queue;
-
+export default class Signer extends React.PureComponent<Props> {
   render () {
-    const { children } = this.props;
+    const { children, className, style } = this.props;
 
     return (
-      <Queue>
+      <>
         {children}
         <QueueConsumer>
-          {this.handleQueueProps}
+          {({ txqueue, queueSetTxStatus }: QueueProps) => (
+            <Modal
+              className={className}
+              key='signer-modal'
+              queue={txqueue}
+              queueSetTxStatus={queueSetTxStatus}
+              style={style}
+            />
+          )}
         </QueueConsumer>
-      </Queue>
-    );
-  }
-
-  private handleQueueProps = ({ txqueue, queueSetTxStatus }: QueueProps) => {
-    const { className, style } = this.props;
-
-    return (
-      <Modal
-        className={className}
-        key='signer-modal'
-        queue={txqueue}
-        queueSetTxStatus={queueSetTxStatus}
-        style={style}
-      />
+      </>
     );
   }
 }
-
-export default (Signer as SignerType);

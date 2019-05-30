@@ -2,40 +2,41 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { DerivedBalancesMap } from '@polkadot/ui-api/derive/types';
+import { DerivedBalancesMap } from '@polkadot/api-derive/types';
+import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ComponentProps, RecentlyOffline, RecentlyOfflineMap } from './types';
 
 import React from 'react';
-import { AccountId, Balance } from '@polkadot/types';
-import { Tabs } from '@polkadot/ui-app/index';
-import { withCall, withMulti } from '@polkadot/ui-api/index';
+import { Route, Switch } from 'react-router';
+import { AccountId, Option } from '@polkadot/types';
+import { HelpOverlay } from '@polkadot/ui-app';
+import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
+import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import './index.css';
 
-import StakeList from './StakeList';
+import basicMd from './md/basic.md';
+import Accounts from './Accounts';
 import Overview from './Overview';
 import translate from './translate';
 
-type Actions = 'actions' | 'overview';
-
-type Props = I18nProps & {
-  basePath: string,
-  onStatusChange: (status: ActionStatus) => void,
-  query_staking_intentions?: Array<AccountId>,
-  query_session_validators?: Array<AccountId>,
-  derive_balances_validatingBalances?: DerivedBalancesMap
+type Props = AppProps & ApiProps & I18nProps & {
+  allAccounts?: SubjectInfo,
+  balances?: DerivedBalancesMap,
+  session_validators?: Array<AccountId>,
+  staking_controllers?: [Array<AccountId>, Array<Option<AccountId>>],
+  staking_recentlyOffline?: RecentlyOffline
 };
 
 type State = {
-  action: Actions,
-  intentions: Array<string>,
+  controllers: Array<string>,
+  recentlyOffline: RecentlyOfflineMap,
+  stashes: Array<string>,
+  tabs: Array<TabItem>,
   validators: Array<string>
-};
-
-const Components: { [index: string]: React.ComponentType<any> } = {
-  'overview': Overview,
-  'actions': StakeList
 };
 
 class App extends React.PureComponent<Props, State> {
@@ -44,84 +45,103 @@ class App extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { t } = props;
+
     this.state = {
-      action: 'overview',
-      intentions: [],
+      controllers: [],
+      recentlyOffline: {},
+      stashes: [],
+      tabs: [
+        {
+          name: 'overview',
+          text: t('Staking overview')
+        },
+        {
+          name: 'actions',
+          text: t('Account actions')
+        }
+      ],
       validators: []
     };
   }
 
-  static getDerivedStateFromProps ({ query_session_validators, query_staking_intentions }: Props): State {
+  static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_recentlyOffline = [] }: Props): State {
     return {
-      intentions: (query_staking_intentions || []).map((accountId) =>
-        accountId.toString()
+      controllers: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
+        accountId.unwrap().toString()
       ),
-      validators: (query_session_validators || []).map((authorityId) =>
+      stashes: staking_controllers[0].map((accountId) => accountId.toString()),
+      validators: session_validators.map((authorityId) =>
         authorityId.toString()
-      )
+      ),
+      recentlyOffline: staking_recentlyOffline.reduce(
+        (result, [accountId, blockNumber, count]) => {
+          const account = accountId.toString();
+
+          if (!result[account]) {
+            result[account] = [];
+          }
+
+          result[account].push({
+            blockNumber,
+            count
+          });
+
+          return result;
+        }, {} as RecentlyOfflineMap)
     } as State;
   }
 
   render () {
-    const { action, intentions, validators } = this.state;
-    const { t, derive_balances_validatingBalances = {} } = this.props;
-    const Component = Components[action];
-    const items = [
-      {
-        name: 'overview',
-        text: t('app.overview', { defaultValue: 'Staking Overview' })
-      },
-      {
-        name: 'actions',
-        text: t('app.actions', { defaultValue: 'Account Actions' })
-      }
-    ];
+    const { allAccounts, basePath } = this.props;
+    const { tabs } = this.state;
+    const hidden = !allAccounts || Object.keys(allAccounts).length === 0
+      ? ['actions']
+      : [];
 
     return (
       <main className='staking--App'>
+        <HelpOverlay md={basicMd} />
         <header>
           <Tabs
-            activeItem={action}
-            items={items}
-            onChange={this.onMenuChange}
+            basePath={basePath}
+            hidden={hidden}
+            items={tabs}
           />
         </header>
-        <Component
-          balances={derive_balances_validatingBalances}
-          balanceArray={this.balanceArray}
-          intentions={intentions}
-          validators={validators}
-        />
+        <Switch>
+          <Route path={`${basePath}/actions`} render={this.renderComponent(Accounts)} />
+          <Route render={this.renderComponent(Overview)} />
+        </Switch>
       </main>
     );
   }
 
-  private onMenuChange = (action: Actions) => {
-    this.setState({ action });
-  }
+  private renderComponent (Component: React.ComponentType<ComponentProps>) {
+    return (): React.ReactNode => {
+      const { controllers, recentlyOffline, stashes, validators } = this.state;
+      const { balances = {} } = this.props;
 
-  private balanceArray = (_address: AccountId | string): Array<Balance> | undefined => {
-    const { derive_balances_validatingBalances = {} } = this.props;
-
-    if (!_address) {
-      return undefined;
-    }
-
-    const address = _address.toString();
-
-    return derive_balances_validatingBalances[address]
-      ? [
-        derive_balances_validatingBalances[address].stakingBalance,
-        derive_balances_validatingBalances[address].nominatedBalance
-      ]
-      : undefined;
+      return (
+        <Component
+          balances={balances}
+          controllers={controllers}
+          recentlyOffline={recentlyOffline}
+          stashes={stashes}
+          validators={validators}
+        />
+      );
+    };
   }
 }
 
 export default withMulti(
   App,
   translate,
-  withCall('query.staking.intentions'),
-  withCall('query.session.validators'),
-  withCall('derive.balances.validatingBalances', { paramProp: 'stakingIntentions' })
+  withCalls<Props>(
+    'derive.staking.controllers',
+    'query.session.validators',
+    'query.staking.recentlyOffline'
+  ),
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

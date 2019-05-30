@@ -5,17 +5,9 @@
 import './Params.css';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
+import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
-
-// import { decodeAddress } from '@polkadot/keyring';
-// import IdentityIcon from '@polkadot/ui-react/IdentityIcon';
-// import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
-// import u8aToHex from '@polkadot/util/u8a/toHex';
-// import isBn from '@polkadot/util/is/bn';
-// import isU8a from '@polkadot/util/is/u8a';
-
-// import { textMap as thresholdTextMap } from './Param/VoteThreshold';
+import { Option, U8a } from '@polkadot/types';
 
 // const empty = div({}, '<empty>');
 const unknown = div({}, '<unknown>');
@@ -140,7 +132,7 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //   }
 
   //   if (isBn(value)) {
-  //     return div({}, numberFormat(value));
+  //     return div({}, formatNumber(value));
   //   }
   // } catch (error) {
   //   if (!swallowError) {
@@ -150,13 +142,26 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
   //   }
   // }
 
+  // dont' even ask, nested ?: ... really?
   return isNull(value) || isUndefined(value)
     ? unknown
     : div(
       {},
       ['Bytes', 'Data'].includes(type)
         ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
-        : value.toString()
+        : (
+          value instanceof U8a
+            ? (
+              value.isEmpty
+                ? '<empty>'
+                : value.toString()
+            )
+            : (
+              (value instanceof Option) && value.isNone
+                ? '<empty>'
+                : value.toString()
+            )
+        )
     );
 }
 

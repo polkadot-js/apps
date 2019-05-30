@@ -6,77 +6,80 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { Trans } from 'react-i18next';
 import { Method } from '@polkadot/types';
-import { Call, IdentityIcon, Modal } from '@polkadot/ui-app/index';
+import { Call, InputAddress, Modal } from '@polkadot/ui-app';
 
-import Fees from './Fees';
+import Checks from './Checks';
 import translate from './translate';
 
 type Props = I18nProps & {
   children?: React.ReactNode,
+  isSendable: boolean,
   value: QueueTx
 };
 
 class Transaction extends React.PureComponent<Props> {
   render () {
-    const { children, t, value: { accountId, extrinsic, isUnsigned } } = this.props;
+    const { children, value: { extrinsic } } = this.props;
 
     if (!extrinsic) {
       return null;
     }
 
-    const { method, section } = Method.findFunction(extrinsic.callIndex);
-    const header = isUnsigned
-      ? (
-        <Trans i18nKey='decoded.short-unsigned'>You are about to submit an (unsigned) inherent transaction calling <span className='code'>{section}.{method}</span></Trans>
-      )
-      : (
-        <Trans i18nKey='decoded.short-signed'>You are about to sign a transaction from <span className='code'>{accountId}</span> calling <span className='code'>{section}.{method}</span> </Trans>
-      );
-    const icon = isUnsigned
-      ? undefined
-      : (
-        <IdentityIcon
-          className='icon'
-          value={accountId}
-        />
-      );
+    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
 
-    return [
-      <Modal.Header key='header'>
-        {t('extrinsic.header', {
-          defaultValue: 'Submit Transaction'
-        })}
-      </Modal.Header>,
-      <Modal.Content className='ui--signer-Signer-Content' key='content'>
-        <div className='ui--signer-Signer-Decoded'>
-          <div className='expanded'>
-            <p>{header}</p>
-            <Call value={extrinsic} />
-            {this.renderFees()}
-          </div>
-          {icon}
-        </div>
-        {children}
-      </Modal.Content>
-    ];
+    return (
+      <>
+        <Modal.Header>
+          {section}.{method}
+          <label><details><summary>{
+            meta && meta.documentation
+              ? meta.documentation.join(' ')
+              : ''
+          }</summary></details></label>
+        </Modal.Header>
+        <Modal.Content className='ui--signer-Signer-Content'>
+          {this.renderAccount()}
+          <Call value={extrinsic} />
+          {this.renderChecks()}
+          {children}
+        </Modal.Content>
+      </>
+    );
   }
 
-  private renderFees () {
-    const { value: { accountId, extrinsic, isUnsigned } } = this.props;
+  private renderAccount () {
+    const { t, value: { accountId, isUnsigned } } = this.props;
+
+    if (isUnsigned || !accountId) {
+      return null;
+    }
+
+    return (
+      <InputAddress
+        className='full'
+        defaultValue={accountId}
+        isDisabled
+        isInput
+        label={t('sending from my account')}
+        withLabel
+      />
+    );
+  }
+
+  private renderChecks () {
+    const { isSendable, value: { accountId, extrinsic, isUnsigned } } = this.props;
 
     if (isUnsigned) {
       return null;
     }
 
     return (
-      <div className='ui--Params-Content'>
-        <Fees
-          accountId={accountId}
-          extrinsic={extrinsic}
-        />
-      </div>
+      <Checks
+        accountId={accountId}
+        extrinsic={extrinsic}
+        isSendable={isSendable}
+      />
     );
   }
 }

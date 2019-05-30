@@ -6,21 +6,22 @@ import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Input } from '@polkadot/ui-app/index';
-import numberFormat from '@polkadot/ui-reactive/util/numberFormat';
+import { AccountIndex } from '@polkadot/types';
+import { Input } from '@polkadot/ui-app';
+import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
 
 export default class Amount extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
     const defaultValue = isDisabled
-      ? numberFormat(value)
-      : (
-        value instanceof BN
-          ? value.toNumber()
-          : new BN((value as number) || 0).toNumber()
-      );
+      ? (
+        value instanceof AccountIndex
+          ? value.toString()
+          : formatNumber(value)
+      )
+      : bnToBn((value as number) || 0).toString();
 
     return (
       <Bare
@@ -28,18 +29,20 @@ export default class Amount extends React.PureComponent<Props> {
         style={style}
       >
         <Input
-          className={isDisabled ? 'full' : 'small'}
+          className={isDisabled ? 'full' : 'medium'}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
           isError={isError}
           label={label}
           min={0}
           onChange={this.onChange}
+          onEnter={onEnter}
           type={
             isDisabled
               ? 'text'
               : 'number'
           }
+          withEllipsis
           withLabel={withLabel}
         />
       </Bare>

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MethodFunction } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
@@ -10,9 +10,9 @@ import { DropdownOptions } from '../util/types';
 import './InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { withApi, withMulti } from '@polkadot/ui-api';
 
-import classes from '../util/classes';
+import Labelled from '../Labelled';
 import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
@@ -21,11 +21,11 @@ import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
   defaultValue: MethodFunction,
+  help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate?: boolean,
-  labelMethod?: string,
-  labelSection?: string,
+  label: React.ReactNode,
   onChange: (value: MethodFunction) => void,
   withLabel?: boolean
 };
@@ -47,39 +47,43 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  static getDerivedStateFromProps ({ apiPromise }: Props, { value }: State): State | null {
+  static getDerivedStateFromProps ({ api }: Props, { value }: State): State | null {
     return {
-      optionsMethod: methodOptions(apiPromise, value.section),
-      optionsSection: sectionOptions(apiPromise)
+      optionsMethod: methodOptions(api, value.section),
+      optionsSection: sectionOptions(api)
     } as State;
   }
 
   render () {
-    const { apiPromise, className, labelMethod, labelSection, style, withLabel } = this.props;
+    const { api, className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
       <div
-        className={classes('ui--DropdownLinked', 'ui--row', className)}
+        className={className}
         style={style}
       >
-        <SelectSection
-          className='small'
-          label={labelSection}
-          onChange={this.onSectionChange}
-          options={optionsSection}
-          value={value}
+        <Labelled
+          help={help}
+          label={label}
           withLabel={withLabel}
-        />
-        <SelectMethod
-          apiPromise={apiPromise}
-          className='large'
-          label={labelMethod}
-          onChange={this.onKeyChange}
-          options={optionsMethod}
-          value={value}
-          withLabel={withLabel}
-        />
+        >
+          <div className=' ui--DropdownLinked ui--row'>
+            <SelectSection
+              className='small'
+              onChange={this.onSectionChange}
+              options={optionsSection}
+              value={value}
+            />
+            <SelectMethod
+              api={api}
+              className='large'
+              onChange={this.onKeyChange}
+              options={optionsMethod}
+              value={value}
+            />
+          </div>
+        </Labelled>
       </div>
     );
   }
@@ -98,15 +102,15 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
   }
 
   onSectionChange = (newSection: string): void => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
     const { value } = this.state;
 
     if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(apiPromise, newSection);
-    const fn = apiPromise.tx[newSection][optionsMethod[0].value];
+    const optionsMethod = methodOptions(api, newSection);
+    const fn = api.tx[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(fn)

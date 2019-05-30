@@ -5,7 +5,7 @@
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { InputFile } from '@polkadot/ui-app/index';
+import { InputFile } from '@polkadot/ui-app';
 
 import Bare from './Bare';
 
@@ -34,6 +34,7 @@ export default class File extends React.PureComponent<Props> {
           label={label}
           onChange={onChange}
           placeholder={placeholder}
+          withEllipsis
           withLabel={withLabel}
         />
       </Bare>

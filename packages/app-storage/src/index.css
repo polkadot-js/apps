@@ -4,29 +4,31 @@
 
 .storage--Query {
   margin-bottom: 0.25em;
-  padding: 0.25em 0;
-}
 
-.storage--Query .ui.disabled.dropdown.selection {
-  color: #aaa;
-  opacity: 1;
-}
+  .ui.disabled.dropdown.selection {
+    color: #aaa;
+    opacity: 1;
+  }
 
-/* .storage--Query span+span {
-  margin-left: 0.5em;
-} */
-
-.storage--Query .storage--actionrow-value {
-  padding: 0 0.25rem;
-}
-
-.storage--Query .ui--IdentityIcon {
-  margin: -10px 0;
-  vertical-align: middle;
+  .ui--IdentityIcon {
+    margin: -10px 0;
+    vertical-align: middle;
+  }
 }
 
 .storage--actionrow {
+  align-items: center;
   display: flex;
+
+  .button {
+    margin: 0.25rem;
+  }
+
+  &.head {
+    flex: 1 1 100%;
+    margin: 0 auto;
+    max-width: 620px;
+  }
 }
 
 .storage--actionrow-value {
@@ -41,19 +43,4 @@
 .storage--actionrow-buttons {
   flex: 0;
   padding: 0 0.25rem;
-}
-
-.storage--Queries .storage--actionrow-buttons {
-  flex: 0;
-  padding: 0 0.25rem;
-
-  .container {
-    display: block;
-    white-space: nowrap;
-  }
-
-  .ui.label {
-    font-size: 1rem;
-    line-height: 1.714rem;
-  }
 }

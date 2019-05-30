@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/codec';
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
+import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, UInt, createType } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
@@ -24,15 +24,18 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     : def.type;
 
   switch (type) {
+    case 'AccountIndex':
     case 'Balance':
+    case 'BalanceOf':
     case 'BlockNumber':
     case 'Compact':
     case 'Gas':
     case 'Index':
+    case 'Nonce':
     case 'ParaId':
     case 'PropIndex':
+    case 'ProposalIndex':
     case 'ReferendumIndex':
-    case 'SessionKey':
     case 'u32':
     case 'u64':
     case 'u128':
@@ -43,10 +46,11 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       return false;
 
     case 'String':
+    case 'Text':
       return '';
 
-    case 'Timestamp':
-      return new Date(0);
+    case 'Moment':
+      return new BN(0);
 
     case 'Vote':
       return -1;
@@ -54,23 +58,45 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'VoteThreshold':
       return 0;
 
+    case 'Bytes':
+      return new Bytes();
+
+    case 'CodeHash':
+    case 'Hash':
+      return new Hash();
+
     case 'AccountId':
-    case 'AccountIndex':
+    case 'AccountIdOf':
     case 'Address':
     case 'Bytes':
     case 'Call':
     case 'CandidateReceipt':
     case 'Digest':
-    case 'Hash':
     case 'Header':
     case 'KeyValue':
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':
+    case 'SessionKey':
+    case 'StorageKey':
       return void 0;
 
-    default:
+    case 'Extrinsic':
+      return new U8a();
+
+    default: {
+      try {
+        const instance = createType(type);
+
+        if (instance instanceof UInt) {
+          return new BN(0);
+        }
+      } catch (error) {
+        // console.error(error.message);
+      }
+
       console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
       return void 0;
+    }
   }
 }

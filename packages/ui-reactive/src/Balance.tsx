@@ -2,32 +2,31 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-api/types';
+import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import { DerivedBalances } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { Balance } from '@polkadot/types';
-import { withCall } from '@polkadot/ui-api/index';
 
-import { balanceFormat } from './util/index';
+import { withCalls } from '@polkadot/ui-api';
+import { formatBalance } from '@polkadot/util';
 
-type Props = BareProps & {
+type Props = BareProps & CallProps & {
   children?: React.ReactNode,
-  label?: string,
-  query_balances_freeBalance: Balance
+  label?: React.ReactNode,
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
+  balances_all?: DerivedBalances
 };
 
-class BalanceDisplay extends React.PureComponent<Props> {
+export class BalanceDisplay extends React.PureComponent<Props> {
   render () {
-    const { children, className, label = '', style, query_balances_freeBalance } = this.props;
+    const { children, className, label = '', balances_all } = this.props;
 
     return (
-      <div
-        className={className}
-        style={style}
-      >
+      <div className={className}>
         {label}{
-          query_balances_freeBalance
-            ? balanceFormat(query_balances_freeBalance)
+          balances_all
+            ? formatBalance(balances_all.freeBalance)
             : '0'
           }{children}
       </div>
@@ -35,4 +34,6 @@ class BalanceDisplay extends React.PureComponent<Props> {
   }
 }
 
-export default withCall('query.balances.freeBalance')(BalanceDisplay);
+export default withCalls<Props>(
+  ['derive.balances.all', { paramName: 'params' }]
+)(BalanceDisplay);

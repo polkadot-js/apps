@@ -4,56 +4,46 @@
 
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
-import { I18nProps } from '../types';
+import { BareProps } from '../types';
 
 import React from 'react';
-import { StorageFunction } from '@polkadot/types/StorageKey';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { withApi } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
-import classes from '../util/classes';
-import translate from '../translate';
+import { classes } from '../util';
 
-type Props = ApiProps & I18nProps & {
+type Props = ApiProps & BareProps & {
   isError?: boolean,
-  label?: string,
   onChange: (value: StorageFunction) => void,
   options: DropdownOptions,
-  value: StorageFunction,
-  withLabel?: boolean
+  value: StorageFunction
 };
 
 class SelectKey extends React.PureComponent<Props> {
   render () {
-    const { apiPromise, className, isError, label = '', onChange, options, style, t, value, withLabel } = this.props;
+    const { api, className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {
       return null;
     }
 
     const transform = (method: string): StorageFunction =>
-      apiPromise.query[value.section][method];
+      api.query[value.section][method];
 
     return (
       <Dropdown
         className={classes('ui--DropdownLinked-Items', className)}
         isError={isError}
-        label={label || t('input.storage.key', {
-          defaultValue: 'with state key'
-        })}
         onChange={onChange}
         options={options}
         style={style}
         transform={transform}
         value={value.method}
-        withLabel={withLabel}
+        withLabel={false}
       />
     );
   }
 }
 
-export default withMulti(
-  SelectKey,
-  translate,
-  withApi
-);
+export default withApi(SelectKey);

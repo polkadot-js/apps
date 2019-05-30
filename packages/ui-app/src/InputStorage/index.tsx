@@ -4,7 +4,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
@@ -12,9 +12,9 @@ import { I18nProps } from '../types';
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { withApi, withMulti } from '@polkadot/ui-api';
 
-import classes from '../util/classes';
+import Labelled from '../Labelled';
 import translate from '../translate';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
@@ -23,10 +23,10 @@ import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
   defaultValue: StorageFunction,
+  help?: React.ReactNode,
   isError?: boolean,
-  labelMethod?: string,
-  labelSection?: string,
-  onChange: (value: StorageFunction) => void,
+  label: React.ReactNode,
+  onChange?: (value: StorageFunction) => void,
   withLabel?: boolean
 };
 
@@ -42,40 +42,44 @@ class InputStorage extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { apiPromise, defaultValue: { section } } = this.props;
+    const { api, defaultValue: { section } } = this.props;
 
     this.state = {
-      optionsMethod: keyOptions(apiPromise, section),
-      optionsSection: sectionOptions(apiPromise),
+      optionsMethod: keyOptions(api, section),
+      optionsSection: sectionOptions(api),
       value: this.props.defaultValue
     };
   }
 
   render () {
-    const { className, labelMethod, labelSection, style, withLabel } = this.props;
+    const { className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
     return (
       <div
-        className={classes('ui--DropdownLinked', 'ui--row', className)}
+        className={className}
         style={style}
       >
-        <SelectSection
-          className='small'
-          label={labelSection}
-          onChange={this.onSectionChange}
-          options={optionsSection}
-          value={value}
+        <Labelled
+          help={help}
+          label={label}
           withLabel={withLabel}
-        />
-        <SelectKey
-          className='large'
-          label={labelMethod}
-          onChange={this.onKeyChange}
-          options={optionsMethod}
-          value={value}
-          withLabel={withLabel}
-        />
+        >
+          <div className=' ui--DropdownLinked ui--row'>
+            <SelectSection
+              className='small'
+              onChange={this.onSectionChange}
+              options={optionsSection}
+              value={value}
+            />
+            <SelectKey
+              className='large'
+              onChange={this.onKeyChange}
+              options={optionsMethod}
+              value={value}
+            />
+          </div>
+        </Labelled>
       </div>
     );
   }
@@ -89,20 +93,20 @@ class InputStorage extends React.PureComponent<Props, State> {
     }
 
     this.setState({ value: newValue }, () =>
-      onChange(newValue)
+      onChange && onChange(newValue)
     );
   }
 
   private onSectionChange = (newSection: string): void => {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
     const { value } = this.state;
 
     if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = keyOptions(apiPromise, newSection);
-    const newValue = apiPromise.query[newSection][optionsMethod[0].value];
+    const optionsMethod = keyOptions(api, newSection);
+    const newValue = api.query[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
       this.onKeyChange(newValue)

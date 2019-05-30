@@ -7,20 +7,24 @@ import { GroupProps, GroupType } from './types';
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 
-import classes from '../util/classes';
+import { classes } from '../util';
 import Divider from './Divider';
 
 class ButtonGroup extends React.PureComponent<GroupProps> {
   render () {
-    const { children, className, style } = this.props;
+    const { children, className, isBasic = false, isCentered = false, style } = this.props;
 
     return (
       <div
-        className={classes('ui--Button-Group', className)}
+        className={classes('ui--Button-Group', isCentered ? 'centered' : '', className)}
         style={style}
       >
-        <SUIButton.Group>
-          <Divider style={{ padding: '0em' }} />
+        <SUIButton.Group basic={isBasic}>
+          {
+            isBasic
+              ? null
+              : <Divider style={{ padding: '0em' }} />
+          }
           {children}
         </SUIButton.Group>
       </div>

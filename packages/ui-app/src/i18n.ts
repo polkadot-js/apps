@@ -3,28 +3,31 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import i18n from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-xhr-backend';
-import { reactI18nextModule } from 'react-i18next';
+// import LanguageDetector from 'i18next-browser-languagedetector';
+// import Backend from 'i18next-xhr-backend';
+import { initReactI18next } from 'react-i18next';
 
 i18n
-  .use(Backend)
-  .use(LanguageDetector)
-  .use(reactI18nextModule)
+  // .use(Backend)
+  // .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
-    backend: {
-      loadPath: 'locales/{{lng}}/{{ns}}.json'
-    },
+    // backend: {
+    //   loadPath: 'locales/{{lng}}/{{ns}}.json'
+    // },
     debug: false,
     defaultNS: 'ui',
-    fallbackLng: 'en',
+    fallbackLng: false,
     interpolation: {
       escapeValue: false
     },
+    lng: 'en',
     ns: ['ui'],
     react: {
       wait: true
     }
-  });
+  })
+  .then(() => console.log('i18n: success'))
+  .catch((error) => console.log('i18n: failure', error));
 
 export default i18n;

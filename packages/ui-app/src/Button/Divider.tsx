@@ -6,7 +6,7 @@ import { DividerProps } from './types';
 
 import React from 'react';
 
-import classes from '../util/classes';
+import { classes } from '../util';
 
 export default class ButtonDivider extends React.Component<DividerProps> {
   render () {

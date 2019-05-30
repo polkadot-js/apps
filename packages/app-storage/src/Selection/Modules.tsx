@@ -2,24 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, getTypeDef } from '@polkadot/types/codec';
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { TypeDef, getTypeDef } from '@polkadot/types';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { PartialModuleQuery } from '../types';
+import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, InputStorage, Labelled } from '@polkadot/ui-app/index';
-import Params from '@polkadot/ui-params/index';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
+import { Button, InputStorage, TxComponent } from '@polkadot/ui-app';
+import Params from '@polkadot/ui-params';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
-  onAdd: (query: PartialModuleQuery) => void
-};
+type Props = ComponentProps & ApiProps & I18nProps;
 
 type State = {
   isValid: boolean,
@@ -28,16 +26,16 @@ type State = {
   params: Array<{ type: TypeDef }>
 };
 
-class Modules extends React.PureComponent<Props, State> {
+class Modules extends TxComponent<Props, State> {
   private defaultValue: any;
   state: State;
 
   constructor (props: Props) {
     super(props);
 
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
-    this.defaultValue = apiPromise.query.timestamp.now;
+    this.defaultValue = api.query.timestamp.now;
     this.state = {
       isValid: true,
       key: this.defaultValue,
@@ -48,32 +46,32 @@ class Modules extends React.PureComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isValid, key, params } = this.state;
+    const { isValid, key: { method, section }, params } = this.state;
 
     return (
       <section className='storage--actionrow'>
         <div className='storage--actionrow-value'>
           <InputStorage
             defaultValue={this.defaultValue}
-            labelSection={t('selection.section', {
-              defaultValue: 'query state section'
-            })}
+            label={t('selected state query')}
             onChange={this.onChangeKey}
           />
           <Params
-            key={`${key.section}.${key.method}`}
+            key={`${section}.${method}:params` /* force re-render on change */}
             onChange={this.onChangeParams}
+            onEnter={this.submit}
             params={params}
           />
         </div>
-        <Labelled className='storage--actionrow-buttons'>
+        <div className='storage--actionrow-buttons'>
           <Button
             icon='plus'
             isDisabled={!isValid}
             isPrimary
             onClick={this.onAdd}
+            ref={this.button}
           />
-        </Labelled>
+        </div>
       </section>
     );
   }

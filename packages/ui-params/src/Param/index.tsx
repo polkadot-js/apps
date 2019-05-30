@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { BaseProps, Props as ComponentProps, ComponentMap } from '../types';
 
 import React from 'react';
-import classes from '@polkadot/ui-app/util/classes';
+import { classes } from '@polkadot/ui-app/util';
 import translate from '@polkadot/ui-app/translate';
 import { isUndefined } from '@polkadot/util';
 
@@ -41,7 +41,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { className, defaultValue, isDisabled, name, onChange, style, type } = this.props;
+    const { className, defaultValue, isDisabled, name, onChange, onEnter, style, type } = this.props;
 
     return (
       <Component
@@ -56,6 +56,7 @@ class ParamComponent extends React.PureComponent<Props, State> {
         }
         name={name}
         onChange={onChange}
+        onEnter={onEnter}
         style={style}
         type={type}
       />

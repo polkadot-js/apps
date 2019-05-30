@@ -3,15 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import intervalObservable from './intervalObservable';
-import intervalTimer from './intervalTimer';
 import isEqual from './isEqual';
-import isTestChain from './isTestChain';
 import triggerChange from './triggerChange';
 
 export {
   intervalObservable,
-  intervalTimer,
   isEqual,
-  isTestChain,
   triggerChange
 };

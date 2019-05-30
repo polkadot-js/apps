@@ -9,45 +9,32 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 
-const packages = [
-  'app-accounts',
-  'app-addresses',
-  'app-democracy',
-  'app-explorer',
-  'app-extrinsics',
-  'app-rpc',
-  'app-settings',
-  'app-staking',
-  'app-storage',
-  'app-toolbox',
-  'app-transfer',
-  'app-vanitygen',
-  'ui-api',
-  'ui-app',
-  'ui-params',
-  'ui-qr',
-  'ui-reactive',
-  'ui-signer'
-];
+const findPackages = require('../../scripts/findPackages');
 
-const DEFAULT_THEME = process.env.TRAVIS_BRANCH === 'next'
-  ? 'substrate'
-  : 'polkadot';
+const ENV = process.env.NODE_ENV || 'development';
 
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
-  const ENV = process.env.NODE_ENV || 'development';
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
   const plugins = hasPublic
     ? [new CopyWebpackPlugin([{ from: 'public' }])]
     : [];
+  // disabled, smooths dev load, was -
+  // isProd ? 'source-map' : 'cheap-eval-source-map',
+  const devtool = false;
 
   return {
     context,
-    devtool: isProd ? 'source-map' : 'cheap-eval-source-map',
-    entry: `./src/${name}.tsx`,
+    devtool,
+    entry: [
+      `./src/${name}.tsx`,
+      isProd
+        ? null
+        : 'webpack-plugin-serve/client'
+    ].filter((entry) => entry),
     mode: ENV,
     output: {
       chunkFilename: `[name].[chunkhash:8].js`,
@@ -113,6 +100,13 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           ]
         },
         {
+          test: /\.md$/,
+          use: [
+            require.resolve('html-loader'),
+            require.resolve('markdown-loader')
+          ]
+        },
+        {
           test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
           use: [
             {
@@ -160,11 +154,11 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             name: 'react',
             test: /node_modules\/(chart|i18next|react|semantic-ui)/
           },
-          vendorSodium: {
+          polkadotJs: {
             chunks: 'initial',
             enforce: true,
-            name: 'sodium',
-            test: /node_modules\/(libsodium)/
+            name: 'polkadotjs',
+            test: /node_modules\/(@polkadot\/wasm-(crypto|dalek-ed25519|schnorrkel))/
           }
         }
       }
@@ -178,30 +172,33 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         'process.env': {
           NODE_ENV: JSON.stringify(ENV),
           VERSION: JSON.stringify(pkgJson.version),
-          UI_MODE: JSON.stringify(process.env.UI_MODE || 'full'),
-          UI_THEME: JSON.stringify(process.env.UI_THEME || DEFAULT_THEME),
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
       new HtmlWebpackPlugin({
         inject: true,
         template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`),
-        PAGE_TITLE: process.env.UI_THEME === 'substrate'
-          ? 'Substrate Apps Portal'
-          : 'Polkadot Apps Portal'
+        PAGE_TITLE: 'Polkadot/Substrate Portal'
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: `[name].[contenthash:8].css`
-      })
-    ])
+      }),
+      isProd
+        ? null
+        : new WebpackPluginServe({
+          port: 3000,
+          static: path.join(process.cwd(), '/build')
+        })
+    ]).filter((plugin) => plugin),
+    watch: !isProd
   };
 }
 
 module.exports = createWebpack({
   context: __dirname,
-  alias: packages.reduce((alias, pkg) => {
-    alias[`@polkadot/${pkg}`] = path.resolve(__dirname, `../${pkg}/src`);
+  alias: findPackages().reduce((alias, { dir, name }) => {
+    alias[name] = path.resolve(__dirname, `../${dir}/src`);
 
     return alias;
   }, {})

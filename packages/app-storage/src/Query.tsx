@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
 import React from 'react';
-import { Compact } from '@polkadot/types/codec';
-import { Button, Labelled } from '@polkadot/ui-app/index';
+import { Compact } from '@polkadot/types';
+import { Button, Labelled } from '@polkadot/ui-app';
 import valueToText from '@polkadot/ui-params/valueToText';
-import { withCallDiv } from '@polkadot/ui-api/index';
+import { withCallDiv } from '@polkadot/ui-api';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
@@ -51,7 +51,11 @@ class Query extends React.PureComponent<Props, State> {
       const defaultProps = { className: 'ui--output' };
 
       // render function to create an element for the query results which is plugged to the api
-      const renderHelper = withCallDiv('subscribe', { params: [key, ...values] });
+      const renderHelper = withCallDiv('subscribe', {
+        paramName: 'params',
+        paramValid: true,
+        params: [key, ...values]
+      });
       const Component = renderHelper(
         // By default we render a simple div node component with the query results in it
         (value: any) => valueToText(type, value, true, true),
@@ -63,7 +67,7 @@ class Query extends React.PureComponent<Props, State> {
     return cache[id];
   }
 
-  static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps<any>, renderHelper: ComponentRenderer<any>) {
+  static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer) {
     return {
       Component,
       // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
@@ -80,7 +84,7 @@ class Query extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ value }: Props): State | null {
     const Component = Query.getCachedComponent(value).Component;
     const inputs: Array<React.ReactNode> = isU8a(value.key)
       ? []
@@ -103,30 +107,32 @@ class Query extends React.PureComponent<Props, State> {
     const { value } = this.props;
     const { Component } = this.state;
     const { key } = value;
+    const type = isU8a(key)
+      ? 'Data'
+      : (
+        key.meta.modifier.isOptional
+          ? `Option<${key.meta.type}>`
+          : key.meta.type.toString()
+      );
 
     return (
       <div className='storage--Query storage--actionrow'>
-        <Labelled
-          className='storage--actionrow-value'
-          label={
-            <div className='ui--Param-text'>
-              <div className='ui--Param-text name'>{this.keyToName(key)}</div>
-              {this.renderInputs()}
-              <div className='ui--Param-text'>{
-                isU8a(key)
-                  ? 'Data'
-                  : key.meta.type.toString()
-              }</div>
-            </div>
-          }
-        >
-          <Component />
-        </Labelled>
-        <Labelled className='storage--actionrow-buttons'>
+        <div className='storage--actionrow-value'>
+          <Labelled
+            label={
+              <div className='ui--Param-text'>
+                {this.keyToName(key)}: {type}
+              </div>
+            }
+          >
+            <Component />
+          </Labelled>
+        </div>
+        <div className='storage--actionrow-buttons'>
           <div className='container'>
             {this.renderButtons()}
           </div>
-        </Labelled>
+        </div>
       </div>
     );
   }
@@ -161,22 +167,6 @@ class Query extends React.PureComponent<Props, State> {
     }
 
     return buttons;
-  }
-
-  private renderInputs () {
-    const { inputs } = this.state;
-
-    if (inputs.length === 0) {
-      return (
-        <div className='ui--Param-text name'>:</div>
-      );
-    }
-
-    return [
-      <div key='open' className='ui--Param-text name'>(</div>,
-      inputs,
-      <div key='close' className='ui--Param-text name'>):</div>
-    ];
   }
 
   private keyToName (key: Uint8Array | StorageFunction): string {

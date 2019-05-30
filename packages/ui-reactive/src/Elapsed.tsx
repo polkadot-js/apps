@@ -8,7 +8,7 @@ import React from 'react';
 import { Moment } from '@polkadot/types';
 
 type Props = BareProps & {
-  value?: Moment | Date
+  value?: Moment | Date | number
 };
 
 type State = {
@@ -59,13 +59,13 @@ export default class Elapsed extends React.PureComponent<Props, State> {
     );
   }
 
-  private getDisplayValue (now?: Date, value?: Moment | Date): string {
+  private getDisplayValue (now?: Date, value?: Moment | Date | number): string {
     const tsNow = (now && now.getTime()) || 0;
-    const tsValue = (value && value.getTime()) || 0;
-    let display = '-';
+    const tsValue = (value && ((value as any).getTime ? (value as any).getTime() : value)) || 0;
+    let display = '0.0s';
 
     if (tsNow && tsValue) {
-      const elapsed = Math.max(tsNow - tsValue, 0) / 1000;
+      const elapsed = Math.max(Math.abs(tsNow - tsValue), 0) / 1000;
 
       if (elapsed < 15) {
         display = `${elapsed.toFixed(1)}s`;

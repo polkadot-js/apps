@@ -2,20 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableSendResult } from '@polkadot/api/types';
-import { PromiseSubscription } from '@polkadot/api/promise/types';
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import SubmittableExtrinsic from '@polkadot/api/promise/SubmittableExtrinsic';
-import { decodeAddress } from '@polkadot/keyring';
-import { Button, Modal } from '@polkadot/ui-app/index';
+import { web3FromSource } from '@polkadot/extension-dapp';
+import { Button, Modal } from '@polkadot/ui-app';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
-import { withApi, withMulti } from '@polkadot/ui-api/index';
-import { assert } from '@polkadot/util';
+import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
 import Transaction from './Transaction';
@@ -27,32 +29,25 @@ type BaseProps = BareProps & {
   queueSetTxStatus: QueueTx$MessageSetStatus
 };
 
-type Props = I18nProps & ApiProps & BaseProps;
-
-type UnlockI18n = {
-  key: string,
-  value: any // I18Next$Translate$Config
+type Props = I18nProps & ApiProps & BaseProps & {
+  allAccounts?: SubjectInfo
 };
 
 type State = {
   currentItem?: QueueTx,
+  isSendable: boolean,
   password: string,
-  unlockError: UnlockI18n | null
+  unlockError?: string | null
 };
 
 class Signer extends React.PureComponent<Props, State> {
-  state: State;
+  state: State = {
+    isSendable: false,
+    password: '',
+    unlockError: null
+  };
 
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      password: '',
-      unlockError: null
-    };
-  }
-
-  static getDerivedStateFromProps ({ queue }: Props, { currentItem, password, unlockError }: State): State {
+  static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): State {
     const nextItem = queue.find(({ status }) =>
       status === 'queued'
     );
@@ -66,8 +61,21 @@ class Signer extends React.PureComponent<Props, State> {
         )
       );
 
+    let isSendable = !!nextItem && !!nextItem.isUnsigned;
+
+    if (!isSendable && nextItem && nextItem.accountId && allAccounts) {
+      try {
+        const pair = keyring.getPair(nextItem.accountId);
+
+        isSendable = !!pair && !!allAccounts[nextItem.accountId];
+      } catch (error) {
+        // swallow
+      }
+    }
+
     return {
       currentItem: nextItem,
+      isSendable,
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
@@ -102,7 +110,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
-    const { currentItem } = this.state;
+    const { currentItem, isSendable } = this.state;
 
     if (!currentItem) {
       return null;
@@ -115,24 +123,19 @@ class Signer extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.onCancel}
             tabIndex={3}
-            text={t('extrinsic.cancel', {
-              defaultValue: 'Cancel'
-            })}
+            label={t('Cancel')}
           />
           <Button.Or />
           <Button
             className='ui--signer-Signer-Submit'
+            isDisabled={!isSendable}
             isPrimary
             onClick={this.onSend}
             tabIndex={2}
-            text={
+            label={
               currentItem.isUnsigned
-                ? t('extrinsic.unsignedSend', {
-                  defaultValue: 'Submit (no signature)'
-                })
-                : t('extrinsic.signedSend', {
-                  defaultValue: 'Sign and Submit'
-                })
+                ? t('Submit (no signature)')
+                : t('Sign and Submit')
             }
           />
         </Button.Group>
@@ -141,33 +144,34 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { currentItem } = this.state;
+    const { currentItem, isSendable } = this.state;
 
     if (!currentItem) {
       return null;
     }
 
     return (
-      <Transaction value={currentItem}>
+      <Transaction
+        isSendable={isSendable}
+        value={currentItem}
+      >
         {this.renderUnlock()}
       </Transaction>
     );
   }
 
   private renderUnlock () {
-    const { t } = this.props;
-    const { currentItem, password, unlockError } = this.state;
+    const { currentItem, isSendable, password, unlockError } = this.state;
 
-    if (!currentItem || currentItem.isUnsigned) {
+    if (!isSendable || !currentItem || currentItem.isUnsigned) {
       return null;
     }
 
     return (
       <Unlock
         autoFocus
-        error={unlockError && t(unlockError.key, unlockError.value)}
+        error={unlockError || undefined}
         onChange={this.onChangePassword}
-        onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.accountId}
         tabIndex={1}
@@ -175,19 +179,20 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private unlockAccount (accountId: string, password?: string): UnlockI18n | null {
+  private unlockAccount (accountId: string, password?: string): string | null {
     let publicKey;
 
     try {
-      publicKey = decodeAddress(accountId);
-    } catch (err) {
-      console.error(err);
-      return null;
+      publicKey = keyring.decodeAddress(accountId);
+    } catch (error) {
+      console.error(error);
+
+      return 'unable to decode address';
     }
 
     const pair = keyring.getPair(publicKey);
 
-    if (!pair.isLocked()) {
+    if (!pair.isLocked() || pair.getMeta().isInjected) {
       return null;
     }
 
@@ -195,12 +200,8 @@ class Signer extends React.PureComponent<Props, State> {
       pair.decodePkcs8(password);
     } catch (error) {
       console.error(error);
-      return {
-        key: 'signer.unlock.generic',
-        value: {
-          defaultValue: error.message
-        }
-      };
+
+      return error.message;
     }
 
     return null;
@@ -213,12 +214,6 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
-  private onKeyDown = async (event: React.KeyboardEvent<Element>) => {
-    if (event.key === 'Enter') {
-      await this.onSend();
-    }
-  }
-
   private onCancel = (): void => {
     const { queueSetTxStatus } = this.props;
     const { currentItem } = this.state;
@@ -228,7 +223,17 @@ class Signer extends React.PureComponent<Props, State> {
       return;
     }
 
-    queueSetTxStatus(currentItem.id, 'cancelled');
+    const { id, signerCb, txFailedCb } = currentItem;
+
+    queueSetTxStatus(id, 'cancelled');
+
+    if (isFunction(signerCb)) {
+      signerCb(id, false);
+    }
+
+    if (isFunction(txFailedCb)) {
+      txFailedCb(null);
+    }
   }
 
   private onSend = async (): Promise<void> => {
@@ -256,7 +261,9 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, status, result, error);
   }
 
-  private async sendExtrinsic ({ accountId, extrinsic, id, isUnsigned }: QueueTx, password?: string): Promise<void> {
+  private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
+    const { accountId, extrinsic, id, signerOptions, isUnsigned } = queueTx;
+
     assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
     if (!isUnsigned) {
@@ -275,18 +282,20 @@ class Signer extends React.PureComponent<Props, State> {
 
     queueSetTxStatus(id, 'sending');
 
-    if (!isUnsigned) {
-      return this.makeExtrinsicCall(submittable, id, submittable.signAndSend, keyring.getPair(accountId as string));
-    } else {
-      return this.makeExtrinsicCall(submittable, id, submittable.send);
+    if (isUnsigned) {
+      return this.makeExtrinsicCall(submittable, queueTx, submittable.send);
+    } else if (signerOptions) {
+      return this.makeExtrinsicSignature(submittable, queueTx, keyring.getPair(accountId as string));
     }
+
+    return this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend, keyring.getPair(accountId as string));
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
-    const { apiPromise } = this.props;
+    const { api } = this.props;
 
     try {
-      const result = await (apiPromise.rpc as any)[section][method](...values);
+      const result = await (api.rpc as any)[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
 
@@ -304,26 +313,80 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, id: number, extrinsicCall: (...params: Array<any>) => any, ..._params: Array<any>): Promise<void> {
-    const { queueSetTxStatus } = this.props;
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: Array<any>) => any, pair?: KeyringPair): Promise<void> {
+    const { api, queueSetTxStatus } = this.props;
+
+    console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
+
+    const params = [];
+
+    if (pair) {
+      // set the signer
+      if (pair.getMeta().isInjected) {
+        const source = pair.getMeta().source;
+        const address = pair.address();
+        const injected = await web3FromSource(source);
+
+        assert(injected, `Unable to find a signer for ${address}`);
+
+        api.setSigner(injected.signer);
+
+        params.push(address);
+      } else {
+        params.push(pair);
+      }
+    }
+
+    if (isFunction(txStartCb)) {
+      txStartCb();
+    }
 
     try {
-      const subscription = await extrinsicCall.apply(extrinsic, [..._params, async (result: SubmittableSendResult) => {
-        const status = result.type.toLowerCase() as QueueTx$Status;
+      const unsubscribe = await extrinsicCall.apply(extrinsic, [...params, async (result: SubmittableResult) => {
+        if (!result || !result.status) {
+          return;
+        }
 
-        console.log('submitAndWatchExtrinsic: updated status ::', result);
+        const status = result.status.type.toLowerCase() as QueueTx$Status;
 
+        console.log('makeExtrinsicCall: updated status ::', JSON.stringify(result));
         queueSetTxStatus(id, status, result);
 
-        if (status === 'finalised') {
-          const unsubscribe = await subscription;
-
-          unsubscribe();
+        if (isFunction(txUpdateCb)) {
+          txUpdateCb(result);
         }
-      }]) as PromiseSubscription;
+
+        if (result.status.isFinalized) {
+          unsubscribe();
+
+          result.events
+            .filter(({ event: { section } }) => section === 'system')
+            .forEach(({ event: { method } }) => {
+              if (isFunction(txFailedCb) && method === 'ExtrinsicFailed') {
+                txFailedCb(result);
+              } else if (isFunction(txSuccessCb) && method === 'ExtrinsicSuccess') {
+                txSuccessCb(result);
+              }
+            });
+        }
+      }]);
     } catch (error) {
-      console.error('error.message', error.message);
+      console.error('makeExtrinsicCall: error:', error.message);
       queueSetTxStatus(id, 'error', {}, error);
+
+      if (isFunction(txFailedCb)) {
+        txFailedCb(null);
+      }
+    }
+  }
+
+  private async makeExtrinsicSignature (extrinsic: SubmittableExtrinsic, { id, signerCb, signerOptions }: QueueTx, pair: KeyringPair): Promise<void> {
+    console.log('makeExtrinsicSignature: extrinsic ::', extrinsic.toHex());
+
+    extrinsic.sign(pair, signerOptions || {});
+
+    if (isFunction(signerCb)) {
+      signerCb(id, true);
     }
   }
 }
@@ -335,5 +398,6 @@ export {
 export default withMulti(
   Signer,
   translate,
-  withApi
+  withApi,
+  withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

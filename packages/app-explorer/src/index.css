@@ -2,43 +2,14 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-.explorer--App .rx--updated {
-  background: transparent !important;
-}
-
-.explorer--BestHash,
-.explorer--BestNumber {
-  font-weight: 100;
-  text-align: right;
-  opacity: 0.5;
-}
-
-.explorer--BestHash.rx--updated,
-.explorer--BestNumber.rx--updated {
-  opacity: 1;
-}
-
-.explorer--BestHash {
-  font-size: 1.5em;
-  line-height: 1.2;
-}
-
-.explorer--BestNumber {
-  font-size: 2.75rem;
-  line-height: 2.75rem;
-  position: relative;
-  text-align: right;
-}
-
 .explorer--BlockByHash-flexable {
-  display: flex;
   flex-wrap: wrap;
+  margin-top: -0.5rem;
 }
 
 .explorer--BlockByHash-block {
   flex: 0 0 50%;
   min-width: 0;
-  max-width: 50%;
 }
 
 .explorer--Container {
@@ -46,17 +17,23 @@
 
   .header {
     position: relative;
+    vertical-align: middle;
 
-    .description {
-      color: rgba(0, 0, 0, 0.6);
-      margin-bottom: 0.5rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    h3 {
+      margin: 0;
     }
   }
 
-  .value {
+  .description {
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0rem 0 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  > .details {
     word-break: break-all;
   }
 }
@@ -81,27 +58,6 @@
   right: 0rem;
 }
 
-.explorer--Overview {
-  display: flex;
-
-  .column {
-    flex: 0 0 50%;
-    min-width: 0;
-    max-width: 50%;
-    padding: 0 1em 1em;
-  }
-}
-
-.storage--Query-actionrow {
-  display: flex;
-}
-
-.storage--Query-actionrow-hash {
-  flex: 1;
-  min-width: 0;
-}
-
-.storage--Query-actionrow-button {
-  flex: 0;
-  padding: 0 0.25rem;
+.explorer--query {
+  width: 20em;
 }
