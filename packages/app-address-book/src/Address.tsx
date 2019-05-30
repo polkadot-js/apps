@@ -53,6 +53,7 @@ class Address extends React.PureComponent<Props, State> {
           buttons={this.renderButtons()}
           isEditable={isEditable}
           value={address}
+          withExplorer
           withIndex
           withTags
         >

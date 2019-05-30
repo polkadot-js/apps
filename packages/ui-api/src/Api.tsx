@@ -148,6 +148,7 @@ export default class Api extends React.PureComponent<Props, State> {
         value={{
           api,
           apiDefaultTx,
+          currentChain: chain || '<unknown>',
           isApiConnected,
           isApiReady: isApiReady && !!chain,
           isDevelopment,

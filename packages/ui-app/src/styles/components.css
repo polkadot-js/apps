@@ -159,8 +159,6 @@ button.ui.icon.iconButton {
 }
 
 .ui--AddressRow {
-  position: relative;
-
   &.inline {
     display: flex;
 
@@ -198,10 +196,21 @@ button.ui.icon.iconButton {
   }
 }
 
+.ui--AddressSummary-explorer {
+  content: ' ';
+  margin-top: 1rem;
+
+  .polkascan {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 1rem;
+  }
+}
+
 .ui--AddressSummary-buttons {
   position: absolute;
-  right: -0.75rem;
-  top: -0.5rem;
+  right: 0.75rem;
+  top: 0.75rem;
 }
 
 .ui--AddressSummary .rx--updated {
@@ -407,12 +416,11 @@ button.ui.icon.iconButton {
 
 .ui--RecentlyOffline {
   position: absolute;
-  top: -0.5rem;
   font-size: 12px;
   cursor: help;
   display: flex;
   justify-content: center;
-  left: -0.5rem;
+  left: 1rem;
   width: 22px;
   height: 22px;
   padding: 0;
@@ -421,6 +429,7 @@ button.ui.icon.iconButton {
   border-radius: 16px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   text-align: center;
+  top: 1rem;
   transition: all ease .2s;
 
   & > * {
