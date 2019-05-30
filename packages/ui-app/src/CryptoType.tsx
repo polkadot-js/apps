@@ -18,7 +18,7 @@ type Props = BareProps & {
 export default class CryptoType extends React.PureComponent<Props> {
   render () {
     const { accountId, className, label = '' } = this.props;
-    let type = '<unknown>';
+    let type = 'unknown';
 
     try {
       const current = accountId
@@ -26,7 +26,9 @@ export default class CryptoType extends React.PureComponent<Props> {
         : null;
 
       if (current) {
-        type = current.type;
+        type = current.getMeta().isInjected
+          ? 'injected'
+          : current.type;
       }
     } catch (error) {
       // cannot determine, keep unknown
