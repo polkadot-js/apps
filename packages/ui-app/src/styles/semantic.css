@@ -116,6 +116,10 @@
     font-weight: normal;
     line-height: 1.25rem;
     padding: 1rem 1.5rem;
+
+    > label {
+      margin-top: 0.5rem;
+    }
   }
 
   > :first-child:not(.icon) {
