@@ -1859,10 +1859,10 @@
     typescript "^3.5.1"
     vuepress "^1.0.0-alpha.47"
 
-"@polkadot/extension-dapp@^0.1.1-beta.10":
-  version "0.1.1-beta.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.1.1-beta.10.tgz#0551dd8b5f6b743dc309853dfda086334b5366b9"
-  integrity sha512-IP4lM2g5n69pVjfkQqdG0Udn1k+4xDRZISFnOs9jiXCOh9K/s2ZQ/TlLgbiYGcJJiC274CBKgexiNoMenqNwAw==
+"@polkadot/extension-dapp@^0.1.1-beta.11":
+  version "0.1.1-beta.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.1.1-beta.11.tgz#16ad8982ebcd7853cc1370d1935a8c7de58c8b8b"
+  integrity sha512-rB/N2wFeF3Y9Y8NpNxvmVG+4H6vB6R5uc2xZJCRVyWQiazD4qkCBOEUdrsV/c1dX+FIikbUYoI+rblndHIIDWw==
 
 "@polkadot/extrinsics@^0.80.0-beta.14":
   version "0.80.0-beta.14"
