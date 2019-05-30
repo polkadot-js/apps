@@ -64,13 +64,13 @@ class AddressInfo extends React.PureComponent<Props> {
 
     return (
       <div className='column'>
-        {balanceDisplay.free && balances_all.freeBalance.gtn(-1) && (
+        {balanceDisplay.free && (
           <>
             <Label label={t('total')} />
             <div className='result'>{formatBalance(balances_all.freeBalance)}</div>
           </>
         )}
-        {balanceDisplay.available && balances_all.availableBalance.gtn(-1) && (
+        {balanceDisplay.available && (
           <>
             <Label label={t('available')} />
             <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
@@ -121,7 +121,7 @@ class AddressInfo extends React.PureComponent<Props> {
 
     return (
       <div className='column'>
-        {extendedDisplay.nonce && balances_all.accountNonce.gtn(-1) && (
+        {extendedDisplay.nonce && (
           <>
             <Label label={t('transactions')} />
             <div className='result'>{formatNumber(balances_all.accountNonce)}</div>
@@ -144,17 +144,17 @@ class AddressInfo extends React.PureComponent<Props> {
     const { staking_info, t } = this.props;
 
     return (staking_info && staking_info.controllerId && (
-    <TxButton
-      accountId={staking_info.controllerId.toString()}
-      className='iconButton'
-      icon='lock'
-      size='small'
-      isPrimary
-      key='unlock'
-      params={[]}
-      tooltip={t('Redeem these funds')}
-      tx='staking.withdrawUnbonded'
-    />
+      <TxButton
+        accountId={staking_info.controllerId.toString()}
+        className='iconButton'
+        icon='lock'
+        size='small'
+        isPrimary
+        key='unlock'
+        params={[]}
+        tooltip={t('Redeem these funds')}
+        tx='staking.withdrawUnbonded'
+      />
     ));
   }
 
