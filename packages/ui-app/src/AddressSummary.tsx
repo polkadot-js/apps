@@ -217,10 +217,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderAvailable () {
-    const { t, withAvailable } = this.props;
-    const { address } = this.state;
+    const { accounts_idAndIndex = [], t, withAvailable } = this.props;
+    const [accountId] = accounts_idAndIndex;
 
-    if (!withAvailable || !address) {
+    if (!withAvailable || !accountId) {
       return null;
     }
 
@@ -228,7 +228,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
       <AvailableDisplay
         className='ui--AddressSummary-available'
         label={<label>{t('available')}</label>}
-        params={address}
+        params={accountId}
       />
     );
   }
@@ -249,10 +249,10 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderBalance () {
-    const { balance, t, withBalance } = this.props;
-    const { address } = this.state;
+    const { accounts_idAndIndex = [], balance, t, withBalance } = this.props;
+    const [accountId] = accounts_idAndIndex;
 
-    if (!withBalance || !address) {
+    if (!withBalance || !accountId) {
       return null;
     }
 
@@ -261,16 +261,16 @@ class AddressSummary extends React.PureComponent<Props, State> {
         balance={balance}
         className='ui--AddressSummary-balance'
         label={<label>{t('total')}</label>}
-        params={address}
+        params={accountId}
       />
     );
   }
 
   protected renderBonded () {
-    const { bonded, t, withBonded } = this.props;
-    const { address } = this.state;
+    const { accounts_idAndIndex = [], bonded, t, withBonded } = this.props;
+    const [accountId] = accounts_idAndIndex;
 
-    if (!withBonded || !address) {
+    if (!withBonded || !accountId) {
       return null;
     }
 
@@ -279,7 +279,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
         bonded={bonded}
         className='ui--AddressSummary-bonded'
         label={<label>{t('bonded')}</label>}
-        params={address}
+        params={accountId}
       />
     );
   }
@@ -311,8 +311,9 @@ class AddressSummary extends React.PureComponent<Props, State> {
   }
 
   protected renderIcon (className: string = 'ui--AddressSummary-icon', size?: number) {
-    const { identIconSize = ICON_SIZE, withIcon = true } = this.props;
+    const { accounts_idAndIndex = [], identIconSize = ICON_SIZE, withIcon = true } = this.props;
     const { address } = this.state;
+    const [accountId] = accounts_idAndIndex;
 
     if (!withIcon) {
       return null;
@@ -320,7 +321,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
     // Since we do queries to storage in the wrapped example, we don't want
     // to follow that route if we don't have a valid address.
-    const Component = address
+    const Component = accountId
       ? IdentityIcon
       : BaseIdentityIcon;
 
