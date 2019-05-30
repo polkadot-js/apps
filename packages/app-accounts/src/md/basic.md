@@ -1,15 +1,16 @@
 # Account
 
-An account is identified by its public address on the network. The network will **not** know about the name you give to this account in this app. It is totally fine to give away this address, this is also the only information needed to receive funds.
+An account is identified by its public address on the network. It is totally fine to give away this address, this is also the only information needed to receive funds. The network will **not** know about the name you give to this account in this application.
 
 # Balances
 
 The balances for each account is broken down into a number of areas, giving an overview of the totals, transferable funds and the funds locked and available for unlocking. These are -
 
 - **total**: The overall amount of funds in the account, this includes the vested balance, available for transfer and locked.
-- **available**: The funds that can be transfered or bonded, i.e. the funds that are available for any transaction.
-- **bonded**: The funds bonded for validating or nominating. They are locked and cannot be transfered, although it can be unlocked for future actions.
-- **locked**: The funds that are being unlocked or have been unlocked and are available for withdrawal to your availabel balance.
+- **available**: The funds that can be transferred or bonded, i.e. the funds that are available for any transaction.
+- **bonded**: The funds bonded for validating or nominating. They are locked and cannot be transferred, although it can be unlocked for future actions.
+- **redeemable**: The funds that can get redeemed, e.g made available for withdrawal, by clicking on the "lock" icon.
+- **unlocking**: The funds that are being unlocked. The information icon tells the amount of blocks left before the funds can be redeemed.
 
 # Security
 
@@ -21,10 +22,10 @@ This password is also used to encrypt the private key in the backup file downloa
 
 You can recover an account from its:
 - seed or mnemonic:
-  From the "Create account" tab, type your seed or mnemonic in the associated field.
+  Click on the "Add account" button, type your seed or mnemonic in the associated field.
 
 - backup file (also called JSON keystore file) and the account's password:
-  From the "Restore account" tab. Upload your backup file and type in the password associated.
+  Click on "Restore JSON" button. Upload your backup file and type in the password associated.
 
 # Minimum allowed balance
 
