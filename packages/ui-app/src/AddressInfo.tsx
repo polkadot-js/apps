@@ -97,7 +97,7 @@ class AddressInfo extends React.PureComponent<Props> {
         )}
         {balanceDisplay.unlocking && staking_info && staking_info.unlocking && (
           <>
-            <Label label={t('unlocking')} />
+            <Label label={t('unbonding')} />
             <div className='result'>
               {this.renderUnlocking()}
             </div>
