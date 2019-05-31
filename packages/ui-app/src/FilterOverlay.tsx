@@ -14,23 +14,29 @@ type Props = BareProps & {
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  right: 5rem;
-  top: 0.4rem;
-
-  > div {
-    max-width: 35rem !important;
-  }
+  display:none;
 
   .ui--Labelled label {
     display: none;
   }
 
   ${media.DESKTOP`
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    right: 5rem;
+    top: 0.4rem;
+
+    > div {
+      max-width: 35rem !important;
+    }
+
     .ui--Labelled label {
       display: flex;
+    }
+
+    .ui.selection.dropdown {
+      white-space: nowrap;
     }
   `}
 `;
