@@ -69,19 +69,19 @@ export default class BlockHeader extends React.PureComponent<Props> {
       <div className='contains'>
         <div className='info'>
           <label>parentHash</label>
-          <div className='hash'>{
+          <span className='hash'>{
             blockNumber.gtn(1)
               ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
               : parentHex
-          }</div>
+          }</span>
         </div>
         <div className='info'>
           <label>extrinsicsRoot</label>
-          <div className='hash'>{extrinsicsRoot.toHex()}</div>
+          <span className='hash'>{extrinsicsRoot.toHex()}</span>
         </div>
         <div className='info'>
           <label>stateRoot</label>
-          <div className='hash'>{stateRoot.toHex()}</div>
+          <span className='hash'>{stateRoot.toHex()}</span>
         </div>
       </div>
     );
