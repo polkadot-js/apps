@@ -21,7 +21,6 @@ import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   balances_fees?: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
   onClose: () => void,
   recipientId?: string,
   senderId?: string,
