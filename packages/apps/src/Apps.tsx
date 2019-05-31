@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from './constants';
 
 import React from 'react';
-import { hot } from 'react-hot-loader/root';
+// import { hot } from 'react-hot-loader/root';
 import store from 'store';
 import { ThemeProvider } from 'styled-components';
 import Signer from '@polkadot/ui-signer';
@@ -176,4 +176,4 @@ class Apps extends React.Component<Props, State> {
   }
 }
 
-export default hot(Apps);
+export default Apps; // hot(Apps);
