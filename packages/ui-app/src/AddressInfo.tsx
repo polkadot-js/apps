@@ -76,14 +76,10 @@ class AddressInfo extends React.PureComponent<Props> {
             <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
           </>
         )}
-        {balanceDisplay.bonded && (
+        {balanceDisplay.bonded && staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId) && (
           <>
             <Label label={t('bonded')} />
-            <div className='result'>
-              {staking_info && staking_info.stakingLedger
-              ? formatBalance(staking_info.stakingLedger.active)
-              : '0'}
-            </div>
+            <div className='result'>{formatBalance(staking_info.stakingLedger.active)}</div>
           </>
         )}
         {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
@@ -97,7 +93,7 @@ class AddressInfo extends React.PureComponent<Props> {
         )}
         {balanceDisplay.unlocking && staking_info && staking_info.unlocking && (
           <>
-            <Label label={t('unlocking')} />
+            <Label label={t('unbonding')} />
             <div className='result'>
               {this.renderUnlocking()}
             </div>
