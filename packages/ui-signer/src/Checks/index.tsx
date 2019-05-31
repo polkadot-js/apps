@@ -166,8 +166,8 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
                     replace: {
                       existentialDeposit: formatBalance(balances_fees && balances_fees.existentialDeposit)
                     }
-                  })
-                }
+                  }
+                )}
               </div>
             : undefined
         }

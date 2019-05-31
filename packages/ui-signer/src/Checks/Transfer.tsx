@@ -73,13 +73,14 @@ export class Transfer extends React.PureComponent<Props, State> {
         {
           isNoEffect
             ? <div>
-                <Icon name='warning sign' />{t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected',
+                <Icon name='warning sign' />
+                {t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected',
                   {
                     replace: {
                       existentialDeposit: formatBalance(fees.existentialDeposit)
                     }
-                  })
-                }
+                  }
+                )}
               </div>
             : undefined
         }
