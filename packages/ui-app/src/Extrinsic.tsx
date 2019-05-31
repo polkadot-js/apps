@@ -49,7 +49,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
 
   render () {
     const { defaultValue, isDisabled, isError, isPrivate, label, onEnter, withLabel } = this.props;
-    const { methodfn: { method, section }, params } = this.state;
+    const { methodfn: { method, section, meta }, params } = this.state;
 
     return (
       <div className='extrinsics--Extrinsic'>
@@ -61,6 +61,10 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           label={label}
           onChange={this.onChangeMethod}
           withLabel={withLabel}
+          help={
+            meta && meta.documentation
+            && meta.documentation.join(' ')
+          }
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
