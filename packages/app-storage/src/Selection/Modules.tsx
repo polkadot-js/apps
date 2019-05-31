@@ -56,9 +56,8 @@ class Modules extends TxComponent<Props, State> {
             label={t('selected state query')}
             onChange={this.onChangeKey}
             help={
-              t(meta && meta.documentation
-                ? meta.documentation.join(' ') : ''
-              )
+              meta && meta.documentation
+              && meta.documentation.join(' ')
             }
           />
           <Params

@@ -63,8 +63,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           withLabel={withLabel}
           help={
             meta && meta.documentation
-              ? meta.documentation.join(' ')
-              : ''
+            && meta.documentation.join(' ')
           }
         />
         <Params
