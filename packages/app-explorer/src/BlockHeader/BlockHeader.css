@@ -88,6 +88,10 @@ header > .explorer--BlockHeader {
 
       > label {
         display: inline-block;
+      }
+      
+      > span,
+      > label {
         vertical-align: middle;
       }
 
