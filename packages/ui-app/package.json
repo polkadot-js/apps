@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/ui-app",
-  "version": "0.33.0-beta.109",
+  "version": "0.33.0-beta.110",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,10 +11,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.5",
-    "@polkadot/ui-api": "^0.33.0-beta.109",
+    "@polkadot/ui-api": "^0.33.0-beta.110",
     "@polkadot/ui-identicon": "^0.40.0-beta.3",
     "@polkadot/ui-keyring": "^0.40.0-beta.3",
-    "@polkadot/ui-reactive": "^0.33.0-beta.109",
+    "@polkadot/ui-reactive": "^0.33.0-beta.110",
     "@polkadot/ui-settings": "^0.40.0-beta.3",
     "@types/chart.js": "^2.7.53",
     "@types/classnames": "^2.2.7",
