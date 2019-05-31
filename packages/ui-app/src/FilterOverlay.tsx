@@ -34,8 +34,8 @@ const Wrapper = styled.div`
     .ui--Labelled label {
       display: flex;
     }
-    
-    .ui.selection.dropdown{
+
+    .ui.selection.dropdown {
       white-space: nowrap;
     }
   `}
