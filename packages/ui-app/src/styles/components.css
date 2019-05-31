@@ -187,8 +187,19 @@ button.ui.icon.iconButton {
     }
   }
 
-  .ui--AddressSummary-balances>span {
-    text-align: left;
+  .ui--AddressSummary-balances {
+    .column {
+      display: block;
+
+      label,
+      .result {
+        display: inline-block;
+      }
+    }
+
+    > span {
+      text-align: left;
+    }
   }
 
   .ui--AddressSummary-tags.editable {
@@ -230,16 +241,6 @@ button.ui.icon.iconButton {
 .ui--AddressSummary-data+.ui--AddressSummary-bonded,
 .ui--AddressSummary-data+.ui--AddressSummary-nonce {
   padding-top: 0.5em;
-}
-
-.ui--AddressSummary-balances {
-  display: grid;
-  grid-column-gap: 1em;
-
-  label {
-    display: inline-block;
-    margin-right: 0.5rem;
-  }
 }
 
 .ui--AddressMini-balances {

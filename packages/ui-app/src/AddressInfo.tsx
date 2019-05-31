@@ -5,6 +5,7 @@
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 import { BareProps, I18nProps } from './types';
 
+import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
@@ -14,13 +15,14 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import translate from './translate';
 import CryptoType from './CryptoType';
 import Label from './Label';
+import { StakingLedger } from '@polkadot/types';
 
 type Props = BareProps & I18nProps & {
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
   staking_info?: DerivedStaking,
   value: string,
-  withBalance?: boolean | { available?: boolean, bonded?: boolean, free?: boolean, redeemable?: boolean, unlocking?: boolean },
+  withBalance?: boolean | { available?: boolean, bonded?: boolean | Array<BN>, free?: boolean, redeemable?: boolean, unlocking?: boolean },
   withExtended?: boolean | { crypto?: boolean, nonce?: boolean }
 };
 
@@ -79,7 +81,7 @@ class AddressInfo extends React.PureComponent<Props> {
         {balanceDisplay.bonded && staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId) && (
           <>
             <Label label={t('bonded')} />
-            <div className='result'>{formatBalance(staking_info.stakingLedger.active)}</div>
+            <div className='result'>{this.renderBonded(balanceDisplay.bonded, staking_info.stakingLedger)}</div>
           </>
         )}
         {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
@@ -101,6 +103,19 @@ class AddressInfo extends React.PureComponent<Props> {
         )}
       </div>
     );
+  }
+
+  private renderBonded (bonded: true | Array<BN>, stakingLedger: StakingLedger) {
+    if (bonded === true || bonded.length === 0) {
+      return formatBalance(stakingLedger.active);
+    }
+
+    const totals = bonded.filter((value, index) => index !== 0);
+    const total = totals.reduce((total, value) => total.add(value), new BN(0)).gtn(0)
+      ? `(+${totals.map((bonded) => formatBalance(bonded)).join(', ')})`
+      : '';
+
+    return `${formatBalance(bonded[0])} ${total}`;
   }
 
   private renderExtended () {
