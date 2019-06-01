@@ -257,8 +257,14 @@ class AddressSummary extends React.PureComponent<Props, State> {
 
   protected renderChildren () {
     const { children } = this.props;
+    // we need children, or when an array, at least 1 non-empty value
+    const hasChildren = !children
+      ? false
+      : Array.isArray(children)
+        ? children.filter((child) => child).length !== 0
+        : true;
 
-    if (!children || (Array.isArray(children) && children.length === 0)) {
+    if (!hasChildren) {
       return null;
     }
 

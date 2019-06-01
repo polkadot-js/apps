@@ -98,8 +98,8 @@ class Address extends React.PureComponent<Props, State> {
           withBalance={{ bonded }}
         >
           {this.renderNominators()}
-          {this.renderOffline()}
         </AddressRow>
+        {this.renderOffline()}
         {
           isAuthor && stashId
             ? <div className='blockNumber'>#{lastBlock}</div>
