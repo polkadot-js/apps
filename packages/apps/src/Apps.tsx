@@ -5,8 +5,11 @@
 import { BareProps } from '@polkadot/ui-app/types';
 import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from './constants';
 
-import React from 'react';
+// this is disabled, Chrome + WASM memory leak makes it slow & laggy. If enabled
+// we also need to export the default as hot(Apps) (last line)
 // import { hot } from 'react-hot-loader/root';
+
+import React from 'react';
 import store from 'store';
 import { ThemeProvider } from 'styled-components';
 import Signer from '@polkadot/ui-signer';
@@ -176,4 +179,4 @@ class Apps extends React.Component<Props, State> {
   }
 }
 
-export default Apps; // hot(Apps);
+export default Apps;

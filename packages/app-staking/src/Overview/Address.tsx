@@ -79,7 +79,7 @@ class Address extends React.PureComponent<Props, State> {
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
     const bonded = stakers && !stakers.own.isZero()
       ? [stakers.own, stakers.total.sub(stakers.own)]
-      : undefined;
+      : true;
 
     if ((filter === 'hasNominators' && !this.hasNominators())
         || (filter === 'noNominators' && this.hasNominators())

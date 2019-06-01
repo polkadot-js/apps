@@ -13,7 +13,7 @@ import { Button, Input, InputTags } from '@polkadot/ui-app';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 import keyring from '@polkadot/ui-keyring';
 
-import AddressInfo from './AddressInfo';
+import AddressInfo, { BalanceActiveType } from './AddressInfo';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import LinkPolkascan from './LinkPolkascan';
@@ -33,7 +33,7 @@ export type Props = I18nProps & {
   isShort?: boolean,
   session_validators?: Array<AccountId>,
   value: AccountId | AccountIndex | Address | string | null,
-  withBalance?: boolean | { available?: boolean, bonded?: boolean | Array<BN>, free?: boolean, redeemable?: boolean, unlocking?: boolean },
+  withBalance?: boolean | BalanceActiveType,
   withExplorer?: boolean,
   withIcon?: boolean,
   withIndex?: boolean,
