@@ -30,7 +30,6 @@ export type Props = I18nProps & {
   extraInfo?: React.ReactNode,
   isEditable?: boolean,
   isInline?: boolean,
-  isShort?: boolean,
   value: AccountId | AccountIndex | Address | string | null,
   withBalance?: boolean | BalanceActiveType,
   withExplorer?: boolean,
@@ -138,28 +137,17 @@ class AddressRow extends React.PureComponent<Props, State> {
   }
 
   protected renderAddress () {
-    const { isShort = true } = this.props;
     const { address } = this.state;
-    const addrElem = isShort
-      ? (
-          <CopyButton
-            isAddress
-            value={address}
-          >
-            <span>{toShortAddress(address)}</span>
-          </CopyButton>
-      )
-      : address;
 
     return (
-      <>
-        <div className='ui--AddressRow-name'>
-          {name}
-        </div>
-        <div className='ui--AddressRow-accountId'>
-          {addrElem}
-        </div>
-      </>
+      <div className='ui--AddressRow-accountId'>
+        <CopyButton
+          isAddress
+          value={address}
+        >
+          <span>{toShortAddress(address)}</span>
+        </CopyButton>
+      </div>
     );
   }
 
