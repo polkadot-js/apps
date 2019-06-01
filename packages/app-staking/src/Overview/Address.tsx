@@ -79,7 +79,7 @@ class Address extends React.PureComponent<Props, State> {
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
     const bonded = stakers && !stakers.own.isZero()
       ? [stakers.own, stakers.total.sub(stakers.own)]
-      : undefined;
+      : true;
 
     if ((filter === 'hasNominators' && !this.hasNominators())
         || (filter === 'noNominators' && this.hasNominators())
@@ -92,15 +92,14 @@ class Address extends React.PureComponent<Props, State> {
     return (
       <article key={stashId || controllerId}>
         <AddressRow
-          bonded={bonded}
           buttons={this.renderKeys()}
           defaultName={defaultName}
           value={stashId}
-          withBonded
+          withBalance={{ bonded }}
         >
           {this.renderNominators()}
-          {this.renderOffline()}
         </AddressRow>
+        {this.renderOffline()}
         {
           isAuthor && stashId
             ? <div className='blockNumber'>#{lastBlock}</div>

@@ -5,6 +5,7 @@
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 import { BareProps, I18nProps } from './types';
 
+import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
@@ -15,13 +16,27 @@ import translate from './translate';
 import CryptoType from './CryptoType';
 import Label from './Label';
 
+// true to display, or (for bonded) provided values [own, ...all extras]
+export type BalanceActiveType = {
+  available?: boolean,
+  bonded?: boolean | Array<BN>,
+  free?: boolean,
+  redeemable?: boolean,
+  unlocking?: boolean
+};
+
+export type CryptoActiveType = {
+  crypto?: boolean,
+  nonce?: boolean
+};
+
 type Props = BareProps & I18nProps & {
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
   staking_info?: DerivedStaking,
   value: string,
-  withBalance?: boolean | { available?: boolean, bonded?: boolean, free?: boolean, redeemable?: boolean, unlocking?: boolean },
-  withExtended?: boolean | { crypto?: boolean, nonce?: boolean }
+  withBalance?: boolean | BalanceActiveType,
+  withExtended?: boolean | CryptoActiveType
 };
 
 // <AddressInfo
@@ -76,12 +91,7 @@ class AddressInfo extends React.PureComponent<Props> {
             <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
           </>
         )}
-        {balanceDisplay.bonded && staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId) && (
-          <>
-            <Label label={t('bonded')} />
-            <div className='result'>{formatBalance(staking_info.stakingLedger.active)}</div>
-          </>
-        )}
+        {balanceDisplay.bonded && this.renderBonded(balanceDisplay.bonded)}
         {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
           <>
             <Label label={t('redeemable')} />
@@ -101,6 +111,33 @@ class AddressInfo extends React.PureComponent<Props> {
         )}
       </div>
     );
+  }
+
+  // either true (filtered above already) or [own, ...all extras]
+  private renderBonded (bonded: true | Array<BN>) {
+    const { staking_info, t } = this.props;
+    let value = undefined;
+
+    if (Array.isArray(bonded)) {
+      // Get the sum of all extra values (if available)
+      const extras = bonded.filter((value, index) => index !== 0);
+      const extra = extras.reduce((total, value) => total.add(value), new BN(0)).gtn(0)
+        ? `(+${extras.map((bonded) => formatBalance(bonded)).join(', ')})`
+        : '';
+
+      value = `${formatBalance(bonded[0])} ${extra}`;
+    } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
+      value = formatBalance(staking_info.stakingLedger.active);
+    }
+
+    return value
+      ? (
+        <>
+          <Label label={t('bonded')} />
+          <div className='result'>{value}</div>
+        </>
+      )
+      : undefined;
   }
 
   private renderExtended () {

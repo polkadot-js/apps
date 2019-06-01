@@ -13,19 +13,15 @@ import { Button, Input, InputTags } from '@polkadot/ui-app';
 import BaseIdentityIcon from '@polkadot/ui-identicon';
 import keyring from '@polkadot/ui-keyring';
 
-import AvailableDisplay from './Available';
-import BalanceDisplay from './Balance';
-import BondedDisplay from './Bonded';
-import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
+import AddressInfo, { BalanceActiveType } from './AddressInfo';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import LinkPolkascan from './LinkPolkascan';
-import NonceDisplay from './Nonce';
 import translate from './translate';
+import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
 
 export type Props = I18nProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?],
-  balance?: BN | Array<BN>,
   bonded?: BN | Array<BN>,
   buttons?: React.ReactNode,
   children?: React.ReactNode,
@@ -37,13 +33,10 @@ export type Props = I18nProps & {
   isShort?: boolean,
   session_validators?: Array<AccountId>,
   value: AccountId | AccountIndex | Address | string | null,
-  withAvailable?: boolean,
-  withBalance?: boolean,
-  withBonded?: boolean,
+  withBalance?: boolean | BalanceActiveType,
   withExplorer?: boolean,
   withIcon?: boolean,
   withIndex?: boolean,
-  withNonce?: boolean,
   withTags?: boolean
 };
 
@@ -115,12 +108,7 @@ class AddressSummary extends React.PureComponent<Props, State> {
             {this.renderAddress()}
             {this.renderAccountIndex(withIndex)}
           </div>
-          <div className='ui--AddressSummary-balances'>
-            {this.renderAvailable()}
-            {this.renderBalance()}
-            {this.renderBonded()}
-            {this.renderNonce()}
-          </div>
+          {this.renderBalances()}
           {this.renderTags()}
         </div>
         {this.renderChildren()}
@@ -234,23 +222,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
     this.setState({ tags });
   }
 
-  protected renderAvailable () {
-    const { accounts_idAndIndex = [], t, withAvailable } = this.props;
-    const [accountId] = accounts_idAndIndex;
-
-    if (!withAvailable || !accountId) {
-      return null;
-    }
-
-    return (
-      <AvailableDisplay
-        className='ui--AddressSummary-available'
-        label={<label>{t('available')}</label>}
-        params={accountId}
-      />
-    );
-  }
-
   protected renderAccountIndex (withIndex?: boolean) {
     const { accounts_idAndIndex = [] } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
@@ -266,8 +237,8 @@ class AddressSummary extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderBalance () {
-    const { accounts_idAndIndex = [], balance, t, withBalance } = this.props;
+  protected renderBalances () {
+    const { accounts_idAndIndex = [], withBalance } = this.props;
     const [accountId] = accounts_idAndIndex;
 
     if (!withBalance || !accountId) {
@@ -275,37 +246,25 @@ class AddressSummary extends React.PureComponent<Props, State> {
     }
 
     return (
-      <BalanceDisplay
-        balance={balance}
-        className='ui--AddressSummary-balance'
-        label={<label>{t('total')}</label>}
-        params={accountId}
-      />
-    );
-  }
-
-  protected renderBonded () {
-    const { accounts_idAndIndex = [], bonded, t, withBonded } = this.props;
-    const [accountId] = accounts_idAndIndex;
-
-    if (!withBonded || !accountId) {
-      return null;
-    }
-
-    return (
-      <BondedDisplay
-        bonded={bonded}
-        className='ui--AddressSummary-bonded'
-        label={<label>{t('bonded')}</label>}
-        params={accountId}
-      />
+      <div className='ui--AddressSummary-balances'>
+        <AddressInfo
+          value={accountId}
+          withBalance={withBalance}
+        />
+      </div>
     );
   }
 
   protected renderChildren () {
     const { children } = this.props;
+    // we need children, or when an array, at least 1 non-empty value
+    const hasChildren = !children
+      ? false
+      : Array.isArray(children)
+        ? children.filter((child) => child).length !== 0
+        : true;
 
-    if (!children || (Array.isArray(children) && children.length === 0)) {
+    if (!hasChildren) {
       return null;
     }
 
@@ -348,23 +307,6 @@ class AddressSummary extends React.PureComponent<Props, State> {
         className={className}
         size={size || identIconSize}
         value={address}
-      />
-    );
-  }
-
-  protected renderNonce () {
-    const { t, withNonce } = this.props;
-    const { address } = this.state;
-
-    if (!withNonce || !address) {
-      return null;
-    }
-
-    return (
-      <NonceDisplay
-        className='ui--AddressSummary-nonce'
-        label={<label>{t('transactions')}</label>}
-        params={address}
       />
     );
   }
