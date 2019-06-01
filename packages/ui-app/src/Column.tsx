@@ -7,31 +7,47 @@ import styled from 'styled-components';
 
 type Props = {
   children: React.ReactNode,
-  className?: string
+  className?: string,
+  header: React.ReactNode
 };
 
 class Column extends React.PureComponent<Props> {
   render () {
-    const { children, className } = this.props;
+    const { children, className, header } = this.props;
 
     return (
-      <article className={className}>
-        {children}
-      </article>
+      <div className={`ui--Column ${className}`}>
+        <h1>{header}</h1>
+        <article className='container'>
+          {children}
+        </article>
+      </div>
     );
   }
 }
 
 export default styled(Column)`
+  box-sizing: border-box;
+  flex: 1 1;
   margin: 0;
-  padding: 0;
+  padding: 0.5rem;
 
-  article {
-    border: none;
+  .container {
     margin: 0;
+    padding: 0;
+
+    article {
+      border: none;
+      margin: 0;
+    }
+
+    article+article {
+      border-top: 1px solid #f2f2f2;
+    }
   }
 
-  article+article {
-    border-top: 1px solid #f2f2f2;
+  @media (min-width: 1025px) {
+    max-width: 50%;
+    min-width: 50%;
   }
 `;

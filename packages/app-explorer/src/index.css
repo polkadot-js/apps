@@ -54,8 +54,8 @@
 
 .explorer--BlockByHash-header-right {
   position: absolute;
-  top: -0.5rem;
-  right: 0rem;
+  top: 0.25rem;
+  right: 0.5rem;
 }
 
 .explorer--query {

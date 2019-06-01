@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyedEvent } from './types';
 
 import React from 'react';
-import { Column, Event as EventDisplay } from '@polkadot/ui-app';
+import { Event as EventDisplay } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
@@ -23,14 +23,10 @@ class Events extends React.PureComponent<Props> {
     const { emptyLabel, events, t } = this.props;
 
     if (!events || events.length === 0) {
-      return emptyLabel || t('no events available');
+      return <article>{emptyLabel || t('no events available')}</article>;
     }
 
-    return (
-      <Column>
-        {events.map(this.renderEvent)}
-      </Column>
-    );
+    return events.map(this.renderEvent);
   }
 
   private renderEvent = ({ key, record: { event, phase } }: KeyedEvent) => {

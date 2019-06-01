@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { DigestItem, Struct, Tuple, U8a, Vector, getTypeDef } from '@polkadot/types';
+import { Column } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 
 import translate from '../translate';
@@ -23,12 +24,9 @@ class Logs extends React.PureComponent<Props> {
     }
 
     return (
-      <section>
-        <h1>{t('logs')}</h1>
-        <div className='explorer--BlockByHash-flexable ui--flex-medium'>
-          {value.map(this.renderItem)}
-        </div>
-      </section>
+      <Column header={t('logs')}>
+        {value.map(this.renderItem)}
+      </Column>
     );
   }
 
