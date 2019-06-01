@@ -149,7 +149,7 @@ class Address extends React.PureComponent<Props, State> {
               icon='trash'
               key='forget'
               size='small'
-              tooltip={t('Forget this account')}
+              tooltip={t('Forget this address')}
             />
           </>
         )}
