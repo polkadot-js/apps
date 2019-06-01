@@ -322,8 +322,8 @@ class AddressRow extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const resultingDom = isEditingTags ?
-      <>
+    return isEditingTags
+      ? (
         <InputTags
           className='ui--AddressRow-tags-input'
           onBlur={this.saveTags}
@@ -335,8 +335,8 @@ class AddressRow extends React.PureComponent<Props, State> {
           value={tags}
           withLabel={false}
         />
-      </>
-       :
+      )
+      : (
         <div
           className={classes('ui--AddressRow-tags', isEditable && 'editable')}
           onClick={isEditable ? this.toggleTagsEditor : undefined}
@@ -344,18 +344,13 @@ class AddressRow extends React.PureComponent<Props, State> {
           {
             !tags.length
               ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
-              : tags.map((tag) => {
-                return (
-                  <Label key={tag} size='tiny' color='grey'>
-                    {tag}
-                  </Label>
-                );
-              })
+              : tags.map((tag) => (
+                <Label key={tag} size='tiny' color='grey'>{tag}</Label>
+              ))
           }
           {isEditable && this.renderEditIcon()}
-        </div>;
-
-    return resultingDom;
+        </div>
+      );
   }
 
   protected saveName = () => {
