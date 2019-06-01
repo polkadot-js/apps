@@ -114,14 +114,3 @@
 .staking--accounts-info .staking--label {
   margin: 0 2.25rem -0.75rem 0;
 }
-
-.ui--AddressSummary {
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-
-  .ui--AddressSummary-base,
-  .ui--AddressSummary-children {
-    min-width: 0;
-  }
-}
