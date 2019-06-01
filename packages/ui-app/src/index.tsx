@@ -15,6 +15,7 @@ export { default as Card } from './Card';
 export { default as CardGrid } from './CardGrid';
 export { default as CardSummary } from './CardSummary';
 export { default as Chart } from './Chart';
+export { default as Column } from './Column';
 export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
 export { default as Dropdown } from './Dropdown';

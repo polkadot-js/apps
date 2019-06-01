@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { Dropdown, FilterOverlay } from '@polkadot/ui-app';
+import { Column, Dropdown, FilterOverlay } from '@polkadot/ui-app';
 
 import translate from '../translate';
 import Address from './Address';
@@ -112,7 +112,7 @@ class CurrentList extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div>
+      <Column>
         {addresses.map((address) => (
           <Address
             address={address}
@@ -125,7 +125,7 @@ class CurrentList extends React.PureComponent<Props, State> {
             recentlyOffline={recentlyOffline}
           />
         ))}
-      </div>
+      </Column>
     );
   }
   private onChangeFilter = (filter: ValidatorFilter): void => {

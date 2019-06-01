@@ -7,6 +7,7 @@ import { CallProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { withCalls } from '@polkadot/ui-api';
+import { Column } from '@polkadot/ui-app';
 
 import BlockHeader from './BlockHeader';
 
@@ -44,7 +45,7 @@ class BlockHeaders extends React.PureComponent<Props> {
     const { headers = [] } = this.props;
 
     return (
-      <div className='explorer--BlockHeaders'>
+      <Column className='explorer--BlockHeaders'>
         {headers.map((header, index) => (
           <BlockHeader
             isSummary={!!index}
@@ -53,7 +54,7 @@ class BlockHeaders extends React.PureComponent<Props> {
             withLink={!header.blockNumber.isZero()}
           />
         ))}
-      </div>
+      </Column>
     );
   }
 }

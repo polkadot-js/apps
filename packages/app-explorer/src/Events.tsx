@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyedEvent } from './types';
 
 import React from 'react';
-import { Event as EventDisplay } from '@polkadot/ui-app';
+import { Column, Event as EventDisplay } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
@@ -26,7 +26,11 @@ class Events extends React.PureComponent<Props> {
       return emptyLabel || t('no events available');
     }
 
-    return events.map(this.renderEvent);
+    return (
+      <Column>
+        {events.map(this.renderEvent)}
+      </Column>
+    );
   }
 
   private renderEvent = ({ key, record: { event, phase } }: KeyedEvent) => {
@@ -40,35 +44,33 @@ class Events extends React.PureComponent<Props> {
     }
 
     return (
-      <div
-        className={eventClassName}
+      <article
+        className={`explorer--Container ${eventClassName}`}
         key={key}
       >
-        <article className='explorer--Container'>
-          <div className='header'>
-            <h3>
-              {event.section}.{event.method}&nbsp;{
-                extIndex !== -1
-                  ? `(#${formatNumber(extIndex)})`
-                  : ''
-              }
-            </h3>
-          </div>
-          <details>
-            <summary>
-              {
-                event.meta && event.meta.documentation
-                  ? event.meta.documentation.join(' ')
-                  : 'Details'
-              }
-            </summary>
-            <EventDisplay
-              className='details'
-              value={event}
-            />
-          </details>
-        </article>
-      </div>
+        <div className='header'>
+          <h3>
+            {event.section}.{event.method}&nbsp;{
+              extIndex !== -1
+                ? `(#${formatNumber(extIndex)})`
+                : ''
+            }
+          </h3>
+        </div>
+        <details>
+          <summary>
+            {
+              event.meta && event.meta.documentation
+                ? event.meta.documentation.join(' ')
+                : 'Details'
+            }
+          </summary>
+          <EventDisplay
+            className='details'
+            value={event}
+          />
+        </details>
+      </article>
     );
   }
 }
