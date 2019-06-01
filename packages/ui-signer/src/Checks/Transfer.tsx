@@ -19,7 +19,7 @@ import { ZERO_BALANCE } from './constants';
 type Props = I18nProps & {
   amount: BN | Compact,
   fees: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
+  balances_all?: DerivedBalances,
   recipientId: string,
   onChange: (fees: ExtraFees) => void
 };
@@ -38,16 +38,16 @@ export class Transfer extends React.PureComponent<Props, State> {
     isNoEffect: false
   };
 
-  static getDerivedStateFromProps ({ amount, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
+  static getDerivedStateFromProps ({ amount, balances_all = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = new BN(fees.transferFee);
 
-    if (balances_votingBalance.votingBalance.isZero()) {
+    if (balances_all.votingBalance.isZero()) {
       extraFees = extraFees.add(fees.creationFee);
     }
 
     const extraAmount = amount instanceof Compact ? amount.toBn() : new BN(amount);
-    const isCreation = balances_votingBalance.votingBalance.isZero() && fees.creationFee.gtn(0);
-    const isNoEffect = extraAmount.add(balances_votingBalance.votingBalance).lte(fees.existentialDeposit);
+    const isCreation = balances_all.votingBalance.isZero() && fees.creationFee.gtn(0);
+    const isNoEffect = extraAmount.add(balances_all.votingBalance).lte(fees.existentialDeposit);
     const extraWarn = isCreation || isNoEffect;
     const update = {
       extraAmount,
@@ -72,7 +72,16 @@ export class Transfer extends React.PureComponent<Props, State> {
       <>
         {
           isNoEffect
-            ? <div><Icon name='warning sign' />{t('The final recipient balance is less than the existential amount and will not be reflected')}</div>
+            ? <div>
+                <Icon name='warning sign' />
+                {t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected',
+                  {
+                    replace: {
+                      existentialDeposit: formatBalance(fees.existentialDeposit)
+                    }
+                  }
+                )}
+              </div>
             : undefined
         }
         {
@@ -93,6 +102,6 @@ export default withMulti(
   Transfer,
   translate,
   withCalls<Props>(
-    ['derive.balances.votingBalance', { paramName: 'recipientId' }]
+    ['derive.balances.all', { paramName: 'recipientId' }]
   )
 );
