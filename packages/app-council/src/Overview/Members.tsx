@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { AccountId, BlockNumber } from '@polkadot/types';
-import { Columns } from '@polkadot/ui-app';
+import { Columar, Column } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import translate from '../translate';
@@ -23,9 +23,8 @@ class Members extends React.PureComponent<Props> {
     const { council_activeCouncil = [], council_candidates = [], t } = this.props;
 
     return (
-      <Columns>
-        <div>
-          <h1>{t('council')}</h1>
+      <Columar>
+        <Column header={t('council')}>
           {this.renderNone(council_activeCouncil.map(([address, block]) => (
             <Member
               address={address}
@@ -33,17 +32,16 @@ class Members extends React.PureComponent<Props> {
               key={address}
             />
           )))}
-        </div>
-        <div>
-          <h1>{t('candidates')}</h1>
+        </Column>
+        <Column header={t('candidates')}>
           {this.renderNone(council_candidates.map((address) => (
             <Candidate
               address={address}
               key={address}
             />
           )))}
-        </div>
-      </Columns>
+        </Column>
+      </Columar>
     );
   }
 
@@ -52,7 +50,7 @@ class Members extends React.PureComponent<Props> {
 
     return items.length
       ? items
-      : <div>{t('No addresses found')}</div>;
+      : <article>{t('No addresses found')}</article>;
   }
 }
 
