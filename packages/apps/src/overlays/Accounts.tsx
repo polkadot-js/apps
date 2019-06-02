@@ -9,13 +9,12 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
-import { Icon } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
-import { Accounts as Wrapper, OverlayClose } from '../styles';
-
 import translate from '../translate';
+import BaseOverlay from './Base';
 
 type Props = I18nProps & ApiProps & {
   allAccounts?: SubjectInfo
@@ -49,7 +48,7 @@ class Accounts extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isApiReady } = this.props;
+    const { isApiReady, className } = this.props;
     const { isDismissed, hasAccounts } = this.state;
 
     if (!isApiReady || isDismissed || hasAccounts) {
@@ -57,9 +56,13 @@ class Accounts extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Wrapper>
+      <BaseOverlay
+        className={className}
+        icon='users'
+        onClose={this.dismiss}
+      >
         <Trans i18nKey='noAccounts'>
-          You have no accounts. Some features are currently hidden and will only become available once you have accounts.
+          You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.
           {' '}
           <Link
             to ='/accounts'
@@ -68,13 +71,7 @@ class Accounts extends React.PureComponent<Props, State> {
             Create an account now.
           </Link>
         </Trans>
-        <OverlayClose>
-          <Icon
-            name='close'
-            onClick={this.dismiss}
-          />
-        </OverlayClose>
-      </Wrapper>
+      </BaseOverlay>
     );
   }
 
@@ -84,7 +81,11 @@ class Accounts extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  Accounts,
+  styled(Accounts as any)`
+    .content {
+      background: #FFFACD;
+    }
+  `,
   translate,
   withApi,
   withObservable(accountObservable.subject, { propName: 'allAccounts' })

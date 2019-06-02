@@ -48,31 +48,3 @@ export const TopBar = styled.div`
     }
   }
 `;
-
-export const Overlay = styled.div`
-  bottom: 0;
-  left: 0;
-  line-height: 1.5em;
-  padding: 1em 5em;
-  position: fixed;
-  right: 0;
-  text-align: center;
-  z-index: 500;
-`;
-
-export const OverlayClose = styled.div`
-  cursor: pointer;
-  position: absolute;
-  right: 1em;
-  top: 1em;
-`;
-
-export const Connecting = styled(Overlay)`
-  background: red;
-  color: white;
-  opacity: 0.9;
-`;
-
-export const Accounts = styled(Overlay)`
-  background: #FFFACD;
-`;
