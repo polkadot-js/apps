@@ -51,7 +51,7 @@ export default styled(BaseOverlay)`
   z-index: 500;
 
   .content {
-    border-radius: 0.25rem 0.25rem 0 0;
+    border-radius: 0 0 0.25rem 0.25rem;
     display: flex;
     margin: 0 auto;
     max-width: 50rem;
