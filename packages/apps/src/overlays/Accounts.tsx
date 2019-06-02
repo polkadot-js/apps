@@ -9,27 +9,26 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
-import { Icon } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
-import { Accounts as Wrapper, OverlayClose } from '../styles';
-
 import translate from '../translate';
+import BaseOverlay from './Base';
 
 type Props = I18nProps & ApiProps & {
   allAccounts?: SubjectInfo
 };
 
 type State = {
-  isDismissed: boolean,
-  hasAccounts: boolean
+  hasAccounts: boolean,
+  isHidden: boolean
 };
 
 class Accounts extends React.PureComponent<Props, State> {
   state: State = {
-    isDismissed: false,
-    hasAccounts: false
+    hasAccounts: false,
+    isHidden: false
   };
 
   static getDerivedStateFromProps ({ allAccounts }: Props, prevState: State): State | null {
@@ -49,42 +48,43 @@ class Accounts extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isApiReady } = this.props;
-    const { isDismissed, hasAccounts } = this.state;
+    const { isApiReady, className, t } = this.props;
+    const { hasAccounts, isHidden } = this.state;
 
-    if (!isApiReady || isDismissed || hasAccounts) {
+    if (!isApiReady || hasAccounts || isHidden) {
       return null;
     }
 
     return (
-      <Wrapper>
+      <BaseOverlay
+        className={className}
+        icon='users'
+      >
         <Trans i18nKey='noAccounts'>
-          You have no accounts. Some features are currently hidden and will only become available once you have accounts.
+          You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.
           {' '}
           <Link
             to ='/accounts'
-            onClick={this.dismiss}
+            onClick={this.onClose}
           >
-            Create an account now.
+            {t('Create an account now.')}
           </Link>
         </Trans>
-        <OverlayClose>
-          <Icon
-            name='close'
-            onClick={this.dismiss}
-          />
-        </OverlayClose>
-      </Wrapper>
+      </BaseOverlay>
     );
   }
 
-  private dismiss = () => {
-    this.setState({ isDismissed: true });
+  private onClose = () => {
+    this.setState({ isHidden: true });
   }
 }
 
 export default withMulti(
-  Accounts,
+  styled(Accounts as any)`
+    background: #fff6cb;
+    border-color: #e7c000;
+    color: #6b5900;
+  `,
   translate,
   withApi,
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
