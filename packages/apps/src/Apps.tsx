@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/ui-app/types';
-import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from './constants';
 
 // this is disabled, Chrome + WASM memory leak makes it slow & laggy. If enabled
 // we also need to export the default as hot(Apps) (last line)
@@ -11,16 +10,16 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 
 import React from 'react';
 import store from 'store';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import { media } from '@polkadot/ui-app';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
 
 import ConnectingOverlay from './overlays/Connecting';
 import AccountsOverlay from './overlays/Accounts';
+import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
-
-import { Wrapper } from './styles';
 
 type Props = BareProps & {};
 
@@ -31,7 +30,23 @@ type State = {
   transition: SideBarTransition
 };
 
-class Apps extends React.Component<Props, State> {
+const Wrapper = styled.div`
+  align-items: stretch;
+  box-sizing: border-box;
+  display: flex;
+  min-height: 100vh;
+
+  header {
+    margin-bottom: 1.4rem;
+    text-align: center;
+
+    ${media.TABLET`
+      margin-bottom: 2rem;
+   `}
+  }
+`;
+
+export default class Apps extends React.Component<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -178,5 +193,3 @@ class Apps extends React.Component<Props, State> {
     }
   }
 }
-
-export default Apps;
