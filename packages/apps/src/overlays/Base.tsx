@@ -9,13 +9,25 @@ import { Icon } from '@polkadot/ui-app';
 type Props = {
   children: React.ReactNode,
   className?: string,
-  icon: string,
-  onClose?: () => void
+  icon: string
 };
 
-class BaseOverlay extends React.PureComponent<Props> {
+type State = {
+  isHidden: boolean
+};
+
+class BaseOverlay extends React.PureComponent<Props, State> {
+  state: State = {
+    isHidden: false
+  };
+
   render () {
-    const { children, className, icon, onClose } = this.props;
+    const { children, className, icon } = this.props;
+    const { isHidden } = this.state;
+
+    if (isHidden) {
+      return null;
+    }
 
     return (
       <div className={className}>
@@ -28,20 +40,23 @@ class BaseOverlay extends React.PureComponent<Props> {
           <div className='contentItem'>
             {children}
           </div>
-          {onClose && (
-            <Icon
-              className='closeIcon'
-              name='close'
-              onClick={onClose}
-            />
-          )}
+          <Icon
+            className='closeIcon'
+            name='close'
+            onClick={this.onClose}
+          />
         </div>
       </div>
     );
   }
+
+  private onClose = () => {
+    this.setState({ isHidden: true });
+  }
 }
 
 export default styled(BaseOverlay)`
+  border-bottom: 1px solid transparent;
   left: 0;
   line-height: 1.5em;
   padding: 0 2rem;
@@ -51,7 +66,6 @@ export default styled(BaseOverlay)`
   z-index: 500;
 
   .content {
-    border-radius: 0 0 0.25rem 0.25rem;
     display: flex;
     margin: 0 auto;
     max-width: 50rem;

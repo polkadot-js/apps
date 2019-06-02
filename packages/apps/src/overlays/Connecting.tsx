@@ -74,11 +74,9 @@ class Connecting extends React.PureComponent<Props> {
 
 export default withMulti(
   styled(Connecting)`
-    .content {
-      background: red;
-      color: white;
-      opacity: 0.9;
-    }
+    background: #ffe6e6;
+    border-color: #c00;
+    color: #4d0000;
   `,
   translate,
   withApi

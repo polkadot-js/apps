@@ -21,14 +21,14 @@ type Props = I18nProps & ApiProps & {
 };
 
 type State = {
-  isDismissed: boolean,
-  hasAccounts: boolean
+  hasAccounts: boolean,
+  isHidden: boolean
 };
 
 class Accounts extends React.PureComponent<Props, State> {
   state: State = {
-    isDismissed: false,
-    hasAccounts: false
+    hasAccounts: false,
+    isHidden: false
   };
 
   static getDerivedStateFromProps ({ allAccounts }: Props, prevState: State): State | null {
@@ -48,10 +48,10 @@ class Accounts extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isApiReady, className } = this.props;
-    const { isDismissed, hasAccounts } = this.state;
+    const { isApiReady, className, t } = this.props;
+    const { hasAccounts, isHidden } = this.state;
 
-    if (!isApiReady || isDismissed || hasAccounts) {
+    if (!isApiReady || hasAccounts || isHidden) {
       return null;
     }
 
@@ -59,32 +59,31 @@ class Accounts extends React.PureComponent<Props, State> {
       <BaseOverlay
         className={className}
         icon='users'
-        onClose={this.dismiss}
       >
         <Trans i18nKey='noAccounts'>
           You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.
           {' '}
           <Link
             to ='/accounts'
-            onClick={this.dismiss}
+            onClick={this.onClose}
           >
-            Create an account now.
+            {t('Create an account now.')}
           </Link>
         </Trans>
       </BaseOverlay>
     );
   }
 
-  private dismiss = () => {
-    this.setState({ isDismissed: true });
+  private onClose = () => {
+    this.setState({ isHidden: true });
   }
 }
 
 export default withMulti(
   styled(Accounts as any)`
-    .content {
-      background: #FFFACD;
-    }
+    background: #fff6cb;
+    border-color: #e7c000;
+    color: #6b5900;
   `,
   translate,
   withApi,
