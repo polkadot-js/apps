@@ -67,7 +67,7 @@ class Forgetting extends React.PureComponent<Props> {
       : undefined;
 
     return (
-      <Modal.Content className='forgetting-Address'>
+      <Modal.Content>
         <AddressRow
           isInline
           value={address || ''}
