@@ -9,6 +9,7 @@ import './InputAddress.css';
 
 import React from 'react';
 import store from 'store';
+import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createItem from '@polkadot/ui-keyring/options/item';
@@ -151,7 +152,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return (
       <Dropdown
-        className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
+        className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
         defaultValue={
           isMultiple || (value !== undefined)
             ? undefined
@@ -283,6 +284,19 @@ class InputAddress extends React.PureComponent<Props, State> {
 export { InputAddress };
 
 export default withMulti(
-  InputAddress,
+  styled(InputAddress)`
+    .ui.dropdown .text {
+      width: 100%;
+    }
+
+    .ui.search.selection.dropdown > input.search {
+      padding-left: 4rem;
+    }
+
+    &.hideAddress .ui--KeyPair .ui--KeyPair-address {
+      flex: 0;
+      max-width: 0;
+    }
+  `,
   withObservable(keyringOption.optionsSubject, { propName: 'optionsAll' })
 );
