@@ -73,7 +73,7 @@ class Connecting extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  styled(Connecting as any)`
+  styled(Connecting)`
     .content {
       background: red;
       color: white;
