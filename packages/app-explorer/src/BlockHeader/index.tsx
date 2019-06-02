@@ -9,18 +9,19 @@ import './BlockHeader.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { AddressMini } from '@polkadot/ui-app';
+import { AddressMini, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & {
   isSummary?: boolean,
   value?: HeaderExtended,
+  withExplorer?: boolean,
   withLink?: boolean
 };
 
 export default class BlockHeader extends React.PureComponent<Props> {
   render () {
-    const { isSummary, value, withLink = false } = this.props;
+    const { isSummary, value, withExplorer, withLink } = this.props;
 
     if (!value) {
       return null;
@@ -52,6 +53,11 @@ export default class BlockHeader extends React.PureComponent<Props> {
             ? undefined
             : this.renderDetails(value)
         }
+        {
+          withExplorer
+            ? <LinkPolkascan data={hashHex} type='block' />
+            : undefined
+        }
       </article>
     );
   }
@@ -63,19 +69,19 @@ export default class BlockHeader extends React.PureComponent<Props> {
       <div className='contains'>
         <div className='info'>
           <label>parentHash</label>
-          <div className='hash'>{
+          <span className='hash'>{
             blockNumber.gtn(1)
               ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
               : parentHex
-          }</div>
+          }</span>
         </div>
         <div className='info'>
           <label>extrinsicsRoot</label>
-          <div className='hash'>{extrinsicsRoot.toHex()}</div>
+          <span className='hash'>{extrinsicsRoot.toHex()}</span>
         </div>
         <div className='info'>
           <label>stateRoot</label>
-          <div className='hash'>{stateRoot.toHex()}</div>
+          <span className='hash'>{stateRoot.toHex()}</span>
         </div>
       </div>
     );

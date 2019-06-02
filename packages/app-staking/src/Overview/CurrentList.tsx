@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { Columns, Dropdown, FilterOverlay } from '@polkadot/ui-app';
+import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/ui-app';
 
 import translate from '../translate';
 import Address from './Address';
@@ -61,16 +61,14 @@ class CurrentList extends React.PureComponent<Props, State> {
             value={filter}
           />
         </FilterOverlay>
-        <Columns>
-          <div>
-            <h1>{t('validators')}</h1>
+        <Columar className='validator--ValidatorsList'>
+          <Column header={t('validators')}>
             {this.renderColumn(current, t('validator (stash)'))}
-          </div>
-          <div>
-            <h1>{t('next up')}</h1>
+          </Column>
+          <Column header={t('next up')}>
             {this.renderColumn(next, t('intention (stash)'))}
-          </div>
-        </Columns>
+          </Column>
+        </Columar>
       </div>
     );
   }
@@ -81,26 +79,22 @@ class CurrentList extends React.PureComponent<Props, State> {
 
     if (addresses.length === 0) {
       return (
-        <div>{t('no addresses found')}</div>
+        <article>{t('no addresses found')}</article>
       );
     }
 
-    return (
-      <div>
-        {addresses.map((address) => (
-          <Address
-            address={address}
-            balances={balances}
-            defaultName={defaultName}
-            key={address}
-            filter={filter}
-            lastAuthor={lastAuthor}
-            lastBlock={lastBlock}
-            recentlyOffline={recentlyOffline}
-          />
-        ))}
-      </div>
-    );
+    return addresses.map((address) => (
+      <Address
+        address={address}
+        balances={balances}
+        defaultName={defaultName}
+        key={address}
+        filter={filter}
+        lastAuthor={lastAuthor}
+        lastBlock={lastBlock}
+        recentlyOffline={recentlyOffline}
+      />
+    ));
   }
 
   private onChangeFilter = (filter: ValidatorFilter): void => {

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
-import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
@@ -21,7 +21,6 @@ import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   balances_fees?: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
   onClose: () => void,
   recipientId?: string,
   senderId?: string,

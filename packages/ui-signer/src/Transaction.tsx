@@ -32,11 +32,11 @@ class Transaction extends React.PureComponent<Props> {
       <>
         <Modal.Header>
           {section}.{method}
-          <label>{
+          <label><details><summary>{
             meta && meta.documentation
               ? meta.documentation.join(' ')
               : ''
-          }</label>
+          }</summary></details></label>
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           {this.renderAccount()}

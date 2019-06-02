@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
 import { Index } from '@polkadot/types';
 import { IExtrinsic } from '@polkadot/types/types';
-import { QueueTx, QueueTx$ExtrinsicAdd, TxCallback } from './Status/types';
+import { QueueTx, QueueTx$ExtrinsicAdd, TxCallback, TxFailedCallback } from './Status/types';
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
@@ -38,11 +38,12 @@ type Props = ApiProps & {
   isUnsigned?: boolean,
   label: React.ReactNode,
   onClick?: () => any,
-  onFailed?: TxCallback,
+  onFailed?: TxFailedCallback,
   onStart?: () => void,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
   params?: Array<any> | ConstructFn,
+  tooltip?: string,
   tx?: string,
   withSpinner?: boolean
 };
@@ -60,7 +61,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   } as State;
 
   render () {
-    const { accountId, className, icon, iconSize , isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label } = this.props;
+    const { accountId, className, icon, iconSize , isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
     const { isSending } = this.state;
     const needsAccount = isUnsigned
       ? false
@@ -69,6 +70,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     return (
       <Button
         className={className}
+        tooltip={tooltip}
         icon={icon}
         isBasic={isBasic}
         isDisabled={isSending || isDisabled || needsAccount}
@@ -119,7 +121,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     onClick && onClick();
   }
 
-  private onFailed = (result: SubmittableResult): void => {
+  private onFailed = (result: SubmittableResult | null): void => {
     const { onFailed } = this.props;
 
     this.setState({ isSending: false });

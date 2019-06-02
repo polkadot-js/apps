@@ -46,7 +46,7 @@ class Modules extends TxComponent<Props, State> {
 
   render () {
     const { t } = this.props;
-    const { isValid, key: { method, section }, params } = this.state;
+    const { isValid, key: { method, section, meta }, params } = this.state;
 
     return (
       <section className='storage--actionrow'>
@@ -55,6 +55,10 @@ class Modules extends TxComponent<Props, State> {
             defaultValue={this.defaultValue}
             label={t('selected state query')}
             onChange={this.onChangeKey}
+            help={
+              meta && meta.documentation
+              && meta.documentation.join(' ')
+            }
           />
           <Params
             key={`${section}.${method}:params` /* force re-render on change */}

@@ -337,6 +337,10 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
+    if (isFunction(txStartCb)) {
+      txStartCb();
+    }
+
     try {
       const unsubscribe = await extrinsicCall.apply(extrinsic, [...params, async (result: SubmittableResult) => {
         if (!result || !result.status) {
@@ -366,10 +370,6 @@ class Signer extends React.PureComponent<Props, State> {
             });
         }
       }]);
-
-      if (isFunction(txStartCb)) {
-        txStartCb();
-      }
     } catch (error) {
       console.error('makeExtrinsicCall: error:', error.message);
       queueSetTxStatus(id, 'error', {}, error);

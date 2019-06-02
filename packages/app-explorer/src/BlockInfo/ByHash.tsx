@@ -9,6 +9,7 @@ import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { EventRecord, SignedBlock } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
+import { Columar } from '@polkadot/ui-app';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';
@@ -34,11 +35,16 @@ class BlockByHash extends React.PureComponent<Props> {
     return (
       <>
         <header>
-          <BlockHeader value={chain_getHeader} />
+          <BlockHeader
+            value={chain_getHeader}
+            withExplorer
+          />
         </header>
-        <Extrinsics value={chain_getBlock.block.extrinsics} />
-        <Events value={system_events} />
-        <Logs value={chain_getHeader.digest.logs} />
+        <Columar>
+          <Extrinsics value={chain_getBlock.block.extrinsics} />
+          <Events value={system_events} />
+          <Logs value={chain_getHeader.digest.logs} />
+        </Columar>
       </>
     );
   }

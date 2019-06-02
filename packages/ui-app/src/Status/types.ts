@@ -27,6 +27,8 @@ export type SignerCallback = (id: number, isSigned: boolean) => void;
 
 export type TxCallback = (status: SubmittableResult) => void;
 
+export type TxFailedCallback = (status: SubmittableResult | null) => void;
+
 export type QueueTx = AccountInfo & {
   error?: Error,
   extrinsic?: SubmittableExtrinsic,
@@ -37,7 +39,7 @@ export type QueueTx = AccountInfo & {
   rpc: RpcMethod,
   signerCb?: SignerCallback,
   signerOptions?: SignatureOptions,
-  txFailedCb?: (status: SubmittableResult | null) => void,
+  txFailedCb?: TxFailedCallback,
   txSuccessCb?: TxCallback,
   txStartCb?: () => void,
   txUpdateCb?: TxCallback,
@@ -74,7 +76,7 @@ export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
   extrinsic: SubmittableExtrinsic,
   signerCb?: SignerCallback,
   signerOptions?: SignatureOptions,
-  txFailedCb?: TxCallback,
+  txFailedCb?: TxFailedCallback,
   txSuccessCb?: TxCallback,
   txStartCb?: () => void,
   txUpdateCb?: TxCallback,

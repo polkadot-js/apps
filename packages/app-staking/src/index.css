@@ -20,10 +20,6 @@
   }
 }
 
-.staking--Address-info {
-  text-align: right;
-
-  .staking--label {
-    margin: 0 2.25rem -0.75rem 0;
-  }
+.staking--accounts-info .staking--label {
+  margin: 0 2.25rem -0.75rem 0;
 }

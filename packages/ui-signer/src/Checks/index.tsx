@@ -33,7 +33,7 @@ type State = ExtraFees & {
 
 type Props = I18nProps & {
   balances_fees?: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
+  balances_all?: DerivedBalances,
   accountId?: string | null,
   extrinsic?: IExtrinsic | null,
   isSendable: boolean,
@@ -66,7 +66,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     overLimit: false
   };
 
-  static getDerivedStateFromProps ({ accountId, balances_votingBalance = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
@@ -91,9 +91,9 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
       .add(balances_fees.transactionByteFee.muln(txLength));
 
     const allTotal = extraAmount.add(allFees);
-    const hasAvailable = balances_votingBalance.freeBalance.gte(allTotal);
-    const isRemovable = balances_votingBalance.votingBalance.sub(allTotal).lte(balances_fees.existentialDeposit);
-    const isReserved = balances_votingBalance.freeBalance.isZero() && balances_votingBalance.reservedBalance.gtn(0);
+    const hasAvailable = balances_all.availableBalance.gtn(0);
+    const isRemovable = balances_all.votingBalance.sub(allTotal).lte(balances_fees.existentialDeposit);
+    const isReserved = balances_all.freeBalance.isZero() && balances_all.reservedBalance.gtn(0);
     const allWarn = extraWarn;
     const overLimit = txLength >= MAX_SIZE_BYTES;
 
@@ -121,7 +121,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, className, isSendable, t } = this.props;
+    const { accountId, balances_fees, className, isSendable, t } = this.props;
     const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved, overLimit } = this.state;
 
     if (!accountId) {
@@ -159,7 +159,16 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
         }
         {
           isRemovable && hasAvailable
-            ? <div><Icon name='ban' />{t('Submitting this transaction will drop the account balance to below the existential amount, which can result in the account being removed from the chain state associated funds burned.')}</div>
+            ? <div>
+                <Icon name='ban' />
+                {t('Submitting this transaction will drop the account balance to below the existential amount ({{existentialDeposit}}), which can result in the account being removed from the chain state and its associated funds burned.',
+                  {
+                    replace: {
+                      existentialDeposit: formatBalance(balances_fees && balances_fees.existentialDeposit)
+                    }
+                  }
+                )}
+              </div>
             : undefined
         }
         {this.renderTransfer()}
@@ -231,7 +240,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     'derive.balances.fees',
-    ['derive.balances.votingBalance', { paramName: 'accountId' }],
+    ['derive.balances.all', { paramName: 'accountId' }],
     ['query.system.accountNonce', { paramName: 'accountId' }]
   )(FeeDisplay)
 );
