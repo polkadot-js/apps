@@ -26,10 +26,16 @@ type State = {
 };
 
 class Overview extends React.PureComponent<Props, State> {
-  state: State = {
-    isCreateOpen: false,
-    isImportOpen: false
-  };
+  constructor (props: Props) {
+    super(props);
+    const { state = {} } = this.props.location;
+    const { isCreateOpen } = state;
+
+    this.state = {
+      isCreateOpen: isCreateOpen,
+      isImportOpen: false
+    };
+  }
 
   render () {
     const { accounts, onStatusChange, t } = this.props;

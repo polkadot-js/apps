@@ -5,6 +5,7 @@
 import { WithTranslation } from 'react-i18next';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { LocationDescriptorObject } from 'history';
 
 export type BareProps = {
   className?: string,
@@ -15,7 +16,7 @@ export type BareProps = {
 
 export type AppProps = {
   basePath: string,
-  location: Location,
+  location: LocationDescriptorObject,
   onStatusChange: (status: ActionStatus) => void
 };
 
