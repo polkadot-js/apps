@@ -2,19 +2,12 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-@keyframes fadein {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 header > .explorer--BlockHeader {
   border: none;
   box-shadow: none;
 }
 
 .explorer--BlockHeader {
-  animation: fadein 1s;
-
   .author {
     font-size: 1rem;
     text-align: right;
@@ -23,15 +16,6 @@ header > .explorer--BlockHeader {
     > .ui--AddressMini.padded {
       padding: 0;
     }
-  }
-
-  .header-outer {
-    padding: 0.5rem;
-    overflow: hidden;
-  }
-
-  .header-outer + details {
-    margin-top: -0.5rem;
   }
 
   .header {
@@ -74,6 +58,7 @@ header > .explorer--BlockHeader {
 
   .contains {
     border: 0;
+    margin-top: 0.5rem;
     text-align: center;
 
     > .info {
@@ -89,7 +74,7 @@ header > .explorer--BlockHeader {
       > label {
         display: inline-block;
       }
-      
+
       > span,
       > label {
         vertical-align: middle;

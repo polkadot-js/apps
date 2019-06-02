@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
-import { Dropdown, FilterOverlay } from '@polkadot/ui-app';
+import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/ui-app';
 
 import translate from '../translate';
 import Address from './Address';
@@ -48,7 +48,7 @@ class CurrentList extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { current, next, t } = this.props;
     const { filter, filterOptions } = this.state;
     return (
       <div>
@@ -61,43 +61,15 @@ class CurrentList extends React.PureComponent<Props, State> {
             value={filter}
           />
         </FilterOverlay>
-        <div className='validator--ValidatorsList ui--flex-medium'>
-          <div className='validator--current'>
-            {this.renderCurrent()}
-          </div>
-          <div className='validator--next'>
-            {this.renderNext()}
-          </div>
-        </div>
+        <Columar className='validator--ValidatorsList'>
+          <Column header={t('validators')}>
+            {this.renderColumn(current, t('validator (stash)'))}
+          </Column>
+          <Column header={t('next up')}>
+            {this.renderColumn(next, t('intention (stash)'))}
+          </Column>
+        </Columar>
       </div>
-    );
-  }
-
-  private renderCurrent () {
-    const { current, t } = this.props;
-
-    return (
-      <>
-        <h1>
-          {t('validators', {
-            replace: {
-              count: current.length
-            }
-          })}
-        </h1>
-        {this.renderColumn(current, t('validator (stash)'))}
-      </>
-    );
-  }
-
-  private renderNext () {
-    const { next, t } = this.props;
-
-    return (
-      <>
-        <h1>{t('next up')}</h1>
-        {this.renderColumn(next, t('intention (stash)'))}
-      </>
     );
   }
 
@@ -107,27 +79,24 @@ class CurrentList extends React.PureComponent<Props, State> {
 
     if (addresses.length === 0) {
       return (
-        <div>{t('no addresses found')}</div>
+        <article>{t('no addresses found')}</article>
       );
     }
 
-    return (
-      <div>
-        {addresses.map((address) => (
-          <Address
-            address={address}
-            balances={balances}
-            defaultName={defaultName}
-            key={address}
-            filter={filter}
-            lastAuthor={lastAuthor}
-            lastBlock={lastBlock}
-            recentlyOffline={recentlyOffline}
-          />
-        ))}
-      </div>
-    );
+    return addresses.map((address) => (
+      <Address
+        address={address}
+        balances={balances}
+        defaultName={defaultName}
+        key={address}
+        filter={filter}
+        lastAuthor={lastAuthor}
+        lastBlock={lastBlock}
+        recentlyOffline={recentlyOffline}
+      />
+    ));
   }
+
   private onChangeFilter = (filter: ValidatorFilter): void => {
     this.setState({ filter });
   }

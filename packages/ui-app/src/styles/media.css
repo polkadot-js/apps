@@ -30,6 +30,7 @@ th.ui--media-small {
 @media (min-width: 1281px) {
   .ui--flex-large {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .ui--media-large {
@@ -47,6 +48,7 @@ th.ui--media-small {
 @media (min-width: 1025px) {
   .ui--flex-medium {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .ui--media-medium {
@@ -64,6 +66,7 @@ th.ui--media-small {
 @media (min-width: 768px) {
   .ui--flex-small {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .ui--media-small {

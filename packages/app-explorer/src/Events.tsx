@@ -23,7 +23,7 @@ class Events extends React.PureComponent<Props> {
     const { emptyLabel, events, t } = this.props;
 
     if (!events || events.length === 0) {
-      return emptyLabel || t('no events available');
+      return <article>{emptyLabel || t('no events available')}</article>;
     }
 
     return events.map(this.renderEvent);
@@ -40,35 +40,33 @@ class Events extends React.PureComponent<Props> {
     }
 
     return (
-      <div
-        className={eventClassName}
+      <article
+        className={`explorer--Container ${eventClassName}`}
         key={key}
       >
-        <article className='explorer--Container'>
-          <div className='header'>
-            <h3>
-              {event.section}.{event.method}&nbsp;{
-                extIndex !== -1
-                  ? `(#${formatNumber(extIndex)})`
-                  : ''
-              }
-            </h3>
-          </div>
-          <details>
-            <summary>
-              {
-                event.meta && event.meta.documentation
-                  ? event.meta.documentation.join(' ')
-                  : 'Details'
-              }
-            </summary>
-            <EventDisplay
-              className='details'
-              value={event}
-            />
-          </details>
-        </article>
-      </div>
+        <div className='header'>
+          <h3>
+            {event.section}.{event.method}&nbsp;{
+              extIndex !== -1
+                ? `(#${formatNumber(extIndex)})`
+                : ''
+            }
+          </h3>
+        </div>
+        <details>
+          <summary>
+            {
+              event.meta && event.meta.documentation
+                ? event.meta.documentation.join(' ')
+                : 'Details'
+            }
+          </summary>
+          <EventDisplay
+            className='details'
+            value={event}
+          />
+        </details>
+      </article>
     );
   }
 }

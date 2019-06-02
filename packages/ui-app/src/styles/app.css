@@ -74,6 +74,7 @@ article {
   box-sizing: border-box;
   margin: 0.25rem;
   padding: 1.25rem 1.5rem;
+  position: relative;
   text-align: left;
 
   &:hover {

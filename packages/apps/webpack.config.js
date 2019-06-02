@@ -33,7 +33,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       `./src/${name}.tsx`,
       isProd
         ? null
-        : 'webpack-plugin-serve/client'
+        : null // 'webpack-plugin-serve/client'
     ].filter((entry) => entry),
     mode: ENV,
     output: {

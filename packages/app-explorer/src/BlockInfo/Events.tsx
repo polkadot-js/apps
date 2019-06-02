@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { EventRecord } from '@polkadot/types';
+import { Column } from '@polkadot/ui-app';
 
 import EventsDisplay from '../Events';
 import translate from '../translate';
@@ -27,15 +28,12 @@ class Events extends React.PureComponent<Props> {
     }));
 
     return (
-      <section>
-        <h1>{t('events')}</h1>
-        <div className='explorer--BlockByHash-flexable ui--flex-medium'>
-          <EventsDisplay
-            eventClassName='explorer--BlockByHash-block'
-            events={events}
-          />
-        </div>
-      </section>
+      <Column header={t('events')}>
+        <EventsDisplay
+          eventClassName='explorer--BlockByHash-block'
+          events={events}
+        />
+      </Column>
     );
   }
 }

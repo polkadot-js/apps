@@ -43,18 +43,14 @@ class BlockHeaders extends React.PureComponent<Props> {
   render () {
     const { headers = [] } = this.props;
 
-    return (
-      <div className='explorer--BlockHeaders'>
-        {headers.map((header, index) => (
-          <BlockHeader
-            isSummary={!!index}
-            key={header.blockNumber.toString()}
-            value={header}
-            withLink={!header.blockNumber.isZero()}
-          />
-        ))}
-      </div>
-    );
+    return headers.map((header, index) => (
+      <BlockHeader
+        isSummary={!!index}
+        key={header.blockNumber.toString()}
+        value={header}
+        withLink={!header.blockNumber.isZero()}
+      />
+    ));
   }
 }
 

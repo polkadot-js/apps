@@ -43,15 +43,6 @@ export default styled(Card)`
     }
   }
 
-  .ui--AddressSummary-buttons {
-    text-align: right;
-    margin-bottom: 2em;
-
-    button {
-      margin-left: 0.2em;
-    }
-  }
-
   @media (max-width: 2060px) {
     min-width: 32%;
     max-width: 32%;

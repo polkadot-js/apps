@@ -5,7 +5,6 @@
 export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
-export { default as AddressSummary } from './AddressSummary';
 export { default as Available } from './Available';
 export { default as Balance } from './Balance';
 export { default as Bonded } from './Bonded';
@@ -16,6 +15,8 @@ export { default as Card } from './Card';
 export { default as CardGrid } from './CardGrid';
 export { default as CardSummary } from './CardSummary';
 export { default as Chart } from './Chart';
+export { default as Columar } from './Columar';
+export { default as Column } from './Column';
 export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
 export { default as Dropdown } from './Dropdown';
