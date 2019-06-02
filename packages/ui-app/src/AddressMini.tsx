@@ -6,6 +6,7 @@ import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { OfflineStatus } from '@polkadot/app-staking/types';
 import { RecentlyOffline } from '@polkadot/ui-app';
@@ -28,7 +29,7 @@ type Props = BareProps & {
   withBonded?: boolean
 };
 
-export default class AddressMini extends React.PureComponent<Props> {
+class AddressMini extends React.PureComponent<Props> {
   render () {
     const { children, className, isPadded = true, style, value } = this.props;
 
@@ -128,3 +129,55 @@ export default class AddressMini extends React.PureComponent<Props> {
     );
   }
 }
+
+export default styled(AddressMini)`
+  display: inline-block;
+  padding: 0 0.25rem 0 1rem;
+  white-space: nowrap;
+
+  &.padded {
+    display: inline-block;
+    padding: 0.25rem 0 0 1rem;
+  }
+
+  &.summary {
+    position: relative;
+    top: -0.2rem;
+  }
+
+  .ui--AddressMini-address {
+    &.withAddr {
+      font-family: monospace;
+    }
+
+    &.withName {
+      text-align: right;
+      text-transform: uppercase;
+      min-width: 4em;
+    }
+  }
+
+  .ui--AddressMini-balances {
+    display: grid;
+  }
+
+  .ui--AddressMini-balances .ui--Bonded.result-bonded,
+  .ui--AddressMini-balances .ui--Bonded {
+    font-size: .75rem;
+    margin-right: 2.25rem;
+    margin-top: -.5rem;
+    text-align: right;
+  }
+
+  .ui--AddressMini-info,
+  .ui--IdentityIcon {
+    display: inline-block;
+    position:relative;
+    vertical-align: middle;
+  }
+
+  .ui--IdentityIcon {
+    margin-left: 0.5rem;
+    margin-right: 0;
+  }
+`;

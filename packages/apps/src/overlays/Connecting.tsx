@@ -6,12 +6,12 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import settings from '@polkadot/ui-settings';
 
-import { Connecting as Wrapper } from '../styles';
-
 import translate from '../translate';
+import BaseOverlay from './Base';
 
 type Props = I18nProps & ApiProps;
 // @ts-ignore
@@ -23,21 +23,24 @@ class Connecting extends React.PureComponent<Props> {
   }
 
   private renderExtension () {
-    const { isWaitingInjected, t } = this.props;
+    const { className, isWaitingInjected, t } = this.props;
 
     if (!isWaitingInjected) {
       return null;
     }
 
     return (
-      <Wrapper>
+      <BaseOverlay
+        className={className}
+        icon='puzzle'
+      >
         <div>{t('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
-      </Wrapper>
+      </BaseOverlay>
     );
   }
 
   private renderConnecting () {
-    const { isApiConnected, t } = this.props;
+    const { className, isApiConnected, t } = this.props;
 
     if (isApiConnected) {
       return null;
@@ -49,7 +52,10 @@ class Connecting extends React.PureComponent<Props> {
     const isHttps = window.location.protocol.indexOf('https:') === 0;
 
     return (
-      <Wrapper>
+      <BaseOverlay
+        className={className}
+        icon='globe'
+      >
         <div>{t('You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.')}</div>
         {
           isFirefox && isWs
@@ -61,13 +67,17 @@ class Connecting extends React.PureComponent<Props> {
             ? <div>{t(`You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.`, { replace: { wsUrl } })}</div>
             : undefined
         }
-      </Wrapper>
+      </BaseOverlay>
     );
   }
 }
 
 export default withMulti(
-  Connecting,
+  styled(Connecting)`
+    background: #ffe6e6;
+    border-color: #c00;
+    color: #4d0000;
+  `,
   translate,
   withApi
 );
