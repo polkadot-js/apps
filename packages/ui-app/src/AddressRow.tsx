@@ -485,7 +485,7 @@ export default withMulti(
 
     .ui--AddressRow-data {
       margin: 0;
-      padding: 0;
+      padding: 0.25rem 0 0;
       white-space: nowrap;
 
       * {
