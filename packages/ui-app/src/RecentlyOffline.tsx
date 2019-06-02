@@ -32,19 +32,10 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { className, inline, offline, tooltip = false, t } = this.props;
+    const { accountId, className, inline, offline, tooltip = false, t } = this.props;
     const { isOpen } = this.state;
-    const accountId = this.props.accountId.toString();
-
     const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
     const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
-
-    const tooltipData = {
-      'data-for': `offline-${accountId}`,
-      'data-tip': true,
-      'data-tip-disable': !tooltip
-    };
-
     const text = t('Reported offline {{count}} times, last at {{blockNumber}}', {
       replace: {
         count,
@@ -56,7 +47,9 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
       <div
         className={classes('ui--RecentlyOffline', isOpen && 'expand', tooltip && 'tooltip', inline && 'inline', className)}
         {...(!tooltip ? { onClick: this.toggleOpen } : {})}
-        {...tooltipData}
+        data-for={`offline-${accountId}`}
+        data-tip={true}
+        data-tip-disable={!tooltip}
       >
         <div className='badge'>
           {count.toString()}
