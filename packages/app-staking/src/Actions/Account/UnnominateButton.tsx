@@ -9,7 +9,7 @@ import { Button } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { AccountId, Vector } from '@polkadot/types';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & {
   accountId: string,

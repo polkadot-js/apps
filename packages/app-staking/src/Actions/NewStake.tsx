@@ -9,28 +9,23 @@ import { CalculateBalanceProps } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Button, Dropdown, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
-import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
-import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
+import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
+import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
-import ValidateController from './ValidateController';
+import ValidateController from './Account/ValidateController';
 
 type Props = I18nProps & ApiProps & CalculateBalanceProps & {
-  accountId: string,
-  controllerId?: string | null,
-  isOpen: boolean,
   onClose: () => void
 };
 
 type State = {
   bondValue?: BN,
   controllerError: string | null,
-  controllerId: string,
+  controllerId: string | null,
   destination: number,
   extrinsic: SubmittableExtrinsic | null,
-  maxBalance?: BN
+  stashId: string | null
 };
 
 const stashOptions = [
@@ -39,48 +34,26 @@ const stashOptions = [
   { text: 'Controller account', value: 2 }
 ];
 
-const ZERO = new BN(0);
-
-class Bond extends TxComponent<Props, State> {
+class NewStake extends TxComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
     super(props);
 
-    const { accountId, controllerId } = this.props;
-
     this.state = {
       controllerError: null,
-      controllerId: controllerId ? controllerId.toString() : accountId,
+      controllerId: null,
       destination: 0,
-      extrinsic: null
+      extrinsic: null,
+      stashId: null
     };
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
-    const { balances_fees } = this.props;
-    const { controllerId, destination, extrinsic } = this.state;
-
-    const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
-
-    if ((controllerId && prevState.controllerId !== controllerId) ||
-      (prevState.destination !== destination) ||
-      (balances_fees !== prevProps.balances_fees) ||
-      hasLengthChanged
-    ) {
-      this.setMaxBalance();
-    }
-  }
-
   render () {
-    const { accountId, isOpen, onClose, t } = this.props;
-    const { bondValue, controllerError, controllerId, extrinsic, maxBalance } = this.state;
-    const hasValue = !!bondValue && bondValue.gtn(0) && (!maxBalance || bondValue.lte(maxBalance));
+    const { onClose, t } = this.props;
+    const { bondValue, controllerError, controllerId, extrinsic, stashId } = this.state;
+    const hasValue = !!bondValue && bondValue.gtn(0);
     const canSubmit = hasValue && !controllerError && !!controllerId;
-
-    if (!isOpen) {
-      return null;
-    }
 
     return (
       <Modal
@@ -99,7 +72,7 @@ class Bond extends TxComponent<Props, State> {
             />
             <Button.Or />
             <TxButton
-              accountId={accountId}
+              accountId={stashId}
               isDisabled={!canSubmit}
               isPrimary
               label={t('Bond')}
@@ -114,8 +87,8 @@ class Bond extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, t } = this.props;
-    const { controllerId, controllerError, bondValue, destination, maxBalance } = this.state;
+    const { t } = this.props;
+    const { controllerId, controllerError, bondValue, destination, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
 
     return (
@@ -126,9 +99,10 @@ class Bond extends TxComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            defaultValue={accountId}
-            isDisabled
             label={t('stash account')}
+            onChange={this.onChangeStash}
+            type='account'
+            value={stashId}
           />
           <InputAddress
             className='medium'
@@ -140,19 +114,21 @@ class Bond extends TxComponent<Props, State> {
             value={controllerId}
           />
           <ValidateController
-            accountId={accountId}
+            accountId={stashId}
             controllerId={controllerId}
             onError={this.onControllerError}
           />
-          <InputBalance
+          <InputBalanceBonded
             autoFocus
             className='medium'
+            controllerId={controllerId}
+            destination={destination}
             help={t('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
             isError={!hasValue}
             label={t('value bonded')}
-            maxValue={maxBalance}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
+            stashId={stashId}
             withMax
           />
           <Dropdown
@@ -172,7 +148,7 @@ class Bond extends TxComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
       const { api } = this.props;
-      const { bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, maxBalance = prevState.maxBalance } = newState;
+      const { bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, stashId = prevState.stashId } = newState;
       const extrinsic = (bondValue && controllerId)
         ? api.tx.staking.bond(controllerId, bondValue, destination)
         : null;
@@ -183,40 +159,8 @@ class Bond extends TxComponent<Props, State> {
         controllerId,
         destination,
         extrinsic,
-        maxBalance
+        stashId
       };
-    });
-  }
-
-  private setMaxBalance = () => {
-    const { api, system_accountNonce = ZERO, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE } = this.props;
-    const { controllerId, destination } = this.state;
-
-    const { transactionBaseFee, transactionByteFee } = balances_fees;
-    const { freeBalance } = balances_all;
-
-    let prevMax = new BN(0);
-    let maxBalance = new BN(1);
-    let extrinsic;
-
-    while (!prevMax.eq(maxBalance)) {
-      prevMax = maxBalance;
-
-      extrinsic = controllerId && destination
-        ? api.tx.staking.bond(controllerId, prevMax, destination)
-        : null;
-
-      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
-
-      const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength));
-
-      maxBalance = new BN(freeBalance).sub(fees);
-    }
-
-    this.nextState({
-      extrinsic,
-      maxBalance
     });
   }
 
@@ -226,6 +170,10 @@ class Bond extends TxComponent<Props, State> {
 
   private onChangeDestination = (destination: number) => {
     this.nextState({ destination });
+  }
+
+  private onChangeStash = (stashId: string) => {
+    this.nextState({ stashId });
   }
 
   private onChangeValue = (bondValue?: BN) => {
@@ -238,12 +186,7 @@ class Bond extends TxComponent<Props, State> {
 }
 
 export default withMulti(
-  Bond,
+  NewStake,
   translate,
-  withApi,
-  withCalls<Props>(
-    'derive.balances.fees',
-    ['derive.balances.all', { paramName: 'accountId' }],
-    ['query.system.accountNonce', { paramName: 'accountId' }]
-  )
+  withApi
 );

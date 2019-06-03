@@ -3,28 +3,59 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ComponentProps } from './types';
+import { ComponentProps } from '../types';
 
 import React from 'react';
-import { CardGrid } from '@polkadot/ui-app';
+import { CardGrid, Button } from '@polkadot/ui-app';
+import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddrName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
-import createOption from '@polkadot/ui-keyring/options/item';
+import styled from 'styled-components';
 
 import Account from './Account';
-import translate from './translate';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
+import StartStaking from './NewStake';
+import translate from '../translate';
 
 type Props = I18nProps & ComponentProps;
 
-class Accounts extends React.PureComponent<Props> {
+type State = {
+  isNewStakeOpen: boolean
+};
+
+const Wrapper = styled(CardGrid) `
+  .ui--CardGrid-buttons {
+    text-align: center;
+  }
+`;
+
+class Accounts extends React.PureComponent<Props,State> {
+  state: State = {
+    isNewStakeOpen: false
+  };
+
   render () {
-    const { recentlyOffline } = this.props;
+    const { recentlyOffline, t } = this.props;
+    const { isNewStakeOpen } = this.state;
     const accounts = keyring.getAccounts();
     const stashOptions = this.getStashOptions();
 
     return (
-      <CardGrid>
+      <Wrapper
+        buttons={
+            <Button
+              isPrimary
+              label={t('New stake')}
+              onClick={this.toggleNewStake}
+              size='large'
+            />
+        }
+      >
+        {isNewStakeOpen && (
+          <StartStaking
+            onClose={this.toggleNewStake}
+          />
+        )}
         {accounts.map((account) => {
           const address = account.address();
 
@@ -37,8 +68,14 @@ class Accounts extends React.PureComponent<Props> {
             />
           );
         })}
-      </CardGrid>
+      </Wrapper>
     );
+  }
+
+  private toggleNewStake = (): void => {
+    this.setState(({ isNewStakeOpen }) => ({
+      isNewStakeOpen: !isNewStakeOpen
+    }));
   }
 
   private getStashOptions (): Array<KeyringSectionOption> {

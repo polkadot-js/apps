@@ -9,12 +9,12 @@ import { Icon } from '@polkadot/ui-app';
 import { AccountId, Option, StakingLedger } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & {
-  accountId: string,
+  accountId: string | null,
   bondedId?: string | null,
-  controllerId: string,
+  controllerId: string | null,
   onError: (error: string | null) => void,
   stashId?: string | null
 };
@@ -31,7 +31,7 @@ class ValidateController extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({ accountId, bondedId, controllerId, onError, stashId, t }: Props, prevState: State): State {
     const error = (() => {
       if (controllerId === accountId) {
-        return t('A controller account which is not the same as your selected account is required');
+        return t('Please select distinct stash and controller accounts');
       } else if (bondedId) {
         return t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
@@ -51,9 +51,10 @@ class ValidateController extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { accountId } = this.props;
     const { error } = this.state;
 
-    if (!error) {
+    if (!error || !accountId) {
       return null;
     }
 

@@ -9,7 +9,7 @@ import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & {
   accountId: string,

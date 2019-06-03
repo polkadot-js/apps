@@ -11,7 +11,7 @@ import { AccountId, Option, StakingLedger } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
   controllerId?: AccountId | null,

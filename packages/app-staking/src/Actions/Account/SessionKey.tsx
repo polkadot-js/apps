@@ -8,7 +8,7 @@ import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
 import ValidateSession from './ValidateSession';
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & {
   accountId: string,
