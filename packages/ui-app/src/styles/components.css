@@ -43,46 +43,6 @@ header .ui--Button-Group {
   margin: 0;
 }
 
-.ui--AddressMini {
-  display: inline-block;
-  padding: 0 0.25rem 0 1rem;
-  white-space: nowrap;
-
-  &.padded {
-    display: inline-block;
-    padding: 0.25rem 0 0 1rem;
-  }
-
-  &.summary {
-    position: relative;
-    top: -0.2rem;
-  }
-
-  .ui--AddressMini-info,
-  .ui--IdentityIcon {
-    display: inline-block;
-    position:relative;
-    vertical-align: middle;
-  }
-
-  .ui--IdentityIcon {
-    margin-left: 0.5rem;
-    margin-right: 0;
-  }
-}
-
-.ui--AddressMini-address {
-  &.withAddr {
-    font-family: monospace;
-  }
-
-  &.withName {
-    text-align: right;
-    text-transform: uppercase;
-    min-width: 4em;
-  }
-}
-
 button.ui.icon.iconButton {
   padding: 0em .3em .3em .3em !important;
   color: #2e86ab  !important;
@@ -95,59 +55,6 @@ button.ui.icon.iconButton {
 
 .editable {
   cursor: pointer;
-}
-
-.ui--AddressMini-balances {
-  display: grid;
-}
-
-.ui--AddressMini-balances .ui--Bonded.result-bonded,
-.ui--AddressMini-balances .ui--Bonded {
-  font-size: .75rem;
-  margin-right: 2.25rem;
-  margin-top: -.5rem;
-  text-align: right;
-}
-
-.ui--Bubble.ui.label {
-  font-weight: normal;
-  margin: 0.25rem;
-  padding: 0;
-
-  * {
-    vertical-align: middle;
-  }
-
-  .ui--Bubble-children,
-  .ui--Bubble-header {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  .ui--Bubble-children {
-    padding: 0 0.75rem 0 0;
-  }
-
-  .ui--Bubble-header {
-    background: rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
-    border-radius: .28571429rem 0 0 .28571429rem;
-    height: 2.75rem;
-    margin-right: 0.75rem;
-    padding: 0 0.75rem;
-    text-align: center;
-    vertical-align: middle;
-
-    > div {
-      display: inline-block;
-      line-height: 2.75rem !important;
-      vertical-align: middle;
-    }
-
-    > .text {
-      padding: 0 0 0 0.25rem;
-    }
-  }
 }
 
 .ui--DropdownLinked.ui--row {
@@ -212,60 +119,6 @@ button.ui.icon.iconButton {
 
   .label {
     color: rgba(0, 0, 0, .6);
-  }
-}
-
-.ui--RecentlyOffline {
-  position: absolute;
-  font-size: 12px;
-  cursor: help;
-  display: flex;
-  justify-content: center;
-  left: 1rem;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  background: red;
-  color: #eee;
-  border-radius: 16px;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  top: 1rem;
-  transition: all ease .2s;
-
-  & > * {
-    line-height: 22px;
-    overflow: hidden;
-    transition: all ease 0.25;
-  }
-
-  .badge {
-    font-weight: bold;
-    width: auto;
-  }
-
-  .detail {
-    width: 0;
-  }
-
-  &.expand {
-    width: 300px;
-
-    .badge {
-      width: 0;
-    }
-
-    .detail {
-      width: auto;
-    }
-  }
-
-  &.inline {
-    position: absolute;
-    left: auto;
-    right: -2.75rem;
-    top: -1rem;
-    z-index: 1;
   }
 }
 
