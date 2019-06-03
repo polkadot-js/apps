@@ -80,7 +80,7 @@ class Accounts extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  styled(Accounts as any)`
+  styled(Accounts as React.ComponentClass<Props>)`
     background: #fff6cb;
     border-color: #e7c000;
     color: #6b5900;

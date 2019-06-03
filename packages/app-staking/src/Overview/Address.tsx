@@ -233,8 +233,7 @@ class Address extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  // HACK any here since getDerivedStateFromProps is problematic
-  styled(Address as any)`
+  styled(Address as React.ComponentClass<Props>)`
     .blockNumber {
       background: #3f3f3f;
       border-radius: 0.25rem;
