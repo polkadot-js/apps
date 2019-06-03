@@ -5,6 +5,8 @@
 import { WithTranslation } from 'react-i18next';
 import { RpcRxInterface } from '@polkadot/rpc-rx/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
+// location props passed by react-router from a link can contain a "state" object
+// this is used for Account creation link to popup the account creation modal
 import { LocationDescriptorObject } from 'history';
 
 export type BareProps = {

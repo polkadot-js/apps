@@ -28,11 +28,11 @@ type State = {
 class Overview extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
-    const { state = {} } = this.props.location;
-    const { isCreateOpen } = state;
+
+    const { state : { isCreateOpen = false } = {} } = this.props.location;
 
     this.state = {
-      isCreateOpen: isCreateOpen,
+      isCreateOpen,
       isImportOpen: false
     };
   }
