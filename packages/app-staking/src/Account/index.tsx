@@ -5,7 +5,7 @@
 import { RecentlyOfflineMap } from '../types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { DerivedBalances, DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
@@ -23,7 +23,6 @@ import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
-  balances: DerivedBalancesMap,
   isValidator: boolean,
   recentlyOffline: RecentlyOfflineMap,
   balances_all?: DerivedBalances,
