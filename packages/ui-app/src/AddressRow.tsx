@@ -414,7 +414,7 @@ export {
 };
 
 export default withMulti(
-  styled(AddressRow as any)`
+  styled(AddressRow as React.ComponentClass<Props>)`
     text-align: left;
 
     &.inline {

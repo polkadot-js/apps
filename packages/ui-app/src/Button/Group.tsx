@@ -35,7 +35,7 @@ class ButtonGroup extends React.PureComponent<GroupProps> {
 
 (ButtonGroup as GroupType).Divider = Divider;
 
-export default styled(ButtonGroup as GroupType)`
+export default styled(ButtonGroup)`
   text-align: right;
 
   :not(:first-child) {
@@ -46,4 +46,4 @@ export default styled(ButtonGroup as GroupType)`
     margin-bottom: 0.5rem;
     text-align: center;
   }
-`;
+` as any as GroupType;

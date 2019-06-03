@@ -9,8 +9,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 
-import './style.css';
-
 type Props = BareProps & {
   code: string,
   isValid?: boolean,

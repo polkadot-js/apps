@@ -13,8 +13,6 @@ import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
-import './index.css';
-
 import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';

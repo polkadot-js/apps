@@ -3,9 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
-import { BareProps } from '../types';
-
-import './InputAddress.css';
+import { BareProps } from './types';
 
 import React from 'react';
 import store from 'store';
@@ -15,9 +13,9 @@ import keyringOption from '@polkadot/ui-keyring/options';
 import createItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
-import Dropdown from '../Dropdown';
-import { classes, getAddrName } from '../util';
-import addressToAddress from '../util/toAddress';
+import Dropdown from './Dropdown';
+import { classes, getAddrName } from './util';
+import addressToAddress from './util/toAddress';
 
 type Props = BareProps & {
   defaultValue?: string | null,
