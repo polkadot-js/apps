@@ -54,8 +54,8 @@ export default styled(CardGrid)`
     }
 
     @media (max-width: 1580px) {
-        min-width: 49%;
-        max-width: 49%;
+      min-width: 49%;
+      max-width: 49%;
     }
 
     @media (max-width: 1100px) {
