@@ -64,7 +64,7 @@ class Accounts extends React.PureComponent<Props, State> {
           You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.
           {' '}
           <Link
-            to ='/accounts'
+            to = {{ pathname: '/accounts', state: { isCreateOpen: true } }}
             onClick={this.onClose}
           >
             {t('Create an account now.')}
