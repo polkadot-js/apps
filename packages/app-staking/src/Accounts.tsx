@@ -8,7 +8,6 @@ import { ComponentProps } from './types';
 import React from 'react';
 import { CardGrid } from '@polkadot/ui-app';
 import { getAddrName } from '@polkadot/ui-app/util';
-import keyring from '@polkadot/ui-keyring';
 import createOption from '@polkadot/ui-keyring/options/item';
 
 import Account from './Account';
@@ -19,20 +18,17 @@ type Props = I18nProps & ComponentProps;
 
 class Accounts extends React.PureComponent<Props> {
   render () {
-    const { recentlyOffline, validators } = this.props;
-    const accounts = keyring.getAccounts();
+    const { recentlyOffline, stashes } = this.props;
     const stashOptions = this.getStashOptions();
 
     return (
       <CardGrid>
-        {accounts.map((account) => {
-          const address = account.address();
+        {stashes.map((account) => {
 
           return (
             <Account
-              accountId={address}
-              isValidator={validators.includes(address)}
-              key={address}
+              accountId={account}
+              key={account}
               recentlyOffline={recentlyOffline}
               stashOptions={stashOptions}
             />

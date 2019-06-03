@@ -23,7 +23,6 @@ import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
-  isValidator: boolean,
   recentlyOffline: RecentlyOfflineMap,
   balances_all?: DerivedBalances,
   staking_info?: DerivedStaking,
