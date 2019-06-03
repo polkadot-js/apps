@@ -24,7 +24,7 @@ class Members extends React.PureComponent<Props> {
 
     return (
       <Columar>
-        <Column header={t('council')}>
+        <Column header={t('members')}>
           {this.renderNone(council_activeCouncil.map(([address, block]) => (
             <Member
               address={address}
