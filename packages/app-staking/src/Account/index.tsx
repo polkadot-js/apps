@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountFilter, RecentlyOfflineMap } from '../types';
+import { RecentlyOfflineMap } from '../types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DerivedBalances, DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
@@ -24,7 +24,6 @@ import Validating from './Validating';
 type Props = ApiProps & I18nProps & {
   accountId: string,
   balances: DerivedBalancesMap,
-  filter: AccountFilter,
   isValidator: boolean,
   recentlyOffline: RecentlyOfflineMap,
   balances_all?: DerivedBalances,
@@ -95,12 +94,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, filter } = this.props;
-    const { controllerId, isActiveController, isActiveStash, stashId } = this.state;
-
-    if ((filter === 'controller' && isActiveController) || (filter === 'stash' && isActiveStash) || (filter === 'unbonded' && (controllerId || stashId))) {
-      return null;
-    }
+    const { accountId } = this.props;
 
     // Each component is rendered and gets a `is[Component]Openwill` passed in a `isOpen` props.
     // These components will be loaded and return null at the first load (because is[Component]Open === false).
