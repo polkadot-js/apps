@@ -10,7 +10,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
-import { AddressInfo, AddressMini, AddressRow, Button, Card, TxButton } from '@polkadot/ui-app';
+import styled from 'styled-components';
+import { AddressRow, Button, Card, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import Bond from './Bond';
@@ -23,7 +24,6 @@ import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
-  isValidator: boolean,
   recentlyOffline: RecentlyOfflineMap,
   balances_all?: DerivedBalances,
   staking_info?: DerivedStaking,
@@ -48,6 +48,20 @@ type State = {
   stashId: string | null,
   validatorPrefs?: ValidatorPrefs
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .staking--Account-detail {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .staking--Account-detail  .staking--label {
+    margin: .5rem 1.75rem -0.5rem 4.5rem;
+  }
+`;
 
 function toIdString (id?: AccountId | null): string | null {
   return id
@@ -93,9 +107,13 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId } = this.props;
+    const { isActiveStash } = this.state;
 
-    // Each component is rendered and gets a `is[Component]Openwill` passed in a `isOpen` props.
+    if (!isActiveStash) {
+      return null;
+    }
+
+    // Each component is rendered and gets a `is[Component]Open` passed in a `isOpen` props.
     // These components will be loaded and return null at the first load (because is[Component]Open === false).
     // This is deliberate in order to display the Component modals in a performant matter later on
     // because their state will already be loaded.
@@ -107,22 +125,12 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderSessionKey()}
         {this.renderUnbond()}
         {this.renderValidating()}
-        <AddressRow
-          buttons={this.renderButtons()}
-          value={accountId}
-        >
-          <AddressInfo
-            withBalance
-            value={accountId}
-          >
-            <div className='staking--Account-links'>
-              {this.renderControllerId()}
-              {this.renderStashId()}
-              {this.renderSessionId()}
-              {this.renderNominee()}
-            </div>
-          </AddressInfo>
-        </AddressRow>
+        <Wrapper>
+          {this.renderStashId()}
+          {this.renderControllerId()}
+          {this.renderSessionId()}
+          {this.renderNominee()}
+        </Wrapper>
       </Card>
     );
   }
@@ -217,7 +225,7 @@ class Account extends React.PureComponent<Props, State> {
         <label className='staking--label'>{t('nominating')}</label>
         {
           nominators.map((nomineeId, index) => (
-            <AddressMini
+            <AddressRow
               key={index}
               value={nomineeId}
               offlineStatus={recentlyOffline[nomineeId.toString()]}
@@ -231,19 +239,18 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderControllerId () {
-    const { recentlyOffline, t } = this.props;
-    const { controllerId, isActiveController } = this.state;
+    const { t } = this.props;
+    const { controllerId } = this.state;
 
-    if (!controllerId || isActiveController) {
+    if (!controllerId) {
       return null;
     }
 
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('controller')}</label>
-        <AddressMini
+        <AddressRow
           value={controllerId}
-          offlineStatus={recentlyOffline[controllerId]}
         />
       </div>
     );
@@ -251,34 +258,29 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderSessionId () {
     const { t } = this.props;
-    const { isActiveSession, sessionId } = this.state;
+    const { sessionId } = this.state;
 
-    if (!sessionId || isActiveSession) {
+    if (!sessionId) {
       return null;
     }
 
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('session')}</label>
-        <AddressMini value={sessionId} />
+        <AddressRow value={sessionId} />
       </div>
     );
   }
 
   private renderStashId () {
-    const { recentlyOffline, t } = this.props;
-    const { isActiveStash, stashId } = this.state;
-
-    if (!stashId || isActiveStash) {
-      return null;
-    }
+    const { accountId, recentlyOffline, t } = this.props;
 
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('stash')}</label>
-        <AddressMini
-          value={stashId}
-          offlineStatus={recentlyOffline[stashId]}
+        <AddressRow
+          value={accountId}
+          offlineStatus={recentlyOffline[accountId]}
           withBalance={false}
           withBonded
         />

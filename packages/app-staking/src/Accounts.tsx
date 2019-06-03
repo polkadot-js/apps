@@ -19,7 +19,7 @@ type Props = I18nProps & ComponentProps;
 
 class Accounts extends React.PureComponent<Props> {
   render () {
-    const { recentlyOffline, validators } = this.props;
+    const { recentlyOffline } = this.props;
     const accounts = keyring.getAccounts();
     const stashOptions = this.getStashOptions();
 
@@ -31,7 +31,6 @@ class Accounts extends React.PureComponent<Props> {
           return (
             <Account
               accountId={address}
-              isValidator={validators.includes(address)}
               key={address}
               recentlyOffline={recentlyOffline}
               stashOptions={stashOptions}
