@@ -17,25 +17,27 @@ import keyring from '@polkadot/ui-keyring';
 import AddressInfo, { BalanceActiveType } from './AddressInfo';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
-import LinkPolkascan from './LinkPolkascan';
 import translate from './translate';
 import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
 
-export type Props = I18nProps & {
-  accounts_idAndIndex?: [AccountId?, AccountIndex?],
+export type RowProps = {
   bonded?: BN | Array<BN>,
   buttons?: React.ReactNode,
   children?: React.ReactNode,
+  className?: string,
   defaultName?: string,
   extraInfo?: React.ReactNode,
   isEditable?: boolean,
   isInline?: boolean,
   value: AccountId | AccountIndex | Address | string | null,
   withBalance?: boolean | BalanceActiveType,
-  withExplorer?: boolean,
   withIcon?: boolean,
   withIndex?: boolean,
   withTags?: boolean
+};
+
+type Props = I18nProps & RowProps & {
+  accounts_idAndIndex?: [AccountId?, AccountIndex?]
 };
 
 type State = {
@@ -100,19 +102,16 @@ class AddressRow extends React.PureComponent<Props, State> {
       >
         <div className='ui--AddressRow-base'>
           {this.renderIcon()}
-          {this.renderButtons()}
           <div className='ui--AddressRow-details'>
-            <div className='ui--AddressRow-data'>
-              {this.renderName()}
-              {this.renderAddress()}
-              {this.renderAccountIndex()}
-            </div>
+            {this.renderName()}
+            {this.renderAddress()}
+            {this.renderAccountIndex()}
             {this.renderBalances()}
             {this.renderTags()}
           </div>
+          {this.renderButtons()}
         </div>
         {this.renderChildren()}
-        {this.renderExplorer()}
       </div>
     );
   }
@@ -157,24 +156,6 @@ class AddressRow extends React.PureComponent<Props, State> {
     return buttons
       ? <div className='ui--AddressRow-buttons'>{buttons}</div>
       : null;
-  }
-
-  protected renderExplorer () {
-    const { value, withExplorer } = this.props;
-
-    if (!withExplorer) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressRow-explorer'>
-        <LinkPolkascan
-          className='polkascan'
-          data={value}
-          type='address'
-        />
-      </div>
-    );
   }
 
   protected renderName () {
@@ -414,7 +395,7 @@ export {
 };
 
 export default withMulti(
-  styled(AddressRow as any)`
+  styled(AddressRow as React.ComponentClass<Props>)`
     text-align: left;
 
     &.inline {
@@ -473,9 +454,9 @@ export default withMulti(
     }
 
     .ui--AddressRow-buttons {
-      position: absolute;
-      right: 0.75rem;
-      top: 0.75rem;
+      flex: 0;
+      margin: -0.75rem -0.75rem 0 0;
+      white-space: nowrap;
     }
 
     .ui--AddressRow-children {
@@ -483,32 +464,18 @@ export default withMulti(
       padding-top: 1rem;
     }
 
-    .ui--AddressRow-data {
-      margin: 0;
+    .ui--AddressRow-details {
+      flex: 1;
+      margin-right: 1rem;
       padding: 0.25rem 0 0;
-      white-space: nowrap;
 
       * {
         vertical-align: middle;
       }
     }
 
-    .ui--AddressRow-details {
-      white-space: nowrap;
-    }
-
-    .ui--AddressRow-explorer {
-      content: ' ';
-      margin-top: 1rem;
-
-      .polkascan {
-        position: absolute;
-        bottom: 0.75rem;
-        right: 1rem;
-      }
-    }
-
     .ui--AddressRow-icon {
+      flex: 0;
       margin-right: 1em;
     }
 
@@ -520,7 +487,6 @@ export default withMulti(
       text-overflow: ellipsis;
       text-transform: uppercase;
       white-space: normal;
-      width: 17rem;
     }
 
     .ui--AddressRow-name-input {

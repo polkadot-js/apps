@@ -8,7 +8,7 @@ import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { Option, StakingLedger } from '@polkadot/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
@@ -94,7 +94,7 @@ class BondEdit extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { stashId, t } = this.props;
+    const { controllerId, stashId, t } = this.props;
     const { maxBalance } = this.state;
 
     return (
@@ -109,14 +109,15 @@ class BondEdit extends TxComponent<Props, State> {
             isDisabled
             label={t('stash account')}
           />
-          <InputBalance
+          <InputBalanceBonded
             autoFocus
             className='medium'
+            controllerId={controllerId}
             help={t('The new amount to be bonded, this is adjusted using the available free funds on the account. Any unbonded funds will be available after the bonding period.')}
             label={t('new bonded amount')}
-            maxValue={maxBalance}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
+            stashId={stashId}
             withMax
           />
         </Modal.Content>

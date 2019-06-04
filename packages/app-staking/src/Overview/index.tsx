@@ -6,8 +6,6 @@ import { Balance } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
-import './index.css';
-
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';

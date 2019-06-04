@@ -11,7 +11,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressRow, Button, Card, TxButton, AddressInfo } from '@polkadot/ui-app';
+import { AddressInfo, AddressRow, Button, Card, TxButton} from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import BondEdit from './BondEdit';
@@ -239,8 +239,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('nominating')}</label>
-        {
-          nominators.map((nomineeId, index) => (
+        {nominators.map((nomineeId, index) => (
             <AddressRow
               key={index}
               value={nomineeId}
@@ -248,8 +247,7 @@ class Account extends React.PureComponent<Props, State> {
               withBalance={false}
               withBonded
             />
-          ))
-        }
+          ))}
       </div>
     );
   }

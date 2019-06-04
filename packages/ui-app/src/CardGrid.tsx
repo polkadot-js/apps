@@ -25,6 +25,8 @@ class CardGrid extends React.PureComponent<Props> {
         <div className='ui--CardGrid-grid'>
           {children}
           <div className='ui--CardGrid-spacer' />
+          <div className='ui--CardGrid-spacer' />
+          <div className='ui--CardGrid-spacer' />
         </div>
       </div>
     );
@@ -38,8 +40,15 @@ export default styled(CardGrid)`
 
     > .ui--CardGrid-spacer {
       flex: 1 1;
-      margin: .25rem;
-      padding: 1rem 1.5rem;
+      margin: 0.25rem;
+      padding: 0 1.5rem;
     }
+  }
+
+  .ui--Card,
+  .ui--CardGrid-spacer {
+    flex: 1 1;
+    min-width: 35rem;
+    max-width: 71rem;
   }
 `;
