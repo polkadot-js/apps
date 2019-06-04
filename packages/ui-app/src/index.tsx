@@ -54,6 +54,7 @@ export { default as Static } from './Static';
 export { default as Status } from './Status';
 export { default as SummaryBox } from './SummaryBox';
 export { default as Tabs } from './Tabs';
+export { default as Toggle } from './Toggle';
 export { default as Tooltip } from './Tooltip';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';

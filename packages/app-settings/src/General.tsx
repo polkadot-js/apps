@@ -7,7 +7,7 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Input } from '@polkadot/ui-app';
+import { Button, Dropdown, Input, Toggle } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 
@@ -22,23 +22,6 @@ type State = {
   isUrlValid: boolean,
   settings: SettingsStruct
 };
-
-const Wrapper = styled.div`
-  .ui.menu {
-    justify-content: flex-end;
-    margin-bottom: 0;
-
-    .active.item {
-      font-weight: bold;
-    }
-  }
-
-  .sub-label {
-    cursor: pointer;
-    padding: 0rem .5833rem;
-    text-align: right;
-  }
-`;
 
 class General extends React.PureComponent<Props, State> {
   constructor (props: Props) {
@@ -57,11 +40,11 @@ class General extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { className, t } = this.props;
     const { isUrlValid, settings: { i18nLang, uiMode, uiTheme } } = this.state;
 
     return (
-      <Wrapper>
+      <div className={className}>
         {this.renderEndpoint()}
         <div className='ui--row'>
           <div className='medium'>
@@ -101,7 +84,7 @@ class General extends React.PureComponent<Props, State> {
             label={t('Save & Reload')}
           />
         </Button.Group>
-      </Wrapper>
+      </div>
     );
   }
 
@@ -111,20 +94,12 @@ class General extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <Button.Group isBasic>
-          <Button
-            isBasic
-            isNegative={!isCustomNode}
-            label={t('preset')}
-            onClick={this.toggleCustomNode}
-          />
-          <Button
-            isBasic
-            isNegative={isCustomNode}
-            label={t('custom')}
-            onClick={this.toggleCustomNode}
-          />
-        </Button.Group>
+        <Toggle
+          className='settings--cutomToggle'
+          defaultValue={isCustomNode}
+          label={t('custom endpoint')}
+          onChange={this.onChangeCustom}
+        />
         <div className='ui--row'>
           {
             isCustomNode
@@ -178,22 +153,17 @@ class General extends React.PureComponent<Props, State> {
     }));
   }
 
-  private toggleCustomNode = (): void => {
-    this.setState(({ isCustomNode, settings }: State) => {
-      // reset URL to a preset when toggled to preset
-      const apiUrl = isCustomNode
-        ? uiSettings.availableNodes[0].value
-        : settings.apiUrl;
-
-      return {
-        isCustomNode: !isCustomNode,
-        isUrlValid: true,
-        settings: {
-          ...settings,
-          apiUrl
-        }
-      };
-    });
+  private onChangeCustom = (isCustomNode: boolean): void => {
+    this.setState(({ settings }: State) => ({
+      isCustomNode,
+      isUrlValid: true,
+      settings: {
+        ...settings,
+        apiUrl: isCustomNode
+          ? settings.apiUrl
+          : uiSettings.availableNodes[0].value
+      }
+    }));
   }
 
   private isValidUrl (apiUrl: string): boolean {
@@ -215,4 +185,23 @@ class General extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(General);
+export default translate(styled(General)`
+  .settings--cutomToggle {
+    text-align: right;
+  }
+
+  .ui.menu {
+    justify-content: flex-end;
+    margin-bottom: 0;
+
+    .active.item {
+      font-weight: bold;
+    }
+  }
+
+  .sub-label {
+    cursor: pointer;
+    padding: 0rem .5833rem;
+    text-align: right;
+  }
+`);
