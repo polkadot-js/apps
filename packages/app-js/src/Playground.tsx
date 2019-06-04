@@ -70,7 +70,9 @@ class Playground extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    this.snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+    this.snippets.forEach((snippet) => {
+      snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`;
+    });
 
     this.state = {
       animated: true,
@@ -362,8 +364,8 @@ class Playground extends React.PureComponent<Props, State> {
     const existingSelection = document.getSelection()!;
 
     const selected = existingSelection && existingSelection.rangeCount > 0
-        ? existingSelection.getRangeAt(0)
-        : undefined;
+      ? existingSelection.getRangeAt(0)
+      : undefined;
 
     el.select();
     document.execCommand('copy');
@@ -381,6 +383,6 @@ class Playground extends React.PureComponent<Props, State> {
 export default withMulti(
   Playground,
   translate,
-  withApi,
-  withRouter
+  withRouter,
+  withApi
 );
