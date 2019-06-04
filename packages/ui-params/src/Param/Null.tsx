@@ -17,6 +17,6 @@ export default class Null extends React.PureComponent<Props> {
   }
 
   render () {
-    return 'null goes here';
+    return null;
   }
 }

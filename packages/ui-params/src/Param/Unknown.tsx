@@ -2,40 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithTranslation } from 'react-i18next';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
-import { Static } from '@polkadot/ui-app';
-import translate from '@polkadot/ui-app/translate';
 
-import Bare from './Bare';
 import BaseBytes from './BaseBytes';
+import Static from './Static';
 
-type Props = BareProps & WithTranslation & {
+type Props = BareProps & {
   defaultValue: RawParam,
   withLabel?: boolean
 };
 
-class Unknown extends React.PureComponent<Props> {
+export default class Unknown extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, t, type } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type } = this.props;
 
     if (isDisabled) {
-      const value = defaultValue && defaultValue.value && defaultValue.value.toString();
-
-      return (
-        <Bare
-          className={className}
-          style={style}
-        >
-          <Static
-            className='full'
-            label={label}
-            value={value || t('empty')}
-          />
-        </Bare>
-      );
+      return <Static {...this.props} />;
     }
 
     return (
@@ -57,5 +41,3 @@ class Unknown extends React.PureComponent<Props> {
     );
   }
 }
-
-export default translate(Unknown);

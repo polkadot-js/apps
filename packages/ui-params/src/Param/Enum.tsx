@@ -5,32 +5,26 @@
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import { WithTranslation } from 'react-i18next';
 import { Enum, TypeDef, createType, getTypeDef } from '@polkadot/types';
-import { Dropdown, Static } from '@polkadot/ui-app';
-import translate from '@polkadot/ui-app/translate';
+import { Dropdown } from '@polkadot/ui-app';
 
+import Params from '../';
 import getValues from '../values';
-import findComponent from './findComponent';
 import Bare from './Bare';
-import Null from './Null';
+import Static from './Static';
 
-type Props = WithTranslation & BaseProps;
+type Props = BaseProps;
 
 type State = {
-  Child: React.ComponentType<BaseProps>,
   def: TypeDef | null,
-  defValue: RawParam,
   options: Array<{ text: string, value: string }>,
   sub: Array<TypeDef>,
   type: string | null
 };
 
-class EnumParam extends React.PureComponent<Props, State> {
+export default class EnumParam extends React.PureComponent<Props, State> {
   state: State = {
-    Child: Null,
     def: null,
-    defValue: { isValid: false, value: undefined },
     options: [],
     sub: [],
     type: null
@@ -59,26 +53,13 @@ class EnumParam extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, isDisabled, isError, label, style, t, withLabel } = this.props;
+    const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
 
     if (isDisabled) {
-      const value = defaultValue && defaultValue.value && defaultValue.value.toString();
-
-      return (
-        <Bare
-          className={className}
-          style={style}
-        >
-          <Static
-            className='full'
-            label={label}
-            value={value || t('empty')}
-          />
-        </Bare>
-      );
+      return <Static {...this.props} />;
     }
 
-    const { Child, def, defValue, options } = this.state;
+    const { def, options } = this.state;
     const initialValue = defaultValue && defaultValue.value
       ? defaultValue.value instanceof Enum
         ? defaultValue.value.type
@@ -91,7 +72,7 @@ class EnumParam extends React.PureComponent<Props, State> {
         style={style}
       >
         <Dropdown
-          className={'medium'}
+          className='large'
           defaultValue={initialValue}
           isDisabled={isDisabled}
           isError={isError}
@@ -102,11 +83,9 @@ class EnumParam extends React.PureComponent<Props, State> {
           withLabel={withLabel}
         />
         {def && (
-          <Child
-            defaultValue={defValue}
-            label={'1234'}
+          <Params
             onChange={this.onChangeParam}
-            type={def}
+            params={[{ name: def.name, type: def }]}
           />
         )}
       </Bare>
@@ -118,26 +97,15 @@ class EnumParam extends React.PureComponent<Props, State> {
     const def = sub.find(({ name }) => name === value);
 
     if (def) {
-      this.setState({
-        Child: findComponent(def),
-        def,
-        defValue: getValues([{ type: def }])[0]
-      });
+      this.setState({ def });
     }
   }
 
-  private onChangeParam = ({ isValid, value }: RawParam): void => {
+  private onChangeParam = ([{ isValid, value }]: Array<RawParam>): void => {
     const { onChange } = this.props;
     const { def } = this.state;
 
     if (def) {
-      console.log({
-        isValid,
-        value: {
-          [def.name as string]: value
-        }
-      });
-
       onChange && onChange({
         isValid,
         value: {
@@ -147,5 +115,3 @@ class EnumParam extends React.PureComponent<Props, State> {
     }
   }
 }
-
-export default translate(EnumParam);

@@ -17,8 +17,6 @@ function fromType (type: string): RawParam$Value | Array<RawParam$Value> {
   const raw = instance.toRawType();
   const def = getTypeDef(raw);
 
-  console.log('destructured', raw, def);
-
   if (def.info === TypeDefInfo.Enum) {
     const sdef = (def.sub as Array<TypeDef>)[0];
 
@@ -38,6 +36,8 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
   } else if (def.info === TypeDefInfo.Struct) {
     console.error(`Unable to determine default type from Struct ${JSON.stringify(def)}`);
     return void 0;
+  } else if (def.info === TypeDefInfo.Option) {
+    return getInitValue(def.sub as TypeDef);
   }
 
   const type = def.info === TypeDefInfo.Compact
