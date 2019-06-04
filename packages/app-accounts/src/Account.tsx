@@ -6,7 +6,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressInfo, AddressRow, Button, Card, Icon } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, Button, Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -50,23 +50,21 @@ class Account extends React.PureComponent<Props> {
     // FIXME It is a bit heavy-handled switching of being editable here completely
     // (and removing the tags, however the keyring cannot save these)
     return (
-      <Card>
+      <AddressCard
+        buttons={this.renderButtons()}
+        isEditable={isEditable}
+        value={address}
+        withExplorer
+        withIndex
+        withTags
+      >
         {this.renderModals()}
-        <AddressRow
-          buttons={this.renderButtons()}
-          isEditable={isEditable}
+        <AddressInfo
+          withBalance
+          withExtended
           value={address}
-          withExplorer
-          withIndex
-          withTags
-        >
-          <AddressInfo
-            withBalance
-            withExtended
-            value={address}
-          />
-        </AddressRow>
-      </Card>
+        />
+      </AddressCard>
     );
   }
 

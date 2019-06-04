@@ -7,7 +7,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressInfo, AddressRow, Button, Card, Icon } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, Button, Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -47,23 +47,21 @@ class Address extends React.PureComponent<Props, State> {
     const { isEditable } = this.state;
 
     return (
-      <Card>
+      <AddressCard
+        buttons={this.renderButtons()}
+        isEditable={isEditable}
+        value={address}
+        withExplorer
+        withIndex
+        withTags
+      >
         {this.renderModals()}
-        <AddressRow
-          buttons={this.renderButtons()}
-          isEditable={isEditable}
+        <AddressInfo
+          withBalance={{ available: true, free: true, total: true }}
+          withExtended={{ nonce: true }}
           value={address}
-          withExplorer
-          withIndex
-          withTags
-        >
-          <AddressInfo
-            withBalance={{ available: true, free: true, total: true }}
-            withExtended={{ nonce: true }}
-            value={address}
-          />
-        </AddressRow>
-      </Card>
+        />
+      </AddressCard>
     );
   }
 

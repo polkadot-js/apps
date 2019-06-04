@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AddressRow, Card } from '@polkadot/ui-app';
+import { AddressCard } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -21,13 +21,11 @@ class Member extends React.PureComponent<Props> {
     const { address, block, t } = this.props;
 
     return (
-      <Card>
-        <AddressRow
-          buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}
-          defaultName='council member'
-          value={address}
-        />
-      </Card>
+      <AddressCard
+        buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}
+        defaultName='council member'
+        value={address}
+      />
     );
   }
 }
