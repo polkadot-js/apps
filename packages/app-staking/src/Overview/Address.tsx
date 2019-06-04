@@ -10,7 +10,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AccountId, Balance, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { AddressMini, AddressRow, Card, RecentlyOffline } from '@polkadot/ui-app';
+import { AddressCard, AddressMini, RecentlyOffline } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
@@ -92,25 +92,22 @@ class Address extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Card
+      <AddressCard
+        buttons={this.renderKeys()}
         className={className}
+        defaultName={defaultName}
         key={stashId || controllerId}
+        value={stashId}
+        withBalance={{ bonded }}
       >
-        <AddressRow
-          buttons={this.renderKeys()}
-          defaultName={defaultName}
-          value={stashId}
-          withBalance={{ bonded }}
-        >
-          {this.renderNominators()}
-        </AddressRow>
+        {this.renderNominators()}
         {this.renderOffline()}
         {
           isAuthor && stashId
             ? <div className='blockNumber'>#{lastBlock}</div>
             : null
         }
-      </Card>
+      </AddressCard>
     );
   }
 

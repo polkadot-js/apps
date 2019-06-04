@@ -17,25 +17,27 @@ import keyring from '@polkadot/ui-keyring';
 import AddressInfo, { BalanceActiveType } from './AddressInfo';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
-import LinkPolkascan from './LinkPolkascan';
 import translate from './translate';
 import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
 
-export type Props = I18nProps & {
-  accounts_idAndIndex?: [AccountId?, AccountIndex?],
+export type RowProps = {
   bonded?: BN | Array<BN>,
   buttons?: React.ReactNode,
   children?: React.ReactNode,
+  className?: string,
   defaultName?: string,
   extraInfo?: React.ReactNode,
   isEditable?: boolean,
   isInline?: boolean,
   value: AccountId | AccountIndex | Address | string | null,
   withBalance?: boolean | BalanceActiveType,
-  withExplorer?: boolean,
   withIcon?: boolean,
   withIndex?: boolean,
   withTags?: boolean
+};
+
+type Props = I18nProps & RowProps & {
+  accounts_idAndIndex?: [AccountId?, AccountIndex?]
 };
 
 type State = {
@@ -112,7 +114,6 @@ class AddressRow extends React.PureComponent<Props, State> {
           </div>
         </div>
         {this.renderChildren()}
-        {this.renderExplorer()}
       </div>
     );
   }
@@ -157,24 +158,6 @@ class AddressRow extends React.PureComponent<Props, State> {
     return buttons
       ? <div className='ui--AddressRow-buttons'>{buttons}</div>
       : null;
-  }
-
-  protected renderExplorer () {
-    const { value, withExplorer } = this.props;
-
-    if (!withExplorer) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressRow-explorer'>
-        <LinkPolkascan
-          className='polkascan'
-          data={value}
-          type='address'
-        />
-      </div>
-    );
   }
 
   protected renderName () {
@@ -495,17 +478,6 @@ export default withMulti(
 
     .ui--AddressRow-details {
       white-space: nowrap;
-    }
-
-    .ui--AddressRow-explorer {
-      content: ' ';
-      margin-top: 1rem;
-
-      .polkascan {
-        position: absolute;
-        bottom: 0.75rem;
-        right: 1rem;
-      }
     }
 
     .ui--AddressRow-icon {

@@ -10,7 +10,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
-import { AddressInfo, AddressMini, AddressRow, Button, Card, TxButton } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, AddressMini, Button, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import Bond from './Bond';
@@ -107,30 +107,28 @@ class Account extends React.PureComponent<Props, State> {
     // This is deliberate in order to display the Component modals in a performant matter later on
     // because their state will already be loaded.
     return (
-      <Card>
+      <AddressCard
+        buttons={this.renderButtons()}
+        value={accountId}
+      >
         {this.renderBond()}
         {this.renderBondExtra()}
         {this.renderNominating()}
         {this.renderSessionKey()}
         {this.renderUnbond()}
         {this.renderValidating()}
-        <AddressRow
-          buttons={this.renderButtons()}
+        <AddressInfo
+          withBalance
           value={accountId}
         >
-          <AddressInfo
-            withBalance
-            value={accountId}
-          >
-            <div className='staking--Account-links'>
-              {this.renderControllerId()}
-              {this.renderStashId()}
-              {this.renderSessionId()}
-              {this.renderNominee()}
-            </div>
-          </AddressInfo>
-        </AddressRow>
-      </Card>
+          <div className='staking--Account-links'>
+            {this.renderControllerId()}
+            {this.renderStashId()}
+            {this.renderSessionId()}
+            {this.renderNominee()}
+          </div>
+        </AddressInfo>
+      </AddressCard>
     );
   }
 
