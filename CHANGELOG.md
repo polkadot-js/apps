@@ -1,6 +1,9 @@
 # 0.33.1
 
-- Allow for externally injected accounts (i.e. via extension)
+- Allow for externally injected accounts (i.e. via extension, polkadot-js & SingleSource)
+- Links to extrnisics & addresses on Polkascan
+- Rework Account & Address layouts with cards
+- Transfer can happen from any popint (via Transfer modal)
 - Use new api.derive functions
 - Introduce multi support (most via api.derive.*)
 - Update all account and address modals
