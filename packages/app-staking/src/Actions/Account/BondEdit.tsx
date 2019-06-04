@@ -8,59 +8,53 @@ import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { Option, StakingLedger } from '@polkadot/types';
+import styled from 'styled-components';
+import { AddressInfo, Button, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
-import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
-import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
+import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & CalculateBalanceProps & {
   stashId: string,
   controllerId: string,
+  currentlyBonded: BN,
   isOpen: boolean,
-  onClose: () => void,
-  staking_ledger?: Option<StakingLedger>
+  onClose: () => void
 };
 
 type State = {
-  maxAdditional?: BN,
   extrinsic: SubmittableExtrinsic | null,
-  maxBalance?: BN
+  extrinsicProp?: 'staking.unbond' | 'staking.bondExtra'
+  newBond: BN
 };
+
+const BalanceWrapper = styled.div`
+  > div {
+    justify-content: flex-end;
+  }
+
+  .column {
+    grid-auto-columns: max-content;
+    flex: 0;
+  }
+`;
 
 const ZERO = new BN(0);
 
 class BondEdit extends TxComponent<Props, State> {
   state: State = {
-    extrinsic: null
+    extrinsic: null,
+    newBond: ZERO
   };
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
-    const { balances_fees } = this.props;
-    const { extrinsic } = this.state;
-
-    const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
-
-    if ((balances_fees !== prevProps.balances_fees) ||
-      hasLengthChanged
-    ) {
-      this.setMaxBalance();
-    }
-  }
-
   render () {
-    const { balances_all = ZERO_BALANCE, isOpen, onClose, stashId, t } = this.props;
-    const { extrinsic, maxAdditional, maxBalance = balances_all.availableBalance } = this.state;
-    const canSubmit = !!maxAdditional && maxAdditional.gtn(0) && maxAdditional.lte(maxBalance);
+    const { controllerId, isOpen, onClose, stashId, t } = this.props;
+    const { extrinsic, extrinsicProp } = this.state;
 
     if (!isOpen) {
       return null;
     }
-
-    console.log('stashId', stashId);
 
     return (
       <Modal
@@ -79,10 +73,11 @@ class BondEdit extends TxComponent<Props, State> {
             />
             <Button.Or />
             <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
+              accountId={extrinsicProp && extrinsicProp === 'staking.unbond'
+                ? controllerId
+                : stashId}
               isPrimary
-              label={t('Bond')}
+              label={t('Submit')}
               onClick={onClose}
               extrinsic={extrinsic}
               ref={this.button}
@@ -94,8 +89,8 @@ class BondEdit extends TxComponent<Props, State> {
   }
 
   private renderContent () {
+    const { extrinsicProp } = this.state;
     const { controllerId, stashId, t } = this.props;
-    const { maxBalance } = this.state;
 
     return (
       <>
@@ -109,10 +104,23 @@ class BondEdit extends TxComponent<Props, State> {
             isDisabled
             label={t('stash account')}
           />
+          <BalanceWrapper>
+            <AddressInfo
+              withBalance={{
+                available: false,
+                bonded: true,
+                free: true,
+                redeemable: false,
+                unlocking: false
+              }}
+              value={stashId}
+            />
+          </BalanceWrapper>
           <InputBalanceBonded
             autoFocus
             className='medium'
             controllerId={controllerId}
+            extrinsicProp={extrinsicProp}
             help={t('The new amount to be bonded, this is adjusted using the available free funds on the account. Any unbonded funds will be available after the bonding period.')}
             label={t('new bonded amount')}
             onChange={this.onChangeValue}
@@ -127,70 +135,45 @@ class BondEdit extends TxComponent<Props, State> {
 
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
-      const { api } = this.props;
-      const { maxAdditional = prevState.maxAdditional, maxBalance = prevState.maxBalance } = newState;
-      const extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
-        ? api.tx.staking.bondExtra(maxAdditional)
-        : null;
+      const { api, currentlyBonded } = this.props;
+      const { newBond = prevState.newBond, extrinsic = prevState.extrinsic, extrinsicProp = prevState.extrinsicProp } = newState;
+
+      if (!newBond || !currentlyBonded) {
+        return {
+          extrinsic,
+          extrinsicProp,
+          newBond
+        };
+      }
+
+      const bondingDiff = newBond.sub(currentlyBonded);
+      let newExtrinsicProp = extrinsicProp;
+      let newExtrinsic = extrinsic;
+
+      if (bondingDiff.gtn(0)) {
+        newExtrinsicProp = 'staking.bondExtra';
+        newExtrinsic = api.tx.staking.bondExtra(bondingDiff);
+      } else if (bondingDiff.ltn(0)) {
+        newExtrinsicProp = 'staking.unbond';
+        newExtrinsic = api.tx.staking.unbond(bondingDiff.abs());
+      }
 
       return {
-        maxAdditional,
-        extrinsic,
-        maxBalance
+        newBond,
+        extrinsic: newExtrinsic,
+        extrinsicProp: newExtrinsicProp
       };
     });
   }
 
-  private setMaxBalance = () => {
-    const { api, system_accountNonce = ZERO, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, staking_ledger } = this.props;
-    const { maxAdditional } = this.state;
-
-    const { transactionBaseFee, transactionByteFee } = balances_fees;
-    const { freeBalance } = balances_all;
-
-    let prevMax = new BN(0);
-    let maxBalance = new BN(1);
-    let extrinsic;
-
-    let bonded = new BN(0);
-    if (staking_ledger && !staking_ledger.isNone) {
-      bonded = staking_ledger.unwrap().active;
-    }
-
-    while (!prevMax.eq(maxBalance)) {
-      prevMax = maxBalance;
-
-      extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
-        ? api.tx.staking.bondExtra(maxAdditional.sub(bonded))
-        : null;
-
-      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
-
-      const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength));
-
-      maxBalance = new BN(freeBalance).sub(fees).sub(bonded);
-    }
-
-    this.nextState({
-      extrinsic,
-      maxBalance
-    });
+  private onChangeValue = (newBond?: BN) => {
+    this.nextState({ newBond });
   }
 
-  private onChangeValue = (maxAdditional?: BN) => {
-    this.nextState({ maxAdditional });
-  }
 }
 
 export default withMulti(
   BondEdit,
   translate,
-  withApi,
-  withCalls<Props>(
-    'derive.balances.fees',
-    ['derive.balances.all', { paramName: 'stashId' }],
-    ['query.system.accountNonce', { paramName: 'stashId' }],
-    ['query.staking.ledger', { paramName: 'controllerId' }]
-  )
+  withApi
 );

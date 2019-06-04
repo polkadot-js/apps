@@ -11,7 +11,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressRow, Button, Card, TxButton} from '@polkadot/ui-app';
+import { AddressInfo, AddressRow, Button, Card, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import BondEdit from './BondEdit';
@@ -56,6 +56,10 @@ const Wrapper = styled.div`
 
   .staking--Actions-Infos {
     flex: 1;
+
+    .buttons {
+      margin-bottom: 1rem;
+    }
   }
 
   .staking--Account-detail {
@@ -156,19 +160,20 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderBondEdit () {
+    const { staking_info } = this.props;
     const { controllerId, isBondEditOpen, stashId } = this.state;
 
     if (!isBondEditOpen) {
       return null;
     }
-  console.log('controllerId',controllerId);
-  console.log('stashId',stashId)
+
     return (
       <BondEdit
-        stashId={stashId}
         controllerId={controllerId}
+        currentlyBonded={staking_info && staking_info.stakingLedger && staking_info.stakingLedger.active}
         isOpen={isBondEditOpen}
         onClose={this.toggleBondEdit}
+        stashId={stashId}
       />
     );
   }
@@ -322,8 +327,13 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
+    /*
     const { accountId, balances_all, t } = this.props;
     const { controllerId, isActiveStash, isActiveController, nominators, sessionId, stakingLedger, isNominationStash, isValidationStash, validatorPrefs } = this.state;
+ */
+    const { t } = this.props;
+    const { controllerId,nominators, isNominationStash, validatorPrefs } = this.state;
+
     const buttons = [];
 
     const isNominating = !!nominators && nominators.length;

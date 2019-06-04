@@ -123,6 +123,7 @@ class NewStake extends TxComponent<Props, State> {
             className='medium'
             controllerId={controllerId}
             destination={destination}
+            extrinsicProp={'staking.bond'}
             help={t('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
             isError={!hasValue}
             label={t('value bonded')}

@@ -24,9 +24,9 @@ type State = {
 };
 
 const Wrapper = styled(CardGrid) `
-  .ui--CardGrid-buttons {
-    text-align: center;
-  }
+.ui--CardGrid-buttons {
+  text-align: right;
+}
 `;
 
 class Accounts extends React.PureComponent<Props,State> {

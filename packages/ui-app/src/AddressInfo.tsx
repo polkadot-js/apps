@@ -244,7 +244,7 @@ export default withMulti(
     flex: 1;
     justify-content: center;
     white-space: nowrap;
-    
+
     .column {
       flex: 1;
       display: grid;

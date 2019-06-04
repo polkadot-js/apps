@@ -21,7 +21,8 @@ type Props = BareProps & ApiProps & {
   balances_all?: DerivedBalances,
   controllerId: string,
   defaultValue?: BN | string,
-  destination: number,
+  destination?: number,
+  extrinsicProp: 'staking.bond' | 'staking.bondExtra' | 'staking.unbond',
   help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
@@ -100,7 +101,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
   }
 
   private setMaxBalance = () => {
-    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, system_accountNonce = ZERO } = this.props;
+    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, extrinsicProp, system_accountNonce = ZERO } = this.props;
     const { transactionBaseFee, transactionByteFee } = balances_fees;
     const { freeBalance } = balances_all;
 
@@ -111,9 +112,16 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
 
-      extrinsic = controllerId && (destination || destination === 0)
+      if (extrinsicProp === 'staking.bond') {
+        extrinsic = controllerId && (destination || destination === 0)
         ? api.tx.staking.bond(controllerId, prevMax, destination)
         : null;
+      } else if (extrinsicProp === 'staking.unbond') {
+        extrinsic = api.tx.staking.unbond(prevMax);
+      } else if (extrinsicProp === 'staking.bondExtra') {
+        extrinsic = api.tx.staking.bonExtra(prevMax);
+      }
+
       const txLength = calcSignatureLength(extrinsic, system_accountNonce);
       const fees = transactionBaseFee
         .add(transactionByteFee.muln(txLength));
@@ -131,7 +139,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     this.setState((prevState: State): State => {
       const { api, controllerId, destination, value } = this.props;
       const { maxBalance = prevState.maxBalance } = newState;
-      const extrinsic = (value && controllerId)
+      const extrinsic = (value && controllerId && destination)
         ? api.tx.staking.bond(controllerId, value, destination)
         : null;
 
