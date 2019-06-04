@@ -3,20 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
-import { BareProps } from '../types';
-
-import './InputAddress.css';
+import { BareProps } from './types';
 
 import React from 'react';
 import store from 'store';
+import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
-import Dropdown from '../Dropdown';
-import { classes, getAddrName } from '../util';
-import addressToAddress from '../util/toAddress';
+import Dropdown from './Dropdown';
+import { classes, getAddrName } from './util';
+import addressToAddress from './util/toAddress';
 
 type Props = BareProps & {
   defaultValue?: string | null,
@@ -151,7 +150,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return (
       <Dropdown
-        className={classes('ui--InputAddress', hideAddress ? 'flag--hideAddress' : '', className)}
+        className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
         defaultValue={
           isMultiple || (value !== undefined)
             ? undefined
@@ -283,6 +282,19 @@ class InputAddress extends React.PureComponent<Props, State> {
 export { InputAddress };
 
 export default withMulti(
-  InputAddress,
+  styled(InputAddress)`
+    .ui.dropdown .text {
+      width: 100%;
+    }
+
+    .ui.search.selection.dropdown > input.search {
+      padding-left: 4rem;
+    }
+
+    &.hideAddress .ui--KeyPair .ui--KeyPair-address {
+      flex: 0;
+      max-width: 0;
+    }
+  `,
   withObservable(keyringOption.optionsSubject, { propName: 'optionsAll' })
 );

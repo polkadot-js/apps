@@ -10,6 +10,7 @@ import { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
+import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password } from '@polkadot/ui-app';
@@ -109,10 +110,11 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { className, t } = this.props;
 
     return (
       <Modal
+        className={className}
         dimmer='inverted'
         open
       >
@@ -452,7 +454,11 @@ class Create extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  Create,
+  styled(Create)`
+    .accounts--Creator-advanced {
+      margin-top: 1rem;
+    }
+  `,
   translate,
   withApi
 );

@@ -4,11 +4,10 @@
 
 import { BareProps } from '@polkadot/ui-app/types';
 
-import React from 'react';
-import { classes } from '@polkadot/ui-app/util';
 import CodeFlask from 'codeflask';
-
-import './style.css';
+import React from 'react';
+import styled from 'styled-components';
+import { classes } from '@polkadot/ui-app/util';
 
 type Props = BareProps & {
   code: string,
@@ -35,8 +34,7 @@ type Props = BareProps & {
  *  />
  * ```
  */
-
-export default class Editor extends React.Component<Props> {
+class Editor extends React.Component<Props> {
   private id: string = `flask-${Date.now()}`;
   private editor: any;
 
@@ -70,9 +68,23 @@ export default class Editor extends React.Component<Props> {
 
     return (
       <div
-        className={classes('ui-app-editor', className, isValid === false ? 'invalid' : '')}
+        className={classes('ui-Editor', className, isValid === false ? 'invalid' : '')}
         id={this.id}
       />
     );
   }
 }
+
+export default styled(Editor)`
+  .codeflask {
+    border: 1px solid rgba(34,36,38,.15);
+    background: transparent;
+  }
+
+  &.invalid {
+    .codeflask {
+      background-color: #fff6f6;
+      border-color: #e0b4b4;
+    }
+  }
+`;

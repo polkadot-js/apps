@@ -6,6 +6,7 @@ import { GroupProps, GroupType } from './types';
 
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import styled from 'styled-components';
 
 import { classes } from '../util';
 import Divider from './Divider';
@@ -34,4 +35,15 @@ class ButtonGroup extends React.PureComponent<GroupProps> {
 
 (ButtonGroup as GroupType).Divider = Divider;
 
-export default (ButtonGroup as GroupType);
+export default styled(ButtonGroup)`
+  text-align: right;
+
+  :not(:first-child) {
+    margin-top: 0.75rem;
+  }
+
+  &.centered {
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+` as any as GroupType;

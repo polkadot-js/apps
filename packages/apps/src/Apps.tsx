@@ -10,7 +10,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import store from 'store';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { media } from '@polkadot/ui-app';
 import Signer from '@polkadot/ui-signer';
 import settings from '@polkadot/ui-settings';
@@ -30,23 +30,7 @@ type State = {
   transition: SideBarTransition
 };
 
-const Wrapper = styled.div`
-  align-items: stretch;
-  box-sizing: border-box;
-  display: flex;
-  min-height: 100vh;
-
-  header {
-    margin-bottom: 1.4rem;
-    text-align: center;
-
-    ${media.TABLET`
-      margin-bottom: 2rem;
-   `}
-  }
-`;
-
-export default class Apps extends React.Component<Props, State> {
+class Apps extends React.Component<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -74,26 +58,25 @@ export default class Apps extends React.Component<Props, State> {
   }
 
   render () {
+    const { className } = this.props;
     const { isCollapsed, isMenu, menuOpen } = this.state;
 
     return (
-      <ThemeProvider theme={{ theme: settings.uiTheme }}>
-        <Wrapper className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu ? 'fixed' : ''} ${menuOpen ? 'menu-open' : ''} theme--${settings.uiTheme}`}>
-          {this.renderMenuBg()}
-          <SideBar
-            collapse={this.collapse}
-            handleResize={this.handleResize}
-            menuOpen={menuOpen}
-            isCollapsed={isCollapsed}
-            toggleMenu={this.toggleMenu}
-          />
-          <Signer>
-            <Content />
-          </Signer>
-          <ConnectingOverlay />
-          <AccountsOverlay />
-        </Wrapper>
-      </ThemeProvider>
+      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--${settings.uiTheme} ${className}`}>
+        {this.renderMenuBg()}
+        <SideBar
+          collapse={this.collapse}
+          handleResize={this.handleResize}
+          menuOpen={menuOpen}
+          isCollapsed={isCollapsed}
+          toggleMenu={this.toggleMenu}
+        />
+        <Signer>
+          <Content />
+        </Signer>
+        <ConnectingOverlay />
+        <AccountsOverlay />
+      </div>
     );
   }
 
@@ -193,3 +176,19 @@ export default class Apps extends React.Component<Props, State> {
     }
   }
 }
+
+export default styled(Apps)`
+  align-items: stretch;
+  box-sizing: border-box;
+  display: flex;
+  min-height: 100vh;
+
+  header {
+    margin-bottom: 1.4rem;
+    text-align: center;
+
+    ${media.TABLET`
+      margin-bottom: 2rem;
+   `}
+  }
+`;
