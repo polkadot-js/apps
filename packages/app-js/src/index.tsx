@@ -12,7 +12,7 @@ import Playground from './Playground';
 
 type Props = AppProps & BareProps;
 
-class AppJs extends React.PureComponent<Props> {
+export default class AppJs extends React.PureComponent<Props> {
   render () {
     const { basePath } = this.props;
 
@@ -24,5 +24,3 @@ class AppJs extends React.PureComponent<Props> {
     );
   }
 }
-
-export default AppJs;

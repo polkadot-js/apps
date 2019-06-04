@@ -6,7 +6,7 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
-import { Button, Input, TxComponent } from '@polkadot/ui-app';
+import { Button, Input } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -27,7 +27,7 @@ type State = {
   snippetName: string
 };
 
-class ActionButtons extends TxComponent<Props, State> {
+class ActionButtons extends React.PureComponent<Props, State> {
   state: State = {
     isOpen: false,
     shareText: this.props.t('Generate link to share code example'),
@@ -59,7 +59,7 @@ class ActionButtons extends TxComponent<Props, State> {
         // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
         // <Button /> component. That's why the original Semantic UI component is being used here.
         }
-        { isCustomExample &&
+        {isCustomExample && (
           <Popup
             content={t('Delete this custom example')}
             on='hover'
@@ -72,8 +72,8 @@ class ActionButtons extends TxComponent<Props, State> {
               />
             }
           />
-        }
-        { !(isCustomExample) &&
+        )}
+        {!(isCustomExample) && (
           <Popup
             className='popup-local'
             on='click'
@@ -88,10 +88,9 @@ class ActionButtons extends TxComponent<Props, State> {
             }
           >
             <Input
-              autoFocus={true}
-              onBlur={this.onPopupClose}
+              autoFocus
               onChange={this.onChangeName}
-              onEnter={this.submit}
+              onEnter={this.saveSnippet}
               maxLength={50}
               min={1}
               placeholder={t('Name your example')}
@@ -105,14 +104,12 @@ class ActionButtons extends TxComponent<Props, State> {
               onClick={this.saveSnippet}
             />
           </Popup>
-        }
-
+        )}
         <Button
           icon='play'
           isCircular
           isPositive
           onClick={runJs}
-          ref={this.button}
         />
         <Button
           icon='close'
@@ -127,6 +124,7 @@ class ActionButtons extends TxComponent<Props, State> {
 
   private generateLink = (): void => {
     const { generateLink, t } = this.props;
+
     this.setState({ shareText: t('Copied to clipboard') } as State);
     generateLink();
   }
