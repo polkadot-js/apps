@@ -102,7 +102,6 @@ class AddressRow extends React.PureComponent<Props, State> {
       >
         <div className='ui--AddressRow-base'>
           {this.renderIcon()}
-          {this.renderButtons()}
           <div className='ui--AddressRow-details'>
             <div className='ui--AddressRow-data'>
               {this.renderName()}
@@ -112,6 +111,7 @@ class AddressRow extends React.PureComponent<Props, State> {
             {this.renderBalances()}
             {this.renderTags()}
           </div>
+          {this.renderButtons()}
         </div>
         {this.renderChildren()}
       </div>
@@ -456,9 +456,9 @@ export default withMulti(
     }
 
     .ui--AddressRow-buttons {
-      position: absolute;
-      right: 0.75rem;
-      top: 0.75rem;
+      flex: 0;
+      margin: -0.75rem -0.75rem 0 0;
+      white-space: nowrap;
     }
 
     .ui--AddressRow-children {
@@ -477,10 +477,12 @@ export default withMulti(
     }
 
     .ui--AddressRow-details {
-      white-space: nowrap;
+      flex: 1;
+      margin-right: 1rem;
     }
 
     .ui--AddressRow-icon {
+      flex: 0;
       margin-right: 1em;
     }
 
@@ -492,7 +494,6 @@ export default withMulti(
       text-overflow: ellipsis;
       text-transform: uppercase;
       white-space: normal;
-      width: 17rem;
     }
 
     .ui--AddressRow-name-input {
