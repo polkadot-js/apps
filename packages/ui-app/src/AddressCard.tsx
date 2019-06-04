@@ -15,7 +15,7 @@ type Props = RowProps & {
 
 class AddressCard extends React.PureComponent<Props> {
   render () {
-    const { className } = this.props;
+    const { className, value, withExplorer } = this.props;
 
     return (
       <Card className={className}>
@@ -23,26 +23,16 @@ class AddressCard extends React.PureComponent<Props> {
           {...this.props}
           className='ui--AddressCard-AddressRow'
         />
-        {this.renderExplorer()}
+        {withExplorer && (
+          <div className='ui--AddressCard-explorer'>
+            <LinkPolkascan
+              className='ui--AddressCard-exporer-link'
+              data={value}
+              type='address'
+            />
+          </div>
+        )}
       </Card>
-    );
-  }
-
-  private renderExplorer () {
-    const { value, withExplorer } = this.props;
-
-    if (!withExplorer) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressCard-explorer'>
-        <LinkPolkascan
-          className='ui--AddressCard-exporer-link'
-          data={value}
-          type='address'
-        />
-      </div>
     );
   }
 }
