@@ -48,6 +48,7 @@ export default styled(AddressCard)`
 
     .ui--AddressCard-exporer-link {
       display: inline-block;
+      margin-top: 0.5rem;
     }
   }
 `;
