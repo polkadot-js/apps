@@ -11,15 +11,13 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressRow, Button, Card, TxButton } from '@polkadot/ui-app';
+import { AddressRow, Button, Card, TxButton, AddressInfo } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
-import Bond from './Bond';
-import BondExtra from './BondExtra';
+import BondEdit from './BondEdit';
 import Nominating from './Nominating';
 import SessionKey from './SessionKey';
 import translate from '../../translate';
-import Unbond from './Unbond';
 import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
@@ -35,14 +33,12 @@ type State = {
   isActiveController: boolean,
   isActiveSession: boolean,
   isActiveStash: boolean,
-  isBondOpen: boolean,
-  isBondExtraOpen: boolean,
+  isBondEditOpen: boolean,
   isNominateOpen: boolean,
   isNominationStash: boolean,
   isSessionKeyOpen: boolean,
   isValidationStash: boolean,
   isValidatingOpen: boolean,
-  isUnbondOpen: boolean,
   nominators?: Array<AccountId>,
   sessionId: string | null,
   stakers?: Exposure,
@@ -80,18 +76,16 @@ function toIdString (id?: AccountId | null): string | null {
 
 class Account extends React.PureComponent<Props, State> {
   state: State = {
+    controllerId: null,
     isActiveController: false,
     isActiveSession: false,
     isActiveStash: false,
-    controllerId: null,
-    isBondOpen: false,
-    isBondExtraOpen: false,
+    isBondEditOpen: false,
     isNominationStash: false,
     isSessionKeyOpen: false,
     isNominateOpen: false,
     isValidationStash: false,
     isValidatingOpen: false,
-    isUnbondOpen: false,
     sessionId: null,
     stashId: null
   };
@@ -134,11 +128,9 @@ class Account extends React.PureComponent<Props, State> {
     // because their state will already be loaded.
     return (
       <Card>
-        {this.renderBond()}
-        {this.renderBondExtra()}
+        {this.renderBondEdit()}
         {this.renderNominating()}
         {this.renderSessionKey()}
-        {this.renderUnbond()}
         {this.renderValidating()}
         <Wrapper>
           <div className='staking--Accounts'>
@@ -152,6 +144,9 @@ class Account extends React.PureComponent<Props, State> {
               {this.renderButtons()}
             </div>
             <div className='staking--Infos'>
+              {this.renderInfos()}
+            </div>
+            <div className='staking--Infos'>
 
             </div>
           </div>
@@ -160,41 +155,40 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderBond () {
-    const { accountId } = this.props;
-    const { controllerId, isBondOpen } = this.state;
+  private renderBondEdit () {
+    const { controllerId, isBondEditOpen, stashId } = this.state;
 
+    if (!isBondEditOpen) {
+      return null;
+    }
+  console.log('controllerId',controllerId);
+  console.log('stashId',stashId)
     return (
-      <Bond
-        accountId={accountId}
+      <BondEdit
+        stashId={stashId}
         controllerId={controllerId}
-        isOpen={isBondOpen}
-        onClose={this.toggleBond}
+        isOpen={isBondEditOpen}
+        onClose={this.toggleBondEdit}
       />
     );
   }
 
-  private renderBondExtra () {
-    const { controllerId, isBondExtraOpen, stashId } = this.state;
+  private renderInfos () {
+    const { stashId } = this.state;
 
     return (
-      <BondExtra
-        accountId={stashId}
-        controllerId={controllerId}
-        isOpen={isBondExtraOpen}
-        onClose={this.toggleBondExtra}
-      />
-    );
-  }
-
-  private renderUnbond () {
-    const { controllerId, isUnbondOpen } = this.state;
-
-    return (
-      <Unbond
-        controllerId={controllerId}
-        isOpen={isUnbondOpen}
-        onClose={this.toggleUnbond}
+      <AddressInfo
+        withBalance={{
+          available: false,
+          bonded: true,
+          free: false,
+          redeemable: true,
+          unlocking: true
+        }}
+        withEdit={{
+          onBondedEdit: this.toggleBondEdit
+        }}
+        value={stashId}
       />
     );
   }
@@ -451,16 +445,6 @@ class Account extends React.PureComponent<Props, State> {
           />
         );
       }
-    } else {
-      // we have nothing here, show the bond to get started
-      buttons.push(
-        <Button
-          isPrimary
-          key='bond'
-          onClick={this.toggleBond}
-          label={t('Bond Funds')}
-        />
-      );
     }*/
 
     return (
@@ -470,15 +454,9 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleBond = () => {
-    this.setState(({ isBondOpen }) => ({
-      isBondOpen: !isBondOpen
-    }));
-  }
-
-  private toggleBondExtra = () => {
-    this.setState(({ isBondExtraOpen }) => ({
-      isBondExtraOpen: !isBondExtraOpen
+  private toggleBondEdit = () => {
+    this.setState(({ isBondEditOpen }) => ({
+      isBondEditOpen: !isBondEditOpen
     }));
   }
 
@@ -491,12 +469,6 @@ class Account extends React.PureComponent<Props, State> {
   private toggleSessionKey = () => {
     this.setState(({ isSessionKeyOpen }) => ({
       isSessionKeyOpen: !isSessionKeyOpen
-    }));
-  }
-
-  private toggleUnbond = () => {
-    this.setState(({ isUnbondOpen }) => ({
-      isUnbondOpen: !isUnbondOpen
     }));
   }
 

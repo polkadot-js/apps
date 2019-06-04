@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
-import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
+import { Icon, Tooltip, TxButton, Button } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
@@ -25,6 +25,12 @@ export type BalanceActiveType = {
   unlocking?: boolean
 };
 
+export type BalanceEditType = {
+  onBondedEdit?: () => void,
+  onUnstakeThresholdEdit?: () => void,
+  onValidatorPaymentEdit?: () => void
+};
+
 export type CryptoActiveType = {
   crypto?: boolean,
   nonce?: boolean
@@ -36,6 +42,7 @@ type Props = BareProps & I18nProps & {
   staking_info?: DerivedStaking,
   value: string,
   withBalance?: boolean | BalanceActiveType,
+  withEdit?: false | BalanceEditType,
   withExtended?: boolean | CryptoActiveType
 };
 
@@ -115,8 +122,11 @@ class AddressInfo extends React.PureComponent<Props> {
 
   // either true (filtered above already) or [own, ...all extras]
   private renderBonded (bonded: true | Array<BN>) {
-    const { staking_info, t } = this.props;
+    const { staking_info, t, withEdit = false } = this.props;
     let value = undefined;
+    const edit = withEdit === false
+    ? {  onBondedEdit: undefined, onUnstakeThresholdEdit: undefined, onValidatorPaymentEdit: undefined }
+    : withEdit;
 
     if (Array.isArray(bonded)) {
       // Get the sum of all extra values (if available)
@@ -134,7 +144,19 @@ class AddressInfo extends React.PureComponent<Props> {
       ? (
         <>
           <Label label={t('bonded')} />
-          <div className='result'>{value}</div>
+          <div className='result'>{value}
+            {edit && edit.onBondedEdit !== undefined &&
+              <Button
+                className='iconButton'
+                icon='edit'
+                size='mini'
+                isPrimary
+                key='edit-bonded'
+                tooltip={t('Change the amount of bonded funds')}
+                onClick={edit.onBondedEdit}
+              />
+            }
+          </div>
         </>
       )
       : undefined;
@@ -221,7 +243,8 @@ export default withMulti(
     display: flex;
     flex: 1;
     justify-content: center;
-
+    white-space: nowrap;
+    
     .column {
       flex: 1;
       display: grid;
