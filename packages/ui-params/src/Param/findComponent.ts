@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, UInt, createType } from '@polkadot/types';
 import { Props, ComponentMap } from '../types';
+
+import BN from 'bn.js';
+import { TypeDef, TypeDefInfo, createType, getTypeDef } from '@polkadot/types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -11,11 +13,13 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
+import Enum from './Enum';
 import Hash from './Hash';
 import Moment from './Moment';
 import Proposal from './Proposal';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
+import Null from './Null';
 import Text from './Text';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
@@ -35,10 +39,12 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
+  { c: Enum, t: ['Enum'] },
   { c: Hash, t: ['CodeHash', 'Hash', 'SeedOf', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
+  { c: Null, t: ['Null'] },
   { c: Proposal, t: ['Proposal'] },
   { c: Text, t: ['String', 'Text'] },
   { c: Tuple, t: ['Tuple'] },
@@ -59,6 +65,9 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       case TypeDefInfo.Compact:
         return (sub as TypeDef).type;
 
+      case TypeDefInfo.Enum:
+        return 'Enum';
+
       case TypeDefInfo.Tuple:
         return 'Tuple';
 
@@ -78,9 +87,14 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     try {
       const instance = createType(type);
 
-      if (instance instanceof UInt) {
+      if (instance instanceof BN) {
         return Amount;
       }
+
+      const raw = instance.toRawType();
+      const def = getTypeDef(raw);
+
+      return findComponent(def, overrides);
     } catch (error) {
       // console.error(error.message);
     }

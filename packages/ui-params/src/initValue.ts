@@ -5,7 +5,28 @@
 import { RawParam$Value } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, UInt, createType } from '@polkadot/types';
+import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, createType, getTypeDef } from '@polkadot/types';
+
+function fromType (type: string): RawParam$Value | Array<RawParam$Value> {
+  const instance = createType(type);
+
+  if (instance instanceof BN) {
+    return new BN(0);
+  }
+
+  const raw = instance.toRawType();
+  const def = getTypeDef(raw);
+
+  console.log('destructured', raw, def);
+
+  if (def.info === TypeDefInfo.Enum) {
+    const sdef = (def.sub as Array<TypeDef>)[0];
+
+    return { [sdef.name as string]: getInitValue(sdef) };
+  }
+
+  throw new Error('Unknown');
+}
 
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
@@ -84,13 +105,12 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Extrinsic':
       return new U8a();
 
+    case 'Null':
+      return null;
+
     default: {
       try {
-        const instance = createType(type);
-
-        if (instance instanceof UInt) {
-          return new BN(0);
-        }
+        return fromType(type);
       } catch (error) {
         // console.error(error.message);
       }
