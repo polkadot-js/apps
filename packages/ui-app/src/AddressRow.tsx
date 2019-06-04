@@ -27,6 +27,7 @@ export type RowProps = {
   className?: string,
   defaultName?: string,
   extraInfo?: React.ReactNode,
+  iconInfo?: React.ReactNode,
   isEditable?: boolean,
   isInline?: boolean,
   value: AccountId | AccountIndex | Address | string | null,
@@ -135,7 +136,15 @@ class AddressRow extends React.PureComponent<Props, State> {
     };
   }
 
-  protected renderAddress () {
+  private onChangeName = (name: string) => {
+    this.setState({ name });
+  }
+
+  private onChangeTags = (tags: string[]) => {
+    this.setState({ tags });
+  }
+
+  private renderAddress () {
     const { address } = this.state;
 
     return (
@@ -150,7 +159,40 @@ class AddressRow extends React.PureComponent<Props, State> {
     );
   }
 
-  protected renderButtons () {
+  private renderAccountIndex () {
+    const { accounts_idAndIndex = [], withIndex } = this.props;
+    const [, accountIndex] = accounts_idAndIndex;
+
+    if (!accountIndex || !withIndex) {
+      return null;
+    }
+
+    return (
+      <div className='ui--AddressRow-accountIndex'>
+        {accountIndex.toString()}
+      </div>
+    );
+  }
+
+  private renderBalances () {
+    const { accounts_idAndIndex = [], withBalance } = this.props;
+    const [accountId] = accounts_idAndIndex;
+
+    if (!withBalance || !accountId) {
+      return null;
+    }
+
+    return (
+      <div className='ui--AddressRow-balances'>
+        <AddressInfo
+          value={accountId}
+          withBalance={withBalance}
+        />
+      </div>
+    );
+  }
+
+  private renderButtons () {
     const { buttons } = this.props;
 
     return buttons
@@ -158,7 +200,69 @@ class AddressRow extends React.PureComponent<Props, State> {
       : null;
   }
 
-  protected renderName () {
+  private renderChildren () {
+    const { children } = this.props;
+    // we need children, or when an array, at least 1 non-empty value
+    const hasChildren = !children
+      ? false
+      : Array.isArray(children)
+        ? children.filter((child) => child).length !== 0
+        : true;
+
+    if (!hasChildren) {
+      return null;
+    }
+
+    return (
+      <div className='ui--AddressRow-children'>
+        {children}
+      </div>
+    );
+  }
+
+  private renderEditIcon () {
+    return (
+      <Button
+        className='iconButton'
+        icon='edit'
+        size='mini'
+        isPrimary
+        key='unlock'
+      />
+    );
+  }
+
+  private renderIcon () {
+    const { accounts_idAndIndex = [], iconInfo, withIcon = true } = this.props;
+    const { address } = this.state;
+    const [accountId] = accounts_idAndIndex;
+
+    if (!withIcon) {
+      return null;
+    }
+
+    // Since we do queries to storage in the wrapped example, we don't want
+    // to follow that route if we don't have a valid address.
+    const Component = accountId
+      ? IdentityIcon
+      : BaseIdentityIcon;
+
+    return (
+      <div className='ui--AddressRow-icon'>
+        <Component
+          size={ICON_SIZE}
+          value={address}
+        />
+        {iconInfo && (
+          <div className='ui--AddressRow-icon-info'>
+            {iconInfo}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  private renderName () {
     const { isEditable } = this.props;
     const { isEditingName, name } = this.state;
 
@@ -185,117 +289,7 @@ class AddressRow extends React.PureComponent<Props, State> {
       );
   }
 
-  protected onChangeName = (name: string) => {
-    this.setState({ name });
-  }
-
-  protected onChangeTags = (tags: string[]) => {
-    this.setState({ tags });
-  }
-
-  protected renderAccountIndex () {
-    const { accounts_idAndIndex = [], withIndex } = this.props;
-    const [, accountIndex] = accounts_idAndIndex;
-
-    if (!accountIndex || !withIndex) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressRow-accountIndex'>
-        {accountIndex.toString()}
-      </div>
-    );
-  }
-
-  protected renderBalances () {
-    const { accounts_idAndIndex = [], withBalance } = this.props;
-    const [accountId] = accounts_idAndIndex;
-
-    if (!withBalance || !accountId) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressRow-balances'>
-        <AddressInfo
-          value={accountId}
-          withBalance={withBalance}
-        />
-      </div>
-    );
-  }
-
-  protected renderChildren () {
-    const { children } = this.props;
-    // we need children, or when an array, at least 1 non-empty value
-    const hasChildren = !children
-      ? false
-      : Array.isArray(children)
-        ? children.filter((child) => child).length !== 0
-        : true;
-
-    if (!hasChildren) {
-      return null;
-    }
-
-    return (
-      <div className='ui--AddressRow-children'>
-        {children}
-      </div>
-    );
-  }
-
-  protected renderEditIcon () {
-    return (
-      <Button
-        className='iconButton'
-        icon='edit'
-        size='mini'
-        isPrimary
-        key='unlock'
-      />
-    );
-  }
-
-  protected renderIcon () {
-    const { accounts_idAndIndex = [], withIcon = true } = this.props;
-    const { address } = this.state;
-    const [accountId] = accounts_idAndIndex;
-
-    if (!withIcon) {
-      return null;
-    }
-
-    // Since we do queries to storage in the wrapped example, we don't want
-    // to follow that route if we don't have a valid address.
-    const Component = accountId
-      ? IdentityIcon
-      : BaseIdentityIcon;
-
-    return (
-      <Component
-        className='ui--AddressRow-icon'
-        size={ICON_SIZE}
-        value={address}
-      />
-    );
-  }
-
-  protected renderSaveIcon (callback: () => void) {
-    return (
-      <Button
-        className='saveButton'
-        onClick={callback}
-        icon='save'
-        size='small'
-        isPrimary
-        key='save'
-      />
-    );
-  }
-
-  protected renderTags () {
+  private renderTags () {
     const { isEditingTags, tags } = this.state;
     const { isEditable, withTags = false } = this.props;
 
@@ -334,7 +328,7 @@ class AddressRow extends React.PureComponent<Props, State> {
       );
   }
 
-  protected saveName = () => {
+  private saveName = () => {
     const { address, name } = this.state;
     const trimmedName = name.trim();
     const meta = {
@@ -356,7 +350,7 @@ class AddressRow extends React.PureComponent<Props, State> {
     }
   }
 
-  protected saveTags = () => {
+  private saveTags = () => {
     const { address, tags } = this.state;
     const meta = {
       tags,
@@ -376,13 +370,13 @@ class AddressRow extends React.PureComponent<Props, State> {
     }
   }
 
-  protected toggleNameEditor = () => {
+  private toggleNameEditor = () => {
     this.setState(({ isEditingName }) => ({
       isEditingName: !isEditingName
     }));
   }
 
-  protected toggleTagsEditor = () => {
+  private toggleTagsEditor = () => {
     this.setState(({ isEditingTags }) => ({
       isEditingTags: !isEditingTags
     }));
@@ -477,6 +471,13 @@ export default withMulti(
     .ui--AddressRow-icon {
       flex: 0;
       margin-right: 1em;
+      position: relative;
+
+      .ui--AddressRow-icon-info {
+        left: -0.5rem;
+        position: absolute;
+        top: -0.5rem;
+      }
     }
 
     .ui--AddressRow-name {
