@@ -103,11 +103,9 @@ class AddressRow extends React.PureComponent<Props, State> {
         <div className='ui--AddressRow-base'>
           {this.renderIcon()}
           <div className='ui--AddressRow-details'>
-            <div className='ui--AddressRow-data'>
-              {this.renderName()}
-              {this.renderAddress()}
-              {this.renderAccountIndex()}
-            </div>
+            {this.renderName()}
+            {this.renderAddress()}
+            {this.renderAccountIndex()}
             {this.renderBalances()}
             {this.renderTags()}
           </div>
@@ -466,19 +464,14 @@ export default withMulti(
       padding-top: 1rem;
     }
 
-    .ui--AddressRow-data {
-      margin: 0;
+    .ui--AddressRow-details {
+      flex: 1;
+      margin-right: 1rem;
       padding: 0.25rem 0 0;
-      white-space: nowrap;
 
       * {
         vertical-align: middle;
       }
-    }
-
-    .ui--AddressRow-details {
-      flex: 1;
-      margin-right: 1rem;
     }
 
     .ui--AddressRow-icon {
