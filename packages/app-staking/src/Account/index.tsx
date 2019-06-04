@@ -236,10 +236,6 @@ class Account extends React.PureComponent<Props, State> {
   private renderOffline (address: AccountId | string) {
     const { recentlyOffline } = this.props;
 
-    if (!recentlyOffline) {
-      return null;
-    }
-
     return (
       <RecentlyOffline
         accountId={address}
