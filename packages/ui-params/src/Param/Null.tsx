@@ -7,7 +7,16 @@ import { Props } from '../types';
 import React from 'react';
 
 export default class Null extends React.PureComponent<Props> {
+  componentDidMount () {
+    const { onChange } = this.props;
+
+    onChange && onChange({
+      isValid: true,
+      value: null
+    });
+  }
+
   render () {
-    return null;
+    return 'null goes here';
   }
 }
