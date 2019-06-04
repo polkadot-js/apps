@@ -222,17 +222,15 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('nominating')}</label>
-        {
-          nominators.map((nomineeId, index) => (
-            <AddressMini
-              key={index}
-              value={nomineeId}
-              offlineStatus={recentlyOffline[nomineeId.toString()]}
-              withBalance={false}
-              withBonded
-            />
-          ))
-        }
+        {nominators.map((nomineeId, index) => (
+          <AddressMini
+            key={index}
+            value={nomineeId}
+            offlineStatus={recentlyOffline[nomineeId.toString()]}
+            withBalance={false}
+            withBonded
+          />
+        ))}
       </div>
     );
   }

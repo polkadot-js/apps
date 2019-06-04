@@ -15,7 +15,7 @@ class Card extends React.PureComponent<Props> {
     const { children, className } = this.props;
 
     return (
-      <article className={className}>
+      <article className={`ui--Card ${className}`}>
         {children}
       </article>
     );
@@ -24,10 +24,6 @@ class Card extends React.PureComponent<Props> {
 
 export default styled(Card)`
   position: relative;
-  flex: 1 1;
-  min-width: 24%;
-  max-width: 24%;
-  justify-content: space-around;
 
   i.help.circle.icon,
   .ui.button.mini,
@@ -43,18 +39,12 @@ export default styled(Card)`
     }
   }
 
-  @media (max-width: 2060px) {
-    min-width: 32%;
-    max-width: 32%;
-  }
+  .ui--AddressSummary-buttons {
+    text-align: right;
+    margin-bottom: 2em;
 
-  @media (max-width: 1580px) {
-      min-width: 49%;
-      max-width: 49%;
-  }
-
-  @media (max-width: 1100px) {
-    min-width: 100%;
-    max-width: 100%;
+    button {
+      margin-left: 0.2em;
+    }
   }
 `;

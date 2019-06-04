@@ -8,10 +8,23 @@ import React from 'react';
 import styled from 'styled-components';
 
 type Props = BareProps & {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  className?: string
 };
 
-const StyledSummary = styled.div`
+class SummaryBox extends React.PureComponent<Props> {
+  render () {
+    const { children, className } = this.props;
+
+    return (
+      <div className={className}>
+        {children}
+      </div>
+    );
+  }
+}
+
+export default styled(SummaryBox)`
   align-items: stretch;
   border-radius: 4px;
   display: flex;
@@ -33,7 +46,6 @@ const StyledSummary = styled.div`
 		overflow: hidden;
 		text-align: left;
 		text-overflow: ellipsis;
-		vertical-align: middle;
 		white-space: nowrap;
 
 		+ div {
@@ -59,14 +71,3 @@ const StyledSummary = styled.div`
     padding-top: 0;
   }
 `;
-
-export default class SummaryBox extends React.PureComponent<Props> {
-  render () {
-
-    return (
-      <StyledSummary>
-        {this.props.children}
-      </StyledSummary>
-    );
-  }
-}

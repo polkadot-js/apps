@@ -7,9 +7,10 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { AccountId, Balance, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { AddressMini, AddressRow, RecentlyOffline } from '@polkadot/ui-app';
+import { AddressMini, AddressRow, Card, RecentlyOffline } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
@@ -18,6 +19,7 @@ import translate from '../translate';
 type Props = I18nProps & {
   address: string,
   balances: DerivedBalancesMap,
+  className?: string,
   defaultName: string,
   lastAuthor: string,
   lastBlock: string,
@@ -74,7 +76,7 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, defaultName, lastAuthor, lastBlock, filter } = this.props;
+    const { address, className, defaultName, lastAuthor, lastBlock, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
     const bonded = stakers && !stakers.own.isZero()
@@ -90,7 +92,10 @@ class Address extends React.PureComponent<Props, State> {
     }
 
     return (
-      <article key={stashId || controllerId}>
+      <Card
+        className={className}
+        key={stashId || controllerId}
+      >
         <AddressRow
           buttons={this.renderKeys()}
           defaultName={defaultName}
@@ -105,7 +110,7 @@ class Address extends React.PureComponent<Props, State> {
             ? <div className='blockNumber'>#{lastBlock}</div>
             : null
         }
-      </article>
+      </Card>
     );
   }
 
@@ -115,7 +120,7 @@ class Address extends React.PureComponent<Props, State> {
     const isSame = controllerId === sessionId;
 
     return (
-      <div className='staking--accounts-info'>
+      <div className='staking--Address-info'>
         {controllerId
           ? (
             <div>
@@ -228,7 +233,22 @@ class Address extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  Address,
+  styled(Address as React.ComponentClass<Props>)`
+    .blockNumber {
+      background: #3f3f3f;
+      border-radius: 0.25rem;
+      bottom: 0.75rem;
+      box-shadow: 0 3px 3px rgba(0,0,0,.2);
+      color: #eee;
+      font-size: 1.5rem;
+      font-weight: 100;
+      line-height: 1.5rem;
+      padding: 0.25rem 0.5rem;
+      position: absolute;
+      right: -0.75rem;
+      vertical-align: middle;
+    }
+  `,
   translate,
   withCalls<Props>(
     ['derive.staking.info', { paramName: 'address' }]

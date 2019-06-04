@@ -38,8 +38,29 @@ export default styled(CardGrid)`
 
     > .ui--CardGrid-spacer {
       flex: 1 1;
-      margin: .25rem;
+      margin: 0.25rem;
       padding: 1rem 1.5rem;
+    }
+  }
+
+  .ui--Card {
+    flex: 1 1;
+    min-width: 24%;
+    max-width: 24%;
+
+    @media (max-width: 2060px) {
+      min-width: 32%;
+      max-width: 32%;
+    }
+
+    @media (max-width: 1580px) {
+      min-width: 49%;
+      max-width: 49%;
+    }
+
+    @media (max-width: 1100px) {
+      min-width: 100%;
+      max-width: 100%;
     }
   }
 `;

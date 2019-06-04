@@ -6,101 +6,10 @@
   background: transparent !important;
 }
 
-.staking--App-navigation.ui--Button-Group {
-  margin-bottom: 2em;
-  text-align: center;
-}
-
-.staking--Account {
-  position: relative;
-  flex: 1 1;
-  min-width: 48%;
-
-  .ui--AddressMini {
-    display: block;
-    text-align: right;
-  }
-}
-
-.ui--Nominators {
-  overflow-y: overlay;
-  max-height: 196px;
-  padding-right: 18px;
-}
-
-.staking--Account-expand {
-  min-width: 18rem;
-  text-align: right;
-}
-
 .staking--Account-links {
   display: flex;
   align-items: flex-end;
   flex-direction: column;
-}
-
-.staking--Account-details {
-  display: inline-block;
-  text-align: left;
-  vertical-align: top;
-}
-
-.staking--Account-nominate {
-  padding: 0 0 3em 3em;
-}
-
-.staking--Account-nominating {
-  margin-top: 1rem;
-}
-
-.staking--Account-nominating * {
-  vertical-align: middle;
-}
-
-.staking--Account-nominating .ui--IdentityIcon {
-  margin-right: 0.25rem;
-}
-
-.staking--Account-info {
-  display: inline-block;
-}
-
-.staking--Account-address {
-  font-family: monospace;
-  font-size: 1.5rem;
-}
-
-.staking--Account-icon {
-  margin-right: 1rem;
-}
-
-.staking--Account-validating {
-  opacity: 0.25 !important;
-  position: absolute;
-  top: 1em;
-  left: 1em;
-}
-
-.staking--Account-validating.isValidator {
-  color: #d75ea1;
-  opacity: 1 !important;
-}
-
-.staking--Account-balance,
-.staking--Account-nonce {
-  opacity: 0.45;
-  text-align: right;
-}
-
-.staking--Summary-text {
-  text-align: right;
-  font-size: 1rem;
-  font-weight: normal;
-  line-height: 1.2rem;
-}
-
-.staking--accounts-info {
-  text-align: right;
 }
 
 .staking--Account-detail {
@@ -111,6 +20,10 @@
   }
 }
 
-.staking--accounts-info .staking--label {
-  margin: 0 2.25rem -0.75rem 0;
+.staking--Address-info {
+  text-align: right;
+
+  .staking--label {
+    margin: 0 2.25rem -0.75rem 0;
+  }
 }
