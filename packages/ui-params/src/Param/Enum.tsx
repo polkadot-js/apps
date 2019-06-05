@@ -9,7 +9,6 @@ import { Enum, TypeDef, createType, getTypeDef } from '@polkadot/types';
 import { Dropdown } from '@polkadot/ui-app';
 
 import Params from '../';
-import getValues from '../values';
 import Bare from './Bare';
 import Static from './Static';
 
@@ -41,11 +40,9 @@ export default class EnumParam extends React.PureComponent<Props, State> {
       value: name
     }));
     const def = prevState.def || sub[0];
-    const defValue = getValues([{ type: def }])[0];
 
     return {
       def,
-      defValue,
       options,
       sub,
       type
@@ -94,11 +91,10 @@ export default class EnumParam extends React.PureComponent<Props, State> {
 
   private onChange = (value: string): void => {
     const { sub } = this.state;
-    const def = sub.find(({ name }) => name === value);
 
-    if (def) {
-      this.setState({ def });
-    }
+    this.setState({
+      def: sub.find(({ name }) => name === value) || null
+    });
   }
 
   private onChangeParam = ([{ isValid, value }]: Array<RawParam>): void => {

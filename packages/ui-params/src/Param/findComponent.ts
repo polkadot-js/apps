@@ -50,7 +50,8 @@ const components: ComponentMap = ([
   { c: Tuple, t: ['Tuple'] },
   { c: Vector, t: ['Vector'] },
   { c: Vote, t: ['Vote'] },
-  { c: VoteThreshold, t: ['VoteThreshold'] }
+  { c: VoteThreshold, t: ['VoteThreshold'] },
+  { c: Unknown, t: ['Unknown'] }
 ] as Array<TypeToComponent>).reduce((components, { c, t }) => {
   t.forEach((type) => {
     components[type] = c;
@@ -63,10 +64,14 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   const type = (({ info, sub, type }: TypeDef) => {
     switch (info) {
       case TypeDefInfo.Compact:
+      case TypeDefInfo.Option:
         return (sub as TypeDef).type;
 
       case TypeDefInfo.Enum:
         return 'Enum';
+
+      case TypeDefInfo.Struct:
+        return 'Unknown';
 
       case TypeDefInfo.Tuple:
         return 'Tuple';
@@ -86,15 +91,13 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   if (!Component) {
     try {
       const instance = createType(type);
+      const raw = getTypeDef(instance.toRawType());
 
       if (instance instanceof BN) {
         return Amount;
+      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+        return findComponent(raw, overrides);
       }
-
-      const raw = instance.toRawType();
-      const def = getTypeDef(raw);
-
-      return findComponent(def, overrides);
     } catch (error) {
       // console.error(error.message);
     }

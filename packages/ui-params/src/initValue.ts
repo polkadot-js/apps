@@ -7,25 +7,6 @@ import { RawParam$Value } from './types';
 import BN from 'bn.js';
 import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, createType, getTypeDef } from '@polkadot/types';
 
-function fromType (type: string): RawParam$Value | Array<RawParam$Value> {
-  const instance = createType(type);
-
-  if (instance instanceof BN) {
-    return new BN(0);
-  }
-
-  const raw = instance.toRawType();
-  const def = getTypeDef(raw);
-
-  if (def.info === TypeDefInfo.Enum) {
-    const sdef = (def.sub as Array<TypeDef>)[0];
-
-    return { [sdef.name as string]: getInitValue(sdef) };
-  }
-
-  throw new Error('Unknown');
-}
-
 export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
   if (def.info === TypeDefInfo.Vector) {
     return [getInitValue(def.sub as TypeDef)];
@@ -34,13 +15,15 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       ? def.sub.map((def) => getInitValue(def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
-    console.error(`Unable to determine default type from Struct ${JSON.stringify(def)}`);
+    console.warn('Unable to determine default for Struct', def);
     return void 0;
-  } else if (def.info === TypeDefInfo.Option) {
-    return getInitValue(def.sub as TypeDef);
+  } else if (def.info === TypeDefInfo.Enum) {
+    return Array.isArray(def.sub)
+      ? { [def.sub[0].name as string]: getInitValue(def.sub[0]) }
+      : {};
   }
 
-  const type = def.info === TypeDefInfo.Compact
+  const type = [TypeDefInfo.Compact, TypeDefInfo.Option].includes(def.info)
     ? (def.sub as TypeDef).type
     : def.type;
 
@@ -110,7 +93,14 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
 
     default: {
       try {
-        return fromType(type);
+        const instance = createType(type);
+        const raw = getTypeDef(instance.toRawType());
+
+        if (instance instanceof BN) {
+          return new BN(0);
+        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+          return getInitValue(raw);
+        }
       } catch (error) {
         // console.error(error.message);
       }
