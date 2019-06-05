@@ -90,7 +90,7 @@ class BondEdit extends TxComponent<Props, State> {
 
   private renderContent () {
     const { extrinsicProp } = this.state;
-    const { controllerId, stashId, t } = this.props;
+    const { controllerId, currentlyBonded, stashId, t } = this.props;
 
     return (
       <>
@@ -98,6 +98,9 @@ class BondEdit extends TxComponent<Props, State> {
           {t('Edit bonded funds')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
+          <div className='modal-Text'>
+          {t('Select the amount of funds that your stash will bond. You will then sign a transaction to add or remove funds according to the currently bonded funds with your stash account (to bond more funds) or your controller account (to unbond funds).')}
+          </div>
           <InputAddress
             className='medium'
             defaultValue={stashId}
@@ -120,8 +123,9 @@ class BondEdit extends TxComponent<Props, State> {
             autoFocus
             className='medium'
             controllerId={controllerId}
+            defaultValue={currentlyBonded}
             extrinsicProp={extrinsicProp}
-            help={t('The new amount to be bonded, this is adjusted using the available free funds on the account. Any unbonded funds will be available after the bonding period.')}
+            help={t('The new amount you wish to bond. Should you choose to bond a lower amount of funds than what is currently bonded, these funds will be redeemable past the unbonding period.')}
             label={t('new bonded amount')}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
