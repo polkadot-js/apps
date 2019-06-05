@@ -107,9 +107,9 @@ class BondEdit extends TxComponent<Props, State> {
           <BalanceWrapper>
             <AddressInfo
               withBalance={{
-                available: false,
+                available: true,
                 bonded: true,
-                free: true,
+                free: false,
                 redeemable: false,
                 unlocking: false
               }}

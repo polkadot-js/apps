@@ -263,12 +263,10 @@ export default withMulti(
       .result {
         grid-column:  2;
 
-        .iconButton {
-          padding-left: 0!important;
-        }
-
-        i.info.circle.icon {
+        .icon {
           margin-left: .3em;
+          margin-right: 0;
+          padding-right: 0 !important;
         }
       }
     }

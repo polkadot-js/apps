@@ -86,6 +86,7 @@ const Wrapper = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
+      padding-top: 1em;
       flex: 1;
     }
   }
@@ -203,7 +204,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <AddressInfo
         withBalance={{
-          available: false,
+          available: true,
           bonded: true,
           free: false,
           redeemable: true,
