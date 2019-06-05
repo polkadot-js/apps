@@ -29,7 +29,7 @@ class Validating extends TxComponent<Props, State> {
     validatorPayment: new BN(0)
   };
 
-  // inject the preferences are returned via RPC once into the state (from this
+  // inject the preferences returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
   static getDerivedStateFromProps (props: Props, state: State): State | null {
     if (state.unstakeThreshold) {
@@ -126,7 +126,7 @@ class Validating extends TxComponent<Props, State> {
           />
           <InputBalance
             className='medium'
-            help={t('Reward that validator takes up-front, the remainder is split between themselves and nominators')}
+            help={t('Reward taken up-front by the validator before spliting the remainder between themselves and nominators')}
             label={t('reserved reward')}
             onChange={this.onChangePayment}
             onEnter={this.sendTx}

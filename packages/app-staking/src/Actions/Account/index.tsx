@@ -309,15 +309,9 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons () {
-    /*
-    const { accountId, balances_all, t } = this.props;
-    const { controllerId, isActiveStash, isActiveController, nominators, sessionId, stakingLedger, isNominationStash, isValidationStash, validatorPrefs } = this.state;
- */
     const { t } = this.props;
     const { controllerId,nominators, isNominationStash, validatorPrefs } = this.state;
-
     const buttons = [];
-
     const isNominating = !!nominators && nominators.length;
     const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
 
@@ -356,86 +350,6 @@ class Account extends React.PureComponent<Props, State> {
         />
       );
     }
-
-/*    if (isActiveStash) {
-      // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
-      // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
-      if (balances_all && stakingLedger && stakingLedger.total && (balances_all.freeBalance.gt(stakingLedger.total))) {
-        buttons.push(
-          <Button
-            isPrimary
-            key='bond'
-            onClick={this.toggleBondExtra}
-            label={t('Bond Additional')}
-          />
-        );
-      }
-
-      // don't show the `unbond` button if there's nothing to unbond
-      // staking_ledger.active gives the amount that can be unbonded (total - what's being unlocked).
-      if (stakingLedger && stakingLedger.active && stakingLedger.active.gtn(0)) {
-        buttons.length && buttons.push(<Button.Or key='bondAdditional.or' />);
-        buttons.push(
-          <Button
-            isNegative
-            key='unbond'
-            onClick={this.toggleUnbond}
-            label={t('Unbond')}
-          />
-        );
-      }
-    } else if (isActiveController) {
-
-      const isNominating = !!nominators && nominators.length;
-      const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
-
-      // if we are validating/nominating show stop
-      if (isValidating || isNominating) {
-        buttons.push(
-          <TxButton
-            accountId={accountId}
-            isNegative
-            label={
-              isNominating
-                ? t('Stop Nominating')
-                : t('Stop Validating')
-            }
-            key='stop'
-            tx='staking.chill'
-          />
-        );
-      } else {
-        if (!sessionId) {
-          buttons.push(
-            <Button
-              isPrimary
-              key='session'
-              onClick={this.toggleSessionKey}
-              label={t('Set Session Key')}
-            />
-          );
-        } else {
-          buttons.push(
-            <Button
-              isPrimary
-              key='validate'
-              onClick={this.toggleValidating}
-              label={t('Validate')}
-            />
-          );
-        }
-
-        buttons.push(<Button.Or key='nominate.or' />);
-        buttons.push(
-          <Button
-            isPrimary
-            key='nominate'
-            onClick={this.toggleNominate}
-            label={t('Nominate')}
-          />
-        );
-      }
-    }*/
 
     return (
       <Button.Group>
