@@ -15,8 +15,13 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
       ? def.sub.map((def) => getInitValue(def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
-    console.warn('Unable to determine default for Struct', def);
-    return void 0;
+    return Array.isArray(def.sub)
+      ? def.sub.reduce((result, def) => {
+        result[def.name as string] = getInitValue(def);
+
+        return result;
+      }, {} as { [index: string]: RawParam$Value | Array<RawParam$Value> })
+      : {};
   } else if (def.info === TypeDefInfo.Enum) {
     return Array.isArray(def.sub)
       ? { [def.sub[0].name as string]: getInitValue(def.sub[0]) }

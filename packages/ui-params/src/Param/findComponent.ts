@@ -20,6 +20,7 @@ import Proposal from './Proposal';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import Null from './Null';
+import Struct from './Struct';
 import Text from './Text';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
@@ -47,6 +48,7 @@ const components: ComponentMap = ([
   { c: Null, t: ['Null'] },
   { c: Proposal, t: ['Proposal'] },
   { c: Text, t: ['String', 'Text'] },
+  { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
   { c: Vector, t: ['Vector'] },
   { c: Vote, t: ['Vote'] },
@@ -71,7 +73,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         return 'Enum';
 
       case TypeDefInfo.Struct:
-        return 'Unknown';
+        return 'Struct';
 
       case TypeDefInfo.Tuple:
         return 'Tuple';
