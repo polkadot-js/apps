@@ -18,8 +18,7 @@ import { classes } from './util';
 type Props = I18nProps & {
   accountId: AccountId | string,
   offline: Array<OfflineStatus>,
-  tooltip?: boolean,
-  inline?: boolean
+  tooltip?: boolean
 };
 
 type State = {
@@ -32,8 +31,13 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { accountId, className, inline, offline, tooltip = false, t } = this.props;
+    const { accountId, className, offline, tooltip = false, t } = this.props;
     const { isOpen } = this.state;
+
+    if (!offline) {
+      return null;
+    }
+
     const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
     const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
     const text = t('Reported offline {{count}} times, last at {{blockNumber}}', {
@@ -45,18 +49,14 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={classes('ui--RecentlyOffline', isOpen && 'expand', tooltip && 'tooltip', inline && 'inline', className)}
+        className={classes('ui--RecentlyOffline', isOpen && 'expand', tooltip && 'tooltip', className)}
         {...(!tooltip ? { onClick: this.toggleOpen } : {})}
         data-for={`offline-${accountId}`}
         data-tip={true}
         data-tip-disable={!tooltip}
       >
-        <div className='badge'>
-          {count.toString()}
-        </div>
-        <div className='detail'>
-          {text}
-        </div>
+        <div className='badge'>{count.toString()}</div>
+        <div className='detail'>{text}</div>
         <Tooltip
           trigger={`offline-${accountId}`}
           text={text}
@@ -82,11 +82,8 @@ export default translate(styled(RecentlyOffline)`
   font-size: 12px;
   height: 22px;
   justify-content: center;
-  left: 1rem;
   padding: 0;
-  position: absolute;
   text-align: center;
-  top: 1rem;
   transition: all ease .2s;
   width: 22px;
 
@@ -115,13 +112,5 @@ export default translate(styled(RecentlyOffline)`
     .detail {
       width: auto;
     }
-  }
-
-  &.inline {
-    left: auto;
-    position: absolute;
-    right: -2.75rem;
-    top: -1rem;
-    z-index: 1;
   }
 `);

@@ -96,12 +96,12 @@ class Address extends React.PureComponent<Props, State> {
         buttons={this.renderKeys()}
         className={className}
         defaultName={defaultName}
+        iconInfo={this.renderOffline()}
         key={stashId || controllerId}
         value={stashId}
         withBalance={{ bonded }}
       >
         {this.renderNominators()}
-        {this.renderOffline()}
         {
           isAuthor && stashId
             ? <div className='blockNumber'>#{lastBlock}</div>

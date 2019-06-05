@@ -8,8 +8,6 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { OfflineStatus } from '@polkadot/app-staking/types';
-import { RecentlyOffline } from '@polkadot/ui-app';
 
 import { classes, getAddrName, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
@@ -20,10 +18,10 @@ type Props = BareProps & {
   balance?: BN | Array<BN>,
   bonded?: BN | Array<BN>,
   children?: React.ReactNode,
+  iconInfo?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
   value?: AccountId | AccountIndex | Address | string,
-  offlineStatus?: Array<OfflineStatus>,
   withAddress?: boolean,
   withBalance?: boolean,
   withBonded?: boolean
@@ -31,7 +29,7 @@ type Props = BareProps & {
 
 class AddressMini extends React.PureComponent<Props> {
   render () {
-    const { children, className, isPadded = true, style, value } = this.props;
+    const { children, className, iconInfo, isPadded = true, style, value } = this.props;
 
     if (!value) {
       return null;
@@ -47,12 +45,18 @@ class AddressMini extends React.PureComponent<Props> {
         <div className='ui--AddressMini-info'>
           {this.renderAddressOrName(address)}
           {children}
-          {this.renderOfflineStatus()}
         </div>
-        <IdentityIcon
-          size={24}
-          value={address}
-        />
+        <div className='ui--AddressMini-icon'>
+          <IdentityIcon
+            size={24}
+            value={address}
+          />
+          {iconInfo && (
+            <div className='ui--AddressMini-icon-info'>
+              {iconInfo}
+            </div>
+          )}
+        </div>
         <div className='ui--AddressMini-balances'>
           {this.renderBalance()}
           {this.renderBonded()}
@@ -111,23 +115,6 @@ class AddressMini extends React.PureComponent<Props> {
       />
     );
   }
-
-  private renderOfflineStatus () {
-    const { value, offlineStatus } = this.props;
-
-    if (!value || !offlineStatus) {
-      return null;
-    }
-
-    return (
-      <RecentlyOffline
-        accountId={value.toString()}
-        offline={offlineStatus}
-        tooltip
-        inline
-      />
-    );
-  }
 }
 
 export default styled(AddressMini)`
@@ -159,25 +146,35 @@ export default styled(AddressMini)`
 
   .ui--AddressMini-balances {
     display: grid;
+
+    .ui--Bonded {
+      font-size: 0.75rem;
+      margin-right: 2.25rem;
+      margin-top: -0.5rem;
+      text-align: right;
+    }
   }
 
-  .ui--AddressMini-balances .ui--Bonded.result-bonded,
-  .ui--AddressMini-balances .ui--Bonded {
-    font-size: .75rem;
-    margin-right: 2.25rem;
-    margin-top: -.5rem;
-    text-align: right;
+  .ui--AddressMini-icon {
+    margin: 0 0 0 0.5rem;
+
+    .ui--AddressMini-icon-info {
+      position: absolute;
+      right: -0.5rem;
+      top: -0.5rem;
+      z-index: 1;
+    }
+
+    .ui--IdentityIcon {
+      margin: 0;
+      vertical-align: middle;
+    }
   }
 
-  .ui--AddressMini-info,
-  .ui--IdentityIcon {
+  .ui--AddressMini-icon,
+  .ui--AddressMini-info {
     display: inline-block;
-    position:relative;
+    position: relative;
     vertical-align: middle;
-  }
-
-  .ui--IdentityIcon {
-    margin-left: 0.5rem;
-    margin-right: 0;
   }
 `;

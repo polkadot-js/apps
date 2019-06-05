@@ -11,7 +11,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressRow, Button, Card, TxButton } from '@polkadot/ui-app';
+import { AddressInfo, AddressMini, AddressRow, Button, Card, RecentlyOffline, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import BondEdit from './BondEdit';
@@ -53,21 +53,45 @@ const Wrapper = styled.div`
     flex: 1;
   }
 
-  .staking--Actions-Infos {
-    flex: 1;
-
-    .buttons {
-      margin-bottom: 1rem;
-    }
-  }
-
   .staking--Account-detail {
     display: inline-block;
     vertical-align: top;
+
+    .staking--label {
+      margin: .5rem 1.75rem -0.5rem 4.5rem;
+    }
   }
 
-  .staking--Account-detail  .staking--label {
-    margin: .5rem 1.75rem -0.5rem 4.5rem;
+  .staking--Actions-Infos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .buttons {
+      margin-bottom: 1rem;
+      flex: 0;
+    }
+
+    .staking--balances {
+      >div {
+        justify-content: flex-end;
+      }
+
+      .column {
+        flex:0;
+      }
+    }
+
+    .staking--Account-Nominee {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      flex: 1;
+    }
+  }
+
+  .staking--Account-Nominee {
+    text-align: right;
   }
 `;
 
@@ -139,18 +163,15 @@ class Account extends React.PureComponent<Props, State> {
             {this.renderStashAccount()}
             {this.renderControllerAccount()}
             {this.renderSessionAccount()}
-            {this.renderNominee()}
           </div>
           <div className='staking--Actions-Infos'>
             <div className='buttons'>
               {this.renderButtons()}
             </div>
-            <div className='staking--Infos'>
+            <div className='staking--balances'>
               {this.renderInfos()}
             </div>
-            <div className='staking--Infos'>
-
-            </div>
+            {this.renderNominee()}
           </div>
         </Wrapper>
       </Card>
@@ -216,7 +237,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { recentlyOffline, t } = this.props;
+    const { t } = this.props;
     const { nominators } = this.state;
 
     if (!nominators || !nominators.length) {
@@ -224,18 +245,30 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='staking--Account-detail'>
+      <div className='staking--Account-Nominee'>
         <label className='staking--label'>{t('nominating')}</label>
         {nominators.map((nomineeId, index) => (
-            <AddressRow
-              key={index}
-              value={nomineeId}
-              offlineStatus={recentlyOffline[nomineeId.toString()]}
-              withBalance={false}
-              withBonded
-            />
-          ))}
+          <AddressMini
+            key={index}
+            iconInfo={this.renderOffline(nomineeId)}
+            value={nomineeId}
+            withBalance={false}
+            withBonded
+          />
+        ))}
       </div>
+    );
+  }
+
+  private renderOffline (address: AccountId | string) {
+    const { recentlyOffline } = this.props;
+
+    return (
+      <RecentlyOffline
+        accountId={address}
+        offline={recentlyOffline[address.toString()]}
+        tooltip
+      />
     );
   }
 
@@ -252,6 +285,7 @@ class Account extends React.PureComponent<Props, State> {
         <label className='staking--label'>{t('controller')}</label>
         <AddressRow
           value={controllerId}
+          iconInfo={this.renderOffline(controllerId)}
         />
       </div>
     );
@@ -274,14 +308,14 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderStashAccount () {
-    const { accountId, recentlyOffline, t } = this.props;
+    const { accountId, t } = this.props;
 
     return (
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('stash')}</label>
         <AddressRow
           value={accountId}
-          offlineStatus={recentlyOffline[accountId]}
+          iconInfo={this.renderOffline(accountId)}
           withBalance={false}
           withBonded
         />
@@ -380,7 +414,6 @@ class Account extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     ['derive.staking.info', { paramName: 'accountId' }],
-    'query.staking.recentlyOffline',
     ['derive.balances.all', { paramName: 'accountId' }]
   )(Account)
 );
