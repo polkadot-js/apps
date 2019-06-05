@@ -422,6 +422,7 @@ export default withMulti(
       font-size: 1.25em;
       padding: 0;
       margin-bottom: 0.25rem;
+      white-space: nowrap;
     }
 
     .ui--AddressRow-accountIndex {
@@ -462,7 +463,6 @@ export default withMulti(
       flex: 1;
       margin-right: 1rem;
       padding: 0.25rem 0 0;
-      white-space: nowrap;
 
       * {
         vertical-align: middle;
