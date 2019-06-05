@@ -10,7 +10,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
-import { AddressCard, AddressInfo, AddressMini, Button, TxButton } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, AddressMini, Button, RecentlyOffline, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import Bond from './Bond';
@@ -210,7 +210,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominee () {
-    const { recentlyOffline, t } = this.props;
+    const { t } = this.props;
     const { nominators } = this.state;
 
     if (!nominators || !nominators.length) {
@@ -223,8 +223,8 @@ class Account extends React.PureComponent<Props, State> {
         {nominators.map((nomineeId, index) => (
           <AddressMini
             key={index}
+            iconInfo={this.renderOffline(nomineeId)}
             value={nomineeId}
-            offlineStatus={recentlyOffline[nomineeId.toString()]}
             withBalance={false}
             withBonded
           />
@@ -233,8 +233,20 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderOffline (address: AccountId | string) {
+    const { recentlyOffline } = this.props;
+
+    return (
+      <RecentlyOffline
+        accountId={address}
+        offline={recentlyOffline[address.toString()]}
+        tooltip
+      />
+    );
+  }
+
   private renderControllerId () {
-    const { recentlyOffline, t } = this.props;
+    const { t } = this.props;
     const { controllerId, isActiveController } = this.state;
 
     if (!controllerId || isActiveController) {
@@ -245,8 +257,8 @@ class Account extends React.PureComponent<Props, State> {
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('controller')}</label>
         <AddressMini
+          iconInfo={this.renderOffline(controllerId)}
           value={controllerId}
-          offlineStatus={recentlyOffline[controllerId]}
         />
       </div>
     );
@@ -269,7 +281,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderStashId () {
-    const { recentlyOffline, t } = this.props;
+    const { t } = this.props;
     const { isActiveStash, stashId } = this.state;
 
     if (!stashId || isActiveStash) {
@@ -280,8 +292,8 @@ class Account extends React.PureComponent<Props, State> {
       <div className='staking--Account-detail'>
         <label className='staking--label'>{t('stash')}</label>
         <AddressMini
+          iconInfo={this.renderOffline(stashId)}
           value={stashId}
-          offlineStatus={recentlyOffline[stashId]}
           withBalance={false}
           withBonded
         />
@@ -449,7 +461,6 @@ class Account extends React.PureComponent<Props, State> {
 export default translate(
   withCalls<Props>(
     ['derive.staking.info', { paramName: 'accountId' }],
-    'query.staking.recentlyOffline',
     ['derive.balances.all', { paramName: 'accountId' }]
   )(Account)
 );
