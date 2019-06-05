@@ -16,9 +16,8 @@ import { withCalls } from '@polkadot/ui-api';
 
 import BondEdit from './BondEdit';
 import Nominating from './Nominating';
-import SessionKey from './SessionKey';
+import StartValidating from './StartValidating';
 import translate from '../../translate';
-import Validating from './Validating';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
@@ -38,7 +37,7 @@ type State = {
   isNominationStash: boolean,
   isSessionKeyOpen: boolean,
   isValidationStash: boolean,
-  isValidatingOpen: boolean,
+  isStartValidatingOpen: boolean,
   nominators?: Array<AccountId>,
   sessionId: string | null,
   stakers?: Exposure,
@@ -89,7 +88,7 @@ class Account extends React.PureComponent<Props, State> {
     isSessionKeyOpen: false,
     isNominateOpen: false,
     isValidationStash: false,
-    isValidatingOpen: false,
+    isStartValidatingOpen: false,
     sessionId: null,
     stashId: null
   };
@@ -134,13 +133,12 @@ class Account extends React.PureComponent<Props, State> {
       <Card>
         {this.renderBondEdit()}
         {this.renderNominating()}
-        {this.renderSessionKey()}
-        {this.renderValidating()}
+        {this.renderStartValidating()}
         <Wrapper>
           <div className='staking--Accounts'>
-            {this.renderStashId()}
-            {this.renderControllerId()}
-            {this.renderSessionId()}
+            {this.renderStashAccount()}
+            {this.renderControllerAccount()}
+            {this.renderSessionAccount()}
             {this.renderNominee()}
           </div>
           <div className='staking--Actions-Infos'>
@@ -198,37 +196,21 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderValidating () {
-    const { isValidatingOpen, controllerId, stashId, validatorPrefs } = this.state;
+  private renderStartValidating () {
+    const { isStartValidatingOpen, controllerId, stashId, sessionId, validatorPrefs } = this.state;
 
-    if (!validatorPrefs || !isValidatingOpen || !stashId || !controllerId) {
+    if (!validatorPrefs || !isStartValidatingOpen || !stashId || !controllerId) {
       return null;
     }
 
     return (
-      <Validating
+      <StartValidating
         accountId={controllerId}
+        hasSessionId={sessionId !== null}
         isOpen
-        onClose={this.toggleValidating}
+        onClose={this.toggleStartValidating}
         stashId={stashId}
         validatorPrefs={validatorPrefs}
-      />
-    );
-  }
-
-  private renderSessionKey () {
-    const { controllerId, isSessionKeyOpen, stashId } = this.state;
-
-    if (!stashId || !controllerId) {
-      return null;
-    }
-
-    return (
-      <SessionKey
-        accountId={controllerId}
-        isOpen={isSessionKeyOpen}
-        onClose={this.toggleSessionKey}
-        stashId={stashId}
       />
     );
   }
@@ -257,7 +239,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderControllerId () {
+  private renderControllerAccount () {
     const { t } = this.props;
     const { controllerId } = this.state;
 
@@ -275,7 +257,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSessionId () {
+  private renderSessionAccount () {
     const { t } = this.props;
     const { sessionId } = this.state;
 
@@ -291,7 +273,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderStashId () {
+  private renderStashAccount () {
     const { accountId, recentlyOffline, t } = this.props;
 
     return (
@@ -359,7 +341,7 @@ class Account extends React.PureComponent<Props, State> {
         <Button
           isPrimary
           key='validate'
-          onClick={this.toggleValidating}
+          onClick={this.toggleStartValidating}
           label={t('Validate')}
         />
       );
@@ -474,15 +456,9 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
-  private toggleSessionKey = () => {
-    this.setState(({ isSessionKeyOpen }) => ({
-      isSessionKeyOpen: !isSessionKeyOpen
-    }));
-  }
-
-  private toggleValidating = () => {
-    this.setState(({ isValidatingOpen }) => ({
-      isValidatingOpen: !isValidatingOpen
+  private toggleStartValidating = () => {
+    this.setState(({ isStartValidatingOpen }) => ({
+      isStartValidatingOpen: !isStartValidatingOpen
     }));
   }
 }

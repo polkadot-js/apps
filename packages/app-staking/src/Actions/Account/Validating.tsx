@@ -13,7 +13,6 @@ import translate from '../../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  isOpen: boolean,
   onClose: () => void,
   stashId: string,
   validatorPrefs: ValidatorPrefs
@@ -24,7 +23,7 @@ type State = {
   validatorPayment?: BN
 };
 
-class Staking extends TxComponent<Props, State> {
+class Validating extends TxComponent<Props, State> {
   state: State = {
     unstakeThreshold: new BN(3),
     validatorPayment: new BN(0)
@@ -46,12 +45,6 @@ class Staking extends TxComponent<Props, State> {
   }
 
   render () {
-    const { isOpen } = this.props;
-
-    if (!isOpen) {
-      return null;
-    }
-
     return (
       <Modal
         className='staking--Staking'
@@ -107,22 +100,22 @@ class Staking extends TxComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            defaultValue={accountId}
-            isDisabled
-            label={t('controller account')}
-          />
-          <InputAddress
-            className='medium'
             defaultValue={stashId.toString()}
             isDisabled
             label={t('stash account')}
+          />
+          <InputAddress
+            className='medium'
+            defaultValue={accountId}
+            isDisabled
+            label={t('controller account')}
           />
           <InputNumber
             autoFocus
             bitLength={32}
             className='medium'
-            help={t('The number of allowed slashes for this validator before being automatically unstaked (maximum of 10 allowed)')}
-            label={t('unstake threshold')}
+            help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
+            label={t('automatic unstake threshold')}
             onChange={this.onChangeThreshold}
             onEnter={this.sendTx}
             value={
@@ -134,7 +127,7 @@ class Staking extends TxComponent<Props, State> {
           <InputBalance
             className='medium'
             help={t('Reward that validator takes up-front, the remainder is split between themselves and nominators')}
-            label={t('payment preferences')}
+            label={t('reserved reward')}
             onChange={this.onChangePayment}
             onEnter={this.sendTx}
             value={
@@ -161,4 +154,4 @@ class Staking extends TxComponent<Props, State> {
   }
 }
 
-export default translate(Staking);
+export default translate(Validating);

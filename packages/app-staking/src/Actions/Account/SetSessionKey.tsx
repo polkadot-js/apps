@@ -12,8 +12,8 @@ import translate from '../../translate';
 
 type Props = I18nProps & {
   accountId: string,
-  isOpen: boolean,
   onClose: () => void,
+  onSuccess: any,
   stashId: string
 };
 
@@ -22,7 +22,7 @@ type State = {
   sessionId: string
 };
 
-class Key extends React.PureComponent<Props, State> {
+class SetSessionKey extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -35,12 +35,8 @@ class Key extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accountId, isOpen, onClose, t } = this.props;
+    const { accountId, onClose, onSuccess, t } = this.props;
     const { sessionError, sessionId } = this.state;
-
-    if (!isOpen) {
-      return null;
-    }
 
     return (
       <Modal
@@ -51,24 +47,24 @@ class Key extends React.PureComponent<Props, State> {
       >
         {this.renderContent()}
         <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!sessionId || !!sessionError}
-            isPrimary
-            label={t('Set Session Key')}
-            onClick={onClose}
-            params={[sessionId]}
-            tx='session.setKey'
-          />
-        </Button.Group>
-      </Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={onClose}
+              label={t('Cancel')}
+            />
+            <Button.Or />
+            <TxButton
+              accountId={accountId}
+              isDisabled={!sessionId || !!sessionError}
+              isPrimary
+              label={t('Set Session Key')}
+              onSuccess={onSuccess}
+              params={[sessionId]}
+              tx='session.setKey'
+            />
+          </Button.Group>
+        </Modal.Actions>
       </Modal>
     );
   }
@@ -117,4 +113,4 @@ class Key extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Key);
+export default translate(SetSessionKey);
