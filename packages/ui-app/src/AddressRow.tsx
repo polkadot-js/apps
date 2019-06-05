@@ -462,6 +462,7 @@ export default withMulti(
       flex: 1;
       margin-right: 1rem;
       padding: 0.25rem 0 0;
+      white-space: nowrap;
 
       * {
         vertical-align: middle;
