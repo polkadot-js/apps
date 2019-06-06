@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef, TypeDefInfo, UInt, createType } from '@polkadot/types';
 import { Props, ComponentMap } from '../types';
+
+import BN from 'bn.js';
+import { TypeDef, TypeDefInfo, createType, getTypeDef } from '@polkadot/types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -11,11 +13,14 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
+import Enum from './Enum';
 import Hash from './Hash';
 import Moment from './Moment';
 import Proposal from './Proposal';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
+import Null from './Null';
+import Struct from './Struct';
 import Text from './Text';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
@@ -35,16 +40,20 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
+  { c: Enum, t: ['Enum'] },
   { c: Hash, t: ['CodeHash', 'Hash', 'SeedOf', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
+  { c: Null, t: ['Null'] },
   { c: Proposal, t: ['Proposal'] },
   { c: Text, t: ['String', 'Text'] },
+  { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
   { c: Vector, t: ['Vector'] },
   { c: Vote, t: ['Vote'] },
-  { c: VoteThreshold, t: ['VoteThreshold'] }
+  { c: VoteThreshold, t: ['VoteThreshold'] },
+  { c: Unknown, t: ['Unknown'] }
 ] as Array<TypeToComponent>).reduce((components, { c, t }) => {
   t.forEach((type) => {
     components[type] = c;
@@ -57,7 +66,14 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   const type = (({ info, sub, type }: TypeDef) => {
     switch (info) {
       case TypeDefInfo.Compact:
+      case TypeDefInfo.Option:
         return (sub as TypeDef).type;
+
+      case TypeDefInfo.Enum:
+        return 'Enum';
+
+      case TypeDefInfo.Struct:
+        return 'Struct';
 
       case TypeDefInfo.Tuple:
         return 'Tuple';
@@ -77,9 +93,12 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   if (!Component) {
     try {
       const instance = createType(type);
+      const raw = getTypeDef(instance.toRawType());
 
-      if (instance instanceof UInt) {
+      if (instance instanceof BN) {
         return Amount;
+      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+        return findComponent(raw, overrides);
       }
     } catch (error) {
       // console.error(error.message);
