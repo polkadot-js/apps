@@ -13,6 +13,7 @@ import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, Tx
 import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
+import { rewardDestinationOptions } from './constants';
 import ValidateController from './Account/ValidateController';
 
 type Props = I18nProps & ApiProps & CalculateBalanceProps & {
@@ -27,12 +28,6 @@ type State = {
   extrinsic: SubmittableExtrinsic | null,
   stashId: string | null
 };
-
-const stashOptions = [
-  { text: 'Stash account (increase the amount at stake)', value: 0 },
-  { text: 'Stash account (do not increase the amount at stake)', value: 1 },
-  { text: 'Controller account', value: 2 }
-];
 
 class NewStake extends TxComponent<Props, State> {
   state: State;
@@ -138,7 +133,7 @@ class NewStake extends TxComponent<Props, State> {
             help={t('The destination account for any payments as either a nominator or validator')}
             label={t('payment destination')}
             onChange={this.onChangeDestination}
-            options={stashOptions}
+            options={rewardDestinationOptions}
             value={destination}
           />
         </Modal.Content>

@@ -15,10 +15,10 @@ import BaseIdentityIcon from '@polkadot/ui-identicon';
 import keyring from '@polkadot/ui-keyring';
 
 import AddressInfo, { BalanceActiveType } from './AddressInfo';
+import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import translate from './translate';
-import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
 
 export type RowProps = {
   bonded?: BN | Array<BN>,
@@ -403,17 +403,6 @@ export default withMulti(
     &.invalid {
       filter: grayscale(100);
       opacity: 0.5;
-    }
-
-    button.ui.icon.editButton {
-      padding: 0em .3em .3em .3em;
-      color: #2e86ab;
-      background: none;
-      /*trick to let the button in the flow but keep the content centered regardless*/
-      margin-left: -2em;
-      position: relative;
-      right: -2.3em;
-      z-index: 1;
     }
 
     .ui--AddressRow-accountId,

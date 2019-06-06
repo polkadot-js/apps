@@ -73,12 +73,18 @@ const Wrapper = styled.div`
     }
 
     .staking--balances {
-      >div {
+      div {
         justify-content: flex-end;
+        flex-direction: column;
       }
 
       .column {
         flex:0;
+        align-items: end;
+      }
+
+      .result.unstake-threshold {
+        margin-top: 1rem;
       }
     }
 
@@ -213,6 +219,7 @@ class Account extends React.PureComponent<Props, State> {
         withEdit={{
           onBondedEdit: this.toggleBondEdit
         }}
+        withValidatorPrefs={true}
         value={stashId}
       />
     );

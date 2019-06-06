@@ -12,9 +12,10 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import { Icon, Tooltip, TxButton, Button } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
-import translate from './translate';
 import CryptoType from './CryptoType';
 import Label from './Label';
+//  import { validatorPaymentDestinationOptions } from './constants';
+import translate from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export type BalanceActiveType = {
@@ -36,6 +37,11 @@ export type CryptoActiveType = {
   nonce?: boolean
 };
 
+export type ValidatorPrefsType = {
+  unstakeThreshold?: boolean,
+  validatorPayment?: boolean
+};
+
 type Props = BareProps & I18nProps & {
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
@@ -43,7 +49,8 @@ type Props = BareProps & I18nProps & {
   value: string,
   withBalance?: boolean | BalanceActiveType,
   withEdit?: false | BalanceEditType,
-  withExtended?: boolean | CryptoActiveType
+  withExtended?: boolean | CryptoActiveType,
+  withValidatorPrefs?: boolean | ValidatorPrefsType
 };
 
 // <AddressInfo
@@ -116,6 +123,7 @@ class AddressInfo extends React.PureComponent<Props> {
             </div>
           </>
         )}
+        {this.renderValidatorPrefs()}
       </div>
     );
   }
@@ -233,6 +241,64 @@ class AddressInfo extends React.PureComponent<Props> {
           />
         </div>
       ))
+    );
+  }
+
+    // either true (filtered above already) or [own, ...all extras]
+  private renderValidatorPrefs () {
+    const { staking_info, t, withEdit = false, withValidatorPrefs = false } = this.props;
+    const edit = withEdit === false
+    ? {  onBondedEdit: undefined, onUnstakeThresholdEdit: undefined, onValidatorPaymentEdit: undefined }
+    : withEdit;
+    const validatorPrefsDisplay = withValidatorPrefs === true
+    ? { unstakeThreshold: true, validatorPayment: true }
+    : withValidatorPrefs;
+
+    console.log('validatorPrefsDisplay',validatorPrefsDisplay);
+
+    if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
+      return null;
+    }
+
+    return (
+      <>
+        {validatorPrefsDisplay.unstakeThreshold && staking_info.validatorPrefs.unstakeThreshold && (
+          <>
+            <Label label={t('unstake threshold')} />
+            <div className='result unstake-threshold'>{staking_info.validatorPrefs.unstakeThreshold.toString()}
+              {edit && edit.onUnstakeThresholdEdit !== undefined &&
+                <Button
+                  className='iconButton'
+                  icon='edit'
+                  size='mini'
+                  isPrimary
+                  key='edit-unstake-threshold'
+                  tooltip={t('Change the unstake threshold')}
+                  onClick={edit.onUnstakeThresholdEdit }
+                />
+              }
+            </div>
+          </>
+        )}
+        {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
+          <>
+            <Label label={t('commision')} />
+            <div className='result'>{formatBalance(staking_info.validatorPrefs.validatorPayment.toBn())}
+              {edit && edit.onValidatorPaymentEdit !== undefined &&
+                <Button
+                  className='iconButton'
+                  icon='edit'
+                  size='mini'
+                  isPrimary
+                  key='edit-unstake-threshold'
+                  tooltip={t('Change the unstake threshold')}
+                  onClick={edit.onValidatorPaymentEdit }
+                />
+              }
+            </div>
+          </>
+        )}
+      </>
     );
   }
 }
