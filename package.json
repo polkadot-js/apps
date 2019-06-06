@@ -10,9 +10,9 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.80.1",
+    "@polkadot/api": "^0.81.0-beta.0",
     "@polkadot/keyring": "^0.92.1",
-    "@polkadot/types": "^0.80.1",
+    "@polkadot/types": "^0.81.0-beta.0",
     "@polkadot/util": "^0.92.1",
     "@polkadot/util-crypto": "^0.92.1",
     "babel-core": "^7.0.0-bridge.0",
@@ -32,8 +32,8 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/runtime": "^7.4.5",
-    "@polkadot/dev-react": "^0.30.0-beta.8",
-    "@polkadot/ts": "^0.1.58",
+    "@polkadot/dev-react": "^0.30.0-beta.10",
+    "@polkadot/ts": "^0.1.59",
     "autoprefixer": "^9.5.1",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",
