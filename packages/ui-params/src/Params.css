@@ -17,6 +17,10 @@
 .ui--Params-Content {
   box-sizing: border-box;
   padding: 0 0 0 1.75rem;
+
+  label .withEllipsis {
+    white-space: normal;
+  }
 }
 
 .ui--Param-text {
