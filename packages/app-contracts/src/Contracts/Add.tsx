@@ -45,6 +45,7 @@ class Add extends ContractModal<Props, State> {
     return (
       <AddressRow
         defaultName={name}
+        isValid
         value={address || null}
       >
         <Input

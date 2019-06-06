@@ -124,6 +124,7 @@ class Contract extends React.PureComponent<Props> {
       status.status = 'error';
       status.message = error.message;
     }
+    this.toggleForget();
   }
 
   private renderButtons () {

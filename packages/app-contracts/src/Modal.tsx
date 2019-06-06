@@ -167,12 +167,14 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <InputNumber
+        defaultValue={gasLimit}
         help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
         isDisabled={isBusy}
         isError={!isGasValid}
         label={t('maximum gas allowed')}
         onChange={this.onChangeGas}
         onEnter={this.sendTx}
+        value={gasLimit}
       />
     );
   }

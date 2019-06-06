@@ -52,20 +52,11 @@ class App extends React.PureComponent<Props, State> {
   }
 
   static getDerivedStateFromProps ({ contracts }: Props): State {
-
     const hasContracts = !!contracts && Object.keys(contracts).length >= 1;
+
     return {
       hasContracts
     } as State;
-  }
-
-  componentWillMount () {
-    const { basePath, history, location } = this.props;
-    const { hasContracts } = this.state;
-
-    if (!hasContracts && new RegExp(`^${basePath}/?$`).test(location.pathname)) {
-      history.replace(`${basePath}/code`);
-    }
   }
 
   render () {

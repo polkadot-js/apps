@@ -10,7 +10,7 @@ import { Button, CardGrid, Icon } from '@polkadot/ui-app';
 import contracts from '../store';
 
 import translate from '../translate';
-// import CodeSummary from './CodeSummary';
+// import CodeRow from './CodeRow';
 import Code from './Code';
 import Upload from './Upload';
 import Add from './Add';

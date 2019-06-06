@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { AddressRow, Button, CodeSummary, Modal } from '@polkadot/ui-app';
+import { AddressRow, Button, CodeRow, Modal } from '@polkadot/ui-app';
 
 import translate from './translate';
 
@@ -127,11 +127,11 @@ class Forget extends React.PureComponent<Props> {
         );
       case 'code':
         return (
-          <CodeSummary
+          <CodeRow
             code={code!}
           >
             {this.content()}
-          </CodeSummary>
+          </CodeRow>
         );
     }
   }

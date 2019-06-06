@@ -26,13 +26,10 @@ type Props = I18nProps & {
 };
 
 type State = {
-  // abi?: Uint8Array | null,
   contractAbi?: ContractAbi,
   isAbiValid: boolean,
   isEmpty: boolean,
   isError: boolean
-  // name?: string,
-  // placeholder?: React.ReactNode | null
 };
 
 const Normalize = styled.div`

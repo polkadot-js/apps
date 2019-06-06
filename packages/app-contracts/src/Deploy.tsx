@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { api, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
-import { ContractAbi, getTypeDef } from '@polkadot/types';
+import { AccountId, ContractAbi, getTypeDef } from '@polkadot/types';
 import createValues from '@polkadot/ui-params/values';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
@@ -69,10 +69,9 @@ class Deploy extends ContractModal<Props, State> {
     const { codeHash, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
     const isEndowValid = !endowment.isZero();
-    const codeOptions = store.getAllCode().map(({ contractAbi, json: { codeHash, name } }) => ({
+    const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }) => ({
       text: `${name} (${codeHash})`,
-      value: codeHash,
-      contractAbi
+      value: codeHash
     }));
 
     const defaultCode = codeOptions.length
@@ -125,12 +124,14 @@ class Deploy extends ContractModal<Props, State> {
           }
         />
         <InputBalance
+          defaultValue={endowment}
           help={t('The allotted endownment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
           isDisabled={isBusy}
           isError={!isEndowValid}
           label={t('endowment')}
           onChange={this.onChangeEndowment}
           onEnter={this.sendTx}
+          value={endowment}
         />
         {this.renderInputGas()}
       </>
@@ -253,9 +254,7 @@ class Deploy extends ContractModal<Props, State> {
     const record = result.findRecord('contract', 'Instantiated');
 
     if (record) {
-      console.log(record);
-      const address = record.event.data[1] as any as string;
-      console.log(address);
+      const address = record.event.data[1] as any as AccountId;
 
       await api.isReady;
 
@@ -264,7 +263,7 @@ class Deploy extends ContractModal<Props, State> {
           return;
         }
 
-        keyring.saveContract(address, {
+        keyring.saveContract(address.toString(), {
           name,
           contract: {
             abi,

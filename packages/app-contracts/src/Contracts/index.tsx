@@ -77,6 +77,7 @@ class Contracts extends React.PureComponent<Props, State> {
               <Contract
                 basePath={basePath}
                 address={address}
+                key={address}
                 onCall={this.showCall}
               />
             );

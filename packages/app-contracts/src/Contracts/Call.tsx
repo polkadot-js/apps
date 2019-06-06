@@ -71,12 +71,6 @@ class Call extends TxComponent<Props, State> {
     };
   }
 
-  componentWillReceiveProps ({ method }: Props) {
-    if (method && method !== this.state.method) {
-      this.setState({ method });
-    }
-  }
-
   render () {
     const { isOpen, t } = this.props;
 

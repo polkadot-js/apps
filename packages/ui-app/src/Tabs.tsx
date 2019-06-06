@@ -66,12 +66,11 @@ export default class Tabs extends React.PureComponent<Props> {
     const isExact = tab.isExact || !hasParams || (!isSequence && index === 0);
 
     return (
-      <>
+      <React.Fragment key={to}>
         <NavLink
           activeClassName='active'
           className='item'
           exact={isExact}
-          key={to}
           strict={isExact}
           to={to}
         >
@@ -80,7 +79,7 @@ export default class Tabs extends React.PureComponent<Props> {
         {(isSequence && index < items.length - 1) && (
           <Next />
         )}
-      </>
+      </React.Fragment>
     );
   }
 }

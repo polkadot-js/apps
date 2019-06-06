@@ -28,3 +28,10 @@ export type CodeJson = {
 };
 
 export type CodeStored = { json: CodeJson , contractAbi?: ContractAbi };
+
+export type ContractJsonOld = {
+  genesisHash: string,
+  abi: string,
+  address: string,
+  name: string
+};
