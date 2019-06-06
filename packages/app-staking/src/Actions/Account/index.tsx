@@ -65,7 +65,6 @@ const Wrapper = styled.div`
   .staking--Actions-Infos {
     flex: 1;
     display: flex;
-    flex-direction: column;
 
     .buttons {
       margin-bottom: 1rem;

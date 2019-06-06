@@ -8,8 +8,8 @@ import { ValidatorPrefs } from '@polkadot/types';
 import React from 'react';
 
 import SetSessionKey from './SetSessionKey';
-import Validating from './Validating';
 import translate from '../../translate';
+import Validating from './Validating';
 
 type Props = I18nProps & {
   accountId: string,

@@ -84,7 +84,6 @@ class Transfer extends React.PureComponent<Props> {
   componentDidUpdate (prevProps: Props, prevState: State) {
     const { balances_fees } = this.props;
     const { extrinsic, recipientId, senderId } = this.state;
-
     const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
 
     if ((recipientId && prevState.recipientId !== recipientId) ||

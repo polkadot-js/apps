@@ -104,7 +104,6 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, extrinsicProp, system_accountNonce = ZERO } = this.props;
     const { transactionBaseFee, transactionByteFee } = balances_fees;
     const { freeBalance } = balances_all;
-
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
     let extrinsic;

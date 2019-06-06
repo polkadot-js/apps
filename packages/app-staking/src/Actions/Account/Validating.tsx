@@ -114,7 +114,7 @@ class Validating extends TxComponent<Props, State> {
             autoFocus
             bitLength={32}
             className='medium'
-            defaultValue={validatorPrefs && validatorPrefs.unstakeThreshold.toBn()}
+            defaultValue={validatorPrefs && validatorPrefs.unstakeThreshold && validatorPrefs.unstakeThreshold.toBn()}
             help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
             label={t('automatic unstake threshold')}
             onChange={this.onChangeThreshold}
@@ -127,9 +127,9 @@ class Validating extends TxComponent<Props, State> {
           />
           <InputBalance
             className='medium'
-            defaultValue={validatorPrefs && validatorPrefs.validatorPayment.toBn()}
-            help={t('Reward taken up-front by the validator before spliting the remainder between themselves and nominators')}
-            label={t('reserved reward')}
+            defaultValue={validatorPrefs && validatorPrefs.validatorPayment && validatorPrefs.validatorPayment.toBn()}
+            help={t('Amount taken up-front from the reward by the validator before spliting the remainder between themselves and the nominators')}
+            label={t('reward commission')}
             onChange={this.onChangePayment}
             onEnter={this.sendTx}
             value={
