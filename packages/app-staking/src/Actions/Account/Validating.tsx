@@ -89,7 +89,7 @@ class Validating extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, stashId, t } = this.props;
+    const { accountId, stashId, t, validatorPrefs } = this.props;
     const { unstakeThreshold, validatorPayment } = this.state;
 
     return (
@@ -114,6 +114,7 @@ class Validating extends TxComponent<Props, State> {
             autoFocus
             bitLength={32}
             className='medium'
+            defaultValue={validatorPrefs && validatorPrefs.unstakeThreshold.toBn()}
             help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
             label={t('automatic unstake threshold')}
             onChange={this.onChangeThreshold}
@@ -126,6 +127,7 @@ class Validating extends TxComponent<Props, State> {
           />
           <InputBalance
             className='medium'
+            defaultValue={validatorPrefs && validatorPrefs.validatorPayment.toBn()}
             help={t('Reward taken up-front by the validator before spliting the remainder between themselves and nominators')}
             label={t('reserved reward')}
             onChange={this.onChangePayment}

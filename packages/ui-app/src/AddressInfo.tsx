@@ -254,8 +254,6 @@ class AddressInfo extends React.PureComponent<Props> {
     ? { unstakeThreshold: true, validatorPayment: true }
     : withValidatorPrefs;
 
-    console.log('validatorPrefsDisplay',validatorPrefsDisplay);
-
     if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
       return null;
     }
@@ -291,7 +289,7 @@ class AddressInfo extends React.PureComponent<Props> {
                   size='mini'
                   isPrimary
                   key='edit-unstake-threshold'
-                  tooltip={t('Change the unstake threshold')}
+                  tooltip={t('Change the validator\'s commission')}
                   onClick={edit.onValidatorPaymentEdit }
                 />
               }

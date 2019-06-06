@@ -217,7 +217,9 @@ class Account extends React.PureComponent<Props, State> {
           unlocking: true
         }}
         withEdit={{
-          onBondedEdit: this.toggleBondEdit
+          onBondedEdit: this.toggleBondEdit,
+          onUnstakeThresholdEdit: this.toggleStartValidating,
+          onValidatorPaymentEdit: this.toggleStartValidating
         }}
         withValidatorPrefs={true}
         value={stashId}
