@@ -9,6 +9,7 @@ import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
+import ValidateUnstakeThreshold from './ValidateUnstakeThreshold';
 import translate from '../../translate';
 
 type Props = I18nProps & {
@@ -20,12 +21,14 @@ type Props = I18nProps & {
 
 type State = {
   unstakeThreshold?: BN,
+  unstakeThresholdError: string | null,
   validatorPayment?: BN
 };
 
 class Validating extends TxComponent<Props, State> {
   state: State = {
     unstakeThreshold: new BN(3),
+    unstakeThresholdError: null,
     validatorPayment: new BN(0)
   };
 
@@ -40,6 +43,7 @@ class Validating extends TxComponent<Props, State> {
 
     return {
       unstakeThreshold: unstakeThreshold.toBn(),
+      unstakeThresholdError: null,
       validatorPayment: validatorPayment.toBn()
     };
   }
@@ -60,7 +64,7 @@ class Validating extends TxComponent<Props, State> {
 
   private renderButtons () {
     const { accountId, onClose, t } = this.props;
-    const { unstakeThreshold, validatorPayment } = this.state;
+    const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
 
     return (
       <Modal.Actions>
@@ -73,6 +77,7 @@ class Validating extends TxComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
+            isDisabled={!!unstakeThresholdError}
             isPrimary
             label={t('Validate')}
             onClick={onClose}
@@ -90,7 +95,7 @@ class Validating extends TxComponent<Props, State> {
 
   private renderContent () {
     const { accountId, stashId, t, validatorPrefs } = this.props;
-    const { unstakeThreshold, validatorPayment } = this.state;
+    const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
 
     return (
       <>
@@ -116,6 +121,7 @@ class Validating extends TxComponent<Props, State> {
             className='medium'
             defaultValue={validatorPrefs && validatorPrefs.unstakeThreshold && validatorPrefs.unstakeThreshold.toBn()}
             help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
+            isError={!!unstakeThresholdError}
             label={t('automatic unstake threshold')}
             onChange={this.onChangeThreshold}
             onEnter={this.sendTx}
@@ -124,6 +130,10 @@ class Validating extends TxComponent<Props, State> {
                 ? unstakeThreshold.toString()
                 : '3'
             }
+          />
+          <ValidateUnstakeThreshold
+            onError={this.onUnstakeThresholdError}
+            unstakeThreshold={unstakeThreshold}
           />
           <InputBalance
             className='medium'
@@ -153,6 +163,10 @@ class Validating extends TxComponent<Props, State> {
     if (unstakeThreshold) {
       this.setState({ unstakeThreshold });
     }
+  }
+
+  private onUnstakeThresholdError = (unstakeThresholdError: string | null) => {
+    this.setState({ unstakeThresholdError });
   }
 }
 
