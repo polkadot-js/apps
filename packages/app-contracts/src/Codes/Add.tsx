@@ -98,14 +98,15 @@ class Add extends ContractModal<Props, State> {
       { isBusy: true },
       () => {
         store.saveCode(new Hash(codeHash), { abi, name, tags })
-          .catch((error) => {
-            console.error('Unable to save code', error);
-          })
           .then(() => {
             this.setState(
               { isBusy: false },
               () => this.onClose()
             );
+          })
+          .catch((error) => {
+            console.error('Unable to save code', error);
+            this.setState({ isBusy: false });
           });
       }
     );

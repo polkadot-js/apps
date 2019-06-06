@@ -154,10 +154,10 @@ class Contract extends React.PureComponent<Props> {
     }
   }
 
-  private onChangeABI = (abi: string | null): void => {
+  private onChangeABI = async (abi: string | null) => {
     const { code: { json: { codeHash } } } = this.props;
 
-    contracts.saveCode(
+    await contracts.saveCode(
       codeHash,
       { abi }
     );
