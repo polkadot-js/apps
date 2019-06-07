@@ -128,6 +128,7 @@ class Forget extends React.PureComponent<Props> {
       case 'code':
         return (
           <CodeRow
+            isInline
             code={code!}
           >
             {this.content()}

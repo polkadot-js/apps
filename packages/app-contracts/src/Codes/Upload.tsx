@@ -63,8 +63,8 @@ class Upload extends ContractModal<Props, State> {
 
   renderButtons = () => {
     const { t } = this.props;
-    const { accountId, gasLimit, isAbiValid, isBusy, isNameValid, isWasmValid, wasm } = this.state;
-    const isValid = !isBusy && accountId && isAbiValid && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
+    const { accountId, gasLimit, isBusy, isNameValid, isWasmValid, wasm } = this.state;
+    const isValid = !isBusy && accountId && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
 
     return (
       <Button.Group>
@@ -73,7 +73,7 @@ class Upload extends ContractModal<Props, State> {
           accountId={accountId}
           isDisabled={!isValid}
           isPrimary
-          label={t('Deploy')}
+          label={t('Upload')}
           onClick={this.toggleBusy(true)}
           onSuccess={this.onSuccess}
           onFailed={this.toggleBusy(false)}
