@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 import { Extrinsic, Method } from '@polkadot/types';
@@ -18,10 +19,13 @@ type Props = I18nProps & {
 
 class Extrinsics extends React.PureComponent<Props> {
   render () {
-    const { label, t } = this.props;
+    const { className, label, t } = this.props;
 
     return (
-      <Column header={label || t('extrinsics')}>
+      <Column
+        className={className}
+        header={label || t('extrinsics')}
+      >
         {this.renderContent()}
       </Column>
     );
@@ -82,11 +86,11 @@ class Extrinsics extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='explorer--BlockByHash-header-right'>
+      <div className='explorer--BlockByHash-header'>
         <div>
           <AddressMini value={extrinsic.signature.signer} />
         </div>
-        <div className='explorer--BlockByHash-accountIndex'>
+        <div className='explorer--BlockByHash-nonce'>
           {t('index')} {formatNumber(extrinsic.signature.nonce)}
         </div>
       </div>
@@ -94,4 +98,18 @@ class Extrinsics extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Extrinsics);
+export default translate(styled(Extrinsics)`
+  .explorer--BlockByHash-header {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.75rem;
+  }
+
+  .explorer--BlockByHash-nonce {
+    font-size: .75rem;
+    margin-right: 2.25rem;
+    margin-top: -1rem;
+    opacity: 0.45;
+    text-align: right;
+  }
+`);

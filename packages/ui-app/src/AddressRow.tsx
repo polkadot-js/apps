@@ -450,8 +450,12 @@ export default withMulti(
 
     .ui--AddressRow-buttons {
       flex: 0;
-      margin: -0.75rem -1.25rem 0 0;
+      margin: -0.75rem -1rem 0 0;
       white-space: nowrap;
+
+      button.ui.button:last-child {
+        margin-right: 0;
+      }
     }
 
     .ui--AddressRow-children {
