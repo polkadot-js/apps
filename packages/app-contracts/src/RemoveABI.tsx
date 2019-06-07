@@ -76,6 +76,7 @@ class RemoveABI extends React.PureComponent<Props> {
     return (
       <CodeRow
         code={code}
+        isInline
       >
         {this.content()}
       </CodeRow>
