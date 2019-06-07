@@ -13,7 +13,7 @@ import { u8aToString } from '@polkadot/util';
 import translate from './translate';
 
 type Props = I18nProps & {
-  contractAbi?: ContractAbi,
+  contractAbi?: ContractAbi | null,
   help?: React.ReactNode,
   isError?: boolean,
   isDisabled?: boolean,
@@ -26,7 +26,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  contractAbi?: ContractAbi,
+  contractAbi: ContractAbi | null,
   isAbiValid: boolean,
   isEmpty: boolean,
   isError: boolean
@@ -38,6 +38,7 @@ const Normalize = styled.div`
 
 class ABI extends React.PureComponent<Props, State> {
   state: State = {
+    contractAbi: null,
     isAbiValid: false,
     isEmpty: true,
     isError: false
@@ -45,20 +46,17 @@ class ABI extends React.PureComponent<Props, State> {
 
   constructor (props: Props) {
     super(props);
-    if (props.contractAbi) {
-      this.state = {
-        ...this.state,
-        contractAbi: props.contractAbi,
-        isAbiValid: true,
-        isEmpty: false,
-        isError: false
-      };
-    } else {
-      this.state = {
-        ...this.state,
-        isError: props.isError || props.isRequired || false
-      };
-    }
+
+    const { contractAbi, isError, isRequired } = this.props;
+
+    const isAbiValid = !!contractAbi;
+
+    this.state = {
+      contractAbi: contractAbi || null,
+      isAbiValid,
+      isEmpty: !isAbiValid,
+      isError: isError || (isRequired && !isAbiValid) || false
+    };
   }
 
   componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props) {
@@ -70,7 +68,7 @@ class ABI extends React.PureComponent<Props, State> {
       });
     } else if (this.props.contractAbi) {
       this.setState({
-        contractAbi: undefined,
+        contractAbi: null,
         isAbiValid: false,
         isError: isError || isRequired || false
       });
@@ -166,7 +164,7 @@ class ABI extends React.PureComponent<Props, State> {
 
     this.setState(
       {
-        contractAbi: undefined,
+        contractAbi: null,
         isAbiValid: false,
         isEmpty: true
       },

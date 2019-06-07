@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -16,13 +17,14 @@ import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
-import { classes, getAddrName, getAddrTags, toShortAddress } from './util';
+import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 
 type Props = RowProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?]
   bonded?: BN | Array<BN>,
   isContract?: boolean,
   isValid?: boolean,
+  type: KeyringItemType,
   value: AccountId | AccountIndex | Address | string | null,
   withBalance?: boolean | BalanceActiveType,
   withIndex?: boolean
@@ -44,14 +46,14 @@ class AddressRow extends Row<Props, State> {
     this.state = this.createState();
   }
 
-  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, value }: Props, prevState: State) {
+  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, type, value }: Props, prevState: State) {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddrName(address, false, defaultName) || '';
-    const tags = getAddrTags(address);
+    const name = getAddressName(address, type, false, defaultName) || '';
+    const tags = getAddressTags(address, type);
     const state = { tags } as State;
     let hasChanged = false;
 
@@ -97,14 +99,14 @@ class AddressRow extends Row<Props, State> {
   }
 
   private createState () {
-    const { accounts_idAndIndex = [], defaultName, value } = this.props;
+    const { accounts_idAndIndex = [], defaultName, type, value } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddrName(address, false, defaultName) || '';
-    const tags = getAddrTags(address);
+    const name = getAddressName(address, type, false, defaultName) || '';
+    const tags = getAddressTags(address, type);
 
     return {
       ...this.state,

@@ -184,6 +184,12 @@ class Call extends TxComponent<Props, State> {
 
     return (
       <Button.Group>
+        <Button
+          isNegative
+          onClick={this.onClose}
+          label={t('Cancel')}
+        />
+        <Button.Or />
         <TxButton
           accountId={accountId}
           isDisabled={!isValid}

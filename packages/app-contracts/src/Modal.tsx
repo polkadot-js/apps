@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Input, InputAddress, InputNumber, InputTags, Modal, TxComponent } from '@polkadot/ui-app';
+import { Button, Input, InputAddress, InputNumber, InputTags, Modal, TxComponent } from '@polkadot/ui-app';
 import { ContractAbi } from '@polkadot/types';
 
 import ABI from './ABI';
@@ -176,6 +176,21 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
         onEnter={this.sendTx}
         value={gasLimit}
       />
+    );
+  }
+
+  protected renderCancelButton () {
+    const { t } = this.props;
+
+    return (
+      <>
+        <Button
+          isNegative
+          onClick={this.onClose}
+          label={t('Cancel')}
+        />
+        <Button.Or />
+      </>
     );
   }
 

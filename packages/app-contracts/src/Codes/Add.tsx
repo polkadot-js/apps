@@ -7,7 +7,6 @@ import { Button, Input } from '@polkadot/ui-app';
 import { Hash } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
-
 import ValidateCode from './ValidateCode';
 import store from '../store';
 import translate from '../translate';
@@ -30,9 +29,8 @@ class Add extends ContractModal<Props, State> {
       isCodeValid: false
     };
     this.state = this.defaultState;
+    this.headerText = props.t('Add an existing code hash');
   }
-
-  headerText = 'Add an existing code hash';
 
   renderContent = () => {
     const { t } = this.props;
@@ -68,6 +66,7 @@ class Add extends ContractModal<Props, State> {
 
     return (
       <Button.Group>
+        {this.renderCancelButton()}
         <Button
           isDisabled={!isValid}
           isPrimary

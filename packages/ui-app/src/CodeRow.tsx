@@ -163,29 +163,29 @@ class CodeRow extends Row<Props, State> {
 
     return (
       <Messages
-        contractAbi={contractAbi!}
+        contractAbi={contractAbi}
         isRemovable
       />
     );
   }
 
-  protected saveName = () => {
+  protected saveName = async () => {
     const { codeHash, name } = this.state;
     const trimmedName = name.trim();
 
     // Save only if the name was changed or if it's no empty.
     if (trimmedName && codeHash) {
-      contracts.saveCode(new Hash(codeHash), { name });
+      await contracts.saveCode(new Hash(codeHash), { name });
 
       this.setState({ isEditingName: false });
     }
   }
 
-  protected saveTags = () => {
+  protected saveTags = async () => {
     const { codeHash, tags } = this.state;
 
     if (codeHash) {
-      contracts.saveCode(new Hash(codeHash), { tags });
+      await contracts.saveCode(new Hash(codeHash), { tags });
 
       this.setState({ isEditingTags: false });
     }

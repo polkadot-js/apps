@@ -31,9 +31,8 @@ class Upload extends ContractModal<Props, State> {
       wasm: null
     };
     this.state = this.defaultState;
+    this.headerText = props.t('Upload WASM');
   }
-
-  headerText = 'Upload WASM';
 
   renderContent = () => {
     const { t } = this.props;
@@ -69,6 +68,7 @@ class Upload extends ContractModal<Props, State> {
 
     return (
       <Button.Group>
+        {this.renderCancelButton()}
         <TxButton
           accountId={accountId}
           isDisabled={!isValid}
@@ -85,56 +85,12 @@ class Upload extends ContractModal<Props, State> {
     );
   }
 
-  // private renderInputAbi () {
-  //   const { t } = this.props;
-  //   const { isAbiValid } = this.state;
-  //
-  //   return (
-  //     <ABI
-  //       help={t('The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.')}
-  //       isError={!isAbiValid}
-  //       label={t('contract ABI (optional)')}
-  //       onChange={this.onAddAbi}
-  //     />
-  //   );
-  // }
-  //
-  // private renderInputName () {
-  //   const { t } = this.props;
-  //   const { isNameValid, isNew, name } = this.state;
-  //
-  //   return (
-  //     <Input
-  //       help={t('A name for this WASM code that helps to user distinguish. Only used for display purposes.')}
-  //       isError={!isNameValid}
-  //       label={t('code bundle name')}
-  //       onChange={this.onChangeName}
-  //       onEnter={this[isNew ? 'sendTx' : 'submit']}
-  //       value={name}
-  //     />
-  //   );
-  // }
-
-  // private onAddAbi = (abi: string | null): void => {
-  //   this.setState({ abi, isAbiValid: !!abi });
-  // }
-
   private onAddWasm = (wasm: Uint8Array, name: string): void => {
     const isWasmValid = wasm.subarray(0, 4).toString() === '0,97,115,109'; // '\0asm'
 
     this.setState({ wasm: compactAddLength(wasm), isWasmValid });
     this.onChangeName(name);
   }
-
-  // private onChangeName = (name: string): void => {
-  //   this.setState({ name, isNameValid: name.length !== 0 });
-  // }
-
-  // private toggleBusy = (): void => {
-  //   this.setState(({ isBusy }) => ({
-  //     isBusy: !isBusy
-  //   }));
-  // }
 
   private onSuccess = (result: SubmittableResult): void => {
     this.setState(({ abi, name, tags }) => {
@@ -149,24 +105,14 @@ class Upload extends ContractModal<Props, State> {
         }
 
         store.saveCode(codeHash as Hash, { abi, name, tags })
+          .then(() => this.onClose())
           .catch((error: any) => {
             console.error('Unable to save code', error);
-          })
-          .then(() => this.onClose());
-
-        return { isBusy: false } as State;
+          });
       }
       return { isBusy: false } as State;
-
     });
-
   }
-
-  // private redirect () {
-  //   window.location.hash = store.hasContracts
-  //     ? `${this.props.basePath}/instantiate`
-  //     : this.props.basePath;
-  // }
 }
 
 export default translate(Upload);

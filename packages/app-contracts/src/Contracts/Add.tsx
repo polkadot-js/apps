@@ -27,16 +27,15 @@ class Add extends ContractModal<Props, State> {
     super(props);
     this.defaultState = {
       ...this.defaultState,
-      name: props.t('New Contract') as string,
+      name: props.t('New Contract')!,
       isAddressValid: false,
       isNameValid: true
     };
     this.state = this.defaultState;
+    this.headerText = props.t('Add an existing contract');
   }
 
   isContract = true;
-
-  headerText = 'Add an existing contract';
 
   renderContent = () => {
     const { t } = this.props;
@@ -76,6 +75,7 @@ class Add extends ContractModal<Props, State> {
 
     return (
       <Button.Group>
+        {this.renderCancelButton()}
         <Button
           isDisabled={!isValid}
           isPrimary

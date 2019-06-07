@@ -65,7 +65,7 @@ class Store extends EventEmitter {
         }
 
         if (codeRegex.test(key)) {
-          this.addCode(json as CodeJson);
+          this.addCode(json);
         }
       });
     } catch (error) {

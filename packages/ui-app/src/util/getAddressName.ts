@@ -3,19 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import keyring from '@polkadot/ui-keyring';
+import { KeyringItemType } from '@polkadot/ui-keyring/types';
 import toShortAddress from './toShortAddress';
 
-export default function getAddrName (address: string, withShort?: boolean, defaultName?: string | null): string | undefined {
+export default function getAddressName (address: string, type: KeyringItemType | null = null, withShort?: boolean, defaultName?: string | null): string | undefined {
   let pair;
 
   try {
-    pair = keyring.getAccount(address).isValid()
-      ? keyring.getAccount(address)
-      : (
-        keyring.getContract(address).isValid() ?
-        keyring.getContract(address) :
-        keyring.getAddress(address)
-      );
+    pair = keyring.getAddress(address, type);
   } catch (error) {
     // all-ok, we have empty fallbacks
   }

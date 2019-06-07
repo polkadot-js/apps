@@ -147,11 +147,12 @@ class Deploy extends ContractModal<Props, State> {
 
     return (
       <Button.Group>
+        {this.renderCancelButton()}
         <TxButton
           accountId={accountId}
           isDisabled={!isValid}
           isPrimary
-          label={t('Instantiate')}
+          label={t('Deploy')}
           onClick={this.toggleBusy(true)}
           onFailed={this.toggleBusy(false)}
           onSuccess={this.onSuccess}

@@ -81,7 +81,7 @@ class App extends React.PureComponent<Props, State> {
                 name: 'contracts',
                 text: 'Contracts'
               }
-            ].map(tab => ({ ...tab, text: t(tab.text as string) }))
+            ].map(tab => ({ ...tab, text: t(tab.text) }))
             }
           />
         </header>
