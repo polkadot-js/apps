@@ -21,6 +21,7 @@
 }
 
 .staking--Address-info {
+  margin-right: 0.5rem;
   text-align: right;
 
   .staking--label {
