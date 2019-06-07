@@ -9,15 +9,17 @@ import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
+import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressRow, Button, Card, RecentlyOffline, TxButton } from '@polkadot/ui-app';
+import { AddressInfo, AddressMini, AddressRow, Button, Card, Icon, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
-import BondEdit from './BondEdit';
+import BondExtra from './BondExtra';
 import Nominating from './Nominating';
 import StartValidating from './StartValidating';
 import translate from '../../translate';
+import Unbond from './Unbond';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
@@ -32,12 +34,13 @@ type State = {
   isActiveController: boolean,
   isActiveSession: boolean,
   isActiveStash: boolean,
-  isBondEditOpen: boolean,
+  isBondExtraOpen: boolean,
   isNominateOpen: boolean,
   isNominationStash: boolean,
   isSessionKeyOpen: boolean,
-  isValidationStash: boolean,
   isStartValidatingOpen: boolean,
+  isUnbondOpen: boolean,
+  isValidationStash: boolean,
   nominators?: Array<AccountId>,
   sessionId: string | null,
   stakers?: Exposure,
@@ -70,6 +73,10 @@ const Wrapper = styled.div`
     .buttons {
       margin-bottom: 1rem;
       flex: 0;
+
+      button {
+        margin-right: .25rem;
+      }
     }
 
     .staking--balances {
@@ -113,12 +120,13 @@ class Account extends React.PureComponent<Props, State> {
     isActiveController: false,
     isActiveSession: false,
     isActiveStash: false,
-    isBondEditOpen: false,
+    isBondExtraOpen: false,
     isNominationStash: false,
     isSessionKeyOpen: false,
     isNominateOpen: false,
-    isValidationStash: false,
     isStartValidatingOpen: false,
+    isUnbondOpen: false,
+    isValidationStash: false,
     sessionId: null,
     stashId: null
   };
@@ -161,9 +169,10 @@ class Account extends React.PureComponent<Props, State> {
     // because their state will already be loaded.
     return (
       <Card>
-        {this.renderBondEdit()}
+        {this.renderBondExtra()}
         {this.renderNominating()}
         {this.renderStartValidating()}
+        {this.renderUnbond()}
         <Wrapper>
           <div className='staking--Accounts'>
             {this.renderStashAccount()}
@@ -184,21 +193,27 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderBondEdit () {
-    const { staking_info } = this.props;
-    const { controllerId, isBondEditOpen, stashId } = this.state;
-
-    if (!isBondEditOpen) {
-      return null;
-    }
+  private renderBondExtra () {
+    const { controllerId, isBondExtraOpen, stashId } = this.state;
 
     return (
-      <BondEdit
+      <BondExtra
         controllerId={controllerId}
-        currentlyBonded={staking_info && staking_info.stakingLedger && staking_info.stakingLedger.active}
-        isOpen={isBondEditOpen}
-        onClose={this.toggleBondEdit}
+        isOpen={isBondExtraOpen}
+        onClose={this.toggleBondExtra}
         stashId={stashId}
+      />
+    );
+  }
+
+  private renderUnbond () {
+    const { controllerId, isUnbondOpen } = this.state;
+
+    return (
+      <Unbond
+        controllerId={controllerId}
+        isOpen={isUnbondOpen}
+        onClose={this.toggleUnbond}
       />
     );
   }
@@ -214,11 +229,6 @@ class Account extends React.PureComponent<Props, State> {
           free: false,
           redeemable: true,
           unlocking: true
-        }}
-        withEdit={{
-          onBondedEdit: this.toggleBondEdit,
-          onUnstakeThresholdEdit: this.toggleStartValidating,
-          onValidatorPaymentEdit: this.toggleStartValidating
         }}
         withValidatorPrefs={true}
         value={stashId}
@@ -358,6 +368,27 @@ class Account extends React.PureComponent<Props, State> {
     const isNominating = !!nominators && nominators.length;
     const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
 
+    buttons.push(
+      <Popup
+        wide
+        trigger={
+          <Button
+            icon='setting'
+            size='tiny'
+          />
+        }
+        on='click'
+        closeOnTriggerBlur
+        key='settings'
+      >
+        <Menu vertical text >
+          <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
+          <Menu.Item onClick={this.toggleBondExtra}>Bond more funds</Menu.Item>
+          <Menu.Item onClick={this.toggleStartValidating}>Change controler preferences</Menu.Item>
+        </Menu>
+      </Popup>
+    );
+
     // if we are validating/nominating show stop
     if (isNominating || isValidating) {
       buttons.push(
@@ -395,15 +426,17 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Button.Group>
-        {buttons}
-      </Button.Group>
+      <>
+        <Button.Group>
+          {buttons}
+        </Button.Group>
+      </>
     );
   }
 
-  private toggleBondEdit = () => {
-    this.setState(({ isBondEditOpen }) => ({
-      isBondEditOpen: !isBondEditOpen
+  private toggleBondExtra = () => {
+    this.setState(({ isBondExtraOpen }) => ({
+      isBondExtraOpen: !isBondExtraOpen
     }));
   }
 
@@ -416,6 +449,12 @@ class Account extends React.PureComponent<Props, State> {
   private toggleStartValidating = () => {
     this.setState(({ isStartValidatingOpen }) => ({
       isStartValidatingOpen: !isStartValidatingOpen
+    }));
+  }
+
+  private toggleUnbond = () => {
+    this.setState(({ isUnbondOpen }) => ({
+      isUnbondOpen: !isUnbondOpen
     }));
   }
 }

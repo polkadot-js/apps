@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
-import { Icon, Tooltip, TxButton, Button } from '@polkadot/ui-app';
+import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import CryptoType from './CryptoType';
@@ -24,12 +24,6 @@ export type BalanceActiveType = {
   free?: boolean,
   redeemable?: boolean,
   unlocking?: boolean
-};
-
-export type BalanceEditType = {
-  onBondedEdit?: () => void,
-  onUnstakeThresholdEdit?: () => void,
-  onValidatorPaymentEdit?: () => void
 };
 
 export type CryptoActiveType = {
@@ -48,7 +42,6 @@ type Props = BareProps & I18nProps & {
   staking_info?: DerivedStaking,
   value: string,
   withBalance?: boolean | BalanceActiveType,
-  withEdit?: false | BalanceEditType,
   withExtended?: boolean | CryptoActiveType,
   withValidatorPrefs?: boolean | ValidatorPrefsType
 };
@@ -130,11 +123,8 @@ class AddressInfo extends React.PureComponent<Props> {
 
   // either true (filtered above already) or [own, ...all extras]
   private renderBonded (bonded: true | Array<BN>) {
-    const { staking_info, t, withEdit = false } = this.props;
+    const { staking_info, t } = this.props;
     let value = undefined;
-    const edit = withEdit === false
-    ? {  onBondedEdit: undefined, onUnstakeThresholdEdit: undefined, onValidatorPaymentEdit: undefined }
-    : withEdit;
 
     if (Array.isArray(bonded)) {
       // Get the sum of all extra values (if available)
@@ -152,19 +142,7 @@ class AddressInfo extends React.PureComponent<Props> {
       ? (
         <>
           <Label label={t('bonded')} />
-          <div className='result'>{value}
-            {edit && edit.onBondedEdit !== undefined &&
-              <Button
-                className='iconButton'
-                icon='edit'
-                size='mini'
-                isPrimary
-                key='edit-bonded'
-                tooltip={t('Change the amount of bonded funds')}
-                onClick={edit.onBondedEdit}
-              />
-            }
-          </div>
+          <div className='result'>{value}</div>
         </>
       )
       : undefined;
@@ -246,10 +224,7 @@ class AddressInfo extends React.PureComponent<Props> {
 
     // either true (filtered above already) or [own, ...all extras]
   private renderValidatorPrefs () {
-    const { staking_info, t, withEdit = false, withValidatorPrefs = false } = this.props;
-    const edit = withEdit === false
-    ? {  onBondedEdit: undefined, onUnstakeThresholdEdit: undefined, onValidatorPaymentEdit: undefined }
-    : withEdit;
+    const { staking_info, t, withValidatorPrefs = false } = this.props;
     const validatorPrefsDisplay = withValidatorPrefs === true
     ? { unstakeThreshold: true, validatorPayment: true }
     : withValidatorPrefs;
@@ -264,17 +239,6 @@ class AddressInfo extends React.PureComponent<Props> {
           <>
             <Label label={t('unstake threshold')} />
             <div className='result unstake-threshold'>{staking_info.validatorPrefs.unstakeThreshold.toString()}
-              {edit && edit.onUnstakeThresholdEdit !== undefined &&
-                <Button
-                  className='iconButton'
-                  icon='edit'
-                  size='mini'
-                  isPrimary
-                  key='edit-unstake-threshold'
-                  tooltip={t('Change the unstake threshold')}
-                  onClick={edit.onUnstakeThresholdEdit }
-                />
-              }
             </div>
           </>
         )}
@@ -282,17 +246,6 @@ class AddressInfo extends React.PureComponent<Props> {
           <>
             <Label label={t('commision')} />
             <div className='result'>{formatBalance(staking_info.validatorPrefs.validatorPayment.toBn())}
-              {edit && edit.onValidatorPaymentEdit !== undefined &&
-                <Button
-                  className='iconButton'
-                  icon='edit'
-                  size='mini'
-                  isPrimary
-                  key='edit-unstake-threshold'
-                  tooltip={t('Change the validator\'s commission')}
-                  onClick={edit.onValidatorPaymentEdit }
-                />
-              }
             </div>
           </>
         )}
