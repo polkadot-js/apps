@@ -31,7 +31,7 @@ type State = {
 
 const CodeCard = styled(Card)`
   && {
-    min-height: 180px;
+    min-height: 13rem;
   }
 `;
 
