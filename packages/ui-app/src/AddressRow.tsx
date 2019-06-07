@@ -450,7 +450,7 @@ export default withMulti(
 
     .ui--AddressRow-buttons {
       flex: 0;
-      margin: -0.75rem -0.75rem 0 0;
+      margin: -0.75rem -1.25rem 0 0;
       white-space: nowrap;
     }
 
