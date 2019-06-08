@@ -10,7 +10,7 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.81.0-beta.0",
+    "@polkadot/api": "^0.81.0-beta.4",
     "@polkadot/keyring": "^0.92.1",
     "@polkadot/types": "^0.81.0-beta.0",
     "@polkadot/util": "^0.92.1",
