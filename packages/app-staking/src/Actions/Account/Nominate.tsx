@@ -22,7 +22,7 @@ type State = {
   nominees: Array<string>
 };
 
-class Nominating extends React.PureComponent<Props, State> {
+class Nomminate extends React.PureComponent<Props, State> {
   state: State = {
     nominees: []
   };
@@ -115,4 +115,4 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Nominating);
+export default translate(Nomminate);

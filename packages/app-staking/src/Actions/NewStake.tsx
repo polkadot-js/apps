@@ -14,7 +14,7 @@ import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 import { rewardDestinationOptions } from './constants';
-import ValidateController from './Account/ValidateController';
+import InputValidationController from './Account/InputValidationController';
 
 type Props = I18nProps & ApiProps & CalculateBalanceProps & {
   onClose: () => void
@@ -108,7 +108,7 @@ class NewStake extends TxComponent<Props, State> {
             type='account'
             value={controllerId}
           />
-          <ValidateController
+          <InputValidationController
             accountId={stashId}
             controllerId={controllerId}
             onError={this.onControllerError}

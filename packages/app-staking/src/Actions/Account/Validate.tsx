@@ -9,11 +9,12 @@ import React from 'react';
 import { ValidatorPrefs } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
-import ValidateUnstakeThreshold from './ValidateUnstakeThreshold';
+import InputValidationUnstakeThreshold from './InputValidationUnstakeThreshold';
 import translate from '../../translate';
 
 type Props = I18nProps & {
   accountId: string,
+  inValidationProcess: boolean,
   onClose: () => void,
   stashId: string,
   validatorPrefs: ValidatorPrefs
@@ -25,7 +26,7 @@ type State = {
   validatorPayment?: BN
 };
 
-class Validating extends TxComponent<Props, State> {
+class Validate extends TxComponent<Props, State> {
   state: State = {
     unstakeThreshold: new BN(3),
     unstakeThresholdError: null,
@@ -94,13 +95,13 @@ class Validating extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, stashId, t, validatorPrefs } = this.props;
+    const { accountId, inValidationProcess = false, stashId, t, validatorPrefs } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
 
     return (
       <>
         <Modal.Header>
-          {t('Validating')}
+          {inValidationProcess ? t('Step 2 - Set validator preferences') : t('Change validator preferences')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
@@ -131,7 +132,7 @@ class Validating extends TxComponent<Props, State> {
                 : '3'
             }
           />
-          <ValidateUnstakeThreshold
+          <InputValidationUnstakeThreshold
             onError={this.onUnstakeThresholdError}
             unstakeThreshold={unstakeThreshold}
           />
@@ -170,4 +171,4 @@ class Validating extends TxComponent<Props, State> {
   }
 }
 
-export default translate(Validating);
+export default translate(Validate);

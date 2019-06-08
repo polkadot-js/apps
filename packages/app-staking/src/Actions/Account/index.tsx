@@ -16,10 +16,12 @@ import { AddressInfo, AddressMini, AddressRow, Button, Card, Menu, RecentlyOffli
 import { withCalls } from '@polkadot/ui-api';
 
 import BondExtra from './BondExtra';
-import Nominating from './Nominating';
-import StartValidating from './StartValidating';
+import Nominating from './Nominate';
+import StartValidatingProcess from './StartValidatingProcess';
+import SetSessionKey from './SetSessionKey';
 import translate from '../../translate';
 import Unbond from './Unbond';
+import Validate from './Validate';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
@@ -37,9 +39,9 @@ type State = {
   isBondExtraOpen: boolean,
   isNominateOpen: boolean,
   isNominationStash: boolean,
-  isSessionKeyOpen: boolean,
+  isSetSessionKeyOpen: boolean,
   isSettingPopupOpen: boolean,
-  isStartValidatingOpen: boolean,
+  isStartValidatingProcessOpen: boolean,
   isUnbondOpen: boolean,
   isValidationStash: boolean,
   nominators?: Array<AccountId>,
@@ -124,10 +126,10 @@ class Account extends React.PureComponent<Props, State> {
     isActiveStash: false,
     isBondExtraOpen: false,
     isNominationStash: false,
-    isSessionKeyOpen: false,
+    isSetSessionKeyOpen: false,
     isNominateOpen: false,
     isSettingPopupOpen: false,
-    isStartValidatingOpen: false,
+    isStartValidatingProcessOpen: false,
     isUnbondOpen: false,
     isValidationStash: false,
     sessionId: null,
@@ -174,7 +176,8 @@ class Account extends React.PureComponent<Props, State> {
       <Card>
         {this.renderBondExtra()}
         {this.renderNominating()}
-        {this.renderStartValidating()}
+        {this.renderSetSessionKey()}
+        {this.renderStartValidatingProcess()}
         {this.renderUnbond()}
         <Wrapper>
           <div className='staking--Accounts'>
@@ -239,19 +242,19 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderStartValidating () {
-    const { isStartValidatingOpen, controllerId, stashId, sessionId, validatorPrefs } = this.state;
+  private renderStartValidatingProcess () {
+    const { isStartValidatingProcessOpen, controllerId, stashId, sessionId, validatorPrefs } = this.state;
 
-    if (!validatorPrefs || !isStartValidatingOpen || !stashId || !controllerId) {
+    if (!validatorPrefs || !isStartValidatingProcessOpen || !stashId || !controllerId) {
       return null;
     }
 
     return (
-      <StartValidating
-        accountId={controllerId}
+      <StartValidatingProcess
+        controllerId={controllerId}
         hasSessionId={sessionId !== null}
         isOpen
-        onClose={this.toggleStartValidating}
+        onClose={this.toggleStartValidatingProcess}
         stashId={stashId}
         validatorPrefs={validatorPrefs}
       />
@@ -385,15 +388,7 @@ class Account extends React.PureComponent<Props, State> {
           />
         }
       >
-        <Menu
-          vertical
-          text
-          onClick={this.toggleSettingPopup}
-        >
-          <Menu.Item onClick={this.toggleBondExtra}>Bond more funds</Menu.Item>
-          <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
-          { isValidating && <Menu.Item onClick={this.toggleStartValidating}>Change validator preferences</Menu.Item>}
-        </Menu>
+        {this.renderPopupMenu()}
       </Popup>
     );
 
@@ -417,7 +412,7 @@ class Account extends React.PureComponent<Props, State> {
         <Button
           isPrimary
           key='validate'
-          onClick={this.toggleStartValidating}
+          onClick={this.toggleStartValidatingProcess}
           label={t('Validate')}
         />
       );
@@ -442,6 +437,42 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderPopupMenu () {
+    const { nominators, sessionId, validatorPrefs } = this.state;
+    const isNominating = !!nominators && nominators.length;
+    const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
+
+    return (
+      <Menu
+        vertical
+        text
+        onClick={this.toggleSettingPopup}
+      >
+        <Menu.Item onClick={this.toggleBondExtra}>Bond more funds</Menu.Item>
+        <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
+        {isValidating && <Menu.Item onClick={this.toggleStartValidatingProcess}>Change validator preferences</Menu.Item>}
+        {sessionId && <Menu.Item onClick={this.toggleSetSessionKey}>Change session key</Menu.Item>}
+      </Menu>
+    );
+  }
+
+  private renderSetSessionKey () {
+    const { controllerId, isSetSessionKeyOpen, stashId, sessionId } = this.state;
+
+    if (!isSetSessionKeyOpen || !controllerId || !sessionId || !stashId) {
+      return null;
+    }
+
+    return (
+      <SetSessionKey
+        controllerId={controllerId}
+        onClose={this.toggleSetSessionKey}
+        sessionId={sessionId}
+        stashId={stashId}
+      />
+    );
+  }
+
   private toggleBondExtra = () => {
     this.setState(({ isBondExtraOpen }) => ({
       isBondExtraOpen: !isBondExtraOpen
@@ -454,9 +485,15 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
-  private toggleStartValidating = () => {
-    this.setState(({ isStartValidatingOpen }) => ({
-      isStartValidatingOpen: !isStartValidatingOpen
+  private toggleSetSessionKey = () => {
+    this.setState(({ isSetSessionKeyOpen }) => ({
+      isSetSessionKeyOpen: !isSetSessionKeyOpen
+    }));
+  }
+
+  private toggleStartValidatingProcess = () => {
+    this.setState(({ isStartValidatingProcessOpen }) => ({
+      isStartValidatingProcessOpen: !isStartValidatingProcessOpen
     }));
   }
 

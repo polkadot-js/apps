@@ -9,10 +9,10 @@ import React from 'react';
 
 import SetSessionKey from './SetSessionKey';
 import translate from '../../translate';
-import Validating from './Validating';
+import Validate from './Validate';
 
 type Props = I18nProps & {
-  accountId: string,
+  controllerId: string,
   hasSessionId: boolean,
   isOpen: boolean,
   onClose: () => void,
@@ -27,7 +27,7 @@ type State = {
   validatorPrefsSelection: boolean
 };
 
-class StartValidating extends React.PureComponent<Props, State> {
+class StartValidatingProcess extends React.PureComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -35,7 +35,7 @@ class StartValidating extends React.PureComponent<Props, State> {
 
     this.state = {
       sessionError: null,
-      sessionId: props.accountId,
+      sessionId: props.controllerId,
       sessionKeySelection: props.hasSessionId ? false : true,
       validatorPrefsSelection: props.hasSessionId ? true : false
     };
@@ -57,7 +57,7 @@ class StartValidating extends React.PureComponent<Props, State> {
   }
 
   private renderSessionKeySelection () {
-    const { accountId, onClose, stashId } = this.props;
+    const { controllerId, onClose, stashId } = this.props;
     const { sessionKeySelection } = this.state;
 
     if (!sessionKeySelection) {
@@ -66,16 +66,17 @@ class StartValidating extends React.PureComponent<Props, State> {
 
     return (
       <SetSessionKey
-        accountId={accountId}
+        controllerId={controllerId}
         onClose={onClose}
-        onSuccess={this.goToValidationPrefsSelection}
+        nextStep={this.goToValidationPrefsSelection}
         stashId={stashId}
+        inValidationProcess
       />
     );
   }
 
   private renderValidatorPrefsSelection () {
-    const { accountId, onClose, stashId, validatorPrefs } = this.props;
+    const { controllerId, onClose, stashId, validatorPrefs } = this.props;
     const { validatorPrefsSelection } = this.state;
 
     if (!validatorPrefsSelection) {
@@ -83,11 +84,12 @@ class StartValidating extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Validating
-        accountId={accountId}
+      <Validate
+        accountId={controllerId}
         onClose={onClose}
         stashId={stashId}
         validatorPrefs={validatorPrefs}
+        inValidationProcess
       />
     );
   }
@@ -98,4 +100,4 @@ class StartValidating extends React.PureComponent<Props, State> {
 
 }
 
-export default translate(StartValidating);
+export default translate(StartValidatingProcess);

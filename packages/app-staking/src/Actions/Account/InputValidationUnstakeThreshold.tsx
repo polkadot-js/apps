@@ -19,7 +19,7 @@ type State = {
   error: string | null
 };
 
-class ValidateUnstakeThreshold extends React.PureComponent<Props, State> {
+class InputValidationUnstakeThreshold extends React.PureComponent<Props, State> {
   state: State = {
     error: null
   };
@@ -61,4 +61,4 @@ class ValidateUnstakeThreshold extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(ValidateUnstakeThreshold);
+export default translate(InputValidationUnstakeThreshold);

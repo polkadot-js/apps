@@ -7,13 +7,15 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
-import ValidateSession from './ValidateSession';
+import ValidateSession from './InputValidationSession';
 import translate from '../../translate';
 
 type Props = I18nProps & {
-  accountId: string,
+  controllerId: string,
+  inValidationProcess?: boolean,
   onClose: () => void,
-  onSuccess: any,
+  nextStep?: any,
+  sessionId?: string,
   stashId: string
 };
 
@@ -30,12 +32,12 @@ class SetSessionKey extends React.PureComponent<Props, State> {
 
     this.state = {
       sessionError: null,
-      sessionId: props.accountId
+      sessionId: props.sessionId || props.controllerId
     };
   }
 
   render () {
-    const { accountId, onClose, onSuccess, t } = this.props;
+    const { controllerId, inValidationProcess = false, onClose, nextStep, t } = this.props;
     const { sessionError, sessionId } = this.state;
 
     return (
@@ -55,11 +57,12 @@ class SetSessionKey extends React.PureComponent<Props, State> {
             />
             <Button.Or />
             <TxButton
-              accountId={accountId}
+              accountId={controllerId}
               isDisabled={!sessionId || !!sessionError}
               isPrimary
-              label={t('Set Session Key')}
-              onSuccess={onSuccess}
+              label={inValidationProcess ? t('Next') : t('Set Session Key')}
+              onClick={ nextStep ? null : onClose }
+              onSuccess={nextStep}
               params={[sessionId]}
               tx='session.setKey'
             />
@@ -70,31 +73,31 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, stashId, t } = this.props;
+    const { controllerId, inValidationProcess = false, stashId, t } = this.props;
     const { sessionId } = this.state;
 
     return (
       <>
         <Modal.Header>
-          {t('Session Key')}
+          {inValidationProcess ? t('Step 1 - Session Key') : t('Change Session Key')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            defaultValue={accountId}
+            defaultValue={controllerId}
             isDisabled
             label={t('controller account')}
           />
           <InputAddress
             className='medium'
-            help={t('Changing the key only takes effect at the start of the next session. If validating, you should (currently) use an ed25519 key.')}
+            help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
             label={t('session key')}
             onChange={this.onChangeSession}
             type='account'
             value={sessionId}
           />
           <ValidateSession
-            controllerId={accountId}
+            controllerId={controllerId}
             onError={this.onSessionError}
             sessionId={sessionId}
             stashId={stashId}
