@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { CardGrid, Button } from '@polkadot/ui-app';
+import { Button, CardGrid, Icon } from '@polkadot/ui-app';
 import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddrName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
@@ -36,7 +36,6 @@ class Accounts extends React.PureComponent<Props,State> {
 
   render () {
     const { recentlyOffline, t } = this.props;
-    const { isNewStakeOpen } = this.state;
     const accounts = keyring.getAccounts();
     const stashOptions = this.getStashOptions();
 
@@ -45,30 +44,45 @@ class Accounts extends React.PureComponent<Props,State> {
         buttons={
             <Button
               isPrimary
-              label={t('New stake')}
+              key='new-stake'
+              label={
+                <>
+                  <Icon name='add'/>
+                  {t('New stake')}
+                </>
+            }
               onClick={this.toggleNewStake}
-              size='large'
             />
         }
       >
-        {isNewStakeOpen && (
-          <StartStaking
-            onClose={this.toggleNewStake}
-          />
-        )}
-        {accounts.map((account) => {
+        {this.renderNewStake()}
+        {accounts.map((account, index) => {
           const address = account.address();
 
           return (
             <Account
               accountId={address}
-              key={address}
+              key={index}
               recentlyOffline={recentlyOffline}
               stashOptions={stashOptions}
             />
           );
         })}
       </Wrapper>
+    );
+  }
+
+  private renderNewStake () {
+    const { isNewStakeOpen } = this.state;
+
+    if (!isNewStakeOpen) {
+      return null;
+    }
+
+    return (
+      <StartStaking
+        onClose={this.toggleNewStake}
+      />
     );
   }
 

@@ -12,7 +12,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressRow, Button, Card, Icon, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
+import { AddressInfo, AddressMini, AddressRow, Button, Card, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import BondExtra from './BondExtra';
@@ -38,6 +38,7 @@ type State = {
   isNominateOpen: boolean,
   isNominationStash: boolean,
   isSessionKeyOpen: boolean,
+  isSettingPopupOpen: boolean,
   isStartValidatingOpen: boolean,
   isUnbondOpen: boolean,
   isValidationStash: boolean,
@@ -56,12 +57,14 @@ const Wrapper = styled.div`
     flex: 1;
   }
 
-  .staking--Account-detail {
+  .staking--Account-detail.actions{
     display: inline-block;
     vertical-align: top;
 
     .staking--label {
       margin: .5rem 1.75rem -0.5rem 4.5rem;
+      text-align: left;
+      }
     }
   }
 
@@ -86,11 +89,6 @@ const Wrapper = styled.div`
 
       .column {
         flex:0;
-        align-items: end;
-      }
-
-      .result.unstake-threshold {
-        margin-top: 1rem;
       }
     }
 
@@ -105,6 +103,10 @@ const Wrapper = styled.div`
 
   .staking--Account-Nominee {
     text-align: right;
+
+    .staking--label {
+      margin: 0 2.25rem -.75rem 0;
+    }
   }
 `;
 
@@ -124,6 +126,7 @@ class Account extends React.PureComponent<Props, State> {
     isNominationStash: false,
     isSessionKeyOpen: false,
     isNominateOpen: false,
+    isSettingPopupOpen: false,
     isStartValidatingOpen: false,
     isUnbondOpen: false,
     isValidationStash: false,
@@ -300,7 +303,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='staking--Account-detail'>
+      <div className='staking--Account-detail actions'>
         <label className='staking--label'>{t('controller')}</label>
         <AddressRow
           value={controllerId}
@@ -319,7 +322,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='staking--Account-detail'>
+      <div className='staking--Account-detail actions'>
         <label className='staking--label'>{t('session')}</label>
         <AddressRow value={sessionId} />
       </div>
@@ -330,7 +333,7 @@ class Account extends React.PureComponent<Props, State> {
     const { accountId, t } = this.props;
 
     return (
-      <div className='staking--Account-detail'>
+      <div className='staking--Account-detail actions'>
         <label className='staking--label'>{t('stash')}</label>
         <AddressRow
           value={accountId}
@@ -363,28 +366,33 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
-    const { controllerId,nominators, isNominationStash, validatorPrefs } = this.state;
+    const { controllerId, isNominationStash, isSettingPopupOpen, nominators, validatorPrefs } = this.state;
     const buttons = [];
     const isNominating = !!nominators && nominators.length;
     const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
 
     buttons.push(
       <Popup
-        wide
+        key='settings'
+        onClose={this.toggleSettingPopup}
+        open={isSettingPopupOpen}
+        position='bottom left'
         trigger={
           <Button
             icon='setting'
+            onClick={this.toggleSettingPopup}
             size='tiny'
           />
         }
-        on='click'
-        closeOnTriggerBlur
-        key='settings'
       >
-        <Menu vertical text >
-          <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
+        <Menu
+          vertical
+          text
+          onClick={this.toggleSettingPopup}
+        >
           <Menu.Item onClick={this.toggleBondExtra}>Bond more funds</Menu.Item>
-          <Menu.Item onClick={this.toggleStartValidating}>Change controler preferences</Menu.Item>
+          <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
+          { isValidating && <Menu.Item onClick={this.toggleStartValidating}>Change validator preferences</Menu.Item>}
         </Menu>
       </Popup>
     );
@@ -449,6 +457,12 @@ class Account extends React.PureComponent<Props, State> {
   private toggleStartValidating = () => {
     this.setState(({ isStartValidatingOpen }) => ({
       isStartValidatingOpen: !isStartValidatingOpen
+    }));
+  }
+
+  private toggleSettingPopup = () => {
+    this.setState(({ isSettingPopupOpen }) => ({
+      isSettingPopupOpen: !isSettingPopupOpen
     }));
   }
 

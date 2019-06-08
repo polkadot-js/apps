@@ -233,12 +233,15 @@ class AddressInfo extends React.PureComponent<Props> {
       return null;
     }
 
+    // start with a spacer
     return (
       <>
         {validatorPrefsDisplay.unstakeThreshold && staking_info.validatorPrefs.unstakeThreshold && (
           <>
+            <Label label={'_'} />
+            <div className='result'></div>
             <Label label={t('unstake threshold')} />
-            <div className='result unstake-threshold'>{staking_info.validatorPrefs.unstakeThreshold.toString()}
+            <div className='result'>{staking_info.validatorPrefs.unstakeThreshold.toString()}
             </div>
           </>
         )}
