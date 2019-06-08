@@ -39,6 +39,7 @@ type State = {
   isBondExtraOpen: boolean,
   isNominateOpen: boolean,
   isNominationStash: boolean,
+  isChangeValidatorPrefsOpen: boolean,
   isSetSessionKeyOpen: boolean,
   isSettingPopupOpen: boolean,
   isStartValidatingProcessOpen: boolean,
@@ -125,6 +126,7 @@ class Account extends React.PureComponent<Props, State> {
     isActiveSession: false,
     isActiveStash: false,
     isBondExtraOpen: false,
+    isChangeValidatorPrefsOpen: false,
     isNominationStash: false,
     isSetSessionKeyOpen: false,
     isNominateOpen: false,
@@ -175,6 +177,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <Card>
         {this.renderBondExtra()}
+        {this.renderChangeValidatorPrefs()}
         {this.renderNominating()}
         {this.renderSetSessionKey()}
         {this.renderStartValidatingProcess()}
@@ -439,7 +442,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderPopupMenu () {
     const { nominators, sessionId, validatorPrefs } = this.state;
-    const isNominating = !!nominators && nominators.length;
+    // const isNominating = !!nominators && nominators.length;
     const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
 
     return (
@@ -450,9 +453,26 @@ class Account extends React.PureComponent<Props, State> {
       >
         <Menu.Item onClick={this.toggleBondExtra}>Bond more funds</Menu.Item>
         <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
-        {isValidating && <Menu.Item onClick={this.toggleStartValidatingProcess}>Change validator preferences</Menu.Item>}
+        {isValidating && <Menu.Item onClick={this.toggleChangeValidatorPrefs}>Change validator preferences</Menu.Item>}
         {sessionId && <Menu.Item onClick={this.toggleSetSessionKey}>Change session key</Menu.Item>}
       </Menu>
+    );
+  }
+
+  private renderChangeValidatorPrefs () {
+    const { controllerId, isChangeValidatorPrefsOpen, stashId, validatorPrefs } = this.state;
+
+    if (!isChangeValidatorPrefsOpen || !controllerId || !validatorPrefs || !stashId) {
+      return null;
+    }
+
+    return (
+      <Validate
+        controllerId={controllerId}
+        onClose={this.toggleChangeValidatorPrefs}
+        validatorPrefs={validatorPrefs}
+        stashId={stashId}
+      />
     );
   }
 
@@ -476,6 +496,12 @@ class Account extends React.PureComponent<Props, State> {
   private toggleBondExtra = () => {
     this.setState(({ isBondExtraOpen }) => ({
       isBondExtraOpen: !isBondExtraOpen
+    }));
+  }
+
+  private toggleChangeValidatorPrefs = () => {
+    this.setState(({ isChangeValidatorPrefsOpen }) => ({
+      isChangeValidatorPrefsOpen: !isChangeValidatorPrefsOpen
     }));
   }
 

@@ -13,8 +13,8 @@ import InputValidationUnstakeThreshold from './InputValidationUnstakeThreshold';
 import translate from '../../translate';
 
 type Props = I18nProps & {
-  accountId: string,
-  inValidationProcess: boolean,
+  controllerId: string,
+  inValidationProcess?: boolean,
   onClose: () => void,
   stashId: string,
   validatorPrefs: ValidatorPrefs
@@ -64,7 +64,7 @@ class Validate extends TxComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { accountId, onClose, t } = this.props;
+    const { controllerId, onClose, t } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
 
     return (
@@ -77,7 +77,7 @@ class Validate extends TxComponent<Props, State> {
           />
           <Button.Or />
           <TxButton
-            accountId={accountId}
+            accountId={controllerId}
             isDisabled={!!unstakeThresholdError}
             isPrimary
             label={t('Validate')}
@@ -95,7 +95,7 @@ class Validate extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { accountId, inValidationProcess = false, stashId, t, validatorPrefs } = this.props;
+    const { controllerId, inValidationProcess = false, stashId, t, validatorPrefs } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
 
     return (
@@ -112,7 +112,7 @@ class Validate extends TxComponent<Props, State> {
           />
           <InputAddress
             className='medium'
-            defaultValue={accountId}
+            defaultValue={controllerId}
             isDisabled
             label={t('controller account')}
           />

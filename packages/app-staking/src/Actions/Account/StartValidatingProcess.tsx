@@ -85,7 +85,7 @@ class StartValidatingProcess extends React.PureComponent<Props, State> {
 
     return (
       <Validate
-        accountId={controllerId}
+        controllerId={controllerId}
         onClose={onClose}
         stashId={stashId}
         validatorPrefs={validatorPrefs}
