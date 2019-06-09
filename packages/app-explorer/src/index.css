@@ -2,11 +2,6 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-.explorer--BlockByHash-flexable {
-  flex-wrap: wrap;
-  margin-top: -0.5rem;
-}
-
 .explorer--BlockByHash-block {
   flex: 0 0 50%;
   min-width: 0;
@@ -36,28 +31,4 @@
   > .details {
     word-break: break-all;
   }
-}
-
-.explorer--BlockByHash-accountIndex {
-  font-size: .75rem;
-  margin-top: -0.5rem;
-  opacity: 0.45;
-  text-align: right;
-}
-
-.explorer--BlockByHash-justification-signature span {
-  color: rgba(0, 0, 0, 0.6);
-  font-family: monospace;
-  font-style: italic;
-  padding-left: 0.5rem;
-}
-
-.explorer--BlockByHash-header-right {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.5rem;
-}
-
-.explorer--query {
-  width: 20em;
 }

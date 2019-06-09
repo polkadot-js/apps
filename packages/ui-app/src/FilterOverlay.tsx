@@ -13,8 +13,20 @@ type Props = BareProps & {
   children: React.ReactNode
 };
 
-const Wrapper = styled.div`
-  display:none;
+class FilterOverlay extends React.PureComponent<Props> {
+  render () {
+    const { children, className } = this.props;
+
+    return (
+      <div className={className}>
+        {children}
+      </div>
+    );
+  }
+}
+
+export default styled(FilterOverlay)`
+  display: none;
 
   .ui--Labelled label {
     display: none;
@@ -40,15 +52,3 @@ const Wrapper = styled.div`
     }
   `}
 `;
-
-export default class FilterOverlay extends React.PureComponent<Props> {
-  render () {
-    const { children } = this.props;
-
-    return (
-      <Wrapper>
-        {children}
-      </Wrapper>
-    );
-  }
-}

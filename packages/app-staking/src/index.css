@@ -21,7 +21,8 @@
 }
 
 .staking--Address-info {
-  margin-right: 0.5rem;
+  /* Small additional margin to take care of validator highlights */
+  margin-right: 0.25rem;
   text-align: right;
 
   .staking--label {

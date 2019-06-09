@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Button, FilterOverlay, Input, TxComponent } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
@@ -30,11 +31,11 @@ class Query extends TxComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { className, t } = this.props;
     const { value, isValid } = this.state;
 
     return (
-      <FilterOverlay>
+      <FilterOverlay className={className}>
         <Input
           className='explorer--query'
           defaultValue={this.props.value}
@@ -81,4 +82,8 @@ class Query extends TxComponent<Props, State> {
   }
 }
 
-export default translate(Query);
+export default translate(styled(Query)`
+  .explorer--query {
+    width: 20em;
+  }
+`);
