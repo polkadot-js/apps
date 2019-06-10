@@ -78,9 +78,9 @@ class ABI extends React.PureComponent<Props, State> {
   render () {
     const { contractAbi, isAbiValid } = this.state;
 
-    return (contractAbi && isAbiValid) ?
-      this.renderMessages() :
-      this.renderInputFile();
+    return (contractAbi && isAbiValid)
+      ? this.renderMessages()
+      : this.renderInputFile();
   }
 
   private renderInputFile () {

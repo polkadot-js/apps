@@ -51,7 +51,6 @@ class CodeRow extends Row<Props, State> {
   }
 
   static getDerivedStateFromProps ({ code: { json } }: Props, prevState: State): State | null {
-
     const codeHash = json.codeHash || DEFAULT_HASH;
     const name = json.name || DEFAULT_NAME;
     const tags = json.tags || [];

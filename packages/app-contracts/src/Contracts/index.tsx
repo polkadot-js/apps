@@ -8,7 +8,7 @@ import { ComponentProps } from '../types';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Button, CardGrid, Icon } from '@polkadot/ui-app';
+import { Button, CardGrid } from '@polkadot/ui-app';
 import { withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
@@ -46,17 +46,17 @@ class Contracts extends React.PureComponent<Props, State> {
               {hasCode && (
                 <>
                   <Button
-                    icon='cloud upload'
                     isPrimary
                     label={t('Deploy a code hash')}
+                    labelIcon='cloud upload'
                     onClick={showDeploy()}
                   />
                   <Button.Or />
                 </>
               )}
               <Button
-                icon='add'
                 label={t('Add an existing contract')}
+                labelIcon='add'
                 onClick={this.showAdd}
               />
             </Button.Group>

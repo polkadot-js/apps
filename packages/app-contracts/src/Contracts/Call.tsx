@@ -58,16 +58,20 @@ class Call extends TxComponent<Props, State> {
       };
     }
     return {
-      ...(!address ?
-        {
-          address: propsAddress,
-          contractAbi: propsAddress ? getContractAbi(propsAddress) : null,
-          isValidAddress: !!propsAddress
-        } :
-        {}),
-      ...(!method ?
-        { method: propsMethod } :
-        {})
+      ...(
+        !address
+          ? {
+            address: propsAddress,
+            contractAbi: propsAddress ? getContractAbi(propsAddress) : null,
+            isValidAddress: !!propsAddress
+          }
+          : {}
+      ),
+      ...(
+        !method
+          ? { method: propsMethod }
+          : {}
+      )
     };
   }
 
@@ -96,13 +100,10 @@ class Call extends TxComponent<Props, State> {
 
   renderContent = () => {
     const { t } = this.props;
-    const {
-      gasLimit
-    } = this.state;
+    const { gasLimit } = this.state;
 
     const [ address, contractAbi, method ] = this.getCallProps();
-
-    const isEndowValid = true; // !endowment.isZero();
+    const isEndowValid = true;
     const isGasValid = !gasLimit.isZero();
 
     if (!address || !contractAbi) {

@@ -141,8 +141,8 @@ class Contract extends React.PureComponent<Props> {
         />
         <Button
           isPrimary
-          icon='play'
           label={t('execute')}
+          labelIcon='play'
           onClick={() => onCall(address)}
           size='small'
           tooltip={t('Call a method on this contract')}

@@ -109,6 +109,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <InputAddress
+        defaultValue={accountId}
         help={t('Specify the user account to use for this deployment. And fees will be deducted from this account.')}
         isDisabled={isBusy}
         isInput={false}
@@ -126,6 +127,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <Input
+        defaultValue={name}
         help={t(
           this.isContract ?
             'A name for the deployed contract to help users distinguish. Only used for display purposes.' :
@@ -140,7 +142,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
         )}
         onChange={this.onChangeName}
         onEnter={this[isNew ? 'sendTx' : 'submit']}
-        value={name}
+        value={name || ''}
       />
     );
   }
@@ -174,7 +176,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
         label={t('maximum gas allowed')}
         onChange={this.onChangeGas}
         onEnter={this.sendTx}
-        value={gasLimit}
+        value={gasLimit || ''}
       />
     );
   }

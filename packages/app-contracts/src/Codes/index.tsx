@@ -7,10 +7,10 @@ import { ComponentProps } from '../types';
 
 import React from 'react';
 import { Button, CardGrid } from '@polkadot/ui-app';
-import contracts from '../store';
 
+import contracts from '../store';
 import translate from '../translate';
-// import CodeRow from './CodeRow';
+
 import Code from './Code';
 import Upload from './Upload';
 import Add from './Add';
@@ -39,15 +39,15 @@ class Codes extends React.PureComponent<Props> {
           buttons={
             <Button.Group>
               <Button
-                icon='upload'
                 isPrimary
                 label={t('Upload WASM')}
+                labelIcon='upload'
                 onClick={this.showUpload}
               />
               <Button.Or />
               <Button
-                icon='add'
                 label={t('Add an existing code hash')}
+                labelIcon='add'
                 onClick={this.showAdd}
               />
             </Button.Group>

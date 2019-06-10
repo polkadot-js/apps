@@ -76,9 +76,9 @@ class Contract extends React.PureComponent<Props> {
           tooltip={t('Forget this code hash')}
         />
         <Button
-          icon='cloud upload'
           isPrimary
           label={t('deploy')}
+          labelIcon='cloud upload'
           onClick={showDeploy(codeHash)}
           size='small'
           tooltip={t('Deploy this code hash as a smart contract')}

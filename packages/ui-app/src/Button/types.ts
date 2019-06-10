@@ -18,6 +18,7 @@ export type ButtonProps = BareProps & {
   isPositive?: boolean,
   isPrimary?: boolean,
   label?: React.ReactNode,
+  labelIcon?: string,
   labelPosition?: 'left' | 'right',
   onClick?: () => void | Promise<void>,
   ref?: any,

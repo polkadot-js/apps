@@ -36,7 +36,7 @@ export type Props = BaseProps & {
   isDisabled?: boolean,
   isError?: boolean,
   isReadOnly?: boolean,
-  label: string | React.ReactNode,
+  label: React.ReactNode,
   withLabel?: boolean
 };
 

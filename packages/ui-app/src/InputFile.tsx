@@ -41,7 +41,14 @@ type LoadEvent = {
 };
 
 class InputFile extends React.PureComponent<Props, State> {
-  state: State = {};
+  dropZone: any;
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+    this.state = {} as State;
+    this.dropZone = React.createRef();
+  }
 
   render () {
     const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
@@ -53,6 +60,7 @@ class InputFile extends React.PureComponent<Props, State> {
         className={classes('ui--InputFile', isError ? 'error' : '', className)}
         disabled={isDisabled}
         multiple={false}
+        ref={this.dropZone}
         onDrop={this.onDrop}
       >
         <div className='label'>
@@ -100,12 +108,14 @@ class InputFile extends React.PureComponent<Props, State> {
 
         onChange && onChange(data, name);
 
-        this.setState({
-          file: {
-            name,
-            size: data.length
-          }
-        });
+        if (this.dropZone && this.dropZone.current) {
+          this.setState({
+            file: {
+              name,
+              size: data.length
+            }
+          });
+        }
       };
 
       reader.readAsArrayBuffer(file);

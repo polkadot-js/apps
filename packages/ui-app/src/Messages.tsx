@@ -57,9 +57,7 @@ class Messages extends React.PureComponent<Props> {
     const { contractAbi: { abi: { messages } }, isRemovable, onRemove = () => null, onSelect, t } = this.props;
 
     return (
-      <Wrapper
-        className={onSelect && 'select'}
-      >
+      <Wrapper className={onSelect && 'select'}>
         {messages.map((_, index) => {
           return this.renderMessage(index);
         })}
