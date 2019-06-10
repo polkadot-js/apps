@@ -16,7 +16,7 @@ import { AddressInfo, AddressMini, AddressRow, Button, Card, Menu, RecentlyOffli
 import { withCalls } from '@polkadot/ui-api';
 
 import BondExtra from './BondExtra';
-import Nominating from './Nominate';
+import Nominate from './Nominate';
 import StartValidatingProcess from './StartValidatingProcess';
 import SetSessionKey from './SetSessionKey';
 import translate from '../../translate';
@@ -45,7 +45,7 @@ type State = {
   isStartValidatingProcessOpen: boolean,
   isUnbondOpen: boolean,
   isValidationStash: boolean,
-  nominators?: Array<AccountId>,
+  nominees?: Array<string>,
   sessionId: string | null,
   stakers?: Exposure,
   stakingLedger?: StakingLedger,
@@ -154,7 +154,7 @@ class Account extends React.PureComponent<Props, State> {
       isActiveStash: accountId.eq(stashId),
       isNominationStash,
       isValidationStash,
-      nominators,
+      nominees: nominators && nominators.map(toIdString),
       sessionId: toIdString(nextSessionId),
       stakers,
       stakingLedger,
@@ -266,16 +266,16 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderNominee () {
     const { t } = this.props;
-    const { nominators } = this.state;
+    const { nominees } = this.state;
 
-    if (!nominators || !nominators.length) {
+    if (!nominees || !nominees.length) {
       return null;
     }
 
     return (
       <div className='staking--Account-Nominee'>
         <label className='staking--label'>{t('nominating')}</label>
-        {nominators.map((nomineeId, index) => (
+        {nominees.map((nomineeId, index) => (
           <AddressMini
             key={index}
             iconInfo={this.renderOffline(nomineeId)}
@@ -353,16 +353,17 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderNominating () {
     const { stashOptions } = this.props;
-    const { controllerId, isNominateOpen, stashId } = this.state;
+    const { controllerId, isNominateOpen, nominees, stashId } = this.state;
 
     if (!stashId || !controllerId) {
       return null;
     }
 
     return (
-      <Nominating
+      <Nominate
         accountId={controllerId}
         isOpen={isNominateOpen}
+        nominees={nominees}
         onClose={this.toggleNominate}
         stashId={stashId}
         stashOptions={stashOptions}
@@ -372,9 +373,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons () {
     const { t } = this.props;
-    const { controllerId, isNominationStash, isSettingPopupOpen, nominators, validatorPrefs } = this.state;
+    const { controllerId, isNominationStash, isSettingPopupOpen, nominees, validatorPrefs } = this.state;
     const buttons = [];
-    const isNominating = !!nominators && nominators.length;
+    const isNominating = !!nominees && nominees.length;
     const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
 
     buttons.push(
@@ -441,8 +442,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderPopupMenu () {
-    const { nominators, sessionId, validatorPrefs } = this.state;
-    // const isNominating = !!nominators && nominators.length;
+    const { nominees, sessionId, validatorPrefs } = this.state;
+    const isNominating = !!nominees && !!nominees.length;
     const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
 
     return (
@@ -455,6 +456,7 @@ class Account extends React.PureComponent<Props, State> {
         <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
         {isValidating && <Menu.Item onClick={this.toggleChangeValidatorPrefs}>Change validator preferences</Menu.Item>}
         {sessionId && <Menu.Item onClick={this.toggleSetSessionKey}>Change session key</Menu.Item>}
+        {isNominating && <Menu.Item onClick={this.toggleNominate}>Change Nominee(s)</Menu.Item>}
       </Menu>
     );
   }

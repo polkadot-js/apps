@@ -13,18 +13,19 @@ import translate from '../../translate';
 type Props = I18nProps & {
   accountId: string,
   isOpen: boolean,
+  nominees?: Array<string>,
   onClose: () => void,
   stashId: string,
   stashOptions: Array<KeyringSectionOption>
 };
 
 type State = {
-  nominees: Array<string>
+  nominees: Array<string> | undefined
 };
 
-class Nomminate extends React.PureComponent<Props, State> {
+class Nominate extends React.PureComponent<Props, State> {
   state: State = {
-    nominees: []
+    nominees: this.props.nominees
   };
 
   render () {
@@ -62,7 +63,7 @@ class Nomminate extends React.PureComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
-            isDisabled={nominees.length === 0}
+            isDisabled={!nominees || nominees.length === 0}
             isPrimary
             onClick={onClose}
             params={[nominees]}
@@ -76,7 +77,9 @@ class Nomminate extends React.PureComponent<Props, State> {
 
   renderContent () {
     const { accountId, stashId, stashOptions, t } = this.props;
+    const { nominees } = this.state;
 
+    console.log('Nominate - nominees',nominees);
     return (
       <>
         <Modal.Header>
@@ -97,6 +100,7 @@ class Nomminate extends React.PureComponent<Props, State> {
           />
           <InputAddress
             className='medium'
+            defaultValue={nominees}
             isMultiple
             help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
             label={t('nominate the following addresses')}
@@ -110,9 +114,12 @@ class Nomminate extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeNominees = (nominees: Array<string>) => {
-    this.setState({ nominees });
+  private onChangeNominees = (newNominees: Array<string>) => {
+    const { nominees } = this.state;
+    console.log('Nominate - newNominees',newNominees);
+    console.log('Nominate - nominees',nominees);
+    this.setState({ nominees: newNominees });
   }
 }
 
-export default translate(Nomminate);
+export default translate(Nominate);
