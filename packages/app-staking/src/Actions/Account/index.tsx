@@ -18,6 +18,7 @@ import { withCalls } from '@polkadot/ui-api';
 import BondExtra from './BondExtra';
 import Nominate from './Nominate';
 import StartValidatingProcess from './StartValidatingProcess';
+import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
 import translate from '../../translate';
 import Unbond from './Unbond';
@@ -33,6 +34,7 @@ type Props = ApiProps & I18nProps & {
 
 type State = {
   controllerId: string | null,
+  destination: number,
   isActiveController: boolean,
   isActiveSession: boolean,
   isActiveStash: boolean,
@@ -40,6 +42,7 @@ type State = {
   isNominateOpen: boolean,
   isNominationStash: boolean,
   isChangeValidatorPrefsOpen: boolean,
+  isSetRewardDestinationOpen: boolean,
   isSetSessionKeyOpen: boolean,
   isSettingPopupOpen: boolean,
   isStartValidatingProcessOpen: boolean,
@@ -122,12 +125,14 @@ function toIdString (id?: AccountId | null): string | null {
 class Account extends React.PureComponent<Props, State> {
   state: State = {
     controllerId: null,
+    destination: 0,
     isActiveController: false,
     isActiveSession: false,
     isActiveStash: false,
     isBondExtraOpen: false,
     isChangeValidatorPrefsOpen: false,
     isNominationStash: false,
+    isSetRewardDestinationOpen: false,
     isSetSessionKeyOpen: false,
     isNominateOpen: false,
     isSettingPopupOpen: false,
@@ -143,12 +148,13 @@ class Account extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { accountId, controllerId, nextSessionId, nominators, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { accountId, controllerId, nextSessionId, nominators, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isNominationStash = nominators && nominators.length !== 0;
     const isValidationStash = !isNominationStash;
 
     return {
       controllerId: toIdString(controllerId),
+      destination: rewardDestination && rewardDestination.toNumber(),
       isActiveController: accountId.eq(controllerId),
       isActiveSession: accountId.eq(nextSessionId),
       isActiveStash: accountId.eq(stashId),
@@ -160,12 +166,12 @@ class Account extends React.PureComponent<Props, State> {
       stakingLedger,
       stashId: toIdString(stashId),
       validatorPrefs
-    } as State;
+    } as any as State;
   }
 
   render () {
-    const { isActiveStash } = this.state;
-
+    const { isActiveStash, destination } = this.state;
+    console.log('destination',destination);
     if (!isActiveStash) {
       return null;
     }
@@ -179,6 +185,7 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderBondExtra()}
         {this.renderChangeValidatorPrefs()}
         {this.renderNominating()}
+        {this.renderSetRewardDestination()}
         {this.renderSetSessionKey()}
         {this.renderStartValidatingProcess()}
         {this.renderUnbond()}
@@ -239,7 +246,8 @@ class Account extends React.PureComponent<Props, State> {
           redeemable: true,
           unlocking: true
         }}
-        withValidatorPrefs={true}
+        withRewardDestination
+        withValidatorPrefs
         value={stashId}
       />
     );
@@ -442,6 +450,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderPopupMenu () {
+    const { t } = this.props;
     const { nominees, sessionId, validatorPrefs } = this.state;
     const isNominating = !!nominees && !!nominees.length;
     const isValidating = !!validatorPrefs && !validatorPrefs.isEmpty;
@@ -452,11 +461,12 @@ class Account extends React.PureComponent<Props, State> {
         text
         onClick={this.toggleSettingPopup}
       >
-        <Menu.Item onClick={this.toggleBondExtra}>Bond more funds</Menu.Item>
-        <Menu.Item onClick={this.toggleUnbond}>Unbond funds</Menu.Item>
-        {isValidating && <Menu.Item onClick={this.toggleChangeValidatorPrefs}>Change validator preferences</Menu.Item>}
-        {sessionId && <Menu.Item onClick={this.toggleSetSessionKey}>Change session key</Menu.Item>}
-        {isNominating && <Menu.Item onClick={this.toggleNominate}>Change Nominee(s)</Menu.Item>}
+        <Menu.Item onClick={this.toggleBondExtra}>{t('Bond more funds')}</Menu.Item>
+        <Menu.Item onClick={this.toggleUnbond}>{t('Unbond funds')}</Menu.Item>
+        {isValidating && <Menu.Item onClick={this.toggleChangeValidatorPrefs}>{t('Change validator preference')}s</Menu.Item>}
+        {sessionId && <Menu.Item onClick={this.toggleSetSessionKey}>{t('Change session key')}</Menu.Item>}
+        {isNominating && <Menu.Item onClick={this.toggleNominate}>{t('Change Nominee(s)')}</Menu.Item>}
+        {(isNominating || isValidating) && <Menu.Item onClick={this.toggleSetRewardDestination}>{t('Change reward destination')}</Menu.Item>}
       </Menu>
     );
   }
@@ -474,6 +484,22 @@ class Account extends React.PureComponent<Props, State> {
         onClose={this.toggleChangeValidatorPrefs}
         validatorPrefs={validatorPrefs}
         stashId={stashId}
+      />
+    );
+  }
+
+  private renderSetRewardDestination () {
+    const { controllerId, destination, isSetRewardDestinationOpen } = this.state;
+
+    if (!isSetRewardDestinationOpen || !controllerId) {
+      return null;
+    }
+
+    return (
+      <SetRewardDestination
+        controllerId={controllerId}
+        destination={destination}
+        onClose={this.toggleSetRewardDestination}
       />
     );
   }
@@ -510,6 +536,12 @@ class Account extends React.PureComponent<Props, State> {
   private toggleNominate = () => {
     this.setState(({ isNominateOpen }) => ({
       isNominateOpen: !isNominateOpen
+    }));
+  }
+
+  private toggleSetRewardDestination = () => {
+    this.setState(({ isSetRewardDestinationOpen }) => ({
+      isSetRewardDestinationOpen: !isSetRewardDestinationOpen
     }));
   }
 

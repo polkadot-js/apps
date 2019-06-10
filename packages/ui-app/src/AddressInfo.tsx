@@ -42,6 +42,7 @@ type Props = BareProps & I18nProps & {
   staking_info?: DerivedStaking,
   value: string,
   withBalance?: boolean | BalanceActiveType,
+  withRewardDestination?: boolean,
   withExtended?: boolean | CryptoActiveType,
   withValidatorPrefs?: boolean | ValidatorPrefsType
 };
@@ -117,6 +118,7 @@ class AddressInfo extends React.PureComponent<Props> {
           </>
         )}
         {this.renderValidatorPrefs()}
+        {this.renderRewardDestination()}
       </div>
     );
   }
@@ -178,6 +180,23 @@ class AddressInfo extends React.PureComponent<Props> {
           </>
         )}
       </div>
+    );
+  }
+
+  private renderRewardDestination () {
+    const { staking_info, withRewardDestination, t } = this.props;
+
+    if (!withRewardDestination) {
+      return null;
+    }
+
+    return (
+      staking_info &&
+      staking_info.rewardDestination &&
+      <>
+        <Label label={t('reward destination')} />
+        <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
+      </>
     );
   }
 
