@@ -8,6 +8,7 @@ import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { isUndefined } from '@polkadot/util';
 
+import Icon from '../Icon';
 import Tooltip from '../Tooltip';
 
 let idCounter = 0;
@@ -44,7 +45,18 @@ export default class Button extends React.PureComponent<ButtonProps> {
         {
           isUndefined(label) && isUndefined(children)
             ? <SUIButton {...props} />
-            : <SUIButton {...props}>{label}{children}</SUIButton>
+            : (
+              <SUIButton {...props}>
+                {!!icon && (
+                  <>
+                    <Icon className={icon} />
+                    {'  '}
+                  </>
+                )}
+                {label}
+                {children}
+              </SUIButton>
+            )
         }
         {tooltip && (
           <Tooltip

@@ -9,7 +9,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
-import { AddressRow, Button, Card, Forget, Messages, Icon } from '@polkadot/ui-app';
+import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/ui-app';
 import { getContractAbi } from '@polkadot/ui-app/util';
 import { withMulti } from '@polkadot/ui-api';
 
@@ -141,7 +141,8 @@ class Contract extends React.PureComponent<Props> {
         />
         <Button
           isPrimary
-          label={<><Icon name='play' />{'  '}{t('execute')}</>}
+          icon='play'
+          label={t('execute')}
           onClick={() => onCall(address)}
           size='small'
           tooltip={t('Call a method on this contract')}

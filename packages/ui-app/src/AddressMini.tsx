@@ -74,7 +74,7 @@ class AddressMini extends React.PureComponent<Props> {
       return null;
     }
 
-    const name = getAddressName(address, type);
+    const name = getAddressName(address, type, true);
 
     return (
       <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{

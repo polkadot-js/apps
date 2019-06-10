@@ -17,9 +17,9 @@ export default function getAddressName (address: string, type: KeyringItemType |
 
   const name = pair && pair.isValid()
     ? pair.getMeta().name
-    : (defaultName || '<unknown>');
+    : (defaultName || null);
 
   return !name && withShort
     ? toShortAddress(address)
-    : name;
+    : (name || '<unknown>');
 }

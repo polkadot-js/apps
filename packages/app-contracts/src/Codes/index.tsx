@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, CardGrid, Icon } from '@polkadot/ui-app';
+import { Button, CardGrid } from '@polkadot/ui-app';
 import contracts from '../store';
 
 import translate from '../translate';
@@ -39,25 +39,15 @@ class Codes extends React.PureComponent<Props> {
           buttons={
             <Button.Group>
               <Button
+                icon='upload'
                 isPrimary
-                label={
-                  <>
-                    <Icon name='upload' />
-                    {'  '}
-                    {t('Upload WASM')}
-                  </>
-                }
+                label={t('Upload WASM')}
                 onClick={this.showUpload}
               />
               <Button.Or />
               <Button
-                label={
-                  <>
-                    <Icon name='add' />
-                    {'  '}
-                    {t('Add an existing code hash')}
-                  </>
-                }
+                icon='add'
+                label={t('Add an existing code hash')}
                 onClick={this.showAdd}
               />
             </Button.Group>

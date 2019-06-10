@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Button, Card, CodeRow, Forget, Icon } from '@polkadot/ui-app';
+import { Button, Card, CodeRow, Forget } from '@polkadot/ui-app';
 import { withMulti } from '@polkadot/ui-api';
 
 import ABI from '../ABI';
@@ -76,8 +76,9 @@ class Contract extends React.PureComponent<Props> {
           tooltip={t('Forget this code hash')}
         />
         <Button
+          icon='cloud upload'
           isPrimary
-          label={<><Icon name='cloud upload' />{'  '}{t('deploy')}</>}
+          label={t('deploy')}
           onClick={showDeploy(codeHash)}
           size='small'
           tooltip={t('Deploy this code hash as a smart contract')}

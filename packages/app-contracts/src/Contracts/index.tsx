@@ -46,27 +46,17 @@ class Contracts extends React.PureComponent<Props, State> {
               {hasCode && (
                 <>
                   <Button
+                    icon='cloud upload'
                     isPrimary
-                    label={
-                      <>
-                        <Icon name='cloud upload' />
-                        {'  '}
-                        {t('Deploy a code hash')}
-                      </>
-                    }
+                    label={t('Deploy a code hash')}
                     onClick={showDeploy()}
                   />
                   <Button.Or />
                 </>
               )}
               <Button
-                label={
-                  <>
-                    <Icon name='add' />
-                    {'  '}
-                    {t('Add an existing contract')}
-                  </>
-                }
+                icon='add'
+                label={t('Add an existing contract')}
                 onClick={this.showAdd}
               />
             </Button.Group>
