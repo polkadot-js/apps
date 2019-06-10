@@ -60,9 +60,9 @@ class Account extends React.PureComponent<Props> {
       >
         {this.renderModals()}
         <AddressInfo
+          accountId={address}
           withBalance
           withExtended
-          value={address}
         />
       </AddressCard>
     );

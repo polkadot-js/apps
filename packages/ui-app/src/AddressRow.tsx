@@ -185,7 +185,7 @@ class AddressRow extends React.PureComponent<Props, State> {
     return (
       <div className='ui--AddressRow-balances'>
         <AddressInfo
-          value={accountId}
+          accountId={accountId}
           withBalance={withBalance}
         />
       </div>

@@ -40,7 +40,7 @@ type Props = BareProps & I18nProps & {
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
   staking_info?: DerivedStaking,
-  value: string,
+  accountId: string,
   withBalance?: boolean | BalanceActiveType,
   withRewardDestination?: boolean,
   withExtended?: boolean | CryptoActiveType,
@@ -50,7 +50,7 @@ type Props = BareProps & I18nProps & {
 // <AddressInfo
 //   withBalance // default
 //   withExtended={true} // optional
-//   value={address}
+//   accountId={address}
 // >{children></AddressInfo>
 //
 // Additionally to tweak the display, i.e. only available
@@ -62,7 +62,12 @@ class AddressInfo extends React.PureComponent<Props> {
 
     return (
       <div className={className}>
-        {this.renderBalances()}
+        <div className='column'>
+          {this.renderBalances()}
+          {this.renderValidatorPrefs()}
+          {this.renderRewardDestination()}
+        </div>
+
         {this.renderExtended()}
         {children && (
           <div className='column'>
@@ -86,7 +91,7 @@ class AddressInfo extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='column'>
+      <>
         {balanceDisplay.free && (
           <>
             <Label label={t('total')} />
@@ -117,19 +122,17 @@ class AddressInfo extends React.PureComponent<Props> {
             </div>
           </>
         )}
-        {this.renderValidatorPrefs()}
-        {this.renderRewardDestination()}
-      </div>
+    </>
     );
   }
 
-  // either true (filtered above already) or [own, ...all extras]
+  // either true (filtered above already) or [own, ...all extras bonded funds from nominators]
   private renderBonded (bonded: true | Array<BN>) {
     const { staking_info, t } = this.props;
     let value = undefined;
 
     if (Array.isArray(bonded)) {
-      // Get the sum of all extra values (if available)
+      // Get the sum of funds bonded by any nominator (if available)
       const extras = bonded.filter((value, index) => index !== 0);
       const extra = extras.reduce((total, value) => total.add(value), new BN(0)).gtn(0)
         ? `(+${extras.map((bonded) => formatBalance(bonded)).join(', ')})`
@@ -151,7 +154,7 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   private renderExtended () {
-    const { balances_all, t, value, withExtended } = this.props;
+    const { balances_all, t, accountId, withExtended } = this.props;
     const extendedDisplay = withExtended === true
       ? { crypto: true, nonce: true }
       : withExtended
@@ -174,7 +177,7 @@ class AddressInfo extends React.PureComponent<Props> {
           <>
             <Label label={t('crypto type')} />
             <CryptoType
-              accountId={value}
+              accountId={accountId}
               className='result'
             />
           </>
@@ -241,7 +244,6 @@ class AddressInfo extends React.PureComponent<Props> {
     );
   }
 
-    // either true (filtered above already) or [own, ...all extras]
   private renderValidatorPrefs () {
     const { staking_info, t, withValidatorPrefs = false } = this.props;
     const validatorPrefsDisplay = withValidatorPrefs === true
@@ -252,8 +254,10 @@ class AddressInfo extends React.PureComponent<Props> {
       return null;
     }
 
+    // start with a spacer
     return (
       <>
+        <div className='spacer'></div>
         {validatorPrefsDisplay.unstakeThreshold && staking_info.validatorPrefs.unstakeThreshold && (
           <>
             <Label label={t('unstake threshold')} />
@@ -305,11 +309,15 @@ export default withMulti(
           padding-right: 0 !important;
         }
       }
+
+      .spacer {
+        margin-top: 1rem;
+      }
     }
   `,
   translate,
   withCalls<Props>(
-    ['derive.balances.all', { paramName: 'value' }],
-    ['derive.staking.info', { paramName: 'value' }]
+    ['derive.balances.all', { paramName: 'accountId' }],
+    ['derive.staking.info', { paramName: 'accountId' }]
   )
 );

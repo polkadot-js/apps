@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
+import { Button, Icon, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withMulti } from '@polkadot/ui-api';
 
 import translate from '../../translate';
@@ -13,7 +13,7 @@ import InputValidationController from '../Account/InputValidationController';
 
 type Props = I18nProps & {
   defaultControllerId: string,
-  isValidating?: true,
+  isValidating?: boolean,
   onClose: () => void,
   stashId: string
 };
@@ -82,6 +82,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
           {t('Change controller account')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
+          {this.renderSessionAccountWarning()}
           <InputAddress
             className='medium'
             isDisabled
@@ -109,6 +110,22 @@ class SetControllerAccount extends TxComponent<Props, State> {
     );
   }
 
+  private renderSessionAccountWarning () {
+    const { isValidating = false, t } = this.props;
+
+    if (!isValidating) {
+      return null;
+    }
+
+    return (
+      <article className='warning'>
+        <div className='warning'>
+          <Icon name='warning sign' />
+          {t('Warning - Changing the controller while validating will modify the associated session account. It is advised to stop validating before changing the controller account.')}
+        </div>
+      </article>
+    );
+  }
   private onChangeController = (controllerId: string) => {
     this.setState({ controllerId });
   }

@@ -12,7 +12,7 @@ import translate from '../../translate';
 import { rewardDestinationOptions } from '../constants';
 
 type Props = I18nProps & {
-  destination?: number,
+  defaultDestination?: number,
   controllerId: string,
   onClose: () => void
 };
@@ -70,7 +70,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { controllerId, destination, t } = this.props;
+    const { controllerId, defaultDestination, t } = this.props;
 
     return (
       <>
@@ -87,7 +87,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
           />
           <Dropdown
             className='medium'
-            defaultValue={destination}
+            defaultValue={defaultDestination}
             help={t('The destination account for any payments as either a nominator or validator')}
             label={t('payment destination')}
             onChange={this.onChangeDestination}
