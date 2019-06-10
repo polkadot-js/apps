@@ -7,7 +7,7 @@ import { ValidatorPrefs } from '@polkadot/types';
 
 import React from 'react';
 
-import SetSessionKey from './SetSessionKey';
+import SetSessionAccount from './SetSessionAccount';
 import translate from '../../translate';
 import Validate from './Validate';
 
@@ -65,7 +65,7 @@ class StartValidatingProcess extends React.PureComponent<Props, State> {
     }
 
     return (
-      <SetSessionKey
+      <SetSessionAccount
         controllerId={controllerId}
         onClose={onClose}
         nextStep={this.goToValidationPrefsSelection}

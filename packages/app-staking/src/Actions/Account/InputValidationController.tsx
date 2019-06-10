@@ -15,6 +15,7 @@ type Props = I18nProps & {
   accountId: string | null,
   bondedId?: string | null,
   controllerId: string | null,
+  defaultController?: string,
   onError: (error: string | null) => void,
   stashId?: string | null
 };
@@ -28,9 +29,13 @@ class ValidateController extends React.PureComponent<Props, State> {
     error: null
   };
 
-  static getDerivedStateFromProps ({ accountId, bondedId, controllerId, onError, stashId, t }: Props, prevState: State): State {
+  static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, onError, stashId, t }: Props, prevState: State): State {
     const error = (() => {
-      if (controllerId === accountId) {
+      if (defaultController === controllerId) {
+        // don't show an error if the selected controller is the default
+        // this applies when changing controller
+        return null;
+      } else if (controllerId === accountId) {
         return t('Please select distinct stash and controller accounts');
       } else if (bondedId) {
         return t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });

@@ -42,7 +42,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
 
     return (
       <Modal
-        className='staking--Stash'
+        className='staking--SetSessionAccount'
         dimmer='inverted'
         open
         size='small'
