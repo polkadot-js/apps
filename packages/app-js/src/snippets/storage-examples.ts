@@ -85,6 +85,23 @@ api.query.balances.freeBalance(ALICE, (balance) => {
 });`
 };
 
+export const storageListenToMultipleBalancesChange: Snippet = {
+  value: 'storageListenToMultipleBalancesChange',
+  text: 'Listen to multiple balances changes',
+  label: { color: 'blue', children: 'Storage', size: 'tiny' },
+  code: `// You may leave this example running and make a transfer
+// of any value from or to Alice/Bob address in the 'Transfer' App
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+
+console.log('Tracking balances for:', [ALICE, BOB])
+
+// Subscribe and listen to several balance changes
+api.query.balances.freeBalance.multi([ALICE, BOB], (balance) => {
+  console.log('Change detected, new balances: ', balance)
+});`
+};
+
 export const storageRetrieveInfoOnQueryKeys: Snippet = {
   value: 'storageRetrieveInfoOnQueryKeys',
   text: 'Retrieve Info on query keys',

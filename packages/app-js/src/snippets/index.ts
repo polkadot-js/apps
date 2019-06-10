@@ -15,7 +15,8 @@ import {
   storageGetInfo,
   storageSystemEvents,
   storageListenToBalanceChange,
- storageRetrieveInfoOnQueryKeys
+  storageListenToMultipleBalancesChange,
+  storageRetrieveInfoOnQueryKeys
 } from './storage-examples';
 
 import { extrinsicMakeTransfer } from './extrinsics-examples';
@@ -28,6 +29,7 @@ const snippets: Array<Snippet> = [
   storageGetInfo,
   storageSystemEvents,
   storageListenToBalanceChange,
+  storageListenToMultipleBalancesChange,
   storageRetrieveInfoOnQueryKeys,
   extrinsicMakeTransfer
 ];
