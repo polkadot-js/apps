@@ -14,10 +14,10 @@ import translate from '../../translate';
 
 type Props = I18nProps & {
   controllerId: string,
-  inValidationProcess?: boolean,
+  isOpen: boolean,
   onClose: () => void,
   stashId: string,
-  validatorPrefs: ValidatorPrefs
+  validatorPrefs?: ValidatorPrefs
 };
 
 type State = {
@@ -36,20 +36,34 @@ class Validate extends TxComponent<Props, State> {
   // inject the preferences returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
   static getDerivedStateFromProps (props: Props, state: State): State | null {
-    if (state.unstakeThreshold) {
+    if (state.unstakeThreshold && state.validatorPayment) {
       return null;
     }
 
-    const { unstakeThreshold, validatorPayment } = props.validatorPrefs;
+    if (props.validatorPrefs) {
+      const { unstakeThreshold, validatorPayment } = props.validatorPrefs;
+
+      return {
+        unstakeThreshold: unstakeThreshold.toBn(),
+        unstakeThresholdError: null,
+        validatorPayment: validatorPayment.toBn()
+      };
+    }
 
     return {
-      unstakeThreshold: unstakeThreshold.toBn(),
+      unstakeThreshold: undefined,
       unstakeThresholdError: null,
-      validatorPayment: validatorPayment.toBn()
+      validatorPayment: undefined
     };
   }
 
   render () {
+    const { isOpen } = this.props;
+
+    if (!isOpen) {
+      return null;
+    }
+
     return (
       <Modal
         className='staking--Staking'
@@ -64,8 +78,9 @@ class Validate extends TxComponent<Props, State> {
   }
 
   private renderButtons () {
-    const { controllerId, onClose, t } = this.props;
+    const { controllerId, onClose, t, validatorPrefs } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
+    const isChangingPrefs = validatorPrefs && !!validatorPrefs.unstakeThreshold;
 
     return (
       <Modal.Actions>
@@ -80,7 +95,7 @@ class Validate extends TxComponent<Props, State> {
             accountId={controllerId}
             isDisabled={!!unstakeThresholdError}
             isPrimary
-            label={t('Validate')}
+            label={isChangingPrefs ? t('Set validator preferences') : t('Validate')}
             onClick={onClose}
             params={[{
               unstakeThreshold,
@@ -95,13 +110,14 @@ class Validate extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { controllerId, inValidationProcess = false, stashId, t, validatorPrefs } = this.props;
+    const { controllerId, stashId, t, validatorPrefs } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
+    const defaultValue = validatorPrefs && validatorPrefs.unstakeThreshold && validatorPrefs.unstakeThreshold.toBn();
 
     return (
       <>
         <Modal.Header>
-          {inValidationProcess ? t('Step 2 - Set validator preferences') : t('Change validator preferences')}
+          {t('Set validator preferences')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
@@ -120,7 +136,7 @@ class Validate extends TxComponent<Props, State> {
             autoFocus
             bitLength={32}
             className='medium'
-            defaultValue={validatorPrefs && validatorPrefs.unstakeThreshold && validatorPrefs.unstakeThreshold.toBn()}
+            defaultValue={defaultValue}
             help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
             isError={!!unstakeThresholdError}
             label={t('automatic unstake threshold')}

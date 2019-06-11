@@ -14,7 +14,6 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import CryptoType from './CryptoType';
 import Label from './Label';
-//  import { validatorPaymentDestinationOptions } from './constants';
 import translate from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]

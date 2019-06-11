@@ -22,8 +22,6 @@ type State = {
 };
 
 class SetRewardDestination extends TxComponent<Props, State> {
-  state: State;
-
   constructor (props: Props) {
     super(props);
 
@@ -98,18 +96,8 @@ class SetRewardDestination extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: Partial<State>): void {
-    this.setState((prevState: State): State => {
-      const { destination = prevState.destination } = newState;
-
-      return {
-        destination
-      };
-    });
-  }
-
   private onChangeDestination = (destination: number) => {
-    this.nextState({ destination });
+    this.setState({ destination });
   }
 }
 

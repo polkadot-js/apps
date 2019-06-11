@@ -12,10 +12,9 @@ import translate from '../../translate';
 
 type Props = I18nProps & {
   controllerId: string,
-  inValidationProcess?: boolean,
+  isOpen: boolean,
   onClose: () => void,
-  nextStep?: any,
-  sessionId?: string,
+  sessionId?: string | null,
   stashId: string
 };
 
@@ -37,8 +36,12 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { controllerId, inValidationProcess = false, onClose, nextStep, t } = this.props;
+    const { controllerId, isOpen, onClose, t } = this.props;
     const { sessionError, sessionId } = this.state;
+
+    if (!isOpen) {
+      return null;
+    }
 
     return (
       <Modal
@@ -60,9 +63,8 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               accountId={controllerId}
               isDisabled={!sessionId || !!sessionError}
               isPrimary
-              label={inValidationProcess ? t('Next') : t('Set Session Key')}
-              onClick={ nextStep ? null : onClose }
-              onSuccess={nextStep}
+              label={t('Set Session Key')}
+              onClick={ onClose }
               params={[sessionId]}
               tx='session.setKey'
             />
@@ -73,13 +75,13 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   }
 
   private renderContent () {
-    const { controllerId, inValidationProcess = false, stashId, t } = this.props;
+    const { controllerId, stashId, t } = this.props;
     const { sessionId } = this.state;
 
     return (
       <>
         <Modal.Header>
-          {inValidationProcess ? t('Step 1 - Session Key') : t('Change Session Key')}
+          {t('Set Session Key')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress

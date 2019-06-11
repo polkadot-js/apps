@@ -24,8 +24,6 @@ type State = {
 };
 
 class SetControllerAccount extends TxComponent<Props, State> {
-  state: State;
-
   constructor (props: Props) {
     super(props);
 

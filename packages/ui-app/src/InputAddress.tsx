@@ -125,8 +125,6 @@ class InputAddress extends React.PureComponent<Props, State> {
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
-    console.log('##### InputAddress - defaultValue',defaultValue);
-
     if (!hasOptions && !isDisabled) {
       return null;
     }

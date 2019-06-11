@@ -20,7 +20,6 @@ import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
 import SetSessionAccount from './SetSessionAccount';
-import StartValidatingProcess from './StartValidatingProcess';
 import translate from '../../translate';
 import Unbond from './Unbond';
 import Validate from './Validate';
@@ -39,15 +38,14 @@ type State = {
   isActiveStash: boolean,
   isBondExtraOpen: boolean,
   isNominateOpen: boolean,
-  isSetValidatorPrefsOpen: boolean,
   isSetControllerAccountOpen: boolean,
   isSetRewardDestinationOpen: boolean,
   isSetSessionAccountOpen: boolean,
   isSettingPopupOpen: boolean,
-  isStartValidatingProcessOpen: boolean,
   isStashNominating: boolean,
   isStashValidating: boolean,
   isUnbondOpen: boolean,
+  isValidateOpen: boolean,
   nominees?: Array<string>,
   sessionId: string | null,
   stakers?: Exposure,
@@ -60,7 +58,7 @@ const Wrapper = styled.div`
   display: flex;
 
   .staking--Accounts {
-    flex: 1;
+    flex: 2;
   }
 
   .staking--Account-detail.actions{
@@ -75,7 +73,7 @@ const Wrapper = styled.div`
   }
 
   .staking--Actions-Infos {
-    flex: 1;
+    flex: 3;
     display: flex;
     flex-direction: column;
 
@@ -128,16 +126,15 @@ class Account extends React.PureComponent<Props, State> {
     destination: 0,
     isActiveStash: false,
     isBondExtraOpen: false,
-    isSetValidatorPrefsOpen: false,
+    isNominateOpen: false,
     isSetControllerAccountOpen: false,
     isSettingPopupOpen: false,
     isSetRewardDestinationOpen: false,
     isSetSessionAccountOpen: false,
-    isStartValidatingProcessOpen: false,
     isStashNominating: false,
     isStashValidating: false,
-    isNominateOpen: false,
     isUnbondOpen: false,
+    isValidateOpen: false,
     sessionId: null,
     stashId: null
   };
@@ -181,12 +178,12 @@ class Account extends React.PureComponent<Props, State> {
       <Card>
         {this.renderBondExtra()}
         {this.renderSetValidatorPrefs()}
-        {this.renderNominating()}
+        {this.renderNominate()}
         {this.renderSetControllerAccount()}
         {this.renderSetRewardDestination()}
         {this.renderSetSessionAccount()}
-        {this.renderStartValidatingProcess()}
         {this.renderUnbond()}
+        {this.renderValidate()}
         <Wrapper>
           <div className='staking--Accounts'>
             {this.renderStashAccount()}
@@ -248,25 +245,6 @@ class Account extends React.PureComponent<Props, State> {
         }}
         withRewardDestination
         withValidatorPrefs
-      />
-    );
-  }
-
-  private renderStartValidatingProcess () {
-    const { isStartValidatingProcessOpen, controllerId, stashId, sessionId, validatorPrefs } = this.state;
-
-    if (!validatorPrefs || !isStartValidatingProcessOpen || !stashId || !controllerId) {
-      return null;
-    }
-
-    return (
-      <StartValidatingProcess
-        controllerId={controllerId}
-        hasSessionId={sessionId !== null}
-        isOpen
-        onClose={this.toggleStartValidatingProcess}
-        stashId={stashId}
-        validatorPrefs={validatorPrefs}
       />
     );
   }
@@ -383,7 +361,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderNominating () {
+  private renderNominate () {
     const { stashOptions } = this.props;
     const { controllerId, isNominateOpen, nominees, stashId } = this.state;
 
@@ -393,7 +371,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <Nominate
-        accountId={controllerId}
+        controllerId={controllerId}
         isOpen={isNominateOpen}
         nominees={nominees}
         onClose={this.toggleNominate}
@@ -403,9 +381,27 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderValidate () {
+    const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
+
+    if (!stashId || !controllerId) {
+      return null;
+    }
+
+    return (
+      <Validate
+        controllerId={controllerId}
+        isOpen={isValidateOpen}
+        onClose={this.toggleValidate}
+        stashId={stashId}
+        validatorPrefs={validatorPrefs}
+      />
+    );
+  }
+
   private renderButtons () {
     const { t } = this.props;
-    const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating } = this.state;
+    const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionId } = this.state;
     const buttons = [];
 
     // if we are validating/nominating show stop
@@ -424,14 +420,25 @@ class Account extends React.PureComponent<Props, State> {
         />
       );
     } else {
-      buttons.push(
-        <Button
-          isPrimary
-          key='validate'
-          onClick={this.toggleStartValidatingProcess}
-          label={t('Validate')}
-        />
-      );
+      if (!sessionId) {
+        buttons.push(
+          <Button
+            isPrimary
+            key='set'
+            onClick={this.toggleSetSessionAccount}
+            label={t('Set Session Key')}
+          />
+        );
+      } else {
+        buttons.push(
+          <Button
+            isPrimary
+            key='validate'
+            onClick={this.toggleValidate}
+            label={t('Validate')}
+          />
+        );
+      }
 
       buttons.push(<Button.Or key='nominate.or' />);
       buttons.push(
@@ -500,7 +507,7 @@ class Account extends React.PureComponent<Props, State> {
           {t('Change reward destination')}
         </Menu.Item>
         {isStashValidating &&
-          <Menu.Item onClick={this.toggleSetValidatorPrefs}>
+          <Menu.Item onClick={this.toggleValidate}>
             {t('Change validator preferences')}
           </Menu.Item>
         }
@@ -519,18 +526,19 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderSetValidatorPrefs () {
-    const { controllerId, isSetValidatorPrefsOpen, stashId, validatorPrefs } = this.state;
+    const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
 
-    if (!isSetValidatorPrefsOpen || !controllerId || !validatorPrefs || !stashId) {
+    if (!controllerId || !validatorPrefs || !stashId) {
       return null;
     }
 
     return (
       <Validate
         controllerId={controllerId}
-        onClose={this.toggleSetValidatorPrefs}
-        validatorPrefs={validatorPrefs}
+        isOpen={isValidateOpen}
+        onClose={this.toggleValidate}
         stashId={stashId}
+        validatorPrefs={validatorPrefs}
       />
     );
   }
@@ -571,13 +579,14 @@ class Account extends React.PureComponent<Props, State> {
   private renderSetSessionAccount () {
     const { controllerId, isSetSessionAccountOpen, stashId, sessionId } = this.state;
 
-    if (!isSetSessionAccountOpen || !controllerId || !sessionId || !stashId) {
+    if (!controllerId || !stashId) {
       return null;
     }
 
     return (
       <SetSessionAccount
         controllerId={controllerId}
+        isOpen={isSetSessionAccountOpen}
         onClose={this.toggleSetSessionAccount}
         sessionId={sessionId}
         stashId={stashId}
@@ -588,12 +597,6 @@ class Account extends React.PureComponent<Props, State> {
   private toggleBondExtra = () => {
     this.setState(({ isBondExtraOpen }) => ({
       isBondExtraOpen: !isBondExtraOpen
-    }));
-  }
-
-  private toggleSetValidatorPrefs = () => {
-    this.setState(({ isSetValidatorPrefsOpen }) => ({
-      isSetValidatorPrefsOpen: !isSetValidatorPrefsOpen
     }));
   }
 
@@ -621,12 +624,6 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
-  private toggleStartValidatingProcess = () => {
-    this.setState(({ isStartValidatingProcessOpen }) => ({
-      isStartValidatingProcessOpen: !isStartValidatingProcessOpen
-    }));
-  }
-
   private toggleSettingPopup = () => {
     this.setState(({ isSettingPopupOpen }) => ({
       isSettingPopupOpen: !isSettingPopupOpen
@@ -636,6 +633,12 @@ class Account extends React.PureComponent<Props, State> {
   private toggleUnbond = () => {
     this.setState(({ isUnbondOpen }) => ({
       isUnbondOpen: !isUnbondOpen
+    }));
+  }
+
+  private toggleValidate = () => {
+    this.setState(({ isValidateOpen }) => ({
+      isValidateOpen: !isValidateOpen
     }));
   }
 }

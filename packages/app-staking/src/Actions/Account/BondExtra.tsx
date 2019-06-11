@@ -128,7 +128,7 @@ class BondExtra extends TxComponent<Props, State> {
           <InputBalance
             autoFocus
             className='medium'
-            help={t('The additionnal amount to bonded, this is adjusted using the available funds on the account.')}
+            help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
             label={t('additionnal bonded funds')}
             maxValue={maxBalance}
             onChange={this.onChangeValue}
@@ -190,7 +190,6 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   private onChangeValue = (maxAdditional?: BN) => {
-    console.log('onChangeValue - maxAdditional',maxAdditional);
     this.nextState({ maxAdditional });
   }
 }

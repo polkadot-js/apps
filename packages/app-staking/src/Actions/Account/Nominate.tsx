@@ -11,7 +11,7 @@ import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 import translate from '../../translate';
 
 type Props = I18nProps & {
-  accountId: string,
+  controllerId: string,
   isOpen: boolean,
   nominees?: Array<string>,
   onClose: () => void,
@@ -49,7 +49,7 @@ class Nominate extends React.PureComponent<Props, State> {
   }
 
   renderButtons () {
-    const { accountId, onClose, t } = this.props;
+    const { controllerId, onClose, t } = this.props;
     const { nominees } = this.state;
 
     return (
@@ -62,7 +62,7 @@ class Nominate extends React.PureComponent<Props, State> {
           />
           <Button.Or />
           <TxButton
-            accountId={accountId}
+            accountId={controllerId}
             isDisabled={!nominees || nominees.length === 0}
             isPrimary
             onClick={onClose}
@@ -76,10 +76,8 @@ class Nominate extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { accountId, stashId, stashOptions, t } = this.props;
-    const { nominees } = this.state;
+    const { controllerId, stashId, stashOptions, t } = this.props;
 
-    console.log('Nominate - nominees',nominees);
     return (
       <>
         <Modal.Header>
@@ -88,7 +86,7 @@ class Nominate extends React.PureComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            defaultValue={accountId}
+            defaultValue={controllerId}
             isDisabled
             label={t('controller account')}
           />
@@ -100,7 +98,6 @@ class Nominate extends React.PureComponent<Props, State> {
           />
           <InputAddress
             className='medium'
-            defaultValue={nominees}
             isMultiple
             help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
             label={t('nominate the following addresses')}
@@ -114,11 +111,8 @@ class Nominate extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeNominees = (newNominees: Array<string>) => {
-    const { nominees } = this.state;
-    console.log('Nominate - newNominees',newNominees);
-    console.log('Nominate - nominees',nominees);
-    this.setState({ nominees: newNominees });
+  private onChangeNominees = (nominees: Array<string>) => {
+    this.setState({ nominees });
   }
 }
 
