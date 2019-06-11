@@ -1,7 +1,7 @@
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { I18nProps } from '@polkadot/ui-app/types';
+// import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -10,7 +10,9 @@ import AddressRow, { Props as AddressProps } from './AddressRow';
 import Card from './Card';
 import LinkPolkascan from './LinkPolkascan';
 
-type Props = I18nProps & AddressProps & {
+import translate from './translate';
+
+type Props = AddressProps & {
   withExplorer?: boolean
 };
 
@@ -38,7 +40,7 @@ class AddressCard extends React.PureComponent<Props> {
   }
 }
 
-export default styled(AddressCard)`
+export default styled(translate(AddressCard))`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
