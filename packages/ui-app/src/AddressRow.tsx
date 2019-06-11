@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { I18nProps } from '@polkadot/ui-app/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
@@ -19,7 +20,7 @@ import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 
-type Props = RowProps & {
+export type Props = I18nProps & RowProps & {
   accounts_idAndIndex?: [AccountId?, AccountIndex?]
   bonded?: BN | Array<BN>,
   isContract?: boolean,

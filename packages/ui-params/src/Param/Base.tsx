@@ -13,7 +13,7 @@ import Bare from './Bare';
 type Props = BareProps & {
   children: React.ReactNode,
   isDisabled?: boolean,
-  label?: string,
+  label?: React.ReactNode,
   size?: Size,
   withLabel?: boolean
 };

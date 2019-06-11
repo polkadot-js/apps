@@ -22,7 +22,7 @@ type Props = BareProps & {
   iconInfo?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
-  type: KeyringItemType,
+  type?: KeyringItemType,
   value?: AccountId | AccountIndex | Address | string,
   withAddress?: boolean,
   withBalance?: boolean,
@@ -68,7 +68,7 @@ class AddressMini extends React.PureComponent<Props> {
   }
 
   private renderAddressOrName (address: string) {
-    const { isShort = true, withAddress = true, type } = this.props;
+    const { isShort = true, withAddress = true, type = 'address' } = this.props;
 
     if (!withAddress) {
       return null;

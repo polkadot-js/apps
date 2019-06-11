@@ -55,6 +55,7 @@ class Contract extends React.PureComponent<Props> {
           buttons={this.renderButtons()}
           isContract
           isEditable
+          type='contract'
           value={address}
           withBalance={false}
           withNonce={false}

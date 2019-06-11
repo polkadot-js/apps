@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { I18nProps } from '@polkadot/ui-app/types';
 import { Hash } from '@polkadot/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
 
@@ -15,7 +16,7 @@ import contracts from '@polkadot/app-contracts/store';
 import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
-type Props = RowProps & {
+type Props = I18nProps & RowProps & {
   code: CodeStored,
   withMessages?: boolean
 };

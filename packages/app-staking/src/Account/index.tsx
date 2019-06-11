@@ -109,6 +109,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <AddressCard
         buttons={this.renderButtons()}
+        type='account'
         value={accountId}
       >
         {this.renderBond()}

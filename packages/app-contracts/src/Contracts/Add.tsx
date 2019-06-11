@@ -27,7 +27,8 @@ class Add extends ContractModal<Props, State> {
     super(props);
     this.defaultState = {
       ...this.defaultState,
-      name: props.t('New Contract')!,
+      address: null,
+      name: 'New Contract',
       isAddressValid: false,
       isNameValid: true
     };
@@ -55,7 +56,7 @@ class Add extends ContractModal<Props, State> {
           label={t('contract address')}
           onChange={this.onChangeAddress}
           onEnter={this.submit}
-          value={address}
+          value={address || ''}
         />
         <ValidateAddr
           address={address}

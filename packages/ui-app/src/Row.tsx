@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from './types';
-
 import { Label } from 'semantic-ui-react';
 import React from 'react';
 import { Button, Input, InputTags } from '@polkadot/ui-app';
@@ -147,7 +145,7 @@ export const styles = `
   }
 `;
 
-export type RowProps = I18nProps & {
+export type RowProps = {
   buttons?: React.ReactNode,
   children?: React.ReactNode,
   className?: string,

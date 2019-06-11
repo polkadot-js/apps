@@ -49,6 +49,7 @@ class Address extends React.PureComponent<Props, State> {
       <AddressCard
         buttons={this.renderButtons()}
         isEditable={isEditable}
+        type='address'
         value={address}
         withExplorer
         withIndex

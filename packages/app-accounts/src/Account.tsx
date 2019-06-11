@@ -52,6 +52,7 @@ class Account extends React.PureComponent<Props> {
       <AddressCard
         buttons={this.renderButtons()}
         isEditable={isEditable}
+        type='account'
         value={address}
         withExplorer
         withIndex
