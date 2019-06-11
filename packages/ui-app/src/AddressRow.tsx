@@ -31,6 +31,7 @@ export type RowProps = {
   isEditable?: boolean,
   isInline?: boolean,
   value: AccountId | AccountIndex | Address | string | null,
+  withAddressOrName?: boolean,
   withBalance?: boolean | BalanceActiveType,
   withIcon?: boolean,
   withIndex?: boolean,
@@ -104,8 +105,7 @@ class AddressRow extends React.PureComponent<Props, State> {
         <div className='ui--AddressRow-base'>
           {this.renderIcon()}
           <div className='ui--AddressRow-details'>
-            {this.renderName()}
-            {this.renderAddress()}
+            {this.renderAddressAndName()}
             {this.renderAccountIndex()}
             {this.renderBalances()}
             {this.renderTags()}
@@ -142,6 +142,21 @@ class AddressRow extends React.PureComponent<Props, State> {
 
   private onChangeTags = (tags: string[]) => {
     this.setState({ tags });
+  }
+
+  private renderAddressAndName () {
+    const { withAddressOrName = false } = this.props;
+
+    if (withAddressOrName) {
+      return this.renderName(true);
+    } else {
+      return (
+        <>
+          {this.renderName()}
+          {this.renderAddress()}
+        </>
+      );
+    }
   }
 
   private renderAddress () {
@@ -262,10 +277,11 @@ class AddressRow extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderName () {
+  private renderName (withCopy: boolean = false) {
     const { isEditable } = this.props;
-    const { isEditingName, name } = this.state;
+    const { address, isEditingName, name } = this.state;
 
+    // can't be both editable and copiable
     return isEditingName
       ? (
         <Input
@@ -282,9 +298,22 @@ class AddressRow extends React.PureComponent<Props, State> {
         <div
           className={classes('ui--AddressRow-name', isEditable && 'editable')}
           onClick={isEditable ? this.toggleNameEditor : undefined}
-        >
-          {name}
-          {isEditable && this.renderEditIcon()}
+        > {withCopy && !isEditable
+          ? (
+            <CopyButton
+              isAddress
+              value={address}
+            >
+              {getAddrName(address, true)}
+            </CopyButton>
+          )
+          : (
+            <>
+              {name}
+              {isEditable && this.renderEditIcon()}
+            </>
+          )
+        }
         </div>
       );
   }

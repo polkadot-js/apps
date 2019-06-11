@@ -240,7 +240,7 @@ class Account extends React.PureComponent<Props, State> {
       <AddressInfo
         accountId={stashId}
         withBalance={{
-          available: true,
+          available: false,
           bonded: true,
           free: false,
           redeemable: true,
@@ -321,8 +321,17 @@ class Account extends React.PureComponent<Props, State> {
         <AddressRow
           value={controllerId}
           iconInfo={this.renderOffline(controllerId)}
+          withAddressOrName
+          withBalance={{
+            available: true,
+            bonded: false,
+            free: false,
+            redeemable: false,
+            unlocking: false
+          }}
         />
       </div>
+
     );
   }
 
@@ -337,7 +346,17 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-detail actions'>
         <label className='staking--label'>{t('session')}</label>
-        <AddressRow value={sessionId} />
+        <AddressRow
+          value={sessionId}
+          withAddressOrName
+          withBalance={{
+            available: true,
+            bonded: false,
+            free: false,
+            redeemable: false,
+            unlocking: false
+          }}
+        />
       </div>
     );
   }
@@ -351,8 +370,14 @@ class Account extends React.PureComponent<Props, State> {
         <AddressRow
           value={accountId}
           iconInfo={this.renderOffline(accountId)}
-          withBalance={false}
-          withBonded
+          withAddressOrName
+          withBalance={{
+            available: true,
+            bonded: false,
+            free: false,
+            redeemable: false,
+            unlocking: false
+          }}
         />
       </div>
     );
@@ -382,24 +407,6 @@ class Account extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating } = this.state;
     const buttons = [];
-
-    buttons.push(
-      <Popup
-        key='settings'
-        onClose={this.toggleSettingPopup}
-        open={isSettingPopupOpen}
-        position='bottom left'
-        trigger={
-          <Button
-            icon='setting'
-            onClick={this.toggleSettingPopup}
-            size='tiny'
-          />
-        }
-      >
-        {this.renderPopupMenu()}
-      </Popup>
-    );
 
     // if we are validating/nominating show stop
     if (isStashNominating || isStashValidating) {
@@ -436,6 +443,24 @@ class Account extends React.PureComponent<Props, State> {
         />
       );
     }
+
+    buttons.push(
+      <Popup
+        key='settings'
+        onClose={this.toggleSettingPopup}
+        open={isSettingPopupOpen}
+        position='bottom left'
+        trigger={
+          <Button
+            icon='setting'
+            onClick={this.toggleSettingPopup}
+            size='tiny'
+          />
+        }
+      >
+        {this.renderPopupMenu()}
+      </Popup>
+    );
 
     return (
       <>
