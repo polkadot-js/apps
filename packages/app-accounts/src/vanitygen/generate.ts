@@ -4,8 +4,7 @@
 
 import { Generator$Match, Generator$Options } from './types';
 
-import { encodeAddress } from '@polkadot/keyring';
-import { naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
+import { encodeAddress, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
 
 import calculate from './calculate';
 
