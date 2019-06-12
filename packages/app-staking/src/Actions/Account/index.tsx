@@ -235,7 +235,7 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <AddressInfo
-        accountId={stashId}
+        address={stashId}
         withBalance={{
           available: false,
           bonded: true,

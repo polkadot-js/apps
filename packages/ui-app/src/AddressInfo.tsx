@@ -36,25 +36,16 @@ export type ValidatorPrefsType = {
 };
 
 type Props = BareProps & I18nProps & {
+  address: string,
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
   staking_info?: DerivedStaking,
-  accountId: string,
   withBalance?: boolean | BalanceActiveType,
   withRewardDestination?: boolean,
   withExtended?: boolean | CryptoActiveType,
   withValidatorPrefs?: boolean | ValidatorPrefsType
 };
 
-// <AddressInfo
-//   withBalance // default
-//   withExtended={true} // optional
-//   accountId={address}
-// >{children></AddressInfo>
-//
-// Additionally to tweak the display, i.e. only available
-//
-// <AddressInfo withBalance={{ available: true }} />
 class AddressInfo extends React.PureComponent<Props> {
   render () {
     const { children, className } = this.props;
@@ -153,7 +144,7 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   private renderExtended () {
-    const { balances_all, t, accountId, withExtended } = this.props;
+    const { balances_all, t, address, withExtended } = this.props;
     const extendedDisplay = withExtended === true
       ? { crypto: true, nonce: true }
       : withExtended
@@ -176,7 +167,7 @@ class AddressInfo extends React.PureComponent<Props> {
           <>
             <Label label={t('crypto type')} />
             <CryptoType
-              accountId={accountId}
+              accountId={address}
               className='result'
             />
           </>

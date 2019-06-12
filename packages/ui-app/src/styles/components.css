@@ -44,7 +44,7 @@ header .ui--Button-Group {
 }
 
 button.ui.icon.iconButton {
-  padding: 0em .3em .3em .3em !important;
+  padding: 0em 0em .3em .3em !important;
   color: #2e86ab  !important;
   background: none  !important;
 }

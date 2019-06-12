@@ -118,7 +118,7 @@ class BondExtra extends TxComponent<Props, State> {
           />
           <BalanceWrapper>
             <AddressInfo
-              accountId={stashId}
+              address={stashId}
               withBalance={{
                 available: true,
                 bonded: true

@@ -42,17 +42,17 @@ class Accounts extends React.PureComponent<Props,State> {
     return (
       <Wrapper
         buttons={
-            <Button
-              isPrimary
-              key='new-stake'
-              label={
-                <>
-                  <Icon name='add'/>
-                  {t('New stake')}
-                </>
-            }
-              onClick={this.toggleNewStake}
-            />
+          <Button
+            isPrimary
+            key='new-stake'
+            label={
+              <>
+                <Icon name='add'/>
+                {t('New stake')}
+              </>
+          }
+            onClick={this.toggleNewStake}
+          />
         }
       >
         {this.renderNewStake()}
