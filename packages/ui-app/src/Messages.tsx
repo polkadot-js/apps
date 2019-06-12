@@ -8,9 +8,9 @@ import { Button } from '@polkadot/ui-app';
 
 import React from 'react';
 import styled from 'styled-components';
-import classNames from 'classnames';
 
 import translate from './translate';
+import { classes } from './util';
 
 export type Props = I18nProps & {
   address?: string,
@@ -20,44 +20,12 @@ export type Props = I18nProps & {
   onSelect?: (callAddress?: string, callMethod?: string) => void
 };
 
-const Wrapper = styled.div`
-  font-size: 0.9rem;
-  min-height: 3.5rem;
-  padding: 0;
-  margin: 0;
-  display: inline-flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-
-  & > .message {
-    font-family: monospace;
-    font-weight: normal;
-    margin-bottom: 0;
-    margin-right: 0;
-    padding: 0.5rem;
-    margin: 0;
-    border-radius: 0.7rem;
-
-    &.disabled {
-      opacity: 1 !important;
-      background: #eee !important;
-      color: #555 !important;
-    }
-
-    &:not(:last-of-type) {
-      margin-right: 1rem;
-    }
-  }
-`;
-
 class Messages extends React.PureComponent<Props> {
-
   render () {
-    const { contractAbi: { abi: { messages } }, isRemovable, onRemove = () => null, onSelect, t } = this.props;
+    const { className, contractAbi: { abi: { messages } }, isRemovable, onRemove = () => null, onSelect, t } = this.props;
 
     return (
-      <Wrapper className={onSelect && 'select'}>
+      <div className={classes(className, onSelect && 'select')}>
         {messages.map((_, index) => {
           return this.renderMessage(index);
         })}
@@ -71,7 +39,7 @@ class Messages extends React.PureComponent<Props> {
             tooltip={t('Remove ABI')}
           />
         )}
-      </Wrapper>
+      </div>
     );
   }
 
@@ -87,14 +55,14 @@ class Messages extends React.PureComponent<Props> {
     return (
       <Button
         key={name}
-        className={classNames('message', !onSelect && 'exempt-hover')}
+        className={classes('message', !onSelect && 'exempt-hover')}
         isDisabled={!onSelect}
         onClick={this.onSelect(index)}
         isPrimary={!!onSelect}
       >
         {name}
         (
-        {args.map(({ name: argName, type }) => `${argName}: ${type}`).join(', ')}
+          {args.map(({ name, type }) => `${name}: ${type}`).join(', ')}
         )
         {returnType && `: ${returnType}`}
       </Button>
@@ -114,4 +82,33 @@ class Messages extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Messages);
+export default translate(styled(Messages)`
+  font-size: 0.9rem;
+  min-height: 3.5rem;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+
+  & > .message {
+    font-family: monospace;
+    font-weight: normal;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding: 0.5rem;
+    margin: 0;
+    /* border-radius: 0.7rem; */
+
+    &.disabled {
+      opacity: 1 !important;
+      background: #eee !important;
+      color: #555 !important;
+    }
+
+    &:not(:last-of-type) {
+      margin-right: 0.5rem;
+    }
+  }
+`);

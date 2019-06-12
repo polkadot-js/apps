@@ -53,7 +53,7 @@ class AddressRow extends Row<Props, State> {
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddressName(address, type, false, defaultName) || '';
+    const name = getAddressName(address, type, false, defaultName || '<unknown>') || '';
     const tags = getAddressTags(address, type);
     const state = { tags } as State;
     let hasChanged = false;
@@ -106,7 +106,7 @@ class AddressRow extends Row<Props, State> {
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddressName(address, type, false, defaultName) || '';
+    const name = getAddressName(address, type, false, defaultName || '<unknown>') || '';
     const tags = getAddressTags(address, type);
 
     return {
