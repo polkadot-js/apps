@@ -8,8 +8,9 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { classes, getAddrName, toShortAddress } from './util';
+import { classes, getAddressName, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
@@ -21,6 +22,7 @@ type Props = BareProps & {
   iconInfo?: React.ReactNode,
   isPadded?: boolean,
   isShort?: boolean,
+  type?: KeyringItemType,
   value?: AccountId | AccountIndex | Address | string,
   withAddress?: boolean,
   withBalance?: boolean,
@@ -66,13 +68,13 @@ class AddressMini extends React.PureComponent<Props> {
   }
 
   private renderAddressOrName (address: string) {
-    const { isShort = true, withAddress = true } = this.props;
+    const { isShort = true, withAddress = true, type = 'address' } = this.props;
 
     if (!withAddress) {
       return null;
     }
 
-    const name = getAddrName(address);
+    const name = getAddressName(address, type, true);
 
     return (
       <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{

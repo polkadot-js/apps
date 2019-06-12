@@ -8,7 +8,7 @@ import { ComponentProps } from '../types';
 import React from 'react';
 import { Button, CardGrid, Icon } from '@polkadot/ui-app';
 import createOption from '@polkadot/ui-keyring/options/item';
-import { getAddrName } from '@polkadot/ui-app/util';
+import { getAddressName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import styled from 'styled-components';
 
@@ -96,7 +96,7 @@ class Accounts extends React.PureComponent<Props,State> {
     const { stashes } = this.props;
 
     return stashes.map((stashId) =>
-      createOption(stashId, getAddrName(stashId))
+      createOption(stashId, getAddressName(stashId, 'account'))
     );
   }
 }

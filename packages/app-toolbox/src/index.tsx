@@ -34,6 +34,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     this.state = {
       tabs: [
         {
+          isRoot: true,
           name: 'rpc',
           text: t('RPC calls')
         },

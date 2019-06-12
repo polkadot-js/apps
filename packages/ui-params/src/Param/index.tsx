@@ -6,11 +6,16 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { BaseProps, Props as ComponentProps, ComponentMap } from '../types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 import translate from '@polkadot/ui-app/translate';
 import { isUndefined } from '@polkadot/util';
 
 import findComponent from './findComponent';
+
+const Type = styled.span`
+  font-family: monospace;
+`;
 
 type Props = I18nProps & BaseProps & {
   isDisabled?: boolean,
@@ -50,9 +55,11 @@ class ParamComponent extends React.PureComponent<Props, State> {
         key={`${name}:${type}`}
         isDisabled={isDisabled}
         label={
-          isUndefined(name)
-            ? type.type
-            : `${name}: ${type.type}`
+          <Type>
+            {isUndefined(name)
+              ? type.type
+              : `${name}: ${type.type}`}
+          </Type>
         }
         name={name}
         onChange={onChange}

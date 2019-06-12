@@ -128,6 +128,7 @@ export default class Api extends React.PureComponent<Props, State> {
     // finally load the keyring
     keyring.loadAll({
       addressPrefix: properties.get('networkId'),
+      genesisHash: api.genesisHash,
       isDevelopment,
       type: 'ed25519'
     }, injectedAccounts);

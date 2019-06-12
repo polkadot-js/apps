@@ -13,7 +13,7 @@ import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
-import { classes, getAddrName } from './util';
+import { classes, getAddressName } from './util';
 import addressToAddress from './util/toAddress';
 import Dropdown from './Dropdown';
 
@@ -196,7 +196,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       return undefined;
     }
 
-    return getAddrName(value, true);
+    return getAddressName(value, null, true);
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {

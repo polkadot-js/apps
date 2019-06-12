@@ -48,6 +48,7 @@ class ExplorerApp extends React.Component<Props, State> {
     this.state = {
       items: [
         {
+          isRoot: true,
           name: 'chain',
           text: t('Chain info')
         },

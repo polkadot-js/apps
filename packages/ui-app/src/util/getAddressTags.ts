@@ -3,14 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import keyring from '@polkadot/ui-keyring';
+import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-export default function getAddrAtgs (address: string): Array<string> {
+export default function getAddressTags (address: string, type: KeyringItemType = 'account'): Array<string> {
   let pair;
 
   try {
-    pair = keyring.getAccount(address).isValid()
-      ? keyring.getAccount(address)
-      : keyring.getAddress(address);
+    pair = keyring.getAddress(address, type);
   } catch (error) {
     // all-ok, we have empty fallbacks
   }

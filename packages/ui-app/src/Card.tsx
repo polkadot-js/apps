@@ -24,9 +24,14 @@ class Card extends React.PureComponent<Props> {
 
 export default styled(Card)`
   position: relative;
+  flex: 1 1;
+  min-width: 24%;
+  min-height: 130px;
+  justify-content: space-around;
 
   i.help.circle.icon,
   .ui.button.mini,
+  .ui.button.tiny,
   .addTags {
     visibility: hidden;
   }
@@ -34,6 +39,7 @@ export default styled(Card)`
   &:hover {
     i.help.circle.icon,
     .ui.button.mini,
+    .ui.button.tiny,
     .addTags {
       visibility: visible;
     }

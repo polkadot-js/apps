@@ -43,6 +43,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
       isCreateOpen: false,
       items: [
         {
+          isRoot: true,
           name: 'overview',
           text: t('My contacts')
         }

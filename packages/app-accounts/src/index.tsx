@@ -42,6 +42,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
       ...baseState,
       tabs: [
         {
+          isRoot: true,
           name: 'overview',
           text: t('My accounts')
         },

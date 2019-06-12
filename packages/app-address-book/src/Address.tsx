@@ -7,11 +7,10 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressCard, AddressInfo, Button, Icon } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, Button, Forget, Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import Forgetting from './modals/Forgetting';
 
 import translate from './translate';
 
@@ -50,6 +49,7 @@ class Address extends React.PureComponent<Props, State> {
       <AddressCard
         buttons={this.renderButtons()}
         isEditable={isEditable}
+        type='address'
         value={address}
         withExplorer
         withIndex
@@ -77,10 +77,11 @@ class Address extends React.PureComponent<Props, State> {
 
     if (isForgetOpen) {
       modals.push(
-        <Forgetting
-          currentAddress={current}
-          doForget={this.onForget}
-          key='modal-forget'
+        <Forget
+          address={current.address()}
+          onForget={this.onForget}
+          key='modal-forget-account'
+          mode='address'
           onClose={this.toggleForget}
         />
       );

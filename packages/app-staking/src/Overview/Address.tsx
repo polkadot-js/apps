@@ -98,6 +98,7 @@ class Address extends React.PureComponent<Props, State> {
         defaultName={defaultName}
         iconInfo={this.renderOffline()}
         key={stashId || controllerId}
+        type='address'
         value={stashId}
         withBalance={{ bonded }}
       >

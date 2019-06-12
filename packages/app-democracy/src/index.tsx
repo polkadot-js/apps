@@ -32,6 +32,7 @@ class App extends React.PureComponent<Props, State> {
     this.state = {
       tabs: [
         {
+          isRoot: true,
           name: 'overview',
           text: t('Democracy overview')
         },

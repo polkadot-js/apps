@@ -13,7 +13,7 @@ type Props = BareProps & {
   defaultValue?: any,
   isDisabled?: boolean,
   isError?: boolean,
-  label: string,
+  label?: React.ReactNode,
   onChange?: (contents: Uint8Array) => void,
   placeholder?: string,
   withLabel?: boolean

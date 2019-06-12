@@ -24,6 +24,7 @@ class Member extends React.PureComponent<Props> {
       <AddressCard
         buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}
         defaultName='council member'
+        type='address'
         value={address}
       />
     );
