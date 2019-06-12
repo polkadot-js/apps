@@ -12,10 +12,10 @@
   "dependencies": {
     "@babel/runtime": "^7.4.5",
     "@polkadot/ui-api": "^0.34.0-beta.9",
-    "@polkadot/ui-identicon": "^0.41.0-beta.4",
-    "@polkadot/ui-keyring": "^0.41.0-beta.4",
+    "@polkadot/ui-identicon": "^0.41.0-beta.5",
+    "@polkadot/ui-keyring": "^0.41.0-beta.5",
     "@polkadot/ui-reactive": "^0.34.0-beta.9",
-    "@polkadot/ui-settings": "^0.41.0-beta.4",
+    "@polkadot/ui-settings": "^0.41.0-beta.5",
     "@types/chart.js": "^2.7.53",
     "@types/classnames": "^2.2.7",
     "@types/i18next": "^12.1.0",
