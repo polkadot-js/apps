@@ -34,6 +34,7 @@ class Selection extends React.PureComponent<Props, State> {
     this.state = {
       items: [
         {
+          isRoot: true,
           name: 'modules',
           text: t('Modules')
         },

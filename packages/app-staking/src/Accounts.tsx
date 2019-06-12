@@ -7,7 +7,7 @@ import { AccountFilter, ComponentProps } from './types';
 
 import React from 'react';
 import { CardGrid, Dropdown, FilterOverlay } from '@polkadot/ui-app';
-import { getAddrName } from '@polkadot/ui-app/util';
+import { getAddressName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
 import createOption from '@polkadot/ui-keyring/options/item';
 
@@ -81,7 +81,7 @@ class Accounts extends React.PureComponent<Props, State> {
     const { stashes } = this.props;
 
     return stashes.map((stashId) =>
-      createOption(stashId, getAddrName(stashId))
+      createOption(stashId, getAddressName(stashId, 'account'))
     );
   }
 

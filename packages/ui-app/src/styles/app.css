@@ -108,7 +108,7 @@ article {
   }
 
   &:not(:hover) {
-    .ui.button {
+    .ui.button:not(.disabled) {
       background: #eee !important;
       color: #555 !important;
     }

@@ -41,38 +41,50 @@ type LoadEvent = {
 };
 
 class InputFile extends React.PureComponent<Props, State> {
-  state: State = {};
+  dropZone: any;
+  state: State;
+
+  constructor (props: Props) {
+    super(props);
+    this.state = {} as State;
+    this.dropZone = React.createRef();
+  }
 
   render () {
     const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
     const { file } = this.state;
 
-    return (
+    const dropZone = (
+      <Dropzone
+        accept={accept}
+        className={classes('ui--InputFile', isError ? 'error' : '', className)}
+        disabled={isDisabled}
+        multiple={false}
+        ref={this.dropZone}
+        onDrop={this.onDrop}
+      >
+        <div className='label'>
+          {
+            !file || clearContent
+              ? placeholder || t('click to select or drag and drop the file here')
+              : placeholder || t('{{name}} ({{size}} bytes)', {
+                replace: file
+              })
+          }
+        </div>
+      </Dropzone>
+    );
+
+    return label ? (
       <Labelled
         help={help}
         label={label}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
-        <Dropzone
-          accept={accept}
-          className={classes('ui--InputFile', isError ? 'error' : '', className)}
-          disabled={isDisabled}
-          multiple={false}
-          onDrop={this.onDrop}
-        >
-          <div className='label'>
-            {
-              !file || clearContent
-                ? placeholder || t('click to select or drag and drop the file here')
-                : placeholder || t('{{name}} ({{size}} bytes)', {
-                  replace: file
-                })
-            }
-          </div>
-        </Dropzone>
+        {dropZone}
       </Labelled>
-    );
+    ) : dropZone;
   }
 
   private onDrop = (files: Array<File>) => {
@@ -96,12 +108,14 @@ class InputFile extends React.PureComponent<Props, State> {
 
         onChange && onChange(data, name);
 
-        this.setState({
-          file: {
-            name,
-            size: data.length
-          }
-        });
+        if (this.dropZone && this.dropZone.current) {
+          this.setState({
+            file: {
+              name,
+              size: data.length
+            }
+          });
+        }
       };
 
       reader.readAsArrayBuffer(file);

@@ -49,6 +49,7 @@ class App extends React.PureComponent<Props, State> {
             basePath={basePath}
             items={[
               {
+                isRoot: true,
                 name: 'index',
                 text: t('Sudo access')
               },

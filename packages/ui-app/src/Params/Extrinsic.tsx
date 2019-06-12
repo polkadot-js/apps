@@ -17,7 +17,7 @@ type Props = I18nProps & {
   isDisabled?: boolean,
   isError?: boolean,
   isPrivate: boolean,
-  label: string,
+  label: React.ReactNode,
   onChange?: RawParam$OnChange,
   onEnter?: RawParam$OnEnter,
   withLabel?: boolean

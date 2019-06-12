@@ -29,6 +29,7 @@ export default class Account extends React.PureComponent<Props> {
           label={label}
           onChange={this.onChange}
           placeholder='5...'
+          type='allPlus'
           withEllipsis
           withLabel={withLabel}
         />

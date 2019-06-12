@@ -2,18 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { I18nProps } from '@polkadot/ui-app/types';
+
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = {
+import translate from './translate';
+
+type Props = I18nProps & {
   buttons?: React.ReactNode,
   children: React.ReactNode,
-  className?: string
+  className?: string,
+  emptyText?: string
 };
 
 class CardGrid extends React.PureComponent<Props> {
   render () {
     const { buttons, children, className } = this.props;
+
+    if (!children || (children as Array<any>).length <= 0) {
+      return this.empty();
+    }
 
     return (
       <div className={className}>
@@ -31,24 +40,58 @@ class CardGrid extends React.PureComponent<Props> {
       </div>
     );
   }
+
+  empty () {
+    const { buttons, className, emptyText, t } = this.props;
+
+    return (
+      <div className={className}>
+        <div className='ui--CardGrid-empty'>
+          <h2>
+            {emptyText || t('No items')}
+          </h2>
+          {buttons && (
+            <div className='ui--CardGrid-buttons'>
+              {buttons}
+            </div>
+          )}
+          <div className='ui--CardGrid-spacer' />
+        </div>
+      </div>
+    );
+  }
 }
 
-export default styled(CardGrid)`
-  .ui--CardGrid-grid {
-    display: flex;
-    flex-wrap: wrap;
+export default translate(
+  styled(CardGrid)`
+    .ui--CardGrid-grid {
+      display: flex;
+      flex-wrap: wrap;
 
-    > .ui--CardGrid-spacer {
+      > .ui--CardGrid-spacer {
+        flex: 1 1;
+        margin: 0.25rem;
+        padding: 1 1.5rem;
+      }
+    }
+
+    .ui--Card,
+    .ui--CardGrid-spacer {
       flex: 1 1;
-      margin: 0.25rem;
-      padding: 0 1.5rem;
+      min-width: 35rem;
+      max-width: 71rem;
+    }
+
+    .ui--CardGrid-empty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 6rem 0;
+
+      > h2 {
+        margin-bottom: 2rem;
+      }
     }
   }
-
-  .ui--Card,
-  .ui--CardGrid-spacer {
-    flex: 1 1;
-    min-width: 35rem;
-    max-width: 71rem;
-  }
-`;
+`);

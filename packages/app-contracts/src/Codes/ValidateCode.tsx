@@ -11,7 +11,7 @@ import { withCalls } from '@polkadot/ui-api';
 import { InfoForInput } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
-import translate from './translate';
+import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   codeHash?: string | null,

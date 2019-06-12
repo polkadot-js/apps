@@ -8,6 +8,7 @@ import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { isUndefined } from '@polkadot/util';
 
+import Icon from '../Icon';
 import Tooltip from '../Tooltip';
 
 let idCounter = 0;
@@ -16,7 +17,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
   private id: string = `button-${++idCounter}`;
 
   render () {
-    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, onClick, size, style, tabIndex, tooltip } = this.props;
+    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelIcon, labelPosition, onClick, size, style, tabIndex, tooltip } = this.props;
 
     const props = {
       basic: isBasic,
@@ -27,6 +28,7 @@ export default class Button extends React.PureComponent<ButtonProps> {
       disabled: isDisabled,
       floated,
       icon,
+      labelPosition,
       loading: isLoading,
       negative: isNegative,
       onClick,
@@ -43,7 +45,18 @@ export default class Button extends React.PureComponent<ButtonProps> {
         {
           isUndefined(label) && isUndefined(children)
             ? <SUIButton {...props} />
-            : <SUIButton {...props}>{label}{children}</SUIButton>
+            : (
+              <SUIButton {...props}>
+                {!!labelIcon && (
+                  <>
+                    <Icon className={labelIcon} />
+                    {'  '}
+                  </>
+                )}
+                {label}
+                {children}
+              </SUIButton>
+            )
         }
         {tooltip && (
           <Tooltip

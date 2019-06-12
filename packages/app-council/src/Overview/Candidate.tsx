@@ -16,6 +16,7 @@ export default class Candidate extends React.PureComponent<Props> {
     return (
       <AddressCard
         defaultName='candidate'
+        type='address'
         value={address}
       />
     );

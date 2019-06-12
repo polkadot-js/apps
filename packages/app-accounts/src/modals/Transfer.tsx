@@ -180,7 +180,7 @@ class Transfer extends React.PureComponent<Props> {
             isDisabled={!!propRecipientId}
             label={t('send to address')}
             onChange={this.onChangeTo}
-            type='all'
+            type='allPlus'
           />
           <div className='balance'><Available label={available} params={recipientId} /></div>
           <InputBalance
