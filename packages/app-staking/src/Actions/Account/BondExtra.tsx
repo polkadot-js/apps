@@ -34,7 +34,7 @@ const ZERO = new BN(0);
 
 const BalanceWrapper = styled.div`
   & > div {
-    justify-content: end;
+    justify-content: flex-end;
 
     & .column {
       flex: 0;

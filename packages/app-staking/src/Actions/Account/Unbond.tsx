@@ -29,7 +29,7 @@ type State = {
 
 const BalanceWrapper = styled.div`
   & > div {
-    justify-content: end;
+    justify-content: flex-end;
 
     & .column {
       flex: 0;
