@@ -9,12 +9,11 @@ import { CodeStored } from '@polkadot/app-contracts/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withMulti } from '@polkadot/ui-api';
-import { classes, getAddressName, toShortAddress } from '@polkadot/ui-app/util';
+import { classes, toShortAddress } from '@polkadot/ui-app/util';
 import contracts from '@polkadot/app-contracts/store';
 
 import CopyButton from './CopyButton';
 import Icon from './Icon';
-import Input from './Input';
 import Messages from './Messages';
 
 import Row, { RowProps, RowState, styles } from './Row';
@@ -111,48 +110,6 @@ class CodeRow extends Row<Props, State> {
         {this.renderChildren()}
       </div>
     );
-  }
-
-  protected renderName (withCopy: boolean = false) {
-    const { isEditable } = this.props;
-    const { address, isEditingName, name } = this.state;
-
-    // can't be both editable and copiable
-    return isEditingName
-      ? (
-        <Input
-          autoFocus
-          className='ui--Row-name-input'
-          defaultValue={name}
-          onBlur={this.saveName}
-          onChange={this.onChangeName}
-          onEnter={this.saveName}
-          withLabel={false}
-        />
-      )
-      : (
-        <div
-          className={classes('ui--Row-name', isEditable && 'editable')}
-          onClick={isEditable ? this.toggleNameEditor : undefined}
-        >
-          {withCopy && !isEditable
-            ? (
-              <CopyButton
-                isAddress
-                value={address}
-              >
-                {getAddressName(address, 'address', true)}
-              </CopyButton>
-            )
-            : (
-              <>
-                {name}
-                {isEditable && this.renderEditIcon()}
-              </>
-            )
-          }
-        </div>
-      );
   }
 
   private createState () {

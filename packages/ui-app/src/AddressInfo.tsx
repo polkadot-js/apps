@@ -307,7 +307,7 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.balances.all', { paramName: 'accountId' }],
-    ['derive.staking.info', { paramName: 'accountId' }]
+    ['derive.balances.all', { paramName: 'address' }],
+    ['derive.staking.info', { paramName: 'address' }]
   )
 );

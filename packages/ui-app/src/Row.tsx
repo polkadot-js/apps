@@ -1,13 +1,16 @@
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+import { AccountId, AccountIndex } from '@polkadot/types';
 
 import { Label } from 'semantic-ui-react';
 import React from 'react';
-import { Button, InputTags } from '@polkadot/ui-app';
 
-import { classes } from './util';
-import { AccountId, AccountIndex } from '@polkadot/types';
+import Button from './Button';
+import { classes, getAddressName } from './util';
+import CopyButton from './CopyButton';
+import Input from './Input';
+import InputTags from './InputTags';
 
 export const styles = `
   text-align: left;
@@ -227,6 +230,50 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
         key='unlock'
       />
     );
+  }
+
+  protected renderName (withCopy: boolean = false) {
+    const { isEditable } = this.props;
+    const { address, isEditingName, name } = this.state;
+
+    console.log(isEditable,address,isEditingName,name);
+
+    // can't be both editable and copiable
+    return isEditingName
+      ? (
+        <Input
+          autoFocus
+          className='ui--Row-name-input'
+          defaultValue={name}
+          onBlur={this.saveName}
+          onChange={this.onChangeName}
+          onEnter={this.saveName}
+          withLabel={false}
+        />
+      )
+      : (
+        <div
+          className={classes('ui--Row-name', isEditable && 'editable')}
+          onClick={isEditable ? this.toggleNameEditor : undefined}
+        >
+          {withCopy && !isEditable
+            ? (
+              <CopyButton
+                isAddress
+                value={address}
+              >
+                {getAddressName(address, 'address', true)}
+              </CopyButton>
+            )
+            : (
+              <>
+                {name}
+                {isEditable && this.renderEditIcon()}
+              </>
+            )
+          }
+        </div>
+      );
   }
 
   protected renderTags () {

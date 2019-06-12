@@ -57,6 +57,10 @@ type State = {
 const Wrapper = styled.div`
   display: flex;
 
+  .ui.button.tiny {
+    visibility: visible
+  }
+
   .staking--Accounts {
     flex: 2;
   }
