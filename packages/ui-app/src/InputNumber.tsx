@@ -193,7 +193,6 @@ class InputNumber extends React.PureComponent<Props, State> {
       const valueBN = this.inputValueToBn(value, siUnit);
       const isValid = this.isValidNumber(valueBN, bitLength);
 
-      console.log('isValid', isValid);
       this.setState({ isValid, value, valueBN });
 
       onChange && onChange(

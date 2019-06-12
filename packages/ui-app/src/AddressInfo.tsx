@@ -298,6 +298,10 @@ export default withMulti(
           margin-right: 0;
           padding-right: 0 !important;
         }
+
+        button.ui.icon.primary.button.iconButton {
+          background: white !important;
+        }
       }
 
       .spacer {

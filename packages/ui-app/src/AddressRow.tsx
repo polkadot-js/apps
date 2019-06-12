@@ -16,7 +16,6 @@ import keyring from '@polkadot/ui-keyring';
 import AddressInfo, { BalanceActiveType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
-
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';

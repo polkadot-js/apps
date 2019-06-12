@@ -236,8 +236,6 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     const { isEditable } = this.props;
     const { address, isEditingName, name } = this.state;
 
-    console.log(isEditable,address,isEditingName,name);
-
     // can't be both editable and copiable
     return isEditingName
       ? (
