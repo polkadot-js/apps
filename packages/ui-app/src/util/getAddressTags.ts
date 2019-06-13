@@ -5,7 +5,7 @@
 import keyring from '@polkadot/ui-keyring';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-export default function getAddressTags (address: string, type: KeyringItemType = 'account'): Array<string> {
+export default function getAddressTags (address: string, type: KeyringItemType | null = null): Array<string> {
   let pair;
 
   try {

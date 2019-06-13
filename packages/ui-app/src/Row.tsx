@@ -68,8 +68,12 @@ export const styles = `
 
   .ui--Row-buttons {
     flex: 0;
-    margin: -0.75rem -0.75rem 0 0;
+    margin: -0.75rem -1rem 0 0;
     white-space: nowrap;
+
+    button.ui.button:last-child {
+      margin-right: 0;
+    }
   }
 
   .ui--Row-children {
