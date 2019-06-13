@@ -9,7 +9,7 @@ import { Label } from 'semantic-ui-react';
 import React from 'react';
 
 import Button from './Button';
-import { classes, getAddressName, toShortAddress } from './util';
+import { classes, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import Input from './Input';
 import InputTags from './InputTags';
@@ -244,7 +244,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
   }
 
   protected renderName (withCopy: boolean = false) {
-    const { defaultName, isEditable, type } = this.props;
+    const { defaultName, isEditable } = this.props;
     const { address, isEditingName, name } = this.state;
     const withName = name !== defaultName;
 
