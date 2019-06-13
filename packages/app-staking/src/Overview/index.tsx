@@ -62,6 +62,10 @@ class Overview extends React.PureComponent<Props> {
   private sortByBalance (list: Array<string>): Array<string> {
     const { balances } = this.props;
 
+    if (!balances) {
+      return [];
+    }
+
     return list.sort((a, b) => {
       const balanceA = balances[a] || { freeBalance: ZERO };
       const balanceB = balances[b] || { freeBalance: ZERO };

@@ -2,20 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { BareProps } from './types';
+import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
+import createItem from '@polkadot/ui-keyring/options/item';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
-import createItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
-import Dropdown from './Dropdown';
 import { classes, getAddressName } from './util';
 import addressToAddress from './util/toAddress';
+import Dropdown from './Dropdown';
 
 type Props = BareProps & {
   defaultValue?: string | null,
@@ -147,15 +147,20 @@ class InputAddress extends React.PureComponent<Props, State> {
             ? [createOption(actualValue)]
             : (optionsAll ? optionsAll[type] : [])
       );
+    let _defaultValue;
+
+    if (value !== undefined) {
+      _defaultValue = undefined;
+    } else if (isMultiple) {
+      _defaultValue = undefined;
+    } else {
+      _defaultValue = actualValue;
+    }
 
     return (
       <Dropdown
         className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
-        defaultValue={
-          isMultiple || (value !== undefined)
-            ? undefined
-            : actualValue
-        }
+        defaultValue={_defaultValue}
         help={help}
         isDisabled={isDisabled}
         isError={isError}
@@ -263,7 +268,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       if (accountId) {
         matches.push(
           keyring.saveRecent(
-            accountId
+            accountId.toString()
           ).option
         );
       }

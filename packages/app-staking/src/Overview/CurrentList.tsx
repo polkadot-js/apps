@@ -13,7 +13,7 @@ import translate from '../translate';
 import Address from './Address';
 
 type Props = I18nProps & {
-  balances: DerivedBalancesMap,
+  balances?: DerivedBalancesMap,
   current: Array<string>,
   lastAuthor?: string,
   lastBlock: string,

@@ -8,23 +8,24 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & {
-  accountId: string,
+  controllerId: string,
   isOpen: boolean,
+  nominees?: Array<string>,
   onClose: () => void,
   stashId: string,
   stashOptions: Array<KeyringSectionOption>
 };
 
 type State = {
-  nominees: Array<string>
+  nominees: Array<string> | undefined
 };
 
-class Nominating extends React.PureComponent<Props, State> {
+class Nominate extends React.PureComponent<Props, State> {
   state: State = {
-    nominees: []
+    nominees: this.props.nominees
   };
 
   render () {
@@ -48,7 +49,7 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   renderButtons () {
-    const { accountId, onClose, t } = this.props;
+    const { controllerId, onClose, t } = this.props;
     const { nominees } = this.state;
 
     return (
@@ -61,8 +62,8 @@ class Nominating extends React.PureComponent<Props, State> {
           />
           <Button.Or />
           <TxButton
-            accountId={accountId}
-            isDisabled={nominees.length === 0}
+            accountId={controllerId}
+            isDisabled={!nominees || nominees.length === 0}
             isPrimary
             onClick={onClose}
             params={[nominees]}
@@ -75,7 +76,7 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 
   renderContent () {
-    const { accountId, stashId, stashOptions, t } = this.props;
+    const { controllerId, stashId, stashOptions, t } = this.props;
 
     return (
       <>
@@ -85,7 +86,7 @@ class Nominating extends React.PureComponent<Props, State> {
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'
-            defaultValue={accountId}
+            defaultValue={controllerId}
             isDisabled
             label={t('controller account')}
           />
@@ -115,4 +116,4 @@ class Nominating extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Nominating);
+export default translate(Nominate);

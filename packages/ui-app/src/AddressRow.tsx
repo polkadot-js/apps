@@ -4,7 +4,6 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -14,26 +13,23 @@ import BaseIdentityIcon from '@polkadot/ui-identicon';
 import keyring from '@polkadot/ui-keyring';
 
 import AddressInfo, { BalanceActiveType } from './AddressInfo';
+import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
-import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 
 export type Props = I18nProps & RowProps & {
-  accounts_idAndIndex?: [AccountId?, AccountIndex?]
   bonded?: BN | Array<BN>,
   isContract?: boolean,
   isValid?: boolean,
-  type: KeyringItemType,
   value: AccountId | AccountIndex | Address | string | null,
+  withAddressOrName?: boolean,
   withBalance?: boolean | BalanceActiveType,
   withIndex?: boolean
 };
 
-type State = RowState & {
-  address: string
-};
+type State = RowState;
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
@@ -86,8 +82,7 @@ class AddressRow extends Row<Props, State> {
         <div className='ui--Row-base'>
           {this.renderIcon()}
           <div className='ui--Row-details'>
-            {this.renderName()}
-            {this.renderAddress()}
+            {this.renderAddressAndName()}
             {this.renderAccountIndex()}
             {!isContract && this.renderBalances()}
             {this.renderTags()}
@@ -115,6 +110,21 @@ class AddressRow extends Row<Props, State> {
       name,
       tags
     };
+  }
+
+  protected renderAddressAndName () {
+    const { withAddressOrName = false } = this.props;
+
+    if (withAddressOrName) {
+      return this.renderName(true);
+    } else {
+      return (
+        <>
+          {this.renderName()}
+          {this.renderAddress()}
+        </>
+      );
+    }
   }
 
   private renderAddress () {
@@ -158,7 +168,7 @@ class AddressRow extends Row<Props, State> {
     return (
       <div className='ui--Row-balances'>
         <AddressInfo
-          value={accountId}
+          address={accountId}
           withBalance={withBalance}
         />
       </div>

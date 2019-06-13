@@ -9,9 +9,12 @@ import { CodeStored } from '@polkadot/app-contracts/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withMulti } from '@polkadot/ui-api';
-import { CopyButton, Icon, Messages } from '@polkadot/ui-app';
 import { classes, toShortAddress } from '@polkadot/ui-app/util';
 import contracts from '@polkadot/app-contracts/store';
+
+import CopyButton from './CopyButton';
+import Icon from './Icon';
+import Messages from './Messages';
 
 import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
@@ -42,6 +45,8 @@ const CodeIcon = styled.div`
   }
 `;
 
+const DEFAULT_ADDR = '5'.padEnd(16, 'x');
+
 class CodeRow extends Row<Props, State> {
   state: State;
 
@@ -51,10 +56,15 @@ class CodeRow extends Row<Props, State> {
     this.state = this.createState();
   }
 
-  static getDerivedStateFromProps ({ code: { json } }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ code: { json }, accounts_idAndIndex = [] }: Props, prevState: State): State | null {
     const codeHash = json.codeHash || DEFAULT_HASH;
     const name = json.name || DEFAULT_NAME;
     const tags = json.tags || [];
+    const [_accountId] = accounts_idAndIndex;
+    const accountId = _accountId;
+    const address = accountId
+      ? accountId.toString()
+      : DEFAULT_ADDR;
 
     const state = { tags } as State;
     let hasChanged = false;
@@ -66,6 +76,11 @@ class CodeRow extends Row<Props, State> {
 
     if (!prevState.isEditingName && name !== prevState.name) {
       state.name = name;
+      hasChanged = true;
+    }
+
+    if (address !== prevState.address) {
+      state.address = address;
       hasChanged = true;
     }
 
@@ -101,6 +116,7 @@ class CodeRow extends Row<Props, State> {
     const { code: { json: { codeHash = DEFAULT_HASH, name = DEFAULT_NAME, tags = [] } } } = this.props;
 
     return {
+      address: DEFAULT_ADDR,
       codeHash,
       isEditingName: false,
       isEditingTags: false,

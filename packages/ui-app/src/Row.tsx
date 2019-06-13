@@ -2,11 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex } from '@polkadot/types';
+import { KeyringItemType } from '@polkadot/ui-keyring/types';
+
 import { Label } from 'semantic-ui-react';
 import React from 'react';
-import { Button, Input, InputTags } from '@polkadot/ui-app';
 
-import { classes } from './util';
+import Button from './Button';
+import { classes, getAddressName } from './util';
+import CopyButton from './CopyButton';
+import Input from './Input';
+import InputTags from './InputTags';
 
 export const styles = `
   text-align: left;
@@ -150,6 +156,7 @@ export const styles = `
 `;
 
 export type RowProps = {
+  accounts_idAndIndex?: [AccountId?, AccountIndex?]
   buttons?: React.ReactNode,
   children?: React.ReactNode,
   className?: string,
@@ -158,11 +165,13 @@ export type RowProps = {
   iconInfo?: React.ReactNode,
   isEditable?: boolean,
   isInline?: boolean,
+  type?: KeyringItemType,
   withIcon?: boolean,
   withTags?: boolean
 };
 
 export type RowState = {
+  address: string
   isEditingName: boolean,
   isEditingTags: boolean,
   name: string,
@@ -230,10 +239,11 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     );
   }
 
-  protected renderName () {
-    const { isEditable } = this.props;
-    const { isEditingName, name } = this.state;
+  protected renderName (withCopy: boolean = false) {
+    const { isEditable, type } = this.props;
+    const { address, isEditingName, name } = this.state;
 
+    // can't be both editable and copiable
     return isEditingName
       ? (
         <Input
@@ -251,8 +261,22 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
           className={classes('ui--Row-name', isEditable && 'editable')}
           onClick={isEditable ? this.toggleNameEditor : undefined}
         >
-          {name}
-          {isEditable && this.renderEditIcon()}
+          {withCopy && !isEditable
+            ? (
+              <CopyButton
+                isAddress
+                value={address}
+              >
+                {getAddressName(address, type, true)}
+              </CopyButton>
+            )
+            : (
+              <>
+                {name}
+                {isEditable && this.renderEditIcon()}
+              </>
+            )
+          }
         </div>
       );
   }

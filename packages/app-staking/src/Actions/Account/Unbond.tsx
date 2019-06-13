@@ -7,16 +7,18 @@ import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { AccountId, Option, StakingLedger } from '@polkadot/types';
-import { Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
+import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
   controllerId?: AccountId | null,
   isOpen: boolean,
   onClose: () => void,
+  stashId: string,
   staking_ledger?: Option<StakingLedger>
 };
 
@@ -24,6 +26,16 @@ type State = {
   maxBalance?: BN
   maxUnbond?: BN
 };
+
+const BalanceWrapper = styled.div`
+  & > div {
+    justify-content: flex-end;
+
+    & .column {
+      flex: 0;
+    }
+  }
+`;
 
 class Unbond extends TxComponent<Props, State> {
   state: State = {};
@@ -78,13 +90,13 @@ class Unbond extends TxComponent<Props, State> {
   }
 
   private renderContent () {
-    const { controllerId, t } = this.props;
+    const { controllerId, stashId, t } = this.props;
     const { maxBalance } = this.state;
 
     return (
       <>
         <Modal.Header>
-          {t('Unbond')}
+          {t('Unbond funds')}
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
@@ -93,10 +105,18 @@ class Unbond extends TxComponent<Props, State> {
             isDisabled
             label={t('controller account')}
           />
+          <BalanceWrapper>
+            <AddressInfo
+              accountId={stashId}
+              withBalance={{
+                bonded: true
+              }}
+            />
+          </BalanceWrapper>
           <InputBalance
             autoFocus
             className='medium'
-            help={t('The maximum amount to unbond, this is adjusted using the bonded funds on the account.')}
+            help={t('The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.')}
             label={t('unbond amount')}
             maxValue={maxBalance}
             onChange={this.onChangeValue}

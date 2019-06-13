@@ -12,9 +12,9 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
-import translate from './translate';
 import CryptoType from './CryptoType';
 import Label from './Label';
+import translate from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export type BalanceActiveType = {
@@ -30,31 +30,34 @@ export type CryptoActiveType = {
   nonce?: boolean
 };
 
+export type ValidatorPrefsType = {
+  unstakeThreshold?: boolean,
+  validatorPayment?: boolean
+};
+
 type Props = BareProps & I18nProps & {
+  address: string,
   balances_all?: DerivedBalances,
   children?: React.ReactNode,
   staking_info?: DerivedStaking,
-  value: string,
   withBalance?: boolean | BalanceActiveType,
-  withExtended?: boolean | CryptoActiveType
+  withRewardDestination?: boolean,
+  withExtended?: boolean | CryptoActiveType,
+  withValidatorPrefs?: boolean | ValidatorPrefsType
 };
 
-// <AddressInfo
-//   withBalance // default
-//   withExtended={true} // optional
-//   value={address}
-// >{children></AddressInfo>
-//
-// Additionally to tweak the display, i.e. only available
-//
-// <AddressInfo withBalance={{ available: true }} />
 class AddressInfo extends React.PureComponent<Props> {
   render () {
     const { children, className } = this.props;
 
     return (
       <div className={className}>
-        {this.renderBalances()}
+        <div className='column'>
+          {this.renderBalances()}
+          {this.renderValidatorPrefs()}
+          {this.renderRewardDestination()}
+        </div>
+
         {this.renderExtended()}
         {children && (
           <div className='column'>
@@ -78,7 +81,7 @@ class AddressInfo extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='column'>
+      <>
         {balanceDisplay.free && (
           <>
             <Label label={t('total')} />
@@ -109,17 +112,17 @@ class AddressInfo extends React.PureComponent<Props> {
             </div>
           </>
         )}
-      </div>
+    </>
     );
   }
 
-  // either true (filtered above already) or [own, ...all extras]
+  // either true (filtered above already) or [own, ...all extras bonded funds from nominators]
   private renderBonded (bonded: true | Array<BN>) {
     const { staking_info, t } = this.props;
     let value = undefined;
 
     if (Array.isArray(bonded)) {
-      // Get the sum of all extra values (if available)
+      // Get the sum of funds bonded by any nominator (if available)
       const extras = bonded.filter((value, index) => index !== 0);
       const extra = extras.reduce((total, value) => total.add(value), new BN(0)).gtn(0)
         ? `(+${extras.map((bonded) => formatBalance(bonded)).join(', ')})`
@@ -141,7 +144,7 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   private renderExtended () {
-    const { balances_all, t, value, withExtended } = this.props;
+    const { balances_all, t, address, withExtended } = this.props;
     const extendedDisplay = withExtended === true
       ? { crypto: true, nonce: true }
       : withExtended
@@ -164,12 +167,29 @@ class AddressInfo extends React.PureComponent<Props> {
           <>
             <Label label={t('crypto type')} />
             <CryptoType
-              accountId={value}
+              accountId={address}
               className='result'
             />
           </>
         )}
       </div>
+    );
+  }
+
+  private renderRewardDestination () {
+    const { staking_info, withRewardDestination, t } = this.props;
+
+    if (!withRewardDestination) {
+      return null;
+    }
+
+    return (
+      staking_info &&
+      staking_info.rewardDestination &&
+      <>
+        <Label label={t('reward destination')} />
+        <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
+      </>
     );
   }
 
@@ -213,6 +233,38 @@ class AddressInfo extends React.PureComponent<Props> {
       ))
     );
   }
+
+  private renderValidatorPrefs () {
+    const { staking_info, t, withValidatorPrefs = false } = this.props;
+    const validatorPrefsDisplay = withValidatorPrefs === true
+    ? { unstakeThreshold: true, validatorPayment: true }
+    : withValidatorPrefs;
+
+    if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
+      return null;
+    }
+
+    // start with a spacer
+    return (
+      <>
+        <div className='spacer'></div>
+        {validatorPrefsDisplay.unstakeThreshold && staking_info.validatorPrefs.unstakeThreshold && (
+          <>
+            <Label label={t('unstake threshold')} />
+            <div className='result'>{staking_info.validatorPrefs.unstakeThreshold.toString()}
+            </div>
+          </>
+        )}
+        {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
+          <>
+            <Label label={t('commision')} />
+            <div className='result'>{formatBalance(staking_info.validatorPrefs.validatorPayment.toBn())}
+            </div>
+          </>
+        )}
+      </>
+    );
+  }
 }
 
 export default withMulti(
@@ -221,6 +273,7 @@ export default withMulti(
     display: flex;
     flex: 1;
     justify-content: center;
+    white-space: nowrap;
 
     .column {
       flex: 1;
@@ -240,19 +293,25 @@ export default withMulti(
       .result {
         grid-column:  2;
 
-        .iconButton {
-          padding-left: 0!important;
+        .icon {
+          margin-left: .3em;
+          margin-right: 0;
+          padding-right: 0 !important;
         }
 
-        i.info.circle.icon {
-          margin-left: .3em;
+        button.ui.icon.primary.button.iconButton {
+          background: white !important;
         }
+      }
+
+      .spacer {
+        margin-top: 1rem;
       }
     }
   `,
   translate,
   withCalls<Props>(
-    ['derive.balances.all', { paramName: 'value' }],
-    ['derive.staking.info', { paramName: 'value' }]
+    ['derive.balances.all', { paramName: 'address' }],
+    ['derive.staking.info', { paramName: 'address' }]
   )
 );

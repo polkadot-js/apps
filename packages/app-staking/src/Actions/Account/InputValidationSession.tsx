@@ -8,7 +8,7 @@ import React from 'react';
 import { Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 type Props = I18nProps & {
   controllerId: string,

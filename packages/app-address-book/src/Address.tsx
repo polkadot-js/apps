@@ -57,9 +57,9 @@ class Address extends React.PureComponent<Props, State> {
       >
         {this.renderModals()}
         <AddressInfo
+          address={address}
           withBalance={{ available: true, free: true, total: true }}
           withExtended={{ nonce: true }}
-          value={address}
         />
       </AddressCard>
     );

@@ -11,8 +11,13 @@
   line-height: 1.5em;
 }
 
-.ui--signer-Signer-Content .expanded {
-  h3 {
+.ui--signer-Signer-Content {
+  .modal-Text {
+    margin-bottom: 1em;
+    padding: 1em;
+  }
+
+  .expanded h3 {
     margin-bottom: 0.75rem;
   }
 
