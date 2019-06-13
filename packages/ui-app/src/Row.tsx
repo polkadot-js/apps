@@ -9,7 +9,7 @@ import { Label } from 'semantic-ui-react';
 import React from 'react';
 
 import Button from './Button';
-import { classes, getAddressName } from './util';
+import { classes, getAddressName, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import Input from './Input';
 import InputTags from './InputTags';
@@ -109,7 +109,7 @@ export const styles = `
     }
   }
 
-  .ui--Row-name {
+  .ui--Row-address-or-name {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -117,6 +117,10 @@ export const styles = `
     text-overflow: ellipsis;
     text-transform: uppercase;
     white-space: normal;
+
+    .withAddr {
+      text-transform: lowercase;
+    }
   }
 
   .ui--Row-name-input {
@@ -240,8 +244,9 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
   }
 
   protected renderName (withCopy: boolean = false) {
-    const { isEditable, type } = this.props;
+    const { defaultName, isEditable, type } = this.props;
     const { address, isEditingName, name } = this.state;
+    const withName = name !== defaultName;
 
     // can't be both editable and copiable
     return isEditingName
@@ -258,7 +263,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
       )
       : (
         <div
-          className={classes('ui--Row-name', isEditable && 'editable')}
+          className={classes('ui--Row-address-or-name', isEditable && 'editable')}
           onClick={isEditable ? this.toggleNameEditor : undefined}
         >
           {withCopy && !isEditable
@@ -267,7 +272,10 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
                 isAddress
                 value={address}
               >
-                {getAddressName(address, type, true)}
+                <span className={`${withName ? 'withName' : 'withAddr'}`}>{
+                    withName ? name : toShortAddress(address)
+                  }
+                </span>
               </CopyButton>
             )
             : (
