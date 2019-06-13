@@ -71,7 +71,7 @@ export default translate(
       > .ui--CardGrid-spacer {
         flex: 1 1;
         margin: 0.25rem;
-        padding: 1 1.5rem;
+        padding: 0 1.5rem;
       }
     }
 
