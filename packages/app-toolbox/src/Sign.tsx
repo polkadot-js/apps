@@ -67,7 +67,7 @@ class Sign extends React.PureComponent<Props, State> {
       data: '',
       isHexData: false,
       isLocked: currentPair
-        ? currentPair.isLocked()
+        ? currentPair.isLocked
         : false,
       isUnlockVisible: false,
       signature: ''
@@ -203,7 +203,7 @@ class Sign extends React.PureComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;
-        const isLocked = !currentPair || currentPair.isLocked();
+        const isLocked = !currentPair || currentPair.isLocked;
         let signature = '';
 
         if (!isLocked && currentPair) {

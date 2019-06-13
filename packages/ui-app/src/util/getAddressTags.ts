@@ -14,5 +14,5 @@ export default function getAddressTags (address: string, type: KeyringItemType |
     // all-ok, we have empty fallbacks
   }
 
-  return (pair && pair.isValid() && pair.getMeta().tags) || [];
+  return (pair && pair.isValid && pair.meta.tags) || [];
 }

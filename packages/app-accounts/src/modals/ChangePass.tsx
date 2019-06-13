@@ -125,7 +125,7 @@ class ChangePass extends TxComponent<Props, State> {
       }
 
       try {
-        if (!account.isLocked()) {
+        if (!account.isLocked) {
           account.lock();
         }
 

@@ -71,10 +71,10 @@ const createOption = (address: string) => {
   let name: string | undefined;
 
   try {
-    name = keyring.getAccount(address).getMeta().name;
+    name = keyring.getAccount(address).meta.name;
   } catch (error) {
     try {
-      const meta = keyring.getAddress(address).getMeta();
+      const meta = keyring.getAddress(address).meta;
 
       name = meta.name;
       isRecent = meta.isRecent;
