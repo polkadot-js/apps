@@ -68,13 +68,13 @@ class AddressMini extends React.PureComponent<Props> {
   }
 
   private renderAddressOrName (address: string) {
-    const { isShort = true, withAddress = true, type = 'address' } = this.props;
+    const { isShort = true, withAddress = true, type } = this.props;
 
     if (!withAddress) {
       return null;
     }
 
-    const name = getAddressName(address, type, true);
+    const name = getAddressName(address, type);
 
     return (
       <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{
@@ -135,14 +135,18 @@ export default styled(AddressMini)`
   }
 
   .ui--AddressMini-address {
-    &.withAddr {
+    &.withAddr,
+    &.withName {
       font-family: monospace;
+      max-width: 9rem;
+      min-width: 4em;
+      overflow: hidden;
+      text-align: right;
+      text-overflow: ellipsis;
     }
 
     &.withName {
-      text-align: right;
       text-transform: uppercase;
-      min-width: 4em;
     }
   }
 
