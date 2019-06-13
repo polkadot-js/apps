@@ -4,7 +4,6 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import BN from 'bn.js';
 import React from 'react';
