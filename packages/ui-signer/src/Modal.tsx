@@ -191,7 +191,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(publicKey);
 
-    if (!pair.isLocked() || pair.getMeta().isInjected) {
+    if (!pair.isLocked || pair.meta.isInjected) {
       return null;
     }
 
@@ -321,9 +321,8 @@ class Signer extends React.PureComponent<Props, State> {
 
     if (pair) {
       // set the signer
-      if (pair.getMeta().isInjected) {
-        const source = pair.getMeta().source;
-        const address = pair.address();
+      if (pair.meta.isInjected) {
+        const { address, meta: { source } } = pair;
         const injected = await web3FromSource(source);
 
         assert(injected, `Unable to find a signer for ${address}`);

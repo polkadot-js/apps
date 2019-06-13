@@ -155,9 +155,7 @@ class Address extends React.PureComponent<Props, State> {
 
   private iNominated () {
     const nominators = this.getNominators();
-    const myAddresses = keyring.getAccounts().map((acc) =>
-      acc.address()
-    );
+    const myAddresses = keyring.getAccounts().map(({ address }) => address);
 
     return nominators.some(([who]) =>
       myAddresses.includes(who.toString())

@@ -145,12 +145,13 @@ class Import extends TxComponent<Props, State> {
 
     try {
       const pair = keyring.restoreAccount(json, password);
+      const { address } = pair;
 
       status.status = pair ? 'success' : 'error';
-      status.account = pair.address();
+      status.account = address;
       status.message = t('account restored');
 
-      InputAddress.setLastValue('account', pair.address());
+      InputAddress.setLastValue('account', address);
     } catch (error) {
       this.setState({ isPassValid: false });
 

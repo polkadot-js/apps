@@ -15,8 +15,8 @@ export default function getAddressName (address: string, type: KeyringItemType |
     // all-ok, we have empty fallbacks
   }
 
-  const name = pair && pair.isValid()
-    ? pair.getMeta().name
+  const name = pair && pair.isValid
+    ? pair.meta.name
     : defaultName;
 
   return !name && withShort

@@ -145,7 +145,7 @@ class Create extends React.PureComponent<Props, State> {
 
             if (old.isValid) {
               if (!allowEdit) {
-                name = old.getMeta().name || name;
+                name = old.meta.name || name;
               }
 
               isAddressExisting = true;

@@ -30,9 +30,7 @@ class Unlock extends TxComponent<Props, State> {
 
   static getDerivedStateFromProps ({ pair }: Props): State {
     return {
-      address: pair
-        ? pair.address()
-        : ''
+      address: (pair && pair.address) || ''
     } as State;
   }
 
@@ -111,7 +109,7 @@ class Unlock extends TxComponent<Props, State> {
   private unlockAccount (password?: string): string | null {
     const { pair } = this.props;
 
-    if (!pair || !pair.isLocked()) {
+    if (!pair || !pair.isLocked) {
       return null;
     }
 

@@ -84,7 +84,7 @@ function rawValidate (seed: string): boolean {
 function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
   return keyring
     .createFromUri(`${phrase.trim()}${derivePath}`, {}, pairType)
-    .address();
+    .address;
 }
 
 class Create extends React.PureComponent<Props, State> {
@@ -416,14 +416,15 @@ class Create extends React.PureComponent<Props, State> {
     try {
       const { json, pair } = keyring.addUri(`${seed}${derivePath}`, password, { name, tags }, pairType);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+      const { address } = pair;
 
-      FileSaver.saveAs(blob, `${pair.address()}.json`);
+      FileSaver.saveAs(blob, `${address}.json`);
 
-      status.account = pair.address();
+      status.account = address;
       status.status = pair ? 'success' : 'error';
       status.message = t('created account');
 
-      InputAddress.setLastValue('account', pair.address());
+      InputAddress.setLastValue('account', address);
     } catch (error) {
       status.status = 'error';
       status.message = error.message;
