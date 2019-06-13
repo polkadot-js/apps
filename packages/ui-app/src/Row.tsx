@@ -264,7 +264,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
                 isAddress
                 value={address}
               >
-                {getAddressName(address, 'address', true)}
+                {getAddressName(address, null, true)}
               </CopyButton>
             )
             : (
