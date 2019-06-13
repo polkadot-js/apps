@@ -1,7 +1,9 @@
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
 import { AccountId, AccountIndex } from '@polkadot/types';
+import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { Label } from 'semantic-ui-react';
 import React from 'react';
@@ -163,6 +165,7 @@ export type RowProps = {
   iconInfo?: React.ReactNode,
   isEditable?: boolean,
   isInline?: boolean,
+  type?: KeyringItemType,
   withIcon?: boolean,
   withTags?: boolean
 };
@@ -237,7 +240,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
   }
 
   protected renderName (withCopy: boolean = false) {
-    const { isEditable } = this.props;
+    const { isEditable, type } = this.props;
     const { address, isEditingName, name } = this.state;
 
     // can't be both editable and copiable
@@ -264,7 +267,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
                 isAddress
                 value={address}
               >
-                {getAddressName(address, null, true)}
+                {getAddressName(address, type, true)}
               </CopyButton>
             )
             : (

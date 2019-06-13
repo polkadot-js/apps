@@ -24,7 +24,6 @@ export type Props = I18nProps & RowProps & {
   bonded?: BN | Array<BN>,
   isContract?: boolean,
   isValid?: boolean,
-  type: KeyringItemType,
   value: AccountId | AccountIndex | Address | string | null,
   withAddressOrName?: boolean,
   withBalance?: boolean | BalanceActiveType,
