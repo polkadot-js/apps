@@ -44,6 +44,11 @@ export default styled(translate(AddressCard))`
   flex-direction: column;
   justify-content: space-between;
 
+  .ui--Row-buttons .ui--Button-Group .ui.button {
+    visibility: visible;
+    margin-right: .25rem;
+  }
+
   .ui--AddressCard-explorer {
     margin: 0 -0.25rem -0.5rem 0;
     text-align: right;
