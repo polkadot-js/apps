@@ -12,7 +12,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton, AddressCard } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import BondExtra from './BondExtra';
@@ -103,7 +103,6 @@ const Wrapper = styled.div`
       margin: 0 2.25rem -.75rem 0;
     }
   }
-
 
   .ui--Row-buttons .ui--Button-Group {
     margin-right: .25rem;
