@@ -36,12 +36,14 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
         >
           <div>
             {children}
-            <Button
-              className='iconButton'
-              icon={icon}
-              size='mini'
-              isPrimary
-            />
+            <span className='copySpan'>
+              <Button
+                className='iconButton'
+                icon={icon}
+                size='mini'
+                isPrimary
+              />
+            </span>
           </div>
         </CopyToClipboard>
       </div>
@@ -84,5 +86,9 @@ export default styled(CopyButton)`
 
   button.ui.mini.icon.primary.button.iconButton {
     cursor: copy;
+  }
+
+  .copySpan {
+    white-space: nowrap;
   }
 `;

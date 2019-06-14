@@ -31,7 +31,6 @@ class AddressCard extends React.PureComponent<Props> {
             <LinkPolkascan
               className='ui--AddressCard-exporer-link'
               data={value}
-              type='address'
             />
           </div>
         )}

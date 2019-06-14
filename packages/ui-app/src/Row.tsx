@@ -9,7 +9,7 @@ import { Label } from 'semantic-ui-react';
 import React from 'react';
 
 import Button from './Button';
-import { classes, getAddressName } from './util';
+import { classes, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import Input from './Input';
 import InputTags from './InputTags';
@@ -39,6 +39,10 @@ export const styles = `
     position: relative;
     right: -2.3em;
     z-index: 1;
+  }
+
+  .editSpan {
+    white-space: nowrap;
   }
 
   .ui--Row-accountId,
@@ -109,14 +113,17 @@ export const styles = `
     }
   }
 
-  .ui--Row-name {
+  .ui--Row-address-or-name {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-transform: uppercase;
     white-space: normal;
+
+    .withName {
+      text-transform: uppercase;
+    }
   }
 
   .ui--Row-name-input {
@@ -134,7 +141,7 @@ export const styles = `
       flex-wrap: wrap;
       justify-content: left;
 
-      > span {
+      .addTags {
         border: 1px #00000052 solid;
         border-radius: .5em;
         border-style: dashed;
@@ -229,19 +236,23 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
 
   protected renderEditIcon () {
     return (
-      <Button
-        className='iconButton'
-        icon='edit'
-        size='mini'
-        isPrimary
-        key='unlock'
-      />
+      <span className='editSpan'>
+        <Button
+          className='iconButton'
+          icon='edit'
+          size='mini'
+          isPrimary
+          key='unlock'
+        />
+      </span>
+
     );
   }
 
   protected renderName (withCopy: boolean = false) {
-    const { isEditable, type } = this.props;
+    const { defaultName, isEditable } = this.props;
     const { address, isEditingName, name } = this.state;
+    const withName = name !== defaultName;
 
     // can't be both editable and copiable
     return isEditingName
@@ -258,7 +269,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
       )
       : (
         <div
-          className={classes('ui--Row-name', isEditable && 'editable')}
+          className={classes('ui--Row-address-or-name', isEditable && 'editable')}
           onClick={isEditable ? this.toggleNameEditor : undefined}
         >
           {withCopy && !isEditable
@@ -267,13 +278,18 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
                 isAddress
                 value={address}
               >
-                {getAddressName(address, type, true)}
+                <span className={`${withName ? 'withName' : 'withAddr'}`}>{
+                    withName ? name : toShortAddress(address)
+                  }
+                </span>
               </CopyButton>
             )
             : (
               <>
-                {name}
-                {isEditable && this.renderEditIcon()}
+                <span className='withName'>
+                  {name}
+                  {isEditable && this.renderEditIcon()}
+                </span>
               </>
             )
           }

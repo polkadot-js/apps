@@ -69,6 +69,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
 
   private renderContent () {
     const { controllerId, defaultDestination, t } = this.props;
+    const { destination } = this.state;
 
     return (
       <>
@@ -90,6 +91,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
             label={t('payment destination')}
             onChange={this.onChangeDestination}
             options={rewardDestinationOptions}
+            value={destination}
           />
         </Modal.Content>
       </>
