@@ -41,6 +41,9 @@ export const styles = `
     z-index: 1;
   }
 
+  .editSpan {
+    white-space: nowrap;  }
+
   .ui--Row-accountId,
   .ui--Row-accountIndex {
     font-family: monospace;
@@ -137,7 +140,7 @@ export const styles = `
       flex-wrap: wrap;
       justify-content: left;
 
-      > span {
+      .addTags {
         border: 1px #00000052 solid;
         border-radius: .5em;
         border-style: dashed;
@@ -232,13 +235,16 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
 
   protected renderEditIcon () {
     return (
-      <Button
-        className='iconButton'
-        icon='edit'
-        size='mini'
-        isPrimary
-        key='unlock'
-      />
+      <span className='editSpan'>
+        <Button
+          className='iconButton'
+          icon='edit'
+          size='mini'
+          isPrimary
+          key='unlock'
+        />
+      </span>
+
     );
   }
 
