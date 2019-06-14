@@ -16,10 +16,8 @@ export default function getContractAbi (address: string): ContractAbi | null {
 
   return (
     pair &&
-    pair.isValid() &&
-    pair.getMeta().contract &&
-    new ContractAbi(
-      JSON.parse(pair.getMeta().contract!.abi)
-    )
+    pair.isValid &&
+    pair.meta.contract &&
+    new ContractAbi(JSON.parse(pair.meta.contract.abi))
   ) || null;
 }

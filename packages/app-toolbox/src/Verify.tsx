@@ -44,7 +44,7 @@ class Verify extends React.PureComponent<Props, State> {
     const pairs = keyring.getPairs();
     const currentPair = pairs[0];
     const currentPublicKey = currentPair
-      ? currentPair.publicKey()
+      ? currentPair.publicKey
       : null;
 
     this.state = {

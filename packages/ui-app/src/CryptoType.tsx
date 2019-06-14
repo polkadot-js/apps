@@ -26,7 +26,7 @@ export default class CryptoType extends React.PureComponent<Props> {
         : null;
 
       if (current) {
-        type = current.getMeta().isInjected
+        type = current.meta.isInjected
           ? 'injected'
           : current.type;
       }

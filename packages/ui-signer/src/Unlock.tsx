@@ -40,8 +40,7 @@ class Unlock extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const isLocked = pair.isLocked();
-    const isInjected = pair.getMeta().isInjected || false;
+    const { isLocked, meta: { isInjected = false } } = pair;
 
     return {
       isError: !!error,

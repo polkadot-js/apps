@@ -78,7 +78,7 @@ class Address extends React.PureComponent<Props, State> {
     if (isForgetOpen) {
       modals.push(
         <Forget
-          address={current.address()}
+          address={current.address}
           onForget={this.onForget}
           key='modal-forget-account'
           mode='address'

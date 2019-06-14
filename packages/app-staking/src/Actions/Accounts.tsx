@@ -56,18 +56,14 @@ class Accounts extends React.PureComponent<Props,State> {
         }
       >
         {this.renderNewStake()}
-        {accounts.map((account, index) => {
-          const address = account.address();
-
-          return (
-            <Account
-              accountId={address}
-              key={index}
-              recentlyOffline={recentlyOffline}
-              stashOptions={stashOptions}
-            />
-          );
-        })}
+        {accounts.map(({ address }, index) => (
+          <Account
+            accountId={address}
+            key={index}
+            recentlyOffline={recentlyOffline}
+            stashOptions={stashOptions}
+          />
+        ))}
       </Wrapper>
     );
   }
