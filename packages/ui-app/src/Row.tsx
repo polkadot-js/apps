@@ -115,11 +115,10 @@ export const styles = `
     padding: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-transform: uppercase;
     white-space: normal;
 
-    .withAddr {
-      text-transform: lowercase;
+    .withName {
+      text-transform: uppercase;
     }
   }
 
@@ -280,8 +279,10 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
             )
             : (
               <>
-                {name}
-                {isEditable && this.renderEditIcon()}
+                <span className='withName'>
+                  {name}
+                  {isEditable && this.renderEditIcon()}
+                </span>
               </>
             )
           }
