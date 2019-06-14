@@ -42,7 +42,8 @@ export const styles = `
   }
 
   .editSpan {
-    white-space: nowrap;  }
+    white-space: nowrap;
+  }
 
   .ui--Row-accountId,
   .ui--Row-accountIndex {
