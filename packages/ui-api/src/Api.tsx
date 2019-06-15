@@ -14,7 +14,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
-import { ChainProperties } from '@polkadot/types';
+import { ChainProperties, Text } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
@@ -29,7 +29,7 @@ type Props = {
 };
 
 type State = ApiProps & {
-  chain?: string
+  chain?: string | null
 };
 
 export { api };
@@ -97,8 +97,8 @@ export default class Api extends React.PureComponent<Props, State> {
 
   private async loadOnReady (api: ApiPromise) {
     const [properties = new ChainProperties(), value] = await Promise.all([
-      api.rpc.system.properties() as Promise<ChainProperties | undefined>,
-      api.rpc.system.chain() as Promise<any>
+      api.rpc.system.properties<ChainProperties>(),
+      api.rpc.system.chain<Text>()
     ]);
     const section = Object.keys(api.tx)[0];
     const method = Object.keys(api.tx[section])[0];

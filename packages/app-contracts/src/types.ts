@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Abi } from '@polkadot/api-contract';
 import { AppProps } from '@polkadot/ui-app/types';
-import { ContractAbi } from '@polkadot/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type LocationProps = {
@@ -27,7 +27,7 @@ export type CodeJson = {
   tags: Array<string>
 };
 
-export type CodeStored = { json: CodeJson , contractAbi?: ContractAbi };
+export type CodeStored = { json: CodeJson , contractAbi?: Abi };
 
 export type ContractJsonOld = {
   genesisHash: string,

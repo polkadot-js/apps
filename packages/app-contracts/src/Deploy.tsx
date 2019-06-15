@@ -9,11 +9,11 @@ import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-
+import { Abi } from '@polkadot/api-contract';
 import { api, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
-import { AccountId, ContractAbi, getTypeDef } from '@polkadot/types';
+import { AccountId, getTypeDef } from '@polkadot/types';
 import createValues from '@polkadot/ui-params/values';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
@@ -164,7 +164,7 @@ class Deploy extends ContractModal<Props, State> {
     );
   }
 
-  private getAbiState = (abi: string | null | undefined, contractAbi: ContractAbi | null = null): State => {
+  private getAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): State => {
 
     if (contractAbi) {
       const args = contractAbi.deploy.args.map(({ name, type }) => name + ': ' + type);
@@ -229,7 +229,7 @@ class Deploy extends ContractModal<Props, State> {
     return [endowment, gasLimit, codeHash, contractAbi.deploy(...params)];
   }
 
-  protected onAddAbi = (abi: string | null | undefined, contractAbi?: ContractAbi | null): void => {
+  protected onAddAbi = (abi: string | null | undefined, contractAbi?: Abi | null): void => {
     this.setState({
       ...this.getAbiState(abi, contractAbi)
     });

@@ -7,10 +7,10 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { Abi } from '@polkadot/api-contract';
 import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { getContractAbi } from '@polkadot/ui-app/util';
 import { withMulti } from '@polkadot/ui-api';
-import { ContractAbi } from '@polkadot/types';
 
 import translate from '../translate';
 import Params from '../Params';
@@ -25,7 +25,7 @@ type Props = BareProps & I18nProps & {
 type State = {
   accountId: string | null,
   address: string | null,
-  contractAbi?: ContractAbi | null,
+  contractAbi?: Abi | null,
   endowment: BN,
   gasLimit: BN,
   isAddressValid: boolean,
@@ -207,7 +207,7 @@ class Call extends TxComponent<Props, State> {
     );
   }
 
-  private getCallProps = (): [string | null, ContractAbi | null, string | null] => {
+  private getCallProps = (): [string | null, Abi | null, string | null] => {
     let address;
     let contractAbi;
     let method;

@@ -6,27 +6,27 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
+import { Abi } from '@polkadot/api-contract';
 import { InputFile, Labelled, Messages } from '@polkadot/ui-app';
-import { ContractAbi } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 
 type Props = I18nProps & {
-  contractAbi?: ContractAbi | null,
+  contractAbi?: Abi | null,
   help?: React.ReactNode,
   isError?: boolean,
   isDisabled?: boolean,
   isRequired?: boolean,
   label?: React.ReactNode,
-  onChange: (json: string | null, contractAbi: ContractAbi | null) => void,
+  onChange: (json: string | null, contractAbi: Abi | null) => void,
   onRemove?: () => void,
   onRemoved?: () => void,
   onSelect?: () => void
 };
 
 type State = {
-  contractAbi: ContractAbi | null,
+  contractAbi: Abi | null,
   isAbiValid: boolean,
   isEmpty: boolean,
   isError: boolean
@@ -141,7 +141,7 @@ class ABI extends React.PureComponent<Props, State> {
     const json = u8aToString(u8a);
 
     try {
-      const contractAbi = new ContractAbi(JSON.parse(json));
+      const contractAbi = new Abi(JSON.parse(json));
 
       this.setState({
         contractAbi,

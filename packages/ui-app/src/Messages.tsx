@@ -2,19 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractAbi } from '@polkadot/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { Button } from '@polkadot/ui-app';
 
 import React from 'react';
 import styled from 'styled-components';
+import { Abi } from '@polkadot/api-contract';
 
 import translate from './translate';
 import { classes } from './util';
 
 export type Props = I18nProps & {
   address?: string,
-  contractAbi: ContractAbi,
+  contractAbi: Abi,
   isRemovable: boolean,
   onRemove?: () => void,
   onSelect?: (callAddress?: string, callMethod?: string) => void

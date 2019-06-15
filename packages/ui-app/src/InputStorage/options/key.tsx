@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { DropdownOptions } from '../../util/types';
 
 import React from 'react';
@@ -18,7 +19,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .keys(section)
     .sort()
     .map((value) => {
-      const method = section[value];
+      const method = section[value] as any as StorageFunction;
       const type = method.meta.type;
       let input = type.isMap
         ? type.asMap.key.toString()
