@@ -12,7 +12,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressRow, Button, Card, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import BondExtra from './BondExtra';
@@ -57,38 +57,25 @@ type State = {
 const Wrapper = styled.div`
   display: flex;
 
-  .ui.button.tiny {
-    visibility: visible
-  }
-
   .staking--Accounts {
-    flex: 2;
+    flex: 1;
   }
 
   .staking--Account-detail.actions{
     display: inline-block;
     vertical-align: top;
+    margin-top: .5rem;
+    margin-bottom: 1.5rem;
 
-    .staking--label {
-      margin: .5rem 1.75rem -0.5rem 4.5rem;
-      text-align: left;
-      }
+    &:last-child {
+      margin: 0;
     }
   }
 
-  .staking--Actions-Infos {
-    flex: 3;
+  .staking--Infos {
+    flex: 1;
     display: flex;
     flex-direction: column;
-
-    .buttons {
-      margin-bottom: 1rem;
-      flex: 0;
-
-      button {
-        margin-right: .25rem;
-      }
-    }
 
     .staking--balances {
       div {
@@ -114,6 +101,14 @@ const Wrapper = styled.div`
 
     .staking--label {
       margin: 0 2.25rem -.75rem 0;
+    }
+  }
+
+  .ui--Row-buttons .ui--Button-Group {
+    margin-right: .25rem;
+
+    .ui.tiny.icon.button {
+      visibility: visible;
     }
   }
 `;
@@ -168,9 +163,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isActiveStash } = this.state;
+    const { t } = this.props;
+    const { isActiveStash, stashId } = this.state;
 
-    if (!isActiveStash) {
+    if (!isActiveStash || !stashId) {
       return null;
     }
 
@@ -179,7 +175,21 @@ class Account extends React.PureComponent<Props, State> {
     // This is deliberate in order to display the Component modals in a performant matter later on
     // because their state will already be loaded.
     return (
-      <Card>
+      <AddressCard
+        buttons={this.renderButtons()}
+        iconInfo={this.renderOffline(stashId)}
+        label={t('stash')}
+        type='account'
+        value={stashId}
+        withAddressOrName
+        withBalance={{
+          available: true,
+          bonded: false,
+          free: false,
+          redeemable: false,
+          unlocking: false
+        }}
+      >
         {this.renderBondExtra()}
         {this.renderSetValidatorPrefs()}
         {this.renderNominate()}
@@ -190,21 +200,17 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderValidate()}
         <Wrapper>
           <div className='staking--Accounts'>
-            {this.renderStashAccount()}
             {this.renderControllerAccount()}
             {this.renderSessionAccount()}
           </div>
-          <div className='staking--Actions-Infos'>
-            <div className='buttons'>
-              {this.renderButtons()}
-            </div>
+          <div className='staking--Infos'>
             <div className='staking--balances'>
               {this.renderInfos()}
             </div>
             {this.renderNominee()}
           </div>
         </Wrapper>
-      </Card>
+      </AddressCard>
     );
   }
 
@@ -299,10 +305,10 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail actions'>
-        <label className='staking--label'>{t('controller')}</label>
         <AddressRow
-          value={controllerId}
           iconInfo={this.renderOffline(controllerId)}
+          label={t('controller')}
+          value={controllerId}
           withAddressOrName
           withBalance={{
             available: true,
@@ -327,31 +333,9 @@ class Account extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Account-detail actions'>
-        <label className='staking--label'>{t('session')}</label>
         <AddressRow
+          label={t('session')}
           value={sessionId}
-          withAddressOrName
-          withBalance={{
-            available: true,
-            bonded: false,
-            free: false,
-            redeemable: false,
-            unlocking: false
-          }}
-        />
-      </div>
-    );
-  }
-
-  private renderStashAccount () {
-    const { accountId, t } = this.props;
-
-    return (
-      <div className='staking--Account-detail actions'>
-        <label className='staking--label'>{t('stash')}</label>
-        <AddressRow
-          value={accountId}
-          iconInfo={this.renderOffline(accountId)}
           withAddressOrName
           withBalance={{
             available: true,

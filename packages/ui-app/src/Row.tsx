@@ -96,6 +96,10 @@ export const styles = `
     margin-right: 1rem;
     padding: 0.25rem 0 0;
 
+    .account-label{
+      margin: -0.75rem 0 0 0
+    }
+
     * {
       vertical-align: middle;
     }

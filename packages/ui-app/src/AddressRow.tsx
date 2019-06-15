@@ -23,6 +23,7 @@ export type Props = I18nProps & RowProps & {
   bonded?: BN | Array<BN>,
   isContract?: boolean,
   isValid?: boolean,
+  label?: string,
   value: AccountId | AccountIndex | Address | string | null,
   withAddressOrName?: boolean,
   withBalance?: boolean | BalanceActiveType,
@@ -82,6 +83,7 @@ class AddressRow extends Row<Props, State> {
         <div className='ui--Row-base'>
           {this.renderIcon()}
           <div className='ui--Row-details'>
+            {this.renderLabel()}
             {this.renderAddressAndName()}
             {this.renderAccountIndex()}
             {!isContract && this.renderBalances()}
@@ -202,6 +204,18 @@ class AddressRow extends Row<Props, State> {
           </div>
         )}
       </div>
+    );
+  }
+
+  private renderLabel () {
+    const { label } = this.props;
+
+    if (!label) {
+      return null;
+    }
+
+    return (
+      <label className='account-label'>{label}</label>
     );
   }
 
