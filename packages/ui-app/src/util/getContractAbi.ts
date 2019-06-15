@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Abi } from '@polkadot/api-contract';
 import keyring from '@polkadot/ui-keyring';
-import { ContractAbi } from '@polkadot/types';
 
-export default function getContractAbi (address: string): ContractAbi | null {
+export default function getContractAbi (address: string): Abi | null {
   let pair;
 
   try {
@@ -18,6 +18,6 @@ export default function getContractAbi (address: string): ContractAbi | null {
     pair &&
     pair.isValid &&
     pair.meta.contract &&
-    new ContractAbi(JSON.parse(pair.meta.contract.abi))
+    new Abi(JSON.parse(pair.meta.contract.abi))
   ) || null;
 }

@@ -29,7 +29,7 @@ class SelectKey extends React.PureComponent<Props> {
     }
 
     const transform = (method: string): StorageFunction =>
-      api.query[value.section][method];
+      api.query[value.section][method] as any;
 
     return (
       <Dropdown

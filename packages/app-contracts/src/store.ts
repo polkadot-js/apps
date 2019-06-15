@@ -6,7 +6,8 @@ import { CodeJson, CodeStored } from './types';
 
 import EventEmitter from 'eventemitter3';
 import store from 'store';
-import { ContractAbi, Hash } from '@polkadot/types';
+import { Abi } from '@polkadot/api-contract';
+import { Hash } from '@polkadot/types';
 import { api } from '@polkadot/ui-api';
 
 const KEY_CODE = 'code:';
@@ -78,7 +79,7 @@ class Store extends EventEmitter {
       this.allCode[json.codeHash] = {
         json,
         contractAbi: json.abi
-          ? new ContractAbi(JSON.parse(json.abi))
+          ? new Abi(JSON.parse(json.abi))
           : undefined
       };
 

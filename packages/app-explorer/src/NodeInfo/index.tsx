@@ -8,7 +8,7 @@ import { Info } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { Health, PeerInfo, PendingExtrinsics } from '@polkadot/types';
+import { Health, PeerInfo, PendingExtrinsics, Vector } from '@polkadot/types';
 
 import './index.css';
 
@@ -85,9 +85,9 @@ class App extends React.PureComponent<Props, State> {
 
     try {
       const [health, peers, extrinsics] = await Promise.all([
-        api.rpc.system.health() as Promise<Health>,
-        api.rpc.system.peers() as any as Promise<Array<PeerInfo>>,
-        api.rpc.author.pendingExtrinsics() as Promise<PendingExtrinsics>
+        api.rpc.system.health<Health>(),
+        api.rpc.system.peers<Vector<PeerInfo>>(),
+        api.rpc.author.pendingExtrinsics<PendingExtrinsics>()
       ]);
 
       this.setInfo({ extrinsics, health, peers });

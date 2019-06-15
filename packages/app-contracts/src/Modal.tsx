@@ -6,8 +6,8 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { Abi } from '@polkadot/api-contract';
 import { Button, Input, InputAddress, InputNumber, InputTags, Modal, TxComponent } from '@polkadot/ui-app';
-import { ContractAbi } from '@polkadot/types';
 
 import ABI from './ABI';
 
@@ -21,7 +21,7 @@ export type ContractModalProps = I18nProps & {
 export type ContractModalState = {
   abi?: string | null,
   accountId?: string | null,
-  contractAbi?: ContractAbi | null,
+  contractAbi?: Abi | null,
   gasLimit: BN,
   isAbiSupplied: boolean,
   isAbiValid: boolean,
@@ -216,7 +216,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     onClose && onClose();
   }
 
-  protected onAddAbi = (abi: string | null | undefined, contractAbi: ContractAbi | null = null, isAbiSupplied: boolean = false): void => {
+  protected onAddAbi = (abi: string | null | undefined, contractAbi: Abi | null = null, isAbiSupplied: boolean = false): void => {
     this.setState({ abi, contractAbi, isAbiSupplied, isAbiValid: !!abi });
   }
 
