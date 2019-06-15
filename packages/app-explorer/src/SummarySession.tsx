@@ -10,6 +10,7 @@ import { CardSummary } from '@polkadot/ui-app';
 import { withCalls } from '@polkadot/ui-api';
 
 import translate from './translate';
+import { formatNumber } from '@polkadot/util';
 
 type Props = I18nProps & {
   session_info?: DerivedSessionInfo,
@@ -30,37 +31,49 @@ class SummarySession extends React.PureComponent<Props> {
   private renderEra () {
     const { session_info, t, withEra = true } = this.props;
 
-    if (!withEra) {
+    if (!withEra || ! session_info) {
       return null;
     }
 
-    return (
-      <CardSummary
-        label={t('era')}
-        progress={{
-          total: session_info && session_info.eraLength,
-          value: session_info && session_info.eraProgress
-        }}
-      />
-    );
+    return session_info.sessionLength.gtn(0)
+        ? (
+        <CardSummary
+          label={t('era')}
+          progress={{
+            total: session_info && session_info.eraLength,
+            value: session_info && session_info.eraProgress
+          }}
+        />
+      )
+      : (
+        <CardSummary label={t('era')}>
+          {formatNumber(session_info.currentEra)}
+        </CardSummary>
+      );
   }
 
   private renderSession () {
     const { session_info, t, withSession = true } = this.props;
 
-    if (!withSession) {
+    if (!withSession || !session_info) {
       return null;
     }
 
-    return (
-      <CardSummary
-        label={t('session')}
-        progress={{
-          total: session_info && session_info.sessionLength,
-          value: session_info && session_info.sessionProgress
-        }}
-      />
-    );
+    return session_info.sessionLength.gtn(0)
+        ? (
+        <CardSummary
+          label={t('session')}
+          progress={{
+            total: session_info.sessionLength,
+            value: session_info.sessionProgress
+          }}
+        />
+      )
+      : (
+        <CardSummary label={t('session')}>
+          {formatNumber(session_info.currentIndex)}
+        </CardSummary>
+      );
   }
 }
 
