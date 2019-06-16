@@ -11,7 +11,6 @@
   ],
   "resolutions": {
     "@polkadot/api": "^0.82.0-beta.6",
-    "@polkadot/api-contract": "^0.82.0-beta.6",
     "@polkadot/keyring": "^0.94.0-beta.1",
     "@polkadot/types": "^0.82.0-beta.6",
     "@polkadot/util": "^0.94.0-beta.1",

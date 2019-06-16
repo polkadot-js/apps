@@ -23,6 +23,8 @@ export const ZERO_FEES_BALANCES = {
   transferFee: new BN(0)
 } as DerivedFees;
 
+export const ZERO_FEES = ZERO_FEES_BALANCES;
+
 export const ZERO_FEES_CONTRACT = {
   callBaseFee: new BN(0),
   contractFee: new BN(0),

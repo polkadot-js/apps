@@ -15,7 +15,6 @@ import translate from '../translate';
 type Props = I18nProps & {
   endowment: BN | Compact,
   fees: DerivedContractFees,
-  recipientId: string,
   onChange: (fees: ExtraFees) => void
 };
 

@@ -9,7 +9,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Method } from '@polkadot/types';
+import { Compact, Method } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { compactToU8a, formatBalance } from '@polkadot/util';
@@ -249,7 +249,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
 
     return (
       <Call
-        endowment={endowment}
+        endowment={endowment as any as Compact}
         fees={contract_fees}
         onChange={this.onExtraUpdate}
       />
@@ -268,7 +268,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
 
     return (
       <Deploy
-        endowment={endowment}
+        endowment={endowment as any as Compact}
         fees={contract_fees}
         onChange={this.onExtraUpdate}
       />
