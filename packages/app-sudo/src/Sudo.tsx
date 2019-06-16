@@ -29,21 +29,13 @@ class Propose extends TxComponent<Props, State> {
   };
 
   render () {
-    const { api, apiDefaultTx, isMine, sudoKey, t } = this.props;
+    const { apiDefaultTxSudo, isMine, sudoKey, t } = this.props;
     const { method, isValid } = this.state;
-
-    const defaultExtrinsic = (() => {
-      try {
-        return api.tx.consensus.setCode;
-      } catch (error) {
-        return apiDefaultTx;
-      }
-    })();
 
     return isMine ? (
         <section>
           <Extrinsic
-            defaultValue={defaultExtrinsic}
+            defaultValue={apiDefaultTxSudo}
             label={t('submit the following change')}
             onChange={this.onChangeExtrinsic}
             onEnter={this.sendTx}

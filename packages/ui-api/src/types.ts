@@ -18,6 +18,7 @@ export type BareProps = {
 export type ApiProps = {
   api: ApiPromise,
   apiDefaultTx: SubmittableExtrinsicFunction,
+  apiDefaultTxSudo: SubmittableExtrinsicFunction,
   currentChain: string,
   isApiConnected: boolean,
   isApiReady: boolean,

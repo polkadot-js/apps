@@ -36,16 +36,9 @@ class Selection extends TxComponent<Props, State> {
   } as State;
 
   render () {
-    const { apiDefaultTx, api, t } = this.props;
+    const { apiDefaultTxSudo, t } = this.props;
     const { isValid, isValidUnsigned, accountId } = this.state;
-    const defaultExtrinsic = (() => {
-      try {
-        return api.tx.balances.transfer;
-      } catch (error) {
-        return apiDefaultTx;
-      }
-    })();
-    const extrinsic = this.getExtrinsic() || defaultExtrinsic;
+    const extrinsic = this.getExtrinsic() || apiDefaultTxSudo;
 
     return (
       <div className='extrinsics--Selection'>
@@ -73,7 +66,7 @@ class Selection extends TxComponent<Props, State> {
         </div>
         <br></br>
         <Extrinsic
-          defaultValue={defaultExtrinsic}
+          defaultValue={apiDefaultTxSudo}
           label={t('submit the following extrinsic')}
           onChange={this.onChangeExtrinsic}
           onEnter={this.sendTx}

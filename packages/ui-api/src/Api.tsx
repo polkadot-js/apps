@@ -100,8 +100,6 @@ export default class Api extends React.PureComponent<Props, State> {
       api.rpc.system.properties<ChainProperties>(),
       api.rpc.system.chain<Text>()
     ]);
-    const section = Object.keys(api.tx)[0];
-    const method = Object.keys(api.tx[section])[0];
     const chain = value
       ? value.toString()
       : null;
@@ -133,22 +131,32 @@ export default class Api extends React.PureComponent<Props, State> {
       type: 'ed25519'
     }, injectedAccounts);
 
+    const section = Object.keys(api.tx)[0];
+    const method = Object.keys(api.tx[section])[0];
+    const apiDefaultTx = api.tx[section][method];
+    const apiDefaultTxSudo =
+      (api.tx.system && api.tx.system.setCode) || // 2.x
+      (api.tx.consensus && api.tx.consensus.setCode) || // 1.x
+      apiDefaultTx; // other
+
     this.setState({
       isApiReady: true,
-      apiDefaultTx: api.tx[section][method],
+      apiDefaultTx,
+      apiDefaultTxSudo,
       chain,
       isDevelopment
     });
   }
 
   render () {
-    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, isDevelopment, isWaitingInjected, setApiUrl } = this.state;
+    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isWaitingInjected, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
         value={{
           api,
           apiDefaultTx,
+          apiDefaultTxSudo,
           currentChain: chain || '<unknown>',
           isApiConnected,
           isApiReady: isApiReady && !!chain,
