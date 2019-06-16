@@ -4,39 +4,50 @@
 
 import { DerivedContractFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ExtraFees } from './types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { Icon } from '@polkadot/ui-app';
-import { formatBalance } from '@polkadot/util';
+import { Compact } from '@polkadot/types';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
-  fees: DerivedContractFees
+  endowment: BN | Compact,
+  fees: DerivedContractFees,
+  onChange: (fees: ExtraFees) => void
 };
 
-export class Deploy extends React.PureComponent<Props> {
-  render () {
-    const { fees, t } = this.props;
+type State = ExtraFees & {};
 
-    return (
-      <>
-        {
-          (fees && fees.contractFee)
-            ? <div>
-                <Icon name='warning sign' />
-                {t('A fee of {{contractFee}} will be deducted from the sender to create the contract',
-                  {
-                    replace: {
-                      contractFee: formatBalance(fees.contractFee)
-                    }
-                  }
-                )}
-              </div>
-            : undefined
-        }
-      </>
-    );
+export class Deploy extends React.PureComponent<Props, State> {
+  state: State = {
+    extraFees: new BN(0),
+    extraAmount: new BN(0),
+    extraWarn: false
+  };
+
+  static getDerivedStateFromProps ({ endowment, fees, onChange }: Props, state: State) {
+    let extraFees = new BN(fees.createBaseFee)
+      .add(fees.contractFee);
+
+    const extraAmount = endowment instanceof Compact ? endowment.toBn() : new BN(endowment || 0);
+
+    const update = {
+      extraAmount,
+      extraFees,
+      extraWarn: false
+    };
+
+    if (!update.extraAmount.eq(state.extraAmount) || !update.extraFees.eq(state.extraFees)) {
+      onChange(update);
+    }
+
+    return update;
+  }
+
+  render () {
+    return null;
   }
 }
 

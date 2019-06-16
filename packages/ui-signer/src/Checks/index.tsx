@@ -124,7 +124,6 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
   }
 
   render () {
-    console.log(this.props);
     const { accountId, balances_fees, className, isSendable, t } = this.props;
     const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved, overLimit } = this.state;
 
@@ -177,8 +176,8 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
         }
         {this.renderTransfer()}
         {this.renderProposal()}
-        {this.renderDeploy()}
         {this.renderCall()}
+        {this.renderDeploy()}
         {
           isReserved
             ? <div><Icon name='arrow right' />{t('This account does have a reserved/locked balance, not taken into account')}</div>
@@ -246,9 +245,13 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const [, endowment] = extrinsic.args;
+
     return (
       <Call
+        endowment={endowment}
         fees={contract_fees}
+        onChange={this.onExtraUpdate}
       />
     );
   }
@@ -261,9 +264,13 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const [endowment] = extrinsic.args;
+
     return (
       <Deploy
+        endowment={endowment}
         fees={contract_fees}
+        onChange={this.onExtraUpdate}
       />
     );
   }
