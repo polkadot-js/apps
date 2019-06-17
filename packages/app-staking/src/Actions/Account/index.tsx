@@ -59,6 +59,8 @@ const Wrapper = styled.div`
 
   .staking--Accounts {
     flex: 1;
+    display: flex;
+    flex-direction: column
   }
 
   .staking--Account-detail.actions{
