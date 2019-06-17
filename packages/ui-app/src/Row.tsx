@@ -43,6 +43,10 @@ export const styles = `
 
   .editSpan {
     white-space: nowrap;
+
+    &:before {
+      content: '';
+    }
   }
 
   .ui--Row-accountId,
