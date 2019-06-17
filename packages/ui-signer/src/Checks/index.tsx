@@ -15,8 +15,8 @@ import { Icon } from '@polkadot/ui-app';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
-import Call from './Call';
-import Deploy from './Deploy';
+import ContractCall from './ContractCall';
+import ContractDeploy from './ContractDeploy';
 import Proposal from './Proposal';
 import Transfer from './Transfer';
 import { MAX_SIZE_BYTES, MAX_SIZE_MB, ZERO_BALANCE, ZERO_FEES_BALANCES, ZERO_FEES_CONTRACT } from './constants';
@@ -248,7 +248,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const [, endowment] = extrinsic.args;
 
     return (
-      <Call
+      <ContractCall
         endowment={endowment as any as Compact}
         fees={contract_fees}
         onChange={this.onExtraUpdate}
@@ -267,7 +267,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const [endowment] = extrinsic.args;
 
     return (
-      <Deploy
+      <ContractDeploy
         endowment={endowment as any as Compact}
         fees={contract_fees}
         onChange={this.onExtraUpdate}

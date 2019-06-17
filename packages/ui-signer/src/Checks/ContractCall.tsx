@@ -3,16 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedContractFees } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Compact } from '@polkadot/types';
 
-import translate from '../translate';
-
-type Props = I18nProps & {
+type Props = {
   endowment: BN | Compact,
   fees: DerivedContractFees,
   onChange: (fees: ExtraFees) => void
@@ -20,7 +17,7 @@ type Props = I18nProps & {
 
 type State = ExtraFees & {};
 
-export class Deploy extends React.PureComponent<Props, State> {
+export default class ContractCall extends React.PureComponent<Props, State> {
   state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),
@@ -28,8 +25,7 @@ export class Deploy extends React.PureComponent<Props, State> {
   };
 
   static getDerivedStateFromProps ({ endowment, fees, onChange }: Props, state: State) {
-    let extraFees = new BN(fees.createBaseFee)
-      .add(fees.contractFee);
+    let extraFees = new BN(fees.callBaseFee);
 
     const extraAmount = endowment instanceof Compact ? endowment.toBn() : new BN(endowment || 0);
 
@@ -50,5 +46,3 @@ export class Deploy extends React.PureComponent<Props, State> {
     return null;
   }
 }
-
-export default translate(Deploy);
