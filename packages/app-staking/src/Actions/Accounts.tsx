@@ -6,11 +6,11 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Button, CardGrid, Icon } from '@polkadot/ui-app';
 import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddressName } from '@polkadot/ui-app/util';
 import keyring from '@polkadot/ui-keyring';
-import styled from 'styled-components';
 
 import Account from './Account';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
@@ -54,6 +54,7 @@ class Accounts extends React.PureComponent<Props,State> {
             onClick={this.toggleNewStake}
           />
         }
+        emptyText={t('No funds staked yet.')}
       >
         {this.renderNewStake()}
         {accounts.map(({ address }, index) => (

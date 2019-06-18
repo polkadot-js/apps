@@ -18,8 +18,8 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import './index.css';
 
-import basicMd from './md/basic.md';
 import Accounts from './Actions/Accounts';
+import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';
 

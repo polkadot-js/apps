@@ -13,14 +13,16 @@ type Props = I18nProps & {
   buttons?: React.ReactNode,
   children: React.ReactNode,
   className?: string,
-  emptyText?: string
+  emptyText?: string,
+  isEmpty?: boolean
 };
 
 class CardGrid extends React.PureComponent<Props> {
   render () {
-    const { buttons, children, className } = this.props;
+    const { buttons, children, className, isEmpty = false } = this.props;
 
-    if (!children || (children as Array<any>).length <= 0) {
+    console.log('children',children);
+    if (isEmpty || !children || (children as Array<any>).length <= 0) {
       return this.empty();
     }
 
