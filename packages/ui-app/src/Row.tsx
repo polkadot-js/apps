@@ -224,12 +224,13 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
 
   protected renderChildren () {
     const { children } = this.props;
-
     const hasChildren = !children
       ? false
       : Array.isArray(children)
         ? children.filter((child) => child).length !== 0
         : true;
+
+    console.log(children);
 
     if (!hasChildren) {
       return null;
