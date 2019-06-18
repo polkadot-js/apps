@@ -10,6 +10,7 @@ export default function createOptions (api: ApiPromise): DropdownOptions {
   return Object
     .keys(api.tx)
     .sort()
+    .filter((name) => Object.keys(api.tx[name]).length)
     .map((name) => ({
       text: name,
       value: name
