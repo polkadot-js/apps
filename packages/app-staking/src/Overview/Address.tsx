@@ -78,7 +78,6 @@ class Address extends React.PureComponent<Props, State> {
   render () {
     const { className, defaultName, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
-
     const bonded = stakers && !stakers.own.isZero()
       ? [stakers.own, stakers.total.sub(stakers.own)]
       : true;
