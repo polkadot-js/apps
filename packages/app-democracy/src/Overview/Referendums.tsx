@@ -8,6 +8,7 @@ import React from 'react';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
+import { Column } from '@polkadot/ui-app';
 
 import Referendum from './Referendum';
 import translate from '../translate';
@@ -21,10 +22,12 @@ class Referendums extends React.PureComponent<Props> {
     const { t } = this.props;
 
     return (
-      <section className='democracy--Referendums'>
-        <h1>{t('referendum')}</h1>
+      <Column
+        className='democracy--Referendums'
+        header={t('referendum')}
+      >
         {this.renderReferendums()}
-      </section>
+      </Column>
     );
   }
 
@@ -36,9 +39,7 @@ class Referendums extends React.PureComponent<Props> {
 
     if (!referendums.length) {
       return (
-        <div className='ui disabled'>
-          {t('no available referendum')}
-        </div>
+        <article>{t('no available referendums')}</article>
       );
     }
 
