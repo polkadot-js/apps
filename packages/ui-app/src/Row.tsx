@@ -230,8 +230,6 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
         ? children.filter((child) => child).length !== 0
         : true;
 
-    console.log(children);
-
     if (!hasChildren) {
       return null;
     }
