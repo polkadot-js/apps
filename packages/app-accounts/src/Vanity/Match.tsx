@@ -22,7 +22,69 @@ type State = {
   hexSeed: string
 };
 
-const Wrapper = styled.div`
+class Match extends React.PureComponent<Props, State> {
+  state: State = {} as State;
+
+  static getDerivedStateFromProps ({ seed }: Props): State {
+    return {
+      hexSeed: u8aToHex(seed)
+    };
+  }
+
+  render () {
+    const { address, className, count, offset } = this.props;
+    const { hexSeed } = this.state;
+
+    return (
+      <div className={className}>
+        <div className='vanity--Match-item'>
+          <IdentityIcon
+            className='vanity--Match-icon'
+            size={48}
+            value={address}
+          />
+          <div className='vanity--Match-data'>
+            <div className='vanity--Match-addr'>
+              <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
+            </div>
+            <div className='vanity--Match-seed'>
+              {hexSeed}
+            </div>
+          </div>
+          <div className='vanity--Match-buttons'>
+            <Button
+              icon='plus'
+              isPrimary
+              onClick={this.onCreate}
+              size='tiny'
+            />
+            <Button
+              icon='close'
+              isNegative
+              onClick={this.onRemove}
+              size='tiny'
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  private onCreate = (): void => {
+    const { onCreateToggle } = this.props;
+    const { hexSeed } = this.state;
+
+    onCreateToggle(hexSeed);
+  }
+
+  private onRemove = (): void => {
+    const { address, onRemove } = this.props;
+
+    onRemove(address);
+  }
+}
+
+export default styled(Match as React.ComponentClass<Props>)`
   text-align: center;
 
   &:hover {
@@ -62,65 +124,3 @@ const Wrapper = styled.div`
     padding: 0 1rem;
   }
 `;
-
-export default class Match extends React.PureComponent<Props, State> {
-  state: State = {} as State;
-
-  static getDerivedStateFromProps ({ seed }: Props): State {
-    return {
-      hexSeed: u8aToHex(seed)
-    };
-  }
-
-  render () {
-    const { address, count, offset } = this.props;
-    const { hexSeed } = this.state;
-
-    return (
-      <Wrapper>
-        <div className='vanity--Match-item'>
-          <IdentityIcon
-            className='vanity--Match-icon'
-            size={48}
-            value={address}
-          />
-          <div className='vanity--Match-data'>
-            <div className='vanity--Match-addr'>
-              <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
-            </div>
-            <div className='vanity--Match-seed'>
-              {hexSeed}
-            </div>
-          </div>
-          <div className='vanity--Match-buttons'>
-            <Button
-              icon='plus'
-              isPrimary
-              onClick={this.onCreate}
-              size='tiny'
-            />
-            <Button
-              icon='close'
-              isNegative
-              onClick={this.onRemove}
-              size='tiny'
-            />
-          </div>
-        </div>
-      </Wrapper>
-    );
-  }
-
-  private onCreate = (): void => {
-    const { onCreateToggle } = this.props;
-    const { hexSeed } = this.state;
-
-    onCreateToggle(hexSeed);
-  }
-
-  private onRemove = (): void => {
-    const { address, onRemove } = this.props;
-
-    onRemove(address);
-  }
-}

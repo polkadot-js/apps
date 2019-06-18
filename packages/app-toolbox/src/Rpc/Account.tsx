@@ -23,11 +23,6 @@ type State = {
   accountId?: string | null
 };
 
-const Wrapper = styled.div`
-  box-sizing: border-box;
-  padding-left: 2em;
-`;
-
 class Account extends React.PureComponent<Props, State> {
   state: State;
 
@@ -41,10 +36,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { defaultValue, isError, t } = this.props;
+    const { className, defaultValue, isError, t } = this.props;
 
     return (
-      <Wrapper className='ui--row'>
+      <div className={`ui--row ${className}`}>
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}
@@ -56,7 +51,7 @@ class Account extends React.PureComponent<Props, State> {
           />
         </div>
         {this.renderNonce()}
-      </Wrapper>
+      </div>
     );
   }
 
@@ -100,4 +95,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Account);
+export default translate(styled(Account)`
+  box-sizing: border-box;
+  padding-left: 2em;
+`);

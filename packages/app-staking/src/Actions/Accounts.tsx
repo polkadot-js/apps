@@ -23,24 +23,18 @@ type State = {
   isNewStakeOpen: boolean
 };
 
-const Wrapper = styled(CardGrid) `
-.ui--CardGrid-buttons {
-  text-align: right;
-}
-`;
-
 class Accounts extends React.PureComponent<Props,State> {
   state: State = {
     isNewStakeOpen: false
   };
 
   render () {
-    const { recentlyOffline, t } = this.props;
+    const { className, recentlyOffline, t } = this.props;
     const accounts = keyring.getAccounts();
     const stashOptions = this.getStashOptions();
 
     return (
-      <Wrapper
+      <CardGrid
         buttons={
           <Button
             isPrimary
@@ -54,6 +48,7 @@ class Accounts extends React.PureComponent<Props,State> {
             onClick={this.toggleNewStake}
           />
         }
+        className={className}
       >
         {this.renderNewStake()}
         {accounts.map(({ address }, index) => (
@@ -64,7 +59,7 @@ class Accounts extends React.PureComponent<Props,State> {
             stashOptions={stashOptions}
           />
         ))}
-      </Wrapper>
+      </CardGrid>
     );
   }
 
@@ -97,4 +92,8 @@ class Accounts extends React.PureComponent<Props,State> {
   }
 }
 
-export default translate(Accounts);
+export default translate(styled(Accounts)`
+  .ui--CardGrid-buttons {
+    text-align: right;
+  }
+`);

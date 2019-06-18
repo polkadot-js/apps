@@ -33,12 +33,6 @@ type State = {
   recentEvents: Array<KeyedEvent>;
 };
 
-const Wrapper = styled.main`
-  .rx--updated {
-    background: transparent !important;
-  }
-`;
-
 class ExplorerApp extends React.Component<Props, State> {
   constructor (props: Props) {
     super(props);
@@ -90,14 +84,14 @@ class ExplorerApp extends React.Component<Props, State> {
   }
 
   render () {
-    const { basePath } = this.props;
+    const { basePath, className } = this.props;
     const { items } = this.state;
     const hidden = uiSettings.uiMode === 'full'
       ? []
       : ['node'];
 
     return (
-      <Wrapper>
+      <main className={className}>
         <header>
           <Tabs
             basePath={basePath}
@@ -111,7 +105,7 @@ class ExplorerApp extends React.Component<Props, State> {
           <Route path={`${basePath}/node`} component={NodeInfo} />
           <Route component={this.renderMain} />
         </Switch>
-      </Wrapper>
+      </main>
     );
   }
 
@@ -125,7 +119,11 @@ class ExplorerApp extends React.Component<Props, State> {
 }
 
 export default withMulti(
-  ExplorerApp,
+  styled(ExplorerApp as React.ComponentClass<Props>)`
+    .rx--updated {
+      background: transparent !important;
+    }
+  `,
   translate,
   withCalls<Props>('query.system.events')
 );
