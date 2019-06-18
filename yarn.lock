@@ -1842,7 +1842,7 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@polkadot/api-contract@^0.82.0-beta.8":
+"@polkadot/api-contract@^0.82.0-beta.9":
   version "0.82.0-beta.9"
   resolved "https://registry.yarnpkg.com/@polkadot/api-contract/-/api-contract-0.82.0-beta.9.tgz#7064203133a675f0fa7570a9688ae8af3212f803"
   integrity sha512-iELiGRiHSWvYDsOQ4lEKmK3txc+LPcsn9AWIGAPGSbzYCosufcmPaB+NUFnTIVGAQmqoMRbLUxvo/nPlR7Y3YA==
@@ -1861,7 +1861,7 @@
     "@types/memoizee" "^0.4.2"
     memoizee "^0.4.14"
 
-"@polkadot/api@^0.82.0-beta.8", "@polkadot/api@^0.82.0-beta.9":
+"@polkadot/api@^0.82.0-beta.9":
   version "0.82.0-beta.9"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.82.0-beta.9.tgz#4a14c740380f06dc42fc8dc54b31727d760bec69"
   integrity sha512-COb88kKqBpQpqaXoyhefzvfOZPn7l9JoTduEqWMls4XUuW+dO+ZGKsSdj+oeroLPqZGgBiJLsZhVG4VuSMSAXw==
@@ -1875,7 +1875,7 @@
     "@polkadot/types" "^0.82.0-beta.9"
     "@polkadot/util-crypto" "^0.94.0-beta.3"
 
-"@polkadot/dev-react@^0.30.0-beta.14":
+"@polkadot/dev-react@^0.30.0-beta.15":
   version "0.30.0-beta.15"
   resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.30.0-beta.15.tgz#f3453d9c4d8a01500268ee5d8e5bc3f85e6c8ea0"
   integrity sha512-4TDkIXJSQOLY1lWfw9O2CJsj/+sHZNrpj4XVrYpVKiBRiMM/peFckGPYGRXtlWPCBCFithJgTv1y2F+i5ZPY2A==
@@ -2033,7 +2033,7 @@
   dependencies:
     "@types/chrome" "^0.0.86"
 
-"@polkadot/types@^0.82.0-beta.8", "@polkadot/types@^0.82.0-beta.9":
+"@polkadot/types@^0.82.0-beta.9":
   version "0.82.0-beta.9"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.82.0-beta.9.tgz#aa937d3f541fbb7dbb9e77572bec3a6a007c7e46"
   integrity sha512-KlVR0A8qE9Nv6rQ1LFvsebQdJZkM3UJOPFpL9MIR6x9PIF6YdtuwsS4QWKvwVOCAIblh+KtMMnxkUuoGQ7r/Jg==
