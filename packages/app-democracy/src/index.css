@@ -2,36 +2,6 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-.democracy--Item-header {
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.democracy--Item-header-info,
-.democracy--Item-header-id {
-  flex: 1;
-}
-
-.democracy--Item-header-id {
-  font-size: 1.5rem;
-  line-height: 1.5rem;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.democracy--Item-header-description {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.democracy--Item-children {
-  padding-bottom: 1rem;
-}
-
-.democracy--Item-extrinsic .ui--Params-Content {
-  padding-left: 0;
-}
-
 .democracy--Extrinsic .ui--Labelled {
   margin-bottom: 0.25rem;
 }

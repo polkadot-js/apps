@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { Method, Proposal } from '@polkadot/types';
 import { Call } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
@@ -21,16 +22,13 @@ type Props = I18nProps & {
 
 class Item extends React.PureComponent<Props> {
   render () {
-    const { children, idNumber, proposal, proposalExtra } = this.props;
+    const { children, className, idNumber, proposal, proposalExtra } = this.props;
     const { meta, method, section } = Method.findFunction(proposal.callIndex);
 
-    console.error('ITEM', proposal);
-
-    // FIXME This is _very_ similar to what we have in explorer/BlockByHash
     return (
-      <article className='democracy--Item'>
+      <article className={className}>
         <div className='democracy--Item-header'>
-          <div className='democracy--Item-header-info'>
+          <div>
             <h3>{section}.{method}</h3>
             {meta && meta.documentation && (
               <details>
@@ -45,17 +43,38 @@ class Item extends React.PureComponent<Props> {
         <div className='democracy--Item-children'>
           {children}
         </div>
-        <div className='democracy--Item-body'>
-          <Call
-            className='democracy--Item-extrinsic'
-            value={proposal}
-          >
-            {proposalExtra}
-          </Call>
-        </div>
+        <Call
+          className='democracy--Item-extrinsic'
+          value={proposal}
+        >
+          {proposalExtra}
+        </Call>
       </article>
     );
   }
 }
 
-export default translate(Item);
+export default styled(translate(Item))`
+  .democracy--Item-children {
+    padding-bottom: 1rem;
+  }
+
+  .democracy--Item-extrinsic {
+    .ui--Params-Content {
+      padding-left: 0;
+    }
+  }
+
+  .democracy--Item-header {
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .democracy--Item-header-id {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+`;
