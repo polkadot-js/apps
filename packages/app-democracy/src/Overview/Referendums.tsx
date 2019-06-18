@@ -22,10 +22,7 @@ class Referendums extends React.PureComponent<Props> {
     const { t } = this.props;
 
     return (
-      <Column
-        className='democracy--Referendums'
-        header={t('referendum')}
-      >
+      <Column header={t('referendum')}>
         {this.renderReferendums()}
       </Column>
     );

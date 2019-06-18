@@ -39,7 +39,7 @@ class AddressCard extends React.PureComponent<Props> {
   }
 }
 
-export default styled(translate(AddressCard))`
+export default translate(styled(AddressCard as React.ComponentClass<Props>)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -58,4 +58,4 @@ export default styled(translate(AddressCard))`
       margin-top: 0.5rem;
     }
   }
-`;
+`);

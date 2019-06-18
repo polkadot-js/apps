@@ -4,8 +4,6 @@
 
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 
-import '../index.css';
-
 import React from 'react';
 import { Columar } from '@polkadot/ui-app';
 

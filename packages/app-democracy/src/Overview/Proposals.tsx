@@ -30,10 +30,7 @@ class Proposals extends React.PureComponent<Props> {
     const { t } = this.props;
 
     return (
-      <Column
-        className='democracy--Proposals'
-        header={t('proposals')}
-      >
+      <Column header={t('proposals')}>
         {this.renderProposals()}
       </Column>
     );

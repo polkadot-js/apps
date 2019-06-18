@@ -54,7 +54,7 @@ class Item extends React.PureComponent<Props> {
   }
 }
 
-export default styled(translate(Item))`
+export default translate(styled(Item as React.ComponentClass<Props>)`
   .democracy--Item-children {
     padding-bottom: 1rem;
   }
@@ -77,4 +77,4 @@ export default styled(translate(Item))`
     right: 0;
     top: 0;
   }
-`;
+`);
