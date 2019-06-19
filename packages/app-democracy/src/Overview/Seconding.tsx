@@ -39,16 +39,16 @@ class Seconding extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div>
+      <>
         {this.renderModal()}
-        <Button.Group>
+        <div className='ui--Row-buttons'>
           <Button
             isPrimary
             label={t('Second proposal')}
             onClick={this.toggleSeconding}
           />
-        </Button.Group>
-      </div>
+        </div>
+      </>
     );
   }
 
@@ -72,7 +72,7 @@ class Seconding extends React.PureComponent<Props, State> {
         <Modal.Content>
           <InputAddress
             help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
-            label={t('using my account')}
+            label={t('second with account')}
             onChange={this.onChangeAccount}
             type='account'
             withLabel
