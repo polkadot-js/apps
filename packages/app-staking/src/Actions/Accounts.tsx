@@ -4,23 +4,25 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
+import { ApiProps } from '@polkadot/ui-api/types';
+import { withApi, withMulti } from '@polkadot/ui-api/with';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Button, CardGrid, Icon } from '@polkadot/ui-app';
 import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddressName } from '@polkadot/ui-app/util';
-import keyring from '@polkadot/ui-keyring';
 
 import Account from './Account';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import StartStaking from './NewStake';
 import translate from '../translate';
 
-type Props = I18nProps & ComponentProps;
+type Props = I18nProps & ComponentProps & ApiProps;
 
 type State = {
-  isNewStakeOpen: boolean
+  isNewStakeOpen: boolean,
+  myStashes: Array<string | null> | undefined
 };
 
 const Wrapper = styled(CardGrid) `
@@ -31,13 +33,40 @@ const Wrapper = styled(CardGrid) `
 
 class Accounts extends React.PureComponent<Props,State> {
   state: State = {
-    isNewStakeOpen: false
+    isNewStakeOpen: false,
+    myStashes: []
   };
+
+  async componentWillReceiveProps ({ allAccounts, api }: Props, { isNewStakeOpen }: State) {
+    const stashes = allAccounts && Object.keys(allAccounts).map((account) => {
+      return (
+        api.query.staking.bonded(account)
+        .then((myControler) => {
+          if (myControler.toString() !== '') {
+            return account;
+          } else {
+            return null;
+          }
+        })
+      );
+    });
+
+    const myStashes = stashes && await Promise.all(stashes)
+    .then((stashes) => {
+      return stashes.filter((stash) => stash !== null);
+    });
+
+    this.setState({
+      isNewStakeOpen,
+      myStashes
+    });
+  }
 
   render () {
     const { recentlyOffline, t } = this.props;
-    const accounts = keyring.getAccounts();
+    const { isNewStakeOpen, myStashes } = this.state;
     const stashOptions = this.getStashOptions();
+    const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 
     return (
       <Wrapper
@@ -55,9 +84,11 @@ class Accounts extends React.PureComponent<Props,State> {
           />
         }
         emptyText={t('No funds staked yet.')}
+        isEmpty={isEmpty}
       >
         {this.renderNewStake()}
-        {accounts.map(({ address }, index) => (
+        {myStashes && myStashes.map((address, index) => (
+          address &&
           <Account
             accountId={address}
             key={index}
@@ -98,4 +129,8 @@ class Accounts extends React.PureComponent<Props,State> {
   }
 }
 
-export default translate(Accounts);
+export default withMulti(
+  Accounts,
+  translate,
+  withApi
+);

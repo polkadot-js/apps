@@ -121,10 +121,11 @@ class App extends React.PureComponent<Props, State> {
   private renderComponent (Component: React.ComponentType<ComponentProps>) {
     return (): React.ReactNode => {
       const { controllers, recentlyOffline, stashes, validators } = this.state;
-      const { balances = {} } = this.props;
+      const { balances = {}, allAccounts } = this.props;
 
       return (
         <Component
+          allAccounts={allAccounts}
           balances={balances}
           controllers={controllers}
           recentlyOffline={recentlyOffline}

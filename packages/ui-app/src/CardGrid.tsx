@@ -21,7 +21,6 @@ class CardGrid extends React.PureComponent<Props> {
   render () {
     const { buttons, children, className, isEmpty = false } = this.props;
 
-    console.log('children',children);
     if (isEmpty || !children || (children as Array<any>).length <= 0) {
       return this.empty();
     }
