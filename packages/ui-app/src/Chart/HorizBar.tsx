@@ -6,6 +6,7 @@ import { BareProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
+import ChartJs from 'chart.js';
 import { HorizontalBar } from 'react-chartjs-2';
 import { bnToBn } from '@polkadot/util';
 
@@ -16,7 +17,7 @@ type Value = {
 };
 
 type Props = BareProps & {
-  size?: number,
+  aspectRatio?: number,
   values: Array<Value>
 };
 
@@ -27,13 +28,16 @@ type Options = {
   labels: Array<string>
 };
 
+const alphaColor = (hexColor: string): string =>
+  ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
+
 export default class ChartHorizBar extends React.PureComponent<Props> {
   render () {
-    const { className, size = 256, style, values } = this.props;
+    const { aspectRatio = 4, className, style, values } = this.props;
 
     const options = values.reduce((options, { colors: [normalColor = '#00f', hoverColor], label, value }) => {
-      options.colorNormal.push(normalColor);
-      options.colorHover.push(hoverColor || normalColor);
+      options.colorNormal.push(alphaColor(normalColor));
+      options.colorHover.push(alphaColor(hoverColor || normalColor));
       options.data.push(bnToBn(value).toNumber());
       options.labels.push(label);
 
@@ -59,7 +63,14 @@ export default class ChartHorizBar extends React.PureComponent<Props> {
               hoverBackgroundColor: options.colorHover
             }]
           }}
-          height={size}
+          options={{
+            // width/height by default this is "1", i.e. a square box
+            aspectRatio,
+            // no need for the legend, expect the labels contain everything
+            legend: {
+              display: false
+            }
+          }}
         />
       </div>
     );

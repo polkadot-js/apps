@@ -162,12 +162,12 @@ class Referendum extends React.PureComponent<Props, State> {
             {
               colors: COLORS_YAY,
               label: `Yay, ${formatBalance(votedYay)} (${formatNumber(voteCountYay)})`,
-              value: votedYay.addn(1).muln(10000).div(votedTotal.addn(2)).toNumber() / 100
+              value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
             },
             {
               colors: COLORS_NAY,
               label: `Nay, ${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
-              value: votedNay.addn(1).muln(10000).div(votedTotal.addn(2)).toNumber() / 100
+              value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
             }
           ]}
         />
