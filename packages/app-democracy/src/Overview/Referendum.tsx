@@ -103,7 +103,6 @@ class Referendum extends React.PureComponent<Props, State> {
         proposalExtra={this.renderExtra()}
       >
         <Voting referendumId={value.index} />
-        {this.renderResults()}
       </Item>
     );
   }
@@ -119,6 +118,7 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div>
+        {this.renderResults()}
         <Static label={t('ending at')}>
           {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
             replace: {
