@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Proposal } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
+import { Column } from '@polkadot/ui-app';
 
 import ProposalDisplay from './Proposal';
 import translate from '../translate';
@@ -29,12 +30,9 @@ class Proposals extends React.PureComponent<Props> {
     const { t } = this.props;
 
     return (
-      <section className='democracy--Proposals'>
-        <h1>
-          {t('proposals')}
-        </h1>
+      <Column header={t('proposals')}>
         {this.renderProposals()}
-      </section>
+      </Column>
     );
   }
 
@@ -43,9 +41,7 @@ class Proposals extends React.PureComponent<Props> {
 
     if (!democracy_publicProps || !democracy_publicProps.length) {
       return (
-        <div className='ui disabled'>
-          {t('no available proposals')}
-        </div>
+        <article>{t('no available proposals')}</article>
       );
     }
 

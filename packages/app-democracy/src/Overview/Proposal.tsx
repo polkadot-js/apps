@@ -23,13 +23,14 @@ type Props = I18nProps & {
 
 class ProposalDisplay extends React.PureComponent<Props> {
   render () {
-    const { democracy_depositOf, idNumber, value } = this.props;
+    const { className, democracy_depositOf, idNumber, value } = this.props;
     const depositors = democracy_depositOf
       ? democracy_depositOf[1]
       : [];
 
     return (
       <Item
+        className={className}
         idNumber={idNumber}
         proposal={value}
         proposalExtra={this.renderExtra()}
@@ -52,7 +53,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
     const [balance, addresses] = democracy_depositOf;
 
     return (
-      <div className='democracy--Proposal-info'>
+      <div>
         <Labelled label={t('depositors')}>
           {addresses.map((address, index) => (
             <InputAddress

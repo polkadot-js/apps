@@ -26,7 +26,6 @@ export default styled(Card)`
   position: relative;
   flex: 1 1;
   min-width: 24%;
-  min-height: 130px;
   justify-content: space-around;
 
   i.help.circle.icon,

@@ -8,10 +8,11 @@ import { RawParam } from '@polkadot/ui-params/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 import { Chart, Static } from '@polkadot/ui-app';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 import settings from '@polkadot/ui-settings';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
@@ -88,7 +89,7 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { chain_bestNumber, value } = this.props;
+    const { chain_bestNumber, className, value } = this.props;
 
     if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
       return null;
@@ -96,6 +97,7 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <Item
+        className={className}
         idNumber={value.index}
         proposal={value.proposal}
         proposalExtra={this.renderExtra()}
@@ -116,7 +118,7 @@ class Referendum extends React.PureComponent<Props, State> {
     const enactBlock = (democracy_publicDelay || new BN(0)).add(end);
 
     return (
-      <div className='democracy--Referendum-info'>
+      <div>
         <Static label={t('ending at')}>
           {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
             replace: {
@@ -174,10 +176,20 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
+export default withMulti(
+  styled(Referendum as React.ComponentClass<Props>)`
+    .democracy--Referendum-results {
+      margin-bottom: 1em;
+
+      &.chart {
+        text-align: center;
+      }
+    }
+  `,
+  translate,
   withCalls<Props>(
     'derive.chain.bestNumber',
     ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }],
     'query.democracy.publicDelay'
-  )(Referendum)
+  )
 );

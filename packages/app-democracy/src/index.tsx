@@ -5,8 +5,6 @@
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 
-import './index.css';
-
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay,Tabs } from '@polkadot/ui-app';
