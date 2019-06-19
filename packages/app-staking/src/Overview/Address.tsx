@@ -241,6 +241,7 @@ export default withMulti(
       position: absolute;
       right: -0.75rem;
       vertical-align: middle;
+      z-index: 1;
     }
   `,
   translate,

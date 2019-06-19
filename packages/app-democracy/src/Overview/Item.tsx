@@ -8,7 +8,8 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Method, Proposal } from '@polkadot/types';
-import { Call } from '@polkadot/ui-app';
+import { Call, Card } from '@polkadot/ui-app';
+import { styles as rowStyles } from '@polkadot/ui-app/Row';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -26,38 +27,37 @@ class Item extends React.PureComponent<Props> {
     const { meta, method, section } = Method.findFunction(proposal.callIndex);
 
     return (
-      <article className={className}>
-        <div className='democracy--Item-header'>
-          <h3>{section}.{method}</h3>
-          {meta && meta.documentation && (
-            <details>
-              <summary>{meta.documentation.join(' ')}</summary>
-            </details>
-          )}
-          <div className='democracy--Item-header-id'>
-            #{formatNumber(idNumber)}
+      <Card className={className}>
+        <div className='ui--Row'>
+          <div className='ui--Row-base'>
+            <div className='ui--Row-details democracy--Item-header'>
+              <h3>#{formatNumber(idNumber)}: {section}.{method}</h3>
+              {meta && meta.documentation && (
+                <details>
+                  <summary>{meta.documentation.join(' ')}</summary>
+                </details>
+              )}
+            </div>
+            {children}
           </div>
+          <Call
+            className='democracy--Item-extrinsic'
+            value={proposal}
+          >
+            {proposalExtra}
+          </Call>
         </div>
-        <div className='democracy--Item-children'>
-          {children}
-        </div>
-        <Call
-          className='democracy--Item-extrinsic'
-          value={proposal}
-        >
-          {proposalExtra}
-        </Call>
-      </article>
+      </Card>
     );
   }
 }
 
 export default translate(styled(Item as React.ComponentClass<Props>)`
-  .democracy--Item-children {
-    padding-bottom: 1rem;
-  }
+  ${rowStyles}
 
   .democracy--Item-extrinsic {
+    margin-top: 1rem;
+
     .ui--Params-Content {
       padding-left: 0;
     }
@@ -65,14 +65,9 @@ export default translate(styled(Item as React.ComponentClass<Props>)`
 
   .democracy--Item-header {
     margin-bottom: 1rem;
-    position: relative;
+  }
 
-    .democracy--Item-header-id {
-      font-size: 1.5rem;
-      line-height: 1.5rem;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
+  .democracy--Item-buttons {
+
   }
 `);
