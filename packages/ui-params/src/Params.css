@@ -5,6 +5,10 @@
 .ui--Params {
   border-left: 0.25rem solid #f2f2f2;
 
+  label {
+    font-family: monospace;
+  }
+
   .ui--row {
     flex-wrap: wrap;
   }
