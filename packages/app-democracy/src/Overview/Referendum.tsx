@@ -157,16 +157,16 @@ class Referendum extends React.PureComponent<Props, State> {
 
     return (
       <div className='democracy--Referendum-results chart'>
-        <Chart.Doughnut
+        <Chart.HorizBar
           values={[
             {
               colors: COLORS_YAY,
-              label: `${formatBalance(votedYay)} (${formatNumber(voteCountYay)})`,
+              label: `Yay, ${formatBalance(votedYay)} (${formatNumber(voteCountYay)})`,
               value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
             },
             {
               colors: COLORS_NAY,
-              label: `${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
+              label: `Nay, ${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
               value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
             }
           ]}
