@@ -11,7 +11,7 @@ import ApiPromise from '@polkadot/api/promise';
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
   const section = api.query[sectionName];
 
-  if (!section) {
+  if (!section || Object.keys(section).length === 0) {
     return [];
   }
 
