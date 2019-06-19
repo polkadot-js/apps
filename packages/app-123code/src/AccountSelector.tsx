@@ -8,6 +8,7 @@ import { Bubble, InputAddress } from '@polkadot/ui-app';
 import { AccountIndex, Balance, Nonce } from '@polkadot/ui-reactive';
 
 type Props = {
+  className?: string,
   onChange: (accountId?: string) => void
 };
 
@@ -15,22 +16,15 @@ type State = {
   accountId?: string
 };
 
-const Wrapper = styled.section`
-  align-items: flex-end;
-
-  .summary {
-    text-align: center;
-  }
-`;
-
-export default class AccountSelector extends React.PureComponent<Props, State> {
+class AccountSelector extends React.PureComponent<Props, State> {
   state: State = {};
 
   render () {
+    const { className } = this.props;
     const { accountId } = this.state;
 
     return (
-      <Wrapper className='template--AccountSelector ui--row'>
+      <section className={`template--AccountSelector ui--row ${className}`}>
         <InputAddress
           className='medium'
           label='my default account'
@@ -48,7 +42,7 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
             <Nonce params={accountId} />
           </Bubble>
         </div>
-      </Wrapper>
+      </section>
     );
   }
 
@@ -60,3 +54,11 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default styled(AccountSelector)`
+  align-items: flex-end;
+
+  .summary {
+    text-align: center;
+  }
+`;

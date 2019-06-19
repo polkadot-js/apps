@@ -41,18 +41,6 @@ const BOOL_OPTIONS = [
   { text: 'Yes', value: true }
 ];
 
-const Wrapper = styled.div`
-  .vanity--App-matches {
-    padding: 1em 0;
-  }
-
-  .vanity--App-stats {
-    padding: 1em 0 0 0;
-    opacity: 0.45;
-    text-align: center;
-  }
-`;
-
 class VanityApp extends TxComponent<Props, State> {
   results: Array<Generator$Result> = [];
   state: State = {
@@ -76,11 +64,11 @@ class VanityApp extends TxComponent<Props, State> {
   }
 
   render () {
-    const { onStatusChange } = this.props;
+    const { className, onStatusChange } = this.props;
     const { createSeed, type } = this.state;
 
     return (
-      <Wrapper>
+      <div className={className}>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}
@@ -93,7 +81,7 @@ class VanityApp extends TxComponent<Props, State> {
             type={type}
           />
         )}
-      </Wrapper>
+      </div>
     );
   }
 
@@ -316,4 +304,14 @@ class VanityApp extends TxComponent<Props, State> {
   }
 }
 
-export default translate(VanityApp);
+export default translate(styled(VanityApp)`
+  .vanity--App-matches {
+    padding: 1em 0;
+  }
+
+  .vanity--App-stats {
+    padding: 1em 0 0 0;
+    opacity: 0.45;
+    text-align: center;
+  }
+`);

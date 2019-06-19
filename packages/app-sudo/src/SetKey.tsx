@@ -114,4 +114,5 @@ class SetKey extends React.PureComponent<Props, State> {
     );
   }
 }
+
 export default translate(SetKey);

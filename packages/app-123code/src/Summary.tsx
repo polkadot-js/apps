@@ -11,22 +11,22 @@ type Props = BareProps & {
   children: React.ReactNode
 };
 
-const Wrapper = styled.div`
-  opacity: 0.5;
-  padding: 1rem 1.5rem;
-`;
-
-export default class Summary extends React.PureComponent<Props> {
+class Summary extends React.PureComponent<Props> {
   render () {
     const { children, className, style } = this.props;
 
     return (
-      <Wrapper
+      <div
         className={className}
         style={style}
       >
         {children}
-      </Wrapper>
+      </div>
     );
   }
 }
+
+export default styled(Summary)`
+  opacity: 0.5;
+  padding: 1rem 1.5rem;
+`;
