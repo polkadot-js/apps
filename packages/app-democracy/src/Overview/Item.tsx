@@ -28,14 +28,12 @@ class Item extends React.PureComponent<Props> {
     return (
       <article className={className}>
         <div className='democracy--Item-header'>
-          <div>
-            <h3>{section}.{method}</h3>
-            {meta && meta.documentation && (
-              <details>
-                <summary>{meta.documentation.join(' ')}</summary>
-              </details>
-            )}
-          </div>
+          <h3>{section}.{method}</h3>
+          {meta && meta.documentation && (
+            <details>
+              <summary>{meta.documentation.join(' ')}</summary>
+            </details>
+          )}
           <div className='democracy--Item-header-id'>
             #{formatNumber(idNumber)}
           </div>
@@ -68,13 +66,13 @@ export default translate(styled(Item as React.ComponentClass<Props>)`
   .democracy--Item-header {
     margin-bottom: 1rem;
     position: relative;
-  }
 
-  .democracy--Item-header-id {
-    font-size: 1.5rem;
-    line-height: 1.5rem;
-    position: absolute;
-    right: 0;
-    top: 0;
+    .democracy--Item-header-id {
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 `);
