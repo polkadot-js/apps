@@ -6,8 +6,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from '../types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { withApi, withMulti } from '@polkadot/ui-api/with';
+import { withApi, withCalls, withMulti } from '@polkadot/ui-api/with';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -19,29 +18,22 @@ import Account from './Account';
 import StartStaking from './NewStake';
 import translate from '../translate';
 
-type Props = I18nProps & ComponentProps & ApiProps;
+type Props = I18nProps & ComponentProps & ApiProps & {
+  myControllers?: Array<string>
+};
 
 type State = {
-  allAccounts: SubjectInfo | undefined;
-  isNewStakeOpen: boolean,
-  myStashes: Array<string | null> | undefined
+  isNewStakeOpen: boolean
 };
 
 class Accounts extends React.PureComponent<Props,State> {
   state: State = {
-    allAccounts: undefined,
-    isNewStakeOpen: false,
-    myStashes: []
+    isNewStakeOpen: false
   };
-
-  componentWillReceiveProps ({ allAccounts, api }: Props) {
-    const previousState = this.state;
+/*
+  componentWillReceiveProps ({ allAccounts, myControllers }: Props) {
 
     if (allAccounts && allAccounts !== previousState.allAccounts) {
-      api.query.staking.bonded.multi(Object.keys(allAccounts))
-      .then((myControlers) => {
-        const result: string[] = [];
-
         myControlers.forEach((value,index) => {
 
           if (value.toString() !== '') {
@@ -58,17 +50,20 @@ class Accounts extends React.PureComponent<Props,State> {
           myStashes
         });
       })
-      .catch((e) => {
-        console.error(e);
-      });
+      .catch(console.error);
     }
   }
+*/
 
   render () {
-    const { className, recentlyOffline, t } = this.props;
-    const { isNewStakeOpen, myStashes } = this.state;
+    const { className, myControllers, recentlyOffline, t } = this.props;
+    const { isNewStakeOpen } = this.state;
     const stashOptions = this.getStashOptions();
+    const myStashes = this.getMyStashes();
     const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
+
+    console.log('myControllers',myControllers);
+    console.log('myStashes',myStashes);
 
     return (
       <CardGrid
@@ -101,6 +96,23 @@ class Accounts extends React.PureComponent<Props,State> {
         ))}
       </CardGrid>
     );
+  }
+
+  private getMyStashes () {
+    const { myControllers, allAccounts } = this.props;
+    const result: Array<string> = [];
+
+    if (!myControllers) {
+      return null;
+    }
+
+    myControllers.forEach((value,index) => {
+      if (value.toString() !== '') {
+        allAccounts && result.push(Object.keys(allAccounts)[index]);
+      }
+    });
+
+    return result;
   }
 
   private renderNewStake () {
@@ -139,5 +151,14 @@ export default withMulti(
     }
   `,
   translate,
-  withApi
+  withApi,
+  withCalls<Props>(
+    'derive.staking.controllers',
+    'query.session.validators',
+    'query.staking.recentlyOffline',
+    ['query.staking.bonding', {
+      isMulti: true,
+      paramPick: ({ allAccounts }: Props) => allAccounts && Object.keys(allAccounts)
+    }]
+  )
 );

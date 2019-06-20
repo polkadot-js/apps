@@ -99,6 +99,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             ? props[paramName]
             : undefined;
 
+        console.log('paramValue',paramValue);
+
         if (atProp) {
           at = props[atProp];
         }
@@ -109,15 +111,16 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           return [false, []];
         }
 
-        const values = isUndefined(paramValue)
-          ? params
-          : params.concat(
-            (Array.isArray(paramValue) && !(paramValue as any).toU8a)
-              ? paramValue
-              : [paramValue]
-          );
-
-        return [true, values];
+        if (isUndefined(paramValue)) {
+          console.log('case 1 return params', params);
+          return [true, params];
+        } else if (params.concat((Array.isArray(paramValue) && !(paramValue as any).toU8a))) {
+          console.log('case 2, return paramValue', paramValue);
+          return [true, paramValue];
+        } else {
+          console.log('case 3, retuen [paramValue]',[paramValue]);
+          return [true, [paramValue]];
+        }
       }
 
       private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
