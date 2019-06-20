@@ -58,18 +58,16 @@ export default class ChartHorizBar extends React.PureComponent<Props, State> {
       }]
     });
 
-    const chartOptions = {
-      // width/height by default this is "1", i.e. a square box
-      aspectRatio,
-      // no need for the legend, expect the labels contain everything
-      legend: {
-        display: false
-      }
-    };
-
     return {
       chartData,
-      chartOptions,
+      chartOptions: {
+        // width/height by default this is "1", i.e. a square box
+        aspectRatio,
+        // no need for the legend, expect the labels contain everything
+        legend: {
+          display: false
+        }
+      },
       valuesStr
     };
   }
