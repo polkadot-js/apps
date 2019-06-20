@@ -4,10 +4,9 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { Option, TreasuryProposal } from '@polkadot/types';
-import { Icon, InputAddress, Labelled, Static } from '@polkadot/ui-app';
+import { InputAddress, Labelled, Static } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
@@ -23,7 +22,7 @@ type Props = I18nProps & {
 
 class ProposalDisplay extends React.PureComponent<Props> {
   render () {
-    const { isApproved, proposal, proposalIndex, t } = this.props;
+    const { isApproved, proposal, proposalIndex } = this.props;
 
     if (!proposal) {
       return null;
