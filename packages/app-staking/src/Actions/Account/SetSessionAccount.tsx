@@ -68,7 +68,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               label={t('Set Session Key')}
               onClick={ onClose }
               params={[sessionId]}
-              tx={api.tx.session.setKey ? 'session.setKey' : 'session.setKeys'}
+              tx={api.tx.session.setKeys ? 'session.setKeys' : 'session.setKey'}
             />
           </Button.Group>
         </Modal.Actions>
