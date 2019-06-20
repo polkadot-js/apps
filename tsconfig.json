@@ -35,6 +35,8 @@
       "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
       "@polkadot/app-transfer": [ "packages/app-transfer/src" ],
       "@polkadot/app-transfer/*": [ "packages/app-transfer/src/*" ],
+      "@polkadot/app-treasury": [ "packages/app-treasury/src" ],
+      "@polkadot/app-treasury/*": [ "packages/app-treasury/src/*" ],
       "@polkadot/apps-routing": [ "packages/apps-routing/src" ],
       "@polkadot/apps-routing/*": [ "packages/apps-routing/src/*" ],
       "@polkadot/ui-api": [ "packages/ui-api/src" ],
