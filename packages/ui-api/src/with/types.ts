@@ -20,6 +20,7 @@ export type Options = {
   isMulti?: boolean,
   params?: Array<any>,
   paramName?: string,
+  paramPick?: (props: any) => any,
   paramValid?: boolean,
   propName?: string,
   transform?: Transform

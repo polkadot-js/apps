@@ -24,7 +24,7 @@ const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramPick, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State = {
@@ -93,9 +93,11 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private getParams (props: any): [boolean, Array<any>] {
-        const paramValue = paramName
-          ? props[paramName]
-          : undefined;
+        const paramValue = paramPick
+          ? paramPick(props)
+          : paramName
+            ? props[paramName]
+            : undefined;
 
         if (atProp) {
           at = props[atProp];
