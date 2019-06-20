@@ -61,10 +61,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           label={label}
           onChange={this.onChangeMethod}
           withLabel={withLabel}
-          help={
-            meta && meta.documentation
-            && meta.documentation.join(' ')
-          }
+          help={meta && meta.documentation && meta.documentation.join(' ')}
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
@@ -94,9 +91,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
       if (isValid) {
         try {
           method = methodfn(
-            ...values.map(({ value }) =>
-              value
-            )
+            ...values.map(({ value }) => value)
           );
         } catch (error) {
           // swallow
