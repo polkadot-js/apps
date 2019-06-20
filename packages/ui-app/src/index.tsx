@@ -54,6 +54,7 @@ export { default as Output } from './Output';
 export { default as Password } from './Password';
 export { default as Progress } from './Progress';
 export { default as RecentlyOffline } from './RecentlyOffline';
+export { default as Row } from './Row';
 export { default as Static } from './Static';
 export { default as Status } from './Status';
 export { default as SummaryBox } from './SummaryBox';

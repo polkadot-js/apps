@@ -122,6 +122,6 @@ class Propose extends TxComponent<Props, State> {
 export default withMulti(
   Propose,
   translate,
-  withApi,
-  withRouter
+  withRouter,
+  withApi
 );

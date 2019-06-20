@@ -164,8 +164,7 @@ class Deploy extends ContractModal<Props, State> {
     );
   }
 
-  private getAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): State => {
-
+  private getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): State => {
     if (contractAbi) {
       const args = contractAbi.deploy.args.map(({ name, type }) => name + ': ' + type);
       const text = `deploy(${args.join(', ')})`;
@@ -211,7 +210,7 @@ class Deploy extends ContractModal<Props, State> {
           name: `${json.name} (instance)`,
           isHashValid: true,
           isNameValid: true,
-          ...this.getAbiState(json.abi, contractAbi)
+          ...this.getContractAbiState(json.abi, contractAbi)
         } as State;
       }
     }
@@ -231,7 +230,7 @@ class Deploy extends ContractModal<Props, State> {
 
   protected onAddAbi = (abi: string | null | undefined, contractAbi?: Abi | null): void => {
     this.setState({
-      ...this.getAbiState(abi, contractAbi)
+      ...this.getContractAbiState(abi, contractAbi)
     });
   }
 

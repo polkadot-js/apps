@@ -3,21 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Method } from '@polkadot/types';
+import { Compact, Method } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
+import ContractCall from './ContractCall';
+import ContractDeploy from './ContractDeploy';
 import Proposal from './Proposal';
 import Transfer from './Transfer';
-import { MAX_SIZE_BYTES, MAX_SIZE_MB, ZERO_BALANCE, ZERO_FEES } from './constants';
+import { MAX_SIZE_BYTES, MAX_SIZE_MB, ZERO_BALANCE, ZERO_FEES_BALANCES, ZERO_FEES_CONTRACT } from './constants';
 
 type State = ExtraFees & {
   allFees: BN,
@@ -34,6 +36,7 @@ type State = ExtraFees & {
 type Props = I18nProps & {
   balances_fees?: DerivedFees,
   balances_all?: DerivedBalances,
+  contract_fees?: DerivedContractFees,
   accountId?: string | null,
   extrinsic?: IExtrinsic | null,
   isSendable: boolean,
@@ -66,7 +69,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     overLimit: false
   };
 
-  static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
@@ -173,6 +176,8 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
         }
         {this.renderTransfer()}
         {this.renderProposal()}
+        {this.renderCall()}
+        {this.renderDeploy()}
         {
           isReserved
             ? <div><Icon name='arrow right' />{t('This account does have a reserved/locked balance, not taken into account')}</div>
@@ -232,6 +237,44 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderCall () {
+    const { extrinsic, contract_fees = ZERO_FEES_CONTRACT } = this.props;
+    const { extMethod, extSection } = this.state;
+
+    if (!contract_fees || !extrinsic || extSection !== 'contract' || extMethod !== 'call') {
+      return null;
+    }
+
+    const [, endowment] = extrinsic.args;
+
+    return (
+      <ContractCall
+        endowment={endowment as any as Compact}
+        fees={contract_fees}
+        onChange={this.onExtraUpdate}
+      />
+    );
+  }
+
+  private renderDeploy () {
+    const { extrinsic, contract_fees = ZERO_FEES_CONTRACT } = this.props;
+    const { extMethod, extSection } = this.state;
+
+    if (!contract_fees || !extrinsic || extSection !== 'contract' || extMethod !== 'create') {
+      return null;
+    }
+
+    const [endowment] = extrinsic.args;
+
+    return (
+      <ContractDeploy
+        endowment={endowment as any as Compact}
+        fees={contract_fees}
+        onChange={this.onExtraUpdate}
+      />
+    );
+  }
+
   private onExtraUpdate = (extra: ExtraFees) => {
     this.setState({ ...extra });
   }
@@ -241,6 +284,7 @@ export default translate(
   withCalls<Props>(
     'derive.balances.fees',
     ['derive.balances.all', { paramName: 'accountId' }],
+    'derive.contract.fees',
     ['query.system.accountNonce', { paramName: 'accountId' }]
   )(FeeDisplay)
 );

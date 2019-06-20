@@ -6,8 +6,10 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { Method, Proposal } from '@polkadot/types';
-import { Call } from '@polkadot/ui-app';
+import { Call, Card } from '@polkadot/ui-app';
+import { styles as rowStyles } from '@polkadot/ui-app/Row';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -21,41 +23,51 @@ type Props = I18nProps & {
 
 class Item extends React.PureComponent<Props> {
   render () {
-    const { children, idNumber, proposal, proposalExtra } = this.props;
+    const { children, className, idNumber, proposal, proposalExtra } = this.props;
     const { meta, method, section } = Method.findFunction(proposal.callIndex);
 
-    // FIXME This is _very_ similar to what we have in explorer/BlockByHash
     return (
-      <article className='democracy--Item'>
-        <div className='democracy--Item-header'>
-          <div className='democracy--Item-header-info'>
-            <h3>
-              {section}.{method}
-            </h3>
-            <div className='democracy--Item-header-description'>{
-              meta && meta.documentation
-                ? meta.documentation.join(' ')
-                : ''
-            }</div>
+      <Card className={className}>
+        <div className='ui--Row'>
+          <div className='ui--Row-base'>
+            <div className='ui--Row-details democracy--Item-header'>
+              <h3>#{formatNumber(idNumber)}: {section}.{method}</h3>
+              {meta && meta.documentation && (
+                <details>
+                  <summary>{meta.documentation.join(' ')}</summary>
+                </details>
+              )}
+            </div>
+            {children}
           </div>
-          <div className='democracy--Item-header-id'>
-            #{formatNumber(idNumber)}
-          </div>
-        </div>
-        <div className='democracy--Item-body'>
           <Call
             className='democracy--Item-extrinsic'
             value={proposal}
           >
             {proposalExtra}
           </Call>
-          <div className='democracy--Item-children'>
-            {children}
-          </div>
         </div>
-      </article>
+      </Card>
     );
   }
 }
 
-export default translate(Item);
+export default translate(styled(Item as React.ComponentClass<Props>)`
+  ${rowStyles}
+
+  .democracy--Item-extrinsic {
+    margin-top: 1rem;
+
+    .ui--Params-Content {
+      padding-left: 0;
+    }
+  }
+
+  .democracy--Item-header {
+    margin-bottom: 1rem;
+  }
+
+  .democracy--Item-buttons {
+
+  }
+`);

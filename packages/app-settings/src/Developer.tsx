@@ -26,13 +26,6 @@ type State = {
   typesPlaceholder?: string
 };
 
-const Wrapper = styled.div`
-  .editor {
-    height: 300px;
-    position: relative;
-  }
-`;
-
 class Developer extends React.PureComponent<Props, State> {
   private defaultCode: string = `{\n\n}`;
 
@@ -54,12 +47,12 @@ class Developer extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { className, t } = this.props;
     const { code, isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
     const typesHasNoEntries = Object.keys(types).length === 0;
 
     return (
-      <Wrapper>
+      <div className={className}>
         <div className='ui--row'>
           <div className='full'>
             <InputFile
@@ -102,7 +95,7 @@ class Developer extends React.PureComponent<Props, State> {
             label={t('Save')}
           />
         </Button.Group>
-      </Wrapper>
+      </div>
     );
   }
 
@@ -196,4 +189,9 @@ class Developer extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Developer);
+export default translate(styled(Developer)`
+  .editor {
+    height: 300px;
+    position: relative;
+  }
+`);

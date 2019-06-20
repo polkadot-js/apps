@@ -16,18 +16,12 @@ type Props = I18nProps & {
   route: Route
 };
 
-const Wrapper = styled.div`
-  .name {
-    margin-top: 0.75rem;
-  }
-`;
-
 class Entry extends React.PureComponent<Props> {
   render () {
-    const { route: { i18n, icon, name }, t } = this.props;
+    const { className, route: { i18n, icon, name }, t } = this.props;
 
     return (
-      <Wrapper>
+      <div className={className}>
         <Link to={`/${name}`}>
           <Icon
             name={icon}
@@ -37,9 +31,13 @@ class Entry extends React.PureComponent<Props> {
             {t(`entry.${name}`, i18n)}
           </div>
         </Link>
-      </Wrapper>
+      </div>
     );
   }
 }
 
-export default translate(Entry);
+export default translate(styled(Entry)`
+  .name {
+    margin-top: 0.75rem;
+  }
+`);

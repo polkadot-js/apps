@@ -119,6 +119,7 @@ button.ui.icon.iconButton {
 }
 
 .ui--Static {
+  min-width: 2rem; /* adjust width from normal dropdown sizing */
   overflow: hidden;
   word-break: break-all;
 }

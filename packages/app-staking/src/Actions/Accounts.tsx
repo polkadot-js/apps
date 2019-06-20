@@ -27,12 +27,6 @@ type State = {
   myStashes: Array<string | null> | undefined
 };
 
-const Wrapper = styled(CardGrid) `
-.ui--CardGrid-buttons {
-  text-align: right;
-}
-`;
-
 class Accounts extends React.PureComponent<Props,State> {
   state: State = {
     allAccounts: undefined,
@@ -77,7 +71,7 @@ class Accounts extends React.PureComponent<Props,State> {
     const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 
     return (
-      <Wrapper
+      <CardGrid
         buttons={
           <Button
             isPrimary
@@ -91,6 +85,7 @@ class Accounts extends React.PureComponent<Props,State> {
             onClick={this.toggleNewStake}
           />
         }
+        className={className}
         emptyText={t('No funds staked yet.')}
         isEmpty={isEmpty}
       >
@@ -104,7 +99,7 @@ class Accounts extends React.PureComponent<Props,State> {
             stashOptions={stashOptions}
           />
         ))}
-      </Wrapper>
+      </CardGrid>
     );
   }
 
@@ -138,7 +133,11 @@ class Accounts extends React.PureComponent<Props,State> {
 }
 
 export default withMulti(
-  Accounts,
+  styled(Accounts)`
+    .ui--CardGrid-buttons {
+      text-align: right;
+    }
+  `,
   translate,
   withApi
 );

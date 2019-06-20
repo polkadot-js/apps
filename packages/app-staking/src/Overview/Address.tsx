@@ -76,9 +76,8 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { address, className, defaultName, lastAuthor, lastBlock, filter } = this.props;
+    const { className, defaultName, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
-    const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
     const bonded = stakers && !stakers.own.isZero()
       ? [stakers.own, stakers.total.sub(stakers.own)]
       : true;
@@ -102,22 +101,22 @@ class Address extends React.PureComponent<Props, State> {
         withBalance={{ bonded }}
       >
         {this.renderNominators()}
-        {
-          isAuthor && stashId
-            ? <div className='blockNumber'>#{lastBlock}</div>
-            : null
-        }
       </AddressCard>
     );
   }
 
   private renderKeys () {
-    const { t } = this.props;
-    const { controllerId, sessionId } = this.state;
+    const { address, lastAuthor, lastBlock, t } = this.props;
+    const { controllerId, sessionId, stashId } = this.state;
     const isSame = controllerId === sessionId;
+    const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
 
     return (
       <div className='staking--Address-info'>
+        {isAuthor && stashId
+          ? <div className='blockNumber'>#{lastBlock}</div>
+          : null
+        }
         {controllerId
           ? (
             <div>
@@ -242,6 +241,7 @@ export default withMulti(
       position: absolute;
       right: -0.75rem;
       vertical-align: middle;
+      z-index: 1;
     }
   `,
   translate,
