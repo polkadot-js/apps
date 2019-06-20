@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ComponentProps } from '../types';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { ComponentProps } from '../types';
+import { I18nProps } from '@polkadot/ui-app/types';
+import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { withApi, withMulti } from '@polkadot/ui-api/with';
 
 import React from 'react';
@@ -14,13 +16,13 @@ import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddressName } from '@polkadot/ui-app/util';
 
 import Account from './Account';
-import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import StartStaking from './NewStake';
 import translate from '../translate';
 
 type Props = I18nProps & ComponentProps & ApiProps;
 
 type State = {
+  allAccounts: SubjectInfo | undefined;
   isNewStakeOpen: boolean,
   myStashes: Array<string | null> | undefined
 };
@@ -33,33 +35,39 @@ const Wrapper = styled(CardGrid) `
 
 class Accounts extends React.PureComponent<Props,State> {
   state: State = {
+    allAccounts: undefined,
     isNewStakeOpen: false,
     myStashes: []
   };
 
-  async componentWillReceiveProps ({ allAccounts, api }: Props, { isNewStakeOpen }: State) {
-    const stashes = allAccounts && Object.keys(allAccounts).map((account) => {
-      return (
-        api.query.staking.bonded(account)
-        .then((myControler) => {
-          if (myControler.toString() !== '') {
-            return account;
-          } else {
-            return null;
+  componentWillReceiveProps ({ allAccounts, api }: Props) {
+    const previousState = this.state;
+
+    if (allAccounts && allAccounts !== previousState.allAccounts) {
+      api.query.staking.bonded.multi(Object.keys(allAccounts))
+      .then((myControlers) => {
+        const result: string[] = [];
+
+        myControlers.forEach((value,index) => {
+
+          if (value.toString() !== '') {
+            result.push(Object.keys(allAccounts)[index]);
           }
-        })
-      );
-    });
+        });
 
-    const myStashes = stashes && await Promise.all(stashes)
-    .then((stashes) => {
-      return stashes.filter((stash) => stash !== null);
-    });
-
-    this.setState({
-      isNewStakeOpen,
-      myStashes
-    });
+        return result;
+      })
+      .then((myStashes) => {
+        this.setState({
+          isNewStakeOpen: previousState.isNewStakeOpen,
+          allAccounts,
+          myStashes
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+    }
   }
 
   render () {
