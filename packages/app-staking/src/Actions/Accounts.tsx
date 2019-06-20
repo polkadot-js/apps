@@ -65,7 +65,7 @@ class Accounts extends React.PureComponent<Props,State> {
   }
 
   render () {
-    const { recentlyOffline, t } = this.props;
+    const { className, recentlyOffline, t } = this.props;
     const { isNewStakeOpen, myStashes } = this.state;
     const stashOptions = this.getStashOptions();
     const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
