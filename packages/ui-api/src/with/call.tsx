@@ -18,6 +18,8 @@ interface Method {
   multi: (params: Array<any>, cb: (value?: any) => void) => Promise<any>;
 }
 
+type ApiMethodInfo = [Method, Array<any>, boolean];
+
 type State = CallState;
 
 const NOOP = () => {
@@ -99,8 +101,6 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             ? props[paramName]
             : undefined;
 
-        console.log('paramValue',paramValue);
-
         if (atProp) {
           at = props[atProp];
         }
@@ -112,18 +112,15 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
 
         if (isUndefined(paramValue)) {
-          console.log('case 1 return params', params);
           return [true, params];
         } else if (params.concat((Array.isArray(paramValue) && !(paramValue as any).toU8a))) {
-          console.log('case 2, return paramValue', paramValue);
           return [true, paramValue];
         } else {
-          console.log('case 3, retuen [paramValue]',[paramValue]);
           return [true, [paramValue]];
         }
       }
 
-      private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
+      private getApiMethod (newParams: Array<any>): ApiMethodInfo {
         const { api } = this.props;
 
         if (endpoint === 'subscribe') {
@@ -167,36 +164,43 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
 
         const { api } = this.props;
+        let info: ApiMethodInfo | undefined;
 
         await api.isReady;
 
         try {
-          const [apiMethod, params, isSubscription] = this.getApiMethod(newParams);
-
           assert(at || !atProp, 'Unable to perform query on non-existent at hash');
 
-          try {
-            await this.unsubscribe();
-
-            if (isSubscription) {
-              const updateCb = (value?: any) =>
-                this.triggerUpdate(this.props, value);
-
-              this.destroy = isMulti
-                ? await apiMethod.multi(params, updateCb)
-                : await apiMethod(...params, updateCb);
-            } else {
-              const value: any = at
-                ? await apiMethod.at(at, ...params)
-                : await apiMethod(...params);
-
-              this.triggerUpdate(this.props, value);
-            }
-          } catch (error) {
-            //
-          }
+          info = this.getApiMethod(newParams);
         } catch (error) {
           console.error(endpoint, '::', error);
+        }
+
+        if (!info) {
+          return;
+        }
+
+        const [apiMethod, params, isSubscription] = info;
+
+        await this.unsubscribe();
+
+        try {
+          if (isSubscription) {
+            const updateCb = (value?: any) =>
+              this.triggerUpdate(this.props, value);
+
+            this.destroy = isMulti
+              ? await apiMethod.multi(params, updateCb)
+              : await apiMethod(...params, updateCb);
+          } else {
+            const value: any = at
+              ? await apiMethod.at(at, ...params)
+              : await apiMethod(...params);
+
+            this.triggerUpdate(this.props, value);
+          }
+        } catch (error) {
+          // console.error(endpoint, '::', error);
         }
       }
 
