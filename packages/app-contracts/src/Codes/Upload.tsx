@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
 import BN from 'bn.js';
 import React from 'react';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import { Button, InputFile, TxButton } from '@polkadot/ui-app';
 import { compactAddLength } from '@polkadot/util';
 import { Hash } from '@polkadot/types';
@@ -14,7 +16,7 @@ import ContractModal, { ContractModalProps, ContractModalState } from '../Modal'
 import store from '../store';
 import translate from '../translate';
 
-type Props = ContractModalProps;
+type Props = ContractModalProps & ApiProps;
 
 type State = ContractModalState & {
   gasLimit: BN,
@@ -25,6 +27,7 @@ type State = ContractModalState & {
 class Upload extends ContractModal<Props, State> {
   constructor (props: Props) {
     super(props);
+
     this.defaultState = {
       ...this.defaultState,
       isWasmValid: false,
@@ -62,7 +65,7 @@ class Upload extends ContractModal<Props, State> {
   }
 
   renderButtons = () => {
-    const { t } = this.props;
+    const { api, t } = this.props;
     const { accountId, gasLimit, isBusy, isNameValid, isWasmValid, wasm } = this.state;
     const isValid = !isBusy && accountId && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
 
@@ -78,7 +81,7 @@ class Upload extends ContractModal<Props, State> {
           onSuccess={this.onSuccess}
           onFailed={this.toggleBusy(false)}
           params={[gasLimit, wasm]}
-          tx='contract.putCode'
+          tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
           ref={this.button}
         />
       </Button.Group>
@@ -115,4 +118,8 @@ class Upload extends ContractModal<Props, State> {
   }
 }
 
-export default translate(Upload);
+export default withMulti(
+  Upload,
+  translate,
+  withApi
+);
