@@ -181,23 +181,22 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
 
         const [apiMethod, params, isSubscription] = info;
+        const updateCb = (value?: any) =>
+          this.triggerUpdate(this.props, value);
 
         await this.unsubscribe();
 
         try {
           if (isSubscription) {
-            const updateCb = (value?: any) =>
-              this.triggerUpdate(this.props, value);
-
             this.destroy = isMulti
               ? await apiMethod.multi(params, updateCb)
               : await apiMethod(...params, updateCb);
           } else {
-            const value: any = at
-              ? await apiMethod.at(at, ...params)
-              : await apiMethod(...params);
-
-            this.triggerUpdate(this.props, value);
+            updateCb(
+              at
+                ? await apiMethod.at(at, ...params)
+                : await apiMethod(...params)
+            );
           }
         } catch (error) {
           // console.error(endpoint, '::', error);
