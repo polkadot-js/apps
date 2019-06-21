@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -10,7 +11,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
-import { api, withMulti } from '@polkadot/ui-api';
+import { api, withApi, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
 import { AccountId, getTypeDef } from '@polkadot/types';
@@ -23,7 +24,7 @@ import translate from './translate';
 
 type ConstructOptions = Array<{key: string, text: string, value: string}>;
 
-type Props = ContractModalProps & I18nProps & RouteComponentProps & {
+type Props = ContractModalProps & ApiProps & I18nProps & RouteComponentProps & {
   codeHash?: string
 };
 
@@ -36,8 +37,12 @@ type State = ContractModalState & {
 };
 
 class Deploy extends ContractModal<Props, State> {
+  headerText = 'Deploy a new contract';
+  isContract = true;
+
   constructor (props: Props) {
     super(props);
+
     this.defaultState = {
       ...this.defaultState,
       constructOptions: [],
@@ -57,12 +62,7 @@ class Deploy extends ContractModal<Props, State> {
         this.getCodeState(nextProps.codeHash)
       );
     }
-
   }
-
-  isContract = true;
-
-  headerText = 'Deploy a new contract';
 
   renderContent = () => {
     const { t } = this.props;
@@ -139,7 +139,7 @@ class Deploy extends ContractModal<Props, State> {
   }
 
   renderButtons = () => {
-    const { t } = this.props;
+    const { api, t } = this.props;
     const { accountId, endowment, gasLimit, isAbiValid, isHashValid, isNameValid } = this.state;
     const isEndowValid = !endowment.isZero();
     const isGasValid = !gasLimit.isZero();
@@ -157,7 +157,7 @@ class Deploy extends ContractModal<Props, State> {
           onFailed={this.toggleBusy(false)}
           onSuccess={this.onSuccess}
           params={this.constructCall}
-          tx='contract.create'
+          tx={api.tx.contracts ? 'contracts.create' : 'contract.create'}
           ref={this.button}
         />
       </Button.Group>
@@ -197,7 +197,6 @@ class Deploy extends ContractModal<Props, State> {
   }
 
   private getCodeState = (codeHash: string | null = null): State => {
-
     if (codeHash) {
       const code = store.getCode(codeHash);
 
@@ -285,5 +284,6 @@ class Deploy extends ContractModal<Props, State> {
 export default withMulti(
   Deploy,
   translate,
-  withRouter
+  withRouter,
+  withApi
 );

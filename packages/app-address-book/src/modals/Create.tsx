@@ -143,7 +143,7 @@ class Create extends React.PureComponent<Props, State> {
           if (!isAddressValid) {
             const old = keyring.getAddress(newAddress);
 
-            if (old.isValid) {
+            if (old) {
               if (!allowEdit) {
                 name = old.meta.name || name;
               }
