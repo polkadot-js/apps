@@ -55,7 +55,7 @@ const Wrapper = styled.div`
 
   ${media.DESKTOP`
     article.padded {
-      margin: .75rem 0 0.75rem 15rem;
+      margin: .75rem 0 0.75rem 4rem;
       padding: 0.25rem 1rem;
     }
   `}
