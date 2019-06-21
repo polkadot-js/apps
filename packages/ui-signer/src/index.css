@@ -4,8 +4,7 @@
 
 @import '../../ui-app/src/styles/partials/_variables.css';
 
-.ui--signer-Signer-Decoded,
-.ui--signer-Signer-Unlock {
+.ui--signer-Signer-Decoded {
   align-content: center;
   display: flex;
   line-height: 1.5em;
