@@ -169,19 +169,19 @@ class Transfer extends React.PureComponent<Props> {
             help={t('The account you will send funds from.')}
             isDisabled={!!propSenderId}
             label={t('send from account')}
+            labelExtra={<Available label={available} params={senderId} />}
             onChange={this.onChangeFrom}
             type='account'
           />
-          <div className='balance'><Available label={available} params={senderId} /></div>
           <InputAddress
             defaultValue={propRecipientId}
             help={t('Select a contact or paste the address you want to send funds to.')}
             isDisabled={!!propRecipientId}
             label={t('send to address')}
+            labelExtra={<Available label={available} params={recipientId} />}
             onChange={this.onChangeTo}
             type='allPlus'
           />
-          <div className='balance'><Available label={available} params={recipientId} /></div>
           <InputBalance
             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
             isError={!hasAvailable}

@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import LabelHelp from './LabelHelp';
-import media from './media';
+// import media from './media';
 import { classes } from './util';
 
 type Props = BareProps & {
@@ -16,29 +16,25 @@ type Props = BareProps & {
   isHidden?: boolean,
   isSmall?: boolean,
   label?: React.ReactNode,
+  labelExtra?: React.ReactNode,
   children: React.ReactNode,
   withLabel?: boolean,
   withEllipsis?: boolean
 };
 
-const defaultLabel: any = (// node?
+const defaultLabel: React.ReactNode = (
   <div>&nbsp;</div>
 );
 
 const Wrapper = styled.div`
   display: block;
+  padding-top: 0.25rem;
+  position: relative;
 
   .withEllipsis {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  > label {
-    margin: 0.25rem 0 0 0;
-    padding-right: 0.5rem;
-    position: relative;
-    text-align: left;
   }
 
   &.label-small {
@@ -51,34 +47,66 @@ const Wrapper = styled.div`
     }
   }
 
-  > .ui--Labelled-content {
-    box-sizing: border-box;
-    flex: 1 1;
-    min-width: 0;
-  }
-
-  ${media.DESKTOP`
-    align-items: flex-start;
-    display: flex;
-    flex: 1 1;
-    margin: 0;
-    text-align: left;
+  &:not(.label-small) {
+    > label,
+    .labelExtra {
+      position: absolute;
+      text-align: left;
+      top: 0.75rem;
+      z-index: 1;
+    }
 
     > label {
-      align-items: center;
-      display: flex;
-      flex: 0 0 15rem;
-      justify-content: flex-end;
-      min-height: 2.715rem; /* more-or-less 2 lines with adjustments, 38px as per input box */
-      min-width: 15rem;
+      left: 4.1rem;
+      text-align: left;
+    }
+
+    .labelExtra {
+      right: 1rem;
       text-align: right;
     }
-  `}
+
+    > .ui--Labelled-content {
+      box-sizing: border-box;
+      flex: 1 1;
+      min-width: 0;
+
+      .ui.selection.dropdown {
+        padding-top: 2rem;
+
+        &:not(.button) {
+          padding-left: 4rem;
+        }
+
+        &.search > input.search {
+          padding-top: 2rem;
+        }
+
+        > .delete.icon,
+        > .dropdown.icon,
+        > .search.icon {
+          top: 2rem;
+        }
+      }
+
+      .ui.input > input,
+      .ui--output {
+        padding-left: 4rem;
+        padding-top: 2rem;
+      }
+    }
+
+    &.ui--InputAddress > .ui--Labelled-content {
+      .ui.selection.dropdown {
+        padding-left: 1rem;
+      }
+    }
+  }
 `;
 
 export default class Labelled extends React.PureComponent<Props> {
   render () {
-    const { className, children, help, isSmall, isHidden, label = defaultLabel, style, withEllipsis, withLabel = true } = this.props;
+    const { className, children, help, isSmall, isHidden, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true } = this.props;
 
     if (isHidden) {
       return null;
@@ -100,6 +128,7 @@ export default class Labelled extends React.PureComponent<Props> {
               : label
           }{help && <LabelHelp help={help} />}
         </label>
+        {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
         <div className='ui--Labelled-content'>
           {children}
         </div>
