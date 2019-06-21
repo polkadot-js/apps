@@ -3,11 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Option, TreasuryProposal } from '@polkadot/types';
-import { InputAddress, Labelled, Static } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { Button, Icon, InputAddress, Labelled, Static } from '@polkadot/ui-app';
+import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
@@ -15,14 +17,25 @@ import Item from './Item';
 import Approve from './Approve';
 
 type Props = I18nProps & {
+  allAccounts?: SubjectInfo,
   isApproved: boolean,
   proposal?: TreasuryProposal | null,
-  proposalIndex: string
+  proposalId: string
 };
 
-class ProposalDisplay extends React.PureComponent<Props> {
+type State = {
+  isApproveOpen: boolean,
+  isApproving: boolean | null
+};
+
+class ProposalDisplay extends React.PureComponent<Props, State> {
+  state: State = {
+    isApproveOpen: false,
+    isApproving: null
+  };
+
   render () {
-    const { isApproved, proposal, proposalIndex } = this.props;
+    const { isApproved, proposal, proposalId } = this.props;
 
     if (!proposal) {
       return null;
@@ -33,14 +46,59 @@ class ProposalDisplay extends React.PureComponent<Props> {
         isApproved={isApproved}
         proposal={proposal}
         proposalExtra={this.renderExtra()}
-        proposalIndex={proposalIndex}
+        proposalId={proposalId}
       >
-        {
-          !isApproved && (
-            <Approve proposalIndex={proposalIndex}/>
-          )
-        }
+        {this.renderAccessory()}
       </Item>
+    );
+  }
+
+  private renderAccessory () {
+    const { allAccounts, isApproved, proposalId, t } = this.props;
+    const { isApproveOpen, isApproving } = this.state;
+
+    if (isApproved) {
+      return (
+        <h3 className='treasury--Approve-approved'>
+          <Icon name='check' />
+          {'  '}
+          {t('Approved')}
+        </h3>
+      );
+    }
+
+    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+    if (!hasAccounts) {
+      return null;
+    }
+
+    return (
+      <>
+        <div className='ui--Row-buttons'>
+          <Button.Group>
+            <Button
+              isPrimary
+              label={t('Approve')}
+              labelIcon='check'
+              onClick={this.showApprove(true)}
+            />
+            <Button.Or />
+            <Button
+              isNegative
+              label={t('Reject')}
+              labelIcon='ban sign'
+              onClick={this.showApprove(false)}
+            />
+          </Button.Group>
+        </div>
+        <Approve
+          isApproving={isApproving}
+          isOpen={isApproveOpen}
+          onClose={this.hideApprove}
+          proposalInfo={this.renderExtra()}
+          proposalId={proposalId}
+        />
+      </>
     );
   }
 
@@ -78,6 +136,20 @@ class ProposalDisplay extends React.PureComponent<Props> {
       </div>
     );
   }
+
+  private showApprove = (isApproving: boolean) => (): void => {
+    this.setState({
+      isApproveOpen: true,
+      isApproving
+    });
+  }
+
+  private hideApprove = (): void => {
+    this.setState({
+      isApproveOpen: false,
+      isApproving: null
+    });
+  }
 }
 
 export default withMulti(
@@ -85,10 +157,11 @@ export default withMulti(
   translate,
   withCalls<Props>(
     ['query.treasury.proposals', {
-      paramName: 'proposalIndex',
+      paramName: 'proposalId',
       propName: 'proposal',
       transform: (value: Option<TreasuryProposal>) =>
         value.unwrapOr(null)
     }]
-  )
+  ),
+  withObservable(keyring.accounts.subject, { propName: 'allAccounts' })
 );

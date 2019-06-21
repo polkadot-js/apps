@@ -3,78 +3,84 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
-import { AccountId } from '@polkadot/types';
-import { Button, InputAddress, TxButton } from '@polkadot/ui-app';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { Dropdown } from '@polkadot/ui-app';
+import TxModal, { TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  allAccounts?: SubjectInfo,
-  depositors: Array<AccountId>,
-  proposalIndex: string
+type Props = I18nProps & TxModalProps & {
+  isApproved?: boolean,
+  isApproving: boolean | null,
+  proposalInfo?: React.ReactNode,
+  proposalId: string
 };
 
-type State = {
-  accountId?: string
+type State = TxModalState & {
+  isApproving: boolean | null
 };
 
-class Seconding extends React.PureComponent<Props, State> {
-  state: State = {};
+class Approve extends TxModal<Props, State> {
 
-  render () {
-    const { allAccounts, proposalIndex, t } = this.props;
-    const { accountId } = this.state;
-    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+  private approveOptions = [
+    { text: 'Yay, I approve', value: true },
+    { text: 'Nay, I do not approve', value: false }
+  ];
 
-    if (!hasAccounts) {
-      return null;
+  static getDerivedStateFromProps ({ isApproving }: Props, state: State) {
+    if (isApproving === null || state.isApproving === null) {
+      return { isApproving };
     }
+    return {};
+  }
+
+  state: State = this.defaultState;
+
+  headerText = 'Approve or reject proposal';
+
+  txMethod = () => {
+    const { isApproving } = this.state;
+
+    return isApproving ? 'treasury.approveProposal' : 'treasury.rejectProposal';
+  }
+
+  txParams = () => {
+    const { proposalId } = this.props;
+
+    return [proposalId];
+  }
+
+  renderPreContent = () => {
+    const { proposalInfo = null } = this.props;
 
     return (
-      <div className='democarcy--Proposal-second'>
-        <InputAddress
-          help={t('Select the account you wish to approve or reject the proposal with.')}
-          label={t('using my account')}
-          onChange={this.onChangeAccount}
-          type='account'
-          withLabel
-          hideAddress
-        />
-        <Button.Group>
-          <TxButton
-            accountId={accountId}
-            isDisabled={!accountId}
-            isPrimary
-            label={t('Approve')}
-            params={[proposalIndex]}
-            tx='treasury.approveProposal'
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!accountId}
-            isNegative
-            label={t('Reject')}
-            params={[proposalIndex]}
-            tx='treasury.rejectProposal'
-          />
-        </Button.Group>
-      </div>
+      <>
+        {proposalInfo}
+        <br />
+        <br />
+      </>
     );
   }
 
-  private onChangeAccount = (accountId?: string) => {
-    this.setState({ accountId });
+  renderContent = () => {
+    const { t } = this.props;
+    const { isApproving } = this.state;
+
+    return (
+      <Dropdown
+        help={t('Select your vote preference for this spend proposal, either to approve or disapprove')}
+        label={t('action')}
+        options={this.approveOptions.map((option) => ({ ...option, text: t(option.text) }))}
+        onChange={this.onChangeApproving}
+        value={isApproving}
+      />
+    );
+  }
+
+  private onChangeApproving = (isApproving: boolean) => {
+    this.setState({ isApproving });
   }
 }
 
-export default withMulti(
-  Seconding,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(Approve);

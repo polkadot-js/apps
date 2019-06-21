@@ -5,16 +5,12 @@
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 
-import './index.css';
-
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { HelpOverlay,Tabs } from '@polkadot/ui-app';
-// import uiSettings from '@polkadot/ui-settings';
+import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
-import Propose from './Propose';
 import Settings from './Settings';
 
 import translate from './translate';
@@ -39,10 +35,6 @@ class App extends React.PureComponent<Props, State> {
           text: t('Treasury overview')
         },
         {
-          name: 'propose',
-          text: t('Submit proposal')
-        },
-        {
           name: 'settings',
           text: t('Edit settings')
         }
@@ -53,10 +45,6 @@ class App extends React.PureComponent<Props, State> {
   render () {
     const { basePath } = this.props;
     const { tabs } = this.state;
-    // const hidden = uiSettings.uiMode === 'full'
-    //   ? []
-    //   : ['propose'];
-    const hidden = [] as Array<string>;
 
     return (
       <main className='treasury--App'>
@@ -64,12 +52,10 @@ class App extends React.PureComponent<Props, State> {
         <header>
           <Tabs
             basePath={basePath}
-            hidden={hidden}
             items={tabs}
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/propose`} render={() => <Propose basePath={basePath} />} />
           <Route path={`${basePath}/settings`} component={Settings} />
           <Route component={Overview} />
         </Switch>

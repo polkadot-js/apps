@@ -13,57 +13,107 @@ type Props = I18nProps & {
   buttons?: React.ReactNode,
   children: React.ReactNode,
   className?: string,
+  headerText?: string,
   emptyText?: string
 };
 
-class CardGrid extends React.PureComponent<Props> {
-  render () {
-    const { buttons, children, className } = this.props;
+type State = {
+  isEmpty: boolean
+};
 
+class CardGrid extends React.PureComponent<Props, State> {
+  static getDerivedStateFromProps ({ children }: Props) {
     if (!children || (children as Array<any>).length <= 0) {
-      return this.empty();
+      return { isEmpty: true };
     }
+    return { isEmpty: false };
+  }
+
+  render () {
+    const { className } = this.props;
+    const { isEmpty } = this.state;
 
     return (
       <div className={className}>
+        {this.renderHeader()}
+        {isEmpty ?
+          this.renderEmpty() :
+          this.renderGrid()
+        }
+      </div>
+    );
+  }
+
+  renderHeader () {
+    const { buttons, headerText } = this.props;
+    const { isEmpty } = this.state;
+
+    if (isEmpty && !headerText) {
+      return null;
+    }
+
+    return (
+      <div className='ui--CardGrid-header'>
+        {headerText && (
+          <h1>
+            {headerText}
+          </h1>
+        )}
         {buttons && (
           <div className='ui--CardGrid-buttons'>
             {buttons}
           </div>
         )}
-        <div className='ui--CardGrid-grid'>
-          {children}
-          <div className='ui--CardGrid-spacer' />
-          <div className='ui--CardGrid-spacer' />
-          <div className='ui--CardGrid-spacer' />
-        </div>
       </div>
     );
   }
 
-  empty () {
-    const { buttons, className, emptyText, t } = this.props;
+  renderEmpty () {
+    const { buttons, headerText, t } = this.props;
+
+    const emptyText = this.props.emptyText || t('No items');
+
+    if (headerText) {
+      return (
+        <div className='ui--CardGrid-grid'>
+          <div className='ui--CardGrid-lowercase'>
+            {emptyText}
+          </div>
+        </div>
+      );
+    }
 
     return (
-      <div className={className}>
-        <div className='ui--CardGrid-empty'>
-          <h2>
-            {emptyText || t('No items')}
-          </h2>
-          {buttons && (
-            <div className='ui--CardGrid-buttons'>
-              {buttons}
-            </div>
-          )}
-          <div className='ui--CardGrid-spacer' />
-        </div>
+      <div className='ui--CardGrid-empty'>
+        <h2>
+          {emptyText}
+        </h2>
+        {buttons && (
+          <div className='ui--CardGrid-buttons'>
+            {buttons}
+          </div>
+        )}
+        <div className='ui--CardGrid-spacer' />
+      </div>
+    );
+  }
+
+  renderGrid () {
+    const { children } = this.props;
+
+    return (
+      <div className='ui--CardGrid-grid'>
+        {children}
+        <div className='ui--CardGrid-spacer' />
+        <div className='ui--CardGrid-spacer' />
+        <div className='ui--CardGrid-spacer' />
       </div>
     );
   }
 }
 
 export default translate(
-  styled(CardGrid)`
+  styled(CardGrid as React.ComponentClass<Props, State>)`
     .ui--CardGrid-grid {
       display: flex;
       flex-wrap: wrap;
@@ -73,6 +123,19 @@ export default translate(
         margin: 0.25rem;
         padding: 0 1.5rem;
       }
+    }
+
+    .ui--CardGrid-header {
+      margin-bottom: 0.5rem;
+
+      h1 {
+        text-transform: lowercase;
+        position: absolute;
+      }
+    }
+
+    .ui--CardGrid-lowercase {
+      text-transform: lowercase;
     }
 
     .ui--Card,

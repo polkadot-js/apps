@@ -7,10 +7,12 @@ import { ProposalIndex } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/ui-api';
-import { FilterOverlay, Dropdown } from '@polkadot/ui-app';
+import { Button, CardGrid, FilterOverlay, Dropdown } from '@polkadot/ui-app';
 
 import Proposal from './Proposal';
+import Propose from './Propose';
 import translate from '../translate';
 
 type Props = I18nProps & {
@@ -54,24 +56,40 @@ class Proposals extends React.PureComponent<Props> {
 
   render () {
     const { t } = this.props;
-    const { filter } = this.state;
+    const { filter, isProposeOpen } = this.state;
 
     return (
-      <section className='democracy--Proposals'>
-        <FilterOverlay>
-          <Dropdown
-            help={t('Select which validators/intentions you want to display.')}
-            label={t('filter')}
-            onChange={this.onChangeFilter}
-            options={this.filterOptions.map(option => ({ ...option, text: t(option.text) }))}
-            value={filter}
-          />
-        </FilterOverlay>
-        <h1>
-          {t('proposals')}
-        </h1>
+      <>
+      <FilterOverlay>
+        <Dropdown
+          help={t('Select which validators/intentions you want to display.')}
+          label={t('filter')}
+          onChange={this.onChangeFilter}
+          options={this.filterOptions.map(option => ({ ...option, text: t(option.text) }))}
+          value={filter}
+        />
+      </FilterOverlay>
+      <CardGrid
+        emptyText={t('No contracts available')}
+        headerText={t('Proposals')}
+        buttons={
+          <Button.Group>
+            <Button
+              isPrimary
+              label={t('Submit a spend proposal')}
+              labelIcon='add'
+              onClick={this.togglePropose(true)}
+            />
+          </Button.Group>
+        }
+      >
         {this.renderProposals()}
-      </section>
+      </CardGrid>
+      <Propose
+        isOpen={isProposeOpen}
+        onClose={this.togglePropose(false)}
+      />
+      </>
     );
   }
 
@@ -86,11 +104,11 @@ class Proposals extends React.PureComponent<Props> {
         </div>
       );
     }
-    return proposalIndices.map((proposalIndex) => (
+    return proposalIndices.map((proposalId) => (
       <Proposal
         isApproved={filter === 'approved'}
-        proposalIndex={proposalIndex.toString()}
-        key={proposalIndex.toString()}
+        proposalId={proposalId.toString()}
+        key={proposalId.toString()}
       />
     ));
   }
@@ -98,16 +116,27 @@ class Proposals extends React.PureComponent<Props> {
   private onChangeFilter = (filter: 'pending' | 'approved') => {
     this.setState({ filter });
   }
+
+  private togglePropose = (isProposeOpen: boolean) => () => {
+    this.setState({
+      isProposeOpen
+    });
+  }
 }
 
 export default withMulti(
-  Proposals,
+  styled(Proposals as React.ComponentClass<Props, State>)`
+    .treasury--Proposals-inner {
+      display: flex;
+      flex-wrap: column;
+    }
+  `,
   translate,
   withCalls<Props>(
     [
       'query.treasury.approvals',
       {
-        transform: (value: Array<ProposalIndex>) => value.map((proposalIndex) => new BN(proposalIndex))
+        transform: (value: Array<ProposalIndex>) => value.map((proposalId) => new BN(proposalId))
       }
     ],
     'query.treasury.proposalCount'

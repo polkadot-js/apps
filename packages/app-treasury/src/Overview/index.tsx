@@ -4,8 +4,6 @@
 
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 
-import '../index.css';
-
 import React from 'react';
 
 import Summary from './Summary';
@@ -18,7 +16,6 @@ export default class Overview extends React.PureComponent<Props> {
     return (
       <>
         <Summary />
-        {/*<Referendums />*/}
         <Proposals />
       </>
     );
