@@ -10,43 +10,51 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
-import { Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
+import { InputAddress, InputBalance } from '@polkadot/ui-app';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
-import translate from './translate';
+import translate from '../translate';
 
-type Props = I18nProps & ApiProps & RouteComponentProps & {
-  basePath: string
-};
+type Props = I18nProps & ApiProps & RouteComponentProps & TxModalProps;
 
-type State = {
-  accountId?: string,
+type State = TxModalState & {
   beneficiary?: string,
-  value: BN,
-  isValid: boolean
+  value: BN
 };
 
-class Propose extends TxComponent<Props, State> {
+class Propose extends TxModal<Props, State> {
   state: State = {
-    value: new BN(0),
-    isValid: false
+    ...this.defaultState,
+    value: new BN(0)
   };
 
-  render () {
-    const { t } = this.props;
-    const { isValid, accountId, beneficiary, value } = this.state;
+  headerText = 'Submit a spend proposal';
+
+  txMethod = () => 'treasury.proposeSpend';
+  txParams = () => {
+    const { beneficiary, value } = this.state;
+
+    return [
+      value, beneficiary
+    ];
+  }
+
+  isDisabled = () => {
+    const { accountId, beneficiary, value } = this.state;
     const hasValue = !!value && value.gtn(0);
     const hasBeneficiary = !!beneficiary;
 
+    return !accountId || !hasValue || !hasBeneficiary;
+  }
+
+  renderContent = () => {
+    const { t } = this.props;
+    const { value } = this.state;
+    const hasValue = !!value && value.gtn(0);
+
     return (
-      <section>
-        <InputAddress
-          className='medium'
-          label={t('account')}
-          help={t('The account used to make the new spend proposal')}
-          type='account'
-          onChange={this.onChangeAccount}
-        />
+      <>
         <InputAddress
           className='medium'
           label={t('beneficiary')}
@@ -62,21 +70,7 @@ class Propose extends TxComponent<Props, State> {
           onChange={this.onChangeValue}
           onEnter={this.sendTx}
         />
-        <Button.Group>
-          <TxButton
-            accountId={accountId}
-            label={t('Submit')}
-            tx='treasury.proposeSpend'
-            isDisabled={!isValid}
-            params={[
-              ...(hasValue ? [value] : []),
-              ...(hasBeneficiary ? [beneficiary] : [])
-            ]}
-            onSuccess={this.onSubmitProposal}
-            ref={this.button}
-          />
-        </Button.Group>
-      </section>
+      </>
     );
   }
 
@@ -84,20 +78,14 @@ class Propose extends TxComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { accountId = prevState.accountId, beneficiary = prevState.beneficiary, value = prevState.value } = newState;
-        const isValid = !!beneficiary && !!value && value.gt(new BN(0)) && !!accountId && accountId.length > 0;
 
         return {
           accountId,
           beneficiary,
-          value,
-          isValid
-        };
+          value
+        } as State;
       }
     );
-  }
-
-  private onChangeAccount = (accountId: string): void => {
-    this.nextState({ accountId } as State);
   }
 
   private onChangeBeneficiary = (beneficiary: string): void => {
@@ -106,12 +94,6 @@ class Propose extends TxComponent<Props, State> {
 
   private onChangeValue = (value?: BN): void => {
     this.nextState({ value } as State);
-  }
-
-  private onSubmitProposal = () => {
-    const { history, basePath } = this.props;
-
-    history.push(basePath);
   }
 }
 
