@@ -115,6 +115,14 @@ class Accounts extends React.PureComponent<Props,State> {
     return result;
   }
 
+  private getStashOptions (): Array<KeyringSectionOption> {
+    const { stashes } = this.props;
+
+    return stashes.map((stashId) =>
+      createOption(stashId, getAddressName(stashId, 'account'))
+    );
+  }
+
   private renderNewStake () {
     const { isNewStakeOpen } = this.state;
 
@@ -134,14 +142,6 @@ class Accounts extends React.PureComponent<Props,State> {
       isNewStakeOpen: !isNewStakeOpen
     }));
   }
-
-  private getStashOptions (): Array<KeyringSectionOption> {
-    const { stashes } = this.props;
-
-    return stashes.map((stashId) =>
-      createOption(stashId, getAddressName(stashId, 'account'))
-    );
-  }
 }
 
 export default withMulti(
@@ -151,14 +151,14 @@ export default withMulti(
     }
   `,
   translate,
-  withApi,
   withCalls<Props>(
-    'derive.staking.controllers',
-    'query.session.validators',
-    'query.staking.recentlyOffline',
     ['query.staking.bonding', {
       isMulti: true,
-      paramPick: ({ allAccounts }: Props) => allAccounts && Object.keys(allAccounts)
+      paramPick: ({ allAccounts }: Props) => {
+        console.log('allAccounts', allAccounts);
+        return allAccounts && [Object.keys(allAccounts)];
+      },
+      propName: 'myControllers'
     }]
   )
 );

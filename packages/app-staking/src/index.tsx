@@ -123,6 +123,8 @@ class App extends React.PureComponent<Props, State> {
       const { controllers, recentlyOffline, stashes, validators } = this.state;
       const { balances = {}, allAccounts } = this.props;
 
+      console.log('index-allAccount',allAccounts);
+
       return (
         <Component
           allAccounts={allAccounts}

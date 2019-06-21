@@ -46,8 +46,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       componentDidUpdate (prevProps: any) {
-        const newParams = this.getParams(this.props);
         const oldParams = this.getParams(prevProps);
+        const newParams = this.getParams(this.props);
 
         if (this.isActive && !isEqual(newParams, oldParams)) {
           this
@@ -231,7 +231,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           callUpdatedAt,
           [propName || this.propName]: callResult
         };
-
+        console.log('propNAme', propName);;
+        if (endpoint === 'query.staking.bonding') console.log('this.props for query.staking.bonding',this.props);
         return (
           <Inner {..._props} />
         );
