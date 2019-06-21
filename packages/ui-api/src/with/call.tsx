@@ -175,24 +175,28 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
           assert(at || !atProp, 'Unable to perform query on non-existent at hash');
 
-          await this.unsubscribe();
+          try {
+            await this.unsubscribe();
 
-          if (isSubscription) {
-            const updateCb = (value?: any) =>
+            if (isSubscription) {
+              const updateCb = (value?: any) =>
+                this.triggerUpdate(this.props, value);
+
+              this.destroy = isMulti
+                ? await apiMethod.multi(params, updateCb)
+                : await apiMethod(...params, updateCb);
+            } else {
+              const value: any = at
+                ? await apiMethod.at(at, ...params)
+                : await apiMethod(...params);
+
               this.triggerUpdate(this.props, value);
-
-            this.destroy = isMulti
-              ? await apiMethod.multi(params, updateCb)
-              : await apiMethod(...params, updateCb);
-          } else {
-            const value: any = at
-              ? await apiMethod.at(at, ...params)
-              : await apiMethod(...params);
-
-            this.triggerUpdate(this.props, value);
+            }
+          } catch (error) {
+            //
           }
         } catch (error) {
-          // console.error(endpoint, '::', error);
+          console.error(endpoint, '::', error);
         }
       }
 
@@ -231,8 +235,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           callUpdatedAt,
           [propName || this.propName]: callResult
         };
-        console.log('propNAme', propName);;
-        if (endpoint === 'query.staking.bonding') console.log('this.props for query.staking.bonding',this.props);
+
         return (
           <Inner {..._props} />
         );
