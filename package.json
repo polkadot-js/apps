@@ -10,12 +10,13 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.82.0-beta.13",
-    "@polkadot/api-contract": "^0.82.0-beta.13",
-    "@polkadot/keyring": "^0.94.0-beta.3",
-    "@polkadot/types": "^0.82.0-beta.13",
-    "@polkadot/util": "^0.94.0-beta.3",
-    "@polkadot/util-crypto": "^0.94.0-beta.3",
+    "@polkadot/api": "^0.82.0-beta.17",
+    "@polkadot/api-contract": "^0.82.0-beta.17",
+    "@polkadot/keyring": "^0.94.0-beta.4",
+    "@polkadot/types": "^0.82.0-beta.17",
+    "@polkadot/util": "^0.94.0-beta.4",
+    "@polkadot/util-crypto": "^0.94.0-beta.4",
+    "@types/styled-components": "4.1.8",
     "babel-core": "^7.0.0-bridge.0",
     "typescript": "^3.5.2"
   },
@@ -33,7 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/runtime": "^7.4.5",
-    "@polkadot/dev-react": "^0.30.0-beta.15",
+    "@polkadot/dev-react": "^0.30.0-beta.16",
     "@polkadot/ts": "^0.1.60",
     "autoprefixer": "^9.5.1",
     "empty": "^0.10.1",
@@ -49,6 +50,6 @@
     "postcss-sass": "^0.3.5",
     "postcss-simple-vars": "^5.0.0",
     "precss": "^4.0.0",
-    "source-map-explorer": "^1.7.0"
+    "source-map-explorer": "^2.0.1"
   }
 }
