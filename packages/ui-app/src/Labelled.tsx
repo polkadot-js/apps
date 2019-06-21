@@ -78,7 +78,7 @@ const Wrapper = styled.div`
           padding-left: 4rem;
         }
 
-        &.search > input.search {
+        &.search:not(.multiple) > input.search {
           padding-top: 2rem;
         }
 
