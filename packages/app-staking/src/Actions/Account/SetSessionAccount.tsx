@@ -40,6 +40,9 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   render () {
     const { api, controllerId, isOpen, onClose, t } = this.props;
     const { sessionError, sessionId } = this.state;
+    const isV2 = !!api.tx.session.setKeys;
+
+    console.log('sessionId', sessionId);
 
     if (!isOpen) {
       return null;
@@ -67,8 +70,8 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               isPrimary
               label={t('Set Session Key')}
               onClick={ onClose }
-              params={[sessionId]}
-              tx={api.tx.session.setKeys ? 'session.setKeys' : 'session.setKey'}
+              params={ isV2 ? [{ auraKey: sessionId, grandpaKey: sessionId }, new Uint8Array([])] : [sessionId]}
+              tx={isV2 ? 'session.setKeys' : 'session.setKey'}
             />
           </Button.Group>
         </Modal.Actions>
