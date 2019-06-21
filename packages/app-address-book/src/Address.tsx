@@ -19,7 +19,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  current: KeyringAddress,
+  current?: KeyringAddress,
   isEditable: boolean,
   isForgetOpen: boolean,
   isTransferOpen: boolean
@@ -69,7 +69,7 @@ class Address extends React.PureComponent<Props, State> {
     const { address } = this.props;
     const { isForgetOpen, isTransferOpen, current } = this.state;
 
-    if (!address) {
+    if (!address || !current) {
       return null;
     }
 
