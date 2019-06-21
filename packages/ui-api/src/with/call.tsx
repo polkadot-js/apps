@@ -226,7 +226,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             callUpdatedAt: Date.now()
           });
         } catch (error) {
-          // console.error(endpoint, '::', error.message);
+          console.error(endpoint, '::', error.message);
         }
       }
 

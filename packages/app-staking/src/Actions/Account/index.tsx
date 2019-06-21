@@ -140,15 +140,19 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ staking_info }: Props): State | null {
+  static getDerivedStateFromProps ({ accountId, staking_info }: Props): State | null {
+    console.log('accountId',accountId);
+    console.log('staking_info',staking_info);
+
     if (!staking_info) {
       return null;
     }
 
-    const { accountId, controllerId, nextSessionId, nominators, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionId, nominators, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isStashNominating = nominators && nominators.length !== 0;
     const isStashValidating = !!validatorPrefs && !validatorPrefs.isEmpty && !isStashNominating;
 
+    console.log('accountId',accountId);
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
@@ -167,6 +171,9 @@ class Account extends React.PureComponent<Props, State> {
   render () {
     const { t } = this.props;
     const { isActiveStash, stashId } = this.state;
+
+    console.log('isActiveStash',isActiveStash);
+    console.log('stashId',stashId);
 
     if (!isActiveStash || !stashId) {
       return null;

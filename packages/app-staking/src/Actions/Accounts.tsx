@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from '../types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { withApi, withCalls, withMulti } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -30,39 +30,14 @@ class Accounts extends React.PureComponent<Props,State> {
   state: State = {
     isNewStakeOpen: false
   };
-/*
-  componentWillReceiveProps ({ allAccounts, myControllers }: Props) {
-
-    if (allAccounts && allAccounts !== previousState.allAccounts) {
-        myControlers.forEach((value,index) => {
-
-          if (value.toString() !== '') {
-            result.push(Object.keys(allAccounts)[index]);
-          }
-        });
-
-        return result;
-      })
-      .then((myStashes) => {
-        this.setState({
-          isNewStakeOpen: previousState.isNewStakeOpen,
-          allAccounts,
-          myStashes
-        });
-      })
-      .catch(console.error);
-    }
-  }
-*/
 
   render () {
-    const { className, myControllers, recentlyOffline, t } = this.props;
+    const { className, recentlyOffline, t } = this.props;
     const { isNewStakeOpen } = this.state;
     const stashOptions = this.getStashOptions();
     const myStashes = this.getMyStashes();
     const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 
-    console.log('myControllers',myControllers);
     console.log('myStashes',myStashes);
 
     return (
@@ -152,11 +127,10 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['query.staking.bonding', {
+    ['query.staking.bonded', {
       isMulti: true,
       paramPick: ({ allAccounts }: Props) => {
-        console.log('allAccounts', allAccounts);
-        return allAccounts && [Object.keys(allAccounts)];
+        return allAccounts && Object.keys(allAccounts);
       },
       propName: 'myControllers'
     }]
