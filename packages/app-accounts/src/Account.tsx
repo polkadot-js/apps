@@ -33,9 +33,13 @@ class Account extends React.PureComponent<Props> {
   constructor (props: Props) {
     super(props);
 
+    const account = keyring.getAccount(props.address);
+
     this.state = {
       isBackupOpen: false,
-      isEditable: !(keyring.getAccount(props.address).meta.isInjected),
+      isEditable: account
+        ? !(account.meta.isInjected)
+        : false,
       isForgetOpen: false,
       isPasswordOpen: false,
       isTransferOpen: false

@@ -284,7 +284,7 @@ export default translate(
   withCalls<Props>(
     'derive.balances.fees',
     ['derive.balances.all', { paramName: 'accountId' }],
-    'derive.contract.fees',
+    'derive.contracts.fees',
     ['query.system.accountNonce', { paramName: 'accountId' }]
   )(FeeDisplay)
 );
