@@ -216,33 +216,31 @@ class Create extends React.PureComponent<Props, State> {
             open
           >
             <summary>{t('Advanced creation options')}</summary>
-            <div className='ui--Params'>
-              <div className='ui--row'>
-                <Dropdown
-                  defaultValue={pairType}
-                  help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                  label={t('keypair crypto type')}
-                  onChange={this.onChangePairType}
-                  options={uiSettings.availableCryptos}
-                />
-              </div>
-              <div className='ui--row'>
-                <Input
-                  className='full'
-                  help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
-                  isError={!!deriveError}
-                  label={t('secret derivation path')}
-                  onChange={this.onChangeDerive}
-                  onEnter={this.onCommit}
-                  value={derivePath}
-                />
-              </div>
-              {
-                deriveError
-                  ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
-                  : null
-              }
+            <div className='ui--row'>
+              <Dropdown
+                defaultValue={pairType}
+                help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                label={t('keypair crypto type')}
+                onChange={this.onChangePairType}
+                options={uiSettings.availableCryptos}
+              />
             </div>
+            <div className='ui--row'>
+              <Input
+                className='full'
+                help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
+                isError={!!deriveError}
+                label={t('secret derivation path')}
+                onChange={this.onChangeDerive}
+                onEnter={this.onCommit}
+                value={derivePath}
+              />
+            </div>
+            {
+              deriveError
+                ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+                : null
+            }
           </details>
         </AddressRow>
       </Modal.Content>
