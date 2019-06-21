@@ -97,7 +97,7 @@ const Wrapper = styled.div`
     }
 
     &.ui--InputAddress > .ui--Labelled-content {
-      .ui.selection.dropdown {
+      .ui.selection.dropdown:not(.multiple) {
         padding-left: 1rem;
       }
     }
