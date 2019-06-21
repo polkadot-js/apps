@@ -111,13 +111,15 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           return [false, []];
         }
 
-        if (isUndefined(paramValue)) {
-          return [true, params];
-        } else if (params.concat((Array.isArray(paramValue) && !(paramValue as any).toU8a))) {
-          return [true, paramValue];
-        } else {
-          return [true, [paramValue]];
-        }
+        const values = isUndefined(paramValue)
+          ? params
+          : params.concat(
+            (Array.isArray(paramValue) && !(paramValue as any).toU8a)
+              ? paramValue
+              : [paramValue]
+          );
+
+        return [true, values];
       }
 
       private getApiMethod (newParams: Array<any>): ApiMethodInfo {
