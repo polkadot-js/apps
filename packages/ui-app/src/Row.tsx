@@ -20,14 +20,21 @@ export const styles = `
   &.inline {
     display: flex;
 
+    .ui--Row-accountId {
+      white-space: nowrap;
+    }
+
     .ui--Row-children {
-      padding: 0 0 0 3rem;
+      padding: 0 0 0 1rem;
     }
   }
 
   &.invalid {
-    filter: grayscale(100);
-    opacity: 0.5;
+    .ui--Row-accountId,
+    .ui--Row-icon {
+      filter: grayscale(100);
+      opacity: 0.5;
+    }
   }
 
   button.ui.icon.editButton {
