@@ -295,10 +295,6 @@ export default withMulti(
     }
 
     .ui.search.selection.dropdown {
-      > input.search {
-        /* padding-left: 4rem; */
-      }
-
       > .text > .ui--KeyPair {
         .ui--IdentityIcon {
           border: 1px solid #888;

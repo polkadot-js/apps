@@ -74,10 +74,6 @@ const Wrapper = styled.div`
       min-width: 0;
 
       .ui.selection.dropdown {
-        &:not(.button) {
-          /* padding-left: 4rem; */
-        }
-
         &:not(.floating) {
           padding-top: 1.75rem;
         }
@@ -105,14 +101,7 @@ const Wrapper = styled.div`
 
       .ui.input > input,
       .ui--output {
-        /* padding-left: 4rem; */
         padding-top: 1.75rem;
-      }
-    }
-
-    &.ui--InputAddress > .ui--Labelled-content {
-      .ui.selection.dropdown:not(.multiple) {
-        /* padding-left: 1rem; */
       }
     }
   }
