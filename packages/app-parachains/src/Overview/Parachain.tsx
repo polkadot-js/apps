@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Bytes, Option } from '@polkadot/types';
-import { Card, Input } from '@polkadot/ui-app';
+import { Card, Static } from '@polkadot/ui-app';
 import { styles as rowStyles } from '@polkadot/ui-app/Row';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/util';
@@ -34,17 +34,15 @@ class Parachain extends React.PureComponent<Props> {
               <h3>#{formatNumber(paraId)}</h3>
             </div>
           </div>
-          <Input
+          <Static
             help={t('the last heads of this parachain')}
-            isDisabled
             label={t('heads')}
-            defaultValue={parachains_heads || t('<unknown>')}
+            value={parachains_heads || t('<unknown>')}
           />
-          <Input
+          <Static
             help={t('the relay dispatch queue size')}
-            isDisabled
             label={t('relay queue')}
-            defaultValue={
+            value={
               parachains_relayDispatchQueueSize
                 ? formatNumber(parachains_relayDispatchQueueSize[0])
                 : '-'
