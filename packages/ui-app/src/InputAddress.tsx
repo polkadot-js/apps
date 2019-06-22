@@ -294,8 +294,21 @@ export default withMulti(
       width: 100%;
     }
 
-    .ui.search.selection.dropdown > input.search {
-      padding-left: 4rem;
+    .ui.search.selection.dropdown {
+      > input.search {
+        /* padding-left: 4rem; */
+      }
+
+      > .text > .ui--KeyPair {
+        .ui--IdentityIcon {
+          left: -2.75rem;
+          top: -1.1rem;
+        }
+
+        .name {
+          margin-left: 0;
+        }
+      }
     }
 
     &.hideAddress .ui--KeyPair .ui--KeyPair-address {

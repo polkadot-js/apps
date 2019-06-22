@@ -28,7 +28,6 @@ const defaultLabel: React.ReactNode = (
 
 const Wrapper = styled.div`
   display: block;
-  padding-top: 0.25rem;
   position: relative;
 
   .withEllipsis {
@@ -48,6 +47,9 @@ const Wrapper = styled.div`
   }
 
   &:not(.label-small) {
+    padding-left: 2rem;
+    padding-top: 0.25rem;
+
     > label,
     .labelExtra {
       position: absolute;
@@ -57,7 +59,7 @@ const Wrapper = styled.div`
     }
 
     > label {
-      left: 4.1rem;
+      left: 3.1rem;
       text-align: left;
     }
 
@@ -75,7 +77,7 @@ const Wrapper = styled.div`
         padding-top: 1.75rem;
 
         &:not(.button) {
-          padding-left: 4rem;
+          /* padding-left: 4rem; */
         }
 
         &.search:not(.multiple) > input.search {
@@ -91,14 +93,14 @@ const Wrapper = styled.div`
 
       .ui.input > input,
       .ui--output {
-        padding-left: 4rem;
+        /* padding-left: 4rem; */
         padding-top: 1.75rem;
       }
     }
 
     &.ui--InputAddress > .ui--Labelled-content {
       .ui.selection.dropdown:not(.multiple) {
-        padding-left: 1rem;
+        /* padding-left: 1rem; */
       }
     }
   }

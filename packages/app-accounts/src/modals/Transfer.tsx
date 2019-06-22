@@ -41,6 +41,7 @@ const ZERO = new BN(0);
 const Wrapper = styled.div`
   article.padded {
     box-shadow: none;
+    margin-left: 2rem;
   }
 
   .balance {
@@ -52,13 +53,6 @@ const Wrapper = styled.div`
       opacity: 0.7;
     }
   }
-
-  ${media.DESKTOP`
-    article.padded {
-      margin: .75rem 0 0.75rem 4rem;
-      padding: 0.25rem 1rem;
-    }
-  `}
 
   label.with-help {
     flex-basis: 10rem;
