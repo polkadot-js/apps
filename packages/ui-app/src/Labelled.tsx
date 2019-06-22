@@ -47,13 +47,12 @@ const Wrapper = styled.div`
 
   &:not(.label-small) {
     padding-left: 2rem;
-    padding-top: 0.25rem;
 
     > label,
     .labelExtra {
       position: absolute;
       text-align: left;
-      top: 0.75rem;
+      top: 0.5rem;
       z-index: 1;
     }
 
