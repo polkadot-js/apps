@@ -23,10 +23,6 @@ export const styles = `
     .ui--Row-accountId {
       white-space: nowrap;
     }
-
-    .ui--Row-children {
-      padding: 0 0 0 1rem;
-    }
   }
 
   &.invalid {
@@ -99,6 +95,7 @@ export const styles = `
 
   .ui--Row-children {
     display: block;
+    padding-left: 1rem;
     padding-top: 1rem;
   }
 
