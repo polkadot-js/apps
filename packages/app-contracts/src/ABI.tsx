@@ -13,6 +13,7 @@ import { u8aToString } from '@polkadot/util';
 import translate from './translate';
 
 type Props = I18nProps & {
+  className?: string,
   contractAbi?: Abi | null,
   help?: React.ReactNode,
   isError?: boolean,
@@ -32,10 +33,6 @@ type State = {
   isError: boolean
 };
 
-const Normalize = styled.div`
-  min-height: 4rem;
-`;
-
 class ABI extends React.PureComponent<Props, State> {
   state: State = {
     contractAbi: null,
@@ -48,7 +45,6 @@ class ABI extends React.PureComponent<Props, State> {
     super(props);
 
     const { contractAbi, isError, isRequired } = this.props;
-
     const isAbiValid = !!contractAbi;
 
     this.state = {
@@ -76,19 +72,26 @@ class ABI extends React.PureComponent<Props, State> {
   }
 
   render () {
+    const { className } = this.props;
     const { contractAbi, isAbiValid } = this.state;
 
-    return (contractAbi && isAbiValid)
-      ? this.renderMessages()
-      : this.renderInputFile();
+    return (
+      <div className={className}>
+        {
+          (contractAbi && isAbiValid)
+            ? this.renderMessages()
+            : this.renderInputFile()
+        }
+      </div>
+    );
   }
 
   private renderInputFile () {
-    const { help, isDisabled, isRequired, label, t } = this.props;
+    const { className, help, isDisabled, isRequired, label, t } = this.props;
     const { isAbiValid, isEmpty, isError } = this.state;
 
     return (
-      <Normalize>
+      <div className={className}>
         <InputFile
           help={help}
           isDisabled={isDisabled}
@@ -101,7 +104,7 @@ class ABI extends React.PureComponent<Props, State> {
               : t('click to select or drag and drop a JSON ABI file')
           }
         />
-      </Normalize>
+      </div>
     );
   }
 
@@ -109,30 +112,18 @@ class ABI extends React.PureComponent<Props, State> {
     const { help, isDisabled, label, onRemove } = this.props;
     const { contractAbi } = this.state;
 
-    const messages = (
-      <Messages
-        contractAbi={contractAbi!}
-        onRemove={onRemove || this.onRemove}
-        isRemovable={!isDisabled}
-      />
-    );
-
-    if (label) {
-      return (
-        <Normalize>
-          <Labelled
-            label={label}
-            help={help}
-          >
-              {messages}
-          </Labelled>
-        </Normalize>
-      );
-    }
     return (
-      <Normalize>
-        {messages}
-      </Normalize>
+      <Labelled
+        label={label}
+        help={help}
+        withLabel={!!label}
+      >
+        <Messages
+          contractAbi={contractAbi!}
+          onRemove={onRemove || this.onRemove}
+          isRemovable={!isDisabled}
+        />
+      </Labelled>
     );
   }
 
@@ -151,6 +142,7 @@ class ABI extends React.PureComponent<Props, State> {
       }, () => onChange(json, contractAbi));
     } catch (error) {
       console.error(error);
+
       this.setState({
         isAbiValid: false,
         isEmpty: false,
@@ -176,4 +168,6 @@ class ABI extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(ABI);
+export default translate(styled(ABI)`
+  min-height: 4rem;
+`);
