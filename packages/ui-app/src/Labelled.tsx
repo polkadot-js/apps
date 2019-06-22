@@ -8,7 +8,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import LabelHelp from './LabelHelp';
-// import media from './media';
 import { classes } from './util';
 
 type Props = BareProps & {
