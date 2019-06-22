@@ -3,21 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Abi } from '@polkadot/api-contract';
-import keyring from '@polkadot/ui-keyring';
+
+import getAddressMeta from './getAddressMeta';
 
 export default function getContractAbi (address: string): Abi | null {
-  let pair;
+  let abi: Abi | undefined;
+  const meta = getAddressMeta(address, 'contract');
 
   try {
-    pair = keyring.getContract(address);
+    abi = meta.contract && new Abi(JSON.parse(meta.contract.abi));
   } catch (error) {
-    // all-ok, we have empty fallbacks
+    // invalid address, maybe
   }
 
-  return (
-    pair &&
-    pair.isValid &&
-    pair.meta.contract &&
-    new Abi(JSON.parse(pair.meta.contract.abi))
-  ) || null;
+  return abi || null;
 }

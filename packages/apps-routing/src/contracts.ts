@@ -12,7 +12,10 @@ export default ([
     display: {
       needsAccounts: true,
       needsApi: [
-        'tx.contract.call'
+        [
+          'tx.contracts.call', // substrate 2.x
+          'tx.contract.call' // substrate 1.x
+        ]
       ]
     },
     i18n: {

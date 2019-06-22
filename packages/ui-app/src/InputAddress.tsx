@@ -68,18 +68,18 @@ const transformToAccountId = (value: string): string | null => {
 
 const createOption = (address: string) => {
   let isRecent: boolean | undefined;
+  const pair = keyring.getAccount(address);
   let name: string | undefined;
 
-  try {
-    name = keyring.getAccount(address).meta.name;
-  } catch (error) {
-    try {
-      const meta = keyring.getAddress(address).meta;
+  if (pair) {
+    name = pair.meta.name;
+  } else {
+    const addr = keyring.getAddress(address);
 
-      name = meta.name;
-      isRecent = meta.isRecent;
-    } catch (error) {
-      // ok, we don't have account or address, treat as recent
+    if (addr) {
+      name = addr.meta.name;
+      isRecent = addr.meta.isRecent;
+    } else {
       isRecent = true;
     }
   }
