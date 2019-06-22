@@ -301,8 +301,10 @@ export default withMulti(
 
       > .text > .ui--KeyPair {
         .ui--IdentityIcon {
+          border: 1px solid #888;
+          border-radius: 50%;
           left: -2.75rem;
-          top: -1.1rem;
+          top: -1.2rem;
         }
 
         .name {

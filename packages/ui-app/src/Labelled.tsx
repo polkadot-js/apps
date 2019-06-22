@@ -74,10 +74,22 @@ const Wrapper = styled.div`
       min-width: 0;
 
       .ui.selection.dropdown {
-        padding-top: 1.75rem;
-
         &:not(.button) {
           /* padding-left: 4rem; */
+        }
+
+        &:not(.floating) {
+          padding-top: 1.75rem;
+        }
+
+        &.floating {
+          > .dropdown.icon {
+            top: 1.25rem;
+          }
+
+          .text {
+            padding: 0.45rem 0
+          }
         }
 
         &.search:not(.multiple) > input.search {
