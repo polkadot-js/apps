@@ -4,14 +4,14 @@
 
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { RawParam$OnChange, RawParam$OnEnter } from '@polkadot/ui-params/types';
+import { BareProps } from '../types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
 
-type Props = {
-  className?: string,
+type Props = BareProps & {
   defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
