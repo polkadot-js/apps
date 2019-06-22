@@ -152,6 +152,7 @@ class Create extends React.PureComponent<Props, State> {
   private renderInput () {
     const { t } = this.props;
     const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, tags } = this.state;
+    const isDevSeed = seedType === 'dev';
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
@@ -184,9 +185,9 @@ class Create extends React.PureComponent<Props, State> {
             help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
             isAction
             isError={!isSeedValid}
-            isReadOnly={seedType === 'dev'}
+            isReadOnly={isDevSeed}
             label={seedLabel}
-            onChange={seedType === 'dev' ? this.onChangeNoop : this.onChangeSeed}
+            onChange={this.onChangeSeed}
             onEnter={this.onCommit}
             value={seed}
           >
@@ -373,10 +374,6 @@ class Create extends React.PureComponent<Props, State> {
 
   private onChangeName = (name: string): void => {
     this.nextState({ name } as State);
-  }
-
-  private onChangeNoop = (): void => {
-    // ignore
   }
 
   private onChangePairType = (pairType: KeypairType): void => {
