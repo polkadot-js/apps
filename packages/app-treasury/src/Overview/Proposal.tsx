@@ -24,14 +24,12 @@ type Props = I18nProps & {
 };
 
 type State = {
-  isApproveOpen: boolean,
-  isApproving: boolean | null
+  isApproveOpen: boolean
 };
 
 class ProposalDisplay extends React.PureComponent<Props, State> {
   state: State = {
-    isApproveOpen: false,
-    isApproving: null
+    isApproveOpen: false
   };
 
   render () {
@@ -55,7 +53,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
 
   private renderAccessory () {
     const { allAccounts, isApproved, proposalId, t } = this.props;
-    const { isApproveOpen, isApproving } = this.state;
+    const { isApproveOpen } = this.state;
 
     if (isApproved) {
       return (
@@ -78,21 +76,13 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
           <Button.Group>
             <Button
               isPrimary
-              label={t('Approve')}
+              label={t('Respond')}
               labelIcon='check'
-              onClick={this.showApprove(true)}
-            />
-            <Button.Or />
-            <Button
-              isNegative
-              label={t('Reject')}
-              labelIcon='ban sign'
-              onClick={this.showApprove(false)}
+              onClick={this.showApprove}
             />
           </Button.Group>
         </div>
         <Approve
-          isApproving={isApproving}
           isOpen={isApproveOpen}
           onClose={this.hideApprove}
           proposalInfo={this.renderExtra()}
@@ -137,17 +127,15 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     );
   }
 
-  private showApprove = (isApproving: boolean) => (): void => {
+  private showApprove = (): void => {
     this.setState({
-      isApproveOpen: true,
-      isApproving
+      isApproveOpen: true
     });
   }
 
   private hideApprove = (): void => {
     this.setState({
-      isApproveOpen: false,
-      isApproving: null
+      isApproveOpen: false
     });
   }
 }

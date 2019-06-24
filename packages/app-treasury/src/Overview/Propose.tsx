@@ -2,21 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
-
 import BN from 'bn.js';
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
 
 import { InputAddress, InputBalance } from '@polkadot/ui-app';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
-import { withApi, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & ApiProps & RouteComponentProps & TxModalProps;
+type Props = TxModalProps;
 
 type State = TxModalState & {
   beneficiary?: string,
@@ -29,7 +23,7 @@ class Propose extends TxModal<Props, State> {
     value: new BN(0)
   };
 
-  headerText = 'Submit a spend proposal';
+  headerText = () => this.props.t('Submit a spend proposal');
 
   txMethod = () => 'treasury.proposeSpend';
   txParams = () => {
@@ -97,9 +91,4 @@ class Propose extends TxModal<Props, State> {
   }
 }
 
-export default withMulti(
-  Propose,
-  translate,
-  withApi,
-  withRouter
-);
+export default translate(Propose);

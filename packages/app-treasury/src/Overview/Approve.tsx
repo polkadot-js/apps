@@ -12,44 +12,29 @@ import translate from '../translate';
 
 type Props = I18nProps & TxModalProps & {
   isApproved?: boolean,
-  isApproving: boolean | null,
   proposalInfo?: React.ReactNode,
   proposalId: string
 };
 
 type State = TxModalState & {
-  isApproving: boolean | null
+  isApproving: boolean
 };
 
 class Approve extends TxModal<Props, State> {
+  state: State = {
+    ...this.defaultState,
+    isApproving: false
+  };
 
-  private approveOptions = [
-    { text: 'Yay, I approve', value: true },
-    { text: 'Nay, I do not approve', value: false }
-  ];
+  private approveOptions = () => [
+    { text: this.props.t('Yay, I approve'), value: true },
+    { text: this.props.t('Nay, I do not approve'), value: false }
+  ]
 
-  static getDerivedStateFromProps ({ isApproving }: Props, state: State) {
-    if (isApproving === null || state.isApproving === null) {
-      return { isApproving };
-    }
-    return {};
-  }
+  headerText = () => this.props.t('Approve or reject proposal');
 
-  state: State = this.defaultState;
-
-  headerText = 'Approve or reject proposal';
-
-  txMethod = () => {
-    const { isApproving } = this.state;
-
-    return isApproving ? 'treasury.approveProposal' : 'treasury.rejectProposal';
-  }
-
-  txParams = () => {
-    const { proposalId } = this.props;
-
-    return [proposalId];
-  }
+  txMethod = () => this.state.isApproving ? 'treasury.approveProposal' : 'treasury.rejectProposal';
+  txParams = () => [this.props.proposalId];
 
   renderPreContent = () => {
     const { proposalInfo = null } = this.props;
@@ -71,7 +56,7 @@ class Approve extends TxModal<Props, State> {
       <Dropdown
         help={t('Select your vote preference for this spend proposal, either to approve or disapprove')}
         label={t('action')}
-        options={this.approveOptions.map((option) => ({ ...option, text: t(option.text) }))}
+        options={this.approveOptions()}
         onChange={this.onChangeApproving}
         value={isApproving}
       />

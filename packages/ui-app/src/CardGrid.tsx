@@ -2,86 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-
 import React from 'react';
 import styled from 'styled-components';
 
+import Collection, { CollectionProps, CollectionState, collectionStyles } from './Collection';
+
 import translate from './translate';
 
-type Props = I18nProps & {
-  buttons?: React.ReactNode,
-  children: React.ReactNode,
-  className?: string,
-  headerText?: string,
-  emptyText?: string
-};
+type Props = CollectionProps;
 
-type State = {
-  isEmpty: boolean
-};
+type State = CollectionState;
 
-class CardGrid extends React.PureComponent<Props, State> {
+class CardGrid extends Collection<Props, State> {
   static getDerivedStateFromProps ({ children }: Props) {
     if (!children || (children as Array<any>).length <= 0) {
-      return { isEmpty: true };
+      return { isEmpty: true, showHeader: false };
     }
-    return { isEmpty: false };
-  }
-
-  render () {
-    const { className } = this.props;
-    const { isEmpty } = this.state;
-
-    return (
-      <div className={className}>
-        {this.renderHeader()}
-        {isEmpty ?
-          this.renderEmpty() :
-          this.renderGrid()
-        }
-      </div>
-    );
-  }
-
-  renderHeader () {
-    const { buttons, headerText } = this.props;
-    const { isEmpty } = this.state;
-
-    if (isEmpty && !headerText) {
-      return null;
-    }
-
-    return (
-      <div className='ui--CardGrid-header'>
-        {headerText && (
-          <h1>
-            {headerText}
-          </h1>
-        )}
-        {buttons && (
-          <div className='ui--CardGrid-buttons'>
-            {buttons}
-          </div>
-        )}
-      </div>
-    );
+    return { isEmpty: false, showHeader: true };
   }
 
   renderEmpty () {
     const { buttons, headerText, t } = this.props;
 
-    const emptyText = this.props.emptyText || t('No items');
-
     if (headerText) {
-      return (
-        <div className='ui--CardGrid-grid'>
-          <div className='ui--CardGrid-lowercase'>
-            {emptyText}
-          </div>
-        </div>
-      );
+      return super.renderEmpty();
     }
+
+    const emptyText = this.props.emptyText || t('No items');
 
     return (
       <div className='ui--CardGrid-empty'>
@@ -98,7 +45,7 @@ class CardGrid extends React.PureComponent<Props, State> {
     );
   }
 
-  renderGrid () {
+  renderCollection () {
     const { children } = this.props;
 
     return (
@@ -114,6 +61,8 @@ class CardGrid extends React.PureComponent<Props, State> {
 
 export default translate(
   styled(CardGrid as React.ComponentClass<Props, State>)`
+    ${collectionStyles}
+
     .ui--CardGrid-grid {
       display: flex;
       flex-wrap: wrap;
@@ -122,15 +71,6 @@ export default translate(
         flex: 1 1;
         margin: 0.25rem;
         padding: 0 1.5rem;
-      }
-    }
-
-    .ui--CardGrid-header {
-      margin-bottom: 0.5rem;
-
-      h1 {
-        text-transform: lowercase;
-        position: absolute;
       }
     }
 

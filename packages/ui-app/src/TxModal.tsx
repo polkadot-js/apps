@@ -34,7 +34,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   }
 
   render () {
-    const { isOpen, t } = this.props;
+    const { isOpen } = this.props;
 
     return (
       <Modal
@@ -44,7 +44,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
         open={isOpen}
       >
         <Modal.Header>
-          {t(this.headerText)}
+          {this.headerText()}
         </Modal.Header>
         <Modal.Content>
           {this.renderPreContent()}
@@ -58,11 +58,11 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
     );
   }
 
-  protected headerText: string = '';
-  protected accountHelp: string = 'Select the account to use for this action.';
-  protected accountLabel: string = 'using my account';
-  protected submitLabel: string = 'Submit';
-  protected cancelLabel: string = 'Cancel';
+  protected headerText = (): React.ReactNode => '';
+  protected accountHelp = (): React.ReactNode => this.props.t('Select the account to use for this action.');
+  protected accountLabel = (): React.ReactNode => this.props.t('using my account');
+  protected submitLabel = (): React.ReactNode => this.props.t('Submit');
+  protected cancelLabel = (): React.ReactNode => this.props.t('Cancel');
 
   protected onClose = () => {
     const { onClose } = this.props;
@@ -124,16 +124,15 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   }
 
   protected renderInputAccount () {
-    const { t } = this.props;
     const { accountId, isBusy } = this.state;
 
     return (
       <InputAddress
         defaultValue={accountId}
-        help={t(this.accountHelp)}
+        help={this.accountHelp()}
         isDisabled={isBusy}
         isInput={false}
-        label={t(this.accountLabel)}
+        label={this.accountLabel()}
         onChange={this.onChangeAccount}
         type='account'
         value={accountId}
@@ -142,7 +141,6 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   }
 
   protected renderTxButton () {
-    const { t } = this.props;
     const { accountId } = this.state;
 
     return (
@@ -150,7 +148,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
         accountId={accountId}
         isDisabled={this.isDisabled()}
         isPrimary
-        label={t(this.submitLabel)}
+        label={this.submitLabel()}
         onClick={this.onSubmit}
         onFailed={this.onFailed}
         onSuccess={this.onSuccess}

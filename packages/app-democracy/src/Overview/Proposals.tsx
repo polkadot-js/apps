@@ -30,20 +30,17 @@ class Proposals extends React.PureComponent<Props> {
     const { t } = this.props;
 
     return (
-      <Column header={t('proposals')}>
+      <Column
+        emptyText={t('No available proposals')}
+        headerText={t('proposals')}
+      >
         {this.renderProposals()}
       </Column>
     );
   }
 
   private renderProposals () {
-    const { democracy_publicProps, t } = this.props;
-
-    if (!democracy_publicProps || !democracy_publicProps.length) {
-      return (
-        <article>{t('no available proposals')}</article>
-      );
-    }
+    const { democracy_publicProps = [] } = this.props;
 
     return democracy_publicProps.map(([idNumber, proposal]) => (
       <ProposalDisplay

@@ -24,7 +24,7 @@ class Logs extends React.PureComponent<Props> {
     }
 
     return (
-      <Column header={t('logs')}>
+      <Column headerText={t('logs')}>
         {value.map(this.renderItem)}
       </Column>
     );

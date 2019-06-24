@@ -5,18 +5,30 @@
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import { Columar } from '@polkadot/ui-app';
 
 import Summary from './Summary';
-import Proposals from './Proposals';
+import Proposals, { Approvals } from './Proposals';
 
 type Props = AppProps & BareProps & I18nProps;
 
-export default class Overview extends React.PureComponent<Props> {
+type State = {
+  isProposeOpen: boolean
+};
+
+export default class Overview extends React.PureComponent<Props, State> {
+  state: State = {
+    isProposeOpen: false
+  };
+
   render () {
     return (
       <>
         <Summary />
-        <Proposals />
+        <Columar>
+          <Proposals />
+          <Approvals />
+        </Columar>
       </>
     );
   }
