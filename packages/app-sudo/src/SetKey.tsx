@@ -17,15 +17,6 @@ type State = {
   selected?: string
 };
 
-const Wrapper = styled.section`
-  align-items: flex-end;
-  justify-content: center;
-
-  .summary {
-    text-align: center;
-  }
-`;
-
 const SudoInputAddress = styled(InputAddress)`
   margin: -0.25rem 0.5rem -0.25rem 0;
 `;
@@ -52,12 +43,12 @@ class SetKey extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isMine, sudoKey, t } = this.props;
+    const { className, isMine, sudoKey, t } = this.props;
     const { selected } = this.state;
 
     return (
       <section>
-        <Wrapper className='ui--row'>
+        <section className={`${className} ui--row`}>
           {isMine ? (
             <>
               <SudoInputAddress
@@ -85,7 +76,7 @@ class SetKey extends React.PureComponent<Props, State> {
                 <AddressMini value={sudoKey} />
               </SudoLabelled>
           )}
-          </Wrapper>
+          </section>
           {this.willLose() && (
             <article className='warning padded'>
               <div>
@@ -115,4 +106,11 @@ class SetKey extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(SetKey);
+export default translate(styled(SetKey)`
+  align-items: flex-end;
+  justify-content: center;
+
+  .summary {
+    text-align: center;
+  }
+`);
