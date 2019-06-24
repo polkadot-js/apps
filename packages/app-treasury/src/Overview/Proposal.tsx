@@ -77,7 +77,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
             <Button
               isPrimary
               label={t('Respond')}
-              labelIcon='check'
+              labelIcon='reply'
               onClick={this.showApprove}
             />
           </Button.Group>
