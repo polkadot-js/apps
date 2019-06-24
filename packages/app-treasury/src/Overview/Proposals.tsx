@@ -117,6 +117,4 @@ const Proposals = withMulti(
 );
 
 export default Proposals;
-export const Approvals = () => (
-  <Proposals isApprovals />
-);
+export const Approvals = () => <Proposals isApprovals />;
