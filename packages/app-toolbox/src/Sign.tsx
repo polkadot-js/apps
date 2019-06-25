@@ -14,6 +14,7 @@ import translate from './translate';
 import Unlock from './Unlock';
 
 type State = {
+  className?: string,
   currentPair: KeyringPair | null,
   data: string,
   isHexData: boolean,
@@ -21,37 +22,6 @@ type State = {
   isUnlockVisible: boolean,
   signature: string
 };
-
-const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  .unlock-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top:0;
-    left:0;
-    background-color: #0f0e0e7a;
-  }
-
- .unlock-overlay-warning {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height:100%;
-  }
-
-  .unlock-overlay-content {
-    color:#fff;
-    text-align:center;
-
-    .ui--Button-Group {
-      text-align: center;
-    }
-  }
-`;
 
 class Sign extends React.PureComponent<Props, State> {
   state: State;
@@ -75,19 +45,19 @@ class Sign extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { isLocked } = this.state;
+    const { className, isLocked } = this.state;
 
     return (
       <div className='toolbox--Sign'>
         {this.renderAccount()}
-        <Wrapper>
+        <div className={className}>
           {this.renderInput()}
           {this.renderSignature()}
           <div className='unlock-overlay' hidden={!isLocked}>
             {this.renderUnlockWarning()}
           </div>
           {this.renderUnlock()}
-        </Wrapper>
+        </div>
       </div>
     );
   }
@@ -249,4 +219,33 @@ class Sign extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Sign);
+export default translate(styled(Sign)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .unlock-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    background-color: #0f0e0e7a;
+  }
+
+ .unlock-overlay-warning {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+  }
+
+  .unlock-overlay-content {
+    color:#fff;
+    text-align:center;
+
+    .ui--Button-Group {
+      text-align: center;
+    }
+  }
+`);
