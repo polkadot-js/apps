@@ -22,15 +22,12 @@ import Params from './Params';
 import store from './store';
 import translate from './translate';
 
-type ConstructOptions = Array<{key: string, text: string, value: string}>;
-
 type Props = ContractModalProps & ApiProps & I18nProps & RouteComponentProps & {
   codeHash?: string
 };
 
 type State = ContractModalState & {
   codeHash?: string,
-  constructOptions: ConstructOptions,
   endowment: BN,
   isHashValid: boolean,
   params: Array<any>
@@ -45,7 +42,6 @@ class Deploy extends ContractModal<Props, State> {
 
     this.defaultState = {
       ...this.defaultState,
-      constructOptions: [],
       endowment: new BN(0),
       isHashValid: false,
       params: [],
@@ -66,7 +62,7 @@ class Deploy extends ContractModal<Props, State> {
 
   renderContent = () => {
     const { t } = this.props;
-    const { codeHash, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
+    const { codeHash, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
     const isEndowValid = !endowment.isZero();
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }) => ({
@@ -97,21 +93,6 @@ class Deploy extends ContractModal<Props, State> {
           isAbiSupplied
             ? null
             : this.renderInputAbi()
-        }
-        {
-          contractAbi
-            ? (
-              <Dropdown
-                defaultValue='deploy'
-                help={t('The deployment constructor information for this contract, as provided by the ABI.')}
-                isDisabled
-                label={t('constructor')}
-                options={constructOptions}
-                style={{ fontFamily: 'monospace' }}
-                value='deploy'
-              />
-            )
-            : null
         }
         <Params
           isDisabled={isBusy}
@@ -166,16 +147,8 @@ class Deploy extends ContractModal<Props, State> {
 
   private getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): State => {
     if (contractAbi) {
-      const args = contractAbi.deploy.args.map(({ name, type }) => name + ': ' + type);
-      const text = `deploy(${args.join(', ')})`;
-
       return {
         abi,
-        constructOptions: [{
-          key: 'deploy',
-          text,
-          value: 'deploy'
-        }],
         contractAbi,
         isAbiValid: !!contractAbi,
         params: createValues(
@@ -186,7 +159,6 @@ class Deploy extends ContractModal<Props, State> {
       } as State;
     } else {
       return {
-        constructOptions: [] as ConstructOptions,
         abi: null,
         contractAbi: null,
         isAbiSupplied: false,
