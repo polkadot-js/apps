@@ -57,7 +57,6 @@ class Upload extends ContractModal<Props, State> {
           }
         />
         {this.renderInputName()}
-        {this.renderInputTags()}
         {this.renderInputAbi()}
         {this.renderInputGas()}
       </>
