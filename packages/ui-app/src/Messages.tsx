@@ -26,7 +26,7 @@ class Messages extends React.PureComponent<Props> {
     const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = () => null, onSelect, t } = this.props;
 
     return (
-      <div className={classes(className, isLabelled && 'labelled', onSelect && 'select')}>
+      <div className={classes(className, 'ui--Messages', isLabelled && 'labelled', onSelect && 'select')}>
         {messages.map((_, index) => {
           return this.renderMessage(index);
         })}
@@ -98,7 +98,7 @@ export default translate(styled(Messages)`
     box-sizing: border-box;
     border: 1px solid rgba(34,36,38,.15);
     border-radius: .28571429rem;
-    padding: 2rem 1rem 0.5rem;
+    padding: 1rem 1rem 0.5rem;
     width: 100%;
   }
 

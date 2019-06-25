@@ -7,6 +7,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import styled from 'styled-components';
 
 import { classes } from './util';
 import Labelled from './Labelled';
@@ -63,7 +64,7 @@ class InputFile extends React.PureComponent<Props, State> {
         ref={this.dropZone}
         onDrop={this.onDrop}
       >
-        <div className='label'>
+        <em className='label'>
           {
             !file || clearContent
               ? placeholder || t('click to select or drag and drop the file here')
@@ -71,7 +72,7 @@ class InputFile extends React.PureComponent<Props, State> {
                 replace: file
               })
           }
-        </div>
+        </em>
       </Dropzone>
     );
 
@@ -123,4 +124,26 @@ class InputFile extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(InputFile);
+export default translate(styled(InputFile)`
+  background: #fff;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 0.28571429rem;
+  font-size: 1rem;
+  margin: 0.25rem 0;
+  padding: 1rem;
+  width: 100% !important;
+
+  &.error {
+    background: #fff6f6;
+    border-color: #e0b4b4;
+  }
+
+  &:hover {
+    background: #fefefe;
+    cursor: pointer;
+  }
+
+  .label {
+    color: rgba(0, 0, 0, .6);
+  }
+`);

@@ -101,6 +101,11 @@ const Wrapper = styled.div`
       .ui--output {
         padding-top: 1.75rem;
       }
+
+      .ui--InputFile,
+      .ui--Messages {
+        padding-top: 2rem;
+      }
     }
   }
 `;
