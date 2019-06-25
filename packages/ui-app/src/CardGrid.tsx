@@ -2,68 +2,67 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-
 import React from 'react';
 import styled from 'styled-components';
 
+import Collection, { CollectionProps, CollectionState, collectionStyles } from './Collection';
+
 import translate from './translate';
 
-type Props = I18nProps & {
-  buttons?: React.ReactNode,
-  children: React.ReactNode,
-  className?: string,
-  emptyText?: string
-};
+type Props = CollectionProps;
 
-class CardGrid extends React.PureComponent<Props> {
-  render () {
-    const { buttons, children, className } = this.props;
+type State = CollectionState;
 
+class CardGrid extends Collection<Props, State> {
+  static getDerivedStateFromProps ({ children }: Props) {
     if (!children || (children as Array<any>).length <= 0) {
-      return this.empty();
+      return { isEmpty: true, showHeader: false };
+    }
+    return { isEmpty: false, showHeader: true };
+  }
+
+  renderEmpty () {
+    const { buttons, headerText, t } = this.props;
+
+    if (headerText) {
+      return super.renderEmpty();
     }
 
+    const emptyText = this.props.emptyText || t('No items');
+
     return (
-      <div className={className}>
+      <div className='ui--CardGrid-empty'>
+        <h2>
+          {emptyText}
+        </h2>
         {buttons && (
           <div className='ui--CardGrid-buttons'>
             {buttons}
           </div>
         )}
-        <div className='ui--CardGrid-grid'>
-          {children}
-          <div className='ui--CardGrid-spacer' />
-          <div className='ui--CardGrid-spacer' />
-          <div className='ui--CardGrid-spacer' />
-        </div>
+        <div className='ui--CardGrid-spacer' />
       </div>
     );
   }
 
-  empty () {
-    const { buttons, className, emptyText, t } = this.props;
+  renderCollection () {
+    const { children } = this.props;
 
     return (
-      <div className={className}>
-        <div className='ui--CardGrid-empty'>
-          <h2>
-            {emptyText || t('No items')}
-          </h2>
-          {buttons && (
-            <div className='ui--CardGrid-buttons'>
-              {buttons}
-            </div>
-          )}
-          <div className='ui--CardGrid-spacer' />
-        </div>
+      <div className='ui--CardGrid-grid'>
+        {children}
+        <div className='ui--CardGrid-spacer' />
+        <div className='ui--CardGrid-spacer' />
+        <div className='ui--CardGrid-spacer' />
       </div>
     );
   }
 }
 
 export default translate(
-  styled(CardGrid)`
+  styled(CardGrid as React.ComponentClass<Props, State>)`
+    ${collectionStyles}
+
     .ui--CardGrid-grid {
       display: flex;
       flex-wrap: wrap;
@@ -73,6 +72,10 @@ export default translate(
         margin: 0.25rem;
         padding: 0 1.5rem;
       }
+    }
+
+    .ui--CardGrid-lowercase {
+      text-transform: lowercase;
     }
 
     .ui--Card,
