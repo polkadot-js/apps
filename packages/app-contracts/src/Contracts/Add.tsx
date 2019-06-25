@@ -63,7 +63,6 @@ class Add extends ContractModal<Props, State> {
           onChange={this.onValidateAddr}
         />
         {this.renderInputName()}
-        {this.renderInputTags()}
         {this.renderInputAbi()}
       </AddressRow>
     );

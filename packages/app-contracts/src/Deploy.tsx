@@ -92,7 +92,6 @@ class Deploy extends ContractModal<Props, State> {
           value={codeHash}
         />
         {this.renderInputName()}
-        {this.renderInputTags()}
         {
           isAbiSupplied
             ? null

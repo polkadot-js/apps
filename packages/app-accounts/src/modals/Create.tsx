@@ -13,7 +13,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -151,7 +151,7 @@ class Create extends React.PureComponent<Props, State> {
 
   private renderInput () {
     const { t } = this.props;
-    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, tags } = this.state;
+    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType } = this.state;
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
@@ -204,12 +204,6 @@ class Create extends React.PureComponent<Props, State> {
             onChange={this.onChangePass}
             onEnter={this.onCommit}
             value={password}
-          />
-          <InputTags
-            help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
-            label={t('user-defined tags')}
-            onChange={this.onChangeTags}
-            value={tags}
           />
           <details
             className='accounts--Creator-advanced'
@@ -390,10 +384,6 @@ class Create extends React.PureComponent<Props, State> {
 
   private onChangeSeed = (seed: string): void => {
     this.nextState({ seed } as State);
-  }
-
-  private onChangeTags = (tags: Array<string>): void => {
-    this.setState({ tags });
   }
 
   private onShowWarning = (): void => {
