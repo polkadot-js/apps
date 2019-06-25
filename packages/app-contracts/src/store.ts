@@ -30,8 +30,6 @@ class Store extends EventEmitter {
   }
 
   async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>) {
-    await api.isReady;
-
     const hex = (typeof codeHash === 'string' ? new Hash(codeHash) : codeHash).toHex();
 
     const existing = this.getCode(hex);

@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { api } from '@polkadot/ui-api';
+import { withApi } from '@polkadot/ui-api';
 import { AddressRow, Button, Input } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
@@ -15,7 +16,7 @@ import ValidateAddr from './ValidateAddr';
 
 import translate from '../translate';
 
-type Props = ContractModalProps & I18nProps;
+type Props = ContractModalProps & ApiProps & I18nProps;
 
 type State = ContractModalState & {
   address?: string | null,
@@ -96,7 +97,7 @@ class Add extends ContractModal<Props, State> {
   }
 
   private onAdd = async () => {
-    await api.isReady;
+    const { api } = this.props;
     const status = { action: 'create' } as ActionStatus;
     const { address, abi, name, tags } = this.state;
 
@@ -129,4 +130,4 @@ class Add extends ContractModal<Props, State> {
   }
 }
 
-export default translate(Add);
+export default translate(withApi(Add));
