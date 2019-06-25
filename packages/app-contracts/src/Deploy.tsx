@@ -248,9 +248,10 @@ class Deploy extends ContractModal<Props, State> {
   }
 
   private onSuccess = async (result: SubmittableResult) => {
-    const { history } = this.props;
+    const { api, history } = this.props;
 
-    const record = result.findRecord('contract', 'Instantiated');
+    const section = api.tx.contracts ? 'contracts' : 'contract';
+    const record = result.findRecord(section, 'Instantiated');
 
     if (record) {
       const address = record.event.data[1] as any as AccountId;
