@@ -8,13 +8,15 @@ import { QueueStatus, QueueTx, QueueTx$Status } from './types';
 import React from 'react';
 import styled from 'styled-components';
 import { Method } from '@polkadot/types';
+import { withApi, withMulti } from '@polkadot/ui-api';
+import { ApiProps } from '@polkadot/ui-api/types';
 
 import AddressMini from '../AddressMini';
 import Icon from '../Icon';
 import { classes } from '../util';
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   stqueue?: Array<QueueStatus>,
   txqueue?: Array<QueueTx>
 };
@@ -141,10 +143,11 @@ class Status extends React.PureComponent<Props> {
   }
 
   private renderItem = ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx) => {
+    let { api } = this.props;
     let { method, section } = rpc;
 
     if (extrinsic) {
-      const found = Method.findFunction(extrinsic.callIndex);
+      const found = Method.findByCallIndex(extrinsic.callIndex, api.runtimeMetadata);
 
       if (found.section !== 'unknown') {
         method = found.method;
@@ -225,4 +228,8 @@ class Status extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Status);
+export default withMulti(
+  Status,
+  translate,
+  withApi
+);

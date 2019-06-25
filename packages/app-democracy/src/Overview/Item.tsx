@@ -10,11 +10,13 @@ import styled from 'styled-components';
 import { Method, Proposal } from '@polkadot/types';
 import { Call, Card } from '@polkadot/ui-app';
 import { styles as rowStyles } from '@polkadot/ui-app/Row';
+import { withMulti, withApi } from '@polkadot/ui-api';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   children?: React.ReactNode,
   proposal: Proposal,
   proposalExtra?: React.ReactNode,
@@ -23,8 +25,8 @@ type Props = I18nProps & {
 
 class Item extends React.PureComponent<Props> {
   render () {
-    const { children, className, idNumber, proposal, proposalExtra } = this.props;
-    const { meta, method, section } = Method.findFunction(proposal.callIndex);
+    const { api, children, className, idNumber, proposal, proposalExtra } = this.props;
+    const { meta, method, section } = Method.findByCallIndex(proposal.callIndex, api.runtimeMetadata);
 
     return (
       <Card className={className}>
@@ -52,22 +54,26 @@ class Item extends React.PureComponent<Props> {
   }
 }
 
-export default translate(styled(Item as React.ComponentClass<Props>)`
-  ${rowStyles}
+export default withMulti(
+  styled(Item as React.ComponentClass<Props>)`
+    ${rowStyles}
 
-  .democracy--Item-extrinsic {
-    margin-top: 1rem;
+    .democracy--Item-extrinsic {
+      margin-top: 1rem;
 
-    .ui--Params-Content {
-      padding-left: 0;
+      .ui--Params-Content {
+        padding-left: 0;
+      }
     }
-  }
 
-  .democracy--Item-header {
-    margin-bottom: 1rem;
-  }
+    .democracy--Item-header {
+      margin-bottom: 1rem;
+    }
 
-  .democracy--Item-buttons {
+    .democracy--Item-buttons {
 
-  }
-`);
+    }
+  `,
+  translate,
+  withApi
+);

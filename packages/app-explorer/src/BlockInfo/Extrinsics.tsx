@@ -8,11 +8,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
+import { withApi, withMulti } from '@polkadot/ui-api';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { Extrinsic, Method } from '@polkadot/types';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   label?: React.ReactNode,
   value?: Array<Extrinsic> | null
 };
@@ -47,7 +49,8 @@ class Extrinsics extends React.PureComponent<Props> {
 
   // FIXME This is _very_ similar to what we have in democracy/Item
   private renderExtrinsic = (extrinsic: Extrinsic, index: number) => {
-    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
+    const { api } = this.props;
+    const { meta, method, section } = Method.findByCallIndex(extrinsic.callIndex, api.runtimeMetadaa);
 
     return (
       <article key={`extrinsic:${index}`}>
@@ -98,18 +101,22 @@ class Extrinsics extends React.PureComponent<Props> {
   }
 }
 
-export default translate(styled(Extrinsics)`
-  .explorer--BlockByHash-header {
-    position: absolute;
-    top: 0.25rem;
-    right: 0.75rem;
-  }
+export default withMulti(
+  styled(Extrinsics)`
+    .explorer--BlockByHash-header {
+      position: absolute;
+      top: 0.25rem;
+      right: 0.75rem;
+    }
 
-  .explorer--BlockByHash-nonce {
-    font-size: .75rem;
-    margin-right: 2.25rem;
-    margin-top: -1rem;
-    opacity: 0.45;
-    text-align: right;
-  }
-`);
+    .explorer--BlockByHash-nonce {
+      font-size: .75rem;
+      margin-right: 2.25rem;
+      margin-top: -1rem;
+      opacity: 0.45;
+      text-align: right;
+    }
+  `,
+  translate,
+  withApi
+);

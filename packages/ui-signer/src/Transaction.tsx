@@ -7,12 +7,14 @@ import { QueueTx } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
+import { withApi, withMulti } from '@polkadot/ui-api';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { Call, InputAddress, Modal } from '@polkadot/ui-app';
 
 import Checks from './Checks';
 import translate from './translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   children?: React.ReactNode,
   isSendable: boolean,
   value: QueueTx
@@ -20,13 +22,13 @@ type Props = I18nProps & {
 
 class Transaction extends React.PureComponent<Props> {
   render () {
-    const { children, value: { extrinsic } } = this.props;
+    const { api, children, value: { extrinsic } } = this.props;
 
     if (!extrinsic) {
       return null;
     }
 
-    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
+    const { meta, method, section } = Method.findByCallIndex(extrinsic.callIndex, api.runtimeMetadata);
 
     return (
       <>
@@ -84,4 +86,8 @@ class Transaction extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Transaction);
+export default withMulti(
+  Transaction,
+  translate,
+  withApi
+);

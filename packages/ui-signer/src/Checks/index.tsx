@@ -10,7 +10,8 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Compact, Method } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { Icon } from '@polkadot/ui-app';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
@@ -33,7 +34,7 @@ type State = ExtraFees & {
   overLimit: boolean
 };
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   balances_fees?: DerivedFees,
   balances_all?: DerivedBalances,
   contract_fees?: DerivedContractFees,
@@ -69,12 +70,12 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     overLimit: false
   };
 
-  static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
+  static getDerivedStateFromProps ({ api, accountId, balances_all = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
 
-    const fn = Method.findFunction(extrinsic.callIndex);
+    const fn = Method.findByCallIndex(extrinsic.callIndex, api.runtimeMetadata);
     const extMethod = fn.method;
     const extSection = fn.section;
     const txLength = calcSignatureLength(extrinsic, system_accountNonce);
@@ -280,11 +281,14 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
+export default withMulti(
+  FeeDisplay,
+  translate,
   withCalls<Props>(
     'derive.balances.fees',
     ['derive.balances.all', { paramName: 'accountId' }],
     'derive.contracts.fees',
     ['query.system.accountNonce', { paramName: 'accountId' }]
-  )(FeeDisplay)
+  ),
+  withApi
 );

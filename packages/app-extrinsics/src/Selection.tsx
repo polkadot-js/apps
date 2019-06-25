@@ -10,8 +10,8 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
-import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
+import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/ui-app';
 import { Nonce } from '@polkadot/ui-reactive';
 
 import Balance from './Balance';
@@ -135,7 +135,7 @@ class Selection extends TxComponent<Props, State> {
       return null;
     }
 
-    const fn = Method.findFunction(method.callIndex);
+    const fn = Method.findByCallIndex(method.callIndex, api.runtimeMetadata);
 
     return api.tx[fn.section][fn.method](...method.args);
   }

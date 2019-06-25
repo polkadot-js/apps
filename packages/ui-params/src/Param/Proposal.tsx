@@ -6,15 +6,17 @@ import { Props } from '../types';
 
 import React from 'react';
 import { Extrinsic, Method } from '@polkadot/types';
+import { withApi } from '@polkadot/ui-api';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { Call, Static } from '@polkadot/ui-app';
 import { classes } from '@polkadot/ui-app/util';
 
 import Bare from './Bare';
 import Unknown from './Unknown';
 
-export default class Proposal extends React.PureComponent<Props> {
+class Proposal extends React.PureComponent<Props & ApiProps> {
   render () {
-    const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = this.props;
+    const { api, className, defaultValue: { value }, isDisabled, label, style, withLabel } = this.props;
 
     if (!isDisabled) {
       return (
@@ -23,7 +25,7 @@ export default class Proposal extends React.PureComponent<Props> {
     }
 
     const proposal = value as Extrinsic;
-    const { method, section } = Method.findFunction(proposal.callIndex);
+    const { method, section } = Method.findByCallIndex(proposal.callIndex, api.runtimeMetadata);
 
     return (
       <Bare>
@@ -40,3 +42,5 @@ export default class Proposal extends React.PureComponent<Props> {
     );
   }
 }
+
+export default withApi(Proposal);
