@@ -96,9 +96,11 @@ class Upload extends ContractModal<Props, State> {
   }
 
   private onSuccess = (result: SubmittableResult): void => {
+    const { api } = this.props;
     this.setState(({ abi, name, tags }) => {
 
-      const record = result.findRecord('contract', 'CodeStored');
+      const section = api.tx.contracts ? 'contracts' : 'contract';
+      const record = result.findRecord(section, 'CodeStored');
 
       if (record) {
         const codeHash = record.event.data[0];
