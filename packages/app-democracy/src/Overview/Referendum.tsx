@@ -10,13 +10,12 @@ import { RawParam } from '@polkadot/ui-params/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Chart, Static } from '@polkadot/ui-app';
+import { ActionItem, Chart, Static } from '@polkadot/ui-app';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import settings from '@polkadot/ui-settings';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
-import Item from './Item';
 import translate from '../translate';
 import Voting from './Voting';
 
@@ -96,18 +95,20 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Item
+      <ActionItem
         className={className}
         idNumber={value.index}
         proposal={value.proposal}
-        proposalExtra={this.renderExtra()}
+        accessory={
+          <Voting referendumId={value.index} />
+        }
       >
-        <Voting referendumId={value.index} />
-      </Item>
+        {this.renderInfo()}
+      </ActionItem>
     );
   }
 
-  private renderExtra () {
+  private renderInfo () {
     const { chain_bestNumber, democracy_publicDelay, t, value: { end, threshold } } = this.props;
 
     if (!chain_bestNumber) {
