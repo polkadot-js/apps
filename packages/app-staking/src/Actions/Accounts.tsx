@@ -38,8 +38,6 @@ class Accounts extends React.PureComponent<Props,State> {
     const myStashes = this.getMyStashes();
     const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 
-    console.log('myStashes',myStashes);
-
     return (
       <CardGrid
         buttons={
