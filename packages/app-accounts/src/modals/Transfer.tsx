@@ -21,6 +21,7 @@ import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   balances_fees?: DerivedFees,
+  className?: string,
   onClose: () => void,
   recipientId?: string,
   senderId?: string,
@@ -37,33 +38,6 @@ type State = {
 };
 
 const ZERO = new BN(0);
-
-const Wrapper = styled.div`
-  article.padded {
-    box-shadow: none;
-  }
-
-  .balance {
-    margin-bottom: 0.5rem;
-    text-align: right;
-    padding-right: 1rem;
-
-    .label {
-      opacity: 0.7;
-    }
-  }
-
-  ${media.DESKTOP`
-    article.padded {
-      margin: .75rem 0 0.75rem 15rem;
-      padding: 0.25rem 1rem;
-    }
-  `}
-
-  label.with-help {
-    flex-basis: 10rem;
-  }
-`;
 
 class Transfer extends React.PureComponent<Props> {
   state: State;
@@ -157,13 +131,13 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   private renderContent () {
-    const { recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
+    const { className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
     const { extrinsic, hasAvailable, maxBalance, recipientId, senderId } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
 
     return (
       <Modal.Content>
-        <Wrapper>
+        <div className={className}>
           <InputAddress
             defaultValue={propSenderId}
             help={t('The account you will send funds from.')}
@@ -196,7 +170,7 @@ class Transfer extends React.PureComponent<Props> {
             isSendable
             onChange={this.onChangeFees}
           />
-        </Wrapper>
+        </div>
       </Modal.Content>
     );
   }
@@ -259,7 +233,32 @@ class Transfer extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Transfer,
+  styled(Transfer)`
+    article.padded {
+      box-shadow: none;
+    }
+
+    .balance {
+      margin-bottom: 0.5rem;
+      text-align: right;
+      padding-right: 1rem;
+
+      .label {
+        opacity: 0.7;
+      }
+    }
+
+    ${media.DESKTOP`
+      article.padded {
+        margin: .75rem 0 0.75rem 15rem;
+        padding: 0.25rem 1rem;
+      }
+    `}
+
+    label.with-help {
+      flex-basis: 10rem;
+    }
+  `,
   translate,
   withApi,
   withCalls<Props>(

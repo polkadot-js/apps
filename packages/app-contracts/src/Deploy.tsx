@@ -11,7 +11,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
-import { api, withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
 import { AccountId, getTypeDef } from '@polkadot/types';
@@ -92,7 +92,6 @@ class Deploy extends ContractModal<Props, State> {
           value={codeHash}
         />
         {this.renderInputName()}
-        {this.renderInputTags()}
         {
           isAbiSupplied
             ? null
@@ -248,14 +247,13 @@ class Deploy extends ContractModal<Props, State> {
   }
 
   private onSuccess = async (result: SubmittableResult) => {
-    const { history } = this.props;
+    const { api, history } = this.props;
 
-    const record = result.findRecord('contract', 'Instantiated');
+    const section = api.tx.contracts ? 'contracts' : 'contract';
+    const record = result.findRecord(section, 'Instantiated');
 
     if (record) {
       const address = record.event.data[1] as any as AccountId;
-
-      await api.isReady;
 
       this.setState(({ abi, name, tags }) => {
         if (!abi || !name) {
@@ -274,6 +272,7 @@ class Deploy extends ContractModal<Props, State> {
         history.push(this.props.basePath);
 
         this.onClose();
+
         return { isBusy: false } as State;
       });
     }

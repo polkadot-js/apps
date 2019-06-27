@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { Abi } from '@polkadot/api-contract';
-import { Button, Input, InputAddress, InputNumber, InputTags, Modal, TxComponent } from '@polkadot/ui-app';
+import { Button, Input, InputAddress, InputNumber, Modal, TxComponent } from '@polkadot/ui-app';
 
 import ABI from './ABI';
 
@@ -147,21 +147,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected renderInputTags () {
-    const { t } = this.props;
-    const { isBusy, tags } = this.state;
-
-    return (
-      <InputTags
-        help={t(`Additional user-specified tags. Tags can be used for categorization and filtering.`)}
-        isDisabled={isBusy}
-        label={t('user-defined tags')}
-        onChange={this.onChangeTags}
-        value={tags}
-      />
-    );
-  }
-
   protected renderInputGas () {
     const { t } = this.props;
     const { gasLimit, isBusy } = this.state;
@@ -226,10 +211,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
   protected onChangeName = (name: string): void => {
     this.setState({ name, isNameValid: name.length !== 0 });
-  }
-
-  protected onChangeTags = (tags: Array<string>): void => {
-    this.setState({ tags });
   }
 
   protected onChangeGas = (gasLimit: BN | undefined): void => {

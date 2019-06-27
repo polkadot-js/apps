@@ -24,33 +24,31 @@ class Members extends React.PureComponent<Props> {
 
     return (
       <Columar>
-        <Column header={t('members')}>
-          {this.renderNone(council_activeCouncil.map(([address, block]) => (
+        <Column
+          emptyText={t('No members found')}
+          headerText={t('members')}
+        >
+          {council_activeCouncil.map(([address, block]) => (
             <Member
               address={address}
               block={block}
               key={address}
             />
-          )))}
+          ))}
         </Column>
-        <Column header={t('candidates')}>
-          {this.renderNone(council_candidates.map((address) => (
+        <Column
+          emptyText={t('No members found')}
+          headerText={t('candidates')}
+        >
+          {council_candidates.map((address) => (
             <Candidate
               address={address}
               key={address}
             />
-          )))}
+          ))}
         </Column>
       </Columar>
     );
-  }
-
-  private renderNone (items: Array<React.ReactNode>) {
-    const { t } = this.props;
-
-    return items.length
-      ? items
-      : <article>{t('No addresses found')}</article>;
   }
 }
 

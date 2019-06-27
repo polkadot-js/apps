@@ -62,10 +62,16 @@ class CurrentList extends React.PureComponent<Props, State> {
           />
         </FilterOverlay>
         <Columar className='validator--ValidatorsList'>
-          <Column header={t('validators')}>
+          <Column
+            emptyText={t('No addresses found')}
+            headerText={t('validators')}
+          >
             {this.renderColumn(current, t('validator (stash)'))}
           </Column>
-          <Column header={t('next up')}>
+          <Column
+            emptyText={t('No addresses found')}
+            headerText={t('next up')}
+          >
             {this.renderColumn(next, t('intention (stash)'))}
           </Column>
         </Columar>
@@ -74,14 +80,8 @@ class CurrentList extends React.PureComponent<Props, State> {
   }
 
   private renderColumn (addresses: Array<string>, defaultName: string) {
-    const { balances, lastAuthor, lastBlock, recentlyOffline, t } = this.props;
+    const { balances, lastAuthor, lastBlock, recentlyOffline } = this.props;
     const { filter } = this.state;
-
-    if (addresses.length === 0) {
-      return (
-        <article>{t('no addresses found')}</article>
-      );
-    }
 
     return addresses.map((address) => (
       <Address
