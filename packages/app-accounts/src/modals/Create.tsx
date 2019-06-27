@@ -152,6 +152,7 @@ class Create extends React.PureComponent<Props, State> {
   private renderInput () {
     const { t } = this.props;
     const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType } = this.state;
+    const isDevSeed = seedType === 'dev';
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
@@ -184,6 +185,7 @@ class Create extends React.PureComponent<Props, State> {
             help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
             isAction
             isError={!isSeedValid}
+            isReadOnly={isDevSeed}
             label={seedLabel}
             onChange={this.onChangeSeed}
             onEnter={this.onCommit}
@@ -210,33 +212,27 @@ class Create extends React.PureComponent<Props, State> {
             open
           >
             <summary>{t('Advanced creation options')}</summary>
-            <div className='ui--Params'>
-              <div className='ui--row'>
-                <Dropdown
-                  defaultValue={pairType}
-                  help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                  label={t('keypair crypto type')}
-                  onChange={this.onChangePairType}
-                  options={uiSettings.availableCryptos}
-                />
-              </div>
-              <div className='ui--row'>
-                <Input
-                  className='full'
-                  help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
-                  isError={!!deriveError}
-                  label={t('secret derivation path')}
-                  onChange={this.onChangeDerive}
-                  onEnter={this.onCommit}
-                  value={derivePath}
-                />
-              </div>
-              {
-                deriveError
-                  ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
-                  : null
-              }
-            </div>
+            <Dropdown
+              defaultValue={pairType}
+              help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+              label={t('keypair crypto type')}
+              onChange={this.onChangePairType}
+              options={uiSettings.availableCryptos}
+            />
+            <Input
+              className='full'
+              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
+              isError={!!deriveError}
+              label={t('secret derivation path')}
+              onChange={this.onChangeDerive}
+              onEnter={this.onCommit}
+              value={derivePath}
+            />
+            {
+              deriveError
+                ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+                : null
+            }
           </details>
         </AddressRow>
       </Modal.Content>
