@@ -156,7 +156,7 @@ class Account extends React.PureComponent<Props, State> {
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
-      isActiveStash: accountId.eq(stashId),
+      isActiveStash: accountId === toIdString(stashId),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
