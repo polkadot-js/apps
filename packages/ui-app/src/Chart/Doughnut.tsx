@@ -33,6 +33,11 @@ export default class ChartDoughnut extends React.PureComponent<Props> {
   render () {
     const { className, size = 100, style, values } = this.props;
 
+    // FIXME Classic case of kicking the can down the road, i.e. don't expend energy
+    // when stuff are not used. This was replaced by the HorizBar as the only Chart
+    // in actual use (by Referendum). However the below is not optimal, and gets re-
+    // calculated on each render. If this component is put back in use, look at
+    // getDerivedStateFromProps in HorizBar (the logic is the same for chartData)
     const options = values.reduce((options, { colors: [normalColor = '#00f', hoverColor], label, value }) => {
       options.colorNormal.push(normalColor);
       options.colorHover.push(hoverColor || normalColor);

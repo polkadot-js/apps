@@ -5,49 +5,75 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = {
-  children: React.ReactNode,
-  className?: string,
-  header: React.ReactNode
-};
+import Collection, { CollectionProps, CollectionState, collectionStyles } from './Collection';
 
-class Column extends React.PureComponent<Props> {
+import translate from './translate';
+
+type Props = CollectionProps;
+
+type State = CollectionState;
+
+class Column extends Collection<Props, State> {
   render () {
-    const { children, className, header } = this.props;
+    const { className } = this.props;
+    const { isEmpty } = this.state;
 
     return (
       <div className={`ui--Column ${className}`}>
-        <h1>{header}</h1>
-        <article className='container'>
-          {children}
-        </article>
+        {this.renderHeader()}
+        {isEmpty ?
+          this.renderEmpty() :
+          this.renderCollection()
+        }
       </div>
     );
   }
+
+  renderCollection () {
+    const { children } = this.props;
+    return (
+      <article className='container'>
+        {children}
+      </article>
+    );
+  }
+
+  // renderEmpty () {
+  //   const { emptyText } = this.props;
+  //   return (
+  //     <article className='container'>
+  //       {emptyText}
+  //     </article>
+  //   );
+  // }
 }
 
-export default styled(Column)`
-  box-sizing: border-box;
-  flex: 1 1;
-  margin: 0;
-  padding: 0.5rem;
+export default translate(
+  styled(Column as React.ComponentClass<Props, State>)`
+    ${collectionStyles}
 
-  .container {
+    box-sizing: border-box;
+    flex: 1 1;
     margin: 0;
-    padding: 0;
+    padding: 0.5rem;
 
-    article {
-      border: none;
+    .container {
       margin: 0;
+      padding: 0;
+
+      article {
+        border: none;
+        margin: 0;
+      }
+
+      article+article {
+        border-top: 1px solid #f2f2f2;
+      }
     }
 
-    article+article {
-      border-top: 1px solid #f2f2f2;
+    @media (min-width: 1025px) {
+      max-width: 50%;
+      min-width: 50%;
     }
-  }
-
-  @media (min-width: 1025px) {
-    max-width: 50%;
-    min-width: 50%;
-  }
-`;
+  `
+);

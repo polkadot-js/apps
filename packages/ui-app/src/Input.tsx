@@ -23,6 +23,7 @@ type Props = BareProps & {
   isEditable?: boolean,
   isError?: boolean,
   isHidden?: boolean,
+  isReadOnly?: boolean,
   label?: React.ReactNode,
   max?: any,
   maxLength?: number,
@@ -94,7 +95,7 @@ export default class Input extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel } = this.props;
+    const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, isReadOnly = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel } = this.props;
 
     return (
       <Labelled
@@ -136,6 +137,7 @@ export default class Input extends React.PureComponent<Props, State> {
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           placeholder={placeholder}
+          readOnly={isReadOnly}
           tabIndex={tabIndex}
           type={type}
           value={value}

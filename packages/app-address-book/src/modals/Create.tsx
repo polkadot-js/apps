@@ -8,7 +8,7 @@ import { ModalProps } from '../types';
 
 import React from 'react';
 
-import { AddressRow, Button, Input, InputTags, Modal } from '@polkadot/ui-app';
+import { AddressRow, Button, Input, Modal } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 
@@ -76,7 +76,7 @@ class Create extends React.PureComponent<Props, State> {
 
   private renderContent () {
     const { t } = this.props;
-    const { address, isAddressValid, isNameValid, name, tags } = this.state;
+    const { address, isAddressValid, isNameValid, name } = this.state;
 
     return (
       <Modal.Content>
@@ -102,12 +102,6 @@ class Create extends React.PureComponent<Props, State> {
             onChange={this.onChangeName}
             onEnter={this.onCommit}
             value={name}
-          />
-          <InputTags
-            help={t('Additional user-specified tags that can be used to identify the address. Tags can be used for categorization and filtering.')}
-            label={t('user-defined tags')}
-            onChange={this.onChangeTags}
-            value={tags}
           />
         </AddressRow>
       </Modal.Content>
@@ -177,10 +171,6 @@ class Create extends React.PureComponent<Props, State> {
 
   private onChangeName = (name: string): void => {
     this.nextState({ name } as State, true);
-  }
-
-  private onChangeTags = (tags: Array<string>): void => {
-    this.setState({ tags });
   }
 
   private onCommit = (): void => {

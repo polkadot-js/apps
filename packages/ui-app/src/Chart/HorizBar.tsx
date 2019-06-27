@@ -21,33 +21,64 @@ type Props = BareProps & {
   values: Array<Value>
 };
 
-type Options = {
-  colorNormal: Array<string>,
-  colorHover: Array<string>,
-  data: Array<number>,
-  labels: Array<string>
+type State = {
+  chartData?: ChartJs.ChartData,
+  chartOptions?: ChartJs.ChartOptions,
+  valuesStr?: string
 };
 
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
-export default class ChartHorizBar extends React.PureComponent<Props> {
-  render () {
-    const { aspectRatio = 4, className, style, values } = this.props;
+export default class ChartHorizBar extends React.PureComponent<Props, State> {
+  state: State = {};
 
-    const options = values.reduce((options, { colors: [normalColor = '#00f', hoverColor], label, value }) => {
-      options.colorNormal.push(alphaColor(normalColor));
-      options.colorHover.push(alphaColor(hoverColor || normalColor));
-      options.data.push(bnToBn(value).toNumber());
-      options.labels.push(label);
+  static getDerivedStateFromProps ({ aspectRatio = 4, values }: Props, prevState: State) {
+    const valuesStr = JSON.stringify(values);
 
-      return options;
+    if (valuesStr === prevState.valuesStr) {
+      return null;
+    }
+
+    const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }) => {
+      const dataset = data.datasets[0];
+
+      dataset.backgroundColor.push(alphaColor(normalColor));
+      dataset.hoverBackgroundColor.push(alphaColor(hoverColor || normalColor));
+      dataset.data.push(bnToBn(value).toNumber());
+      data.labels.push(label);
+
+      return data;
     }, {
-      colorNormal: [],
-      colorHover: [],
-      data: [],
-      labels: []
-    } as Options);
+      labels: [] as Array<string>,
+      datasets: [{
+        data: [] as Array<number>,
+        backgroundColor: [] as Array<string>,
+        hoverBackgroundColor: [] as Array<string>
+      }]
+    });
+
+    return {
+      chartData,
+      chartOptions: {
+        // width/height by default this is "1", i.e. a square box
+        aspectRatio,
+        // no need for the legend, expect the labels contain everything
+        legend: {
+          display: false
+        }
+      },
+      valuesStr
+    };
+  }
+
+  render () {
+    const { className, style } = this.props;
+    const { chartData, chartOptions } = this.state;
+
+    if (!chartData) {
+      return null;
+    }
 
     return (
       <div
@@ -55,22 +86,8 @@ export default class ChartHorizBar extends React.PureComponent<Props> {
         style={style}
       >
         <HorizontalBar
-          data={{
-            labels: options.labels,
-            datasets: [{
-              data: options.data,
-              backgroundColor: options.colorNormal,
-              hoverBackgroundColor: options.colorHover
-            }]
-          }}
-          options={{
-            // width/height by default this is "1", i.e. a square box
-            aspectRatio,
-            // no need for the legend, expect the labels contain everything
-            legend: {
-              display: false
-            }
-          }}
+          data={chartData}
+          options={chartOptions}
         />
       </div>
     );

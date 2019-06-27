@@ -59,7 +59,7 @@ class Overview extends React.PureComponent<Props, State> {
             />
           </Button.Group>
         }
-        isEmpty={ emptyScreen }
+        isEmpty={emptyScreen}
         emptyText={t('No account yet?')}
       >
         {this.renderCreate()}
