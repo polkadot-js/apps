@@ -70,4 +70,8 @@ export default translate(styled(Item as React.ComponentClass<Props>)`
   .democracy--Item-buttons {
 
   }
+
+  .ui--Row-details.democracy--Item-header{
+    min-width: 0;
+  }
 `);
