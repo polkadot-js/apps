@@ -149,7 +149,7 @@ class Status extends React.PureComponent<Props> {
     if (extrinsic) {
       const found = Method.findByCallIndex(extrinsic.callIndex, api.runtimeMetadata);
 
-      if (found.section !== 'unknown') {
+      if (found) {
         method = found.method;
         section = found.section;
       }
