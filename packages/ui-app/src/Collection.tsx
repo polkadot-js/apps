@@ -11,6 +11,7 @@ export type CollectionProps = I18nProps & {
   children: React.ReactNode,
   className?: string,
   headerText?: React.ReactNode,
+  isEmpty?: boolean,
   emptyText?: React.ReactNode
 };
 

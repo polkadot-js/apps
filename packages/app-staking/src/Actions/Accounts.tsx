@@ -2,22 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from '../types';
+import { I18nProps } from '@polkadot/ui-app/types';
+import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
+import { withCalls, withMulti } from '@polkadot/ui-api/with';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Button, CardGrid, Icon } from '@polkadot/ui-app';
 import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddressName } from '@polkadot/ui-app/util';
-import keyring from '@polkadot/ui-keyring';
-import styled from 'styled-components';
 
 import Account from './Account';
-import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import StartStaking from './NewStake';
 import translate from '../translate';
 
-type Props = I18nProps & ComponentProps;
+type Props = I18nProps & ComponentProps & ApiProps & {
+  myControllers?: Array<string>
+};
 
 type State = {
   isNewStakeOpen: boolean
@@ -30,8 +33,10 @@ class Accounts extends React.PureComponent<Props,State> {
 
   render () {
     const { className, recentlyOffline, t } = this.props;
-    const accounts = keyring.getAccounts();
+    const { isNewStakeOpen } = this.state;
     const stashOptions = this.getStashOptions();
+    const myStashes = this.getMyStashes();
+    const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 
     return (
       <CardGrid
@@ -49,9 +54,12 @@ class Accounts extends React.PureComponent<Props,State> {
           />
         }
         className={className}
+        emptyText={t('No funds staked yet.')}
+        isEmpty={isEmpty}
       >
         {this.renderNewStake()}
-        {accounts.map(({ address }, index) => (
+        {myStashes && myStashes.map((address, index) => (
+          address &&
           <Account
             accountId={address}
             key={index}
@@ -60,6 +68,31 @@ class Accounts extends React.PureComponent<Props,State> {
           />
         ))}
       </CardGrid>
+    );
+  }
+
+  private getMyStashes () {
+    const { myControllers, allAccounts } = this.props;
+    const result: Array<string> = [];
+
+    if (!myControllers) {
+      return null;
+    }
+
+    myControllers.forEach((value,index) => {
+      if (value.toString() !== '') {
+        allAccounts && result.push(Object.keys(allAccounts)[index]);
+      }
+    });
+
+    return result;
+  }
+
+  private getStashOptions (): Array<KeyringSectionOption> {
+    const { stashes } = this.props;
+
+    return stashes.map((stashId) =>
+      createOption(stashId, getAddressName(stashId, 'account'))
     );
   }
 
@@ -82,18 +115,22 @@ class Accounts extends React.PureComponent<Props,State> {
       isNewStakeOpen: !isNewStakeOpen
     }));
   }
-
-  private getStashOptions (): Array<KeyringSectionOption> {
-    const { stashes } = this.props;
-
-    return stashes.map((stashId) =>
-      createOption(stashId, getAddressName(stashId, 'account'))
-    );
-  }
 }
 
-export default translate(styled(Accounts)`
-  .ui--CardGrid-buttons {
-    text-align: right;
-  }
-`);
+export default withMulti(
+  styled(Accounts)`
+    .ui--CardGrid-buttons {
+      text-align: right;
+    }
+  `,
+  translate,
+  withCalls<Props>(
+    ['query.staking.bonded', {
+      isMulti: true,
+      paramPick: ({ allAccounts }: Props) => {
+        return allAccounts && Object.keys(allAccounts);
+      },
+      propName: 'myControllers'
+    }]
+  )
+);

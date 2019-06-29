@@ -38,8 +38,9 @@ class Overview extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { accounts, onStatusChange, t } = this.props;
+    const { accounts, t } = this.props;
     const { isCreateOpen, isImportOpen } = this.state;
+    const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);
 
     return (
       <CardGrid
@@ -58,19 +59,11 @@ class Overview extends React.PureComponent<Props, State> {
             />
           </Button.Group>
         }
+        isEmpty={emptyScreen}
+        emptyText={t('No account yet?')}
       >
-        {isCreateOpen && (
-          <CreateModal
-            onClose={this.toggleCreate}
-            onStatusChange={onStatusChange}
-          />
-        )}
-        {isImportOpen && (
-          <ImportModal
-            onClose={this.toggleImport}
-            onStatusChange={onStatusChange}
-          />
-        )}
+        {this.renderCreate()}
+        {this.renderImport()}
         {accounts && Object.keys(accounts).map((address) => (
           <Account
             address={address}
@@ -78,6 +71,38 @@ class Overview extends React.PureComponent<Props, State> {
           />
         ))}
       </CardGrid>
+    );
+  }
+
+  private renderCreate () {
+    const { isCreateOpen } = this.state;
+    const { onStatusChange } = this.props;
+
+    if (!isCreateOpen) {
+      return null;
+    }
+
+    return (
+      <CreateModal
+        onClose={this.toggleCreate}
+        onStatusChange={onStatusChange}
+      />
+    );
+  }
+
+  private renderImport () {
+    const { isImportOpen } = this.state;
+    const { onStatusChange } = this.props;
+
+    if (!isImportOpen) {
+      return null;
+    }
+
+    return (
+      <ImportModal
+        onClose={this.toggleImport}
+        onStatusChange={onStatusChange}
+      />
     );
   }
 
