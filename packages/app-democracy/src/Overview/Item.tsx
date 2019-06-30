@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
+import { Method, Proposal } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Method, Proposal } from '@polkadot/types';
 import { Call, Card } from '@polkadot/ui-app';
-import { styles as rowStyles } from '@polkadot/ui-app/Row';
 import { formatNumber } from '@polkadot/util';
+import { styles as rowStyles } from '@polkadot/ui-app/Row';
 
 import translate from '../translate';
 
@@ -67,7 +67,7 @@ export default translate(styled(Item as React.ComponentClass<Props>)`
     margin-bottom: 1rem;
   }
 
-  .democracy--Item-buttons {
-
+  .ui--Row-details.democracy--Item-header{
+    min-width: 0;
   }
 `);

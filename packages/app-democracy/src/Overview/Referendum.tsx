@@ -4,21 +4,21 @@
 
 import { DerivedReferendumVote } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 import { RawParam } from '@polkadot/ui-params/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 import { Chart, Static } from '@polkadot/ui-app';
+import { formatBalance, formatNumber } from '@polkadot/util';
+import settings from '@polkadot/ui-settings';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls, withMulti } from '@polkadot/ui-api';
-import settings from '@polkadot/ui-settings';
-import { formatBalance, formatNumber } from '@polkadot/util';
 
 import Item from './Item';
-import Voting from './Voting';
 import translate from '../translate';
+import Voting from './Voting';
 
 const COLORS_YAY = settings.uiTheme === 'substrate'
   ? ['#4d4', '#4e4']
