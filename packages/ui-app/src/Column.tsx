@@ -31,11 +31,8 @@ class Column extends Collection<Props, State> {
 
   renderCollection () {
     const { children } = this.props;
-    return (
-      <article className='container'>
-        {children}
-      </article>
-    );
+
+    return children;
   }
 
   // renderEmpty () {

@@ -7,12 +7,11 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { AccountId, Balance, Option, Proposal, Tuple, Vector } from '@polkadot/types';
-import { InputAddress, Labelled, Static } from '@polkadot/ui-app';
+import { ActionItem, InputAddress, Labelled, Static } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
-import Item from './Item';
 import Seconding from './Seconding';
 
 type Props = I18nProps & {
@@ -29,21 +28,23 @@ class ProposalDisplay extends React.PureComponent<Props> {
       : [];
 
     return (
-      <Item
+      <ActionItem
         className={className}
         idNumber={idNumber}
         proposal={value}
-        proposalExtra={this.renderExtra()}
+        accessory={
+          <Seconding
+            depositors={depositors}
+            proposalId={idNumber}
+          />
+        }
       >
-        <Seconding
-          depositors={depositors}
-          proposalId={idNumber}
-        />
-      </Item>
+        {this.renderInfo()}
+      </ActionItem>
     );
   }
 
-  private renderExtra () {
+  private renderInfo () {
     const { democracy_depositOf, t } = this.props;
 
     if (!democracy_depositOf) {

@@ -7,13 +7,12 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Option, TreasuryProposal } from '@polkadot/types';
-import { Button, Icon, InputAddress, Labelled, Static } from '@polkadot/ui-app';
+import { ActionItem, Button, Icon, InputAddress, Labelled, Static } from '@polkadot/ui-app';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
-import Item from './Item';
 import Approve from './Approve';
 
 type Props = I18nProps & {
@@ -33,21 +32,19 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
   };
 
   render () {
-    const { isApproved, proposal, proposalId } = this.props;
+    const { proposal, proposalId } = this.props;
 
     if (!proposal) {
       return null;
     }
 
     return (
-      <Item
-        isApproved={isApproved}
-        proposal={proposal}
-        proposalExtra={this.renderExtra()}
-        proposalId={proposalId}
+      <ActionItem
+        accessory={this.renderAccessory()}
+        idNumber={proposalId}
       >
-        {this.renderAccessory()}
-      </Item>
+        {this.renderInfo()}
+      </ActionItem>
     );
   }
 
@@ -85,14 +82,14 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
         <Approve
           isOpen={isApproveOpen}
           onClose={this.hideApprove}
-          proposalInfo={this.renderExtra()}
+          proposalInfo={this.renderInfo()}
           proposalId={proposalId}
         />
       </>
     );
   }
 
-  private renderExtra () {
+  private renderInfo () {
     const { isApproved, proposal, t } = this.props;
 
     if (!proposal) {
