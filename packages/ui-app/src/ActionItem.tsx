@@ -17,7 +17,7 @@ type Props = {
   className?: string,
   children?: React.ReactNode,
   accessory?: React.ReactNode,
-  proposal?: Proposal,
+  proposal?: Proposal | null,
   idNumber: BN | number | string
 };
 

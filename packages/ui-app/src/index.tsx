@@ -65,5 +65,6 @@ export { default as Tooltip } from './Tooltip';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';
+export { default as Voting } from './Voting';
 
 export { default as media } from './media';

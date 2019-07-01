@@ -47,7 +47,6 @@ class ProposalsBase extends React.PureComponent<Props> {
 
   render () {
     const { isApprovals, t } = this.props;
-    const { isProposeOpen } = this.state;
 
     return (
       <>
@@ -55,24 +54,11 @@ class ProposalsBase extends React.PureComponent<Props> {
           emptyText={t(isApprovals ? 'No approved proposals' : 'No pending proposals')}
           headerText={t(isApprovals ? 'Approved' : 'Proposals')}
           buttons={!isApprovals && (
-            <Button.Group>
-              <Button
-                isPrimary
-                label={t('Submit a spend proposal')}
-                labelIcon='add'
-                onClick={this.togglePropose(true)}
-              />
-            </Button.Group>
+            <Propose />
           )}
         >
           {this.renderProposals()}
         </Column>
-        {!isApprovals && (
-          <Propose
-            isOpen={isProposeOpen}
-            onClose={this.togglePropose(false)}
-          />
-        )}
       </>
     );
   }

@@ -10,7 +10,7 @@ import { RawParam } from '@polkadot/ui-params/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { ActionItem, Chart, Static } from '@polkadot/ui-app';
+import { ActionItem, Chart, Static, Voting } from '@polkadot/ui-app';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import settings from '@polkadot/ui-settings';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
@@ -100,7 +100,7 @@ class Referendum extends React.PureComponent<Props, State> {
         idNumber={value.index}
         proposal={value.proposal}
         accessory={
-          <Voting referendumId={value.index} />
+          <Voting idNumber={value.index} />
         }
       >
         {this.renderInfo()}

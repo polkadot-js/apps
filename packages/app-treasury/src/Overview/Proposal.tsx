@@ -7,7 +7,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Option, TreasuryProposal } from '@polkadot/types';
-import { ActionItem, Button, Icon, InputAddress, Labelled, Static } from '@polkadot/ui-app';
+import { ActionItem, Icon, InputAddress, Labelled, Static } from '@polkadot/ui-app';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
@@ -50,7 +50,6 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
 
   private renderAccessory () {
     const { allAccounts, isApproved, proposalId, t } = this.props;
-    const { isApproveOpen } = this.state;
 
     if (isApproved) {
       return (
@@ -68,24 +67,10 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     }
 
     return (
-      <>
-        <div className='ui--Row-buttons'>
-          <Button.Group>
-            <Button
-              isPrimary
-              label={t('Respond')}
-              labelIcon='reply'
-              onClick={this.showApprove}
-            />
-          </Button.Group>
-        </div>
-        <Approve
-          isOpen={isApproveOpen}
-          onClose={this.hideApprove}
-          proposalInfo={this.renderInfo()}
-          proposalId={proposalId}
-        />
-      </>
+      <Approve
+        proposalInfo={this.renderInfo()}
+        proposalId={proposalId}
+      />
     );
   }
 
@@ -122,18 +107,6 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
         </Static>
       </div>
     );
-  }
-
-  private showApprove = (): void => {
-    this.setState({
-      isApproveOpen: true
-    });
-  }
-
-  private hideApprove = (): void => {
-    this.setState({
-      isApproveOpen: false
-    });
   }
 }
 
