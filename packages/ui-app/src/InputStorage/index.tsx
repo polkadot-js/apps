@@ -4,7 +4,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
@@ -22,18 +22,18 @@ import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
-  defaultValue: StorageFunction,
+  defaultValue: StorageEntry,
   help?: React.ReactNode,
   isError?: boolean,
   label: React.ReactNode,
-  onChange?: (value: StorageFunction) => void,
+  onChange?: (value: StorageEntry) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: StorageFunction
+  value: StorageEntry
 };
 
 class InputStorage extends React.PureComponent<Props, State> {
@@ -84,7 +84,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     );
   }
 
-  private onKeyChange = (newValue: StorageFunction): void => {
+  private onKeyChange = (newValue: StorageEntry): void => {
     const { onChange } = this.props;
     const { value } = this.state;
 
@@ -109,7 +109,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const newValue = api.query[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
-      this.onKeyChange(newValue as any as StorageFunction)
+      this.onKeyChange(newValue as any as StorageEntry)
     );
   }
 }

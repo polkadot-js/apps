@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, getTypeDef } from '@polkadot/types';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
@@ -21,7 +21,7 @@ type Props = ComponentProps & ApiProps & I18nProps;
 
 type State = {
   isValid: boolean,
-  key: StorageFunction,
+  key: StorageEntry,
   values: RawParams,
   params: Array<{ type: TypeDef }>
 };
@@ -116,7 +116,7 @@ class Modules extends TxComponent<Props, State> {
     });
   }
 
-  private onChangeKey = (key: StorageFunction): void => {
+  private onChangeKey = (key: StorageEntry): void => {
     this.nextState({
       isValid: false,
       key,
