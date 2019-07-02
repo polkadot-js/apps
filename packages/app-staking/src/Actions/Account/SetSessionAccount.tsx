@@ -42,8 +42,6 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     const { sessionError, sessionId } = this.state;
     const isV2 = !!api.tx.session.setKeys;
 
-    console.log('sessionId', sessionId);
-
     if (!isOpen) {
       return null;
     }
