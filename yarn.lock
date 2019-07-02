@@ -1978,6 +1978,15 @@
   dependencies:
     "@babel/runtime" "^7.4.5"
 
+"@polkadot/keyring@^0.94.0-beta.4":
+  version "0.94.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.94.0-beta.4.tgz#445770a05fea5663fac0efd0f45de0f238487549"
+  integrity sha512-j6Fu1092OjRfAQOFDxo2g6HC2UDgbesYeYqqeM8ibsQ/dSiisax02xO/n8N7/6uzREHM1lDIUn8pM8JGo2hm/Q==
+  dependencies:
+    "@babel/runtime" "^7.4.5"
+    "@polkadot/util" "^0.94.0-beta.4"
+    "@polkadot/util-crypto" "^0.94.0-beta.4"
+
 "@polkadot/rpc-core@^0.82.0-beta.25":
   version "0.82.0-beta.25"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-0.82.0-beta.25.tgz#d0da0fddcf0c64930bd4b2c24d79402e2606c66e"
