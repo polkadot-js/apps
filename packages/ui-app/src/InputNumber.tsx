@@ -91,7 +91,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { bitLength = DEFAULT_BITLENGTH, className, help, isSi, isDisabled, isError = false, maxLength, maxValue, onEnter, style, withMax, t } = this.props;
+    const { bitLength = DEFAULT_BITLENGTH, className, help, isSi, isDisabled, isError = false, maxLength, maxValue, onEnter, placeholder, style, withMax, t } = this.props;
     const { isValid, value } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length - 1;
 
@@ -109,7 +109,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
         onPaste={this.onPaste}
-        placeholder={t('Positive number')}
+        placeholder={placeholder || t('Positive number')}
         style={style}
         type='text'
         value={value}

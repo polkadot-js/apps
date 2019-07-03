@@ -10,6 +10,7 @@ import { withCalls } from '@polkadot/ui-api';
 import { CardGrid } from '@polkadot/ui-app';
 
 import Motion from './Motion';
+import Propose from './Propose';
 import translate from '../translate';
 
 type Props = I18nProps & {
@@ -24,6 +25,9 @@ class Motions extends React.PureComponent<Props> {
       <CardGrid
         emptyText={t('No council motions')}
         headerText={t('Motions')}
+        buttons={
+          <Propose />
+        }
       >
         {this.renderMotions()}
       </CardGrid>

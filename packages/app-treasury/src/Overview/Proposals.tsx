@@ -9,7 +9,6 @@ import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { Column } from '@polkadot/ui-app';
 
@@ -91,7 +90,6 @@ class ProposalsBase extends React.PureComponent<Props> {
   }
 
   private onPopulateProposal = () => {
-    console.log('asdf');
     this.setState(({ isEmpty }: State) => {
       if (isEmpty) {
         return { isEmpty: false };
@@ -102,12 +100,7 @@ class ProposalsBase extends React.PureComponent<Props> {
 }
 
 const Proposals = withMulti(
-  styled(ProposalsBase as React.ComponentClass<Props, State>)`
-    .treasury--Proposals-inner {
-      display: flex;
-      flex-wrap: column;
-    }
-  `,
+  ProposalsBase,
   translate,
   withCalls<Props>(
     [
