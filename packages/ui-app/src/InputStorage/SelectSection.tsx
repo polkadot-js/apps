@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
@@ -12,11 +12,11 @@ import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
 type Props = BareProps & {
-  defaultValue?: StorageFunction,
+  defaultValue?: StorageEntry,
   isError?: boolean,
   onChange: (value: string) => void,
   options: DropdownOptions,
-  value: StorageFunction
+  value: StorageEntry
 };
 
 export default class SelectSection extends React.PureComponent<Props> {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
@@ -170,7 +170,7 @@ class Query extends React.PureComponent<Props, State> {
     return buttons;
   }
 
-  private keyToName (key: Uint8Array | StorageFunction): string {
+  private keyToName (key: Uint8Array | StorageEntry): string {
     if (isU8a(key)) {
       const u8a = Compact.stripLengthPrefix(key);
 

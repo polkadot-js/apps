@@ -7,7 +7,7 @@ import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
 import React from 'react';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { withApi } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
@@ -15,9 +15,9 @@ import { classes } from '../util';
 
 type Props = ApiProps & BareProps & {
   isError?: boolean,
-  onChange: (value: StorageFunction) => void,
+  onChange: (value: StorageEntry) => void,
   options: DropdownOptions,
-  value: StorageFunction
+  value: StorageEntry
 };
 
 class SelectKey extends React.PureComponent<Props> {
@@ -28,7 +28,7 @@ class SelectKey extends React.PureComponent<Props> {
       return null;
     }
 
-    const transform = (method: string): StorageFunction =>
+    const transform = (method: string): StorageEntry =>
       api.query[value.section][method] as any;
 
     return (
