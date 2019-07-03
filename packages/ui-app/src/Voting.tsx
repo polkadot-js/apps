@@ -4,11 +4,10 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { Hash } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Call, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, Dropdown } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
@@ -60,7 +59,7 @@ class Voting extends TxModal<Props, State> {
     const { t } = props;
 
     this.state = {
-      isVotingOpen: false,
+      ...this.defaultState,
       voteOptions: [
         { text: t('Yay, I approve'), value: true },
         { text: t('Nay, I do not approve'), value: false }
