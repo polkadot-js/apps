@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-contracts",
-  "version": "0.34.0-beta.39",
+  "version": "0.34.0-beta.40",
   "description": "Deployment and management of substrate contracts",
   "main": "index.js",
   "scripts": {},
@@ -12,6 +12,6 @@
   "dependencies": {
     "@babel/runtime": "^7.4.5",
     "@polkadot/api-contract": "^0.82.0-beta.25",
-    "@polkadot/ui-app": "^0.34.0-beta.39"
+    "@polkadot/ui-app": "^0.34.0-beta.40"
   }
 }
