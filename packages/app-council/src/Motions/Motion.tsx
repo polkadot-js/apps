@@ -25,6 +25,7 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   : ['#d75ea1', '#e189ba'];
 
 type Props = I18nProps & {
+  hash: string,
   idNumber: BN,
   chain_bestNumber?: BN,
   proposal: Proposal | null,
@@ -37,7 +38,7 @@ type State = {
   votedYay: number
 };
 
-class Referendum extends React.PureComponent<Props, State> {
+class Motion extends React.PureComponent<Props, State> {
   state: State = {
     votedTotal: 0,
     votedYay: 0,
@@ -61,7 +62,7 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, idNumber, proposal } = this.props;
+    const { className, hash, idNumber, proposal } = this.props;
 
     if (!proposal) {
       return null;
@@ -74,6 +75,7 @@ class Referendum extends React.PureComponent<Props, State> {
         proposal={proposal}
         accessory={
           <Voting
+            hash={hash}
             isCouncil
             idNumber={idNumber}
           />
@@ -118,7 +120,7 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className='democracy--Referendum-results chart'>
+      <div className='democracy--Motion-results chart'>
         <Chart.HorizBar
           values={[
             {
@@ -139,8 +141,8 @@ class Referendum extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  styled(Referendum as React.ComponentClass<Props>)`
-    .democracy--Referendum-results {
+  styled(Motion as React.ComponentClass<Props>)`
+    .democracy--Motion-results {
       margin-bottom: 1em;
 
       &.chart {

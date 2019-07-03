@@ -19,7 +19,9 @@ type Props = I18nProps & {
   allAccounts?: SubjectInfo,
   isApproved: boolean,
   proposal?: TreasuryProposal | null,
-  proposalId: string
+  proposalId: string,
+  onPopulate: () => void,
+  onRespond: () => void
 };
 
 type State = {
@@ -27,6 +29,23 @@ type State = {
 };
 
 class ProposalDisplay extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    const { proposal, onPopulate } = props;
+    if (proposal) {
+      onPopulate();
+    }
+  }
+
+  componentWillReceiveProps ({ proposal }: Props) {
+    const { onPopulate } = this.props;
+
+    if (proposal && !this.props.proposal) {
+      onPopulate();
+    }
+  }
+
   state: State = {
     isApproveOpen: false
   };
@@ -49,7 +68,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
   }
 
   private renderAccessory () {
-    const { allAccounts, isApproved, proposalId, t } = this.props;
+    const { allAccounts, isApproved, onRespond, proposalId, t } = this.props;
 
     if (isApproved) {
       return (
@@ -70,6 +89,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
       <Approve
         proposalInfo={this.renderInfo()}
         proposalId={proposalId}
+        onSuccess={onRespond}
       />
     );
   }

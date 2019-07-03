@@ -17,7 +17,6 @@ import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
-import Voting from './Voting';
 
 const COLORS_YAY = settings.uiTheme === 'substrate'
   ? ['#4d4', '#4e4']

@@ -7,27 +7,31 @@ import { ProposalIndex } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/ui-api';
-import { Button, Column } from '@polkadot/ui-app';
+import { Column } from '@polkadot/ui-app';
 
 import Proposal from './Proposal';
 import Propose from './Propose';
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & RouteComponentProps & {
   isApprovals?: boolean,
   treasury_approvals?: Array<BN>,
   treasury_proposalCount?: BN
 };
 
 type State = {
+  isEmpty: boolean,
   isProposeOpen: boolean,
   proposalIndices: Array<BN>
 };
 
 class ProposalsBase extends React.PureComponent<Props> {
   state: State = {
+    isEmpty: true,
     isProposeOpen: false,
     proposalIndices: [] as Array<BN>
   };
@@ -47,6 +51,7 @@ class ProposalsBase extends React.PureComponent<Props> {
 
   render () {
     const { isApprovals, t } = this.props;
+    const { isEmpty } = this.state;
 
     return (
       <>
@@ -56,6 +61,7 @@ class ProposalsBase extends React.PureComponent<Props> {
           buttons={!isApprovals && (
             <Propose />
           )}
+          isEmpty={isEmpty}
         >
           {this.renderProposals()}
         </Column>
@@ -70,15 +76,27 @@ class ProposalsBase extends React.PureComponent<Props> {
     return proposalIndices.map((proposalId) => (
       <Proposal
         isApproved={isApprovals}
+        onPopulate={this.onPopulateProposal}
+        onRespond={this.onRespond}
         proposalId={proposalId.toString()}
         key={proposalId.toString()}
       />
     ));
   }
 
-  private togglePropose = (isProposeOpen: boolean) => () => {
-    this.setState({
-      isProposeOpen
+  onRespond = () => {
+    const { history } = this.props;
+
+    history.push('/council/motions');
+  }
+
+  private onPopulateProposal = () => {
+    console.log('asdf');
+    this.setState(({ isEmpty }: State) => {
+      if (isEmpty) {
+        return { isEmpty: false };
+      }
+      return null;
     });
   }
 }
@@ -99,7 +117,8 @@ const Proposals = withMulti(
       }
     ],
     'query.treasury.proposalCount'
-  )
+  ),
+  withRouter
 );
 
 export default Proposals;

@@ -43,12 +43,15 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     super(props);
 
     this.state = {
-      isEmpty: props.children && (props.children as Array<any>).length > 0
+      isEmpty: props.isEmpty !== undefined ? props.isEmpty : props.children && (props.children as Array<any>).length > 0
     } as S;
   }
 
-  static getDerivedStateFromProps ({ children }: CollectionProps) {
-    if (!children || (children as Array<any>).length <= 0) {
+  static getDerivedStateFromProps ({ children, isEmpty }: CollectionProps) {
+    if (isEmpty !== undefined) {
+      return { isEmpty };
+    }
+    if (!children || React.Children.toArray(children).filter(child => { console.log(child); return !!child; }).length <= 0) {
       return { isEmpty: true };
     }
     return { isEmpty: false };
@@ -61,10 +64,8 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     return (
       <div className={className}>
         {showHeader && this.renderHeader()}
-        {isEmpty ?
-          this.renderEmpty() :
-          this.renderCollection()
-        }
+        {isEmpty && this.renderEmpty()}
+        {this.renderCollection()}
       </div>
     );
   }
@@ -118,6 +119,9 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
 
   protected renderCollection (): React.ReactNode {
     const { children } = this.props;
+    if (!children) {
+      return null;
+    }
     return children;
   }
 

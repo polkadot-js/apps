@@ -21,10 +21,8 @@ class Column extends Collection<Props, State> {
     return (
       <div className={`ui--Column ${className}`}>
         {this.renderHeader()}
-        {isEmpty ?
-          this.renderEmpty() :
-          this.renderCollection()
-        }
+        {isEmpty && this.renderEmpty()}
+        {this.renderCollection()}
       </div>
     );
   }
