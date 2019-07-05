@@ -22,6 +22,7 @@ import Accounts from './Actions/Accounts';
 import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';
+import { nullLiteral } from '@babel/types';
 
 type Props = AppProps & ApiProps & I18nProps & {
   allAccounts?: SubjectInfo,
@@ -122,6 +123,10 @@ class App extends React.PureComponent<Props, State> {
     return (): React.ReactNode => {
       const { controllers, recentlyOffline, stashes, validators } = this.state;
       const { balances = {}, allAccounts } = this.props;
+
+      if (!allAccounts) {
+        return null;
+      }
 
       return (
         <Component
