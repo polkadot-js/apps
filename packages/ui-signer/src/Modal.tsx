@@ -177,7 +177,9 @@ class Signer extends React.PureComponent<Props, State> {
           value={currentItem.accountId}
           tabIndex={1}
         />
-        <PasswordCheck unlockError= {unlockError} />
+        <PasswordCheck
+          unlockError={unlockError}
+        />
       </>
     );
   }
