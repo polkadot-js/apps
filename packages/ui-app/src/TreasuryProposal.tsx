@@ -113,6 +113,9 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
           this.setState({
             proposal: (proposal as Option<TreasuryProposalType>).unwrapOr(null)
           });
+        })
+        .catch(() => {
+          console.error('Error fetching proposal');
         });
     }
   }
