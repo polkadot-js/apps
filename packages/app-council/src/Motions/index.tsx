@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Hash } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { CardGrid } from '@polkadot/ui-app';
 
@@ -37,10 +37,9 @@ class Motions extends React.PureComponent<Props> {
   private renderMotions () {
     const { councilMotions_proposals = [] } = this.props;
 
-    return councilMotions_proposals.map((hash, index) => (
+    return councilMotions_proposals.map((hash) => (
       <Motion
         hash={hash.toHex()}
-        idNumber={index}
         key={hash.toHex()}
       />
     ));

@@ -5,7 +5,8 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
+import styled from 'styled-components';
+import { Button, InputAddress, Inset, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
 export type TxModalProps = I18nProps & {
   onSubmit?: () => void,
@@ -20,6 +21,10 @@ export type TxModalState = {
   isOpen: boolean
 };
 
+export const PreContent = styled(Inset)`
+  margin: 0 0 2rem;
+`;
+
 class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
     accountId: null,
@@ -28,12 +33,6 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   } as S;
 
   state: S = this.defaultState;
-
-  // componentWillReceiveProps ({ isOpen }: P, _: S) {
-  //   if (isOpen && !this.props.isOpen && !this.state.isBusy) {
-  //     this.reset();
-  //   }
-  // }
 
   render () {
     const { isOpen } = this.state;
@@ -110,10 +109,9 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   protected txMethod: () => string = () => '';
   protected txParams: () => Array<any> = () => [];
 
-  protected renderTrigger?: () => React.ReactNode | null = () => null;
-
   protected renderContent: () => React.ReactNode | null = () => null;
   protected renderPreContent: () => React.ReactNode | null = () => null;
+  protected renderTrigger?: () => React.ReactNode | null = () => null;
 
   protected renderButtons: () => React.ReactNode | null = () => {
     return (

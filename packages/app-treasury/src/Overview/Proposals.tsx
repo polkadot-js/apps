@@ -42,7 +42,9 @@ class ProposalsBase extends React.PureComponent<Props> {
       proposalIndices = treasury_approvals;
     } else {
       for (let i = 0; i < treasury_proposalCount.toNumber(); i++) {
-        proposalIndices.push(new BN(i));
+        if (!treasury_approvals.find(index => index.eqn(i))) {
+          proposalIndices.push(new BN(i));
+        }
       }
     }
     return { proposalIndices };

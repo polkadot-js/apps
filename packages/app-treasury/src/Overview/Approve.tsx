@@ -1,6 +1,7 @@
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { AccountId, BlockNumber } from '@polkadot/types';
@@ -8,7 +9,7 @@ import { AccountId, BlockNumber } from '@polkadot/types';
 import React from 'react';
 import { Button, Dropdown } from '@polkadot/ui-app';
 import { withMulti, withApi, withCalls } from '@polkadot/ui-api';
-import TxModal, { TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
+import TxModal, { PreContent, TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
 
 import translate from '../translate';
 
@@ -30,8 +31,8 @@ class Approve extends TxModal<Props, State> {
   };
 
   private approveOptions = () => [
-    { text: this.props.t('Yay, I approve'), value: true },
-    { text: this.props.t('Nay, I do not approve'), value: false }
+    { text: this.props.t('Approve the spend proposal'), value: true },
+    { text: this.props.t('Reject the spend proposal'), value: false }
   ]
 
   headerText = () => this.props.t('Approve or reject proposal');
@@ -42,9 +43,7 @@ class Approve extends TxModal<Props, State> {
     const { isApproving } = this.state;
 
     const method = isApproving ? 'approveProposal' : 'rejectProposal';
-
     const spendProposal = api.tx.treasury[method](proposalId);
-
     return [threshold, spendProposal];
   }
 
@@ -67,12 +66,14 @@ class Approve extends TxModal<Props, State> {
   renderPreContent = () => {
     const { proposalInfo = null } = this.props;
 
+    if (!proposalInfo) {
+      return null;
+    }
+
     return (
-      <>
+      <PreContent>
         {proposalInfo}
-        <br />
-        <br />
-      </>
+      </PreContent>
     );
   }
 

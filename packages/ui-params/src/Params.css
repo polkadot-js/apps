@@ -6,6 +6,7 @@
   border-left: 0.25rem solid #f2f2f2;
 
   label {
+    text-transform: none;
     font-family: monospace;
   }
 

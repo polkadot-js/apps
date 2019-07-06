@@ -3,31 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { RawParam } from '@polkadot/ui-params/types';
 import { Option, Proposal, Votes } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { ActionItem, Chart, Voting } from '@polkadot/ui-app';
-import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
+import { ActionItem, InputAddress, Labelled, Voting } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
-import settings from '@polkadot/ui-settings';
-import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-const COLORS_YAY = settings.uiTheme === 'substrate'
-  ? ['#4d4', '#4e4']
-  : ['#64bebe', '#5badad'];
-const COLORS_NAY = settings.uiTheme === 'substrate'
-  ? ['#d44', '#e44']
-  : ['#d75ea1', '#e189ba'];
-
 type Props = I18nProps & {
-  hash: string,
-  idNumber: BN,
   chain_bestNumber?: BN,
+  hash: string,
   proposal: Proposal | null,
   votes: Votes | null
 };
@@ -62,24 +50,28 @@ class Motion extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, hash, idNumber, proposal } = this.props;
+    const { className, hash, proposal, votes } = this.props;
 
-    if (!proposal) {
+    if (!proposal || !votes) {
       return null;
     }
+
+    const { index } = votes;
 
     return (
       <ActionItem
         className={className}
-        idNumber={idNumber}
-        proposal={proposal}
         accessory={
           <Voting
             hash={hash}
             isCouncil
-            idNumber={idNumber}
+            idNumber={index}
+            proposal={proposal}
           />
         }
+        expandNested
+        idNumber={index}
+        proposal={proposal}
       >
         {this.renderInfo()}
       </ActionItem>
@@ -93,48 +85,51 @@ class Motion extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { threshold } = votes;
+    const { ayes, nays, threshold } = votes;
 
     return (
       <div>
-        {this.renderResults()}
-        <VoteThreshold
-          isDisabled
-          defaultValue={{ value: threshold } as RawParam}
-          label={t('vote threshold')}
-          name='voteThreshold'
-          type={{
-            info: 0,
-            type: 'VoteThreshold'
-          }}
-        />
-      </div>
-    );
-  }
-
-  private renderResults () {
-    const { votedTotal, votedYay, votedNay } = this.state;
-
-    if (votedTotal === 0) {
-      return null;
-    }
-
-    return (
-      <div className='democracy--Motion-results chart'>
-        <Chart.HorizBar
-          values={[
+        <Labelled
+          label={t(
+            'ayes ({{ayes}}/{{threshold}} to approve)',
             {
-              colors: COLORS_YAY,
-              label: `Yay, ${formatNumber(votedYay)} votes`,
-              value: ((votedYay / votedTotal) * 100)
-            },
-            {
-              colors: COLORS_NAY,
-              label: `Yay, ${formatNumber(votedNay)} votes`,
-              value: ((votedNay / votedTotal) * 100)
+              replace: {
+                ayes: ayes.length,
+                threshold: threshold.toString()
+              }
             }
-          ]}
-        />
+          )}
+        >
+          {ayes.map((address, index) => (
+            <InputAddress
+              isDisabled
+              key={`${index}:${address}`}
+              value={address}
+              withLabel={false}
+            />
+          ))}
+        </Labelled>
+        <Labelled
+          label={
+            t(
+              'nays ({{nays}})',
+              {
+                replace: {
+                  nays: nays.length
+                }
+              }
+            )
+          }
+        >
+          {nays.map((address, index) => (
+            <InputAddress
+              isDisabled
+              key={`${index}:${address}`}
+              value={address}
+              withLabel={false}
+            />
+          ))}
+        </Labelled>
       </div>
     );
   }

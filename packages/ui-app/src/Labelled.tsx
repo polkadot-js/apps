@@ -39,6 +39,7 @@ const Wrapper = styled.div`
     padding-right: 0.5rem;
     position: relative;
     text-align: left;
+    text-transform: lowercase;
   }
 
   &.label-small {

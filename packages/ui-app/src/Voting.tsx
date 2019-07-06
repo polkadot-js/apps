@@ -2,23 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Proposal } from '@polkadot/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Dropdown } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import translate from './translate';
-import TxModal, { TxModalProps, TxModalState } from './TxModal';
+import Button from './Button';
+import Dropdown from './Dropdown';
+import ProposedAction from './ProposedAction';
+import TxModal, { PreContent, TxModalProps, TxModalState } from './TxModal';
+import { isTreasuryProposalVote } from './util';
 
 type Props = I18nProps & TxModalProps & {
   allAccounts?: SubjectInfo,
   hash?: string,
   idNumber: BN | number,
-  isCouncil: boolean
+  isCouncil: boolean,
+  proposal?: Proposal | null,
+  preContent?: React.ReactNode
 };
 
 type State = TxModalState & {
@@ -68,6 +74,20 @@ class Voting extends TxModal<Props, State> {
     };
   }
 
+  renderPreContent = () => {
+    const { idNumber, proposal } = this.props;
+
+    return (
+      <PreContent>
+        <ProposedAction
+          idNumber={idNumber}
+          proposal={proposal}
+          expandNested={isTreasuryProposalVote(proposal)}
+        />
+      </PreContent>
+    );
+  }
+
   renderContent = () => {
     const { t } = this.props;
     const { voteOptions, voteValue } = this.state;
@@ -91,6 +111,7 @@ class Voting extends TxModal<Props, State> {
         <Button
           isPrimary
           label={t('Vote')}
+          labelIcon='check'
           onClick={this.showModal}
         />
       </div>

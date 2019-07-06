@@ -58,7 +58,7 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
-      if (vote.ltn(0)) {
+      if (vote.isAye) {
         state.voteCountYay++;
         state.votedYay = state.votedYay.add(balance);
       } else {
@@ -99,7 +99,10 @@ class Referendum extends React.PureComponent<Props, State> {
         idNumber={value.index}
         proposal={value.proposal}
         accessory={
-          <Voting idNumber={value.index} />
+          <Voting
+            idNumber={value.index}
+            proposal={value.proposal}
+          />
         }
       >
         {this.renderInfo()}

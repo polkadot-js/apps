@@ -51,7 +51,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     if (isEmpty !== undefined) {
       return { isEmpty };
     }
-    if (!children || React.Children.toArray(children).filter(child => { console.log(child); return !!child; }).length <= 0) {
+    if (!children || React.Children.toArray(children).filter(child => !!child).length <= 0) {
       return { isEmpty: true };
     }
     return { isEmpty: false };
@@ -92,7 +92,6 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
 
     const emptyText = this.props.emptyText || t('No items');
 
-    // if (headerText) {
     return (
       <article>
         <div className='ui--Collection-lowercase'>
@@ -100,21 +99,6 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
         </div>
       </article>
     );
-    // }
-
-    // return (
-    //   <div className='ui--CardGrid-empty'>
-    //     <h2>
-    //       {emptyText}
-    //     </h2>
-    //     {buttons && (
-    //       <div className='ui--CardGrid-buttons'>
-    //         {buttons}
-    //       </div>
-    //     )}
-    //     <div className='ui--CardGrid-spacer' />
-    //   </div>
-    // );
   }
 
   protected renderCollection (): React.ReactNode {
@@ -124,17 +108,4 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     }
     return children;
   }
-
-  // renderGrid () {
-  //   const { children } = this.props;
-  //
-  //   return (
-  //     <div className='ui--CardGrid-grid'>
-  //       {children}
-  //       <div className='ui--CardGrid-spacer' />
-  //       <div className='ui--CardGrid-spacer' />
-  //       <div className='ui--CardGrid-spacer' />
-  //     </div>
-  //   );
-  // }
 }
