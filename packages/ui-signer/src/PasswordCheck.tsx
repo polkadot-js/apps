@@ -6,22 +6,27 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
+import { withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 
 type Props = I18nProps & {
   unlockError?: string | null
+  className: string
 };
 
-const Wrapper = styled.div`
-    margin-left: 15em;
-    color: #9f3a38;
-`;
-
 function PasswordCheck (props: Props) {
-  const { unlockError, t } = props;
+  const { className, unlockError, t } = props;
 
-  return unlockError ? <Wrapper>{t('wrong password')}</Wrapper> : null;
+  return unlockError
+  ? <div className={className}>{t('wrong password')}</div>
+  : null;
 }
 
-export default translate(PasswordCheck);
+export default withMulti(
+  styled(PasswordCheck)`
+    margin-left: 15em;
+    color: #9f3a38;
+  `,
+  translate
+);
