@@ -11,8 +11,8 @@ import { withMulti } from '@polkadot/ui-api';
 import translate from './translate';
 
 type Props = I18nProps & {
+  className?: string,
   unlockError?: string | null
-  className: string
 };
 
 function PasswordCheck (props: Props) {
