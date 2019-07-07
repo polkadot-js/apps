@@ -66,6 +66,14 @@ export default class ChartHorizBar extends React.PureComponent<Props, State> {
         // no need for the legend, expect the labels contain everything
         legend: {
           display: false
+        },
+        scales: {
+          xAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 100
+            }
+          }]
         }
       },
       valuesStr

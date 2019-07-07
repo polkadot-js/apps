@@ -2,15 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
+import { withApi, withMulti } from '@polkadot/ui-api';
 
 import ValidateSession from './InputValidationSession';
 import translate from '../../translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & ApiProps & {
   controllerId: string,
   isOpen: boolean,
   onClose: () => void,
@@ -36,8 +38,9 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { controllerId, isOpen, onClose, t } = this.props;
+    const { api, controllerId, isOpen, onClose, t } = this.props;
     const { sessionError, sessionId } = this.state;
+    const isV2 = !!api.tx.session.setKeys;
 
     if (!isOpen) {
       return null;
@@ -65,8 +68,8 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               isPrimary
               label={t('Set Session Key')}
               onClick={ onClose }
-              params={[sessionId]}
-              tx='session.setKey'
+              params={ isV2 ? [{ auraKey: sessionId, grandpaKey: sessionId }, new Uint8Array([])] : [sessionId]}
+              tx={isV2 ? 'session.setKeys' : 'session.setKey'}
             />
           </Button.Group>
         </Modal.Actions>
@@ -118,4 +121,8 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(SetSessionKey);
+export default withMulti(
+  SetSessionKey,
+  translate,
+  withApi
+);

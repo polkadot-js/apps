@@ -18,13 +18,15 @@ interface Method {
   multi: (params: Array<any>, cb: (value?: any) => void) => Promise<any>;
 }
 
+type ApiMethodInfo = [Method, Array<any>, boolean];
+
 type State = CallState;
 
 const NOOP = () => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramPick, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       state: State = {
@@ -46,8 +48,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       componentDidUpdate (prevProps: any) {
-        const newParams = this.getParams(this.props);
         const oldParams = this.getParams(prevProps);
+        const newParams = this.getParams(this.props);
 
         if (this.isActive && !isEqual(newParams, oldParams)) {
           this
@@ -93,9 +95,11 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       }
 
       private getParams (props: any): [boolean, Array<any>] {
-        const paramValue = paramName
-          ? props[paramName]
-          : undefined;
+        const paramValue = paramPick
+          ? paramPick(props)
+          : paramName
+            ? props[paramName]
+            : undefined;
 
         if (atProp) {
           at = props[atProp];
@@ -118,7 +122,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         return [true, values];
       }
 
-      private getApiMethod (newParams: Array<any>): [Method, Array<any>, boolean] {
+      private getApiMethod (newParams: Array<any>): ApiMethodInfo {
         const { api } = this.props;
 
         if (endpoint === 'subscribe') {
@@ -162,29 +166,39 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
 
         const { api } = this.props;
+        let info: ApiMethodInfo | undefined;
 
         await api.isReady;
 
         try {
-          const [apiMethod, params, isSubscription] = this.getApiMethod(newParams);
-
           assert(at || !atProp, 'Unable to perform query on non-existent at hash');
 
-          await this.unsubscribe();
+          info = this.getApiMethod(newParams);
+        } catch (error) {
+          console.error(endpoint, '::', error);
+        }
 
+        if (!info) {
+          return;
+        }
+
+        const [apiMethod, params, isSubscription] = info;
+        const updateCb = (value?: any) =>
+          this.triggerUpdate(this.props, value);
+
+        await this.unsubscribe();
+
+        try {
           if (isSubscription) {
-            const updateCb = (value?: any) =>
-              this.triggerUpdate(this.props, value);
-
             this.destroy = isMulti
               ? await apiMethod.multi(params, updateCb)
               : await apiMethod(...params, updateCb);
           } else {
-            const value: any = at
-              ? await apiMethod.at(at, ...params)
-              : await apiMethod(...params);
-
-            this.triggerUpdate(this.props, value);
+            updateCb(
+              at
+                ? await apiMethod.at(at, ...params)
+                : await apiMethod(...params)
+            );
           }
         } catch (error) {
           // console.error(endpoint, '::', error);

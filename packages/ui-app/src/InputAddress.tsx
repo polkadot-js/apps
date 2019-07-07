@@ -309,7 +309,7 @@ export default withMulti(
       }
     }
 
-    &.hideAddress .ui--KeyPair .ui--KeyPair-address {
+    &.hideAddress .ui--KeyPair .address {
       flex: 0;
       max-width: 0;
     }

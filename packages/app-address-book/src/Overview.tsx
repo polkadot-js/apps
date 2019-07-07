@@ -31,6 +31,7 @@ class Overview extends React.PureComponent<Props, State> {
   render () {
     const { addresses, onStatusChange, t } = this.props;
     const { isCreateOpen } = this.state;
+    const emptyScreen = !isCreateOpen && (!addresses || Object.keys(addresses).length === 0);
 
     return (
       <CardGrid
@@ -43,6 +44,8 @@ class Overview extends React.PureComponent<Props, State> {
             />
           </Button.Group>
         }
+        isEmpty={emptyScreen}
+        emptyText={t('No contact found.')}
       >
         {isCreateOpen && (
           <CreateModal

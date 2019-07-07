@@ -28,7 +28,7 @@ class Events extends React.PureComponent<Props> {
     }));
 
     return (
-      <Column header={t('events')}>
+      <Column headerText={t('events')}>
         <EventsDisplay
           eventClassName='explorer--BlockByHash-block'
           events={events}

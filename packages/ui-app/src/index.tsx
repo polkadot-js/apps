@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+export { default as ActionItem } from './ActionItem';
 export { default as AddressCard } from './AddressCard';
 export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
@@ -63,5 +64,6 @@ export { default as Toggle } from './Toggle';
 export { default as Tooltip } from './Tooltip';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
+export { default as TxModal } from './TxModal';
 
 export { default as media } from './media';

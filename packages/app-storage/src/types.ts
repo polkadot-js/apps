@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { RawParams } from '@polkadot/ui-params/types';
 
 type IdQuery = {
@@ -10,7 +10,7 @@ type IdQuery = {
 };
 
 export type PartialModuleQuery = {
-  key: StorageFunction,
+  key: StorageEntry,
   params: RawParams
 };
 

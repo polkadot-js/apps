@@ -22,6 +22,7 @@ import storage from './storage';
 import sudo from './sudo';
 import toolbox from './toolbox';
 import transfer from './transfer';
+import treasury from './treasury';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
@@ -48,6 +49,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     staking,
     democracy,
     council,
+    treasury,
     null,
     contracts,
     storage,

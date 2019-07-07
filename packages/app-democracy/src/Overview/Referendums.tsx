@@ -22,23 +22,20 @@ class Referendums extends React.PureComponent<Props> {
     const { t } = this.props;
 
     return (
-      <Column header={t('referendum')}>
+      <Column
+        emptyText={t('No available referendums')}
+        headerText={t('referendum')}
+      >
         {this.renderReferendums()}
       </Column>
     );
   }
 
   private renderReferendums () {
-    const { democracy_referendums = [], t } = this.props;
+    const { democracy_referendums = [] } = this.props;
     const referendums = democracy_referendums
       .filter((opt) => opt.isSome)
       .map((opt) => opt.unwrap());
-
-    if (!referendums.length) {
-      return (
-        <article>{t('no available referendums')}</article>
-      );
-    }
 
     return referendums.map((referendum) => (
       <Referendum

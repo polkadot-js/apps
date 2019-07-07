@@ -11,7 +11,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
-import { api as apiUi, withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
 import { AccountId, getTypeDef } from '@polkadot/types';
@@ -92,7 +92,6 @@ class Deploy extends ContractModal<Props, State> {
           value={codeHash}
         />
         {this.renderInputName()}
-        {this.renderInputTags()}
         {
           isAbiSupplied
             ? null
@@ -256,8 +255,6 @@ class Deploy extends ContractModal<Props, State> {
     if (record) {
       const address = record.event.data[1] as any as AccountId;
 
-      await apiUi.isReady;
-
       this.setState(({ abi, name, tags }) => {
         if (!abi || !name) {
           return;
@@ -267,7 +264,7 @@ class Deploy extends ContractModal<Props, State> {
           name,
           contract: {
             abi,
-            genesisHash: apiUi.genesisHash.toHex()
+            genesisHash: api.genesisHash.toHex()
           },
           tags
         });
@@ -275,6 +272,7 @@ class Deploy extends ContractModal<Props, State> {
         history.push(this.props.basePath);
 
         this.onClose();
+
         return { isBusy: false } as State;
       });
     }
