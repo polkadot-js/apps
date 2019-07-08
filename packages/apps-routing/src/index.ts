@@ -36,6 +36,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     staking,
     democracy,
     council,
+    // TODO Not sure about the inclusion of treasury & parachains here
     null,
     settings,
     template
