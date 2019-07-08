@@ -19,7 +19,7 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import translate from '../translate';
 import Voting from './Voting';
 
-const COLORS_YAY = settings.uiTheme === 'substrate'
+const COLORS_AYE = settings.uiTheme === 'substrate'
   ? ['#4d4', '#4e4']
   : ['#64bebe', '#5badad'];
 const COLORS_NAY = settings.uiTheme === 'substrate'
@@ -36,21 +36,21 @@ type Props = I18nProps & {
 
 type State = {
   voteCount: number,
-  voteCountYay: number,
+  voteCountAye: number,
   voteCountNay: number,
-  votedTotal: BN,
+  votedAye: BN,
   votedNay: BN,
-  votedYay: BN
+  votedTotal: BN
 };
 
 class Referendum extends React.PureComponent<Props, State> {
   state: State = {
     voteCount: 0,
-    voteCountYay: 0,
+    voteCountAye: 0,
     voteCountNay: 0,
-    votedTotal: new BN(0),
-    votedYay: new BN(0),
-    votedNay: new BN(0)
+    votedAye: new BN(0),
+    votedNay: new BN(0),
+    votedTotal: new BN(0)
   };
 
   static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
@@ -59,9 +59,9 @@ class Referendum extends React.PureComponent<Props, State> {
     }
 
     const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
-      if (vote.ltn(0)) {
-        state.voteCountYay++;
-        state.votedYay = state.votedYay.add(balance);
+      if (vote.isAye) {
+        state.voteCountAye++;
+        state.votedAye = state.votedAye.add(balance);
       } else {
         state.voteCountNay++;
         state.votedNay = state.votedNay.add(balance);
@@ -73,14 +73,14 @@ class Referendum extends React.PureComponent<Props, State> {
       return state;
     }, {
       voteCount: 0,
-      voteCountYay: 0,
+      voteCountAye: 0,
       voteCountNay: 0,
-      votedTotal: new BN(0),
-      votedYay: new BN(0),
-      votedNay: new BN(0)
+      votedAye: new BN(0),
+      votedNay: new BN(0),
+      votedTotal: new BN(0)
     });
 
-    if (newState.votedYay.eq(prevState.votedNay) && newState.votedNay.eq(prevState.votedNay)) {
+    if (newState.votedAye.eq(prevState.votedNay) && newState.votedNay.eq(prevState.votedNay)) {
       return null;
     }
 
@@ -150,7 +150,7 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   private renderResults () {
-    const { voteCount, voteCountYay, voteCountNay, votedTotal, votedYay, votedNay } = this.state;
+    const { voteCount, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } = this.state;
 
     if (voteCount === 0 || votedTotal.eqn(0)) {
       return null;
@@ -161,9 +161,9 @@ class Referendum extends React.PureComponent<Props, State> {
         <Chart.HorizBar
           values={[
             {
-              colors: COLORS_YAY,
-              label: `Yay, ${formatBalance(votedYay)} (${formatNumber(voteCountYay)})`,
-              value: votedYay.muln(10000).div(votedTotal).toNumber() / 100
+              colors: COLORS_AYE,
+              label: `Aye, ${formatBalance(votedAye)} (${formatNumber(voteCountAye)})`,
+              value: votedAye.muln(10000).div(votedTotal).toNumber() / 100
             },
             {
               colors: COLORS_NAY,
