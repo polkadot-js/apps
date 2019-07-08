@@ -27,7 +27,7 @@ class Approve extends TxModal<Props, State> {
   };
 
   private approveOptions = () => [
-    { text: this.props.t('Yay, I approve'), value: true },
+    { text: this.props.t('Aye, I approve'), value: true },
     { text: this.props.t('Nay, I do not approve'), value: false }
   ]
 
