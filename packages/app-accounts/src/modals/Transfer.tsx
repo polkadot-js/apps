@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Index } from '@polkadot/types';
-import { Button, InputAddress, InputBalance, Modal, TxButton, media } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import { Available } from '@polkadot/ui-reactive';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
@@ -143,19 +143,19 @@ class Transfer extends React.PureComponent<Props> {
             help={t('The account you will send funds from.')}
             isDisabled={!!propSenderId}
             label={t('send from account')}
+            labelExtra={<Available label={available} params={senderId} />}
             onChange={this.onChangeFrom}
             type='account'
           />
-          <div className='balance'><Available label={available} params={senderId} /></div>
           <InputAddress
             defaultValue={propRecipientId}
             help={t('Select a contact or paste the address you want to send funds to.')}
             isDisabled={!!propRecipientId}
             label={t('send to address')}
+            labelExtra={<Available label={available} params={recipientId} />}
             onChange={this.onChangeTo}
             type='allPlus'
           />
-          <div className='balance'><Available label={available} params={recipientId} /></div>
           <InputBalance
             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
             isError={!hasAvailable}
@@ -236,6 +236,7 @@ export default withMulti(
   styled(Transfer)`
     article.padded {
       box-shadow: none;
+      margin-left: 2rem;
     }
 
     .balance {
@@ -247,13 +248,6 @@ export default withMulti(
         opacity: 0.7;
       }
     }
-
-    ${media.DESKTOP`
-      article.padded {
-        margin: .75rem 0 0.75rem 15rem;
-        padding: 0.25rem 1rem;
-      }
-    `}
 
     label.with-help {
       flex-basis: 10rem;
