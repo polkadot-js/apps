@@ -43,27 +43,30 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     super(props);
 
     this.state = {
-      isEmpty: props.children && (props.children as Array<any>).length > 0
+      isEmpty: Collection.isEmpty(props.children)
     } as S;
   }
 
+  private static isEmpty (children?: React.ReactNode): boolean {
+    return !children || (Array.isArray(children) && children.length === 0);
+  }
+
   static getDerivedStateFromProps ({ children }: CollectionProps) {
-    if (!children || (children as Array<any>).length <= 0) {
-      return { isEmpty: true };
-    }
-    return { isEmpty: false };
+    return {
+      isEmpty: Collection.isEmpty(children)
+    };
   }
 
   render () {
     const { className } = this.props;
-    const { isEmpty, showHeader = true } = this.state;
+    const { isEmpty, showHeader } = this.state;
 
     return (
       <div className={className}>
         {showHeader && this.renderHeader()}
-        {isEmpty ?
-          this.renderEmpty() :
-          this.renderCollection()
+        {isEmpty
+          ? this.renderEmpty()
+          : this.renderCollection()
         }
       </div>
     );
@@ -74,9 +77,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
 
     return (
       <div className='ui--Collection-header'>
-        <h1>
-          {headerText && headerText}
-        </h1>
+        <h1>{headerText}</h1>
         {buttons && (
           <div className='ui--Collection-buttons'>
             {buttons}
@@ -87,50 +88,20 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   }
 
   protected renderEmpty () {
-    const { t } = this.props;
+    const { emptyText, t } = this.props;
 
-    const emptyText = this.props.emptyText || t('No items');
-
-    // if (headerText) {
     return (
       <article>
         <div className='ui--Collection-lowercase'>
-          {emptyText}
+          {emptyText || t('No items')}
         </div>
       </article>
     );
-    // }
-
-    // return (
-    //   <div className='ui--CardGrid-empty'>
-    //     <h2>
-    //       {emptyText}
-    //     </h2>
-    //     {buttons && (
-    //       <div className='ui--CardGrid-buttons'>
-    //         {buttons}
-    //       </div>
-    //     )}
-    //     <div className='ui--CardGrid-spacer' />
-    //   </div>
-    // );
   }
 
   protected renderCollection (): React.ReactNode {
     const { children } = this.props;
+
     return children;
   }
-
-  // renderGrid () {
-  //   const { children } = this.props;
-  //
-  //   return (
-  //     <div className='ui--CardGrid-grid'>
-  //       {children}
-  //       <div className='ui--CardGrid-spacer' />
-  //       <div className='ui--CardGrid-spacer' />
-  //       <div className='ui--CardGrid-spacer' />
-  //     </div>
-  //   );
-  // }
 }

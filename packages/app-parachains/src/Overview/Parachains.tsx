@@ -21,13 +21,16 @@ class Parachains extends React.PureComponent<Props> {
     const { parachains_parachains = [], t } = this.props;
 
     return (
-      <Column header={t('parachains')}>
+      <Column
+        emptyText={t('no deployed parachains')}
+        headerText={t('parachains')}
+      >
         {
           parachains_parachains.length
             ? parachains_parachains.map((paraId) =>
               <Parachain key={paraId.toString()} paraId={paraId} />
             )
-            : <article>{t('no deployed parachains')}</article>
+            : null
         }
       </Column>
     );
