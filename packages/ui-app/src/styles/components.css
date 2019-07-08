@@ -55,11 +55,16 @@ button.ui.icon.iconButton {
 
 .ui--DropdownLinked.ui--row {
   .small .ui.selection.dropdown {
+    border-right: none;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
     min-width: 5rem;
   }
 
-  .ui--DropdownLinked-Items {
-    padding-left: 0.5rem;
+  .large .ui.selection.dropdown {
+    border-left: none;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
   }
 }
 
