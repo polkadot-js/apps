@@ -19,9 +19,10 @@ import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
+import PasswordCheck from './PasswordCheck';
 import Transaction from './Transaction';
-import Unlock from './Unlock';
 import translate from './translate';
+import Unlock from './Unlock';
 
 type BaseProps = BareProps & {
   queue: Array<QueueTx>,
@@ -167,14 +168,19 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Unlock
-        autoFocus
-        error={unlockError || undefined}
-        onChange={this.onChangePassword}
-        password={password}
-        value={currentItem.accountId}
-        tabIndex={1}
-      />
+      <>
+        <Unlock
+          autoFocus
+          error={unlockError || undefined}
+          onChange={this.onChangePassword}
+          password={password}
+          value={currentItem.accountId}
+          tabIndex={1}
+        />
+        <PasswordCheck
+          unlockError={unlockError}
+        />
+      </>
     );
   }
 
