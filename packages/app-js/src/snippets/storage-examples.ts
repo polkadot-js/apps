@@ -97,8 +97,8 @@ const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 console.log('Tracking balances for:', [ALICE, BOB])
 
 // Subscribe and listen to several balance changes
-api.query.balances.freeBalance.multi([ALICE, BOB], (balance) => {
-  console.log('Change detected, new balances: ', balance)
+api.query.balances.freeBalance.multi([ALICE, BOB], (balances) => {
+  console.log('Change detected, new balances: ', balances)
 });`
 };
 

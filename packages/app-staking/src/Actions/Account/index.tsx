@@ -13,7 +13,7 @@ import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
 import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import BondExtra from './BondExtra';
 import Nominate from './Nominate';
@@ -26,6 +26,7 @@ import Validate from './Validate';
 
 type Props = ApiProps & I18nProps & {
   accountId: string,
+  className?: string,
   recentlyOffline: RecentlyOfflineMap,
   balances_all?: DerivedBalances,
   staking_info?: DerivedStaking,
@@ -54,67 +55,6 @@ type State = {
   validatorPrefs?: ValidatorPrefs
 };
 
-const Wrapper = styled.div`
-  display: flex;
-
-  .staking--Accounts {
-    flex: 1;
-    display: flex;
-    flex-direction: column
-  }
-
-  .staking--Account-detail.actions{
-    display: inline-block;
-    vertical-align: top;
-    margin-top: .5rem;
-    margin-bottom: 1.5rem;
-
-    &:last-child {
-      margin: 0;
-    }
-  }
-
-  .staking--Infos {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    .staking--balances {
-      div {
-        justify-content: flex-end;
-      }
-
-      .column {
-        flex:0;
-      }
-    }
-
-    .staking--Account-Nominee {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-top: 1em;
-      flex: 1;
-    }
-  }
-
-  .staking--Account-Nominee {
-    text-align: right;
-
-    .staking--label {
-      margin: 0 2.25rem -.75rem 0;
-    }
-  }
-
-  .ui--Row-buttons .ui--Button-Group {
-    margin-right: .25rem;
-
-    .ui.tiny.icon.button {
-      visibility: visible;
-    }
-  }
-`;
-
 function toIdString (id?: AccountId | null): string | null {
   return id
     ? id.toString()
@@ -140,19 +80,20 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ staking_info }: Props): State | null {
+  static getDerivedStateFromProps ({ accountId, staking_info }: Props): State | null {
+
     if (!staking_info) {
       return null;
     }
 
-    const { accountId, controllerId, nextSessionId, nominators, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionId, nominators, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isStashNominating = nominators && nominators.length !== 0;
     const isStashValidating = !!validatorPrefs && !validatorPrefs.isEmpty && !isStashNominating;
 
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
-      isActiveStash: accountId.eq(stashId),
+      isActiveStash: accountId === toIdString(stashId),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
@@ -165,7 +106,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { t } = this.props;
+    const { className, t } = this.props;
     const { isActiveStash, stashId } = this.state;
 
     if (!isActiveStash || !stashId) {
@@ -200,7 +141,7 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderSetSessionAccount()}
         {this.renderUnbond()}
         {this.renderValidate()}
-        <Wrapper>
+        <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
             {this.renderSessionAccount()}
@@ -211,7 +152,7 @@ class Account extends React.PureComponent<Props, State> {
             </div>
             {this.renderNominee()}
           </div>
-        </Wrapper>
+        </div>
       </AddressCard>
     );
   }
@@ -633,9 +574,70 @@ class Account extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
+export default withMulti(
+  styled(Account as React.ComponentClass<Props>)`
+    display: flex;
+
+    .staking--Accounts {
+      flex: 1;
+      display: flex;
+      flex-direction: column
+    }
+
+    .staking--Account-detail.actions{
+      display: inline-block;
+      vertical-align: top;
+      margin-top: .5rem;
+      margin-bottom: 1.5rem;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+
+    .staking--Infos {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .staking--balances {
+        div {
+          justify-content: flex-end;
+        }
+
+        .column {
+          flex:0;
+        }
+      }
+
+      .staking--Account-Nominee {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-top: 1em;
+        flex: 1;
+      }
+    }
+
+    .staking--Account-Nominee {
+      text-align: right;
+
+      .staking--label {
+        margin: 0 2.25rem -.75rem 0;
+      }
+    }
+
+    .ui--Row-buttons .ui--Button-Group {
+      margin-right: .25rem;
+
+      .ui.tiny.icon.button {
+        visibility: visible;
+      }
+    }
+  `,
+  translate,
   withCalls<Props>(
     ['derive.staking.info', { paramName: 'accountId' }],
     ['derive.balances.all', { paramName: 'accountId' }]
-  )(Account)
+  )
 );

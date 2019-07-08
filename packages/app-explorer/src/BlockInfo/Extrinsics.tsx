@@ -24,7 +24,8 @@ class Extrinsics extends React.PureComponent<Props> {
     return (
       <Column
         className={className}
-        header={label || t('extrinsics')}
+        emptyText={t('No pending extrinsics are in the queue')}
+        headerText={label || t('extrinsics')}
       >
         {this.renderContent()}
       </Column>
@@ -32,17 +33,9 @@ class Extrinsics extends React.PureComponent<Props> {
   }
 
   private renderContent () {
-    const { t, value } = this.props;
+    const { value = [] } = this.props;
 
-    if (!value || !value.length) {
-      return (
-        <article>
-          {t('no pending extrinsics are in the queue')}
-        </article>
-      );
-    }
-
-    return value.map(this.renderExtrinsic);
+    return (value || []).map(this.renderExtrinsic);
   }
 
   // FIXME This is _very_ similar to what we have in democracy/Item

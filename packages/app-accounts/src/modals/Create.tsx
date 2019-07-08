@@ -13,7 +13,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressRow, Button, Dropdown, Input, InputTags, Labelled, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
 import { InputAddress } from '@polkadot/ui-app/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -151,7 +151,8 @@ class Create extends React.PureComponent<Props, State> {
 
   private renderInput () {
     const { t } = this.props;
-    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType, tags } = this.state;
+    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType } = this.state;
+    const isDevSeed = seedType === 'dev';
     const seedLabel = (() => {
       switch (seedType) {
         case 'bip':
@@ -184,6 +185,7 @@ class Create extends React.PureComponent<Props, State> {
             help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
             isAction
             isError={!isSeedValid}
+            isReadOnly={isDevSeed}
             label={seedLabel}
             onChange={this.onChangeSeed}
             onEnter={this.onCommit}
@@ -205,44 +207,32 @@ class Create extends React.PureComponent<Props, State> {
             onEnter={this.onCommit}
             value={password}
           />
-          <InputTags
-            help={t('Additional user-specified tags that can be used to identify the account. Tags can be used for categorization and filtering.')}
-            label={t('user-defined tags')}
-            onChange={this.onChangeTags}
-            value={tags}
-          />
           <details
             className='accounts--Creator-advanced'
             open
           >
             <summary>{t('Advanced creation options')}</summary>
-            <div className='ui--Params'>
-              <div className='ui--row'>
-                <Dropdown
-                  defaultValue={pairType}
-                  help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                  label={t('keypair crypto type')}
-                  onChange={this.onChangePairType}
-                  options={uiSettings.availableCryptos}
-                />
-              </div>
-              <div className='ui--row'>
-                <Input
-                  className='full'
-                  help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
-                  isError={!!deriveError}
-                  label={t('secret derivation path')}
-                  onChange={this.onChangeDerive}
-                  onEnter={this.onCommit}
-                  value={derivePath}
-                />
-              </div>
-              {
-                deriveError
-                  ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
-                  : null
-              }
-            </div>
+            <Dropdown
+              defaultValue={pairType}
+              help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+              label={t('keypair crypto type')}
+              onChange={this.onChangePairType}
+              options={uiSettings.availableCryptos}
+            />
+            <Input
+              className='full'
+              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
+              isError={!!deriveError}
+              label={t('secret derivation path')}
+              onChange={this.onChangeDerive}
+              onEnter={this.onCommit}
+              value={derivePath}
+            />
+            {
+              deriveError
+                ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+                : null
+            }
           </details>
         </AddressRow>
       </Modal.Content>
@@ -390,10 +380,6 @@ class Create extends React.PureComponent<Props, State> {
 
   private onChangeSeed = (seed: string): void => {
     this.nextState({ seed } as State);
-  }
-
-  private onChangeTags = (tags: Array<string>): void => {
-    this.setState({ tags });
   }
 
   private onShowWarning = (): void => {

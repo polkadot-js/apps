@@ -27,10 +27,10 @@ class Main extends React.PureComponent<Props> {
         <Query />
         <Summary />
         <Columar>
-          <Column header={t('recent blocks')}>
+          <Column headerText={t('recent blocks')}>
             <BlockHeaders />
           </Column>
-          <Column header={t('recent events')}>
+          <Column headerText={t('recent events')}>
             <Events events={events} />
           </Column>
         </Columar>

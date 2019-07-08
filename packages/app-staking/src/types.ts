@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, BlockNumber } from '@polkadot/types';
 import BN from 'bn.js';
 import { DerivedFees, DerivedBalances, DerivedBalancesMap } from '@polkadot/api-derive/types';
-import { AccountId, BlockNumber } from '@polkadot/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type Nominators = {
   // stash account and who is being nominated
@@ -12,6 +13,7 @@ export type Nominators = {
 };
 
 export type ComponentProps = {
+  allAccounts?: SubjectInfo,
   balances?: DerivedBalancesMap,
   controllers: Array<string>,
   recentlyOffline: RecentlyOfflineMap,
