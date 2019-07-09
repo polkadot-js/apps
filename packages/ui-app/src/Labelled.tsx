@@ -62,7 +62,7 @@ const Wrapper = styled.div`
     }
 
     .labelExtra {
-      color: rgba(78, 78, 78, .75);
+      color: rgba(78, 78, 78, .85);
       font-weight: 100;
       right: 1.75rem;
       text-align: right;
