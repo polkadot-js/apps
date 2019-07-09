@@ -9,7 +9,7 @@ import { AccountId, BlockNumber } from '@polkadot/types';
 import React from 'react';
 import { Button, Dropdown } from '@polkadot/ui-app';
 import { withMulti, withApi, withCalls } from '@polkadot/ui-api';
-import TxModal, { PreContent, TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
+import TxModal, { TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
 
 import translate from '../translate';
 
@@ -70,11 +70,7 @@ class Approve extends TxModal<Props, State> {
       return null;
     }
 
-    return (
-      <PreContent>
-        {proposalInfo}
-      </PreContent>
-    );
+    return proposalInfo;
   }
 
   renderContent = () => {

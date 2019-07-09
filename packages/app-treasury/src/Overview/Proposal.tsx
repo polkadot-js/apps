@@ -93,7 +93,15 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     return (
       <Approve
         proposalInfo={
-          <TreasuryProposal proposal={proposal} />
+          <TreasuryProposal
+            asInset
+            insetProps={{
+              header: `#${proposalId}`,
+              isCollapsible: true,
+              withBottomMargin: true
+            }}
+            proposal={proposal}
+          />
         }
         proposalId={proposalId}
         onSuccess={onRespond}

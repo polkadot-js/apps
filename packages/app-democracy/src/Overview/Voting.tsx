@@ -82,7 +82,7 @@ class Voting extends React.PureComponent<Props, State> {
         <Modal.Header>{t('Vote on proposal')}</Modal.Header>
         <Modal.Content>
           <InputAddress
-            help={t('Select the account you wish to vote with. You can approve "yay" or deny "nay" the proposal.')}
+            help={t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
             label={t('vote with account')}
             onChange={this.onChangeAccount}
             type='account'

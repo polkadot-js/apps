@@ -10,13 +10,14 @@ import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
 
 import Call from './Call';
+import Inset, { InsetProps } from './Inset';
 import TreasuryProposal from './TreasuryProposal';
 import { isTreasuryProposalVote } from './util';
 
 type Props = {
   className?: string,
-  children?: React.ReactNode,
-  accessory?: React.ReactNode,
+  asInset?: boolean,
+  insetProps?: Partial<InsetProps>,
   proposal?: Proposal | null,
   idNumber: BN | number | string,
   withLinks?: boolean,
@@ -35,17 +36,11 @@ export const styles = `
   .ui--ProposedAction-header {
     margin-bottom: 1rem;
   }
-
-  .ui--ProposedAction-inset {
-    padding-left: 0;
-    padding-right: 0;
-    margin: 2rem 0;
-  }
 `;
 
 class ProposedAction extends React.PureComponent<Props> {
   render () {
-    const { proposal, withLinks, expandNested } = this.props;
+    const { asInset, insetProps, proposal, withLinks, expandNested } = this.props;
 
     const idNumber = typeof this.props.idNumber === 'string'
       ? this.props.idNumber
@@ -59,12 +54,24 @@ class ProposedAction extends React.PureComponent<Props> {
 
     const { meta, method, section } = Method.findFunction(proposal.callIndex);
 
+    const header = `#${idNumber}: ${section}.${method}`;
+    const documentation = (meta && meta.documentation)
+      ? (
+        <details>
+          <summary>{meta.documentation.join(' ')}</summary>
+        </details>
+      )
+      : null;
     const params = (isTreasuryProposalVote(proposal) && expandNested) ? (
       <TreasuryProposal
         className='ui--ProposedAction-inset'
-        inset
+        asInset
+        insetProps={{
+          withTopMargin: true,
+          withBottomMargin: true,
+          ...(withLinks ? { href: '/treasury' } : {})
+        }}
         proposalId={proposal.args[0].toString()}
-        withLink={withLinks}
       />
     ) : (
       <Call
@@ -73,14 +80,25 @@ class ProposedAction extends React.PureComponent<Props> {
       />
     );
 
+    if (asInset) {
+      return (
+        <Inset
+          header={header}
+          isCollapsible
+          {...insetProps}
+        >
+          <>
+            {documentation}
+            {params}
+          </>
+        </Inset>
+      );
+    }
+
     return (
       <>
-        <h3>#{idNumber}: {section}.{method}</h3>
-        {meta && meta.documentation && (
-          <details>
-            <summary>{meta.documentation.join(' ')}</summary>
-          </details>
-        )}
+        <h3>{header}</h3>
+        {documentation}
         {params}
       </>
     );

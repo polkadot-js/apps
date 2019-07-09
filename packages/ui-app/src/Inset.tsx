@@ -7,17 +7,31 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Icon from './Icon';
 import { classes } from './util';
 
-type Props = RouteComponentProps & {
+export type InsetProps = RouteComponentProps & {
   className?: string,
-  href?: string | null,
   children?: React.ReactNode
+  isCollapsible?: boolean,
+  header?: React.ReactNode,
+  href?: string | null,
+  withTopMargin?: boolean,
+  withBottomMargin?: boolean
 };
 
-class ProposedAction extends React.PureComponent<Props> {
+type State = {
+  isCollapsed: boolean
+};
+
+class Inset extends React.PureComponent<InsetProps, State> {
+  state: State = {
+    isCollapsed: true
+  };
+
   render () {
-    const { children, className, href } = this.props;
+    const { children, className, isCollapsible, header, href, withBottomMargin, withTopMargin } = this.props;
+    const { isCollapsed } = this.state;
 
     if (!children) {
       return null;
@@ -25,10 +39,35 @@ class ProposedAction extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classes('ui--Inset', href && 'as-link', className)}
-        onClick={href ? this.onClick : undefined}
+        className={
+          classes(
+            'ui--Inset',
+            href && 'as-link',
+            isCollapsible && 'collapsible',
+            withBottomMargin && 'bottom-margin',
+            withTopMargin && 'top-margin',
+            className
+          )
+        }
       >
-        {children}
+        {isCollapsible && (
+          <div
+            className='header'
+            onClick={this.toggleCollapsed}
+          >
+            <h3>{header}</h3>
+            <Icon
+              className={classes(isCollapsed && 'collapsed')}
+              name='angle up'
+            />
+          </div>
+        )}
+        <div
+          className={classes('children', (isCollapsible && isCollapsed) && 'collapsed')}
+          onClick={href ? this.onClick : undefined}
+        >
+          {children}
+        </div>
       </div>
     );
   }
@@ -38,16 +77,68 @@ class ProposedAction extends React.PureComponent<Props> {
 
     history.push(href!);
   }
+
+  private toggleCollapsed = () => {
+    this.setState(({ isCollapsed }: State) => {
+      return {
+        isCollapsed: !isCollapsed
+      };
+    });
+  }
 }
 
 export default withRouter(
-  styled(ProposedAction as React.ComponentClass<Props>)`
+  styled(Inset as React.ComponentClass<InsetProps, State>)`
     & {
       box-shadow: 0 3px 3px rgba(0,0,0,.2);
       position: relative;
       background: #fefefe;
       padding: 1rem;
       transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+
+      &.bottom-margin {
+        margin-bottom: 2rem;
+      }
+
+      &.top-margin {
+        margin-top: 2rem;
+      }
+
+      .header {
+        cursor: pointer;
+        height: 2rem;
+        width: 100%;
+
+        h3 {
+          line-height: 2rem;
+          margin-bottom: 0;
+        }
+
+        .icon {
+          height: 4rem;
+          width: 4rem;
+          font-size: 2rem;
+          color: rgba(0,0,0,0.35);
+          position: absolute;
+          right: 0;
+          top: 0;
+          line-height: 4rem;
+          transition: all 0.2s;
+          transform-origin: center center;
+
+          &.collapsed {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      .children {
+        &.collapsed {
+          display: none;
+        }
+      }
 
       &.as-link {
         cursor: pointer;

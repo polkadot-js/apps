@@ -15,7 +15,7 @@ import translate from './translate';
 import Button from './Button';
 import Dropdown from './Dropdown';
 import ProposedAction from './ProposedAction';
-import TxModal, { PreContent, TxModalProps, TxModalState } from './TxModal';
+import TxModal, { TxModalProps, TxModalState } from './TxModal';
 import { isTreasuryProposalVote } from './util';
 
 type Props = I18nProps & TxModalProps & {
@@ -42,7 +42,7 @@ class Voting extends TxModal<Props, State> {
   }
 
   accountLabel = () => this.props.t('Vote with account');
-  accountHelp = () => this.props.t('Select the account you wish to vote with. You can approve "yay" or deny "nay" the proposal.');
+  accountHelp = () => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
 
   txMethod = () => {
     const { isCouncil } = this.props;
@@ -67,7 +67,7 @@ class Voting extends TxModal<Props, State> {
     this.state = {
       ...this.defaultState,
       voteOptions: [
-        { text: t('Yay, I approve'), value: true },
+        { text: t('Aye, I approve'), value: true },
         { text: t('Nay, I do not approve'), value: false }
       ],
       voteValue: true
@@ -78,13 +78,15 @@ class Voting extends TxModal<Props, State> {
     const { idNumber, proposal } = this.props;
 
     return (
-      <PreContent>
-        <ProposedAction
-          idNumber={idNumber}
-          proposal={proposal}
-          expandNested={isTreasuryProposalVote(proposal)}
-        />
-      </PreContent>
+      <ProposedAction
+        asInset
+        expandNested={isTreasuryProposalVote(proposal)}
+        idNumber={idNumber}
+        insetProps={{
+          withBottomMargin: true
+        }}
+        proposal={proposal}
+      />
     );
   }
 

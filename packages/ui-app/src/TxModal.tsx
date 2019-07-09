@@ -21,10 +21,6 @@ export type TxModalState = {
   isOpen: boolean
 };
 
-export const PreContent = styled(Inset)`
-  margin: 0 0 2rem;
-`;
-
 class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
     accountId: null,

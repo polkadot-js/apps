@@ -23,13 +23,13 @@ type Props = I18nProps & {
 type State = {
   votedTotal: number,
   votedNay: number,
-  votedYay: number
+  votedAye: number
 };
 
 class Motion extends React.PureComponent<Props, State> {
   state: State = {
     votedTotal: 0,
-    votedYay: 0,
+    votedAye: 0,
     votedNay: 0
   };
 
@@ -42,7 +42,7 @@ class Motion extends React.PureComponent<Props, State> {
 
     const newState: State = {
       votedNay: nays.length,
-      votedYay: ayes.length,
+      votedAye: ayes.length,
       votedTotal: ayes.length + nays.length
     };
 

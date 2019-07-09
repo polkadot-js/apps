@@ -7,15 +7,17 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { Option, TreasuryProposal as TreasuryProposalType } from '@polkadot/types';
 
 import React from 'react';
-import { InputAddress, Inset, Labelled, Static } from '@polkadot/ui-app';
+import { InputAddress, Labelled, Static } from '@polkadot/ui-app';
 import { withMulti, withApi } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
 
+import Inset, { InsetProps } from './Inset';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & {
   className?: string,
-  inset?: boolean,
+  asInset?: boolean,
+  insetProps?: Partial<InsetProps>,
   onClick?: () => void,
   proposalId: string,
   proposal?: TreasuryProposalType | null,
@@ -49,7 +51,7 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, inset, onClick, withLink, t } = this.props;
+    const { className, asInset, insetProps, onClick, t } = this.props;
     const { proposal } = this.state;
 
     if (!proposal) {
@@ -63,6 +65,7 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
         <Labelled label={t('proposed by')}>
           <InputAddress
             isDisabled
+            defaultValue={proposer}
             value={proposer}
             withLabel={false}
           />
@@ -70,6 +73,7 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
         <Labelled label={t('beneficiary')}>
           <InputAddress
             isDisabled
+            defaultValue={beneficiary}
             value={beneficiary}
             withLabel={false}
           />
@@ -83,11 +87,11 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
       </>
     );
 
-    if (inset) {
+    if (asInset) {
       return (
         <Inset
           className={className}
-          href={withLink ? '/treasury' : null}
+          {...insetProps}
         >
           {inner}
         </Inset>
