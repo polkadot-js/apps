@@ -23,6 +23,8 @@
       "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
       "@polkadot/app-js": [ "packages/app-js/src" ],
       "@polkadot/app-js/*": [ "packages/app-js/src/*" ],
+      "@polkadot/app-parachains": [ "packages/app-parachains/src" ],
+      "@polkadot/app-parachains/*": [ "packages/app-parachains/src/*" ],
       "@polkadot/app-settings": [ "packages/app-settings/src" ],
       "@polkadot/app-settings/*": [ "packages/app-settings/src/*" ],
       "@polkadot/app-staking": [ "packages/app-staking/src" ],
