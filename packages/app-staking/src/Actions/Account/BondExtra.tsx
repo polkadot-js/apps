@@ -106,6 +106,7 @@ class BondExtra extends TxComponent<Props, State> {
   private renderContent () {
     const { stashId, t } = this.props;
     const { maxBalance } = this.state;
+    const available = <span className='label'>{t('available ')}</span>;
 
     return (
       <>
@@ -118,17 +119,7 @@ class BondExtra extends TxComponent<Props, State> {
             defaultValue={stashId}
             isDisabled
             label={t('stash account')}
-            labelExtra={
-            <BalanceWrapper>
-              <Available
-                label={t('available ')}
-                params={stashId}
-              />
-              <Bonded
-                label={t('bonded ')}
-                params={stashId}
-              />
-            </BalanceWrapper>}
+            labelExtra={<Available label={available} params={stashId} />}
           />
           <InputBalance
             autoFocus
