@@ -16,6 +16,7 @@ import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import js from './js';
+import parachains from './parachains';
 import settings from './settings';
 import staking from './staking';
 import storage from './storage';
@@ -35,6 +36,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     staking,
     democracy,
     council,
+    // TODO Not sure about the inclusion of treasury & parachains here
     null,
     settings,
     template
@@ -50,6 +52,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     democracy,
     council,
     treasury,
+    parachains,
     null,
     contracts,
     storage,
