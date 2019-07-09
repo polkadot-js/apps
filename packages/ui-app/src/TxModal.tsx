@@ -5,8 +5,7 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import styled from 'styled-components';
-import { Button, InputAddress, Inset, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
+import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
 export type TxModalProps = I18nProps & {
   onSubmit?: () => void,
