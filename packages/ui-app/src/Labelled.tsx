@@ -36,10 +36,6 @@ const Wrapper = styled.div`
   }
 
   > label {
-    margin: 0.25rem 0 0 0;
-    padding-right: 0.5rem;
-    position: relative;
-    text-align: left;
     text-transform: lowercase;
   }
 
