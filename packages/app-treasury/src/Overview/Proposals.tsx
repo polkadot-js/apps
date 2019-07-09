@@ -13,7 +13,6 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import { Column } from '@polkadot/ui-app';
 
 import Proposal from './Proposal';
-import Propose from './Propose';
 import translate from '../translate';
 
 type Props = I18nProps & RouteComponentProps & {
@@ -59,9 +58,6 @@ class ProposalsBase extends React.PureComponent<Props> {
         <Column
           emptyText={t(isApprovals ? 'No approved proposals' : 'No pending proposals')}
           headerText={t(isApprovals ? 'Approved' : 'Proposals')}
-          buttons={!isApprovals && (
-            <Propose />
-          )}
           isEmpty={isEmpty}
         >
           {this.renderProposals()}
