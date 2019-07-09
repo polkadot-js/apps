@@ -9,7 +9,7 @@ import { CalculateBalanceProps } from '../../types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, Modal, TxButton, TxComponent, AddressInfo } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, Modal, TxButton, TxComponent, AddressInfo, Available, Bonded } from '@polkadot/ui-app';
 import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
@@ -33,11 +33,14 @@ type State = {
 const ZERO = new BN(0);
 
 const BalanceWrapper = styled.div`
-  & > div {
-    justify-content: flex-end;
+  div {
+    display: inline-block;
 
-    & .column {
-      flex: 0;
+    &:first-child {
+      margin-right: 1rem;
+
+    ::after {
+      content: ", ";
     }
   }
 `;
@@ -115,16 +118,18 @@ class BondExtra extends TxComponent<Props, State> {
             defaultValue={stashId}
             isDisabled
             label={t('stash account')}
+            labelExtra={
+            <BalanceWrapper>
+              <Available
+                label={t('available ')}
+                params={stashId}
+              />
+              <Bonded
+                label={t('bonded ')}
+                params={stashId}
+              />
+            </BalanceWrapper>}
           />
-          <BalanceWrapper>
-            <AddressInfo
-              address={stashId}
-              withBalance={{
-                available: true,
-                bonded: true
-              }}
-            />
-          </BalanceWrapper>
           <InputBalance
             autoFocus
             className='medium'
