@@ -8,8 +8,7 @@ import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import styled from 'styled-components';
-import { Available, Bonded, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
+import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
@@ -31,19 +30,6 @@ type State = {
 };
 
 const ZERO = new BN(0);
-
-const BalanceWrapper = styled.div`
-  div {
-    display: inline-block;
-
-    &:first-child {
-      margin-right: 1rem;
-
-    ::after {
-      content: ", ";
-    }
-  }
-`;
 
 class BondExtra extends TxComponent<Props, State> {
   state: State = {
