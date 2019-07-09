@@ -54,11 +54,10 @@ class CurrentList extends React.PureComponent<Props, State> {
       <div>
         <FilterOverlay>
           <Dropdown
-            help={t('Select which validators/intentions you want to display.')}
-            label={t('filter')}
             onChange={this.onChangeFilter}
             options={filterOptions}
             value={filter}
+            withLabel={false}
           />
         </FilterOverlay>
         <Columar className='validator--ValidatorsList'>

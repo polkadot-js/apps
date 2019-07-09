@@ -26,6 +26,7 @@ type Props = BareProps & {
   isInput?: boolean,
   isMultiple?: boolean,
   label?: string,
+  labelExtra?: React.ReactNode,
   onChange?: (value: string | null) => void,
   onChangeMulti?: (value: Array<string>) => void,
   options?: Array<KeyringSectionOption>,
@@ -121,7 +122,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
+    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
@@ -166,6 +167,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         isError={isError}
         isMultiple={isMultiple}
         label={label}
+        labelExtra={labelExtra}
         onChange={
           isMultiple
             ? this.onChangeMulti
@@ -292,8 +294,19 @@ export default withMulti(
       width: 100%;
     }
 
-    .ui.search.selection.dropdown > input.search {
-      padding-left: 4rem;
+    .ui.search.selection.dropdown {
+      > .text > .ui--KeyPair {
+        .ui--IdentityIcon {
+          border: 1px solid #888;
+          border-radius: 50%;
+          left: -2.75rem;
+          top: -1.2rem;
+        }
+
+        .name {
+          margin-left: 0;
+        }
+      }
     }
 
     &.hideAddress .ui--KeyPair .address {

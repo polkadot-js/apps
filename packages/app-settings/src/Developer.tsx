@@ -8,7 +8,7 @@ import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import { getTypeRegistry } from '@polkadot/types';
-import { Button, Editor, InputFile, Labelled } from '@polkadot/ui-app';
+import { Button, Editor, InputFile } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
@@ -59,7 +59,7 @@ class Developer extends React.PureComponent<Props, State> {
               clearContent={typesHasNoEntries && isTypesValid}
               help={t('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
               isError={!isTypesValid}
-              label={t('Upload your additional type definitions as a JSON file')}
+              label={t('Additional types as a JSON file (or edit below)')}
               onChange={this.onChangeTypes}
               placeholder={typesPlaceholder}
             />
@@ -67,17 +67,12 @@ class Developer extends React.PureComponent<Props, State> {
         </div>
         <div className='ui--row'>
           <div className='full'>
-            <Labelled
-              help={t('Please create a key-value pair for each of your custom structures. The key should be the name of your custom structure and the value an object containing your custom type definitions.')}
-              label={t('Manually enter your custom type definitions as valid JSON')}
-            >
-              <Editor
-                className='editor'
-                code={code}
-                isValid={isJsonValid}
-                onEdit={this.onEditTypes}
-              />
-            </Labelled>
+            <Editor
+              className='editor'
+              code={code}
+              isValid={isJsonValid}
+              onEdit={this.onEditTypes}
+            />
           </div>
         </div>
         <Button.Group>
@@ -191,7 +186,8 @@ class Developer extends React.PureComponent<Props, State> {
 
 export default translate(styled(Developer)`
   .editor {
-    height: 300px;
+    height: 21rem;
+    margin-left: 2rem;
     position: relative;
   }
 `);

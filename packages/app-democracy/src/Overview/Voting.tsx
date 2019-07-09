@@ -36,7 +36,7 @@ class Voting extends React.PureComponent<Props, State> {
     this.state = {
       isVotingOpen: false,
       voteOptions: [
-        { text: t('Yay, I approve'), value: true },
+        { text: t('Aye, I approve'), value: true },
         { text: t('Nay, I do not approve'), value: false }
       ],
       voteValue: true

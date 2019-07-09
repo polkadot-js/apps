@@ -15,6 +15,7 @@ import { classes } from './util';
 export type Props = I18nProps & {
   address?: string,
   contractAbi: Abi,
+  isLabelled?: boolean,
   isRemovable: boolean,
   onRemove?: () => void,
   onSelect?: (callAddress?: string, callMethod?: string) => void
@@ -22,10 +23,10 @@ export type Props = I18nProps & {
 
 class Messages extends React.PureComponent<Props> {
   render () {
-    const { className, contractAbi: { abi: { messages } }, isRemovable, onRemove = () => null, onSelect, t } = this.props;
+    const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = () => null, onSelect, t } = this.props;
 
     return (
-      <div className={classes(className, onSelect && 'select')}>
+      <div className={classes(className, 'ui--Messages', isLabelled && 'labelled', onSelect && 'select')}>
         {messages.map((_, index) => {
           return this.renderMessage(index);
         })}
@@ -91,6 +92,15 @@ export default translate(styled(Messages)`
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
+
+  &.labelled {
+    background: white;
+    box-sizing: border-box;
+    border: 1px solid rgba(34,36,38,.15);
+    border-radius: .28571429rem;
+    padding: 1rem 1rem 0.5rem;
+    width: 100%;
+  }
 
   & > .message {
     font-family: monospace;

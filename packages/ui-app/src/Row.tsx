@@ -20,8 +20,8 @@ export const styles = `
   &.inline {
     display: flex;
 
-    .ui--Row-children {
-      padding: 0 0 0 3rem;
+    .ui--Row-accountId {
+      white-space: nowrap;
     }
   }
 
@@ -95,6 +95,7 @@ export const styles = `
 
   .ui--Row-children {
     display: block;
+    padding-left: 1rem;
     padding-top: 1rem;
   }
 

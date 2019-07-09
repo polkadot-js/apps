@@ -55,11 +55,16 @@ button.ui.icon.iconButton {
 
 .ui--DropdownLinked.ui--row {
   .small .ui.selection.dropdown {
+    border-right: none;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
     min-width: 5rem;
   }
 
-  .ui--DropdownLinked-Items {
-    padding-left: 0.5rem;
+  .large .ui.selection.dropdown {
+    border-left: none;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
   }
 }
 
@@ -87,34 +92,6 @@ button.ui.icon.iconButton {
     text-transform: uppercase;
     padding: 0 0.5rem !important;
     border-radius: 0.3rem !important;
-  }
-}
-
-.ui--InputFile {
-  align-items: center;
-  background: #fff;
-  border: 1px dashed rgba(34, 36, 38, 0.15);
-  border-radius: $small-corner;
-  display: flex;
-  font-size: 1rem;
-  height: 3.5rem;
-  justify-content: center;
-  margin: 0.25rem 0;
-  width: 100% !important;
-
-  &.error {
-    background: #fff6f6;
-    border-color: #e0b4b4;
-  }
-
-  &:hover {
-    background: #fefefe;
-    border-style: solid;
-    cursor: pointer;
-  }
-
-  .label {
-    color: rgba(0, 0, 0, .6);
   }
 }
 
