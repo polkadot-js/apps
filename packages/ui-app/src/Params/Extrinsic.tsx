@@ -3,16 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/primitive/Method';
-import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParam$OnChange, RawParam$OnEnter } from '@polkadot/ui-params/types';
+import { BareProps } from '../types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
-import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = BareProps & {
   defaultValue: MethodFunction,
   isDisabled?: boolean,
   isError?: boolean,
@@ -23,9 +22,9 @@ type Props = I18nProps & {
   withLabel?: boolean
 };
 
-class ExtrinsicDisplay extends React.PureComponent<Props> {
+export default class ExtrinsicDisplay extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, t, withLabel } = this.props;
+    const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, withLabel } = this.props;
 
     return (
       <BaseExtrinsic
@@ -34,7 +33,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
-        label={<>{label} {t('(extrinsic)')}</>}
+        label={label}
         onChange={this.onChange}
         onEnter={onEnter}
         style={style}
@@ -52,5 +51,3 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
     });
   }
 }
-
-export default translate(ExtrinsicDisplay);

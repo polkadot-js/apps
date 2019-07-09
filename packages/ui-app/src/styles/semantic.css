@@ -52,8 +52,7 @@
 }
 
 .ui.input {
-  /* from .ui.fluid.input */
-  display: flex;
+  width: 100%;
 
   &.disabled {
     opacity: 1;

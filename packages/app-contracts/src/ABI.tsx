@@ -121,6 +121,7 @@ class ABI extends React.PureComponent<Props, State> {
         <Messages
           contractAbi={contractAbi!}
           onRemove={onRemove || this.onRemove}
+          isLabelled={!!label}
           isRemovable={!isDisabled}
         />
       </Labelled>
