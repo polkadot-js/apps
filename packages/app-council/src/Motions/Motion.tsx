@@ -89,8 +89,8 @@ class Motion extends React.PureComponent<Props, State> {
 
     return (
       <div>
-        <Labelled
-          label={t(
+        <h4>
+          {t(
             'ayes ({{ayes}}/{{threshold}} to approve)',
             {
               replace: {
@@ -99,37 +99,41 @@ class Motion extends React.PureComponent<Props, State> {
               }
             }
           )}
-        >
-          {ayes.map((address, index) => (
+        </h4>
+        {ayes.map((address, index) => (
+          <Labelled
+            key={`${index}:${address}`}
+            label={t('Aye')}
+          >
             <InputAddress
               isDisabled
-              key={`${index}:${address}`}
               value={address}
               withLabel={false}
             />
-          ))}
-        </Labelled>
-        <Labelled
-          label={
-            t(
-              'nays ({{nays}})',
-              {
-                replace: {
-                  nays: nays.length
-                }
+          </Labelled>
+        ))}
+        <h4>
+          {t(
+            'nays ({{nays}})',
+            {
+              replace: {
+                nays: nays.length
               }
-            )
-          }
-        >
-          {nays.map((address, index) => (
+            }
+          )}
+        </h4>
+        {nays.map((address, index) => (
+          <Labelled
+            key={`${index}:${address}`}
+            label={t('Nay')}
+          >
             <InputAddress
               isDisabled
-              key={`${index}:${address}`}
               value={address}
               withLabel={false}
             />
-          ))}
-        </Labelled>
+          </Labelled>
+        ))}
       </div>
     );
   }
