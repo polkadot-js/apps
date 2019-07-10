@@ -101,7 +101,6 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
 
   protected renderCollection (): React.ReactNode {
     const { children } = this.props;
-
     return children;
   }
 }

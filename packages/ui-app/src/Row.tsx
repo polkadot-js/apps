@@ -84,8 +84,9 @@ export const styles = `
   }
 
   .ui--Row-buttons {
-    flex: 0;
-    margin: -0.75rem -1rem 0 0;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
     white-space: nowrap;
 
     button.ui.button:last-child {
@@ -103,6 +104,7 @@ export const styles = `
     flex: 1;
     margin-right: 1rem;
     padding: 0.25rem 0 0;
+    width: 100%;
 
     .account-label{
       margin: -0.75rem 0 0 0

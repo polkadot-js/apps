@@ -11,7 +11,7 @@ import { HelpOverlay, Tabs } from '@polkadot/ui-app';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
-import Settings from './Settings';
+// import Settings from './Settings';
 
 import translate from './translate';
 
@@ -33,11 +33,11 @@ class App extends React.PureComponent<Props, State> {
           isRoot: true,
           name: 'overview',
           text: t('Treasury overview')
-        },
-        {
-          name: 'settings',
-          text: t('Edit settings')
         }
+        // {
+        //   name: 'settings',
+        //   text: t('Edit settings')
+        // }
       ]
     };
   }
@@ -56,7 +56,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/settings`} component={Settings} />
+          {/*<Route path={`${basePath}/settings`} component={Settings} />*/}
           <Route component={Overview} />
         </Switch>
       </main>

@@ -2,82 +2,42 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Method, Proposal } from '@polkadot/types';
+import { Proposal } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { formatNumber } from '@polkadot/util';
 
-import Call from './Call';
 import Card from './Card';
+import ProposedAction, { styles as proposedActionStyles } from './ProposedAction';
 import { styles as rowStyles } from './Row';
 
-type Props = {
+type Props = RouteComponentProps & {
   className?: string,
   children?: React.ReactNode,
   accessory?: React.ReactNode,
-  proposal?: Proposal,
-  idNumber: BN | number | string
+  proposal?: Proposal | null,
+  idNumber: BN | number | string,
+  expandNested?: boolean
 };
 
 export const styles = `
   ${rowStyles}
-
-  .ui--ActionItem-extrinsic {
-    margin-top: 1rem;
-
-    .ui--Params-Content {
-      padding-left: 0;
-    }
-  }
-
-  .ui--ActionItem-header {
-    margin-bottom: 1rem;
-  }
-
-  .ui--ActionItem-buttons {
-
-  }
+  ${proposedActionStyles}
 `;
 
 class ActionItem extends React.PureComponent<Props> {
   render () {
-    const { className, children, accessory, proposal } = this.props;
-
-    const idNumber = typeof this.props.idNumber === 'string'
-      ? this.props.idNumber
-      : formatNumber(this.props.idNumber);
+    const { className, children, accessory } = this.props;
 
     return (
       <Card className={className}>
         <div className='ui--Row'>
           <div className='ui--Row-base'>
             <div className='ui--Row-details'>
-              {
-                proposal ?
-                  (() => {
-                    const { meta, method, section } = Method.findFunction(proposal.callIndex);
-
-                    return (
-                      <>
-                        <h3>#{idNumber}: {section}.{method}</h3>
-                        {meta && meta.documentation && (
-                          <details>
-                            <summary>{meta.documentation.join(' ')}</summary>
-                          </details>
-                        )}
-                        <Call
-                          className='ui--ActionItem-extrinsic'
-                          value={proposal}
-                        />
-                      </>
-                    );
-                  })() :
-                  (
-                    <h3>#{idNumber}</h3>
-                  )
-              }
+              {this.renderProposal()}
             </div>
             {accessory}
           </div>
@@ -86,6 +46,19 @@ class ActionItem extends React.PureComponent<Props> {
       </Card>
     );
   }
+
+  private renderProposal () {
+    const { idNumber, proposal, expandNested } = this.props;
+
+    return (
+      <ProposedAction
+        idNumber={idNumber}
+        proposal={proposal}
+        withLinks={expandNested}
+        expandNested={expandNested}
+      />
+    );
+  }
 }
 
-export default styled(ActionItem as React.ComponentClass<Props>)`${styles}`;
+export default withRouter(styled(ActionItem as React.ComponentClass<Props>)`${styles}`);

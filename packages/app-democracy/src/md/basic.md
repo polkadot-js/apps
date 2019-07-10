@@ -9,5 +9,5 @@ This lists the proposals that you can not vote on yet. The proposal with the hig
 
 # Referendum
 
-This lists the proposal that you can now vote for "yay" or against "nay".
+This lists the proposal that you can now vote for "aye" or against "nay".
 At the end of the launch period, and depending on the outcome of the referendum, the action that was subjected to vote will be executed or rejected.

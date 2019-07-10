@@ -6,20 +6,27 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
-import { Option, TreasuryProposal } from '@polkadot/types';
-import { ActionItem, Button, Icon, InputAddress, Labelled, Static } from '@polkadot/ui-app';
+import styled from 'styled-components';
+import { Option, TreasuryProposal as TreasuryProposalType } from '@polkadot/types';
+import { ActionItem, Icon, TreasuryProposal } from '@polkadot/ui-app';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
-import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 import Approve from './Approve';
 
+const Approved = styled.h3`
+  color: green;
+  margin: 0;
+`;
+
 type Props = I18nProps & {
   allAccounts?: SubjectInfo,
   isApproved: boolean,
-  proposal?: TreasuryProposal | null,
-  proposalId: string
+  proposal?: TreasuryProposalType | null,
+  proposalId: string,
+  onPopulate: () => void,
+  onRespond: () => void
 };
 
 type State = {
@@ -27,6 +34,23 @@ type State = {
 };
 
 class ProposalDisplay extends React.PureComponent<Props, State> {
+  constructor (props: Props) {
+    super(props);
+
+    const { proposal, onPopulate } = props;
+    if (proposal) {
+      onPopulate();
+    }
+  }
+
+  componentWillReceiveProps ({ proposal }: Props) {
+    const { onPopulate } = this.props;
+
+    if (proposal && !this.props.proposal) {
+      onPopulate();
+    }
+  }
+
   state: State = {
     isApproveOpen: false
   };
@@ -43,22 +67,21 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
         accessory={this.renderAccessory()}
         idNumber={proposalId}
       >
-        {this.renderInfo()}
+        <TreasuryProposal proposal={proposal} />
       </ActionItem>
     );
   }
 
   private renderAccessory () {
-    const { allAccounts, isApproved, proposalId, t } = this.props;
-    const { isApproveOpen } = this.state;
+    const { allAccounts, isApproved, onRespond, proposal, proposalId, t } = this.props;
 
     if (isApproved) {
       return (
-        <h3 className='treasury--Approve-approved'>
+        <Approved>
           <Icon name='check' />
           {'  '}
           {t('Approved')}
-        </h3>
+        </Approved>
       );
     }
 
@@ -68,72 +91,20 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     }
 
     return (
-      <>
-        <div className='ui--Row-buttons'>
-          <Button.Group>
-            <Button
-              isPrimary
-              label={t('Respond')}
-              labelIcon='reply'
-              onClick={this.showApprove}
-            />
-          </Button.Group>
-        </div>
-        <Approve
-          isOpen={isApproveOpen}
-          onClose={this.hideApprove}
-          proposalInfo={this.renderInfo()}
-          proposalId={proposalId}
-        />
-      </>
+      <Approve
+        proposalInfo={
+          <>
+            <h3>Proposal #{proposalId}</h3>
+            <details>
+              <TreasuryProposal proposal={proposal} />
+            </details>
+            <br />
+          </>
+        }
+        proposalId={proposalId}
+        onSuccess={onRespond}
+      />
     );
-  }
-
-  private renderInfo () {
-    const { isApproved, proposal, t } = this.props;
-
-    if (!proposal) {
-      return null;
-    }
-
-    const { bond, beneficiary, proposer, value } = proposal;
-
-    return (
-      <div className={['treasury--Proposal-info', !isApproved && 'with-children'].join(' ')}>
-        <Labelled label={t('proposed by')}>
-          <InputAddress
-            isDisabled
-            value={proposer}
-            withLabel={false}
-          />
-        </Labelled>
-        <Labelled label={t('beneficiary')}>
-          <InputAddress
-            isDisabled
-            value={beneficiary}
-            withLabel={false}
-          />
-        </Labelled>
-        <Static label={t('value')}>
-          {formatBalance(value)}
-        </Static>
-        <Static label={t('bond')}>
-          {formatBalance(bond)}
-        </Static>
-      </div>
-    );
-  }
-
-  private showApprove = (): void => {
-    this.setState({
-      isApproveOpen: true
-    });
-  }
-
-  private hideApprove = (): void => {
-    this.setState({
-      isApproveOpen: false
-    });
   }
 }
 
@@ -144,7 +115,7 @@ export default withMulti(
     ['query.treasury.proposals', {
       paramName: 'proposalId',
       propName: 'proposal',
-      transform: (value: Option<TreasuryProposal>) =>
+      transform: (value: Option<TreasuryProposalType>) =>
         value.unwrapOr(null)
     }]
   ),

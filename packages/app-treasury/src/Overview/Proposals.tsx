@@ -7,27 +7,29 @@ import { ProposalIndex } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import styled from 'styled-components';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { withCalls, withMulti } from '@polkadot/ui-api';
-import { Button, Column } from '@polkadot/ui-app';
+import { Column } from '@polkadot/ui-app';
 
 import Proposal from './Proposal';
-import Propose from './Propose';
 import translate from '../translate';
 
-type Props = I18nProps & {
+type Props = I18nProps & RouteComponentProps & {
   isApprovals?: boolean,
   treasury_approvals?: Array<BN>,
   treasury_proposalCount?: BN
 };
 
 type State = {
+  isEmpty: boolean,
   isProposeOpen: boolean,
   proposalIndices: Array<BN>
 };
 
 class ProposalsBase extends React.PureComponent<Props> {
   state: State = {
+    isEmpty: true,
     isProposeOpen: false,
     proposalIndices: [] as Array<BN>
   };
@@ -39,7 +41,9 @@ class ProposalsBase extends React.PureComponent<Props> {
       proposalIndices = treasury_approvals;
     } else {
       for (let i = 0; i < treasury_proposalCount.toNumber(); i++) {
-        proposalIndices.push(new BN(i));
+        if (!treasury_approvals.find(index => index.eqn(i))) {
+          proposalIndices.push(new BN(i));
+        }
       }
     }
     return { proposalIndices };
@@ -47,32 +51,17 @@ class ProposalsBase extends React.PureComponent<Props> {
 
   render () {
     const { isApprovals, t } = this.props;
-    const { isProposeOpen } = this.state;
+    const { isEmpty } = this.state;
 
     return (
       <>
         <Column
           emptyText={t(isApprovals ? 'No approved proposals' : 'No pending proposals')}
           headerText={t(isApprovals ? 'Approved' : 'Proposals')}
-          buttons={!isApprovals && (
-            <Button.Group>
-              <Button
-                isPrimary
-                label={t('Submit a spend proposal')}
-                labelIcon='add'
-                onClick={this.togglePropose(true)}
-              />
-            </Button.Group>
-          )}
+          isEmpty={isEmpty}
         >
           {this.renderProposals()}
         </Column>
-        {!isApprovals && (
-          <Propose
-            isOpen={isProposeOpen}
-            onClose={this.togglePropose(false)}
-          />
-        )}
       </>
     );
   }
@@ -84,26 +73,32 @@ class ProposalsBase extends React.PureComponent<Props> {
     return proposalIndices.map((proposalId) => (
       <Proposal
         isApproved={isApprovals}
+        onPopulate={this.onPopulateProposal}
+        onRespond={this.onRespond}
         proposalId={proposalId.toString()}
         key={proposalId.toString()}
       />
     ));
   }
 
-  private togglePropose = (isProposeOpen: boolean) => () => {
-    this.setState({
-      isProposeOpen
+  onRespond = () => {
+    const { history } = this.props;
+
+    history.push('/council/motions');
+  }
+
+  private onPopulateProposal = () => {
+    this.setState(({ isEmpty }: State) => {
+      if (isEmpty) {
+        return { isEmpty: false };
+      }
+      return null;
     });
   }
 }
 
 const Proposals = withMulti(
-  styled(ProposalsBase as React.ComponentClass<Props, State>)`
-    .treasury--Proposals-inner {
-      display: flex;
-      flex-wrap: column;
-    }
-  `,
+  ProposalsBase,
   translate,
   withCalls<Props>(
     [
@@ -113,7 +108,8 @@ const Proposals = withMulti(
       }
     ],
     'query.treasury.proposalCount'
-  )
+  ),
+  withRouter
 );
 
 export default Proposals;

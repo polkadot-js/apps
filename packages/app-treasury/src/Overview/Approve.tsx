@@ -2,18 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
+import { AccountId, BlockNumber } from '@polkadot/types';
 
 import React from 'react';
-import { Dropdown } from '@polkadot/ui-app';
+import { Button, Dropdown } from '@polkadot/ui-app';
+import { withMulti, withApi, withCalls } from '@polkadot/ui-api';
 import TxModal, { TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
 
 import translate from '../translate';
 
-type Props = I18nProps & TxModalProps & {
+type Props = I18nProps & ApiProps & TxModalProps & {
   isApproved?: boolean,
   proposalInfo?: React.ReactNode,
-  proposalId: string
+  proposalId: string,
+  threshold: number
 };
 
 type State = TxModalState & {
@@ -33,19 +37,40 @@ class Approve extends TxModal<Props, State> {
 
   headerText = () => this.props.t('Approve or reject proposal');
 
-  txMethod = () => this.state.isApproving ? 'treasury.approveProposal' : 'treasury.rejectProposal';
-  txParams = () => [this.props.proposalId];
+  txMethod = () => 'councilMotions.propose';
+  txParams = () => {
+    const { api, proposalId, threshold } = this.props;
+    const { isApproving } = this.state;
+
+    const method = isApproving ? 'approveProposal' : 'rejectProposal';
+    const spendProposal = api.tx.treasury[method](proposalId);
+    return [threshold, spendProposal];
+  }
+
+  renderTrigger = () => {
+    const { t } = this.props;
+    return (
+      <div className='ui--Row-buttons'>
+        <Button.Group>
+          <Button
+            isPrimary
+            label={t('Respond')}
+            labelIcon='reply'
+            onClick={this.showModal}
+          />
+        </Button.Group>
+      </div>
+    );
+  }
 
   renderPreContent = () => {
     const { proposalInfo = null } = this.props;
 
-    return (
-      <>
-        {proposalInfo}
-        <br />
-        <br />
-      </>
-    );
+    if (!proposalInfo) {
+      return null;
+    }
+
+    return proposalInfo;
   }
 
   renderContent = () => {
@@ -54,8 +79,8 @@ class Approve extends TxModal<Props, State> {
 
     return (
       <Dropdown
-        help={t('Select your vote preference for this spend proposal, either to approve or disapprove')}
-        label={t('action')}
+        help={t('Propose a majority council motion to either approve or reject this spend proposal')}
+        label={t('proposed council action')}
         options={this.approveOptions()}
         onChange={this.onChangeApproving}
         value={isApproving}
@@ -68,4 +93,17 @@ class Approve extends TxModal<Props, State> {
   }
 }
 
-export default translate(Approve);
+export default withMulti(
+  Approve,
+  translate,
+  withApi,
+  withCalls(
+    [
+      'query.council.activeCouncil',
+      {
+        propName: 'threshold',
+        transform: (value: Array<[AccountId, BlockNumber]>) => 1 + (value.length / 2)
+      }
+    ]
+  )
+);

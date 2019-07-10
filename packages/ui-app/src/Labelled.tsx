@@ -35,6 +35,10 @@ const Wrapper = styled.div`
     white-space: nowrap;
   }
 
+  > label {
+    text-transform: lowercase;
+  }
+
   &.label-small {
     display: block;
 

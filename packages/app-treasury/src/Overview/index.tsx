@@ -9,6 +9,7 @@ import { Columar } from '@polkadot/ui-app';
 
 import Summary from './Summary';
 import Proposals, { Approvals } from './Proposals';
+import Propose from './Propose';
 
 type Props = AppProps & BareProps & I18nProps;
 
@@ -25,6 +26,7 @@ export default class Overview extends React.PureComponent<Props, State> {
     return (
       <>
         <Summary />
+        <Propose />
         <Columar>
           <Proposals />
           <Approvals />

@@ -14,9 +14,9 @@ type Props = CollectionProps;
 type State = CollectionState;
 
 class CardGrid extends Collection<Props, State> {
-  static getDerivedStateFromProps ({ children, isEmpty }: Props) {
-    if (isEmpty || !children || (children as Array<any>).length <= 0) {
-      return { isEmpty: true, showHeader: false };
+  static getDerivedStateFromProps ({ children, headerText }: Props) {
+    if (!children || (children as Array<any>).length <= 0) {
+      return { isEmpty: true, showHeader: !!headerText };
     }
     return { isEmpty: false, showHeader: true };
   }

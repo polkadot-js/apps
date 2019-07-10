@@ -21,10 +21,8 @@ class Column extends Collection<Props, State> {
     return (
       <div className={`ui--Column ${className}`}>
         {this.renderHeader()}
-        {isEmpty ?
-          this.renderEmpty() :
-          this.renderCollection()
-        }
+        {isEmpty && this.renderEmpty()}
+        {this.renderCollection()}
       </div>
     );
   }
@@ -50,6 +48,7 @@ export default translate(
     ${collectionStyles}
 
     box-sizing: border-box;
+    max-width: 100%;
     flex: 1 1;
     margin: 0;
     padding: 0.5rem;

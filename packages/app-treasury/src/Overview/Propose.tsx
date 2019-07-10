@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { InputAddress, InputBalance } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance } from '@polkadot/ui-app';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
 
 import translate from '../translate';
@@ -40,6 +40,21 @@ class Propose extends TxModal<Props, State> {
     const hasBeneficiary = !!beneficiary;
 
     return !accountId || !hasValue || !hasBeneficiary;
+  }
+
+  renderTrigger = () => {
+    const { t } = this.props;
+
+    return (
+      <Button.Group>
+        <Button
+          isPrimary
+          label={t('Submit a spend proposal')}
+          labelIcon='add'
+          onClick={this.showModal}
+        />
+      </Button.Group>
+    );
   }
 
   renderContent = () => {

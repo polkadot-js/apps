@@ -26,7 +26,7 @@
 
 .ui.dropdown {
   &.disabled {
-    background: #fefefe;
+    background: transparent;
     border-color: #eee;
     border-style: dashed;
     opacity: 1;

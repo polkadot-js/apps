@@ -8,7 +8,6 @@ import React from 'react';
 import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
 export type TxModalProps = I18nProps & {
-  isOpen: boolean,
   onSubmit?: () => void,
   onClose?: () => void
   onSuccess?: () => void,
@@ -17,44 +16,44 @@ export type TxModalProps = I18nProps & {
 
 export type TxModalState = {
   accountId?: string | null,
-  isBusy: boolean
+  isBusy: boolean,
+  isOpen: boolean
 };
 
 class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
-    accountId: null
+    accountId: null,
+    isOpen: false,
+    isBusy: false
   } as S;
 
   state: S = this.defaultState;
 
-  componentWillReceiveProps ({ isOpen }: P, _: S) {
-    if (isOpen && !this.props.isOpen && !this.state.isBusy) {
-      this.reset();
-    }
-  }
-
   render () {
-    const { isOpen } = this.props;
+    const { isOpen } = this.state;
 
     return (
-      <Modal
-        className='ui--Modal'
-        dimmer='inverted'
-        onClose={this.onClose}
-        open={isOpen}
-      >
-        <Modal.Header>
-          {this.headerText()}
-        </Modal.Header>
-        <Modal.Content>
-          {this.renderPreContent()}
-          {this.renderInputAccount()}
-          {this.renderContent()}
-        </Modal.Content>
-        <Modal.Actions>
-          {this.renderButtons()}
-        </Modal.Actions>
-      </Modal>
+      <>
+        {this.renderTrigger && this.renderTrigger()}
+        <Modal
+          className='ui--Modal'
+          dimmer='inverted'
+          onClose={this.hideModal}
+          open={isOpen}
+        >
+          <Modal.Header>
+            {this.headerText()}
+          </Modal.Header>
+          <Modal.Content>
+            {this.renderPreContent()}
+            {this.renderInputAccount()}
+            {this.renderContent()}
+          </Modal.Content>
+          <Modal.Actions>
+            {this.renderButtons()}
+          </Modal.Actions>
+        </Modal>
+      </>
     );
   }
 
@@ -63,12 +62,6 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   protected accountLabel = (): React.ReactNode => this.props.t('using my account');
   protected submitLabel = (): React.ReactNode => this.props.t('Submit');
   protected cancelLabel = (): React.ReactNode => this.props.t('Cancel');
-
-  protected onClose = () => {
-    const { onClose } = this.props;
-
-    onClose && onClose();
-  }
 
   protected onChangeAccount = (accountId: string | null): void => {
     this.setState({ accountId });
@@ -84,9 +77,9 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   protected onSuccess = (): void => {
     const { onClose, onSuccess } = this.props;
 
-    this.toggleBusy(false);
     onSuccess && onSuccess();
     onClose && onClose();
+    this.hideModal();
   }
 
   protected onFailed = (): void => {
@@ -113,6 +106,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
 
   protected renderContent: () => React.ReactNode | null = () => null;
   protected renderPreContent: () => React.ReactNode | null = () => null;
+  protected renderTrigger?: () => React.ReactNode | null = () => null;
 
   protected renderButtons: () => React.ReactNode | null = () => {
     return (
@@ -166,7 +160,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
       <>
         <Button
           isNegative
-          onClick={this.onClose}
+          onClick={this.hideModal}
           label={t('Cancel')}
         />
         <Button.Or />
@@ -175,6 +169,21 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   }
 
   protected reset = () => {
+    this.setState(
+      this.defaultState
+    );
+  }
+
+  protected showModal = () => {
+    this.setState({
+      isOpen: true
+    });
+  }
+
+  protected hideModal = () => {
+    const { onClose } = this.props;
+
+    onClose && onClose();
     this.setState(
       this.defaultState
     );
