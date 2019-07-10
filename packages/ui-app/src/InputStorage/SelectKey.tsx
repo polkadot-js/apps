@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
+import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
 import React from 'react';
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { withApi } from '@polkadot/ui-api';
 
 import Dropdown from '../Dropdown';
@@ -15,21 +15,18 @@ import { classes } from '../util';
 
 type Props = ApiProps & BareProps & {
   isError?: boolean,
-  onChange: (value: StorageEntry) => void,
+  onChange: (value: StorageEntryPromise) => void,
   options: DropdownOptions,
-  value: StorageEntry
+  value: StorageEntryPromise
 };
 
 class SelectKey extends React.PureComponent<Props> {
-  render () {
-    const { api, className, isError, onChange, options, style, value } = this.props;
+  public render (): React.ReactNode {
+    const { className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {
       return null;
     }
-
-    const transform = (method: string): StorageEntry =>
-      api.query[value.section][method] as any;
 
     return (
       <Dropdown
@@ -38,11 +35,20 @@ class SelectKey extends React.PureComponent<Props> {
         onChange={onChange}
         options={options}
         style={style}
-        transform={transform}
-        value={value.method}
+        transform={this.transform}
+        value={value.creator.method}
         withLabel={false}
       />
     );
+  }
+
+  private transform = (method: string): StorageEntryPromise => {
+    const { api, value } = this.props;
+
+    // We should not get to the fallback, but ... https://github.com/polkadot-js/apps/issues/1375
+    return api.query[value.creator.section]
+      ? api.query[value.creator.section][method]
+      : value;
   }
 }
 

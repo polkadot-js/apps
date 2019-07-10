@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StorageEntryPromise } from '@polkadot/api/types';
 import { TypeDef, getTypeDef } from '@polkadot/types';
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
@@ -21,14 +21,14 @@ type Props = ComponentProps & ApiProps & I18nProps;
 
 type State = {
   isValid: boolean,
-  key: StorageEntry,
+  key: StorageEntryPromise,
   values: RawParams,
   params: Array<{ type: TypeDef }>
 };
 
 class Modules extends TxComponent<Props, State> {
   private defaultValue: any;
-  state: State;
+  public state: State;
 
   constructor (props: Props) {
     super(props);
@@ -44,9 +44,9 @@ class Modules extends TxComponent<Props, State> {
     };
   }
 
-  render () {
+  public render () {
     const { t } = this.props;
-    const { isValid, key: { method, section, meta }, params } = this.state;
+    const { isValid, key: { creator: { method, section, meta } }, params } = this.state;
 
     return (
       <section className='storage--actionrow'>
@@ -84,7 +84,7 @@ class Modules extends TxComponent<Props, State> {
     this.setState(
       (prevState: State) => {
         const { key = prevState.key, values = prevState.values } = newState;
-        const hasParam = key.meta.type.isMap;
+        const hasParam = key.creator.meta.type.isMap;
         const isValid = values.length === (hasParam ? 1 : 0) &&
           values.reduce((isValid, value) =>
             isValid &&
@@ -99,7 +99,7 @@ class Modules extends TxComponent<Props, State> {
           key,
           values,
           params: hasParam
-            ? [{ type: getTypeDef(key.meta.type.asMap.key.toString()) }]
+            ? [{ type: getTypeDef(key.creator.meta.type.asMap.key.toString()) }]
             : []
         };
       }
@@ -116,7 +116,7 @@ class Modules extends TxComponent<Props, State> {
     });
   }
 
-  private onChangeKey = (key: StorageEntry): void => {
+  private onChangeKey = (key: StorageEntryPromise): void => {
     this.nextState({
       isValid: false,
       key,

@@ -21,15 +21,12 @@ type Props = BareProps & {
 };
 
 export default class SelectMethod extends React.PureComponent<Props> {
-  render () {
-    const { api, className, isError, onChange, options, style, value } = this.props;
+  public render (): React.ReactNode {
+    const { className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {
       return null;
     }
-
-    const transform = (method: string): MethodFunction =>
-      api.tx[value.section][method];
 
     return (
       <Dropdown
@@ -38,10 +35,16 @@ export default class SelectMethod extends React.PureComponent<Props> {
         onChange={onChange}
         options={options}
         style={style}
-        transform={transform}
+        transform={this.transform}
         value={value.method}
         withLabel={false}
       />
     );
+  }
+
+  private transform = (method: string): MethodFunction => {
+    const { api, value } = this.props;
+
+    return api.tx[value.section][method];
   }
 }

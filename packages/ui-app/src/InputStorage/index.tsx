@@ -4,8 +4,8 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { ApiProps } from '@polkadot/ui-api/types';
+import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -22,36 +22,36 @@ import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
-  defaultValue: StorageEntry,
+  defaultValue: StorageEntryPromise,
   help?: React.ReactNode,
   isError?: boolean,
   label: React.ReactNode,
-  onChange?: (value: StorageEntry) => void,
+  onChange?: (value: StorageEntryPromise) => void,
   withLabel?: boolean
 };
 
 type State = {
   optionsMethod: DropdownOptions,
   optionsSection: DropdownOptions,
-  value: StorageEntry
+  value: StorageEntryPromise
 };
 
 class InputStorage extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
-    const { api, defaultValue: { section } } = this.props;
+    const { api, defaultValue: { creator: { method, section } } } = this.props;
 
     this.state = {
       optionsMethod: keyOptions(api, section),
       optionsSection: sectionOptions(api),
-      value: this.props.defaultValue
+      value: api.query[section][method]
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
@@ -84,11 +84,11 @@ class InputStorage extends React.PureComponent<Props, State> {
     );
   }
 
-  private onKeyChange = (newValue: StorageEntry): void => {
+  private onKeyChange = (newValue: StorageEntryPromise): void => {
     const { onChange } = this.props;
     const { value } = this.state;
 
-    if (value.section === newValue.section && value.method === newValue.method) {
+    if (value.creator.section === newValue.creator.section && value.creator.method === newValue.creator.method) {
       return;
     }
 
@@ -101,7 +101,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const { api } = this.props;
     const { value } = this.state;
 
-    if (newSection === value.section) {
+    if (newSection === value.creator.section) {
       return;
     }
 
@@ -109,7 +109,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const newValue = api.query[newSection][optionsMethod[0].value];
 
     this.setState({ optionsMethod }, () =>
-      this.onKeyChange(newValue as any as StorageEntry)
+      this.onKeyChange(newValue)
     );
   }
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntryPromise } from '@polkadot/api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
@@ -46,8 +46,8 @@ class Query extends React.PureComponent<Props, State> {
 
     if (!cache[id]) {
       const values: Array<any> = params.map(({ value }) => value);
-      const type = key.meta
-        ? key.meta.type.toString()
+      const type = key.creator.meta
+        ? key.creator.meta.type.toString()
         : 'Data';
       const defaultProps = { className: 'ui--output' };
 
@@ -111,9 +111,9 @@ class Query extends React.PureComponent<Props, State> {
     const type = isU8a(key)
       ? 'Data'
       : (
-        key.meta.modifier.isOptional
-          ? `Option<${key.meta.type}>`
-          : key.meta.type.toString()
+        key.creator.meta.modifier.isOptional
+          ? `Option<${key.creator.meta.type}>`
+          : key.creator.meta.type.toString()
       );
 
     return (
@@ -150,7 +150,7 @@ class Query extends React.PureComponent<Props, State> {
       />
     ];
 
-    if (key.meta && ['Bytes', 'Data'].includes(key.meta.type.toString())) {
+    if (key.creator.meta && ['Bytes', 'Data'].includes(key.creator.meta.type.toString())) {
       // TODO We are currently not performing a copy
       // buttons.unshift(
       //   <Button
@@ -170,7 +170,7 @@ class Query extends React.PureComponent<Props, State> {
     return buttons;
   }
 
-  private keyToName (key: Uint8Array | StorageEntry): string {
+  private keyToName (key: Uint8Array | StorageEntryPromise): string {
     if (isU8a(key)) {
       const u8a = Compact.stripLengthPrefix(key);
 
@@ -180,7 +180,7 @@ class Query extends React.PureComponent<Props, State> {
         : u8aToHex(u8a);
     }
 
-    return `${key.section}.${key.method}`;
+    return `${key.creator.section}.${key.creator.method}`;
   }
 
   private spreadHandler (id: number) {
