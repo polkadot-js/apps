@@ -78,15 +78,16 @@ class Voting extends TxModal<Props, State> {
     const { idNumber, proposal } = this.props;
 
     return (
-      <ProposedAction
-        asInset
-        expandNested={isTreasuryProposalVote(proposal)}
-        idNumber={idNumber}
-        insetProps={{
-          withBottomMargin: true
-        }}
-        proposal={proposal}
-      />
+      <>
+        <ProposedAction
+          expandNested={isTreasuryProposalVote(proposal)}
+          idNumber={idNumber}
+          isCollapsible
+          proposal={proposal}
+        />
+        <br />
+        <br />
+      </>
     );
   }
 

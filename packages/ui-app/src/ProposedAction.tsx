@@ -20,13 +20,14 @@ type Props = {
   insetProps?: Partial<InsetProps>,
   proposal?: Proposal | null,
   idNumber: BN | number | string,
+  isCollapsible?: boolean,
   withLinks?: boolean,
   expandNested?: boolean
 };
 
 export const styles = `
   .ui--ProposedAction-extrinsic {
-    margin-top: 1rem;
+    margin-bottom: 1rem;
 
     .ui--Params-Content {
       padding-left: 0;
@@ -40,7 +41,7 @@ export const styles = `
 
 class ProposedAction extends React.PureComponent<Props> {
   render () {
-    const { asInset, insetProps, proposal, withLinks, expandNested } = this.props;
+    const { asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = this.props;
 
     const idNumber = typeof this.props.idNumber === 'string'
       ? this.props.idNumber
@@ -57,15 +58,13 @@ class ProposedAction extends React.PureComponent<Props> {
     const header = `#${idNumber}: ${section}.${method}`;
     const documentation = (meta && meta.documentation)
       ? (
-        <details>
-          <summary>{meta.documentation.join(' ')}</summary>
-        </details>
+        <summary>{meta.documentation.join(' ')}</summary>
       )
       : null;
     const params = (isTreasuryProposalVote(proposal) && expandNested) ? (
       <TreasuryProposal
-        className='ui--ProposedAction-inset'
-        asInset
+        className='ui--ProposedAction-extrinsic'
+        asInset={withLinks}
         insetProps={{
           withTopMargin: true,
           withBottomMargin: true,
@@ -98,8 +97,21 @@ class ProposedAction extends React.PureComponent<Props> {
     return (
       <>
         <h3>{header}</h3>
-        {documentation}
-        {params}
+        {isCollapsible
+          ? (
+            <details>
+              {documentation}
+              {params}
+            </details>
+          )
+          : (
+            <>
+              <details>
+                {documentation}
+              </details>
+              {params}
+            </>
+          )}
       </>
     );
   }

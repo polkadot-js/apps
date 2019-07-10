@@ -25,8 +25,8 @@ export default class Overview extends React.PureComponent<Props, State> {
   render () {
     return (
       <>
-        <Propose />
         <Summary />
+        <Propose />
         <Columar>
           <Proposals />
           <Approvals />

@@ -48,6 +48,7 @@ export default translate(
     ${collectionStyles}
 
     box-sizing: border-box;
+    max-width: 100%;
     flex: 1 1;
     margin: 0;
     padding: 0.5rem;
