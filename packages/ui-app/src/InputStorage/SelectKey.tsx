@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
+import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
@@ -15,21 +16,18 @@ import { classes } from '../util';
 
 type Props = ApiProps & BareProps & {
   isError?: boolean,
-  onChange: (value: StorageEntry) => void,
+  onChange: (value: StorageEntryPromise) => void,
   options: DropdownOptions,
   value: StorageEntry
 };
 
 class SelectKey extends React.PureComponent<Props> {
-  render () {
-    const { api, className, isError, onChange, options, style, value } = this.props;
+  public render () {
+    const { className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {
       return null;
     }
-
-    const transform = (method: string): StorageEntry =>
-      api.query[value.section][method] as any;
 
     return (
       <Dropdown
@@ -38,11 +36,17 @@ class SelectKey extends React.PureComponent<Props> {
         onChange={onChange}
         options={options}
         style={style}
-        transform={transform}
+        transform={this.transform}
         value={value.method}
         withLabel={false}
       />
     );
+  }
+
+  private transform = (method: string): StorageEntryPromise => {
+    const { api, value } = this.props;
+
+    return api.query[value.section][method];
   }
 }
 
