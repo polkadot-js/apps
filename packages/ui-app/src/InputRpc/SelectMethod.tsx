@@ -21,7 +21,7 @@ type Props = BareProps & {
 };
 
 export default class SelectMethod extends React.PureComponent<Props> {
-  public render () {
+  public render (): React.ReactNode {
     const { className, isError, onChange, options, style, value } = this.props;
 
     if (!options.length) {

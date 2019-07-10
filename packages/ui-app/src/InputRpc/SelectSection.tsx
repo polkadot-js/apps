@@ -20,7 +20,7 @@ type Props = BareProps & {
 };
 
 export default class SelectSection extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isError, onChange, options, style, value } = this.props;
 
     return (

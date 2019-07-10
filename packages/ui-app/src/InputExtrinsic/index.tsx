@@ -37,9 +37,9 @@ type State = {
 };
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -54,7 +54,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { api, className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
@@ -88,7 +88,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (newValue: MethodFunction): void => {
+  private onKeyChange = (newValue: MethodFunction): void => {
     const { onChange } = this.props;
     const { value } = this.state;
 
@@ -101,7 +101,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onSectionChange = (newSection: string): void => {
+  private onSectionChange = (newSection: string): void => {
     const { api } = this.props;
     const { value } = this.state;
 

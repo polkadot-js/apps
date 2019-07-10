@@ -37,9 +37,9 @@ type State = {
 };
 
 class InputStorage extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { api, defaultValue: { creator: { method, section } } } = this.props;
@@ -51,7 +51,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
