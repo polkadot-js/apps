@@ -10,8 +10,8 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.5.2",
-    "@polkadot/keyring": "^0.94.0-beta.6",
+    "@babel/runtime": "^7.5.4",
+    "@polkadot/keyring": "^0.94.0-beta.8",
     "@polkadot/ui-api": "^0.34.0-beta.49",
     "@polkadot/ui-identicon": "^0.42.0-beta.4",
     "@polkadot/ui-keyring": "^0.42.0-beta.4",
