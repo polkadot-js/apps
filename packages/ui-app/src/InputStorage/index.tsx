@@ -4,7 +4,6 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
@@ -23,7 +22,7 @@ import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
-  defaultValue: StorageEntry,
+  defaultValue: StorageEntryPromise,
   help?: React.ReactNode,
   isError?: boolean,
   label: React.ReactNode,
@@ -43,7 +42,7 @@ class InputStorage extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { api, defaultValue: { method, section } } = this.props;
+    const { api, defaultValue: { creator: { method, section } } } = this.props;
 
     this.state = {
       optionsMethod: keyOptions(api, section),
