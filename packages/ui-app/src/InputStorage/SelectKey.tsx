@@ -45,7 +45,10 @@ class SelectKey extends React.PureComponent<Props> {
   private transform = (method: string): StorageEntryPromise => {
     const { api, value } = this.props;
 
-    return api.query[value.creator.section][method];
+    // We should not get to the fallback, but ... https://github.com/polkadot-js/apps/issues/1375
+    return api.query[value.creator.section]
+      ? api.query[value.creator.section][method]
+      : value;
   }
 }
 
