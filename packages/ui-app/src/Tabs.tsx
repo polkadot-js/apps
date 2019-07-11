@@ -34,8 +34,8 @@ export type TabItem = {
 
 type Props = BareProps & {
   basePath: string,
-  hidden?: Array<string>,
-  items: Array<TabItem>,
+  hidden?: string[],
+  items: TabItem[],
   isSequence?: boolean
 };
 

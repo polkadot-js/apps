@@ -30,7 +30,7 @@ import VoteThreshold from './VoteThreshold';
 
 type TypeToComponent = {
   c: React.ComponentType<Props>,
-  t: Array<string>
+  t: string[]
 };
 
 const components: ComponentMap = ([

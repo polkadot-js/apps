@@ -26,7 +26,7 @@ type State = {
 };
 
 class Accounts extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     hasAccounts: false,
     isHidden: false
   };

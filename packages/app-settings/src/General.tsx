@@ -24,7 +24,7 @@ type State = {
 };
 
 class General extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const settings = uiSettings.get();

@@ -20,14 +20,14 @@ interface Props extends I18nProps {
   votes: Votes | null;
 }
 
-type State = {
-  votedTotal: number,
-  votedNay: number,
-  votedAye: number
-};
+interface State {
+  votedTotal: number;
+  votedNay: number;
+  votedAye: number;
+}
 
 class Motion extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     votedTotal: 0,
     votedAye: 0,
     votedNay: 0

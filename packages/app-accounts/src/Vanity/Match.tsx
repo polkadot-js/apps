@@ -18,12 +18,12 @@ interface Props extends BareProps {
   seed: Uint8Array;
 }
 
-type State = {
-  hexSeed: string
-};
+interface State {
+  hexSeed: string;
+}
 
 class Match extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  public state: State = {} as State;
 
   static getDerivedStateFromProps ({ seed }: Props): State {
     return {

@@ -20,13 +20,13 @@ interface Props extends I18nProps {
   proposalId: BN | number;
 }
 
-type State = {
-  accountId?: string,
-  isSecondingOpen: boolean
-};
+interface State {
+  accountId?: string;
+  isSecondingOpen: boolean;
+}
 
 class Seconding extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isSecondingOpen: false
   };
 

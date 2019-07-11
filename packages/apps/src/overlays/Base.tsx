@@ -17,7 +17,7 @@ type State = {
 };
 
 class BaseOverlay extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isHidden: false
   };
 

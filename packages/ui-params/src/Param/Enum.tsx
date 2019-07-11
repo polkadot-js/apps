@@ -22,7 +22,7 @@ type State = {
 };
 
 export default class EnumParam extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     def: null,
     options: [],
     sub: [],

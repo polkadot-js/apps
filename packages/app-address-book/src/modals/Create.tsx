@@ -16,20 +16,20 @@ import translate from '../translate';
 
 type Props = ModalProps & I18nProps;
 
-type State = {
-  address: string,
-  isAddressExisting: boolean,
-  isAddressValid: boolean,
-  isNameValid: boolean,
-  isValid: boolean,
-  name: string,
-  tags: Array<string>
-};
+interface State {
+  address: string;
+  isAddressExisting: boolean;
+  isAddressValid: boolean;
+  isNameValid: boolean;
+  isValid: boolean;
+  name: string;
+  tags: string[];
+}
 
 class Create extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = this.emptyState();

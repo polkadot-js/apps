@@ -18,7 +18,7 @@ type Props = {
 type State = ExtraFees & {};
 
 export default class ContractDeploy extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false

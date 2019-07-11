@@ -29,7 +29,7 @@ type State = {
 };
 
 class Unlock extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isLocked: false
   } as State;
 

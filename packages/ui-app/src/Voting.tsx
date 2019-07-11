@@ -33,7 +33,7 @@ type State = TxModalState & {
 };
 
 class Voting extends TxModal<Props, State> {
-  state: State;
+  public state: State;
 
   headerText = () => {
     const { isCouncil, t } = this.props;
@@ -59,7 +59,7 @@ class Voting extends TxModal<Props, State> {
       : [idNumber, voteValue];
   }
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;

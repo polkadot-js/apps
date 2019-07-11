@@ -19,7 +19,7 @@ type State = {
 };
 
 export default class StructParam extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     defs: [],
     type: null
   };

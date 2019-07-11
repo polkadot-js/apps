@@ -19,14 +19,14 @@ type Props = ApiProps & I18nProps & {
   onChange: (isValid: boolean) => void
 };
 
-type State = {
-  isStored: boolean,
-  isValidHex: boolean,
-  isValid: boolean
-};
+interface State {
+  isStored: boolean;
+  isValidHex: boolean;
+  isValid: boolean;
+}
 
 class ValidateCode extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isStored: false,
     isValidHex: false,
     isValid: false

@@ -17,10 +17,10 @@ import Add from './Add';
 
 type Props = ComponentProps & I18nProps;
 
-type State = {
-  isAddOpen: boolean,
-  isUploadOpen: boolean
-};
+interface State {
+  isAddOpen: boolean;
+  isUploadOpen: boolean;
+}
 
 class Codes extends React.PureComponent<Props> {
   state = {

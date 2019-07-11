@@ -17,7 +17,7 @@ interface State {
 }
 
 class AccountSelector extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   public render (): React.ReactNode {
     const { className } = this.props;

@@ -27,7 +27,7 @@ type State = ExtraFees & {
 };
 
 export class Proposal extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false,

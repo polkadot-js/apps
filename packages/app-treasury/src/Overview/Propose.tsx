@@ -18,7 +18,7 @@ type State = TxModalState & {
 };
 
 class Propose extends TxModal<Props, State> {
-  state: State = {
+  public state: State = {
     ...this.defaultState,
     value: new BN(0)
   };

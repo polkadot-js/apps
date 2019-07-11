@@ -9,16 +9,16 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type Nominators = {
   // stash account and who is being nominated
-  [index: string]: Array<string>
+  [index: string]: string[]
 };
 
 export type ComponentProps = {
   allAccounts?: SubjectInfo,
   balances?: DerivedBalancesMap,
-  controllers: Array<string>,
+  controllers: string[],
   recentlyOffline: RecentlyOfflineMap,
-  stashes: Array<string>,
-  validators: Array<string>
+  stashes: string[],
+  validators: string[]
 };
 
 export type CalculateBalanceProps = {

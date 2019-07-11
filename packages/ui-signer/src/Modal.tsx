@@ -41,7 +41,7 @@ type State = {
 };
 
 class Signer extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isSendable: false,
     password: '',
     unlockError: null

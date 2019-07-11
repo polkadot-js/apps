@@ -21,16 +21,16 @@ type Props = AppProps & I18nProps & {
   allAddresses?: SubjectInfo
 };
 
-type State = {
-  hidden: Array<string>,
-  items: Array<TabItem>,
-  isCreateOpen: boolean
-};
+interface State {
+  hidden: string[];
+  items: TabItem[];
+  isCreateOpen: boolean;
+}
 
 class AddressBookApp extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { allAddresses = {}, t } = props;

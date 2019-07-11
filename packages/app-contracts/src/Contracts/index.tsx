@@ -18,15 +18,15 @@ import Call from './Call';
 
 type Props = ComponentProps & I18nProps & RouteComponentProps;
 
-type State = {
-  isAddOpen: boolean,
-  isCallOpen: boolean,
-  callAddress: string | null,
-  callMethod: string | null
-};
+interface State {
+  isAddOpen: boolean;
+  isCallOpen: boolean;
+  callAddress: string | null;
+  callMethod: string | null;
+}
 
 class Contracts extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     callAddress: null,
     callMethod: null,
     isAddOpen: false,

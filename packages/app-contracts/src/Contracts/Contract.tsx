@@ -21,16 +21,16 @@ type Props = I18nProps & RouteComponentProps & {
   onCall: (callAddress?: string, callMethod?: string) => void
 };
 
-type State = {
-  isBackupOpen: boolean,
-  isForgetOpen: boolean,
-  isPasswordOpen: boolean
-};
+interface State {
+  isBackupOpen: boolean;
+  isForgetOpen: boolean;
+  isPasswordOpen: boolean;
+}
 
 class Contract extends React.PureComponent<Props> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
     this.state = {
       isBackupOpen: false,

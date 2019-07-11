@@ -29,7 +29,7 @@ type State = {
 const defaultMethod = rpc.author.methods.submitExtrinsic;
 
 class Selection extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValid: false,
     accountId: null,
     rpc: defaultMethod,

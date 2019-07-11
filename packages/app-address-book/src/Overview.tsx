@@ -19,12 +19,12 @@ type Props = ComponentProps & I18nProps & {
   addresses?: SubjectInfo[]
 };
 
-type State = {
-  isCreateOpen: boolean
-};
+interface State {
+  isCreateOpen: boolean;
+}
 
 class Overview extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isCreateOpen: false
   };
 

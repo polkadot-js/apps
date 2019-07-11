@@ -20,29 +20,29 @@ import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  balances_fees?: DerivedFees,
-  className?: string,
-  onClose: () => void,
-  recipientId?: string,
-  senderId?: string,
-  system_accountNonce?: BN
+  balances_fees?: DerivedFees;
+  className?: string;
+  onClose: () => void;
+  recipientId?: string;
+  senderId?: string;
+  system_accountNonce?: BN;
 };
 
-type State = {
-  amount: BN,
-  extrinsic: SubmittableExtrinsic | null,
-  hasAvailable: boolean,
-  maxBalance?: BN,
-  recipientId?: string | null,
-  senderId?: string | null
-};
+interface State {
+  amount: BN;
+  extrinsic: SubmittableExtrinsic | null;
+  hasAvailable: boolean;
+  maxBalance?: BN;
+  recipientId?: string | null;
+  senderId?: string | null;
+}
 
 const ZERO = new BN(0);
 
 class Transfer extends React.PureComponent<Props> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {

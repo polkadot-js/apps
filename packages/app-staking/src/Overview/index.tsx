@@ -59,7 +59,7 @@ class Overview extends React.PureComponent<Props> {
     );
   }
 
-  private sortByBalance (list: Array<string>): Array<string> {
+  private sortByBalance (list: string[]): string[] {
     const { balances } = this.props;
 
     if (!balances) {

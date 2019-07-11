@@ -22,7 +22,7 @@ type State = {
 };
 
 export default class KeyValue extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     key: {
       isValid: false,
       u8a: new Uint8Array([])

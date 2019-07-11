@@ -16,12 +16,12 @@ interface Props {
   onEnter?: () => void;
 }
 
-type State = {
-  params: Array<{ name: string, type: TypeDef }>
-};
+interface State {
+  params: { name: string; type: TypeDef }[];
+}
 
 export default class Params extends React.PureComponent<Props, State> {
-  state: State = { params: [] };
+  public state: State = { params: [] };
 
   static getDerivedStateFromProps ({ params }: Props): State | null {
     if (!params) {

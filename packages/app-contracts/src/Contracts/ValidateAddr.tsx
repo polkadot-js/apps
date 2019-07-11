@@ -19,14 +19,14 @@ type Props = ApiProps & I18nProps & {
   onChange: (isValid: boolean) => void
 };
 
-type State = {
-  isStored: boolean,
-  isValidAddr: boolean,
-  isValid: boolean
-};
+interface State {
+  isStored: boolean;
+  isValidAddr: boolean;
+  isValid: boolean;
+}
 
 class ValidateAddr extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isStored: false,
     isValidAddr: false,
     isValid: false

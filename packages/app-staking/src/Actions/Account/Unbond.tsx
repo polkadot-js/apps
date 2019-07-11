@@ -38,7 +38,7 @@ const BalanceWrapper = styled.div`
 `;
 
 class Unbond extends TxComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   componentDidUpdate (prevProps: Props) {
     const { staking_ledger } = this.props;

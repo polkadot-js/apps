@@ -22,11 +22,11 @@ type Props = AppProps & I18nProps & {
 };
 
 type State = {
-  tabs: Array<TabItem>
+  tabs: TabItem[]
 };
 
 class ToolboxApp extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = this.props;

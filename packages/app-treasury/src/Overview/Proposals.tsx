@@ -28,7 +28,7 @@ type State = {
 };
 
 class ProposalsBase extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isEmpty: true,
     isProposeOpen: false,
     proposalIndices: [] as Array<BN>

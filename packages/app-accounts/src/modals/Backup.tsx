@@ -23,7 +23,7 @@ interface State {
 }
 
 class Backup extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isPassValid: false,
     password: ''
   };

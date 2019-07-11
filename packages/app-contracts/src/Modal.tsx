@@ -28,7 +28,7 @@ export type ContractModalState = {
   isBusy: boolean,
   isNameValid: boolean,
   name?: string | null,
-  tags: Array<string>
+  tags: string[]
 };
 
 class ContractModal<P extends ContractModalProps, S extends ContractModalState> extends TxComponent<P, S> {
@@ -40,7 +40,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     isBusy: false,
     isNameValid: false,
     name: null,
-    tags: [] as Array<string>
+    tags: [] as string[]
   } as S;
 
   state: S = this.defaultState;

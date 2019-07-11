@@ -34,7 +34,7 @@ type State = {
 };
 
 class ProposalDisplay extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { proposal, onPopulate } = props;
@@ -51,7 +51,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     }
   }
 
-  state: State = {
+  public state: State = {
     isApproveOpen: false
   };
 

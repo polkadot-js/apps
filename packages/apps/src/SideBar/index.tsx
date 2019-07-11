@@ -62,9 +62,9 @@ const Toggle = styled.img`
 `;
 
 class SideBar extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     // setup modals for each of the actual modal routes

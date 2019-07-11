@@ -37,9 +37,9 @@ export { api };
 const injectedPromise = web3Enable('polkadot-js/apps');
 
 export default class Api extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  public state: State = {} as State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { queueExtrinsic, queueSetTxStatus, url } = props;

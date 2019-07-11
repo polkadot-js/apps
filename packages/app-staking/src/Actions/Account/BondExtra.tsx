@@ -32,7 +32,7 @@ type State = {
 const ZERO = new BN(0);
 
 class BondExtra extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     extrinsic: null
   };
 

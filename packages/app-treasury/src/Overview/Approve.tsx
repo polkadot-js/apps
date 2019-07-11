@@ -25,7 +25,7 @@ type State = TxModalState & {
 };
 
 class Approve extends TxModal<Props, State> {
-  state: State = {
+  public state: State = {
     ...this.defaultState,
     isApproving: false
   };

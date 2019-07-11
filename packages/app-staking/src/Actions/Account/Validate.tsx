@@ -27,7 +27,7 @@ type State = {
 };
 
 class Validate extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     unstakeThreshold: new BN(3),
     unstakeThresholdError: null,
     validatorPayment: new BN(0)

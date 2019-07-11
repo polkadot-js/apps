@@ -15,14 +15,14 @@ interface Props extends I18nProps {
   value?: string;
 }
 
-type State = {
-  value: string
-  isNumber: boolean,
-  isValid: boolean
-};
+interface State {
+  value: string;
+  isNumber: boolean;
+  isValid: boolean;
+}
 
 class Query extends TxComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { value } = this.props;

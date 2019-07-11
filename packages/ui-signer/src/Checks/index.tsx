@@ -56,7 +56,7 @@ export const calcSignatureLength = (extrinsic?: IExtrinsic | null, accountNonce?
 };
 
 export class FeeDisplay extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     allFees: new BN(0),
     allTotal: new BN(0),
     allWarn: false,

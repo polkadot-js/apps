@@ -35,9 +35,9 @@ const STATUS_COMPLETE: Array<QueueTx$Status> = [
 ];
 
 export default class Queue extends React.Component<Props, State> {
-  state: State = defaultState;
+  public state: State = defaultState;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {

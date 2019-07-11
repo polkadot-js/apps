@@ -20,11 +20,11 @@ interface Props extends I18nProps {
 }
 
 type State = {
-  nominees: Array<string> | undefined
+  nominees: string[] | undefined
 };
 
 class Nominate extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     nominees: this.props.nominees
   };
 
@@ -111,7 +111,7 @@ class Nominate extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeNominees = (nominees: Array<string>) => {
+  private onChangeNominees = (nominees: string[]) => {
     this.setState({ nominees });
   }
 }

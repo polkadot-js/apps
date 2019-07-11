@@ -28,9 +28,9 @@ interface State {
 }
 
 class AccountsApp extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { allAccounts = {}, t } = props;

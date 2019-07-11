@@ -25,7 +25,7 @@ type State = {
 };
 
 class Inset extends React.PureComponent<InsetProps, State> {
-  state: State = {
+  public state: State = {
     isCollapsed: true
   };
 

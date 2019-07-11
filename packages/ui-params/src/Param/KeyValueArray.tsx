@@ -37,7 +37,7 @@ const BYTES_TYPE = {
 class KeyValueArray extends React.PureComponent<Props, State> {
   private placeholderEmpty: string;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.placeholderEmpty = props.t('click to select or drag and drop JSON key/value (hex-encoded) file');

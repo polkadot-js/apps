@@ -17,18 +17,18 @@ type Option = {
 
 type Props = BareProps & {
   allowAdd?: boolean,
-  defaultValue?: Array<string>,
+  defaultValue?: string[],
   help?: React.ReactNode,
   isDisabled?: boolean,
   isError?: boolean,
   label?: React.ReactNode,
   onBlur?: () => void;
-  onChange?: (value: Array<string>) => void,
+  onChange?: (value: string[]) => void,
   onClose?: () => void;
   openOnFocus?: boolean;
   placeholder?: string,
   searchInput?: {autoFocus: boolean},
-  value?: Array<string>,
+  value?: string[],
   withLabel?: boolean
 };
 
@@ -36,18 +36,18 @@ type State = {
   options: Array<Option>
 };
 
-function loadTags (): Array<string> {
+function loadTags (): string[] {
   return store.get('tags') || ['Default'];
 }
 
-function saveTags (tags: Array<string>): void {
+function saveTags (tags: string[]): void {
   store.set('tags', tags);
 }
 
 const tags = loadTags();
 
 export default class InputTags extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     options: tags.map((value) => ({
       key: value, text: value, value
     }))

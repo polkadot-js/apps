@@ -14,7 +14,7 @@ export default class ApiSigner implements Signer {
   private _queueExtrinsic: QueueTx$ExtrinsicAdd;
   private _queueSetTxStatus: QueueTx$MessageSetStatus;
 
-  constructor (queueExtrinsic: QueueTx$ExtrinsicAdd, queueSetTxStatus: QueueTx$MessageSetStatus) {
+  public constructor (queueExtrinsic: QueueTx$ExtrinsicAdd, queueSetTxStatus: QueueTx$MessageSetStatus) {
     this._queueExtrinsic = queueExtrinsic;
     this._queueSetTxStatus = queueSetTxStatus;
   }

@@ -28,12 +28,12 @@ type Props = BareProps & {
   label?: string,
   labelExtra?: React.ReactNode,
   onChange?: (value: string | null) => void,
-  onChangeMulti?: (value: Array<string>) => void,
+  onChangeMulti?: (value: string[]) => void,
   options?: Array<KeyringSectionOption>,
   optionsAll?: KeyringOptions,
   placeholder?: string,
   type?: KeyringOption$Type,
-  value?: string | Uint8Array | Array<string>,
+  value?: string | Uint8Array | string[],
   withEllipsis?: boolean,
   withLabel?: boolean
 };
@@ -89,7 +89,7 @@ const createOption = (address: string) => {
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
@@ -237,14 +237,14 @@ class InputAddress extends React.PureComponent<Props, State> {
     onChange && onChange(transformToAccountId(address));
   }
 
-  private onChangeMulti = (addresses: Array<string>) => {
+  private onChangeMulti = (addresses: string[]) => {
     const { onChangeMulti } = this.props;
 
     if (onChangeMulti) {
       onChangeMulti(
         addresses
           .map(transformToAccountId)
-          .filter((address) => address) as Array<string>
+          .filter((address) => address) as string[]
       );
     }
   }

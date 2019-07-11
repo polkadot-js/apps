@@ -26,22 +26,22 @@ interface Props extends I18nProps {
   onSelect?: () => void;
 }
 
-type State = {
-  contractAbi: Abi | null,
-  isAbiValid: boolean,
-  isEmpty: boolean,
-  isError: boolean
-};
+interface State {
+  contractAbi: Abi | null;
+  isAbiValid: boolean;
+  isEmpty: boolean;
+  isError: boolean;
+}
 
 class ABI extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     contractAbi: null,
     isAbiValid: false,
     isEmpty: true,
     isError: false
   };
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { contractAbi, isError, isRequired } = this.props;

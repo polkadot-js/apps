@@ -21,16 +21,16 @@ type Props = ApiProps & I18nProps & {
   queueExtrinsic: QueueTx$ExtrinsicAdd
 };
 
-type State = {
-  isValid: boolean,
-  isValidUnsigned: boolean,
-  method: Method | null,
-  accountNonce: BN,
-  accountId: string
-};
+interface State {
+  isValid: boolean;
+  isValidUnsigned: boolean;
+  method: Method | null;
+  accountNonce: BN;
+  accountId: string;
+}
 
 class Selection extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValid: false,
     isValidUnsigned: false
   } as State;

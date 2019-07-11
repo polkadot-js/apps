@@ -8,7 +8,7 @@ import { encodeAddress, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromS
 
 import calculate from './calculate';
 
-export default function generator (test: Array<string>, options: Generator$Options): Generator$Match {
+export default function generator (test: string[], options: Generator$Options): Generator$Match {
   const seed = randomAsU8a();
   const pair = options.type === 'sr25519'
     ? schnorrkelKeypairFromSeed(seed)

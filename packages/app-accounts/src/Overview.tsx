@@ -20,13 +20,13 @@ type Props = ComponentProps & I18nProps & {
   accounts?: SubjectInfo[]
 };
 
-type State = {
-  isCreateOpen: boolean,
-  isImportOpen: boolean
-};
+interface State {
+  isCreateOpen: boolean;
+  isImportOpen: boolean;
+}
 
 class Overview extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { state : { isCreateOpen = false } = {} } = this.props.location;

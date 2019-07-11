@@ -31,9 +31,9 @@ type State = {
 };
 
 class Apps extends React.Component<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const state = store.get('sidebar') || {};

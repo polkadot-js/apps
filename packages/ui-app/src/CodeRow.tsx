@@ -48,9 +48,9 @@ const CodeIcon = styled.div`
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
 class CodeRow extends Row<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = this.createState();

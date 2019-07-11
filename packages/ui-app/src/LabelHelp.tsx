@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 `;
 
 export default class LabelHelp extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     tooltipOpen: false
   };
 

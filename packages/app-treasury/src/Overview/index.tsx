@@ -18,7 +18,7 @@ type State = {
 };
 
 export default class Overview extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isProposeOpen: false
   };
 

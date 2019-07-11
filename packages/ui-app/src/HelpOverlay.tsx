@@ -59,7 +59,7 @@ const Wrapper = styled.div`
 `;
 
 export default class HelpOverlay extends React.PureComponent<Props, State> {
-  state: State = { isVisible: false };
+  public state: State = { isVisible: false };
 
   public render (): React.ReactNode {
     const { md } = this.props;

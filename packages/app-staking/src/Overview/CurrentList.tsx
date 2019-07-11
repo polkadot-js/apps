@@ -14,10 +14,10 @@ import Address from './Address';
 
 interface Props extends I18nProps {
   balances?: DerivedBalancesMap;
-  current: Array<string>;
+  current: string[];
   lastAuthor?: string;
   lastBlock: string;
-  next: Array<string>;
+  next: string[];
   recentlyOffline: RecentlyOfflineMap;
 }
 
@@ -27,9 +27,9 @@ type State = {
 };
 
 class CurrentList extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;
@@ -78,7 +78,7 @@ class CurrentList extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderColumn (addresses: Array<string>, defaultName: string) {
+  private renderColumn (addresses: string[], defaultName: string) {
     const { balances, lastAuthor, lastBlock, recentlyOffline } = this.props;
     const { filter } = this.state;
 

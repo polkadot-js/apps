@@ -25,7 +25,7 @@ type State = {
 };
 
 class ValidateController extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     error: null
   };
 

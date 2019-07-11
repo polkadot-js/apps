@@ -30,7 +30,7 @@ class Modules extends TxComponent<Props, State> {
   private defaultValue: any;
   public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { api } = this.props;

@@ -36,9 +36,9 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
 
 class AddressRow extends Row<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = this.createState();

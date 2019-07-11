@@ -17,11 +17,11 @@ import translate from '../translate';
 interface Props extends I18nProps {
   balances: DerivedBalancesMap;
   className?: string;
-  controllers: Array<string>;
+  controllers: string[];
   lastAuthor?: string;
   lastBlock: string;
   staking_validatorCount?: BN;
-  validators: Array<string>;
+  validators: string[];
 }
 
 class Summary extends React.PureComponent<Props> {

@@ -24,7 +24,7 @@ interface State {
 }
 
 class ChangePass extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isNewValid: false,
     isOldValid: false,
     newPass: '',

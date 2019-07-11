@@ -18,17 +18,17 @@ interface Props extends I18nProps {
   referendumId: BN | number;
 }
 
-type State = {
-  accountId?: string,
-  isVotingOpen: boolean,
-  voteOptions: Array<{ text: React.ReactNode, value: boolean }>,
-  voteValue: boolean
-};
+interface State {
+  accountId?: string;
+  isVotingOpen: boolean;
+  voteOptions: { text: React.ReactNode, value: boolean }[];
+  voteValue: boolean;
+}
 
 class Voting extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;

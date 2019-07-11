@@ -22,7 +22,7 @@ type State = {
 };
 
 class Unlock extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     address: '',
     password: '',
     unlockError: null

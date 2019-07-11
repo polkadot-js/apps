@@ -16,18 +16,18 @@ interface Props extends AppProps {
   className?: string;
 }
 
-type State = {
-  routes: Array<Route>
-};
+interface State {
+  routes: Route[];
+}
 
 class App extends React.PureComponent<Props, State> {
   // FIXME Atm we are not applying all the logic around should this be hidden or not, i.e.
   // is the api available, are there accounts, etc. (That logic should also be extracted so
   // it can be used in a proper way here)
-  state: State = {
-    routes: routing.routes.filter((route) =>
-      route && !route.display.isHidden && route.name !== 'dashboard'
-    ) as Array<Route>
+  public state: State = {
+    routes: routing.routes.filter((route): boolean =>
+      !!route && !route.display.isHidden && route.name !== 'dashboard'
+    ) as Route[]
   };
 
   public render (): React.ReactNode {

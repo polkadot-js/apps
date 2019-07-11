@@ -20,7 +20,7 @@ type State = {
 };
 
 class InputValidationUnstakeThreshold extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     error: null
   };
 

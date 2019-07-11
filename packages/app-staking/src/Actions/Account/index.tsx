@@ -47,7 +47,7 @@ type State = {
   isStashValidating: boolean,
   isUnbondOpen: boolean,
   isValidateOpen: boolean,
-  nominees?: Array<string>,
+  nominees?: string[],
   sessionId: string | null,
   stakers?: Exposure,
   stakingLedger?: StakingLedger,
@@ -62,7 +62,7 @@ function toIdString (id?: AccountId | null): string | null {
 }
 
 class Account extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     controllerId: null,
     destination: 0,
     isActiveStash: false,

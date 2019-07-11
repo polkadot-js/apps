@@ -19,7 +19,7 @@ import StartStaking from './NewStake';
 import translate from '../translate';
 
 type Props = I18nProps & ComponentProps & ApiProps & {
-  myControllers?: Array<string>
+  myControllers?: string[]
 };
 
 type State = {
@@ -27,7 +27,7 @@ type State = {
 };
 
 class Accounts extends React.PureComponent<Props,State> {
-  state: State = {
+  public state: State = {
     isNewStakeOpen: false
   };
 
@@ -73,7 +73,7 @@ class Accounts extends React.PureComponent<Props,State> {
 
   private getMyStashes () {
     const { myControllers, allAccounts } = this.props;
-    const result: Array<string> = [];
+    const result: string[] = [];
 
     if (!myControllers) {
       return null;

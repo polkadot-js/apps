@@ -32,17 +32,17 @@ type Props = AppProps & ApiProps & I18nProps & {
 };
 
 type State = {
-  controllers: Array<string>,
+  controllers: string[],
   recentlyOffline: RecentlyOfflineMap,
-  stashes: Array<string>,
-  tabs: Array<TabItem>,
-  validators: Array<string>
+  stashes: string[],
+  tabs: TabItem[],
+  validators: string[]
 };
 
 class App extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;

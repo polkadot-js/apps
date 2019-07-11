@@ -17,12 +17,12 @@ interface Props extends I18nProps {
   democracy_publicProps?: [BN, Proposal][];
 }
 
-type State = {
-  isProposeOpen: boolean
-};
+interface State {
+  isProposeOpen: boolean;
+}
 
 class Proposals extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isProposeOpen: false
   };
 

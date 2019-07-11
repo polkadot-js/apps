@@ -13,14 +13,14 @@ import findComponent from './findComponent';
 
 type State = {
   Components: Array<React.ComponentType<Props>>,
-  sub: Array<string>,
+  sub: string[],
   subTypes: Array<TypeDef>,
   type?: string,
   values: Array<RawParam>
 };
 
 export default class Tuple extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     Components: [],
     sub: [],
     subTypes: [],

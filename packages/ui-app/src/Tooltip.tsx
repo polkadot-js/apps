@@ -24,7 +24,7 @@ type Props = BareProps & {
 export default class Tooltip extends React.PureComponent<Props> {
   private tooltipContainer: HTMLElement;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.tooltipContainer = document.createElement('div');

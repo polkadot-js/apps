@@ -23,17 +23,17 @@ type Props = BareProps & I18nProps & ApiProps & {
   onClose: () => void
 };
 
-type State = {
-  accountId: string | null,
-  address: string | null,
-  contractAbi?: Abi | null,
-  endowment: BN,
-  gasLimit: BN,
-  isAddressValid: boolean,
-  isBusy: boolean,
-  method: string | null,
-  params: Array<any>
-};
+interface State {
+  accountId: string | null;
+  address: string | null;
+  contractAbi?: Abi | null;
+  endowment: BN;
+  gasLimit: BN;
+  isAddressValid: boolean;
+  isBusy: boolean;
+  method: string | null;
+  params: Array<any>;
+}
 
 class Call extends TxComponent<Props, State> {
   defaultState: State = {
@@ -47,7 +47,7 @@ class Call extends TxComponent<Props, State> {
     params: []
   };
 
-  state: State = this.defaultState;
+  public state: State = this.defaultState;
 
   static getDerivedStateFromProps ({ address: propsAddress, method: propsMethod, isOpen }: Props, { address, method }: State) {
     if (!isOpen) {

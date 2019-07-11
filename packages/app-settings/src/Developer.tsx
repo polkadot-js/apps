@@ -18,18 +18,18 @@ type Props = AppProps & I18nProps & {
   onStatusChange: (status: ActionStatus) => void
 };
 
-type State = {
-  code: string,
-  isJsonValid: boolean,
-  isTypesValid: boolean,
-  types: { [index: string]: any } | {},
-  typesPlaceholder?: string
-};
+interface State {
+  code: string;
+  isJsonValid: boolean;
+  isTypesValid: boolean;
+  types: Record<string, any> | {};
+  typesPlaceholder?: string;
+}
 
 class Developer extends React.PureComponent<Props, State> {
   private defaultCode: string = `{\n\n}`;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const types = store.get('types') || {};

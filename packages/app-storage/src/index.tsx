@@ -20,7 +20,7 @@ type State = {
 };
 
 class StorageApp extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     queue: []
   };
 

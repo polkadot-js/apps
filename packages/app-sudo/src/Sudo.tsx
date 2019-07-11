@@ -23,7 +23,7 @@ type State = {
 };
 
 class Propose extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     method: null,
     isValid: false
   };

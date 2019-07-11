@@ -20,13 +20,13 @@ interface Props extends I18nProps {
 }
 
 type State = {
-  items: Array<TabItem>
+  items: TabItem[]
 };
 
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = this.props;

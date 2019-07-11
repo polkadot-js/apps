@@ -11,7 +11,7 @@ import { HorizontalBar } from 'react-chartjs-2';
 import { bnToBn } from '@polkadot/util';
 
 type Value = {
-  colors: Array<string>,
+  colors: string[],
   label: string,
   value: number | BN
 };
@@ -31,7 +31,7 @@ const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
 export default class ChartHorizBar extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   static getDerivedStateFromProps ({ aspectRatio = 4, values }: Props, prevState: State) {
     const valuesStr = JSON.stringify(values);
@@ -50,11 +50,11 @@ export default class ChartHorizBar extends React.PureComponent<Props, State> {
 
       return data;
     }, {
-      labels: [] as Array<string>,
+      labels: [] as string[],
       datasets: [{
         data: [] as Array<number>,
-        backgroundColor: [] as Array<string>,
-        hoverBackgroundColor: [] as Array<string>
+        backgroundColor: [] as string[],
+        hoverBackgroundColor: [] as string[]
       }]
     });
 

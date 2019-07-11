@@ -34,7 +34,7 @@ type State = {
 };
 
 class Settings extends TxComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   static getDerivedStateFromProps ({ proposalBond, proposalBondMinimum, spendPeriod, burn, pot }: Props, state: State) {
     const newState: State = {};

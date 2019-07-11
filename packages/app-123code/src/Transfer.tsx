@@ -17,7 +17,7 @@ interface State {
 }
 
 export default class Transfer extends TxComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   public render (): React.ReactNode {
     const { accountId } = this.props;

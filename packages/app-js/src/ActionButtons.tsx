@@ -21,14 +21,14 @@ type Props = BareProps & I18nProps & {
   stopJs: () => void
 };
 
-type State = {
-  isOpen: boolean,
-  shareText: string,
-  snippetName: string
-};
+interface State {
+  isOpen: boolean;
+  shareText: string;
+  snippetName: string;
+}
 
 class ActionButtons extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isOpen: false,
     shareText: this.props.t('Generate link to share code example'),
     snippetName: ''

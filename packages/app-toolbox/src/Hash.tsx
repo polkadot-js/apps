@@ -18,7 +18,7 @@ type State = {
 };
 
 class Hash extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     data: '',
     hash: blake2AsHex(stringToU8a(''), 256),
     isHexData: false

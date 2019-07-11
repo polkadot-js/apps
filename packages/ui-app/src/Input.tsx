@@ -90,7 +90,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 let counter = 0;
 
 export default class Input extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     name: `in_${counter++}_at_${Date.now()}`
   };
 

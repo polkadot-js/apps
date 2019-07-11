@@ -21,25 +21,25 @@ import Codes from './Codes';
 import Deploy from './Deploy';
 
 type Props = AppProps & I18nProps & RouteComponentProps & {
-  accounts: SubjectInfo[],
-  contracts: SubjectInfo[]
+  accounts: SubjectInfo[];
+  contracts: SubjectInfo[];
 };
 
-type State = {
-  codeHash?: string,
-  hasContracts: boolean,
-  isDeployOpen: boolean,
-  updated: number
-};
+interface State {
+  codeHash?: string;
+  hasContracts: boolean;
+  isDeployOpen: boolean;
+  updated: number;
+}
 
 class App extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     hasContracts: false,
     isDeployOpen: false,
     updated: 0
   };
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     store.on('new-code', this.triggerUpdate);
@@ -62,7 +62,7 @@ class App extends React.PureComponent<Props, State> {
   public render (): React.ReactNode {
     const { basePath, t } = this.props;
     const { codeHash, isDeployOpen } = this.state;
-    const hidden: Array<string> = [];
+    const hidden: string[] = [];
 
     return (
       <main className='contracts--App'>

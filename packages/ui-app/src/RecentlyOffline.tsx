@@ -26,7 +26,7 @@ type State = {
 };
 
 class RecentlyOffline extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isOpen: false
   };
 

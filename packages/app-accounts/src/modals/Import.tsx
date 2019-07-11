@@ -17,16 +17,16 @@ import translate from '../translate';
 
 type Props = ModalProps & I18nProps;
 
-type State = {
-  address: string | null,
-  isFileValid: boolean,
-  isPassValid: boolean,
-  json: KeyringPair$Json | null,
-  password: string
-};
+interface State {
+  address: string | null;
+  isFileValid: boolean;
+  isPassValid: boolean;
+  json: KeyringPair$Json | null;
+  password: string;
+}
 
 class Import extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     address: null,
     isFileValid: false,
     isPassValid: false,

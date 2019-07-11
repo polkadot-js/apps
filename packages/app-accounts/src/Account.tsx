@@ -28,9 +28,9 @@ interface State {
 }
 
 class Account extends React.PureComponent<Props> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const account = keyring.getAccount(props.address);

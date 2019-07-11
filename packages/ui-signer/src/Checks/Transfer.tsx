@@ -30,7 +30,7 @@ type State = ExtraFees & {
 };
 
 export class Transfer extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false,

@@ -24,10 +24,10 @@ type Props = I18nProps & RouteComponentProps & {
   showDeploy: (codeHash?: string) => () => void
 };
 
-type State = {
-  isForgetOpen: boolean,
-  isRemoveABIOpen: boolean
-};
+interface State {
+  isForgetOpen: boolean;
+  isRemoveABIOpen: boolean;
+}
 
 const CodeCard = styled(Card)`
   && {
@@ -36,7 +36,7 @@ const CodeCard = styled(Card)`
 `;
 
 class Contract extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isForgetOpen: false,
     isRemoveABIOpen: false
   };

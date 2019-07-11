@@ -14,20 +14,20 @@ import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 
 type Props = BareProps & {
-  chain_bestNumber?: BlockNumber,
+  chain_bestNumber?: BlockNumber;
   match: {
     params: {
-      value: string
+      value: string;
     }
-  }
+  };
 };
 
-type State = {
-  value?: string
-};
+interface State {
+  value?: string;
+}
 
 class Entry extends React.Component<Props, State> {
-  state: State = {
+  public state: State = {
     value: undefined
   };
 

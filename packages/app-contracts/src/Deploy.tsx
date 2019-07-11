@@ -40,7 +40,7 @@ class Deploy extends ContractModal<Props, State> {
   headerText = 'Deploy a new contract';
   isContract = true;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {

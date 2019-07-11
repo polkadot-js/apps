@@ -18,12 +18,12 @@ interface Props extends I18nProps {
   info: Info;
 }
 
-type State = {
-  peerBest?: BN
-};
+interface State {
+  peerBest?: BN;
+}
 
 class Summary extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   static getDerivedStateFromProps ({ info = {} }: Props): State | null {
     if (!info.peers) {

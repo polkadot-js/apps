@@ -109,7 +109,7 @@ class Item extends React.PureComponent<Props> {
       }
     }
 
-    const notFound = needsApi.filter((endpoint: string | Array<string>) => {
+    const notFound = needsApi.filter((endpoint: string | string[]) => {
       const hasApi = Array.isArray(endpoint)
         ? endpoint.reduce((hasApi, endpoint) => hasApi || this.hasApi(endpoint), false)
         : this.hasApi(endpoint);

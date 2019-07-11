@@ -29,28 +29,28 @@ type Props = ModalProps & ApiProps & I18nProps & {
 
 type SeedType = 'bip' | 'raw' | 'dev';
 
-type SeedOption = {
-  text: string,
-  value: SeedType
-};
+interface SeedOption {
+  text: string;
+  value: SeedType;
+}
 
-type State = {
-  address: string,
-  deriveError: string | null,
-  derivePath: string,
-  isNameValid: boolean,
-  isSeedValid: boolean,
-  isPassValid: boolean,
-  isValid: boolean,
-  name: string,
-  pairType: KeypairType,
-  password: string,
-  seed: string,
-  seedOptions: Array<SeedOption>,
-  seedType: SeedType,
-  showWarning: boolean,
-  tags: Array<string>
-};
+interface State {
+  address: string;
+  deriveError: string | null;
+  derivePath: string;
+  isNameValid: boolean;
+  isSeedValid: boolean;
+  isPassValid: boolean;
+  isValid: boolean;
+  name: string;
+  pairType: KeypairType;
+  password: string;
+  seed: string;
+  seedOptions: SeedOption[];
+  seedType: SeedType;
+  showWarning: boolean;
+  tags: string[];
+}
 
 const DEFAULT_TYPE = 'sr25519';
 
@@ -88,9 +88,9 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
 }
 
 class Create extends React.PureComponent<Props, State> {
-  state: State = { seedType: 'bip' } as State;
+  public state: State = { seedType: 'bip' } as State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { isDevelopment, seed, t, type } = this.props;

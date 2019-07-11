@@ -28,7 +28,7 @@ type State = {
 };
 
 class App extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isMine: false
   };
 

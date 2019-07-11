@@ -18,17 +18,17 @@ interface Props extends I18nProps {
   address: string;
 }
 
-type State = {
-  current?: KeyringAddress,
-  isEditable: boolean,
-  isForgetOpen: boolean,
-  isTransferOpen: boolean
-};
+interface State {
+  current?: KeyringAddress;
+  isEditable: boolean;
+  isForgetOpen: boolean;
+  isTransferOpen: boolean;
+}
 
 class Address extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { address } = this.props;

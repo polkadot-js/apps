@@ -20,7 +20,7 @@ type State = ContractModalState & {
 };
 
 class Add extends ContractModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
     this.defaultState = {
       ...this.defaultState,

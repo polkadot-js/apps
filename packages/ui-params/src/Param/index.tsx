@@ -22,7 +22,7 @@ type State = {
 };
 
 class ParamComponent extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     Component: null
   };
 

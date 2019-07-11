@@ -32,7 +32,7 @@ type State = {
 };
 
 export default class Password extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isVisible: false
   };
 

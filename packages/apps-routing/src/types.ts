@@ -14,7 +14,7 @@ export type Route = {
     isHidden?: boolean,
     isModal?: boolean,
     needsAccounts?: boolean,
-    needsApi?: Array<string | Array<string>>,
+    needsApi?: Array<string | string[]>,
     needsSudo?: boolean
   },
   i18n: {

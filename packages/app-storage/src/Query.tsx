@@ -39,7 +39,7 @@ type CacheInstance = {
 const cache: Array<CacheInstance> = [];
 
 class Query extends React.PureComponent<Props, State> {
-  state: State = { spread: {} } as State;
+  public state: State = { spread: {} } as State;
 
   static getCachedComponent (query: QueryTypes): CacheInstance {
     const { id, key, params = [] } = query as StorageModuleQuery;

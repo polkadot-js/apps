@@ -12,7 +12,7 @@ import { bnToBn } from '@polkadot/util';
 import Base from './Base';
 
 type Value = {
-  colors: Array<string>,
+  colors: string[],
   label: string,
   value: number | BN
 };
@@ -23,10 +23,10 @@ type Props = BareProps & {
 };
 
 type Options = {
-  colorNormal: Array<string>,
-  colorHover: Array<string>,
+  colorNormal: string[],
+  colorHover: string[],
   data: Array<number>,
-  labels: Array<string>
+  labels: string[]
 };
 
 export default class ChartDoughnut extends React.PureComponent<Props> {

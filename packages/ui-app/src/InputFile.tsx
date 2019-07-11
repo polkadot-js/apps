@@ -43,9 +43,9 @@ type LoadEvent = {
 
 class InputFile extends React.PureComponent<Props, State> {
   dropZone: any;
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
     this.state = {} as State;
     this.dropZone = React.createRef();

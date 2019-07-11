@@ -20,7 +20,7 @@ type State = {
 };
 
 class Raw extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValid: false,
     key: new Uint8Array([])
   };

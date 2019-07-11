@@ -21,19 +21,19 @@ import translate from './translate';
 
 type Props = ComponentProps & I18nProps;
 
-type State = {
-  createSeed: string | null,
-  elapsed: number,
-  isMatchValid: boolean,
-  isRunning: boolean,
-  keyCount: 0,
-  keyTime: 0,
-  match: string,
-  matches: Generator$Matches,
-  startAt: number,
-  type: KeypairType,
-  withCase: boolean
-};
+interface State {
+  createSeed: string | null;
+  elapsed: number;
+  isMatchValid: boolean;
+  isRunning: boolean;
+  keyCount: 0;
+  keyTime: 0;
+  match: string;
+  matches: Generator$Matches;
+  startAt: number;
+  type: KeypairType;
+  withCase: boolean;
+}
 
 const DEFAULT_MATCH = 'Some';
 const BOOL_OPTIONS = [
@@ -42,8 +42,8 @@ const BOOL_OPTIONS = [
 ];
 
 class VanityApp extends TxComponent<Props, State> {
-  results: Array<Generator$Result> = [];
-  state: State = {
+  private results: Generator$Result[] = [];
+  public state: State = {
     createSeed: null,
     elapsed: 0,
     isMatchValid: true,

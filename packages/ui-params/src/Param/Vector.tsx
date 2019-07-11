@@ -24,7 +24,7 @@ type State = {
 };
 
 class Vector extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     Component: null,
     values: []
   };

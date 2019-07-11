@@ -22,7 +22,7 @@ type State = {
 };
 
 class SetRewardDestination extends TxComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {

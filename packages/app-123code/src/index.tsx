@@ -25,7 +25,7 @@ interface State {
 }
 
 class App extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   public render (): React.ReactNode {
     const { accountId } = this.state;

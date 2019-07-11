@@ -23,7 +23,7 @@ type State = CallState & {
 export default function withObservable<T, P> (observable: Observable<P>, { callOnResult, propName = 'value', transform = echoTransform }: Options = {}): HOC {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps = {}, render?: RenderFn): React.ComponentType<any> => {
     return class WithObservable extends React.Component<any, State> {
-      state: State = {
+      public state: State = {
         callResult: void 0,
         callUpdated: false,
         callUpdatedAt: 0,

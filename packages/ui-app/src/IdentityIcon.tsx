@@ -61,7 +61,7 @@ class CopyIcon extends React.PureComponent<CopyProps> {
 const CopyIconI18N = translate(CopyIcon);
 
 class IdentityIcon extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValidator: false
   };
 
