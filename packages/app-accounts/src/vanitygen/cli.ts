@@ -9,6 +9,7 @@ import { Generator$Options } from './types';
 import yargs from 'yargs';
 import chalk from 'chalk';
 import { u8aToHex } from '@polkadot/util';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import generator from '.';
 import matchRegex from './regex';
@@ -26,7 +27,7 @@ const { match, type, withCase } = yargs
   })
   .option('type', {
     choices: ['ed25519', 'sr25519'],
-    default: 'ed25519'
+    default: 'sr25519'
   })
   .option('withCase', {
     default: true
@@ -37,7 +38,7 @@ const INDICATORS = ['|', '/', '-', '\\'];
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
 const options: Generator$Options = {
-  match,
+  match: `${match}`,
   runs: 50,
   type: type as KeypairType,
   withCase
@@ -76,22 +77,26 @@ function showBest () {
   console.log(`\r::: ${address.slice(0, offset)}${chalk.cyan(address.slice(offset, count + offset))}${address.slice(count + offset)} <= ${u8aToHex(seed)} (count=${count}, offset=${offset})`);
 }
 
-while (true) {
-  const nextBest = generator(options).found.reduce((best, match) => {
-    if ((match.count > best.count) || ((match.count === best.count) && (match.offset <= best.offset))) {
-      return match;
+cryptoWaitReady()
+  .then(() => {
+    while (true) {
+      const nextBest = generator(options).found.reduce((best, match) => {
+        if ((match.count > best.count) || ((match.count === best.count) && (match.offset <= best.offset))) {
+          return match;
+        }
+
+        return best;
+      }, best);
+
+      total += options.runs;
+
+      if (nextBest.address !== best.address) {
+        best = nextBest;
+        showBest();
+        showProgress();
+      } else if ((total % 1000) === 0) {
+        showProgress();
+      }
     }
-
-    return best;
-  }, best);
-
-  total += options.runs;
-
-  if (nextBest.address !== best.address) {
-    best = nextBest;
-    showBest();
-    showProgress();
-  } else if ((total % 1000) === 0) {
-    showProgress();
-  }
-}
+  })
+  .catch(console.error);
