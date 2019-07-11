@@ -11,13 +11,13 @@ import { AddressRow, Button, CodeRow, Modal } from '@polkadot/ui-app';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  address?: string,
-  code?: CodeStored,
-  name?: string,
-  mode?: 'account' | 'address' | 'contract' | 'code',
-  onClose: () => void,
-  onForget: () => void
-};
+  address?: string;
+  code?: CodeStored;
+  name?: string;
+  mode?: 'account' | 'address' | 'contract' | 'code';
+  onClose: () => void;
+  onForget: () => void;
+}
 
 class Forget extends React.PureComponent<Props> {
   public render (): React.ReactNode {

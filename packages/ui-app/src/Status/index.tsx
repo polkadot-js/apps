@@ -15,9 +15,9 @@ import { classes } from '../util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  stqueue?: Array<QueueStatus>,
-  txqueue?: Array<QueueTx>
-};
+  stqueue?: QueueStatus[];
+  txqueue?: QueueTx[];
+}
 
 const Wrapper = styled.div`
   display: inline-block;

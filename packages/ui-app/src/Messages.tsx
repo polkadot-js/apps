@@ -13,13 +13,13 @@ import translate from './translate';
 import { classes } from './util';
 
 export interface Props extends I18nProps {
-  address?: string,
-  contractAbi: Abi,
-  isLabelled?: boolean,
-  isRemovable: boolean,
-  onRemove?: () => void,
-  onSelect?: (callAddress?: string, callMethod?: string) => void
-};
+  address?: string;
+  contractAbi: Abi;
+  isLabelled?: boolean;
+  isRemovable: boolean;
+  onRemove?: () => void;
+  onSelect?: (callAddress?: string, callMethod?: string) => void;
+}
 
 class Messages extends React.PureComponent<Props> {
   public render (): React.ReactNode {

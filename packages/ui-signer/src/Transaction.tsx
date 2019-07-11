@@ -13,10 +13,10 @@ import Checks from './Checks';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  children?: React.ReactNode,
-  isSendable: boolean,
-  value: QueueTx
-};
+  children?: React.ReactNode;
+  isSendable: boolean;
+  value: QueueTx;
+}
 
 class Transaction extends React.PureComponent<Props> {
   public render (): React.ReactNode {

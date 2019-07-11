@@ -21,13 +21,13 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 interface Props extends I18nProps {
-  defaultValue: RpcMethod,
-  help?: React.ReactNode,
-  isError?: boolean,
-  label: React.ReactNode,
-  onChange?: (value: RpcMethod) => void,
-  withLabel?: boolean
-};
+  defaultValue: RpcMethod;
+  help?: React.ReactNode;
+  isError?: boolean;
+  label: React.ReactNode;
+  onChange?: (value: RpcMethod) => void;
+  withLabel?: boolean;
+}
 
 type State = {
   optionsMethod: DropdownOptions,

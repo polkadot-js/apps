@@ -44,7 +44,7 @@ class Modules extends TxComponent<Props, State> {
     };
   }
 
-  public public render (): React.ReactNode {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, key: { creator: { method, section, meta } }, params } = this.state;
 

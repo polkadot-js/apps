@@ -45,7 +45,7 @@ export default class Elapsed extends React.PureComponent<Props, State> {
     tickers.delete(this);
   }
 
-  public public render (): React.ReactNode {
+  public render (): React.ReactNode {
     const { className, style, value } = this.props;
     const { now } = this.state;
 

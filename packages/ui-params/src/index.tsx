@@ -15,19 +15,19 @@ import translate from '@polkadot/ui-app/translate';
 import Param from './Param';
 import createValues from './values';
 
-type Param = {
-  name?: string,
-  type: TypeDef
-};
+interface Param {
+  name?: string;
+  type: TypeDef;
+}
 
 interface Props extends I18nProps {
-  isDisabled?: boolean,
-  onChange?: (value: RawParams) => void,
-  onEnter?: () => void,
-  overrides?: ComponentMap,
-  params: Array<Param>,
-  values?: RawParams
-};
+  isDisabled?: boolean;
+  onChange?: (value: RawParams) => void;
+  onEnter?: () => void;
+  overrides?: ComponentMap;
+  params: Param[];
+  values?: RawParams;
+}
 
 type State = {
   handlers: Array<RawParam$OnChange>,

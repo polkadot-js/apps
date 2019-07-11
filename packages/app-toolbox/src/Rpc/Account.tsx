@@ -13,10 +13,10 @@ import { Nonce } from '@polkadot/ui-reactive';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  defaultValue?: string | null,
-  isError?: boolean,
-  onChange: (accountId: string | undefined | null, accountNonce: BN) => void
-};
+  defaultValue?: string | null;
+  isError?: boolean;
+  onChange: (accountId: string | undefined | null, accountNonce: BN) => void;
+}
 
 type State = {
   accountNonce: BN,

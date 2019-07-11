@@ -13,10 +13,10 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  treasury_proposalCount?: BN,
-  treasury_approvals?: Array<BN>,
-  treasury_pot?: BN
-};
+  treasury_proposalCount?: BN;
+  treasury_approvals?: BN[];
+  treasury_pot?: BN;
+}
 
 class Summary extends React.PureComponent<Props> {
   public render (): React.ReactNode {

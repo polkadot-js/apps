@@ -11,9 +11,9 @@ import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-a
 import translate from './translate';
 
 interface Props extends I18nProps {
-  onClose: () => void,
-  pair: KeyringPair | null
-};
+  onClose: () => void;
+  pair: KeyringPair | null;
+}
 
 type State = {
   address: string,

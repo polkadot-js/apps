@@ -12,14 +12,14 @@ import keyring from '@polkadot/ui-keyring';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  autoFocus?: boolean,
-  error?: string,
-  onChange: (password: string) => void,
-  onEnter?: () => void,
-  password: string,
-  tabIndex?: number,
-  value?: string | null
-};
+  autoFocus?: boolean;
+  error?: string;
+  onChange: (password: string) => void;
+  onEnter?: () => void;
+  password: string;
+  tabIndex?: number;
+  value?: string | null;
+}
 
 type State = {
   isError: boolean,

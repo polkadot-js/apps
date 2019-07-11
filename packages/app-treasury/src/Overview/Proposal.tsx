@@ -21,13 +21,13 @@ const Approved = styled.h3`
 `;
 
 interface Props extends I18nProps {
-  allAccounts?: SubjectInfo,
-  isApproved: boolean,
-  proposal?: TreasuryProposalType | null,
-  proposalId: string,
-  onPopulate: () => void,
-  onRespond: () => void
-};
+  allAccounts?: SubjectInfo;
+  isApproved: boolean;
+  proposal?: TreasuryProposalType | null;
+  proposalId: string;
+  onPopulate: () => void;
+  onRespond: () => void;
+}
 
 type State = {
   isApproveOpen: boolean

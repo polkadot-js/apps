@@ -18,9 +18,9 @@ import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
 
 interface Props extends I18nProps {
-  onRemove: (id: number) => void,
-  value: QueryTypes
-};
+  onRemove: (id: number) => void;
+  value: QueryTypes;
+}
 
 type ComponentProps = {};
 

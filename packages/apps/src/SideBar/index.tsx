@@ -22,12 +22,12 @@ import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
 interface Props extends I18nProps {
-  collapse: () => void,
-  handleResize: () => void,
-  isCollapsed: boolean,
-  menuOpen: boolean,
-  toggleMenu: () => void
-};
+  collapse: () => void;
+  handleResize: () => void;
+  isCollapsed: boolean;
+  menuOpen: boolean;
+  toggleMenu: () => void;
+}
 
 type State = {
   modals: {

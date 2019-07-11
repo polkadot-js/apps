@@ -17,12 +17,12 @@ import translate from '../translate';
 import { ZERO_BALANCE } from './constants';
 
 interface Props extends I18nProps {
-  amount: BN | Compact,
-  fees: DerivedFees,
-  balances_all?: DerivedBalances,
-  recipientId: string,
-  onChange: (fees: ExtraFees) => void
-};
+  amount: BN | Compact;
+  fees: DerivedFees;
+  balances_all?: DerivedBalances;
+  recipientId: string;
+  onChange: (fees: ExtraFees) => void;
+}
 
 type State = ExtraFees & {
   isCreation: boolean,

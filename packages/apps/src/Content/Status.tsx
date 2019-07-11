@@ -17,12 +17,12 @@ import { xxhashAsHex } from '@polkadot/util-crypto';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  optionsAll?: KeyringOptions,
-  queueAction: QueueAction$Add,
-  stqueue: Array<QueueStatus>,
-  system_events?: Array<EventRecord>,
-  txqueue: Array<QueueTx>
-};
+  optionsAll?: KeyringOptions;
+  queueAction: QueueAction$Add;
+  stqueue: QueueStatus[];
+  system_events?: EventRecord[];
+  txqueue: QueueTx[];
+}
 
 let prevEventHash: string;
 

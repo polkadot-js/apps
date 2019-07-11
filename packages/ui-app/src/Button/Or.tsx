@@ -11,8 +11,8 @@ import { isUndefined } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  text?: string
-};
+  text?: string;
+}
 
 class ButtonOr extends React.PureComponent<Props> {
   public render (): React.ReactNode {

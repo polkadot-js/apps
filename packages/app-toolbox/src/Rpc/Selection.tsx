@@ -16,8 +16,8 @@ import Params from '@polkadot/ui-params';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  queueRpc: QueueTx$RpcAdd
-};
+  queueRpc: QueueTx$RpcAdd;
+}
 
 type State = {
   isValid: boolean,

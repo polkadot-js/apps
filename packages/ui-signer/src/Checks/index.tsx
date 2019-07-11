@@ -34,15 +34,15 @@ type State = ExtraFees & {
 };
 
 interface Props extends I18nProps {
-  balances_fees?: DerivedFees,
-  balances_all?: DerivedBalances,
-  contract_fees?: DerivedContractFees,
-  accountId?: string | null,
-  extrinsic?: IExtrinsic | null,
-  isSendable: boolean,
-  onChange?: (hasAvailable: boolean) => void,
-  system_accountNonce?: BN
-};
+  balances_fees?: DerivedFees;
+  balances_all?: DerivedBalances;
+  contract_fees?: DerivedContractFees;
+  accountId?: string | null;
+  extrinsic?: IExtrinsic | null;
+  isSendable: boolean;
+  onChange?: (hasAvailable: boolean) => void;
+  system_accountNonce?: BN;
+}
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;

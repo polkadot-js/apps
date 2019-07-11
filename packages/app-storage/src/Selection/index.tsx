@@ -15,9 +15,9 @@ import Raw from './Raw';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  basePath: string,
-  onAdd: (query: QueryTypes) => void
-};
+  basePath: string;
+  onAdd: (query: QueryTypes) => void;
+}
 
 type State = {
   items: Array<TabItem>

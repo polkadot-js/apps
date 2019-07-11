@@ -19,7 +19,7 @@ interface Props extends I18nProps {
   lastBlock: string;
   next: Array<string>;
   recentlyOffline: RecentlyOfflineMap;
-};
+}
 
 type State = {
   filter: ValidatorFilter,

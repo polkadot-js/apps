@@ -16,11 +16,12 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  deposit: BN | Compact,
-  fees: DerivedFees,
-  democracy_minimumDeposit?: BN
-  onChange: (fees: ExtraFees) => void
-};
+  deposit: BN | Compact;
+  fees: DerivedFees;
+  democracy_minimumDeposit?: BN;
+  onChange: (fees: ExtraFees) => void;
+}
+
 type State = ExtraFees & {
   isBelowMinimum: boolean
 };

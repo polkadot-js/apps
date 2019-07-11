@@ -16,10 +16,10 @@ import translate from './translate';
 import { classes } from './util';
 
 interface Props extends I18nProps {
-  accountId: AccountId | string,
-  offline: Array<OfflineStatus>,
-  tooltip?: boolean
-};
+  accountId: AccountId | string;
+  offline: OfflineStatus[];
+  tooltip?: boolean;
+}
 
 type State = {
   isOpen: boolean
