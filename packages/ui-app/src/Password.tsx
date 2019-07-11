@@ -36,7 +36,7 @@ export default class Password extends React.PureComponent<Props, State> {
     isVisible: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 

@@ -16,7 +16,7 @@ import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   optionsAll?: KeyringOptions,
   queueAction: QueueAction$Add,
   stqueue: Array<QueueStatus>,
@@ -66,7 +66,7 @@ class Status extends React.PureComponent<Props> {
     });
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { stqueue, txqueue } = this.props;
 
     return (

@@ -15,7 +15,7 @@ import Tooltip from './Tooltip';
 import translate from './translate';
 import { classes } from './util';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   accountId: AccountId | string,
   offline: Array<OfflineStatus>,
   tooltip?: boolean
@@ -30,7 +30,7 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
     isOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { accountId, className, offline, tooltip = false, t } = this.props;
     const { isOpen } = this.state;
 

@@ -12,14 +12,14 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   treasury_proposalCount?: BN,
   treasury_approvals?: Array<BN>,
   treasury_pot?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { treasury_proposalCount = new BN(0), treasury_approvals = [] as Array<BN>, treasury_pot = new BN(0), t } = this.props;
     const value = treasury_pot
       ? treasury_pot.toString()

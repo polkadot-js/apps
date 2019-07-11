@@ -52,7 +52,7 @@ class Vector extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isDisabled, onEnter, style, type, withLabel } = this.props;
     const { Component, values } = this.state;
     const subType = type.sub as TypeDef;

@@ -48,7 +48,7 @@ class Unbond extends TxComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { controllerId, isOpen, onClose, t } = this.props;
     const { maxUnbond } = this.state;
     const canSubmit = !!maxUnbond && maxUnbond.gtn(0);

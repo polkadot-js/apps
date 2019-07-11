@@ -20,7 +20,7 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   defaultValue: RpcMethod,
   help?: React.ReactNode,
   isError?: boolean,

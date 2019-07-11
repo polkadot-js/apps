@@ -76,7 +76,7 @@ class Call extends TxComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isOpen, t } = this.props;
 
     return (

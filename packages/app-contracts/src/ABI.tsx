@@ -12,19 +12,19 @@ import { u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  className?: string,
-  contractAbi?: Abi | null,
-  help?: React.ReactNode,
-  isError?: boolean,
-  isDisabled?: boolean,
-  isRequired?: boolean,
-  label?: React.ReactNode,
-  onChange: (json: string | null, contractAbi: Abi | null) => void,
-  onRemove?: () => void,
-  onRemoved?: () => void,
-  onSelect?: () => void
-};
+interface Props extends I18nProps {
+  className?: string;
+  contractAbi?: Abi | null;
+  help?: React.ReactNode;
+  isError?: boolean;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  label?: React.ReactNode;
+  onChange: (json: string | null, contractAbi: Abi | null) => void;
+  onRemove?: () => void;
+  onRemoved?: () => void;
+  onSelect?: () => void;
+}
 
 type State = {
   contractAbi: Abi | null,
@@ -71,7 +71,7 @@ class ABI extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { contractAbi, isAbiValid } = this.state;
 

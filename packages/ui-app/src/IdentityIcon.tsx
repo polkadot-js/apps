@@ -31,7 +31,7 @@ type State = {
 };
 
 class CopyIcon extends React.PureComponent<CopyProps> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <BaseIdentityIcon
         {...this.props}
@@ -81,7 +81,7 @@ class IdentityIcon extends React.PureComponent<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isValidator } = this.state;
 
     return (

@@ -53,7 +53,7 @@ export default class InputTags extends React.PureComponent<Props> {
     }))
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel } = this.props;
     const { options } = this.state;
 

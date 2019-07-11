@@ -14,18 +14,18 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  balances: DerivedBalancesMap,
-  className?: string,
-  controllers: Array<string>,
-  lastAuthor?: string,
-  lastBlock: string,
-  staking_validatorCount?: BN,
-  validators: Array<string>
-};
+interface Props extends I18nProps {
+  balances: DerivedBalancesMap;
+  className?: string;
+  controllers: Array<string>;
+  lastAuthor?: string;
+  lastBlock: string;
+  staking_validatorCount?: BN;
+  validators: Array<string>;
+}
 
 class Summary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, controllers, lastAuthor, lastBlock, style, t, staking_validatorCount, validators } = this.props;
     const waiting = controllers.length > validators.length
       ? (controllers.length - validators.length)

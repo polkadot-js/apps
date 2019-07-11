@@ -30,7 +30,7 @@ type Options = {
 };
 
 export default class ChartDoughnut extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, size = 100, style, values } = this.props;
 
     // FIXME Classic case of kicking the can down the road, i.e. don't expend energy

@@ -16,17 +16,17 @@ import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  address: string,
-  balances: DerivedBalancesMap,
-  className?: string,
-  defaultName: string,
-  lastAuthor: string,
-  lastBlock: string,
-  recentlyOffline: RecentlyOfflineMap,
-  filter: ValidatorFilter,
-  staking_info?: DerivedStaking
-};
+interface Props extends I18nProps {
+  address: string;
+  balances: DerivedBalancesMap;
+  className?: string;
+  defaultName: string;
+  lastAuthor: string;
+  lastBlock: string;
+  recentlyOffline: RecentlyOfflineMap;
+  filter: ValidatorFilter;
+  staking_info?: DerivedStaking;
+}
 
 type State = {
   controllerId: string,
@@ -75,7 +75,7 @@ class Address extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultName, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
     const bonded = stakers && !stakers.own.isZero()

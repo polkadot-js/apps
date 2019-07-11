@@ -16,7 +16,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class TotalIssuance extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, label = '', style, balances_totalIssuance } = this.props;
     const value = balances_totalIssuance
       ? balances_totalIssuance.toString()

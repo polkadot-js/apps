@@ -68,7 +68,7 @@ class Transfer extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (

@@ -28,7 +28,7 @@ class Overview extends React.PureComponent<Props, State> {
     isCreateOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { addresses, onStatusChange, t } = this.props;
     const { isCreateOpen } = this.state;
     const emptyScreen = !isCreateOpen && (!addresses || Object.keys(addresses).length === 0);

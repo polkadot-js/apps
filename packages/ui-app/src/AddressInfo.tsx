@@ -47,7 +47,7 @@ type Props = BareProps & I18nProps & {
 };
 
 class AddressInfo extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className } = this.props;
 
     return (

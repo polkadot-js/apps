@@ -115,7 +115,7 @@ class Playground extends React.PureComponent<Props, State> {
     }) as State);
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { animated, isCustomExample, isRunning, logs, options, selected } = this.state;
     const snippetName = selected.type === 'custom' ? selected.text : undefined;

@@ -62,7 +62,7 @@ class Settings extends TxComponent<Props, State> {
     return newState;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { accountId, proposalBond, proposalBondMinimum, spendPeriod, burn, pot } = this.state;
 

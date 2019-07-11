@@ -57,7 +57,7 @@ class Apps extends React.Component<Props, State> {
     this.handleMenuTransition();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { isCollapsed, isMenu, menuOpen } = this.state;
 

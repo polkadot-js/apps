@@ -10,12 +10,12 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  peers?: Array<PeerInfo> | null
-};
+interface Props extends I18nProps {
+  peers?: Array<PeerInfo> | null;
+}
 
 class Peers extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (

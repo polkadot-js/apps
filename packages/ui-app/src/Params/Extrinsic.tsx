@@ -23,7 +23,7 @@ type Props = BareProps & {
 };
 
 export default class ExtrinsicDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, withLabel } = this.props;
 
     return (

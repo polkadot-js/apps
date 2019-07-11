@@ -37,7 +37,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isDisabled, label, style, withLabel } = this.props;
 
     if (isDisabled) {

@@ -14,7 +14,7 @@ import Modules from './Modules';
 import Raw from './Raw';
 import translate from '../translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   basePath: string,
   onAdd: (query: QueryTypes) => void
 };
@@ -46,7 +46,7 @@ class Selection extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { items } = this.state;
 

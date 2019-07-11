@@ -11,12 +11,12 @@ import { withMulti } from '@polkadot/ui-api';
 import translate from '../../translate';
 import InputValidationController from '../Account/InputValidationController';
 
-type Props = I18nProps & {
-  defaultControllerId: string,
-  isValidating?: boolean,
-  onClose: () => void,
-  stashId: string
-};
+interface Props extends I18nProps {
+  defaultControllerId: string;
+  isValidating?: boolean;
+  onClose: () => void;
+  stashId: string;
+}
 
 type State = {
   controllerError: string | null,
@@ -33,7 +33,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { defaultControllerId, onClose, stashId, t } = this.props;
     const { controllerError, controllerId } = this.state;
     const canSubmit = !controllerError && !!controllerId && (defaultControllerId !== controllerId);

@@ -93,7 +93,7 @@ class App extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { allAccounts, basePath } = this.props;
     const { tabs } = this.state;
     const hidden = !allAccounts || Object.keys(allAccounts).length === 0

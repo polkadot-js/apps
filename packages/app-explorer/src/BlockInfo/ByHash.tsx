@@ -25,7 +25,7 @@ type Props = ApiProps & I18nProps & {
 };
 
 class BlockByHash extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { system_events, chain_getBlock, chain_getHeader } = this.props;
 
     if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {

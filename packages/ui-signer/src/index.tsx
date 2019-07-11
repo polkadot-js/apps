@@ -17,7 +17,7 @@ type Props = BareProps & {
 };
 
 export default class Signer extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, style } = this.props;
 
     return (

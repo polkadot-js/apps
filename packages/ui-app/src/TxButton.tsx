@@ -60,7 +60,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     isSending: false
   } as State;
 
-  render () {
+  public render (): React.ReactNode {
     const { accountId, className, icon, iconSize , isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
     const { isSending } = this.state;
     const needsAccount = isUnsigned
@@ -141,7 +141,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 class TxButton extends React.PureComponent<Props> {
   button: any = React.createRef();
 
-  render () {
+  public render (): React.ReactNode {
     return (
       <QueueConsumer>
         {({ queueExtrinsic, txqueue }) => (

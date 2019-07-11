@@ -61,7 +61,7 @@ class Verify extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { cryptoOptions, cryptoType, data, isHexData } = this.state;
 

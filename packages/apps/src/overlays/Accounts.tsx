@@ -47,7 +47,7 @@ class Accounts extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isApiReady, className, t } = this.props;
     const { hasAccounts, isHidden } = this.state;
 

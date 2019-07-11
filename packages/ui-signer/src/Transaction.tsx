@@ -12,14 +12,14 @@ import { Call, InputAddress, Modal } from '@polkadot/ui-app';
 import Checks from './Checks';
 import translate from './translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   children?: React.ReactNode,
   isSendable: boolean,
   value: QueueTx
 };
 
 class Transaction extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, value: { extrinsic } } = this.props;
 
     if (!extrinsic) {

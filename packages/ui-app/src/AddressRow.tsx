@@ -70,7 +70,7 @@ class AddressRow extends Row<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accounts_idAndIndex = [], className, isContract, isInline, style } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = this.props.isValid || accountId || accountIndex;

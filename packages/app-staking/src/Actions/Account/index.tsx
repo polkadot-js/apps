@@ -105,7 +105,7 @@ class Account extends React.PureComponent<Props, State> {
     } as any as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
     const { isActiveStash, stashId } = this.state;
 

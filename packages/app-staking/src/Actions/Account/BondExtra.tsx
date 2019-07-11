@@ -49,7 +49,7 @@ class BondExtra extends TxComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { balances_all = ZERO_BALANCE, isOpen, onClose, stashId, t } = this.props;
     const { extrinsic, maxAdditional, maxBalance = balances_all.availableBalance } = this.state;
     const canSubmit = !!maxAdditional && maxAdditional.gtn(0) && maxAdditional.lte(maxBalance);

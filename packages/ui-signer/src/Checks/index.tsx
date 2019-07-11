@@ -33,7 +33,7 @@ type State = ExtraFees & {
   overLimit: boolean
 };
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   balances_fees?: DerivedFees,
   balances_all?: DerivedBalances,
   contract_fees?: DerivedContractFees,
@@ -123,7 +123,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     onChange && onChange(hasAvailable);
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accountId, balances_fees, className, isSendable, t } = this.props;
     const { allFees, allTotal, allWarn, hasAvailable, isRemovable, isReserved, overLimit } = this.state;
 

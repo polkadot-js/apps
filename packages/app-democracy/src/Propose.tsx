@@ -34,7 +34,7 @@ class Propose extends TxComponent<Props, State> {
     isValid: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
     const { isValid, accountId, method, value } = this.state;
     const hasValue = !!value && value.gtn(0);

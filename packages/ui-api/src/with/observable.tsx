@@ -72,7 +72,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
         }
       }
 
-      render () {
+      public render (): React.ReactNode {
         const { children } = this.props;
         const { callUpdated, callUpdatedAt, callResult } = this.state;
         const _props = {

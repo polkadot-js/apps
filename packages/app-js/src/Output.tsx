@@ -36,7 +36,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
 );
 
 export default class Output extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, logs } = this.props;
 
     return (

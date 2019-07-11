@@ -64,7 +64,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onSearch, options, placeholder, renderLabel, searchInput, style, withEllipsis, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown

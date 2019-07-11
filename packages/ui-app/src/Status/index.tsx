@@ -14,7 +14,7 @@ import Icon from '../Icon';
 import { classes } from '../util';
 import translate from '../translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   stqueue?: Array<QueueStatus>,
   txqueue?: Array<QueueTx>
 };
@@ -90,7 +90,7 @@ const Wrapper = styled.div`
 `;
 
 class Status extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { stqueue = [], txqueue = [] } = this.props;
     const allst: Array<QueueStatus> = stqueue.filter(({ isCompleted }) => !isCompleted);
     const alltx: Array<QueueTx> = txqueue.filter(({ status }) =>

@@ -12,13 +12,13 @@ import { Extrinsic, Method } from '@polkadot/types';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  label?: React.ReactNode,
-  value?: Array<Extrinsic> | null
-};
+interface Props extends I18nProps {
+  label?: React.ReactNode;
+  value?: Array<Extrinsic> | null;
+}
 
 class Extrinsics extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, label, t } = this.props;
 
     return (

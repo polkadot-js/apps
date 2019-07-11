@@ -34,7 +34,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
     snippetName: ''
   };
 
-  render () {
+  public render (): React.ReactNode {
     const {
       props: { isCustomExample, isRunning, removeSnippet, runJs, stopJs, t },
       state: { isOpen, shareText, snippetName }

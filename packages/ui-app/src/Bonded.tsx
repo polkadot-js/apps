@@ -20,7 +20,7 @@ export type Props = BareProps & {
 };
 
 export default class BondedDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { bonded, params, className, label, style } = this.props;
 
     if (!params) {

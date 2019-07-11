@@ -30,7 +30,7 @@ type Props = BareProps & {
 };
 
 class AddressMini extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, iconInfo, isPadded = true, style, value } = this.props;
 
     if (!value) {

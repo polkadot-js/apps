@@ -29,7 +29,7 @@ export const styles = `
 `;
 
 class ActionItem extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, children, accessory } = this.props;
 
     return (

@@ -38,7 +38,7 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath, t } = this.props;
     const { isMine } = this.state;
 

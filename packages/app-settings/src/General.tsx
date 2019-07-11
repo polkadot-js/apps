@@ -39,7 +39,7 @@ class General extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
     const { isUrlValid, settings: { i18nLang, uiMode, uiTheme } } = this.state;
 

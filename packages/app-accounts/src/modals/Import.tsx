@@ -34,7 +34,7 @@ class Import extends TxComponent<Props, State> {
     password: ''
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { onClose, t } = this.props;
     const { isFileValid, isPassValid } = this.state;
 

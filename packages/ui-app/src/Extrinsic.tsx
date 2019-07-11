@@ -47,7 +47,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { defaultValue, isDisabled, isError, isPrivate, label, onEnter, withLabel } = this.props;
     const { methodfn: { method, section, meta }, params } = this.state;
 

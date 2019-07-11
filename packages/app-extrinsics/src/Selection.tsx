@@ -35,7 +35,7 @@ class Selection extends TxComponent<Props, State> {
     isValidUnsigned: false
   } as State;
 
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
     const { isValid, isValidUnsigned, accountId } = this.state;
     const extrinsic = this.getExtrinsic() || apiDefaultTxSudo;

@@ -39,7 +39,7 @@ class Contract extends React.PureComponent<Props> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address, onCall } = this.props;
 
     const contractAbi = getContractAbi(address);

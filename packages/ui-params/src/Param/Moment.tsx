@@ -10,7 +10,7 @@ import { Static } from '@polkadot/ui-app';
 import Amount from './Amount';
 
 export default class Code extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, label, onEnter, style, type, withLabel } = this.props;
 
     if (isDisabled) {

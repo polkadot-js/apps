@@ -10,7 +10,7 @@ import { withMulti } from '@polkadot/ui-api';
 
 import translate from './translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   className?: string,
   unlockError?: string | null
 };

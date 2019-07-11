@@ -19,7 +19,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class Nonce extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { accountNonce, children, className, label = '' } = this.props;
 
     return (

@@ -11,15 +11,15 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  emptyLabel?: React.ReactNode,
-  events: Array<KeyedEvent>,
-  eventClassName?: string,
-  withoutIndex?: boolean
-};
+interface Props extends I18nProps {
+  emptyLabel?: React.ReactNode;
+  events: Array<KeyedEvent>;
+  eventClassName?: string;
+  withoutIndex?: boolean;
+}
 
 class Events extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { emptyLabel, events, t } = this.props;
 
     if (!events || events.length === 0) {

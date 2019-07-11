@@ -7,19 +7,19 @@ import styled from 'styled-components';
 import { Bubble, InputAddress } from '@polkadot/ui-app';
 import { AccountIndex, Balance, Nonce } from '@polkadot/ui-reactive';
 
-type Props = {
-  className?: string,
-  onChange: (accountId?: string) => void
-};
+interface Props {
+  className?: string;
+  onChange: (accountId?: string) => void;
+}
 
-type State = {
-  accountId?: string
-};
+interface State {
+  accountId?: string;
+}
 
 class AccountSelector extends React.PureComponent<Props, State> {
   state: State = {};
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { accountId } = this.state;
 

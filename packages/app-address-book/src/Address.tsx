@@ -14,9 +14,9 @@ import Transfer from '@polkadot/app-accounts/modals/Transfer';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  address: string
-};
+interface Props extends I18nProps {
+  address: string;
+}
 
 type State = {
   current?: KeyringAddress,
@@ -41,7 +41,7 @@ class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address } = this.props;
     const { isEditable } = this.state;
 

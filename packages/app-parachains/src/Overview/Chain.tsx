@@ -7,7 +7,7 @@ import React from 'react';
 type Props = {};
 
 export default class Chain extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return null;
   }
 }

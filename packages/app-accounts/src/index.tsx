@@ -19,13 +19,13 @@ import translate from './translate';
 import Vanity from './Vanity';
 
 type Props = AppProps & I18nProps & {
-  allAccounts?: SubjectInfo
+  allAccounts?: SubjectInfo;
 };
 
-type State = {
-  hidden: Array<string>,
-  tabs: Array<TabItem>
-};
+interface State {
+  hidden: string[];
+  tabs: TabItem[];
+}
 
 class AccountsApp extends React.PureComponent<Props, State> {
   state: State;
@@ -83,7 +83,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { hidden, tabs } = this.state;
 

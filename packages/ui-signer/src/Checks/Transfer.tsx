@@ -16,7 +16,7 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 import { ZERO_BALANCE } from './constants';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   amount: BN | Compact,
   fees: DerivedFees,
   balances_all?: DerivedBalances,
@@ -64,7 +64,7 @@ export class Transfer extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { fees, t } = this.props;
     const { isCreation, isNoEffect } = this.state;
 

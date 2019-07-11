@@ -16,7 +16,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class AccountIndexDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, label = '', style, accounts_idAndIndex = [] } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 

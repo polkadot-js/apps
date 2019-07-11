@@ -50,7 +50,7 @@ export default class Queue extends React.Component<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     return (
       <QueueProvider value={this.state}>
         {this.props.children}

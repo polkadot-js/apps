@@ -47,7 +47,7 @@ class ValidateCode extends React.PureComponent<Props> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, isValidHex } = this.state;
 

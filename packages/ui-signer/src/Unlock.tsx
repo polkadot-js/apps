@@ -11,7 +11,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   autoFocus?: boolean,
   error?: string,
   onChange: (password: string) => void,
@@ -50,7 +50,7 @@ class Unlock extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus, onChange, onEnter, password, t, tabIndex } = this.props;
     const { isError, isInjected, isLocked } = this.state;
 

@@ -15,7 +15,7 @@ import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   deposit: BN | Compact,
   fees: DerivedFees,
   democracy_minimumDeposit?: BN
@@ -53,7 +53,7 @@ export class Proposal extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { democracy_minimumDeposit = new BN(0), t } = this.props;
     const { extraAmount, isBelowMinimum } = this.state;
 

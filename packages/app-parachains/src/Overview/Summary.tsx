@@ -12,13 +12,13 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  parachains_nextFreeId?: BN,
-  parachains_parachains?: Array<BN>
-};
+interface Props extends I18nProps {
+  parachains_nextFreeId?: BN;
+  parachains_parachains?: BN[];
+}
 
 class Summary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { parachains_nextFreeId, parachains_parachains = [], t } = this.props;
 
     return (

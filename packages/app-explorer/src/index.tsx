@@ -83,7 +83,7 @@ class ExplorerApp extends React.Component<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath, className } = this.props;
     const { items } = this.state;
     const hidden = uiSettings.uiMode === 'full'

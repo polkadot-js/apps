@@ -90,7 +90,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { bitLength = DEFAULT_BITLENGTH, className, help, isSi, isDisabled, isError = false, maxLength, maxValue, onEnter, placeholder, style, withMax, t } = this.props;
     const { isValid, value } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length - 1;

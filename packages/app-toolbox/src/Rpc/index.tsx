@@ -14,7 +14,7 @@ import Selection from './Selection';
 type Props = BareProps;
 
 export default class RpcApp extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <QueueConsumer>
         {({ txqueue, queueRpc }: QueueProps) => (

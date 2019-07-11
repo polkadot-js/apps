@@ -15,7 +15,7 @@ type Props = BareProps & {
 };
 
 export default class Queries extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { onRemove, value } = this.props;
 
     if (!value || !value.length) {

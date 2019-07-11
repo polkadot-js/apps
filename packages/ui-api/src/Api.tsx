@@ -148,7 +148,7 @@ export default class Api extends React.PureComponent<Props, State> {
     });
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isWaitingInjected, setApiUrl } = this.state;
 
     return (

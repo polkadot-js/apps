@@ -59,7 +59,7 @@ class App extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath, t } = this.props;
     const { codeHash, isDeployOpen } = this.state;
     const hidden: Array<string> = [];

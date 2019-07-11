@@ -18,7 +18,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class BondedDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, label = '', staking_ledger } = this.props;
 
     return (

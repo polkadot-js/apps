@@ -53,7 +53,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
       ]
     };
   }
-  render () {
+  public render (): React.ReactNode {
     const { allAccounts, basePath } = this.props;
     const { tabs } = this.state;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;

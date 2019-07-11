@@ -49,7 +49,7 @@ class ProposalsBase extends React.PureComponent<Props> {
     return { proposalIndices };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isApprovals, t } = this.props;
     const { isEmpty } = this.state;
 

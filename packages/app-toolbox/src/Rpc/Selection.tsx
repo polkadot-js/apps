@@ -15,7 +15,7 @@ import Params from '@polkadot/ui-params';
 
 import translate from './translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   queueRpc: QueueTx$RpcAdd
 };
 
@@ -36,7 +36,7 @@ class Selection extends TxComponent<Props, State> {
     values: []
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, rpc } = this.state;
     const params = rpc.params.map(({ name, type }) => ({

@@ -19,7 +19,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class BalanceDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, label = '', balances_all } = this.props;
 
     return (

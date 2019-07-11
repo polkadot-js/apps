@@ -42,7 +42,7 @@ export default class Tooltip extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, effect = 'solid', offset, place = 'bottom', text, trigger } = this.props;
 
     return ReactDOM.createPortal(

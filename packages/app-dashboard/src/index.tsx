@@ -12,9 +12,9 @@ import routing from '@polkadot/apps-routing';
 import Entry from './Entry';
 import Spacer from './Spacer';
 
-type Props = AppProps & {
+interface Props extends AppProps {
   className?: string;
-};
+}
 
 type State = {
   routes: Array<Route>
@@ -30,7 +30,7 @@ class App extends React.PureComponent<Props, State> {
     ) as Array<Route>
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { routes } = this.state;
 

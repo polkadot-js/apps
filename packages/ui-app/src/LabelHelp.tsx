@@ -31,7 +31,7 @@ export default class LabelHelp extends React.PureComponent<Props, State> {
     tooltipOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className, help, style } = this.props;
     const { tooltipOpen } = this.state;
 

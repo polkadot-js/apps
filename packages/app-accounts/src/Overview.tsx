@@ -37,7 +37,7 @@ class Overview extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accounts, t } = this.props;
     const { isCreateOpen, isImportOpen } = this.state;
     const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);

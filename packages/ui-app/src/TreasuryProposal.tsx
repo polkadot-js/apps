@@ -50,7 +50,7 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
     this.fetchProposal();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, asInset, insetProps, onClick, t } = this.props;
     const { proposal } = this.state;
 

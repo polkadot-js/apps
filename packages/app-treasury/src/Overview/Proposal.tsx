@@ -20,7 +20,7 @@ const Approved = styled.h3`
   margin: 0;
 `;
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   allAccounts?: SubjectInfo,
   isApproved: boolean,
   proposal?: TreasuryProposalType | null,
@@ -55,7 +55,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     isApproveOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { proposal, proposalId } = this.props;
 
     if (!proposal) {

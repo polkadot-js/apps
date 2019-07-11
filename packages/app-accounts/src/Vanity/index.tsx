@@ -63,7 +63,7 @@ class VanityApp extends TxComponent<Props, State> {
     this._isActive = false;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, onStatusChange } = this.props;
     const { createSeed, type } = this.state;
 

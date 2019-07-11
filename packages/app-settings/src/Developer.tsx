@@ -46,7 +46,7 @@ class Developer extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
     const { code, isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
     const typesHasNoEntries = Object.keys(types).length === 0;

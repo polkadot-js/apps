@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `;
 
 export default class BaseChart extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, style } = this.props;
 
     return (

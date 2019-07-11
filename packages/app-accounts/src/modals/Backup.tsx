@@ -12,15 +12,15 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  onClose: () => void,
-  address: string
-};
+interface Props extends I18nProps {
+  onClose: () => void;
+  address: string;
+}
 
-type State = {
-  isPassValid: boolean,
-  password: string
-};
+interface State {
+  isPassValid: boolean;
+  password: string;
+}
 
 class Backup extends TxComponent<Props, State> {
   state: State = {
@@ -28,7 +28,7 @@ class Backup extends TxComponent<Props, State> {
     password: ''
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (

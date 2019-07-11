@@ -89,7 +89,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { currentItem } = this.state;
 
     if (!currentItem) {

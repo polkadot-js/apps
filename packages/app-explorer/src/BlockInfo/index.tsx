@@ -47,7 +47,7 @@ class Entry extends React.Component<Props, State> {
       !this.state.value;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { value } = this.state;
 
     if (!value) {

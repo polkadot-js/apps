@@ -35,12 +35,12 @@ const transform = (header: HeaderExtended): Array<HeaderExtended> => {
   return blockHeaders;
 };
 
-type Props = CallProps & {
-  headers?: Array<HeaderExtended>
-};
+interface Props extends CallProps {
+  headers?: HeaderExtended[];
+}
 
 class BlockHeaders extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { headers = [] } = this.props;
 
     return headers.map((header, index) => (

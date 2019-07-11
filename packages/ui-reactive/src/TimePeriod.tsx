@@ -17,7 +17,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class TimePeriod extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, label = '', style, timestamp_blockPeriod, timestamp_minimumPeriod } = this.props;
     const period = timestamp_minimumPeriod || (
       timestamp_blockPeriod

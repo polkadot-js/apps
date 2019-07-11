@@ -80,7 +80,7 @@ export default class ChartHorizBar extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, style } = this.props;
     const { chartData, chartOptions } = this.state;
 

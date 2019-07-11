@@ -21,7 +21,7 @@ class BaseOverlay extends React.PureComponent<Props, State> {
     isHidden: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { children, className, icon } = this.props;
     const { isHidden } = this.state;
 

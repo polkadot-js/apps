@@ -18,7 +18,7 @@ const defaultLabel: React.ReactNode = (
 );
 
 export default class InputError extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, label = defaultLabel, style } = this.props;
 
     return (

@@ -37,7 +37,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { api, controllerId, isOpen, onClose, t } = this.props;
     const { sessionError, sessionId } = this.state;
     const isV2 = !!api.tx.session.setKeys;

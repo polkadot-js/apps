@@ -12,13 +12,13 @@ import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/ui-app';
 import translate from '../translate';
 import Address from './Address';
 
-type Props = I18nProps & {
-  balances?: DerivedBalancesMap,
-  current: Array<string>,
-  lastAuthor?: string,
-  lastBlock: string,
-  next: Array<string>,
-  recentlyOffline: RecentlyOfflineMap
+interface Props extends I18nProps {
+  balances?: DerivedBalancesMap;
+  current: Array<string>;
+  lastAuthor?: string;
+  lastBlock: string;
+  next: Array<string>;
+  recentlyOffline: RecentlyOfflineMap;
 };
 
 type State = {
@@ -47,7 +47,7 @@ class CurrentList extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { current, next, t } = this.props;
     const { filter, filterOptions } = this.state;
     return (

@@ -43,7 +43,7 @@ export default class ContractDeploy extends React.PureComponent<Props, State> {
     return update;
   }
 
-  render () {
+  public render (): React.ReactNode {
     return null;
   }
 }

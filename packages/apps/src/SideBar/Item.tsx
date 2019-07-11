@@ -25,7 +25,7 @@ type Props = I18nProps & ApiProps & {
 };
 
 class Item extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { route: { Modal, i18n, icon, name }, t, isCollapsed, onClick } = this.props;
 
     if (!this.isVisible()) {

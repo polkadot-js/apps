@@ -14,7 +14,7 @@ type Props = BareProps & CallProps & {
 };
 
 class BestHash extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, label = '', style, chain_subscribeNewHead } = this.props;
 
     return (

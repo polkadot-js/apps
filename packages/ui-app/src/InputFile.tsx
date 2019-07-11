@@ -51,7 +51,7 @@ class InputFile extends React.PureComponent<Props, State> {
     this.dropZone = React.createRef();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
     const { file } = this.state;
 

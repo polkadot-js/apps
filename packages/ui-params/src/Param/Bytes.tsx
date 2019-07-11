@@ -20,7 +20,7 @@ export default class Bytes extends React.PureComponent<Props, State> {
     isFileDrop: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { isDisabled } = this.props;
     const { isFileDrop } = this.state;
 

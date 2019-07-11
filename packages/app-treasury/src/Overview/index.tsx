@@ -22,7 +22,7 @@ export default class Overview extends React.PureComponent<Props, State> {
     isProposeOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     return (
       <>
         <Summary />

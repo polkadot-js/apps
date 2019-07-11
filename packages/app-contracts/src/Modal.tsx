@@ -53,7 +53,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isOpen, t } = this.props;
 
     return (

@@ -25,7 +25,7 @@ class Raw extends TxComponent<Props, State> {
     key: new Uint8Array([])
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid } = this.state;
 

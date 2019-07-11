@@ -16,7 +16,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class BestNumber extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, label = '', style, chain_bestNumber } = this.props;
 
     return (

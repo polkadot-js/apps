@@ -14,7 +14,7 @@ type Props = BareProps & {
 };
 
 export default class Results extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { queue = [] } = this.props;
 
     const filtered = queue

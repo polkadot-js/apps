@@ -12,7 +12,7 @@ import { classes } from '../util';
 import Divider from './Divider';
 
 class ButtonGroup extends React.PureComponent<GroupProps> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, isBasic = false, isCentered = false, style } = this.props;
 
     return (

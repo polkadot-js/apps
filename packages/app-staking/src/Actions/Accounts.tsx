@@ -31,7 +31,7 @@ class Accounts extends React.PureComponent<Props,State> {
     isNewStakeOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className, recentlyOffline, t } = this.props;
     const { isNewStakeOpen } = this.state;
     const stashOptions = this.getStashOptions();

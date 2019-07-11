@@ -29,7 +29,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
 
   state: S = this.defaultState;
 
-  render () {
+  public render (): React.ReactNode {
     const { isOpen } = this.state;
 
     return (

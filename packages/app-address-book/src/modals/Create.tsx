@@ -35,7 +35,7 @@ class Create extends React.PureComponent<Props, State> {
     this.state = this.emptyState();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (

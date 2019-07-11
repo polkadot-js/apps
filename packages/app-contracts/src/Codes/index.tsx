@@ -28,7 +28,7 @@ class Codes extends React.PureComponent<Props> {
     isUploadOpen: false
   } as State;
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath, showDeploy, t } = this.props;
     const { isAddOpen, isUploadOpen } = this.state;
 

@@ -49,7 +49,7 @@ class App extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { info = {}, nextRefresh } = this.state;
 

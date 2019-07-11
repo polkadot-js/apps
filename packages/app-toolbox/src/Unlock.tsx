@@ -10,7 +10,7 @@ import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-a
 
 import translate from './translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   onClose: () => void,
   pair: KeyringPair | null
 };
@@ -34,7 +34,7 @@ class Unlock extends TxComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { pair, t } = this.props;
 
     if (!pair) {

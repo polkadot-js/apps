@@ -57,7 +57,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       maxBalance: ZERO
     };
   }
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, onEnter, placeholder,style, value, withEllipsis, withLabel, withMax } = this.props;
     const { maxBalance } = this.state;
 

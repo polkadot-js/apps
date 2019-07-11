@@ -46,7 +46,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isDisabled, isError, label, style, withLabel } = this.props;
     const { placeholder } = this.state;
 

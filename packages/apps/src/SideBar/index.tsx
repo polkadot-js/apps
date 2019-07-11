@@ -21,7 +21,7 @@ import Item from './Item';
 import NodeInfo from './NodeInfo';
 import getLogo from './logos';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   collapse: () => void,
   handleResize: () => void,
   isCollapsed: boolean,
@@ -79,7 +79,7 @@ class SideBar extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { handleResize, isCollapsed, toggleMenu, menuOpen } = this.props;
     const logo = getLogo(true);
 

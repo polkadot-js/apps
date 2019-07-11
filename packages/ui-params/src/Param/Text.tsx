@@ -10,7 +10,7 @@ import { Input } from '@polkadot/ui-app';
 import Bare from './Bare';
 
 export default class Text extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
     const defaultValue = (value || '').toString();
 

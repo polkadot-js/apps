@@ -42,7 +42,7 @@ export default class ContractCall extends React.PureComponent<Props, State> {
     return update;
   }
 
-  render () {
+  public render (): React.ReactNode {
     return null;
   }
 }

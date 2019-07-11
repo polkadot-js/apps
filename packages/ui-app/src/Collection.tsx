@@ -57,7 +57,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { isEmpty, showHeader } = this.state;
 

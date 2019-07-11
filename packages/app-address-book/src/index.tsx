@@ -77,7 +77,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { hidden, items } = this.state;
 

@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 `;
 
 export default class Call extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, style, value, withHash } = this.props;
     const params = Method.filterOrigin(value.meta).map(({ name, type }) => ({
       name: name.toString(),

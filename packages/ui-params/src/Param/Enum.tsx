@@ -49,7 +49,7 @@ export default class EnumParam extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
 
     if (isDisabled) {

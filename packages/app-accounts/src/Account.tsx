@@ -15,17 +15,17 @@ import Transfer from './modals/Transfer';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  address: string
-};
+interface Props extends I18nProps {
+  address: string;
+}
 
-type State = {
-  isBackupOpen: boolean,
-  isEditable: boolean,
-  isForgetOpen: boolean,
-  isPasswordOpen: boolean,
-  isTransferOpen: boolean
-};
+interface State {
+  isBackupOpen: boolean;
+  isEditable: boolean;
+  isForgetOpen: boolean;
+  isPasswordOpen: boolean;
+  isTransferOpen: boolean;
+}
 
 class Account extends React.PureComponent<Props> {
   state: State;
@@ -46,7 +46,7 @@ class Account extends React.PureComponent<Props> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address } = this.props;
     const { isEditable } = this.state;
 

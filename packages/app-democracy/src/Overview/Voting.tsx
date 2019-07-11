@@ -13,10 +13,10 @@ import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  allAccounts?: SubjectInfo,
-  referendumId: BN | number
-};
+interface Props extends I18nProps {
+  allAccounts?: SubjectInfo;
+  referendumId: BN | number;
+}
 
 type State = {
   accountId?: string,
@@ -43,7 +43,7 @@ class Voting extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { allAccounts, t } = this.props;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 

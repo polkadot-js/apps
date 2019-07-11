@@ -13,16 +13,16 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  council_activeCouncil?: Array<[AccountId, BlockNumber]>
-  council_candidateCount?: BN,
-  council_desiredSeats?: BN,
-  council_termDuration?: BN,
-  council_voteCount?: BN
-};
+interface Props extends I18nProps {
+  council_activeCouncil?: [AccountId, BlockNumber][];
+  council_candidateCount?: BN;
+  council_desiredSeats?: BN;
+  council_termDuration?: BN;
+  council_voteCount?: BN;
+}
 
 class Summary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { council_activeCouncil = [], council_candidateCount = new BN(0), council_desiredSeats = new BN(1), council_termDuration = new BN(0), council_voteCount = new BN(0), t } = this.props;
 
     return (

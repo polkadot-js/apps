@@ -44,7 +44,7 @@ class NewStake extends TxComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { onClose, t } = this.props;
     const { bondValue, controllerError, controllerId, extrinsic, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);

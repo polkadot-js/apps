@@ -24,7 +24,7 @@ class Hash extends React.PureComponent<Props, State> {
     isHexData: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     return (
       <div className='toolbox--Hash'>
         {this.renderInput()}

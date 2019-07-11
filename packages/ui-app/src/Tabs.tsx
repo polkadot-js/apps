@@ -40,7 +40,7 @@ type Props = BareProps & {
 };
 
 export default class Tabs extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, hidden = [], items, style } = this.props;
     return (
       <div

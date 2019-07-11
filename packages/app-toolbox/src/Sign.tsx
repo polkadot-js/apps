@@ -44,7 +44,7 @@ class Sign extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isLocked } = this.state;
 
     return (

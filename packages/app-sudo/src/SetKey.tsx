@@ -42,7 +42,7 @@ class SetKey extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isMine, sudoKey, t } = this.props;
     const { selected } = this.state;
 

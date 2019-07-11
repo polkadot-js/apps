@@ -17,7 +17,7 @@ import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   onRemove: (id: number) => void,
   value: QueryTypes
 };
@@ -104,7 +104,7 @@ class Query extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, value } = this.props;
     const { Component } = this.state;
     const { key } = value;

@@ -15,19 +15,19 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import translate from './translate';
 
 type Props = ApiProps & BareProps & I18nProps & {
-  balances_totalIssuance?: BN,
-  chain_bestNumber?: BN,
-  chain_bestNumberLag?: BN,
-  chain_getRuntimeVersion?: RuntimeVersion,
-  session_validators?: Array<AccountId>,
-  staking_intentions?: Array<AccountId>,
-  system_chain?: string,
-  system_name?: string,
-  system_version?: string
+  balances_totalIssuance?: BN;
+  chain_bestNumber?: BN;
+  chain_bestNumberLag?: BN;
+  chain_getRuntimeVersion?: RuntimeVersion;
+  session_validators?: AccountId[];
+  staking_intentions?: AccountId[];
+  system_chain?: string;
+  system_name?: string;
+  system_version?: string;
 };
-type State = {
-  nextUp: Array<AccountId>
-};
+interface State {
+  nextUp: AccountId[];
+}
 
 class SummaryBar extends React.PureComponent<Props, State> {
   state: State = {
@@ -46,7 +46,7 @@ class SummaryBar extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, chain_getRuntimeVersion, session_validators = [], system_chain, system_name, system_version } = this.props;
     const { nextUp } = this.state;
 

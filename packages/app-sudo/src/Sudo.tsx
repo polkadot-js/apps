@@ -28,7 +28,7 @@ class Propose extends TxComponent<Props, State> {
     isValid: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTxSudo, isMine, sudoKey, t } = this.props;
     const { method, isValid } = this.state;
 

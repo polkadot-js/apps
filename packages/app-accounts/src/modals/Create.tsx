@@ -109,7 +109,7 @@ class Create extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
 
     return (

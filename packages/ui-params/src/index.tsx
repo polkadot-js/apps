@@ -20,7 +20,7 @@ type Param = {
   type: TypeDef
 };
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   isDisabled?: boolean,
   onChange?: (value: RawParams) => void,
   onEnter?: () => void,
@@ -84,7 +84,7 @@ class Params extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isDisabled, onEnter, overrides, params, style } = this.props;
     const { handlers = [], values = this.props.values } = this.state;
 

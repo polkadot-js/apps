@@ -117,7 +117,7 @@ const Wrapper = styled.div`
 `;
 
 export default class Labelled extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, children, help, isSmall, isHidden, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true } = this.props;
 
     if (isHidden) {

@@ -9,12 +9,12 @@ import React from 'react';
 import UIParams from '@polkadot/ui-params';
 import { getTypeDef, TypeDef } from '@polkadot/types';
 
-type Props = {
-  isDisabled?: boolean,
-  params?: Array<ContractABIFn$Arg>,
-  onChange: (values: Array<any>) => void,
-  onEnter?: () => void
-};
+interface Props {
+  isDisabled?: boolean;
+  params?: ContractABIFn$Arg[];
+  onChange: (values: Array<any>) => void;
+  onEnter?: () => void;
+}
 
 type State = {
   params: Array<{ name: string, type: TypeDef }>
@@ -36,7 +36,7 @@ export default class Params extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isDisabled, onEnter } = this.props;
     const { params } = this.state;
 

@@ -13,13 +13,13 @@ import translate from '../translate';
 import Candidate from './Candidate';
 import Member from './Member';
 
-type Props = I18nProps & {
-  council_activeCouncil?: Array<[string, BlockNumber]>
-  council_candidates?: Array<string>
-};
+interface Props extends I18nProps {
+  council_activeCouncil?: [string, BlockNumber][];
+  council_candidates?: string[];
+}
 
 class Members extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { council_activeCouncil = [], council_candidates = [], t } = this.props;
 
     return (

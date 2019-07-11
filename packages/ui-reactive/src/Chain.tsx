@@ -15,7 +15,7 @@ type Props = BareProps & CallProps & {
 };
 
 export class Chain extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, label = '', style, system_chain = 'unknown' } = this.props;
 
     return (

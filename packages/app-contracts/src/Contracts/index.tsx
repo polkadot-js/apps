@@ -33,7 +33,7 @@ class Contracts extends React.PureComponent<Props, State> {
     isCallOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { accounts, basePath, contracts, hasCode, showDeploy, t } = this.props;
     const { callAddress, callMethod, isAddOpen, isCallOpen } = this.state;
 

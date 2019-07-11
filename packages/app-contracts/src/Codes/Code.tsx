@@ -41,7 +41,7 @@ class Contract extends React.PureComponent<Props> {
     isRemoveABIOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { code, code: { contractAbi } } = this.props;
 
     return (

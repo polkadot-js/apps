@@ -13,12 +13,12 @@ import Motion from './Motion';
 import Propose from './Propose';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  councilMotions_proposals?: Array<Hash>
-};
+interface Props extends I18nProps {
+  councilMotions_proposals?: Hash[];
+}
 
 class Motions extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (

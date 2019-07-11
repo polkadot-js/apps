@@ -13,12 +13,12 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  chain_bestNumber?: BN,
-  hash: string,
-  proposal: Proposal | null,
-  votes: Votes | null
-};
+interface Props extends I18nProps {
+  chain_bestNumber?: BN;
+  hash: string;
+  proposal: Proposal | null;
+  votes: Votes | null;
+}
 
 type State = {
   votedTotal: number,
@@ -49,7 +49,7 @@ class Motion extends React.PureComponent<Props, State> {
     return newState;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, hash, proposal, votes } = this.props;
 
     if (!proposal || !votes) {
