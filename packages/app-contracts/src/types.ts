@@ -27,7 +27,7 @@ export type CodeJson = {
   tags: string[]
 };
 
-export type CodeStored = { json: CodeJson , contractAbi?: Abi };
+export type CodeStored = { json: CodeJson; contractAbi?: Abi; };
 
 export type ContractJsonOld = {
   genesisHash: string,

@@ -18,11 +18,11 @@ import translate from '../translate';
 
 type Props = ContractModalProps & ApiProps;
 
-type State = ContractModalState & {
-  gasLimit: BN,
-  isWasmValid: boolean,
-  wasm?: Uint8Array | null
-};
+interface State extends ContractModalState {
+  gasLimit: BN;
+  isWasmValid: boolean;
+  wasm?: Uint8Array | null;
+}
 
 class Upload extends ContractModal<Props, State> {
   public constructor (props: Props) {

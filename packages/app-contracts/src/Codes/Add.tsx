@@ -13,11 +13,11 @@ import translate from '../translate';
 
 type Props = ContractModalProps;
 
-type State = ContractModalState & {
-  codeHash: string,
-  isBusy: boolean,
-  isCodeValid: boolean
-};
+interface State extends ContractModalState {
+  codeHash: string;
+  isBusy: boolean;
+  isCodeValid: boolean;
+}
 
 class Add extends ContractModal<Props, State> {
   public constructor (props: Props) {

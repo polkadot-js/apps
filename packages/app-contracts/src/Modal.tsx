@@ -11,25 +11,25 @@ import { Button, Input, InputAddress, InputNumber, Modal, TxComponent } from '@p
 
 import ABI from './ABI';
 
-export type ContractModalProps = I18nProps & {
-  basePath: string,
-  isNew?: boolean,
-  isOpen: boolean,
-  onClose?: () => void
-};
+export interface ContractModalProps extends I18nProps {
+  basePath: string;
+  isNew?: boolean;
+  isOpen: boolean;
+  onClose?: () => void;
+}
 
-export type ContractModalState = {
-  abi?: string | null,
-  accountId?: string | null,
-  contractAbi?: Abi | null,
-  gasLimit: BN,
-  isAbiSupplied: boolean,
-  isAbiValid: boolean,
-  isBusy: boolean,
-  isNameValid: boolean,
-  name?: string | null,
-  tags: string[]
-};
+export interface ContractModalState {
+  abi?: string | null;
+  accountId?: string | null;
+  contractAbi?: Abi | null;
+  gasLimit: BN;
+  isAbiSupplied: boolean;
+  isAbiValid: boolean;
+  isBusy: boolean;
+  isNameValid: boolean;
+  name?: string | null;
+  tags: string[];
+}
 
 class ContractModal<P extends ContractModalProps, S extends ContractModalState> extends TxComponent<P, S> {
   protected defaultState: S = {

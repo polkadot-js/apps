@@ -22,19 +22,19 @@ import Params from './Params';
 import store from './store';
 import translate from './translate';
 
-type ConstructOptions = Array<{key: string, text: string, value: string}>;
+type ConstructOptions = { key: string; text: string; value: string; }[];
 
 type Props = ContractModalProps & ApiProps & I18nProps & RouteComponentProps & {
-  codeHash?: string
+  codeHash?: string;
 };
 
-type State = ContractModalState & {
-  codeHash?: string,
-  constructOptions: ConstructOptions,
-  endowment: BN,
-  isHashValid: boolean,
-  params: Array<any>
-};
+interface State extends ContractModalState {
+  codeHash?: string;
+  constructOptions: ConstructOptions;
+  endowment: BN;
+  isHashValid: boolean;
+  params: any[];
+}
 
 class Deploy extends ContractModal<Props, State> {
   headerText = 'Deploy a new contract';

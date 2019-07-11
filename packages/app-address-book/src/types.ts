@@ -7,7 +7,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 export type ComponentProps = AppProps;
 
-export type ModalProps = {
-  onClose: () => void,
-  onStatusChange: (status: ActionStatus) => void
-};
+export interface ModalProps {
+  onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
+}

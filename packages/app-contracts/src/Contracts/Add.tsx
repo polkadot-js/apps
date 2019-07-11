@@ -18,10 +18,10 @@ import translate from '../translate';
 
 type Props = ContractModalProps & ApiProps & I18nProps;
 
-type State = ContractModalState & {
-  address?: string | null,
-  isAddressValid: boolean
-};
+interface State extends ContractModalState {
+  address?: string | null;
+  isAddressValid: boolean;
+}
 
 class Add extends ContractModal<Props, State> {
   public constructor (props: Props) {
