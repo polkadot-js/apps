@@ -27,7 +27,7 @@ const { match, type, withCase } = yargs
   })
   .option('type', {
     choices: ['ed25519', 'sr25519'],
-    default: 'ed25519'
+    default: 'sr25519'
   })
   .option('withCase', {
     default: true
