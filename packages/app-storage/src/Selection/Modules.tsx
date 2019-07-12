@@ -19,12 +19,12 @@ import translate from '../translate';
 
 type Props = ComponentProps & ApiProps & I18nProps;
 
-type State = {
-  isValid: boolean,
-  key: StorageEntryPromise,
-  values: RawParams,
-  params: Array<{ type: TypeDef }>
-};
+interface State {
+  isValid: boolean;
+  key: StorageEntryPromise;
+  values: RawParams;
+  params: { type: TypeDef }[];
+}
 
 class Modules extends TxComponent<Props, State> {
   private defaultValue: any;

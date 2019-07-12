@@ -17,8 +17,8 @@ interface Props extends I18nProps {
   onClose: () => void;
 }
 
-type State = {
-  destination: number
+interface State {
+  destination: number;
 };
 
 class SetRewardDestination extends TxComponent<Props, State> {

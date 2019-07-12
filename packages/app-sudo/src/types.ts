@@ -4,8 +4,8 @@
 
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-export type ComponentProps = {
-  allAccounts: SubjectInfo,
-  isMine: boolean,
-  sudoKey?: string
-};
+export interface ComponentProps {
+  allAccounts: SubjectInfo;
+  isMine: boolean;
+  sudoKey?: string;
+}

@@ -18,21 +18,21 @@ import { isUndefined } from '@polkadot/util';
 import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
-  defaultValue: MethodFunction,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isPrivate?: boolean,
-  label?: React.ReactNode,
-  onChange: (method?: Method) => void,
-  onEnter: () => void,
-  withLabel?: boolean
+  defaultValue: MethodFunction;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isPrivate?: boolean;
+  label?: React.ReactNode;
+  onChange: (method?: Method) => void;
+  onEnter: () => void;
+  withLabel?: boolean;
 };
 
-type State = {
-  methodfn: MethodFunction,
-  params: Array<{ name: string, type: TypeDef }>,
-  values: Array<RawParam>
-};
+interface State {
+  methodfn: MethodFunction;
+  params: { name: string, type: TypeDef }[];
+  values: RawParam[];
+}
 
 class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   public state: State;

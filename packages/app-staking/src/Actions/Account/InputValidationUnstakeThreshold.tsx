@@ -15,9 +15,9 @@ interface Props extends I18nProps {
   onError: (error: string | null) => void;
 }
 
-type State = {
-  error: string | null
-};
+interface State {
+  error: string | null;
+}
 
 class InputValidationUnstakeThreshold extends React.PureComponent<Props, State> {
   public state: State = {

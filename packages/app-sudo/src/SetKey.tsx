@@ -13,9 +13,9 @@ import translate from './translate';
 
 type Props = I18nProps & ComponentProps;
 
-type State = {
-  selected?: string
-};
+interface State {
+  selected?: string;
+}
 
 const SudoInputAddress = styled(InputAddress)`
   margin: -0.25rem 0.5rem -0.25rem 0;

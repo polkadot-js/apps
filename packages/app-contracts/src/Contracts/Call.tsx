@@ -17,10 +17,10 @@ import translate from '../translate';
 import Params from '../Params';
 
 type Props = BareProps & I18nProps & ApiProps & {
-  address: string | null,
-  isOpen: boolean,
-  method: string | null
-  onClose: () => void
+  address: string | null;
+  isOpen: boolean;
+  method: string | null;
+  onClose: () => void;
 };
 
 interface State {

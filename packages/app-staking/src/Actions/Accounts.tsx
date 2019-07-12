@@ -19,12 +19,12 @@ import StartStaking from './NewStake';
 import translate from '../translate';
 
 type Props = I18nProps & ComponentProps & ApiProps & {
-  myControllers?: string[]
+  myControllers?: string[];
 };
 
-type State = {
-  isNewStakeOpen: boolean
-};
+interface State {
+  isNewStakeOpen: boolean;
+}
 
 class Accounts extends React.PureComponent<Props,State> {
   public state: State = {

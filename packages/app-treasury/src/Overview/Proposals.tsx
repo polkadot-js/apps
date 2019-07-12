@@ -16,16 +16,16 @@ import Proposal from './Proposal';
 import translate from '../translate';
 
 type Props = I18nProps & RouteComponentProps & {
-  isApprovals?: boolean,
-  treasury_approvals?: Array<BN>,
-  treasury_proposalCount?: BN
+  isApprovals?: boolean;
+  treasury_approvals?: BN[];
+  treasury_proposalCount?: BN;
 };
 
-type State = {
-  isEmpty: boolean,
-  isProposeOpen: boolean,
-  proposalIndices: Array<BN>
-};
+interface State {
+  isEmpty: boolean;
+  isProposeOpen: boolean;
+  proposalIndices: BN[];
+}
 
 class ProposalsBase extends React.PureComponent<Props> {
   public state: State = {

@@ -18,10 +18,10 @@ interface Props extends I18nProps {
   stashId: string;
 }
 
-type State = {
-  controllerError: string | null,
-  controllerId: string | null
-};
+interface State {
+  controllerError: string | null;
+  controllerId: string | null;
+}
 
 class SetControllerAccount extends TxComponent<Props, State> {
   public constructor (props: Props) {

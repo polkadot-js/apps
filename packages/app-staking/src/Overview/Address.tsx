@@ -28,15 +28,15 @@ interface Props extends I18nProps {
   staking_info?: DerivedStaking;
 }
 
-type State = {
-  controllerId: string,
-  stashActive: string | null,
-  stashTotal: string | null,
-  sessionId: string | null,
-  stakers?: Exposure,
-  stashId: string | null,
+interface State {
+  controllerId: string;
+  stashActive: string | null;
+  stashTotal: string | null;
+  sessionId: string | null;
+  stakers?: Exposure;
+  stashId: string | null;
   badgeExpanded: boolean;
-};
+}
 
 class Address extends React.PureComponent<Props, State> {
   public state: State;

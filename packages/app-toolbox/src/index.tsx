@@ -18,12 +18,12 @@ import Verify from './Verify';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  allAccounts?: SubjectInfo
+  allAccounts?: SubjectInfo;
 };
 
-type State = {
-  tabs: TabItem[]
-};
+interface State {
+  tabs: TabItem[];
+}
 
 class ToolboxApp extends React.PureComponent<Props, State> {
   public constructor (props: Props) {

@@ -29,9 +29,9 @@ interface Props extends I18nProps {
   onRespond: () => void;
 }
 
-type State = {
-  isApproveOpen: boolean
-};
+interface State {
+  isApproveOpen: boolean;
+}
 
 class ProposalDisplay extends React.PureComponent<Props, State> {
   public constructor (props: Props) {

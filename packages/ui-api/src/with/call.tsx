@@ -22,7 +22,7 @@ type ApiMethodInfo = [Method, Array<any>, boolean];
 
 type State = CallState;
 
-const NOOP = () => {
+const NOOP = (): void => {
   // ignore
 };
 

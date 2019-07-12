@@ -16,7 +16,7 @@ import Address from './Address';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
-  addresses?: SubjectInfo[]
+  addresses?: SubjectInfo[];
 };
 
 interface State {

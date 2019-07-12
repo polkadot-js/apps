@@ -20,9 +20,9 @@ interface Props extends I18nProps {
   stashId?: string | null;
 }
 
-type State = {
-  error: string | null
-};
+interface State {
+  error: string | null;
+}
 
 class ValidateController extends React.PureComponent<Props, State> {
   public state: State = {

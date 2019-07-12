@@ -14,9 +14,9 @@ import keyring from '@polkadot/ui-keyring';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  address?: string | null,
-  contract_contractInfoOf?: Option<ContractInfo>,
-  onChange: (isValid: boolean) => void
+  address?: string | null;
+  contract_contractInfoOf?: Option<ContractInfo>;
+  onChange: (isValid: boolean) => void;
 };
 
 interface State {

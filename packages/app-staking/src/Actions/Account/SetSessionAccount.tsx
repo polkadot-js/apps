@@ -13,17 +13,17 @@ import ValidateSession from './InputValidationSession';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
-  controllerId: string,
-  isOpen: boolean,
-  onClose: () => void,
-  sessionId?: string | null,
-  stashId: string
+  controllerId: string;
+  isOpen: boolean;
+  onClose: () => void;
+  sessionId?: string | null;
+  stashId: string;
 };
 
-type State = {
-  sessionError: string | null,
-  sessionId: string
-};
+interface State {
+  sessionError: string | null;
+  sessionId: string;
+}
 
 class SetSessionKey extends React.PureComponent<Props, State> {
   public state: State;

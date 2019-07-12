@@ -16,8 +16,13 @@ interface Props {
   onEnter?: () => void;
 }
 
+interface ParamDef {
+  name: string;
+  type: TypeDef;
+}
+
 interface State {
-  params: { name: string; type: TypeDef }[];
+  params: ParamDef[];
 }
 
 export default class Params extends React.PureComponent<Props, State> {
@@ -29,7 +34,7 @@ export default class Params extends React.PureComponent<Props, State> {
     }
 
     return {
-      params: params.map(({ name, type }) => ({
+      params: params.map(({ name, type }): ParamDef => ({
         name,
         type: getTypeDef(type, name)
       }))

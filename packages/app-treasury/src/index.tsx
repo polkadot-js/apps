@@ -17,9 +17,9 @@ import translate from './translate';
 
 type Props = AppProps & BareProps & I18nProps;
 
-type State = {
-  tabs: TabItem[]
-};
+interface State {
+  tabs: TabItem[];
+}
 
 class App extends React.PureComponent<Props, State> {
   public constructor (props: Props) {

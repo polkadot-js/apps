@@ -20,13 +20,13 @@ import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
 type Props = I18nProps & RowProps & {
-  code: CodeStored,
-  withMessages?: boolean
+  code: CodeStored;
+  withMessages?: boolean;
 };
 
-type State = RowState & {
-  codeHash: string
-};
+interface State extends RowState {
+  codeHash: string;
+}
 
 const DEFAULT_HASH = '0x';
 const DEFAULT_NAME = '<unknown>';

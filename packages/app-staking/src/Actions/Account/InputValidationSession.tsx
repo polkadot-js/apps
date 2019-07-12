@@ -17,9 +17,9 @@ interface Props extends I18nProps {
   stashId: string;
 }
 
-type State = {
-  error: string | null
-};
+interface State {
+  error: string | null;
+}
 
 class ValidateSession extends React.PureComponent<Props, State> {
   public state: State = {

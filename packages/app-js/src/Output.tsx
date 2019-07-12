@@ -8,10 +8,10 @@ import { Log } from './types';
 import React from 'react';
 import { isError, isNull, isUndefined } from '@polkadot/util';
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  logs: Array<Log>
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  logs: Array<Log>;
+}
 
 const format = (value: any): string => {
   if (isError(value)) {

@@ -23,8 +23,8 @@ import { keyExtractPath, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 import translate from '../translate';
 
 type Props = ModalProps & ApiProps & I18nProps & {
-  seed?: string,
-  type?: KeypairType
+  seed?: string;
+  type?: KeypairType;
 };
 
 type SeedType = 'bip' | 'raw' | 'dev';

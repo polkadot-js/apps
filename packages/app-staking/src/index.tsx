@@ -24,20 +24,20 @@ import Overview from './Overview';
 import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
-  allAccounts?: SubjectInfo,
-  balances?: DerivedBalancesMap,
-  session_validators?: Array<AccountId>,
-  staking_controllers?: [Array<AccountId>, Array<Option<AccountId>>],
-  staking_recentlyOffline?: RecentlyOffline
+  allAccounts?: SubjectInfo;
+  balances?: DerivedBalancesMap;
+  session_validators?: AccountId[];
+  staking_controllers?: [AccountId[], Option<AccountId>[]];
+  staking_recentlyOffline?: RecentlyOffline;
 };
 
-type State = {
-  controllers: string[],
-  recentlyOffline: RecentlyOfflineMap,
-  stashes: string[],
-  tabs: TabItem[],
-  validators: string[]
-};
+interface State {
+  controllers: string[];
+  recentlyOffline: RecentlyOfflineMap;
+  stashes: string[];
+  tabs: TabItem[];
+  validators: string[];
+}
 
 class App extends React.PureComponent<Props, State> {
   public state: State;

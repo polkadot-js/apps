@@ -15,11 +15,11 @@ interface Props extends I18nProps {
   pair: KeyringPair | null;
 }
 
-type State = {
-  address: string,
-  password: string,
-  unlockError: string | null
-};
+interface State {
+  address: string;
+  password: string;
+  unlockError: string | null;
+}
 
 class Unlock extends TxComponent<Props, State> {
   public state: State = {

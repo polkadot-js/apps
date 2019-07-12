@@ -20,11 +20,11 @@ interface Props extends I18nProps {
   validatorPrefs?: ValidatorPrefs;
 }
 
-type State = {
-  unstakeThreshold?: BN,
-  unstakeThresholdError: string | null,
-  validatorPayment?: BN
-};
+interface State {
+  unstakeThreshold?: BN;
+  unstakeThresholdError: string | null;
+  validatorPayment?: BN;
+}
 
 class Validate extends TxComponent<Props, State> {
   public state: State = {

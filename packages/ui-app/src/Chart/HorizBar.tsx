@@ -10,22 +10,22 @@ import ChartJs from 'chart.js';
 import { HorizontalBar } from 'react-chartjs-2';
 import { bnToBn } from '@polkadot/util';
 
-type Value = {
-  colors: string[],
-  label: string,
-  value: number | BN
-};
+interface Value {
+  colors: string[];
+  label: string;
+  value: number | BN;
+}
 
-type Props = BareProps & {
-  aspectRatio?: number,
-  values: Array<Value>
-};
+interface Props extends BareProps {
+  aspectRatio?: number;
+  values: Value[];
+}
 
-type State = {
-  chartData?: ChartJs.ChartData,
-  chartOptions?: ChartJs.ChartOptions,
-  valuesStr?: string
-};
+interface State {
+  chartData?: ChartJs.ChartData;
+  chartOptions?: ChartJs.ChartOptions;
+  valuesStr?: string;
+}
 
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();

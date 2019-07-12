@@ -10,13 +10,13 @@ import styled from 'styled-components';
 
 import Icon from './Icon';
 
-type Props = BareProps & {
-  md: string
+interface Props extends BareProps {
+  md: string;
 };
 
-type State = {
-  isVisible: boolean
-};
+interface State {
+  isVisible: boolean;
+}
 
 const Wrapper = styled.div`
   .help-button {

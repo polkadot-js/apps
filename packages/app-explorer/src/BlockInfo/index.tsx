@@ -13,7 +13,7 @@ import Query from '../Query';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 
-type Props = BareProps & {
+interface Props extends BareProps {
   chain_bestNumber?: BlockNumber;
   match: {
     params: {

@@ -22,19 +22,17 @@ interface Props extends I18nProps {
   value: QueryTypes;
 }
 
-type ComponentProps = {};
+interface State {
+  inputs: React.ReactNode[];
+  Component: React.ComponentType<{}>;
+  spread: Record<number, boolean>;
+}
 
-type State = {
-  inputs: Array<React.ReactNode>,
-  Component: React.ComponentType<ComponentProps>,
-  spread: { [index: number]: boolean }
-};
-
-type CacheInstance = {
-  Component: React.ComponentType<any>,
-  render: RenderFn,
-  refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>
-};
+interface CacheInstance {
+  Component: React.ComponentType<any>;
+  render: RenderFn;
+  refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>;
+}
 
 const cache: Array<CacheInstance> = [];
 

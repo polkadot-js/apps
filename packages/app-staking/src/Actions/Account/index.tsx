@@ -25,35 +25,35 @@ import Unbond from './Unbond';
 import Validate from './Validate';
 
 type Props = ApiProps & I18nProps & {
-  accountId: string,
-  className?: string,
-  recentlyOffline: RecentlyOfflineMap,
-  balances_all?: DerivedBalances,
-  staking_info?: DerivedStaking,
-  stashOptions: Array<KeyringSectionOption>
+  accountId: string;
+  className?: string;
+  recentlyOffline: RecentlyOfflineMap;
+  balances_all?: DerivedBalances;
+  staking_info?: DerivedStaking;
+  stashOptions: Array<KeyringSectionOption>;
 };
 
-type State = {
-  controllerId: string | null,
-  destination: number,
-  isActiveStash: boolean,
-  isBondExtraOpen: boolean,
-  isNominateOpen: boolean,
-  isSetControllerAccountOpen: boolean,
-  isSetRewardDestinationOpen: boolean,
-  isSetSessionAccountOpen: boolean,
-  isSettingPopupOpen: boolean,
-  isStashNominating: boolean,
-  isStashValidating: boolean,
-  isUnbondOpen: boolean,
-  isValidateOpen: boolean,
-  nominees?: string[],
-  sessionId: string | null,
-  stakers?: Exposure,
-  stakingLedger?: StakingLedger,
-  stashId: string | null,
-  validatorPrefs?: ValidatorPrefs
-};
+interface State {
+  controllerId: string | null;
+  destination: number;
+  isActiveStash: boolean;
+  isBondExtraOpen: boolean;
+  isNominateOpen: boolean;
+  isSetControllerAccountOpen: boolean;
+  isSetRewardDestinationOpen: boolean;
+  isSetSessionAccountOpen: boolean;
+  isSettingPopupOpen: boolean;
+  isStashNominating: boolean;
+  isStashValidating: boolean;
+  isUnbondOpen: boolean;
+  isValidateOpen: boolean;
+  nominees?: string[];
+  sessionId: string | null;
+  stakers?: Exposure;
+  stakingLedger?: StakingLedger;
+  stashId: string | null;
+  validatorPrefs?: ValidatorPrefs;
+}
 
 function toIdString (id?: AccountId | null): string | null {
   return id

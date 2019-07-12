@@ -12,41 +12,41 @@ import Labelled from './Labelled';
 
 type Input$Type = 'number' | 'password' | 'text';
 
-type Props = BareProps & {
-  autoFocus?: boolean,
-  children?: React.ReactNode,
-  defaultValue?: any,
-  help?: React.ReactNode,
-  icon?: React.ReactNode,
-  isAction?: boolean,
-  isDisabled?: boolean,
-  isEditable?: boolean,
-  isError?: boolean,
-  isHidden?: boolean,
-  isReadOnly?: boolean,
-  label?: React.ReactNode,
-  max?: any,
-  maxLength?: number,
-  min?: any,
-  name?: string,
-  onEnter?: () => void,
-  onChange?: (value: string) => void,
-  onBlur?: () => void,
-  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
-  onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
-  onKeyPress?: (event: React.KeyboardEvent<Element>) => void,
-  onPaste?: (event: React.ClipboardEvent<Element>) => void,
-  placeholder?: string,
-  tabIndex?: number,
-  type?: Input$Type,
-  value?: any,
-  withLabel?: boolean,
-  withEllipsis?: boolean
-};
+interface Props extends BareProps {
+  autoFocus?: boolean;
+  children?: React.ReactNode;
+  defaultValue?: any;
+  help?: React.ReactNode;
+  icon?: React.ReactNode;
+  isAction?: boolean;
+  isDisabled?: boolean;
+  isEditable?: boolean;
+  isError?: boolean;
+  isHidden?: boolean;
+  isReadOnly?: boolean;
+  label?: React.ReactNode;
+  max?: any;
+  maxLength?: number;
+  min?: any;
+  name?: string;
+  onEnter?: () => void;
+  onChange?: (value: string) => void;
+  onBlur?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void;
+  onKeyUp?: (event: React.KeyboardEvent<Element>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<Element>) => void;
+  onPaste?: (event: React.ClipboardEvent<Element>) => void;
+  placeholder?: string;
+  tabIndex?: number;
+  type?: Input$Type;
+  value?: any;
+  withLabel?: boolean;
+  withEllipsis?: boolean;
+}
 
-type State = {
+interface State {
   name: string;
-};
+}
 
 // Find decimal separator used in current locale
 const getDecimalSeparator = (): string => 1.1

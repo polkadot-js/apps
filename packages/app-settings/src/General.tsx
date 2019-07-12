@@ -14,13 +14,13 @@ import uiSettings from '@polkadot/ui-settings';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  onStatusChange: (status: ActionStatus) => void
+  onStatusChange: (status: ActionStatus) => void;
 };
 
-type State = {
-  isCustomNode: boolean,
-  isUrlValid: boolean,
-  settings: SettingsStruct
+interface State {
+  isCustomNode: boolean;
+  isUrlValid: boolean;
+  settings: SettingsStruct;
 };
 
 class General extends React.PureComponent<Props, State> {

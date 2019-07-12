@@ -14,9 +14,9 @@ import { isHex } from '@polkadot/util';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  codeHash?: string | null,
-  contract_codeStorage?: Option<PrefabWasmModule>,
-  onChange: (isValid: boolean) => void
+  codeHash?: string | null;
+  contract_codeStorage?: Option<PrefabWasmModule>;
+  onChange: (isValid: boolean) => void;
 };
 
 interface State {

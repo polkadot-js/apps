@@ -21,10 +21,10 @@ interface Props extends I18nProps {
   recentlyOffline: RecentlyOfflineMap;
 }
 
-type State = {
-  filter: ValidatorFilter,
-  filterOptions: Array<{ text: React.ReactNode, value: ValidatorFilter }>
-};
+interface State {
+  filter: ValidatorFilter;
+  filterOptions: { text: React.ReactNode; value: ValidatorFilter }[];
+}
 
 class CurrentList extends React.PureComponent<Props, State> {
   public state: State;

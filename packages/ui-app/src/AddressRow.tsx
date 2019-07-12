@@ -20,14 +20,14 @@ import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
 export type Props = I18nProps & RowProps & {
-  bonded?: BN | Array<BN>,
-  isContract?: boolean,
-  isValid?: boolean,
-  label?: string,
-  value: AccountId | AccountIndex | Address | string | null,
-  withAddressOrName?: boolean,
-  withBalance?: boolean | BalanceActiveType,
-  withIndex?: boolean
+  bonded?: BN | Array<BN>;
+  isContract?: boolean;
+  isValid?: boolean;
+  label?: string;
+  value: AccountId | AccountIndex | Address | string | null;
+  withAddressOrName?: boolean;
+  withBalance?: boolean | BalanceActiveType;
+  withIndex?: boolean;
 };
 
 type State = RowState;

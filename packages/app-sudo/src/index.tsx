@@ -19,13 +19,13 @@ import Sudo from './Sudo';
 import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
-  allAccounts: SubjectInfo,
-  sudo_key?: string
-};
+  allAccounts: SubjectInfo;
+  sudo_key?: string;
+}
 
-type State = {
-  isMine: boolean
-};
+interface State {
+  isMine: boolean;
+}
 
 class App extends React.PureComponent<Props, State> {
   public state: State = {

@@ -17,10 +17,10 @@ type Props = I18nProps & ApiProps & ComponentProps & {
   onChange: (accountId?: string) => void
 };
 
-type State = {
-  method: Method | null,
-  isValid: boolean
-};
+interface State {
+  method: Method | null;
+  isValid: boolean;
+}
 
 class Propose extends TxComponent<Props, State> {
   public state: State = {

@@ -29,11 +29,9 @@ interface Props extends I18nProps {
   toggleMenu: () => void;
 }
 
-type State = {
-  modals: {
-    [index: string]: boolean
-  }
-};
+interface State {
+  modals: Record<string, boolean>;
+}
 
 const Toggle = styled.img`
   background: ${logoBackground};

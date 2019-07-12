@@ -15,17 +15,17 @@ import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
-  controllerId?: AccountId | null,
-  isOpen: boolean,
-  onClose: () => void,
-  stashId: string,
-  staking_ledger?: Option<StakingLedger>
+  controllerId?: AccountId | null;
+  isOpen: boolean;
+  onClose: () => void;
+  stashId: string;
+  staking_ledger?: Option<StakingLedger>;
 };
 
-type State = {
-  maxBalance?: BN
-  maxUnbond?: BN
-};
+interface State {
+  maxBalance?: BN;
+  maxUnbond?: BN;
+}
 
 const BalanceWrapper = styled.div`
   & > div {

@@ -19,12 +19,12 @@ interface Props extends I18nProps {
   queueRpc: QueueTx$RpcAdd;
 }
 
-type State = {
-  isValid: boolean,
-  accountId?: string | null,
-  rpc: RpcMethod,
-  values: Array<RawParam>
-};
+interface State {
+  isValid: boolean;
+  accountId?: string | null;
+  rpc: RpcMethod;
+  values: RawParam[];
+}
 
 const defaultMethod = rpc.author.methods.submitExtrinsic;
 

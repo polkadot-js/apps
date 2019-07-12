@@ -13,9 +13,9 @@ import Propose from './Propose';
 
 type Props = AppProps & BareProps & I18nProps;
 
-type State = {
-  isProposeOpen: boolean
-};
+interface State {
+  isProposeOpen: boolean;
+}
 
 export default class Overview extends React.PureComponent<Props, State> {
   public state: State = {

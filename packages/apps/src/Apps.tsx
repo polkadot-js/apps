@@ -21,14 +21,14 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 import Content from './Content';
 import SideBar from './SideBar';
 
-type Props = BareProps & {};
+type Props = BareProps;
 
-type State = {
-  isCollapsed: boolean,
-  isMenu: boolean,
-  menuOpen: boolean,
-  transition: SideBarTransition
-};
+interface State {
+  isCollapsed: boolean;
+  isMenu: boolean;
+  menuOpen: boolean;
+  transition: SideBarTransition;
+}
 
 class Apps extends React.Component<Props, State> {
   public state: State;

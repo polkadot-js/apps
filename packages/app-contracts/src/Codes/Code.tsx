@@ -19,9 +19,9 @@ import contracts from '../store';
 import translate from '../translate';
 
 type Props = I18nProps & RouteComponentProps & {
-  basePath: string,
-  code: CodeStored,
-  showDeploy: (codeHash?: string) => () => void
+  basePath: string;
+  code: CodeStored;
+  showDeploy: (codeHash?: string) => () => void;
 };
 
 interface State {

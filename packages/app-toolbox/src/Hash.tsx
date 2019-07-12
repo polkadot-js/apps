@@ -11,11 +11,11 @@ import { blake2AsHex } from '@polkadot/util-crypto';
 
 import translate from './translate';
 
-type State = {
-  data: string,
-  hash: string,
-  isHexData: boolean
-};
+interface State {
+  data: string;
+  hash: string;
+  isHexData: boolean;
+}
 
 class Hash extends React.PureComponent<Props, State> {
   public state: State = {

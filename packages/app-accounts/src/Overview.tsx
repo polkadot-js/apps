@@ -17,7 +17,7 @@ import Account from './Account';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
-  accounts?: SubjectInfo[]
+  accounts?: SubjectInfo[];
 };
 
 interface State {

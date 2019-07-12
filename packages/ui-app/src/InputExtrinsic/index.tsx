@@ -20,21 +20,21 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
-  defaultValue: MethodFunction,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isPrivate?: boolean,
-  label: React.ReactNode,
-  onChange: (value: MethodFunction) => void,
-  withLabel?: boolean
+  defaultValue: MethodFunction;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isPrivate?: boolean;
+  label: React.ReactNode;
+  onChange: (value: MethodFunction) => void;
+  withLabel?: boolean;
 };
 
-type State = {
-  optionsMethod: DropdownOptions,
-  optionsSection: DropdownOptions,
-  value: MethodFunction
-};
+interface State {
+  optionsMethod: DropdownOptions;
+  optionsSection: DropdownOptions;
+  value: MethodFunction;
+}
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
   public state: State;

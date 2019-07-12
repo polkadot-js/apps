@@ -16,23 +16,23 @@ import translate from './translate';
 type Props = BareProps & WithTranslation & {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
-  accept?: string,
-  clearContent?: boolean,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label: React.ReactNode,
-  onChange?: (contents: Uint8Array, name: string) => void,
-  placeholder?: React.ReactNode | null,
-  withEllipsis?: boolean,
-  withLabel?: boolean
+  accept?: string;
+  clearContent?: boolean;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label: React.ReactNode;
+  onChange?: (contents: Uint8Array, name: string) => void;
+  placeholder?: React.ReactNode | null;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
 };
 
-type State = {
+interface State {
   file?: {
-    name: string,
-    size: number
-  }
+    name: string;
+    size: number;
+  };
 };
 
 type LoadEvent = {

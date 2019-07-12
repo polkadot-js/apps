@@ -18,10 +18,10 @@ import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 
 type Props = ApiProps & I18nProps & {
-  system_events?: Array<EventRecord>,
-  chain_getBlock?: SignedBlock,
-  chain_getHeader?: HeaderExtended,
-  value: string
+  system_events?: Array<EventRecord>;
+  chain_getBlock?: SignedBlock;
+  chain_getHeader?: HeaderExtended;
+  value: string;
 };
 
 class BlockByHash extends React.PureComponent<Props> {

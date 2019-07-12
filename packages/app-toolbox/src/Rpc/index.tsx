@@ -17,7 +17,7 @@ export default class RpcApp extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     return (
       <QueueConsumer>
-        {({ txqueue, queueRpc }: QueueProps) => (
+        {({ txqueue, queueRpc }: QueueProps): React.ReactNode => (
           <>
             <Selection queueRpc={queueRpc} />
             <Results queue={txqueue} />

@@ -15,7 +15,7 @@ import CurrentList from './CurrentList';
 import Summary from './Summary';
 
 type Props = BareProps & ComponentProps & {
-  chain_subscribeNewHead?: HeaderExtended
+  chain_subscribeNewHead?: HeaderExtended;
 };
 
 const ZERO = new Balance(0);

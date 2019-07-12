@@ -29,10 +29,10 @@ interface Props extends I18nProps {
   withLabel?: boolean;
 }
 
-type State = {
-  optionsMethod: DropdownOptions,
-  optionsSection: DropdownOptions,
-  value: RpcMethod
+interface State {
+  optionsMethod: DropdownOptions;
+  optionsSection: DropdownOptions;
+  value: RpcMethod;
 };
 
 class InputRpc extends React.PureComponent<Props, State> {

@@ -19,9 +19,9 @@ interface Props extends I18nProps {
   stashOptions: KeyringSectionOption[];
 }
 
-type State = {
-  nominees: string[] | undefined
-};
+interface State {
+  nominees: string[] | undefined;
+}
 
 class Nominate extends React.PureComponent<Props, State> {
   public state: State = {

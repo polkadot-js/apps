@@ -14,10 +14,10 @@ import { Compact } from '@polkadot/types';
 
 type Props = ComponentProps & I18nProps;
 
-type State = {
-  isValid: boolean,
-  key: Uint8Array
-};
+interface State {
+  isValid: boolean;
+  key: Uint8Array;
+}
 
 class Raw extends TxComponent<Props, State> {
   public state: State = {

@@ -13,14 +13,14 @@ import styled from 'styled-components';
 import translate from './translate';
 import Unlock from './Unlock';
 
-type State = {
-  className?: string,
-  currentPair: KeyringPair | null,
-  data: string,
-  isHexData: boolean,
-  isLocked: boolean,
-  isUnlockVisible: boolean,
-  signature: string
+interface State {
+  className?: string;
+  currentPair: KeyringPair | null;
+  data: string;
+  isHexData: boolean;
+  isLocked: boolean;
+  isUnlockVisible: boolean;
+  signature: string;
 };
 
 class Sign extends React.PureComponent<Props, State> {

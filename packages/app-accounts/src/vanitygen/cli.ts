@@ -14,12 +14,12 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import generator from '.';
 import matchRegex from './regex';
 
-type Best = {
-  address: string,
-  count: number,
-  offset: number,
-  seed?: Uint8Array
-};
+interface Best {
+  address: string;
+  count: number;
+  offset: number;
+  seed?: Uint8Array;
+}
 
 const { match, type, withCase } = yargs
   .option('match', {

@@ -16,9 +16,9 @@ import { withMulti } from '@polkadot/ui-api';
 import translate from '../translate';
 
 type Props = I18nProps & RouteComponentProps & {
-  basePath: string,
-  address: string,
-  onCall: (callAddress?: string, callMethod?: string) => void
+  basePath: string;
+  address: string;
+  onCall: (callAddress?: string, callMethod?: string) => void;
 };
 
 interface State {

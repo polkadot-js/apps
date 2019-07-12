@@ -21,16 +21,16 @@ import ApiContext from './ApiContext';
 
 let api: ApiPromise;
 
-type Props = {
-  children: React.ReactNode,
-  queueExtrinsic: QueueTx$ExtrinsicAdd,
-  queueSetTxStatus: QueueTx$MessageSetStatus,
-  url?: string
-};
+interface Props {
+  children: React.ReactNode;
+  queueExtrinsic: QueueTx$ExtrinsicAdd;
+  queueSetTxStatus: QueueTx$MessageSetStatus;
+  url?: string;
+}
 
-type State = ApiProps & {
-  chain?: string | null
-};
+interface State extends ApiProps {
+  chain?: string | null;
+}
 
 export { api };
 

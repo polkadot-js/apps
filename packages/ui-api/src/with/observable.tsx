@@ -14,9 +14,9 @@ import { catchError, map } from 'rxjs/operators';
 import echoTransform from '../transform/echo';
 import { intervalObservable, isEqual, triggerChange } from '../util';
 
-type State = CallState & {
-  subscriptions: Array<any>; // FIXME subscriptions
-};
+interface State extends CallState {
+  subscriptions: any[]; // FIXME subscriptions
+}
 
 // FIXME proper types for attributes
 

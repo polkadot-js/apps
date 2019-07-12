@@ -17,7 +17,7 @@ import { withApi, withMulti } from '@polkadot/ui-api';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & RouteComponentProps & {
-  basePath: string
+  basePath: string;
 };
 
 interface State {

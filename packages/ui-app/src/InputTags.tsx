@@ -9,32 +9,32 @@ import store from 'store';
 
 import Dropdown from './Dropdown';
 
-type Option = {
-  key: string,
-  text: string,
-  value: string
-};
+interface Option {
+  key: string;
+  text: string;
+  value: string;
+}
 
-type Props = BareProps & {
-  allowAdd?: boolean,
-  defaultValue?: string[],
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label?: React.ReactNode,
+interface Props extends BareProps {
+  allowAdd?: boolean;
+  defaultValue?: string[];
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: React.ReactNode;
   onBlur?: () => void;
-  onChange?: (value: string[]) => void,
+  onChange?: (value: string[]) => void;
   onClose?: () => void;
   openOnFocus?: boolean;
-  placeholder?: string,
-  searchInput?: {autoFocus: boolean},
-  value?: string[],
-  withLabel?: boolean
-};
+  placeholder?: string;
+  searchInput?: {autoFocus: boolean};
+  value?: string[];
+  withLabel?: boolean;
+}
 
-type State = {
-  options: Array<Option>
-};
+interface State {
+  options: Option[];
+}
 
 function loadTags (): string[] {
   return store.get('tags') || ['Default'];

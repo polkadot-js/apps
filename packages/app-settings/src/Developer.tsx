@@ -15,7 +15,7 @@ import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  onStatusChange: (status: ActionStatus) => void
+  onStatusChange: (status: ActionStatus) => void;
 };
 
 interface State {

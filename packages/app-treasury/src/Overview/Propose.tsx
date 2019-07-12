@@ -12,10 +12,10 @@ import translate from '../translate';
 
 type Props = TxModalProps;
 
-type State = TxModalState & {
-  beneficiary?: string,
-  value: BN
-};
+interface State extends TxModalState {
+  beneficiary?: string;
+  value: BN;
+}
 
 class Propose extends TxModal<Props, State> {
   public state: State = {

@@ -15,8 +15,8 @@ import translate from './translate';
 
 type Props = AppProps & I18nProps;
 
-type State = {
-  queue: Array<QueryTypes>
+interface State {
+  queue: QueryTypes[];
 };
 
 class StorageApp extends React.PureComponent<Props, State> {

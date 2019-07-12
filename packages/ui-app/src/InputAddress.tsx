@@ -17,30 +17,30 @@ import { classes, getAddressName } from './util';
 import addressToAddress from './util/toAddress';
 import Dropdown from './Dropdown';
 
-type Props = BareProps & {
-  defaultValue?: string | null,
-  help?: React.ReactNode,
+interface Props extends BareProps {
+  defaultValue?: string | null;
+  help?: React.ReactNode;
   hideAddress?: boolean;
-  isDisabled?: boolean,
-  isError?: boolean,
-  isInput?: boolean,
-  isMultiple?: boolean,
-  label?: string,
-  labelExtra?: React.ReactNode,
-  onChange?: (value: string | null) => void,
-  onChangeMulti?: (value: string[]) => void,
-  options?: Array<KeyringSectionOption>,
-  optionsAll?: KeyringOptions,
-  placeholder?: string,
-  type?: KeyringOption$Type,
-  value?: string | Uint8Array | string[],
-  withEllipsis?: boolean,
-  withLabel?: boolean
-};
+  isDisabled?: boolean;
+  isError?: boolean;
+  isInput?: boolean;
+  isMultiple?: boolean;
+  label?: string;
+  labelExtra?: React.ReactNode;
+  onChange?: (value: string | null) => void;
+  onChangeMulti?: (value: string[]) => void;
+  options?: Array<KeyringSectionOption>;
+  optionsAll?: KeyringOptions;
+  placeholder?: string;
+  type?: KeyringOption$Type;
+  value?: string | Uint8Array | string[];
+  withEllipsis?: boolean;
+  withLabel?: boolean;
+}
 
-type State = {
-  value?: string
-};
+interface State {
+  value?: string;
+}
 
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';

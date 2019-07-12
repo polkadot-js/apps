@@ -18,10 +18,10 @@ interface Props extends I18nProps {
   onChange: (accountId: string | undefined | null, accountNonce: BN) => void;
 }
 
-type State = {
-  accountNonce: BN,
-  accountId?: string | null
-};
+interface State {
+  accountNonce: BN;
+  accountId?: string | null;
+}
 
 class Account extends React.PureComponent<Props, State> {
   public state: State;

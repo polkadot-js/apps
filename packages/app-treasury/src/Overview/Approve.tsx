@@ -20,9 +20,9 @@ type Props = I18nProps & ApiProps & TxModalProps & {
   threshold: number
 };
 
-type State = TxModalState & {
-  isApproving: boolean
-};
+interface State extends TxModalState {
+  isApproving: boolean;
+}
 
 class Approve extends TxModal<Props, State> {
   public state: State = {

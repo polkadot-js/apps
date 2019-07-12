@@ -18,7 +18,7 @@ import Balance from './Balance';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  queueExtrinsic: QueueTx$ExtrinsicAdd
+  queueExtrinsic: QueueTx$ExtrinsicAdd;
 };
 
 interface State {

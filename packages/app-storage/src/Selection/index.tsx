@@ -19,9 +19,9 @@ interface Props extends I18nProps {
   onAdd: (query: QueryTypes) => void;
 }
 
-type State = {
-  items: TabItem[]
-};
+interface State {
+  items: TabItem[];
+}
 
 let id = -1;
 

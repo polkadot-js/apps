@@ -17,17 +17,17 @@ import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & CalculateBalanceProps & {
-  controllerId: string,
-  isOpen: boolean,
-  onClose: () => void,
-  stashId: string
+  controllerId: string;
+  isOpen: boolean;
+  onClose: () => void;
+  stashId: string;
 };
 
-type State = {
-  extrinsic: SubmittableExtrinsic | null,
-  maxAdditional?: BN,
-  maxBalance?: BN
-};
+interface State {
+  extrinsic: SubmittableExtrinsic | null;
+  maxAdditional?: BN;
+  maxBalance?: BN;
+}
 
 const ZERO = new BN(0);
 

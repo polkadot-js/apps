@@ -17,13 +17,13 @@ import translate from '../translate';
 import BaseOverlay from './Base';
 
 type Props = I18nProps & ApiProps & {
-  allAccounts?: SubjectInfo
+  allAccounts?: SubjectInfo;
 };
 
-type State = {
-  hasAccounts: boolean,
-  isHidden: boolean
-};
+interface State {
+  hasAccounts: boolean;
+  isHidden: boolean;
+}
 
 class Accounts extends React.PureComponent<Props, State> {
   public state: State = {

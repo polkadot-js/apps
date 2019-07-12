@@ -11,14 +11,14 @@ import { Button, Input } from '@polkadot/ui-app';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
-  isCustomExample: boolean,
-  isRunning: boolean,
-  generateLink: () => void,
-  removeSnippet: () => void,
-  runJs: () => void,
-  saveSnippet: (snippetName: string) => void,
-  snippetName?: string,
-  stopJs: () => void
+  isCustomExample: boolean;
+  isRunning: boolean;
+  generateLink: () => void;
+  removeSnippet: () => void;
+  runJs: () => void;
+  saveSnippet: (snippetName: string) => void;
+  snippetName?: string;
+  stopJs: () => void;
 };
 
 interface State {
