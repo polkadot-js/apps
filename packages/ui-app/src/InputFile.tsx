@@ -33,13 +33,13 @@ interface State {
     name: string;
     size: number;
   };
-};
+}
 
-type LoadEvent = {
+interface LoadEvent {
   target: {
-    result: ArrayBuffer
-  }
-};
+    result: ArrayBuffer;
+  };
+}
 
 class InputFile extends React.PureComponent<Props, State> {
   dropZone: any;

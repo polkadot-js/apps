@@ -17,7 +17,7 @@ type Props = AppProps & I18nProps;
 
 interface State {
   queue: QueryTypes[];
-};
+}
 
 class StorageApp extends React.PureComponent<Props, State> {
   public state: State = {
@@ -53,7 +53,7 @@ class StorageApp extends React.PureComponent<Props, State> {
   private onRemove = (id: number): void => {
     this.setState(
       (prevState: State): State => ({
-        queue: prevState.queue.filter((item) => item.id !== id)
+        queue: prevState.queue.filter((item): boolean => item.id !== id)
       })
     );
   }

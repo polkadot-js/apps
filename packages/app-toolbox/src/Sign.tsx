@@ -26,7 +26,7 @@ interface State {
   isLocked: boolean;
   isUnlockVisible: boolean;
   signature: string;
-};
+}
 
 class Sign extends React.PureComponent<Props, State> {
   public state: State;

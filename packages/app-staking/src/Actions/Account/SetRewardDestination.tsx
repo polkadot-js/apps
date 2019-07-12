@@ -19,7 +19,7 @@ interface Props extends I18nProps {
 
 interface State {
   destination: number;
-};
+}
 
 class SetRewardDestination extends TxComponent<Props, State> {
   public constructor (props: Props) {

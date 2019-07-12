@@ -12,7 +12,7 @@ import Icon from './Icon';
 
 interface Props extends BareProps {
   md: string;
-};
+}
 
 interface State {
   isVisible: boolean;

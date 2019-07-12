@@ -33,7 +33,7 @@ interface State {
   optionsMethod: DropdownOptions;
   optionsSection: DropdownOptions;
   value: RpcMethod;
-};
+}
 
 class InputRpc extends React.PureComponent<Props, State> {
   public state: State;

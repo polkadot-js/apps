@@ -6,6 +6,6 @@ import { Health, PeerInfo, PendingExtrinsics } from '@polkadot/types';
 
 export interface Info {
   health?: Health | null;
-  peers?: Array<PeerInfo> | null;
+  peers?: PeerInfo[] | null;
   extrinsics?: PendingExtrinsics | null;
-};
+}

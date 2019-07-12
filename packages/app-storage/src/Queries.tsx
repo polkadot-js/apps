@@ -12,7 +12,7 @@ import Query from './Query';
 interface Props extends BareProps {
   onRemove: (id: number) => void;
   value?: QueryTypes[];
-};
+}
 
 export default class Queries extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -24,7 +24,7 @@ export default class Queries extends React.PureComponent<Props> {
 
     return (
       <section className='storage--Queries'>
-        {value.map((query) =>
+        {value.map((query): React.ReactNode =>
           <Query
             key={query.id}
             onRemove={onRemove}

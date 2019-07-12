@@ -21,7 +21,7 @@ type Props = TxModalProps & ApiProps & {
 interface State extends TxModalState {
   method: Method | null;
   threshold: BN | null;
-};
+}
 
 class Propose extends TxModal<Props, State> {
   public constructor (props: Props) {

@@ -21,14 +21,14 @@ interface State {
   isCustomNode: boolean;
   isUrlValid: boolean;
   settings: SettingsStruct;
-};
+}
 
 class General extends React.PureComponent<Props, State> {
   public constructor (props: Props) {
     super(props);
 
     const settings = uiSettings.get();
-    const isCustomNode = uiSettings.availableNodes.reduce((isCustomNode, { value }) => {
+    const isCustomNode = uiSettings.availableNodes.reduce((isCustomNode, { value }): boolean => {
       return isCustomNode && value !== settings.apiUrl;
     }, true);
 
@@ -88,7 +88,7 @@ class General extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderEndpoint = () => {
+  private renderEndpoint = (): React.ReactNode => {
     const { t } = this.props;
     const { isCustomNode, isUrlValid, settings: { apiUrl } } = this.state;
 
@@ -174,6 +174,7 @@ class General extends React.PureComponent<Props, State> {
       (apiUrl.startsWith('ws://') || apiUrl.startsWith('wss://'))
     );
   }
+
   private saveAndReload = (): void => {
     const { settings } = this.state;
 

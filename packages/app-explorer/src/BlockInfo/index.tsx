@@ -18,9 +18,9 @@ interface Props extends BareProps {
   match: {
     params: {
       value: string;
-    }
+    };
   };
-};
+}
 
 interface State {
   value?: string;
@@ -31,7 +31,7 @@ class Entry extends React.Component<Props, State> {
     value: undefined
   };
 
-  static getDerivedStateFromProps ({ chain_bestNumber, match: { params } }: Props): State {
+  public static getDerivedStateFromProps ({ chain_bestNumber, match: { params } }: Props): State {
     let { value } = params;
     if ((!value || !value.length) && chain_bestNumber) {
       value = chain_bestNumber.toString();
