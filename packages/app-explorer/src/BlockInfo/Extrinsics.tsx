@@ -8,11 +8,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
-import { Extrinsic, Method } from '@polkadot/types';
+import { BlockNumber, Extrinsic, Method } from '@polkadot/types';
 
 import translate from '../translate';
 
 type Props = I18nProps & {
+  blockNumber?: BlockNumber,
   label?: React.ReactNode,
   value?: Array<Extrinsic> | null
 };
@@ -40,7 +41,13 @@ class Extrinsics extends React.PureComponent<Props> {
 
   // FIXME This is _very_ similar to what we have in democracy/Item
   private renderExtrinsic = (extrinsic: Extrinsic, index: number) => {
+    const { blockNumber, t } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
+
+    let eraEnd;
+    if (extrinsic.signature.era.isMortalEra) {
+      eraEnd = extrinsic.signature.era.asMortalEra.death((blockNumber || new BlockNumber(0)).toNumber());
+    }
 
     return (
       <article key={`extrinsic:${index}`}>
@@ -54,10 +61,22 @@ class Extrinsics extends React.PureComponent<Props> {
           <summary>{
             meta && meta.documentation
               ? meta.documentation.join(' ')
-              : 'Details'
+              : t('Details')
           }</summary>
           <Call
             className='details'
+            mortality={
+              eraEnd
+                ? t(
+                  `mortal${blockNumber ? ' - ends at #{{blockNumber}}' : ''}`,
+                  {
+                    replace: {
+                      blockNumber: (eraEnd && blockNumber) ? eraEnd.toString() : ''
+                    }
+                  }
+                )
+                : t('immortal')
+            }
             value={extrinsic}
             withHash
           />
