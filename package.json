@@ -10,12 +10,12 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.82.0-beta.46",
-    "@polkadot/api-contract": "^0.82.0-beta.46",
-    "@polkadot/keyring": "^0.94.0-beta.8",
-    "@polkadot/types": "^0.82.0-beta.46",
-    "@polkadot/util": "^0.94.0-beta.8",
-    "@polkadot/util-crypto": "^0.94.0-beta.8",
+    "@polkadot/api": "^0.82.0-beta.48",
+    "@polkadot/api-contract": "^0.82.0-beta.48",
+    "@polkadot/keyring": "^0.94.0-beta.9",
+    "@polkadot/types": "^0.82.0-beta.48",
+    "@polkadot/util": "^0.94.0-beta.9",
+    "@polkadot/util-crypto": "^0.94.0-beta.9",
     "@types/styled-components": "4.1.8",
     "babel-core": "^7.0.0-bridge.0",
     "typescript": "^3.5.3"
@@ -34,8 +34,8 @@
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/runtime": "^7.5.4",
-    "@polkadot/dev-react": "^0.30.0-beta.20",
-    "@polkadot/ts": "^0.1.61",
+    "@polkadot/dev-react": "^0.30.0-beta.21",
+    "@polkadot/ts": "^0.1.62",
     "autoprefixer": "^9.6.1",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",
