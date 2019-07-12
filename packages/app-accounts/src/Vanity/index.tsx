@@ -21,19 +21,20 @@ import translate from './translate';
 
 type Props = ComponentProps & I18nProps;
 
-type State = {
-  createSeed: string | null,
-  elapsed: number,
-  isMatchValid: boolean,
-  isRunning: boolean,
-  keyCount: 0,
-  keyTime: 0,
-  match: string,
-  matches: Generator$Matches,
-  startAt: number,
-  type: KeypairType,
-  withCase: boolean
-};
+interface State {
+  createSeed: string | null;
+  elapsed: number;
+  isMatchValid: boolean;
+  isRunning: boolean;
+  keyCount: 0;
+  keyTime: 0;
+  match: string;
+  matches: Generator$Matches;
+  startAt: number;
+  type: KeypairType;
+  withCase: boolean;
+  withHex: boolean;
+}
 
 const DEFAULT_MATCH = 'Some';
 const BOOL_OPTIONS = [
@@ -42,8 +43,8 @@ const BOOL_OPTIONS = [
 ];
 
 class VanityApp extends TxComponent<Props, State> {
-  results: Array<Generator$Result> = [];
-  state: State = {
+  private results: Generator$Result[] = [];
+  public state: State = {
     createSeed: null,
     elapsed: 0,
     isMatchValid: true,
@@ -54,7 +55,8 @@ class VanityApp extends TxComponent<Props, State> {
     matches: [],
     startAt: 0,
     type: 'ed25519',
-    withCase: true
+    withCase: true,
+    withHex: true
   };
 
   private _isActive: boolean = false;
@@ -63,7 +65,7 @@ class VanityApp extends TxComponent<Props, State> {
     this._isActive = false;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, onStatusChange } = this.props;
     const { createSeed, type } = this.state;
 
@@ -235,14 +237,15 @@ class VanityApp extends TxComponent<Props, State> {
           this.checkMatches();
         }
 
-        const { match, type, withCase } = this.state;
+        const { match, type, withCase, withHex } = this.state;
 
         this.results.push(
           generator({
             match,
             runs: 10,
             type,
-            withCase
+            withCase,
+            withHex
           })
         );
 

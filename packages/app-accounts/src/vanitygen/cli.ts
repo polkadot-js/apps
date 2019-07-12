@@ -14,14 +14,15 @@ import { cryptoWaitReady } from '@polkadot/util-crypto';
 import generator from '.';
 import matchRegex from './regex';
 
-type Best = {
-  address: string,
-  count: number,
-  offset: number,
-  seed?: Uint8Array
-};
+interface Best {
+  address: string;
+  count: number;
+  mnemonic?: string;
+  offset: number;
+  seed?: Uint8Array;
+}
 
-const { match, type, withCase } = yargs
+const { match, mnemonic, type } = yargs
   .option('match', {
     default: 'EEEEE'
   })
@@ -29,8 +30,8 @@ const { match, type, withCase } = yargs
     choices: ['ed25519', 'sr25519'],
     default: 'sr25519'
   })
-  .option('withCase', {
-    default: true
+  .option('mnemonic', {
+    default: false
   })
   .argv;
 
@@ -41,7 +42,8 @@ const options: Generator$Options = {
   match: `${match}`,
   runs: 50,
   type: type as KeypairType,
-  withCase
+  withCase: true,
+  withHex: !mnemonic
 };
 const startAt = Date.now();
 let best: Best = {
@@ -59,7 +61,7 @@ if (!matchRegex.test(match)) {
 
 console.log(options);
 
-function showProgress () {
+function showProgress (): void {
   const elapsed = (Date.now() - startAt) / 1000;
 
   indicator++;
@@ -71,10 +73,10 @@ function showProgress () {
   process.stdout.write(`\r[${INDICATORS[indicator]}] ${(total.toString().match(NUMBER_REGEX) || []).join(',')} keys in ${(elapsed).toFixed(2)}s (${(total / elapsed).toFixed(0)} keys/s)`);
 }
 
-function showBest () {
-  const { address, count, offset, seed } = best;
+function showBest (): void {
+  const { address, count, mnemonic, offset, seed } = best;
 
-  console.log(`\r::: ${address.slice(0, offset)}${chalk.cyan(address.slice(offset, count + offset))}${address.slice(count + offset)} <= ${u8aToHex(seed)} (count=${count}, offset=${offset})`);
+  console.log(`\r::: ${address.slice(0, offset)}${chalk.cyan(address.slice(offset, count + offset))}${address.slice(count + offset)} <= ${u8aToHex(seed)} (count=${count}, offset=${offset})${mnemonic ? '\n                                                        ' + mnemonic : ''}`);
 }
 
 cryptoWaitReady()
@@ -94,7 +96,7 @@ cryptoWaitReady()
         best = nextBest;
         showBest();
         showProgress();
-      } else if ((total % 1000) === 0) {
+      } else if ((total % (options.withHex ? 1000 : 100)) === 0) {
         showProgress();
       }
     }

@@ -4,12 +4,17 @@
 
 import { Generator$Match, Generator$Options } from './types';
 
-import { encodeAddress, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
+import { encodeAddress, mnemonicGenerate, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed, mnemonicToMiniSecret } from '@polkadot/util-crypto';
 
 import calculate from './calculate';
 
 export default function generator (test: Array<string>, options: Generator$Options): Generator$Match {
-  const seed = randomAsU8a();
+  const mnemonic = options.withHex
+    ? undefined
+    : mnemonicGenerate(12);
+  const seed = mnemonic
+    ? mnemonicToMiniSecret(mnemonic)
+    : randomAsU8a();
   const pair = options.type === 'sr25519'
     ? schnorrkelKeypairFromSeed(seed)
     : naclKeypairFromSeed(seed);
@@ -19,6 +24,7 @@ export default function generator (test: Array<string>, options: Generator$Optio
   return {
     address,
     count,
+    mnemonic,
     offset,
     seed
   };
