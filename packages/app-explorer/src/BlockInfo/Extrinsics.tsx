@@ -13,7 +13,7 @@ import { BlockNumber, Extrinsic, Method } from '@polkadot/types';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  blockNumber: BlockNumber,
+  blockNumber?: BlockNumber,
   label?: React.ReactNode,
   value?: Array<Extrinsic> | null
 };
@@ -46,7 +46,7 @@ class Extrinsics extends React.PureComponent<Props> {
 
     let eraEnd;
     if (extrinsic.signature.era.isMortalEra) {
-      eraEnd = extrinsic.signature.era.asMortalEra.birth(blockNumber.toNumber());
+      eraEnd = extrinsic.signature.era.asMortalEra.birth((blockNumber || new BlockNumber(0)).toNumber());
     }
 
     return (
@@ -68,10 +68,10 @@ class Extrinsics extends React.PureComponent<Props> {
             mortality={
               eraEnd
                 ? t(
-                  `mortal - ends at #{{blockNumber}}`,
+                  `mortal${blockNumber ? ' - ends at #{{blockNumber}}' : ''}`,
                   {
                     replace: {
-                      blockNumber: blockNumber.addn(eraEnd).toString()
+                      blockNumber: blockNumber ? blockNumber.addn(eraEnd).toString() : ''
                     }
                   }
                 )
