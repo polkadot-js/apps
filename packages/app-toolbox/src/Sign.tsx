@@ -2,19 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Button , Input, InputAddress, Output, Static } from '@polkadot/ui-app';
-import { I18nProps as Props } from '@polkadot/ui-app/types';
-import keyring from '@polkadot/ui-keyring';
+import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import React from 'react';
 
+import React from 'react';
 import styled from 'styled-components';
+import { withMulti } from '@polkadot/ui-api';
+import { Button , Input, InputAddress, Output, Static } from '@polkadot/ui-app';
+import keyring from '@polkadot/ui-keyring';
+import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+
 import translate from './translate';
 import Unlock from './Unlock';
 
+type Props = I18nProps & {
+  className?: string
+};
+
 type State = {
-  className?: string,
   currentPair: KeyringPair | null,
   data: string,
   isHexData: boolean,
@@ -45,7 +50,8 @@ class Sign extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { className, isLocked } = this.state;
+    const { className } = this.props;
+    const { isLocked } = this.state;
 
     return (
       <div className='toolbox--Sign'>
@@ -219,33 +225,36 @@ class Sign extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(styled(Sign)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  .unlock-overlay {
-    position: absolute;
+export default withMulti(
+  styled(Sign)`
+    position: relative;
     width: 100%;
     height: 100%;
-    top:0;
-    left:0;
-    background-color: #0f0e0e7a;
-  }
 
- .unlock-overlay-warning {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height:100%;
-  }
-
-  .unlock-overlay-content {
-    color:#fff;
-    text-align:center;
-
-    .ui--Button-Group {
-      text-align: center;
+    .unlock-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top:0;
+      left:0;
+      background-color: #0f0e0e7a;
     }
-  }
-`);
+
+    .unlock-overlay-warning {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height:100%;
+    }
+
+    .unlock-overlay-content {
+      color:#fff;
+      text-align:center;
+
+      .ui--Button-Group {
+        text-align: center;
+      }
+    }
+  `,
+  translate
+);

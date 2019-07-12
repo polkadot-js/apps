@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { BareProps } from './types';
+import { BareProps, I18nProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -12,11 +12,13 @@ import Params from '@polkadot/ui-params';
 
 import Static from './Static';
 import { classes } from './util';
+import translate from './translate';
 
-export type Props = BareProps & {
+export type Props = I18nProps & BareProps & {
   children?: React.ReactNode,
   value: IExtrinsic | IMethod,
-  withHash?: boolean
+  withHash?: boolean,
+  mortality?: string
 };
 
 const Wrapper = styled.div`
@@ -28,9 +30,9 @@ const Wrapper = styled.div`
   }
 `;
 
-export default class Call extends React.PureComponent<Props> {
+class Call extends React.PureComponent<Props> {
   render () {
-    const { children, className, style, value, withHash } = this.props;
+    const { children, className, style, mortality, value, withHash, t } = this.props;
     const params = Method.filterOrigin(value.meta).map(({ name, type }) => ({
       name: name.toString(),
       type: getTypeDef(type)
@@ -51,7 +53,26 @@ export default class Call extends React.PureComponent<Props> {
         {children}
         {
           hash
-            ? <Static className='hash' label='extrinsic hash'>{hash.toHex()}</Static>
+            ? (
+              <Static
+                className='hash'
+                label={t('extrinsic hash')}
+              >
+                {hash.toHex()}
+              </Static>
+            )
+            : null
+        }
+        {
+          mortality
+            ? (
+              <Static
+                className='mortality'
+                label={t('mortality')}
+              >
+                {mortality}
+              </Static>
+            )
             : null
         }
         <Params
@@ -63,3 +84,5 @@ export default class Call extends React.PureComponent<Props> {
     );
   }
 }
+
+export default translate(Call);

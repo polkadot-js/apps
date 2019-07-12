@@ -4,27 +4,29 @@
 
 import { KeypairType } from '@polkadot/util-crypto/types';
 
-export type Generator$Calculation = {
-  count: number,
-  offset: number
-};
+export interface Generator$Calculation {
+  count: number;
+  offset: number;
+}
 
-export type Generator$Match = Generator$Calculation & {
-  address: string,
-  seed: Uint8Array
-};
+export interface Generator$Match extends Generator$Calculation {
+  address: string;
+  mnemonic?: string;
+  seed: Uint8Array;
+}
 
-export type Generator$Matches = Array<Generator$Match>;
+export type Generator$Matches = Generator$Match[];
 
-export type Generator$Options = {
-  atOffset?: number,
-  match: string,
-  runs: number,
-  type: KeypairType,
-  withCase?: boolean
-};
+export interface Generator$Options {
+  atOffset?: number;
+  match: string;
+  runs: number;
+  type: KeypairType;
+  withCase?: boolean;
+  withHex?: boolean;
+}
 
-export type Generator$Result = {
-  elapsed: number,
-  found: Generator$Matches
+export interface Generator$Result {
+  elapsed: number;
+  found: Generator$Matches;
 }

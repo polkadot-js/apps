@@ -105,6 +105,7 @@ export const styles = `
     margin-right: 1rem;
     padding: 0.25rem 0 0;
     width: 100%;
+    min-width: 0;
 
     .account-label{
       margin: -0.75rem 0 0 0

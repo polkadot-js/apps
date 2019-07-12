@@ -61,6 +61,7 @@ class App extends React.PureComponent<Props, State> {
         />
         <Peers peers={info.peers} />
         <Extrinsics
+          blockNumber={info.blockNumber}
           label={t('pending extrinsics')}
           value={info.extrinsics}
         />
@@ -84,13 +85,14 @@ class App extends React.PureComponent<Props, State> {
     const { api } = this.props;
 
     try {
-      const [health, peers, extrinsics] = await Promise.all([
+      const [blockNumber, health, peers, extrinsics] = await Promise.all([
+        api.derive.chain.bestNumber(),
         api.rpc.system.health<Health>(),
         api.rpc.system.peers<Vector<PeerInfo>>(),
         api.rpc.author.pendingExtrinsics<PendingExtrinsics>()
       ]);
 
-      this.setInfo({ extrinsics, health, peers });
+      this.setInfo({ blockNumber, extrinsics, health, peers });
     } catch (error) {
       this.setInfo();
     }
