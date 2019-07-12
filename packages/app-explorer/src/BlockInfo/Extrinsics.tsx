@@ -46,7 +46,7 @@ class Extrinsics extends React.PureComponent<Props> {
 
     let eraEnd;
     if (extrinsic.signature.era.isMortalEra) {
-      eraEnd = extrinsic.signature.era.asMortalEra.birth((blockNumber || new BlockNumber(0)).toNumber());
+      eraEnd = extrinsic.signature.era.asMortalEra.death((blockNumber || new BlockNumber(0)).toNumber());
     }
 
     return (
@@ -71,7 +71,7 @@ class Extrinsics extends React.PureComponent<Props> {
                   `mortal${blockNumber ? ' - ends at #{{blockNumber}}' : ''}`,
                   {
                     replace: {
-                      blockNumber: blockNumber ? blockNumber.addn(eraEnd).toString() : ''
+                      blockNumber: (eraEnd && blockNumber) ? eraEnd.toString() : ''
                     }
                   }
                 )
