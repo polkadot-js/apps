@@ -23,9 +23,9 @@ interface State {
 }
 
 class Match extends React.PureComponent<Props, State> {
-  public state: State = {} as State;
+  public state: State = { hexSeed: '' };
 
-  static getDerivedStateFromProps ({ seed }: Props): State {
+  public static getDerivedStateFromProps ({ seed }: Props): State {
     return {
       hexSeed: u8aToHex(seed)
     };

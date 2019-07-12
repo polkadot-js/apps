@@ -43,6 +43,7 @@ const BOOL_OPTIONS = [
 
 class VanityApp extends TxComponent<Props, State> {
   private results: Generator$Result[] = [];
+
   public state: State = {
     createSeed: null,
     elapsed: 0,
@@ -59,7 +60,7 @@ class VanityApp extends TxComponent<Props, State> {
 
   private _isActive: boolean = false;
 
-  componentWillUnmount () {
+  public componentWillUnmount (): void {
     this._isActive = false;
   }
 
@@ -85,7 +86,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isMatchValid, isRunning } = this.state;
 
@@ -106,12 +107,12 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderMatches () {
+  private renderMatches (): React.ReactNode {
     const { matches } = this.state;
 
     return (
       <div className='vanity--App-matches'>
-        {matches.map((match) => (
+        {matches.map((match): React.ReactNode => (
           <Match
             {...match}
             key={match.address}
@@ -123,7 +124,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderOptions () {
+  private renderOptions (): React.ReactNode {
     const { t } = this.props;
     const { isMatchValid, isRunning, match, type, withCase } = this.state;
 
@@ -165,7 +166,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderStats () {
+  private renderStats (): React.ReactNode {
     const { t } = this.props;
     const { elapsed, keyCount } = this.state;
 
@@ -229,7 +230,7 @@ class VanityApp extends TxComponent<Props, State> {
       return;
     }
 
-    setTimeout(() => {
+    setTimeout((): void => {
       if (this._isActive) {
         if (this.results.length === 25) {
           this.checkMatches();
@@ -251,7 +252,7 @@ class VanityApp extends TxComponent<Props, State> {
     }, 0);
   }
 
-  private onCreateToggle = (createSeed: string) => {
+  private onCreateToggle = (createSeed: string): void => {
     this.setState({ createSeed });
   }
 
@@ -270,7 +271,7 @@ class VanityApp extends TxComponent<Props, State> {
   }
 
   private onChangeType = (type: KeypairType): void => {
-    this.setState({ type } as State);
+    this.setState({ type });
   }
 
   private onRemove = (address: string): void => {
@@ -299,7 +300,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private closeCreate = () => {
+  private closeCreate = (): void => {
     this.setState({ createSeed: null });
   }
 }

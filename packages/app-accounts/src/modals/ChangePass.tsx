@@ -111,9 +111,9 @@ class ChangePass extends TxComponent<Props, State> {
   private doChange = (): void => {
     const { address, onClose, t } = this.props;
     const { newPass, oldPass } = this.state;
-    const status = {
+    const status: Partial<ActionStatus> = {
       action: 'changePassword'
-    } as ActionStatus;
+    };
 
     try {
       const account = address && keyring.getPair(address);

@@ -44,7 +44,7 @@ class Backup extends TxComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { onClose, t } = this.props;
     const { isPassValid } = this.state;
 
@@ -69,7 +69,7 @@ class Backup extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { address, t } = this.props;
     const { isPassValid, password } = this.state;
 
@@ -105,9 +105,9 @@ class Backup extends TxComponent<Props, State> {
       return;
     }
 
-    const status = {
+    const status: Partial<ActionStatus> = {
       action: 'backup'
-    } as ActionStatus;
+    };
 
     try {
       const addressKeyring = address && keyring.getPair(address);
@@ -131,7 +131,7 @@ class Backup extends TxComponent<Props, State> {
     onClose();
   }
 
-  private onChangePass = (password: string) => {
+  private onChangePass = (password: string): void => {
     this.setState({
       isPassValid: keyring.isPassValid(password),
       password

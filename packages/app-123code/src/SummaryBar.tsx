@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -34,14 +35,16 @@ class SummaryBar extends React.PureComponent<Props, State> {
     nextUp: []
   };
 
-  static getDerivedStateFromProps ({ staking_intentions, session_validators }: Props): State | null {
+  public static getDerivedStateFromProps ({ staking_intentions, session_validators }: Props): State | null {
     if (!staking_intentions || !session_validators) {
       return null;
     }
 
     return {
-      nextUp: staking_intentions.filter((accountId) =>
-        !session_validators.find((validatorId) => validatorId.eq(accountId))
+      nextUp: staking_intentions.filter((accountId): boolean =>
+        !session_validators.find((validatorId): boolean =>
+          validatorId.eq(accountId)
+        )
       )
     };
   }
@@ -68,12 +71,12 @@ class SummaryBar extends React.PureComponent<Props, State> {
             {formatNumber(chain_bestNumber)} ({formatNumber(chain_bestNumberLag)} lag)
           </Bubble>
           <Bubble icon='chess queen' label='validators'>{
-            session_validators.map((accountId, index) => (
+            session_validators.map((accountId, index): React.ReactNode => (
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>
           <Bubble icon='chess bishop' label='next up'>{
-            nextUp.map((accountId, index) => (
+            nextUp.map((accountId, index): React.ReactNode => (
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>

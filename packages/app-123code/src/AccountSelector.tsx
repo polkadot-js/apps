@@ -49,7 +49,7 @@ class AccountSelector extends React.PureComponent<Props, State> {
   private onChange = (accountId?: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ accountId }, () =>
+    this.setState({ accountId }, (): void =>
       onChange(accountId)
     );
   }

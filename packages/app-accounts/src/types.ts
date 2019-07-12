@@ -9,7 +9,7 @@ import { WithTranslation } from 'react-i18next';
 
 export interface LocationProps {
   match: {
-    params: Record<string, string>
+    params: Record<string, string>;
   };
 }
 

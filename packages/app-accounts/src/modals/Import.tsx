@@ -65,7 +65,7 @@ class Import extends TxComponent<Props, State> {
     );
   }
 
-  private renderInput () {
+  private renderInput (): React.ReactNode {
     const { t } = this.props;
     const { address, isFileValid, isPassValid, json, password } = this.state;
     const acceptedFormats = ['application/json', 'text/plain'].join(', ');
@@ -141,7 +141,7 @@ class Import extends TxComponent<Props, State> {
       return;
     }
 
-    const status = { action: 'restore' } as ActionStatus;
+    const status: Partial<ActionStatus> = { action: 'restore' };
 
     try {
       const pair = keyring.restoreAccount(json, password);
@@ -160,7 +160,7 @@ class Import extends TxComponent<Props, State> {
       console.error(error);
     }
 
-    onStatusChange(status);
+    onStatusChange(status as ActionStatus);
 
     if (status.status !== 'error') {
       onClose();
