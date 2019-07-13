@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// import { Balance } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
@@ -49,9 +48,9 @@ class Overview extends React.PureComponent<Props> {
       <div className='staking--Overview'>
         <Summary
           allControllers={allControllers}
+          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
-          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
         />
         <CurrentList
           currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}

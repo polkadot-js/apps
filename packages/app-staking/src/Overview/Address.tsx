@@ -60,8 +60,7 @@ class Address extends React.PureComponent<Props, State> {
     }
 
     const { controllerId, nextSessionId, stakers, stashId, stakingLedger } = staking_info;
-    console.log('controller',controllerId && controllerId.toString());
-    console.log('stash',stashId && stashId.toString());
+
     return {
       controllerId: controllerId && controllerId.toString(),
       sessionId: nextSessionId && nextSessionId.toString(),

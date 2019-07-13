@@ -24,17 +24,17 @@ import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
   allAccounts?: SubjectInfo,
-  currentValidatorsControllersV1OrStashesV2?: Array<AccountId>,
   allStashesAndControllers?: [Array<AccountId>, Array<Option<AccountId>>],
+  currentValidatorsControllersV1OrStashesV2?: Array<AccountId>,
   staking_recentlyOffline?: RecentlyOffline
 };
 
 type State = {
   allControllers: Array<string>,
-  recentlyOffline: RecentlyOfflineMap,
   allStashes: Array<string>,
-  tabs: Array<TabItem>,
-  currentValidatorsControllersV1OrStashesV2: Array<string>
+  currentValidatorsControllersV1OrStashesV2: Array<string>,
+  recentlyOffline: RecentlyOfflineMap,
+  tabs: Array<TabItem>
 };
 
 class App extends React.PureComponent<Props, State> {
@@ -47,8 +47,9 @@ class App extends React.PureComponent<Props, State> {
 
     this.state = {
       allControllers: [],
-      recentlyOffline: {},
       allStashes: [],
+      currentValidatorsControllersV1OrStashesV2: [],
+      recentlyOffline: {},
       tabs: [
         {
           isRoot: true,
@@ -59,8 +60,7 @@ class App extends React.PureComponent<Props, State> {
           name: 'actions',
           text: t('Account actions')
         }
-      ],
-      currentValidatorsControllersV1OrStashesV2: []
+      ]
     };
   }
 
@@ -129,9 +129,9 @@ class App extends React.PureComponent<Props, State> {
         <Component
           allAccounts={allAccounts}
           allControllers={allControllers}
-          recentlyOffline={recentlyOffline}
           allStashes={allStashes}
           currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
+          recentlyOffline={recentlyOffline}
         />
       );
     };

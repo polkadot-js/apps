@@ -15,9 +15,9 @@ export type Nominators = {
 export type ComponentProps = {
   allAccounts?: SubjectInfo,
   allControllers: Array<string>,
-  recentlyOffline: RecentlyOfflineMap,
   allStashes: Array<string>,
-  currentValidatorsControllersV1OrStashesV2: Array<string>
+  currentValidatorsControllersV1OrStashesV2: Array<string>,
+  recentlyOffline: RecentlyOfflineMap
 };
 
 export type CalculateBalanceProps = {
