@@ -33,6 +33,7 @@ interface State {
   startAt: number;
   type: KeypairType;
   withCase: boolean;
+  withHex: boolean;
 }
 
 const DEFAULT_MATCH = 'Some';
@@ -55,7 +56,8 @@ class VanityApp extends TxComponent<Props, State> {
     matches: [],
     startAt: 0,
     type: 'ed25519',
-    withCase: true
+    withCase: true,
+    withHex: true
   };
 
   private _isActive: boolean = false;
@@ -236,14 +238,15 @@ class VanityApp extends TxComponent<Props, State> {
           this.checkMatches();
         }
 
-        const { match, type, withCase } = this.state;
+        const { match, type, withCase, withHex } = this.state;
 
         this.results.push(
           generator({
             match,
             runs: 10,
             type,
-            withCase
+            withCase,
+            withHex
           })
         );
 
