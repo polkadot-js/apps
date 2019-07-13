@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
 import { Index } from '@polkadot/types';
 import { IExtrinsic } from '@polkadot/types/types';
-import { QueueTx, QueueTx$ExtrinsicAdd, TxCallback, TxFailedCallback } from './Status/types';
+import { QueueTx, QueueTxExtrinsicAdd, TxCallback, TxFailedCallback } from './Status/types';
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
@@ -20,7 +20,7 @@ import { QueueConsumer } from './Status/Context';
 type ConstructFn = () => Array<any>;
 
 type InjectedProps = {
-  queueExtrinsic: QueueTx$ExtrinsicAdd;
+  queueExtrinsic: QueueTxExtrinsicAdd;
   txqueue: Array<QueueTx>;
 };
 

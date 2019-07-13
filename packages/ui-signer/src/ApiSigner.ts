@@ -5,17 +5,17 @@
 import { Signer } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { QueueTxExtrinsicAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/ui-app/Status/types';
 import { SignatureOptions } from '@polkadot/types/types';
 
 import { Hash } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {
-  private _queueExtrinsic: QueueTx$ExtrinsicAdd;
+  private _queueExtrinsic: QueueTxExtrinsicAdd;
 
-  private _queueSetTxStatus: QueueTx$MessageSetStatus;
+  private _queueSetTxStatus: QueueTxMessageSetStatus;
 
-  public constructor (queueExtrinsic: QueueTx$ExtrinsicAdd, queueSetTxStatus: QueueTx$MessageSetStatus) {
+  public constructor (queueExtrinsic: QueueTxExtrinsicAdd, queueSetTxStatus: QueueTxMessageSetStatus) {
     this._queueExtrinsic = queueExtrinsic;
     this._queueSetTxStatus = queueSetTxStatus;
   }
@@ -41,7 +41,7 @@ export default class ApiSigner implements Signer {
     if (result instanceof Hash) {
       this._queueSetTxStatus(id, 'sent', result.toHex());
     } else {
-      this._queueSetTxStatus(id, result.status.type.toLowerCase() as any, status);
+      this._queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);
     }
   }
 }

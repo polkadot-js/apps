@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { QueueTxExtrinsicAdd, QueueTxMessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from './types';
 
 import React from 'react';
@@ -23,8 +23,8 @@ let api: ApiPromise;
 
 interface Props {
   children: React.ReactNode;
-  queueExtrinsic: QueueTx$ExtrinsicAdd;
-  queueSetTxStatus: QueueTx$MessageSetStatus;
+  queueExtrinsic: QueueTxExtrinsicAdd;
+  queueSetTxStatus: QueueTxMessageSetStatus;
   url?: string;
 }
 

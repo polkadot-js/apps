@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '../types';
-import { QueueStatus, QueueTx, QueueTx$Status } from './types';
+import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -198,7 +198,7 @@ class Status extends React.PureComponent<Props> {
     }
   }
 
-  private signerIconName = (status: QueueTx$Status) => {
+  private signerIconName = (status: QueueTxStatus) => {
     switch (status) {
       case 'cancelled':
         return 'ban';

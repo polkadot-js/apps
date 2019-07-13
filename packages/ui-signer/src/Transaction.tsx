@@ -48,7 +48,7 @@ class Transaction extends React.PureComponent<Props> {
     );
   }
 
-  private renderAccount () {
+  private renderAccount (): React.ReactNode {
     const { t, value: { accountId, isUnsigned } } = this.props;
 
     if (isUnsigned || !accountId) {
@@ -67,7 +67,7 @@ class Transaction extends React.PureComponent<Props> {
     );
   }
 
-  private renderChecks () {
+  private renderChecks (): React.ReactNode {
     const { isSendable, value: { accountId, extrinsic, isUnsigned } } = this.props;
 
     if (isUnsigned) {

@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTxExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
@@ -18,7 +18,7 @@ import Balance from './Balance';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  queueExtrinsic: QueueTx$ExtrinsicAdd;
+  queueExtrinsic: QueueTxExtrinsicAdd;
 };
 
 interface State {

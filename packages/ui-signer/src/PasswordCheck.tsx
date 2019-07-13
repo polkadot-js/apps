@@ -15,12 +15,12 @@ interface Props extends I18nProps {
   unlockError?: string | null;
 }
 
-function PasswordCheck (props: Props) {
+function PasswordCheck (props: Props): React.ReactElement<Props> | null {
   const { className, unlockError, t } = props;
 
   return unlockError
-  ? <div className={className}>{t('wrong password')}</div>
-  : null;
+    ? <div className={className}>{t('wrong password')}</div>
+    : null;
 }
 
 export default withMulti(

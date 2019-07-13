@@ -21,19 +21,20 @@ interface Props extends I18nProps {
   value?: string | null;
 }
 
-type State = {
-  isError: boolean,
-  isInjected: boolean,
-  isLocked: boolean,
-  pair: KeyringPair
-};
+interface State {
+  isError: boolean;
+  isInjected?: boolean;
+  isLocked: boolean;
+  pair?: KeyringPair;
+}
 
 class Unlock extends React.PureComponent<Props, State> {
   public state: State = {
+    isError: false,
     isLocked: false
-  } as State;
+  };
 
-  static getDerivedStateFromProps ({ error, value }: Props): State | null {
+  public static getDerivedStateFromProps ({ error, value }: Props): State | null {
     const pair = keyring.getPair(value as string);
 
     if (!pair) {

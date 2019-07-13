@@ -21,7 +21,7 @@ export type AccountInfo = {
   accountId?: string | null
 };
 
-export type QueueTx$Status = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
+export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
 
 export type SignerCallback = (id: number, isSigned: boolean) => void;
 
@@ -44,7 +44,7 @@ export type QueueTx = AccountInfo & {
   txStartCb?: () => void,
   txUpdateCb?: TxCallback,
   values?: Array<any>,
-  status: QueueTx$Status
+  status: QueueTxStatus
 };
 
 export type QueueStatus = ActionStatus & {
@@ -53,17 +53,17 @@ export type QueueStatus = ActionStatus & {
   removeItem: () => void
 };
 
-export type QueueTx$Result = {
+export type QueueTxResult = {
   error?: Error,
   result?: any,
-  status: QueueTx$Status
+  status: QueueTxStatus
 };
 
-export type QueueTx$Extrinsic = AccountInfo & {
+export type QueueTxExtrinsic = AccountInfo & {
   extrinsic: SubmittableExtrinsic
 };
 
-export type QueueTx$Rpc = AccountInfo & {
+export type QueueTxRpc = AccountInfo & {
   rpc: RpcMethod,
   values: Array<any>
 };
@@ -72,7 +72,7 @@ export type PartialAccountInfo = {
   accountId?: string | null
 };
 
-export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
+export type PartialQueueTxExtrinsic = PartialAccountInfo & {
   extrinsic: SubmittableExtrinsic,
   signerCb?: SignerCallback,
   signerOptions?: SignatureOptions,
@@ -83,16 +83,16 @@ export type PartialQueueTx$Extrinsic = PartialAccountInfo & {
   isUnsigned?: boolean
 };
 
-export type PartialQueueTx$Rpc = PartialAccountInfo & {
+export type PartialQueueTxRpc = PartialAccountInfo & {
   rpc: RpcMethod,
   values: Array<any>
 };
 
-export type QueueTx$RpcAdd = (value: PartialQueueTx$Rpc) => number;
+export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => number;
 
-export type QueueTx$ExtrinsicAdd = (value: PartialQueueTx$Extrinsic) => number;
+export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => number;
 
-export type QueueTx$MessageSetStatus = (id: number, status: QueueTx$Status, result?: any, error?: Error) => void;
+export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result?: any, error?: Error) => void;
 
 export type QueueAction$Add = (status: ActionStatus) => number;
 
@@ -100,7 +100,7 @@ export type QueueProps = {
   stqueue: Array<QueueStatus>,
   txqueue: Array<QueueTx>,
   queueAction: QueueAction$Add,
-  queueExtrinsic: QueueTx$ExtrinsicAdd,
-  queueRpc: QueueTx$RpcAdd,
-  queueSetTxStatus: QueueTx$MessageSetStatus
+  queueExtrinsic: QueueTxExtrinsicAdd,
+  queueRpc: QueueTxRpcAdd,
+  queueSetTxStatus: QueueTxMessageSetStatus
 };

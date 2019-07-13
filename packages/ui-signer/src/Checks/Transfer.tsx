@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -24,10 +25,10 @@ interface Props extends I18nProps {
   onChange: (fees: ExtraFees) => void;
 }
 
-type State = ExtraFees & {
-  isCreation: boolean,
-  isNoEffect: boolean
-};
+interface State extends ExtraFees {
+  isCreation: boolean;
+  isNoEffect: boolean;
+}
 
 export class Transfer extends React.PureComponent<Props, State> {
   public state: State = {
@@ -38,7 +39,7 @@ export class Transfer extends React.PureComponent<Props, State> {
     isNoEffect: false
   };
 
-  static getDerivedStateFromProps ({ amount, balances_all = ZERO_BALANCE, fees, onChange }: Props): State {
+  public static getDerivedStateFromProps ({ amount, balances_all = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = new BN(fees.transferFee);
 
     if (balances_all.votingBalance.isZero()) {
@@ -72,7 +73,8 @@ export class Transfer extends React.PureComponent<Props, State> {
       <>
         {
           isNoEffect
-            ? <div>
+            ? (
+              <div>
                 <Icon name='warning sign' />
                 {t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected',
                   {
@@ -82,6 +84,7 @@ export class Transfer extends React.PureComponent<Props, State> {
                   }
                 )}
               </div>
+            )
             : undefined
         }
         {

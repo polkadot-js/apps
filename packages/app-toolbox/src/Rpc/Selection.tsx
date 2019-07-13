@@ -5,7 +5,7 @@
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RawParam } from '@polkadot/ui-params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$RpcAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTxRpcAdd } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
@@ -16,7 +16,7 @@ import Params from '@polkadot/ui-params';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  queueRpc: QueueTx$RpcAdd;
+  queueRpc: QueueTxRpcAdd;
 }
 
 interface State {
