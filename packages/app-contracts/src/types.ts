@@ -8,7 +8,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export interface LocationProps {
   match: {
-    params: Record<string, any>
+    params: Record<string, any>;
   };
 }
 

@@ -104,7 +104,7 @@ class Call extends TxComponent<Props, State> {
     const { t } = this.props;
     const { gasLimit } = this.state;
 
-    const [ address, contractAbi, method ] = this.getCallProps();
+    const [address, contractAbi, method] = this.getCallProps();
     const isEndowValid = true;
     const isGasValid = !gasLimit.isZero();
 
@@ -219,12 +219,12 @@ class Call extends TxComponent<Props, State> {
     } else {
       address = this.state.address;
       contractAbi = this.state.contractAbi || getContractAbi(address);
-      method = contractAbi && this.state.method && contractAbi.messages[this.state.method] ?
-        this.state.method :
-        (
-          contractAbi ?
-            Object.keys(contractAbi.messages)[0] :
-            null
+      method = contractAbi && this.state.method && contractAbi.messages[this.state.method]
+        ? this.state.method
+        : (
+          contractAbi
+            ? Object.keys(contractAbi.messages)[0]
+            : null
         );
     }
 

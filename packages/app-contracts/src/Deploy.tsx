@@ -22,7 +22,7 @@ import Params from './Params';
 import store from './store';
 import translate from './translate';
 
-type ConstructOptions = { key: string; text: string; value: string; }[];
+type ConstructOptions = { key: string; text: string; value: string }[];
 
 type Props = ContractModalProps & ApiProps & I18nProps & RouteComponentProps & {
   codeHash?: string;

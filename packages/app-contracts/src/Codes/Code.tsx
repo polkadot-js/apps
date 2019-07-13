@@ -63,7 +63,7 @@ class Contract extends React.PureComponent<Props> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { code: { json: { codeHash } }, showDeploy, t } = this.props;
 
     return (
@@ -87,7 +87,7 @@ class Contract extends React.PureComponent<Props> {
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { code } = this.props;
     const { isForgetOpen, isRemoveABIOpen } = this.state;
 
@@ -115,7 +115,7 @@ class Contract extends React.PureComponent<Props> {
           code={code}
           key='modal-remove-abi'
           onClose={this.toggleRemoveABI}
-          onRemove={() => this.onChangeABI(null)}
+          onRemove={this.onChangeABI}
         />
       );
     }
@@ -155,7 +155,7 @@ class Contract extends React.PureComponent<Props> {
     }
   }
 
-  private onChangeABI = async (abi: string | null) => {
+  private onChangeABI = async (abi: string | null = null): Promise<void> => {
     const { code: { json: { codeHash } } } = this.props;
 
     await contracts.saveCode(

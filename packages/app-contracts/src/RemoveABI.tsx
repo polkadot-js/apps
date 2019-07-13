@@ -37,7 +37,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private content = () => {
+  private content = (): React.ReactNode => {
     const { t } = this.props;
 
     return (
@@ -48,7 +48,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { onClose, t } = this.props;
 
     return (
@@ -70,7 +70,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { code } = this.props;
 
     return (
@@ -83,7 +83,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private onRemove = () => {
+  private onRemove = (): void => {
     const { onClose, onRemove } = this.props;
 
     onClose && onClose();

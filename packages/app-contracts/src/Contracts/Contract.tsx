@@ -72,7 +72,7 @@ class Contract extends React.PureComponent<Props> {
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { address } = this.props;
     const { isForgetOpen } = this.state;
 
@@ -112,10 +112,10 @@ class Contract extends React.PureComponent<Props> {
       return;
     }
 
-    const status = {
+    const status: Partial<ActionStatus> = {
       account: address,
       action: 'forget'
-    } as ActionStatus;
+    };
 
     try {
       keyring.forgetContract(address);
@@ -128,7 +128,7 @@ class Contract extends React.PureComponent<Props> {
     this.toggleForget();
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { address, onCall, t } = this.props;
 
     return (
@@ -144,7 +144,7 @@ class Contract extends React.PureComponent<Props> {
           isPrimary
           label={t('execute')}
           labelIcon='play'
-          onClick={() => onCall(address)}
+          onClick={(): void => onCall(address)}
           size='small'
           tooltip={t('Call a method on this contract')}
         />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -32,7 +33,7 @@ class ValidateCode extends React.PureComponent<Props> {
     isValid: false
   };
 
-  static getDerivedStateFromProps ({ codeHash, contract_codeStorage, onChange }: Props): State {
+  public static getDerivedStateFromProps ({ codeHash, contract_codeStorage, onChange }: Props): State {
     const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
     const isStored = !!contract_codeStorage && contract_codeStorage.isSome;
     const isValid = isValidHex && isStored;

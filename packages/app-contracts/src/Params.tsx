@@ -28,7 +28,7 @@ interface State {
 export default class Params extends React.PureComponent<Props, State> {
   public state: State = { params: [] };
 
-  static getDerivedStateFromProps ({ params }: Props): State | null {
+  public static getDerivedStateFromProps ({ params }: Props): State | null {
     if (!params) {
       return { params: [] };
     }
@@ -38,7 +38,7 @@ export default class Params extends React.PureComponent<Props, State> {
         name,
         type: getTypeDef(type, name)
       }))
-    } as State;
+    } as unknown as State;
   }
 
   public render (): React.ReactNode {
@@ -62,6 +62,6 @@ export default class Params extends React.PureComponent<Props, State> {
   private onChange = (values: RawParams): void => {
     const { onChange } = this.props;
 
-    onChange(values.map(({ value }) => value));
+    onChange(values.map(({ value }): any => value));
   }
 }

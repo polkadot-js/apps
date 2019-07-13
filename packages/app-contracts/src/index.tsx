@@ -46,17 +46,17 @@ class App extends React.PureComponent<Props, State> {
     store.on('removed-code', this.triggerUpdate);
 
     // since we have a dep on the async API, we load here
-    store.loadAll().catch(() => {
+    store.loadAll().catch((): void => {
       // noop, handled internally
     });
   }
 
-  static getDerivedStateFromProps ({ contracts }: Props): State {
+  public static getDerivedStateFromProps ({ contracts }: Props): State {
     const hasContracts = !!contracts && Object.keys(contracts).length >= 1;
 
     return {
       hasContracts
-    } as State;
+    } as unknown as State;
   }
 
   public render (): React.ReactNode {
@@ -81,7 +81,7 @@ class App extends React.PureComponent<Props, State> {
                 name: 'contracts',
                 text: 'Contracts'
               }
-            ].map(tab => ({ ...tab, text: t(tab.text) }))
+            ].map((tab) => ({ ...tab, text: t(tab.text) }))
             }
           />
         </header>
@@ -99,8 +99,8 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
-    return ({ match }: LocationProps) => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): (p: LocationProps) => React.ReactNode {
+    return ({ match }: LocationProps): React.ReactNode => {
       const { accounts, basePath, contracts, location, onStatusChange } = this.props;
 
       if (!contracts) {
@@ -122,14 +122,15 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  private showDeploy = (codeHash?: string) => () => {
-    this.setState({
-      codeHash: codeHash || undefined,
-      isDeployOpen: true
-    });
-  }
+  private showDeploy = (codeHash?: string): () => void =>
+    (): void => {
+      this.setState({
+        codeHash: codeHash || undefined,
+        isDeployOpen: true
+      });
+    }
 
-  private hideDeploy = () => {
+  private hideDeploy = (): void => {
     this.setState({ isDeployOpen: false });
   }
 
@@ -137,6 +138,7 @@ class App extends React.PureComponent<Props, State> {
     this.setState({ updated: Date.now() });
   }
 }
+
 export default withMulti(
   App,
   translate,
