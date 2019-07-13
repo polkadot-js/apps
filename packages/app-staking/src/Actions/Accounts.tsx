@@ -89,9 +89,9 @@ class Accounts extends React.PureComponent<Props,State> {
   }
 
   private getStashOptions (): Array<KeyringSectionOption> {
-    const { stashes } = this.props;
+    const { allStashes } = this.props;
 
-    return stashes.map((stashId) =>
+    return allStashes.map((stashId) =>
       createOption(stashId, getAddressName(stashId, 'account'))
     );
   }

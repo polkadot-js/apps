@@ -4,7 +4,7 @@
 
 import { AccountId, BlockNumber } from '@polkadot/types';
 import BN from 'bn.js';
-import { DerivedFees, DerivedBalances, DerivedBalancesMap } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type Nominators = {
@@ -14,11 +14,10 @@ export type Nominators = {
 
 export type ComponentProps = {
   allAccounts?: SubjectInfo,
-  balances?: DerivedBalancesMap,
-  controllers: Array<string>,
+  allControllers: Array<string>,
   recentlyOffline: RecentlyOfflineMap,
-  stashes: Array<string>,
-  validators: Array<string>
+  allStashes: Array<string>,
+  currentValidatorsControllersV1OrStashesV2: Array<string>
 };
 
 export type CalculateBalanceProps = {
