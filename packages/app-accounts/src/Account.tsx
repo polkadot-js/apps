@@ -72,7 +72,7 @@ class Account extends React.PureComponent<Props> {
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { address } = this.props;
     const { isBackupOpen, isForgetOpen, isPasswordOpen, isTransferOpen } = this.state;
 
@@ -165,10 +165,10 @@ class Account extends React.PureComponent<Props> {
       return;
     }
 
-    const status = {
+    const status: Partial<ActionStatus> = {
       account: address,
       action: 'forget'
-    } as ActionStatus;
+    };
 
     try {
       keyring.forgetAccount(address);
@@ -180,7 +180,7 @@ class Account extends React.PureComponent<Props> {
     }
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isEditable } = this.state;
 

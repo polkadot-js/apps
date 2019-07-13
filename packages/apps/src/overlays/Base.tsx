@@ -50,7 +50,7 @@ class BaseOverlay extends React.PureComponent<Props, State> {
     );
   }
 
-  private onClose = () => {
+  private onClose = (): void => {
     this.setState({ isHidden: true });
   }
 }

@@ -46,4 +46,4 @@ export default styled(ButtonGroup)`
     margin-bottom: 0.5rem;
     text-align: center;
   }
-` as any as GroupType;
+` as unknown as GroupType;

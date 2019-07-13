@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Generator$Calculation, Generator$Options } from './types';
+import { GeneratorCalculation, GeneratorOptions } from './types';
 
-function calculateAt (atOffset: number, test: string[], address: string): Generator$Calculation {
+function calculateAt (atOffset: number, test: string[], address: string): GeneratorCalculation {
   return {
     count: test.reduce((count, c, index) => {
       if (index === count) {
@@ -17,7 +17,7 @@ function calculateAt (atOffset: number, test: string[], address: string): Genera
   };
 }
 
-export default function calculate (test: string[], _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
+export default function calculate (test: string[], _address: string, { atOffset = -1, withCase = false }: GeneratorOptions): GeneratorCalculation {
   const address = withCase
     ? _address
     : _address.toLowerCase();

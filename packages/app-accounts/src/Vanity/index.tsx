@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { Generator$Matches, Generator$Result } from '../vanitygen/types';
+import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '../vanitygen/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
@@ -29,7 +29,7 @@ interface State {
   keyCount: 0;
   keyTime: 0;
   match: string;
-  matches: Generator$Matches;
+  matches: GeneratorMatches;
   startAt: number;
   type: KeypairType;
   withCase: boolean;
@@ -43,7 +43,7 @@ const BOOL_OPTIONS = [
 ];
 
 class VanityApp extends TxComponent<Props, State> {
-  private results: Generator$Result[] = [];
+  private results: GeneratorResult[] = [];
 
   public state: State = {
     createSeed: null,
@@ -205,7 +205,7 @@ class VanityApp extends TxComponent<Props, State> {
         let newKeyCount = keyCount;
         let newKeyTime = keyTime;
         const newMatches = results
-          .reduce((result, { elapsed, found }) => {
+          .reduce((result, { elapsed, found }): GeneratorMatch[] => {
             newKeyCount += found.length;
             newKeyTime += elapsed;
 
@@ -280,7 +280,7 @@ class VanityApp extends TxComponent<Props, State> {
   private onRemove = (address: string): void => {
     this.setState(
       ({ matches }: State) => ({
-        matches: matches.filter((item) =>
+        matches: matches.filter((item): boolean =>
           item.address !== address
         )
       })

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -30,7 +31,7 @@ type Props = ApiProps & I18nProps & {
   recentlyOffline: RecentlyOfflineMap;
   balances_all?: DerivedBalances;
   staking_info?: DerivedStaking;
-  stashOptions: Array<KeyringSectionOption>;
+  stashOptions: KeyringSectionOption[];
 };
 
 interface State {
@@ -80,8 +81,7 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  static getDerivedStateFromProps ({ accountId, staking_info }: Props): State | null {
-
+  public static getDerivedStateFromProps ({ accountId, staking_info }: Props): State | null {
     if (!staking_info) {
       return null;
     }
@@ -102,7 +102,7 @@ class Account extends React.PureComponent<Props, State> {
       stakingLedger,
       stashId: toIdString(stashId),
       validatorPrefs
-    } as any as State;
+    } as unknown as State;
   }
 
   public render (): React.ReactNode {
@@ -157,7 +157,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderBondExtra () {
+  private renderBondExtra (): React.ReactNode {
     const { controllerId, isBondExtraOpen, stashId } = this.state;
 
     return (
@@ -170,7 +170,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderUnbond () {
+  private renderUnbond (): React.ReactNode {
     const { controllerId, isUnbondOpen, stashId } = this.state;
 
     return (
@@ -183,7 +183,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInfos () {
+  private renderInfos (): React.ReactNode {
     const { stashId } = this.state;
 
     return (
@@ -202,7 +202,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderNominee () {
+  private renderNominee (): React.ReactNode {
     const { t } = this.props;
     const { nominees } = this.state;
 
@@ -213,7 +213,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-Nominee'>
         <label className='staking--label'>{t('nominating')}</label>
-        {nominees.map((nomineeId, index) => (
+        {nominees.map((nomineeId, index): React.ReactNode => (
           <AddressMini
             key={index}
             iconInfo={this.renderOffline(nomineeId)}
@@ -226,7 +226,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderOffline (address: AccountId | string) {
+  private renderOffline (address: AccountId | string): React.ReactNode {
     const { recentlyOffline } = this.props;
 
     return (
@@ -238,7 +238,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderControllerAccount () {
+  private renderControllerAccount (): React.ReactNode {
     const { t } = this.props;
     const { controllerId } = this.state;
 
@@ -266,7 +266,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSessionAccount () {
+  private renderSessionAccount (): React.ReactNode {
     const { t } = this.props;
     const { sessionId } = this.state;
 
@@ -292,7 +292,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderNominate () {
+  private renderNominate (): React.ReactNode {
     const { stashOptions } = this.props;
     const { controllerId, isNominateOpen, nominees, stashId } = this.state;
 
@@ -312,7 +312,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderValidate () {
+  private renderValidate (): React.ReactNode {
     const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
 
     if (!stashId || !controllerId) {
@@ -330,7 +330,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionId } = this.state;
     const buttons = [];
@@ -409,7 +409,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderPopupMenu () {
+  private renderPopupMenu (): React.ReactNode {
     const { balances_all, t } = this.props;
     const { isStashNominating, isStashValidating, sessionId } = this.state;
 
@@ -456,7 +456,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSetValidatorPrefs () {
+  private renderSetValidatorPrefs (): React.ReactNode {
     const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
 
     if (!controllerId || !validatorPrefs || !stashId) {
@@ -474,7 +474,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSetControllerAccount () {
+  private renderSetControllerAccount (): React.ReactNode {
     const { controllerId, isSetControllerAccountOpen, isStashValidating, stashId } = this.state;
 
     if (!isSetControllerAccountOpen || !stashId) {
@@ -491,7 +491,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSetRewardDestination () {
+  private renderSetRewardDestination (): React.ReactNode {
     const { controllerId, destination, isSetRewardDestinationOpen } = this.state;
 
     if (!isSetRewardDestinationOpen || !controllerId) {
@@ -507,7 +507,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSetSessionAccount () {
+  private renderSetSessionAccount (): React.ReactNode {
     const { controllerId, isSetSessionAccountOpen, stashId, sessionId } = this.state;
 
     if (!controllerId || !stashId) {
@@ -525,49 +525,49 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleBondExtra = () => {
+  private toggleBondExtra = (): void => {
     this.setState(({ isBondExtraOpen }) => ({
       isBondExtraOpen: !isBondExtraOpen
     }));
   }
 
-  private toggleNominate = () => {
+  private toggleNominate = (): void => {
     this.setState(({ isNominateOpen }) => ({
       isNominateOpen: !isNominateOpen
     }));
   }
 
-  private toggleSetControllerAccount = () => {
+  private toggleSetControllerAccount = (): void => {
     this.setState(({ isSetControllerAccountOpen }) => ({
       isSetControllerAccountOpen: !isSetControllerAccountOpen
     }));
   }
 
-  private toggleSetRewardDestination = () => {
+  private toggleSetRewardDestination = (): void => {
     this.setState(({ isSetRewardDestinationOpen }) => ({
       isSetRewardDestinationOpen: !isSetRewardDestinationOpen
     }));
   }
 
-  private toggleSetSessionAccount = () => {
+  private toggleSetSessionAccount = (): void => {
     this.setState(({ isSetSessionAccountOpen }) => ({
       isSetSessionAccountOpen: !isSetSessionAccountOpen
     }));
   }
 
-  private toggleSettingPopup = () => {
+  private toggleSettingPopup = (): void => {
     this.setState(({ isSettingPopupOpen }) => ({
       isSettingPopupOpen: !isSettingPopupOpen
     }));
   }
 
-  private toggleUnbond = () => {
+  private toggleUnbond = (): void => {
     this.setState(({ isUnbondOpen }) => ({
       isUnbondOpen: !isUnbondOpen
     }));
   }
 
-  private toggleValidate = () => {
+  private toggleValidate = (): void => {
     this.setState(({ isValidateOpen }) => ({
       isValidateOpen: !isValidateOpen
     }));

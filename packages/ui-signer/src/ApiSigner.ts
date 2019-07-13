@@ -12,6 +12,7 @@ import { Hash } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {
   private _queueExtrinsic: QueueTx$ExtrinsicAdd;
+
   private _queueSetTxStatus: QueueTx$MessageSetStatus;
 
   public constructor (queueExtrinsic: QueueTx$ExtrinsicAdd, queueSetTxStatus: QueueTx$MessageSetStatus) {
@@ -19,8 +20,8 @@ export default class ApiSigner implements Signer {
     this._queueSetTxStatus = queueSetTxStatus;
   }
 
-  async sign (extrinsic: SubmittableExtrinsic, accountId: string, signerOptions: SignatureOptions): Promise<number> {
-    return new Promise((resolve, reject) => {
+  public async sign (extrinsic: SubmittableExtrinsic, accountId: string, signerOptions: SignatureOptions): Promise<number> {
+    return new Promise((resolve, reject): void => {
       this._queueExtrinsic({
         accountId,
         extrinsic,
@@ -29,14 +30,14 @@ export default class ApiSigner implements Signer {
           if (isSigned) {
             resolve(id);
           } else {
-            reject();
+            reject(new Error());
           }
         }
       });
     });
   }
 
-  update (id: number, result: Hash | SubmittableResult): void {
+  public update (id: number, result: Hash | SubmittableResult): void {
     if (result instanceof Hash) {
       this._queueSetTxStatus(id, 'sent', result.toHex());
     } else {

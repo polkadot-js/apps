@@ -201,10 +201,6 @@ class Transfer extends React.PureComponent<Props> {
     }
 
     const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
-
-    // FIXME The any casts here are irritating, but they are basically caused by the derive
-    // not really returning an actual `class implements Codec`
-    // (if casting to DerivedBalance it would be `as any as DerivedBalance`)
     const accountNonce = await api.query.system.accountNonce<Index>(senderId);
     const senderBalance = (await api.derive.balances.all(senderId)).availableBalance;
     const recipientBalance = (await api.derive.balances.all(recipientId)).availableBalance;
