@@ -9,14 +9,12 @@ import { classes } from '@polkadot/ui-app/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 import { Option, U8a } from '@polkadot/types';
 
-const unknown = div({}, '<unknown>');
+interface DivProps {
+  className?: string;
+  key?: any;
+}
 
-type DivProps = {
-  className?: string,
-  key?: any
-};
-
-function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): React.ReactNode {
+function div ({ key, className }: DivProps, ...values: React.ReactNode[]): React.ReactNode {
   return (
     <div
       className={classes('ui--Param-text', className)}
@@ -27,6 +25,9 @@ function div ({ key, className }: DivProps, ...values: Array<React.ReactNode>): 
   );
 }
 
+const unknown = div({}, '<unknown>');
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
   // dont' even ask, nested ?: ... really?
   return isNull(value) || isUndefined(value)

@@ -31,7 +31,7 @@ interface BaseProps extends BareProps {
 
 type Props = I18nProps & ApiProps & BaseProps & {
   allAccounts?: SubjectInfo;
-}
+};
 
 interface State {
   currentItem?: QueueTx;
