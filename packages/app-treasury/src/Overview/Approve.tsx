@@ -37,7 +37,7 @@ class Approve extends TxModal<Props, State> {
 
   headerText = () => this.props.t('Approve or reject proposal');
 
-  txMethod = () => 'councilMotions.propose';
+  txMethod = () => 'collective.propose';
   txParams = () => {
     const { api, proposalId, threshold } = this.props;
     const { isApproving } = this.state;
@@ -79,8 +79,8 @@ class Approve extends TxModal<Props, State> {
 
     return (
       <Dropdown
-        help={t('Propose a majority council motion to either approve or reject this spend proposal')}
-        label={t('proposed council action')}
+        help={t('Propose a majority collective proposal to either approve or reject this spend proposal')}
+        label={t('proposed collective action')}
         options={this.approveOptions()}
         onChange={this.onChangeApproving}
         value={isApproving}
@@ -99,7 +99,7 @@ export default withMulti(
   withApi,
   withCalls(
     [
-      'query.council.activeCouncil',
+      'query.elections.members',
       {
         propName: 'threshold',
         transform: (value: Array<[AccountId, BlockNumber]>) => 1 + (value.length / 2)
