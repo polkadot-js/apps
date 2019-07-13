@@ -55,7 +55,7 @@ class ABI extends React.PureComponent<Props, State> {
     };
   }
 
-  componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props) {
+  public componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props): void {
     if (contractAbi) {
       this.setState({
         contractAbi,
@@ -86,7 +86,7 @@ class ABI extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInputFile () {
+  private renderInputFile (): React.ReactNode {
     const { className, help, isDisabled, isRequired, label, t } = this.props;
     const { isAbiValid, isEmpty, isError } = this.state;
 
@@ -108,7 +108,7 @@ class ABI extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderMessages () {
+  private renderMessages (): React.ReactNode {
     const { help, isDisabled, label, onRemove } = this.props;
     const { contractAbi } = this.state;
 
@@ -140,7 +140,7 @@ class ABI extends React.PureComponent<Props, State> {
         isAbiValid: true,
         isEmpty: false,
         isError: false
-      }, () => onChange(json, contractAbi));
+      }, (): void => onChange(json, contractAbi));
     } catch (error) {
       console.error(error);
 
@@ -148,7 +148,7 @@ class ABI extends React.PureComponent<Props, State> {
         isAbiValid: false,
         isEmpty: false,
         isError: true
-      }, () => onChange(null, null));
+      }, (): void => onChange(null, null));
     }
   }
 
@@ -161,7 +161,7 @@ class ABI extends React.PureComponent<Props, State> {
         isAbiValid: false,
         isEmpty: true
       },
-      () => {
+      (): void => {
         onChange(null, null);
         onRemoved && onRemoved();
       }

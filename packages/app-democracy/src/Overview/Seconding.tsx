@@ -101,12 +101,12 @@ class Seconding extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (accountId?: string) => {
+  private onChangeAccount = (accountId?: string): void => {
     this.setState({ accountId });
   }
 
   private toggleSeconding = (): void => {
-    this.setState(({ isSecondingOpen }) => ({
+    this.setState(({ isSecondingOpen }): State => ({
       isSecondingOpen: !isSecondingOpen
     }));
   }

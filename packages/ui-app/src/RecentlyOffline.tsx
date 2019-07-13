@@ -66,7 +66,7 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
   }
 
   private toggleOpen = (): void => {
-    this.setState(({ isOpen }) => ({
+    this.setState(({ isOpen }): State => ({
       isOpen: !isOpen
     }));
   }

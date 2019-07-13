@@ -119,18 +119,18 @@ class Voting extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (accountId?: string) => {
+  private onChangeAccount = (accountId?: string): void => {
     this.setState({ accountId });
   }
 
-  private onChangeVote = (voteValue: boolean) => {
+  private onChangeVote = (voteValue: boolean): void => {
     this.setState({ voteValue });
   }
 
   private toggleVoting = (): void => {
-    this.setState(({ isVotingOpen }) => ({
+    this.setState(({ isVotingOpen }): State => ({
       isVotingOpen: !isVotingOpen
-    }));
+    }) as unknown as State);
   }
 }
 

@@ -39,7 +39,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
       : AddressBookApp.hideEditState();
 
     this.state = {
-      ...baseState,
+      ...(baseState as State),
       isCreateOpen: false,
       items: [
         {
@@ -51,29 +51,29 @@ class AddressBookApp extends React.PureComponent<Props, State> {
     };
   }
 
-  static showEditState () {
+  private static showEditState (): Partial<State> {
     return {
       hidden: []
     };
   }
 
-  static hideEditState () {
+  private static hideEditState (): Partial<State> {
     return {
       hidden: ['edit']
     };
   }
 
-  static getDerivedStateFromProps ({ allAddresses = {} }: Props, { hidden }: State) {
+  public static getDerivedStateFromProps ({ allAddresses = {} }: Props, { hidden }: State): State | null {
     const hasAddresses = Object.keys(allAddresses).length !== 0;
 
     if (hidden.length === 0) {
       return hasAddresses
         ? null
-        : AddressBookApp.hideEditState();
+        : AddressBookApp.hideEditState() as State;
     }
 
     return hasAddresses
-      ? AddressBookApp.showEditState()
+      ? AddressBookApp.showEditState() as State
       : null;
   }
 
@@ -98,8 +98,8 @@ class AddressBookApp extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
-    return () => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
+    return (): React.ReactNode => {
       const { basePath, location, onStatusChange } = this.props;
 
       return (

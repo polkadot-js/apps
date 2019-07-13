@@ -91,8 +91,8 @@ export default class HelpOverlay extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleVisible = () => {
-    this.setState(({ isVisible }) => ({
+  private toggleVisible = (): void => {
+    this.setState(({ isVisible }): State => ({
       isVisible: !isVisible
     }));
   }

@@ -67,13 +67,13 @@ class SideBar extends React.PureComponent<Props, State> {
 
     // setup modals for each of the actual modal routes
     this.state = {
-      modals: routing.routes.reduce((result, route) => {
+      modals: routing.routes.reduce((result, route): Record<string, boolean> => {
         if (route && route.Modal) {
           result[route.name] = false;
         }
 
         return result;
-      }, {} as { [index: string]: boolean })
+      }, {} as unknown as Record<string, boolean>)
     };
   }
 
@@ -124,7 +124,7 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderCollapse () {
+  private renderCollapse (): React.ReactNode {
     const { isCollapsed } = this.props;
 
     return (
@@ -142,7 +142,7 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderLogo () {
+  private renderLogo (): React.ReactNode {
     const { isCollapsed } = this.props;
     const logo = getLogo(isCollapsed);
 
@@ -155,11 +155,11 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { modals } = this.state;
-    const filtered = routing.routes.filter((route) => route && route.Modal) as Array<Route>;
+    const filtered = routing.routes.filter((route): any => route && route.Modal) as Route[];
 
-    return filtered.map(({ name, Modal }) => (
+    return filtered.map(({ name, Modal }): React.ReactNode => (
       Modal && modals[name]
         ? (
           <Modal
@@ -171,10 +171,10 @@ class SideBar extends React.PureComponent<Props, State> {
     ));
   }
 
-  private renderRoutes () {
+  private renderRoutes (): React.ReactNode {
     const { handleResize, isCollapsed } = this.props;
 
-    return routing.routes.map((route, index) => (
+    return routing.routes.map((route, index): React.ReactNode => (
       route
         ? (
           <Item
@@ -197,12 +197,13 @@ class SideBar extends React.PureComponent<Props, State> {
     ));
   }
 
-  private renderGithub () {
+  private renderGithub (): React.ReactNode {
     return (
       <Menu.Item className='apps--SideBar-Item'>
         <a
           className='apps--SideBar-Item-NavLink'
           href='https://github.com/polkadot-js/apps'
+          rel='noopener noreferrer'
           target='_blank'
         >
           <Icon name='github' /><span className='text'>GitHub</span>
@@ -211,12 +212,13 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderWiki () {
+  private renderWiki (): React.ReactNode {
     return (
       <Menu.Item className='apps--SideBar-Item'>
         <a
           className='apps--SideBar-Item-NavLink'
           href='https://wiki.polkadot.network'
+          rel='noopener noreferrer'
           target='_blank'
         >
           <Icon name='book' /><span className='text'>Wiki</span>
@@ -225,9 +227,9 @@ class SideBar extends React.PureComponent<Props, State> {
     );
   }
 
-  private closeModal = (name: string) => {
-    return () => {
-      this.setState(({ modals }) => ({
+  private closeModal = (name: string): () => void => {
+    return (): void => {
+      this.setState(({ modals }): State => ({
         modals: {
           ...modals,
           [name]: false
@@ -236,9 +238,9 @@ class SideBar extends React.PureComponent<Props, State> {
     };
   }
 
-  private openModal = (name: string) => {
-    return () => {
-      this.setState(({ modals }) => ({
+  private openModal = (name: string): () => void => {
+    return (): void => {
+      this.setState(({ modals }): State => ({
         modals: {
           ...modals,
           [name]: true

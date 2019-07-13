@@ -526,51 +526,51 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private toggleBondExtra = (): void => {
-    this.setState(({ isBondExtraOpen }) => ({
+    this.setState(({ isBondExtraOpen }): State => ({
       isBondExtraOpen: !isBondExtraOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleNominate = (): void => {
-    this.setState(({ isNominateOpen }) => ({
+    this.setState(({ isNominateOpen }): State => ({
       isNominateOpen: !isNominateOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleSetControllerAccount = (): void => {
-    this.setState(({ isSetControllerAccountOpen }) => ({
+    this.setState(({ isSetControllerAccountOpen }): State => ({
       isSetControllerAccountOpen: !isSetControllerAccountOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleSetRewardDestination = (): void => {
-    this.setState(({ isSetRewardDestinationOpen }) => ({
+    this.setState(({ isSetRewardDestinationOpen }): State => ({
       isSetRewardDestinationOpen: !isSetRewardDestinationOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleSetSessionAccount = (): void => {
-    this.setState(({ isSetSessionAccountOpen }) => ({
+    this.setState(({ isSetSessionAccountOpen }): State => ({
       isSetSessionAccountOpen: !isSetSessionAccountOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleSettingPopup = (): void => {
-    this.setState(({ isSettingPopupOpen }) => ({
+    this.setState(({ isSettingPopupOpen }): State => ({
       isSettingPopupOpen: !isSettingPopupOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleUnbond = (): void => {
-    this.setState(({ isUnbondOpen }) => ({
+    this.setState(({ isUnbondOpen }): State => ({
       isUnbondOpen: !isUnbondOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleValidate = (): void => {
-    this.setState(({ isValidateOpen }) => ({
+    this.setState(({ isValidateOpen }): State => ({
       isValidateOpen: !isValidateOpen
-    }));
+    }) as unknown as State);
   }
 }
 

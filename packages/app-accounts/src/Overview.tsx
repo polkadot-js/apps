@@ -29,7 +29,7 @@ class Overview extends React.PureComponent<Props, State> {
   public constructor (props: Props) {
     super(props);
 
-    const { state : { isCreateOpen = false } = {} } = this.props.location;
+    const { state: { isCreateOpen = false } = {} } = this.props.location;
 
     this.state = {
       isCreateOpen,
@@ -64,7 +64,7 @@ class Overview extends React.PureComponent<Props, State> {
       >
         {this.renderCreate()}
         {this.renderImport()}
-        {accounts && Object.keys(accounts).map((address) => (
+        {accounts && Object.keys(accounts).map((address): React.ReactNode => (
           <Account
             address={address}
             key={address}
@@ -74,7 +74,7 @@ class Overview extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderCreate () {
+  private renderCreate (): React.ReactNode {
     const { isCreateOpen } = this.state;
     const { onStatusChange } = this.props;
 
@@ -90,7 +90,7 @@ class Overview extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderImport () {
+  private renderImport (): React.ReactNode {
     const { isImportOpen } = this.state;
     const { onStatusChange } = this.props;
 
@@ -107,15 +107,15 @@ class Overview extends React.PureComponent<Props, State> {
   }
 
   private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }) => ({
+    this.setState(({ isCreateOpen }): State => ({
       isCreateOpen: !isCreateOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleImport = (): void => {
-    this.setState(({ isImportOpen }) => ({
+    this.setState(({ isImportOpen }): State => ({
       isImportOpen: !isImportOpen
-    }));
+    }) as unknown as State);
   }
 }
 

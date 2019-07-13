@@ -36,7 +36,7 @@ interface State {
 }
 
 class Call extends TxComponent<Props, State> {
-  defaultState: State = {
+  public defaultState: State = {
     address: null,
     accountId: null,
     endowment: new BN(0),
@@ -49,22 +49,23 @@ class Call extends TxComponent<Props, State> {
 
   public state: State = this.defaultState;
 
-  static getDerivedStateFromProps ({ address: propsAddress, method: propsMethod, isOpen }: Props, { address, method }: State) {
+  public static getDerivedStateFromProps ({ address: propsAddress, method: propsMethod, isOpen }: Props, { address, method }: State): State | null {
     if (!isOpen) {
       return {
         address: null,
         method: null,
         contractAbi: null,
-        isValidAddress: false
-      };
+        isAddressValid: false
+      } as unknown as State;
     }
+
     return {
       ...(
         !address
           ? {
             address: propsAddress,
             contractAbi: propsAddress ? getContractAbi(propsAddress) : null,
-            isValidAddress: !!propsAddress
+            isAddressValid: !!propsAddress
           }
           : {}
       ),
@@ -73,7 +74,7 @@ class Call extends TxComponent<Props, State> {
           ? { method: propsMethod }
           : {}
       )
-    };
+    } as unknown as State;
   }
 
   public render (): React.ReactNode {
@@ -99,7 +100,7 @@ class Call extends TxComponent<Props, State> {
     );
   }
 
-  renderContent = () => {
+  public renderContent (): React.ReactNode {
     const { t } = this.props;
     const { gasLimit } = this.state;
 
@@ -177,7 +178,7 @@ class Call extends TxComponent<Props, State> {
     );
   }
 
-  private renderButtons = () => {
+  private renderButtons (): React.ReactNode {
     const { api, t } = this.props;
     const { accountId, gasLimit, isAddressValid } = this.state;
     const isEndowValid = true; // !endowment.isZero();
@@ -239,7 +240,7 @@ class Call extends TxComponent<Props, State> {
       endowment, gasLimit, params
     } = this.state;
 
-    const [ address, contractAbi, method ] = this.getCallProps();
+    const [address, contractAbi, method] = this.getCallProps();
 
     if (!contractAbi || !method) {
       return [];
@@ -275,24 +276,25 @@ class Call extends TxComponent<Props, State> {
   }
 
   private toggleBusy = (): void => {
-    this.setState(({ isBusy }) => ({
+    this.setState(({ isBusy }): State => ({
       isBusy: !isBusy
-    }));
+    }) as unknown as State);
   }
 
-  private reset = () => {
-    this.setState((state: State) => {
+  private reset = (): void => {
+    this.setState((state: State): State => {
       if (!state.isBusy) {
         return {
           ...state,
           ...this.defaultState
         };
       }
-      return {} as State;
+
+      return {} as unknown as State;
     });
   }
 
-  private onClose = () => {
+  private onClose = (): void => {
     const { onClose } = this.props;
 
     this.reset();

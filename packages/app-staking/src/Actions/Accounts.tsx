@@ -111,7 +111,7 @@ class Accounts extends React.PureComponent<Props,State> {
   }
 
   private toggleNewStake = (): void => {
-    this.setState(({ isNewStakeOpen }) => ({
+    this.setState(({ isNewStakeOpen }): State => ({
       isNewStakeOpen: !isNewStakeOpen
     }));
   }
@@ -127,7 +127,7 @@ export default withMulti(
   withCalls<Props>(
     ['query.staking.bonded', {
       isMulti: true,
-      paramPick: ({ allAccounts }: Props) => {
+      paramPick: ({ allAccounts }: Props): undefined | string[] => {
         return allAccounts && Object.keys(allAccounts);
       },
       propName: 'myControllers'

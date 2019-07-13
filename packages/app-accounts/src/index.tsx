@@ -39,7 +39,7 @@ class AccountsApp extends React.PureComponent<Props, State> {
       : AccountsApp.hideTabsState();
 
     this.state = {
-      ...baseState,
+      ...(baseState as State),
       tabs: [
         {
           isRoot: true,
@@ -54,14 +54,13 @@ class AccountsApp extends React.PureComponent<Props, State> {
     };
   }
 
-  static showTabsState () {
-
+  private static showTabsState (): Partial<State> {
     return {
-      hidden: []
+      hidden: [] as string[]
     };
   }
 
-  static hideTabsState () {
+  private static hideTabsState (): Partial<State> {
     // Hide vanity as well - since the route order and matching changes, the
     // /create/:seed route become problematic, so don't allow that option
     return {
@@ -69,17 +68,17 @@ class AccountsApp extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ allAccounts = {} }: Props, { hidden }: State) {
+  public static getDerivedStateFromProps ({ allAccounts = {} }: Props, { hidden }: State): State | null {
     const hasAddresses = Object.keys(allAccounts).length !== 0;
 
     if (hidden.length === 0) {
       return hasAddresses
         ? null
-        : AccountsApp.hideTabsState();
+        : AccountsApp.hideTabsState() as State;
     }
 
     return hasAddresses
-      ? AccountsApp.showTabsState()
+      ? AccountsApp.showTabsState() as State
       : null;
   }
 
@@ -105,8 +104,8 @@ class AccountsApp extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
-    return ({ match }: LocationProps) => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): (props: LocationProps) => React.ReactNode {
+    return ({ match }: LocationProps): React.ReactNode => {
       const { basePath, location, onStatusChange } = this.props;
 
       return (

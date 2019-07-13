@@ -53,7 +53,7 @@ class Overview extends React.PureComponent<Props, State> {
             onStatusChange={onStatusChange}
           />
         )}
-        {addresses && Object.keys(addresses).map((address) => (
+        {addresses && Object.keys(addresses).map((address): React.ReactNode => (
           <Address
             address={address}
             key={address}
@@ -64,7 +64,7 @@ class Overview extends React.PureComponent<Props, State> {
   }
 
   private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }) => ({
+    this.setState(({ isCreateOpen }): State => ({
       isCreateOpen: !isCreateOpen
     }));
   }
