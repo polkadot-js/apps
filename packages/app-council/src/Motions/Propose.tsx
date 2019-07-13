@@ -137,7 +137,7 @@ export default withMulti(
       'query.council.activeCouncil',
       {
         propName: 'memberCount',
-        transform: (value: Array<any>) => value.length
+        transform: (value: any[]) => value.length
       }
     ]
   )

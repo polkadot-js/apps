@@ -31,8 +31,8 @@ import ActionButtons from './ActionButtons';
 interface Injected {
   api: ApiPromise;
   console: {
-    error: (...args: Array<any>) => void;
-    log: (...args: Array<any>) => void;
+    error: (...args: any[]) => void;
+    log: (...args: any[]) => void;
   };
   global: null;
   hashing: typeof hashing;
@@ -286,7 +286,7 @@ class Playground extends React.PureComponent<Props, State> {
   }
 
   private hookConsole = (type: LogType) => {
-    return (...args: Array<any>): void => {
+    return (...args: any[]): void => {
       this.setState(({ logs }: State) => {
         logs.push({ args, type });
 

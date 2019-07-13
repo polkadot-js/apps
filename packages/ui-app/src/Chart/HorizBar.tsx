@@ -33,7 +33,7 @@ const alphaColor = (hexColor: string): string =>
 export default class ChartHorizBar extends React.PureComponent<Props, State> {
   public state: State = {};
 
-  static getDerivedStateFromProps ({ aspectRatio = 4, values }: Props, prevState: State) {
+  public static getDerivedStateFromProps ({ aspectRatio = 4, values }: Props, prevState: State): State | null {
     const valuesStr = JSON.stringify(values);
 
     if (valuesStr === prevState.valuesStr) {
@@ -52,7 +52,7 @@ export default class ChartHorizBar extends React.PureComponent<Props, State> {
     }, {
       labels: [] as string[],
       datasets: [{
-        data: [] as Array<number>,
+        data: [] as number[],
         backgroundColor: [] as string[],
         hoverBackgroundColor: [] as string[]
       }]

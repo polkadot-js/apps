@@ -17,7 +17,7 @@ type Props = BaseProps;
 type State = {
   def: TypeDef | null,
   options: Array<{ text: string, value: string }>,
-  sub: Array<TypeDef>,
+  sub: TypeDef[],
   type: string | null
 };
 
@@ -34,7 +34,7 @@ export default class EnumParam extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const sub = getTypeDef(createType(type).toRawType()).sub as Array<TypeDef>;
+    const sub = getTypeDef(createType(type).toRawType()).sub as TypeDef[];
     const options = sub.map(({ name }) => ({
       text: name,
       value: name

@@ -17,7 +17,7 @@ import Button from './Button';
 import { Button$Sizes } from './Button/types';
 import { QueueConsumer } from './Status/Context';
 
-type ConstructFn = () => Array<any>;
+type ConstructFn = () => any[];
 
 type InjectedProps = {
   queueExtrinsic: QueueTxExtrinsicAdd;
@@ -42,7 +42,7 @@ type Props = ApiProps & {
   onStart?: () => void,
   onSuccess?: TxCallback,
   onUpdate?: TxCallback,
-  params?: Array<any> | ConstructFn,
+  params?: any[] | ConstructFn,
   tooltip?: string,
   tx?: string,
   withSpinner?: boolean

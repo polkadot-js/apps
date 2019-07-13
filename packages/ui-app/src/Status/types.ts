@@ -43,7 +43,7 @@ export type QueueTx = AccountInfo & {
   txSuccessCb?: TxCallback,
   txStartCb?: () => void,
   txUpdateCb?: TxCallback,
-  values?: Array<any>,
+  values?: any[],
   status: QueueTxStatus
 };
 
@@ -65,7 +65,7 @@ export type QueueTxExtrinsic = AccountInfo & {
 
 export type QueueTxRpc = AccountInfo & {
   rpc: RpcMethod,
-  values: Array<any>
+  values: any[]
 };
 
 export type PartialAccountInfo = {
@@ -85,7 +85,7 @@ export type PartialQueueTxExtrinsic = PartialAccountInfo & {
 
 export type PartialQueueTxRpc = PartialAccountInfo & {
   rpc: RpcMethod,
-  values: Array<any>
+  values: any[]
 };
 
 export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => number;

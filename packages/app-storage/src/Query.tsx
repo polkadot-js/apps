@@ -43,7 +43,7 @@ class Query extends React.PureComponent<Props, State> {
     const { id, key, params = [] } = query as StorageModuleQuery;
 
     if (!cache[id]) {
-      const values: Array<any> = params.map(({ value }) => value);
+      const values: any[] = params.map(({ value }) => value);
       const type = key.creator.meta
         ? key.creator.meta.type.toString()
         : 'Data';

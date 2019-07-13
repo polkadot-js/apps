@@ -14,7 +14,7 @@ import Static from './Static';
 type Props = BaseProps;
 
 type State = {
-  defs: Array<TypeDef>,
+  defs: TypeDef[],
   type: string | null
 };
 
@@ -29,7 +29,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const defs = getTypeDef(createType(type).toRawType()).sub as Array<TypeDef>;
+    const defs = getTypeDef(createType(type).toRawType()).sub as TypeDef[];
 
     return {
       defs,

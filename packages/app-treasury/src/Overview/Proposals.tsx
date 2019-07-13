@@ -31,11 +31,11 @@ class ProposalsBase extends React.PureComponent<Props> {
   public state: State = {
     isEmpty: true,
     isProposeOpen: false,
-    proposalIndices: [] as Array<BN>
+    proposalIndices: [] as BN[]
   };
 
-  static getDerivedStateFromProps ({ isApprovals = false, treasury_approvals = [] as Array<BN>, treasury_proposalCount = new BN(0) }: Props) {
-    let proposalIndices: Array<BN> = [];
+  static getDerivedStateFromProps ({ isApprovals = false, treasury_approvals = [] as BN[], treasury_proposalCount = new BN(0) }: Props) {
+    let proposalIndices: BN[] = [];
 
     if (isApprovals) {
       proposalIndices = treasury_approvals;

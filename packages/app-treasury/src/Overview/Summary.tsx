@@ -20,7 +20,7 @@ interface Props extends I18nProps {
 
 class Summary extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { treasury_proposalCount = new BN(0), treasury_approvals = [] as Array<BN>, treasury_pot = new BN(0), t } = this.props;
+    const { treasury_proposalCount = new BN(0), treasury_approvals = [] as BN[], treasury_pot = new BN(0), t } = this.props;
     const value = treasury_pot
       ? treasury_pot.toString()
       : null;

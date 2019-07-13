@@ -32,7 +32,7 @@ interface State {
   isAddressValid: boolean;
   isBusy: boolean;
   method: string | null;
-  params: Array<any>;
+  params: any[];
 }
 
 class Call extends TxComponent<Props, State> {
@@ -234,7 +234,7 @@ class Call extends TxComponent<Props, State> {
     ];
   }
 
-  private constructCall = (): Array<any> => {
+  private constructCall = (): any[] => {
     const {
       endowment, gasLimit, params
     } = this.state;
@@ -270,7 +270,7 @@ class Call extends TxComponent<Props, State> {
     this.setState({ method, params: [] });
   }
 
-  private onChangeParams = (params: Array<any>): void => {
+  private onChangeParams = (params: any[]): void => {
     this.setState({ params });
   }
 

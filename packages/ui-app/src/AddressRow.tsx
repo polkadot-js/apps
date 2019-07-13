@@ -20,7 +20,7 @@ import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
 export type Props = I18nProps & RowProps & {
-  bonded?: BN | Array<BN>;
+  bonded?: BN | BN[];
   isContract?: boolean;
   isValid?: boolean;
   label?: string;

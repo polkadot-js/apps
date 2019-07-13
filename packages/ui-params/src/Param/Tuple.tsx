@@ -14,7 +14,7 @@ import findComponent from './findComponent';
 type State = {
   Components: Array<React.ComponentType<Props>>,
   sub: string[],
-  subTypes: Array<TypeDef>,
+  subTypes: TypeDef[],
   type?: string,
   values: Array<RawParam>
 };
@@ -35,7 +35,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
     const subTypes = sub && Array.isArray(sub)
       ? sub
       : [];
-    const values = (value as Array<any>).map((value) =>
+    const values = (value as any[]).map((value) =>
       isUndefined(value) || isUndefined(value.isValid)
         ? {
           isValid: !isUndefined(value),

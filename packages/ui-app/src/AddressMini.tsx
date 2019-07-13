@@ -16,8 +16,8 @@ import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 
 type Props = BareProps & {
-  balance?: BN | Array<BN>,
-  bonded?: BN | Array<BN>,
+  balance?: BN | BN[],
+  bonded?: BN | BN[],
   children?: React.ReactNode,
   iconInfo?: React.ReactNode,
   isPadded?: boolean,

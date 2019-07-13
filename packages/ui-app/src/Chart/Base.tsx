@@ -9,9 +9,9 @@ import styled from 'styled-components';
 
 import { classes } from '../util';
 
-type Props = BareProps & {
-  children: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 const Wrapper = styled.div`
   position: relative;
