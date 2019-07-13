@@ -12,14 +12,19 @@ import Params from '../';
 import Bare from './Bare';
 import Static from './Static';
 
+interface Option {
+  text?: string;
+  value?: string;
+}
+
 type Props = BaseProps;
 
-type State = {
-  def: TypeDef | null,
-  options: Array<{ text: string, value: string }>,
-  sub: TypeDef[],
-  type: string | null
-};
+interface State {
+  def: TypeDef | null;
+  options: Option[];
+  sub: TypeDef[];
+  type: string | null;
+}
 
 export default class EnumParam extends React.PureComponent<Props, State> {
   public state: State = {
@@ -29,13 +34,13 @@ export default class EnumParam extends React.PureComponent<Props, State> {
     type: null
   };
 
-  static getDerivedStateFromProps ({ type: { type } }: Props, prevState: State) {
+  public static getDerivedStateFromProps ({ type: { type } }: Props, prevState: State): State | null {
     if (prevState.type === type) {
       return null;
     }
 
     const sub = getTypeDef(createType(type).toRawType()).sub as TypeDef[];
-    const options = sub.map(({ name }) => ({
+    const options = sub.map(({ name }): Option => ({
       text: name,
       value: name
     }));
@@ -46,7 +51,7 @@ export default class EnumParam extends React.PureComponent<Props, State> {
       options,
       sub,
       type
-    } as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -90,14 +95,12 @@ export default class EnumParam extends React.PureComponent<Props, State> {
   }
 
   private onChange = (value: string): void => {
-    const { sub } = this.state;
-
-    this.setState({
-      def: sub.find(({ name }) => name === value) || null
-    });
+    this.setState(({ sub }) => ({
+      def: sub.find(({ name }): boolean => name === value) || null
+    }));
   }
 
-  private onChangeParam = ([{ isValid, value }]: Array<RawParam>): void => {
+  private onChangeParam = ([{ isValid, value }]: RawParam[]): void => {
     const { onChange } = this.props;
     const { def } = this.state;
 
