@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-reactive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -10,10 +11,10 @@ import { withCalls } from '@polkadot/ui-api';
 import { formatNumber } from '@polkadot/util';
 
 type Props = BareProps & CallProps & {
-  children?: React.ReactNode,
-  label?: React.ReactNode,
-  timestamp_blockPeriod?: Moment | Option<Moment>, // support for previous
-  timestamp_minimumPeriod?: Moment // support for new version
+  children?: React.ReactNode;
+  label?: React.ReactNode;
+  timestamp_blockPeriod?: Moment | Option<Moment>; // support for previous
+  timestamp_minimumPeriod?: Moment; // support for new version
 };
 
 export class TimePeriod extends React.PureComponent<Props> {
