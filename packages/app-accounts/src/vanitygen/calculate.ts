@@ -4,7 +4,7 @@
 
 import { Generator$Calculation, Generator$Options } from './types';
 
-function calculateAt (atOffset: number, test: Array<string>, address: string): Generator$Calculation {
+function calculateAtOne (atOffset: number, test: string[], address: string): Generator$Calculation {
   return {
     count: test.reduce((count, c, index) => {
       if (index === count) {
@@ -17,7 +17,26 @@ function calculateAt (atOffset: number, test: Array<string>, address: string): G
   };
 }
 
-export default function calculate (test: Array<string>, _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
+function calculateAt (atOffset: number, test: string[][], address: string): Generator$Calculation {
+  let bestCount = 0;
+  let bestOffset = 1;
+
+  for (let i = 0; i < test.length; i++) {
+    const { count, offset } = calculateAtOne(atOffset, test[i], address);
+
+    if (count > bestCount) {
+      bestCount = count;
+      bestOffset = offset;
+    }
+  }
+
+  return {
+    count: bestCount,
+    offset: bestOffset
+  };
+}
+
+export default function calculate (test: string[][], _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
   const address = withCase
     ? _address
     : _address.toLowerCase();

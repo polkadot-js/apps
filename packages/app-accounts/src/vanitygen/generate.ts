@@ -8,7 +8,7 @@ import { encodeAddress, mnemonicGenerate, naclKeypairFromSeed, randomAsU8a, schn
 
 import calculate from './calculate';
 
-export default function generator (test: Array<string>, options: Generator$Options): Generator$Match {
+export default function generator (test: string[][], options: Generator$Options): Generator$Match {
   const mnemonic = options.withHex
     ? undefined
     : mnemonicGenerate(12);
