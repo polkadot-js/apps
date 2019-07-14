@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Option, Proposal, Votes } from '@polkadot/types';
+import { Option, Proposal as ProposalType, Votes } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -16,7 +16,7 @@ import translate from '../translate';
 type Props = I18nProps & {
   chain_bestNumber?: BN,
   hash: string,
-  proposal: Proposal | null,
+  proposal: ProposalType | null,
   votes: Votes | null
 };
 
@@ -26,7 +26,7 @@ type State = {
   votedAye: number
 };
 
-class Motion extends React.PureComponent<Props, State> {
+class Proposal extends React.PureComponent<Props, State> {
   state: State = {
     votedTotal: 0,
     votedAye: 0,
@@ -64,7 +64,7 @@ class Motion extends React.PureComponent<Props, State> {
         accessory={
           <Voting
             hash={hash}
-            isCouncil
+            isCollective
             idNumber={index}
             proposal={proposal}
           />
@@ -140,8 +140,8 @@ class Motion extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  styled(Motion as React.ComponentClass<Props>)`
-    .democracy--Motion-results {
+  styled(Proposal as React.ComponentClass<Props>)`
+    .democracy--Proposal-results {
       margin-bottom: 1em;
 
       &.chart {
@@ -152,15 +152,15 @@ export default withMulti(
   translate,
   withCalls<Props>(
     [
-      'query.councilMotions.proposalOf',
+      'query.collective.proposalOf',
       {
         paramName: 'hash',
         propName: 'proposal',
-        transform: (value: Option<Proposal>) => value.unwrapOr(null)
+        transform: (value: Option<ProposalType>) => value.unwrapOr(null)
       }
     ],
     [
-      'query.councilMotions.voting',
+      'query.collective.voting',
       {
         paramName: 'hash',
         propName: 'votes',
