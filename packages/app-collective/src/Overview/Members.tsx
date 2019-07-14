@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -14,13 +15,13 @@ import Candidate from './Candidate';
 import Member from './Member';
 
 interface Props extends I18nProps {
-  council_activeCouncil?: [string, BlockNumber][];
-  council_candidates?: string[];
+  elections_members?: [string, BlockNumber][];
+  elections_candidates?: string[];
 }
 
 class Members extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { council_activeCouncil = [], council_candidates = [], t } = this.props;
+    const { elections_members = [], elections_candidates = [], t } = this.props;
 
     return (
       <Columar>
@@ -28,7 +29,7 @@ class Members extends React.PureComponent<Props> {
           emptyText={t('No members found')}
           headerText={t('members')}
         >
-          {council_activeCouncil.map(([address, block]) => (
+          {elections_members.map(([address, block]): React.ReactNode => (
             <Member
               address={address}
               block={block}
@@ -40,7 +41,7 @@ class Members extends React.PureComponent<Props> {
           emptyText={t('No members found')}
           headerText={t('candidates')}
         >
-          {council_candidates.map((address) => (
+          {elections_candidates.map((address): React.ReactNode => (
             <Candidate
               address={address}
               key={address}
@@ -54,13 +55,15 @@ class Members extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    ['query.council.activeCouncil', {
-      transform: (active: Array<[AccountId, BlockNumber]>) =>
-        active.map(([accountId, blockNumber]) => [accountId.toString(), blockNumber])
+    ['query.elections.members', {
+      transform: (active: [AccountId, BlockNumber][]): [string, BlockNumber][] =>
+        active.map(([accountId, blockNumber]): [string, BlockNumber] =>
+          [accountId.toString(), blockNumber]
+        )
     }],
-    ['query.council.candidates', {
-      transform: (candidates: Array<AccountId>) =>
-        candidates.map((accountId) => accountId.toString())
+    ['query.elections.candidates', {
+      transform: (candidates: AccountId[]): string[] =>
+        candidates.map((accountId): string => accountId.toString())
     }]
   )(Members)
 );

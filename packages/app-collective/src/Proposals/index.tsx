@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -9,36 +10,36 @@ import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
 import { CardGrid } from '@polkadot/ui-app';
 
-import Motion from './Motion';
+import Proposal from './Proposal';
 import Propose from './Propose';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  councilMotions_proposals?: Hash[];
+  collective_proposals?: Hash[];
 }
 
-class Motions extends React.PureComponent<Props> {
+class Proposals extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { t } = this.props;
 
     return (
       <CardGrid
-        emptyText={t('No council motions')}
-        headerText={t('Motions')}
+        emptyText={t('No proposals')}
+        headerText={t('Proposals')}
         buttons={
           <Propose />
         }
       >
-        {this.renderMotions()}
+        {this.renderProposals()}
       </CardGrid>
     );
   }
 
-  private renderMotions () {
-    const { councilMotions_proposals = [] } = this.props;
+  private renderProposals (): React.ReactNode {
+    const { collective_proposals = [] } = this.props;
 
-    return councilMotions_proposals.map((hash) => (
-      <Motion
+    return collective_proposals.map((hash: Hash): React.ReactNode => (
+      <Proposal
         hash={hash.toHex()}
         key={hash.toHex()}
       />
@@ -48,6 +49,6 @@ class Motions extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    'query.councilMotions.proposals'
-  )(Motions)
+    'query.collective.proposals'
+  )(Proposals)
 );

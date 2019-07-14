@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Option, Proposal, Votes } from '@polkadot/types';
+import { Option, Proposal as ProposalType, Votes } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -16,7 +16,7 @@ import translate from '../translate';
 interface Props extends I18nProps {
   chain_bestNumber?: BN;
   hash: string;
-  proposal: Proposal | null;
+  proposal: ProposalType | null;
   votes: Votes | null;
 }
 
@@ -26,14 +26,14 @@ interface State {
   votedAye: number;
 }
 
-class Motion extends React.PureComponent<Props, State> {
+class Proposal extends React.PureComponent<Props, State> {
   public state: State = {
     votedTotal: 0,
     votedAye: 0,
     votedNay: 0
   };
 
-  static getDerivedStateFromProps ({ votes }: Props): State | null {
+  public static getDerivedStateFromProps ({ votes }: Props): State | null {
     if (!votes) {
       return null;
     }
@@ -64,7 +64,7 @@ class Motion extends React.PureComponent<Props, State> {
         accessory={
           <Voting
             hash={hash}
-            isCouncil
+            isCollective
             idNumber={index}
             proposal={proposal}
           />
@@ -78,7 +78,7 @@ class Motion extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInfo () {
+  private renderInfo (): React.ReactNode {
     const { votes, t } = this.props;
 
     if (!votes) {
@@ -100,7 +100,7 @@ class Motion extends React.PureComponent<Props, State> {
             }
           )}
         </h4>
-        {ayes.map((address, index) => (
+        {ayes.map((address, index): React.ReactNode => (
           <Labelled
             key={`${index}:${address}`}
             label={t('Aye')}
@@ -122,7 +122,7 @@ class Motion extends React.PureComponent<Props, State> {
             }
           )}
         </h4>
-        {nays.map((address, index) => (
+        {nays.map((address, index): React.ReactNode => (
           <Labelled
             key={`${index}:${address}`}
             label={t('Nay')}
@@ -140,8 +140,8 @@ class Motion extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  styled(Motion as React.ComponentClass<Props>)`
-    .democracy--Motion-results {
+  styled(Proposal as React.ComponentClass<Props>)`
+    .democracy--Proposal-results {
       margin-bottom: 1em;
 
       &.chart {
@@ -152,19 +152,21 @@ export default withMulti(
   translate,
   withCalls<Props>(
     [
-      'query.councilMotions.proposalOf',
+      'query.collective.proposalOf',
       {
         paramName: 'hash',
         propName: 'proposal',
-        transform: (value: Option<Proposal>) => value.unwrapOr(null)
+        transform: (value: Option<ProposalType>): ProposalType | null =>
+          value.unwrapOr(null)
       }
     ],
     [
-      'query.councilMotions.voting',
+      'query.collective.voting',
       {
         paramName: 'hash',
         propName: 'votes',
-        transform: (value: Option<Votes>) => value.unwrapOr(null)
+        transform: (value: Option<Votes>): Votes | null =>
+          value.unwrapOr(null)
       }
     ]
   )

@@ -4,20 +4,20 @@
 
 import { Routes } from './types';
 
-import Council from '@polkadot/app-council';
+import Collective from '@polkadot/app-collective';
 
 export default ([
   {
-    Component: Council,
+    Component: Collective,
     display: {
       needsApi: [
-        'query.council.candidates'
+        'query.elections.candidates'
       ]
     },
     i18n: {
-      defaultValue: 'Council'
+      defaultValue: 'Collective'
     },
     icon: 'building',
-    name: 'council'
+    name: 'collective'
   }
 ] as Routes);

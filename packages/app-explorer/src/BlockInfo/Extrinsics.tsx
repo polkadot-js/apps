@@ -71,7 +71,7 @@ class Extrinsics extends React.PureComponent<Props> {
                   `mortal${blockNumber ? ' - ends at #{{blockNumber}}' : ''}`,
                   {
                     replace: {
-                      blockNumber: (eraEnd && blockNumber) ? eraEnd.toString() : ''
+                      blockNumber: (eraEnd && blockNumber) ? formatNumber(eraEnd) : ''
                     }
                   }
                 )

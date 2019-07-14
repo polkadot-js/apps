@@ -10,7 +10,7 @@ import template from './123code';
 import accounts from './accounts';
 import addressbook from './addressbook';
 import contracts from './contracts';
-import council from './council';
+import collective from './collective';
 import dashboard from './dashboard';
 import democracy from './democracy';
 import explorer from './explorer';
@@ -35,7 +35,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     null,
     staking,
     democracy,
-    council,
+    collective,
     // TODO Not sure about the inclusion of treasury & parachains here
     null,
     settings,
@@ -50,7 +50,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     null,
     staking,
     democracy,
-    council,
+    collective,
     treasury,
     parachains,
     null,
