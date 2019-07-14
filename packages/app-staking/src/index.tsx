@@ -117,7 +117,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>): React.ReactNode {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
     return (): React.ReactNode => {
       const { allControllers, recentlyOffline, allStashes, currentValidatorsControllersV1OrStashesV2 } = this.state;
       const { allAccounts } = this.props;
