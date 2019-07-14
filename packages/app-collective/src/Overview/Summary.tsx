@@ -14,36 +14,36 @@ import { formatNumber } from '@polkadot/util';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  council_activeCouncil?: Array<[AccountId, BlockNumber]>
-  council_candidateCount?: BN,
-  council_desiredSeats?: BN,
-  council_termDuration?: BN,
-  council_voteCount?: BN
+  elections_members?: Array<[AccountId, BlockNumber]>
+  elections_candidateCount?: BN,
+  elections_desiredSeats?: BN,
+  elections_termDuration?: BN,
+  elections_voteCount?: BN
 };
 
 class Summary extends React.PureComponent<Props> {
   render () {
-    const { council_activeCouncil = [], council_candidateCount = new BN(0), council_desiredSeats = new BN(1), council_termDuration = new BN(0), council_voteCount = new BN(0), t } = this.props;
+    const { elections_members = [], elections_candidateCount = new BN(0), elections_desiredSeats = new BN(1), elections_termDuration = new BN(0), elections_voteCount = new BN(0), t } = this.props;
 
     return (
       <SummaryBox>
         <section>
           <CardSummary label={t('seats')}>
-            {formatNumber(council_activeCouncil.length)}/{formatNumber(council_desiredSeats)}
+            {formatNumber(elections_members.length)}/{formatNumber(elections_desiredSeats)}
           </CardSummary>
           <CardSummary label={t('candidates')}>
-            {formatNumber(council_candidateCount)}
+            {formatNumber(elections_candidateCount)}
           </CardSummary>
         </section>
         <section>
           <CardSummary label={t('total votes')}>
-            {formatNumber(council_voteCount)}
+            {formatNumber(elections_voteCount)}
           </CardSummary>
         </section>
 
         <section>
           <CardSummary label={t('term duration')}>
-              {formatNumber(council_termDuration)}
+              {formatNumber(elections_termDuration)}
            </CardSummary>
         </section>
       </SummaryBox>
@@ -53,10 +53,10 @@ class Summary extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    'query.council.activeCouncil',
-    'query.council.candidateCount',
-    'query.council.desiredSeats',
-    'query.council.termDuration',
-    'query.council.voteCount'
+    'query.elections.members',
+    'query.elections.candidateCount',
+    'query.elections.desiredSeats',
+    'query.elections.termDuration',
+    'query.elections.voteCount'
   )(Summary)
 );

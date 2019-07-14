@@ -43,9 +43,9 @@ class Propose extends TxModal<Props, State> {
     return null;
   }
 
-  headerText = () => this.props.t('Propose a council motion');
+  headerText = () => this.props.t('Make a collective proposal');
 
-  txMethod = () => 'councilMotions.propose';
+  txMethod = () => 'collective.propose';
   txParams = () => {
     const { method, threshold } = this.state;
 
@@ -72,7 +72,7 @@ class Propose extends TxModal<Props, State> {
       <Button.Group>
         <Button
           isPrimary
-          label={t('Propose a council motion')}
+          label={t('Make a collective proposal')}
           labelIcon='add'
           onClick={this.showModal}
         />
@@ -89,7 +89,7 @@ class Propose extends TxModal<Props, State> {
         <InputNumber
           className='medium'
           label={t('threshold')}
-          help={t('The minimum number of council votes required to approve this motion')}
+          help={t('The minimum number of collective votes required to approve this proposal')}
           isError={!threshold || threshold.eqn(0) || threshold.gtn(memberCount)}
           onChange={this.onChangeThreshold}
           onEnter={this.sendTx}
@@ -134,7 +134,7 @@ export default withMulti(
   withApi,
   withCalls(
     [
-      'query.council.activeCouncil',
+      'query.elections.members',
       {
         propName: 'memberCount',
         transform: (value: Array<any>) => value.length

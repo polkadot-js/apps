@@ -9,36 +9,36 @@ import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
 import { CardGrid } from '@polkadot/ui-app';
 
-import Motion from './Motion';
+import Proposal from './Proposal';
 import Propose from './Propose';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  councilMotions_proposals?: Array<Hash>
+  collective_proposals?: Array<Hash>
 };
 
-class Motions extends React.PureComponent<Props> {
+class Proposals extends React.PureComponent<Props> {
   render () {
     const { t } = this.props;
 
     return (
       <CardGrid
-        emptyText={t('No council motions')}
-        headerText={t('Motions')}
+        emptyText={t('No proposals')}
+        headerText={t('Proposals')}
         buttons={
           <Propose />
         }
       >
-        {this.renderMotions()}
+        {this.renderProposals()}
       </CardGrid>
     );
   }
 
-  private renderMotions () {
-    const { councilMotions_proposals = [] } = this.props;
+  private renderProposals () {
+    const { collective_proposals = [] } = this.props;
 
-    return councilMotions_proposals.map((hash) => (
-      <Motion
+    return collective_proposals.map((hash) => (
+      <Proposal
         hash={hash.toHex()}
         key={hash.toHex()}
       />
@@ -48,6 +48,6 @@ class Motions extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    'query.councilMotions.proposals'
-  )(Motions)
+    'query.collective.proposals'
+  )(Proposals)
 );
