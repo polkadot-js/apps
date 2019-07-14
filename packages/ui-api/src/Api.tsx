@@ -59,10 +59,11 @@ export default class Api extends React.PureComponent<Props, State> {
     api = new ApiPromise({ provider, signer });
 
     this.state = {
+      api,
       isApiConnected: false,
       isApiReady: false,
+      isSubstrateV2: true,
       isWaitingInjected: isWeb3Injected,
-      api,
       setApiUrl
     } as State;
   }
@@ -138,18 +139,20 @@ export default class Api extends React.PureComponent<Props, State> {
       (api.tx.system && api.tx.system.setCode) || // 2.x
       (api.tx.consensus && api.tx.consensus.setCode) || // 1.x
       apiDefaultTx; // other
+    const isSubstrateV2 = !!Object.keys(api.consts).length;
 
     this.setState({
-      isApiReady: true,
       apiDefaultTx,
       apiDefaultTxSudo,
       chain,
-      isDevelopment
+      isApiReady: true,
+      isDevelopment,
+      isSubstrateV2
     });
   }
 
   render () {
-    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isWaitingInjected, setApiUrl } = this.state;
+    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
@@ -161,6 +164,7 @@ export default class Api extends React.PureComponent<Props, State> {
           isApiConnected,
           isApiReady: isApiReady && !!chain,
           isDevelopment,
+          isSubstrateV2,
           isWaitingInjected,
           setApiUrl
         }}

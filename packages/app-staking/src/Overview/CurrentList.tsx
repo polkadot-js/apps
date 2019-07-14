@@ -14,16 +14,16 @@ import Address from './Address';
 
 type Props = I18nProps & {
   balances?: DerivedBalancesMap,
-  current: Array<string>,
+  currentValidatorsControllersV1OrStashesV2: string[],
   lastAuthor?: string,
   lastBlock: string,
-  next: Array<string>,
+  next: string[],
   recentlyOffline: RecentlyOfflineMap
 };
 
 type State = {
   filter: ValidatorFilter,
-  filterOptions: Array<{ text: React.ReactNode, value: ValidatorFilter }>
+  filterOptions: { text: React.ReactNode, value: ValidatorFilter }[]
 };
 
 class CurrentList extends React.PureComponent<Props, State> {
@@ -48,7 +48,7 @@ class CurrentList extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { current, next, t } = this.props;
+    const { currentValidatorsControllersV1OrStashesV2, next, t } = this.props;
     const { filter, filterOptions } = this.state;
     return (
       <div>
@@ -65,7 +65,7 @@ class CurrentList extends React.PureComponent<Props, State> {
             emptyText={t('No addresses found')}
             headerText={t('validators')}
           >
-            {this.renderColumn(current, t('validator (stash)'))}
+            {this.renderColumn(currentValidatorsControllersV1OrStashesV2, t('validator (stash)'))}
           </Column>
           <Column
             emptyText={t('No addresses found')}
@@ -78,7 +78,7 @@ class CurrentList extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderColumn (addresses: Array<string>, defaultName: string) {
+  private renderColumn (addresses: string[], defaultName: string) {
     const { balances, lastAuthor, lastBlock, recentlyOffline } = this.props;
     const { filter } = this.state;
 

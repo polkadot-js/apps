@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIFn$Arg } from '@polkadot/api-contract/types';
+import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { RawParams } from '@polkadot/ui-params/types';
 
 import React from 'react';
 import UIParams from '@polkadot/ui-params';
 import { getTypeDef, TypeDef } from '@polkadot/types';
 
-type Props = {
-  isDisabled?: boolean,
-  params?: Array<ContractABIFn$Arg>,
-  onChange: (values: Array<any>) => void,
-  onEnter?: () => void
-};
+interface Props {
+  isDisabled?: boolean;
+  params?: ContractABIFnArg[];
+  onChange: (values: Array<any>) => void;
+  onEnter?: () => void;
+}
 
-type State = {
-  params: Array<{ name: string, type: TypeDef }>
-};
+interface State {
+  params: { name: string; type: TypeDef }[];
+}
 
 export default class Params extends React.PureComponent<Props, State> {
   state: State = { params: [] };

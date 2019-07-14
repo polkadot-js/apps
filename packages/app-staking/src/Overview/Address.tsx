@@ -17,7 +17,7 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 
 type Props = I18nProps & {
-  address: string,
+  address: string, // controller (v1) or stash (v2)
   balances: DerivedBalancesMap,
   className?: string,
   defaultName: string,
@@ -29,7 +29,7 @@ type Props = I18nProps & {
 };
 
 type State = {
-  controllerId: string,
+  controllerId: string | null,
   stashActive: string | null,
   stashTotal: string | null,
   sessionId: string | null,
@@ -45,7 +45,7 @@ class Address extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      controllerId: props.address,
+      controllerId: null,
       sessionId: null,
       stashActive: null,
       stashId: null,
@@ -96,7 +96,7 @@ class Address extends React.PureComponent<Props, State> {
         className={className}
         defaultName={defaultName}
         iconInfo={this.renderOffline()}
-        key={stashId || controllerId}
+        key={stashId || controllerId || undefined}
         value={stashId}
         withBalance={{ bonded }}
       >
