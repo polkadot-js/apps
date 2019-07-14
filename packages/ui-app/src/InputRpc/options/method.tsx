@@ -9,7 +9,7 @@ import React from 'react';
 import map from '@polkadot/jsonrpc';
 
 export default function createOptions (sectionName: string): DropdownOptions {
-  const section = map[sectionName as keyof typeof map];
+  const section = map[sectionName];
 
   if (!section) {
     return [];
