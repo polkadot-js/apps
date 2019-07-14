@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance } from '@polkadot/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ComponentProps } from '../types';
 
@@ -13,22 +12,29 @@ import { formatNumber } from '@polkadot/util';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
+import { withApi } from '@polkadot/ui-api';
+import { ApiProps } from '@polkadot/ui-api/types';
 
-type Props = BareProps & ComponentProps & {
+type Props = ApiProps & BareProps & ComponentProps & {
   chain_subscribeNewHead?: HeaderExtended
 };
 
-const ZERO = new Balance(0);
-
 class Overview extends React.PureComponent<Props> {
   render () {
-    const { balances, chain_subscribeNewHead, controllers, recentlyOffline, validators } = this.props;
-    const nextSorted = this.sortByBalance(
-      controllers.filter((address) =>
-        !validators.includes(address)
-      )
-    );
-    const validatorsSorted = this.sortByBalance(validators);
+    const { chain_subscribeNewHead, allControllers, allStashes, recentlyOffline, currentValidatorsControllersV1OrStashesV2, isSubstrateV2 } = this.props;
+    let nextSorted: string[];
+
+    if (isSubstrateV2) {
+      // this is a V2 node currentValidatorsControllersV1OrStashesV2 is a list of stashes
+      nextSorted = allStashes.filter((address) =>
+        !currentValidatorsControllersV1OrStashesV2.includes(address)
+      );
+    } else {
+      // this is a V1 node currentValidatorsControllersV1OrStashesV2 is a list of controllers
+      nextSorted = allControllers.filter((address) =>
+        !currentValidatorsControllersV1OrStashesV2.includes(address)
+      );
+    }
 
     let lastBlock: string = '—';
     let lastAuthor: string | undefined;
@@ -41,15 +47,13 @@ class Overview extends React.PureComponent<Props> {
     return (
       <div className='staking--Overview'>
         <Summary
-          balances={balances}
-          controllers={controllers}
+          allControllers={allControllers}
+          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
-          validators={validators}
         />
         <CurrentList
-          balances={balances}
-          current={validatorsSorted}
+          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
           next={nextSorted}
@@ -58,25 +62,11 @@ class Overview extends React.PureComponent<Props> {
       </div>
     );
   }
-
-  private sortByBalance (list: Array<string>): Array<string> {
-    const { balances } = this.props;
-
-    if (!balances) {
-      return [];
-    }
-
-    return list.sort((a, b) => {
-      const balanceA = balances[a] || { freeBalance: ZERO };
-      const balanceB = balances[b] || { freeBalance: ZERO };
-
-      return balanceB.freeBalance.cmp(balanceA.freeBalance);
-    });
-  }
 }
 
 export default withMulti(
   Overview,
+  withApi,
   withCalls<Props>(
     'derive.chain.subscribeNewHead'
   )
