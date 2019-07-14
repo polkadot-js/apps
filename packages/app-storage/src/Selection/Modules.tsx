@@ -19,18 +19,18 @@ import translate from '../translate';
 
 type Props = ComponentProps & ApiProps & I18nProps;
 
-type State = {
-  isValid: boolean,
-  key: StorageEntryPromise,
-  values: RawParams,
-  params: Array<{ type: TypeDef }>
-};
+interface State {
+  isValid: boolean;
+  key: StorageEntryPromise;
+  values: RawParams;
+  params: { type: TypeDef }[];
+}
 
 class Modules extends TxComponent<Props, State> {
   private defaultValue: any;
   public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { api } = this.props;
@@ -44,7 +44,7 @@ class Modules extends TxComponent<Props, State> {
     };
   }
 
-  public render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, key: { creator: { method, section, meta } }, params } = this.state;
 

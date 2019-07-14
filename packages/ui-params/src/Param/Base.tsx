@@ -19,7 +19,7 @@ type Props = BareProps & {
 };
 
 export default class Base extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, isDisabled, label, size = 'medium', style, withLabel } = this.props;
 
     return (

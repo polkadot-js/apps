@@ -19,15 +19,15 @@ import contracts from '../store';
 import translate from '../translate';
 
 type Props = I18nProps & RouteComponentProps & {
-  basePath: string,
-  code: CodeStored,
-  showDeploy: (codeHash?: string) => () => void
+  basePath: string;
+  code: CodeStored;
+  showDeploy: (codeHash?: string) => () => void;
 };
 
-type State = {
-  isForgetOpen: boolean,
-  isRemoveABIOpen: boolean
-};
+interface State {
+  isForgetOpen: boolean;
+  isRemoveABIOpen: boolean;
+}
 
 const CodeCard = styled(Card)`
   && {
@@ -36,12 +36,12 @@ const CodeCard = styled(Card)`
 `;
 
 class Contract extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isForgetOpen: false,
     isRemoveABIOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { code, code: { contractAbi } } = this.props;
 
     return (
@@ -63,7 +63,7 @@ class Contract extends React.PureComponent<Props> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { code: { json: { codeHash } }, showDeploy, t } = this.props;
 
     return (
@@ -87,7 +87,7 @@ class Contract extends React.PureComponent<Props> {
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { code } = this.props;
     const { isForgetOpen, isRemoveABIOpen } = this.state;
 
@@ -115,7 +115,7 @@ class Contract extends React.PureComponent<Props> {
           code={code}
           key='modal-remove-abi'
           onClose={this.toggleRemoveABI}
-          onRemove={() => this.onChangeABI(null)}
+          onRemove={this.onChangeABI}
         />
       );
     }
@@ -155,7 +155,7 @@ class Contract extends React.PureComponent<Props> {
     }
   }
 
-  private onChangeABI = async (abi: string | null) => {
+  private onChangeABI = async (abi: string | null = null): Promise<void> => {
     const { code: { json: { codeHash } } } = this.props;
 
     await contracts.saveCode(

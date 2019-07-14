@@ -12,15 +12,15 @@ import { HeaderExtended } from '@polkadot/api-derive';
 import { AddressMini, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
-type Props = BareProps & {
-  isSummary?: boolean,
-  value?: HeaderExtended,
-  withExplorer?: boolean,
-  withLink?: boolean
-};
+interface Props extends BareProps {
+  isSummary?: boolean;
+  value?: HeaderExtended;
+  withExplorer?: boolean;
+  withLink?: boolean;
+}
 
 export default class BlockHeader extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { isSummary, value, withExplorer, withLink } = this.props;
 
     if (!value) {

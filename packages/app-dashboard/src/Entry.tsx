@@ -12,12 +12,12 @@ import { Icon } from '@polkadot/ui-app';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  route: Route
-};
+interface Props extends I18nProps {
+  route: Route;
+}
 
 class Entry extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, route: { i18n, icon, name }, t } = this.props;
 
     return (

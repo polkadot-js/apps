@@ -12,17 +12,17 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  chain_bestNumber?: BN,
-  democracy_launchPeriod?: BN,
-  democracy_nextTally?: BN,
-  democracy_publicDelay?: BN,
-  democracy_publicPropCount?: BN,
-  democracy_referendumCount?: BN
-};
+interface Props extends I18nProps {
+  chain_bestNumber?: BN;
+  democracy_launchPeriod?: BN;
+  democracy_nextTally?: BN;
+  democracy_publicDelay?: BN;
+  democracy_publicPropCount?: BN;
+  democracy_referendumCount?: BN;
+}
 
 class Summary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), t } = this.props;
 
     return (

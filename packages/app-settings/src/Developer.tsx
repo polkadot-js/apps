@@ -15,21 +15,21 @@ import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  onStatusChange: (status: ActionStatus) => void
+  onStatusChange: (status: ActionStatus) => void;
 };
 
-type State = {
-  code: string,
-  isJsonValid: boolean,
-  isTypesValid: boolean,
-  types: { [index: string]: any } | {},
-  typesPlaceholder?: string
-};
+interface State {
+  code: string;
+  isJsonValid: boolean;
+  isTypesValid: boolean;
+  types: Record<string, any> | {};
+  typesPlaceholder?: string;
+}
 
 class Developer extends React.PureComponent<Props, State> {
   private defaultCode: string = `{\n\n}`;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const types = store.get('types') || {};
@@ -46,7 +46,7 @@ class Developer extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
     const { code, isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
     const typesHasNoEntries = Object.keys(types).length === 0;

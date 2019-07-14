@@ -9,16 +9,16 @@ import React from 'react';
 import { Output } from '@polkadot/ui-app';
 import { isUndefined } from '@polkadot/util';
 
-type Props = BareProps & {
-  queue: Array<QueueTx>
-};
+interface Props extends BareProps {
+  queue: QueueTx[];
+}
 
 export default class Results extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { queue = [] } = this.props;
 
     const filtered = queue
-      .filter(({ error, result }) =>
+      .filter(({ error, result }): boolean =>
         !isUndefined(error) || !isUndefined(result)
       )
       .reverse();

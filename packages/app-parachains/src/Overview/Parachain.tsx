@@ -15,15 +15,15 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  className?: string,
-  paraId: BN,
-  parachains_heads?: string | null,
-  parachains_relayDispatchQueueSize?: [BN, BN]
-};
+interface Props extends I18nProps {
+  className?: string;
+  paraId: BN;
+  parachains_heads?: string | null;
+  parachains_relayDispatchQueueSize?: [BN, BN];
+}
 
 class Parachain extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, paraId, parachains_heads, parachains_relayDispatchQueueSize, t } = this.props;
 
     return (

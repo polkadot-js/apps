@@ -19,7 +19,7 @@ import translate from './translate';
 // true to display, or (for bonded) provided values [own, ...all extras]
 export type BalanceActiveType = {
   available?: boolean,
-  bonded?: boolean | Array<BN>,
+  bonded?: boolean | BN[],
   free?: boolean,
   redeemable?: boolean,
   unlocking?: boolean
@@ -47,7 +47,7 @@ type Props = BareProps & I18nProps & {
 };
 
 class AddressInfo extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className } = this.props;
 
     return (
@@ -117,7 +117,7 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   // either true (filtered above already) or [own, ...all extras bonded funds from nominators]
-  private renderBonded (bonded: true | Array<BN>) {
+  private renderBonded (bonded: true | BN[]) {
     const { staking_info, t } = this.props;
     let value = undefined;
 

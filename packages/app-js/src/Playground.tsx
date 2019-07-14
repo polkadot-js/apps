@@ -28,49 +28,50 @@ import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 import Output from './Output';
 import ActionButtons from './ActionButtons';
 
-type Injected = {
-  api: ApiPromise,
+interface Injected {
+  api: ApiPromise;
   console: {
-    error: (...args: Array<any>) => void,
-    log: (...args: Array<any>) => void
-  },
-  global: null,
-  hashing: typeof hashing,
-  keyring: KeyringInstance | null,
-  types: typeof types,
-  util: typeof util,
-  window: null
-};
+    error: (...args: any[]) => void;
+    log: (...args: any[]) => void;
+  };
+  global: null;
+  hashing: typeof hashing;
+  keyring: KeyringInstance | null;
+  types: typeof types;
+  util: typeof util;
+  window: null;
+}
 
 type Props = ApiProps & AppProps & I18nProps & {
   match: {
     params: {
-      base64?: string
-    }
-  },
+      base64?: string;
+    };
+  };
   // FIXME wait for proper eslint integration in tslint, then hopefully remove this
-  history: any
+  history: any;
 };
 
-type State = {
-  animated: boolean,
-  customExamples: Array<Snippet>,
-  isCustomExample: boolean,
-  isRunning: boolean,
-  logs: Array<Log>,
-  options: Array<Snippet>,
-  sharedExample?: Snippet,
-  selected: Snippet
-};
+interface State {
+  animated: boolean;
+  customExamples: Snippet[];
+  isCustomExample: boolean;
+  isRunning: boolean;
+  logs: Log[];
+  options: Snippet[];
+  sharedExample?: Snippet;
+  selected: Snippet;
+}
 
 class Playground extends React.PureComponent<Props, State> {
-  injected: Injected | null = null;
-  snippets: Array<Snippet> = JSON.parse(JSON.stringify(snippets));
+  private injected: Injected | null = null;
 
-  constructor (props: Props) {
+  private snippets: Snippet[] = JSON.parse(JSON.stringify(snippets));
+
+  public constructor (props: Props) {
     super(props);
 
-    this.snippets.forEach((snippet) => {
+    this.snippets.forEach((snippet): void => {
       snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`;
     });
 
@@ -100,7 +101,7 @@ class Playground extends React.PureComponent<Props, State> {
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
 
-    const options: Array<Snippet> = sharedExample
+    const options: Snippet[] = sharedExample
       ? [sharedExample, ...customExamples, ...this.snippets]
       : [...customExamples, ...this.snippets];
 
@@ -115,7 +116,7 @@ class Playground extends React.PureComponent<Props, State> {
     }) as State);
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { animated, isCustomExample, isRunning, logs, options, selected } = this.state;
     const snippetName = selected.type === 'custom' ? selected.text : undefined;
@@ -286,7 +287,7 @@ class Playground extends React.PureComponent<Props, State> {
   }
 
   private hookConsole = (type: LogType) => {
-    return (...args: Array<any>): void => {
+    return (...args: any[]): void => {
       this.setState(({ logs }: State) => {
         logs.push({ args, type });
 

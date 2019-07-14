@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -16,32 +17,32 @@ import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  address: string, // controller (v1) or stash (v2)
-  balances: DerivedBalancesMap,
-  className?: string,
-  defaultName: string,
-  lastAuthor: string,
-  lastBlock: string,
-  recentlyOffline: RecentlyOfflineMap,
-  filter: ValidatorFilter,
-  staking_info?: DerivedStaking
-};
+interface Props extends I18nProps {
+  address: string;
+  balances: DerivedBalancesMap;
+  className?: string;
+  defaultName: string;
+  lastAuthor: string;
+  lastBlock: string;
+  recentlyOffline: RecentlyOfflineMap;
+  filter: ValidatorFilter;
+  staking_info?: DerivedStaking;
+}
 
-type State = {
-  controllerId: string | null,
-  stashActive: string | null,
-  stashTotal: string | null,
-  sessionId: string | null,
-  stakers?: Exposure,
-  stashId: string | null,
+interface State {
+  controllerId: string | null;
+  stashActive: string | null;
+  stashTotal: string | null;
+  sessionId: string | null;
+  stakers?: Exposure;
+  stashId: string | null;
   badgeExpanded: boolean;
-};
+}
 
 class Address extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -54,7 +55,7 @@ class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ staking_info }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ staking_info }: Props, prevState: State): State | null {
     if (!staking_info) {
       return null;
     }
@@ -72,21 +73,21 @@ class Address extends React.PureComponent<Props, State> {
       stashTotal: stakingLedger
         ? formatBalance(stakingLedger.total)
         : prevState.stashTotal
-    } as State;
+    } as unknown as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultName, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
     const bonded = stakers && !stakers.own.isZero()
       ? [stakers.own, stakers.total.sub(stakers.own)]
       : true;
 
-    if ((filter === 'hasNominators' && !this.hasNominators())
-        || (filter === 'noNominators' && this.hasNominators())
-        || (filter === 'hasWarnings' && !this.hasWarnings())
-        || (filter === 'noWarnings' && this.hasWarnings())
-        || (filter === 'iNominated' && !this.iNominated())) {
+    if ((filter === 'hasNominators' && !this.hasNominators()) ||
+      (filter === 'noNominators' && this.hasNominators()) ||
+      (filter === 'hasWarnings' && !this.hasWarnings()) ||
+      (filter === 'noWarnings' && this.hasWarnings()) ||
+      (filter === 'iNominated' && !this.iNominated())) {
       return null;
     }
 
@@ -105,7 +106,7 @@ class Address extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderKeys () {
+  private renderKeys (): React.ReactNode {
     const { address, lastAuthor, lastBlock, t } = this.props;
     const { controllerId, sessionId, stashId } = this.state;
     const isSame = controllerId === sessionId;
@@ -143,7 +144,7 @@ class Address extends React.PureComponent<Props, State> {
     );
   }
 
-  private getNominators () {
+  private getNominators (): [AccountId, Balance][] {
     const { stakers } = this.state;
 
     return stakers
@@ -151,22 +152,22 @@ class Address extends React.PureComponent<Props, State> {
       : [];
   }
 
-  private iNominated () {
+  private iNominated (): boolean {
     const nominators = this.getNominators();
-    const myAddresses = keyring.getAccounts().map(({ address }) => address);
+    const myAddresses = keyring.getAccounts().map(({ address }): string => address);
 
-    return nominators.some(([who]) =>
+    return nominators.some(([who]): boolean =>
       myAddresses.includes(who.toString())
     );
   }
 
-  private hasNominators () {
+  private hasNominators (): boolean {
     const nominators = this.getNominators();
 
     return !!nominators.length;
   }
 
-  private hasWarnings () {
+  private hasWarnings (): boolean {
     const { recentlyOffline } = this.props;
     const { stashId } = this.state;
 
@@ -177,7 +178,7 @@ class Address extends React.PureComponent<Props, State> {
     return true;
   }
 
-  private renderNominators () {
+  private renderNominators (): React.ReactNode {
     const { t } = this.props;
     const nominators = this.getNominators();
 
@@ -194,7 +195,7 @@ class Address extends React.PureComponent<Props, State> {
             }
           })}
         </summary>
-        {nominators.map(([who, bonded]) =>
+        {nominators.map(([who, bonded]): React.ReactNode =>
           <AddressMini
             bonded={bonded}
             key={who.toString()}
@@ -206,7 +207,7 @@ class Address extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderOffline () {
+  private renderOffline (): React.ReactNode {
     const { recentlyOffline } = this.props;
     const { stashId } = this.state;
 

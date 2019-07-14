@@ -11,25 +11,25 @@ import { Button, Input, InputAddress, InputNumber, Modal, TxComponent } from '@p
 
 import ABI from './ABI';
 
-export type ContractModalProps = I18nProps & {
-  basePath: string,
-  isNew?: boolean,
-  isOpen: boolean,
-  onClose?: () => void
-};
+export interface ContractModalProps extends I18nProps {
+  basePath: string;
+  isNew?: boolean;
+  isOpen: boolean;
+  onClose?: () => void;
+}
 
-export type ContractModalState = {
-  abi?: string | null,
-  accountId?: string | null,
-  contractAbi?: Abi | null,
-  gasLimit: BN,
-  isAbiSupplied: boolean,
-  isAbiValid: boolean,
-  isBusy: boolean,
-  isNameValid: boolean,
-  name?: string | null,
-  tags: Array<string>
-};
+export interface ContractModalState {
+  abi?: string | null;
+  accountId?: string | null;
+  contractAbi?: Abi | null;
+  gasLimit: BN;
+  isAbiSupplied: boolean;
+  isAbiValid: boolean;
+  isBusy: boolean;
+  isNameValid: boolean;
+  name?: string | null;
+  tags: string[];
+}
 
 class ContractModal<P extends ContractModalProps, S extends ContractModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
@@ -40,20 +40,20 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     isBusy: false,
     isNameValid: false,
     name: null,
-    tags: [] as Array<string>
+    tags: [] as string[]
   } as S;
 
-  state: S = this.defaultState;
+  public state: S = this.defaultState;
 
-  isContract?: boolean;
+  protected isContract?: boolean;
 
-  componentWillReceiveProps ({ isOpen }: P, _: S) {
+  public componentWillReceiveProps ({ isOpen }: P, _: S): void {
     if (isOpen && !this.props.isOpen && !this.state.isBusy) {
       this.reset();
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isOpen, t } = this.props;
 
     return (
@@ -77,24 +77,26 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
   }
 
   protected headerText: string = '';
+
   protected renderContent: () => React.ReactNode | null = () => null;
+
   protected renderButtons: () => React.ReactNode | null = () => null;
 
-  protected renderInputAbi () {
+  protected renderInputAbi (): React.ReactNode {
     const { t } = this.props;
     const { isBusy } = this.state;
 
     return (
       <ABI
         help={t(
-          this.isContract ?
-            'The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.' :
-            'The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.'
+          this.isContract
+            ? 'The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.'
+            : 'The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.'
         )}
         label={t(
-          this.isContract ?
-            'contract ABI' :
-            'contract ABI (optional)'
+          this.isContract
+            ? 'contract ABI'
+            : 'contract ABI (optional)'
         )}
         onChange={this.onAddAbi}
         isDisabled={isBusy}
@@ -103,7 +105,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected renderInputAccount () {
+  protected renderInputAccount (): React.ReactNode {
     const { t } = this.props;
     const { accountId, isBusy } = this.state;
 
@@ -121,7 +123,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected renderInputName () {
+  protected renderInputName (): React.ReactNode {
     const { isNew, t } = this.props;
     const { isBusy, isNameValid, name } = this.state;
 
@@ -129,16 +131,16 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
       <Input
         defaultValue={name}
         help={t(
-          this.isContract ?
-            'A name for the deployed contract to help users distinguish. Only used for display purposes.' :
-            'A name for this WASM code to help users distinguish. Only used for display purposes.'
+          this.isContract
+            ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
+            : 'A name for this WASM code to help users distinguish. Only used for display purposes.'
         )}
         isDisabled={isBusy}
         isError={!isNameValid}
         label={t(
-          this.isContract ?
-            'contract name' :
-            'code bundle name'
+          this.isContract
+            ? 'contract name'
+            : 'code bundle name'
         )}
         onChange={this.onChangeName}
         onEnter={this[isNew ? 'sendTx' : 'submit']}
@@ -147,7 +149,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected renderInputGas () {
+  protected renderInputGas (): React.ReactNode {
     const { t } = this.props;
     const { gasLimit, isBusy } = this.state;
     const isGasValid = !gasLimit.isZero();
@@ -166,7 +168,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected renderCancelButton () {
+  protected renderCancelButton (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -181,21 +183,22 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected reset = () => {
+  protected reset = (): void => {
     this.setState(
       this.defaultState
     );
   }
 
-  protected toggleBusy = (isBusy?: boolean) => () => {
-    this.setState((state: S) => {
-      return {
-        isBusy: isBusy === undefined ? !state.isBusy : isBusy
-      };
-    });
-  }
+  protected toggleBusy = (isBusy?: boolean): () => void =>
+    (): void => {
+      this.setState((state: S): S => {
+        return {
+          isBusy: isBusy === undefined ? !state.isBusy : isBusy
+        } as unknown as S;
+      });
+    }
 
-  protected onClose = () => {
+  protected onClose = (): void => {
     const { onClose } = this.props;
 
     onClose && onClose();

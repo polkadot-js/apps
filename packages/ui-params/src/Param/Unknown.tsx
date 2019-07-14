@@ -15,7 +15,7 @@ type Props = BareProps & {
 };
 
 export default class Unknown extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type } = this.props;
 
     if (isDisabled) {

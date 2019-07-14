@@ -14,7 +14,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
   return class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
     component: any = React.createRef();
 
-    render () {
+    public render (): React.ReactNode {
       return (
         <ApiConsumer>
           {(apiProps?: ApiProps) => {

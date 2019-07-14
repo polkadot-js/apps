@@ -16,42 +16,42 @@ import translate from './translate';
 type Props = BareProps & WithTranslation & {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
-  accept?: string,
-  clearContent?: boolean,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label: React.ReactNode,
-  onChange?: (contents: Uint8Array, name: string) => void,
-  placeholder?: React.ReactNode | null,
-  withEllipsis?: boolean,
-  withLabel?: boolean
+  accept?: string;
+  clearContent?: boolean;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label: React.ReactNode;
+  onChange?: (contents: Uint8Array, name: string) => void;
+  placeholder?: React.ReactNode | null;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
 };
 
-type State = {
+interface State {
   file?: {
-    name: string,
-    size: number
-  }
-};
+    name: string;
+    size: number;
+  };
+}
 
-type LoadEvent = {
+interface LoadEvent {
   target: {
-    result: ArrayBuffer
-  }
-};
+    result: ArrayBuffer;
+  };
+}
 
 class InputFile extends React.PureComponent<Props, State> {
   dropZone: any;
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
     this.state = {} as State;
     this.dropZone = React.createRef();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
     const { file } = this.state;
 
@@ -88,7 +88,7 @@ class InputFile extends React.PureComponent<Props, State> {
     ) : dropZone;
   }
 
-  private onDrop = (files: Array<File>) => {
+  private onDrop = (files: File[]) => {
     const { onChange } = this.props;
 
     files.forEach((file) => {

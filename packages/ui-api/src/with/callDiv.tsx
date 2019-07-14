@@ -16,7 +16,7 @@ type Props<T> = BaseProps<T> & {
 export default function withCallDiv<T> (endpoint: string, options: Options = {}) {
   return (render: (value?: T) => React.ReactNode, defaultProps: DefaultProps = {}): React.ComponentType<any> => {
     class Inner extends React.PureComponent<Props<T>> {
-      render () {
+      public render (): React.ReactNode {
         const { callResult, callUpdated, children, className = defaultProps.className, label = '', style } = this.props;
 
         return (

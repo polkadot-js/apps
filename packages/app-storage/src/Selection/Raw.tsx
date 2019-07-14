@@ -14,18 +14,18 @@ import { Compact } from '@polkadot/types';
 
 type Props = ComponentProps & I18nProps;
 
-type State = {
-  isValid: boolean,
-  key: Uint8Array
-};
+interface State {
+  isValid: boolean;
+  key: Uint8Array;
+}
 
 class Raw extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValid: false,
     key: new Uint8Array([])
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid } = this.state;
 

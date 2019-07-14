@@ -16,26 +16,26 @@ import translate from '../translate';
 
 type Props = ModalProps & I18nProps;
 
-type State = {
-  address: string,
-  isAddressExisting: boolean,
-  isAddressValid: boolean,
-  isNameValid: boolean,
-  isValid: boolean,
-  name: string,
-  tags: Array<string>
-};
+interface State {
+  address: string;
+  isAddressExisting: boolean;
+  isAddressValid: boolean;
+  isNameValid: boolean;
+  isValid: boolean;
+  name: string;
+  tags: string[];
+}
 
 class Create extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = this.emptyState();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -50,7 +50,7 @@ class Create extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isValid } = this.state;
 
@@ -74,7 +74,7 @@ class Create extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { t } = this.props;
     const { address, isAddressValid, isNameValid, name } = this.state;
 
@@ -120,7 +120,7 @@ class Create extends React.PureComponent<Props, State> {
     };
   }
 
-  private nextState (newState: State, allowEdit: boolean = false): void {
+  private nextState (newState: Partial<State>, allowEdit: boolean = false): void {
     this.setState(
       (prevState: State): State => {
         let { address = prevState.address, name = prevState.name, tags = prevState.tags } = newState;
@@ -166,17 +166,17 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private onChangeAddress = (address: string): void => {
-    this.nextState({ address } as State);
+    this.nextState({ address });
   }
 
   private onChangeName = (name: string): void => {
-    this.nextState({ name } as State, true);
+    this.nextState({ name }, true);
   }
 
   private onCommit = (): void => {
     const { onClose, onStatusChange, t } = this.props;
     const { address, isAddressExisting, isValid, name, tags } = this.state;
-    const status = { action: 'create' } as ActionStatus;
+    const status: Partial<ActionStatus> = { action: 'create' };
 
     if (!isValid) {
       return;
@@ -197,7 +197,7 @@ class Create extends React.PureComponent<Props, State> {
       status.message = error.message;
     }
 
-    onStatusChange(status);
+    onStatusChange(status as ActionStatus);
     onClose();
   }
 

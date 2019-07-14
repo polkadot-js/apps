@@ -10,17 +10,17 @@ import { AddressRow, Button, CodeRow, Modal } from '@polkadot/ui-app';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  address?: string,
-  code?: CodeStored,
-  name?: string,
-  mode?: 'account' | 'address' | 'contract' | 'code',
-  onClose: () => void,
-  onForget: () => void
-};
+interface Props extends I18nProps {
+  address?: string;
+  code?: CodeStored;
+  name?: string;
+  mode?: 'account' | 'address' | 'contract' | 'code';
+  onClose: () => void;
+  onForget: () => void;
+}
 
 class Forget extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { onClose } = this.props;
     return (
       <Modal

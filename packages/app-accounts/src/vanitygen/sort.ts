@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Generator$Match } from './types';
+import { GeneratorMatch } from './types';
 
 function numberSort (a: number, b: number): number {
   if (a > b) {
@@ -14,7 +14,7 @@ function numberSort (a: number, b: number): number {
   return 0;
 }
 
-export default function sort (a: Generator$Match, b: Generator$Match): number {
+export default function sort (a: GeneratorMatch, b: GeneratorMatch): number {
   const countResult = numberSort(a.count, b.count);
 
   if (countResult !== 0) {

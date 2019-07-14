@@ -9,26 +9,26 @@ import BN from 'bn.js';
 import React from 'react';
 import { Compact } from '@polkadot/types';
 
-type Props = {
-  endowment: BN | Compact,
-  fees: DerivedContractFees,
-  onChange: (fees: ExtraFees) => void
-};
+interface Props {
+  endowment: BN | Compact;
+  fees: DerivedContractFees;
+  onChange: (fees: ExtraFees) => void;
+}
 
-type State = ExtraFees & {};
+type State = ExtraFees;
 
 export default class ContractDeploy extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false
   };
 
-  static getDerivedStateFromProps ({ endowment, fees, onChange }: Props, state: State) {
-    let extraFees = new BN(fees.createBaseFee)
-      .add(fees.contractFee);
-
-    const extraAmount = endowment instanceof Compact ? endowment.toBn() : new BN(endowment || 0);
+  public static getDerivedStateFromProps ({ endowment, fees, onChange }: Props, state: State): State {
+    const extraFees = new BN(fees.createBaseFee).add(fees.contractFee);
+    const extraAmount = endowment instanceof Compact
+      ? endowment.toBn()
+      : new BN(endowment || 0);
 
     const update = {
       extraAmount,
@@ -43,7 +43,7 @@ export default class ContractDeploy extends React.PureComponent<Props, State> {
     return update;
   }
 
-  render () {
+  public render (): React.ReactNode {
     return null;
   }
 }

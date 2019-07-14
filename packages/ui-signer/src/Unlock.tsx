@@ -11,29 +11,30 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  autoFocus?: boolean,
-  error?: string,
-  onChange: (password: string) => void,
-  onEnter?: () => void,
-  password: string,
-  tabIndex?: number,
-  value?: string | null
-};
+interface Props extends I18nProps {
+  autoFocus?: boolean;
+  error?: string;
+  onChange: (password: string) => void;
+  onEnter?: () => void;
+  password: string;
+  tabIndex?: number;
+  value?: string | null;
+}
 
-type State = {
-  isError: boolean,
-  isInjected: boolean,
-  isLocked: boolean,
-  pair: KeyringPair
-};
+interface State {
+  isError: boolean;
+  isInjected?: boolean;
+  isLocked: boolean;
+  pair?: KeyringPair;
+}
 
 class Unlock extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
+    isError: false,
     isLocked: false
-  } as State;
+  };
 
-  static getDerivedStateFromProps ({ error, value }: Props): State | null {
+  public static getDerivedStateFromProps ({ error, value }: Props): State | null {
     const pair = keyring.getPair(value as string);
 
     if (!pair) {
@@ -50,7 +51,7 @@ class Unlock extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus, onChange, onEnter, password, t, tabIndex } = this.props;
     const { isError, isInjected, isLocked } = this.state;
 

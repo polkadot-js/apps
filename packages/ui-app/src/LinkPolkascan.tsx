@@ -32,7 +32,7 @@ const TYPES: { [index: string]: string } = {
 };
 
 class LinkPolkascan extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, currentChain, data, t, type } = this.props;
     const extChain = CHAINS[currentChain];
     const extType = TYPES[type];

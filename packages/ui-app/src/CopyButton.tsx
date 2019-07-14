@@ -25,7 +25,7 @@ type InnerProps = Props & I18nProps & {
 };
 
 class CopyButtonInner extends React.PureComponent<InnerProps> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, icon = 'copy', value } = this.props;
 
     return (
@@ -67,7 +67,7 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
 const CopyButtonI18n = translate(CopyButtonInner);
 
 class CopyButton extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <QueueConsumer>
         {({ queueAction }) => (

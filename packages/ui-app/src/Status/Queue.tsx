@@ -4,7 +4,7 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { BareProps } from '../types';
-import { ActionStatus, PartialQueueTx$Extrinsic, PartialQueueTx$Rpc, QueueProps, QueueStatus, QueueTx, QueueTx$Extrinsic, QueueTx$Rpc, QueueTx$Status } from './types';
+import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus } from './types';
 
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
@@ -12,22 +12,22 @@ import jsonrpc from '@polkadot/jsonrpc';
 import { QueueProvider } from './Context';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
-export type Props = BareProps & {
-  children: React.ReactNode
-};
+export interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 type State = QueueProps;
 
 const defaultState = {
-  stqueue: [] as Array<QueueStatus>,
-  txqueue: [] as Array<QueueTx>
+  stqueue: [] as QueueStatus[],
+  txqueue: [] as QueueTx[]
 } as QueueProps;
 
 let nextId = 0;
 
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
-const STATUS_COMPLETE: Array<QueueTx$Status> = [
+const STATUS_COMPLETE: QueueTxStatus[] = [
   // status from subscription
   'finalized', 'usurped', 'dropped', 'invalid',
   // normal completion
@@ -35,9 +35,9 @@ const STATUS_COMPLETE: Array<QueueTx$Status> = [
 ];
 
 export default class Queue extends React.Component<Props, State> {
-  state: State = defaultState;
+  public state: State = defaultState;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -50,7 +50,7 @@ export default class Queue extends React.Component<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     return (
       <QueueProvider value={this.state}>
         {this.props.children}
@@ -102,7 +102,7 @@ export default class Queue extends React.Component<Props, State> {
     };
   }
 
-  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableResult, error?: Error): void => {
+  queueSetTxStatus = (id: number, status: QueueTxStatus, result?: SubmittableResult, error?: Error): void => {
     this.setState(
       (prevState: State): State => ({
         txqueue: prevState.txqueue.map((item) =>
@@ -151,9 +151,9 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
+  private queueAdd = (value: QueueTxExtrinsic | QueueTxRpc | QueueTx): number => {
     const id = ++nextId;
-    const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
+    const rpc: RpcMethod = (value as QueueTxRpc).rpc || SUBMIT_RPC;
     const removeItem = this.clearStatus(id);
 
     this.setState(
@@ -171,7 +171,7 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  queueExtrinsic = ({ accountId, extrinsic, signerCb, signerOptions, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTx$Extrinsic): number => {
+  queueExtrinsic = ({ accountId, extrinsic, signerCb, signerOptions, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): number => {
     return this.queueAdd({
       accountId,
       extrinsic,
@@ -185,7 +185,7 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  queueRpc = ({ accountId, rpc, values }: PartialQueueTx$Rpc): number => {
+  queueRpc = ({ accountId, rpc, values }: PartialQueueTxRpc): number => {
     return this.queueAdd({
       accountId,
       rpc,

@@ -12,12 +12,12 @@ import { withCalls } from '@polkadot/ui-api';
 import translate from '../translate';
 import Parachain from './Parachain';
 
-type Props = I18nProps & {
-  parachains_parachains?: Array<BN>
-};
+interface Props extends I18nProps {
+  parachains_parachains?: BN[];
+}
 
 class Parachains extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { parachains_parachains = [], t } = this.props;
 
     return (

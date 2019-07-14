@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 const pkgJson = require('../../package.json');
 
 class NodeInfo extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { api } = this.props;
     const uiInfo = `apps v${pkgJson.version}`;
 

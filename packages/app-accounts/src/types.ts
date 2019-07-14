@@ -7,24 +7,22 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import { WithTranslation } from 'react-i18next';
 
-export type LocationProps = {
+export interface LocationProps {
   match: {
-    params: { [index: string]: any }
-  }
-};
+    params: Record<string, string>;
+  };
+}
 
-export type BareProps = {
-  className?: string,
-  style?: {
-    [index: string]: any
-  }
-};
+export interface BareProps {
+  className?: string;
+  style?: Record<string, any>;
+}
 
 export type I18nProps = BareProps & WithTranslation;
 
 export type ComponentProps = AppProps & LocationProps;
 
-export type ModalProps = {
-  onClose: () => void,
-  onStatusChange: (status: ActionStatus) => void
-};
+export interface ModalProps {
+  onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
+}

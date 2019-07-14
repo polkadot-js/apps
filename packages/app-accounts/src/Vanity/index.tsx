@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { Generator$Matches, Generator$Result } from '../vanitygen/types';
+import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '../vanitygen/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
@@ -29,7 +29,7 @@ interface State {
   keyCount: 0;
   keyTime: 0;
   match: string;
-  matches: Generator$Matches;
+  matches: GeneratorMatches;
   startAt: number;
   type: KeypairType;
   withCase: boolean;
@@ -43,7 +43,8 @@ const BOOL_OPTIONS = [
 ];
 
 class VanityApp extends TxComponent<Props, State> {
-  private results: Generator$Result[] = [];
+  private results: GeneratorResult[] = [];
+
   public state: State = {
     createSeed: null,
     elapsed: 0,
@@ -61,7 +62,7 @@ class VanityApp extends TxComponent<Props, State> {
 
   private _isActive: boolean = false;
 
-  componentWillUnmount () {
+  public componentWillUnmount (): void {
     this._isActive = false;
   }
 
@@ -87,7 +88,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isMatchValid, isRunning } = this.state;
 
@@ -108,12 +109,12 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderMatches () {
+  private renderMatches (): React.ReactNode {
     const { matches } = this.state;
 
     return (
       <div className='vanity--App-matches'>
-        {matches.map((match) => (
+        {matches.map((match): React.ReactNode => (
           <Match
             {...match}
             key={match.address}
@@ -125,7 +126,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderOptions () {
+  private renderOptions (): React.ReactNode {
     const { t } = this.props;
     const { isMatchValid, isRunning, match, type, withCase } = this.state;
 
@@ -167,7 +168,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderStats () {
+  private renderStats (): React.ReactNode {
     const { t } = this.props;
     const { elapsed, keyCount } = this.state;
 
@@ -204,7 +205,7 @@ class VanityApp extends TxComponent<Props, State> {
         let newKeyCount = keyCount;
         let newKeyTime = keyTime;
         const newMatches = results
-          .reduce((result, { elapsed, found }) => {
+          .reduce((result, { elapsed, found }): GeneratorMatch[] => {
             newKeyCount += found.length;
             newKeyTime += elapsed;
 
@@ -231,7 +232,7 @@ class VanityApp extends TxComponent<Props, State> {
       return;
     }
 
-    setTimeout(() => {
+    setTimeout((): void => {
       if (this._isActive) {
         if (this.results.length === 25) {
           this.checkMatches();
@@ -254,7 +255,7 @@ class VanityApp extends TxComponent<Props, State> {
     }, 0);
   }
 
-  private onCreateToggle = (createSeed: string) => {
+  private onCreateToggle = (createSeed: string): void => {
     this.setState({ createSeed });
   }
 
@@ -273,13 +274,13 @@ class VanityApp extends TxComponent<Props, State> {
   }
 
   private onChangeType = (type: KeypairType): void => {
-    this.setState({ type } as State);
+    this.setState({ type });
   }
 
   private onRemove = (address: string): void => {
     this.setState(
       ({ matches }: State) => ({
-        matches: matches.filter((item) =>
+        matches: matches.filter((item): boolean =>
           item.address !== address
         )
       })
@@ -302,7 +303,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private closeCreate = () => {
+  private closeCreate = (): void => {
     this.setState({ createSeed: null });
   }
 }

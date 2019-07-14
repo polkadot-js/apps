@@ -15,23 +15,23 @@ import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 import translate from './translate';
 import Unlock from './Unlock';
 
-type Props = I18nProps & {
-  className?: string
-};
+interface Props extends I18nProps {
+  className?: string;
+}
 
-type State = {
-  currentPair: KeyringPair | null,
-  data: string,
-  isHexData: boolean,
-  isLocked: boolean,
-  isUnlockVisible: boolean,
-  signature: string
-};
+interface State {
+  currentPair: KeyringPair | null;
+  data: string;
+  isHexData: boolean;
+  isLocked: boolean;
+  isUnlockVisible: boolean;
+  signature: string;
+}
 
 class Sign extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const pairs = keyring.getPairs();
@@ -49,7 +49,7 @@ class Sign extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { isLocked } = this.state;
 

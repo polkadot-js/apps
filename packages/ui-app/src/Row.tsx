@@ -177,47 +177,47 @@ export const styles = `
   }
 `;
 
-export type RowProps = {
-  accounts_idAndIndex?: [AccountId?, AccountIndex?]
-  buttons?: React.ReactNode,
-  children?: React.ReactNode,
-  className?: string,
-  defaultName?: string,
-  extraInfo?: React.ReactNode,
-  iconInfo?: React.ReactNode,
-  isEditable?: boolean,
-  isInline?: boolean,
-  type?: KeyringItemType,
-  withIcon?: boolean,
-  withTags?: boolean
-};
+export interface RowProps {
+  accounts_idAndIndex?: [AccountId?, AccountIndex?];
+  buttons?: React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
+  defaultName?: string;
+  extraInfo?: React.ReactNode;
+  iconInfo?: React.ReactNode;
+  isEditable?: boolean;
+  isInline?: boolean;
+  type?: KeyringItemType;
+  withIcon?: boolean;
+  withTags?: boolean;
+}
 
-export type RowState = {
-  address: string
-  isEditingName: boolean,
-  isEditingTags: boolean,
-  name: string,
-  tags: string[]
-};
+export interface RowState {
+  address: string;
+  isEditingName: boolean;
+  isEditingTags: boolean;
+  name: string;
+  tags: string[];
+}
 
 // const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 // const ICON_SIZE = 48;
 
 class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P, S> {
-  state: S = {
+  public state: S = {
     isEditingName: false,
     isEditingTags: false
-  } as S;
+  } as unknown as S;
 
   static defaultProps = {
     defaultName: '<unknown>'
   };
 
-  protected onChangeName = (name: string) => {
+  protected onChangeName = (name: string): void => {
     this.setState({ name });
   }
 
-  protected onChangeTags = (tags: string[]) => {
+  protected onChangeTags = (tags: string[]): void => {
     this.setState({ tags });
   }
 
@@ -354,16 +354,16 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
 
   protected saveTags!: () => void;
 
-  protected toggleNameEditor = () => {
-    this.setState(({ isEditingName }) => ({
+  protected toggleNameEditor = (): void => {
+    this.setState(({ isEditingName }): S => ({
       isEditingName: !isEditingName
-    }));
+    }) as unknown as S);
   }
 
-  protected toggleTagsEditor = () => {
-    this.setState(({ isEditingTags }) => ({
+  protected toggleTagsEditor = (): void => {
+    this.setState(({ isEditingTags }): S => ({
       isEditingTags: !isEditingTags
-    }));
+    }) as unknown as S);
   }
 }
 

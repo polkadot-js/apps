@@ -16,28 +16,28 @@ import translate from './translate';
 
 type CryptoTypes = KeypairType | 'unknown';
 
-type CryptoOption = {
-  text: string,
-  value: string
-};
+interface CryptoOption {
+  text: string;
+  value: string;
+}
 
-type State = {
-  currentPublicKey: Uint8Array | null,
-  cryptoOptions: Array<CryptoOption>,
-  cryptoType: CryptoTypes,
-  defaultPublicKey?: Uint8Array,
-  data: string,
-  isHexData: boolean,
-  isValidAddress: boolean,
-  isValidSignature: boolean,
-  isValid: boolean,
-  signature: string
-};
+interface State {
+  currentPublicKey: Uint8Array | null;
+  cryptoOptions: CryptoOption[];
+  cryptoType: CryptoTypes;
+  defaultPublicKey?: Uint8Array;
+  data: string;
+  isHexData: boolean;
+  isValidAddress: boolean;
+  isValidSignature: boolean;
+  isValid: boolean;
+  signature: string;
+}
 
 class Verify extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = this.props;
@@ -61,7 +61,7 @@ class Verify extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { cryptoOptions, cryptoType, data, isHexData } = this.state;
 

@@ -10,7 +10,7 @@ import Bytes from './Bytes';
 import BytesFile from './File';
 
 export default class Code extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
 
     if (isDisabled) {

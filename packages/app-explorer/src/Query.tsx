@@ -11,18 +11,18 @@ import { isHex } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  value?: string
-};
+interface Props extends I18nProps {
+  value?: string;
+}
 
-type State = {
-  value: string
-  isNumber: boolean,
-  isValid: boolean
-};
+interface State {
+  value: string;
+  isNumber: boolean;
+  isValid: boolean;
+}
 
 class Query extends TxComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { value } = this.props;
@@ -30,7 +30,7 @@ class Query extends TxComponent<Props, State> {
     this.state = this.stateFromValue(value || '');
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
     const { value, isValid } = this.state;
 

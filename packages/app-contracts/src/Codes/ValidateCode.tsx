@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -14,25 +15,25 @@ import { isHex } from '@polkadot/util';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  codeHash?: string | null,
-  contract_codeStorage?: Option<PrefabWasmModule>,
-  onChange: (isValid: boolean) => void
+  codeHash?: string | null;
+  contract_codeStorage?: Option<PrefabWasmModule>;
+  onChange: (isValid: boolean) => void;
 };
 
-type State = {
-  isStored: boolean,
-  isValidHex: boolean,
-  isValid: boolean
-};
+interface State {
+  isStored: boolean;
+  isValidHex: boolean;
+  isValid: boolean;
+}
 
 class ValidateCode extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isStored: false,
     isValidHex: false,
     isValid: false
   };
 
-  static getDerivedStateFromProps ({ codeHash, contract_codeStorage, onChange }: Props): State {
+  public static getDerivedStateFromProps ({ codeHash, contract_codeStorage, onChange }: Props): State {
     const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
     const isStored = !!contract_codeStorage && contract_codeStorage.isSome;
     const isValid = isValidHex && isStored;
@@ -47,7 +48,7 @@ class ValidateCode extends React.PureComponent<Props> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, isValidHex } = this.state;
 

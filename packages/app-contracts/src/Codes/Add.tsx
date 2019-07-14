@@ -13,14 +13,14 @@ import translate from '../translate';
 
 type Props = ContractModalProps;
 
-type State = ContractModalState & {
-  codeHash: string,
-  isBusy: boolean,
-  isCodeValid: boolean
-};
+interface State extends ContractModalState {
+  codeHash: string;
+  isBusy: boolean;
+  isCodeValid: boolean;
+}
 
 class Add extends ContractModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
     this.defaultState = {
       ...this.defaultState,
@@ -32,7 +32,7 @@ class Add extends ContractModal<Props, State> {
     this.headerText = props.t('Add an existing code hash');
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { codeHash, isBusy, isCodeValid } = this.state;
 
@@ -58,7 +58,7 @@ class Add extends ContractModal<Props, State> {
     );
   }
 
-  renderButtons = () => {
+  protected renderButtons = (): React.ReactNode => {
     const { t } = this.props;
     const { isBusy, isCodeValid, isNameValid } = this.state;
     const isValid = !isBusy && isCodeValid && isNameValid;
@@ -92,22 +92,20 @@ class Add extends ContractModal<Props, State> {
       return;
     }
 
-    this.setState(
-      { isBusy: true },
-      () => {
-        store.saveCode(new Hash(codeHash), { abi, name, tags })
-          .then(() => {
-            this.setState(
-              { isBusy: false },
-              () => this.onClose()
-            );
-          })
-          .catch((error) => {
-            console.error('Unable to save code', error);
-            this.setState({ isBusy: false });
-          });
-      }
-    );
+    this.setState({ isBusy: true }, (): void => {
+      store
+        .saveCode(new Hash(codeHash), { abi, name, tags })
+        .then((): void => {
+          this.setState(
+            { isBusy: false },
+            (): void => this.onClose()
+          );
+        })
+        .catch((error): void => {
+          console.error('Unable to save code', error);
+          this.setState({ isBusy: false });
+        });
+    });
 
     // this.redirect();
   }

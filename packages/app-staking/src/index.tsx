@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -23,24 +24,24 @@ import Overview from './Overview';
 import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
-  allAccounts?: SubjectInfo,
-  allStashesAndControllers?: [AccountId[], Option<AccountId>[]],
-  currentValidatorsControllersV1OrStashesV2?: AccountId[],
-  staking_recentlyOffline?: RecentlyOffline
+  allAccounts?: SubjectInfo;
+  allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
+  currentValidatorsControllersV1OrStashesV2?: AccountId[];
+  staking_recentlyOffline?: RecentlyOffline;
 };
 
-type State = {
-  allControllers: string[],
-  allStashes: string[],
-  currentValidatorsControllersV1OrStashesV2: string[],
-  recentlyOffline: RecentlyOfflineMap,
-  tabs: TabItem[]
-};
+interface State {
+  allControllers: string[];
+  allStashes: string[];
+  currentValidatorsControllersV1OrStashesV2: string[];
+  recentlyOffline: RecentlyOfflineMap;
+  tabs: TabItem[];
+}
 
 class App extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;
@@ -64,17 +65,17 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): State {
+  public static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): State {
     return {
-      allControllers: allStashesAndControllers[1].filter((optId) => optId.isSome).map((accountId) =>
+      allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
         accountId.unwrap().toString()
       ),
-      allStashes: allStashesAndControllers[0].map((accountId) => accountId.toString()),
-      currentValidatorsControllersV1OrStashesV2: currentValidatorsControllersV1OrStashesV2.map((authorityId) =>
+      allStashes: allStashesAndControllers[0].map((accountId): string => accountId.toString()),
+      currentValidatorsControllersV1OrStashesV2: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
         authorityId.toString()
       ),
       recentlyOffline: staking_recentlyOffline.reduce(
-        (result, [accountId, blockNumber, count]) => {
+        (result, [accountId, blockNumber, count]): RecentlyOfflineMap => {
           const account = accountId.toString();
 
           if (!result[account]) {
@@ -87,11 +88,11 @@ class App extends React.PureComponent<Props, State> {
           });
 
           return result;
-        }, {} as RecentlyOfflineMap)
-    } as State;
+        }, {} as unknown as RecentlyOfflineMap)
+    } as unknown as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { allAccounts, basePath } = this.props;
     const { tabs } = this.state;
     const hidden = !allAccounts || Object.keys(allAccounts).length === 0
@@ -116,7 +117,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
     return (): React.ReactNode => {
       const { allControllers, recentlyOffline, allStashes, currentValidatorsControllersV1OrStashesV2 } = this.state;
       const { allAccounts } = this.props;

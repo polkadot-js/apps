@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -13,13 +14,13 @@ import translate from '../translate';
 import Candidate from './Candidate';
 import Member from './Member';
 
-type Props = I18nProps & {
-  elections_members?: Array<[string, BlockNumber]>
-  elections_candidates?: Array<string>
-};
+interface Props extends I18nProps {
+  elections_members?: [string, BlockNumber][];
+  elections_candidates?: string[];
+}
 
 class Members extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { elections_members = [], elections_candidates = [], t } = this.props;
 
     return (
@@ -28,7 +29,7 @@ class Members extends React.PureComponent<Props> {
           emptyText={t('No members found')}
           headerText={t('members')}
         >
-          {elections_members.map(([address, block]) => (
+          {elections_members.map(([address, block]): React.ReactNode => (
             <Member
               address={address}
               block={block}
@@ -40,7 +41,7 @@ class Members extends React.PureComponent<Props> {
           emptyText={t('No members found')}
           headerText={t('candidates')}
         >
-          {elections_candidates.map((address) => (
+          {elections_candidates.map((address): React.ReactNode => (
             <Candidate
               address={address}
               key={address}
@@ -55,12 +56,14 @@ class Members extends React.PureComponent<Props> {
 export default translate(
   withCalls<Props>(
     ['query.elections.members', {
-      transform: (active: Array<[AccountId, BlockNumber]>) =>
-        active.map(([accountId, blockNumber]) => [accountId.toString(), blockNumber])
+      transform: (active: [AccountId, BlockNumber][]): [string, BlockNumber][] =>
+        active.map(([accountId, blockNumber]): [string, BlockNumber] =>
+          [accountId.toString(), blockNumber]
+        )
     }],
     ['query.elections.candidates', {
-      transform: (candidates: Array<AccountId>) =>
-        candidates.map((accountId) => accountId.toString())
+      transform: (candidates: AccountId[]): string[] =>
+        candidates.map((accountId): string => accountId.toString())
     }]
   )(Members)
 );

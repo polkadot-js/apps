@@ -7,10 +7,10 @@ import React from 'react';
 import Members from './Members';
 import Summary from './Summary';
 
-type Props = {};
+interface Props {}
 
 export default class Overview extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <>
         <Summary />

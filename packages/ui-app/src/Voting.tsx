@@ -19,21 +19,21 @@ import TxModal, { TxModalProps, TxModalState } from './TxModal';
 import { isTreasuryProposalVote } from './util';
 
 type Props = I18nProps & TxModalProps & {
-  allAccounts?: SubjectInfo,
-  hash?: string,
-  idNumber: BN | number,
-  isCollective: boolean,
-  proposal?: Proposal | null,
-  preContent?: React.ReactNode
+  allAccounts?: SubjectInfo;
+  hash?: string;
+  idNumber: BN | number;
+  isCollective: boolean;
+  proposal?: Proposal | null;
+  preContent?: React.ReactNode;
 };
 
-type State = TxModalState & {
-  voteOptions: Array<{ text: React.ReactNode, value: boolean }>,
-  voteValue: boolean
-};
+interface State extends TxModalState {
+  voteOptions: { text: React.ReactNode; value: boolean }[];
+  voteValue: boolean;
+}
 
 class Voting extends TxModal<Props, State> {
-  state: State;
+  public state: State;
 
   headerText = () => {
     const { isCollective, t } = this.props;
@@ -59,7 +59,7 @@ class Voting extends TxModal<Props, State> {
       : [idNumber, voteValue];
   }
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;

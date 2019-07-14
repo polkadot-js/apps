@@ -12,22 +12,22 @@ import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxCom
 import InputValidationUnstakeThreshold from './InputValidationUnstakeThreshold';
 import translate from '../../translate';
 
-type Props = I18nProps & {
-  controllerId: string,
-  isOpen: boolean,
-  onClose: () => void,
-  stashId: string,
-  validatorPrefs?: ValidatorPrefs
-};
+interface Props extends I18nProps {
+  controllerId: string;
+  isOpen: boolean;
+  onClose: () => void;
+  stashId: string;
+  validatorPrefs?: ValidatorPrefs;
+}
 
-type State = {
-  unstakeThreshold?: BN,
-  unstakeThresholdError: string | null,
-  validatorPayment?: BN
-};
+interface State {
+  unstakeThreshold?: BN;
+  unstakeThresholdError: string | null;
+  validatorPayment?: BN;
+}
 
 class Validate extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     unstakeThreshold: new BN(3),
     unstakeThresholdError: null,
     validatorPayment: new BN(0)
@@ -57,7 +57,7 @@ class Validate extends TxComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isOpen } = this.props;
 
     if (!isOpen) {

@@ -11,30 +11,30 @@ import { Button, Input } from '@polkadot/ui-app';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
-  isCustomExample: boolean,
-  isRunning: boolean,
-  generateLink: () => void,
-  removeSnippet: () => void,
-  runJs: () => void,
-  saveSnippet: (snippetName: string) => void,
-  snippetName?: string,
-  stopJs: () => void
+  isCustomExample: boolean;
+  isRunning: boolean;
+  generateLink: () => void;
+  removeSnippet: () => void;
+  runJs: () => void;
+  saveSnippet: (snippetName: string) => void;
+  snippetName?: string;
+  stopJs: () => void;
 };
 
-type State = {
-  isOpen: boolean,
-  shareText: string,
-  snippetName: string
-};
+interface State {
+  isOpen: boolean;
+  shareText: string;
+  snippetName: string;
+}
 
 class ActionButtons extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isOpen: false,
     shareText: this.props.t('Generate link to share code example'),
     snippetName: ''
   };
 
-  render () {
+  public render (): React.ReactNode {
     const {
       props: { isCustomExample, isRunning, removeSnippet, runJs, stopJs, t },
       state: { isOpen, shareText, snippetName }

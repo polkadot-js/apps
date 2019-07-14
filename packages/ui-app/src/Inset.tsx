@@ -25,11 +25,11 @@ type State = {
 };
 
 class Inset extends React.PureComponent<InsetProps, State> {
-  state: State = {
+  public state: State = {
     isCollapsed: true
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { children, className, isCollapsible, header, href, withBottomMargin, withTopMargin } = this.props;
     const { isCollapsed } = this.state;
 

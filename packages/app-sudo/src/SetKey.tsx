@@ -13,9 +13,9 @@ import translate from './translate';
 
 type Props = I18nProps & ComponentProps;
 
-type State = {
-  selected?: string
-};
+interface State {
+  selected?: string;
+}
 
 const SudoInputAddress = styled(InputAddress)`
   margin: -0.25rem 0.5rem -0.25rem 0;
@@ -26,9 +26,9 @@ const SudoLabelled = styled(Labelled)`
 `;
 
 class SetKey extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -42,7 +42,7 @@ class SetKey extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isMine, sudoKey, t } = this.props;
     const { selected } = this.state;
 

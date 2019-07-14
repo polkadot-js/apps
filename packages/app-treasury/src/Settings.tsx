@@ -16,25 +16,25 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & RouteComponentProps & {
-  basePath: string,
-  proposalBond: Permill,
-  proposalBondMinimum: BalanceOf,
-  spendPeriod: BlockNumber,
-  burn: Permill,
-  pot: BalanceOf
+  basePath: string;
+  proposalBond: Permill;
+  proposalBondMinimum: BalanceOf;
+  spendPeriod: BlockNumber;
+  burn: Permill;
+  pot: BalanceOf;
 };
 
-type State = {
-  accountId?: string,
-  proposalBond?: BN,
-  proposalBondMinimum?: BN,
-  spendPeriod?: BN,
-  burn?: BN,
-  pot?: BN
-};
+interface State {
+  accountId?: string;
+  proposalBond?: BN;
+  proposalBondMinimum?: BN;
+  spendPeriod?: BN;
+  burn?: BN;
+  pot?: BN;
+}
 
 class Settings extends TxComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   static getDerivedStateFromProps ({ proposalBond, proposalBondMinimum, spendPeriod, burn, pot }: Props, state: State) {
     const newState: State = {};
@@ -62,7 +62,7 @@ class Settings extends TxComponent<Props, State> {
     return newState;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { accountId, proposalBond, proposalBondMinimum, spendPeriod, burn, pot } = this.state;
 

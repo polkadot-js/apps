@@ -20,14 +20,14 @@ import translate from './translate';
 
 // define out internal types
 type Props = AppProps & I18nProps;
-type State = {
-  accountId?: string
-};
+interface State {
+  accountId?: string;
+}
 
 class App extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
-  render () {
+  public render (): React.ReactNode {
     const { accountId } = this.state;
 
     return (

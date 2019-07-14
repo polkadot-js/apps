@@ -32,11 +32,11 @@ type State = {
 };
 
 export default class Password extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isVisible: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, style, tabIndex, value, withLabel } = this.props;
     const { isVisible } = this.state;
 

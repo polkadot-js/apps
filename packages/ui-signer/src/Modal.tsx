@@ -9,7 +9,7 @@ import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import { web3FromSource } from '@polkadot/extension-dapp';
@@ -24,33 +24,31 @@ import Transaction from './Transaction';
 import translate from './translate';
 import Unlock from './Unlock';
 
-type BaseProps = BareProps & {
-  queue: Array<QueueTx>,
-  queueSetTxStatus: QueueTx$MessageSetStatus
-};
+interface BaseProps extends BareProps {
+  queue: QueueTx[];
+  queueSetTxStatus: QueueTxMessageSetStatus;
+}
 
 type Props = I18nProps & ApiProps & BaseProps & {
-  allAccounts?: SubjectInfo
+  allAccounts?: SubjectInfo;
 };
 
-type State = {
-  currentItem?: QueueTx,
-  isSendable: boolean,
-  password: string,
-  unlockError?: string | null
-};
+interface State {
+  currentItem?: QueueTx;
+  isSendable: boolean;
+  password: string;
+  unlockError?: string | null;
+}
 
 class Signer extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isSendable: false,
     password: '',
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): State {
-    const nextItem = queue.find(({ status }) =>
-      status === 'queued'
-    );
+  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): State {
+    const nextItem = queue.find(({ status }): boolean => status === 'queued');
     const isSame =
       !!nextItem &&
       !!currentItem &&
@@ -81,7 +79,7 @@ class Signer extends React.PureComponent<Props, State> {
     };
   }
 
-  async componentDidUpdate () {
+  public async componentDidUpdate (): Promise<void> {
     const { currentItem } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && !currentItem.extrinsic) {
@@ -89,7 +87,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -108,7 +106,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { currentItem, isSendable } = this.state;
 
@@ -143,7 +141,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { currentItem, isSendable } = this.state;
 
     if (!currentItem) {
@@ -160,7 +158,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderUnlock () {
+  private renderUnlock (): React.ReactNode {
     const { currentItem, isSendable, password, unlockError } = this.state;
 
     if (!isSendable || !currentItem || currentItem.isUnsigned) {
@@ -296,7 +294,7 @@ class Signer extends React.PureComponent<Props, State> {
     return this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend, keyring.getPair(accountId as string));
   }
 
-  private async submitRpc ({ method, section }: RpcMethod, values: Array<any>): Promise<QueueTx$Result> {
+  private async submitRpc ({ method, section }: RpcMethod, values: any[]): Promise<QueueTxResult> {
     const { api } = this.props;
 
     try {
@@ -318,7 +316,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: Array<any>) => any, pair?: KeyringPair): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
@@ -346,12 +344,12 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     try {
-      const unsubscribe = await extrinsicCall.apply(extrinsic, [...params, async (result: SubmittableResult) => {
+      const unsubscribe = await extrinsicCall.apply(extrinsic, [...params, async (result: SubmittableResult): Promise<void> => {
         if (!result || !result.status) {
           return;
         }
 
-        const status = result.status.type.toLowerCase() as QueueTx$Status;
+        const status = result.status.type.toLowerCase() as QueueTxStatus;
 
         console.log('makeExtrinsicCall: updated status ::', JSON.stringify(result));
         queueSetTxStatus(id, status, result);
@@ -364,8 +362,8 @@ class Signer extends React.PureComponent<Props, State> {
           unsubscribe();
 
           result.events
-            .filter(({ event: { section } }) => section === 'system')
-            .forEach(({ event: { method } }) => {
+            .filter(({ event: { section } }): boolean => section === 'system')
+            .forEach(({ event: { method } }): void => {
               if (isFunction(txFailedCb) && method === 'ExtrinsicFailed') {
                 txFailedCb(result);
               } else if (isFunction(txSuccessCb) && method === 'ExtrinsicSuccess') {

@@ -14,21 +14,21 @@ import uiSettings from '@polkadot/ui-settings';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  onStatusChange: (status: ActionStatus) => void
+  onStatusChange: (status: ActionStatus) => void;
 };
 
-type State = {
-  isCustomNode: boolean,
-  isUrlValid: boolean,
-  settings: SettingsStruct
-};
+interface State {
+  isCustomNode: boolean;
+  isUrlValid: boolean;
+  settings: SettingsStruct;
+}
 
 class General extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const settings = uiSettings.get();
-    const isCustomNode = uiSettings.availableNodes.reduce((isCustomNode, { value }) => {
+    const isCustomNode = uiSettings.availableNodes.reduce((isCustomNode, { value }): boolean => {
       return isCustomNode && value !== settings.apiUrl;
     }, true);
 
@@ -39,7 +39,7 @@ class General extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
     const { isUrlValid, settings: { i18nLang, uiMode, uiTheme } } = this.state;
 
@@ -88,7 +88,7 @@ class General extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderEndpoint = () => {
+  private renderEndpoint = (): React.ReactNode => {
     const { t } = this.props;
     const { isCustomNode, isUrlValid, settings: { apiUrl } } = this.state;
 
@@ -174,6 +174,7 @@ class General extends React.PureComponent<Props, State> {
       (apiUrl.startsWith('ws://') || apiUrl.startsWith('wss://'))
     );
   }
+
   private saveAndReload = (): void => {
     const { settings } = this.state;
 

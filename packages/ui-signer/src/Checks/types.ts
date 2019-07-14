@@ -4,8 +4,8 @@
 
 import BN from 'bn.js';
 
-export type ExtraFees = {
-  extraAmount: BN,
-  extraFees: BN,
-  extraWarn: boolean
-};
+export interface ExtraFees {
+  extraAmount: BN;
+  extraFees: BN;
+  extraWarn: boolean;
+}

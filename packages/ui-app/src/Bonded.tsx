@@ -13,14 +13,14 @@ import { Bonded } from '@polkadot/ui-reactive';
 import { classes } from './util';
 
 export type Props = BareProps & {
-  bonded?: BN | Array<BN>,
+  bonded?: BN | BN[],
   label?: React.ReactNode,
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
   withLabel?: boolean
 };
 
 export default class BondedDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { bonded, params, className, label, style } = this.props;
 
     if (!params) {

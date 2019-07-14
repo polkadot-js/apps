@@ -21,19 +21,19 @@ import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD 
 import Content from './Content';
 import SideBar from './SideBar';
 
-type Props = BareProps & {};
+type Props = BareProps;
 
-type State = {
-  isCollapsed: boolean,
-  isMenu: boolean,
-  menuOpen: boolean,
-  transition: SideBarTransition
-};
+interface State {
+  isCollapsed: boolean;
+  isMenu: boolean;
+  menuOpen: boolean;
+  transition: SideBarTransition;
+}
 
 class Apps extends React.Component<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const state = store.get('sidebar') || {};
@@ -57,7 +57,7 @@ class Apps extends React.Component<Props, State> {
     this.handleMenuTransition();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { isCollapsed, isMenu, menuOpen } = this.state;
 

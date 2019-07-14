@@ -17,7 +17,7 @@ type Props = BareProps & WithTranslation & {
 };
 
 class StaticParam extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, label, style, t } = this.props;
     const value = defaultValue && defaultValue.value && defaultValue.value.toString();
 

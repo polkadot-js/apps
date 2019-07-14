@@ -17,30 +17,30 @@ import { classes, getAddressName } from './util';
 import addressToAddress from './util/toAddress';
 import Dropdown from './Dropdown';
 
-type Props = BareProps & {
-  defaultValue?: string | null,
-  help?: React.ReactNode,
+interface Props extends BareProps {
+  defaultValue?: string | null;
+  help?: React.ReactNode;
   hideAddress?: boolean;
-  isDisabled?: boolean,
-  isError?: boolean,
-  isInput?: boolean,
-  isMultiple?: boolean,
-  label?: string,
-  labelExtra?: React.ReactNode,
-  onChange?: (value: string | null) => void,
-  onChangeMulti?: (value: Array<string>) => void,
-  options?: Array<KeyringSectionOption>,
-  optionsAll?: KeyringOptions,
-  placeholder?: string,
-  type?: KeyringOption$Type,
-  value?: string | Uint8Array | Array<string>,
-  withEllipsis?: boolean,
-  withLabel?: boolean
-};
+  isDisabled?: boolean;
+  isError?: boolean;
+  isInput?: boolean;
+  isMultiple?: boolean;
+  label?: string;
+  labelExtra?: React.ReactNode;
+  onChange?: (value: string | null) => void;
+  onChangeMulti?: (value: string[]) => void;
+  options?: KeyringSectionOption[];
+  optionsAll?: KeyringOptions;
+  placeholder?: string;
+  type?: KeyringOption$Type;
+  value?: string | Uint8Array | string[];
+  withEllipsis?: boolean;
+  withLabel?: boolean;
+}
 
-type State = {
-  value?: string
-};
+interface State {
+  value?: string;
+}
 
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
@@ -89,7 +89,7 @@ const createOption = (address: string) => {
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   static getDerivedStateFromProps ({ value }: Props): State | null {
     try {
@@ -121,7 +121,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     store.set(STORAGE_KEY, options);
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
@@ -237,14 +237,14 @@ class InputAddress extends React.PureComponent<Props, State> {
     onChange && onChange(transformToAccountId(address));
   }
 
-  private onChangeMulti = (addresses: Array<string>) => {
+  private onChangeMulti = (addresses: string[]) => {
     const { onChangeMulti } = this.props;
 
     if (onChangeMulti) {
       onChangeMulti(
         addresses
           .map(transformToAccountId)
-          .filter((address) => address) as Array<string>
+          .filter((address) => address) as string[]
       );
     }
   }
