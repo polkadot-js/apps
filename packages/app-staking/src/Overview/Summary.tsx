@@ -15,11 +15,11 @@ import translate from '../translate';
 
 type Props = I18nProps & {
   className?: string,
-  allControllers: Array<string>,
+  allControllers: string[],
   lastAuthor?: string,
   lastBlock: string,
   staking_validatorCount?: BN,
-  currentValidatorsControllersV1OrStashesV2: Array<string>
+  currentValidatorsControllersV1OrStashesV2: string[]
 };
 
 class Summary extends React.PureComponent<Props> {

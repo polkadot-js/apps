@@ -22,7 +22,7 @@ type Props = ApiProps & BareProps & ComponentProps & {
 class Overview extends React.PureComponent<Props> {
   render () {
     const { chain_subscribeNewHead, allControllers, allStashes, recentlyOffline, currentValidatorsControllersV1OrStashesV2 } = this.props;
-    let nextSorted: Array<string>;
+    let nextSorted: string[];
 
     if (Object.keys(api.consts).length) {
       // this is a V2 node currentValidatorsControllersV1OrStashesV2 is a list of stashes
