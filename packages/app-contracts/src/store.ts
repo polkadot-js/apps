@@ -15,7 +15,7 @@ const KEY_CODE = 'code:';
 const codeRegex = new RegExp(`^${KEY_CODE}`, '');
 
 class Store extends EventEmitter {
-  private allCode: { [index: string]: CodeStored } = {};
+  private allCode: Record<string, CodeStored> = {};
 
   public get hasCode (): boolean {
     return Object.keys(this.allCode).length !== 0;

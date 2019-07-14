@@ -13,10 +13,10 @@ import Static from './Static';
 
 type Props = BaseProps;
 
-type State = {
-  defs: TypeDef[],
-  type: string | null
-};
+interface State {
+  defs: TypeDef[];
+  type: string | null;
+}
 
 export default class StructParam extends React.PureComponent<Props, State> {
   public state: State = {
@@ -24,7 +24,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
     type: null
   };
 
-  static getDerivedStateFromProps ({ type: { type } }: Props, prevState: State) {
+  public static getDerivedStateFromProps ({ type: { type } }: Props, prevState: State): State | null {
     if (prevState.type === type) {
       return null;
     }
@@ -34,7 +34,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
     return {
       defs,
       type
-    } as State;
+    } as unknown as State;
   }
 
   public render (): React.ReactNode {
@@ -45,7 +45,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
     }
 
     const { defs } = this.state;
-    const params = defs.map((type) => ({ name: type.name, type }));
+    const params = defs.map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
 
     return (
       <div>
@@ -74,11 +74,11 @@ export default class StructParam extends React.PureComponent<Props, State> {
 
       onChange({
         isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
-        value: defs.reduce((value, { name }, index) => {
+        value: defs.reduce((value, { name }, index): Record<string, any> => {
           value[name as string] = values[index].value;
 
           return value;
-        }, {} as Record<string, any>)
+        }, {} as unknown as Record<string, any>)
       });
     }
   }

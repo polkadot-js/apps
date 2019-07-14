@@ -9,10 +9,10 @@ import React from 'react';
 import BaseBytes from './BaseBytes';
 import Static from './Static';
 
-type Props = BareProps & {
-  defaultValue: RawParam,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  defaultValue: RawParam;
+  withLabel?: boolean;
+}
 
 export default class Unknown extends React.PureComponent<Props> {
   public render (): React.ReactNode {

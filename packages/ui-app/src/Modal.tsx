@@ -11,15 +11,18 @@ import settings from '@polkadot/ui-settings';
 import { classes } from './util';
 
 type Props = BareProps & {
-  children: React.ReactNode,
-  [index: string]: any
+  children: React.ReactNode;
+  [index: string]: any;
 };
 
 export default class Modal extends React.PureComponent<Props> {
-  static Actions = SUIModal.Actions;
-  static Content = SUIModal.Content;
-  static Header = SUIModal.Header;
-  static Description = SUIModal.Description;
+  public static Actions = SUIModal.Actions;
+
+  public static Content = SUIModal.Content;
+
+  public static Header = SUIModal.Header;
+
+  public static Description = SUIModal.Description;
 
   public render (): React.ReactNode {
     const { className } = this.props;
