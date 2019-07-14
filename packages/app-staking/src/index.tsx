@@ -24,17 +24,17 @@ import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
   allAccounts?: SubjectInfo,
-  allStashesAndControllers?: [Array<AccountId>, Array<Option<AccountId>>],
-  currentValidatorsControllersV1OrStashesV2?: Array<AccountId>,
+  allStashesAndControllers?: [AccountId[], Option<AccountId>[]],
+  currentValidatorsControllersV1OrStashesV2?: AccountId[],
   staking_recentlyOffline?: RecentlyOffline
 };
 
 type State = {
-  allControllers: Array<string>,
-  allStashes: Array<string>,
-  currentValidatorsControllersV1OrStashesV2: Array<string>,
+  allControllers: string[],
+  allStashes: string[],
+  currentValidatorsControllersV1OrStashesV2: string[],
   recentlyOffline: RecentlyOfflineMap,
-  tabs: Array<TabItem>
+  tabs: TabItem[]
 };
 
 class App extends React.PureComponent<Props, State> {
