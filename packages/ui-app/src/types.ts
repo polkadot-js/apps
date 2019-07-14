@@ -17,7 +17,7 @@ export interface AppProps {
   basePath: string;
   location: LocationDescriptorObject;
   onStatusChange: (status: ActionStatus) => void;
-};
+}
 
 export type I18nProps = BareProps & WithTranslation;
 

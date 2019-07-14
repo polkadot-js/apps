@@ -23,7 +23,7 @@ export const textMap = options.reduce((textMap, { text, value }): TextMap => {
   textMap[value] = text;
 
   return textMap;
-}, {} as TextMap);
+}, {} as unknown as TextMap);
 
 export default class VoteThresholdParam extends React.PureComponent<Props> {
   public render (): React.ReactNode {
