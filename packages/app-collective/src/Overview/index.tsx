@@ -14,18 +14,18 @@ import Members from './Members';
 import SubmitCandidacy from './SubmitCandidacy';
 import Summary from './Summary';
 
-type Props = {
-  elections_members?: Array<[string, BlockNumber]>
-  elections_candidates?: Array<string>,
-  elections_candidateCount?: BN,
-  elections_desiredSeats?: BN,
-  elections_termDuration?: BN,
-  elections_voteCount?: BN
-};
+interface Props {
+  elections_members?: [string, BlockNumber][];
+  elections_candidates?: string[];
+  elections_candidateCount?: BN;
+  elections_desiredSeats?: BN;
+  elections_termDuration?: BN;
+  elections_voteCount?: BN;
+}
 
-type State = {
-  electionsInfo: ElectionsInfo
-};
+interface State {
+  electionsInfo: ElectionsInfo;
+}
 
 class Overview extends React.PureComponent<Props, State> {
   static getDerivedStateFromProps ({
@@ -42,7 +42,7 @@ class Overview extends React.PureComponent<Props, State> {
     return { electionsInfo };
   }
 
-  render () {
+  public render () {
     const { electionsInfo } = this.state;
     return (
       <>
