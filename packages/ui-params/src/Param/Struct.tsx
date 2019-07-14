@@ -66,19 +66,19 @@ export default class StructParam extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeParams = (values: Array<RawParam>) => {
+  private onChangeParams = (values: RawParam[]): void => {
     const { onChange } = this.props;
 
     if (onChange) {
       const { defs } = this.state;
 
       onChange({
-        isValid: values.reduce((result, { isValid }) => result && isValid, true as boolean),
+        isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
         value: defs.reduce((value, { name }, index) => {
           value[name as string] = values[index].value;
 
           return value;
-        }, {} as { [index: string]: any })
+        }, {} as Record<string, any>)
       });
     }
   }

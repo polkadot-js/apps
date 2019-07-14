@@ -13,7 +13,7 @@ import translate from './translate';
 
 interface Props extends I18nProps {
   emptyLabel?: React.ReactNode;
-  events: Array<KeyedEvent>;
+  events: KeyedEvent[];
   eventClassName?: string;
   withoutIndex?: boolean;
 }
@@ -29,7 +29,7 @@ class Events extends React.PureComponent<Props> {
     return events.map(this.renderEvent);
   }
 
-  private renderEvent = ({ key, record: { event, phase } }: KeyedEvent) => {
+  private renderEvent = ({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => {
     const { eventClassName, withoutIndex } = this.props;
     const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
       ? phase.asApplyExtrinsic

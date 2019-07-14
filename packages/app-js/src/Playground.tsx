@@ -46,7 +46,7 @@ type Props = ApiProps & AppProps & I18nProps & {
   match: {
     params: {
       base64?: string;
-    }
+    };
   };
   // FIXME wait for proper eslint integration in tslint, then hopefully remove this
   history: any;
@@ -54,7 +54,7 @@ type Props = ApiProps & AppProps & I18nProps & {
 
 interface State {
   animated: boolean;
-  customExamples: Array<Snippet>;
+  customExamples: Snippet[];
   isCustomExample: boolean;
   isRunning: boolean;
   logs: Log[];
@@ -65,6 +65,7 @@ interface State {
 
 class Playground extends React.PureComponent<Props, State> {
   private injected: Injected | null = null;
+
   private snippets: Snippet[] = JSON.parse(JSON.stringify(snippets));
 
   public constructor (props: Props) {
@@ -100,7 +101,7 @@ class Playground extends React.PureComponent<Props, State> {
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
 
-    const options: Array<Snippet> = sharedExample
+    const options: Snippet[] = sharedExample
       ? [sharedExample, ...customExamples, ...this.snippets]
       : [...customExamples, ...this.snippets];
 

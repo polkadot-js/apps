@@ -17,17 +17,17 @@ import KeyValue from './KeyValue';
 
 type Props = BaseProps & WithTranslation;
 
-type State = {
+interface State {
   placeholder?: string;
-};
+}
 
-type Parsed = {
-  isValid: boolean,
-  value: Array<{
-    key: Uint8Array,
-    value: Uint8Array
-  }>
-};
+interface Parsed {
+  isValid: boolean;
+  value: {
+    key: Uint8Array;
+    value: Uint8Array;
+  }[];
+}
 
 const BYTES_TYPE = {
   type: 'Bytes',

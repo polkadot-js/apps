@@ -92,8 +92,8 @@ const Wrapper = styled.div`
 class Status extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { stqueue = [], txqueue = [] } = this.props;
-    const allst: Array<QueueStatus> = stqueue.filter(({ isCompleted }) => !isCompleted);
-    const alltx: Array<QueueTx> = txqueue.filter(({ status }) =>
+    const allst: QueueStatus[] = stqueue.filter(({ isCompleted }) => !isCompleted);
+    const alltx: QueueTx[] = txqueue.filter(({ status }) =>
       !['completed', 'incomplete'].includes(status)
     );
 

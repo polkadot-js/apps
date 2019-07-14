@@ -29,7 +29,7 @@ interface Props extends BareProps {
   labelExtra?: React.ReactNode;
   onChange?: (value: string | null) => void;
   onChangeMulti?: (value: string[]) => void;
-  options?: Array<KeyringSectionOption>;
+  options?: KeyringSectionOption[];
   optionsAll?: KeyringOptions;
   placeholder?: string;
   type?: KeyringOption$Type;

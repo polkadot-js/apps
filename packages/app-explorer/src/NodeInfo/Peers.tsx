@@ -11,7 +11,7 @@ import { formatNumber } from '@polkadot/util';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  peers?: Array<PeerInfo> | null;
+  peers?: PeerInfo[] | null;
 }
 
 class Peers extends React.PureComponent<Props> {
@@ -26,7 +26,7 @@ class Peers extends React.PureComponent<Props> {
     );
   }
 
-  private renderPeers () {
+  private renderPeers (): React.ReactNode {
     const { peers, t } = this.props;
 
     if (!peers || !peers.length) {
@@ -50,9 +50,7 @@ class Peers extends React.PureComponent<Props> {
           </thead>
           <tbody>
             {peers
-              .sort((a, b) =>
-                b.bestNumber.cmp(a.bestNumber)
-              )
+              .sort((a, b): number => b.bestNumber.cmp(a.bestNumber))
               .map(this.renderPeer)
             }
           </tbody>
@@ -61,7 +59,7 @@ class Peers extends React.PureComponent<Props> {
     );
   }
 
-  private renderPeer = (peer: PeerInfo) => {
+  private renderPeer = (peer: PeerInfo): React.ReactNode => {
     const peerId = peer.peerId.toString();
 
     return (

@@ -11,13 +11,13 @@ import { isUndefined } from '@polkadot/util';
 import Bare from './Bare';
 import findComponent from './findComponent';
 
-type State = {
-  Components: Array<React.ComponentType<Props>>,
-  sub: string[],
-  subTypes: TypeDef[],
-  type?: string,
-  values: Array<RawParam>
-};
+interface State {
+  Components: React.ComponentType<Props>[];
+  sub: string[];
+  subTypes: TypeDef[];
+  type?: string;
+  values: RawParam[];
+}
 
 export default class Tuple extends React.PureComponent<Props, State> {
   public state: State = {
@@ -27,7 +27,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
     values: []
   };
 
-  static getDerivedStateFromProps ({ defaultValue: { value }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
+  public static getDerivedStateFromProps ({ defaultValue: { value }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
       return null;
     }

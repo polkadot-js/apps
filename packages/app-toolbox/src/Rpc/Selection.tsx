@@ -75,7 +75,7 @@ class Selection extends TxComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
-        const isValid = values.reduce((isValid, value) => {
+        const isValid = values.reduce((isValid, value): boolean => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length);
         return {
@@ -91,11 +91,11 @@ class Selection extends TxComponent<Props, State> {
   private onChangeMethod = (rpc: RpcMethod): void => {
     this.nextState({
       rpc,
-      values: [] as Array<RawParam>
+      values: [] as RawParam[]
     } as State);
   }
 
-  private onChangeValues = (values: Array<RawParam>): void => {
+  private onChangeValues = (values: RawParam[]): void => {
     this.nextState({ values } as State);
   }
 

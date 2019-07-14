@@ -12,22 +12,22 @@ import jsonrpc from '@polkadot/jsonrpc';
 import { QueueProvider } from './Context';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
-export type Props = BareProps & {
-  children: React.ReactNode
-};
+export interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 type State = QueueProps;
 
 const defaultState = {
-  stqueue: [] as Array<QueueStatus>,
-  txqueue: [] as Array<QueueTx>
+  stqueue: [] as QueueStatus[],
+  txqueue: [] as QueueTx[]
 } as QueueProps;
 
 let nextId = 0;
 
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
-const STATUS_COMPLETE: Array<QueueTxStatus> = [
+const STATUS_COMPLETE: QueueTxStatus[] = [
   // status from subscription
   'finalized', 'usurped', 'dropped', 'invalid',
   // normal completion

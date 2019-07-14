@@ -34,7 +34,7 @@ interface CacheInstance {
   refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>;
 }
 
-const cache: Array<CacheInstance> = [];
+const cache: CacheInstance[] = [];
 
 class Query extends React.PureComponent<Props, State> {
   public state: State = { spread: {} } as State;
@@ -85,7 +85,7 @@ class Query extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props) {
     const Component = Query.getCachedComponent(value).Component;
-    const inputs: Array<React.ReactNode> = isU8a(value.key)
+    const inputs: React.ReactNode[] = isU8a(value.key)
       ? []
       // FIXME We need to render the actual key params
       // const { key, params } = value;

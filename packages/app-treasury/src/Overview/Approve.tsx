@@ -14,10 +14,10 @@ import TxModal, { TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
 import translate from '../translate';
 
 type Props = I18nProps & ApiProps & TxModalProps & {
-  isApproved?: boolean,
-  proposalInfo?: React.ReactNode,
-  proposalId: string,
-  threshold: number
+  isApproved?: boolean;
+  proposalInfo?: React.ReactNode;
+  proposalId: string;
+  threshold: number;
 };
 
 interface State extends TxModalState {
@@ -88,7 +88,7 @@ class Approve extends TxModal<Props, State> {
     );
   }
 
-  private onChangeApproving = (isApproving: boolean) => {
+  private onChangeApproving = (isApproving: boolean): void => {
     this.setState({ isApproving });
   }
 }
@@ -102,7 +102,8 @@ export default withMulti(
       'query.elections.members',
       {
         propName: 'threshold',
-        transform: (value: Array<[AccountId, BlockNumber]>) => 1 + (value.length / 2)
+        transform: (value: [AccountId, BlockNumber][]): number =>
+          1 + (value.length / 2)
       }
     ]
   )

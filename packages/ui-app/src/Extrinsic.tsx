@@ -110,12 +110,12 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     });
   }
 
-  private onChangeValues = (values: Array<RawParam>): void => {
+  private onChangeValues = (values: RawParam[]): void => {
     this.nextState({ values } as State);
   }
 
-  private getParams (methodfn: MethodFunction): Array<{ name: string, type: TypeDef }> {
-    return Method.filterOrigin(methodfn.meta).map((arg) => ({
+  private getParams (methodfn: MethodFunction): { name: string; type: TypeDef }[] {
+    return Method.filterOrigin(methodfn.meta).map((arg): { name: string; type: TypeDef } => ({
       name: arg.name.toString(),
       type: getTypeDef(arg.type)
     }));

@@ -19,41 +19,41 @@ import { QueueConsumer } from './Status/Context';
 
 type ConstructFn = () => any[];
 
-type InjectedProps = {
+interface InjectedProps {
   queueExtrinsic: QueueTxExtrinsicAdd;
-  txqueue: Array<QueueTx>;
-};
+  txqueue: QueueTx[];
+}
 
-type Props = ApiProps & {
-  accountId?: string,
-  accountNonce?: Index,
-  className?: string,
-  extrinsic?: IExtrinsic | SubmittableExtrinsic,
-  icon?: string,
-  iconSize?: Button$Sizes,
-  isBasic?: boolean,
-  isDisabled?: boolean,
-  isNegative?: boolean,
-  isPrimary?: boolean,
-  isUnsigned?: boolean,
-  label: React.ReactNode,
-  onClick?: () => any,
-  onFailed?: TxFailedCallback,
-  onStart?: () => void,
-  onSuccess?: TxCallback,
-  onUpdate?: TxCallback,
-  params?: any[] | ConstructFn,
-  tooltip?: string,
-  tx?: string,
-  withSpinner?: boolean
-};
+interface Props extends ApiProps {
+  accountId?: string;
+  accountNonce?: Index;
+  className?: string;
+  extrinsic?: IExtrinsic | SubmittableExtrinsic;
+  icon?: string;
+  iconSize?: Button$Sizes;
+  isBasic?: boolean;
+  isDisabled?: boolean;
+  isNegative?: boolean;
+  isPrimary?: boolean;
+  isUnsigned?: boolean;
+  label: React.ReactNode;
+  onClick?: () => any;
+  onFailed?: TxFailedCallback;
+  onStart?: () => void;
+  onSuccess?: TxCallback;
+  onUpdate?: TxCallback;
+  params?: any[] | ConstructFn;
+  tooltip?: string;
+  tx?: string;
+  withSpinner?: boolean;
+}
 
 type InnerProps = Props & InjectedProps;
 
-type State = {
-  extrinsic: SubmittableExtrinsic,
-  isSending: boolean
-};
+interface State {
+  extrinsic: SubmittableExtrinsic;
+  isSending: boolean;
+}
 
 class TxButtonInner extends React.PureComponent<InnerProps> {
   state = {

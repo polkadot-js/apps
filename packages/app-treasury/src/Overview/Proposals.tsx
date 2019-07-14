@@ -104,7 +104,8 @@ const Proposals = withMulti(
     [
       'query.treasury.approvals',
       {
-        transform: (value: Array<ProposalIndex>) => value.map((proposalId) => new BN(proposalId))
+        transform: (value: ProposalIndex[]): BN[] =>
+          value.map((proposalId): BN => new BN(proposalId))
       }
     ],
     'query.treasury.proposalCount'

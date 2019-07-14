@@ -15,7 +15,7 @@ import Summary from './Summary';
 import translate from './translate';
 
 interface Props extends I18nProps {
-  events: Array<KeyedEvent>;
+  events: KeyedEvent[];
 }
 
 class Main extends React.PureComponent<Props> {

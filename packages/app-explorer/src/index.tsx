@@ -30,7 +30,7 @@ type Props = AppProps & BareProps & I18nProps & {
 interface State {
   items: TabItem[];
   prevEventHash: string;
-  recentEvents: Array<KeyedEvent>;
+  recentEvents: KeyedEvent[];
 }
 
 class ExplorerApp extends React.Component<Props, State> {

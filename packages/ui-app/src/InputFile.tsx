@@ -88,7 +88,7 @@ class InputFile extends React.PureComponent<Props, State> {
     ) : dropZone;
   }
 
-  private onDrop = (files: Array<File>) => {
+  private onDrop = (files: File[]) => {
     const { onChange } = this.props;
 
     files.forEach((file) => {
