@@ -14,7 +14,7 @@ import Address from './Address';
 
 interface Props extends I18nProps {
   balances?: DerivedBalancesMap;
-  current: string[];
+  currentValidatorsControllersV1OrStashesV2: string[];
   lastAuthor?: string;
   lastBlock: string;
   next: string[];
@@ -48,7 +48,7 @@ class CurrentList extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { current, next, t } = this.props;
+    const { currentValidatorsControllersV1OrStashesV2, next, t } = this.props;
     const { filter, filterOptions } = this.state;
     return (
       <div>
@@ -65,7 +65,7 @@ class CurrentList extends React.PureComponent<Props, State> {
             emptyText={t('No addresses found')}
             headerText={t('validators')}
           >
-            {this.renderColumn(current, t('validator (stash)'))}
+            {this.renderColumn(currentValidatorsControllersV1OrStashesV2, t('validator (stash)'))}
           </Column>
           <Column
             emptyText={t('No addresses found')}
@@ -78,11 +78,11 @@ class CurrentList extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderColumn (addresses: string[], defaultName: string) {
+  private renderColumn (addresses: string[], defaultName: string): React.ReactNode {
     const { balances, lastAuthor, lastBlock, recentlyOffline } = this.props;
     const { filter } = this.state;
 
-    return addresses.map((address) => (
+    return addresses.map((address): React.ReactNode => (
       <Address
         address={address}
         balances={balances}

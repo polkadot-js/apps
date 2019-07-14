@@ -37,7 +37,7 @@ export { api };
 const injectedPromise = web3Enable('polkadot-js/apps');
 
 export default class Api extends React.PureComponent<Props, State> {
-  public state: State = {} as State;
+  public state: State = {} as unknown as State;
 
   public constructor (props: Props) {
     super(props);
@@ -49,7 +49,7 @@ export default class Api extends React.PureComponent<Props, State> {
     const setApi = (provider: ProviderInterface): void => {
       api = new ApiPromise({ provider, signer });
 
-      this.setState({ api }, () => {
+      this.setState({ api }, (): void => {
         this.subscribeEvents();
       });
     };
@@ -59,34 +59,35 @@ export default class Api extends React.PureComponent<Props, State> {
     api = new ApiPromise({ provider, signer });
 
     this.state = {
+      api,
       isApiConnected: false,
       isApiReady: false,
+      isSubstrateV2: true,
       isWaitingInjected: isWeb3Injected,
-      api,
       setApiUrl
-    } as State;
+    } as unknown as State;
   }
 
-  componentDidMount () {
+  public componentDidMount (): void {
     this.subscribeEvents();
 
     injectedPromise
-      .then(() => this.setState({ isWaitingInjected: false }))
+      .then((): void => this.setState({ isWaitingInjected: false }))
       .catch(console.error);
   }
 
-  private subscribeEvents () {
+  private subscribeEvents (): void {
     const { api } = this.state;
 
-    api.on('connected', () => {
+    api.on('connected', (): void => {
       this.setState({ isApiConnected: true });
     });
 
-    api.on('disconnected', () => {
+    api.on('disconnected', (): void => {
       this.setState({ isApiConnected: false });
     });
 
-    api.on('ready', async () => {
+    api.on('ready', async (): Promise<void> => {
       try {
         await this.loadOnReady(api);
       } catch (error) {
@@ -95,7 +96,7 @@ export default class Api extends React.PureComponent<Props, State> {
     });
   }
 
-  private async loadOnReady (api: ApiPromise) {
+  private async loadOnReady (api: ApiPromise): Promise<void> {
     const [properties = new ChainProperties(), value] = await Promise.all([
       api.rpc.system.properties<ChainProperties>(),
       api.rpc.system.chain<Text>()
@@ -138,18 +139,20 @@ export default class Api extends React.PureComponent<Props, State> {
       (api.tx.system && api.tx.system.setCode) || // 2.x
       (api.tx.consensus && api.tx.consensus.setCode) || // 1.x
       apiDefaultTx; // other
+    const isSubstrateV2 = !!Object.keys(api.consts).length;
 
     this.setState({
-      isApiReady: true,
       apiDefaultTx,
       apiDefaultTxSudo,
       chain,
-      isDevelopment
+      isApiReady: true,
+      isDevelopment,
+      isSubstrateV2
     });
   }
 
   public render (): React.ReactNode {
-    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isWaitingInjected, setApiUrl } = this.state;
+    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
@@ -161,6 +164,7 @@ export default class Api extends React.PureComponent<Props, State> {
           isApiConnected,
           isApiReady: isApiReady && !!chain,
           isDevelopment,
+          isSubstrateV2,
           isWaitingInjected,
           setApiUrl
         }}

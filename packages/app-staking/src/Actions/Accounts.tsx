@@ -26,7 +26,7 @@ interface State {
   isNewStakeOpen: boolean;
 }
 
-class Accounts extends React.PureComponent<Props,State> {
+class Accounts extends React.PureComponent<Props, State> {
   public state: State = {
     isNewStakeOpen: false
   };
@@ -49,7 +49,7 @@ class Accounts extends React.PureComponent<Props,State> {
                 <Icon name='add'/>
                 {t('New stake')}
               </>
-          }
+            }
             onClick={this.toggleNewStake}
           />
         }
@@ -58,7 +58,7 @@ class Accounts extends React.PureComponent<Props,State> {
         isEmpty={isEmpty}
       >
         {this.renderNewStake()}
-        {myStashes && myStashes.map((address, index) => (
+        {myStashes && myStashes.map((address, index): React.ReactNode => (
           address &&
           <Account
             accountId={address}
@@ -71,7 +71,7 @@ class Accounts extends React.PureComponent<Props,State> {
     );
   }
 
-  private getMyStashes () {
+  private getMyStashes (): string[] | null {
     const { myControllers, allAccounts } = this.props;
     const result: string[] = [];
 
@@ -79,7 +79,7 @@ class Accounts extends React.PureComponent<Props,State> {
       return null;
     }
 
-    myControllers.forEach((value,index) => {
+    myControllers.forEach((value, index): void => {
       if (value.toString() !== '') {
         allAccounts && result.push(Object.keys(allAccounts)[index]);
       }
@@ -88,15 +88,15 @@ class Accounts extends React.PureComponent<Props,State> {
     return result;
   }
 
-  private getStashOptions (): Array<KeyringSectionOption> {
-    const { stashes } = this.props;
+  private getStashOptions (): KeyringSectionOption[] {
+    const { allStashes } = this.props;
 
-    return stashes.map((stashId) =>
+    return allStashes.map((stashId): KeyringSectionOption =>
       createOption(stashId, getAddressName(stashId, 'account'))
     );
   }
 
-  private renderNewStake () {
+  private renderNewStake (): React.ReactNode {
     const { isNewStakeOpen } = this.state;
 
     if (!isNewStakeOpen) {

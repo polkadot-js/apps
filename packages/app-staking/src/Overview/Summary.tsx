@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
@@ -15,20 +15,19 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  balances: DerivedBalancesMap;
   className?: string;
-  controllers: string[];
+  allControllers: string[];
   lastAuthor?: string;
   lastBlock: string;
   staking_validatorCount?: BN;
-  validators: string[];
+  currentValidatorsControllersV1OrStashesV2: string[];
 }
 
 class Summary extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, controllers, lastAuthor, lastBlock, style, t, staking_validatorCount, validators } = this.props;
-    const waiting = controllers.length > validators.length
-      ? (controllers.length - validators.length)
+    const { className, allControllers, lastAuthor, lastBlock, style, t, staking_validatorCount, currentValidatorsControllersV1OrStashesV2 } = this.props;
+    const waiting = allControllers.length > currentValidatorsControllersV1OrStashesV2.length
+      ? (allControllers.length - currentValidatorsControllersV1OrStashesV2.length)
       : 0;
 
     return (
@@ -38,7 +37,7 @@ class Summary extends React.PureComponent<Props> {
       >
         <section>
           <CardSummary label={t('validators')}>
-            {validators.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
+            {currentValidatorsControllersV1OrStashesV2.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
           </CardSummary>
           <CardSummary label={t('waiting')}>
             {waiting}

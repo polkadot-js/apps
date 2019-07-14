@@ -10,16 +10,16 @@ import { SignatureOptions } from '@polkadot/types/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
-export type ActionStatus = {
-  account?: AccountId | Address | string,
-  action: Actions | string,
-  message?: string,
-  status: 'error' | 'event' | 'queued' | 'received' | 'success'
-};
+export interface ActionStatus {
+  account?: AccountId | Address | string;
+  action: Actions | string;
+  message?: string;
+  status: 'error' | 'event' | 'queued' | 'received' | 'success';
+}
 
-export type AccountInfo = {
-  accountId?: string | null
-};
+export interface AccountInfo {
+  accountId?: string | null;
+}
 
 export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
 
@@ -29,64 +29,64 @@ export type TxCallback = (status: SubmittableResult) => void;
 
 export type TxFailedCallback = (status: SubmittableResult | null) => void;
 
-export type QueueTx = AccountInfo & {
-  error?: Error,
-  extrinsic?: SubmittableExtrinsic,
-  id: number,
-  isUnsigned?: boolean,
-  result?: any,
-  removeItem: () => void,
-  rpc: RpcMethod,
-  signerCb?: SignerCallback,
-  signerOptions?: SignatureOptions,
-  txFailedCb?: TxFailedCallback,
-  txSuccessCb?: TxCallback,
-  txStartCb?: () => void,
-  txUpdateCb?: TxCallback,
-  values?: any[],
-  status: QueueTxStatus
-};
+export interface QueueTx extends AccountInfo {
+  error?: Error;
+  extrinsic?: SubmittableExtrinsic;
+  id: number;
+  isUnsigned?: boolean;
+  result?: any;
+  removeItem: () => void;
+  rpc: RpcMethod;
+  signerCb?: SignerCallback;
+  signerOptions?: SignatureOptions;
+  txFailedCb?: TxFailedCallback;
+  txSuccessCb?: TxCallback;
+  txStartCb?: () => void;
+  txUpdateCb?: TxCallback;
+  values?: any[];
+  status: QueueTxStatus;
+}
 
-export type QueueStatus = ActionStatus & {
-  id: number,
-  isCompleted: boolean,
-  removeItem: () => void
-};
+export interface QueueStatus extends ActionStatus {
+  id: number;
+  isCompleted: boolean;
+  removeItem: () => void;
+}
 
-export type QueueTxResult = {
-  error?: Error,
-  result?: any,
-  status: QueueTxStatus
-};
+export interface QueueTxResult {
+  error?: Error;
+  result?: any;
+  status: QueueTxStatus;
+}
 
-export type QueueTxExtrinsic = AccountInfo & {
-  extrinsic: SubmittableExtrinsic
-};
+export interface QueueTxExtrinsic extends AccountInfo {
+  extrinsic: SubmittableExtrinsic;
+}
 
-export type QueueTxRpc = AccountInfo & {
-  rpc: RpcMethod,
-  values: any[]
-};
+export interface QueueTxRpc extends AccountInfo {
+  rpc: RpcMethod;
+  values: any[];
+}
 
-export type PartialAccountInfo = {
-  accountId?: string | null
-};
+export interface PartialAccountInfo {
+  accountId?: string | null;
+}
 
-export type PartialQueueTxExtrinsic = PartialAccountInfo & {
-  extrinsic: SubmittableExtrinsic,
-  signerCb?: SignerCallback,
-  signerOptions?: SignatureOptions,
-  txFailedCb?: TxFailedCallback,
-  txSuccessCb?: TxCallback,
-  txStartCb?: () => void,
-  txUpdateCb?: TxCallback,
-  isUnsigned?: boolean
-};
+export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
+  extrinsic: SubmittableExtrinsic;
+  signerCb?: SignerCallback;
+  signerOptions?: SignatureOptions;
+  txFailedCb?: TxFailedCallback;
+  txSuccessCb?: TxCallback;
+  txStartCb?: () => void;
+  txUpdateCb?: TxCallback;
+  isUnsigned?: boolean;
+}
 
-export type PartialQueueTxRpc = PartialAccountInfo & {
-  rpc: RpcMethod,
-  values: any[]
-};
+export interface PartialQueueTxRpc extends PartialAccountInfo {
+  rpc: RpcMethod;
+  values: any[];
+}
 
 export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => number;
 
@@ -96,11 +96,11 @@ export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result
 
 export type QueueAction$Add = (status: ActionStatus) => number;
 
-export type QueueProps = {
-  stqueue: Array<QueueStatus>,
-  txqueue: Array<QueueTx>,
-  queueAction: QueueAction$Add,
-  queueExtrinsic: QueueTxExtrinsicAdd,
-  queueRpc: QueueTxRpcAdd,
-  queueSetTxStatus: QueueTxMessageSetStatus
-};
+export interface QueueProps {
+  stqueue: QueueStatus[];
+  txqueue: QueueTx[];
+  queueAction: QueueAction$Add;
+  queueExtrinsic: QueueTxExtrinsicAdd;
+  queueRpc: QueueTxRpcAdd;
+  queueSetTxStatus: QueueTxMessageSetStatus;
+}

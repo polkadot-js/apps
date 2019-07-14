@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
@@ -25,18 +25,17 @@ import translate from './translate';
 
 type Props = AppProps & ApiProps & I18nProps & {
   allAccounts?: SubjectInfo;
-  balances?: DerivedBalancesMap;
-  session_validators?: AccountId[];
-  staking_controllers?: [AccountId[], Option<AccountId>[]];
+  allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
+  currentValidatorsControllersV1OrStashesV2?: AccountId[];
   staking_recentlyOffline?: RecentlyOffline;
 };
 
 interface State {
-  controllers: string[];
+  allControllers: string[];
+  allStashes: string[];
+  currentValidatorsControllersV1OrStashesV2: string[];
   recentlyOffline: RecentlyOfflineMap;
-  stashes: string[];
   tabs: TabItem[];
-  validators: string[];
 }
 
 class App extends React.PureComponent<Props, State> {
@@ -48,9 +47,10 @@ class App extends React.PureComponent<Props, State> {
     const { t } = props;
 
     this.state = {
-      controllers: [],
+      allControllers: [],
+      allStashes: [],
+      currentValidatorsControllersV1OrStashesV2: [],
       recentlyOffline: {},
-      stashes: [],
       tabs: [
         {
           isRoot: true,
@@ -61,22 +61,21 @@ class App extends React.PureComponent<Props, State> {
           name: 'actions',
           text: t('Account actions')
         }
-      ],
-      validators: []
+      ]
     };
   }
 
-  static getDerivedStateFromProps ({ staking_controllers = [[], []], session_validators = [], staking_recentlyOffline = [] }: Props): State {
+  public static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): State {
     return {
-      controllers: staking_controllers[1].filter((optId) => optId.isSome).map((accountId) =>
+      allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
         accountId.unwrap().toString()
       ),
-      stashes: staking_controllers[0].map((accountId) => accountId.toString()),
-      validators: session_validators.map((authorityId) =>
+      allStashes: allStashesAndControllers[0].map((accountId): string => accountId.toString()),
+      currentValidatorsControllersV1OrStashesV2: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
         authorityId.toString()
       ),
       recentlyOffline: staking_recentlyOffline.reduce(
-        (result, [accountId, blockNumber, count]) => {
+        (result, [accountId, blockNumber, count]): RecentlyOfflineMap => {
           const account = accountId.toString();
 
           if (!result[account]) {
@@ -89,8 +88,8 @@ class App extends React.PureComponent<Props, State> {
           });
 
           return result;
-        }, {} as RecentlyOfflineMap)
-    } as State;
+        }, {} as unknown as RecentlyOfflineMap)
+    } as unknown as State;
   }
 
   public render (): React.ReactNode {
@@ -118,10 +117,10 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): React.ReactNode {
     return (): React.ReactNode => {
-      const { controllers, recentlyOffline, stashes, validators } = this.state;
-      const { balances = {}, allAccounts } = this.props;
+      const { allControllers, recentlyOffline, allStashes, currentValidatorsControllersV1OrStashesV2 } = this.state;
+      const { allAccounts } = this.props;
 
       if (!allAccounts) {
         return null;
@@ -130,11 +129,10 @@ class App extends React.PureComponent<Props, State> {
       return (
         <Component
           allAccounts={allAccounts}
-          balances={balances}
-          controllers={controllers}
+          allControllers={allControllers}
+          allStashes={allStashes}
+          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
           recentlyOffline={recentlyOffline}
-          stashes={stashes}
-          validators={validators}
         />
       );
     };
@@ -145,8 +143,8 @@ export default withMulti(
   App,
   translate,
   withCalls<Props>(
-    'derive.staking.controllers',
-    'query.session.validators',
+    ['derive.staking.controllers', { propName: 'allStashesAndControllers' }],
+    ['query.session.validators', { propName: 'currentValidatorsControllersV1OrStashesV2' }],
     'query.staking.recentlyOffline'
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
