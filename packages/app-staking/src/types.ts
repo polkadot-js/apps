@@ -9,14 +9,14 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type Nominators = {
   // stash account and who is being nominated
-  [index: string]: Array<string>
+  [index: string]: string[]
 };
 
 export type ComponentProps = {
   allAccounts?: SubjectInfo,
-  allControllers: Array<string>,
-  allStashes: Array<string>,
-  currentValidatorsControllersV1OrStashesV2: Array<string>,
+  allControllers: string[],
+  allStashes: string[],
+  currentValidatorsControllersV1OrStashesV2: string[],
   recentlyOffline: RecentlyOfflineMap
 };
 
@@ -26,10 +26,10 @@ export type CalculateBalanceProps = {
   system_accountNonce?: BN
 };
 
-export type RecentlyOffline = Array<[AccountId, BlockNumber, BN]>;
+export type RecentlyOffline = [AccountId, BlockNumber, BN][];
 
 export type RecentlyOfflineMap = {
-  [s: string]: Array<OfflineStatus>
+  [s: string]: OfflineStatus[]
 };
 
 export interface OfflineStatus {
