@@ -17,18 +17,18 @@ import Add from './Add';
 
 type Props = ComponentProps & I18nProps;
 
-type State = {
-  isAddOpen: boolean,
-  isUploadOpen: boolean
-};
+interface State {
+  isAddOpen: boolean;
+  isUploadOpen: boolean;
+}
 
 class Codes extends React.PureComponent<Props> {
-  state = {
+  public state: State = {
     isAddOpen: false,
     isUploadOpen: false
-  } as State;
+  };
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath, showDeploy, t } = this.props;
     const { isAddOpen, isUploadOpen } = this.state;
 
@@ -53,7 +53,7 @@ class Codes extends React.PureComponent<Props> {
             </Button.Group>
           }
         >
-          {contracts.getAllCode().map((code) => {
+          {contracts.getAllCode().map((code): React.ReactNode => {
             return (
               <Code
                 key={code.json.codeHash}
@@ -78,19 +78,19 @@ class Codes extends React.PureComponent<Props> {
     );
   }
 
-  private showUpload = () => {
+  private showUpload = (): void => {
     this.setState({ isUploadOpen: true });
   }
 
-  private hideUpload = () => {
+  private hideUpload = (): void => {
     this.setState({ isUploadOpen: false });
   }
 
-  private showAdd = () => {
+  private showAdd = (): void => {
     this.setState({ isAddOpen: true });
   }
 
-  private hideAdd = () => {
+  private hideAdd = (): void => {
     this.setState({ isAddOpen: false });
   }
 }

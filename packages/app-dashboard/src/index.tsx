@@ -12,25 +12,25 @@ import routing from '@polkadot/apps-routing';
 import Entry from './Entry';
 import Spacer from './Spacer';
 
-type Props = AppProps & {
+interface Props extends AppProps {
   className?: string;
-};
+}
 
-type State = {
-  routes: Array<Route>
-};
+interface State {
+  routes: Route[];
+}
 
 class App extends React.PureComponent<Props, State> {
   // FIXME Atm we are not applying all the logic around should this be hidden or not, i.e.
   // is the api available, are there accounts, etc. (That logic should also be extracted so
   // it can be used in a proper way here)
-  state: State = {
-    routes: routing.routes.filter((route) =>
-      route && !route.display.isHidden && route.name !== 'dashboard'
-    ) as Array<Route>
+  public state: State = {
+    routes: routing.routes.filter((route): boolean =>
+      !!route && !route.display.isHidden && route.name !== 'dashboard'
+    ) as Route[]
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { routes } = this.state;
 

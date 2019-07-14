@@ -8,10 +8,10 @@ import { Log } from './types';
 import React from 'react';
 import { isError, isNull, isUndefined } from '@polkadot/util';
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  logs: Array<Log>
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  logs: Log[];
+}
 
 const format = (value: any): string => {
   if (isError(value)) {
@@ -21,9 +21,9 @@ const format = (value: any): string => {
   } else if (isNull(value)) {
     return 'null';
   } else if (Array.isArray(value)) {
-    return `[${value.map((value) => format(value)).join(', ')}]`;
+    return `[${value.map((value): string => format(value)).join(', ')}]`;
   } else if (value instanceof Map) {
-    return `{${[...value.entries()].map(([key, value]) => key + ': ' + format(value)).join(', ')}}`;
+    return `{${[...value.entries()].map(([key, value]): string => key + ': ' + format(value)).join(', ')}}`;
   }
 
   return value.toString();
@@ -31,12 +31,12 @@ const format = (value: any): string => {
 
 const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
   <div className={`js--Log ${type}`} key={index}>
-    {args.map((arg) => format(arg)).join(' ')}
+    {args.map((arg): string => format(arg)).join(' ')}
   </div>
 );
 
 export default class Output extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, logs } = this.props;
 
     return (

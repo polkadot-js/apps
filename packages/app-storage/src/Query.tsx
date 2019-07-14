@@ -17,35 +17,33 @@ import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
 
-type Props = I18nProps & {
-  onRemove: (id: number) => void,
-  value: QueryTypes
-};
+interface Props extends I18nProps {
+  onRemove: (id: number) => void;
+  value: QueryTypes;
+}
 
-type ComponentProps = {};
+interface State {
+  inputs: React.ReactNode[];
+  Component: React.ComponentType<{}>;
+  spread: Record<number, boolean>;
+}
 
-type State = {
-  inputs: Array<React.ReactNode>,
-  Component: React.ComponentType<ComponentProps>,
-  spread: { [index: number]: boolean }
-};
+interface CacheInstance {
+  Component: React.ComponentType<any>;
+  render: RenderFn;
+  refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>;
+}
 
-type CacheInstance = {
-  Component: React.ComponentType<any>,
-  render: RenderFn,
-  refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any>
-};
-
-const cache: Array<CacheInstance> = [];
+const cache: CacheInstance[] = [];
 
 class Query extends React.PureComponent<Props, State> {
-  state: State = { spread: {} } as State;
+  public state: State = { spread: {} } as State;
 
   static getCachedComponent (query: QueryTypes): CacheInstance {
     const { id, key, params = [] } = query as StorageModuleQuery;
 
     if (!cache[id]) {
-      const values: Array<any> = params.map(({ value }) => value);
+      const values: any[] = params.map(({ value }) => value);
       const type = key.creator.meta
         ? key.creator.meta.type.toString()
         : 'Data';
@@ -87,7 +85,7 @@ class Query extends React.PureComponent<Props, State> {
 
   static getDerivedStateFromProps ({ value }: Props) {
     const Component = Query.getCachedComponent(value).Component;
-    const inputs: Array<React.ReactNode> = isU8a(value.key)
+    const inputs: React.ReactNode[] = isU8a(value.key)
       ? []
       // FIXME We need to render the actual key params
       // const { key, params } = value;
@@ -104,7 +102,7 @@ class Query extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, value } = this.props;
     const { Component } = this.state;
     const { key } = value;

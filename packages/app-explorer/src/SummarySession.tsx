@@ -12,14 +12,14 @@ import { withCalls } from '@polkadot/ui-api';
 import translate from './translate';
 import { formatNumber } from '@polkadot/util';
 
-type Props = I18nProps & {
-  session_info?: DerivedSessionInfo,
-  withEra?: boolean,
-  withSession?: boolean
-};
+interface Props extends I18nProps {
+  session_info?: DerivedSessionInfo;
+  withEra?: boolean;
+  withSession?: boolean;
+}
 
 class SummarySession extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <>
         {this.renderSession()}

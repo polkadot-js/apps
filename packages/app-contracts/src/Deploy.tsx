@@ -22,25 +22,26 @@ import Params from './Params';
 import store from './store';
 import translate from './translate';
 
-type ConstructOptions = Array<{key: string, text: string, value: string}>;
+type ConstructOptions = { key: string; text: string; value: string }[];
 
 type Props = ContractModalProps & ApiProps & I18nProps & RouteComponentProps & {
-  codeHash?: string
+  codeHash?: string;
 };
 
-type State = ContractModalState & {
-  codeHash?: string,
-  constructOptions: ConstructOptions,
-  endowment: BN,
-  isHashValid: boolean,
-  params: Array<any>
-};
+interface State extends ContractModalState {
+  codeHash?: string;
+  constructOptions: ConstructOptions;
+  endowment: BN;
+  isHashValid: boolean;
+  params: any[];
+}
 
 class Deploy extends ContractModal<Props, State> {
-  headerText = 'Deploy a new contract';
-  isContract = true;
+  protected headerText = 'Deploy a new contract';
 
-  constructor (props: Props) {
+  public isContract = true;
+
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -54,7 +55,7 @@ class Deploy extends ContractModal<Props, State> {
     this.state = this.defaultState;
   }
 
-  componentWillReceiveProps (nextProps: Props, nextState: State) {
+  public componentWillReceiveProps (nextProps: Props, nextState: State): void {
     super.componentWillReceiveProps(nextProps, nextState);
 
     if (nextProps.codeHash && nextProps.codeHash !== this.props.codeHash) {
@@ -64,7 +65,7 @@ class Deploy extends ContractModal<Props, State> {
     }
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { codeHash, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
@@ -137,7 +138,7 @@ class Deploy extends ContractModal<Props, State> {
     );
   }
 
-  renderButtons = () => {
+  protected renderButtons = (): React.ReactNode => {
     const { api, t } = this.props;
     const { accountId, endowment, gasLimit, isAbiValid, isHashValid, isNameValid } = this.state;
     const isEndowValid = !endowment.isZero();
@@ -163,9 +164,9 @@ class Deploy extends ContractModal<Props, State> {
     );
   }
 
-  private getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): State => {
+  private getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): Partial<State> => {
     if (contractAbi) {
-      const args = contractAbi.deploy.args.map(({ name, type }) => name + ': ' + type);
+      const args = contractAbi.deploy.args.map(({ name, type }): string => `${name}: ${type}`);
       const text = `deploy(${args.join(', ')})`;
 
       return {
@@ -182,7 +183,7 @@ class Deploy extends ContractModal<Props, State> {
             type: getTypeDef(type, name)
           }))
         )
-      } as State;
+      };
     } else {
       return {
         constructOptions: [] as ConstructOptions,
@@ -190,8 +191,8 @@ class Deploy extends ContractModal<Props, State> {
         contractAbi: null,
         isAbiSupplied: false,
         isAbiValid: false,
-        params: [] as Array<any>
-      } as State;
+        params: [] as unknown[]
+      };
     }
   }
 
@@ -209,14 +210,14 @@ class Deploy extends ContractModal<Props, State> {
           isHashValid: true,
           isNameValid: true,
           ...this.getContractAbiState(json.abi, contractAbi)
-        } as State;
+        } as unknown as State;
       }
     }
 
-    return {} as State;
+    return {} as unknown as State;
   }
 
-  private constructCall = (): Array<any> => {
+  private constructCall = (): any[] => {
     const { codeHash, contractAbi, endowment, gasLimit, params } = this.state;
 
     if (!contractAbi) {
@@ -228,7 +229,7 @@ class Deploy extends ContractModal<Props, State> {
 
   protected onAddAbi = (abi: string | null | undefined, contractAbi?: Abi | null): void => {
     this.setState({
-      ...this.getContractAbiState(abi, contractAbi)
+      ...(this.getContractAbiState(abi, contractAbi) as State)
     });
   }
 
@@ -242,20 +243,20 @@ class Deploy extends ContractModal<Props, State> {
     this.setState({ endowment: endowment || new BN(0) });
   }
 
-  private onChangeParams = (params: Array<any>): void => {
+  private onChangeParams = (params: any[]): void => {
     this.setState({ params });
   }
 
-  private onSuccess = async (result: SubmittableResult) => {
+  private onSuccess = async (result: SubmittableResult): Promise<void> => {
     const { api, history } = this.props;
 
     const section = api.tx.contracts ? 'contracts' : 'contract';
     const record = result.findRecord(section, 'Instantiated');
 
     if (record) {
-      const address = record.event.data[1] as any as AccountId;
+      const address = record.event.data[1] as unknown as AccountId;
 
-      this.setState(({ abi, name, tags }) => {
+      this.setState(({ abi, name, tags }): State | unknown => {
         if (!abi || !name) {
           return;
         }
@@ -273,10 +274,9 @@ class Deploy extends ContractModal<Props, State> {
 
         this.onClose();
 
-        return { isBusy: false } as State;
+        return { isBusy: false } as unknown as State;
       });
     }
-
   }
 }
 

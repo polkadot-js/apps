@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '../types';
-import { QueueStatus, QueueTx, QueueTx$Status } from './types';
+import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -14,10 +14,10 @@ import Icon from '../Icon';
 import { classes } from '../util';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  stqueue?: Array<QueueStatus>,
-  txqueue?: Array<QueueTx>
-};
+interface Props extends I18nProps {
+  stqueue?: QueueStatus[];
+  txqueue?: QueueTx[];
+}
 
 const Wrapper = styled.div`
   display: inline-block;
@@ -90,10 +90,10 @@ const Wrapper = styled.div`
 `;
 
 class Status extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { stqueue = [], txqueue = [] } = this.props;
-    const allst: Array<QueueStatus> = stqueue.filter(({ isCompleted }) => !isCompleted);
-    const alltx: Array<QueueTx> = txqueue.filter(({ status }) =>
+    const allst: QueueStatus[] = stqueue.filter(({ isCompleted }) => !isCompleted);
+    const alltx: QueueTx[] = txqueue.filter(({ status }) =>
       !['completed', 'incomplete'].includes(status)
     );
 
@@ -198,7 +198,7 @@ class Status extends React.PureComponent<Props> {
     }
   }
 
-  private signerIconName = (status: QueueTx$Status) => {
+  private signerIconName = (status: QueueTxStatus) => {
     switch (status) {
       case 'cancelled':
         return 'ban';

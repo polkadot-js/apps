@@ -11,12 +11,12 @@ import Params from '@polkadot/ui-params';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  value?: Array<DigestItem>
-};
+interface Props extends I18nProps {
+  value?: DigestItem[];
+}
 
 class Logs extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { t, value } = this.props;
 
     if (!value || !value.length) {

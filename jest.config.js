@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const config = require('@polkadot/dev-react/config/jest');
 const findPackages = require('./scripts/findPackages');
 

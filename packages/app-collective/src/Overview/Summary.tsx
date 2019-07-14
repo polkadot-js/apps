@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -13,16 +14,16 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  elections_members?: Array<[AccountId, BlockNumber]>
-  elections_candidateCount?: BN,
-  elections_desiredSeats?: BN,
-  elections_termDuration?: BN,
-  elections_voteCount?: BN
-};
+interface Props extends I18nProps {
+  elections_members?: [AccountId, BlockNumber][];
+  elections_candidateCount?: BN;
+  elections_desiredSeats?: BN;
+  elections_termDuration?: BN;
+  elections_voteCount?: BN;
+}
 
 class Summary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { elections_members = [], elections_candidateCount = new BN(0), elections_desiredSeats = new BN(1), elections_termDuration = new BN(0), elections_voteCount = new BN(0), t } = this.props;
 
     return (
@@ -43,8 +44,8 @@ class Summary extends React.PureComponent<Props> {
 
         <section>
           <CardSummary label={t('term duration')}>
-              {formatNumber(elections_termDuration)}
-           </CardSummary>
+            {formatNumber(elections_termDuration)}
+          </CardSummary>
         </section>
       </SummaryBox>
     );

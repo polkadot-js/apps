@@ -12,36 +12,36 @@ import { u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  className?: string,
-  contractAbi?: Abi | null,
-  help?: React.ReactNode,
-  isError?: boolean,
-  isDisabled?: boolean,
-  isRequired?: boolean,
-  label?: React.ReactNode,
-  onChange: (json: string | null, contractAbi: Abi | null) => void,
-  onRemove?: () => void,
-  onRemoved?: () => void,
-  onSelect?: () => void
-};
+interface Props extends I18nProps {
+  className?: string;
+  contractAbi?: Abi | null;
+  help?: React.ReactNode;
+  isError?: boolean;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  label?: React.ReactNode;
+  onChange: (json: string | null, contractAbi: Abi | null) => void;
+  onRemove?: () => void;
+  onRemoved?: () => void;
+  onSelect?: () => void;
+}
 
-type State = {
-  contractAbi: Abi | null,
-  isAbiValid: boolean,
-  isEmpty: boolean,
-  isError: boolean
-};
+interface State {
+  contractAbi: Abi | null;
+  isAbiValid: boolean;
+  isEmpty: boolean;
+  isError: boolean;
+}
 
 class ABI extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     contractAbi: null,
     isAbiValid: false,
     isEmpty: true,
     isError: false
   };
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { contractAbi, isError, isRequired } = this.props;
@@ -55,7 +55,7 @@ class ABI extends React.PureComponent<Props, State> {
     };
   }
 
-  componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props) {
+  public componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props): void {
     if (contractAbi) {
       this.setState({
         contractAbi,
@@ -71,7 +71,7 @@ class ABI extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { contractAbi, isAbiValid } = this.state;
 
@@ -86,7 +86,7 @@ class ABI extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInputFile () {
+  private renderInputFile (): React.ReactNode {
     const { className, help, isDisabled, isRequired, label, t } = this.props;
     const { isAbiValid, isEmpty, isError } = this.state;
 
@@ -108,7 +108,7 @@ class ABI extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderMessages () {
+  private renderMessages (): React.ReactNode {
     const { help, isDisabled, label, onRemove } = this.props;
     const { contractAbi } = this.state;
 
@@ -140,7 +140,7 @@ class ABI extends React.PureComponent<Props, State> {
         isAbiValid: true,
         isEmpty: false,
         isError: false
-      }, () => onChange(json, contractAbi));
+      }, (): void => onChange(json, contractAbi));
     } catch (error) {
       console.error(error);
 
@@ -148,7 +148,7 @@ class ABI extends React.PureComponent<Props, State> {
         isAbiValid: false,
         isEmpty: false,
         isError: true
-      }, () => onChange(null, null));
+      }, (): void => onChange(null, null));
     }
   }
 
@@ -161,7 +161,7 @@ class ABI extends React.PureComponent<Props, State> {
         isAbiValid: false,
         isEmpty: true
       },
-      () => {
+      (): void => {
         onChange(null, null);
         onRemoved && onRemoved();
       }

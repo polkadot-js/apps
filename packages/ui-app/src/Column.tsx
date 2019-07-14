@@ -14,7 +14,7 @@ type Props = CollectionProps;
 type State = CollectionState;
 
 class Column extends Collection<Props, State> {
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { isEmpty } = this.state;
 

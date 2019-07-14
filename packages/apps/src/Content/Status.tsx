@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -16,18 +17,18 @@ import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  optionsAll?: KeyringOptions,
-  queueAction: QueueAction$Add,
-  stqueue: Array<QueueStatus>,
-  system_events?: Array<EventRecord>,
-  txqueue: Array<QueueTx>
-};
+interface Props extends I18nProps {
+  optionsAll?: KeyringOptions;
+  queueAction: QueueAction$Add;
+  stqueue: QueueStatus[];
+  system_events?: EventRecord[];
+  txqueue: QueueTx[];
+}
 
 let prevEventHash: string;
 
 class Status extends React.PureComponent<Props> {
-  componentDidUpdate ({ optionsAll = { account: [] as any } as KeyringOptions, queueAction, system_events, t }: Props) {
+  public componentDidUpdate ({ optionsAll = { account: [] as any[] } as KeyringOptions, queueAction, system_events, t }: Props): void {
     const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events || [])));
 
     if (eventHash === prevEventHash) {
@@ -36,9 +37,9 @@ class Status extends React.PureComponent<Props> {
 
     prevEventHash = eventHash;
 
-    const addresses = optionsAll.account.map((account) => account.value);
+    const addresses = optionsAll.account.map((account): string | null => account.value);
 
-    (system_events || []).forEach(({ event: { data, method, section } }) => {
+    (system_events || []).forEach(({ event: { data, method, section } }): void => {
       if (section === 'balances' && method === 'Transfer') {
         const account = data[1].toString();
 
@@ -66,7 +67,7 @@ class Status extends React.PureComponent<Props> {
     });
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { stqueue, txqueue } = this.props;
 
     return (

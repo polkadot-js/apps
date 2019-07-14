@@ -12,38 +12,38 @@ import BlockHeader from './BlockHeader';
 
 export const MAX_ITEMS = 15;
 
-let blockHeaders: Array<HeaderExtended> = [];
+let blockHeaders: HeaderExtended[] = [];
 
-const transform = (header: HeaderExtended): Array<HeaderExtended> => {
+const transform = (header: HeaderExtended): HeaderExtended[] => {
   if (!header) {
     return blockHeaders;
   }
 
   blockHeaders = blockHeaders
-    .filter((old, index) =>
+    .filter((old, index): boolean =>
       index < MAX_ITEMS && old.blockNumber.lt(header.blockNumber)
     )
-    .reduce((next, header) => {
+    .reduce((next, header): HeaderExtended[] => {
       next.push(header);
 
       return next;
     }, [header])
-    .sort((a, b) =>
+    .sort((a, b): number =>
       b.blockNumber.cmp(a.blockNumber)
     );
 
   return blockHeaders;
 };
 
-type Props = CallProps & {
-  headers?: Array<HeaderExtended>
-};
+interface Props extends CallProps {
+  headers?: HeaderExtended[];
+}
 
 class BlockHeaders extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { headers = [] } = this.props;
 
-    return headers.map((header, index) => (
+    return headers.map((header, index): React.ReactNode => (
       <BlockHeader
         isSummary={!!index}
         key={header.blockNumber.toString()}

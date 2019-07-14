@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 `;
 
 export default class InfoForInput extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, type = 'info' } = this.props;
 
     return (

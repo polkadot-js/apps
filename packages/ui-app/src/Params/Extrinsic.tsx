@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/primitive/Method';
-import { RawParam$OnChange, RawParam$OnEnter } from '@polkadot/ui-params/types';
+import { RawParamOnChange, RawParamOnEnter } from '@polkadot/ui-params/types';
 import { BareProps } from '../types';
 
 import React from 'react';
@@ -17,13 +17,13 @@ type Props = BareProps & {
   isError?: boolean,
   isPrivate: boolean,
   label: React.ReactNode,
-  onChange?: RawParam$OnChange,
-  onEnter?: RawParam$OnEnter,
+  onChange?: RawParamOnChange,
+  onEnter?: RawParamOnEnter,
   withLabel?: boolean
 };
 
 export default class ExtrinsicDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, withLabel } = this.props;
 
     return (

@@ -13,20 +13,20 @@ import { Column } from '@polkadot/ui-app';
 import ProposalDisplay from './Proposal';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  democracy_publicProps?: Array<[BN, Proposal]>
-};
+interface Props extends I18nProps {
+  democracy_publicProps?: [BN, Proposal][];
+}
 
-type State = {
-  isProposeOpen: boolean
-};
+interface State {
+  isProposeOpen: boolean;
+}
 
 class Proposals extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isProposeOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (

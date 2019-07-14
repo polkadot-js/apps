@@ -11,46 +11,45 @@ import { bnToBn } from '@polkadot/util';
 
 import Base from './Base';
 
-type Value = {
-  colors: Array<string>,
-  label: string,
-  value: number | BN
-};
+interface Value {
+  colors: string[];
+  label: string;
+  value: number | BN;
+}
 
-type Props = BareProps & {
-  size?: number,
-  values: Array<Value>
-};
+interface Props extends BareProps {
+  size?: number;
+  values: Value[];
+}
 
-type Options = {
-  colorNormal: Array<string>,
-  colorHover: Array<string>,
-  data: Array<number>,
-  labels: Array<string>
-};
+interface Options {
+  colorNormal: string[];
+  colorHover: string[];
+  data: number[];
+  labels: string[];
+}
 
 export default class ChartDoughnut extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, size = 100, style, values } = this.props;
+    const options: Options = {
+      colorNormal: [],
+      colorHover: [],
+      data: [],
+      labels: []
+    };
 
     // FIXME Classic case of kicking the can down the road, i.e. don't expend energy
     // when stuff are not used. This was replaced by the HorizBar as the only Chart
     // in actual use (by Referendum). However the below is not optimal, and gets re-
     // calculated on each render. If this component is put back in use, look at
     // getDerivedStateFromProps in HorizBar (the logic is the same for chartData)
-    const options = values.reduce((options, { colors: [normalColor = '#00f', hoverColor], label, value }) => {
+    values.forEach(({ colors: [normalColor = '#00f', hoverColor], label, value }): void => {
       options.colorNormal.push(normalColor);
       options.colorHover.push(hoverColor || normalColor);
       options.data.push(bnToBn(value).toNumber());
       options.labels.push(label);
-
-      return options;
-    }, {
-      colorNormal: [],
-      colorHover: [],
-      data: [],
-      labels: []
-    } as Options);
+    });
 
     return (
       <Base

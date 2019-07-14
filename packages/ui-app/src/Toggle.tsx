@@ -15,7 +15,7 @@ type Props = BareProps & {
 };
 
 class Toggle extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, label } = this.props;
 
     return (

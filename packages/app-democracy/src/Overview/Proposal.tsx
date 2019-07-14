@@ -14,14 +14,14 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 import Seconding from './Seconding';
 
-type Props = I18nProps & {
-  democracy_depositOf?: [Balance, Vector<AccountId>] | null,
-  idNumber: BN,
-  value: Proposal
-};
+interface Props extends I18nProps {
+  democracy_depositOf?: [Balance, Vector<AccountId>] | null;
+  idNumber: BN;
+  value: Proposal;
+}
 
 class ProposalDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, democracy_depositOf, idNumber, value } = this.props;
     const depositors = democracy_depositOf
       ? democracy_depositOf[1]

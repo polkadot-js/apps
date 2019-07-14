@@ -6,32 +6,35 @@ import { Abi } from '@polkadot/api-contract';
 import { AppProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-export type LocationProps = {
+export interface LocationProps {
   match: {
-    params: { [index: string]: any }
-  }
-};
+    params: Record<string, any>;
+  };
+}
 
 export type ComponentProps = AppProps & LocationProps & {
-  accounts: SubjectInfo[],
-  contracts: SubjectInfo[],
-  hasCode: boolean,
-  showDeploy: (codeHash?: string) => () => void
+  accounts: SubjectInfo[];
+  contracts: SubjectInfo[];
+  hasCode: boolean;
+  showDeploy: (codeHash?: string) => () => void;
 };
 
-export type CodeJson = {
-  abi?: string | null,
-  codeHash: string
-  name: string,
-  genesisHash: string,
-  tags: Array<string>
-};
+export interface CodeJson {
+  abi?: string | null;
+  codeHash: string;
+  name: string;
+  genesisHash: string;
+  tags: string[];
+}
 
-export type CodeStored = { json: CodeJson , contractAbi?: Abi };
+export interface CodeStored {
+  json: CodeJson;
+  contractAbi?: Abi;
+}
 
-export type ContractJsonOld = {
-  genesisHash: string,
-  abi: string,
-  address: string,
-  name: string
-};
+export interface ContractJsonOld {
+  genesisHash: string;
+  abi: string;
+  address: string;
+  name: string;
+}

@@ -15,7 +15,7 @@ type Props = BareProps & {
 };
 
 export default class Label extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, help, label, withEllipsis } = this.props;
 
     return (

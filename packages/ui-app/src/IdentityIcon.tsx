@@ -16,22 +16,22 @@ import { QueueConsumer } from './Status/Context';
 import translate from './translate';
 
 type CopyProps = IdentityProps & I18nProps & {
-  queueAction?: QueueAction$Add
+  queueAction?: QueueAction$Add;
 };
 
 type IconProps = ApiProps & IdentityProps & {
-  session_validators?: Array<AccountId>,
-  staking_bonded?: Option<AccountId>
+  session_validators?: AccountId[];
+  staking_bonded?: Option<AccountId>;
 };
 
 type Props = IconProps & IdentityProps;
 
-type State = {
-  isValidator: boolean
-};
+interface State {
+  isValidator: boolean;
+}
 
 class CopyIcon extends React.PureComponent<CopyProps> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <BaseIdentityIcon
         {...this.props}
@@ -61,7 +61,7 @@ class CopyIcon extends React.PureComponent<CopyProps> {
 const CopyIconI18N = translate(CopyIcon);
 
 class IdentityIcon extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValidator: false
   };
 
@@ -81,7 +81,7 @@ class IdentityIcon extends React.PureComponent<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isValidator } = this.state;
 
     return (

@@ -13,33 +13,37 @@ import echoTransform from '../transform/echo';
 import withApi from './api';
 
 interface Method {
-  (...params: Array<any>): Promise<any>;
-  at: (hash: Uint8Array | string, ...params: Array<any>) => Promise<any>;
-  multi: (params: Array<any>, cb: (value?: any) => void) => Promise<any>;
+  (...params: any[]): Promise<any>;
+  at: (hash: Uint8Array | string, ...params: any[]) => Promise<any>;
+  multi: (params: any[], cb: (value?: any) => void) => Promise<any>;
 }
 
-type ApiMethodInfo = [Method, Array<any>, boolean];
+type ApiMethodInfo = [Method, any[], boolean];
 
 type State = CallState;
 
-const NOOP = () => {
+const NOOP = (): void => {
   // ignore
 };
 
 export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramPick, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
-      state: State = {
+      public state: State = {
         callResult: void 0,
         callUpdated: false,
         callUpdatedAt: 0
       };
+
       private destroy?: () => void;
+
       private isActive: boolean = false;
+
       private propName: string;
+
       private timerId: number = -1;
 
-      constructor (props: P) {
+      public constructor (props: P) {
         super(props);
 
         const [, section, method] = endpoint.split('.');
@@ -47,7 +51,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         this.propName = `${section}_${method}`;
       }
 
-      componentDidUpdate (prevProps: any) {
+      public componentDidUpdate (prevProps: any): void {
         const oldParams = this.getParams(prevProps);
         const newParams = this.getParams(this.props);
 
@@ -59,9 +63,9 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      componentDidMount () {
+      public componentDidMount (): void {
         this.isActive = true;
-        this.timerId = window.setInterval(() => {
+        this.timerId = window.setInterval((): void => {
           const elapsed = Date.now() - (this.state.callUpdatedAt || 0);
           const callUpdated = elapsed <= 1500;
 
@@ -76,7 +80,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           .catch(NOOP);
       }
 
-      componentWillUnmount () {
+      public componentWillUnmount (): void {
         this.isActive = false;
 
         this.unsubscribe()
@@ -88,13 +92,13 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      private nextState (state: Partial<State>) {
+      private nextState (state: Partial<State>): void {
         if (this.isActive) {
           this.setState(state as State);
         }
       }
 
-      private getParams (props: any): [boolean, Array<any>] {
+      private getParams (props: any): [boolean, any[]] {
         const paramValue = paramPick
           ? paramPick(props)
           : paramName
@@ -122,7 +126,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         return [true, values];
       }
 
-      private getApiMethod (newParams: Array<any>): ApiMethodInfo {
+      private getApiMethod (newParams: any[]): ApiMethodInfo {
         const { api } = this.props;
 
         if (endpoint === 'subscribe') {
@@ -160,7 +164,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         ];
       }
 
-      private async subscribe ([isValid, newParams]: [boolean, Array<any>]) {
+      private async subscribe ([isValid, newParams]: [boolean, any[]]): Promise<void> {
         if (!isValid) {
           return;
         }
@@ -183,7 +187,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
 
         const [apiMethod, params, isSubscription] = info;
-        const updateCb = (value?: any) =>
+        const updateCb = (value?: any): void =>
           this.triggerUpdate(this.props, value);
 
         await this.unsubscribe();
@@ -205,7 +209,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      private async unsubscribe () {
+      private async unsubscribe (): Promise<void> {
         if (this.destroy) {
           this.destroy();
           this.destroy = undefined;
@@ -232,7 +236,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         }
       }
 
-      render () {
+      public render (): React.ReactNode {
         const { callUpdated, callUpdatedAt, callResult } = this.state;
         const _props = {
           ...this.props,

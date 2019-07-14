@@ -17,22 +17,22 @@ import { rewardDestinationOptions } from './constants';
 import InputValidationController from './Account/InputValidationController';
 
 type Props = I18nProps & ApiProps & CalculateBalanceProps & {
-  onClose: () => void
+  onClose: () => void;
 };
 
-type State = {
-  bondValue?: BN,
-  controllerError: string | null,
-  controllerId: string | null,
-  destination: number,
-  extrinsic: SubmittableExtrinsic | null,
-  stashId: string | null
-};
+interface State {
+  bondValue?: BN;
+  controllerError: string | null;
+  controllerId: string | null;
+  destination: number;
+  extrinsic: SubmittableExtrinsic | null;
+  stashId: string | null;
+}
 
 class NewStake extends TxComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -44,7 +44,7 @@ class NewStake extends TxComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { onClose, t } = this.props;
     const { bondValue, controllerError, controllerId, extrinsic, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);

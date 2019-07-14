@@ -18,14 +18,14 @@ import translate from '../translate';
 
 type Props = ContractModalProps & ApiProps;
 
-type State = ContractModalState & {
-  gasLimit: BN,
-  isWasmValid: boolean,
-  wasm?: Uint8Array | null
-};
+interface State extends ContractModalState {
+  gasLimit: BN;
+  isWasmValid: boolean;
+  wasm?: Uint8Array | null;
+}
 
 class Upload extends ContractModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -37,7 +37,7 @@ class Upload extends ContractModal<Props, State> {
     this.headerText = props.t('Upload WASM');
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { isBusy, isWasmValid, wasm } = this.state;
 
@@ -63,7 +63,7 @@ class Upload extends ContractModal<Props, State> {
     );
   }
 
-  renderButtons = () => {
+  protected renderButtons = (): React.ReactNode => {
     const { api, t } = this.props;
     const { accountId, gasLimit, isBusy, isNameValid, isWasmValid, wasm } = this.state;
     const isValid = !isBusy && accountId && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
@@ -96,8 +96,8 @@ class Upload extends ContractModal<Props, State> {
 
   private onSuccess = (result: SubmittableResult): void => {
     const { api } = this.props;
-    this.setState(({ abi, name, tags }) => {
 
+    this.setState(({ abi, name, tags }): State | null => {
       const section = api.tx.contracts ? 'contracts' : 'contract';
       const record = result.findRecord(section, 'CodeStored');
 
@@ -105,16 +105,17 @@ class Upload extends ContractModal<Props, State> {
         const codeHash = record.event.data[0];
 
         if (!codeHash || !name) {
-          return;
+          return null;
         }
 
         store.saveCode(codeHash as Hash, { abi, name, tags })
-          .then(() => this.onClose())
-          .catch((error: any) => {
+          .then((): void => this.onClose())
+          .catch((error: any): void => {
             console.error('Unable to save code', error);
           });
       }
-      return { isBusy: false } as State;
+
+      return { isBusy: false } as unknown as State;
     });
   }
 }

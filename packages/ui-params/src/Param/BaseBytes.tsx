@@ -23,7 +23,7 @@ const defaultValidate = (): boolean =>
   true;
 
 export default class BaseBytes extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, defaultValue: { value }, isDisabled, isError, label, onEnter, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
       ? (

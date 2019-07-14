@@ -14,7 +14,7 @@ import ExtrinsicDisplay from './Extrinsic';
 type Props = ApiProps & BaseProps;
 
 class ProposalDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTxSudo, className, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
 
     return (

@@ -12,41 +12,41 @@ import Labelled from './Labelled';
 
 type Input$Type = 'number' | 'password' | 'text';
 
-type Props = BareProps & {
-  autoFocus?: boolean,
-  children?: React.ReactNode,
-  defaultValue?: any,
-  help?: React.ReactNode,
-  icon?: React.ReactNode,
-  isAction?: boolean,
-  isDisabled?: boolean,
-  isEditable?: boolean,
-  isError?: boolean,
-  isHidden?: boolean,
-  isReadOnly?: boolean,
-  label?: React.ReactNode,
-  max?: any,
-  maxLength?: number,
-  min?: any,
-  name?: string,
-  onEnter?: () => void,
-  onChange?: (value: string) => void,
-  onBlur?: () => void,
-  onKeyDown?: (event: React.KeyboardEvent<Element>) => void,
-  onKeyUp?: (event: React.KeyboardEvent<Element>) => void,
-  onKeyPress?: (event: React.KeyboardEvent<Element>) => void,
-  onPaste?: (event: React.ClipboardEvent<Element>) => void,
-  placeholder?: string,
-  tabIndex?: number,
-  type?: Input$Type,
-  value?: any,
-  withLabel?: boolean,
-  withEllipsis?: boolean
-};
+interface Props extends BareProps {
+  autoFocus?: boolean;
+  children?: React.ReactNode;
+  defaultValue?: any;
+  help?: React.ReactNode;
+  icon?: React.ReactNode;
+  isAction?: boolean;
+  isDisabled?: boolean;
+  isEditable?: boolean;
+  isError?: boolean;
+  isHidden?: boolean;
+  isReadOnly?: boolean;
+  label?: React.ReactNode;
+  max?: any;
+  maxLength?: number;
+  min?: any;
+  name?: string;
+  onEnter?: () => void;
+  onChange?: (value: string) => void;
+  onBlur?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent<Element>) => void;
+  onKeyUp?: (event: React.KeyboardEvent<Element>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<Element>) => void;
+  onPaste?: (event: React.ClipboardEvent<Element>) => void;
+  placeholder?: string;
+  tabIndex?: number;
+  type?: Input$Type;
+  value?: any;
+  withLabel?: boolean;
+  withEllipsis?: boolean;
+}
 
-type State = {
+interface State {
   name: string;
-};
+}
 
 // Find decimal separator used in current locale
 const getDecimalSeparator = (): string => 1.1
@@ -72,7 +72,7 @@ const KEYS = {
   DECIMAL: getDecimalSeparator()
 };
 
-const KEYS_PRE: Array<any> = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
+const KEYS_PRE: any[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
 
 // reference: degrade key to keyCode for cross-browser compatibility https://www.w3schools.com/jsref/event_key_keycode.asp
 const isCopy = (key: string, isPreKeyDown: boolean): boolean =>
@@ -90,11 +90,11 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 let counter = 0;
 
 export default class Input extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     name: `in_${counter++}_at_${Date.now()}`
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, isReadOnly = false, label, max, maxLength, min, name, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel } = this.props;
 
     return (

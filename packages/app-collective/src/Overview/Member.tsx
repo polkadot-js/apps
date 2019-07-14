@@ -11,13 +11,13 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  address: string,
-  block: BN
-};
+interface Props extends I18nProps {
+  address: string;
+  block: BN;
+}
 
 class Member extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { address, block, t } = this.props;
 
     return (

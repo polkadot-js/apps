@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props, RawParam$OnChange$Value } from '../types';
+import { Props, RawParamOnChangeValue } from '../types';
 
 import React from 'react';
 import { Static } from '@polkadot/ui-app';
@@ -10,7 +10,7 @@ import { Static } from '@polkadot/ui-app';
 import Amount from './Amount';
 
 export default class Code extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, label, onEnter, style, type, withLabel } = this.props;
 
     if (isDisabled) {
@@ -53,7 +53,7 @@ export default class Code extends React.PureComponent<Props> {
   }
 
   // TODO: Validate that we have actual proper WASM code
-  private onChange = (value: RawParam$OnChange$Value): void => {
+  private onChange = (value: RawParamOnChangeValue): void => {
     const { onChange } = this.props;
 
     onChange && onChange(value);

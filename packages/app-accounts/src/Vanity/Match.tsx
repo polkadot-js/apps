@@ -9,29 +9,29 @@ import styled from 'styled-components';
 import { Button, IdentityIcon } from '@polkadot/ui-app';
 import { u8aToHex } from '@polkadot/util';
 
-type Props = BareProps & {
+interface Props extends BareProps {
   address: string;
   count: number;
   offset: number;
-  onCreateToggle: (seed: string) => void,
-  onRemove: (address: string) => void,
+  onCreateToggle: (seed: string) => void;
+  onRemove: (address: string) => void;
   seed: Uint8Array;
-};
+}
 
-type State = {
-  hexSeed: string
-};
+interface State {
+  hexSeed: string;
+}
 
 class Match extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  public state: State = { hexSeed: '' };
 
-  static getDerivedStateFromProps ({ seed }: Props): State {
+  public static getDerivedStateFromProps ({ seed }: Props): State {
     return {
       hexSeed: u8aToHex(seed)
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address, className, count, offset } = this.props;
     const { hexSeed } = this.state;
 

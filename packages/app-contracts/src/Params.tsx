@@ -16,27 +16,32 @@ interface Props {
   onEnter?: () => void;
 }
 
+interface ParamDef {
+  name: string;
+  type: TypeDef;
+}
+
 interface State {
-  params: { name: string; type: TypeDef }[];
+  params: ParamDef[];
 }
 
 export default class Params extends React.PureComponent<Props, State> {
-  state: State = { params: [] };
+  public state: State = { params: [] };
 
-  static getDerivedStateFromProps ({ params }: Props): State | null {
+  public static getDerivedStateFromProps ({ params }: Props): State | null {
     if (!params) {
       return { params: [] };
     }
 
     return {
-      params: params.map(({ name, type }) => ({
+      params: params.map(({ name, type }): ParamDef => ({
         name,
         type: getTypeDef(type, name)
       }))
-    } as State;
+    } as unknown as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isDisabled, onEnter } = this.props;
     const { params } = this.state;
 
@@ -57,6 +62,6 @@ export default class Params extends React.PureComponent<Props, State> {
   private onChange = (values: RawParams): void => {
     const { onChange } = this.props;
 
-    onChange(values.map(({ value }) => value));
+    onChange(values.map(({ value }): any => value));
   }
 }

@@ -51,7 +51,7 @@ const unknown = {
 };
 
 class Content extends React.Component<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { isApiConnected, isApiReady, location, t } = this.props;
     const app = location.pathname.slice(1) || '';
     const { Component, display: { needsApi }, name } = routing.routes.find((route) =>

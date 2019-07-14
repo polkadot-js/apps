@@ -29,7 +29,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
 
   state: S = this.defaultState;
 
-  render () {
+  public render (): React.ReactNode {
     const { isOpen } = this.state;
 
     return (
@@ -102,7 +102,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   }
 
   protected txMethod: () => string = () => '';
-  protected txParams: () => Array<any> = () => [];
+  protected txParams: () => any[] = () => [];
 
   protected renderContent: () => React.ReactNode | null = () => null;
   protected renderPreContent: () => React.ReactNode | null = () => null;

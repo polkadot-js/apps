@@ -17,24 +17,24 @@ import { withApi, withMulti } from '@polkadot/ui-api';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & RouteComponentProps & {
-  basePath: string
+  basePath: string;
 };
 
-type State = {
-  accountId?: string,
-  method: Method | null,
-  value: BN,
-  isValid: boolean
-};
+interface State {
+  accountId?: string;
+  method: Method | null;
+  value: BN;
+  isValid: boolean;
+}
 
 class Propose extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     method: null,
     value: new BN(0),
     isValid: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
     const { isValid, accountId, method, value } = this.state;
     const hasValue = !!value && value.gtn(0);

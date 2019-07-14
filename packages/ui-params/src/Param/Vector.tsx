@@ -17,32 +17,32 @@ import findComponent from './findComponent';
 
 type Props = BareProps & WithTranslation;
 
-type State = {
-  Component: React.ComponentType<BareProps> | null,
-  type?: string,
-  values: Array<RawParam>
-};
+interface State {
+  Component: React.ComponentType<BareProps> | null;
+  type?: string;
+  values: RawParam[];
+}
 
 class Vector extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     Component: null,
     values: []
   };
 
-  static getDerivedStateFromProps ({ defaultValue: { value = [] }, isDisabled, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
+  public static getDerivedStateFromProps ({ defaultValue: { value = [] }, isDisabled, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
     if (type === prevState.type) {
       return null;
     }
 
-    const values: Array<RawParam> = isDisabled || prevState.values.length === 0
-      ? value.map((value: any) =>
-          isUndefined(value) || isUndefined(value.isValid)
-            ? {
-              isValid: !isUndefined(value),
-              value
-            }
-            : value
-        )
+    const values: RawParam[] = isDisabled || prevState.values.length === 0
+      ? value.map((value: any): RawParam => (
+        isUndefined(value) || isUndefined(value.isValid)
+          ? {
+            isValid: !isUndefined(value),
+            value
+          }
+          : value
+      ))
       : prevState.values;
 
     return {
@@ -52,7 +52,7 @@ class Vector extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isDisabled, onEnter, style, type, withLabel } = this.props;
     const { Component, values } = this.state;
     const subType = type.sub as TypeDef;
@@ -66,7 +66,7 @@ class Vector extends React.PureComponent<Props, State> {
         className={className}
         style={style}
       >
-        {values.map((value, index) => (
+        {values.map((value, index): React.ReactNode => (
           <Component
             defaultValue={value}
             isDisabled={isDisabled}
@@ -83,7 +83,7 @@ class Vector extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { isDisabled, t } = this.props;
     const { values } = this.state;
 
@@ -108,22 +108,23 @@ class Vector extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChange = (index: number) => {
+  private onChange = (index: number): (value: RawParam) => void => {
     return (value: RawParam): void => {
       this.setState(
-        ({ values }: State) => ({
-          values: values.map((svalue, sindex) =>
+        ({ values }: State): State => ({
+          values: values.map((svalue, sindex): RawParam =>
             (sindex === index)
               ? value
               : svalue
-        )}),
-        () => {
+          )
+        } as unknown as State),
+        (): void => {
           const { values } = this.state;
           const { onChange } = this.props;
 
           onChange && onChange({
-            isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
-            value: values.map(({ value }) => value)
+            isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
+            value: values.map(({ value }): any => value)
           });
         }
       );
@@ -131,7 +132,7 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   private rowAdd = (): void => {
-    this.setState(({ values }: State, { type: { sub } }: Props) => {
+    this.setState(({ values }: State, { type: { sub } }: Props): State => {
       const value = getInitValue(sub as TypeDef);
 
       return {
@@ -139,14 +140,14 @@ class Vector extends React.PureComponent<Props, State> {
           isValid: !isUndefined(value),
           value
         })
-      };
+      } as unknown as State;
     });
   }
 
   private rowRemove = (): void => {
-    this.setState(({ values }: State) => ({
+    this.setState(({ values }: State): State => ({
       values: values.slice(0, values.length - 1)
-    }));
+    } as unknown as State));
   }
 }
 

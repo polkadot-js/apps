@@ -12,21 +12,21 @@ import { Nonce } from '@polkadot/ui-reactive';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  defaultValue?: string | null,
-  isError?: boolean,
-  onChange: (accountId: string | undefined | null, accountNonce: BN) => void
-};
+interface Props extends I18nProps {
+  defaultValue?: string | null;
+  isError?: boolean;
+  onChange: (accountId: string | undefined | null, accountNonce: BN) => void;
+}
 
-type State = {
-  accountNonce: BN,
-  accountId?: string | null
-};
+interface State {
+  accountNonce: BN;
+  accountId?: string | null;
+}
 
 class Account extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -35,7 +35,7 @@ class Account extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isError, t } = this.props;
 
     return (

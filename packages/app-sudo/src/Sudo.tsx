@@ -17,18 +17,18 @@ type Props = I18nProps & ApiProps & ComponentProps & {
   onChange: (accountId?: string) => void
 };
 
-type State = {
-  method: Method | null,
-  isValid: boolean
-};
+interface State {
+  method: Method | null;
+  isValid: boolean;
+}
 
 class Propose extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     method: null,
     isValid: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTxSudo, isMine, sudoKey, t } = this.props;
     const { method, isValid } = this.state;
 

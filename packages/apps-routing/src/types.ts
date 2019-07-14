@@ -7,26 +7,26 @@ import { AppProps, BareProps } from '@polkadot/ui-app/types';
 
 export type RouteProps = AppProps & BareProps;
 
-export type Route = {
-  Component: React.ComponentType<RouteProps>,
-  Modal?: React.ComponentType<any>,
+export interface Route {
+  Component: React.ComponentType<RouteProps>;
+  Modal?: React.ComponentType<any>;
   display: {
-    isHidden?: boolean,
-    isModal?: boolean,
-    needsAccounts?: boolean,
-    needsApi?: Array<string | Array<string>>,
-    needsSudo?: boolean
-  },
+    isHidden?: boolean;
+    isModal?: boolean;
+    needsAccounts?: boolean;
+    needsApi?: (string | string[])[];
+    needsSudo?: boolean;
+  };
   i18n: {
-    defaultValue: string
-  },
-  icon: SemanticICONS,
-  name: string
-};
+    defaultValue: string;
+  };
+  icon: SemanticICONS;
+  name: string;
+}
 
-export type Routes = Array<Route | null>;
+export type Routes = (Route | null)[];
 
-export type Routing = {
-  default: string,
-  routes: Routes
-};
+export interface Routing {
+  default: string;
+  routes: Routes;
+}

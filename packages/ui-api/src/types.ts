@@ -10,44 +10,47 @@ import ApiPromise from '@polkadot/api/promise';
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type SubtractProps<T, K> = OmitProps<T, keyof K>;
 
-export type BareProps = {
-  className?: string,
-  style?: { [index: string]: any }
-};
+export interface BareProps {
+  className?: string;
+  style?: Record<string, any>;
+}
 
-export type ApiProps = {
-  api: ApiPromise,
-  apiDefaultTx: SubmittableExtrinsicFunction,
-  apiDefaultTxSudo: SubmittableExtrinsicFunction,
-  currentChain: string,
-  isApiConnected: boolean,
-  isApiReady: boolean,
-  isDevelopment: boolean,
-  isSubstrateV2: boolean,
-  isWaitingInjected: boolean,
-  setApiUrl: (url?: string) => void
-};
+export interface ApiProps {
+  api: ApiPromise;
+  apiDefaultTx: SubmittableExtrinsicFunction;
+  apiDefaultTxSudo: SubmittableExtrinsicFunction;
+  currentChain: string;
+  isApiConnected: boolean;
+  isApiReady: boolean;
+  isDevelopment: boolean;
+  isSubstrateV2: boolean;
+  isWaitingInjected: boolean;
+  setApiUrl: (url?: string) => void;
+}
 
-export type OnChangeCb$Obs = { next: (value?: any) => any };
-export type OnChangeCb$Fn = (value?: any) => any;
-export type OnChangeCb = OnChangeCb$Obs | OnChangeCb$Fn;
+export interface OnChangeCbObs {
+  next: (value?: any) => any;
+}
 
-export type ChangeProps = {
-  callOnResult?: OnChangeCb
-};
+export type OnChangeCbFn = (value?: any) => any;
+export type OnChangeCb = OnChangeCbObs | OnChangeCbFn;
 
-export type CallState = {
+export interface ChangeProps {
+  callOnResult?: OnChangeCb;
+}
+
+export interface CallState {
   callResult?: any;
   callUpdated?: boolean;
   callUpdatedAt?: number;
-};
+}
 
 export type CallProps = ApiProps & CallState;
 
 export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
-  children?: React.ReactNode,
-  label?: string,
-  render?: (value?: T) => React.ReactNode
+  children?: React.ReactNode;
+  label?: string;
+  render?: (value?: T) => React.ReactNode;
 };
 
 export type Formatter = (value?: any) => string;

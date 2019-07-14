@@ -4,13 +4,13 @@
 
 import { cryptoWaitReady, mnemonicGenerate, mnemonicToMiniSecret, naclKeypairFromSeed, schnorrkelKeypairFromSeed } from '@polkadot/util-crypto';
 
-const ctx: Worker = self as any;
+const ctx: Worker = self as unknown as Worker;
 
-cryptoWaitReady().catch(() => {
+cryptoWaitReady().catch((): void => {
   // ignore
 });
 
-ctx.onmessage = async ({ data: { pairType } }) => {
+ctx.onmessage = async ({ data: { pairType } }): Promise<void> => {
   await cryptoWaitReady();
 
   const seed = mnemonicGenerate();

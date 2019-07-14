@@ -9,9 +9,9 @@ import styled from 'styled-components';
 
 import { classes } from '../util';
 
-type Props = BareProps & {
-  children: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 const Wrapper = styled.div`
   position: relative;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `;
 
 export default class BaseChart extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, style } = this.props;
 
     return (

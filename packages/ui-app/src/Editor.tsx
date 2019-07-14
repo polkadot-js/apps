@@ -63,7 +63,7 @@ class Editor extends React.Component<Props> {
     this.editor.updateCode(this.props.code);
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isValid } = this.props;
 
     return (

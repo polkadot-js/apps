@@ -7,12 +7,12 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = BareProps & {
-  children: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 class Summary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, style } = this.props;
 
     return (

@@ -29,7 +29,7 @@ type Props = BareProps & {
 };
 
 class CardSummary extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, help, label, progress } = this.props;
     const value = progress && progress.value;
     const total = progress && progress.total;

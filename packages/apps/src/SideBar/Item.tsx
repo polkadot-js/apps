@@ -17,15 +17,15 @@ import { isFunction } from '@polkadot/util';
 import translate from '../translate';
 
 type Props = I18nProps & ApiProps & {
-  isCollapsed: boolean,
-  onClick: () => void,
-  allAccounts?: SubjectInfo,
-  route: Route,
-  sudo_key: string
+  isCollapsed: boolean;
+  onClick: () => void;
+  allAccounts?: SubjectInfo;
+  route: Route;
+  sudo_key: string;
 };
 
 class Item extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { route: { Modal, i18n, icon, name }, t, isCollapsed, onClick } = this.props;
 
     if (!this.isVisible()) {
@@ -61,18 +61,18 @@ class Item extends React.PureComponent<Props> {
               </a>
             )
             : (
-            <NavLink
-              activeClassName='apps--SideBar-Item-NavLink-active'
-              className='apps--SideBar-Item-NavLink'
-              data-for={`nav-${name}`}
-              data-tip
-              data-tip-disable={!isCollapsed}
-              onClick={onClick}
-              to={`/${name}`}
-            >
-              {body}
-            </NavLink>
-          )
+              <NavLink
+                activeClassName='apps--SideBar-Item-NavLink-active'
+                className='apps--SideBar-Item-NavLink'
+                data-for={`nav-${name}`}
+                data-tip
+                data-tip-disable={!isCollapsed}
+                onClick={onClick}
+                to={`/${name}`}
+              >
+                {body}
+              </NavLink>
+            )
         }
       </Menu.Item>
     );
@@ -89,7 +89,7 @@ class Item extends React.PureComponent<Props> {
     }
   }
 
-  private isVisible () {
+  private isVisible (): boolean {
     const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi, needsSudo }, name }, sudo_key: sudoKey } = this.props;
     const hasAccounts = Object.keys(allAccounts).length !== 0;
     const hasSudo = !!Object.keys(allAccounts).find(address => address === sudoKey);
@@ -109,9 +109,9 @@ class Item extends React.PureComponent<Props> {
       }
     }
 
-    const notFound = needsApi.filter((endpoint: string | Array<string>) => {
+    const notFound = needsApi.filter((endpoint: string | string[]): boolean => {
       const hasApi = Array.isArray(endpoint)
-        ? endpoint.reduce((hasApi, endpoint) => hasApi || this.hasApi(endpoint), false)
+        ? endpoint.reduce((hasApi, endpoint): boolean => hasApi || this.hasApi(endpoint), false)
         : this.hasApi(endpoint);
 
       return !hasApi;
@@ -130,7 +130,10 @@ export default withMulti(
   translate,
   withApi,
   withCalls<Props>(
-    ['query.sudo.key', { transform: key => key.toString() }]
+    ['query.sudo.key', {
+      transform: (key): string =>
+        key.toString()
+    }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

@@ -34,13 +34,13 @@ export type TabItem = {
 
 type Props = BareProps & {
   basePath: string,
-  hidden?: Array<string>,
-  items: Array<TabItem>,
+  hidden?: string[],
+  items: TabItem[],
   isSequence?: boolean
 };
 
 export default class Tabs extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, hidden = [], items, style } = this.props;
     return (
       <div

@@ -14,7 +14,7 @@ import Summary from './Summary';
 type Props = AppProps & BareProps & I18nProps;
 
 export default class Overview extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <>
         <Summary />

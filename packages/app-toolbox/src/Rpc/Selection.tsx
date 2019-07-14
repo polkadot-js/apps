@@ -5,7 +5,7 @@
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RawParam } from '@polkadot/ui-params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$RpcAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTxRpcAdd } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
@@ -15,28 +15,28 @@ import Params from '@polkadot/ui-params';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  queueRpc: QueueTx$RpcAdd
-};
+interface Props extends I18nProps {
+  queueRpc: QueueTxRpcAdd;
+}
 
-type State = {
-  isValid: boolean,
-  accountId?: string | null,
-  rpc: RpcMethod,
-  values: Array<RawParam>
-};
+interface State {
+  isValid: boolean;
+  accountId?: string | null;
+  rpc: RpcMethod;
+  values: RawParam[];
+}
 
 const defaultMethod = rpc.author.methods.submitExtrinsic;
 
 class Selection extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValid: false,
     accountId: null,
     rpc: defaultMethod,
     values: []
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, rpc } = this.state;
     const params = rpc.params.map(({ name, type }) => ({
@@ -75,7 +75,7 @@ class Selection extends TxComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
-        const isValid = values.reduce((isValid, value) => {
+        const isValid = values.reduce((isValid, value): boolean => {
           return isValid && value.isValid === true;
         }, rpc.params.length === values.length);
         return {
@@ -91,11 +91,11 @@ class Selection extends TxComponent<Props, State> {
   private onChangeMethod = (rpc: RpcMethod): void => {
     this.nextState({
       rpc,
-      values: [] as Array<RawParam>
+      values: [] as RawParam[]
     } as State);
   }
 
-  private onChangeValues = (values: Array<RawParam>): void => {
+  private onChangeValues = (values: RawParam[]): void => {
     this.nextState({ values } as State);
   }
 

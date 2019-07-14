@@ -6,22 +6,22 @@ import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '@polkadot/ui-app';
 
-type Props = {
-  children: React.ReactNode,
-  className?: string,
-  icon: string
-};
+interface Props {
+  children: React.ReactNode;
+  className?: string;
+  icon: string;
+}
 
-type State = {
-  isHidden: boolean
-};
+interface State {
+  isHidden: boolean;
+}
 
 class BaseOverlay extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isHidden: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { children, className, icon } = this.props;
     const { isHidden } = this.state;
 
@@ -50,7 +50,7 @@ class BaseOverlay extends React.PureComponent<Props, State> {
     );
   }
 
-  private onClose = () => {
+  private onClose = (): void => {
     this.setState({ isHidden: true });
   }
 }

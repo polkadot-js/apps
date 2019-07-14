@@ -12,19 +12,19 @@ import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 
 import Modal from './Modal';
 
-type Props = BareProps & {
-  children: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 export default class Signer extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, style } = this.props;
 
     return (
       <>
         {children}
         <QueueConsumer>
-          {({ txqueue, queueSetTxStatus }: QueueProps) => (
+          {({ txqueue, queueSetTxStatus }: QueueProps): React.ReactNode => (
             <Modal
               className={className}
               key='signer-modal'
