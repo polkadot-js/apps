@@ -12,7 +12,7 @@ import { getTypeDef, TypeDef } from '@polkadot/types';
 interface Props {
   isDisabled?: boolean;
   params?: ContractABIFnArg[];
-  onChange: (values: Array<any>) => void;
+  onChange: (values: any[]) => void;
   onEnter?: () => void;
 }
 

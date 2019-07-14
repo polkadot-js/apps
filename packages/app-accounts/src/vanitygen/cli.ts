@@ -24,7 +24,7 @@ interface Best {
 
 const { match, mnemonic, type } = yargs
   .option('match', {
-    default: 'EEEEE'
+    default: 'Test'
   })
   .option('type', {
     choices: ['ed25519', 'sr25519'],
@@ -53,11 +53,14 @@ let best: Best = {
 };
 let total: number = 0;
 let indicator = -1;
+const tests = match.split(',');
 
-if (!matchRegex.test(match)) {
-  console.error("Invalid character found in match string, allowed is '1-9' (no '0'), 'A-H, J-N & P-Z' (no 'I' or 'O'), 'a-k & m-z' (no 'l') and '?' (wildcard)");
-  process.exit(-1);
-}
+tests.forEach((test): void => {
+  if (!matchRegex.test(test)) {
+    console.error("Invalid character found in match string, allowed is '1-9' (no '0'), 'A-H, J-N & P-Z' (no 'I' or 'O'), 'a-k & m-z' (no 'l') and '?' (wildcard)");
+    process.exit(-1);
+  }
+});
 
 console.log(options);
 
