@@ -68,7 +68,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderReadOnly () {
+  private renderReadOnly (): React.ReactNode {
     const { className, defaultValue: { value }, label, onEnter, style } = this.props;
     const pairs = value as Vector<Pair>;
 
@@ -83,12 +83,12 @@ class KeyValueArray extends React.PureComponent<Props, State> {
           <div />
         </Base>
         <div className='ui--Params'>
-          {pairs.map(({ key, value }) => {
+          {pairs.map(({ key, value }): React.ReactNode => {
             const keyHex = u8aToHex(key.toU8a(true));
 
             return (
               <Bytes
-                defaultValue={{ value } as RawParam}
+                defaultValue={{ value } as unknown as RawParam}
                 isDisabled
                 key={keyHex}
                 label={keyHex}
@@ -132,7 +132,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
     const json = JSON.parse(u8aToString(raw));
     const keys = Object.keys(json);
     let isValid = keys.length !== 0;
-    const value = keys.map((key) => {
+    const value = keys.map((key): { key: Uint8Array; value: Uint8Array } => {
       const value = json[key];
 
       assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);

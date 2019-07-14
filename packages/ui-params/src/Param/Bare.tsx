@@ -7,9 +7,9 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { classes } from '@polkadot/ui-app/util';
 
-type Props = BareProps & {
-  children: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 export default class Bare extends React.PureComponent<Props> {
   public render (): React.ReactNode {
