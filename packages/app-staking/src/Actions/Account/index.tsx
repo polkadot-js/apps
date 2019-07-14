@@ -30,7 +30,7 @@ type Props = ApiProps & I18nProps & {
   recentlyOffline: RecentlyOfflineMap,
   balances_all?: DerivedBalances,
   staking_info?: DerivedStaking,
-  stashOptions: Array<KeyringSectionOption>
+  stashOptions: KeyringSectionOption[]
 };
 
 type State = {
@@ -47,7 +47,7 @@ type State = {
   isStashValidating: boolean,
   isUnbondOpen: boolean,
   isValidateOpen: boolean,
-  nominees?: Array<string>,
+  nominees?: string[],
   sessionId: string | null,
   stakers?: Exposure,
   stakingLedger?: StakingLedger,
