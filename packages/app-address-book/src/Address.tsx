@@ -14,21 +14,21 @@ import Transfer from '@polkadot/app-accounts/modals/Transfer';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  address: string
-};
+interface Props extends I18nProps {
+  address: string;
+}
 
-type State = {
-  current?: KeyringAddress,
-  isEditable: boolean,
-  isForgetOpen: boolean,
-  isTransferOpen: boolean
-};
+interface State {
+  current?: KeyringAddress;
+  isEditable: boolean;
+  isForgetOpen: boolean;
+  isTransferOpen: boolean;
+}
 
 class Address extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { address } = this.props;
@@ -41,7 +41,7 @@ class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address } = this.props;
     const { isEditable } = this.state;
 
@@ -65,7 +65,7 @@ class Address extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { address } = this.props;
     const { isForgetOpen, isTransferOpen, current } = this.state;
 
@@ -101,15 +101,15 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private toggleForget = (): void => {
-    this.setState(({ isForgetOpen }) => ({
+    this.setState(({ isForgetOpen }): State => ({
       isForgetOpen: !isForgetOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleTransfer = (): void => {
-    this.setState(({ isTransferOpen }) => ({
+    this.setState(({ isTransferOpen }): State => ({
       isTransferOpen: !isTransferOpen
-    }));
+    }) as unknown as State);
   }
 
   private onForget = (): void => {
@@ -119,10 +119,10 @@ class Address extends React.PureComponent<Props, State> {
       return;
     }
 
-    const status = {
+    const status: Partial<ActionStatus> = {
       account: address,
       action: 'forget'
-    } as ActionStatus;
+    };
 
     try {
       keyring.forgetAddress(address);
@@ -134,7 +134,7 @@ class Address extends React.PureComponent<Props, State> {
     }
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isEditable } = this.state;
 

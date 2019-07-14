@@ -16,11 +16,11 @@ type State = {
 };
 
 export default class Bytes extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isFileDrop: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { isDisabled } = this.props;
     const { isFileDrop } = this.state;
 

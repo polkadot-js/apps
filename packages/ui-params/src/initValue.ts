@@ -2,25 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RawParam$Value } from './types';
+import { RawParamValue } from './types';
 
 import BN from 'bn.js';
 import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, createType, getTypeDef } from '@polkadot/types';
 
-export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
+export default function getInitValue (def: TypeDef): RawParamValue | RawParamValue[] {
   if (def.info === TypeDefInfo.Vector) {
     return [getInitValue(def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
     return Array.isArray(def.sub)
-      ? def.sub.map((def) => getInitValue(def))
+      ? def.sub.map((def): any => getInitValue(def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
-      ? def.sub.reduce((result, def) => {
+      ? def.sub.reduce((result, def): Record<string, RawParamValue | RawParamValue[]> => {
         result[def.name as string] = getInitValue(def);
 
         return result;
-      }, {} as { [index: string]: RawParam$Value | Array<RawParam$Value> })
+      }, {} as unknown as Record<string, RawParamValue | RawParamValue[]>)
       : {};
   } else if (def.info === TypeDefInfo.Enum) {
     return Array.isArray(def.sub)
@@ -77,7 +77,6 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'AccountId':
     case 'AccountIdOf':
     case 'Address':
-    case 'Bytes':
     case 'Call':
     case 'CandidateReceipt':
     case 'Digest':

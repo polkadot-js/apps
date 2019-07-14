@@ -18,22 +18,22 @@ import Call from './Call';
 
 type Props = ComponentProps & I18nProps & RouteComponentProps;
 
-type State = {
-  isAddOpen: boolean,
-  isCallOpen: boolean,
-  callAddress: string | null,
-  callMethod: string | null
-};
+interface State {
+  isAddOpen: boolean;
+  isCallOpen: boolean;
+  callAddress: string | null;
+  callMethod: string | null;
+}
 
 class Contracts extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     callAddress: null,
     callMethod: null,
     isAddOpen: false,
     isCallOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { accounts, basePath, contracts, hasCode, showDeploy, t } = this.props;
     const { callAddress, callMethod, isAddOpen, isCallOpen } = this.state;
 
@@ -62,7 +62,7 @@ class Contracts extends React.PureComponent<Props, State> {
             </Button.Group>
           }
         >
-          {accounts && contracts && Object.keys(contracts).map((address) => {
+          {accounts && contracts && Object.keys(contracts).map((address): React.ReactNode => {
             return (
               <Contract
                 basePath={basePath}
@@ -88,19 +88,19 @@ class Contracts extends React.PureComponent<Props, State> {
     );
   }
 
-  private showAdd = () => {
+  private showAdd = (): void => {
     this.setState({
       isAddOpen: true
     });
   }
 
-  private hideAdd = () => {
+  private hideAdd = (): void => {
     this.setState({
       isAddOpen: false
     });
   }
 
-  private showCall = (callAddress?: string, callMethod?: string) => {
+  private showCall = (callAddress?: string, callMethod?: string): void => {
     this.setState({
       isCallOpen: true,
       callAddress: callAddress || null,
@@ -108,7 +108,7 @@ class Contracts extends React.PureComponent<Props, State> {
     });
   }
 
-  private hideCall = () => {
+  private hideCall = (): void => {
     this.setState({
       isCallOpen: false,
       callAddress: null,

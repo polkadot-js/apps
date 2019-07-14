@@ -21,48 +21,48 @@ import Codes from './Codes';
 import Deploy from './Deploy';
 
 type Props = AppProps & I18nProps & RouteComponentProps & {
-  accounts: SubjectInfo[],
-  contracts: SubjectInfo[]
+  accounts: SubjectInfo[];
+  contracts: SubjectInfo[];
 };
 
-type State = {
-  codeHash?: string,
-  hasContracts: boolean,
-  isDeployOpen: boolean,
-  updated: number
-};
+interface State {
+  codeHash?: string;
+  hasContracts: boolean;
+  isDeployOpen: boolean;
+  updated: number;
+}
 
 class App extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     hasContracts: false,
     isDeployOpen: false,
     updated: 0
   };
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     store.on('new-code', this.triggerUpdate);
     store.on('removed-code', this.triggerUpdate);
 
     // since we have a dep on the async API, we load here
-    store.loadAll().catch(() => {
+    store.loadAll().catch((): void => {
       // noop, handled internally
     });
   }
 
-  static getDerivedStateFromProps ({ contracts }: Props): State {
+  public static getDerivedStateFromProps ({ contracts }: Props): State {
     const hasContracts = !!contracts && Object.keys(contracts).length >= 1;
 
     return {
       hasContracts
-    } as State;
+    } as unknown as State;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath, t } = this.props;
     const { codeHash, isDeployOpen } = this.state;
-    const hidden: Array<string> = [];
+    const hidden: string[] = [];
 
     return (
       <main className='contracts--App'>
@@ -81,7 +81,7 @@ class App extends React.PureComponent<Props, State> {
                 name: 'contracts',
                 text: 'Contracts'
               }
-            ].map(tab => ({ ...tab, text: t(tab.text) }))
+            ].map((tab) => ({ ...tab, text: t(tab.text) }))
             }
           />
         </header>
@@ -99,8 +99,8 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
-    return ({ match }: LocationProps) => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): (p: LocationProps) => React.ReactNode {
+    return ({ match }: LocationProps): React.ReactNode => {
       const { accounts, basePath, contracts, location, onStatusChange } = this.props;
 
       if (!contracts) {
@@ -122,14 +122,15 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  private showDeploy = (codeHash?: string) => () => {
-    this.setState({
-      codeHash: codeHash || undefined,
-      isDeployOpen: true
-    });
-  }
+  private showDeploy = (codeHash?: string): () => void =>
+    (): void => {
+      this.setState({
+        codeHash: codeHash || undefined,
+        isDeployOpen: true
+      });
+    }
 
-  private hideDeploy = () => {
+  private hideDeploy = (): void => {
     this.setState({ isDeployOpen: false });
   }
 
@@ -137,6 +138,7 @@ class App extends React.PureComponent<Props, State> {
     this.setState({ updated: Date.now() });
   }
 }
+
 export default withMulti(
   App,
   translate,

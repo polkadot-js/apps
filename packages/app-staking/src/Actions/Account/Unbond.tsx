@@ -15,17 +15,17 @@ import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
-  controllerId?: AccountId | null,
-  isOpen: boolean,
-  onClose: () => void,
-  stashId: string,
-  staking_ledger?: Option<StakingLedger>
+  controllerId?: AccountId | null;
+  isOpen: boolean;
+  onClose: () => void;
+  stashId: string;
+  staking_ledger?: Option<StakingLedger>;
 };
 
-type State = {
-  maxBalance?: BN
-  maxUnbond?: BN
-};
+interface State {
+  maxBalance?: BN;
+  maxUnbond?: BN;
+}
 
 const BalanceWrapper = styled.div`
   & > div {
@@ -38,7 +38,7 @@ const BalanceWrapper = styled.div`
 `;
 
 class Unbond extends TxComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   componentDidUpdate (prevProps: Props) {
     const { staking_ledger } = this.props;
@@ -48,7 +48,7 @@ class Unbond extends TxComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { controllerId, isOpen, onClose, t } = this.props;
     const { maxUnbond } = this.state;
     const canSubmit = !!maxUnbond && maxUnbond.gtn(0);

@@ -17,19 +17,19 @@ import Account from './Account';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
-  accounts?: SubjectInfo[]
+  accounts?: SubjectInfo[];
 };
 
-type State = {
-  isCreateOpen: boolean,
-  isImportOpen: boolean
-};
+interface State {
+  isCreateOpen: boolean;
+  isImportOpen: boolean;
+}
 
 class Overview extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
-    const { state : { isCreateOpen = false } = {} } = this.props.location;
+    const { state: { isCreateOpen = false } = {} } = this.props.location;
 
     this.state = {
       isCreateOpen,
@@ -37,7 +37,7 @@ class Overview extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accounts, t } = this.props;
     const { isCreateOpen, isImportOpen } = this.state;
     const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);
@@ -64,7 +64,7 @@ class Overview extends React.PureComponent<Props, State> {
       >
         {this.renderCreate()}
         {this.renderImport()}
-        {accounts && Object.keys(accounts).map((address) => (
+        {accounts && Object.keys(accounts).map((address): React.ReactNode => (
           <Account
             address={address}
             key={address}
@@ -74,7 +74,7 @@ class Overview extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderCreate () {
+  private renderCreate (): React.ReactNode {
     const { isCreateOpen } = this.state;
     const { onStatusChange } = this.props;
 
@@ -90,7 +90,7 @@ class Overview extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderImport () {
+  private renderImport (): React.ReactNode {
     const { isImportOpen } = this.state;
     const { onStatusChange } = this.props;
 
@@ -107,15 +107,15 @@ class Overview extends React.PureComponent<Props, State> {
   }
 
   private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }) => ({
+    this.setState(({ isCreateOpen }): State => ({
       isCreateOpen: !isCreateOpen
-    }));
+    }) as unknown as State);
   }
 
   private toggleImport = (): void => {
-    this.setState(({ isImportOpen }) => ({
+    this.setState(({ isImportOpen }): State => ({
       isImportOpen: !isImportOpen
-    }));
+    }) as unknown as State);
   }
 }
 

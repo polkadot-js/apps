@@ -9,7 +9,7 @@ import { isUndefined } from '@polkadot/util';
 
 import getInitValue from './initValue';
 
-export default function values (params: Array<{ type: TypeDef }>): Array<RawParam> {
+export default function values (params: { type: TypeDef }[]): RawParam[] {
   return params.map(({ type }): RawParam => {
     const value = getInitValue(type);
 

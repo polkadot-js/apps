@@ -16,41 +16,41 @@ import Input, { KEYS, KEYS_PRE } from './Input';
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
-  autoFocus?: boolean,
-  bitLength?: BitLength,
-  defaultValue?: BN | string,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isSi?: boolean,
-  isDecimal?: boolean,
-  label?: any,
-  maxLength?: number,
-  maxValue?: BN,
-  onChange?: (value?: BN) => void,
-  onEnter?: () => void,
-  placeholder?: string,
-  value?: BN | string,
-  withEllipsis?: boolean,
-  withLabel?: boolean,
-  withMax?: boolean
+  autoFocus?: boolean;
+  bitLength?: BitLength;
+  defaultValue?: BN | string;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isSi?: boolean;
+  isDecimal?: boolean;
+  label?: any;
+  maxLength?: number;
+  maxValue?: BN;
+  onChange?: (value?: BN) => void;
+  onEnter?: () => void;
+  placeholder?: string;
+  value?: BN | string;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
+  withMax?: boolean;
 };
 
-type State = {
-  isPreKeyDown: boolean,
-  isValid: boolean,
-  siOptions: Array<{ value: string, text: string }>,
-  siUnit: string,
-  value: string,
-  valueBN: BN
-};
+interface State {
+  isPreKeyDown: boolean;
+  isValid: boolean;
+  siOptions: { value: string, text: string }[];
+  siUnit: string;
+  value: string;
+  valueBN: BN;
+}
 
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
 const ZERO = new BN(0);
 const TEN = new BN(10);
 
 class InputNumber extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { defaultValue, isSi, value } = this.props;
@@ -90,7 +90,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { bitLength = DEFAULT_BITLENGTH, className, help, isSi, isDisabled, isError = false, maxLength, maxValue, onEnter, placeholder, style, withMax, t } = this.props;
     const { isValid, value } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length - 1;

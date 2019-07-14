@@ -18,13 +18,13 @@ import translate from '../translate';
 
 type Props = ContractModalProps & ApiProps & I18nProps;
 
-type State = ContractModalState & {
-  address?: string | null,
-  isAddressValid: boolean
-};
+interface State extends ContractModalState {
+  address?: string | null;
+  isAddressValid: boolean;
+}
 
 class Add extends ContractModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
     this.defaultState = {
       ...this.defaultState,
@@ -37,9 +37,9 @@ class Add extends ContractModal<Props, State> {
     this.headerText = props.t('Add an existing contract');
   }
 
-  isContract = true;
+  public isContract = true;
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { address, isAddressValid, isBusy, name } = this.state;
 
@@ -69,7 +69,7 @@ class Add extends ContractModal<Props, State> {
     );
   }
 
-  renderButtons = () => {
+  protected renderButtons = (): React.ReactNode => {
     const { t } = this.props;
     const { isAddressValid, isAbiValid, isNameValid } = this.state;
     const isValid = isNameValid && isAddressValid && isAbiValid;
@@ -96,9 +96,9 @@ class Add extends ContractModal<Props, State> {
     this.setState({ isAddressValid });
   }
 
-  private onAdd = async () => {
+  private onAdd = async (): Promise<void> => {
     const { api } = this.props;
-    const status = { action: 'create' } as ActionStatus;
+    const status: Partial<ActionStatus> = { action: 'create' };
     const { address, abi, name, tags } = this.state;
 
     if (!address || !abi || !name) {
@@ -120,10 +120,11 @@ class Add extends ContractModal<Props, State> {
       status.account = address;
       status.status = address ? 'success' : 'error';
       status.message = 'contract added';
-      this.onClose();
 
+      this.onClose();
     } catch (error) {
       console.error(error);
+
       status.status = 'error';
       status.message = error.message;
     }

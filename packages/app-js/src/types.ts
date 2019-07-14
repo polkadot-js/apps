@@ -7,15 +7,15 @@ import { LabelProps } from 'semantic-ui-react/dist/commonjs/elements/Label';
 
 export type LogType = 'error' | 'log';
 
-export type Log = {
-  args: Array<any>,
-  type: LogType
-};
+export interface Log {
+  args: any[];
+  type: LogType;
+}
 
-export type Snippet = {
+export interface Snippet {
   text: string;
   value: string;
   code: string;
-  label?: SemanticShorthandItem<LabelProps>,
-  type?: 'custom' | 'shared'
-};
+  label?: SemanticShorthandItem<LabelProps>;
+  type?: 'custom' | 'shared';
+}

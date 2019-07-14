@@ -17,17 +17,17 @@ import KeyValue from './KeyValue';
 
 type Props = BaseProps & WithTranslation;
 
-type State = {
+interface State {
   placeholder?: string;
-};
+}
 
-type Parsed = {
-  isValid: boolean,
-  value: Array<{
-    key: Uint8Array,
-    value: Uint8Array
-  }>
-};
+interface Parsed {
+  isValid: boolean;
+  value: {
+    key: Uint8Array;
+    value: Uint8Array;
+  }[];
+}
 
 const BYTES_TYPE = {
   type: 'Bytes',
@@ -37,7 +37,7 @@ const BYTES_TYPE = {
 class KeyValueArray extends React.PureComponent<Props, State> {
   private placeholderEmpty: string;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.placeholderEmpty = props.t('click to select or drag and drop JSON key/value (hex-encoded) file');
@@ -46,7 +46,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isDisabled, isError, label, style, withLabel } = this.props;
     const { placeholder } = this.state;
 

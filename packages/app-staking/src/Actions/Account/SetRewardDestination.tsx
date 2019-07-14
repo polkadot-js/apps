@@ -11,18 +11,18 @@ import { withMulti } from '@polkadot/ui-api';
 import translate from '../../translate';
 import { rewardDestinationOptions } from '../constants';
 
-type Props = I18nProps & {
-  defaultDestination?: number,
-  controllerId: string,
-  onClose: () => void
-};
+interface Props extends I18nProps {
+  defaultDestination?: number;
+  controllerId: string;
+  onClose: () => void;
+}
 
-type State = {
-  destination: number
-};
+interface State {
+  destination: number;
+}
 
 class SetRewardDestination extends TxComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -30,7 +30,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { controllerId, onClose, t } = this.props;
     const { destination } = this.state;
     const canSubmit = !!controllerId;

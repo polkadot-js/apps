@@ -16,7 +16,7 @@ type Props = BareProps & {
 };
 
 export default class CryptoType extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { accountId, className, label = '' } = this.props;
     let type = 'unknown';
 

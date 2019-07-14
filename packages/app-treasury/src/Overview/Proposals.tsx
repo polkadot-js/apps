@@ -16,26 +16,26 @@ import Proposal from './Proposal';
 import translate from '../translate';
 
 type Props = I18nProps & RouteComponentProps & {
-  isApprovals?: boolean,
-  treasury_approvals?: Array<BN>,
-  treasury_proposalCount?: BN
+  isApprovals?: boolean;
+  treasury_approvals?: BN[];
+  treasury_proposalCount?: BN;
 };
 
-type State = {
-  isEmpty: boolean,
-  isProposeOpen: boolean,
-  proposalIndices: Array<BN>
-};
+interface State {
+  isEmpty: boolean;
+  isProposeOpen: boolean;
+  proposalIndices: BN[];
+}
 
 class ProposalsBase extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isEmpty: true,
     isProposeOpen: false,
-    proposalIndices: [] as Array<BN>
+    proposalIndices: [] as BN[]
   };
 
-  static getDerivedStateFromProps ({ isApprovals = false, treasury_approvals = [] as Array<BN>, treasury_proposalCount = new BN(0) }: Props) {
-    let proposalIndices: Array<BN> = [];
+  static getDerivedStateFromProps ({ isApprovals = false, treasury_approvals = [] as BN[], treasury_proposalCount = new BN(0) }: Props) {
+    let proposalIndices: BN[] = [];
 
     if (isApprovals) {
       proposalIndices = treasury_approvals;
@@ -49,7 +49,7 @@ class ProposalsBase extends React.PureComponent<Props> {
     return { proposalIndices };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isApprovals, t } = this.props;
     const { isEmpty } = this.state;
 
@@ -104,7 +104,8 @@ const Proposals = withMulti(
     [
       'query.treasury.approvals',
       {
-        transform: (value: Array<ProposalIndex>) => value.map((proposalId) => new BN(proposalId))
+        transform: (value: ProposalIndex[]): BN[] =>
+          value.map((proposalId): BN => new BN(proposalId))
       }
     ],
     'query.treasury.proposalCount'

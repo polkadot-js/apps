@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Generator$Calculation, Generator$Options } from './types';
+import { GeneratorCalculation, GeneratorOptions } from './types';
 
-function calculateAtOne (atOffset: number, test: string[], address: string): Generator$Calculation {
+function calculateAtOne (atOffset: number, test: string[], address: string): GeneratorCalculation {
   return {
-    count: test.reduce((count, c, index) => {
+    count: test.reduce((count, c, index): number => {
       if (index === count) {
         count += (c === '?' || c === address.charAt(index + atOffset)) ? 1 : 0;
       }
@@ -17,7 +17,7 @@ function calculateAtOne (atOffset: number, test: string[], address: string): Gen
   };
 }
 
-function calculateAt (atOffset: number, test: string[][], address: string): Generator$Calculation {
+function calculateAt (atOffset: number, test: string[][], address: string): GeneratorCalculation {
   let bestCount = 0;
   let bestOffset = 1;
 
@@ -36,7 +36,7 @@ function calculateAt (atOffset: number, test: string[][], address: string): Gene
   };
 }
 
-export default function calculate (test: string[][], _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
+export default function calculate (test: string[][], _address: string, { atOffset = -1, withCase = false }: GeneratorOptions): GeneratorCalculation {
   const address = withCase
     ? _address
     : _address.toLowerCase();

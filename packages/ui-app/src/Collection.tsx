@@ -39,7 +39,7 @@ export const collectionStyles = `
 `;
 
 export default class Collection<P extends CollectionProps, S extends CollectionState> extends React.PureComponent<P, S> {
-  constructor (props: P) {
+  public constructor (props: P) {
     super(props);
 
     this.state = {
@@ -57,7 +57,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
     const { isEmpty, showHeader } = this.state;
 

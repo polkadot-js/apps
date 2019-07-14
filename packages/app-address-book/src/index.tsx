@@ -18,19 +18,19 @@ import Overview from './Overview';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  allAddresses?: SubjectInfo
+  allAddresses?: SubjectInfo;
 };
 
-type State = {
-  hidden: Array<string>,
-  items: Array<TabItem>,
-  isCreateOpen: boolean
-};
+interface State {
+  hidden: string[];
+  items: TabItem[];
+  isCreateOpen: boolean;
+}
 
 class AddressBookApp extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { allAddresses = {}, t } = props;
@@ -39,7 +39,7 @@ class AddressBookApp extends React.PureComponent<Props, State> {
       : AddressBookApp.hideEditState();
 
     this.state = {
-      ...baseState,
+      ...(baseState as State),
       isCreateOpen: false,
       items: [
         {
@@ -51,33 +51,33 @@ class AddressBookApp extends React.PureComponent<Props, State> {
     };
   }
 
-  static showEditState () {
+  private static showEditState (): Partial<State> {
     return {
       hidden: []
     };
   }
 
-  static hideEditState () {
+  private static hideEditState (): Partial<State> {
     return {
       hidden: ['edit']
     };
   }
 
-  static getDerivedStateFromProps ({ allAddresses = {} }: Props, { hidden }: State) {
+  public static getDerivedStateFromProps ({ allAddresses = {} }: Props, { hidden }: State): State | null {
     const hasAddresses = Object.keys(allAddresses).length !== 0;
 
     if (hidden.length === 0) {
       return hasAddresses
         ? null
-        : AddressBookApp.hideEditState();
+        : AddressBookApp.hideEditState() as State;
     }
 
     return hasAddresses
-      ? AddressBookApp.showEditState()
+      ? AddressBookApp.showEditState() as State
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { hidden, items } = this.state;
 
@@ -98,8 +98,8 @@ class AddressBookApp extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
-    return () => {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
+    return (): React.ReactNode => {
       const { basePath, location, onStatusChange } = this.props;
 
       return (

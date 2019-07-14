@@ -20,20 +20,20 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-type Props = I18nProps & {
-  defaultValue: RpcMethod,
-  help?: React.ReactNode,
-  isError?: boolean,
-  label: React.ReactNode,
-  onChange?: (value: RpcMethod) => void,
-  withLabel?: boolean
-};
+interface Props extends I18nProps {
+  defaultValue: RpcMethod;
+  help?: React.ReactNode;
+  isError?: boolean;
+  label: React.ReactNode;
+  onChange?: (value: RpcMethod) => void;
+  withLabel?: boolean;
+}
 
-type State = {
-  optionsMethod: DropdownOptions,
-  optionsSection: DropdownOptions,
-  value: RpcMethod
-};
+interface State {
+  optionsMethod: DropdownOptions;
+  optionsSection: DropdownOptions;
+  value: RpcMethod;
+}
 
 class InputRpc extends React.PureComponent<Props, State> {
   public state: State;

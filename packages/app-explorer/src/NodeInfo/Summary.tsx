@@ -13,17 +13,17 @@ import { BestNumber, Elapsed } from '@polkadot/ui-reactive';
 
 import translate from './translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   nextRefresh: number;
   info: Info;
-};
+}
 
-type State = {
-  peerBest?: BN
-};
+interface State {
+  peerBest?: BN;
+}
 
 class Summary extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
   static getDerivedStateFromProps ({ info = {} }: Props): State | null {
     if (!info.peers) {
@@ -39,7 +39,7 @@ class Summary extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { info = {}, nextRefresh, t } = this.props;
     const { peerBest } = this.state;
 

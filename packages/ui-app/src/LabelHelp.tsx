@@ -27,11 +27,11 @@ const Wrapper = styled.div`
 `;
 
 export default class LabelHelp extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     tooltipOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className, help, style } = this.props;
     const { tooltipOpen } = this.state;
 
@@ -57,9 +57,9 @@ export default class LabelHelp extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleTooltip = () => {
-    this.setState(({ tooltipOpen }) => ({
+  private toggleTooltip = (): void => {
+    this.setState(({ tooltipOpen }): State => ({
       tooltipOpen: !tooltipOpen
-    }));
+    }) as unknown as State);
   }
 }

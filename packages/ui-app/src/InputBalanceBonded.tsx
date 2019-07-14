@@ -16,40 +16,40 @@ import { withCalls, withMulti, withApi } from '@polkadot/ui-api';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 type Props = BareProps & ApiProps & {
-  autoFocus?: boolean,
-  balances_fees?: DerivedFees,
-  balances_all?: DerivedBalances,
-  controllerId: string,
-  defaultValue?: BN | string,
-  destination?: number,
-  extrinsicProp: 'staking.bond' | 'staking.bondExtra' | 'staking.unbond',
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label?: any,
-  onChange?: (value?: BN) => void,
-  onEnter?: () => void,
-  placeholder?: string,
-  stashId: string,
-  system_accountNonce?: BN,
-  value?: BN | string,
-  withEllipsis?: boolean,
-  withLabel?: boolean,
-  withMax?: boolean
+  autoFocus?: boolean;
+  balances_fees?: DerivedFees;
+  balances_all?: DerivedBalances;
+  controllerId: string;
+  defaultValue?: BN | string;
+  destination?: number;
+  extrinsicProp: 'staking.bond' | 'staking.bondExtra' | 'staking.unbond';
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: any;
+  onChange?: (value?: BN) => void;
+  onEnter?: () => void;
+  placeholder?: string;
+  stashId: string;
+  system_accountNonce?: BN;
+  value?: BN | string;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
+  withMax?: boolean;
 };
 
-type State = {
-  maxBalance?: BN,
-  extrinsic: SubmittableExtrinsic | null
-};
+interface State {
+  maxBalance?: BN;
+  extrinsic: SubmittableExtrinsic | null;
+}
 
 const ZERO = new BN(0);
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 class InputBalanceBonded extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -57,7 +57,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       maxBalance: ZERO
     };
   }
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, onEnter, placeholder,style, value, withEllipsis, withLabel, withMax } = this.props;
     const { maxBalance } = this.state;
 

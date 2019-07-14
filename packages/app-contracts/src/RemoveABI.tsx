@@ -10,14 +10,14 @@ import { Button, CodeRow, Modal } from '@polkadot/ui-app';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  code: CodeStored,
-  onClose: () => void,
-  onRemove: () => void
-};
+interface Props extends I18nProps {
+  code: CodeStored;
+  onClose: () => void;
+  onRemove: () => void;
+}
 
 class RemoveABI extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { onClose, t } = this.props;
     return (
       <Modal
@@ -37,7 +37,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private content = () => {
+  private content = (): React.ReactNode => {
     const { t } = this.props;
 
     return (
@@ -48,7 +48,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { onClose, t } = this.props;
 
     return (
@@ -70,7 +70,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { code } = this.props;
 
     return (
@@ -83,7 +83,7 @@ class RemoveABI extends React.PureComponent<Props> {
     );
   }
 
-  private onRemove = () => {
+  private onRemove = (): void => {
     const { onClose, onRemove } = this.props;
 
     onClose && onClose();

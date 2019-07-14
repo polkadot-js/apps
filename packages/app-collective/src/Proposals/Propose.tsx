@@ -15,16 +15,16 @@ import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import translate from '../translate';
 
 type Props = TxModalProps & ApiProps & {
-  memberCount: number
+  memberCount: number;
 };
 
-type State = TxModalState & {
-  method: Method | null,
-  threshold: BN | null
-};
+interface State extends TxModalState {
+  method: Method | null;
+  threshold: BN | null;
+}
 
 class Propose extends TxModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -137,7 +137,7 @@ export default withMulti(
       'query.elections.members',
       {
         propName: 'memberCount',
-        transform: (value: Array<any>) => value.length
+        transform: (value: any[]) => value.length
       }
     ]
   )

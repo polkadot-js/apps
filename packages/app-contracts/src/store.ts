@@ -17,19 +17,19 @@ const codeRegex = new RegExp(`^${KEY_CODE}`, '');
 class Store extends EventEmitter {
   private allCode: { [index: string]: CodeStored } = {};
 
-  get hasCode (): boolean {
+  public get hasCode (): boolean {
     return Object.keys(this.allCode).length !== 0;
   }
 
-  getAllCode (): Array<CodeStored> {
+  public getAllCode (): CodeStored[] {
     return Object.values(this.allCode);
   }
 
-  getCode (codeHash: string): CodeStored {
+  public getCode (codeHash: string): CodeStored {
     return this.allCode[codeHash];
   }
 
-  async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>) {
+  public async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>): Promise<void> {
     const hex = (typeof codeHash === 'string' ? new Hash(codeHash) : codeHash).toHex();
 
     const existing = this.getCode(hex);
@@ -39,26 +39,26 @@ class Store extends EventEmitter {
       ...partial,
       codeHash: hex,
       genesisHash: api.genesisHash.toHex()
-    } as CodeJson;
+    };
 
     store.set(`${KEY_CODE}${json.codeHash}`, json);
 
-    this.addCode(json);
+    this.addCode(json as CodeJson);
   }
 
-  forgetCode (codeHash: string) {
+  public forgetCode (codeHash: string): void {
     store.remove(`${KEY_CODE}${codeHash}`);
 
     this.removeCode(codeHash);
   }
 
-  async loadAll () {
+  public async loadAll (): Promise<void> {
     try {
       await api.isReady;
 
       const genesisHash = api.genesisHash.toHex();
 
-      store.each((json: CodeJson, key: string) => {
+      store.each((json: CodeJson, key: string): void => {
         if (json && json.genesisHash !== genesisHash) {
           return;
         }
@@ -72,7 +72,7 @@ class Store extends EventEmitter {
     }
   }
 
-  private addCode (json: CodeJson) {
+  private addCode (json: CodeJson): void {
     try {
       this.allCode[json.codeHash] = {
         json,
@@ -87,7 +87,7 @@ class Store extends EventEmitter {
     }
   }
 
-  private removeCode (codeHash: string) {
+  private removeCode (codeHash: string): void {
     try {
       delete this.allCode[codeHash];
       this.emit('removed-code');

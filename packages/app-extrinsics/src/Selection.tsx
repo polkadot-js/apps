@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTxExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
@@ -18,24 +18,24 @@ import Balance from './Balance';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  queueExtrinsic: QueueTx$ExtrinsicAdd
+  queueExtrinsic: QueueTxExtrinsicAdd;
 };
 
-type State = {
-  isValid: boolean,
-  isValidUnsigned: boolean,
-  method: Method | null,
-  accountNonce: BN,
-  accountId: string
-};
+interface State {
+  isValid: boolean;
+  isValidUnsigned: boolean;
+  method: Method | null;
+  accountNonce: BN;
+  accountId: string;
+}
 
 class Selection extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValid: false,
     isValidUnsigned: false
   } as State;
 
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
     const { isValid, isValidUnsigned, accountId } = this.state;
     const extrinsic = this.getExtrinsic() || apiDefaultTxSudo;

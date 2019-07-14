@@ -13,22 +13,22 @@ import { withMulti, withObservable } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  allAccounts?: SubjectInfo,
-  referendumId: BN | number
-};
+interface Props extends I18nProps {
+  allAccounts?: SubjectInfo;
+  referendumId: BN | number;
+}
 
-type State = {
-  accountId?: string,
-  isVotingOpen: boolean,
-  voteOptions: Array<{ text: React.ReactNode, value: boolean }>,
-  voteValue: boolean
-};
+interface State {
+  accountId?: string;
+  isVotingOpen: boolean;
+  voteOptions: { text: React.ReactNode, value: boolean }[];
+  voteValue: boolean;
+}
 
 class Voting extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;
@@ -43,7 +43,7 @@ class Voting extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { allAccounts, t } = this.props;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
@@ -119,18 +119,18 @@ class Voting extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (accountId?: string) => {
+  private onChangeAccount = (accountId?: string): void => {
     this.setState({ accountId });
   }
 
-  private onChangeVote = (voteValue: boolean) => {
+  private onChangeVote = (voteValue: boolean): void => {
     this.setState({ voteValue });
   }
 
   private toggleVoting = (): void => {
-    this.setState(({ isVotingOpen }) => ({
+    this.setState(({ isVotingOpen }): State => ({
       isVotingOpen: !isVotingOpen
-    }));
+    }) as unknown as State);
   }
 }
 

@@ -18,7 +18,7 @@ type Props = I18nProps & ApiProps;
 const isFirefox = typeof InstallTrigger !== 'undefined';
 
 class Connecting extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return this.renderExtension() || this.renderConnecting();
   }
 

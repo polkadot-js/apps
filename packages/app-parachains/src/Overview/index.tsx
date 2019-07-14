@@ -8,10 +8,8 @@ import { Columar } from '@polkadot/ui-app';
 import Parachains from './Parachains';
 import Summary from './Summary';
 
-type Props = {};
-
-export default class Overview extends React.PureComponent<Props> {
-  render () {
+export default class Overview extends React.PureComponent<{}> {
+  public render (): React.ReactNode {
     return (
       <>
         <Summary />

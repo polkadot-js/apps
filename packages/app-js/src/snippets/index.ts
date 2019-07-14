@@ -21,7 +21,7 @@ import {
 
 import { extrinsicMakeTransfer } from './extrinsics-examples';
 
-const snippets: Array<Snippet> = [
+const snippets: Snippet[] = [
   rpcNetworkAuthoring,
   rpcNewHead,
   rpcQueryState,

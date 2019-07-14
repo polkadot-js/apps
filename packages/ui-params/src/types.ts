@@ -7,41 +7,42 @@ import { BareProps } from '@polkadot/ui-app/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
-export type RawParam$Value = any | undefined;
+export type RawParamValue = any | undefined;
 
-export type RawParam$ValueArray = Array<RawParam$Value | Array<RawParam$Value>>;
+export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
 
-export type RawParam$Values = RawParam$Value | RawParam$ValueArray;
+export type RawParamValues = RawParamValue | RawParamValueArray;
 
-export type RawParam = {
-  isValid: boolean,
-  value: RawParam$Values
-};
+export interface RawParam {
+  isValid: boolean;
+  value: RawParamValues;
+}
 
-export type RawParam$OnChange$Value = { isValid: boolean, value: RawParam$Values };
-export type RawParam$OnChange = (value: RawParam$OnChange$Value) => void;
-export type RawParam$OnEnter = () => void;
+export interface RawParamOnChangeValue {
+  isValid: boolean;
+  value: RawParamValues;
+}
+export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
+export type RawParamOnEnter = () => void;
 
-export type RawParams = Array<RawParam>;
+export type RawParams = RawParam[];
 
-export type BaseProps = BareProps & {
-  defaultValue: RawParam,
-  name?: string,
-  onChange?: RawParam$OnChange,
-  onEnter?: RawParam$OnEnter,
-  type: TypeDef
-};
+export interface BaseProps extends BareProps {
+  defaultValue: RawParam;
+  name?: string;
+  onChange?: RawParamOnChange;
+  onEnter?: RawParamOnEnter;
+  type: TypeDef;
+}
 
-export type Props = BaseProps & {
-  isDisabled?: boolean,
-  isError?: boolean,
-  isReadOnly?: boolean,
-  label?: React.ReactNode,
-  withLabel?: boolean
-};
+export interface Props extends BaseProps {
+  isDisabled?: boolean;
+  isError?: boolean;
+  isReadOnly?: boolean;
+  label?: React.ReactNode;
+  withLabel?: boolean;
+}
 
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
-export type ComponentMap = {
-  [index: string]: React.ComponentType<Props>
-};
+export type ComponentMap = Record<string, React.ComponentType<Props>>;

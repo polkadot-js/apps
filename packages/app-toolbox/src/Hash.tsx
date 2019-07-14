@@ -11,20 +11,20 @@ import { blake2AsHex } from '@polkadot/util-crypto';
 
 import translate from './translate';
 
-type State = {
-  data: string,
-  hash: string,
-  isHexData: boolean
-};
+interface State {
+  data: string;
+  hash: string;
+  isHexData: boolean;
+}
 
 class Hash extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     data: '',
     hash: blake2AsHex(stringToU8a(''), 256),
     isHexData: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     return (
       <div className='toolbox--Hash'>
         {this.renderInput()}

@@ -13,27 +13,27 @@ import { withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  chain_bestNumber?: BN,
-  hash: string,
-  proposal: ProposalType | null,
-  votes: Votes | null
-};
+interface Props extends I18nProps {
+  chain_bestNumber?: BN;
+  hash: string;
+  proposal: ProposalType | null;
+  votes: Votes | null;
+}
 
-type State = {
-  votedTotal: number,
-  votedNay: number,
-  votedAye: number
-};
+interface State {
+  votedTotal: number;
+  votedNay: number;
+  votedAye: number;
+}
 
 class Proposal extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     votedTotal: 0,
     votedAye: 0,
     votedNay: 0
   };
 
-  static getDerivedStateFromProps ({ votes }: Props): State | null {
+  public static getDerivedStateFromProps ({ votes }: Props): State | null {
     if (!votes) {
       return null;
     }
@@ -49,7 +49,7 @@ class Proposal extends React.PureComponent<Props, State> {
     return newState;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, hash, proposal, votes } = this.props;
 
     if (!proposal || !votes) {
@@ -78,7 +78,7 @@ class Proposal extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInfo () {
+  private renderInfo (): React.ReactNode {
     const { votes, t } = this.props;
 
     if (!votes) {
@@ -100,7 +100,7 @@ class Proposal extends React.PureComponent<Props, State> {
             }
           )}
         </h4>
-        {ayes.map((address, index) => (
+        {ayes.map((address, index): React.ReactNode => (
           <Labelled
             key={`${index}:${address}`}
             label={t('Aye')}
@@ -122,7 +122,7 @@ class Proposal extends React.PureComponent<Props, State> {
             }
           )}
         </h4>
-        {nays.map((address, index) => (
+        {nays.map((address, index): React.ReactNode => (
           <Labelled
             key={`${index}:${address}`}
             label={t('Nay')}
@@ -156,7 +156,8 @@ export default withMulti(
       {
         paramName: 'hash',
         propName: 'proposal',
-        transform: (value: Option<ProposalType>) => value.unwrapOr(null)
+        transform: (value: Option<ProposalType>): ProposalType | null =>
+          value.unwrapOr(null)
       }
     ],
     [
@@ -164,7 +165,8 @@ export default withMulti(
       {
         paramName: 'hash',
         propName: 'votes',
-        transform: (value: Option<Votes>) => value.unwrapOr(null)
+        transform: (value: Option<Votes>): Votes | null =>
+          value.unwrapOr(null)
       }
     ]
   )

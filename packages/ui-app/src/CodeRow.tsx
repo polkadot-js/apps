@@ -20,13 +20,13 @@ import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
 type Props = I18nProps & RowProps & {
-  code: CodeStored,
-  withMessages?: boolean
+  code: CodeStored;
+  withMessages?: boolean;
 };
 
-type State = RowState & {
-  codeHash: string
-};
+interface State extends RowState {
+  codeHash: string;
+}
 
 const DEFAULT_HASH = '0x';
 const DEFAULT_NAME = '<unknown>';
@@ -48,9 +48,9 @@ const CodeIcon = styled.div`
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 
 class CodeRow extends Row<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = this.createState();
@@ -89,7 +89,7 @@ class CodeRow extends Row<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isInline, style } = this.props;
 
     return (

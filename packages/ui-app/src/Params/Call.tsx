@@ -13,7 +13,7 @@ import Extrinsic from './Extrinsic';
 type Props = ApiProps & BaseProps;
 
 class Call extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { apiDefaultTx, api, className, isDisabled, isError, label, onChange, onEnter, style, withLabel } = this.props;
     const defaultValue = (() => {
       try {

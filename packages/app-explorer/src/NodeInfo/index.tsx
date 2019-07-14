@@ -21,15 +21,15 @@ const POLL_TIMEOUT = 9900;
 
 type Props = ApiProps & AppProps & I18nProps;
 
-type State = {
-  info?: Info,
-  nextRefresh: number,
+interface State {
+  info?: Info;
+  nextRefresh: number;
   timerId?: number;
-};
+}
 
 class App extends React.PureComponent<Props, State> {
   private isActive: boolean = true;
-  state: State = {
+  public state: State = {
     nextRefresh: Date.now()
   };
 
@@ -49,7 +49,7 @@ class App extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { info = {}, nextRefresh } = this.state;
 

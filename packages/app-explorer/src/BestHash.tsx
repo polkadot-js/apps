@@ -9,12 +9,12 @@ import { Header } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
-  label?: string,
-  chain_subscribeNewHead?: Header
+  label?: string;
+  chain_subscribeNewHead?: Header;
 };
 
 class BestHash extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, label = '', style, chain_subscribeNewHead } = this.props;
 
     return (

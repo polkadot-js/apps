@@ -10,19 +10,19 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from '../../translate';
 
-type Props = I18nProps & {
-  controllerId: string,
-  onError: (error: string | null) => void,
-  sessionId: string,
-  stashId: string
-};
+interface Props extends I18nProps {
+  controllerId: string;
+  onError: (error: string | null) => void;
+  sessionId: string;
+  stashId: string;
+}
 
-type State = {
-  error: string | null
-};
+interface State {
+  error: string | null;
+}
 
 class ValidateSession extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     error: null
   };
 
@@ -53,7 +53,7 @@ class ValidateSession extends React.PureComponent<Props, State> {
     return { error };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { error } = this.state;
 
     if (!error) {

@@ -10,17 +10,17 @@ import { Icon } from '@polkadot/ui-app';
 
 import translate from '../../translate';
 
-type Props = I18nProps & {
-  unstakeThreshold: BN | undefined,
-  onError: (error: string | null) => void
-};
+interface Props extends I18nProps {
+  unstakeThreshold: BN | undefined;
+  onError: (error: string | null) => void;
+}
 
-type State = {
-  error: string | null
-};
+interface State {
+  error: string | null;
+}
 
 class InputValidationUnstakeThreshold extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     error: null
   };
 
@@ -46,7 +46,7 @@ class InputValidationUnstakeThreshold extends React.PureComponent<Props, State> 
     return { error };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { error } = this.state;
 
     if (!error) {

@@ -21,7 +21,7 @@ type Props = BareProps & {
 };
 
 class Bubble extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { color, children, className, icon, label } = this.props;
 
     return (

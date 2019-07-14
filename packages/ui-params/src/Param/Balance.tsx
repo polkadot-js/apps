@@ -13,7 +13,7 @@ import Bare from './Bare';
 type Props = BareProps;
 
 class Balance extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
     const defaultValue = new BN((value as BN || '0').toString()).toString(10);
 

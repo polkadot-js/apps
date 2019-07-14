@@ -14,12 +14,12 @@ import Query from './Query';
 import Summary from './Summary';
 import translate from './translate';
 
-type Props = I18nProps & {
-  events: Array<KeyedEvent>
-};
+interface Props extends I18nProps {
+  events: KeyedEvent[];
+}
 
 class Main extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { events, t } = this.props;
 
     return (

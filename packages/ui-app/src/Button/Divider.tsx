@@ -9,7 +9,7 @@ import React from 'react';
 import { classes } from '../util';
 
 export default class ButtonDivider extends React.Component<DividerProps> {
-  render () {
+  public render (): React.ReactNode {
     const { className, style } = this.props;
 
     return (

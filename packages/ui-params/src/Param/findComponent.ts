@@ -28,10 +28,10 @@ import Vector from './Vector';
 import Vote from './Vote';
 import VoteThreshold from './VoteThreshold';
 
-type TypeToComponent = {
-  c: React.ComponentType<Props>,
-  t: Array<string>
-};
+interface TypeToComponent {
+  c: React.ComponentType<Props>;
+  t: string[];
+}
 
 const components: ComponentMap = ([
   { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'SessionKey'] },
@@ -54,16 +54,16 @@ const components: ComponentMap = ([
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
   { c: Unknown, t: ['Unknown'] }
-] as Array<TypeToComponent>).reduce((components, { c, t }) => {
-  t.forEach((type) => {
+] as TypeToComponent[]).reduce((components, { c, t }): ComponentMap => {
+  t.forEach((type): void => {
     components[type] = c;
   });
 
   return components;
-}, {} as ComponentMap);
+}, {} as unknown as ComponentMap);
 
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
-  const type = (({ info, sub, type }: TypeDef) => {
+  const type = (({ info, sub, type }: TypeDef): string => {
     switch (info) {
       case TypeDefInfo.Compact:
       case TypeDefInfo.Option:
@@ -88,7 +88,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     }
   })(def);
 
-  let Component = overrides[type] || components[type];
+  const Component = overrides[type] || components[type];
 
   if (!Component) {
     try {

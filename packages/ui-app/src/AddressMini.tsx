@@ -16,8 +16,8 @@ import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 
 type Props = BareProps & {
-  balance?: BN | Array<BN>,
-  bonded?: BN | Array<BN>,
+  balance?: BN | BN[],
+  bonded?: BN | BN[],
   children?: React.ReactNode,
   iconInfo?: React.ReactNode,
   isPadded?: boolean,
@@ -30,7 +30,7 @@ type Props = BareProps & {
 };
 
 class AddressMini extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, iconInfo, isPadded = true, style, value } = this.props;
 
     if (!value) {

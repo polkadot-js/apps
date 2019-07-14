@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -20,29 +21,29 @@ import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  balances_fees?: DerivedFees,
-  className?: string,
-  onClose: () => void,
-  recipientId?: string,
-  senderId?: string,
-  system_accountNonce?: BN
+  balances_fees?: DerivedFees;
+  className?: string;
+  onClose: () => void;
+  recipientId?: string;
+  senderId?: string;
+  system_accountNonce?: BN;
 };
 
-type State = {
-  amount: BN,
-  extrinsic: SubmittableExtrinsic | null,
-  hasAvailable: boolean,
-  maxBalance?: BN,
-  recipientId?: string | null,
-  senderId?: string | null
-};
+interface State {
+  amount: BN;
+  extrinsic: SubmittableExtrinsic | null;
+  hasAvailable: boolean;
+  maxBalance?: BN;
+  recipientId?: string | null;
+  senderId?: string | null;
+}
 
 const ZERO = new BN(0);
 
 class Transfer extends React.PureComponent<Props> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -55,7 +56,7 @@ class Transfer extends React.PureComponent<Props> {
     };
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
+  public componentDidUpdate (prevProps: Props, prevState: State): void {
     const { balances_fees } = this.props;
     const { extrinsic, recipientId, senderId } = this.state;
     const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
@@ -68,7 +69,7 @@ class Transfer extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -103,7 +104,7 @@ class Transfer extends React.PureComponent<Props> {
     });
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { onClose, t } = this.props;
     const { extrinsic, hasAvailable, senderId } = this.state;
 
@@ -130,7 +131,7 @@ class Transfer extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
     const { extrinsic, hasAvailable, maxBalance, recipientId, senderId } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
@@ -175,23 +176,23 @@ class Transfer extends React.PureComponent<Props> {
     );
   }
 
-  private onChangeAmount = (amount: BN = new BN(0)) => {
+  private onChangeAmount = (amount: BN = new BN(0)): void => {
     this.nextState({ amount });
   }
 
-  private onChangeFrom = (senderId: string) => {
+  private onChangeFrom = (senderId: string): void => {
     this.nextState({ senderId });
   }
 
-  private onChangeTo = (recipientId: string) => {
+  private onChangeTo = (recipientId: string): void => {
     this.nextState({ recipientId });
   }
 
-  private onChangeFees = (hasAvailable: boolean) => {
+  private onChangeFees = (hasAvailable: boolean): void => {
     this.setState({ hasAvailable });
   }
 
-  private setMaxBalance = async () => {
+  private setMaxBalance = async (): Promise<void> => {
     const { api, balances_fees = ZERO_FEES } = this.props;
     const { senderId, recipientId } = this.state;
 
@@ -200,10 +201,6 @@ class Transfer extends React.PureComponent<Props> {
     }
 
     const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
-
-    // FIXME The any casts here are irritating, but they are basically caused by the derive
-    // not really returning an actual `class implements Codec`
-    // (if casting to DerivedBalance it would be `as any as DerivedBalance`)
     const accountNonce = await api.query.system.accountNonce<Index>(senderId);
     const senderBalance = (await api.derive.balances.all(senderId)).availableBalance;
     const recipientBalance = (await api.derive.balances.all(recipientId)).availableBalance;

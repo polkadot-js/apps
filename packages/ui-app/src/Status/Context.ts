@@ -7,8 +7,8 @@ import { QueueProps, QueueStatus, QueueTx } from './types';
 import React from 'react';
 
 const defaultState = {
-  stqueue: [] as Array<QueueStatus>,
-  txqueue: [] as Array<QueueTx>
+  stqueue: [] as QueueStatus[],
+  txqueue: [] as QueueTx[]
 } as QueueProps;
 
 const Context: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState);
