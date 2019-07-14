@@ -4,21 +4,20 @@
 
 import { AccountId, BlockNumber } from '@polkadot/types';
 import BN from 'bn.js';
-import { DerivedFees, DerivedBalances, DerivedBalancesMap } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type Nominators = {
   // stash account and who is being nominated
-  [index: string]: Array<string>
+  [index: string]: string[]
 };
 
 export type ComponentProps = {
   allAccounts?: SubjectInfo,
-  balances?: DerivedBalancesMap,
-  controllers: Array<string>,
-  recentlyOffline: RecentlyOfflineMap,
-  stashes: Array<string>,
-  validators: Array<string>
+  allControllers: string[],
+  allStashes: string[],
+  currentValidatorsControllersV1OrStashesV2: string[],
+  recentlyOffline: RecentlyOfflineMap
 };
 
 export type CalculateBalanceProps = {
@@ -27,10 +26,10 @@ export type CalculateBalanceProps = {
   system_accountNonce?: BN
 };
 
-export type RecentlyOffline = Array<[AccountId, BlockNumber, BN]>;
+export type RecentlyOffline = [AccountId, BlockNumber, BN][];
 
 export type RecentlyOfflineMap = {
-  [s: string]: Array<OfflineStatus>
+  [s: string]: OfflineStatus[]
 };
 
 export interface OfflineStatus {
