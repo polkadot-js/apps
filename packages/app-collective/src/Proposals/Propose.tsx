@@ -81,9 +81,9 @@ class Propose extends TxModal<Props, State> {
   }
 
   renderContent = () => {
-    const { api, apiDefaultTxSudo, memberCount = 0, t } = this.props;
+    const { apiDefaultTxSudo, memberCount = 0, t } = this.props;
     const { threshold } = this.state;
-    console.log(api);
+
     return (
       <>
         <InputNumber
