@@ -12,7 +12,7 @@ import { formatNumber } from '@polkadot/util';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
-import { withApi, api } from '@polkadot/ui-api';
+import { withApi } from '@polkadot/ui-api';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 type Props = ApiProps & BareProps & ComponentProps & {
@@ -21,10 +21,10 @@ type Props = ApiProps & BareProps & ComponentProps & {
 
 class Overview extends React.PureComponent<Props> {
   render () {
-    const { chain_subscribeNewHead, allControllers, allStashes, recentlyOffline, currentValidatorsControllersV1OrStashesV2 } = this.props;
+    const { chain_subscribeNewHead, allControllers, allStashes, recentlyOffline, currentValidatorsControllersV1OrStashesV2, isSubstrateV2 } = this.props;
     let nextSorted: string[];
 
-    if (Object.keys(api.consts).length) {
+    if (isSubstrateV2) {
       // this is a V2 node currentValidatorsControllersV1OrStashesV2 is a list of stashes
       nextSorted = allStashes.filter((address) =>
         !currentValidatorsControllersV1OrStashesV2.includes(address)
