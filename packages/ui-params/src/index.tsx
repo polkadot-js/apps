@@ -4,7 +4,7 @@
 
 import { TypeDef } from '@polkadot/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ComponentMap, RawParams, RawParam$OnChange, RawParam$OnChange$Value } from './types';
+import { ComponentMap, RawParam, RawParams, RawParamOnChange, RawParamOnChangeValue } from './types';
 
 import './Params.css';
 
@@ -15,39 +15,39 @@ import translate from '@polkadot/ui-app/translate';
 import Param from './Param';
 import createValues from './values';
 
-type Param = {
-  name?: string,
-  type: TypeDef
-};
+interface Param {
+  name?: string;
+  type: TypeDef;
+}
 
-type Props = I18nProps & {
-  isDisabled?: boolean,
-  onChange?: (value: RawParams) => void,
-  onEnter?: () => void,
-  overrides?: ComponentMap,
-  params: Array<Param>,
-  values?: RawParams
-};
+interface Props extends I18nProps {
+  isDisabled?: boolean;
+  onChange?: (value: RawParams) => void;
+  onEnter?: () => void;
+  overrides?: ComponentMap;
+  params: Param[];
+  values?: RawParams;
+}
 
-type State = {
-  handlers: Array<RawParam$OnChange>,
-  onChangeParam: (at: number, next: RawParam$OnChange$Value) => void,
-  params: Array<Param>,
-  values: RawParams
-};
+interface State {
+  handlers?: RawParamOnChange[];
+  onChangeParam: (at: number, next: RawParamOnChangeValue) => void;
+  params?: Param[];
+  values?: RawParams;
+}
 
 class Params extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
-    this.state = ({
+    this.state = {
       onChangeParam: this.onChangeParam
-    } as State);
+    };
   }
 
-  static getDerivedStateFromProps (props: Props, { params, onChangeParam }: State): State | null {
+  public static getDerivedStateFromProps (props: Props, { params, onChangeParam }: State): State | null {
     const isSame = JSON.stringify(params) === JSON.stringify(props.params);
 
     if (props.isDisabled || isSame) {
@@ -56,35 +56,36 @@ class Params extends React.PureComponent<Props, State> {
 
     const values = createValues(props.params);
     const handlers = values.map(
-      (_, index): RawParam$OnChange =>
-        (value: RawParam$OnChange$Value): void =>
+      (_, index): RawParamOnChange =>
+        (value: RawParamOnChangeValue): void =>
           onChangeParam(index, value)
     );
 
     return {
       handlers,
+      onChangeParam,
       params: props.params,
       values
-    } as State;
+    };
   }
 
   // Fire the intial onChange (we did update) when the component is loaded
-  componentDidMount () {
-    this.componentDidUpdate({} as Props, {} as State);
+  public componentDidMount (): void {
+    this.componentDidUpdate({} as unknown as Props, {} as unknown as State);
   }
 
-   // This is needed in the case where the item changes, i.e. the values get
-   // initialised and we need to alert the parent that we have new values
-  componentDidUpdate (_: Props, prevState: State) {
+  // This is needed in the case where the item changes, i.e. the values get
+  // initialised and we need to alert the parent that we have new values
+  public componentDidUpdate (_: Props, prevState: State): void {
     const { onChange, isDisabled } = this.props;
     const { values } = this.state;
 
     if (!isDisabled && prevState.values !== values) {
-      onChange && onChange(values);
+      onChange && onChange(values || []);
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, isDisabled, onEnter, overrides, params, style } = this.props;
     const { handlers = [], values = this.props.values } = this.state;
 
@@ -98,7 +99,7 @@ class Params extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--Params-Content'>
-          {params.map(({ name, type }, index) => (
+          {params.map(({ name, type }, index): React.ReactNode => (
             <Param
               defaultValue={values[index]}
               isDisabled={isDisabled}
@@ -115,7 +116,7 @@ class Params extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeParam = (at: number, newValue: RawParam$OnChange$Value): void => {
+  private onChangeParam = (at: number, newValue: RawParamOnChangeValue): void => {
     const { isDisabled } = this.props;
 
     if (isDisabled) {
@@ -125,8 +126,8 @@ class Params extends React.PureComponent<Props, State> {
     const { isValid = false, value } = newValue;
 
     this.setState(
-      (prevState: State): State => ({
-        values: prevState.values.map((prev, index) =>
+      (prevState: State): Pick<State, never> => ({
+        values: (prevState.values || []).map((prev, index): RawParam =>
           index !== at
             ? prev
             : {
@@ -134,7 +135,7 @@ class Params extends React.PureComponent<Props, State> {
               value
             }
         )
-      } as State),
+      }),
       this.triggerUpdate
     );
   }
@@ -143,7 +144,7 @@ class Params extends React.PureComponent<Props, State> {
     const { values } = this.state;
     const { onChange, isDisabled } = this.props;
 
-    if (isDisabled) {
+    if (isDisabled || !values) {
       return;
     }
 

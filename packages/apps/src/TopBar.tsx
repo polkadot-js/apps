@@ -13,7 +13,7 @@ type Props = {
 };
 
 class TopBar extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
 
     return (

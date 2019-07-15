@@ -20,14 +20,14 @@ import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
 export type Props = I18nProps & RowProps & {
-  bonded?: BN | Array<BN>,
-  isContract?: boolean,
-  isValid?: boolean,
-  label?: string,
-  value: AccountId | AccountIndex | Address | string | null,
-  withAddressOrName?: boolean,
-  withBalance?: boolean | BalanceActiveType,
-  withIndex?: boolean
+  bonded?: BN | BN[];
+  isContract?: boolean;
+  isValid?: boolean;
+  label?: string;
+  value: AccountId | AccountIndex | Address | string | null;
+  withAddressOrName?: boolean;
+  withBalance?: boolean | BalanceActiveType;
+  withIndex?: boolean;
 };
 
 type State = RowState;
@@ -36,9 +36,9 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
 
 class AddressRow extends Row<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = this.createState();
@@ -70,7 +70,7 @@ class AddressRow extends Row<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accounts_idAndIndex = [], className, isContract, isInline, style } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = this.props.isValid || accountId || accountIndex;

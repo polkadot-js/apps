@@ -29,7 +29,7 @@ type Props = BareProps & {
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 export default class InputBalance extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { autoFocus, className, defaultValue, help, isDisabled, isError, label, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
 
     return (

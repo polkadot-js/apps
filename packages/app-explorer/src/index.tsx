@@ -24,17 +24,17 @@ import NodeInfo from './NodeInfo';
 import translate from './translate';
 
 type Props = AppProps & BareProps & I18nProps & {
-  system_events?: Array<EventRecord>
+  system_events?: EventRecord[];
 };
 
-type State = {
-  items: Array<TabItem>,
+interface State {
+  items: TabItem[];
   prevEventHash: string;
-  recentEvents: Array<KeyedEvent>;
-};
+  recentEvents: KeyedEvent[];
+}
 
 class ExplorerApp extends React.Component<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = this.props;
@@ -83,7 +83,7 @@ class ExplorerApp extends React.Component<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath, className } = this.props;
     const { items } = this.state;
     const hidden = uiSettings.uiMode === 'full'

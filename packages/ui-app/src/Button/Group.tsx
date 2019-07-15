@@ -12,7 +12,7 @@ import { classes } from '../util';
 import Divider from './Divider';
 
 class ButtonGroup extends React.PureComponent<GroupProps> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, isBasic = false, isCentered = false, style } = this.props;
 
     return (
@@ -46,4 +46,4 @@ export default styled(ButtonGroup)`
     margin-bottom: 0.5rem;
     text-align: center;
   }
-` as any as GroupType;
+` as unknown as GroupType;

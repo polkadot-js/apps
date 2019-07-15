@@ -16,19 +16,19 @@ import Address from './Address';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
-  addresses?: SubjectInfo[]
+  addresses?: SubjectInfo[];
 };
 
-type State = {
-  isCreateOpen: boolean
-};
+interface State {
+  isCreateOpen: boolean;
+}
 
 class Overview extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isCreateOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { addresses, onStatusChange, t } = this.props;
     const { isCreateOpen } = this.state;
     const emptyScreen = !isCreateOpen && (!addresses || Object.keys(addresses).length === 0);
@@ -53,7 +53,7 @@ class Overview extends React.PureComponent<Props, State> {
             onStatusChange={onStatusChange}
           />
         )}
-        {addresses && Object.keys(addresses).map((address) => (
+        {addresses && Object.keys(addresses).map((address): React.ReactNode => (
           <Address
             address={address}
             key={address}
@@ -64,7 +64,7 @@ class Overview extends React.PureComponent<Props, State> {
   }
 
   private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }) => ({
+    this.setState(({ isCreateOpen }): State => ({
       isCreateOpen: !isCreateOpen
     }));
   }

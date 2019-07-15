@@ -12,14 +12,14 @@ import { BlockNumber, Extrinsic, Method } from '@polkadot/types';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  blockNumber?: BlockNumber,
-  label?: React.ReactNode,
-  value?: Array<Extrinsic> | null
-};
+interface Props extends I18nProps {
+  blockNumber?: BlockNumber;
+  label?: React.ReactNode;
+  value?: Extrinsic[] | null;
+}
 
 class Extrinsics extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, label, t } = this.props;
 
     return (
@@ -71,7 +71,7 @@ class Extrinsics extends React.PureComponent<Props> {
                   `mortal${blockNumber ? ' - ends at #{{blockNumber}}' : ''}`,
                   {
                     replace: {
-                      blockNumber: (eraEnd && blockNumber) ? eraEnd.toString() : ''
+                      blockNumber: (eraEnd && blockNumber) ? formatNumber(eraEnd) : ''
                     }
                   }
                 )

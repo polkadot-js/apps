@@ -19,7 +19,7 @@ type Props = AddressProps & {
 };
 
 class AddressCard extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, value, withExplorer } = this.props;
 
     return (

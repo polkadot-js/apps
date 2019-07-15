@@ -11,27 +11,27 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  address: string,
-  onClose: () => void
-};
+interface Props extends I18nProps {
+  address: string;
+  onClose: () => void;
+}
 
-type State = {
-  isNewValid: boolean,
-  isOldValid: boolean,
-  newPass: string,
-  oldPass: string
-};
+interface State {
+  isNewValid: boolean;
+  isOldValid: boolean;
+  newPass: string;
+  oldPass: string;
+}
 
 class ChangePass extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isNewValid: false,
     isOldValid: false,
     newPass: '',
     oldPass: ''
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -47,7 +47,7 @@ class ChangePass extends TxComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { onClose, t } = this.props;
     const { isNewValid, isOldValid } = this.state;
 
@@ -72,7 +72,7 @@ class ChangePass extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { address, t } = this.props;
     const { isNewValid, isOldValid, newPass, oldPass } = this.state;
 
@@ -111,9 +111,9 @@ class ChangePass extends TxComponent<Props, State> {
   private doChange = (): void => {
     const { address, onClose, t } = this.props;
     const { newPass, oldPass } = this.state;
-    const status = {
+    const status: Partial<ActionStatus> = {
       action: 'changePassword'
-    } as ActionStatus;
+    };
 
     try {
       const account = address && keyring.getPair(address);
@@ -158,14 +158,14 @@ class ChangePass extends TxComponent<Props, State> {
     onClose();
   }
 
-  private onChangeNew = (newPass: string) => {
+  private onChangeNew = (newPass: string): void => {
     this.setState({
       isNewValid: this.validatePass(newPass),
       newPass
     });
   }
 
-  private onChangeOld = (oldPass: string) => {
+  private onChangeOld = (oldPass: string): void => {
     this.setState({
       isOldValid: this.validatePass(oldPass),
       oldPass
@@ -173,7 +173,6 @@ class ChangePass extends TxComponent<Props, State> {
   }
 
   private validatePass (password: string): boolean {
-
     return keyring.isPassValid(password);
   }
 }

@@ -20,21 +20,21 @@ const Approved = styled.h3`
   margin: 0;
 `;
 
-type Props = I18nProps & {
-  allAccounts?: SubjectInfo,
-  isApproved: boolean,
-  proposal?: TreasuryProposalType | null,
-  proposalId: string,
-  onPopulate: () => void,
-  onRespond: () => void
-};
+interface Props extends I18nProps {
+  allAccounts?: SubjectInfo;
+  isApproved: boolean;
+  proposal?: TreasuryProposalType | null;
+  proposalId: string;
+  onPopulate: () => void;
+  onRespond: () => void;
+}
 
-type State = {
-  isApproveOpen: boolean
-};
+interface State {
+  isApproveOpen: boolean;
+}
 
 class ProposalDisplay extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { proposal, onPopulate } = props;
@@ -51,11 +51,11 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     }
   }
 
-  state: State = {
+  public state: State = {
     isApproveOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { proposal, proposalId } = this.props;
 
     if (!proposal) {

@@ -5,12 +5,12 @@
 import React from 'react';
 import { AddressCard } from '@polkadot/ui-app';
 
-type Props = {
-  address: string
-};
+interface Props {
+  address: string;
+}
 
 export default class Candidate extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { address } = this.props;
 
     return (

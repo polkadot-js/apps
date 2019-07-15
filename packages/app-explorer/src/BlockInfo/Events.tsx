@@ -11,12 +11,12 @@ import { Column } from '@polkadot/ui-app';
 import EventsDisplay from '../Events';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  value?: Array<EventRecord>
-};
+interface Props extends I18nProps {
+  value?: EventRecord[];
+}
 
 class Events extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { t, value } = this.props;
 
     if (!value || !value.length) {

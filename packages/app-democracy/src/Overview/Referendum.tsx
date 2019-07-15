@@ -25,25 +25,25 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   ? ['#d44', '#e44']
   : ['#d75ea1', '#e189ba'];
 
-type Props = I18nProps & {
-  idNumber: BN,
-  chain_bestNumber?: BN,
-  democracy_referendumVotesFor?: Array<DerivedReferendumVote>,
-  democracy_publicDelay?: BN,
-  value: ReferendumInfoExtended
-};
+interface Props extends I18nProps {
+  idNumber: BN;
+  chain_bestNumber?: BN;
+  democracy_referendumVotesFor?: DerivedReferendumVote[];
+  democracy_publicDelay?: BN;
+  value: ReferendumInfoExtended;
+}
 
-type State = {
-  voteCount: number,
-  voteCountAye: number,
-  voteCountNay: number,
-  votedAye: BN,
-  votedNay: BN,
-  votedTotal: BN
-};
+interface State {
+  voteCount: number;
+  voteCountAye: number;
+  voteCountNay: number;
+  votedAye: BN;
+  votedNay: BN;
+  votedTotal: BN;
+}
 
 class Referendum extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     voteCount: 0,
     voteCountAye: 0,
     voteCountNay: 0,
@@ -86,7 +86,7 @@ class Referendum extends React.PureComponent<Props, State> {
     return newState;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { chain_bestNumber, className, value } = this.props;
 
     if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {

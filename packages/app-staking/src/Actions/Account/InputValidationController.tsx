@@ -11,21 +11,21 @@ import { withCalls } from '@polkadot/ui-api';
 
 import translate from '../../translate';
 
-type Props = I18nProps & {
-  accountId: string | null,
-  bondedId?: string | null,
-  controllerId: string | null,
-  defaultController?: string,
-  onError: (error: string | null) => void,
-  stashId?: string | null
-};
+interface Props extends I18nProps {
+  accountId: string | null;
+  bondedId?: string | null;
+  controllerId: string | null;
+  defaultController?: string;
+  onError: (error: string | null) => void;
+  stashId?: string | null;
+}
 
-type State = {
-  error: string | null
-};
+interface State {
+  error: string | null;
+}
 
 class ValidateController extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     error: null
   };
 
@@ -55,7 +55,7 @@ class ValidateController extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { accountId } = this.props;
     const { error } = this.state;
 

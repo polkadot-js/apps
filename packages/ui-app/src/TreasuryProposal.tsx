@@ -29,9 +29,9 @@ type State = {
 };
 
 class TreasuryProposal extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     if (!props.proposal) {
@@ -50,7 +50,7 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
     this.fetchProposal();
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, asInset, insetProps, onClick, t } = this.props;
     const { proposal } = this.state;
 

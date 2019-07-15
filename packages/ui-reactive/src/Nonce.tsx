@@ -11,15 +11,15 @@ import { formatNumber } from '@polkadot/util';
 import { withCalls } from '@polkadot/ui-api';
 
 type Props = BareProps & CallProps & {
-  accountNonce?: BN,
-  callOnResult?: (accountNonce: BN) => void,
-  children?: React.ReactNode,
-  label?: React.ReactNode,
-  params?: string
+  accountNonce?: BN;
+  callOnResult?: (accountNonce: BN) => void;
+  children?: React.ReactNode;
+  label?: React.ReactNode;
+  params?: string;
 };
 
 export class Nonce extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { accountNonce, children, className, label = '' } = this.props;
 
     return (
@@ -38,7 +38,7 @@ export default withCalls<Props>(
   ['derive.balances.all', {
     paramName: 'params',
     propName: 'accountNonce',
-    transform: ({ accountNonce }: DerivedBalances) =>
+    transform: ({ accountNonce }: DerivedBalances): BN =>
       accountNonce
   }]
 )(Nonce);

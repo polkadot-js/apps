@@ -23,34 +23,34 @@ import { keyExtractPath, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 import translate from '../translate';
 
 type Props = ModalProps & ApiProps & I18nProps & {
-  seed?: string,
-  type?: KeypairType
+  seed?: string;
+  type?: KeypairType;
 };
 
 type SeedType = 'bip' | 'raw' | 'dev';
 
-type SeedOption = {
-  text: string,
-  value: SeedType
-};
+interface SeedOption {
+  text: string;
+  value: SeedType;
+}
 
-type State = {
-  address: string,
-  deriveError: string | null,
-  derivePath: string,
-  isNameValid: boolean,
-  isSeedValid: boolean,
-  isPassValid: boolean,
-  isValid: boolean,
-  name: string,
-  pairType: KeypairType,
-  password: string,
-  seed: string,
-  seedOptions: Array<SeedOption>,
-  seedType: SeedType,
-  showWarning: boolean,
-  tags: Array<string>
-};
+interface State {
+  address: string;
+  deriveError: string | null;
+  derivePath: string;
+  isNameValid: boolean;
+  isSeedValid: boolean;
+  isPassValid: boolean;
+  isValid: boolean;
+  name: string;
+  pairType: KeypairType;
+  password: string;
+  seed: string;
+  seedOptions: SeedOption[];
+  seedType: SeedType;
+  showWarning: boolean;
+  tags: string[];
+}
 
 const DEFAULT_TYPE = 'sr25519';
 
@@ -60,7 +60,7 @@ function deriveValidate (derivePath: string, pairType: KeypairType): string | nu
 
     // we don't allow soft for ed25519
     if (pairType === 'ed25519') {
-      const firstSoft = path.find(({ isSoft }) => isSoft);
+      const firstSoft = path.find(({ isSoft }): boolean => isSoft);
 
       if (firstSoft) {
         return 'Soft derivation paths are not allowed on ed25519';
@@ -88,13 +88,13 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
 }
 
 class Create extends React.PureComponent<Props, State> {
-  state: State = { seedType: 'bip' } as State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { isDevelopment, seed, t, type } = this.props;
-    const seedOptions: Array<SeedOption> = [
+    const seedOptions: SeedOption[] = [
       { value: 'bip', text: t('Mnemonic') },
       { value: 'raw', text: t('Raw seed') }
     ];
@@ -104,12 +104,12 @@ class Create extends React.PureComponent<Props, State> {
     }
 
     this.state = {
-      ...this.emptyState(seed || null, '', type || DEFAULT_TYPE),
+      ...(this.emptyState(seed || null, '', type || DEFAULT_TYPE) as State),
       seedOptions
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, t } = this.props;
 
     return (
@@ -126,7 +126,7 @@ class Create extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isValid } = this.state;
 
@@ -149,11 +149,11 @@ class Create extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInput () {
+  private renderInput (): React.ReactNode {
     const { t } = this.props;
     const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType } = this.state;
     const isDevSeed = seedType === 'dev';
-    const seedLabel = (() => {
+    const seedLabel = ((): string => {
       switch (seedType) {
         case 'bip':
           return t('mnemonic seed');
@@ -239,7 +239,7 @@ class Create extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderModal () {
+  private renderModal (): React.ReactNode {
     const { t } = this.props;
     const { address, name, showWarning } = this.state;
 
@@ -280,8 +280,8 @@ class Create extends React.PureComponent<Props, State> {
     );
   }
 
-  private generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): State {
-    const seed = (() => {
+  private generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): Partial<State> {
+    const seed = ((): string => {
       switch (seedType) {
         case 'bip':
           return mnemonicGenerate();
@@ -298,13 +298,13 @@ class Create extends React.PureComponent<Props, State> {
       deriveError: null,
       derivePath,
       seed
-    } as State;
+    };
   }
 
-  private emptyState (seed: string | null, derivePath: string, pairType: KeypairType): State {
+  private emptyState (seed: string | null, derivePath: string, pairType: KeypairType): Partial<State> {
     const seedType = seed
       ? 'raw'
-      : this.state.seedType;
+      : this.state ? this.state.seedType : 'bip';
 
     return {
       ...this.generateSeed(seed, derivePath, seedType, pairType),
@@ -321,7 +321,7 @@ class Create extends React.PureComponent<Props, State> {
     };
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { derivePath = prevState.derivePath, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning, tags = prevState.tags } = newState;
@@ -363,37 +363,37 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private onChangeDerive = (derivePath: string): void => {
-    this.nextState({ derivePath } as State);
+    this.nextState({ derivePath });
   }
 
   private onChangeName = (name: string): void => {
-    this.nextState({ name } as State);
+    this.nextState({ name });
   }
 
   private onChangePairType = (pairType: KeypairType): void => {
-    this.nextState({ pairType } as State);
+    this.nextState({ pairType });
   }
 
   private onChangePass = (password: string): void => {
-    this.nextState({ password } as State);
+    this.nextState({ password });
   }
 
   private onChangeSeed = (seed: string): void => {
-    this.nextState({ seed } as State);
+    this.nextState({ seed });
   }
 
   private onShowWarning = (): void => {
-    this.nextState({ showWarning: true } as State);
+    this.nextState({ showWarning: true });
   }
 
   private onHideWarning = (): void => {
-    this.nextState({ showWarning: false } as State);
+    this.nextState({ showWarning: false });
   }
 
   private onCommit = (): void => {
     const { onClose, onStatusChange, t } = this.props;
     const { derivePath, isValid, name, pairType, password, seed, tags } = this.state;
-    const status = { action: 'create' } as ActionStatus;
+    const status: Partial<ActionStatus> = { action: 'create' };
 
     if (!isValid) {
       return;
@@ -418,7 +418,7 @@ class Create extends React.PureComponent<Props, State> {
 
     this.onHideWarning();
 
-    onStatusChange(status);
+    onStatusChange(status as ActionStatus);
     onClose();
   }
 
@@ -433,8 +433,8 @@ class Create extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState(({ derivePath, pairType }: State) => ({
-      ...this.generateSeed(null, derivePath, seedType, pairType),
+    this.setState(({ derivePath, pairType }: State): State => ({
+      ...(this.generateSeed(null, derivePath, seedType, pairType) as State),
       seedType
     }));
   }

@@ -11,7 +11,7 @@ import Divider from './Divider';
 import Group from './Group';
 import Or from './Or';
 
-const Button = IButton as any as ButtonType;
+const Button = IButton as unknown as ButtonType;
 
 Button.Divider = Divider;
 Button.Group = Group;

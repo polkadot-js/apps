@@ -16,7 +16,7 @@ export type Props = BareProps & {
 };
 
 export default class AvailableDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { params, className, label, style } = this.props;
 
     if (!params) {

@@ -11,7 +11,7 @@ type Props = {};
 const defaultTo = `/${routing.default}`;
 
 export default class NotFound extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <Redirect to={defaultTo} />
     );

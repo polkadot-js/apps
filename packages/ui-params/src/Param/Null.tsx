@@ -16,7 +16,7 @@ export default class Null extends React.PureComponent<Props> {
     });
   }
 
-  render () {
+  public render (): React.ReactNode {
     return null;
   }
 }

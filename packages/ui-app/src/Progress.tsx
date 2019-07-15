@@ -23,7 +23,7 @@ type Props = BareProps & {
 };
 
 export default class Progress extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, color = 'blue', percent, total, style, value } = this.props;
     let calculated: number | undefined;
     const _total = bnToBn(total);

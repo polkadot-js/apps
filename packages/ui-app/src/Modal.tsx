@@ -21,7 +21,7 @@ export default class Modal extends React.PureComponent<Props> {
   static Header = SUIModal.Header;
   static Description = SUIModal.Description;
 
-  render () {
+  public render (): React.ReactNode {
     const { className } = this.props;
 
     return (

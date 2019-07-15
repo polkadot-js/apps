@@ -9,7 +9,7 @@ import React from 'react';
 type Props = AppProps;
 
 export default class App extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return 'Deprecated, now operates via modal';
   }
 }

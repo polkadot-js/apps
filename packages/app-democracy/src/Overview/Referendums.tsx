@@ -13,12 +13,12 @@ import { Column } from '@polkadot/ui-app';
 import Referendum from './Referendum';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  democracy_referendums?: Array<Option<ReferendumInfoExtended>>
-};
+interface Props extends I18nProps {
+  democracy_referendums?: Option<ReferendumInfoExtended>[];
+}
 
 class Referendums extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (

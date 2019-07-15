@@ -15,22 +15,22 @@ import Transfer from './modals/Transfer';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  address: string
-};
+interface Props extends I18nProps {
+  address: string;
+}
 
-type State = {
-  isBackupOpen: boolean,
-  isEditable: boolean,
-  isForgetOpen: boolean,
-  isPasswordOpen: boolean,
-  isTransferOpen: boolean
-};
+interface State {
+  isBackupOpen: boolean;
+  isEditable: boolean;
+  isForgetOpen: boolean;
+  isPasswordOpen: boolean;
+  isTransferOpen: boolean;
+}
 
 class Account extends React.PureComponent<Props> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const account = keyring.getAccount(props.address);
@@ -46,7 +46,7 @@ class Account extends React.PureComponent<Props> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address } = this.props;
     const { isEditable } = this.state;
 
@@ -72,7 +72,7 @@ class Account extends React.PureComponent<Props> {
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { address } = this.props;
     const { isBackupOpen, isForgetOpen, isPasswordOpen, isTransferOpen } = this.state;
 
@@ -127,35 +127,27 @@ class Account extends React.PureComponent<Props> {
   }
 
   private toggleBackup = (): void => {
-    const { isBackupOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isBackupOpen }: State): Pick<State, never> => ({
       isBackupOpen: !isBackupOpen
-    });
+    }));
   }
 
   private toggleForget = (): void => {
-    const { isForgetOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isForgetOpen }: State): Pick<State, never> => ({
       isForgetOpen: !isForgetOpen
-    });
+    }));
   }
 
   private togglePass = (): void => {
-    const { isPasswordOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isPasswordOpen }: State): Pick<State, never> => ({
       isPasswordOpen: !isPasswordOpen
-    });
+    }));
   }
 
   private toggleTransfer = (): void => {
-    const { isTransferOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isTransferOpen }: State): Pick<State, never> => ({
       isTransferOpen: !isTransferOpen
-    });
+    }));
   }
 
   private onForget = (): void => {
@@ -165,10 +157,10 @@ class Account extends React.PureComponent<Props> {
       return;
     }
 
-    const status = {
+    const status: Partial<ActionStatus> = {
       account: address,
       action: 'forget'
-    } as ActionStatus;
+    };
 
     try {
       keyring.forgetAccount(address);
@@ -180,7 +172,7 @@ class Account extends React.PureComponent<Props> {
     }
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isEditable } = this.state;
 

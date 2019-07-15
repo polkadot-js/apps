@@ -22,19 +22,19 @@ import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
-  defaultValue: StorageEntryPromise,
-  help?: React.ReactNode,
-  isError?: boolean,
-  label: React.ReactNode,
-  onChange?: (value: StorageEntryPromise) => void,
-  withLabel?: boolean
+  defaultValue: StorageEntryPromise;
+  help?: React.ReactNode;
+  isError?: boolean;
+  label: React.ReactNode;
+  onChange?: (value: StorageEntryPromise) => void;
+  withLabel?: boolean;
 };
 
-type State = {
-  optionsMethod: DropdownOptions,
-  optionsSection: DropdownOptions,
-  value: StorageEntryPromise
-};
+interface State {
+  optionsMethod: DropdownOptions;
+  optionsSection: DropdownOptions;
+  value: StorageEntryPromise;
+}
 
 class InputStorage extends React.PureComponent<Props, State> {
   public state: State;

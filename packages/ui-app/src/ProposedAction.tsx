@@ -40,7 +40,7 @@ export const styles = `
 `;
 
 class ProposedAction extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = this.props;
 
     const idNumber = typeof this.props.idNumber === 'string'

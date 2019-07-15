@@ -4,10 +4,8 @@
 
 import React from 'react';
 
-type Props = {};
-
-export default class Chain extends React.PureComponent<Props> {
-  render () {
+export default class Chain extends React.PureComponent<{}> {
+  public render (): React.ReactNode {
     return null;
   }
 }

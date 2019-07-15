@@ -10,25 +10,25 @@ import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 
 import translate from '../../translate';
 
-type Props = I18nProps & {
-  controllerId: string,
-  isOpen: boolean,
-  nominees?: Array<string>,
-  onClose: () => void,
-  stashId: string,
-  stashOptions: Array<KeyringSectionOption>
-};
+interface Props extends I18nProps {
+  controllerId: string;
+  isOpen: boolean;
+  nominees?: string[];
+  onClose: () => void;
+  stashId: string;
+  stashOptions: KeyringSectionOption[];
+}
 
-type State = {
-  nominees: Array<string> | undefined
-};
+interface State {
+  nominees: string[] | undefined;
+}
 
 class Nominate extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     nominees: this.props.nominees
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { isOpen } = this.props;
 
     if (!isOpen) {
@@ -111,7 +111,7 @@ class Nominate extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeNominees = (nominees: Array<string>) => {
+  private onChangeNominees = (nominees: string[]) => {
     this.setState({ nominees });
   }
 }

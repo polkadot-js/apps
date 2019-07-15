@@ -18,7 +18,7 @@ export type Options = {
   atProp?: string,
   callOnResult?: OnChangeCb,
   isMulti?: boolean,
-  params?: Array<any>,
+  params?: any[],
   paramName?: string,
   paramPick?: (props: any) => any,
   paramValid?: boolean,

@@ -12,17 +12,17 @@ import { Abi } from '@polkadot/api-contract';
 import translate from './translate';
 import { classes } from './util';
 
-export type Props = I18nProps & {
-  address?: string,
-  contractAbi: Abi,
-  isLabelled?: boolean,
-  isRemovable: boolean,
-  onRemove?: () => void,
-  onSelect?: (callAddress?: string, callMethod?: string) => void
-};
+export interface Props extends I18nProps {
+  address?: string;
+  contractAbi: Abi;
+  isLabelled?: boolean;
+  isRemovable: boolean;
+  onRemove?: () => void;
+  onSelect?: (callAddress?: string, callMethod?: string) => void;
+}
 
 class Messages extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = () => null, onSelect, t } = this.props;
 
     return (

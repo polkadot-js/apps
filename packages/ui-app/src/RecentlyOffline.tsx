@@ -15,22 +15,22 @@ import Tooltip from './Tooltip';
 import translate from './translate';
 import { classes } from './util';
 
-type Props = I18nProps & {
-  accountId: AccountId | string,
-  offline: Array<OfflineStatus>,
-  tooltip?: boolean
-};
+interface Props extends I18nProps {
+  accountId: AccountId | string;
+  offline: OfflineStatus[];
+  tooltip?: boolean;
+}
 
 type State = {
   isOpen: boolean
 };
 
 class RecentlyOffline extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { accountId, className, offline, tooltip = false, t } = this.props;
     const { isOpen } = this.state;
 
@@ -66,7 +66,7 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
   }
 
   private toggleOpen = (): void => {
-    this.setState(({ isOpen }) => ({
+    this.setState(({ isOpen }): State => ({
       isOpen: !isOpen
     }));
   }

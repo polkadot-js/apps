@@ -19,47 +19,47 @@ import TxModal, { TxModalProps, TxModalState } from './TxModal';
 import { isTreasuryProposalVote } from './util';
 
 type Props = I18nProps & TxModalProps & {
-  allAccounts?: SubjectInfo,
-  hash?: string,
-  idNumber: BN | number,
-  isCouncil: boolean,
-  proposal?: Proposal | null,
-  preContent?: React.ReactNode
+  allAccounts?: SubjectInfo;
+  hash?: string;
+  idNumber: BN | number;
+  isCollective: boolean;
+  proposal?: Proposal | null;
+  preContent?: React.ReactNode;
 };
 
-type State = TxModalState & {
-  voteOptions: Array<{ text: React.ReactNode, value: boolean }>,
-  voteValue: boolean
-};
+interface State extends TxModalState {
+  voteOptions: { text: React.ReactNode; value: boolean }[];
+  voteValue: boolean;
+}
 
 class Voting extends TxModal<Props, State> {
-  state: State;
+  public state: State;
 
   headerText = () => {
-    const { isCouncil, t } = this.props;
+    const { isCollective, t } = this.props;
 
-    return t(isCouncil ? 'Vote on council motion' : 'Vote on proposal');
+    return t(isCollective ? 'Vote on collective proposal' : 'Vote on proposal');
   }
 
   accountLabel = () => this.props.t('Vote with account');
   accountHelp = () => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
 
   txMethod = () => {
-    const { isCouncil } = this.props;
+    const { isCollective } = this.props;
 
-    return isCouncil ? 'councilMotions.vote' : 'democracy.vote';
+    return isCollective ? 'collective.vote' : 'democracy.vote';
   }
 
   txParams = () => {
-    const { hash, idNumber, isCouncil } = this.props;
+    const { hash, idNumber, isCollective } = this.props;
     const { voteValue } = this.state;
 
-    return isCouncil
+    return isCollective
       ? [hash!, idNumber, voteValue]
       : [idNumber, voteValue];
   }
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;

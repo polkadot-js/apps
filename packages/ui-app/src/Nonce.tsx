@@ -16,7 +16,7 @@ export type Props = BareProps & {
 };
 
 export default class NonceDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, label, params, style } = this.props;
 
     if (!params) {

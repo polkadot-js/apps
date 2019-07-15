@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { Generator$Options } from './types';
+import { GeneratorOptions } from './types';
 
 import yargs from 'yargs';
 import chalk from 'chalk';
@@ -24,7 +24,7 @@ interface Best {
 
 const { match, mnemonic, type } = yargs
   .option('match', {
-    default: 'EEEEE'
+    default: 'Test'
   })
   .option('type', {
     choices: ['ed25519', 'sr25519'],
@@ -38,7 +38,7 @@ const { match, mnemonic, type } = yargs
 const INDICATORS = ['|', '/', '-', '\\'];
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
-const options: Generator$Options = {
+const options: GeneratorOptions = {
   match: `${match}`,
   runs: 50,
   type: type as KeypairType,
@@ -51,13 +51,16 @@ let best: Best = {
   count: -1,
   offset: 65536
 };
-let total: number = 0;
+let total = 0;
 let indicator = -1;
+const tests = match.split(',');
 
-if (!matchRegex.test(match)) {
-  console.error("Invalid character found in match string, allowed is '1-9' (no '0'), 'A-H, J-N & P-Z' (no 'I' or 'O'), 'a-k & m-z' (no 'l') and '?' (wildcard)");
-  process.exit(-1);
-}
+tests.forEach((test): void => {
+  if (!matchRegex.test(test)) {
+    console.error("Invalid character found in match string, allowed is '1-9' (no '0'), 'A-H, J-N & P-Z' (no 'I' or 'O'), 'a-k & m-z' (no 'l') and '?' (wildcard)");
+    process.exit(-1);
+  }
+});
 
 console.log(options);
 
@@ -80,9 +83,9 @@ function showBest (): void {
 }
 
 cryptoWaitReady()
-  .then(() => {
+  .then((): void => {
     while (true) {
-      const nextBest = generator(options).found.reduce((best, match) => {
+      const nextBest = generator(options).found.reduce((best, match): Best => {
         if ((match.count > best.count) || ((match.count === best.count) && (match.offset <= best.offset))) {
           return match;
         }

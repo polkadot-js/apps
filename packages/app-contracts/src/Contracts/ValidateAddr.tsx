@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -14,25 +15,25 @@ import keyring from '@polkadot/ui-keyring';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  address?: string | null,
-  contract_contractInfoOf?: Option<ContractInfo>,
-  onChange: (isValid: boolean) => void
+  address?: string | null;
+  contract_contractInfoOf?: Option<ContractInfo>;
+  onChange: (isValid: boolean) => void;
 };
 
-type State = {
-  isStored: boolean,
-  isValidAddr: boolean,
-  isValid: boolean
-};
+interface State {
+  isStored: boolean;
+  isValidAddr: boolean;
+  isValid: boolean;
+}
 
 class ValidateAddr extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isStored: false,
     isValidAddr: false,
     isValid: false
   };
 
-  static getDerivedStateFromProps ({ address, contract_contractInfoOf, onChange }: Props): State {
+  public static getDerivedStateFromProps ({ address, contract_contractInfoOf, onChange }: Props): State {
     let isValidAddr = false;
 
     try {
@@ -59,7 +60,7 @@ class ValidateAddr extends React.PureComponent<Props> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, isValidAddr } = this.state;
 

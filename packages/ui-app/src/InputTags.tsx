@@ -9,51 +9,51 @@ import store from 'store';
 
 import Dropdown from './Dropdown';
 
-type Option = {
-  key: string,
-  text: string,
-  value: string
-};
+interface Option {
+  key: string;
+  text: string;
+  value: string;
+}
 
-type Props = BareProps & {
-  allowAdd?: boolean,
-  defaultValue?: Array<string>,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label?: React.ReactNode,
+interface Props extends BareProps {
+  allowAdd?: boolean;
+  defaultValue?: string[];
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: React.ReactNode;
   onBlur?: () => void;
-  onChange?: (value: Array<string>) => void,
+  onChange?: (value: string[]) => void;
   onClose?: () => void;
   openOnFocus?: boolean;
-  placeholder?: string,
-  searchInput?: {autoFocus: boolean},
-  value?: Array<string>,
-  withLabel?: boolean
-};
+  placeholder?: string;
+  searchInput?: {autoFocus: boolean};
+  value?: string[];
+  withLabel?: boolean;
+}
 
-type State = {
-  options: Array<Option>
-};
+interface State {
+  options: Option[];
+}
 
-function loadTags (): Array<string> {
+function loadTags (): string[] {
   return store.get('tags') || ['Default'];
 }
 
-function saveTags (tags: Array<string>): void {
+function saveTags (tags: string[]): void {
   store.set('tags', tags);
 }
 
 const tags = loadTags();
 
 export default class InputTags extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     options: tags.map((value) => ({
       key: value, text: value, value
     }))
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel } = this.props;
     const { options } = this.state;
 

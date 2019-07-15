@@ -6,41 +6,41 @@ import { BareProps } from '../types';
 
 export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
-export type ButtonProps = BareProps & {
-  children?: React.ReactNode,
-  floated?: 'left' | 'right',
-  icon?: string,
-  isBasic?: boolean,
-  isCircular?: boolean,
-  isDisabled?: boolean,
-  isLoading?: boolean,
-  isNegative?: boolean,
-  isPositive?: boolean,
-  isPrimary?: boolean,
-  label?: React.ReactNode,
-  labelIcon?: string,
-  labelPosition?: 'left' | 'right',
-  onClick?: () => void | Promise<void>,
-  ref?: any,
-  size?: Button$Sizes,
-  tabIndex?: number,
-  tooltip?: React.ReactNode
-};
+export interface ButtonProps extends BareProps {
+  children?: React.ReactNode;
+  floated?: 'left' | 'right';
+  icon?: string;
+  isBasic?: boolean;
+  isCircular?: boolean;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  isNegative?: boolean;
+  isPositive?: boolean;
+  isPrimary?: boolean;
+  label?: React.ReactNode;
+  labelIcon?: string;
+  labelPosition?: 'left' | 'right';
+  onClick?: () => void | Promise<void>;
+  ref?: any;
+  size?: Button$Sizes;
+  tabIndex?: number;
+  tooltip?: React.ReactNode;
+}
 
 export type DividerProps = BareProps;
 
-export type GroupProps = BareProps & {
-  children?: React.ReactNode,
-  isBasic?: boolean,
-  isCentered?: boolean
-};
+export interface GroupProps extends BareProps {
+  children?: React.ReactNode;
+  isBasic?: boolean;
+  isCentered?: boolean;
+}
 
 export type GroupType = React.ComponentType<GroupProps> & {
-  Divider: React.ComponentType<DividerProps>
+  Divider: React.ComponentType<DividerProps>;
 };
 
 export type ButtonType = React.ComponentType<ButtonProps> & {
-  Divider: React.ComponentType<DividerProps>,
-  Group: GroupType,
-  Or: React.ComponentType<BareProps>
+  Divider: React.ComponentType<DividerProps>;
+  Group: GroupType;
+  Or: React.ComponentType<BareProps>;
 };

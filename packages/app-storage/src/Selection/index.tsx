@@ -14,19 +14,19 @@ import Modules from './Modules';
 import Raw from './Raw';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  basePath: string,
-  onAdd: (query: QueryTypes) => void
-};
+interface Props extends I18nProps {
+  basePath: string;
+  onAdd: (query: QueryTypes) => void;
+}
 
-type State = {
-  items: Array<TabItem>
-};
+interface State {
+  items: TabItem[];
+}
 
 let id = -1;
 
 class Selection extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = this.props;
@@ -46,7 +46,7 @@ class Selection extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { items } = this.state;
 

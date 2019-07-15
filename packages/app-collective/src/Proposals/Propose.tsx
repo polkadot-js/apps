@@ -15,16 +15,16 @@ import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import translate from '../translate';
 
 type Props = TxModalProps & ApiProps & {
-  memberCount: number
+  memberCount: number;
 };
 
-type State = TxModalState & {
-  method: Method | null,
-  threshold: BN | null
-};
+interface State extends TxModalState {
+  method: Method | null;
+  threshold: BN | null;
+}
 
 class Propose extends TxModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -43,9 +43,9 @@ class Propose extends TxModal<Props, State> {
     return null;
   }
 
-  headerText = () => this.props.t('Propose a council motion');
+  headerText = () => this.props.t('Make a collective proposal');
 
-  txMethod = () => 'councilMotions.propose';
+  txMethod = () => 'collective.propose';
   txParams = () => {
     const { method, threshold } = this.state;
 
@@ -72,7 +72,7 @@ class Propose extends TxModal<Props, State> {
       <Button.Group>
         <Button
           isPrimary
-          label={t('Propose a council motion')}
+          label={t('Make a collective proposal')}
           labelIcon='add'
           onClick={this.showModal}
         />
@@ -89,7 +89,7 @@ class Propose extends TxModal<Props, State> {
         <InputNumber
           className='medium'
           label={t('threshold')}
-          help={t('The minimum number of council votes required to approve this motion')}
+          help={t('The minimum number of collective votes required to approve this proposal')}
           isError={!threshold || threshold.eqn(0) || threshold.gtn(memberCount)}
           onChange={this.onChangeThreshold}
           onEnter={this.sendTx}
@@ -134,10 +134,10 @@ export default withMulti(
   withApi,
   withCalls(
     [
-      'query.council.activeCouncil',
+      'query.elections.members',
       {
         propName: 'memberCount',
-        transform: (value: Array<any>) => value.length
+        transform: (value: any[]) => value.length
       }
     ]
   )
