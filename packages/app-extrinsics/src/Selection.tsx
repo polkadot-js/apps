@@ -32,7 +32,8 @@ interface State {
 class Selection extends TxComponent<Props, State> {
   public state: State = {
     isValid: false,
-    isValidUnsigned: false
+    isValidUnsigned: false,
+    method: null,
   } as State;
 
   public render (): React.ReactNode {

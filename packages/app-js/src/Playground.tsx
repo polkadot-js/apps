@@ -91,7 +91,7 @@ class Playground extends React.PureComponent<Props, State> {
   // There's a ticket and an ongoing process of updating SUI to the new lifecycle methods (here: componentDidMount).
   // Please check https://github.com/Semantic-Org/Semantic-UI-React/issues/2732 for details
   // This needs to change to componentDidMount() as soon as the original MUI component got updated
-  componentWillMount () {
+  public componentWillMount (): void {
     const { match: { params: { base64 } } } = this.props;
 
     const sharedExample = base64 ? this.decodeBase64(base64) : undefined;
@@ -107,13 +107,13 @@ class Playground extends React.PureComponent<Props, State> {
 
     const selected = options.find(option => option.value === localData.selectedValue);
 
-    this.setState((prevState: State): State => ({
+    this.setState((prevState: State): Pick<State, never> => ({
       customExamples,
       isCustomExample: (selected && selected.type === 'custom') || false,
       options,
       selected: sharedExample || selected || this.snippets[0],
       sharedExample
-    }) as State);
+    }));
   }
 
   public render (): React.ReactNode {

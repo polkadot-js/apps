@@ -38,7 +38,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
     const {
       props: { isCustomExample, isRunning, removeSnippet, runJs, stopJs, t },
       state: { isOpen, shareText, snippetName }
-     } = this;
+    } = this;
 
     return (
       <div className='action-button'>

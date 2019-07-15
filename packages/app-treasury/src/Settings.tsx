@@ -36,7 +36,7 @@ interface State {
 class Settings extends TxComponent<Props, State> {
   public state: State = {};
 
-  static getDerivedStateFromProps ({ proposalBond, proposalBondMinimum, spendPeriod, burn, pot }: Props, state: State) {
+  public static getDerivedStateFromProps ({ proposalBond, proposalBondMinimum, spendPeriod, burn, pot }: Props, state: State): State {
     const newState: State = {};
 
     if (proposalBond && !state.proposalBond) {
@@ -173,27 +173,27 @@ class Settings extends TxComponent<Props, State> {
   }
 
   private onChangeAccount = (accountId: string): void => {
-    this.nextState({ accountId } as State);
+    this.nextState({ accountId });
   }
 
   private onChangeProposalBond = (proposalBond?: BN): void => {
-    this.nextState({ proposalBond } as State);
+    this.nextState({ proposalBond });
   }
 
   private onChangeProposalBondMinimum = (proposalBondMinimum?: BN): void => {
-    this.nextState({ proposalBondMinimum } as State);
+    this.nextState({ proposalBondMinimum });
   }
 
   private onChangeSpendPeriod = (spendPeriod?: BN): void => {
-    this.nextState({ spendPeriod } as State);
+    this.nextState({ spendPeriod });
   }
 
   private onChangeBurn = (burn?: BN): void => {
-    this.nextState({ burn } as State);
+    this.nextState({ burn });
   }
 
   private onChangePot = (pot?: BN): void => {
-    this.nextState({ pot } as State);
+    this.nextState({ pot });
   }
 }
 

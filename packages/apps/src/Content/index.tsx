@@ -18,7 +18,7 @@ import translate from '../translate';
 import NotFound from './NotFound';
 
 type Props = I18nProps & ApiProps & {
-  location: Location
+  location: Location;
 };
 
 const Wrapper = styled.div`

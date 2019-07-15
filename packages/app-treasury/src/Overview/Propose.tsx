@@ -26,6 +26,7 @@ class Propose extends TxModal<Props, State> {
   headerText = () => this.props.t('Submit a spend proposal');
 
   txMethod = () => 'treasury.proposeSpend';
+
   txParams = () => {
     const { beneficiary, value } = this.state;
 
