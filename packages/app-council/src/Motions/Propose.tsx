@@ -15,16 +15,16 @@ import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import translate from '../translate';
 
 type Props = TxModalProps & ApiProps & {
-  memberCount: number;
+  memberCount: number
 };
 
-interface State extends TxModalState {
-  method: Method | null;
-  threshold: BN | null;
-}
+type State = TxModalState & {
+  method: Method | null,
+  threshold: BN | null
+};
 
 class Propose extends TxModal<Props, State> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -43,7 +43,7 @@ class Propose extends TxModal<Props, State> {
     return null;
   }
 
-  headerText = () => this.props.t('Make a collective proposal');
+  headerText = () => this.props.t('Propose a council motion');
 
   txMethod = () => 'collective.propose';
   txParams = () => {
@@ -72,7 +72,7 @@ class Propose extends TxModal<Props, State> {
       <Button.Group>
         <Button
           isPrimary
-          label={t('Make a collective proposal')}
+          label={t('Propose a council motion')}
           labelIcon='add'
           onClick={this.showModal}
         />
@@ -89,7 +89,7 @@ class Propose extends TxModal<Props, State> {
         <InputNumber
           className='medium'
           label={t('threshold')}
-          help={t('The minimum number of collective votes required to approve this proposal')}
+          help={t('The minimum number of council votes required to approve this motion')}
           isError={!threshold || threshold.eqn(0) || threshold.gtn(memberCount)}
           onChange={this.onChangeThreshold}
           onEnter={this.sendTx}
@@ -137,7 +137,7 @@ export default withMulti(
       'query.elections.members',
       {
         propName: 'memberCount',
-        transform: (value: any[]) => value.length
+        transform: (value: Array<any>) => value.length
       }
     ]
   )

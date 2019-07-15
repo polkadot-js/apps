@@ -4,29 +4,26 @@
 
 import { ElectionsInfo } from './types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { Button } from '@polkadot/ui-app';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
 
 import translate from '../translate';
 
-interface Props extends TxModalProps {
-  electionsInfo: ElectionsInfo;
-}
+type Props = TxModalProps & {
+  electionsInfo: ElectionsInfo
+};
 
 type State = TxModalState;
 
 class SubmitCandidacy extends TxModal<Props, State> {
-  protected headerText = (): string => this.props.t('Submit your collective candidacy');
+  headerText = () => this.props.t('Submit your council candidacy');
 
-  protected accountLabel = (): string => this.props.t('Candidate account');
+  accountLabel = () => this.props.t('Candidate account');
+  accountHelp = () => this.props.t('This account will be nominated to fill the council slot you specify.');
 
-  protected accountHelp = (): string => this.props.t('This account will be nominated to fill the collective slot you specify.');
-
-  protected txMethod = (): string => 'elections.submitCandidacy';
-
-  protected txParams = (): [BN] => {
+  txMethod = () => 'elections.submitCandidacy';
+  txParams = () => {
     const { electionsInfo: { candidateCount } } = this.props;
 
     return [
@@ -34,13 +31,13 @@ class SubmitCandidacy extends TxModal<Props, State> {
     ];
   }
 
-  public isDisabled = (): boolean => {
+  isDisabled = () => {
     const { accountId } = this.state;
 
     return !accountId;
   }
 
-  protected renderTrigger = (): React.ReactNode => {
+  renderTrigger = () => {
     const { t } = this.props;
 
     return (

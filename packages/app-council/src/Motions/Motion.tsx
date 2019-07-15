@@ -7,7 +7,6 @@ import { Option, Proposal as ProposalType, Votes } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import styled from 'styled-components';
 import { ActionItem, InputAddress, Labelled, Voting } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 
@@ -26,7 +25,7 @@ interface State {
   votedAye: number;
 }
 
-class Proposal extends React.PureComponent<Props, State> {
+class Motion extends React.PureComponent<Props, State> {
   public state: State = {
     votedTotal: 0,
     votedAye: 0,
@@ -64,7 +63,7 @@ class Proposal extends React.PureComponent<Props, State> {
         accessory={
           <Voting
             hash={hash}
-            isCollective
+            isCouncil
             idNumber={index}
             proposal={proposal}
           />
@@ -140,15 +139,7 @@ class Proposal extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  styled(Proposal as React.ComponentClass<Props>)`
-    .democracy--Proposal-results {
-      margin-bottom: 1em;
-
-      &.chart {
-        text-align: center;
-      }
-    }
-  `,
+  Motion,
   translate,
   withCalls<Props>(
     [

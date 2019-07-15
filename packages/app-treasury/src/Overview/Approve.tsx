@@ -79,8 +79,8 @@ class Approve extends TxModal<Props, State> {
 
     return (
       <Dropdown
-        help={t('Propose a majority collective proposal to either approve or reject this spend proposal')}
-        label={t('proposed collective action')}
+        help={t('Propose a majority council motion to either approve or reject this spend proposal')}
+        label={t('proposed council action')}
         options={this.approveOptions()}
         onChange={this.onChangeApproving}
         value={isApproving}
