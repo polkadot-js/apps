@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -17,33 +18,33 @@ import Label from './Label';
 import translate from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
-export type BalanceActiveType = {
-  available?: boolean,
-  bonded?: boolean | BN[],
-  free?: boolean,
-  redeemable?: boolean,
-  unlocking?: boolean
-};
+export interface BalanceActiveType {
+  available?: boolean;
+  bonded?: boolean | BN[];
+  free?: boolean;
+  redeemable?: boolean;
+  unlocking?: boolean;
+}
 
-export type CryptoActiveType = {
-  crypto?: boolean,
-  nonce?: boolean
-};
+export interface CryptoActiveType {
+  crypto?: boolean;
+  nonce?: boolean;
+}
 
-export type ValidatorPrefsType = {
-  unstakeThreshold?: boolean,
-  validatorPayment?: boolean
-};
+export interface ValidatorPrefsType {
+  unstakeThreshold?: boolean;
+  validatorPayment?: boolean;
+}
 
 type Props = BareProps & I18nProps & {
-  address: string,
-  balances_all?: DerivedBalances,
-  children?: React.ReactNode,
-  staking_info?: DerivedStaking,
-  withBalance?: boolean | BalanceActiveType,
-  withRewardDestination?: boolean,
-  withExtended?: boolean | CryptoActiveType,
-  withValidatorPrefs?: boolean | ValidatorPrefsType
+  address: string;
+  balances_all?: DerivedBalances;
+  children?: React.ReactNode;
+  staking_info?: DerivedStaking;
+  withBalance?: boolean | BalanceActiveType;
+  withRewardDestination?: boolean;
+  withExtended?: boolean | CryptoActiveType;
+  withValidatorPrefs?: boolean | ValidatorPrefsType;
 };
 
 class AddressInfo extends React.PureComponent<Props> {
@@ -68,13 +69,11 @@ class AddressInfo extends React.PureComponent<Props> {
     );
   }
 
-  private renderBalances () {
+  private renderBalances (): React.ReactNode {
     const { balances_all, staking_info, t, withBalance = true } = this.props;
     const balanceDisplay = withBalance === true
       ? { available: true, bonded: true, free: true, redeemable: true, unlocking: true }
-      : withBalance
-        ? withBalance
-        : undefined;
+      : withBalance || undefined;
 
     if (!balanceDisplay || !balances_all) {
       return null;
@@ -117,15 +116,15 @@ class AddressInfo extends React.PureComponent<Props> {
   }
 
   // either true (filtered above already) or [own, ...all extras bonded funds from nominators]
-  private renderBonded (bonded: true | BN[]) {
+  private renderBonded (bonded: true | BN[]): React.ReactNode {
     const { staking_info, t } = this.props;
-    let value = undefined;
+    let value;
 
     if (Array.isArray(bonded)) {
       // Get the sum of funds bonded by any nominator (if available)
-      const extras = bonded.filter((value, index) => index !== 0);
-      const extra = extras.reduce((total, value) => total.add(value), new BN(0)).gtn(0)
-        ? `(+${extras.map((bonded) => formatBalance(bonded)).join(', ')})`
+      const extras = bonded.filter((value, index): boolean => index !== 0);
+      const extra = extras.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
+        ? `(+${extras.map((bonded): string => formatBalance(bonded)).join(', ')})`
         : '';
 
       value = `${formatBalance(bonded[0])} ${extra}`;
@@ -143,13 +142,11 @@ class AddressInfo extends React.PureComponent<Props> {
       : undefined;
   }
 
-  private renderExtended () {
+  private renderExtended (): React.ReactNode {
     const { balances_all, t, address, withExtended } = this.props;
     const extendedDisplay = withExtended === true
       ? { crypto: true, nonce: true }
-      : withExtended
-        ? withExtended
-        : undefined;
+      : withExtended || undefined;
 
     if (!extendedDisplay || !balances_all) {
       return null;
@@ -176,7 +173,7 @@ class AddressInfo extends React.PureComponent<Props> {
     );
   }
 
-  private renderRewardDestination () {
+  private renderRewardDestination (): React.ReactNode {
     const { staking_info, withRewardDestination, t } = this.props;
 
     if (!withRewardDestination) {
@@ -193,7 +190,7 @@ class AddressInfo extends React.PureComponent<Props> {
     );
   }
 
-  private renderRedeemButton () {
+  private renderRedeemButton (): React.ReactNode {
     const { staking_info, t } = this.props;
 
     return (staking_info && staking_info.controllerId && (
@@ -211,13 +208,13 @@ class AddressInfo extends React.PureComponent<Props> {
     ));
   }
 
-  private renderUnlocking () {
+  private renderUnlocking (): React.ReactNode {
     const { staking_info, t } = this.props;
 
     return (
       staking_info &&
       staking_info.unlocking &&
-      staking_info.unlocking.map(({ remainingBlocks, value }, index) => (
+      staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
         <div key={index}>
           {formatBalance(value)}
           <Icon
@@ -234,11 +231,11 @@ class AddressInfo extends React.PureComponent<Props> {
     );
   }
 
-  private renderValidatorPrefs () {
+  private renderValidatorPrefs (): React.ReactNode {
     const { staking_info, t, withValidatorPrefs = false } = this.props;
     const validatorPrefsDisplay = withValidatorPrefs === true
-    ? { unstakeThreshold: true, validatorPayment: true }
-    : withValidatorPrefs;
+      ? { unstakeThreshold: true, validatorPayment: true }
+      : withValidatorPrefs;
 
     if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
       return null;

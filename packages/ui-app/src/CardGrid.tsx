@@ -22,7 +22,7 @@ class CardGrid extends Collection<Props, State> {
     return { isEmpty: false, showHeader: true };
   }
 
-  renderEmpty () {
+  protected renderEmpty (): React.ReactNode {
     const { buttons, headerText, t } = this.props;
 
     if (headerText) {
@@ -97,5 +97,4 @@ export default translate(
         margin-bottom: 2rem;
       }
     }
-  }
-`);
+  `);

@@ -30,7 +30,7 @@ type Props = BareProps & ApiProps & {
 
 interface State {
   methodfn: MethodFunction;
-  params: { name: string, type: TypeDef }[];
+  params: { name: string; type: TypeDef }[];
   values: RawParam[];
 }
 
@@ -74,12 +74,12 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
-    this.setState(newState, () => {
+  private nextState (newState: Pick< State, never>): void {
+    this.setState(newState, (): void => {
       const { onChange } = this.props;
       const { methodfn, params, values } = this.state;
 
-      const isValid = values.reduce((isValid, value) =>
+      const isValid = values.reduce((isValid, value): boolean =>
         isValid &&
         !isUndefined(value) &&
         !isUndefined(value.value) &&
@@ -91,7 +91,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
       if (isValid) {
         try {
           method = methodfn(
-            ...values.map(({ value }) => value)
+            ...values.map(({ value }): any => value)
           );
         } catch (error) {
           // swallow
@@ -111,7 +111,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 
   private onChangeValues = (values: RawParam[]): void => {
-    this.nextState({ values } as State);
+    this.nextState({ values });
   }
 
   private getParams (methodfn: MethodFunction): { name: string; type: TypeDef }[] {

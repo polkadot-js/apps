@@ -13,20 +13,20 @@ import { isUndefined } from '@polkadot/util';
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
 
-type ProgressProps = {
-  color?: ProgressColors,
-  hideValue?: boolean,
-  isPercent?: boolean,
-  total?: BN | UInt,
-  value?: BN | UInt
-};
+interface ProgressProps {
+  color?: ProgressColors;
+  hideValue?: boolean;
+  isPercent?: boolean;
+  total?: BN | UInt;
+  value?: BN | UInt;
+}
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  help?: React.ReactNode,
-  label: React.ReactNode,
-  progress?: ProgressProps
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  help?: React.ReactNode;
+  label: React.ReactNode;
+  progress?: ProgressProps;
+}
 
 class CardSummary extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -40,7 +40,7 @@ class CardSummary extends React.PureComponent<Props> {
             progress.isPercent
               ? '100'
               : total.toString()
-            }`
+          }`
           : (
             progress.isPercent
               ? value.muln(100).div(total).toString()

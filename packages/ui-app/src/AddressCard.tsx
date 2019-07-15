@@ -14,9 +14,9 @@ import LinkPolkascan from './LinkPolkascan';
 
 import translate from './translate';
 
-type Props = AddressProps & {
-  withExplorer?: boolean
-};
+interface Props extends AddressProps {
+  withExplorer?: boolean;
+}
 
 class AddressCard extends React.PureComponent<Props> {
   public render (): React.ReactNode {
