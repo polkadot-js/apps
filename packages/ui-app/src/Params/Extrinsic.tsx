@@ -11,16 +11,16 @@ import { Method } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
 
-type Props = BareProps & {
-  defaultValue: MethodFunction,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isPrivate: boolean,
-  label: React.ReactNode,
-  onChange?: RawParamOnChange,
-  onEnter?: RawParamOnEnter,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  defaultValue: MethodFunction;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isPrivate: boolean;
+  label: React.ReactNode;
+  onChange?: RawParamOnChange;
+  onEnter?: RawParamOnEnter;
+  withLabel?: boolean;
+}
 
 export default class ExtrinsicDisplay extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -42,7 +42,7 @@ export default class ExtrinsicDisplay extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (method: Method): void => {
+  private onChange = (method: Method): void => {
     const { onChange } = this.props;
 
     onChange && onChange({

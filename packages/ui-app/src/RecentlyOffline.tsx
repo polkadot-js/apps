@@ -21,9 +21,9 @@ interface Props extends I18nProps {
   tooltip?: boolean;
 }
 
-type State = {
-  isOpen: boolean
-};
+interface State {
+  isOpen: boolean;
+}
 
 class RecentlyOffline extends React.PureComponent<Props, State> {
   public state: State = {
@@ -38,8 +38,8 @@ class RecentlyOffline extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const count = offline.reduce((total, { count }) => total.add(count), new BN(0));
-    const blockNumbers = offline.map(({ blockNumber }) => `#${formatNumber(blockNumber)}`);
+    const count = offline.reduce((total, { count }): BN => total.add(count), new BN(0));
+    const blockNumbers = offline.map(({ blockNumber }): string => `#${formatNumber(blockNumber)}`);
     const text = t('Reported offline {{count}} times, last at {{blockNumber}}', {
       replace: {
         count,

@@ -11,25 +11,25 @@ import { classes } from './util';
 import Button from './Button';
 import Input from './Input';
 
-type Props = BareProps & {
-  autoFocus?: boolean,
-  children?: React.ReactNode,
-  defaultValue?: any,
-  help?: string,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label?: string,
-  name?: string,
-  onChange: (value: string) => void,
-  onEnter?: () => void,
-  tabIndex?: number,
-  value: any,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  autoFocus?: boolean;
+  children?: React.ReactNode;
+  defaultValue?: any;
+  help?: string;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: string;
+  name?: string;
+  onChange: (value: string) => void;
+  onEnter?: () => void;
+  tabIndex?: number;
+  value: any;
+  withLabel?: boolean;
+}
 
-type State = {
-  isVisible: boolean
-};
+interface State {
+  isVisible: boolean;
+}
 
 export default class Password extends React.PureComponent<Props, State> {
   public state: State = {

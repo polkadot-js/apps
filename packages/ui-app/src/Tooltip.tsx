@@ -19,7 +19,7 @@ interface Props extends BareProps {
     bottom?: number;
     left?: number;
     right?: number;
-    top?: number
+    top?: number;
   };
   place?: 'bottom' | 'top' | 'right' | 'left';
   text: React.ReactNode;

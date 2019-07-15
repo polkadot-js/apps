@@ -18,26 +18,20 @@ const MyIcon = styled(Icon)`
   }
 `;
 
-const Next = () => (
-  <MyIcon
-    name='arrow right'
-  />
-);
+export interface TabItem {
+  hasParams?: boolean;
+  isExact?: boolean;
+  isRoot?: boolean;
+  name: string;
+  text: React.ReactNode;
+}
 
-export type TabItem = {
-  hasParams?: boolean,
-  isExact?: boolean,
-  isRoot?: boolean,
-  name: string,
-  text: React.ReactNode
-};
-
-type Props = BareProps & {
-  basePath: string,
-  hidden?: string[],
-  items: TabItem[],
-  isSequence?: boolean
-};
+interface Props extends BareProps {
+  basePath: string;
+  hidden?: string[];
+  items: TabItem[];
+  isSequence?: boolean;
+}
 
 export default class Tabs extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -49,14 +43,14 @@ export default class Tabs extends React.PureComponent<Props> {
       >
         {
           items
-            .filter(({ name }) => !hidden.includes(name))
+            .filter(({ name }): boolean => !hidden.includes(name))
             .map(this.renderItem)
         }
       </div>
     );
   }
 
-  private renderItem = ({ hasParams, isRoot, name, text, ...tab }: TabItem, index: number) => {
+  private renderItem = ({ hasParams, isRoot, name, text, ...tab }: TabItem, index: number): React.ReactNode => {
     const { basePath, isSequence, items } = this.props;
     const to = isRoot
       ? basePath
@@ -77,7 +71,7 @@ export default class Tabs extends React.PureComponent<Props> {
           {text}
         </NavLink>
         {(isSequence && index < items.length - 1) && (
-          <Next />
+          <MyIcon name='arrow right' />
         )}
       </React.Fragment>
     );
