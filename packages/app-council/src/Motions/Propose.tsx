@@ -24,7 +24,7 @@ interface State extends TxModalState {
 }
 
 class Propose extends TxModal<Props, State> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -45,7 +45,7 @@ class Propose extends TxModal<Props, State> {
     return null;
   }
 
-  protected headerText = (): string => this.props.t('Make a collective proposal');
+  protected headerText = (): string => this.props.t('Propose a council motion');
 
   protected txMethod = (): string => 'collective.propose';
 
@@ -75,7 +75,7 @@ class Propose extends TxModal<Props, State> {
       <Button.Group>
         <Button
           isPrimary
-          label={t('Make a collective proposal')}
+          label={t('Propose a council motion')}
           labelIcon='add'
           onClick={this.showModal}
         />
@@ -92,7 +92,7 @@ class Propose extends TxModal<Props, State> {
         <InputNumber
           className='medium'
           label={t('threshold')}
-          help={t('The minimum number of collective votes required to approve this proposal')}
+          help={t('The minimum number of council votes required to approve this motion')}
           isError={!threshold || threshold.eqn(0) || threshold.gtn(memberCount)}
           onChange={this.onChangeThreshold}
           onEnter={this.sendTx}

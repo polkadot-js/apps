@@ -85,7 +85,7 @@ class ProposalsBase extends React.PureComponent<Props> {
   protected onRespond = (): void => {
     const { history } = this.props;
 
-    history.push('/collective/proposals');
+    history.push('/council/motions');
   }
 
   private onPopulateProposal = (): void => {

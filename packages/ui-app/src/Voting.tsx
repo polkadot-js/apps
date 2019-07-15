@@ -22,7 +22,7 @@ type Props = I18nProps & TxModalProps & {
   allAccounts?: SubjectInfo;
   hash?: string;
   idNumber: BN | number;
-  isCollective: boolean;
+  isCouncil: boolean;
   proposal?: Proposal | null;
   preContent?: React.ReactNode;
 };
@@ -36,9 +36,9 @@ class Voting extends TxModal<Props, State> {
   public state: State;
 
   protected headerText = (): string => {
-    const { isCollective, t } = this.props;
+    const { isCouncil, t } = this.props;
 
-    return isCollective ? t('Vote on collective proposal') : t('Vote on proposal');
+    return isCouncil ? t('Vote on council proposal') : t('Vote on proposal');
   }
 
   protected accountLabel = (): string => this.props.t('Vote with account');
@@ -46,16 +46,16 @@ class Voting extends TxModal<Props, State> {
   protected accountHelp = (): string => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
 
   protected txMethod = (): string => {
-    const { isCollective } = this.props;
+    const { isCouncil } = this.props;
 
-    return isCollective ? 'collective.vote' : 'democracy.vote';
+    return isCouncil ? 'collective.vote' : 'democracy.vote';
   }
 
   protected txParams = (): any[] => {
-    const { hash, idNumber, isCollective } = this.props;
+    const { hash, idNumber, isCouncil } = this.props;
     const { voteValue } = this.state;
 
-    return isCollective
+    return isCouncil
       ? [hash, idNumber, voteValue]
       : [idNumber, voteValue];
   }

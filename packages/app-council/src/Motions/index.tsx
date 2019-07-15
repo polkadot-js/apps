@@ -10,7 +10,7 @@ import React from 'react';
 import { withCalls } from '@polkadot/ui-api';
 import { CardGrid } from '@polkadot/ui-app';
 
-import Proposal from './Proposal';
+import Motion from './Motion';
 import Propose from './Propose';
 import translate from '../translate';
 
@@ -24,8 +24,8 @@ class Proposals extends React.PureComponent<Props> {
 
     return (
       <CardGrid
-        emptyText={t('No proposals')}
-        headerText={t('Proposals')}
+        emptyText={t('No council motions')}
+        headerText={t('Motions')}
         buttons={
           <Propose />
         }
@@ -39,7 +39,7 @@ class Proposals extends React.PureComponent<Props> {
     const { collective_proposals = [] } = this.props;
 
     return collective_proposals.map((hash: Hash): React.ReactNode => (
-      <Proposal
+      <Motion
         hash={hash.toHex()}
         key={hash.toHex()}
       />
