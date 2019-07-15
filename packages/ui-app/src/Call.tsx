@@ -45,8 +45,6 @@ class Call extends React.PureComponent<Props> {
       ? (value as IExtrinsic).hash
       : null;
 
-    console.log(params, values);
-
     return (
       <Wrapper
         className={classes('ui--Extrinsic', className)}
