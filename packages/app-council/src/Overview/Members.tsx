@@ -20,7 +20,6 @@ interface Props extends I18nProps {
 class Members extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { electionsInfo, t } = this.props;
-
     const { members, candidates } = electionsInfo;
 
     return (
