@@ -10,10 +10,10 @@ import { Nonce } from '@polkadot/ui-reactive';
 
 import { classes } from './util';
 
-export type Props = BareProps & {
-  label?: React.ReactNode,
-  params?: AccountId | AccountIndex | Address | string | Uint8Array | null
-};
+export interface Props extends BareProps {
+  label?: React.ReactNode;
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
+}
 
 export default class NonceDisplay extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -24,12 +24,12 @@ export default class NonceDisplay extends React.PureComponent<Props> {
     }
 
     return (
-        <Nonce
-          className={classes('ui--Nonce', className)}
-          label={label}
-          params={params.toString()}
-          style={style}
-        />
+      <Nonce
+        className={classes('ui--Nonce', className)}
+        label={label}
+        params={params.toString()}
+        style={style}
+      />
     );
   }
 }

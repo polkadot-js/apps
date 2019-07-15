@@ -40,7 +40,7 @@ class Forget extends React.PureComponent<Props> {
     );
   }
 
-  private headerText = () => {
+  private headerText = (): string => {
     const { mode = 'account', t } = this.props;
     switch (mode) {
       case 'account':
@@ -54,8 +54,9 @@ class Forget extends React.PureComponent<Props> {
     }
   }
 
-  private content = () => {
+  private content = (): React.ReactNode => {
     const { mode = 'account', t } = this.props;
+
     switch (mode) {
       case 'account':
         return (
@@ -88,7 +89,7 @@ class Forget extends React.PureComponent<Props> {
     }
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { onClose, onForget, t } = this.props;
 
     return (
@@ -110,7 +111,7 @@ class Forget extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { address, code, mode = 'account' } = this.props;
 
     switch (mode) {
@@ -120,7 +121,7 @@ class Forget extends React.PureComponent<Props> {
         return (
           <AddressRow
             isInline
-            value={address!}
+            value={address || ''}
           >
             {this.content()}
           </AddressRow>
@@ -129,7 +130,7 @@ class Forget extends React.PureComponent<Props> {
         return (
           <CodeRow
             isInline
-            code={code!}
+            code={code || ''}
           >
             {this.content()}
           </CodeRow>

@@ -25,15 +25,16 @@ interface State {
   isValid: boolean;
   isValidUnsigned: boolean;
   method: Method | null;
-  accountNonce: BN;
-  accountId: string;
+  accountNonce?: BN;
+  accountId?: string;
 }
 
 class Selection extends TxComponent<Props, State> {
   public state: State = {
     isValid: false,
-    isValidUnsigned: false
-  } as State;
+    isValidUnsigned: false,
+    method: null
+  };
 
   public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
@@ -94,7 +95,7 @@ class Selection extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { method = prevState.method, accountNonce = prevState.accountNonce, accountId = prevState.accountId } = newState;
@@ -116,15 +117,15 @@ class Selection extends TxComponent<Props, State> {
   }
 
   private onChangeExtrinsic = (method: Method | null = null): void => {
-    this.nextState({ method } as State);
+    this.nextState({ method });
   }
 
   private onChangeNonce = (accountNonce: BN = new BN(0)): void => {
-    this.nextState({ accountNonce } as State);
+    this.nextState({ accountNonce });
   }
 
   private onChangeSender = (accountId: string): void => {
-    this.nextState({ accountId, accountNonce: new BN(0) } as State);
+    this.nextState({ accountId, accountNonce: new BN(0) });
   }
 
   private getExtrinsic (): SubmittableExtrinsic | null {

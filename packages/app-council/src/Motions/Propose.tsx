@@ -15,13 +15,13 @@ import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import translate from '../translate';
 
 type Props = TxModalProps & ApiProps & {
-  memberCount: number
+  memberCount: number;
 };
 
-type State = TxModalState & {
-  method: Method | null,
-  threshold: BN | null
-};
+interface State extends TxModalState {
+  method: Method | null;
+  threshold: BN | null;
+}
 
 class Propose extends TxModal<Props, State> {
   constructor (props: Props) {
@@ -35,18 +35,21 @@ class Propose extends TxModal<Props, State> {
     this.state = this.defaultState;
   }
 
-  static getDerivedStateFromProps ({ memberCount }: Props, { threshold }: State) {
+  public static getDerivedStateFromProps ({ memberCount }: Props, { threshold }: State): Pick<State, never> | null {
     if (!threshold && memberCount > 0) {
       const simpleMajority = new BN((memberCount / 2) + 1);
+
       return { threshold: simpleMajority };
     }
+
     return null;
   }
 
-  headerText = () => this.props.t('Propose a council motion');
+  protected headerText = (): string => this.props.t('Propose a council motion');
 
-  txMethod = () => 'collective.propose';
-  txParams = () => {
+  protected txMethod = (): string => 'collective.propose';
+
+  protected txParams = (): [BN | null, ...Proposal[]] => {
     const { method, threshold } = this.state;
 
     return [
@@ -55,7 +58,7 @@ class Propose extends TxModal<Props, State> {
     ];
   }
 
-  isDisabled = () => {
+  protected isDisabled = (): boolean => {
     const { memberCount = 0 } = this.props;
     const { accountId, method, threshold } = this.state;
 
@@ -65,7 +68,7 @@ class Propose extends TxModal<Props, State> {
     return !accountId || !hasMethod || !hasThreshold;
   }
 
-  renderTrigger = () => {
+  protected renderTrigger = (): React.ReactNode => {
     const { t } = this.props;
 
     return (
@@ -80,7 +83,7 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { apiDefaultTxSudo, memberCount = 0, t } = this.props;
     const { threshold } = this.state;
 
@@ -111,12 +114,14 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  private onChangeThreshold = (threshold?: BN): void => {
+  private onChangeThreshold = (threshold: BN | null = null): void => {
     const { memberCount = 0 } = this.props;
+
     if (memberCount > 0 && !this.defaultState.threshold) {
       this.defaultState.threshold = new BN((memberCount / 2) + 1);
     }
-    this.setState({ threshold } as State);
+
+    this.setState({ threshold });
   }
 
   private onChangeExtrinsic = (method: Method): void => {
@@ -124,7 +129,7 @@ class Propose extends TxModal<Props, State> {
       return;
     }
 
-    this.setState({ method } as State);
+    this.setState({ method });
   }
 }
 
@@ -133,12 +138,10 @@ export default withMulti(
   translate,
   withApi,
   withCalls(
-    [
-      'query.elections.members',
-      {
-        propName: 'memberCount',
-        transform: (value: Array<any>) => value.length
-      }
-    ]
+    ['query.elections.members', {
+      propName: 'memberCount',
+      transform: (value: any[]): number =>
+        value.length
+    }]
   )
 );

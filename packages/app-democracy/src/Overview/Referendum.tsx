@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -52,7 +53,7 @@ class Referendum extends React.PureComponent<Props, State> {
     votedTotal: new BN(0)
   };
 
-  static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
     if (!democracy_referendumVotesFor) {
       return null;
     }

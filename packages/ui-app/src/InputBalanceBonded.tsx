@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -57,8 +58,9 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       maxBalance: ZERO
     };
   }
+
   public render (): React.ReactNode {
-    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, onEnter, placeholder,style, value, withEllipsis, withLabel, withMax } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
     const { maxBalance } = this.state;
 
     return (
@@ -85,7 +87,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     );
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
+  public componentDidUpdate (prevProps: Props, prevState: State): void {
     const { balances_all, balances_fees, controllerId, destination } = this.props;
     const { extrinsic } = this.state;
     const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
@@ -100,7 +102,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     }
   }
 
-  private setMaxBalance = () => {
+  private setMaxBalance = (): void => {
     const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, extrinsicProp, system_accountNonce = ZERO } = this.props;
     const { transactionBaseFee, transactionByteFee } = balances_fees;
     const { freeBalance } = balances_all;
@@ -113,8 +115,8 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
 
       if (extrinsicProp === 'staking.bond') {
         extrinsic = controllerId && (destination || destination === 0)
-        ? api.tx.staking.bond(controllerId, prevMax, destination)
-        : null;
+          ? api.tx.staking.bond(controllerId, prevMax, destination)
+          : null;
       } else if (extrinsicProp === 'staking.unbond') {
         extrinsic = api.tx.staking.unbond(prevMax);
       } else if (extrinsicProp === 'staking.bondExtra') {

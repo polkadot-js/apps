@@ -47,11 +47,11 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     } as State;
   }
 
-  static getDerivedStateFromProps ({ api }: Props, { value }: State): State | null {
+  public static getDerivedStateFromProps ({ api }: Props, { value }: State): Pick<State, never> {
     return {
       optionsMethod: methodOptions(api, value.section),
       optionsSection: sectionOptions(api)
-    } as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -96,7 +96,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState({ value: newValue }, () =>
+    this.setState({ value: newValue }, (): void =>
       onChange(newValue)
     );
   }
@@ -112,7 +112,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     const optionsMethod = methodOptions(api, newSection);
     const fn = api.tx[newSection][optionsMethod[0].value];
 
-    this.setState({ optionsMethod }, () =>
+    this.setState({ optionsMethod }, (): void =>
       this.onKeyChange(fn)
     );
   }

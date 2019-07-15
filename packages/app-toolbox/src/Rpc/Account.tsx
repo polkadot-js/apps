@@ -55,7 +55,7 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  renderNonce () {
+  public renderNonce (): React.ReactNode {
     const { t } = this.props;
     const { accountId } = this.state;
 

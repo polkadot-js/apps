@@ -15,19 +15,19 @@ import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 
-type Props = BareProps & {
-  balance?: BN | BN[],
-  bonded?: BN | BN[],
-  children?: React.ReactNode,
-  iconInfo?: React.ReactNode,
-  isPadded?: boolean,
-  isShort?: boolean,
-  type?: KeyringItemType,
-  value?: AccountId | AccountIndex | Address | string,
-  withAddress?: boolean,
-  withBalance?: boolean,
-  withBonded?: boolean
-};
+interface Props extends BareProps {
+  balance?: BN | BN[];
+  bonded?: BN | BN[];
+  children?: React.ReactNode;
+  iconInfo?: React.ReactNode;
+  isPadded?: boolean;
+  isShort?: boolean;
+  type?: KeyringItemType;
+  value?: AccountId | AccountIndex | Address | string;
+  withAddress?: boolean;
+  withBalance?: boolean;
+  withBonded?: boolean;
+}
 
 class AddressMini extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -67,7 +67,7 @@ class AddressMini extends React.PureComponent<Props> {
     );
   }
 
-  private renderAddressOrName (address: string) {
+  private renderAddressOrName (address: string): React.ReactNode {
     const { isShort = true, withAddress = true, type } = this.props;
 
     if (!withAddress) {
@@ -78,7 +78,7 @@ class AddressMini extends React.PureComponent<Props> {
 
     return (
       <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{
-         name || (
+        name || (
           isShort
             ? toShortAddress(address)
             : address
@@ -87,7 +87,7 @@ class AddressMini extends React.PureComponent<Props> {
     );
   }
 
-  private renderBalance () {
+  private renderBalance (): React.ReactNode {
     const { balance, value, withBalance = false } = this.props;
 
     if (!withBalance || !value) {
@@ -102,7 +102,7 @@ class AddressMini extends React.PureComponent<Props> {
     );
   }
 
-  private renderBonded () {
+  private renderBonded (): React.ReactNode {
     const { bonded, value, withBonded = false } = this.props;
 
     if (!withBonded || !value) {

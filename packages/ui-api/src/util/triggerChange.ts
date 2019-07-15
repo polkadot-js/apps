@@ -11,7 +11,7 @@ export default function triggerChange (value?: any, ...callOnResult: (OnChangeCb
     return;
   }
 
-  callOnResult.forEach((callOnResult) => {
+  callOnResult.forEach((callOnResult): void => {
     if (isObservable(callOnResult)) {
       callOnResult.next(value);
     } else if (isFunction(callOnResult)) {

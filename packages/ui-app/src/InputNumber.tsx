@@ -39,7 +39,7 @@ type Props = BareProps & I18nProps & {
 interface State {
   isPreKeyDown: boolean;
   isValid: boolean;
-  siOptions: { value: string, text: string }[];
+  siOptions: { value: string; text: string }[];
   siUnit: string;
   value: string;
   valueBN: BN;
@@ -54,7 +54,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     super(props);
 
     const { defaultValue, isSi, value } = this.props;
-    let valueBN = new BN(value || 0);
+    const valueBN = new BN(value || 0);
     const si = formatBalance.findSi('-');
 
     this.state = {
@@ -63,7 +63,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         : (defaultValue || valueBN).toString(),
       isPreKeyDown: false,
       isValid: !isUndefined(value),
-      siOptions: formatBalance.getOptions().map(({ power, text, value }) => ({
+      siOptions: formatBalance.getOptions().map(({ power, text, value }): { text: string; value: string } => ({
         value,
         text: power === 0
           ? InputNumber.units
@@ -74,12 +74,13 @@ class InputNumber extends React.PureComponent<Props, State> {
     };
   }
 
-  static units: string = 'Unit';
-  static setUnit (units: string = InputNumber.units): void {
+  public static units: string = 'Unit';
+
+  public static setUnit (units: string = InputNumber.units): void {
     InputNumber.units = units;
   }
 
-  static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props): Partial<State> | null {
+  public static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props): Partial<State> | null {
     if (!isDisabled || !isSi) {
       return null;
     }
@@ -120,7 +121,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSiDropdown () {
+  private renderSiDropdown (): React.ReactNode {
     const { siOptions, siUnit } = this.state;
 
     return (
@@ -134,7 +135,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderMaxButton () {
+  private renderMaxButton (): React.ReactNode {
     const { valueBN } = this.state;
     const { maxValue } = this.props;
 
@@ -179,9 +180,9 @@ class InputNumber extends React.PureComponent<Props, State> {
   private regex = (): RegExp => {
     const { isDecimal, isSi } = this.props;
     return new RegExp(
-      (isSi || isDecimal) ?
-        `^(0|[1-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$` :
-        `^(0|[1-9]\\d*)$`
+      (isSi || isDecimal)
+        ? `^(0|[1-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$`
+        : `^(0|[1-9]\\d*)$`
     );
   }
 
@@ -215,13 +216,7 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     if (event.key.length === 1 && !isPreKeyDown) {
       const { selectionStart: i, selectionEnd: j, value } = event.target as HTMLInputElement;
-      const newValue = `${
-        value.substring(0, i!)
-      }${
-        event.key
-      }${
-        value.substring(j!)
-      }`;
+      const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
 
       if (!this.regex().test(newValue)) {
         event.preventDefault();
@@ -240,12 +235,11 @@ class InputNumber extends React.PureComponent<Props, State> {
 
     if (!this.regex().test(newValue)) {
       event.preventDefault();
-      return;
     }
   }
 
   private selectSiUnit = (siUnit: string): void => {
-    this.setState((prevState: State) => {
+    this.setState((prevState: State): Pick<State, never> => {
       const { bitLength, onChange } = this.props;
       const valueBN = this.inputValueToBn(prevState.value, siUnit);
       const isValid = this.isValidNumber(valueBN, bitLength);
@@ -264,13 +258,13 @@ class InputNumber extends React.PureComponent<Props, State> {
     });
   }
 
-  private setToMaxValue = () => {
-    this.setState((prevState: State) => {
+  private setToMaxValue = (): void => {
+    this.setState((prevState: State): Pick<State, never> => {
       const { bitLength, maxValue, onChange } = this.props;
       const { siUnit = prevState.siUnit } = this.state;
 
       if (!maxValue) {
-        return {} as State;
+        return {};
       }
 
       const isValid = this.isValidNumber(maxValue, bitLength);
@@ -321,16 +315,17 @@ class InputNumber extends React.PureComponent<Props, State> {
     return `${
       div.gt(ZERO) ? div.toString() : '0'
     }${
-      mod.gt(ZERO) ?
-        (() => {
+      mod.gt(ZERO)
+        ? ((): string => {
           const padding = Math.max(
             mod.toString().length,
             base.toString().length - div.toString().length,
             bn.toString().length - div.toString().length
           );
+
           return `.${mod.toString(10, padding).replace(/0*$/, '')}`;
-        })() :
-        ''
+        })()
+        : ''
     }`;
   }
 

@@ -11,7 +11,7 @@ export default function isTreasuryProposalVote (proposal?: Proposal | null): boo
 
   const { method, section } = Method.findFunction(proposal.callIndex);
 
-  return section === 'treasury'
-    && ['approveProposal', 'rejectProposal'].includes(method)
-    && !!proposal.args[0];
+  return section === 'treasury' &&
+    ['approveProposal', 'rejectProposal'].includes(method) &&
+    !!proposal.args[0];
 }

@@ -42,12 +42,13 @@ interface LoadEvent {
 }
 
 class InputFile extends React.PureComponent<Props, State> {
-  dropZone: any;
-  public state: State;
+  private dropZone: any;
+
+  public state: State = {};
 
   public constructor (props: Props) {
     super(props);
-    this.state = {} as State;
+
     this.dropZone = React.createRef();
   }
 
@@ -88,22 +89,22 @@ class InputFile extends React.PureComponent<Props, State> {
     ) : dropZone;
   }
 
-  private onDrop = (files: File[]) => {
+  private onDrop = (files: File[]): void => {
     const { onChange } = this.props;
 
-    files.forEach((file) => {
+    files.forEach((file): void => {
       const reader = new FileReader();
 
-      reader.onabort = () => {
+      reader.onabort = (): void => {
         // ignore
       };
 
-      reader.onerror = () => {
+      reader.onerror = (): void => {
         // ignore
       };
 
       // @ts-ignore ummm... events are not properly specified here?
-      reader.onload = ({ target: { result } }: LoadEvent) => {
+      reader.onload = ({ target: { result } }: LoadEvent): void => {
         const data = new Uint8Array(result);
         const name = file.name;
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -34,14 +35,14 @@ class ProposalsBase extends React.PureComponent<Props> {
     proposalIndices: [] as BN[]
   };
 
-  static getDerivedStateFromProps ({ isApprovals = false, treasury_approvals = [] as BN[], treasury_proposalCount = new BN(0) }: Props) {
+  public static getDerivedStateFromProps ({ isApprovals = false, treasury_approvals = [] as BN[], treasury_proposalCount = new BN(0) }: Props): Pick<State, never> {
     let proposalIndices: BN[] = [];
 
     if (isApprovals) {
       proposalIndices = treasury_approvals;
     } else {
       for (let i = 0; i < treasury_proposalCount.toNumber(); i++) {
-        if (!treasury_approvals.find(index => index.eqn(i))) {
+        if (!treasury_approvals.find((index): boolean => index.eqn(i))) {
           proposalIndices.push(new BN(i));
         }
       }
@@ -66,11 +67,11 @@ class ProposalsBase extends React.PureComponent<Props> {
     );
   }
 
-  private renderProposals () {
+  private renderProposals (): React.ReactNode {
     const { isApprovals } = this.props;
     const { proposalIndices } = this.state;
 
-    return proposalIndices.map((proposalId) => (
+    return proposalIndices.map((proposalId): React.ReactNode => (
       <Proposal
         isApproved={isApprovals}
         onPopulate={this.onPopulateProposal}
@@ -81,17 +82,18 @@ class ProposalsBase extends React.PureComponent<Props> {
     ));
   }
 
-  onRespond = () => {
+  protected onRespond = (): void => {
     const { history } = this.props;
 
     history.push('/council/motions');
   }
 
-  private onPopulateProposal = () => {
-    this.setState(({ isEmpty }: State) => {
+  private onPopulateProposal = (): void => {
+    this.setState(({ isEmpty }: State): Pick<State, never> | null => {
       if (isEmpty) {
         return { isEmpty: false };
       }
+
       return null;
     });
   }

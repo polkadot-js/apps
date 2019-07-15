@@ -26,6 +26,7 @@ class Propose extends TxModal<Props, State> {
   headerText = () => this.props.t('Submit a spend proposal');
 
   txMethod = () => 'treasury.proposeSpend';
+
   txParams = () => {
     const { beneficiary, value } = this.state;
 
@@ -34,7 +35,7 @@ class Propose extends TxModal<Props, State> {
     ];
   }
 
-  isDisabled = () => {
+  protected isDisabled = (): boolean => {
     const { accountId, beneficiary, value } = this.state;
     const hasValue = !!value && value.gtn(0);
     const hasBeneficiary = !!beneficiary;
@@ -42,7 +43,7 @@ class Propose extends TxModal<Props, State> {
     return !accountId || !hasValue || !hasBeneficiary;
   }
 
-  renderTrigger = () => {
+  protected renderTrigger = (): React.ReactNode => {
     const { t } = this.props;
 
     return (
@@ -57,7 +58,7 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { value } = this.state;
     const hasValue = !!value && value.gtn(0);

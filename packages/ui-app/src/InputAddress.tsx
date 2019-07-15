@@ -67,7 +67,7 @@ const transformToAccountId = (value: string): string | null => {
     : accountId;
 };
 
-const createOption = (address: string) => {
+const createOption = (address: string): KeyringSectionOption => {
   let isRecent: boolean | undefined;
   const pair = keyring.getAccount(address);
   let name: string | undefined;
@@ -91,30 +91,30 @@ const createOption = (address: string) => {
 class InputAddress extends React.PureComponent<Props, State> {
   public state: State = {};
 
-  static getDerivedStateFromProps ({ value }: Props): State | null {
+  public static getDerivedStateFromProps ({ value }: Props): Pick<State, never> | null {
     try {
       return {
         value: Array.isArray(value)
           ? value.map(addressToAddress)
           : (addressToAddress(value) || undefined)
 
-      } as State;
+      };
     } catch (error) {
       return null;
     }
   }
 
-  static readOptions () {
+  public static readOptions () {
     return store.get(STORAGE_KEY) || { defaults: {} };
   }
 
-  static getLastValue (type: KeyringOption$Type = DEFAULT_TYPE) {
+  public static getLastValue (type: KeyringOption$Type = DEFAULT_TYPE) {
     const options = InputAddress.readOptions();
 
     return options.defaults[type];
   }
 
-  static setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string) {
+  public static setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): void {
     const options = InputAddress.readOptions();
 
     options.defaults[type] = value;
@@ -133,7 +133,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     const lastValue = InputAddress.getLastValue(type);
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
-        isDisabled || (defaultValue && this.hasValue(defaultValue))
+      isDisabled || (defaultValue && this.hasValue(defaultValue))
         ? defaultValue
         : (
           this.hasValue(lastValue)
@@ -141,13 +141,13 @@ class InputAddress extends React.PureComponent<Props, State> {
             : (lastOption && lastOption.value)
         )
     );
-    const actualOptions = options
-      ? options
-      : (
-          isDisabled && actualValue
-            ? [createOption(actualValue)]
-            : (optionsAll ? optionsAll[type] : [])
-      );
+    const actualOptions = options || (
+      isDisabled && actualValue
+        ? [createOption(actualValue)]
+        : optionsAll
+          ? optionsAll[type]
+          : []
+    );
     let _defaultValue;
 
     if (value !== undefined) {
@@ -208,9 +208,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       return;
     }
 
-    const available = optionsAll[type].filter(({ value }) =>
-      !!value
-    );
+    const available = optionsAll[type].filter(({ value }): boolean => !!value);
 
     return available.length
       ? available[available.length - 1]
@@ -224,12 +222,10 @@ class InputAddress extends React.PureComponent<Props, State> {
       return false;
     }
 
-    return !!optionsAll[type].find(({ value }) =>
-      test === value
-    );
+    return !!optionsAll[type].find(({ value }): boolean => test === value);
   }
 
-  private onChange = (address: string) => {
+  private onChange = (address: string): void => {
     const { onChange, type } = this.props;
 
     InputAddress.setLastValue(type, address);
@@ -237,14 +233,14 @@ class InputAddress extends React.PureComponent<Props, State> {
     onChange && onChange(transformToAccountId(address));
   }
 
-  private onChangeMulti = (addresses: string[]) => {
+  private onChangeMulti = (addresses: string[]): void => {
     const { onChangeMulti } = this.props;
 
     if (onChangeMulti) {
       onChangeMulti(
         addresses
           .map(transformToAccountId)
-          .filter((address) => address) as string[]
+          .filter((address): string => address as string) as string[]
       );
     }
   }
@@ -253,14 +249,14 @@ class InputAddress extends React.PureComponent<Props, State> {
     const { isInput = true } = this.props;
     const query = _query.trim();
     const queryLower = query.toLowerCase();
-    const matches = filteredOptions.filter((item) =>
+    const matches = filteredOptions.filter((item): boolean =>
       item.value !== null && (
         item.name.toLowerCase().indexOf(queryLower) !== -1 ||
         item.value.toLowerCase().indexOf(queryLower) !== -1
       )
     );
 
-    const valueMatches = matches.filter((item) =>
+    const valueMatches = matches.filter((item): boolean =>
       item.value !== null
     );
 
@@ -276,12 +272,12 @@ class InputAddress extends React.PureComponent<Props, State> {
       }
     }
 
-    return matches.filter((item, index) => {
+    return matches.filter((item, index): boolean => {
       const isLast = index === matches.length - 1;
       const nextItem = matches[index + 1];
       const hasNext = nextItem && nextItem.value;
 
-      return item.value !== null || (!isLast && hasNext);
+      return item.value !== null || (!isLast && !!hasNext);
     });
   }
 }

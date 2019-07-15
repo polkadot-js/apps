@@ -39,7 +39,7 @@ const cache: CacheInstance[] = [];
 class Query extends React.PureComponent<Props, State> {
   public state: State = { spread: {} } as State;
 
-  static getCachedComponent (query: QueryTypes): CacheInstance {
+  public static getCachedComponent (query: QueryTypes): CacheInstance {
     const { id, key, params = [] } = query as StorageModuleQuery;
 
     if (!cache[id]) {
@@ -66,7 +66,7 @@ class Query extends React.PureComponent<Props, State> {
     return cache[id];
   }
 
-  static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer) {
+  public static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer) {
     return {
       Component,
       // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
@@ -83,7 +83,7 @@ class Query extends React.PureComponent<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps ({ value }: Props) {
+  public static getDerivedStateFromProps ({ value }: Props) {
     const Component = Query.getCachedComponent(value).Component;
     const inputs: React.ReactNode[] = isU8a(value.key)
       ? []

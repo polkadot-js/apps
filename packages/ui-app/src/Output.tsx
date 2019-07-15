@@ -10,17 +10,17 @@ import CopyButton from './CopyButton';
 import Labelled from './Labelled';
 import { classes } from './util';
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  help?: React.ReactNode,
-  isError?: boolean,
-  isHidden?: boolean,
-  isMonospace?: boolean,
-  label?: any, // node?
-  value?: any,
-  withCopy?: boolean,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  help?: React.ReactNode;
+  isError?: boolean;
+  isHidden?: boolean;
+  isMonospace?: boolean;
+  label?: React.ReactNode;
+  value?: any;
+  withCopy?: boolean;
+  withLabel?: boolean;
+}
 
 export default class Output extends React.PureComponent<Props> {
   public render (): React.ReactNode {

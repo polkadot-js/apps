@@ -33,7 +33,7 @@ class Hash extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput () {
+  public renderInput (): React.ReactNode {
     const { t } = this.props;
     const { data, isHexData } = this.state;
 
@@ -65,7 +65,7 @@ class Hash extends React.PureComponent<Props, State> {
     );
   }
 
-  renderOutput () {
+  public renderOutput (): React.ReactNode {
     const { t } = this.props;
     const { hash } = this.state;
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -63,7 +64,7 @@ class ExplorerApp extends React.Component<Props, State> {
 
   // assign the events on the index - this way we keep a record of these, even when swapping
   // tabs withing this app, all the events as received will be shown
-  static getDerivedStateFromProps ({ system_events = [] }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ system_events = [] }: Props, prevState: State): State | null {
     const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));
 
     if (prevEventHash === prevState.prevEventHash) {

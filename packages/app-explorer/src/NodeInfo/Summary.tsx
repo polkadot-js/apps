@@ -25,7 +25,7 @@ interface State {
 class Summary extends React.PureComponent<Props, State> {
   public state: State = {};
 
-  static getDerivedStateFromProps ({ info = {} }: Props): State | null {
+  public static getDerivedStateFromProps ({ info = {} }: Props): State | null {
     if (!info.peers) {
       return null;
     }

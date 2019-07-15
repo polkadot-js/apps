@@ -10,14 +10,17 @@ export default function toAddress (value?: string | Uint8Array): string | undefi
     return;
   }
 
+  let address: string | undefined;
+
   try {
-    return keyring.encodeAddress(
+    address = keyring.encodeAddress(
       isHex(value)
         ? hexToU8a(value)
         : keyring.decodeAddress(value)
     );
   } catch (error) {
     console.error('Unable to encode address', value);
-    return;
   }
+
+  return address;
 }
