@@ -51,12 +51,12 @@ class App extends React.PureComponent<Props, State> {
     });
   }
 
-  public static getDerivedStateFromProps ({ contracts }: Props): State {
+  public static getDerivedStateFromProps ({ contracts }: Props): Pick<State, never> {
     const hasContracts = !!contracts && Object.keys(contracts).length >= 1;
 
     return {
       hasContracts
-    } as unknown as State;
+    };
   }
 
   public render (): React.ReactNode {

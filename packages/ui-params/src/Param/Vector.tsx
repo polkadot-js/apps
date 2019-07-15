@@ -111,13 +111,13 @@ class Vector extends React.PureComponent<Props, State> {
   private onChange = (index: number): (value: RawParam) => void => {
     return (value: RawParam): void => {
       this.setState(
-        ({ values }: State): State => ({
+        ({ values }: State): Pick<State, never> => ({
           values: values.map((svalue, sindex): RawParam =>
             (sindex === index)
               ? value
               : svalue
           )
-        } as unknown as State),
+        }),
         (): void => {
           const { values } = this.state;
           const { onChange } = this.props;
@@ -132,7 +132,7 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   private rowAdd = (): void => {
-    this.setState(({ values }: State, { type: { sub } }: Props): State => {
+    this.setState(({ values }: State, { type: { sub } }: Props): Pick<State, never> => {
       const value = getInitValue(sub as TypeDef);
 
       return {
@@ -140,14 +140,14 @@ class Vector extends React.PureComponent<Props, State> {
           isValid: !isUndefined(value),
           value
         })
-      } as unknown as State;
+      };
     });
   }
 
   private rowRemove = (): void => {
-    this.setState(({ values }: State): State => ({
+    this.setState(({ values }: State): Pick<State, never> => ({
       values: values.slice(0, values.length - 1)
-    } as unknown as State));
+    }));
   }
 }
 

@@ -81,7 +81,7 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  public static getDerivedStateFromProps ({ accountId, staking_info }: Props): State | null {
+  public static getDerivedStateFromProps ({ accountId, staking_info }: Props): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
@@ -102,7 +102,7 @@ class Account extends React.PureComponent<Props, State> {
       stakingLedger,
       stashId: toIdString(stashId),
       validatorPrefs
-    } as unknown as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -526,51 +526,51 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private toggleBondExtra = (): void => {
-    this.setState(({ isBondExtraOpen }): State => ({
+    this.setState(({ isBondExtraOpen }): Pick<State, never> => ({
       isBondExtraOpen: !isBondExtraOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleNominate = (): void => {
-    this.setState(({ isNominateOpen }): State => ({
+    this.setState(({ isNominateOpen }): Pick<State, never> => ({
       isNominateOpen: !isNominateOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleSetControllerAccount = (): void => {
-    this.setState(({ isSetControllerAccountOpen }): State => ({
+    this.setState(({ isSetControllerAccountOpen }): Pick<State, never> => ({
       isSetControllerAccountOpen: !isSetControllerAccountOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleSetRewardDestination = (): void => {
-    this.setState(({ isSetRewardDestinationOpen }): State => ({
+    this.setState(({ isSetRewardDestinationOpen }): Pick<State, never> => ({
       isSetRewardDestinationOpen: !isSetRewardDestinationOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleSetSessionAccount = (): void => {
-    this.setState(({ isSetSessionAccountOpen }): State => ({
+    this.setState(({ isSetSessionAccountOpen }): Pick<State, never> => ({
       isSetSessionAccountOpen: !isSetSessionAccountOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleSettingPopup = (): void => {
-    this.setState(({ isSettingPopupOpen }): State => ({
+    this.setState(({ isSettingPopupOpen }): Pick<State, never> => ({
       isSettingPopupOpen: !isSettingPopupOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleUnbond = (): void => {
-    this.setState(({ isUnbondOpen }): State => ({
+    this.setState(({ isUnbondOpen }): Pick<State, never> => ({
       isUnbondOpen: !isUnbondOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleValidate = (): void => {
-    this.setState(({ isValidateOpen }): State => ({
+    this.setState(({ isValidateOpen }): Pick<State, never> => ({
       isValidateOpen: !isValidateOpen
-    }) as unknown as State);
+    }));
   }
 }
 
