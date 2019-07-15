@@ -35,7 +35,7 @@ class Validate extends TxComponent<Props, State> {
 
   // inject the preferences returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
-  static getDerivedStateFromProps (props: Props, state: State): State | null {
+  public static getDerivedStateFromProps (props: Props, state: State): State | null {
     if (state.unstakeThreshold && state.validatorPayment) {
       return null;
     }

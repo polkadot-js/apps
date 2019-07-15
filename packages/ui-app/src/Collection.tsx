@@ -51,7 +51,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     return !children || (Array.isArray(children) && children.length === 0);
   }
 
-  static getDerivedStateFromProps ({ children }: CollectionProps) {
+  public static getDerivedStateFromProps ({ children }: CollectionProps): Pick<any, never> {
     return {
       isEmpty: Collection.isEmpty(children)
     };

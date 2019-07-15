@@ -28,10 +28,10 @@ class Unlock extends TxComponent<Props, State> {
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ pair }: Props): State {
+  public static getDerivedStateFromProps ({ pair }: Props): Pick<State, never> {
     return {
       address: (pair && pair.address) || ''
-    } as State;
+    };
   }
 
   public render (): React.ReactNode {

@@ -27,7 +27,7 @@ class Column extends Collection<Props, State> {
     );
   }
 
-  renderCollection () {
+  public renderCollection (): React.ReactNode {
     const { children } = this.props;
 
     return children;

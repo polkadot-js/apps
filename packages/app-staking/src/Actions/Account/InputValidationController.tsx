@@ -29,7 +29,7 @@ class ValidateController extends React.PureComponent<Props, State> {
     error: null
   };
 
-  static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, onError, stashId, t }: Props, prevState: State): State {
+  public static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, onError, stashId, t }: Props, prevState: State): State {
     const error = (() => {
       if (defaultController === controllerId) {
         // don't show an error if the selected controller is the default

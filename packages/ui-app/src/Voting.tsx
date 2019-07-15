@@ -56,7 +56,7 @@ class Voting extends TxModal<Props, State> {
     const { voteValue } = this.state;
 
     return isCollective
-      ? [hash!, idNumber, voteValue]
+      ? [hash, idNumber, voteValue]
       : [idNumber, voteValue];
   }
 

@@ -68,7 +68,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAccount () {
+  public renderAccount (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -85,7 +85,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnlockWarning () {
+  public renderUnlockWarning (): React.ReactNode {
     const { t } = this.props;
     const { isLocked } = this.state;
 
@@ -109,7 +109,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput () {
+  public renderInput (): React.ReactNode {
     const { t } = this.props;
     const { data, isHexData } = this.state;
 
@@ -141,7 +141,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderSignature () {
+  public renderSignature (): React.ReactNode {
     const { t } = this.props;
     const { signature } = this.state;
 
@@ -160,7 +160,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnlock () {
+  public renderUnlock (): React.ReactNode {
     const { currentPair, isUnlockVisible } = this.state;
 
     if (!isUnlockVisible) {
@@ -175,7 +175,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState = (newState: State): void => {
+  private nextState = (newState: State): void => {
     this.setState(
       (prevState: State): State => {
         const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;

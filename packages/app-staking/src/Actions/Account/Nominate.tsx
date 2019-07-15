@@ -48,7 +48,7 @@ class Nominate extends React.PureComponent<Props, State> {
     );
   }
 
-  renderButtons () {
+  public renderButtons (): React.ReactNode {
     const { controllerId, onClose, t } = this.props;
     const { nominees } = this.state;
 
@@ -75,7 +75,7 @@ class Nominate extends React.PureComponent<Props, State> {
     );
   }
 
-  renderContent () {
+  public renderContent (): React.ReactNode {
     const { controllerId, stashId, stashOptions, t } = this.props;
 
     return (
