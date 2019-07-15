@@ -7,27 +7,27 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 
-export type TxModalProps = I18nProps & {
-  onSubmit?: () => void,
-  onClose?: () => void
-  onSuccess?: () => void,
-  onFailed?: () => void
-};
+export interface TxModalProps extends I18nProps {
+  onSubmit?: () => void;
+  onClose?: () => void;
+  onSuccess?: () => void;
+  onFailed?: () => void;
+}
 
-export type TxModalState = {
-  accountId?: string | null,
-  isBusy: boolean,
-  isOpen: boolean
-};
+export interface TxModalState {
+  accountId?: string | null;
+  isBusy: boolean;
+  isOpen: boolean;
+}
 
 class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
     accountId: null,
     isOpen: false,
     isBusy: false
-  } as S;
+  } as unknown as S;
 
-  state: S = this.defaultState;
+  public state: S = this.defaultState;
 
   public render (): React.ReactNode {
     const { isOpen } = this.state;
@@ -58,9 +58,13 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
   }
 
   protected headerText = (): React.ReactNode => '';
+
   protected accountHelp = (): React.ReactNode => this.props.t('Select the account to use for this action.');
+
   protected accountLabel = (): React.ReactNode => this.props.t('using my account');
+
   protected submitLabel = (): React.ReactNode => this.props.t('Submit');
+
   protected cancelLabel = (): React.ReactNode => this.props.t('Cancel');
 
   protected onChangeAccount = (accountId: string | null): void => {
@@ -89,26 +93,30 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
     onFailed && onFailed();
   }
 
-  isDisabled = (): boolean => {
+  protected isDisabled = (): boolean => {
     const { accountId } = this.state;
 
     return !accountId;
   }
 
-  protected toggleBusy = (isBusy: boolean) => () => {
-    this.setState({
-      isBusy
-    });
-  }
+  protected toggleBusy = (isBusy: boolean): () => void =>
+    (): void => {
+      this.setState({
+        isBusy
+      });
+    }
 
-  protected txMethod: () => string = () => '';
-  protected txParams: () => any[] = () => [];
+  protected txMethod: () => string = (): string => '';
 
-  protected renderContent: () => React.ReactNode | null = () => null;
-  protected renderPreContent: () => React.ReactNode | null = () => null;
-  protected renderTrigger?: () => React.ReactNode | null = () => null;
+  protected txParams: () => any[] = (): any[] => [];
 
-  protected renderButtons: () => React.ReactNode | null = () => {
+  protected renderContent: () => React.ReactNode = (): React.ReactNode => null;
+
+  protected renderPreContent: () => React.ReactNode = (): React.ReactNode => null;
+
+  protected renderTrigger?: () => React.ReactNode = (): React.ReactNode => null;
+
+  protected renderButtons: () => React.ReactNode = (): React.ReactNode => {
     return (
       <Button.Group>
         {this.renderCancelButton()}
@@ -117,7 +125,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
     );
   }
 
-  protected renderInputAccount () {
+  protected renderInputAccount (): React.ReactNode {
     const { accountId, isBusy } = this.state;
 
     return (
@@ -134,7 +142,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
     );
   }
 
-  protected renderTxButton () {
+  protected renderTxButton (): React.ReactNode {
     const { accountId } = this.state;
 
     return (
@@ -153,7 +161,7 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
     );
   }
 
-  protected renderCancelButton () {
+  protected renderCancelButton (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -168,22 +176,23 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
     );
   }
 
-  protected reset = () => {
+  protected reset = (): void => {
     this.setState(
       this.defaultState
     );
   }
 
-  protected showModal = () => {
+  protected showModal = (): void => {
     this.setState({
       isOpen: true
     });
   }
 
-  protected hideModal = () => {
+  protected hideModal = (): void => {
     const { onClose } = this.props;
 
     onClose && onClose();
+
     this.setState(
       this.defaultState
     );
