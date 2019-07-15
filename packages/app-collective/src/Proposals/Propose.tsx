@@ -58,7 +58,7 @@ class Propose extends TxModal<Props, State> {
     ];
   }
 
-  public isDisabled = (): boolean => {
+  protected isDisabled = (): boolean => {
     const { memberCount = 0 } = this.props;
     const { accountId, method, threshold } = this.state;
 
@@ -138,12 +138,10 @@ export default withMulti(
   translate,
   withApi,
   withCalls(
-    [
-      'query.elections.members',
-      {
-        propName: 'memberCount',
-        transform: (value: any[]) => value.length
-      }
-    ]
+    ['query.elections.members', {
+      propName: 'memberCount',
+      transform: (value: any[]): number =>
+        value.length
+    }]
   )
 );
