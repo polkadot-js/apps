@@ -14,7 +14,7 @@ import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
-import { AccountId, getTypeDef } from '@polkadot/types';
+import { AccountId, TypeDef, getTypeDef } from '@polkadot/types';
 import createValues from '@polkadot/ui-params/values';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
@@ -70,7 +70,7 @@ class Deploy extends ContractModal<Props, State> {
     const { codeHash, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
     const isEndowValid = !endowment.isZero();
-    const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }) => ({
+    const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }): { text: string; value: string } => ({
       text: `${name} (${codeHash})`,
       value: codeHash
     }));
@@ -179,7 +179,7 @@ class Deploy extends ContractModal<Props, State> {
         contractAbi,
         isAbiValid: !!contractAbi,
         params: createValues(
-          contractAbi.deploy.args.map(({ name, type }) => ({
+          contractAbi.deploy.args.map(({ name, type }): { type: TypeDef } => ({
             type: getTypeDef(type, name)
           }))
         )
@@ -196,7 +196,7 @@ class Deploy extends ContractModal<Props, State> {
     }
   }
 
-  private getCodeState = (codeHash: string | null = null): State => {
+  private getCodeState = (codeHash: string | null = null): Pick<State, never> => {
     if (codeHash) {
       const code = store.getCode(codeHash);
 
@@ -210,11 +210,11 @@ class Deploy extends ContractModal<Props, State> {
           isHashValid: true,
           isNameValid: true,
           ...this.getContractAbiState(json.abi, contractAbi)
-        } as unknown as State;
+        };
       }
     }
 
-    return {} as unknown as State;
+    return {};
   }
 
   private constructCall = (): any[] => {
@@ -256,7 +256,7 @@ class Deploy extends ContractModal<Props, State> {
     if (record) {
       const address = record.event.data[1] as unknown as AccountId;
 
-      this.setState(({ abi, name, tags }): State | unknown => {
+      this.setState(({ abi, name, tags }): Pick<State, never> | unknown => {
         if (!abi || !name) {
           return;
         }
@@ -274,7 +274,7 @@ class Deploy extends ContractModal<Props, State> {
 
         this.onClose();
 
-        return { isBusy: false } as unknown as State;
+        return { isBusy: false };
       });
     }
   }

@@ -127,35 +127,27 @@ class Account extends React.PureComponent<Props> {
   }
 
   private toggleBackup = (): void => {
-    const { isBackupOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isBackupOpen }: State): Pick<State, never> => ({
       isBackupOpen: !isBackupOpen
-    });
+    }));
   }
 
   private toggleForget = (): void => {
-    const { isForgetOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isForgetOpen }: State): Pick<State, never> => ({
       isForgetOpen: !isForgetOpen
-    });
+    }));
   }
 
   private togglePass = (): void => {
-    const { isPasswordOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isPasswordOpen }: State): Pick<State, never> => ({
       isPasswordOpen: !isPasswordOpen
-    });
+    }));
   }
 
   private toggleTransfer = (): void => {
-    const { isTransferOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isTransferOpen }: State): Pick<State, never> => ({
       isTransferOpen: !isTransferOpen
-    });
+    }));
   }
 
   private onForget = (): void => {
