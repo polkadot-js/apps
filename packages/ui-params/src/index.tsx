@@ -30,10 +30,10 @@ interface Props extends I18nProps {
 }
 
 interface State {
-  handlers: RawParamOnChange[];
+  handlers?: RawParamOnChange[];
   onChangeParam: (at: number, next: RawParamOnChangeValue) => void;
-  params: Param[];
-  values: RawParams;
+  params?: Param[];
+  values?: RawParams;
 }
 
 class Params extends React.PureComponent<Props, State> {
@@ -43,10 +43,7 @@ class Params extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      handlers: [],
-      onChangeParam: this.onChangeParam,
-      params: [],
-      values: []
+      onChangeParam: this.onChangeParam
     };
   }
 
@@ -84,7 +81,7 @@ class Params extends React.PureComponent<Props, State> {
     const { values } = this.state;
 
     if (!isDisabled && prevState.values !== values) {
-      onChange && onChange(values);
+      onChange && onChange(values || []);
     }
   }
 
@@ -129,8 +126,8 @@ class Params extends React.PureComponent<Props, State> {
     const { isValid = false, value } = newValue;
 
     this.setState(
-      (prevState: State): State => ({
-        values: prevState.values.map((prev, index): RawParam =>
+      (prevState: State): Pick<State, never> => ({
+        values: (prevState.values || []).map((prev, index): RawParam =>
           index !== at
             ? prev
             : {
@@ -138,7 +135,7 @@ class Params extends React.PureComponent<Props, State> {
               value
             }
         )
-      } as unknown as State),
+      }),
       this.triggerUpdate
     );
   }
@@ -147,7 +144,7 @@ class Params extends React.PureComponent<Props, State> {
     const { values } = this.state;
     const { onChange, isDisabled } = this.props;
 
-    if (isDisabled) {
+    if (isDisabled || !values) {
       return;
     }
 

@@ -55,7 +55,7 @@ class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  public static getDerivedStateFromProps ({ staking_info }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ staking_info }: Props, prevState: State): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
@@ -73,7 +73,7 @@ class Address extends React.PureComponent<Props, State> {
       stashTotal: stakingLedger
         ? formatBalance(stakingLedger.total)
         : prevState.stashTotal
-    } as unknown as State;
+    };
   }
 
   public render (): React.ReactNode {

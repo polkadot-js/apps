@@ -58,8 +58,8 @@ export default class LabelHelp extends React.PureComponent<Props, State> {
   }
 
   private toggleTooltip = (): void => {
-    this.setState(({ tooltipOpen }): State => ({
+    this.setState(({ tooltipOpen }): Pick<State, never> => ({
       tooltipOpen: !tooltipOpen
-    }) as unknown as State);
+    }));
   }
 }

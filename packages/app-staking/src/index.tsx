@@ -65,7 +65,7 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  public static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): State {
+  public static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): Pick<State, never> {
     return {
       allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
         accountId.unwrap().toString()
@@ -89,7 +89,7 @@ class App extends React.PureComponent<Props, State> {
 
           return result;
         }, {} as unknown as RecentlyOfflineMap)
-    } as unknown as State;
+    };
   }
 
   public render (): React.ReactNode {
