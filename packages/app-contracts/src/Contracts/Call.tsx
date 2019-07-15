@@ -49,14 +49,14 @@ class Call extends TxComponent<Props, State> {
 
   public state: State = this.defaultState;
 
-  public static getDerivedStateFromProps ({ address: propsAddress, method: propsMethod, isOpen }: Props, { address, method }: State): State | null {
+  public static getDerivedStateFromProps ({ address: propsAddress, method: propsMethod, isOpen }: Props, { address, method }: State): Pick<State, never> | null {
     if (!isOpen) {
       return {
         address: null,
         method: null,
         contractAbi: null,
         isAddressValid: false
-      } as unknown as State;
+      };
     }
 
     return {
@@ -74,7 +74,7 @@ class Call extends TxComponent<Props, State> {
           ? { method: propsMethod }
           : {}
       )
-    } as unknown as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -113,10 +113,10 @@ class Call extends TxComponent<Props, State> {
     }
 
     const methodOptions = contractAbi
-      ? Object.keys(contractAbi.messages).map((key) => {
+      ? Object.keys(contractAbi.messages).map((key): { key: string; text: string; value: string } => {
         const fn = contractAbi.messages[key];
         const type = fn.type ? `: ${fn.type}` : '';
-        const args = fn.args.map(({ name, type }) => `${name}: ${type}`);
+        const args = fn.args.map(({ name, type }): string => `${name}: ${type}`);
         const text = `${key}(${args.join(', ')})${type}`;
 
         return {
@@ -276,13 +276,13 @@ class Call extends TxComponent<Props, State> {
   }
 
   private toggleBusy = (): void => {
-    this.setState(({ isBusy }): State => ({
+    this.setState(({ isBusy }): Pick<State, never> => ({
       isBusy: !isBusy
-    }) as unknown as State);
+    }));
   }
 
   private reset = (): void => {
-    this.setState((state: State): State => {
+    this.setState((state: State): Pick<State, never> => {
       if (!state.isBusy) {
         return {
           ...state,
@@ -290,7 +290,7 @@ class Call extends TxComponent<Props, State> {
         };
       }
 
-      return {} as unknown as State;
+      return {};
     });
   }
 

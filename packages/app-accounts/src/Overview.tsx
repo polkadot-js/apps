@@ -107,15 +107,15 @@ class Overview extends React.PureComponent<Props, State> {
   }
 
   private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }): State => ({
+    this.setState(({ isCreateOpen }): Pick<State, never> => ({
       isCreateOpen: !isCreateOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleImport = (): void => {
-    this.setState(({ isImportOpen }): State => ({
+    this.setState(({ isImportOpen }): Pick<State, never> => ({
       isImportOpen: !isImportOpen
-    }) as unknown as State);
+    }));
   }
 }
 

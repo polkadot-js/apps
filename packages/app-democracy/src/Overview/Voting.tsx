@@ -21,7 +21,7 @@ interface Props extends I18nProps {
 interface State {
   accountId?: string;
   isVotingOpen: boolean;
-  voteOptions: { text: React.ReactNode, value: boolean }[];
+  voteOptions: { text: React.ReactNode; value: boolean }[];
   voteValue: boolean;
 }
 
@@ -65,7 +65,7 @@ class Voting extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderModal () {
+  private renderModal (): React.ReactNode {
     const { referendumId, t } = this.props;
     const { accountId, isVotingOpen, voteOptions, voteValue } = this.state;
 
@@ -128,9 +128,9 @@ class Voting extends React.PureComponent<Props, State> {
   }
 
   private toggleVoting = (): void => {
-    this.setState(({ isVotingOpen }): State => ({
+    this.setState(({ isVotingOpen }): Pick<State, never> => ({
       isVotingOpen: !isVotingOpen
-    }) as unknown as State);
+    }));
   }
 }
 

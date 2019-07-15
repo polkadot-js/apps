@@ -97,7 +97,7 @@ class Upload extends ContractModal<Props, State> {
   private onSuccess = (result: SubmittableResult): void => {
     const { api } = this.props;
 
-    this.setState(({ abi, name, tags }): State | null => {
+    this.setState(({ abi, name, tags }): Pick<State, never> | null => {
       const section = api.tx.contracts ? 'contracts' : 'contract';
       const record = result.findRecord(section, 'CodeStored');
 
@@ -115,7 +115,7 @@ class Upload extends ContractModal<Props, State> {
           });
       }
 
-      return { isBusy: false } as unknown as State;
+      return { isBusy: false };
     });
   }
 }

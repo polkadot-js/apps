@@ -126,7 +126,7 @@ class Params extends React.PureComponent<Props, State> {
     const { isValid = false, value } = newValue;
 
     this.setState(
-      (prevState: State): State => ({
+      (prevState: State): Pick<State, never> => ({
         values: (prevState.values || []).map((prev, index): RawParam =>
           index !== at
             ? prev
@@ -135,7 +135,7 @@ class Params extends React.PureComponent<Props, State> {
               value
             }
         )
-      } as unknown as State),
+      }),
       this.triggerUpdate
     );
   }

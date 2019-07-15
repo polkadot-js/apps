@@ -95,9 +95,9 @@ export default class EnumParam extends React.PureComponent<Props, State> {
   }
 
   private onChange = (value: string): void => {
-    this.setState(({ sub }): State => ({
+    this.setState(({ sub }): Pick<State, never> => ({
       def: sub.find(({ name }): boolean => name === value) || null
-    }) as unknown as State);
+    }));
   }
 
   private onChangeParam = ([{ isValid, value }]: RawParam[]): void => {
