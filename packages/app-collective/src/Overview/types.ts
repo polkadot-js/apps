@@ -6,11 +6,11 @@ import { BlockNumber } from '@polkadot/types';
 
 import BN from 'bn.js';
 
-export type ElectionsInfo = {
-  members: Array<[string, BlockNumber]>,
-  candidates: Array<string>,
-  candidateCount: BN,
-  desiredSeats: BN,
-  termDuration: BN,
-  voteCount: BN
-};
+export interface ElectionsInfo {
+  members: [string, BlockNumber][];
+  candidates: string[];
+  candidateCount: BN;
+  desiredSeats: BN;
+  termDuration: BN;
+  voteCount: BN;
+}

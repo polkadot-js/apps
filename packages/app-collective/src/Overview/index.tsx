@@ -28,22 +28,24 @@ interface State {
 }
 
 class Overview extends React.PureComponent<Props, State> {
-  static getDerivedStateFromProps ({
+  public static getDerivedStateFromProps ({
     elections_members: members = [],
     elections_candidates: candidates = [],
     elections_candidateCount: candidateCount = new BN(0),
     elections_desiredSeats: desiredSeats = new BN(0),
     elections_termDuration: termDuration = new BN(0),
     elections_voteCount: voteCount = new BN(0)
-  }: Props) {
+  }: Props): State {
     const electionsInfo: ElectionsInfo = {
       members, candidates, candidateCount, desiredSeats, termDuration, voteCount
     };
+
     return { electionsInfo };
   }
 
-  public render () {
+  public render (): React.ReactNode {
     const { electionsInfo } = this.state;
+
     return (
       <>
         <Summary electionsInfo={electionsInfo} />
@@ -56,12 +58,16 @@ class Overview extends React.PureComponent<Props, State> {
 
 export default withCalls<Props>(
   ['query.elections.members', {
-    transform: (active: Array<[AccountId, BlockNumber]>) =>
-      active.map(([accountId, blockNumber]) => [accountId.toString(), blockNumber])
+    transform: (active: [AccountId, BlockNumber][]): [string, BlockNumber][] =>
+      active.map(([accountId, blockNumber]): [string, BlockNumber] =>
+        [accountId.toString(), blockNumber]
+      )
   }],
   ['query.elections.candidates', {
-    transform: (candidates: Array<AccountId>) =>
-      candidates.map((accountId) => accountId.toString())
+    transform: (candidates: AccountId[]): string[] =>
+      candidates.map((accountId): string =>
+        accountId.toString()
+      )
   }],
   'query.elections.candidateCount',
   'query.elections.desiredSeats',
