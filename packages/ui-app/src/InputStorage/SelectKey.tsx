@@ -14,10 +14,10 @@ import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
 type Props = ApiProps & BareProps & {
-  isError?: boolean,
-  onChange: (value: StorageEntryPromise) => void,
-  options: DropdownOptions,
-  value: StorageEntryPromise
+  isError?: boolean;
+  onChange: (value: StorageEntryPromise) => void;
+  options: DropdownOptions;
+  value: StorageEntryPromise;
 };
 
 class SelectKey extends React.PureComponent<Props> {

@@ -54,7 +54,7 @@ class Content extends React.Component<Props> {
   public render (): React.ReactNode {
     const { isApiConnected, isApiReady, location, t } = this.props;
     const app = location.pathname.slice(1) || '';
-    const { Component, display: { needsApi }, name } = routing.routes.find((route) =>
+    const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
       !!(route && app.indexOf(route.name) === 0)
     ) || unknown;
 
@@ -69,7 +69,7 @@ class Content extends React.Component<Props> {
     return (
       <Wrapper>
         <QueueConsumer>
-          {({ queueAction, stqueue, txqueue }: QueueProps) => (
+          {({ queueAction, stqueue, txqueue }: QueueProps): React.ReactNode => (
             <>
               <Component
                 basePath={`/${name}`}

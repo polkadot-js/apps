@@ -30,17 +30,17 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
         subscriptions: []
       };
 
-      componentDidMount () {
+      public componentDidMount (): void {
         this.setState({
           subscriptions: [
             observable
               .pipe(
                 map(transform),
-                catchError(() =>
+                catchError((): Observable<any> =>
                   of(undefined)
                 )
               )
-              .subscribe((value: any) =>
+              .subscribe((value: any): void =>
                 this.triggerUpdate(this.props, value)
               ),
             intervalObservable(this)
@@ -48,13 +48,13 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
         });
       }
 
-      componentWillUnmount () {
-        this.state.subscriptions.forEach((subscription) =>
+      public componentWillUnmount (): void {
+        this.state.subscriptions.forEach((subscription): void =>
           subscription.unsubscribe()
         );
       }
 
-      triggerUpdate = (props: any, callResult?: T): void => {
+      private triggerUpdate = (props: any, callResult?: T): void => {
         try {
           if (isEqual(callResult, this.state.callResult)) {
             return;

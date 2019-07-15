@@ -12,12 +12,12 @@ import { ApiConsumer } from '../ApiContext';
 
 export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<any> {
   return class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
-    component: any = React.createRef();
+    private component: any = React.createRef();
 
     public render (): React.ReactNode {
       return (
         <ApiConsumer>
-          {(apiProps?: ApiProps) => {
+          {(apiProps?: ApiProps): React.ReactNode => {
             assert(apiProps && apiProps.api, `Application root must be wrapped inside 'rx-react/Api' to provide API context`);
 
             return (

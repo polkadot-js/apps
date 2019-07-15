@@ -96,7 +96,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState({ value: newValue }, () =>
+    this.setState({ value: newValue }, (): void =>
       onChange(newValue)
     );
   }
@@ -112,7 +112,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     const optionsMethod = methodOptions(api, newSection);
     const fn = api.tx[newSection][optionsMethod[0].value];
 
-    this.setState({ optionsMethod }, () =>
+    this.setState({ optionsMethod }, (): void =>
       this.onKeyChange(fn)
     );
   }

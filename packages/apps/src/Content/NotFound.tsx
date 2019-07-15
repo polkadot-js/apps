@@ -6,11 +6,9 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import routing from '@polkadot/apps-routing';
 
-type Props = {};
-
 const defaultTo = `/${routing.default}`;
 
-export default class NotFound extends React.PureComponent<Props> {
+export default class NotFound extends React.PureComponent<{}> {
   public render (): React.ReactNode {
     return (
       <Redirect to={defaultTo} />

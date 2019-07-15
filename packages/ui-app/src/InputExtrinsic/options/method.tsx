@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DropdownOptions } from '../../util/types';
+import { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
@@ -17,11 +17,11 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
   return Object
     .keys(section)
     .sort()
-    .map((value) => {
+    .map((value): DropdownOption => {
       const method = section[value];
       const inputs = method.meta.args
-        .filter((arg) => arg.type.toString() !== 'Origin')
-        .map((arg) => arg.name.toString())
+        .filter((arg): boolean => arg.type.toString() !== 'Origin')
+        .map((arg): string => arg.name.toString())
         .join(', ');
 
       return {

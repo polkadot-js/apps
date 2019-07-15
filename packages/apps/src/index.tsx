@@ -50,7 +50,7 @@ ReactDOM.render(
   <Suspense fallback='...'>
     <Queue>
       <QueueConsumer>
-        {({ queueExtrinsic, queueSetTxStatus }) => (
+        {({ queueExtrinsic, queueSetTxStatus }): React.ReactNode => (
           <Api
             queueExtrinsic={queueExtrinsic}
             queueSetTxStatus={queueSetTxStatus}

@@ -11,13 +11,13 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = BareProps & {
-  defaultValue?: StorageEntryPromise,
-  isError?: boolean,
-  onChange: (value: string) => void,
-  options: DropdownOptions,
-  value: StorageEntryPromise
-};
+interface Props extends BareProps {
+  defaultValue?: StorageEntryPromise;
+  isError?: boolean;
+  onChange: (value: string) => void;
+  options: DropdownOptions;
+  value: StorageEntryPromise;
+}
 
 export default class SelectSection extends React.PureComponent<Props> {
   public render (): React.ReactNode {
