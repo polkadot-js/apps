@@ -11,19 +11,19 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
-  address: string;
-  block: BN;
-}
+type Props = I18nProps & {
+  address: string,
+  block: BN
+};
 
 class Member extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
+  render () {
     const { address, block, t } = this.props;
 
     return (
       <AddressCard
         buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}
-        defaultName='collective member'
+        defaultName='council member'
         value={address}
       />
     );
