@@ -48,7 +48,7 @@ class Verify extends React.PureComponent<Props, State> {
       : null;
 
     this.state = {
-      cryptoOptions: [{ value: 'unknown', text: t('Crypto not detected') }].concat(uiSettings.availableCryptos),
+      cryptoOptions: [{ value: 'unknown', text: t('Crypto not detected') }].concat(uiSettings.availableCryptos as any[]),
       cryptoType: 'unknown',
       currentPublicKey,
       defaultPublicKey: currentPublicKey || void 0,

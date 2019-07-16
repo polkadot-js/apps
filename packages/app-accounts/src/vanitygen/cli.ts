@@ -58,7 +58,7 @@ let best: Best = {
 };
 let total = 0;
 let indicator = -1;
-const tests = match.split(',');
+const tests = options.match.split(',');
 
 tests.forEach((test): void => {
   if (!matchRegex.test(test)) {
