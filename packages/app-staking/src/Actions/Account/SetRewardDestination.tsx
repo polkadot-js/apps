@@ -67,7 +67,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { controllerId, defaultDestination, t } = this.props;
     const { destination } = this.state;
 
@@ -98,7 +98,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeDestination = (destination: number) => {
+  private onChangeDestination = (destination: number): void => {
     this.setState({ destination });
   }
 }

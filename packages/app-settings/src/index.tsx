@@ -67,10 +67,10 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private DeveloperWithStatus = () => {
+  private DeveloperWithStatus = (): React.ReactNode => {
     return (
       <Developer
-        onStatusChange={() => this.props.onStatusChange}
+        onStatusChange={this.props.onStatusChange}
         {...this.props}
       />
     );

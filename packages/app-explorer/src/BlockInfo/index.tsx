@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -39,12 +40,11 @@ class Entry extends React.Component<Props, State> {
 
     return {
       value
-    } as State;
+    };
   }
 
-  shouldComponentUpdate (nextProps: Props) {
-    return this.props.match !== nextProps.match ||
-      !this.state.value;
+  public shouldComponentUpdate (nextProps: Props): boolean {
+    return this.props.match !== nextProps.match || !this.state.value;
   }
 
   public render (): React.ReactNode {

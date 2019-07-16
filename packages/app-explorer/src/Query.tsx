@@ -56,7 +56,7 @@ class Query extends TxComponent<Props, State> {
     );
   }
 
-  private setHash = (value: string) => {
+  private setHash = (value: string): void => {
     this.setState(
       this.stateFromValue(value)
     );

@@ -126,7 +126,7 @@ class General extends React.PureComponent<Props, State> {
   }
 
   private onChangeApiUrl = (apiUrl: string): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       isUrlValid: this.isValidUrl(apiUrl),
       settings: {
         ...settings,
@@ -136,7 +136,7 @@ class General extends React.PureComponent<Props, State> {
   }
 
   private onChangeUiMode = (uiMode: string): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       settings: {
         ...settings,
         uiMode
@@ -145,7 +145,7 @@ class General extends React.PureComponent<Props, State> {
   }
 
   private onChangeUiTheme = (uiTheme: string): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       settings: {
         ...settings,
         uiTheme
@@ -154,7 +154,7 @@ class General extends React.PureComponent<Props, State> {
   }
 
   private onChangeCustom = (isCustomNode: boolean): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       isCustomNode,
       isUrlValid: true,
       settings: {

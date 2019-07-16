@@ -23,11 +23,11 @@ class Propose extends TxModal<Props, State> {
     value: new BN(0)
   };
 
-  headerText = () => this.props.t('Submit a spend proposal');
+  protected headerText = (): string => this.props.t('Submit a spend proposal');
 
-  txMethod = () => 'treasury.proposeSpend';
+  protected txMethod = (): string => 'treasury.proposeSpend';
 
-  txParams = () => {
+  protected txParams = (): (string | BN | undefined)[] => {
     const { beneficiary, value } = this.state;
 
     return [
@@ -84,26 +84,26 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
-      (prevState: State): State => {
+      (prevState: State): Pick<State, never> => {
         const { accountId = prevState.accountId, beneficiary = prevState.beneficiary, value = prevState.value } = newState;
 
         return {
           accountId,
           beneficiary,
           value
-        } as State;
+        };
       }
     );
   }
 
   private onChangeBeneficiary = (beneficiary: string): void => {
-    this.nextState({ beneficiary } as State);
+    this.nextState({ beneficiary });
   }
 
   private onChangeValue = (value?: BN): void => {
-    this.nextState({ value } as State);
+    this.nextState({ value });
   }
 }
 

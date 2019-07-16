@@ -40,8 +40,8 @@ class Summary extends React.PureComponent<Props> {
 
         <section>
           <CardSummary label={t('term duration')}>
-              {formatNumber(termDuration)}
-           </CardSummary>
+            {formatNumber(termDuration)}
+          </CardSummary>
         </section>
       </SummaryBox>
     );

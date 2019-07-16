@@ -65,7 +65,9 @@ const routes: Routes = appSettings.uiMode === 'light'
     template
   );
 
-export default ({
+const setup: Routing = {
   default: 'explorer',
   routes
-} as Routing);
+};
+
+export default setup;

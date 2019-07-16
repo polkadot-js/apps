@@ -23,8 +23,8 @@ interface Props extends I18nProps {
 }
 
 interface State {
-  inputs: React.ReactNode[];
-  Component: React.ComponentType<{}>;
+  inputs?: React.ReactNode[];
+  Component?: React.ComponentType<{}>;
   spread: Record<number, boolean>;
 }
 
@@ -37,13 +37,13 @@ interface CacheInstance {
 const cache: CacheInstance[] = [];
 
 class Query extends React.PureComponent<Props, State> {
-  public state: State = { spread: {} } as State;
+  public state: State = { spread: {} };
 
   public static getCachedComponent (query: QueryTypes): CacheInstance {
     const { id, key, params = [] } = query as StorageModuleQuery;
 
     if (!cache[id]) {
-      const values: any[] = params.map(({ value }) => value);
+      const values: any[] = params.map(({ value }): any => value);
       const type = key.creator.meta
         ? key.creator.meta.type.toString()
         : 'Data';
@@ -57,7 +57,7 @@ class Query extends React.PureComponent<Props, State> {
       });
       const Component = renderHelper(
         // By default we render a simple div node component with the query results in it
-        (value: any) => valueToText(type, value, true, true),
+        (value: any): React.ReactNode => valueToText(type, value, true, true),
         defaultProps
       );
       cache[query.id] = Query.createComponent(type, Component, defaultProps, renderHelper);
@@ -66,24 +66,24 @@ class Query extends React.PureComponent<Props, State> {
     return cache[id];
   }
 
-  public static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer) {
+  public static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
     return {
       Component,
       // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
-      render: (createComponent: RenderFn) => {
+      render: (createComponent: RenderFn): React.ComponentType<any> => {
         return renderHelper(createComponent, defaultProps);
       },
       // In order to modify the parameters which are used to render the default component, we can use this method
-      refresh: (swallowErrors: boolean, contentShorten: boolean) => {
+      refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> => {
         return renderHelper(
-          (value: any) => valueToText(type, value, swallowErrors, contentShorten),
+          (value: any): React.ReactNode => valueToText(type, value, swallowErrors, contentShorten),
           defaultProps
         );
       }
     };
   }
 
-  public static getDerivedStateFromProps ({ value }: Props) {
+  public static getDerivedStateFromProps ({ value }: Props): Pick<State, never> {
     const Component = Query.getCachedComponent(value).Component;
     const inputs: React.ReactNode[] = isU8a(value.key)
       ? []
@@ -99,7 +99,7 @@ class Query extends React.PureComponent<Props, State> {
     return {
       Component,
       inputs
-    } as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -113,6 +113,10 @@ class Query extends React.PureComponent<Props, State> {
           ? `Option<${key.creator.meta.type}>`
           : key.creator.meta.type.toString()
       );
+
+    if (!Component) {
+      return null;
+    }
 
     return (
       <div className={`storage--Query storage--actionrow ${className}`}>
@@ -136,7 +140,7 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { id, key } = this.props.value as StorageModuleQuery;
 
     const buttons = [
@@ -181,8 +185,8 @@ class Query extends React.PureComponent<Props, State> {
     return `${key.creator.section}.${key.creator.method}`;
   }
 
-  private spreadHandler (id: number) {
-    return () => {
+  private spreadHandler (id: number): () => void {
+    return (): void => {
       const { spread } = this.state;
 
       cache[id].Component = cache[id].refresh(true, !!spread[id]);

@@ -80,7 +80,7 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { accountId = prevState.accountId, method = prevState.method, value = prevState.value } = newState;
@@ -97,7 +97,7 @@ class Propose extends TxComponent<Props, State> {
   }
 
   private onChangeAccount = (accountId: string): void => {
-    this.nextState({ accountId } as State);
+    this.nextState({ accountId });
   }
 
   private onChangeExtrinsic = (method: Method): void => {
@@ -105,14 +105,14 @@ class Propose extends TxComponent<Props, State> {
       return;
     }
 
-    this.nextState({ method } as State);
+    this.nextState({ method });
   }
 
   private onChangeValue = (value?: BN): void => {
-    this.nextState({ value } as State);
+    this.nextState({ value });
   }
 
-  private onSubmitProposal = () => {
+  private onSubmitProposal = (): void => {
     const { history, basePath } = this.props;
 
     history.push(basePath);

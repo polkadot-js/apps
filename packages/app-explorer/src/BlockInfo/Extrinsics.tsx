@@ -33,14 +33,14 @@ class Extrinsics extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { value = [] } = this.props;
 
     return (value || []).map(this.renderExtrinsic);
   }
 
   // FIXME This is _very_ similar to what we have in democracy/Item
-  private renderExtrinsic = (extrinsic: Extrinsic, index: number) => {
+  private renderExtrinsic = (extrinsic: Extrinsic, index: number): React.ReactNode => {
     const { blockNumber, t } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
 
@@ -90,7 +90,7 @@ class Extrinsics extends React.PureComponent<Props> {
     );
   }
 
-  private renderSigner (extrinsic: Extrinsic) {
+  private renderSigner (extrinsic: Extrinsic): React.ReactNode {
     const { t } = this.props;
 
     if (!extrinsic.signature.isSigned) {

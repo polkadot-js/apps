@@ -66,7 +66,7 @@ class Selection extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
     return (): React.ReactNode => {
       return (
         <Component onAdd={this.onAdd} />
@@ -74,7 +74,7 @@ class Selection extends React.PureComponent<Props, State> {
     };
   }
 
-  private onAdd = (query: ParitalQueryTypes) => {
+  private onAdd = (query: ParitalQueryTypes): void => {
     const { onAdd } = this.props;
 
     onAdd({

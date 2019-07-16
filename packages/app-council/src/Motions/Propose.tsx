@@ -24,7 +24,7 @@ interface State extends TxModalState {
 }
 
 class Propose extends TxModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {

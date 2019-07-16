@@ -104,11 +104,11 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   }
 
-  public static readOptions () {
+  public static readOptions (): Record<string, any> {
     return store.get(STORAGE_KEY) || { defaults: {} };
   }
 
-  public static getLastValue (type: KeyringOption$Type = DEFAULT_TYPE) {
+  public static getLastValue (type: KeyringOption$Type = DEFAULT_TYPE): any {
     const options = InputAddress.readOptions();
 
     return options.defaults[type];

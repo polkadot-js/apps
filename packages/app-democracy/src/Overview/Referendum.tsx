@@ -6,7 +6,6 @@
 import { DerivedReferendumVote } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
-import { RawParam } from '@polkadot/ui-params/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -58,7 +57,7 @@ class Referendum extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
+    const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }): State => {
       if (vote.isAye) {
         state.voteCountAye++;
         state.votedAye = state.votedAye.add(balance);
@@ -111,7 +110,7 @@ class Referendum extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInfo () {
+  private renderInfo (): React.ReactNode {
     const { chain_bestNumber, democracy_publicDelay, t, value: { end, threshold } } = this.props;
 
     if (!chain_bestNumber) {
@@ -140,7 +139,7 @@ class Referendum extends React.PureComponent<Props, State> {
         </Static>
         <VoteThreshold
           isDisabled
-          defaultValue={{ value: threshold } as RawParam}
+          defaultValue={{ isValid: true, value: threshold }}
           label={t('vote threshold')}
           name='voteThreshold'
           type={{
@@ -152,7 +151,7 @@ class Referendum extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderResults () {
+  private renderResults (): React.ReactNode {
     const { voteCount, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } = this.state;
 
     if (voteCount === 0 || votedTotal.eqn(0)) {

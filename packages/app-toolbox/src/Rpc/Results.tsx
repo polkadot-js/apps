@@ -29,7 +29,7 @@ export default class Results extends React.PureComponent<Props> {
 
     return (
       <section className='rpc--Results'>
-        {filtered.map(({ error, id, result, rpc: { section, method } }) => (
+        {filtered.map(({ error, id, result, rpc: { section, method } }): React.ReactNode => (
           <Output
             isError={!!error}
             key={id}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -44,7 +45,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
     );
   }
 
-  private renderInfo () {
+  private renderInfo (): React.ReactNode {
     const { democracy_depositOf, t } = this.props;
 
     if (!democracy_depositOf) {
@@ -56,7 +57,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
     return (
       <div>
         <Labelled label={t('depositors')}>
-          {addresses.map((address, index) => (
+          {addresses.map((address, index): React.ReactNode => (
             <InputAddress
               isDisabled
               key={`${index}:${address}`}
@@ -79,7 +80,7 @@ export default withMulti(
   withCalls<Props>(
     ['query.democracy.depositOf', {
       paramName: 'idNumber',
-      transform: (value: Option<Tuple>) =>
+      transform: (value: Option<Tuple>): Tuple | null =>
         value.unwrapOr(null)
     }]
   )
