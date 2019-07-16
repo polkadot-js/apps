@@ -52,7 +52,7 @@ class Seconding extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderModal () {
+  private renderModal (): React.ReactNode {
     const { depositors, proposalId, t } = this.props;
     const { accountId, isSecondingOpen } = this.state;
 
@@ -60,7 +60,7 @@ class Seconding extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const isDepositor = !!depositors.find((depositor) => depositor.eq(accountId));
+    const isDepositor = !!depositors.find((depositor): boolean => depositor.eq(accountId));
 
     return (
       <Modal

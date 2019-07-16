@@ -125,31 +125,31 @@ class ActionButtons extends React.PureComponent<Props, State> {
   private generateLink = (): void => {
     const { generateLink, t } = this.props;
 
-    this.setState({ shareText: t('Copied to clipboard') } as State);
+    this.setState({ shareText: t('Copied to clipboard') });
     generateLink();
   }
 
   private onShareClose = (): void => {
-    this.setState({ shareText: this.props.t('Generate link to share code example') } as State);
+    this.setState({ shareText: this.props.t('Generate link to share code example') });
   }
 
   private onChangeName = (snippetName: string): void => {
-    this.setState({ snippetName } as State);
+    this.setState({ snippetName });
   }
 
   private saveSnippet = (): void => {
     const { state: { snippetName }, props: { saveSnippet } } = this;
 
     saveSnippet(snippetName);
-    this.setState({ snippetName: '', isOpen: false } as State);
+    this.setState({ snippetName: '', isOpen: false });
   }
 
   private onPopupOpen = (): void => {
-    this.setState({ isOpen: true, snippetName: this.props.snippetName || '' } as State);
+    this.setState({ isOpen: true, snippetName: this.props.snippetName || '' });
   }
 
   private onPopupClose = (): void => {
-    this.setState({ snippetName: '', isOpen: false } as State);
+    this.setState({ snippetName: '', isOpen: false });
   }
 }
 

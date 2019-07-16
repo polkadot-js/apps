@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-parachains authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -66,7 +67,7 @@ export default withMulti(
   withCalls<Props>(
     ['query.parachains.heads', {
       paramName: 'paraId',
-      transform: (heads: Option<Bytes>) =>
+      transform: (heads: Option<Bytes>): string | null =>
         heads.isSome ? heads.unwrap().toHex() : null
     }],
     ['query.parachains.relayDispatchQueueSize', { paramName: 'paraId' }]

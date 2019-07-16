@@ -78,7 +78,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
+  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
     return (): React.ReactNode => {
       const { allAccounts = {}, sudo_key: sudoKey = '' } = this.props;
       const { isMine } = this.state;
@@ -99,7 +99,10 @@ export default withMulti(
   translate,
   withApi,
   withCalls<Props>(
-    ['query.sudo.key', { transform: key => key.toString() }]
+    ['query.sudo.key', {
+      transform: (key): string =>
+        key.toString()
+    }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

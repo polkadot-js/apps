@@ -77,7 +77,7 @@ class Validate extends TxComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { controllerId, onClose, t, validatorPrefs } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
     const isChangingPrefs = validatorPrefs && !!validatorPrefs.unstakeThreshold;
@@ -109,7 +109,7 @@ class Validate extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { controllerId, stashId, t, validatorPrefs } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
     const defaultValue = validatorPrefs && validatorPrefs.unstakeThreshold && validatorPrefs.unstakeThreshold.toBn();
@@ -170,19 +170,19 @@ class Validate extends TxComponent<Props, State> {
     );
   }
 
-  private onChangePayment = (validatorPayment?: BN) => {
+  private onChangePayment = (validatorPayment?: BN): void => {
     if (validatorPayment) {
       this.setState({ validatorPayment });
     }
   }
 
-  private onChangeThreshold = (unstakeThreshold?: BN) => {
+  private onChangeThreshold = (unstakeThreshold?: BN): void => {
     if (unstakeThreshold) {
       this.setState({ unstakeThreshold });
     }
   }
 
-  private onUnstakeThresholdError = (unstakeThresholdError: string | null) => {
+  private onUnstakeThresholdError = (unstakeThresholdError: string | null): void => {
     this.setState({ unstakeThresholdError });
   }
 }

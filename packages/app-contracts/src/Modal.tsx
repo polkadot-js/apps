@@ -32,6 +32,8 @@ export interface ContractModalState {
 }
 
 class ContractModal<P extends ContractModalProps, S extends ContractModalState> extends TxComponent<P, S> {
+  // horrible :(
+  // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
   protected defaultState: S = {
     accountId: null,
     gasLimit: new BN(0),
@@ -47,7 +49,8 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
   protected isContract?: boolean;
 
-  public componentWillReceiveProps ({ isOpen }: P, _: S): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public componentWillReceiveProps ({ isOpen }: P, prevState: S): void {
     if (isOpen && !this.props.isOpen && !this.state.isBusy) {
       this.reset();
     }
@@ -78,9 +81,9 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
   protected headerText: string = '';
 
-  protected renderContent: () => React.ReactNode | null = () => null;
+  protected renderContent: () => React.ReactNode | null = (): React.ReactNode => null;
 
-  protected renderButtons: () => React.ReactNode | null = () => null;
+  protected renderButtons: () => React.ReactNode | null = (): React.ReactNode => null;
 
   protected renderInputAbi (): React.ReactNode {
     const { t } = this.props;

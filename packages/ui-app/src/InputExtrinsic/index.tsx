@@ -31,8 +31,8 @@ type Props = ApiProps & I18nProps & {
 };
 
 interface State {
-  optionsMethod: DropdownOptions;
-  optionsSection: DropdownOptions;
+  optionsMethod?: DropdownOptions;
+  optionsSection?: DropdownOptions;
   value: MethodFunction;
 }
 
@@ -44,7 +44,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
 
     this.state = {
       value: this.props.defaultValue
-    } as State;
+    };
   }
 
   public static getDerivedStateFromProps ({ api }: Props, { value }: State): Pick<State, never> {
@@ -72,14 +72,14 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
             <SelectSection
               className='small'
               onChange={this.onSectionChange}
-              options={optionsSection}
+              options={optionsSection || []}
               value={value}
             />
             <SelectMethod
               api={api}
               className='large'
               onChange={this.onKeyChange}
-              options={optionsMethod}
+              options={optionsMethod || []}
               value={value}
             />
           </div>

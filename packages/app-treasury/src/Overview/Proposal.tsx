@@ -43,7 +43,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     }
   }
 
-  componentWillReceiveProps ({ proposal }: Props) {
+  public componentWillReceiveProps ({ proposal }: Props): void {
     const { onPopulate } = this.props;
 
     if (proposal && !this.props.proposal) {
@@ -72,7 +72,7 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderAccessory () {
+  private renderAccessory (): React.ReactNode {
     const { allAccounts, isApproved, onRespond, proposal, proposalId, t } = this.props;
 
     if (isApproved) {
@@ -115,7 +115,7 @@ export default withMulti(
     ['query.treasury.proposals', {
       paramName: 'proposalId',
       propName: 'proposal',
-      transform: (value: Option<TreasuryProposalType>) =>
+      transform: (value: Option<TreasuryProposalType>): TreasuryProposalType | null =>
         value.unwrapOr(null)
     }]
   ),

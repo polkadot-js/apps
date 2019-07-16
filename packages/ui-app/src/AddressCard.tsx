@@ -4,6 +4,7 @@
 // import { I18nProps } from '@polkadot/ui-app/types';
 
 // @ts-ignore This line needed for the styled export... don't ask why
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';

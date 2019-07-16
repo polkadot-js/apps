@@ -28,10 +28,10 @@ interface Props extends I18nProps {
 let prevEventHash: string;
 
 class Status extends React.PureComponent<Props> {
-  public componentDidUpdate ({ optionsAll = { account: [] as any[] } as KeyringOptions, queueAction, system_events, t }: Props): void {
+  public componentDidUpdate ({ optionsAll, queueAction, system_events, t }: Props): void {
     const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events || [])));
 
-    if (eventHash === prevEventHash) {
+    if (!optionsAll || eventHash === prevEventHash) {
       return;
     }
 

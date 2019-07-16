@@ -84,7 +84,7 @@ class Hash extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeData = (data: string): void => {
+  private onChangeData = (data: string): void => {
     const isHexData = isHex(data);
     const hash = blake2AsHex(
       isHexData

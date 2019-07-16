@@ -77,19 +77,19 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (accountId: string): void => {
+  private onChangeAccount = (accountId: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ accountId }, () =>
+    this.setState({ accountId }, (): void =>
       onChange(accountId, this.state.accountNonce)
     );
   }
 
-  onChangeNonce = (_accountNonce: BN): void => {
+  private onChangeNonce = (_accountNonce: BN): void => {
     const { onChange } = this.props;
     const accountNonce = _accountNonce || new BN(0);
 
-    this.setState({ accountNonce }, () =>
+    this.setState({ accountNonce }, (): void =>
       onChange(this.state.accountId, accountNonce)
     );
   }

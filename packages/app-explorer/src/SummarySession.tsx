@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -28,15 +29,15 @@ class SummarySession extends React.PureComponent<Props> {
     );
   }
 
-  private renderEra () {
+  private renderEra (): React.ReactNode {
     const { session_info, t, withEra = true } = this.props;
 
-    if (!withEra || ! session_info) {
+    if (!withEra || !session_info) {
       return null;
     }
 
     return session_info.sessionLength.gtn(0)
-        ? (
+      ? (
         <CardSummary
           label={t('era')}
           progress={{
@@ -52,7 +53,7 @@ class SummarySession extends React.PureComponent<Props> {
       );
   }
 
-  private renderSession () {
+  private renderSession (): React.ReactNode {
     const { session_info, t, withSession = true } = this.props;
 
     if (!withSession || !session_info) {
@@ -60,7 +61,7 @@ class SummarySession extends React.PureComponent<Props> {
     }
 
     return session_info.sessionLength.gtn(0)
-        ? (
+      ? (
         <CardSummary
           label={t('session')}
           progress={{

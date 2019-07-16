@@ -72,10 +72,10 @@ class ExplorerApp extends React.Component<Props, State> {
     }
 
     const recentEvents = system_events
-      .filter(({ event }) => event.section !== 'system')
-      .map((record, index) => ({ key: `${Date.now()}-${index}`, record }))
+      .filter(({ event }): boolean => event.section !== 'system')
+      .map((record, index): { key: string; record: EventRecord } => ({ key: `${Date.now()}-${index}`, record }))
       .concat(prevState.recentEvents)
-      .filter((_, index) => index < MAX_ITEMS);
+      .filter((_, index): boolean => index < MAX_ITEMS);
 
     return {
       items: prevState.items,
@@ -110,7 +110,7 @@ class ExplorerApp extends React.Component<Props, State> {
     );
   }
 
-  private renderMain = () => {
+  private renderMain = (): JSX.Element => {
     const { recentEvents } = this.state;
 
     return (

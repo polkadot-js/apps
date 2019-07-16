@@ -30,7 +30,7 @@ class ValidateController extends React.PureComponent<Props, State> {
   };
 
   public static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, onError, stashId, t }: Props, prevState: State): State {
-    const error = (() => {
+    const error = ((): string | null => {
       if (defaultController === controllerId) {
         // don't show an error if the selected controller is the default
         // this applies when changing controller
@@ -76,7 +76,7 @@ export default translate(
     ['query.staking.bonded', {
       paramName: 'controllerId',
       propName: 'bondedId',
-      transform: (value: Option<AccountId>) => {
+      transform: (value: Option<AccountId>): string | null => {
         const extracted = value.unwrapOr(null);
 
         return extracted
@@ -87,7 +87,7 @@ export default translate(
     ['query.staking.ledger', {
       paramName: 'controllerId',
       propName: 'stashId',
-      transform: (value: Option<StakingLedger>) => {
+      transform: (value: Option<StakingLedger>): string | null => {
         const extracted = value.unwrapOr({ stash: null }).stash;
 
         return extracted

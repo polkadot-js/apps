@@ -32,6 +32,14 @@ interface State extends ApiProps {
   chain?: string | null;
 }
 
+interface InjectedAccountExt {
+  address: string;
+  meta: {
+    name: string;
+    source: string;
+  };
+}
+
 export { api };
 
 const injectedPromise = web3Enable('polkadot-js/apps');
@@ -105,8 +113,8 @@ export default class Api extends React.PureComponent<Props, State> {
       ? value.toString()
       : null;
     const isDevelopment = isTestChain(chain);
-    const injectedAccounts = await web3Accounts().then((accounts) =>
-      accounts.map(({ address, meta }) => ({
+    const injectedAccounts = await web3Accounts().then((accounts): InjectedAccountExt[] =>
+      accounts.map(({ address, meta }): InjectedAccountExt => ({
         address,
         meta: {
           ...meta,

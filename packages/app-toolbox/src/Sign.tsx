@@ -8,7 +8,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withMulti } from '@polkadot/ui-api';
-import { Button , Input, InputAddress, Output, Static } from '@polkadot/ui-app';
+import { Button, Input, InputAddress, Output, Static } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
@@ -175,7 +175,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  private nextState = (newState: State): void => {
+  private nextState = (newState: Partial<State>): void => {
     this.setState(
       (prevState: State): State => {
         const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;
@@ -204,24 +204,24 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  toggleUnlock = (): void => {
+  private toggleUnlock = (): void => {
     const { isUnlockVisible } = this.state;
 
     this.nextState({
       isUnlockVisible: !isUnlockVisible
-    } as State);
+    });
   }
 
-  onChangeAccount = (accountId: string): void => {
+  private onChangeAccount = (accountId: string): void => {
     const currentPair = keyring.getPair(accountId);
 
-    this.nextState({ currentPair } as State);
+    this.nextState({ currentPair });
   }
 
-  onChangeData = (data: string): void => {
+  private onChangeData = (data: string): void => {
     const isHexData = isHex(data);
 
-    this.nextState({ data, isHexData } as State);
+    this.nextState({ data, isHexData });
   }
 }
 

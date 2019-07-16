@@ -111,7 +111,7 @@ class Nominate extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeNominees = (nominees: string[]) => {
+  private onChangeNominees = (nominees: string[]): void => {
     this.setState({ nominees });
   }
 }

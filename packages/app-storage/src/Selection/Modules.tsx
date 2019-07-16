@@ -78,7 +78,7 @@ class Modules extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): Pick<State, never> => {
         const { key = prevState.key, values = prevState.values } = newState;
@@ -125,7 +125,7 @@ class Modules extends TxComponent<Props, State> {
   }
 
   private onChangeParams = (values: RawParams = []): void => {
-    this.nextState({ values } as State);
+    this.nextState({ values });
   }
 }
 
