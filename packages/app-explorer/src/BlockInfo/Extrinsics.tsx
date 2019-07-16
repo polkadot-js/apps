@@ -43,10 +43,15 @@ class Extrinsics extends React.PureComponent<Props> {
   private renderExtrinsic = (extrinsic: Extrinsic, index: number): React.ReactNode => {
     const { blockNumber, t } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
-
+    const isMortal = extrinsic.signature.era.isMortalEra;
     let eraEnd;
-    if (extrinsic.signature.era.isMortalEra) {
-      eraEnd = extrinsic.signature.era.asMortalEra.death((blockNumber || new BlockNumber(0)).toNumber());
+    let eraStart;
+
+    if (blockNumber && isMortal) {
+      const mortalEra = extrinsic.signature.era.asMortalEra;
+
+      eraEnd = mortalEra.death(blockNumber.toNumber());
+      eraStart = mortalEra.birth(blockNumber.toNumber());
     }
 
     return (
@@ -66,15 +71,15 @@ class Extrinsics extends React.PureComponent<Props> {
           <Call
             className='details'
             mortality={
-              eraEnd
-                ? t(
-                  `mortal${blockNumber ? ' - ends at #{{blockNumber}}' : ''}`,
-                  {
+              isMortal
+                ? blockNumber
+                  ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
                     replace: {
-                      blockNumber: (eraEnd && blockNumber) ? formatNumber(eraEnd) : ''
+                      endsAt: formatNumber(eraEnd),
+                      startAt: formatNumber(eraStart)
                     }
-                  }
-                )
+                  })
+                  : t('mortal')
                 : t('immortal')
             }
             value={extrinsic}
