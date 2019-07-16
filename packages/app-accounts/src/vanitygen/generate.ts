@@ -4,11 +4,11 @@
 
 import { GeneratorMatch, GeneratorOptions } from './types';
 
-import { encodeAddress, setAddressPrefix, mnemonicGenerate, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed, mnemonicToMiniSecret } from '@polkadot/util-crypto';
+import { encodeAddress, mnemonicGenerate, naclKeypairFromSeed, randomAsU8a, schnorrkelKeypairFromSeed, mnemonicToMiniSecret } from '@polkadot/util-crypto';
 
 import calculate from './calculate';
 
-setAddressPrefix(2);
+// setAddressPrefix(2);
 
 export default function generator (test: string[][], options: GeneratorOptions): GeneratorMatch {
   const mnemonic = options.withHex
