@@ -41,11 +41,22 @@ class General extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, t } = this.props;
-    const { isUrlValid, settings: { i18nLang, uiMode, uiTheme } } = this.state;
+    const { isUrlValid, settings: { i18nLang, prefix, uiMode, uiTheme } } = this.state;
 
     return (
       <div className={className}>
         {this.renderEndpoint()}
+        <div className='ui--row'>
+          <div className='ui--medium'>
+            <Dropdown
+              defaultValue={prefix}
+              help={t('Override the default network prefix for address generation')}
+              label={t('address network prefix')}
+              onChange={this.onChangePrefix}
+              options={uiSettings.availablePrefixes}
+            />
+          </div>
+        </div>
         <div className='ui--row'>
           <div className='medium'>
             <Dropdown
@@ -131,6 +142,15 @@ class General extends React.PureComponent<Props, State> {
       settings: {
         ...settings,
         apiUrl
+      }
+    }));
+  }
+
+  private onChangePrefix = (prefix: number): void => {
+    this.setState(({ settings }: State): Pick<State, never> => ({
+      settings: {
+        ...settings,
+        prefix
       }
     }));
   }

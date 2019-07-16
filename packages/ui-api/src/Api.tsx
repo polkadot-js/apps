@@ -4,6 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTxExtrinsicAdd, QueueTxMessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
 
 import React from 'react';
@@ -13,6 +14,7 @@ import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
+import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
 import { ChainProperties, Text } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
@@ -109,6 +111,9 @@ export default class Api extends React.PureComponent<Props, State> {
       api.rpc.system.properties<ChainProperties>(),
       api.rpc.system.chain<Text>()
     ]);
+    const addressPrefix = uiSettings.prefix === -1
+      ? properties.get('networkId')
+      : uiSettings.prefix as Prefix;
     const chain = value
       ? value.toString()
       : null;
@@ -134,7 +139,7 @@ export default class Api extends React.PureComponent<Props, State> {
 
     // finally load the keyring
     keyring.loadAll({
-      addressPrefix: properties.get('networkId'),
+      addressPrefix,
       genesisHash: api.genesisHash,
       isDevelopment,
       type: 'ed25519'
