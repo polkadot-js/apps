@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-parachains authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -27,7 +28,7 @@ class Parachains extends React.PureComponent<Props> {
       >
         {
           parachains_parachains.length
-            ? parachains_parachains.map((paraId) =>
+            ? parachains_parachains.map((paraId): React.ReactNode =>
               <Parachain key={paraId.toString()} paraId={paraId} />
             )
             : null

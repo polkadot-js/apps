@@ -13,12 +13,12 @@ import map from '@polkadot/jsonrpc';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = BareProps & {
-  isError?: boolean,
-  onChange: (value: RpcMethod) => void,
-  options: DropdownOptions,
-  value: RpcMethod
-};
+interface Props extends BareProps {
+  isError?: boolean;
+  onChange: (value: RpcMethod) => void;
+  options: DropdownOptions;
+  value: RpcMethod;
+}
 
 export default class SelectMethod extends React.PureComponent<Props> {
   public render (): React.ReactNode {

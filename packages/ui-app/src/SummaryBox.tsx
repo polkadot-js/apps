@@ -7,10 +7,10 @@ import { BareProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  className?: string
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  className?: string;
+}
 
 class SummaryBox extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -33,25 +33,25 @@ export default styled(SummaryBox)`
   margin-bottom: 1.4rem;
 
   > section {
-		display: flex;
-		flex: 0 1 auto;
-		text-align: left;
-	}
+    display: flex;
+    flex: 0 1 auto;
+    text-align: left;
+  }
 
-	details & {
-		display: block;
-		margin: 0.5rem 0.25rem;
-		opacity: 0.75;
-		outline: none;
-		overflow: hidden;
-		text-align: left;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+  details & {
+    display: block;
+    margin: 0.5rem 0.25rem;
+    opacity: 0.75;
+    outline: none;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-		+ div {
-			margin-top: 0.75rem;
-		}
-	}
+    + div {
+      margin-top: 0.75rem;
+    }
+  }
 
   @media(max-width: 767px) {
     padding: 0;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -44,7 +45,7 @@ class AddressRow extends Row<Props, State> {
     this.state = this.createState();
   }
 
-  static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, type, value }: Props, prevState: State) {
+  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, type, value }: Props, prevState: State): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
@@ -52,7 +53,7 @@ class AddressRow extends Row<Props, State> {
       : DEFAULT_ADDR;
     const name = getAddressName(address, type, false, defaultName || '<unknown>') || '';
     const tags = getAddressTags(address, type);
-    const state = { tags } as State;
+    const state: Partial<State> = { tags };
     let hasChanged = false;
 
     if (address !== prevState.address) {
@@ -66,7 +67,7 @@ class AddressRow extends Row<Props, State> {
     }
 
     return hasChanged
-      ? state
+      ? state as State
       : null;
   }
 
@@ -96,7 +97,7 @@ class AddressRow extends Row<Props, State> {
     );
   }
 
-  private createState () {
+  private createState (): State {
     const { accounts_idAndIndex = [], defaultName, type, value } = this.props;
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
@@ -114,7 +115,7 @@ class AddressRow extends Row<Props, State> {
     };
   }
 
-  protected renderAddressAndName () {
+  protected renderAddressAndName (): React.ReactNode {
     const { withAddressOrName = false } = this.props;
 
     if (withAddressOrName) {
@@ -129,7 +130,7 @@ class AddressRow extends Row<Props, State> {
     }
   }
 
-  private renderAddress () {
+  private renderAddress (): React.ReactNode {
     const { address } = this.state;
 
     return (
@@ -144,7 +145,7 @@ class AddressRow extends Row<Props, State> {
     );
   }
 
-  private renderAccountIndex () {
+  private renderAccountIndex (): React.ReactNode {
     const { accounts_idAndIndex = [], withIndex } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
@@ -159,7 +160,7 @@ class AddressRow extends Row<Props, State> {
     );
   }
 
-  private renderBalances () {
+  private renderBalances (): React.ReactNode {
     const { accounts_idAndIndex = [], withBalance } = this.props;
     const [accountId] = accounts_idAndIndex;
 
@@ -177,7 +178,7 @@ class AddressRow extends Row<Props, State> {
     );
   }
 
-  private renderIcon () {
+  private renderIcon (): React.ReactNode {
     const { accounts_idAndIndex = [], iconInfo, withIcon = true } = this.props;
     const { address } = this.state;
     const [accountId] = accounts_idAndIndex;
@@ -207,7 +208,7 @@ class AddressRow extends Row<Props, State> {
     );
   }
 
-  private renderLabel () {
+  private renderLabel (): React.ReactNode {
     const { label } = this.props;
 
     if (!label) {
@@ -219,7 +220,7 @@ class AddressRow extends Row<Props, State> {
     );
   }
 
-  protected saveName = () => {
+  protected saveName = (): void => {
     const { address, name } = this.state;
     const trimmedName = name.trim();
     const meta = {
@@ -241,7 +242,7 @@ class AddressRow extends Row<Props, State> {
     }
   }
 
-  protected saveTags = () => {
+  protected saveTags = (): void => {
     const { address, tags } = this.state;
     const meta = {
       tags,

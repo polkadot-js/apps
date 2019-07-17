@@ -41,11 +41,22 @@ class General extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, t } = this.props;
-    const { isUrlValid, settings: { i18nLang, uiMode, uiTheme } } = this.state;
+    const { isUrlValid, settings: { i18nLang, prefix, uiMode, uiTheme } } = this.state;
 
     return (
       <div className={className}>
         {this.renderEndpoint()}
+        <div className='ui--row'>
+          <div className='ui--medium'>
+            <Dropdown
+              defaultValue={prefix}
+              help={t('Override the default network prefix for address generation')}
+              label={t('address network prefix')}
+              onChange={this.onChangePrefix}
+              options={uiSettings.availablePrefixes}
+            />
+          </div>
+        </div>
         <div className='ui--row'>
           <div className='medium'>
             <Dropdown
@@ -126,7 +137,7 @@ class General extends React.PureComponent<Props, State> {
   }
 
   private onChangeApiUrl = (apiUrl: string): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       isUrlValid: this.isValidUrl(apiUrl),
       settings: {
         ...settings,
@@ -135,8 +146,17 @@ class General extends React.PureComponent<Props, State> {
     }));
   }
 
+  private onChangePrefix = (prefix: number): void => {
+    this.setState(({ settings }: State): Pick<State, never> => ({
+      settings: {
+        ...settings,
+        prefix
+      }
+    }));
+  }
+
   private onChangeUiMode = (uiMode: string): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       settings: {
         ...settings,
         uiMode
@@ -145,7 +165,7 @@ class General extends React.PureComponent<Props, State> {
   }
 
   private onChangeUiTheme = (uiTheme: string): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       settings: {
         ...settings,
         uiTheme
@@ -154,7 +174,7 @@ class General extends React.PureComponent<Props, State> {
   }
 
   private onChangeCustom = (isCustomNode: boolean): void => {
-    this.setState(({ settings }: State) => ({
+    this.setState(({ settings }: State): Pick<State, never> => ({
       isCustomNode,
       isUrlValid: true,
       settings: {

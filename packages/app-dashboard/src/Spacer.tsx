@@ -4,9 +4,7 @@
 
 import React from 'react';
 
-interface Props {}
-
-export default class Spacer extends React.PureComponent<Props> {
+export default class Spacer extends React.PureComponent<{}> {
   public render (): React.ReactNode {
     return (
       <div />

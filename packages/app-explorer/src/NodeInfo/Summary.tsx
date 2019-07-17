@@ -25,12 +25,12 @@ interface State {
 class Summary extends React.PureComponent<Props, State> {
   public state: State = {};
 
-  static getDerivedStateFromProps ({ info = {} }: Props): State | null {
+  public static getDerivedStateFromProps ({ info = {} }: Props): State | null {
     if (!info.peers) {
       return null;
     }
 
-    const bestPeer = info.peers.sort((a, b) => b.bestNumber.cmp(a.bestNumber))[0];
+    const bestPeer = info.peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
 
     return {
       peerBest: bestPeer

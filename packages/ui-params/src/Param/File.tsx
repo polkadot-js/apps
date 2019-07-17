@@ -9,15 +9,15 @@ import { InputFile } from '@polkadot/ui-app';
 
 import Bare from './Bare';
 
-type Props = BareProps & {
-  defaultValue?: any,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label?: React.ReactNode,
-  onChange?: (contents: Uint8Array) => void,
-  placeholder?: string,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  defaultValue?: any;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: React.ReactNode;
+  onChange?: (contents: Uint8Array) => void;
+  placeholder?: string;
+  withLabel?: boolean;
+}
 
 export default class File extends React.PureComponent<Props> {
   public render (): React.ReactNode {

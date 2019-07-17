@@ -92,8 +92,8 @@ const Wrapper = styled.div`
 class Status extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { stqueue = [], txqueue = [] } = this.props;
-    const allst: QueueStatus[] = stqueue.filter(({ isCompleted }) => !isCompleted);
-    const alltx: QueueTx[] = txqueue.filter(({ status }) =>
+    const allst: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
+    const alltx: QueueTx[] = txqueue.filter(({ status }): boolean =>
       !['completed', 'incomplete'].includes(status)
     );
 
@@ -109,7 +109,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderStatus = ({ account, action, id, message, removeItem, status }: QueueStatus) => {
+  private renderStatus = ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode => {
     const addressRendered = account
       ? <AddressMini value={account} />
       : undefined;
@@ -140,7 +140,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx) => {
+  private renderItem = ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx): React.ReactNode => {
     let { method, section } = rpc;
 
     if (extrinsic) {
@@ -182,7 +182,7 @@ class Status extends React.PureComponent<Props> {
     );
   }
 
-  private iconName = (status: string) => {
+  private iconName = (status: string): any => {
     switch (status) {
       case 'error':
         return 'ban';
@@ -198,7 +198,7 @@ class Status extends React.PureComponent<Props> {
     }
   }
 
-  private signerIconName = (status: QueueTxStatus) => {
+  private signerIconName = (status: QueueTxStatus): any => {
     switch (status) {
       case 'cancelled':
         return 'ban';

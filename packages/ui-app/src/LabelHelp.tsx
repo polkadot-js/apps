@@ -11,13 +11,13 @@ import Icon from './Icon';
 import { classes } from './util';
 import Tooltip from './Tooltip';
 
-type Props = BareProps & {
-  help: React.ReactNode
-};
+interface Props extends BareProps {
+  help: React.ReactNode;
+}
 
-type State = {
-  tooltipOpen: boolean
-};
+interface State {
+  tooltipOpen: boolean;
+}
 
 const Wrapper = styled.div`
   cursor: help;

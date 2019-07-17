@@ -31,8 +31,8 @@ type Props = ApiProps & I18nProps & {
 };
 
 interface State {
-  optionsMethod: DropdownOptions;
-  optionsSection: DropdownOptions;
+  optionsMethod?: DropdownOptions;
+  optionsSection?: DropdownOptions;
   value: MethodFunction;
 }
 
@@ -44,14 +44,14 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
 
     this.state = {
       value: this.props.defaultValue
-    } as State;
+    };
   }
 
-  static getDerivedStateFromProps ({ api }: Props, { value }: State): State | null {
+  public static getDerivedStateFromProps ({ api }: Props, { value }: State): Pick<State, never> {
     return {
       optionsMethod: methodOptions(api, value.section),
       optionsSection: sectionOptions(api)
-    } as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -72,14 +72,14 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
             <SelectSection
               className='small'
               onChange={this.onSectionChange}
-              options={optionsSection}
+              options={optionsSection || []}
               value={value}
             />
             <SelectMethod
               api={api}
               className='large'
               onChange={this.onKeyChange}
-              options={optionsMethod}
+              options={optionsMethod || []}
               value={value}
             />
           </div>
@@ -96,7 +96,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState({ value: newValue }, () =>
+    this.setState({ value: newValue }, (): void =>
       onChange(newValue)
     );
   }
@@ -112,7 +112,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     const optionsMethod = methodOptions(api, newSection);
     const fn = api.tx[newSection][optionsMethod[0].value];
 
-    this.setState({ optionsMethod }, () =>
+    this.setState({ optionsMethod }, (): void =>
       this.onKeyChange(fn)
     );
   }

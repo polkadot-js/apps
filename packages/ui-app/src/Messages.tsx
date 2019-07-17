@@ -23,11 +23,11 @@ export interface Props extends I18nProps {
 
 class Messages extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = () => null, onSelect, t } = this.props;
+    const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = (): void => { /* . */ }, onSelect, t } = this.props;
 
     return (
       <div className={classes(className, 'ui--Messages', isLabelled && 'labelled', onSelect && 'select')}>
-        {messages.map((_, index) => {
+        {messages.map((_, index): React.ReactNode => {
           return this.renderMessage(index);
         })}
         {isRemovable && (
@@ -44,7 +44,7 @@ class Messages extends React.PureComponent<Props> {
     );
   }
 
-  renderMessage (index: number) {
+  private renderMessage (index: number): React.ReactNode {
     const { contractAbi: { abi: { messages } }, onSelect } = this.props;
 
     if (!messages[index]) {
@@ -63,14 +63,14 @@ class Messages extends React.PureComponent<Props> {
       >
         {name}
         (
-          {args.map(({ name, type }) => `${name}: ${type}`).join(', ')}
+        {args.map(({ name, type }): string => `${name}: ${type}`).join(', ')}
         )
         {returnType && `: ${returnType}`}
       </Button>
     );
   }
 
-  onSelect = (index: number) => () => {
+  private onSelect = (index: number): () => void => (): void => {
     const { address: callAddress, contractAbi: { abi: { messages } }, onSelect } = this.props;
 
     if (!callAddress || !messages || !messages[index]) {

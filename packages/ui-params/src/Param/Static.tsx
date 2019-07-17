@@ -12,8 +12,8 @@ import translate from '@polkadot/ui-app/translate';
 import Bare from './Bare';
 
 type Props = BareProps & WithTranslation & {
-  defaultValue: RawParam,
-  withLabel?: boolean
+  defaultValue: RawParam;
+  withLabel?: boolean;
 };
 
 class StaticParam extends React.PureComponent<Props> {

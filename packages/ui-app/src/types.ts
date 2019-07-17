@@ -8,18 +8,16 @@ import { LocationDescriptorObject } from 'history';
 import { WithTranslation } from 'react-i18next';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
-export type BareProps = {
-  className?: string,
-  style?: {
-    [index: string]: any
-  }
-};
+export interface BareProps {
+  className?: string;
+  style?: Record<string, any>;
+}
 
-export type AppProps = {
-  basePath: string,
-  location: LocationDescriptorObject,
-  onStatusChange: (status: ActionStatus) => void
-};
+export interface AppProps {
+  basePath: string;
+  location: LocationDescriptorObject;
+  onStatusChange: (status: ActionStatus) => void;
+}
 
 export type I18nProps = BareProps & WithTranslation;
 

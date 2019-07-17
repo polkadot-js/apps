@@ -8,7 +8,7 @@ import generate from './generate';
 
 export default function generator (options: GeneratorOptions): GeneratorResult {
   const { match, runs = 10, withCase = false } = options;
-  const test = (withCase ? match : match.toLowerCase()).split(',').map((c) => c.split(''));
+  const test = (withCase ? match : match.toLowerCase()).split(',').map((c): string[] => c.split(''));
   const startAt = Date.now();
   const found: GeneratorMatches = [];
 

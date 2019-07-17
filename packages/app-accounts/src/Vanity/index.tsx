@@ -201,7 +201,7 @@ class VanityApp extends TxComponent<Props, State> {
     }
 
     this.setState(
-      ({ keyCount, keyTime, matches, startAt }: State) => {
+      ({ keyCount, keyTime, matches, startAt }: State): Pick<State, never> => {
         let newKeyCount = keyCount;
         let newKeyTime = keyTime;
         const newMatches = results
@@ -279,7 +279,7 @@ class VanityApp extends TxComponent<Props, State> {
 
   private onRemove = (address: string): void => {
     this.setState(
-      ({ matches }: State) => ({
+      ({ matches }: State): Pick<State, never> => ({
         matches: matches.filter((item): boolean =>
           item.address !== address
         )
@@ -289,7 +289,7 @@ class VanityApp extends TxComponent<Props, State> {
 
   private toggleStart = (): void => {
     this.setState(
-      ({ isRunning, keyCount, keyTime, startAt }: State) => {
+      ({ isRunning, keyCount, keyTime, startAt }: State): Pick<State, never> => {
         this._isActive = !isRunning;
 
         return {

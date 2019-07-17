@@ -12,7 +12,7 @@ function flatten (key: string | null, value: any): any {
   }
 
   if (Array.isArray(value)) {
-    return value.map((item) =>
+    return value.map((item): any =>
       flatten(null, item)
     );
   }

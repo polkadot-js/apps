@@ -26,7 +26,7 @@ class ValidateSession extends React.PureComponent<Props, State> {
     error: null
   };
 
-  static getDerivedStateFromProps ({ onError, sessionId, stashId, t }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ onError, sessionId, stashId, t }: Props, prevState: State): State | null {
     let error = null;
 
     try {

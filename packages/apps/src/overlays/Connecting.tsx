@@ -22,7 +22,7 @@ class Connecting extends React.PureComponent<Props> {
     return this.renderExtension() || this.renderConnecting();
   }
 
-  private renderExtension () {
+  private renderExtension (): React.ReactNode {
     const { className, isWaitingInjected, t } = this.props;
 
     if (!isWaitingInjected) {
@@ -39,7 +39,7 @@ class Connecting extends React.PureComponent<Props> {
     );
   }
 
-  private renderConnecting () {
+  private renderConnecting (): React.ReactNode {
     const { className, isApiConnected, t } = this.props;
 
     if (isApiConnected) {

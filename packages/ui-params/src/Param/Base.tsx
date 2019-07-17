@@ -10,13 +10,13 @@ import { Labelled } from '@polkadot/ui-app';
 
 import Bare from './Bare';
 
-type Props = BareProps & {
-  children: React.ReactNode,
-  isDisabled?: boolean,
-  label?: React.ReactNode,
-  size?: Size,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+  isDisabled?: boolean;
+  label?: React.ReactNode;
+  size?: Size;
+  withLabel?: boolean;
+}
 
 export default class Base extends React.PureComponent<Props> {
   public render (): React.ReactNode {

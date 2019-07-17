@@ -28,6 +28,7 @@ interface State {
 
 class Modules extends TxComponent<Props, State> {
   private defaultValue: any;
+
   public state: State;
 
   public constructor (props: Props) {
@@ -55,10 +56,7 @@ class Modules extends TxComponent<Props, State> {
             defaultValue={this.defaultValue}
             label={t('selected state query')}
             onChange={this.onChangeKey}
-            help={
-              meta && meta.documentation
-              && meta.documentation.join(' ')
-            }
+            help={meta && meta.documentation && meta.documentation.join(' ')}
           />
           <Params
             key={`${section}.${method}:params` /* force re-render on change */}
@@ -80,17 +78,18 @@ class Modules extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
-      (prevState: State) => {
+      (prevState: State): Pick<State, never> => {
         const { key = prevState.key, values = prevState.values } = newState;
         const hasParam = key.creator.meta.type.isMap;
         const isValid = values.length === (hasParam ? 1 : 0) &&
-          values.reduce((isValid, value) =>
-            isValid &&
-            !isUndefined(value) &&
-            !isUndefined(value.value) &&
-            value.isValid,
+          values.reduce(
+            (isValid, value): boolean =>
+              isValid &&
+              !isUndefined(value) &&
+              !isUndefined(value.value) &&
+              value.isValid,
             true
           );
 
@@ -126,7 +125,7 @@ class Modules extends TxComponent<Props, State> {
   }
 
   private onChangeParams = (values: RawParams = []): void => {
-    this.nextState({ values } as State);
+    this.nextState({ values });
   }
 }
 

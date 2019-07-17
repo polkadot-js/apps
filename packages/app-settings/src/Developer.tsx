@@ -105,7 +105,7 @@ class Developer extends React.PureComponent<Props, State> {
     });
   }
 
-  private onChangeTypes = (data: Uint8Array) => {
+  private onChangeTypes = (data: Uint8Array): void => {
     const code = u8aToString(data);
 
     try {
@@ -121,7 +121,6 @@ class Developer extends React.PureComponent<Props, State> {
         types: Object.keys(types).length === 0 ? {} : types,
         typesPlaceholder
       });
-
     } catch (error) {
       console.error('Error registering types:', error);
 
@@ -141,20 +140,20 @@ class Developer extends React.PureComponent<Props, State> {
         throw Error(this.props.t('This is not a valid JSON object.'));
       }
 
-      this.setState((prevState: State) => ({
+      this.setState((prevState: State): Pick<State, never> => ({
         ...prevState,
         code,
         isJsonValid: true
-      }) as State);
+      }));
 
       this.onChangeTypes(stringToU8a(code));
     } catch (e) {
-      this.setState((prevState: State) => ({
+      this.setState((prevState: State): Pick<State, never> => ({
         ...prevState,
         code,
         isJsonValid: false,
         typesPlaceholder: e.message
-      }) as State);
+      }));
     }
   }
 
@@ -171,15 +170,14 @@ class Developer extends React.PureComponent<Props, State> {
       this.props.onStatusChange({
         status: 'success',
         action: t('Your custom types have been added')
-      } as ActionStatus);
-
+      });
     } catch (e) {
       console.error(e);
       this.setState({ isTypesValid: false });
       this.props.onStatusChange({
         status: 'error',
         action: t(`Error saving your custom types. ${e}`)
-      } as ActionStatus);
+      });
     }
   }
 }

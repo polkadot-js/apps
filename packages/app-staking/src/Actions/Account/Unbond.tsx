@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -40,7 +41,7 @@ const BalanceWrapper = styled.div`
 class Unbond extends TxComponent<Props, State> {
   public state: State = {};
 
-  componentDidUpdate (prevProps: Props) {
+  public componentDidUpdate (prevProps: Props): void {
     const { staking_ledger } = this.props;
 
     if (staking_ledger !== prevProps.staking_ledger) {
@@ -89,7 +90,7 @@ class Unbond extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { controllerId, stashId, t } = this.props;
     const { maxBalance } = this.state;
 
@@ -139,7 +140,7 @@ class Unbond extends TxComponent<Props, State> {
     });
   }
 
-  private setMaxBalance = () => {
+  private setMaxBalance = (): void => {
     const { staking_ledger } = this.props;
 
     if (!staking_ledger || staking_ledger.isNone) {
@@ -153,7 +154,7 @@ class Unbond extends TxComponent<Props, State> {
     });
   }
 
-  private onChangeValue = (maxUnbond?: BN) => {
+  private onChangeValue = (maxUnbond?: BN): void => {
     this.nextState({ maxUnbond });
   }
 }

@@ -14,7 +14,7 @@ import { withApi, withMulti } from '@polkadot/ui-api';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & ComponentProps & {
-  onChange: (accountId?: string) => void
+  onChange: (accountId?: string) => void;
 };
 
 interface State {
@@ -32,7 +32,8 @@ class Propose extends TxComponent<Props, State> {
     const { apiDefaultTxSudo, isMine, sudoKey, t } = this.props;
     const { method, isValid } = this.state;
 
-    return isMine ? (
+    return isMine
+      ? (
         <section>
           <Extrinsic
             defaultValue={apiDefaultTxSudo}
@@ -52,7 +53,8 @@ class Propose extends TxComponent<Props, State> {
             />
           </Button.Group>
         </section>
-      ) : (
+      )
+      : (
         <article className='error padded'>
           <div>
             <Icon name='ban' />
@@ -62,7 +64,7 @@ class Propose extends TxComponent<Props, State> {
       );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { method = prevState.method } = newState;
@@ -81,7 +83,7 @@ class Propose extends TxComponent<Props, State> {
       return;
     }
 
-    this.nextState({ method } as State);
+    this.nextState({ method });
   }
 }
 

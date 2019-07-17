@@ -20,6 +20,7 @@ export type GeneratorMatches = GeneratorMatch[];
 export interface GeneratorOptions {
   atOffset?: number;
   match: string;
+  network?: string;
   runs: number;
   type: KeypairType;
   withCase?: boolean;
