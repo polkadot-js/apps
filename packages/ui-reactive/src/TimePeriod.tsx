@@ -19,16 +19,18 @@ type Props = BareProps & CallProps & {
 
 export class TimePeriod extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { children, className, label = '', style, timestamp_blockPeriod, timestamp_minimumPeriod } = this.props;
-    const period = timestamp_minimumPeriod || (
-      timestamp_blockPeriod
-        ? (
-          (timestamp_blockPeriod as Moment).toNumber
-            ? (timestamp_blockPeriod as Moment)
-            : (timestamp_blockPeriod as Option<Moment>).unwrapOr(null)
-        )
-        : null
-    );
+    const { api, children, className, label = '', style, timestamp_blockPeriod, timestamp_minimumPeriod } = this.props;
+    const period = (api.consts && api.consts.timestamp && api.consts.timestamp.minimumPeriod as Moment) ||
+      timestamp_minimumPeriod ||
+      (
+        timestamp_blockPeriod
+          ? (
+            (timestamp_blockPeriod as Moment).toNumber
+              ? (timestamp_blockPeriod as Moment)
+              : (timestamp_blockPeriod as Option<Moment>).unwrapOr(null)
+          )
+          : null
+      );
 
     return (
       <div
@@ -46,6 +48,8 @@ export class TimePeriod extends React.PureComponent<Props> {
 }
 
 export default withCalls<Props>(
+  // pre-substrate 1.x
   'query.timestamp.blockPeriod',
+  // substrate 1.x
   'query.timestamp.minimumPeriod'
 )(TimePeriod);
