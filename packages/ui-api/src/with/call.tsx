@@ -199,7 +199,7 @@ export default function withCall<P extends ApiProps> (
           apiSection[method],
           newParams,
           area === 'derive' || (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe'),
-          area === 'const'
+          area === 'consts'
         ];
       }
 
