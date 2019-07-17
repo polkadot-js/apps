@@ -15,6 +15,7 @@
     "@babel/runtime": "^7.5.4",
     "@polkadot/ui-app": "^0.34.0-beta.70",
     "@polkadot/ui-assets": "^0.42.0-beta.11",
-    "@polkadot/ui-signer": "^0.34.0-beta.70"
+    "@polkadot/ui-signer": "^0.34.0-beta.70",
+    "query-string": "^6.8.1"
   }
 }

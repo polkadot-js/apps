@@ -8,6 +8,7 @@ import settings from '@polkadot/ui-settings';
 import '@polkadot/ui-app/i18n';
 import '@polkadot/ui-app/styles';
 
+import queryString from 'query-string';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
@@ -22,13 +23,22 @@ import Apps from './Apps';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
-const url = process.env.WS_URL || settings.apiUrl || undefined;
+
+// we split here so that both these forms are allowed
+//  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
+//  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
+const urlOptions = queryString.parse(location.href.split('?')[1]);
+const wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl || undefined;
+
+if (Array.isArray(wsEndpoint)) {
+  throw new Error('Invalid WS endpoint specified');
+}
 
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
 
-console.log('Web socket url=', url);
+console.log('WS endpoint=', wsEndpoint);
 
 try {
   const types = store.get('types') || {};
@@ -54,7 +64,7 @@ ReactDOM.render(
           <Api
             queueExtrinsic={queueExtrinsic}
             queueSetTxStatus={queueSetTxStatus}
-            url={url}
+            url={wsEndpoint}
           >
             <HashRouter>
               <ThemeProvider theme={theme}>
