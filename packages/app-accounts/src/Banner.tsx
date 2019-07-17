@@ -16,6 +16,7 @@ import translate from './translate';
 type Browser = 'chrome' | 'firefox';
 
 interface Extension {
+  desc: string;
   link: string;
   name: string;
 }
@@ -30,6 +31,7 @@ const EXTENSIONS = [
       chrome: 'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd',
       firefox: 'https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/'
     },
+    desc: 'Basic account injection and signer',
     name: 'polkadot-js extension'
   }
 ];
@@ -39,9 +41,9 @@ const available: Record<Browser, Extension[]> = {
   firefox: []
 };
 
-EXTENSIONS.forEach(({ browsers, name }): void => {
+EXTENSIONS.forEach(({ browsers, desc, name }): void => {
   Object.entries(browsers).forEach(([browser, link]): void => {
-    available[browser as Browser].push({ link, name });
+    available[browser as Browser].push({ link, desc, name });
   });
 });
 
@@ -59,34 +61,46 @@ class Banner extends React.PureComponent<Props> {
 
     return (
       <div className={className}>
-        <p>{t('It is recommended that you store and create the accounts that you care about, externally from the app. On {{yourBrowser}} the following signer extensions are available for use -', { replace: {
-          yourBrowser: stringUpperFirst(browserName)
-        } })}</p>
-        <ul>{available[browserName].map(({ name, link }): React.ReactNode => (
-          <li key={name}>
-            <a
-              href={link}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              {name}
-            </a>
-          </li>
-        ))
-        }</ul>
-        <p>{t('The list is evolving and is updated as more extensions and external signers become available and it supported by the extension-dapp bridge. ')}<a
-          href='https://github.com/polkadot-js/extension'
-          rel='noopener noreferrer'
-          target='_blank'
-        >{t('Learn more...')}</a></p>
+        <div className='box'>
+          <p>{t('It is recommended that you store and create the accounts that you care about, externally from the app. On {{yourBrowser}} the following browser signer extensions are available for use -', { replace: {
+            yourBrowser: stringUpperFirst(browserName)
+          } })}</p>
+          <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
+            <li key={name}>
+              <a
+                href={link}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                {name}
+              </a> ({desc})
+            </li>
+          ))
+          }</ul>
+          <p>{t('The list is evolving and is updated as more extensions and external signers become available and it supported by the extension-dapp bridge. ')}<a
+            href='https://github.com/polkadot-js/extension'
+            rel='noopener noreferrer'
+            target='_blank'
+          >{t('Learn more...')}</a></p>
+        </div>
       </div>
     );
   }
 }
 
 export default translate(styled(Banner)`
-  border: 1px solid darkorange;
-  border-radius: 0.25rem;
-  background: #fff6e5;
-  padding: 1rem 1.5rem;
+  padding: 0 0.5rem 0.5rem;
+  text-align: center;
+
+  .box {
+    background: #fff6e5;
+    border-left: 0.25rem solid darkorange;
+    border-radius: 0 0.25rem 0.25rem 0;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0 auto;
+    max-width: 50rem;
+    padding: 1rem 1.5rem;
+    text-align: left;
+  }
 `);
