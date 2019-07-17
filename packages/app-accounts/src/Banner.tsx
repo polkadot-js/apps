@@ -25,7 +25,12 @@ interface Props extends I18nProps {
   className?: string;
 }
 
-const EXTENSIONS = [
+const available: Record<Browser, Extension[]> = {
+  chrome: [],
+  firefox: []
+};
+
+[
   {
     browsers: {
       chrome: 'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd',
@@ -34,14 +39,7 @@ const EXTENSIONS = [
     desc: 'Basic account injection and signer',
     name: 'polkadot-js extension'
   }
-];
-
-const available: Record<Browser, Extension[]> = {
-  chrome: [],
-  firefox: []
-};
-
-EXTENSIONS.forEach(({ browsers, desc, name }): void => {
+].forEach(({ browsers, desc, name }): void => {
   Object.entries(browsers).forEach(([browser, link]): void => {
     available[browser as Browser].push({ link, desc, name });
   });
@@ -49,7 +47,7 @@ EXTENSIONS.forEach(({ browsers, desc, name }): void => {
 
 const browserInfo = detect();
 const browserName: Browser | null = (browserInfo && (browserInfo.name as Browser)) || null;
-const isSupported = browserName && ['chrome', 'firefox'].includes(browserName);
+const isSupported = browserName && Object.keys(available).includes(browserName);
 
 class Banner extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -62,7 +60,7 @@ class Banner extends React.PureComponent<Props> {
     return (
       <div className={className}>
         <div className='box'>
-          <p>{t('It is recommended that you store and create the accounts that you care about, externally from the app. On {{yourBrowser}} the following browser signer extensions are available for use -', { replace: {
+          <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', { replace: {
             yourBrowser: stringUpperFirst(browserName)
           } })}</p>
           <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
@@ -77,7 +75,7 @@ class Banner extends React.PureComponent<Props> {
             </li>
           ))
           }</ul>
-          <p>{t('The list is evolving and is updated as more extensions and external signers become available. ')}<a
+          <p>{t('The list is updated as more extensions with external signing capability become available.')}&nbsp;<a
             href='https://github.com/polkadot-js/extension'
             rel='noopener noreferrer'
             target='_blank'
