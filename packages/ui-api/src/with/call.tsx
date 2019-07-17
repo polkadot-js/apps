@@ -246,7 +246,7 @@ export default function withCall<P extends ApiProps> (
             updateCb(
               at
                 ? await apiMethod.at(at, ...params)
-                : await apiMethod
+                : await apiMethod(...params)
             );
           }
         } catch (error) {
@@ -283,14 +283,13 @@ export default function withCall<P extends ApiProps> (
 
       public render (): React.ReactNode {
         const { callUpdated, callUpdatedAt, callResult } = this.state;
-        // console.log('callResult', callResult);
         const _props = {
           ...this.props,
           callUpdated,
           callUpdatedAt,
           [propName || this.propName]: callResult
         };
-        // console.log('_PROPS'._props);
+
         return (
           <Inner {..._props} />
         );
