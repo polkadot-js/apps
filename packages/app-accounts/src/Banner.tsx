@@ -77,7 +77,7 @@ class Banner extends React.PureComponent<Props> {
             </li>
           ))
           }</ul>
-          <p>{t('The list is evolving and is updated as more extensions and external signers become available and it supported by the extension-dapp bridge. ')}<a
+          <p>{t('The list is evolving and is updated as more extensions and external signers become available. ')}<a
             href='https://github.com/polkadot-js/extension'
             rel='noopener noreferrer'
             target='_blank'
