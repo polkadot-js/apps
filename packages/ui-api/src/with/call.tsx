@@ -60,7 +60,7 @@ export default function withCall<P extends ApiProps> (
       public constructor (props: P) {
         super(props);
 
-        const [la, section, method] = endpoint.split('.');
+        const [, section, method] = endpoint.split('.');
 
         this.propName = `${section}_${method}`;
       }
@@ -141,9 +141,9 @@ export default function withCall<P extends ApiProps> (
 
       private constructApiSection (endpoint: string): any {
         const { api } = this.props;
-        const [area, section, method] = endpoint.split('.');
+        const [area, section, method, ...others] = endpoint.split('.');
 
-        assert(area.length && section.length && method.length, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
+        assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
         assert(['consts', 'rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected consts, rpc, query or derive`);
         assert(!at || area === 'query', `Only able to do an 'at' query on the api.query interface`);
 
@@ -186,9 +186,6 @@ export default function withCall<P extends ApiProps> (
         }
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
-
-        // TODO ??
-        const others = endpoint.split('.').slice(3);
 
         const meta = apiSection[method].meta;
 
@@ -240,7 +237,6 @@ export default function withCall<P extends ApiProps> (
               ? await apiMethod.multi(params, updateCb)
               : await apiMethod(...params, updateCb);
           } else if (isConst) {
-            console.log('Yes, its a const');
             updateCb(apiMethod);
           } else {
             updateCb(
