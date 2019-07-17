@@ -82,7 +82,6 @@ class ValidateAddr extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    ['query.contracts.contractInfoOf', { paramName: 'address' }], // 2.x
-    ['query.contract.contractInfoOf', { paramName: 'address' }] // 1.x
+    ['query.contracts.contractInfoOf', { fallback: 'query.contract.codeStorage', paramName: 'address' }]
   )(ValidateAddr)
 );

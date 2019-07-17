@@ -201,10 +201,10 @@ export default withMulti(
   Settings,
   translate,
   withCalls<Props>(
-    ['query.treasury.proposalBond', { propName: 'proposalBond' }],
-    ['query.treasury.proposalBondMinimum', { propName: 'proposalBondMinimum' }],
-    ['query.treasury.spendPeriod', { propName: 'spendPeriod' }],
-    ['query.treasury.burn', { propName: 'burn' }],
+    ['consts.treasury.proposalBond', { fallback: 'query.treasury.proposalBond', propName: 'proposalBond' }],
+    ['consts.treasury.proposalBondMinimum', { fallback: 'query.treasury.proposalBondMinimum', propName: 'proposalBondMinimum' }],
+    ['consts.treasury.spendPeriod', { fallback: 'query.treasury.spendPeriod', propName: 'spendPeriod' }],
+    ['consts.treasury.burn', { fallback: 'query.treasury.burn', propName: 'burn' }],
     ['query.treasury.pot', { propName: 'pot' }]
   )
 );

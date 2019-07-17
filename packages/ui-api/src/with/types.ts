@@ -17,6 +17,7 @@ export interface Options {
   at?: Uint8Array | string;
   atProp?: string;
   callOnResult?: OnChangeCb;
+  fallback?: string[] | string;
   isMulti?: boolean;
   params?: any[];
   paramName?: string;

@@ -11,11 +11,12 @@ export const storageGetInfo: Snippet = {
   code: `// Get chain state information
 // Make our basic chain state/storage queries, all in one go
 
-const [minimumPeriod, validators, transferFee] = await Promise.all([
+const [minimumPeriod, validators] = await Promise.all([
   api.query.timestamp.minimumPeriod(),
-  api.query.session.validators(),
-  api.query.balances.transferFee()
+  api.query.session.validators()
 ]);
+
+const transferFee = api.consts.balances.transferFee;
 
 console.log('minimum period between blocks: ' + minimumPeriod);
 console.log('transfer fee: ', transferFee);

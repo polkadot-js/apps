@@ -70,7 +70,6 @@ class ValidateCode extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    ['query.contracts.codeStorage', { paramName: 'codeHash' }], // 2.x
-    ['query.contract.codeStorage', { paramName: 'codeHash' }] // 1.x
+    ['query.contracts.codeStorage', { fallback: 'query.contract.codeStorage', paramName: 'codeHash' }]
   )(ValidateCode)
 );

@@ -18,7 +18,7 @@ interface Method {
   multi: (params: any[], cb: (value?: any) => void) => Promise<any>;
 }
 
-type ApiMethodInfo = [Method, any[], boolean];
+type ApiMethodInfo = [Method, any[], boolean, boolean];
 
 type State = CallState;
 
@@ -26,7 +26,21 @@ const NOOP = (): void => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramPick, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (
+  endpoint: string,
+  {
+    at,
+    atProp,
+    callOnResult,
+    fallback,
+    isMulti = false,
+    params = [],
+    paramName,
+    paramPick,
+    paramValid = false,
+    propName,
+    transform = echoTransform
+  }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       public state: State = {
@@ -46,7 +60,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
       public constructor (props: P) {
         super(props);
 
-        const [, section, method] = endpoint.split('.');
+        const [la, section, method] = endpoint.split('.');
 
         this.propName = `${section}_${method}`;
       }
@@ -122,32 +136,59 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
               ? paramValue
               : [paramValue]
           );
-
         return [true, values];
       }
 
-      private getApiMethod (newParams: any[]): ApiMethodInfo {
+      private constructApiSection (endpoint: string): any {
         const { api } = this.props;
+        const [area, section, method] = endpoint.split('.');
 
+        assert(area.length && section.length && method.length, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
+        assert(['consts', 'rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected consts, rpc, query or derive`);
+        assert(!at || area === 'query', `Only able to do an 'at' query on the api.query interface`);
+
+        const apiSection = (api as any)[area][section];
+
+        return ([
+          endpoint,
+          apiSection,
+          area,
+          section,
+          method
+        ]);
+      }
+
+      private getApiMethod (newParams: any[]): ApiMethodInfo {
         if (endpoint === 'subscribe') {
           const [fn, ...params] = newParams;
 
           return [
             fn,
             params,
-            true
+            true,
+            false
           ];
         }
 
-        const [area, section, method, ...others] = endpoint.split('.');
+        const fallbacks: string[] = fallback
+          ? Array.isArray(fallback)
+            ? fallback
+            : [fallback]
+          : [];
 
-        assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
-        assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
-        assert(!at || area === 'query', `Only able to do an 'at' query on the api.query interface`);
+        const endpoints = [endpoint].concat(fallbacks);
+        let apiSection, area, section, method;
+        let i = 0;
 
-        const apiSection = (api as any)[area][section];
+        while (!apiSection && i < endpoints.length) {
+          [endpoint, apiSection, area, section, method] = this.constructApiSection(endpoints[i]);
+          i++;
+        }
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
+
+        // TODO ??
+        const others = endpoint.split('.').slice(3);
 
         const meta = apiSection[method].meta;
 
@@ -160,7 +201,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         return [
           apiSection[method],
           newParams,
-          area === 'derive' || (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe')
+          area === 'derive' || (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe'),
+          area === 'const'
         ];
       }
 
@@ -186,7 +228,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           return;
         }
 
-        const [apiMethod, params, isSubscription] = info;
+        const [apiMethod, params, isSubscription, isConst] = info;
         const updateCb = (value?: any): void =>
           this.triggerUpdate(this.props, value);
 
@@ -197,15 +239,18 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
             this.destroy = isMulti
               ? await apiMethod.multi(params, updateCb)
               : await apiMethod(...params, updateCb);
+          } else if (isConst) {
+            console.log('Yes, its a const');
+            updateCb(apiMethod);
           } else {
             updateCb(
               at
                 ? await apiMethod.at(at, ...params)
-                : await apiMethod(...params)
+                : await apiMethod
             );
           }
         } catch (error) {
-          // console.error(endpoint, '::', error);
+          console.error(endpoint, '::', error);
         }
       }
 
@@ -238,13 +283,14 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
 
       public render (): React.ReactNode {
         const { callUpdated, callUpdatedAt, callResult } = this.state;
+        // console.log('callResult', callResult);
         const _props = {
           ...this.props,
           callUpdated,
           callUpdatedAt,
           [propName || this.propName]: callResult
         };
-
+        // console.log('_PROPS'._props);
         return (
           <Inner {..._props} />
         );
