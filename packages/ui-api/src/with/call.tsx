@@ -18,7 +18,7 @@ interface Method {
   multi: (params: any[], cb: (value?: any) => void) => Promise<any>;
 }
 
-type ApiMethodInfo = [Method, any[], boolean, boolean];
+type ApiMethodInfo = [Method, any[], boolean, string];
 
 type State = CallState;
 
@@ -166,18 +166,16 @@ export default function withCall<P extends ApiProps> (
             fn,
             params,
             true,
-            false
+            ''
           ];
         }
 
-        const endpoints = [endpoint].concat(fallbacks || []);
+        const endpoints: string[] = [endpoint].concat(fallbacks || []);
         let apiSection, area, section, method;
-        let i = 0;
 
-        while (!apiSection && i < endpoints.length) {
-          [endpoint, apiSection, area, section, method] = this.constructApiSection(endpoints[i]);
-          i++;
-        }
+        [endpoint, apiSection, area, section, method] = endpoints
+          .map(this.constructApiSection, this)
+          .find(([, apiSection]) => apiSection);
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
 
@@ -192,8 +190,8 @@ export default function withCall<P extends ApiProps> (
         return [
           apiSection[method],
           newParams,
-          area === 'derive' || (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe'),
-          area === 'consts'
+          method.startsWith('subscribe'),
+          area
         ];
       }
 
@@ -219,18 +217,18 @@ export default function withCall<P extends ApiProps> (
           return;
         }
 
-        const [apiMethod, params, isSubscription, isConst] = info;
+        const [apiMethod, params, isSubscription, area] = info;
         const updateCb = (value?: any): void =>
           this.triggerUpdate(this.props, value);
 
         await this.unsubscribe();
 
         try {
-          if (isSubscription) {
+          if (isSubscription || area === 'derive' || (area === 'query' && (!at && !atProp))) {
             this.destroy = isMulti
               ? await apiMethod.multi(params, updateCb)
               : await apiMethod(...params, updateCb);
-          } else if (isConst) {
+          } else if (area === 'consts') {
             updateCb(apiMethod);
           } else {
             updateCb(
