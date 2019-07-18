@@ -61,7 +61,7 @@ class Summary extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    ['consts.democracy.launchPeriod', { fallback: 'query.democracy.launchPeriod' }],
+    ['consts.democracy.launchPeriod', { fallbacks: ['query.democracy.launchPeriod'] }],
     'query.democracy.nextTally',
     'query.democracy.publicPropCount',
     'query.democracy.referendumCount',

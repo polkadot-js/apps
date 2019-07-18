@@ -92,6 +92,6 @@ export default withMulti(
   Proposal,
   translate,
   withCalls<Props>(
-    ['consts.democracy.minimumDeposit', { fallback: 'query.democracy.minimumDeposit' }]
+    ['consts.democracy.minimumDeposit', { fallbacks: ['query.democracy.minimumDeposit'] }]
   )
 );

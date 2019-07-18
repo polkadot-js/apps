@@ -193,6 +193,6 @@ export default withMulti(
   withCalls<Props>(
     'derive.chain.bestNumber',
     ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }],
-    ['consts.democracy.enactmentPeriod', { fallback: 'query.democracy.publicDelay' }]
+    ['consts.democracy.enactmentPeriod', { fallbacks: ['query.democracy.publicDelay'] }]
   )
 );

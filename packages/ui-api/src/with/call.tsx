@@ -32,7 +32,7 @@ export default function withCall<P extends ApiProps> (
     at,
     atProp,
     callOnResult,
-    fallback,
+    fallbacks,
     isMulti = false,
     params = [],
     paramName,
@@ -170,13 +170,7 @@ export default function withCall<P extends ApiProps> (
           ];
         }
 
-        const fallbacks: string[] = fallback
-          ? Array.isArray(fallback)
-            ? fallback
-            : [fallback]
-          : [];
-
-        const endpoints = [endpoint].concat(fallbacks);
+        const endpoints = [endpoint].concat(fallbacks || []);
         let apiSection, area, section, method;
         let i = 0;
 
@@ -246,7 +240,7 @@ export default function withCall<P extends ApiProps> (
             );
           }
         } catch (error) {
-          console.error(endpoint, '::', error);
+          // console.error(endpoint, '::', error);
         }
       }
 
