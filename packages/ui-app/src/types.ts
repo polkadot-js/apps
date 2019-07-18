@@ -10,7 +10,7 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 export interface BareProps {
   className?: string;
-  style?: Record<string, any>;
+  style?: Record<string, string | number>;
 }
 
 export interface AppProps {

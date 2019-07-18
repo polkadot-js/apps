@@ -4,7 +4,7 @@
 
 const DEFAULT_SIZE = 300;
 
-function createSize (size: number = DEFAULT_SIZE): { [index: string]: string } {
+function createSize (size: number = DEFAULT_SIZE): Record<string, string> {
   const height = `${size}px`;
 
   return {

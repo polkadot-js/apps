@@ -9,16 +9,16 @@ import React from 'react';
 import QrDisplay from './Display';
 import QrScan from './Scan';
 
-type Props = BaseProps & {
-  isScanning: boolean
-  onError?: (error: Error) => void,
-  onScan?: (data: string) => void,
-  size?: number,
-  value?: { [index: string]: any }
-};
+interface Props extends BaseProps {
+  isScanning: boolean;
+  onError?: (error: Error) => void;
+  onScan?: (data: string) => void;
+  size?: number;
+  value?: Record<string, any>;
+}
 
 export default class Qr extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { isScanning } = this.props;
 
     return isScanning
@@ -26,7 +26,7 @@ export default class Qr extends React.PureComponent<Props> {
       : this.renderDisplay();
   }
 
-  private renderDisplay () {
+  private renderDisplay (): React.ReactNode {
     const { className, size, value } = this.props;
 
     return (
@@ -38,7 +38,7 @@ export default class Qr extends React.PureComponent<Props> {
     );
   }
 
-  private renderScan () {
+  private renderScan (): React.ReactNode {
     const { className, onError, onScan, size } = this.props;
 
     return (

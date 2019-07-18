@@ -10,15 +10,15 @@ import styled from 'styled-components';
 
 import { createSize } from './constants';
 
-type Props = BaseProps & {
-  size?: number,
-  value?: { [index: string]: any }
-};
+interface Props extends BaseProps {
+  size?: number;
+  value?: Record<string, any>;
+}
 
-type State = {
-  image: string | null,
-  text: string | null
-};
+interface State {
+  image: string | null;
+  text: string | null;
+}
 
 function getDataUrl (value: string): string {
   const qr = qrcode(0, 'M');
@@ -30,12 +30,12 @@ function getDataUrl (value: string): string {
 }
 
 class Display extends React.PureComponent<Props, State> {
-  state = {
+  public state: State = {
     image: null,
     text: null
   };
 
-  static getDerivedStateFromProps ({ value }: Props, prevState: State) {
+  public static getDerivedStateFromProps ({ value }: Props, prevState: State): State | null {
     const text = JSON.stringify(value);
 
     if (text === prevState.text) {
@@ -48,7 +48,7 @@ class Display extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { className, size, style } = this.props;
     const { image } = this.state;
 

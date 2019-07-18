@@ -10,20 +10,20 @@ import styled from 'styled-components';
 
 import { createSize } from './constants';
 
-type Props = BaseProps & {
-  delay?: number,
-  onError?: (error: Error) => void,
-  onScan?: (data: string) => void,
-  size?: number
-};
+interface Props extends BaseProps {
+  delay?: number;
+  onError?: (error: Error) => void;
+  onScan?: (data: string) => void;
+  size?: number;
+}
 
 const DEFAULT_DELAY = 150;
-const DEFAULT_ERROR = (error: Error) => {
+const DEFAULT_ERROR = (error: Error): void => {
   console.error('@polkadot/ui-qr:Scan', error);
 };
 
 class Scan extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, delay = DEFAULT_DELAY, size, style } = this.props;
 
     return (
@@ -42,13 +42,13 @@ class Scan extends React.PureComponent<Props> {
     );
   }
 
-  private handleError = (error: Error) => {
+  private handleError = (error: Error): void => {
     const { onError = DEFAULT_ERROR } = this.props;
 
     onError(error);
   }
 
-  private handleScan = (data: string | null) => {
+  private handleScan = (data: string | null): void => {
     const { onScan } = this.props;
 
     if (!data || !onScan) {
