@@ -29,7 +29,7 @@ interface Props extends I18nProps {
   idNumber: BN;
   chain_bestNumber?: BN;
   democracy_referendumVotesFor?: DerivedReferendumVote[];
-  democracy_publicDelay?: BN;
+  democracy_enactmentPeriod: BN;
   value: ReferendumInfoExtended;
 }
 
@@ -111,13 +111,13 @@ class Referendum extends React.PureComponent<Props, State> {
   }
 
   private renderInfo (): React.ReactNode {
-    const { chain_bestNumber, democracy_publicDelay, t, value: { end, threshold } } = this.props;
+    const { chain_bestNumber, democracy_enactmentPeriod, t, value: { end, threshold } } = this.props;
 
     if (!chain_bestNumber) {
       return null;
     }
 
-    const enactBlock = (democracy_publicDelay || new BN(0)).add(end);
+    const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(end);
 
     return (
       <div>
@@ -193,6 +193,6 @@ export default withMulti(
   withCalls<Props>(
     'derive.chain.bestNumber',
     ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }],
-    'query.democracy.publicDelay'
+    ['consts.democracy.enactmentPeriod', { fallbacks: ['query.democracy.publicDelay'] }]
   )
 );
