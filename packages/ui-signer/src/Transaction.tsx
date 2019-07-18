@@ -12,14 +12,14 @@ import { Call, InputAddress, Modal } from '@polkadot/ui-app';
 import Checks from './Checks';
 import translate from './translate';
 
-type Props = I18nProps & {
-  children?: React.ReactNode,
-  isSendable: boolean,
-  value: QueueTx
-};
+interface Props extends I18nProps {
+  children?: React.ReactNode;
+  isSendable: boolean;
+  value: QueueTx;
+}
 
 class Transaction extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, value: { extrinsic } } = this.props;
 
     if (!extrinsic) {
@@ -48,7 +48,7 @@ class Transaction extends React.PureComponent<Props> {
     );
   }
 
-  private renderAccount () {
+  private renderAccount (): React.ReactNode {
     const { t, value: { accountId, isUnsigned } } = this.props;
 
     if (isUnsigned || !accountId) {
@@ -67,7 +67,7 @@ class Transaction extends React.PureComponent<Props> {
     );
   }
 
-  private renderChecks () {
+  private renderChecks (): React.ReactNode {
     const { isSendable, value: { accountId, extrinsic, isUnsigned } } = this.props;
 
     if (isUnsigned) {

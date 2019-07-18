@@ -13,18 +13,9 @@ import translate from './translate';
 
 type Props = I18nProps & ComponentProps;
 
-type State = {
-  selected?: string
-};
-
-const Wrapper = styled.section`
-  align-items: flex-end;
-  justify-content: center;
-
-  .summary {
-    text-align: center;
-  }
-`;
+interface State {
+  selected?: string;
+}
 
 const SudoInputAddress = styled(InputAddress)`
   margin: -0.25rem 0.5rem -0.25rem 0;
@@ -35,48 +26,50 @@ const SudoLabelled = styled(Labelled)`
 `;
 
 class SetKey extends React.PureComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
       selected: props.sudoKey
-    } as State;
+    };
   }
 
-  componentWillReceiveProps ({ sudoKey = this.props.sudoKey }) {
+  public componentWillReceiveProps ({ sudoKey = this.props.sudoKey }): void {
     if (sudoKey !== this.props.sudoKey) {
       this.setState({ selected: sudoKey });
     }
   }
 
-  render () {
-    const { isMine, sudoKey, t } = this.props;
+  public render (): React.ReactNode {
+    const { className, isMine, sudoKey, t } = this.props;
     const { selected } = this.state;
 
     return (
       <section>
-        <Wrapper className='ui--row'>
-          {isMine ? (
-            <>
-              <SudoInputAddress
-                value={selected}
-                label={t('sudo key')}
-                isInput={true}
-                onChange={this.onChange}
-                type='all'
-              />
-              <TxButton
-                accountId={sudoKey}
-                isDisabled={!isMine || sudoKey === selected}
-                isPrimary
-                label={t('Reassign')}
-                params={[selected]}
-                tx='sudo.setKey'
-              />
-            </>
-          ) : (
+        <section className={`${className} ui--row`}>
+          {isMine
+            ? (
+              <>
+                <SudoInputAddress
+                  value={selected}
+                  label={t('sudo key')}
+                  isInput={true}
+                  onChange={this.onChange}
+                  type='all'
+                />
+                <TxButton
+                  accountId={sudoKey}
+                  isDisabled={!isMine || sudoKey === selected}
+                  isPrimary
+                  label={t('Reassign')}
+                  params={[selected]}
+                  tx='sudo.setKey'
+                />
+              </>
+            )
+            : (
               <SudoLabelled
                 className='ui--Dropdown'
                 label={t('sudo key')}
@@ -84,17 +77,18 @@ class SetKey extends React.PureComponent<Props, State> {
               >
                 <AddressMini value={sudoKey} />
               </SudoLabelled>
-          )}
-          </Wrapper>
-          {this.willLose() && (
-            <article className='warning padded'>
-              <div>
-                <Icon name='warning' />
-                {t('You will no longer have sudo access')}
-              </div>
-            </article>
-          )}
+            )
+          }
         </section>
+        {this.willLose() && (
+          <article className='warning padded'>
+            <div>
+              <Icon name='warning' />
+              {t('You will no longer have sudo access')}
+            </div>
+          </article>
+        )}
+      </section>
     );
   }
 
@@ -105,13 +99,22 @@ class SetKey extends React.PureComponent<Props, State> {
   private willLose = (): boolean => {
     const { allAccounts, isMine, sudoKey } = this.props;
     const { selected } = this.state;
+
     return (
       isMine &&
       !!Object.keys(allAccounts).length &&
       !!selected &&
       selected !== sudoKey &&
-      !Object.keys(allAccounts).find(s => s === selected)
+      !Object.keys(allAccounts).find((s): boolean => s === selected)
     );
   }
 }
-export default translate(SetKey);
+
+export default translate(styled(SetKey)`
+  align-items: flex-end;
+  justify-content: center;
+
+  .summary {
+    text-align: center;
+  }
+`);

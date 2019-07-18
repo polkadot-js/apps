@@ -7,67 +7,63 @@ import { TabItem } from '@polkadot/ui-app/Tabs';
 import { ComponentProps, LocationProps } from './types';
 
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, RouteComponentProps, Switch } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { HelpOverlay, Tabs } from '@polkadot/ui-app';
+import { withMulti, withObservable } from '@polkadot/ui-api';
+import keyring from '@polkadot/ui-keyring';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import introMd from './md/intro.md';
 import store from './store';
 import translate from './translate';
-import Call from './Call';
-import Code from './Code';
-import Instantiate from './Instantiate';
+import Contracts from './Contracts';
+import Codes from './Codes';
+import Deploy from './Deploy';
 
-type Props = AppProps & I18nProps;
-type State = {
-  tabs: Array<TabItem>,
-  updated: number
+type Props = AppProps & I18nProps & RouteComponentProps & {
+  accounts: SubjectInfo[];
+  contracts: SubjectInfo[];
 };
 
-class App extends React.PureComponent<Props, State> {
-  state: State;
+interface State {
+  codeHash?: string;
+  hasContracts: boolean;
+  isDeployOpen: boolean;
+  updated: number;
+}
 
-  constructor (props: Props) {
+class App extends React.PureComponent<Props, State> {
+  public state: State = {
+    hasContracts: false,
+    isDeployOpen: false,
+    updated: 0
+  };
+
+  public constructor (props: Props) {
     super(props);
 
-    const { t } = props;
-
     store.on('new-code', this.triggerUpdate);
-    store.on('new-contract', this.triggerUpdate);
+    store.on('removed-code', this.triggerUpdate);
 
     // since we have a dep on the async API, we load here
-    store.loadAll().catch(() => {
+    store.loadAll().catch((): void => {
       // noop, handled internally
     });
+  }
 
-    this.state = {
-      tabs: [
-        {
-          name: 'call',
-          text: t('Call')
-        },
-        {
-          name: 'instantiate',
-          text: t('Instance')
-        },
-        {
-          name: 'code',
-          text: t('Code')
-        }
-      ],
-      updated: 0
+  public static getDerivedStateFromProps ({ contracts }: Props): Pick<State, never> {
+    const hasContracts = !!contracts && Object.keys(contracts).length >= 1;
+
+    return {
+      hasContracts
     };
   }
 
-  render () {
-    const { basePath } = this.props;
-    const { tabs } = this.state;
-    const hidden = store.hasContracts
-      ? []
-      : ['call'];
-
-    if (!store.hasCode) {
-      hidden.push('instantiate');
-    }
+  public render (): React.ReactNode {
+    const { basePath, t } = this.props;
+    const { codeHash, isDeployOpen } = this.state;
+    const hidden: string[] = [];
 
     return (
       <main className='contracts--App'>
@@ -76,41 +72,67 @@ class App extends React.PureComponent<Props, State> {
           <Tabs
             basePath={basePath}
             hidden={hidden}
-            items={tabs}
+            items={[
+              {
+                name: 'code',
+                text: 'Code'
+              },
+              {
+                isRoot: true,
+                name: 'contracts',
+                text: 'Contracts'
+              }
+            ].map((tab): TabItem => ({ ...tab, text: t(tab.text) }))
+            }
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/instantiate`} render={this.renderComponent(Instantiate)} />
-          <Route path={`${basePath}/code`} render={this.renderComponent(Code)} />
-          <Route
-            render={
-              hidden.includes('call')
-                ? (
-                  hidden.includes('instantiate')
-                    ? this.renderComponent(Code)
-                    : this.renderComponent(Instantiate)
-                )
-                : this.renderComponent(Call)
-            }
-          />
+          <Route path={`${basePath}/code`} render={this.renderComponent(Codes)} />
+          <Route render={this.renderComponent(Contracts)} exact />
         </Switch>
+        <Deploy
+          basePath={basePath}
+          codeHash={codeHash}
+          isOpen={isDeployOpen}
+          onClose={this.hideDeploy}
+        />
       </main>
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>) {
-    return ({ match }: LocationProps) => {
-      const { basePath, location, onStatusChange } = this.props;
+  private renderComponent (Component: React.ComponentType<ComponentProps>): (p: LocationProps) => React.ReactNode {
+    return ({ match }: LocationProps): React.ReactNode => {
+      const { accounts, basePath, contracts, location, onStatusChange } = this.props;
+
+      if (!contracts) {
+        return null;
+      }
 
       return (
         <Component
+          accounts={accounts}
           basePath={basePath}
+          contracts={contracts}
+          hasCode={store.hasCode}
           location={location}
           match={match}
           onStatusChange={onStatusChange}
+          showDeploy={this.showDeploy}
         />
       );
     };
+  }
+
+  private showDeploy = (codeHash?: string): () => void =>
+    (): void => {
+      this.setState({
+        codeHash: codeHash || undefined,
+        isDeployOpen: true
+      });
+    }
+
+  private hideDeploy = (): void => {
+    this.setState({ isDeployOpen: false });
   }
 
   private triggerUpdate = (): void => {
@@ -118,4 +140,10 @@ class App extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(App);
+export default withMulti(
+  App,
+  translate,
+  withObservable(keyring.accounts.subject, { propName: 'accounts' }),
+  withObservable(keyring.contracts.subject, { propName: 'contracts' }),
+  withRouter
+);

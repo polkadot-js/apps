@@ -4,7 +4,7 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { BareProps } from '../types';
-import { ActionStatus, PartialQueueTx$Extrinsic, PartialQueueTx$Rpc, QueueProps, QueueStatus, QueueTx, QueueTx$Extrinsic, QueueTx$Rpc, QueueTx$Status } from './types';
+import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus } from './types';
 
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
@@ -12,22 +12,22 @@ import jsonrpc from '@polkadot/jsonrpc';
 import { QueueProvider } from './Context';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
-export type Props = BareProps & {
-  children: React.ReactNode
-};
+export interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 type State = QueueProps;
 
-const defaultState = {
-  stqueue: [] as Array<QueueStatus>,
-  txqueue: [] as Array<QueueTx>
-} as QueueProps;
+const defaultState: Partial<QueueProps> = {
+  stqueue: [] as QueueStatus[],
+  txqueue: [] as QueueTx[]
+};
 
 let nextId = 0;
 
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
-const STATUS_COMPLETE: Array<QueueTx$Status> = [
+const STATUS_COMPLETE: QueueTxStatus[] = [
   // status from subscription
   'finalized', 'usurped', 'dropped', 'invalid',
   // normal completion
@@ -35,9 +35,9 @@ const STATUS_COMPLETE: Array<QueueTx$Status> = [
 ];
 
 export default class Queue extends React.Component<Props, State> {
-  state: State = defaultState;
+  public state: State = defaultState as State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -50,7 +50,7 @@ export default class Queue extends React.Component<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     return (
       <QueueProvider value={this.state}>
         {this.props.children}
@@ -61,26 +61,26 @@ export default class Queue extends React.Component<Props, State> {
   private clearAction (id: number): () => void {
     return (): void => {
       this.setState(
-        (prevState: State): State => ({
-          stqueue: prevState.stqueue.filter((item) => item.id !== id)
-        } as State)
+        (prevState: State): Pick<State, never> => ({
+          stqueue: prevState.stqueue.filter((item): boolean => item.id !== id)
+        })
       );
     };
   }
 
-  queueAction = (status: ActionStatus): number => {
+  public queueAction = (status: ActionStatus): number => {
     const id = ++nextId;
     const removeItem = this.clearAction(id);
 
     this.setState(
-      (prevState: State): State => ({
+      (prevState: State): Pick<State, never> => ({
         stqueue: prevState.stqueue.concat({
           ...status,
           id,
           isCompleted: false,
           removeItem
         })
-      } as State)
+      })
     );
 
     setTimeout(removeItem, REMOVE_TIMEOUT);
@@ -89,23 +89,23 @@ export default class Queue extends React.Component<Props, State> {
   }
 
   private clearStatus (id: number): () => void {
-    return () => {
+    return (): void => {
       this.setState(
-        (prevState: State): State => ({
-          txqueue: prevState.txqueue.map((item) =>
+        (prevState: State): Pick<State, never> => ({
+          txqueue: prevState.txqueue.map((item): QueueTx =>
             item.id === id
               ? { ...item, status: 'completed' }
               : item
           )
-        } as State)
+        })
       );
     };
   }
 
-  queueSetTxStatus = (id: number, status: QueueTx$Status, result?: SubmittableResult, error?: Error): void => {
+  private queueSetTxStatus = (id: number, status: QueueTxStatus, result?: SubmittableResult, error?: Error): void => {
     this.setState(
-      (prevState: State): State => ({
-        txqueue: prevState.txqueue.map((item) =>
+      (prevState: State): Pick<State, never> => ({
+        txqueue: prevState.txqueue.map((item): QueueTx =>
           item.id === id
             ? {
               ...item,
@@ -121,7 +121,7 @@ export default class Queue extends React.Component<Props, State> {
             }
             : item
         )
-      } as State)
+      })
     );
 
     this.addResultEvents(result);
@@ -131,8 +131,8 @@ export default class Queue extends React.Component<Props, State> {
     }
   }
 
-  private addResultEvents ({ events = [] }: Partial<SubmittableResult> = {}) {
-    events.filter((record) => record.event).forEach(({ event: { method, section } }) => {
+  private addResultEvents ({ events = [] }: Partial<SubmittableResult> = {}): void {
+    events.filter((record): boolean => !!record.event).forEach(({ event: { method, section } }): void => {
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
       if (section === 'democracy') {
@@ -151,13 +151,13 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  private queueAdd = (value: QueueTx$Extrinsic | QueueTx$Rpc | QueueTx): number => {
+  private queueAdd = (value: QueueTxExtrinsic | QueueTxRpc | QueueTx): number => {
     const id = ++nextId;
-    const rpc: RpcMethod = (value as QueueTx$Rpc).rpc || SUBMIT_RPC;
+    const rpc: RpcMethod = (value as QueueTxRpc).rpc || SUBMIT_RPC;
     const removeItem = this.clearStatus(id);
 
     this.setState(
-      (prevState: State): State => ({
+      (prevState: State): Pick<State, never> => ({
         txqueue: prevState.txqueue.concat([{
           ...value,
           id,
@@ -165,13 +165,13 @@ export default class Queue extends React.Component<Props, State> {
           rpc,
           status: 'queued'
         }])
-      } as State)
+      })
     );
 
     return id;
   }
 
-  queueExtrinsic = ({ accountId, extrinsic, signerCb, signerOptions, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTx$Extrinsic): number => {
+  public queueExtrinsic = ({ accountId, extrinsic, signerCb, signerOptions, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): number => {
     return this.queueAdd({
       accountId,
       extrinsic,
@@ -185,7 +185,7 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  queueRpc = ({ accountId, rpc, values }: PartialQueueTx$Rpc): number => {
+  public queueRpc = ({ accountId, rpc, values }: PartialQueueTxRpc): number => {
     return this.queueAdd({
       accountId,
       rpc,

@@ -6,31 +6,32 @@ import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { OfflineStatus } from '@polkadot/app-staking/types';
-import { RecentlyOffline } from '@polkadot/ui-app';
+import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { classes, getAddrName, toShortAddress } from './util';
+import { classes, getAddressName, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 
-type Props = BareProps & {
-  balance?: BN | Array<BN>,
-  bonded?: BN | Array<BN>,
-  children?: React.ReactNode,
-  isPadded?: boolean,
-  isShort?: boolean,
-  value?: AccountId | AccountIndex | Address | string,
-  offlineStatus?: Array<OfflineStatus>,
-  withAddress?: boolean,
-  withBalance?: boolean,
-  withBonded?: boolean
-};
+interface Props extends BareProps {
+  balance?: BN | BN[];
+  bonded?: BN | BN[];
+  children?: React.ReactNode;
+  iconInfo?: React.ReactNode;
+  isPadded?: boolean;
+  isShort?: boolean;
+  type?: KeyringItemType;
+  value?: AccountId | AccountIndex | Address | string;
+  withAddress?: boolean;
+  withBalance?: boolean;
+  withBonded?: boolean;
+}
 
-export default class AddressMini extends React.PureComponent<Props> {
-  render () {
-    const { children, className, isPadded = true, style, value } = this.props;
+class AddressMini extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { children, className, iconInfo, isPadded = true, style, value } = this.props;
 
     if (!value) {
       return null;
@@ -46,12 +47,18 @@ export default class AddressMini extends React.PureComponent<Props> {
         <div className='ui--AddressMini-info'>
           {this.renderAddressOrName(address)}
           {children}
-          {this.renderOfflineStatus()}
         </div>
-        <IdentityIcon
-          size={24}
-          value={address}
-        />
+        <div className='ui--AddressMini-icon'>
+          <IdentityIcon
+            size={24}
+            value={address}
+          />
+          {iconInfo && (
+            <div className='ui--AddressMini-icon-info'>
+              {iconInfo}
+            </div>
+          )}
+        </div>
         <div className='ui--AddressMini-balances'>
           {this.renderBalance()}
           {this.renderBonded()}
@@ -60,18 +67,18 @@ export default class AddressMini extends React.PureComponent<Props> {
     );
   }
 
-  private renderAddressOrName (address: string) {
-    const { isShort = true, withAddress = true } = this.props;
+  private renderAddressOrName (address: string): React.ReactNode {
+    const { isShort = true, withAddress = true, type } = this.props;
 
     if (!withAddress) {
       return null;
     }
 
-    const name = getAddrName(address);
+    const name = getAddressName(address, type);
 
     return (
       <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{
-         name || (
+        name || (
           isShort
             ? toShortAddress(address)
             : address
@@ -80,7 +87,7 @@ export default class AddressMini extends React.PureComponent<Props> {
     );
   }
 
-  private renderBalance () {
+  private renderBalance (): React.ReactNode {
     const { balance, value, withBalance = false } = this.props;
 
     if (!withBalance || !value) {
@@ -90,13 +97,12 @@ export default class AddressMini extends React.PureComponent<Props> {
     return (
       <BalanceDisplay
         balance={balance}
-        className='ui--AddressSummary-balance'
         params={value}
       />
     );
   }
 
-  private renderBonded () {
+  private renderBonded (): React.ReactNode {
     const { bonded, value, withBonded = false } = this.props;
 
     if (!withBonded || !value) {
@@ -106,27 +112,75 @@ export default class AddressMini extends React.PureComponent<Props> {
     return (
       <BondedDisplay
         bonded={bonded}
-        className='ui--AddressSummary-balance'
         label=''
         params={value}
       />
     );
   }
+}
 
-  private renderOfflineStatus () {
-    const { value, offlineStatus } = this.props;
+export default styled(AddressMini)`
+  display: inline-block;
+  padding: 0 0.25rem 0 1rem;
+  white-space: nowrap;
 
-    if (!value || !offlineStatus) {
-      return null;
+  &.padded {
+    display: inline-block;
+    padding: 0.25rem 0 0 1rem;
+  }
+
+  &.summary {
+    position: relative;
+    top: -0.2rem;
+  }
+
+  .ui--AddressMini-address {
+    &.withAddr,
+    &.withName {
+      font-family: monospace;
+      max-width: 9rem;
+      min-width: 4em;
+      overflow: hidden;
+      text-align: right;
+      text-overflow: ellipsis;
     }
 
-    return (
-      <RecentlyOffline
-        accountId={value.toString()}
-        offline={offlineStatus}
-        tooltip
-        inline
-      />
-    );
+    &.withName {
+      text-transform: uppercase;
+    }
   }
-}
+
+  .ui--AddressMini-balances {
+    display: grid;
+
+    .ui--Bonded {
+      font-size: 0.75rem;
+      margin-right: 2.25rem;
+      margin-top: -0.5rem;
+      text-align: right;
+    }
+  }
+
+  .ui--AddressMini-icon {
+    margin: 0 0 0 0.5rem;
+
+    .ui--AddressMini-icon-info {
+      position: absolute;
+      right: -0.5rem;
+      top: -0.5rem;
+      z-index: 1;
+    }
+
+    .ui--IdentityIcon {
+      margin: 0;
+      vertical-align: middle;
+    }
+  }
+
+  .ui--AddressMini-icon,
+  .ui--AddressMini-info {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+  }
+`;

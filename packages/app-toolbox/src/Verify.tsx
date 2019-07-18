@@ -16,39 +16,39 @@ import translate from './translate';
 
 type CryptoTypes = KeypairType | 'unknown';
 
-type CryptoOption = {
-  text: string,
-  value: string
-};
+interface CryptoOption {
+  text: string;
+  value: string;
+}
 
-type State = {
-  currentPublicKey: Uint8Array | null,
-  cryptoOptions: Array<CryptoOption>,
-  cryptoType: CryptoTypes,
-  defaultPublicKey?: Uint8Array,
-  data: string,
-  isHexData: boolean,
-  isValidAddress: boolean,
-  isValidSignature: boolean,
-  isValid: boolean,
-  signature: string
-};
+interface State {
+  currentPublicKey: Uint8Array | null;
+  cryptoOptions: CryptoOption[];
+  cryptoType: CryptoTypes;
+  defaultPublicKey?: Uint8Array;
+  data: string;
+  isHexData: boolean;
+  isValidAddress: boolean;
+  isValidSignature: boolean;
+  isValid: boolean;
+  signature: string;
+}
 
 class Verify extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = this.props;
     const pairs = keyring.getPairs();
     const currentPair = pairs[0];
     const currentPublicKey = currentPair
-      ? currentPair.publicKey()
+      ? currentPair.publicKey
       : null;
 
     this.state = {
-      cryptoOptions: [{ value: 'unknown', text: t('Crypto not detected') }].concat(uiSettings.availableCryptos),
+      cryptoOptions: [{ value: 'unknown', text: t('Crypto not detected') }].concat(uiSettings.availableCryptos as any[]),
       cryptoType: 'unknown',
       currentPublicKey,
       defaultPublicKey: currentPublicKey || void 0,
@@ -61,7 +61,7 @@ class Verify extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { cryptoOptions, cryptoType, data, isHexData } = this.state;
 
@@ -102,7 +102,7 @@ class Verify extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderAddress () {
+  private renderAddress (): React.ReactNode {
     const { t } = this.props;
     const { defaultPublicKey, isValidAddress } = this.state;
 
@@ -121,7 +121,7 @@ class Verify extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSignature () {
+  private renderSignature (): React.ReactNode {
     const { t } = this.props;
     const { isValid, isValidSignature, signature } = this.state;
 
@@ -146,9 +146,9 @@ class Verify extends React.PureComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
-      (prevState: State): State => {
+      (prevState: State): Pick<State, never> => {
         const { isHexData = prevState.isHexData, isValidAddress = prevState.isValidAddress, isValidSignature = prevState.isValidSignature, currentPublicKey = prevState.currentPublicKey, data = prevState.data, signature = prevState.signature } = newState;
         let cryptoType: CryptoTypes = 'unknown';
         let isValid = isValidAddress && isValidSignature;
@@ -192,7 +192,7 @@ class Verify extends React.PureComponent<Props, State> {
           currentPublicKey,
           data,
           signature
-        } as State;
+        };
       }
     );
   }
@@ -200,13 +200,13 @@ class Verify extends React.PureComponent<Props, State> {
   private onChangeData = (data: string): void => {
     const isHexData = isHex(data);
 
-    this.nextState({ data, isHexData } as State);
+    this.nextState({ data, isHexData });
   }
 
   private onChangeSignature = (signature: string): void => {
     const isValidSignature = isHex(signature) && signature.length === 130;
 
-    this.nextState({ signature, isValidSignature } as State);
+    this.nextState({ signature, isValidSignature });
   }
 
   private onChangeAddress = (accountId: string): void => {
@@ -220,7 +220,7 @@ class Verify extends React.PureComponent<Props, State> {
 
     const isValidAddress = currentPublicKey && currentPublicKey.length === 32;
 
-    this.nextState({ currentPublicKey, isValidAddress } as State);
+    this.nextState({ currentPublicKey, isValidAddress });
   }
 }
 

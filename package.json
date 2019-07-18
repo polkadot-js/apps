@@ -1,5 +1,5 @@
 {
-  "version": "0.33.0-beta.105",
+  "version": "0.34.0-beta.74",
   "private": true,
   "engines": {
     "node": ">=10.13.0",
@@ -10,31 +10,33 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.80.0-beta.14",
-    "@polkadot/keyring": "^0.92.0-beta.2",
-    "@polkadot/types": "^0.80.0-beta.14",
-    "@polkadot/util": "^0.92.0-beta.2",
-    "@polkadot/util-crypto": "^0.92.0-beta.2",
+    "@polkadot/api": "^0.82.0-beta.70",
+    "@polkadot/api-contract": "^0.82.0-beta.70",
+    "@polkadot/keyring": "^0.94.0-beta.15",
+    "@polkadot/types": "^0.82.0-beta.70",
+    "@polkadot/util": "^0.94.0-beta.15",
+    "@polkadot/util-crypto": "^0.94.0-beta.15",
+    "@types/styled-components": "4.1.8",
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.3"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
     "build": "NODE_ENV=production polkadot-dev-build-ts",
     "check": "yarn lint",
-    "lint": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx . && tsc --noEmit --pretty",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "echo \"skipping tests\"",
     "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
     "start": "cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/runtime": "^7.4.5",
-    "@polkadot/dev-react": "^0.30.0-beta.7",
-    "@polkadot/ts": "^0.1.56",
-    "autoprefixer": "^9.5.1",
+    "@babel/core": "^7.5.4",
+    "@babel/runtime": "^7.5.4",
+    "@polkadot/dev-react": "^0.30.0-beta.22",
+    "@polkadot/ts": "^0.1.62",
+    "autoprefixer": "^9.6.1",
     "empty": "^0.10.1",
     "gh-pages": "^2.0.1",
     "html-loader": "^0.5.5",
@@ -45,9 +47,9 @@
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.1.2",
-    "postcss-sass": "^0.3.5",
+    "postcss-sass": "^0.4.1",
     "postcss-simple-vars": "^5.0.0",
     "precss": "^4.0.0",
-    "source-map-explorer": "^1.7.0"
+    "source-map-explorer": "^2.0.1"
   }
 }

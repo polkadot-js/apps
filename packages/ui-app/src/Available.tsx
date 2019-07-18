@@ -10,13 +10,13 @@ import { Available } from '@polkadot/ui-reactive';
 
 import { classes } from './util';
 
-export type Props = BareProps & {
-  label?: React.ReactNode,
-  params?: AccountId | AccountIndex | Address | string | Uint8Array | null
-};
+export interface Props extends BareProps {
+  label?: React.ReactNode;
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
+}
 
 export default class AvailableDisplay extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { params, className, label, style } = this.props;
 
     if (!params) {

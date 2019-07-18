@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -8,48 +9,41 @@ import BN from 'bn.js';
 import React from 'react';
 import { Proposal } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
+import { Column } from '@polkadot/ui-app';
 
 import ProposalDisplay from './Proposal';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  democracy_publicProps?: Array<[BN, Proposal]>
-};
+interface Props extends I18nProps {
+  democracy_publicProps?: [BN, Proposal][];
+}
 
-type State = {
-  isProposeOpen: boolean
-};
+interface State {
+  isProposeOpen: boolean;
+}
 
 class Proposals extends React.PureComponent<Props> {
-  state: State = {
+  public state: State = {
     isProposeOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (
-      <section className='democracy--Proposals'>
-        <h1>
-          {t('proposals')}
-        </h1>
+      <Column
+        emptyText={t('No available proposals')}
+        headerText={t('proposals')}
+      >
         {this.renderProposals()}
-      </section>
+      </Column>
     );
   }
 
-  private renderProposals () {
-    const { democracy_publicProps, t } = this.props;
+  private renderProposals (): React.ReactNode {
+    const { democracy_publicProps = [] } = this.props;
 
-    if (!democracy_publicProps || !democracy_publicProps.length) {
-      return (
-        <div className='ui disabled'>
-          {t('no available proposals')}
-        </div>
-      );
-    }
-
-    return democracy_publicProps.map(([idNumber, proposal]) => (
+    return democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
       <ProposalDisplay
         idNumber={idNumber}
         key={idNumber.toString()}

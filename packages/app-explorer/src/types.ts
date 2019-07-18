@@ -4,7 +4,7 @@
 
 import { EventRecord } from '@polkadot/types';
 
-export type KeyedEvent = {
-  key: string,
-  record: EventRecord
-};
+export interface KeyedEvent {
+  key: string;
+  record: EventRecord;
+}

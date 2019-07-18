@@ -8,20 +8,20 @@ import React from 'react';
 
 import Labelled from './Labelled';
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  defaultValue?: any,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isHidden?: boolean,
-  label?: React.ReactNode,
-  value?: React.ReactNode,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  defaultValue?: any;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isHidden?: boolean;
+  label?: React.ReactNode;
+  value?: React.ReactNode;
+  withLabel?: boolean;
+}
 
 export default class Static extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, children, defaultValue, help, isHidden, label, style, value, withLabel } = this.props;
 
     return (

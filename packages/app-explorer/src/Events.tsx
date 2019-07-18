@@ -11,25 +11,25 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  emptyLabel?: React.ReactNode,
-  events: Array<KeyedEvent>,
-  eventClassName?: string,
-  withoutIndex?: boolean
-};
+interface Props extends I18nProps {
+  emptyLabel?: React.ReactNode;
+  events: KeyedEvent[];
+  eventClassName?: string;
+  withoutIndex?: boolean;
+}
 
 class Events extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { emptyLabel, events, t } = this.props;
 
     if (!events || events.length === 0) {
-      return emptyLabel || t('no events available');
+      return <article>{emptyLabel || t('no events available')}</article>;
     }
 
     return events.map(this.renderEvent);
   }
 
-  private renderEvent = ({ key, record: { event, phase } }: KeyedEvent) => {
+  private renderEvent = ({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => {
     const { eventClassName, withoutIndex } = this.props;
     const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
       ? phase.asApplyExtrinsic
@@ -40,35 +40,33 @@ class Events extends React.PureComponent<Props> {
     }
 
     return (
-      <div
-        className={eventClassName}
+      <article
+        className={`explorer--Container ${eventClassName}`}
         key={key}
       >
-        <article className='explorer--Container'>
-          <div className='header'>
-            <h3>
-              {event.section}.{event.method}&nbsp;{
-                extIndex !== -1
-                  ? `(#${formatNumber(extIndex)})`
-                  : ''
-              }
-            </h3>
-          </div>
-          <details>
-            <summary>
-              {
-                event.meta && event.meta.documentation
-                  ? event.meta.documentation.join(' ')
-                  : 'Details'
-              }
-            </summary>
-            <EventDisplay
-              className='details'
-              value={event}
-            />
-          </details>
-        </article>
-      </div>
+        <div className='header'>
+          <h3>
+            {event.section}.{event.method}&nbsp;{
+              extIndex !== -1
+                ? `(#${formatNumber(extIndex)})`
+                : ''
+            }
+          </h3>
+        </div>
+        <details>
+          <summary>
+            {
+              event.meta && event.meta.documentation
+                ? event.meta.documentation.join(' ')
+                : 'Details'
+            }
+          </summary>
+          <EventDisplay
+            className='details'
+            value={event}
+          />
+        </details>
+      </article>
     );
   }
 }

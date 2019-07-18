@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -13,25 +14,25 @@ import Query from '../Query';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 
-type Props = BareProps & {
-  chain_bestNumber?: BlockNumber,
+interface Props extends BareProps {
+  chain_bestNumber?: BlockNumber;
   match: {
     params: {
-      value: string
-    }
-  }
-};
+      value: string;
+    };
+  };
+}
 
-type State = {
-  value?: string
-};
+interface State {
+  value?: string;
+}
 
 class Entry extends React.Component<Props, State> {
-  state: State = {
+  public state: State = {
     value: undefined
   };
 
-  static getDerivedStateFromProps ({ chain_bestNumber, match: { params } }: Props): State {
+  public static getDerivedStateFromProps ({ chain_bestNumber, match: { params } }: Props): State {
     let { value } = params;
     if ((!value || !value.length) && chain_bestNumber) {
       value = chain_bestNumber.toString();
@@ -39,15 +40,14 @@ class Entry extends React.Component<Props, State> {
 
     return {
       value
-    } as State;
+    };
   }
 
-  shouldComponentUpdate (nextProps: Props) {
-    return this.props.match !== nextProps.match ||
-      !this.state.value;
+  public shouldComponentUpdate (nextProps: Props): boolean {
+    return this.props.match !== nextProps.match || !this.state.value;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { value } = this.state;
 
     if (!value) {

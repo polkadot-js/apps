@@ -10,13 +10,13 @@ import styled from 'styled-components';
 
 import Icon from './Icon';
 
-type Props = BareProps & {
-  md: string
-};
+interface Props extends BareProps {
+  md: string;
+}
 
-type State = {
-  isVisible: boolean
-};
+interface State {
+  isVisible: boolean;
+}
 
 const Wrapper = styled.div`
   .help-button {
@@ -40,8 +40,8 @@ const Wrapper = styled.div`
     position: fixed;
     right: -50rem;
     top: 0;
+    transition-duration: .5s;
     transition-property: all;
-	  transition-duration: .5s;
     z-index: 10;
 
     .help-button {
@@ -59,9 +59,9 @@ const Wrapper = styled.div`
 `;
 
 export default class HelpOverlay extends React.PureComponent<Props, State> {
-  state: State = { isVisible: false };
+  public state: State = { isVisible: false };
 
-  render () {
+  public render (): React.ReactNode {
     const { md } = this.props;
     const { isVisible } = this.state;
 
@@ -80,7 +80,7 @@ export default class HelpOverlay extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButton (name: 'close' | 'help circle') {
+  private renderButton (name: 'close' | 'help circle'): React.ReactNode {
     return (
       <div className='help-button'>
         <Icon
@@ -91,8 +91,8 @@ export default class HelpOverlay extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleVisible = () => {
-    this.setState(({ isVisible }) => ({
+  private toggleVisible = (): void => {
+    this.setState(({ isVisible }): State => ({
       isVisible: !isVisible
     }));
   }

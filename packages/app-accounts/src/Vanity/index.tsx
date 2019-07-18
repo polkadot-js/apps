@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { Generator$Matches, Generator$Result } from '../vanitygen/types';
+import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '../vanitygen/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
@@ -21,19 +21,20 @@ import translate from './translate';
 
 type Props = ComponentProps & I18nProps;
 
-type State = {
-  createSeed: string | null,
-  elapsed: number,
-  isMatchValid: boolean,
-  isRunning: boolean,
-  keyCount: 0,
-  keyTime: 0,
-  match: string,
-  matches: Generator$Matches,
-  startAt: number,
-  type: KeypairType,
-  withCase: boolean
-};
+interface State {
+  createSeed: string | null;
+  elapsed: number;
+  isMatchValid: boolean;
+  isRunning: boolean;
+  keyCount: 0;
+  keyTime: 0;
+  match: string;
+  matches: GeneratorMatches;
+  startAt: number;
+  type: KeypairType;
+  withCase: boolean;
+  withHex: boolean;
+}
 
 const DEFAULT_MATCH = 'Some';
 const BOOL_OPTIONS = [
@@ -41,21 +42,10 @@ const BOOL_OPTIONS = [
   { text: 'Yes', value: true }
 ];
 
-const Wrapper = styled.div`
-  .vanity--App-matches {
-    padding: 1em 0;
-  }
-
-  .vanity--App-stats {
-    padding: 1em 0 0 0;
-    opacity: 0.45;
-    text-align: center;
-  }
-`;
-
 class VanityApp extends TxComponent<Props, State> {
-  results: Array<Generator$Result> = [];
-  state: State = {
+  private results: GeneratorResult[] = [];
+
+  public state: State = {
     createSeed: null,
     elapsed: 0,
     isMatchValid: true,
@@ -66,21 +56,22 @@ class VanityApp extends TxComponent<Props, State> {
     matches: [],
     startAt: 0,
     type: 'ed25519',
-    withCase: true
+    withCase: true,
+    withHex: true
   };
 
   private _isActive: boolean = false;
 
-  componentWillUnmount () {
+  public componentWillUnmount (): void {
     this._isActive = false;
   }
 
-  render () {
-    const { onStatusChange } = this.props;
+  public render (): React.ReactNode {
+    const { className, onStatusChange } = this.props;
     const { createSeed, type } = this.state;
 
     return (
-      <Wrapper>
+      <div className={className}>
         {this.renderOptions()}
         {this.renderButtons()}
         {this.renderStats()}
@@ -93,11 +84,11 @@ class VanityApp extends TxComponent<Props, State> {
             type={type}
           />
         )}
-      </Wrapper>
+      </div>
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isMatchValid, isRunning } = this.state;
 
@@ -118,12 +109,12 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderMatches () {
+  private renderMatches (): React.ReactNode {
     const { matches } = this.state;
 
     return (
       <div className='vanity--App-matches'>
-        {matches.map((match) => (
+        {matches.map((match): React.ReactNode => (
           <Match
             {...match}
             key={match.address}
@@ -135,7 +126,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderOptions () {
+  private renderOptions (): React.ReactNode {
     const { t } = this.props;
     const { isMatchValid, isRunning, match, type, withCase } = this.state;
 
@@ -177,7 +168,7 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private renderStats () {
+  private renderStats (): React.ReactNode {
     const { t } = this.props;
     const { elapsed, keyCount } = this.state;
 
@@ -210,11 +201,11 @@ class VanityApp extends TxComponent<Props, State> {
     }
 
     this.setState(
-      ({ keyCount, keyTime, matches, startAt }: State) => {
+      ({ keyCount, keyTime, matches, startAt }: State): Pick<State, never> => {
         let newKeyCount = keyCount;
         let newKeyTime = keyTime;
         const newMatches = results
-          .reduce((result, { elapsed, found }) => {
+          .reduce((result, { elapsed, found }): GeneratorMatch[] => {
             newKeyCount += found.length;
             newKeyTime += elapsed;
 
@@ -241,20 +232,21 @@ class VanityApp extends TxComponent<Props, State> {
       return;
     }
 
-    setTimeout(() => {
+    setTimeout((): void => {
       if (this._isActive) {
         if (this.results.length === 25) {
           this.checkMatches();
         }
 
-        const { match, type, withCase } = this.state;
+        const { match, type, withCase, withHex } = this.state;
 
         this.results.push(
           generator({
             match,
             runs: 10,
             type,
-            withCase
+            withCase,
+            withHex
           })
         );
 
@@ -263,7 +255,7 @@ class VanityApp extends TxComponent<Props, State> {
     }, 0);
   }
 
-  private onCreateToggle = (createSeed: string) => {
+  private onCreateToggle = (createSeed: string): void => {
     this.setState({ createSeed });
   }
 
@@ -282,13 +274,13 @@ class VanityApp extends TxComponent<Props, State> {
   }
 
   private onChangeType = (type: KeypairType): void => {
-    this.setState({ type } as State);
+    this.setState({ type });
   }
 
   private onRemove = (address: string): void => {
     this.setState(
-      ({ matches }: State) => ({
-        matches: matches.filter((item) =>
+      ({ matches }: State): Pick<State, never> => ({
+        matches: matches.filter((item): boolean =>
           item.address !== address
         )
       })
@@ -297,7 +289,7 @@ class VanityApp extends TxComponent<Props, State> {
 
   private toggleStart = (): void => {
     this.setState(
-      ({ isRunning, keyCount, keyTime, startAt }: State) => {
+      ({ isRunning, keyCount, keyTime, startAt }: State): Pick<State, never> => {
         this._isActive = !isRunning;
 
         return {
@@ -311,9 +303,19 @@ class VanityApp extends TxComponent<Props, State> {
     );
   }
 
-  private closeCreate = () => {
+  private closeCreate = (): void => {
     this.setState({ createSeed: null });
   }
 }
 
-export default translate(VanityApp);
+export default translate(styled(VanityApp)`
+  .vanity--App-matches {
+    padding: 1em 0;
+  }
+
+  .vanity--App-stats {
+    padding: 1em 0 0 0;
+    opacity: 0.45;
+    text-align: center;
+  }
+`);

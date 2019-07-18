@@ -17,12 +17,12 @@ import General from './General';
 
 type Props = AppProps & I18nProps;
 
-type State = {
-  tabs: Array<TabItem>
-};
+interface State {
+  tabs: TabItem[];
+}
 
 class App extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;
@@ -30,6 +30,7 @@ class App extends React.PureComponent<Props, State> {
     this.state = {
       tabs: [
         {
+          isRoot: true,
           name: 'general',
           text: t('General')
         },
@@ -41,7 +42,7 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { tabs } = this.state;
     const hidden = uiSettings.uiMode === 'full'
@@ -66,10 +67,10 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private DeveloperWithStatus = () => {
+  private DeveloperWithStatus = (): React.ReactNode => {
     return (
       <Developer
-        onStatusChange={() => this.props.onStatusChange}
+        onStatusChange={this.props.onStatusChange}
         {...this.props}
       />
     );

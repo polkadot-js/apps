@@ -15,15 +15,15 @@ import { classes } from './util';
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
 export type Colors = 'auto' | 'autoReverse' | BaseColors;
 
-type Props = BareProps & {
-  color?: Colors,
-  percent?: BN | number,
-  total?: UInt | BN | number,
-  value?: UInt | BN | number
-};
+interface Props extends BareProps {
+  color?: Colors;
+  percent?: BN | number;
+  total?: UInt | BN | number;
+  value?: UInt | BN | number;
+}
 
 export default class Progress extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, color = 'blue', percent, total, style, value } = this.props;
     let calculated: number | undefined;
     const _total = bnToBn(total);

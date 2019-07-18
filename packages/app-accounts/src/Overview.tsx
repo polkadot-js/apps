@@ -14,29 +14,38 @@ import { Button, CardGrid } from '@polkadot/ui-app';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Account from './Account';
+import Banner from './Banner';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
-  accounts?: SubjectInfo[]
+  accounts?: SubjectInfo[];
 };
 
-type State = {
-  isCreateOpen: boolean,
-  isImportOpen: boolean
-};
+interface State {
+  isCreateOpen: boolean;
+  isImportOpen: boolean;
+}
 
 class Overview extends React.PureComponent<Props, State> {
-  state: State = {
-    isCreateOpen: false,
-    isImportOpen: false
-  };
+  public constructor (props: Props) {
+    super(props);
 
-  render () {
-    const { accounts, onStatusChange, t } = this.props;
+    const { state: { isCreateOpen = false } = {} } = this.props.location;
+
+    this.state = {
+      isCreateOpen,
+      isImportOpen: false
+    };
+  }
+
+  public render (): React.ReactNode {
+    const { accounts, t } = this.props;
     const { isCreateOpen, isImportOpen } = this.state;
+    const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);
 
     return (
       <CardGrid
+        banner={<Banner />}
         buttons={
           <Button.Group>
             <Button
@@ -52,20 +61,12 @@ class Overview extends React.PureComponent<Props, State> {
             />
           </Button.Group>
         }
+        isEmpty={emptyScreen}
+        emptyText={t('No account yet?')}
       >
-        {isCreateOpen && (
-          <CreateModal
-            onClose={this.toggleCreate}
-            onStatusChange={onStatusChange}
-          />
-        )}
-        {isImportOpen && (
-          <ImportModal
-            onClose={this.toggleImport}
-            onStatusChange={onStatusChange}
-          />
-        )}
-        {accounts && Object.keys(accounts).map((address) => (
+        {this.renderCreate()}
+        {this.renderImport()}
+        {accounts && Object.keys(accounts).map((address): React.ReactNode => (
           <Account
             address={address}
             key={address}
@@ -75,14 +76,46 @@ class Overview extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderCreate (): React.ReactNode {
+    const { isCreateOpen } = this.state;
+    const { onStatusChange } = this.props;
+
+    if (!isCreateOpen) {
+      return null;
+    }
+
+    return (
+      <CreateModal
+        onClose={this.toggleCreate}
+        onStatusChange={onStatusChange}
+      />
+    );
+  }
+
+  private renderImport (): React.ReactNode {
+    const { isImportOpen } = this.state;
+    const { onStatusChange } = this.props;
+
+    if (!isImportOpen) {
+      return null;
+    }
+
+    return (
+      <ImportModal
+        onClose={this.toggleImport}
+        onStatusChange={onStatusChange}
+      />
+    );
+  }
+
   private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }) => ({
+    this.setState(({ isCreateOpen }): Pick<State, never> => ({
       isCreateOpen: !isCreateOpen
     }));
   }
 
   private toggleImport = (): void => {
-    this.setState(({ isImportOpen }) => ({
+    this.setState(({ isImportOpen }): Pick<State, never> => ({
       isImportOpen: !isImportOpen
     }));
   }

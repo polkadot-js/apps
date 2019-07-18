@@ -18,26 +18,26 @@ import { isUndefined } from '@polkadot/util';
 import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
-  defaultValue: MethodFunction,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isPrivate?: boolean,
-  label?: React.ReactNode,
-  onChange: (method?: Method) => void,
-  onEnter: () => void,
-  withLabel?: boolean
+  defaultValue: MethodFunction;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isPrivate?: boolean;
+  label?: React.ReactNode;
+  onChange: (method?: Method) => void;
+  onEnter: () => void;
+  withLabel?: boolean;
 };
 
-type State = {
-  methodfn: MethodFunction,
-  params: Array<{ name: string, type: TypeDef }>,
-  values: Array<RawParam>
-};
+interface State {
+  methodfn: MethodFunction;
+  params: { name: string; type: TypeDef }[];
+  values: RawParam[];
+}
 
 class ExtrinsicDisplay extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -47,9 +47,9 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { defaultValue, isDisabled, isError, isPrivate, label, onEnter, withLabel } = this.props;
-    const { methodfn: { method, section }, params } = this.state;
+    const { methodfn: { method, section, meta }, params } = this.state;
 
     return (
       <div className='extrinsics--Extrinsic'>
@@ -61,6 +61,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
           label={label}
           onChange={this.onChangeMethod}
           withLabel={withLabel}
+          help={meta && meta.documentation && meta.documentation.join(' ')}
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
@@ -73,12 +74,12 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
-    this.setState(newState, () => {
+  private nextState (newState: Pick< State, never>): void {
+    this.setState(newState, (): void => {
       const { onChange } = this.props;
       const { methodfn, params, values } = this.state;
 
-      const isValid = values.reduce((isValid, value) =>
+      const isValid = values.reduce((isValid, value): boolean =>
         isValid &&
         !isUndefined(value) &&
         !isUndefined(value.value) &&
@@ -90,9 +91,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
       if (isValid) {
         try {
           method = methodfn(
-            ...values.map(({ value }) =>
-              value
-            )
+            ...values.map(({ value }): any => value)
           );
         } catch (error) {
           // swallow
@@ -111,12 +110,12 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     });
   }
 
-  private onChangeValues = (values: Array<RawParam>): void => {
-    this.nextState({ values } as State);
+  private onChangeValues = (values: RawParam[]): void => {
+    this.nextState({ values });
   }
 
-  private getParams (methodfn: MethodFunction): Array<{ name: string, type: TypeDef }> {
-    return Method.filterOrigin(methodfn.meta).map((arg) => ({
+  private getParams (methodfn: MethodFunction): { name: string; type: TypeDef }[] {
+    return Method.filterOrigin(methodfn.meta).map((arg): { name: string; type: TypeDef } => ({
       name: arg.name.toString(),
       type: getTypeDef(arg.type)
     }));

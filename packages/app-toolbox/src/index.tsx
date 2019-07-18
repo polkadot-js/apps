@@ -18,15 +18,15 @@ import Verify from './Verify';
 import translate from './translate';
 
 type Props = AppProps & I18nProps & {
-  allAccounts?: SubjectInfo
+  allAccounts?: SubjectInfo;
 };
 
-type State = {
-  tabs: Array<TabItem>
-};
+interface State {
+  tabs: TabItem[];
+}
 
 class ToolboxApp extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = this.props;
@@ -34,6 +34,7 @@ class ToolboxApp extends React.PureComponent<Props, State> {
     this.state = {
       tabs: [
         {
+          isRoot: true,
           name: 'rpc',
           text: t('RPC calls')
         },
@@ -52,15 +53,14 @@ class ToolboxApp extends React.PureComponent<Props, State> {
       ]
     };
   }
-  render () {
+
+  public render (): React.ReactNode {
     const { allAccounts, basePath } = this.props;
     const { tabs } = this.state;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
     const filteredTabs = hasAccounts
       ? tabs
-      : tabs.filter(({ name }) =>
-        !['sign', 'verify'].includes(name)
-      );
+      : tabs.filter(({ name }): boolean => !['sign', 'verify'].includes(name));
 
     return (
       <main className='toolbox--App'>

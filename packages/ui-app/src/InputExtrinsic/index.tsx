@@ -20,41 +20,41 @@ import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
-  defaultValue: MethodFunction,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isPrivate?: boolean,
-  label: React.ReactNode,
-  onChange: (value: MethodFunction) => void,
-  withLabel?: boolean
+  defaultValue: MethodFunction;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isPrivate?: boolean;
+  label: React.ReactNode;
+  onChange: (value: MethodFunction) => void;
+  withLabel?: boolean;
 };
 
-type State = {
-  optionsMethod: DropdownOptions,
-  optionsSection: DropdownOptions,
-  value: MethodFunction
-};
+interface State {
+  optionsMethod?: DropdownOptions;
+  optionsSection?: DropdownOptions;
+  value: MethodFunction;
+}
 
 class InputExtrinsic extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
       value: this.props.defaultValue
-    } as State;
+    };
   }
 
-  static getDerivedStateFromProps ({ api }: Props, { value }: State): State | null {
+  public static getDerivedStateFromProps ({ api }: Props, { value }: State): Pick<State, never> {
     return {
       optionsMethod: methodOptions(api, value.section),
       optionsSection: sectionOptions(api)
-    } as State;
+    };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { api, className, help, label, style, withLabel } = this.props;
     const { optionsMethod, optionsSection, value } = this.state;
 
@@ -72,14 +72,14 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
             <SelectSection
               className='small'
               onChange={this.onSectionChange}
-              options={optionsSection}
+              options={optionsSection || []}
               value={value}
             />
             <SelectMethod
               api={api}
               className='large'
               onChange={this.onKeyChange}
-              options={optionsMethod}
+              options={optionsMethod || []}
               value={value}
             />
           </div>
@@ -88,7 +88,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     );
   }
 
-  onKeyChange = (newValue: MethodFunction): void => {
+  private onKeyChange = (newValue: MethodFunction): void => {
     const { onChange } = this.props;
     const { value } = this.state;
 
@@ -96,12 +96,12 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState({ value: newValue }, () =>
+    this.setState({ value: newValue }, (): void =>
       onChange(newValue)
     );
   }
 
-  onSectionChange = (newSection: string): void => {
+  private onSectionChange = (newSection: string): void => {
     const { api } = this.props;
     const { value } = this.state;
 
@@ -112,7 +112,7 @@ class InputExtrinsic extends React.PureComponent<Props, State> {
     const optionsMethod = methodOptions(api, newSection);
     const fn = api.tx[newSection][optionsMethod[0].value];
 
-    this.setState({ optionsMethod }, () =>
+    this.setState({ optionsMethod }, (): void =>
       this.onKeyChange(fn)
     );
   }

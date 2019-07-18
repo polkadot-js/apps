@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -16,21 +17,21 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 import { ZERO_BALANCE } from './constants';
 
-type Props = I18nProps & {
-  amount: BN | Compact,
-  fees: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
-  recipientId: string,
-  onChange: (fees: ExtraFees) => void
-};
+interface Props extends I18nProps {
+  amount: BN | Compact;
+  fees: DerivedFees;
+  balances_all?: DerivedBalances;
+  recipientId: string;
+  onChange: (fees: ExtraFees) => void;
+}
 
-type State = ExtraFees & {
-  isCreation: boolean,
-  isNoEffect: boolean
-};
+interface State extends ExtraFees {
+  isCreation: boolean;
+  isNoEffect: boolean;
+}
 
 export class Transfer extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false,
@@ -38,16 +39,16 @@ export class Transfer extends React.PureComponent<Props, State> {
     isNoEffect: false
   };
 
-  static getDerivedStateFromProps ({ amount, balances_votingBalance = ZERO_BALANCE, fees, onChange }: Props): State {
+  public static getDerivedStateFromProps ({ amount, balances_all = ZERO_BALANCE, fees, onChange }: Props): State {
     let extraFees = new BN(fees.transferFee);
 
-    if (balances_votingBalance.votingBalance.isZero()) {
+    if (balances_all.votingBalance.isZero()) {
       extraFees = extraFees.add(fees.creationFee);
     }
 
     const extraAmount = amount instanceof Compact ? amount.toBn() : new BN(amount);
-    const isCreation = balances_votingBalance.votingBalance.isZero() && fees.creationFee.gtn(0);
-    const isNoEffect = extraAmount.add(balances_votingBalance.votingBalance).lte(fees.existentialDeposit);
+    const isCreation = balances_all.votingBalance.isZero() && fees.creationFee.gtn(0);
+    const isNoEffect = extraAmount.add(balances_all.votingBalance).lte(fees.existentialDeposit);
     const extraWarn = isCreation || isNoEffect;
     const update = {
       extraAmount,
@@ -64,7 +65,7 @@ export class Transfer extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { fees, t } = this.props;
     const { isCreation, isNoEffect } = this.state;
 
@@ -72,7 +73,18 @@ export class Transfer extends React.PureComponent<Props, State> {
       <>
         {
           isNoEffect
-            ? <div><Icon name='warning sign' />{t('The final recipient balance is less than the existential amount and will not be reflected')}</div>
+            ? (
+              <div>
+                <Icon name='warning sign' />
+                {t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected',
+                  {
+                    replace: {
+                      existentialDeposit: formatBalance(fees.existentialDeposit)
+                    }
+                  }
+                )}
+              </div>
+            )
             : undefined
         }
         {
@@ -93,6 +105,6 @@ export default withMulti(
   Transfer,
   translate,
   withCalls<Props>(
-    ['derive.balances.votingBalance', { paramName: 'recipientId' }]
+    ['derive.balances.all', { paramName: 'recipientId' }]
   )
 );

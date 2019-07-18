@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -8,41 +9,36 @@ import React from 'react';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
+import { Column } from '@polkadot/ui-app';
 
 import Referendum from './Referendum';
 import translate from '../translate';
 
-type Props = I18nProps & {
-  democracy_referendums?: Array<Option<ReferendumInfoExtended>>
-};
+interface Props extends I18nProps {
+  democracy_referendums?: Option<ReferendumInfoExtended>[];
+}
 
 class Referendums extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (
-      <section className='democracy--Referendums'>
-        <h1>{t('referendum')}</h1>
+      <Column
+        emptyText={t('No available referendums')}
+        headerText={t('referendum')}
+      >
         {this.renderReferendums()}
-      </section>
+      </Column>
     );
   }
 
-  private renderReferendums () {
-    const { democracy_referendums = [], t } = this.props;
+  private renderReferendums (): React.ReactNode {
+    const { democracy_referendums = [] } = this.props;
     const referendums = democracy_referendums
-      .filter((opt) => opt.isSome)
-      .map((opt) => opt.unwrap());
+      .filter((opt): boolean => opt.isSome)
+      .map((opt): ReferendumInfoExtended => opt.unwrap());
 
-    if (!referendums.length) {
-      return (
-        <div className='ui disabled'>
-          {t('no available referendum')}
-        </div>
-      );
-    }
-
-    return referendums.map((referendum) => (
+    return referendums.map((referendum): React.ReactNode => (
       <Referendum
         idNumber={referendum.index}
         key={referendum.index.toString()}

@@ -5,23 +5,24 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Button, FilterOverlay, Input, TxComponent } from '@polkadot/ui-app';
 import { isHex } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  value?: string
-};
+interface Props extends I18nProps {
+  value?: string;
+}
 
-type State = {
-  value: string
-  isNumber: boolean,
-  isValid: boolean
-};
+interface State {
+  value: string;
+  isNumber: boolean;
+  isValid: boolean;
+}
 
 class Query extends TxComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { value } = this.props;
@@ -29,12 +30,12 @@ class Query extends TxComponent<Props, State> {
     this.state = this.stateFromValue(value || '');
   }
 
-  render () {
-    const { t } = this.props;
+  public render (): React.ReactNode {
+    const { className, t } = this.props;
     const { value, isValid } = this.state;
 
     return (
-      <FilterOverlay>
+      <FilterOverlay className={className}>
         <Input
           className='explorer--query'
           defaultValue={this.props.value}
@@ -55,7 +56,7 @@ class Query extends TxComponent<Props, State> {
     );
   }
 
-  private setHash = (value: string) => {
+  private setHash = (value: string): void => {
     this.setState(
       this.stateFromValue(value)
     );
@@ -81,4 +82,8 @@ class Query extends TxComponent<Props, State> {
   }
 }
 
-export default translate(Query);
+export default translate(styled(Query)`
+  .explorer--query {
+    width: 20em;
+  }
+`);

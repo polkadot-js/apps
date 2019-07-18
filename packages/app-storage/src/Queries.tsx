@@ -9,13 +9,13 @@ import React from 'react';
 
 import Query from './Query';
 
-type Props = BareProps & {
-  onRemove: (id: number) => void,
-  value?: Array<QueryTypes>
-};
+interface Props extends BareProps {
+  onRemove: (id: number) => void;
+  value?: QueryTypes[];
+}
 
 export default class Queries extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { onRemove, value } = this.props;
 
     if (!value || !value.length) {
@@ -24,7 +24,7 @@ export default class Queries extends React.PureComponent<Props> {
 
     return (
       <section className='storage--Queries'>
-        {value.map((query) =>
+        {value.map((query): React.ReactNode =>
           <Query
             key={query.id}
             onRemove={onRemove}

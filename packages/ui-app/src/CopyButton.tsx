@@ -13,19 +13,19 @@ import Button from './Button';
 import translate from './translate';
 import styled from 'styled-components';
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  icon?: string,
-  isAddress?: boolean,
-  value?: any
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  icon?: string;
+  isAddress?: boolean;
+  value?: any;
+}
 
 type InnerProps = Props & I18nProps & {
-  queueAction: QueueAction$Add
+  queueAction: QueueAction$Add;
 };
 
 class CopyButtonInner extends React.PureComponent<InnerProps> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, icon = 'copy', value } = this.props;
 
     return (
@@ -36,12 +36,14 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
         >
           <div>
             {children}
-            <Button
-              className='iconButton'
-              icon={icon}
-              size='mini'
-              isPrimary
-            />
+            <span className='copySpan'>
+              <Button
+                className='iconButton'
+                icon={icon}
+                size='mini'
+                isPrimary
+              />
+            </span>
           </div>
         </CopyToClipboard>
       </div>
@@ -65,10 +67,10 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
 const CopyButtonI18n = translate(CopyButtonInner);
 
 class CopyButton extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <QueueConsumer>
-        {({ queueAction }) => (
+        {({ queueAction }): React.ReactNode => (
           <CopyButtonI18n
             {...this.props}
             queueAction={queueAction}
@@ -84,5 +86,9 @@ export default styled(CopyButton)`
 
   button.ui.mini.icon.primary.button.iconButton {
     cursor: copy;
+  }
+
+  .copySpan {
+    white-space: nowrap;
   }
 `;

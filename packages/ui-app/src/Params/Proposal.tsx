@@ -14,20 +14,13 @@ import ExtrinsicDisplay from './Extrinsic';
 type Props = ApiProps & BaseProps;
 
 class ProposalDisplay extends React.PureComponent<Props> {
-  render () {
-    const { apiDefaultTx, api, className, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
-    const defaultValue = (() => {
-      try {
-        return api.tx.consensus.setCode;
-      } catch (error) {
-        return apiDefaultTx;
-      }
-    })();
+  public render (): React.ReactNode {
+    const { apiDefaultTxSudo, className, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
 
     return (
       <ExtrinsicDisplay
         className={className}
-        defaultValue={defaultValue}
+        defaultValue={apiDefaultTxSudo}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate
@@ -40,7 +33,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
     );
   }
 
-  private onChange = ({ isValid, value }: RawParam) => {
+  private onChange = ({ isValid, value }: RawParam): void => {
     const { onChange } = this.props;
     let proposal = null;
 

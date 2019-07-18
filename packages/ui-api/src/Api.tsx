@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { QueueTx$ExtrinsicAdd, QueueTx$MessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { QueueTxExtrinsicAdd, QueueTxMessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
 
 import React from 'react';
@@ -13,33 +14,42 @@ import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
+import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
-import { ChainProperties } from '@polkadot/types';
+import { ChainProperties, Text } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
 
 let api: ApiPromise;
 
-type Props = {
-  children: React.ReactNode,
-  queueExtrinsic: QueueTx$ExtrinsicAdd,
-  queueSetTxStatus: QueueTx$MessageSetStatus,
-  url?: string
-};
+interface Props {
+  children: React.ReactNode;
+  queueExtrinsic: QueueTxExtrinsicAdd;
+  queueSetTxStatus: QueueTxMessageSetStatus;
+  url?: string;
+}
 
-type State = ApiProps & {
-  chain?: string
-};
+interface State extends ApiProps {
+  chain?: string | null;
+}
+
+interface InjectedAccountExt {
+  address: string;
+  meta: {
+    name: string;
+    source: string;
+  };
+}
 
 export { api };
 
 const injectedPromise = web3Enable('polkadot-js/apps');
 
 export default class Api extends React.PureComponent<Props, State> {
-  state: State = {} as State;
+  public state: State = {} as unknown as State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { queueExtrinsic, queueSetTxStatus, url } = props;
@@ -49,7 +59,7 @@ export default class Api extends React.PureComponent<Props, State> {
     const setApi = (provider: ProviderInterface): void => {
       api = new ApiPromise({ provider, signer });
 
-      this.setState({ api }, () => {
+      this.setState({ api }, (): void => {
         this.subscribeEvents();
       });
     };
@@ -59,34 +69,35 @@ export default class Api extends React.PureComponent<Props, State> {
     api = new ApiPromise({ provider, signer });
 
     this.state = {
+      api,
       isApiConnected: false,
       isApiReady: false,
+      isSubstrateV2: true,
       isWaitingInjected: isWeb3Injected,
-      api,
       setApiUrl
-    } as State;
+    } as unknown as State;
   }
 
-  componentDidMount () {
+  public componentDidMount (): void {
     this.subscribeEvents();
 
     injectedPromise
-      .then(() => this.setState({ isWaitingInjected: false }))
+      .then((): void => this.setState({ isWaitingInjected: false }))
       .catch(console.error);
   }
 
-  private subscribeEvents () {
+  private subscribeEvents (): void {
     const { api } = this.state;
 
-    api.on('connected', () => {
+    api.on('connected', (): void => {
       this.setState({ isApiConnected: true });
     });
 
-    api.on('disconnected', () => {
+    api.on('disconnected', (): void => {
       this.setState({ isApiConnected: false });
     });
 
-    api.on('ready', async () => {
+    api.on('ready', async (): Promise<void> => {
       try {
         await this.loadOnReady(api);
       } catch (error) {
@@ -95,19 +106,20 @@ export default class Api extends React.PureComponent<Props, State> {
     });
   }
 
-  private async loadOnReady (api: ApiPromise) {
+  private async loadOnReady (api: ApiPromise): Promise<void> {
     const [properties = new ChainProperties(), value] = await Promise.all([
-      api.rpc.system.properties() as Promise<ChainProperties | undefined>,
-      api.rpc.system.chain() as Promise<any>
+      api.rpc.system.properties<ChainProperties>(),
+      api.rpc.system.chain<Text>()
     ]);
-    const section = Object.keys(api.tx)[0];
-    const method = Object.keys(api.tx[section])[0];
+    const addressPrefix = uiSettings.prefix === -1
+      ? properties.get('networkId')
+      : uiSettings.prefix as Prefix;
     const chain = value
       ? value.toString()
       : null;
     const isDevelopment = isTestChain(chain);
-    const injectedAccounts = await web3Accounts().then((accounts) =>
-      accounts.map(({ address, meta }) => ({
+    const injectedAccounts = await web3Accounts().then((accounts): InjectedAccountExt[] =>
+      accounts.map(({ address, meta }): InjectedAccountExt => ({
         address,
         meta: {
           ...meta,
@@ -127,31 +139,45 @@ export default class Api extends React.PureComponent<Props, State> {
 
     // finally load the keyring
     keyring.loadAll({
-      addressPrefix: properties.get('networkId'),
+      addressPrefix,
+      genesisHash: api.genesisHash,
       isDevelopment,
       type: 'ed25519'
     }, injectedAccounts);
 
+    const section = Object.keys(api.tx)[0];
+    const method = Object.keys(api.tx[section])[0];
+    const apiDefaultTx = api.tx[section][method];
+    const apiDefaultTxSudo =
+      (api.tx.system && api.tx.system.setCode) || // 2.x
+      (api.tx.consensus && api.tx.consensus.setCode) || // 1.x
+      apiDefaultTx; // other
+    const isSubstrateV2 = !!Object.keys(api.consts).length;
+
     this.setState({
-      isApiReady: true,
-      apiDefaultTx: api.tx[section][method],
+      apiDefaultTx,
+      apiDefaultTxSudo,
       chain,
-      isDevelopment
+      isApiReady: true,
+      isDevelopment,
+      isSubstrateV2
     });
   }
 
-  render () {
-    const { api, apiDefaultTx, chain, isApiConnected, isApiReady, isDevelopment, isWaitingInjected, setApiUrl } = this.state;
+  public render (): React.ReactNode {
+    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
         value={{
           api,
           apiDefaultTx,
+          apiDefaultTxSudo,
           currentChain: chain || '<unknown>',
           isApiConnected,
           isApiReady: isApiReady && !!chain,
           isDevelopment,
+          isSubstrateV2,
           isWaitingInjected,
           setApiUrl
         }}

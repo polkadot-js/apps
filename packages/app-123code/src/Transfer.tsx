@@ -8,18 +8,18 @@ import { Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polk
 
 import Summary from './Summary';
 
-type Props = {
-  accountId?: string
-};
-type State = {
+interface Props {
+  accountId?: string;
+}
+interface State {
   amount?: BN;
   recipientId?: string;
-};
+}
 
 export default class Transfer extends TxComponent<Props, State> {
-  state: State = {};
+  public state: State = {};
 
-  render () {
+  public render (): React.ReactNode {
     const { accountId } = this.props;
     const { amount, recipientId } = this.state;
 

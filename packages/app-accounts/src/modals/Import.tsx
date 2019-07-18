@@ -17,16 +17,16 @@ import translate from '../translate';
 
 type Props = ModalProps & I18nProps;
 
-type State = {
-  address: string | null,
-  isFileValid: boolean,
-  isPassValid: boolean,
-  json: KeyringPair$Json | null,
-  password: string
-};
+interface State {
+  address: string | null;
+  isFileValid: boolean;
+  isPassValid: boolean;
+  json: KeyringPair$Json | null;
+  password: string;
+}
 
 class Import extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     address: null,
     isFileValid: false,
     isPassValid: false,
@@ -34,7 +34,7 @@ class Import extends TxComponent<Props, State> {
     password: ''
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { onClose, t } = this.props;
     const { isFileValid, isPassValid } = this.state;
 
@@ -43,7 +43,7 @@ class Import extends TxComponent<Props, State> {
         dimmer='inverted'
         open
       >
-        <Modal.Header>{t('Add an account via seed')}</Modal.Header>
+        <Modal.Header>{t('Add via backup file')}</Modal.Header>
         {this.renderInput()}
         <Modal.Actions>
           <Button.Group>
@@ -65,7 +65,7 @@ class Import extends TxComponent<Props, State> {
     );
   }
 
-  private renderInput () {
+  private renderInput (): React.ReactNode {
     const { t } = this.props;
     const { address, isFileValid, isPassValid, json, password } = this.state;
     const acceptedFormats = ['application/json', 'text/plain'].join(', ');
@@ -141,16 +141,17 @@ class Import extends TxComponent<Props, State> {
       return;
     }
 
-    const status = { action: 'restore' } as ActionStatus;
+    const status: Partial<ActionStatus> = { action: 'restore' };
 
     try {
       const pair = keyring.restoreAccount(json, password);
+      const { address } = pair;
 
       status.status = pair ? 'success' : 'error';
-      status.account = pair.address();
+      status.account = address;
       status.message = t('account restored');
 
-      InputAddress.setLastValue('account', pair.address());
+      InputAddress.setLastValue('account', address);
     } catch (error) {
       this.setState({ isPassValid: false });
 
@@ -159,7 +160,7 @@ class Import extends TxComponent<Props, State> {
       console.error(error);
     }
 
-    onStatusChange(status);
+    onStatusChange(status as ActionStatus);
 
     if (status.status !== 'error') {
       onClose();

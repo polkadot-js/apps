@@ -4,9 +4,8 @@
 
 import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
 
-import '../index.css';
-
 import React from 'react';
+import { Columar } from '@polkadot/ui-app';
 
 import Proposals from './Proposals';
 import Referendums from './Referendums';
@@ -15,12 +14,14 @@ import Summary from './Summary';
 type Props = AppProps & BareProps & I18nProps;
 
 export default class Overview extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <>
         <Summary />
-        <Referendums />
-        <Proposals />
+        <Columar>
+          <Referendums />
+          <Proposals />
+        </Columar>
       </>
     );
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -16,22 +17,22 @@ import { QueueConsumer } from './Status/Context';
 import translate from './translate';
 
 type CopyProps = IdentityProps & I18nProps & {
-  queueAction?: QueueAction$Add
+  queueAction?: QueueAction$Add;
 };
 
 type IconProps = ApiProps & IdentityProps & {
-  session_validators?: Array<AccountId>,
-  staking_bonded?: Option<AccountId>
+  session_validators?: AccountId[];
+  staking_bonded?: Option<AccountId>;
 };
 
 type Props = IconProps & IdentityProps;
 
-type State = {
-  isValidator: boolean
-};
+interface State {
+  isValidator: boolean;
+}
 
 class CopyIcon extends React.PureComponent<CopyProps> {
-  render () {
+  public render (): React.ReactNode {
     return (
       <BaseIdentityIcon
         {...this.props}
@@ -61,18 +62,18 @@ class CopyIcon extends React.PureComponent<CopyProps> {
 const CopyIconI18N = translate(CopyIcon);
 
 class IdentityIcon extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValidator: false
   };
 
-  static getDerivedStateFromProps ({ session_validators = [], staking_bonded, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ session_validators = [], staking_bonded, value }: Props, prevState: State): State | null {
     const address = value
       ? value.toString()
       : null;
     const bonded = staking_bonded && staking_bonded.isSome
       ? staking_bonded.unwrap().toString()
       : null;
-    const isValidator = !!session_validators.find((validator) =>
+    const isValidator = !!session_validators.find((validator): boolean =>
       [address, bonded].includes(validator.toString())
     );
 
@@ -81,12 +82,12 @@ class IdentityIcon extends React.PureComponent<Props, State> {
       : null;
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { isValidator } = this.state;
 
     return (
       <QueueConsumer>
-        {({ queueAction }) =>
+        {({ queueAction }): React.ReactNode =>
           <CopyIconI18N
             isHighlight={isValidator}
             {...this.props}

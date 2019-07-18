@@ -13,7 +13,7 @@ import translate from './translate';
 type Props = AppProps & I18nProps;
 
 class ExtrinsicsApp extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { basePath, t } = this.props;
 
     return (
@@ -22,6 +22,7 @@ class ExtrinsicsApp extends React.PureComponent<Props> {
           <Tabs
             basePath={basePath}
             items={[{
+              isRoot: true,
               name: 'create',
               text: t('Extrinsic submission')
             }]}

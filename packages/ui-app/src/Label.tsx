@@ -8,14 +8,14 @@ import React from 'react';
 
 import LabelHelp from './LabelHelp';
 
-type Props = BareProps & {
-  help?: React.ReactNode,
-  label?: React.ReactNode,
-  withEllipsis?: boolean
-};
+interface Props extends BareProps {
+  help?: React.ReactNode;
+  label?: React.ReactNode;
+  withEllipsis?: boolean;
+}
 
 export default class Label extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, help, label, withEllipsis } = this.props;
 
     return (

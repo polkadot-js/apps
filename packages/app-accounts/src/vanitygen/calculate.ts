@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Generator$Calculation, Generator$Options } from './types';
+import { GeneratorCalculation, GeneratorOptions } from './types';
 
-function calculateAt (atOffset: number, test: Array<string>, address: string): Generator$Calculation {
+const MAX_OFFSET = 5;
+
+function calculateAtOne (atOffset: number, test: string[], address: string): GeneratorCalculation {
   return {
-    count: test.reduce((count, c, index) => {
+    count: test.reduce((count, c, index): number => {
       if (index === count) {
         count += (c === '?' || c === address.charAt(index + atOffset)) ? 1 : 0;
       }
@@ -17,7 +19,26 @@ function calculateAt (atOffset: number, test: Array<string>, address: string): G
   };
 }
 
-export default function calculate (test: Array<string>, _address: string, { atOffset = -1, withCase = false }: Generator$Options): Generator$Calculation {
+function calculateAt (atOffset: number, test: string[][], address: string): GeneratorCalculation {
+  let bestCount = 0;
+  let bestOffset = 1;
+
+  for (let i = 0; i < test.length; i++) {
+    const { count, offset } = calculateAtOne(atOffset, test[i], address);
+
+    if (count > bestCount) {
+      bestCount = count;
+      bestOffset = offset;
+    }
+  }
+
+  return {
+    count: bestCount,
+    offset: bestOffset
+  };
+}
+
+export default function calculate (test: string[][], _address: string, { atOffset = -1, withCase = false }: GeneratorOptions): GeneratorCalculation {
   const address = withCase
     ? _address
     : _address.toLowerCase();
@@ -26,11 +47,10 @@ export default function calculate (test: Array<string>, _address: string, { atOf
     return calculateAt(atOffset, test, address);
   }
 
-  const maxOffset = address.length - test.length - 1;
   let bestCount = 0;
   let bestOffset = 1;
 
-  for (let index = 1; index < maxOffset; index++) {
+  for (let index = 0; index < MAX_OFFSET; index++) {
     const { count, offset } = calculateAt(index, test, address);
 
     if (count > bestCount) {

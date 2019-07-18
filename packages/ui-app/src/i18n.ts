@@ -27,7 +27,7 @@ i18n
       wait: true
     }
   })
-  .then(() => console.log('i18n: success'))
-  .catch((error) => console.log('i18n: failure', error));
+  .then((): void => console.log('i18n: success'))
+  .catch((error): void => console.log('i18n: failure', error));
 
 export default i18n;

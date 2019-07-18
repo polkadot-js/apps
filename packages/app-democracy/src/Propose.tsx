@@ -17,35 +17,27 @@ import { withApi, withMulti } from '@polkadot/ui-api';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & RouteComponentProps & {
-  basePath: string
+  basePath: string;
 };
 
-type State = {
-  accountId?: string,
-  method: Method | null,
-  value: BN,
-  isValid: boolean
-};
+interface State {
+  accountId?: string;
+  method: Method | null;
+  value: BN;
+  isValid: boolean;
+}
 
 class Propose extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     method: null,
     value: new BN(0),
     isValid: false
   };
 
-  render () {
-    const { api, apiDefaultTx, t } = this.props;
+  public render (): React.ReactNode {
+    const { apiDefaultTxSudo, t } = this.props;
     const { isValid, accountId, method, value } = this.state;
     const hasValue = !!value && value.gtn(0);
-
-    const defaultExtrinsic = (() => {
-      try {
-        return api.tx.consensus.setCode;
-      } catch (error) {
-        return apiDefaultTx;
-      }
-    })();
 
     return (
       <section>
@@ -57,7 +49,7 @@ class Propose extends TxComponent<Props, State> {
           onChange={this.onChangeAccount}
         />
         <Extrinsic
-          defaultValue={defaultExtrinsic}
+          defaultValue={apiDefaultTxSudo}
           label={t('propose')}
           onChange={this.onChangeExtrinsic}
           onEnter={this.sendTx}
@@ -88,7 +80,7 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { accountId = prevState.accountId, method = prevState.method, value = prevState.value } = newState;
@@ -105,7 +97,7 @@ class Propose extends TxComponent<Props, State> {
   }
 
   private onChangeAccount = (accountId: string): void => {
-    this.nextState({ accountId } as State);
+    this.nextState({ accountId });
   }
 
   private onChangeExtrinsic = (method: Method): void => {
@@ -113,14 +105,14 @@ class Propose extends TxComponent<Props, State> {
       return;
     }
 
-    this.nextState({ method } as State);
+    this.nextState({ method });
   }
 
   private onChangeValue = (value?: BN): void => {
-    this.nextState({ value } as State);
+    this.nextState({ value });
   }
 
-  private onSubmitProposal = () => {
+  private onSubmitProposal = (): void => {
     const { history, basePath } = this.props;
 
     history.push(basePath);
@@ -130,6 +122,6 @@ class Propose extends TxComponent<Props, State> {
 export default withMulti(
   Propose,
   translate,
-  withApi,
-  withRouter
+  withRouter,
+  withApi
 );

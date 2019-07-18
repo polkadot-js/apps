@@ -37,7 +37,7 @@ h3, h4, h5 {
 
 label {
   box-sizing: border-box;
-  color: rgba(78,78,78,.75);
+  color: rgba(78,78,78,.85);
   display: block;
   font-family: sans-serif;
   font-size: 1rem;
@@ -74,6 +74,7 @@ article {
   box-sizing: border-box;
   margin: 0.25rem;
   padding: 1.25rem 1.5rem;
+  position: relative;
   text-align: left;
 
   &:hover {
@@ -83,7 +84,7 @@ article {
   }
 
   &.padded {
-    padding: 0.75rem 2.5rem;
+    padding: 0.75rem 1rem;
 
     > div {
       margin: 0.25rem;
@@ -107,7 +108,7 @@ article {
   }
 
   &:not(:hover) {
-    .ui.button {
+    .ui.button:not(.disabled) {
       background: #eee !important;
       color: #555 !important;
     }

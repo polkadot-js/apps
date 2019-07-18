@@ -12,15 +12,15 @@ import { HeaderExtended } from '@polkadot/api-derive';
 import { AddressMini, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
 
-type Props = BareProps & {
-  isSummary?: boolean,
-  value?: HeaderExtended,
-  withExplorer?: boolean,
-  withLink?: boolean
-};
+interface Props extends BareProps {
+  isSummary?: boolean;
+  value?: HeaderExtended;
+  withExplorer?: boolean;
+  withLink?: boolean;
+}
 
 export default class BlockHeader extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { isSummary, value, withExplorer, withLink } = this.props;
 
     if (!value) {
@@ -37,8 +37,8 @@ export default class BlockHeader extends React.PureComponent<Props> {
           <div className='header'>
             <div className='number'>{
               withLink
-              ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
-              : textNumber
+                ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
+                : textNumber
             }&nbsp;</div>
             <div className='hash'>{hashHex}</div>
             <div className='author ui--media-small'>{
@@ -62,26 +62,26 @@ export default class BlockHeader extends React.PureComponent<Props> {
     );
   }
 
-  private renderDetails ({ blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended) {
+  private renderDetails ({ blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended): React.ReactNode {
     const parentHex = parentHash.toHex();
 
     return (
       <div className='contains'>
         <div className='info'>
           <label>parentHash</label>
-          <div className='hash'>{
+          <span className='hash'>{
             blockNumber.gtn(1)
               ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
               : parentHex
-          }</div>
+          }</span>
         </div>
         <div className='info'>
           <label>extrinsicsRoot</label>
-          <div className='hash'>{extrinsicsRoot.toHex()}</div>
+          <span className='hash'>{extrinsicsRoot.toHex()}</span>
         </div>
         <div className='info'>
           <label>stateRoot</label>
-          <div className='hash'>{stateRoot.toHex()}</div>
+          <span className='hash'>{stateRoot.toHex()}</span>
         </div>
       </div>
     );

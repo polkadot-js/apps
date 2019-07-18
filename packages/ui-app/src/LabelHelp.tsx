@@ -11,13 +11,13 @@ import Icon from './Icon';
 import { classes } from './util';
 import Tooltip from './Tooltip';
 
-type Props = BareProps & {
-  help: React.ReactNode
-};
+interface Props extends BareProps {
+  help: React.ReactNode;
+}
 
-type State = {
-  tooltipOpen: boolean
-};
+interface State {
+  tooltipOpen: boolean;
+}
 
 const Wrapper = styled.div`
   cursor: help;
@@ -27,11 +27,11 @@ const Wrapper = styled.div`
 `;
 
 export default class LabelHelp extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     tooltipOpen: false
   };
 
-  render () {
+  public render (): React.ReactNode {
     const { className, help, style } = this.props;
     const { tooltipOpen } = this.state;
 
@@ -57,8 +57,8 @@ export default class LabelHelp extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleTooltip = () => {
-    this.setState(({ tooltipOpen }) => ({
+  private toggleTooltip = (): void => {
+    this.setState(({ tooltipOpen }): Pick<State, never> => ({
       tooltipOpen: !tooltipOpen
     }));
   }

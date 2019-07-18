@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/ui-api/types';
-import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
@@ -11,7 +12,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Index } from '@polkadot/types';
-import { Button, InputAddress, InputBalance, Modal, TxButton, media } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import { Available } from '@polkadot/ui-reactive';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
@@ -20,56 +21,29 @@ import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
-  balances_fees?: DerivedFees,
-  balances_votingBalance?: DerivedBalances,
-  onClose: () => void,
-  recipientId?: string,
-  senderId?: string,
-  system_accountNonce?: BN
+  balances_fees?: DerivedFees;
+  className?: string;
+  onClose: () => void;
+  recipientId?: string;
+  senderId?: string;
+  system_accountNonce?: BN;
 };
 
-type State = {
-  amount: BN,
-  extrinsic: SubmittableExtrinsic | null,
-  hasAvailable: boolean,
-  maxBalance?: BN,
-  recipientId?: string | null,
-  senderId?: string | null
-};
+interface State {
+  amount: BN;
+  extrinsic: SubmittableExtrinsic | null;
+  hasAvailable: boolean;
+  maxBalance?: BN;
+  recipientId?: string | null;
+  senderId?: string | null;
+}
 
 const ZERO = new BN(0);
 
-const Wrapper = styled.div`
-  article.padded {
-    box-shadow: none;
-  }
-
-  .balance {
-    margin-bottom: 0.5rem;
-    text-align: right;
-    padding-right: 1rem;
-
-    .label {
-      opacity: 0.7;
-    }
-  }
-
-  ${media.DESKTOP`
-    article.padded {
-      margin: .75rem 0 0.75rem 15rem;
-      padding: 0.25rem 1rem;
-    }
-  `}
-
-  label.with-help {
-    flex-basis: 10rem;
-  }
-`;
-
 class Transfer extends React.PureComponent<Props> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -82,10 +56,9 @@ class Transfer extends React.PureComponent<Props> {
     };
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
+  public componentDidUpdate (prevProps: Props, prevState: State): void {
     const { balances_fees } = this.props;
     const { extrinsic, recipientId, senderId } = this.state;
-
     const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
 
     if ((recipientId && prevState.recipientId !== recipientId) ||
@@ -96,7 +69,7 @@ class Transfer extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -131,7 +104,7 @@ class Transfer extends React.PureComponent<Props> {
     });
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { onClose, t } = this.props;
     const { extrinsic, hasAvailable, senderId } = this.state;
 
@@ -158,32 +131,32 @@ class Transfer extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent () {
-    const { recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
+  private renderContent (): React.ReactNode {
+    const { className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
     const { extrinsic, hasAvailable, maxBalance, recipientId, senderId } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
 
     return (
       <Modal.Content>
-        <Wrapper>
+        <div className={className}>
           <InputAddress
             defaultValue={propSenderId}
             help={t('The account you will send funds from.')}
             isDisabled={!!propSenderId}
             label={t('send from account')}
+            labelExtra={<Available label={available} params={senderId} />}
             onChange={this.onChangeFrom}
             type='account'
           />
-          <div className='balance'><Available label={available} params={senderId} /></div>
           <InputAddress
             defaultValue={propRecipientId}
             help={t('Select a contact or paste the address you want to send funds to.')}
             isDisabled={!!propRecipientId}
             label={t('send to address')}
+            labelExtra={<Available label={available} params={recipientId} />}
             onChange={this.onChangeTo}
-            type='all'
+            type='allPlus'
           />
-          <div className='balance'><Available label={available} params={recipientId} /></div>
           <InputBalance
             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
             isError={!hasAvailable}
@@ -198,28 +171,28 @@ class Transfer extends React.PureComponent<Props> {
             isSendable
             onChange={this.onChangeFees}
           />
-        </Wrapper>
+        </div>
       </Modal.Content>
     );
   }
 
-  private onChangeAmount = (amount: BN = new BN(0)) => {
+  private onChangeAmount = (amount: BN = new BN(0)): void => {
     this.nextState({ amount });
   }
 
-  private onChangeFrom = (senderId: string) => {
+  private onChangeFrom = (senderId: string): void => {
     this.nextState({ senderId });
   }
 
-  private onChangeTo = (recipientId: string) => {
+  private onChangeTo = (recipientId: string): void => {
     this.nextState({ recipientId });
   }
 
-  private onChangeFees = (hasAvailable: boolean) => {
+  private onChangeFees = (hasAvailable: boolean): void => {
     this.setState({ hasAvailable });
   }
 
-  private setMaxBalance = async () => {
+  private setMaxBalance = async (): Promise<void> => {
     const { api, balances_fees = ZERO_FEES } = this.props;
     const { senderId, recipientId } = this.state;
 
@@ -228,13 +201,9 @@ class Transfer extends React.PureComponent<Props> {
     }
 
     const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
-
-    // FIXME The any casts here are irritating, but they are basically caused by the derive
-    // not really returning an actual `class implements Codec`
-    // (if casting to DerivedBalance it would be `as any as DerivedBalance`)
-    const accountNonce = await api.query.system.accountNonce(senderId) as Index;
-    const senderBalance = (await api.derive.balances.all(senderId) as any).availableBalance;
-    const recipientBalance = (await api.derive.balances.all(recipientId) as any).availableBalance;
+    const accountNonce = await api.query.system.accountNonce<Index>(senderId);
+    const senderBalance = (await api.derive.balances.all(senderId)).availableBalance;
+    const recipientBalance = (await api.derive.balances.all(recipientId)).availableBalance;
 
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
@@ -261,7 +230,26 @@ class Transfer extends React.PureComponent<Props> {
 }
 
 export default withMulti(
-  Transfer,
+  styled(Transfer)`
+    article.padded {
+      box-shadow: none;
+      margin-left: 2rem;
+    }
+
+    .balance {
+      margin-bottom: 0.5rem;
+      text-align: right;
+      padding-right: 1rem;
+
+      .label {
+        opacity: 0.7;
+      }
+    }
+
+    label.with-help {
+      flex-basis: 10rem;
+    }
+  `,
   translate,
   withApi,
   withCalls<Props>(

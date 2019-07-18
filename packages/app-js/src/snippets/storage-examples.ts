@@ -11,13 +11,14 @@ export const storageGetInfo: Snippet = {
   code: `// Get chain state information
 // Make our basic chain state/storage queries, all in one go
 
-const [minimumPeriod, validators, transferFee] = await Promise.all([
-  api.query.timestamp.minimumPeriod(),
-  api.query.session.validators(),
-  api.query.balances.transferFee()
+const [minimumValidatorCount, validators] = await Promise.all([
+  api.query.staking.minimumValidatorCount(),
+  api.query.session.validators()
 ]);
 
-console.log('minimum period between blocks: ' + minimumPeriod);
+const transferFee = api.consts.balances.transferFee;
+
+console.log('The minimum validator count: ' + minimumValidatorCount);
 console.log('transfer fee: ', transferFee);
 
 if (validators && validators.length > 0) {
@@ -82,6 +83,23 @@ api.query.balances.freeBalance(ALICE, (balance) => {
     previous = balance;
     console.log('New transaction of: '+ change);
   }
+});`
+};
+
+export const storageListenToMultipleBalancesChange: Snippet = {
+  value: 'storageListenToMultipleBalancesChange',
+  text: 'Listen to multiple balances changes',
+  label: { color: 'blue', children: 'Storage', size: 'tiny' },
+  code: `// You may leave this example running and make a transfer
+// of any value from or to Alice/Bob address in the 'Transfer' App
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
+
+console.log('Tracking balances for:', [ALICE, BOB])
+
+// Subscribe and listen to several balance changes
+api.query.balances.freeBalance.multi([ALICE, BOB], (balances) => {
+  console.log('Change detected, new balances: ', balances)
 });`
 };
 

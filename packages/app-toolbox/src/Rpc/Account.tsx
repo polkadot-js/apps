@@ -12,26 +12,21 @@ import { Nonce } from '@polkadot/ui-reactive';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  defaultValue?: string | null,
-  isError?: boolean,
-  onChange: (accountId: string | undefined | null, accountNonce: BN) => void
-};
+interface Props extends I18nProps {
+  defaultValue?: string | null;
+  isError?: boolean;
+  onChange: (accountId: string | undefined | null, accountNonce: BN) => void;
+}
 
-type State = {
-  accountNonce: BN,
-  accountId?: string | null
-};
-
-const Wrapper = styled.div`
-  box-sizing: border-box;
-  padding-left: 2em;
-`;
+interface State {
+  accountNonce: BN;
+  accountId?: string | null;
+}
 
 class Account extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -40,11 +35,11 @@ class Account extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
-    const { defaultValue, isError, t } = this.props;
+  public render (): React.ReactNode {
+    const { className, defaultValue, isError, t } = this.props;
 
     return (
-      <Wrapper className='ui--row'>
+      <div className={`ui--row ${className}`}>
         <div className='large'>
           <InputAddress
             defaultValue={defaultValue}
@@ -56,11 +51,11 @@ class Account extends React.PureComponent<Props, State> {
           />
         </div>
         {this.renderNonce()}
-      </Wrapper>
+      </div>
     );
   }
 
-  renderNonce () {
+  public renderNonce (): React.ReactNode {
     const { t } = this.props;
     const { accountId } = this.state;
 
@@ -82,22 +77,25 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  onChangeAccount = (accountId: string): void => {
+  private onChangeAccount = (accountId: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ accountId }, () =>
+    this.setState({ accountId }, (): void =>
       onChange(accountId, this.state.accountNonce)
     );
   }
 
-  onChangeNonce = (_accountNonce: BN): void => {
+  private onChangeNonce = (_accountNonce: BN): void => {
     const { onChange } = this.props;
     const accountNonce = _accountNonce || new BN(0);
 
-    this.setState({ accountNonce }, () =>
+    this.setState({ accountNonce }, (): void =>
       onChange(this.state.accountId, accountNonce)
     );
   }
 }
 
-export default translate(Account);
+export default translate(styled(Account)`
+  box-sizing: border-box;
+  padding-left: 2em;
+`);

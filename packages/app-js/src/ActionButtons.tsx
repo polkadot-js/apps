@@ -6,39 +6,39 @@ import { BareProps, I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
-import { Button, Input, TxComponent } from '@polkadot/ui-app';
+import { Button, Input } from '@polkadot/ui-app';
 
 import translate from './translate';
 
 type Props = BareProps & I18nProps & {
-  isCustomExample: boolean,
-  isRunning: boolean,
-  generateLink: () => void,
-  removeSnippet: () => void,
-  runJs: () => void,
-  saveSnippet: (snippetName: string) => void,
-  snippetName?: string,
-  stopJs: () => void
+  isCustomExample: boolean;
+  isRunning: boolean;
+  generateLink: () => void;
+  removeSnippet: () => void;
+  runJs: () => void;
+  saveSnippet: (snippetName: string) => void;
+  snippetName?: string;
+  stopJs: () => void;
 };
 
-type State = {
-  isOpen: boolean,
-  shareText: string,
-  snippetName: string
-};
+interface State {
+  isOpen: boolean;
+  shareText: string;
+  snippetName: string;
+}
 
-class ActionButtons extends TxComponent<Props, State> {
-  state: State = {
+class ActionButtons extends React.PureComponent<Props, State> {
+  public state: State = {
     isOpen: false,
     shareText: this.props.t('Generate link to share code example'),
     snippetName: ''
   };
 
-  render () {
+  public render (): React.ReactNode {
     const {
       props: { isCustomExample, isRunning, removeSnippet, runJs, stopJs, t },
       state: { isOpen, shareText, snippetName }
-     } = this;
+    } = this;
 
     return (
       <div className='action-button'>
@@ -59,7 +59,7 @@ class ActionButtons extends TxComponent<Props, State> {
         // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
         // <Button /> component. That's why the original Semantic UI component is being used here.
         }
-        { isCustomExample &&
+        {isCustomExample && (
           <Popup
             content={t('Delete this custom example')}
             on='hover'
@@ -72,8 +72,8 @@ class ActionButtons extends TxComponent<Props, State> {
               />
             }
           />
-        }
-        { !(isCustomExample) &&
+        )}
+        {!(isCustomExample) && (
           <Popup
             className='popup-local'
             on='click'
@@ -88,10 +88,9 @@ class ActionButtons extends TxComponent<Props, State> {
             }
           >
             <Input
-              autoFocus={true}
-              onBlur={this.onPopupClose}
+              autoFocus
               onChange={this.onChangeName}
-              onEnter={this.submit}
+              onEnter={this.saveSnippet}
               maxLength={50}
               min={1}
               placeholder={t('Name your example')}
@@ -105,14 +104,12 @@ class ActionButtons extends TxComponent<Props, State> {
               onClick={this.saveSnippet}
             />
           </Popup>
-        }
-
+        )}
         <Button
           icon='play'
           isCircular
           isPositive
           onClick={runJs}
-          ref={this.button}
         />
         <Button
           icon='close'
@@ -127,31 +124,32 @@ class ActionButtons extends TxComponent<Props, State> {
 
   private generateLink = (): void => {
     const { generateLink, t } = this.props;
-    this.setState({ shareText: t('Copied to clipboard') } as State);
+
+    this.setState({ shareText: t('Copied to clipboard') });
     generateLink();
   }
 
   private onShareClose = (): void => {
-    this.setState({ shareText: this.props.t('Generate link to share code example') } as State);
+    this.setState({ shareText: this.props.t('Generate link to share code example') });
   }
 
   private onChangeName = (snippetName: string): void => {
-    this.setState({ snippetName } as State);
+    this.setState({ snippetName });
   }
 
   private saveSnippet = (): void => {
     const { state: { snippetName }, props: { saveSnippet } } = this;
 
     saveSnippet(snippetName);
-    this.setState({ snippetName: '', isOpen: false } as State);
+    this.setState({ snippetName: '', isOpen: false });
   }
 
   private onPopupOpen = (): void => {
-    this.setState({ isOpen: true, snippetName: this.props.snippetName || '' } as State);
+    this.setState({ isOpen: true, snippetName: this.props.snippetName || '' });
   }
 
   private onPopupClose = (): void => {
-    this.setState({ snippetName: '', isOpen: false } as State);
+    this.setState({ snippetName: '', isOpen: false });
   }
 }
 

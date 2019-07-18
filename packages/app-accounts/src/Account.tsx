@@ -6,71 +6,73 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressInfo, AddressRow, Button, Card, Icon } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, Button, Forget, Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
-import Forgetting from './modals/Forgetting';
 import Transfer from './modals/Transfer';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  address: string
-};
+interface Props extends I18nProps {
+  address: string;
+}
 
-type State = {
-  isBackupOpen: boolean,
-  isEditable: boolean,
-  isForgetOpen: boolean,
-  isPasswordOpen: boolean,
-  isTransferOpen: boolean
-};
+interface State {
+  isBackupOpen: boolean;
+  isEditable: boolean;
+  isForgetOpen: boolean;
+  isPasswordOpen: boolean;
+  isTransferOpen: boolean;
+}
 
 class Account extends React.PureComponent<Props> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
+
+    const account = keyring.getAccount(props.address);
 
     this.state = {
       isBackupOpen: false,
-      isEditable: !(keyring.getAccount(props.address).getMeta().isInjected),
+      isEditable: account
+        ? !(account.meta.isInjected)
+        : false,
       isForgetOpen: false,
       isPasswordOpen: false,
       isTransferOpen: false
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address } = this.props;
     const { isEditable } = this.state;
 
     // FIXME It is a bit heavy-handled switching of being editable here completely
     // (and removing the tags, however the keyring cannot save these)
     return (
-      <Card>
+      <AddressCard
+        buttons={this.renderButtons()}
+        isEditable={isEditable}
+        type='account'
+        value={address}
+        withExplorer
+        withIndex
+        withTags
+      >
         {this.renderModals()}
-        <AddressRow
-          buttons={this.renderButtons()}
-          isEditable={isEditable}
-          value={address}
-          withExplorer
-          withIndex
-          withTags
-        >
-          <AddressInfo
-            withBalance
-            withExtended
-            value={address}
-          />
-        </AddressRow>
-      </Card>
+        <AddressInfo
+          address={address}
+          withBalance
+          withExtended
+        />
+      </AddressCard>
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { address } = this.props;
     const { isBackupOpen, isForgetOpen, isPasswordOpen, isTransferOpen } = this.state;
 
@@ -92,9 +94,9 @@ class Account extends React.PureComponent<Props> {
 
     if (isForgetOpen) {
       modals.push(
-        <Forgetting
+        <Forget
           address={address}
-          doForget={this.onForget}
+          onForget={this.onForget}
           key='modal-forget-account'
           onClose={this.toggleForget}
         />
@@ -125,35 +127,27 @@ class Account extends React.PureComponent<Props> {
   }
 
   private toggleBackup = (): void => {
-    const { isBackupOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isBackupOpen }: State): Pick<State, never> => ({
       isBackupOpen: !isBackupOpen
-    });
+    }));
   }
 
   private toggleForget = (): void => {
-    const { isForgetOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isForgetOpen }: State): Pick<State, never> => ({
       isForgetOpen: !isForgetOpen
-    });
+    }));
   }
 
   private togglePass = (): void => {
-    const { isPasswordOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isPasswordOpen }: State): Pick<State, never> => ({
       isPasswordOpen: !isPasswordOpen
-    });
+    }));
   }
 
   private toggleTransfer = (): void => {
-    const { isTransferOpen } = this.state;
-
-    this.setState({
+    this.setState(({ isTransferOpen }: State): Pick<State, never> => ({
       isTransferOpen: !isTransferOpen
-    });
+    }));
   }
 
   private onForget = (): void => {
@@ -163,10 +157,10 @@ class Account extends React.PureComponent<Props> {
       return;
     }
 
-    const status = {
+    const status: Partial<ActionStatus> = {
       account: address,
       action: 'forget'
-    } as ActionStatus;
+    };
 
     try {
       keyring.forgetAccount(address);
@@ -178,7 +172,7 @@ class Account extends React.PureComponent<Props> {
     }
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isEditable } = this.state;
 

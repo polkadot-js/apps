@@ -6,23 +6,35 @@ import { BareProps } from './types';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { classes } from './util';
+import Icon from './Icon';
 
-export type TabItem = {
-  hasParams?: boolean,
-  name: string,
-  text: React.ReactNode
-};
+const MyIcon = styled(Icon)`
+  &&& {
+    width: 1rem;
+    margin: 0.7rem 0;
+  }
+`;
 
-type Props = BareProps & {
-  basePath: string,
-  hidden?: Array<string>,
-  items: Array<TabItem>
-};
+export interface TabItem {
+  hasParams?: boolean;
+  isExact?: boolean;
+  isRoot?: boolean;
+  name: string;
+  text: React.ReactNode;
+}
+
+interface Props extends BareProps {
+  basePath: string;
+  hidden?: string[];
+  items: TabItem[];
+  isSequence?: boolean;
+}
 
 export default class Tabs extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, hidden = [], items, style } = this.props;
     return (
       <div
@@ -31,33 +43,37 @@ export default class Tabs extends React.PureComponent<Props> {
       >
         {
           items
-            .filter(({ name }) => !hidden.includes(name))
+            .filter(({ name }): boolean => !hidden.includes(name))
             .map(this.renderItem)
         }
       </div>
     );
   }
 
-  private renderItem = ({ hasParams, name, text }: TabItem, index: number) => {
-    const { basePath } = this.props;
-    const to = index === 0
+  private renderItem = ({ hasParams, isRoot, name, text, ...tab }: TabItem, index: number): React.ReactNode => {
+    const { basePath, isSequence, items } = this.props;
+    const to = isRoot
       ? basePath
       : `${basePath}/${name}`;
     // only do exact matching when not the fallback (first position tab),
     // params are problematic for dynamic hidden such as app-accounts
-    const isExact = !hasParams || index === 0;
+    const isExact = tab.isExact || !hasParams || (!isSequence && index === 0);
 
     return (
-      <NavLink
-        activeClassName='active'
-        className='item'
-        exact={isExact}
-        key={to}
-        strict={isExact}
-        to={to}
-      >
-        {text}
-      </NavLink>
+      <React.Fragment key={to}>
+        <NavLink
+          activeClassName='active'
+          className='item'
+          exact={isExact}
+          strict={isExact}
+          to={to}
+        >
+          {text}
+        </NavLink>
+        {(isSequence && index < items.length - 1) && (
+          <MyIcon name='arrow right' />
+        )}
+      </React.Fragment>
     );
   }
 }

@@ -10,33 +10,31 @@ import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-a
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  onClose: () => void,
-  pair: KeyringPair | null
-};
+interface Props extends I18nProps {
+  onClose: () => void;
+  pair: KeyringPair | null;
+}
 
-type State = {
-  address: string,
-  password: string,
-  unlockError: string | null
-};
+interface State {
+  address: string;
+  password: string;
+  unlockError: string | null;
+}
 
 class Unlock extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     address: '',
     password: '',
     unlockError: null
   };
 
-  static getDerivedStateFromProps ({ pair }: Props): State {
+  public static getDerivedStateFromProps ({ pair }: Props): Pick<State, never> {
     return {
-      address: pair
-        ? pair.address()
-        : ''
-    } as State;
+      address: (pair && pair.address) || ''
+    };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { pair, t } = this.props;
 
     if (!pair) {
@@ -58,7 +56,7 @@ class Unlock extends TxComponent<Props, State> {
     );
   }
 
-  private renderActions () {
+  private renderActions (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -81,7 +79,7 @@ class Unlock extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { t } = this.props;
     const { address, password, unlockError } = this.state;
 
@@ -111,7 +109,7 @@ class Unlock extends TxComponent<Props, State> {
   private unlockAccount (password?: string): string | null {
     const { pair } = this.props;
 
-    if (!pair || !pair.isLocked()) {
+    if (!pair || !pair.isLocked) {
       return null;
     }
 

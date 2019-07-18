@@ -9,40 +9,46 @@ import styled from 'styled-components';
 
 import media from './media';
 
-type Props = BareProps & {
-  children: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  right: 5rem;
-  top: 0.4rem;
+class FilterOverlay extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { children, className } = this.props;
 
-  > div {
-    max-width: 35rem !important;
+    return (
+      <div className={className}>
+        {children}
+      </div>
+    );
   }
+}
+
+export default styled(FilterOverlay)`
+  display: none;
 
   .ui--Labelled label {
     display: none;
   }
 
   ${media.DESKTOP`
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    right: 5rem;
+    top: 0.4rem;
+
+    > div {
+      max-width: 35rem !important;
+    }
+
     .ui--Labelled label {
       display: flex;
     }
+
+    .ui.selection.dropdown {
+      white-space: nowrap;
+    }
   `}
 `;
-
-export default class FilterOverlay extends React.PureComponent<Props> {
-  render () {
-    const { children } = this.props;
-
-    return (
-      <Wrapper>
-        {children}
-      </Wrapper>
-    );
-  }
-}

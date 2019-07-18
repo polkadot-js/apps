@@ -4,15 +4,19 @@
 
 @import '../../ui-app/src/styles/partials/_variables.css';
 
-.ui--signer-Signer-Decoded,
-.ui--signer-Signer-Unlock {
+.ui--signer-Signer-Decoded {
   align-content: center;
   display: flex;
   line-height: 1.5em;
 }
 
-.ui--signer-Signer-Content .expanded {
-  h3 {
+.ui--signer-Signer-Content {
+  .modal-Text {
+    margin-bottom: 1em;
+    padding: 1em;
+  }
+
+  .expanded h3 {
     margin-bottom: 0.75rem;
   }
 

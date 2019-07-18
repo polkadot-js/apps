@@ -7,29 +7,28 @@ import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressInfo, AddressRow, Button, Card, Icon } from '@polkadot/ui-app';
+import { AddressCard, AddressInfo, Button, Forget, Icon } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import Forgetting from './modals/Forgetting';
 
 import translate from './translate';
 
-type Props = I18nProps & {
-  address: string
-};
+interface Props extends I18nProps {
+  address: string;
+}
 
-type State = {
-  current: KeyringAddress,
-  isEditable: boolean,
-  isForgetOpen: boolean,
-  isTransferOpen: boolean
-};
+interface State {
+  current?: KeyringAddress;
+  isEditable: boolean;
+  isForgetOpen: boolean;
+  isTransferOpen: boolean;
+}
 
 class Address extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { address } = this.props;
@@ -42,36 +41,35 @@ class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { address } = this.props;
     const { isEditable } = this.state;
 
     return (
-      <Card>
+      <AddressCard
+        buttons={this.renderButtons()}
+        isEditable={isEditable}
+        type='address'
+        value={address}
+        withExplorer
+        withIndex
+        withTags
+      >
         {this.renderModals()}
-        <AddressRow
-          buttons={this.renderButtons()}
-          isEditable={isEditable}
-          value={address}
-          withExplorer
-          withIndex
-          withTags
-        >
-          <AddressInfo
-            withBalance={{ available: true, free: true, total: true }}
-            withExtended={{ nonce: true }}
-            value={address}
-          />
-        </AddressRow>
-      </Card>
+        <AddressInfo
+          address={address}
+          withBalance={{ available: true, free: true, total: true }}
+          withExtended={{ nonce: true }}
+        />
+      </AddressCard>
     );
   }
 
-  private renderModals () {
+  private renderModals (): React.ReactNode {
     const { address } = this.props;
     const { isForgetOpen, isTransferOpen, current } = this.state;
 
-    if (!address) {
+    if (!address || !current) {
       return null;
     }
 
@@ -79,10 +77,11 @@ class Address extends React.PureComponent<Props, State> {
 
     if (isForgetOpen) {
       modals.push(
-        <Forgetting
-          currentAddress={current}
-          doForget={this.onForget}
-          key='modal-forget'
+        <Forget
+          address={current.address}
+          onForget={this.onForget}
+          key='modal-forget-account'
+          mode='address'
           onClose={this.toggleForget}
         />
       );
@@ -102,13 +101,13 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private toggleForget = (): void => {
-    this.setState(({ isForgetOpen }) => ({
+    this.setState(({ isForgetOpen }): Pick<State, never> => ({
       isForgetOpen: !isForgetOpen
     }));
   }
 
   private toggleTransfer = (): void => {
-    this.setState(({ isTransferOpen }) => ({
+    this.setState(({ isTransferOpen }): Pick<State, never> => ({
       isTransferOpen: !isTransferOpen
     }));
   }
@@ -120,10 +119,10 @@ class Address extends React.PureComponent<Props, State> {
       return;
     }
 
-    const status = {
+    const status: Partial<ActionStatus> = {
       account: address,
       action: 'forget'
-    } as ActionStatus;
+    };
 
     try {
       keyring.forgetAddress(address);
@@ -135,7 +134,7 @@ class Address extends React.PureComponent<Props, State> {
     }
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { t } = this.props;
     const { isEditable } = this.state;
 
@@ -149,7 +148,7 @@ class Address extends React.PureComponent<Props, State> {
               icon='trash'
               key='forget'
               size='small'
-              tooltip={t('Forget this account')}
+              tooltip={t('Forget this address')}
             />
           </>
         )}

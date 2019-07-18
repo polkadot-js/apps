@@ -2,63 +2,62 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BareProps } from './types';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 
-import { BareProps } from './types';
+import { classes } from './util';
 
 const rootElement = document.getElementById('tooltips');
 
-type Props = BareProps & {
-  delayShow?: number,
-  dataFor?: string,
-  effect?: 'solid' | 'float'
-  offset?: { bottom?: number, left?: number, right?: number, top?: number },
-  place?: 'bottom' | 'top' | 'right' | 'left',
-  text: React.ReactNode,
-  trigger: string
-};
+interface Props extends BareProps {
+  dataFor?: string;
+  effect?: 'solid' | 'float';
+  offset?: {
+    bottom?: number;
+    left?: number;
+    right?: number;
+    top?: number;
+  };
+  place?: 'bottom' | 'top' | 'right' | 'left';
+  text: React.ReactNode;
+  trigger: string;
+}
 
 export default class Tooltip extends React.PureComponent<Props> {
-  static defaultProps = {
-    delayShow: 250,
-    effect: 'solid',
-    place: 'bottom',
-    className: 'ui--Tooltip'
-  };
-
   private tooltipContainer: HTMLElement;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.tooltipContainer = document.createElement('div');
   }
 
-  componentDidMount () {
+  public componentDidMount (): void {
     if (rootElement !== null) {
       rootElement.appendChild(this.tooltipContainer);
     }
   }
 
-  componentWillUnmount () {
+  public componentWillUnmount (): void {
     if (rootElement !== null) {
       rootElement.removeChild(this.tooltipContainer);
     }
   }
 
-  render () {
-    const { className, delayShow, effect, offset, place, text, trigger } = this.props;
+  public render (): React.ReactNode {
+    const { className, effect = 'solid', offset, place = 'bottom', text, trigger } = this.props;
 
     return ReactDOM.createPortal(
       <ReactTooltip
         id={trigger}
-        delayShow={delayShow}
+        delayShow={250}
         effect={effect}
         offset={offset}
         place={place}
-        className={className}
+        className={classes('ui--Tooltip', className)}
       >
         {text}
       </ReactTooltip>,

@@ -11,19 +11,19 @@ import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 
 import Bare from './Bare';
 
-type Props = BaseProps & {
-  children?: React.ReactNode,
-  length?: number,
-  size?: Size,
-  validate?: (u8a: Uint8Array) => boolean,
-  withLength?: boolean
-};
+interface Props extends BaseProps {
+  children?: React.ReactNode;
+  length?: number;
+  size?: Size;
+  validate?: (u8a: Uint8Array) => boolean;
+  withLength?: boolean;
+}
 
 const defaultValidate = (): boolean =>
   true;
 
 export default class BaseBytes extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { children, className, defaultValue: { value }, isDisabled, isError, label, onEnter, size = 'full', style, withLabel } = this.props;
     const defaultValue = value
       ? (
@@ -62,7 +62,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
     const { length = -1, onChange, validate = defaultValidate, withLength } = this.props;
 
     let value: Uint8Array;
-    let isValid: boolean = true;
+    let isValid = true;
 
     try {
       value = hexToU8a(hex);

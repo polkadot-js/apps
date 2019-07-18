@@ -4,13 +4,13 @@ An account is identified by its public address on the network. It is totally fin
 
 # Balances
 
-The balances for each account is broken down into a number of areas, giving an overview of the totals, transferable funds and the funds locked and available for unlocking. These are -
+The balances for each account is broken down into a number of areas, giving an overview of the totals, transferable and bonded funds as well as the funds currently being unbonded or redeemable. These are -
 
 - **total**: The overall amount of funds in the account, this includes the vested balance, available for transfer and locked.
 - **available**: The funds that can be transferred or bonded, i.e. the funds that are available for any transaction.
 - **bonded**: The funds bonded for validating or nominating. They are locked and cannot be transferred, although it can be unlocked for future actions.
 - **redeemable**: The funds that can get redeemed, e.g made available for withdrawal, by clicking on the "lock" icon.
-- **unlocking**: The funds that are being unlocked. The information icon tells the amount of blocks left before the funds can be redeemed.
+- **unbonding**: The funds that are being unbonded. The funds will be redeemable after the bonding period has passed. These funds can still be slashed. The information icon tells the amount of blocks left before the funds can be redeemed.
 
 # Security
 

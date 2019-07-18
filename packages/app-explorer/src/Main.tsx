@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyedEvent } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
+import { Columar, Column } from '@polkadot/ui-app';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
@@ -14,36 +14,26 @@ import Query from './Query';
 import Summary from './Summary';
 import translate from './translate';
 
-type Props = I18nProps & {
-  events: Array<KeyedEvent>
-};
-
-const Wrapper = styled.div`
-  .column {
-    flex: 0 0 50%;
-    min-width: 0;
-    padding: 0 1em 1em;
-  }
-`;
+interface Props extends I18nProps {
+  events: KeyedEvent[];
+}
 
 class Main extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { events, t } = this.props;
 
     return (
       <>
         <Query />
         <Summary />
-        <Wrapper className='ui--flex-medium'>
-          <div className='column'>
-            <h1>{t('recent blocks')}</h1>
+        <Columar>
+          <Column headerText={t('recent blocks')}>
             <BlockHeaders />
-          </div>
-          <div className='column'>
-            <h1>{t('recent events')}</h1>
+          </Column>
+          <Column headerText={t('recent events')}>
             <Events events={events} />
-          </div>
-        </Wrapper>
+          </Column>
+        </Columar>
       </>
     );
   }

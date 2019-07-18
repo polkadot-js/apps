@@ -26,7 +26,7 @@
 
 .ui.dropdown {
   &.disabled {
-    background: #fefefe;
+    background: transparent;
     border-color: #eee;
     border-style: dashed;
     opacity: 1;
@@ -52,8 +52,7 @@
 }
 
 .ui.input {
-  /* from .ui.fluid.input */
-  display: flex;
+  width: 100%;
 
   &.disabled {
     opacity: 1;
@@ -108,6 +107,7 @@
   > .actions {
     border-top: none;
     text-align: right;
+    padding: 1rem !important;
   }
 
   > .header:not(.ui) {

@@ -5,86 +5,97 @@
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressMini, Call, LinkPolkascan } from '@polkadot/ui-app';
+import styled from 'styled-components';
+import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
-import { Extrinsic, Method } from '@polkadot/types';
+import { BlockNumber, Extrinsic, Method } from '@polkadot/types';
 
 import translate from '../translate';
 
-type Props = I18nProps & {
-  label?: React.ReactNode,
-  value?: Array<Extrinsic> | null
-};
+interface Props extends I18nProps {
+  blockNumber?: BlockNumber;
+  label?: React.ReactNode;
+  value?: Extrinsic[] | null;
+}
 
 class Extrinsics extends React.PureComponent<Props> {
-  render () {
-    const { label, t } = this.props;
+  public render (): React.ReactNode {
+    const { className, label, t } = this.props;
 
     return (
-      <section key='extrinsics'>
-        <h1>{label || t('extrinsics')}</h1>
+      <Column
+        className={className}
+        emptyText={t('No pending extrinsics are in the queue')}
+        headerText={label || t('extrinsics')}
+      >
         {this.renderContent()}
-      </section>
+      </Column>
     );
   }
 
-  private renderContent () {
-    const { t, value } = this.props;
+  private renderContent (): React.ReactNode {
+    const { value = [] } = this.props;
 
-    if (!value || !value.length) {
-      return (
-        <div className='ui disabled'>
-          {t('no pending extrinsics are in the queue')}
-        </div>
-      );
-    }
-
-    return (
-      <div className='explorer--BlockByHash-flexable ui--flex-medium'>
-        {value.map(this.renderExtrinsic)}
-      </div>
-    );
+    return (value || []).map(this.renderExtrinsic);
   }
 
   // FIXME This is _very_ similar to what we have in democracy/Item
-  private renderExtrinsic = (extrinsic: Extrinsic, index: number) => {
+  private renderExtrinsic = (extrinsic: Extrinsic, index: number): React.ReactNode => {
+    const { blockNumber, t } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
+    const isMortal = extrinsic.signature.era.isMortalEra;
+    let eraEnd;
+    let eraStart;
+
+    if (blockNumber && isMortal) {
+      const mortalEra = extrinsic.signature.era.asMortalEra;
+
+      eraEnd = mortalEra.death(blockNumber.toNumber());
+      eraStart = mortalEra.birth(blockNumber.toNumber());
+    }
 
     return (
-      <div
-        className='explorer--BlockByHash-block'
-        key={`extrinsic:${index}`}
-      >
-        <article className='explorer--Container'>
-          <div className='header'>
-            <h3>
-              {section}.{method}&nbsp;(#{formatNumber(index)})
-            </h3>
-            {this.renderSigner(extrinsic)}
-          </div>
-          <details>
-            <summary>{
-              meta && meta.documentation
-                ? meta.documentation.join(' ')
-                : 'Details'
-            }</summary>
-            <Call
-              className='details'
-              value={extrinsic}
-              withHash
-            />
-          </details>
-          {
-            extrinsic.isSigned
-              ? <LinkPolkascan data={extrinsic.hash.toHex()} type='extrinsic' />
-              : null
-          }
-        </article>
-      </div>
+      <article key={`extrinsic:${index}`}>
+        <div className='header'>
+          <h3>
+            {section}.{method}&nbsp;(#{formatNumber(index)})
+          </h3>
+          {this.renderSigner(extrinsic)}
+        </div>
+        <details>
+          <summary>{
+            meta && meta.documentation
+              ? meta.documentation.join(' ')
+              : t('Details')
+          }</summary>
+          <Call
+            className='details'
+            mortality={
+              isMortal
+                ? blockNumber
+                  ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+                    replace: {
+                      endsAt: formatNumber(eraEnd),
+                      startAt: formatNumber(eraStart)
+                    }
+                  })
+                  : t('mortal')
+                : t('immortal')
+            }
+            value={extrinsic}
+            withHash
+          />
+        </details>
+        {
+          extrinsic.isSigned
+            ? <LinkPolkascan data={extrinsic.hash.toHex()} type='extrinsic' />
+            : null
+        }
+      </article>
     );
   }
 
-  private renderSigner (extrinsic: Extrinsic) {
+  private renderSigner (extrinsic: Extrinsic): React.ReactNode {
     const { t } = this.props;
 
     if (!extrinsic.signature.isSigned) {
@@ -92,11 +103,11 @@ class Extrinsics extends React.PureComponent<Props> {
     }
 
     return (
-      <div className='explorer--BlockByHash-header-right'>
+      <div className='explorer--BlockByHash-header'>
         <div>
           <AddressMini value={extrinsic.signature.signer} />
         </div>
-        <div className='explorer--BlockByHash-accountIndex'>
+        <div className='explorer--BlockByHash-nonce'>
           {t('index')} {formatNumber(extrinsic.signature.nonce)}
         </div>
       </div>
@@ -104,4 +115,18 @@ class Extrinsics extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Extrinsics);
+export default translate(styled(Extrinsics)`
+  .explorer--BlockByHash-header {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.75rem;
+  }
+
+  .explorer--BlockByHash-nonce {
+    font-size: .75rem;
+    margin-right: 2.25rem;
+    margin-top: -1rem;
+    opacity: 0.45;
+    text-align: right;
+  }
+`);

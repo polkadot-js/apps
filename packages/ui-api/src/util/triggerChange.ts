@@ -6,12 +6,12 @@ import { OnChangeCb } from '../types';
 
 import { isFunction, isObservable } from '@polkadot/util';
 
-export default function triggerChange (value?: any, ...callOnResult: Array<OnChangeCb | undefined>): void {
+export default function triggerChange (value?: any, ...callOnResult: (OnChangeCb | undefined)[]): void {
   if (!callOnResult || !callOnResult.length) {
     return;
   }
 
-  callOnResult.forEach((callOnResult) => {
+  callOnResult.forEach((callOnResult): void => {
     if (isObservable(callOnResult)) {
       callOnResult.next(value);
     } else if (isFunction(callOnResult)) {

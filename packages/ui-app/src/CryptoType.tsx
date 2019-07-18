@@ -10,13 +10,13 @@ import keyring from '@polkadot/ui-keyring';
 
 import { classes } from './util';
 
-type Props = BareProps & {
-  accountId: AccountId | AccountIndex | Address | string | Uint8Array | null,
-  label?: string
-};
+interface Props extends BareProps {
+  accountId: AccountId | AccountIndex | Address | string | Uint8Array | null;
+  label?: string;
+}
 
 export default class CryptoType extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { accountId, className, label = '' } = this.props;
     let type = 'unknown';
 
@@ -26,7 +26,7 @@ export default class CryptoType extends React.PureComponent<Props> {
         : null;
 
       if (current) {
-        type = current.getMeta().isInjected
+        type = current.meta.isInjected
           ? 'injected'
           : current.type;
       }

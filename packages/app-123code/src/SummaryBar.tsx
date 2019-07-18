@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -15,38 +16,40 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import translate from './translate';
 
 type Props = ApiProps & BareProps & I18nProps & {
-  balances_totalIssuance?: BN,
-  chain_bestNumber?: BN,
-  chain_bestNumberLag?: BN,
-  chain_getRuntimeVersion?: RuntimeVersion,
-  session_validators?: Array<AccountId>,
-  staking_intentions?: Array<AccountId>,
-  system_chain?: string,
-  system_name?: string,
-  system_version?: string
+  balances_totalIssuance?: BN;
+  chain_bestNumber?: BN;
+  chain_bestNumberLag?: BN;
+  chain_getRuntimeVersion?: RuntimeVersion;
+  session_validators?: AccountId[];
+  staking_intentions?: AccountId[];
+  system_chain?: string;
+  system_name?: string;
+  system_version?: string;
 };
-type State = {
-  nextUp: Array<AccountId>
-};
+interface State {
+  nextUp: AccountId[];
+}
 
 class SummaryBar extends React.PureComponent<Props, State> {
-  state: State = {
+  public state: State = {
     nextUp: []
   };
 
-  static getDerivedStateFromProps ({ staking_intentions, session_validators }: Props): State | null {
+  public static getDerivedStateFromProps ({ staking_intentions, session_validators }: Props): State | null {
     if (!staking_intentions || !session_validators) {
       return null;
     }
 
     return {
-      nextUp: staking_intentions.filter((accountId) =>
-        !session_validators.find((validatorId) => validatorId.eq(accountId))
+      nextUp: staking_intentions.filter((accountId): boolean =>
+        !session_validators.find((validatorId): boolean =>
+          validatorId.eq(accountId)
+        )
       )
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, chain_getRuntimeVersion, session_validators = [], system_chain, system_name, system_version } = this.props;
     const { nextUp } = this.state;
 
@@ -68,12 +71,12 @@ class SummaryBar extends React.PureComponent<Props, State> {
             {formatNumber(chain_bestNumber)} ({formatNumber(chain_bestNumberLag)} lag)
           </Bubble>
           <Bubble icon='chess queen' label='validators'>{
-            session_validators.map((accountId, index) => (
+            session_validators.map((accountId, index): React.ReactNode => (
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>
           <Bubble icon='chess bishop' label='next up'>{
-            nextUp.map((accountId, index) => (
+            nextUp.map((accountId, index): React.ReactNode => (
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>

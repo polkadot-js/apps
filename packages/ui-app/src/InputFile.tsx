@@ -7,6 +7,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import styled from 'styled-components';
 
 import { classes } from './util';
 import Labelled from './Labelled';
@@ -15,93 +16,108 @@ import translate from './translate';
 type Props = BareProps & WithTranslation & {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
-  accept?: string,
-  clearContent?: boolean,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label: React.ReactNode,
-  onChange?: (contents: Uint8Array, name: string) => void,
-  placeholder?: React.ReactNode | null,
-  withEllipsis?: boolean,
-  withLabel?: boolean
+  accept?: string;
+  clearContent?: boolean;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label: React.ReactNode;
+  onChange?: (contents: Uint8Array, name: string) => void;
+  placeholder?: React.ReactNode | null;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
 };
 
-type State = {
+interface State {
   file?: {
-    name: string,
-    size: number
-  }
-};
+    name: string;
+    size: number;
+  };
+}
 
-type LoadEvent = {
+interface LoadEvent {
   target: {
-    result: ArrayBuffer
-  }
-};
+    result: ArrayBuffer;
+  };
+}
 
 class InputFile extends React.PureComponent<Props, State> {
-  state: State = {};
+  private dropZone: any;
 
-  render () {
+  public state: State = {};
+
+  public constructor (props: Props) {
+    super(props);
+
+    this.dropZone = React.createRef();
+  }
+
+  public render (): React.ReactNode {
     const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
     const { file } = this.state;
 
-    return (
+    const dropZone = (
+      <Dropzone
+        accept={accept}
+        className={classes('ui--InputFile', isError ? 'error' : '', className)}
+        disabled={isDisabled}
+        multiple={false}
+        ref={this.dropZone}
+        onDrop={this.onDrop}
+      >
+        <em className='label'>
+          {
+            !file || clearContent
+              ? placeholder || t('click to select or drag and drop the file here')
+              : placeholder || t('{{name}} ({{size}} bytes)', {
+                replace: file
+              })
+          }
+        </em>
+      </Dropzone>
+    );
+
+    return label ? (
       <Labelled
         help={help}
         label={label}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
-        <Dropzone
-          accept={accept}
-          className={classes('ui--InputFile', isError ? 'error' : '', className)}
-          disabled={isDisabled}
-          multiple={false}
-          onDrop={this.onDrop}
-        >
-          <div className='label'>
-            {
-              !file || clearContent
-                ? placeholder || t('click to select or drag and drop the file here')
-                : placeholder || t('{{name}} ({{size}} bytes)', {
-                  replace: file
-                })
-            }
-          </div>
-        </Dropzone>
+        {dropZone}
       </Labelled>
-    );
+    ) : dropZone;
   }
 
-  private onDrop = (files: Array<File>) => {
+  private onDrop = (files: File[]): void => {
     const { onChange } = this.props;
 
-    files.forEach((file) => {
+    files.forEach((file): void => {
       const reader = new FileReader();
 
-      reader.onabort = () => {
+      reader.onabort = (): void => {
         // ignore
       };
 
-      reader.onerror = () => {
+      reader.onerror = (): void => {
         // ignore
       };
 
       // @ts-ignore ummm... events are not properly specified here?
-      reader.onload = ({ target: { result } }: LoadEvent) => {
+      reader.onload = ({ target: { result } }: LoadEvent): void => {
         const data = new Uint8Array(result);
         const name = file.name;
 
         onChange && onChange(data, name);
 
-        this.setState({
-          file: {
-            name,
-            size: data.length
-          }
-        });
+        if (this.dropZone && this.dropZone.current) {
+          this.setState({
+            file: {
+              name,
+              size: data.length
+            }
+          });
+        }
       };
 
       reader.readAsArrayBuffer(file);
@@ -109,4 +125,26 @@ class InputFile extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(InputFile);
+export default translate(styled(InputFile)`
+  background: #fff;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 0.28571429rem;
+  font-size: 1rem;
+  margin: 0.25rem 0;
+  padding: 1rem;
+  width: 100% !important;
+
+  &.error {
+    background: #fff6f6;
+    border-color: #e0b4b4;
+  }
+
+  &:hover {
+    background: #fefefe;
+    cursor: pointer;
+  }
+
+  .label {
+    color: rgba(0, 0, 0, .6);
+  }
+`);

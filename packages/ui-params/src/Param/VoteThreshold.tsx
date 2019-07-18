@@ -11,7 +11,7 @@ import { bnToBn } from '@polkadot/util';
 
 import Bare from './Bare';
 
-type TextMap = { [index: number]: string };
+type TextMap = Record<number, string>;
 
 const options = [
   { text: 'Super majority approval', value: 0 },
@@ -19,14 +19,14 @@ const options = [
   { text: 'Simple majority', value: 2 }
 ];
 
-export const textMap = options.reduce((textMap, { text, value }) => {
+export const textMap = options.reduce((textMap, { text, value }): TextMap => {
   textMap[value] = text;
 
   return textMap;
-}, {} as TextMap);
+}, {} as unknown as TextMap);
 
 export default class VoteThresholdParam extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = value instanceof VoteThreshold
       ? value.toNumber()

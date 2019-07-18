@@ -2,24 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RawParam$Value } from './types';
+import { RawParamValue } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, UInt, createType } from '@polkadot/types';
+import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, createType, getTypeDef } from '@polkadot/types';
 
-export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawParam$Value> {
+export default function getInitValue (def: TypeDef): RawParamValue | RawParamValue[] {
   if (def.info === TypeDefInfo.Vector) {
     return [getInitValue(def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
     return Array.isArray(def.sub)
-      ? def.sub.map((def) => getInitValue(def))
+      ? def.sub.map((def): any => getInitValue(def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
-    console.error(`Unable to determine default type from Struct ${JSON.stringify(def)}`);
-    return void 0;
+    return Array.isArray(def.sub)
+      ? def.sub.reduce((result, def): Record<string, RawParamValue | RawParamValue[]> => {
+        result[def.name as string] = getInitValue(def);
+
+        return result;
+      }, {} as unknown as Record<string, RawParamValue | RawParamValue[]>)
+      : {};
+  } else if (def.info === TypeDefInfo.Enum) {
+    return Array.isArray(def.sub)
+      ? { [def.sub[0].name as string]: getInitValue(def.sub[0]) }
+      : {};
   }
 
-  const type = def.info === TypeDefInfo.Compact
+  const type = [TypeDefInfo.Compact, TypeDefInfo.Option].includes(def.info)
     ? (def.sub as TypeDef).type
     : def.type;
 
@@ -68,7 +77,6 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'AccountId':
     case 'AccountIdOf':
     case 'Address':
-    case 'Bytes':
     case 'Call':
     case 'CandidateReceipt':
     case 'Digest':
@@ -84,12 +92,18 @@ export default function getInitValue (def: TypeDef): RawParam$Value | Array<RawP
     case 'Extrinsic':
       return new U8a();
 
+    case 'Null':
+      return null;
+
     default: {
       try {
         const instance = createType(type);
+        const raw = getTypeDef(instance.toRawType());
 
-        if (instance instanceof UInt) {
+        if (instance instanceof BN) {
           return new BN(0);
+        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+          return getInitValue(raw);
         }
       } catch (error) {
         // console.error(error.message);

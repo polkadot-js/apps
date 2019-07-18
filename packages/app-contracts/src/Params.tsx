@@ -2,41 +2,47 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIArgs } from '@polkadot/types/ContractAbi';
+import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { RawParams } from '@polkadot/ui-params/types';
 
 import React from 'react';
 import UIParams from '@polkadot/ui-params';
 import { getTypeDef, TypeDef } from '@polkadot/types';
 
-type Props = {
-  params?: ContractABIArgs,
-  onChange: (values: Array<any>) => void,
-  onEnter?: () => void
-};
+interface Props {
+  isDisabled?: boolean;
+  params?: ContractABIFnArg[];
+  onChange: (values: any[]) => void;
+  onEnter?: () => void;
+}
 
-type State = {
-  params: Array<{ name: string, type: TypeDef }>
-};
+interface ParamDef {
+  name: string;
+  type: TypeDef;
+}
+
+interface State {
+  params: ParamDef[];
+}
 
 export default class Params extends React.PureComponent<Props, State> {
-  state: State = { params: [] };
+  public state: State = { params: [] };
 
-  static getDerivedStateFromProps ({ params }: Props): State | null {
+  public static getDerivedStateFromProps ({ params }: Props): State | null {
     if (!params) {
       return { params: [] };
     }
 
     return {
-      params: params.map(({ name, type }) => ({
+      params: params.map(({ name, type }): ParamDef => ({
         name,
         type: getTypeDef(type, name)
       }))
-    } as State;
+    };
   }
 
-  render () {
-    const { onEnter } = this.props;
+  public render (): React.ReactNode {
+    const { isDisabled, onEnter } = this.props;
     const { params } = this.state;
 
     if (!params.length) {
@@ -45,6 +51,7 @@ export default class Params extends React.PureComponent<Props, State> {
 
     return (
       <UIParams
+        isDisabled={isDisabled}
         onChange={this.onChange}
         onEnter={onEnter}
         params={params}
@@ -55,6 +62,6 @@ export default class Params extends React.PureComponent<Props, State> {
   private onChange = (values: RawParams): void => {
     const { onChange } = this.props;
 
-    onChange(values.map(({ value }) => value));
+    onChange(values.map(({ value }): any => value));
   }
 }

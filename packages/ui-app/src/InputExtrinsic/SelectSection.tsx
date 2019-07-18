@@ -11,16 +11,16 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = BareProps & {
-  defaultValue?: string,
-  isError?: boolean,
-  onChange: (value: string) => void,
-  options: DropdownOptions,
-  value: MethodFunction
-};
+interface Props extends BareProps {
+  defaultValue?: string;
+  isError?: boolean;
+  onChange: (value: string) => void;
+  options: DropdownOptions;
+  value: MethodFunction;
+}
 
 export default class SelectSection extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue, isError, onChange, options, style, value } = this.props;
 
     return (

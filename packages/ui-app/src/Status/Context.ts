@@ -6,12 +6,12 @@ import { QueueProps, QueueStatus, QueueTx } from './types';
 
 import React from 'react';
 
-const defaultState = {
-  stqueue: [] as Array<QueueStatus>,
-  txqueue: [] as Array<QueueTx>
-} as QueueProps;
+const defaultState: Partial<QueueProps> = {
+  stqueue: [] as QueueStatus[],
+  txqueue: [] as QueueTx[]
+};
 
-const Context: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState);
+const Context: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState as QueueProps);
 const QueueConsumer: React.Consumer<QueueProps> = Context.Consumer;
 const QueueProvider: React.Provider<QueueProps> = Context.Provider;
 

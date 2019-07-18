@@ -2,61 +2,36 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Button , Input, InputAddress, Output, Static } from '@polkadot/ui-app';
-import { I18nProps as Props } from '@polkadot/ui-app/types';
-import keyring from '@polkadot/ui-keyring';
+import { I18nProps } from '@polkadot/ui-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import React from 'react';
 
+import React from 'react';
 import styled from 'styled-components';
+import { withMulti } from '@polkadot/ui-api';
+import { Button, Input, InputAddress, Output, Static } from '@polkadot/ui-app';
+import keyring from '@polkadot/ui-keyring';
+import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+
 import translate from './translate';
 import Unlock from './Unlock';
 
-type State = {
-  currentPair: KeyringPair | null,
-  data: string,
-  isHexData: boolean,
-  isLocked: boolean,
-  isUnlockVisible: boolean,
-  signature: string
-};
+interface Props extends I18nProps {
+  className?: string;
+}
 
-const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  .unlock-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top:0;
-    left:0;
-    background-color: #0f0e0e7a;
-  }
-
- .unlock-overlay-warning {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height:100%;
-  }
-
-  .unlock-overlay-content {
-    color:#fff;
-    text-align:center;
-
-    .ui--Button-Group {
-      text-align: center;
-    }
-  }
-`;
+interface State {
+  currentPair: KeyringPair | null;
+  data: string;
+  isHexData: boolean;
+  isLocked: boolean;
+  isUnlockVisible: boolean;
+  signature: string;
+}
 
 class Sign extends React.PureComponent<Props, State> {
-  state: State;
+  public state: State;
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const pairs = keyring.getPairs();
@@ -67,32 +42,33 @@ class Sign extends React.PureComponent<Props, State> {
       data: '',
       isHexData: false,
       isLocked: currentPair
-        ? currentPair.isLocked()
+        ? currentPair.isLocked
         : false,
       isUnlockVisible: false,
       signature: ''
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
+    const { className } = this.props;
     const { isLocked } = this.state;
 
     return (
       <div className='toolbox--Sign'>
         {this.renderAccount()}
-        <Wrapper>
+        <div className={className}>
           {this.renderInput()}
           {this.renderSignature()}
           <div className='unlock-overlay' hidden={!isLocked}>
             {this.renderUnlockWarning()}
           </div>
           {this.renderUnlock()}
-        </Wrapper>
+        </div>
       </div>
     );
   }
 
-  renderAccount () {
+  public renderAccount (): React.ReactNode {
     const { t } = this.props;
 
     return (
@@ -109,7 +85,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnlockWarning () {
+  public renderUnlockWarning (): React.ReactNode {
     const { t } = this.props;
     const { isLocked } = this.state;
 
@@ -133,7 +109,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderInput () {
+  public renderInput (): React.ReactNode {
     const { t } = this.props;
     const { data, isHexData } = this.state;
 
@@ -165,7 +141,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderSignature () {
+  public renderSignature (): React.ReactNode {
     const { t } = this.props;
     const { signature } = this.state;
 
@@ -184,7 +160,7 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  renderUnlock () {
+  public renderUnlock (): React.ReactNode {
     const { currentPair, isUnlockVisible } = this.state;
 
     if (!isUnlockVisible) {
@@ -199,11 +175,11 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  nextState = (newState: State): void => {
+  private nextState = (newState: Partial<State>): void => {
     this.setState(
       (prevState: State): State => {
         const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;
-        const isLocked = !currentPair || currentPair.isLocked();
+        const isLocked = !currentPair || currentPair.isLocked;
         let signature = '';
 
         if (!isLocked && currentPair) {
@@ -228,25 +204,57 @@ class Sign extends React.PureComponent<Props, State> {
     );
   }
 
-  toggleUnlock = (): void => {
+  private toggleUnlock = (): void => {
     const { isUnlockVisible } = this.state;
 
     this.nextState({
       isUnlockVisible: !isUnlockVisible
-    } as State);
+    });
   }
 
-  onChangeAccount = (accountId: string): void => {
+  private onChangeAccount = (accountId: string): void => {
     const currentPair = keyring.getPair(accountId);
 
-    this.nextState({ currentPair } as State);
+    this.nextState({ currentPair });
   }
 
-  onChangeData = (data: string): void => {
+  private onChangeData = (data: string): void => {
     const isHexData = isHex(data);
 
-    this.nextState({ data, isHexData } as State);
+    this.nextState({ data, isHexData });
   }
 }
 
-export default translate(Sign);
+export default withMulti(
+  styled(Sign)`
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .unlock-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top:0;
+      left:0;
+      background-color: #0f0e0e7a;
+    }
+
+    .unlock-overlay-warning {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height:100%;
+    }
+
+    .unlock-overlay-content {
+      color:#fff;
+      text-align:center;
+
+      .ui--Button-Group {
+        text-align: center;
+      }
+    }
+  `,
+  translate
+);

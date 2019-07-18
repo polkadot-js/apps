@@ -12,42 +12,43 @@ import { isUndefined } from '@polkadot/util';
 import { classes } from './util';
 import Labelled from './Labelled';
 
-type Props<Option> = BareProps & {
-  allowAdd?: boolean,
-  defaultValue?: any,
-  dropdownClassName?: string,
-  help?: React.ReactNode,
-  isButton?: boolean,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isMultiple?: boolean,
-  label?: React.ReactNode,
-  onAdd?: (value: any) => void,
-  onBlur?: () => void,
-  onChange?: (value: any) => void,
-  onClose?: () => void,
-  onSearch?: (filteredOptions: Array<any>, query: string) => Array<Option>,
-  options: Array<Option>,
-  placeholder?: string,
-  renderLabel?: (item: any) => any,
-  searchInput?: {autoFocus: boolean},
-  transform?: (value: any) => any,
-  value?: any,
-  withEllipsis?: boolean,
-  withLabel?: boolean
-};
+interface Props<Option> extends BareProps {
+  allowAdd?: boolean;
+  defaultValue?: any;
+  dropdownClassName?: string;
+  help?: React.ReactNode;
+  isButton?: boolean;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isMultiple?: boolean;
+  label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
+  onAdd?: (value: any) => void;
+  onBlur?: () => void;
+  onChange?: (value: any) => void;
+  onClose?: () => void;
+  onSearch?: (filteredOptions: any[], query: string) => Option[];
+  options: Option[];
+  placeholder?: string;
+  renderLabel?: (item: any) => any;
+  searchInput?: { autoFocus: boolean };
+  transform?: (value: any) => any;
+  value?: any;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
+}
 
 export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
   // Trigger the update on mount - ensuring that the onChange (as described below)
   // is trigerred.
-  componentDidMount () {
-    this.componentDidUpdate({} as Props<Option>);
+  public componentDidMount (): void {
+    this.componentDidUpdate({} as unknown as Props<Option>);
   }
 
   // Here we update the component user with the initial value of the dropdown. In a number of
   // these (e.g. Accounts) the list of available values are managed by the component itself,
   // and there are defaults set (i.e. for accounts the last one used)
-  componentDidUpdate (prevProps: Props<Option>) {
+  public componentDidUpdate (prevProps: Props<Option>): void {
     const { defaultValue, value } = this.props;
     const startValue = isUndefined(value)
       ? defaultValue
@@ -63,8 +64,8 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
     }
   }
 
-  render () {
-    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, onSearch, options, placeholder, renderLabel, searchInput, style, withEllipsis, withLabel, value } = this.props;
+  public render (): React.ReactNode {
+    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onSearch, options, placeholder, renderLabel, searchInput, style, withEllipsis, withLabel, value } = this.props;
     const dropdown = (
       <SUIDropdown
         allowAdditions={allowAdd}
@@ -104,6 +105,7 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
           className={classes('ui--Dropdown', className)}
           help={help}
           label={label}
+          labelExtra={labelExtra}
           style={style}
           withEllipsis={withEllipsis}
           withLabel={withLabel}

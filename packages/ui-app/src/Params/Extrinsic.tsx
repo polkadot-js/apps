@@ -3,29 +3,28 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MethodFunction } from '@polkadot/types/primitive/Method';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { RawParam$OnChange, RawParam$OnEnter } from '@polkadot/ui-params/types';
+import { RawParamOnChange, RawParamOnEnter } from '@polkadot/ui-params/types';
+import { BareProps } from '../types';
 
 import React from 'react';
 import { Method } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
-import translate from '../translate';
 
-type Props = I18nProps & {
-  defaultValue: MethodFunction,
-  isDisabled?: boolean,
-  isError?: boolean,
-  isPrivate: boolean,
-  label: string,
-  onChange?: RawParam$OnChange,
-  onEnter?: RawParam$OnEnter,
-  withLabel?: boolean
-};
+interface Props extends BareProps {
+  defaultValue: MethodFunction;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isPrivate: boolean;
+  label: React.ReactNode;
+  onChange?: RawParamOnChange;
+  onEnter?: RawParamOnEnter;
+  withLabel?: boolean;
+}
 
-class ExtrinsicDisplay extends React.PureComponent<Props> {
-  render () {
-    const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, t, withLabel } = this.props;
+export default class ExtrinsicDisplay extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, withLabel } = this.props;
 
     return (
       <BaseExtrinsic
@@ -34,11 +33,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
-        label={t('{{label}} (extrinsic)', {
-          replace: {
-            label
-          }
-        })}
+        label={label}
         onChange={this.onChange}
         onEnter={onEnter}
         style={style}
@@ -47,7 +42,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
     );
   }
 
-  onChange = (method: Method): void => {
+  private onChange = (method: Method): void => {
     const { onChange } = this.props;
 
     onChange && onChange({
@@ -56,5 +51,3 @@ class ExtrinsicDisplay extends React.PureComponent<Props> {
     });
   }
 }
-
-export default translate(ExtrinsicDisplay);

@@ -28,49 +28,52 @@ import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 import Output from './Output';
 import ActionButtons from './ActionButtons';
 
-type Injected = {
-  api: ApiPromise,
+interface Injected {
+  api: ApiPromise;
   console: {
-    error: (...args: Array<any>) => void,
-    log: (...args: Array<any>) => void
-  },
-  global: null,
-  hashing: typeof hashing,
-  keyring: KeyringInstance | null,
-  types: typeof types,
-  util: typeof util,
-  window: null
-};
+    error: (...args: any[]) => void;
+    log: (...args: any[]) => void;
+  };
+  global: null;
+  hashing: typeof hashing;
+  keyring: KeyringInstance | null;
+  types: typeof types;
+  util: typeof util;
+  window: null;
+}
 
 type Props = ApiProps & AppProps & I18nProps & {
   match: {
     params: {
-      base64?: string
-    }
-  },
+      base64?: string;
+    };
+  };
   // FIXME wait for proper eslint integration in tslint, then hopefully remove this
-  history: any
+  history: any;
 };
 
-type State = {
-  animated: boolean,
-  customExamples: Array<Snippet>,
-  isCustomExample: boolean,
-  isRunning: boolean,
-  logs: Array<Log>,
-  options: Array<Snippet>,
-  sharedExample?: Snippet,
-  selected: Snippet
-};
+interface State {
+  animated: boolean;
+  customExamples: Snippet[];
+  isCustomExample: boolean;
+  isRunning: boolean;
+  logs: Log[];
+  options: Snippet[];
+  sharedExample?: Snippet;
+  selected: Snippet;
+}
 
 class Playground extends React.PureComponent<Props, State> {
-  injected: Injected | null = null;
-  snippets: Array<Snippet> = JSON.parse(JSON.stringify(snippets));
+  private injected: Injected | null = null;
 
-  constructor (props: Props) {
+  private snippets: Snippet[] = JSON.parse(JSON.stringify(snippets));
+
+  public constructor (props: Props) {
     super(props);
 
-    this.snippets.forEach(snippet => snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`);
+    this.snippets.forEach((snippet): void => {
+      snippet.code = `${makeWrapper(this.props.isDevelopment)}${snippet.code}`;
+    });
 
     this.state = {
       animated: true,
@@ -88,7 +91,7 @@ class Playground extends React.PureComponent<Props, State> {
   // There's a ticket and an ongoing process of updating SUI to the new lifecycle methods (here: componentDidMount).
   // Please check https://github.com/Semantic-Org/Semantic-UI-React/issues/2732 for details
   // This needs to change to componentDidMount() as soon as the original MUI component got updated
-  componentWillMount () {
+  public componentWillMount (): void {
     const { match: { params: { base64 } } } = this.props;
 
     const sharedExample = base64 ? this.decodeBase64(base64) : undefined;
@@ -98,22 +101,22 @@ class Playground extends React.PureComponent<Props, State> {
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
 
-    const options: Array<Snippet> = sharedExample
+    const options: Snippet[] = sharedExample
       ? [sharedExample, ...customExamples, ...this.snippets]
       : [...customExamples, ...this.snippets];
 
-    const selected = options.find(option => option.value === localData.selectedValue);
+    const selected = options.find((option): boolean => option.value === localData.selectedValue);
 
-    this.setState((prevState: State): State => ({
+    this.setState({
       customExamples,
       isCustomExample: (selected && selected.type === 'custom') || false,
       options,
       selected: sharedExample || selected || this.snippets[0],
       sharedExample
-    }) as State);
+    });
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { animated, isCustomExample, isRunning, logs, options, selected } = this.state;
     const snippetName = selected.type === 'custom' ? selected.text : undefined;
@@ -191,9 +194,10 @@ class Playground extends React.PureComponent<Props, State> {
     // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
     const exec = `(async ({${Object.keys(this.injected).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); } })(injected);`;
 
+    // eslint-disable-next-line no-new-func
     new Function('injected', exec)(this.injected);
 
-    this.setState({ isRunning: true } as State);
+    this.setState({ isRunning: true });
   }
 
   private stopJs = (): void => {
@@ -204,13 +208,13 @@ class Playground extends React.PureComponent<Props, State> {
     this.injected.api.disconnect();
     this.injected = null;
 
-    this.setState({ isRunning: false } as State);
+    this.setState({ isRunning: false });
   }
 
-  private selectExample = (value: string) => {
+  private selectExample = (value: string): void => {
     if (value.length) {
       const { options } = this.state;
-      const option = options.find(option => option.value === value);
+      const option = options.find((option): boolean => option.value === value);
 
       if (option) {
         localStorage.setItem(STORE_SELECTED, value);
@@ -244,27 +248,27 @@ class Playground extends React.PureComponent<Props, State> {
 
     localStorage.setItem(STORE_EXAMPLES, JSON.stringify([snapshot, ...customExamples]));
 
-    this.setState((prevState: State): State => ({
+    this.setState((prevState: State): Pick<State, never> => ({
       ...prevState,
       customExamples: [snapshot, ...prevState.customExamples],
       isCustomExample: true,
       options,
       selected: snapshot,
       sharedExample: type === 'shared' ? undefined : prevState.sharedExample
-    }) as State);
+    }));
   }
 
   private removeSnippet = (): void => {
     const { customExamples, selected } = this.state;
-    const filtered = customExamples.filter((value) => value.value !== selected.value);
+    const filtered = customExamples.filter((value): boolean => value.value !== selected.value);
     const nextOptions = [...filtered, ...this.snippets];
 
-    this.setState((prevState: State): State => ({
+    this.setState((prevState: State): Pick<State, never> => ({
       ...prevState,
       customExamples: filtered,
       isCustomExample: nextOptions[0].type === 'custom' || false,
       options: prevState.sharedExample ? [prevState.sharedExample, ...nextOptions] : nextOptions
-    }) as State);
+    }));
 
     this.selectExample(nextOptions[0].value);
     localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
@@ -272,10 +276,10 @@ class Playground extends React.PureComponent<Props, State> {
 
   private onEdit = (code: string): void => {
     if (code !== this.state.selected.code) {
-      this.setState((prevState: State): State => ({
+      this.setState((prevState: State): Pick<State, never> => ({
         selected: { ...prevState.selected, code },
         isCustomExample: false
-      } as State));
+      }));
     }
   }
 
@@ -283,9 +287,9 @@ class Playground extends React.PureComponent<Props, State> {
     this.setState({ logs: [] });
   }
 
-  private hookConsole = (type: LogType) => {
-    return (...args: Array<any>): void => {
-      this.setState(({ logs }: State) => {
+  private hookConsole = (type: LogType): (...args: any[]) => void => {
+    return (...args: any[]): void => {
+      this.setState(({ logs }: State): Pick<State, never> => {
         logs.push({ args, type });
 
         return { logs: logs.slice(0) };
@@ -293,20 +297,20 @@ class Playground extends React.PureComponent<Props, State> {
     };
   }
 
-  private decodeBase64 = (base64: string) => {
-    const sharedExample = {
+  private decodeBase64 = (base64: string): Snippet => {
+    const sharedExample: Snippet = {
       code: '',
       label: { basic: true, children: 'URL', size: 'tiny' },
       text: 'Shared code example (unsaved)',
       type: 'shared',
       value: `custom-${Date.now()}`
-    } as Snippet;
+    };
 
     try {
       const compStr = atob(base64);
       const compU8a = new Uint8Array(compStr.length);
 
-      compU8a.forEach((_, i) => {
+      compU8a.forEach((_, i): void => {
         compU8a[i] = compStr.charCodeAt(i);
       });
 
@@ -332,7 +336,7 @@ class Playground extends React.PureComponent<Props, State> {
 
     const u8a = util.stringToU8a(code);
     const compU8a = snappy.compress(u8a);
-    const compStr = compU8a.reduce((str: string, ch: number) => {
+    const compStr = compU8a.reduce((str: string, ch: number): string => {
       return str + String.fromCharCode(ch);
     }, '');
 
@@ -353,23 +357,23 @@ class Playground extends React.PureComponent<Props, State> {
   private copyToClipboard = (link: string): void => {
     // See https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
     const el = document.createElement('textarea');
+
     el.value = link;
     el.setAttribute('readonly', '');
     el.style.position = 'absolute';
     el.style.left = '-9999px';
     document.body.appendChild(el);
 
-    const existingSelection = document.getSelection()!;
-
+    const existingSelection = document.getSelection();
     const selected = existingSelection && existingSelection.rangeCount > 0
-        ? existingSelection.getRangeAt(0)
-        : undefined;
+      ? existingSelection.getRangeAt(0)
+      : undefined;
 
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
 
-    if (selected) {
+    if (existingSelection && selected) {
       existingSelection.removeAllRanges();
       existingSelection.addRange(selected);
     }
@@ -381,6 +385,6 @@ class Playground extends React.PureComponent<Props, State> {
 export default withMulti(
   Playground,
   translate,
-  withApi,
-  withRouter
+  withRouter,
+  withApi
 );

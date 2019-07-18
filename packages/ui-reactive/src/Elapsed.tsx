@@ -7,18 +7,20 @@ import { BareProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import { Moment } from '@polkadot/types';
 
-type Props = BareProps & {
-  value?: Moment | Date | number
-};
+type Ticker = (now: Date) => void;
 
-type State = {
-  now?: Date
-};
+interface Props extends BareProps {
+  value?: Moment | Date | number;
+}
+
+interface State {
+  now?: Date;
+}
 
 const TICK_TIMEOUT = 100;
-const tickers = new Map<Elapsed, (now: Date) => void>();
+const tickers = new Map<Elapsed, Ticker>();
 
-function tick () {
+function tick (): void {
   const now = new Date();
 
   for (const ticker of tickers.values()) {
@@ -33,7 +35,7 @@ tick();
 export default class Elapsed extends React.PureComponent<Props, State> {
   public state: State = {};
 
-  public componentWillMount () {
+  public componentWillMount (): void {
     tickers.set(this, (now: Date): void => {
       this.setState({
         now
@@ -41,11 +43,11 @@ export default class Elapsed extends React.PureComponent<Props, State> {
     });
   }
 
-  public componentWillUnmount () {
+  public componentWillUnmount (): void {
     tickers.delete(this);
   }
 
-  public render () {
+  public render (): React.ReactNode {
     const { className, style, value } = this.props;
     const { now } = this.state;
 

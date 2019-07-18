@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTx$ExtrinsicAdd } from '@polkadot/ui-app/Status/types';
+import { QueueTxExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
@@ -18,34 +18,28 @@ import Balance from './Balance';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
-  queueExtrinsic: QueueTx$ExtrinsicAdd
+  queueExtrinsic: QueueTxExtrinsicAdd;
 };
 
-type State = {
-  isValid: boolean,
-  isValidUnsigned: boolean,
-  method: Method | null,
-  accountNonce: BN,
-  accountId: string
-};
+interface State {
+  isValid: boolean;
+  isValidUnsigned: boolean;
+  method: Method | null;
+  accountNonce?: BN;
+  accountId?: string;
+}
 
 class Selection extends TxComponent<Props, State> {
-  state: State = {
+  public state: State = {
     isValid: false,
-    isValidUnsigned: false
-  } as State;
+    isValidUnsigned: false,
+    method: null
+  };
 
-  render () {
-    const { apiDefaultTx, api, t } = this.props;
+  public render (): React.ReactNode {
+    const { apiDefaultTxSudo, t } = this.props;
     const { isValid, isValidUnsigned, accountId } = this.state;
-    const defaultExtrinsic = (() => {
-      try {
-        return api.tx.balances.transfer;
-      } catch (error) {
-        return apiDefaultTx;
-      }
-    })();
-    const extrinsic = this.getExtrinsic() || defaultExtrinsic;
+    const extrinsic = this.getExtrinsic() || apiDefaultTxSudo;
 
     return (
       <div className='extrinsics--Selection'>
@@ -73,7 +67,7 @@ class Selection extends TxComponent<Props, State> {
         </div>
         <br></br>
         <Extrinsic
-          defaultValue={defaultExtrinsic}
+          defaultValue={apiDefaultTxSudo}
           label={t('submit the following extrinsic')}
           onChange={this.onChangeExtrinsic}
           onEnter={this.sendTx}
@@ -101,7 +95,7 @@ class Selection extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { method = prevState.method, accountNonce = prevState.accountNonce, accountId = prevState.accountId } = newState;
@@ -123,15 +117,15 @@ class Selection extends TxComponent<Props, State> {
   }
 
   private onChangeExtrinsic = (method: Method | null = null): void => {
-    this.nextState({ method } as State);
+    this.nextState({ method });
   }
 
   private onChangeNonce = (accountNonce: BN = new BN(0)): void => {
-    this.nextState({ accountNonce } as State);
+    this.nextState({ accountNonce });
   }
 
   private onChangeSender = (accountId: string): void => {
-    this.nextState({ accountId, accountNonce: new BN(0) } as State);
+    this.nextState({ accountId, accountNonce: new BN(0) });
   }
 
   private getExtrinsic (): SubmittableExtrinsic | null {

@@ -5,41 +5,95 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = {
-  buttons?: React.ReactNode,
-  children: React.ReactNode,
-  className?: string
-};
+import Collection, { CollectionProps, CollectionState, collectionStyles } from './Collection';
 
-class CardGrid extends React.PureComponent<Props> {
-  render () {
-    const { buttons, children, className } = this.props;
+import translate from './translate';
+
+type Props = CollectionProps;
+
+type State = CollectionState;
+
+class CardGrid extends Collection<Props, State> {
+  public static getDerivedStateFromProps ({ children, headerText }: Props): State {
+    const isEmpty = !children || (Array.isArray(children) && !children.length);
+
+    return {
+      isEmpty: isEmpty,
+      showHeader: isEmpty
+        ? !!headerText
+        : true
+    };
+  }
+
+  protected renderEmpty (): React.ReactNode {
+    const { buttons, emptyText, headerText, t } = this.props;
+
+    if (headerText) {
+      return super.renderEmpty();
+    }
 
     return (
-      <div className={className}>
+      <div className='ui--CardGrid-empty'>
+        <h2>{emptyText || t('No items')}</h2>
         {buttons && (
           <div className='ui--CardGrid-buttons'>
             {buttons}
           </div>
         )}
-        <div className='ui--CardGrid-grid'>
-          {children}
-          <div className='ui--CardGrid-spacer' />
-        </div>
+        <div className='ui--CardGrid-spacer' />
+      </div>
+    );
+  }
+
+  public renderCollection (): React.ReactNode {
+    const { children } = this.props;
+
+    return (
+      <div className='ui--CardGrid-grid'>
+        {children}
+        <div className='ui--CardGrid-spacer' />
+        <div className='ui--CardGrid-spacer' />
+        <div className='ui--CardGrid-spacer' />
       </div>
     );
   }
 }
 
-export default styled(CardGrid)`
-  .ui--CardGrid-grid {
-    display: flex;
-    flex-wrap: wrap;
+export default translate(
+  styled(CardGrid as React.ComponentClass<Props, State>)`
+    ${collectionStyles}
 
-    > .ui--CardGrid-spacer {
-      flex: 1 1;
-      margin: .25rem;
-      padding: 1rem 1.5rem;
+    .ui--CardGrid-grid {
+      display: flex;
+      flex-wrap: wrap;
+
+      > .ui--CardGrid-spacer {
+        flex: 1 1;
+        margin: 0.25rem;
+        padding: 0 1.5rem;
+      }
     }
-  }
-`;
+
+    .ui--CardGrid-lowercase {
+      text-transform: lowercase;
+    }
+
+    .ui--Card,
+    .ui--CardGrid-spacer {
+      flex: 1 1;
+      min-width: 35rem;
+      max-width: 71rem;
+    }
+
+    .ui--CardGrid-empty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 6rem 0;
+
+      > h2 {
+        margin-bottom: 2rem;
+      }
+    }
+  `);

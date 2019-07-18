@@ -13,7 +13,7 @@ import Bare from './Bare';
 import Unknown from './Unknown';
 
 export default class Proposal extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = this.props;
 
     if (!isDisabled) {

@@ -24,7 +24,6 @@ The repo is split into a number of packages, each representing an application. T
 - [app-js](packages/app-js/) An online code editor with [@polkadot-js/api](https://github.com/polkadot-js/api/tree/master/packages/api) access to the currently connected node.
 - [app-settings](packages/app-settings/) A basic settings management app, allowing choice of language, node to connect to, and theme
 - [app-staking](packages/app-staking/) A basic staking management app, allowing staking and nominations.
-- [app-nodeinfo](packages/app-nodeinfo/) Node information and status
 - [app-storage](packages/app-storage/) A simple node storage query application. Multiple queries can be queued and updates as new values become available.
 - [app-toolbox](packages/app-toolbox/) Sumission of raw data to RPC endpoints and utility hashing functions.
 - [app-transfer](packages/app-transfer/) A basic account management app, allowing transfer of Units/DOTs between accounts.

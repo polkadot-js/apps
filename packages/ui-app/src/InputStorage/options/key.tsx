@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DropdownOptions } from '../../util/types';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+import { DropdownOptions, DropdownOption } from '../../util/types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
@@ -10,17 +11,17 @@ import ApiPromise from '@polkadot/api/promise';
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
   const section = api.query[sectionName];
 
-  if (!section) {
+  if (!section || Object.keys(section).length === 0) {
     return [];
   }
 
   return Object
     .keys(section)
     .sort()
-    .map((value) => {
-      const method = section[value];
+    .map((value): DropdownOption => {
+      const method = section[value] as unknown as StorageEntry;
       const type = method.meta.type;
-      let input = type.isMap
+      const input = type.isMap
         ? type.asMap.key.toString()
         : '';
 

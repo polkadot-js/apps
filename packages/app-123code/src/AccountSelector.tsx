@@ -7,30 +7,24 @@ import styled from 'styled-components';
 import { Bubble, InputAddress } from '@polkadot/ui-app';
 import { AccountIndex, Balance, Nonce } from '@polkadot/ui-reactive';
 
-type Props = {
-  onChange: (accountId?: string) => void
-};
+interface Props {
+  className?: string;
+  onChange: (accountId?: string) => void;
+}
 
-type State = {
-  accountId?: string
-};
+interface State {
+  accountId?: string;
+}
 
-const Wrapper = styled.section`
-  align-items: flex-end;
+class AccountSelector extends React.PureComponent<Props, State> {
+  public state: State = {};
 
-  .summary {
-    text-align: center;
-  }
-`;
-
-export default class AccountSelector extends React.PureComponent<Props, State> {
-  state: State = {};
-
-  render () {
+  public render (): React.ReactNode {
+    const { className } = this.props;
     const { accountId } = this.state;
 
     return (
-      <Wrapper className='template--AccountSelector ui--row'>
+      <section className={`template--AccountSelector ui--row ${className}`}>
         <InputAddress
           className='medium'
           label='my default account'
@@ -48,15 +42,23 @@ export default class AccountSelector extends React.PureComponent<Props, State> {
             <Nonce params={accountId} />
           </Bubble>
         </div>
-      </Wrapper>
+      </section>
     );
   }
 
   private onChange = (accountId?: string): void => {
     const { onChange } = this.props;
 
-    this.setState({ accountId }, () =>
+    this.setState({ accountId }, (): void =>
       onChange(accountId)
     );
   }
 }
+
+export default styled(AccountSelector)`
+  align-items: flex-end;
+
+  .summary {
+    text-align: center;
+  }
+`;

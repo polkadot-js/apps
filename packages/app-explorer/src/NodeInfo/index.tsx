@@ -8,7 +8,7 @@ import { Info } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { Health, PeerInfo, PendingExtrinsics } from '@polkadot/types';
+import { Health, PeerInfo, PendingExtrinsics, Vector } from '@polkadot/types';
 
 import './index.css';
 
@@ -21,25 +21,26 @@ const POLL_TIMEOUT = 9900;
 
 type Props = ApiProps & AppProps & I18nProps;
 
-type State = {
-  info?: Info,
-  nextRefresh: number,
+interface State {
+  info?: Info;
+  nextRefresh: number;
   timerId?: number;
-};
+}
 
 class App extends React.PureComponent<Props, State> {
   private isActive: boolean = true;
-  state: State = {
+
+  public state: State = {
     nextRefresh: Date.now()
   };
 
-  componentDidMount () {
-    this.getStatus().catch(() => {
+  public componentDidMount (): void {
+    this.getStatus().catch((): void => {
       // ignore
     });
   }
 
-  componentWillUnmount () {
+  public componentWillUnmount (): void {
     const { timerId } = this.state;
 
     this.isActive = false;
@@ -49,7 +50,7 @@ class App extends React.PureComponent<Props, State> {
     }
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { t } = this.props;
     const { info = {}, nextRefresh } = this.state;
 
@@ -61,6 +62,7 @@ class App extends React.PureComponent<Props, State> {
         />
         <Peers peers={info.peers} />
         <Extrinsics
+          blockNumber={info.blockNumber}
           label={t('pending extrinsics')}
           value={info.extrinsics}
         />
@@ -68,7 +70,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private setInfo (info?: Info) {
+  private setInfo (info?: Info): void {
     if (!this.isActive) {
       return;
     }
@@ -80,17 +82,18 @@ class App extends React.PureComponent<Props, State> {
     });
   }
 
-  private getStatus = async () => {
+  private getStatus = async (): Promise<void> => {
     const { api } = this.props;
 
     try {
-      const [health, peers, extrinsics] = await Promise.all([
-        api.rpc.system.health() as Promise<Health>,
-        api.rpc.system.peers() as any as Promise<Array<PeerInfo>>,
-        api.rpc.author.pendingExtrinsics() as Promise<PendingExtrinsics>
+      const [blockNumber, health, peers, extrinsics] = await Promise.all([
+        api.derive.chain.bestNumber(),
+        api.rpc.system.health<Health>(),
+        api.rpc.system.peers<Vector<PeerInfo>>(),
+        api.rpc.author.pendingExtrinsics<PendingExtrinsics>()
       ]);
 
-      this.setInfo({ extrinsics, health, peers });
+      this.setInfo({ blockNumber, extrinsics, health, peers });
     } catch (error) {
       this.setInfo();
     }
