@@ -10,14 +10,11 @@ import styled from 'styled-components';
 
 import { createSize } from './constants';
 
-export type ScanType = 'address' | 'signature';
-
 interface Props extends BaseProps {
   delay?: number;
   onError?: (error: Error) => void;
   onScan?: (data: string) => void;
   size?: number;
-  type: ScanType;
 }
 
 const DEFAULT_DELAY = 150;
@@ -37,21 +34,21 @@ class Scan extends React.PureComponent<Props> {
         <Reader
           className='ui--qr-Scan'
           delay={delay}
-          onError={this.handleError}
-          onScan={this.handleScan}
+          onError={this.onError}
+          onScan={this.onScan}
           style={style}
         />
       </div>
     );
   }
 
-  private handleError = (error: Error): void => {
+  private onError = (error: Error): void => {
     const { onError = DEFAULT_ERROR } = this.props;
 
     onError(error);
   }
 
-  private handleScan = (data: string | null): void => {
+  private onScan = (data: string | null): void => {
     const { onScan } = this.props;
 
     if (!data || !onScan) {

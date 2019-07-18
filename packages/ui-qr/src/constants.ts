@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 const DEFAULT_SIZE = 300;
+const ADDRESS_PREFIX = 'substrate:';
 
 function createSize (size: number = DEFAULT_SIZE): Record<string, string> {
   const height = `${size}px`;
@@ -14,6 +15,7 @@ function createSize (size: number = DEFAULT_SIZE): Record<string, string> {
 }
 
 export {
+  ADDRESS_PREFIX,
   DEFAULT_SIZE,
   createSize
 };

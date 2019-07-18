@@ -12,12 +12,10 @@ import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import { createSize } from './constants';
 
-export type DisplayType = 'extrinsic';
-
 interface Props extends BaseProps {
   size?: number;
-  type: DisplayType;
   value: Uint8Array;
+  withMulti?: boolean;
 }
 
 interface State {
@@ -74,14 +72,16 @@ class Display extends React.PureComponent<Props, State> {
     valueHash: null
   };
 
-  public static getDerivedStateFromProps ({ value }: Props, prevState: State): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ value, withMulti = true }: Props, prevState: State): Pick<State, never> | null {
     const valueHash = xxhashAsHex(value);
 
     if (valueHash === prevState.valueHash) {
       return null;
     }
 
-    const frames = createFrames(value);
+    const frames = withMulti
+      ? createFrames(value)
+      : u8aToString(value);
 
     return {
       frames,
