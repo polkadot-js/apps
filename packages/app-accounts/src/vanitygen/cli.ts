@@ -16,14 +16,14 @@ import matchRegex from './regex';
 
 interface Best {
   address: string;
-  withCase?: boolean;
   count: number;
   mnemonic?: string;
   offset: number;
   seed?: Uint8Array;
+  withCase?: boolean;
 }
 
-const { withCase, match, mnemonic, network, type } = yargs
+const { match, mnemonic, network, type, withCase } = yargs
   .option('match', {
     default: 'Test',
     type: 'string'
