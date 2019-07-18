@@ -56,7 +56,7 @@ class Raw extends TxComponent<Props, State> {
     const { onAdd } = this.props;
     const { key } = this.state;
 
-    onAdd({ key });
+    onAdd({ isConst: false, key });
   }
 
   private onChangeKey = (key: string): void => {
