@@ -17,14 +17,20 @@ interface Props extends I18nProps {
   chain_bestNumber?: BN;
   democracy_launchPeriod?: BN;
   democracy_nextTally?: BN;
-  democracy_publicDelay?: BN;
   democracy_publicPropCount?: BN;
   democracy_referendumCount?: BN;
 }
 
 class Summary extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { chain_bestNumber = new BN(0), democracy_launchPeriod = new BN(1), democracy_nextTally = new BN(0), democracy_publicPropCount, democracy_referendumCount = new BN(0), t } = this.props;
+    const {
+      chain_bestNumber = new BN(0),
+      democracy_launchPeriod = new BN(1),
+      democracy_nextTally = new BN(0),
+      democracy_publicPropCount,
+      democracy_referendumCount = new BN(0),
+      t
+    } = this.props;
 
     return (
       <SummaryBox>
@@ -55,7 +61,7 @@ class Summary extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    'query.democracy.launchPeriod',
+    ['consts.democracy.launchPeriod', { fallbacks: ['query.democracy.launchPeriod'] }],
     'query.democracy.nextTally',
     'query.democracy.publicPropCount',
     'query.democracy.referendumCount',

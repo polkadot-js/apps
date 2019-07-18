@@ -12,13 +12,15 @@ import { isEqual, triggerChange } from '../util';
 import echoTransform from '../transform/echo';
 import withApi from './api';
 
+// FIXME This is not correct, we need some junction of derive, query & consts
 interface Method {
   (...params: any[]): Promise<any>;
   at: (hash: Uint8Array | string, ...params: any[]) => Promise<any>;
+  meta: any;
   multi: (params: any[], cb: (value?: any) => void) => Promise<any>;
 }
 
-type ApiMethodInfo = [Method, any[], boolean];
+type ApiMethodInfo = [Method, any[], string];
 
 type State = CallState;
 
@@ -26,7 +28,21 @@ const NOOP = (): void => {
   // ignore
 };
 
-export default function withCall<P extends ApiProps> (endpoint: string, { at, atProp, callOnResult, isMulti = false, params = [], paramName, paramPick, paramValid = false, propName, transform = echoTransform }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (
+  endpoint: string,
+  {
+    at,
+    atProp,
+    callOnResult,
+    fallbacks,
+    isMulti = false,
+    params = [],
+    paramName,
+    paramPick,
+    paramValid = false,
+    propName,
+    transform = echoTransform
+  }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       public state: State = {
@@ -122,30 +138,43 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
               ? paramValue
               : [paramValue]
           );
-
         return [true, values];
       }
 
-      private getApiMethod (newParams: any[]): ApiMethodInfo {
+      private constructApiSection = (endpoint: string): [Record<string, Method>, string, string, string] => {
         const { api } = this.props;
+        const [area, section, method, ...others] = endpoint.split('.');
 
+        assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
+        assert(['consts', 'rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected consts, rpc, query or derive`);
+        assert(!at || area === 'query', `Only able to do an 'at' query on the api.query interface`);
+
+        const apiSection = (api as any)[area][section];
+
+        return [
+          apiSection,
+          area,
+          section,
+          method
+        ];
+      }
+
+      private getApiMethod (newParams: any[]): ApiMethodInfo {
         if (endpoint === 'subscribe') {
           const [fn, ...params] = newParams;
 
           return [
             fn,
             params,
-            true
+            'subscribe'
           ];
         }
 
-        const [area, section, method, ...others] = endpoint.split('.');
-
-        assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
-        assert(['rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected rpc, query or derive`);
-        assert(!at || area === 'query', `Only able to do an 'at' query on the api.query interface`);
-
-        const apiSection = (api as any)[area][section];
+        const endpoints: string[] = [endpoint].concat(fallbacks || []);
+        const expanded = endpoints.map(this.constructApiSection);
+        const [apiSection, area, section, method] = expanded.find(([apiSection]): boolean =>
+          !!apiSection
+        ) || [{}, expanded[0][1], expanded[0][2], expanded[0][3]];
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
 
@@ -160,7 +189,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
         return [
           apiSection[method],
           newParams,
-          area === 'derive' || (area === 'query' && (!at && !atProp)) || method.startsWith('subscribe')
+          method.startsWith('subscribe') ? 'subscribe' : area
         ];
       }
 
@@ -186,17 +215,19 @@ export default function withCall<P extends ApiProps> (endpoint: string, { at, at
           return;
         }
 
-        const [apiMethod, params, isSubscription] = info;
+        const [apiMethod, params, area] = info;
         const updateCb = (value?: any): void =>
           this.triggerUpdate(this.props, value);
 
         await this.unsubscribe();
 
         try {
-          if (isSubscription) {
+          if (['derive', 'subscribe'].includes(area) || (area === 'query' && (!at && !atProp))) {
             this.destroy = isMulti
               ? await apiMethod.multi(params, updateCb)
               : await apiMethod(...params, updateCb);
+          } else if (area === 'consts') {
+            updateCb(apiMethod);
           } else {
             updateCb(
               at
