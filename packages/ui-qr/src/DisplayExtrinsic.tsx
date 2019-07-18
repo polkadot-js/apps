@@ -6,7 +6,7 @@ import { BaseProps } from './types';
 
 import React from 'react';
 import { u8aConcat } from '@polkadot/util';
-import { decodeAddress } from '@polkadot/util-crypto';
+import { decodeAddress, xxhashAsHex } from '@polkadot/util-crypto';
 
 import QrDisplay from './Display';
 
@@ -17,6 +17,7 @@ interface Props extends BaseProps {
 
 interface State {
   data: Uint8Array | null;
+  dataHash: string | null;
 }
 
 const SUBSTRATE = new Uint8Array([53]);
@@ -25,7 +26,8 @@ const SIGN_TX = new Uint8Array([0]);
 
 export default class DisplayExtrinsic extends React.PureComponent<Props, State> {
   public state: State = {
-    data: null
+    data: null,
+    dataHash: null
   };
 
   public getDerivedStateFromProps ({ address, payload }: Props, prevState: State): State | null {
@@ -36,12 +38,13 @@ export default class DisplayExtrinsic extends React.PureComponent<Props, State> 
       decodeAddress(address),
       payload
     );
+    const dataHash = xxhashAsHex(data);
 
-    if (data === prevState.data) {
+    if (dataHash === prevState.dataHash) {
       return null;
     }
 
-    return { data };
+    return { data, dataHash };
   }
 
   public render (): React.ReactNode {
