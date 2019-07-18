@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 
 export interface CollectionProps extends I18nProps {
+  banner?: React.ReactNode;
   buttons?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
@@ -59,12 +60,13 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   }
 
   public render (): React.ReactNode {
-    const { className } = this.props;
+    const { banner, className } = this.props;
     const { isEmpty, showHeader } = this.state;
 
     return (
       <div className={className}>
         {showHeader && this.renderHeader()}
+        {banner}
         {isEmpty
           ? this.renderEmpty()
           : this.renderCollection()
