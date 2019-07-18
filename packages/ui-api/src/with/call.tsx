@@ -12,9 +12,11 @@ import { isEqual, triggerChange } from '../util';
 import echoTransform from '../transform/echo';
 import withApi from './api';
 
+// FIXME This is not correct, we need some junction of derive, query & consts
 interface Method {
   (...params: any[]): Promise<any>;
   at: (hash: Uint8Array | string, ...params: any[]) => Promise<any>;
+  meta: any;
   multi: (params: any[], cb: (value?: any) => void) => Promise<any>;
 }
 
@@ -139,7 +141,7 @@ export default function withCall<P extends ApiProps> (
         return [true, values];
       }
 
-      private constructApiSection (endpoint: string): any {
+      private constructApiSection = (endpoint: string): [Record<string, Method>, string, string, string] => {
         const { api } = this.props;
         const [area, section, method, ...others] = endpoint.split('.');
 
@@ -149,13 +151,12 @@ export default function withCall<P extends ApiProps> (
 
         const apiSection = (api as any)[area][section];
 
-        return ([
-          endpoint,
+        return [
           apiSection,
           area,
           section,
           method
-        ]);
+        ];
       }
 
       private getApiMethod (newParams: any[]): ApiMethodInfo {
@@ -170,10 +171,10 @@ export default function withCall<P extends ApiProps> (
         }
 
         const endpoints: string[] = [endpoint].concat(fallbacks || []);
-
-        const [, apiSection, area, section, method] = endpoints
-          .map(this.constructApiSection, this)
-          .find(([, apiSection]) => apiSection);
+        const expanded = endpoints.map(this.constructApiSection);
+        const [apiSection, area, section, method] = expanded.find(([apiSection]): boolean =>
+          !!apiSection
+        ) || [{}, expanded[0][1], expanded[0][2], expanded[0][3]];
 
         assert(apiSection && apiSection[method], `Unable to find api.${area}.${section}.${method}`);
 
