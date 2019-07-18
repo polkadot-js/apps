@@ -16,13 +16,14 @@ import matchRegex from './regex';
 
 interface Best {
   address: string;
+  caseSensitive?: boolean;
   count: number;
   mnemonic?: string;
   offset: number;
   seed?: Uint8Array;
 }
 
-const { match, mnemonic, network, type } = yargs
+const { caseSensitive, match, mnemonic, network, type } = yargs
   .option('match', {
     default: 'Test'
   })
@@ -37,6 +38,9 @@ const { match, mnemonic, network, type } = yargs
   .option('mnemonic', {
     default: false
   })
+  .option('caseSensitive', {
+    default: true
+  })
   .argv;
 
 const INDICATORS = ['|', '/', '-', '\\'];
@@ -47,7 +51,7 @@ const options: GeneratorOptions = {
   network,
   runs: 50,
   type: type as KeypairType,
-  withCase: true,
+  withCase: !caseSensitive,
   withHex: !mnemonic
 };
 const startAt = Date.now();
