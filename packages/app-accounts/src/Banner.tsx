@@ -60,26 +60,28 @@ class Banner extends React.PureComponent<Props> {
     return (
       <div className={className}>
         <div className='box'>
-          <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', { replace: {
-            yourBrowser: stringUpperFirst(browserName)
-          } })}</p>
-          <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
-            <li key={name}>
-              <a
-                href={link}
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                {name}
-              </a> ({desc})
-            </li>
-          ))
-          }</ul>
-          <p>{t('The list is updated as more extensions with external signing capability become available.')}&nbsp;<a
-            href='https://github.com/polkadot-js/extension'
-            rel='noopener noreferrer'
-            target='_blank'
-          >{t('Learn more...')}</a></p>
+          <div className='info'>
+            <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', { replace: {
+              yourBrowser: stringUpperFirst(browserName)
+            } })}</p>
+            <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
+              <li key={name}>
+                <a
+                  href={link}
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  {name}
+                </a> ({desc})
+              </li>
+            ))
+            }</ul>
+            <p>{t('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;<a
+              href='https://github.com/polkadot-js/extension'
+              rel='noopener noreferrer'
+              target='_blank'
+            >{t('Learn more...')}</a></p>
+          </div>
         </div>
       </div>
     );
@@ -88,17 +90,16 @@ class Banner extends React.PureComponent<Props> {
 
 export default translate(styled(Banner)`
   padding: 0 0.5rem 0.5rem;
-  text-align: center;
 
   .box {
     background: #fff6e5;
     border-left: 0.25rem solid darkorange;
     border-radius: 0 0.25rem 0.25rem 0;
     box-sizing: border-box;
-    display: inline-block;
-    margin: 0 auto;
-    max-width: 50rem;
     padding: 1rem 1.5rem;
-    text-align: left;
+
+    .info {
+      max-width: 50rem;
+    }
   }
 `);
