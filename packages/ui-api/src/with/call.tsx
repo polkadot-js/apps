@@ -18,7 +18,7 @@ interface Method {
   multi: (params: any[], cb: (value?: any) => void) => Promise<any>;
 }
 
-type ApiMethodInfo = [Method, any[], boolean, string];
+type ApiMethodInfo = [Method, any[], string];
 
 type State = CallState;
 
@@ -165,15 +165,13 @@ export default function withCall<P extends ApiProps> (
           return [
             fn,
             params,
-            true,
-            ''
+            'subscribe'
           ];
         }
 
         const endpoints: string[] = [endpoint].concat(fallbacks || []);
-        let apiSection, area, section, method;
 
-        [endpoint, apiSection, area, section, method] = endpoints
+        const [, apiSection, area, section, method] = endpoints
           .map(this.constructApiSection, this)
           .find(([, apiSection]) => apiSection);
 
@@ -190,8 +188,7 @@ export default function withCall<P extends ApiProps> (
         return [
           apiSection[method],
           newParams,
-          method.startsWith('subscribe'),
-          area
+          method.startsWith('subscribe') ? 'subscribe' : area
         ];
       }
 
@@ -217,14 +214,14 @@ export default function withCall<P extends ApiProps> (
           return;
         }
 
-        const [apiMethod, params, isSubscription, area] = info;
+        const [apiMethod, params, area] = info;
         const updateCb = (value?: any): void =>
           this.triggerUpdate(this.props, value);
 
         await this.unsubscribe();
 
         try {
-          if (isSubscription || area === 'derive' || (area === 'query' && (!at && !atProp))) {
+          if (['derive', 'subscribe'].includes(area) || (area === 'query' && (!at && !atProp))) {
             this.destroy = isMulti
               ? await apiMethod.multi(params, updateCb)
               : await apiMethod(...params, updateCb);
