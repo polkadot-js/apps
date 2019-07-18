@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
-import { Value } from './types';
+import { ConstValue, ConstValueBase } from './types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
@@ -20,18 +21,18 @@ import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
 type Props = ApiProps & I18nProps & {
-  defaultValue: Value;
+  defaultValue: ConstValueBase;
   help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
-  onChange?: (value: Value) => void;
+  onChange?: (value: ConstValue) => void;
   withLabel?: boolean;
 };
 
 interface State {
   optionsMethod: DropdownOptions;
   optionsSection: DropdownOptions;
-  value: Value;
+  value: ConstValue;
 }
 
 class InputConsts extends React.PureComponent<Props, State> {
@@ -43,13 +44,17 @@ class InputConsts extends React.PureComponent<Props, State> {
     const { api, defaultValue: { method, section } } = this.props;
     const firstSec = Object.keys(api.consts)[0];
     const firstMet = Object.keys(api.consts[firstSec])[0];
+    const value = (api.consts[section] && api.consts[section][method])
+      ? { method, section }
+      : { method: firstMet, section: firstSec };
 
     this.state = {
       optionsMethod: keyOptions(api, section),
       optionsSection: sectionOptions(api),
-      value: (api.consts[section] && api.consts[section][method])
-        ? { method, section }
-        : { method: firstMet, section: firstSec }
+      value: {
+        ...value,
+        meta: (api.consts[value.section][value.method] as ConstantCodec).meta
+      }
     };
   }
 
@@ -86,16 +91,20 @@ class InputConsts extends React.PureComponent<Props, State> {
     );
   }
 
-  private onKeyChange = (newValue: Value): void => {
-    const { onChange } = this.props;
-    const { value } = this.state;
+  private onKeyChange = (newValue: ConstValueBase): void => {
+    const { api, onChange } = this.props;
+    const { value: saveValue } = this.state;
 
-    if (value.section === newValue.section && value.method === newValue.method) {
+    if (saveValue.section === newValue.section && saveValue.method === newValue.method) {
       return;
     }
 
-    this.setState({ value: newValue }, (): void =>
-      onChange && onChange(newValue)
+    const { method, section } = newValue;
+    const meta = (api.consts[section][method] as ConstantCodec).meta;
+    const value = { meta, method, section };
+
+    this.setState({ value }, (): void =>
+      onChange && onChange(value)
     );
   }
 

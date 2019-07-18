@@ -5,7 +5,7 @@
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
-import { Value } from './types';
+import { ConstValueBase } from './types';
 
 import React from 'react';
 import { withApi } from '@polkadot/ui-api';
@@ -15,9 +15,9 @@ import { classes } from '../util';
 
 type Props = ApiProps & BareProps & {
   isError?: boolean;
-  onChange: (value: Value) => void;
+  onChange: (value: ConstValueBase) => void;
   options: DropdownOptions;
-  value: Value;
+  value: ConstValueBase;
 };
 
 class SelectKey extends React.PureComponent<Props> {
@@ -42,10 +42,14 @@ class SelectKey extends React.PureComponent<Props> {
     );
   }
 
-  private transform = (method: string): Value => {
+  private transform = (method: string): ConstValueBase => {
     const { value } = this.props;
+    const section = value.section;
 
-    return { method, section: value.section };
+    return {
+      method,
+      section
+    };
   }
 }
 

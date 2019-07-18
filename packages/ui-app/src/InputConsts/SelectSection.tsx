@@ -5,7 +5,7 @@
 import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
-import { Value } from './types';
+import { ConstValueBase } from './types';
 
 import React from 'react';
 
@@ -17,7 +17,7 @@ interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: string) => void;
   options: DropdownOptions;
-  value: Value;
+  value: ConstValueBase;
 }
 
 export default class SelectSection extends React.PureComponent<Props> {

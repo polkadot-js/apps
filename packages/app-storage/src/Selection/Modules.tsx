@@ -110,6 +110,7 @@ class Modules extends TxComponent<Props, State> {
     const { key, values } = this.state;
 
     onAdd({
+      isConst: false,
       key,
       params: values
     });
