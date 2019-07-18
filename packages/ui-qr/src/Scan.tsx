@@ -10,11 +10,14 @@ import styled from 'styled-components';
 
 import { createSize } from './constants';
 
+export type ScanType = 'address' | 'signature';
+
 interface Props extends BaseProps {
   delay?: number;
   onError?: (error: Error) => void;
   onScan?: (data: string) => void;
   size?: number;
+  type: ScanType;
 }
 
 const DEFAULT_DELAY = 150;
