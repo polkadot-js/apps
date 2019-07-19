@@ -19,7 +19,13 @@ import {
   storageRetrieveInfoOnQueryKeys
 } from './storage-examples';
 
-import { extrinsicMakeTransfer } from './extrinsics-examples';
+import {
+  constsStakingParameters
+} from './consts-examples';
+
+import {
+  extrinsicMakeTransfer
+} from './extrinsics-examples';
 
 const snippets: Snippet[] = [
   rpcNetworkAuthoring,
@@ -31,6 +37,7 @@ const snippets: Snippet[] = [
   storageListenToBalanceChange,
   storageListenToMultipleBalancesChange,
   storageRetrieveInfoOnQueryKeys,
+  constsStakingParameters,
   extrinsicMakeTransfer
 ];
 
