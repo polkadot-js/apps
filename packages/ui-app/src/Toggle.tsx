@@ -9,28 +9,31 @@ import SUICheckbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import styled from 'styled-components';
 
 type Props = BareProps & {
+  asSwitch?: boolean,
   defaultValue?: boolean,
   label: React.ReactNode,
-  onChange?: (isChecked: boolean) => void
+  onChange?: (isChecked: boolean) => void,
+  value?: boolean
 };
 
 class Toggle extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, defaultValue, label } = this.props;
+    const { className, asSwitch, defaultValue, value, label } = this.props;
 
     return (
       <div className={className}>
         <SUICheckbox
+          checked={value}
           defaultChecked={defaultValue}
           onChange={this.onChange}
-          toggle
+          toggle={asSwitch}
         />
         <label>{label}</label>
       </div>
     );
   }
 
-  private onChange = (event: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
+  private onChange = (_: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
     const { onChange } = this.props;
 
     onChange && onChange(checked);
