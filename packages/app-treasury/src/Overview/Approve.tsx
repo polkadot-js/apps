@@ -50,7 +50,13 @@ class Approve extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
+    const { api, t } = this.props;
+
+    // disable voting for 1.x (we only use elections here)
+    if (!api.query.elections) {
+      return null;
+    }
+
     return (
       <div className='ui--Row-buttons'>
         <Button.Group>
@@ -100,13 +106,10 @@ export default withMulti(
   translate,
   withApi,
   withCalls(
-    [
-      'query.elections.members',
-      {
-        propName: 'threshold',
-        transform: (value: [AccountId, BlockNumber][]): number =>
-          1 + (value.length / 2)
-      }
-    ]
+    ['query.elections.members', {
+      propName: 'threshold',
+      transform: (value: [AccountId, BlockNumber][]): number =>
+        1 + (value.length / 2)
+    }]
   )
 );
