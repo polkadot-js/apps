@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { UInt } from '@polkadot/types';
-import { isUndefined } from '@polkadot/util';
+import { formatNumber, isUndefined } from '@polkadot/util';
 
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
@@ -39,12 +39,12 @@ class CardSummary extends React.PureComponent<Props> {
           ? `>${
             progress.isPercent
               ? '100'
-              : total.toString()
+              : formatNumber(total)
           }`
           : (
             progress.isPercent
               ? value.muln(100).div(total).toString()
-              : value.toString()
+              : formatNumber(value)
           )
       )
       : undefined;
@@ -67,11 +67,11 @@ class CardSummary extends React.PureComponent<Props> {
                 : `${left}${progress.isPercent ? '' : '/'}${
                   progress.isPercent
                     ? '%'
-                    : progress.total.toString()
+                    : formatNumber(progress.total)
                 }`
             )
           }
-          { progress && <Progress {...progress} /> }
+          {progress && <Progress {...progress} />}
         </Labelled>
       </article>
     );
