@@ -20,11 +20,17 @@ interface Best {
   mnemonic?: string;
   offset: number;
   seed?: Uint8Array;
+  withCase?: boolean;
 }
 
-const { match, mnemonic, network, type } = yargs
+const { match, mnemonic, network, type, withCase } = yargs
   .option('match', {
-    default: 'Test'
+    default: 'Test',
+    type: 'string'
+  })
+  .option('mnemonic', {
+    default: false,
+    type: 'boolean'
   })
   .option('network', {
     choices: ['substrate', 'polkadot', 'kusama'],
@@ -34,8 +40,9 @@ const { match, mnemonic, network, type } = yargs
     choices: ['ed25519', 'sr25519'],
     default: 'sr25519'
   })
-  .option('mnemonic', {
-    default: false
+  .option('withCase', {
+    default: false,
+    type: 'boolean'
   })
   .argv;
 
@@ -43,11 +50,11 @@ const INDICATORS = ['|', '/', '-', '\\'];
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
 const options: GeneratorOptions = {
-  match: `${match}`,
+  match,
   network,
   runs: 50,
   type: type as KeypairType,
-  withCase: true,
+  withCase,
   withHex: !mnemonic
 };
 const startAt = Date.now();
