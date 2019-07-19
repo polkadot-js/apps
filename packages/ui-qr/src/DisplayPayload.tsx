@@ -20,9 +20,9 @@ interface State {
   dataHash: string | null;
 }
 
-const SUBSTRATE = new Uint8Array([53]);
-const CRYPTO_SR25519 = new Uint8Array([1]);
-const SIGN_TX = new Uint8Array([0]);
+const SUBSTRATE = new Uint8Array([0x53]);
+const CRYPTO_SR25519 = new Uint8Array([0x01]);
+const SIGN_TX = new Uint8Array([0x00]);
 
 export default class DisplayPayload extends React.PureComponent<Props, State> {
   public state: State = {
