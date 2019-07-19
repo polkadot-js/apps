@@ -7,7 +7,7 @@ import { BaseProps } from './types';
 import React from 'react';
 
 import QrScan from './Scan';
-import { stringToU8a } from '@polkadot/util';
+import { encodeString } from './util';
 
 interface Props extends BaseProps {
   onError?: (error: Error) => void;
@@ -35,6 +35,6 @@ export default class ScanSignature extends React.PureComponent<Props> {
       return;
     }
 
-    onScan(stringToU8a(data));
+    onScan(encodeString(data));
   }
 }

@@ -7,10 +7,11 @@ import { BaseProps } from './types';
 import React from 'react';
 import qrcode from 'qrcode-generator';
 import styled from 'styled-components';
-import { u8aConcat, u8aToString } from '@polkadot/util';
+import { u8aConcat } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import { createSize } from './constants';
+import { encodeNumber, decodeString } from './util';
 
 interface Props extends BaseProps {
   size?: number;
@@ -39,10 +40,6 @@ function getDataUrl (value: string): string {
   return qr.createDataURL(16, 0);
 }
 
-function numToU8a (value: number): Uint8Array {
-  return new Uint8Array([value >> 8, value & 256]);
-}
-
 function createFrames (input: Uint8Array): string[] {
   const frames = [];
   let idx = 0;
@@ -54,10 +51,10 @@ function createFrames (input: Uint8Array): string[] {
   }
 
   return frames.map((frame, index: number): string =>
-    u8aToString(u8aConcat(
+    decodeString(u8aConcat(
       MULTIPART,
-      numToU8a(frames.length),
-      numToU8a(index),
+      encodeNumber(frames.length),
+      encodeNumber(index),
       frame
     ))
   );
@@ -79,9 +76,9 @@ class Display extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const frames = withMulti
+    const frames: string[] = withMulti
       ? createFrames(value)
-      : u8aToString(value);
+      : [decodeString(value)];
 
     return {
       frames,
