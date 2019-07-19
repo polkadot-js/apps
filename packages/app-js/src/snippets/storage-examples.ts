@@ -9,7 +9,7 @@ export const storageGetInfo: Snippet = {
   text: 'Get chain state information',
   label: { color: 'blue', children: 'Storage', size: 'tiny' },
   code: `// Get chain state information
-// Make our basic chain state/storage queries, all in one go
+// Make our basic chain state / storage queries, all in one go
 
 const [now, minimumValidatorCount, validators] = await Promise.all([
   api.query.timestamp.now(),
