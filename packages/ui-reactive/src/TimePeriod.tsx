@@ -13,24 +13,24 @@ import { formatNumber } from '@polkadot/util';
 type Props = BareProps & CallProps & {
   children?: React.ReactNode;
   label?: React.ReactNode;
-  timestamp_blockPeriod?: Moment | Option<Moment>; // support for previous
-  timestamp_minimumPeriod?: Moment; // support for new version
+  timestamp_minimumPeriod?: Moment | Option<Moment>; // Type Option<Moment> for pre 1.0 support
 };
 
 export class TimePeriod extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { api, children, className, label = '', style, timestamp_blockPeriod, timestamp_minimumPeriod } = this.props;
-    const period = (api.consts && api.consts.timestamp && api.consts.timestamp.minimumPeriod as Moment) ||
-      timestamp_minimumPeriod ||
-      (
-        timestamp_blockPeriod
-          ? (
-            (timestamp_blockPeriod as Moment).toNumber
-              ? (timestamp_blockPeriod as Moment)
-              : (timestamp_blockPeriod as Option<Moment>).unwrapOr(null)
-          )
-          : null
-      );
+    const { children, className, label = '', style, timestamp_minimumPeriod } = this.props;
+
+    // const period = timestamp_minimumPeriod && timestamp_minimumPeriod as Moment).toNumber
+    // ? (timestamp_minimumPeriod as Moment)
+    // : (timestamp_minimumPeriod as Option<Moment>).unwrapOr(null);
+
+    const period = timestamp_minimumPeriod
+      ? !(timestamp_minimumPeriod as Moment).toNumber
+        ? (timestamp_minimumPeriod as Option<Moment>).unwrapOr(null)
+        : timestamp_minimumPeriod
+      : null;
+
+    console.log('Period', period);
 
     return (
       <div
@@ -48,8 +48,6 @@ export class TimePeriod extends React.PureComponent<Props> {
 }
 
 export default withCalls<Props>(
-  // pre-substrate 1.x
-  'query.timestamp.blockPeriod',
-  // substrate 1.x
-  'query.timestamp.minimumPeriod'
+  // substrate 1.x: 'query.timestamp.blockPeriod',  pre-substrate 1.x:   'query.timestamp.blockPeriod'
+  ['consts.timestamp.minimumPeriod', { fallbacks: ['query.timestamp.minimumPeriod', 'query.timestamp.blockPeriod'] }]
 )(TimePeriod);
