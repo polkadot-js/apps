@@ -5,10 +5,11 @@
 import { BaseProps } from './types';
 
 import React from 'react';
-import { stringToU8a, u8aConcat } from '@polkadot/util';
+import { u8aConcat } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import { ADDRESS_PREFIX } from './constants';
+import { encodeString } from './util';
 import QrDisplay from './Display';
 
 interface Props extends BaseProps {
@@ -20,7 +21,7 @@ interface State {
   dataHash: string | null;
 }
 
-const PREFIX = stringToU8a(ADDRESS_PREFIX);
+const PREFIX = encodeString(ADDRESS_PREFIX);
 
 export default class DisplayExtrinsic extends React.PureComponent<Props, State> {
   public state: State = {
@@ -31,7 +32,7 @@ export default class DisplayExtrinsic extends React.PureComponent<Props, State> 
   public getDerivedStateFromProps ({ address }: Props, prevState: State): State | null {
     const data = u8aConcat(
       PREFIX,
-      stringToU8a(address)
+      encodeString(address)
     );
     const dataHash = xxhashAsHex(data);
 
