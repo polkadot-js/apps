@@ -38,7 +38,7 @@ export default class Params extends React.PureComponent<Props, State> {
         name,
         type: getTypeDef(type, name)
       }))
-    } as unknown as State;
+    };
   }
 
   public render (): React.ReactNode {

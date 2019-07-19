@@ -4,6 +4,7 @@
 // import { I18nProps } from '@polkadot/ui-app/types';
 
 // @ts-ignore This line needed for the styled export... don't ask why
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
@@ -14,9 +15,9 @@ import LinkPolkascan from './LinkPolkascan';
 
 import translate from './translate';
 
-type Props = AddressProps & {
-  withExplorer?: boolean
-};
+interface Props extends AddressProps {
+  withExplorer?: boolean;
+}
 
 class AddressCard extends React.PureComponent<Props> {
   public render (): React.ReactNode {

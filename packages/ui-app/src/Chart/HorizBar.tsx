@@ -27,6 +27,15 @@ interface State {
   valuesStr?: string;
 }
 
+interface Config {
+  labels: string[];
+  datasets: {
+    data: number[];
+    backgroundColor: string[];
+    hoverBackgroundColor: string[];
+  }[];
+}
+
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
@@ -40,7 +49,7 @@ export default class ChartHorizBar extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }) => {
+    const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }): Config => {
       const dataset = data.datasets[0];
 
       dataset.backgroundColor.push(alphaColor(normalColor));

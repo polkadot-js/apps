@@ -9,7 +9,7 @@ import { GeneratorOptions } from './types';
 import yargs from 'yargs';
 import chalk from 'chalk';
 import { u8aToHex } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
+import { cryptoWaitReady, setAddressPrefix } from '@polkadot/util-crypto';
 
 import generator from '.';
 import matchRegex from './regex';
@@ -20,18 +20,29 @@ interface Best {
   mnemonic?: string;
   offset: number;
   seed?: Uint8Array;
+  withCase?: boolean;
 }
 
-const { match, mnemonic, type } = yargs
+const { match, mnemonic, network, type, withCase } = yargs
   .option('match', {
-    default: 'Test'
+    default: 'Test',
+    type: 'string'
+  })
+  .option('mnemonic', {
+    default: false,
+    type: 'boolean'
+  })
+  .option('network', {
+    choices: ['substrate', 'polkadot', 'kusama'],
+    default: 'substrate'
   })
   .option('type', {
     choices: ['ed25519', 'sr25519'],
     default: 'sr25519'
   })
-  .option('mnemonic', {
-    default: false
+  .option('withCase', {
+    default: false,
+    type: 'boolean'
   })
   .argv;
 
@@ -39,10 +50,11 @@ const INDICATORS = ['|', '/', '-', '\\'];
 const NUMBER_REGEX = new RegExp('(\\d+?)(?=(\\d{3})+(?!\\d)|$)', 'g');
 
 const options: GeneratorOptions = {
-  match: `${match}`,
+  match,
+  network,
   runs: 50,
   type: type as KeypairType,
-  withCase: true,
+  withCase,
   withHex: !mnemonic
 };
 const startAt = Date.now();
@@ -53,7 +65,7 @@ let best: Best = {
 };
 let total = 0;
 let indicator = -1;
-const tests = match.split(',');
+const tests = options.match.split(',');
 
 tests.forEach((test): void => {
   if (!matchRegex.test(test)) {
@@ -61,6 +73,20 @@ tests.forEach((test): void => {
     process.exit(-1);
   }
 });
+
+switch (network) {
+  case 'kusama':
+    setAddressPrefix(2);
+    break;
+
+  case 'polkadot':
+    setAddressPrefix(0);
+    break;
+
+  default:
+    setAddressPrefix(42);
+    break;
+}
 
 console.log(options);
 

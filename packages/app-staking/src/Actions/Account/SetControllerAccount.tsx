@@ -70,7 +70,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { defaultControllerId, stashId, t } = this.props;
     const { controllerId, controllerError } = this.state;
 
@@ -108,7 +108,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
     );
   }
 
-  private renderSessionAccountWarning () {
+  private renderSessionAccountWarning (): React.ReactNode {
     const { isValidating = false, t } = this.props;
 
     if (!isValidating) {
@@ -124,11 +124,12 @@ class SetControllerAccount extends TxComponent<Props, State> {
       </article>
     );
   }
-  private onChangeController = (controllerId: string) => {
+
+  private onChangeController = (controllerId: string): void => {
     this.setState({ controllerId });
   }
 
-  private onControllerError = (controllerError: string | null) => {
+  private onControllerError = (controllerError: string | null): void => {
     this.setState({ controllerError });
   }
 }

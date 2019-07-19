@@ -92,7 +92,7 @@ class InputStorage extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState({ value: newValue }, () =>
+    this.setState({ value: newValue }, (): void =>
       onChange && onChange(newValue)
     );
   }
@@ -108,7 +108,7 @@ class InputStorage extends React.PureComponent<Props, State> {
     const optionsMethod = keyOptions(api, newSection);
     const newValue = api.query[newSection][optionsMethod[0].value];
 
-    this.setState({ optionsMethod }, () =>
+    this.setState({ optionsMethod }, (): void =>
       this.onKeyChange(newValue)
     );
   }

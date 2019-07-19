@@ -10,16 +10,16 @@ import styled from 'styled-components';
 import LabelHelp from './LabelHelp';
 import { classes } from './util';
 
-type Props = BareProps & {
-  help?: React.ReactNode,
-  isHidden?: boolean,
-  isSmall?: boolean,
-  label?: React.ReactNode,
-  labelExtra?: React.ReactNode,
-  children: React.ReactNode,
-  withLabel?: boolean,
-  withEllipsis?: boolean
-};
+interface Props extends BareProps {
+  help?: React.ReactNode;
+  isHidden?: boolean;
+  isSmall?: boolean;
+  label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
+  children: React.ReactNode;
+  withLabel?: boolean;
+  withEllipsis?: boolean;
+}
 
 const defaultLabel: React.ReactNode = (
   <div>&nbsp;</div>
@@ -52,6 +52,7 @@ const Wrapper = styled.div`
     .labelExtra {
       position: absolute;
       text-align: left;
+      text-transform: lowercase;
       top: 0.5rem;
       z-index: 1;
     }

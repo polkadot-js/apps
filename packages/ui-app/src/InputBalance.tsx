@@ -9,22 +9,22 @@ import React from 'react';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { InputNumber } from '@polkadot/ui-app';
 
-type Props = BareProps & {
-  autoFocus?: boolean,
-  defaultValue?: BN | string,
-  help?: React.ReactNode,
-  isDisabled?: boolean,
-  isError?: boolean,
-  label?: any,
-  maxValue?: BN,
-  onChange?: (value?: BN) => void,
-  onEnter?: () => void,
-  placeholder?: string,
-  value?: BN | string,
-  withEllipsis?: boolean,
-  withLabel?: boolean,
-  withMax?: boolean
-};
+interface Props extends BareProps {
+  autoFocus?: boolean;
+  defaultValue?: BN | string;
+  help?: React.ReactNode;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: any;
+  maxValue?: BN;
+  onChange?: (value?: BN) => void;
+  onEnter?: () => void;
+  placeholder?: string;
+  value?: BN | string;
+  withEllipsis?: boolean;
+  withLabel?: boolean;
+  withMax?: boolean;
+}
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 

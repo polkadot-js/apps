@@ -23,10 +23,11 @@ class Propose extends TxModal<Props, State> {
     value: new BN(0)
   };
 
-  headerText = () => this.props.t('Submit a spend proposal');
+  protected headerText = (): string => this.props.t('Submit a spend proposal');
 
-  txMethod = () => 'treasury.proposeSpend';
-  txParams = () => {
+  protected txMethod = (): string => 'treasury.proposeSpend';
+
+  protected txParams = (): (string | BN | undefined)[] => {
     const { beneficiary, value } = this.state;
 
     return [
@@ -34,7 +35,7 @@ class Propose extends TxModal<Props, State> {
     ];
   }
 
-  isDisabled = () => {
+  protected isDisabled = (): boolean => {
     const { accountId, beneficiary, value } = this.state;
     const hasValue = !!value && value.gtn(0);
     const hasBeneficiary = !!beneficiary;
@@ -42,7 +43,7 @@ class Propose extends TxModal<Props, State> {
     return !accountId || !hasValue || !hasBeneficiary;
   }
 
-  renderTrigger = () => {
+  protected renderTrigger = (): React.ReactNode => {
     const { t } = this.props;
 
     return (
@@ -57,7 +58,7 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { value } = this.state;
     const hasValue = !!value && value.gtn(0);
@@ -83,26 +84,26 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
-      (prevState: State): State => {
+      (prevState: State): Pick<State, never> => {
         const { accountId = prevState.accountId, beneficiary = prevState.beneficiary, value = prevState.value } = newState;
 
         return {
           accountId,
           beneficiary,
           value
-        } as State;
+        };
       }
     );
   }
 
   private onChangeBeneficiary = (beneficiary: string): void => {
-    this.nextState({ beneficiary } as State);
+    this.nextState({ beneficiary });
   }
 
   private onChangeValue = (value?: BN): void => {
-    this.nextState({ value } as State);
+    this.nextState({ value });
   }
 }
 

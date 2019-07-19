@@ -48,7 +48,7 @@ const tags = loadTags();
 
 export default class InputTags extends React.PureComponent<Props> {
   public state: State = {
-    options: tags.map((value) => ({
+    options: tags.map((value): { key: string; text: string; value: string } => ({
       key: value, text: value, value
     }))
   };
@@ -84,7 +84,7 @@ export default class InputTags extends React.PureComponent<Props> {
     tags.push(value);
     saveTags(tags);
 
-    this.setState(({ options }: State) => ({
+    this.setState(({ options }: State): Pick<State, never> => ({
       options: [...options, { key: value, text: value, value }]
     }));
   }

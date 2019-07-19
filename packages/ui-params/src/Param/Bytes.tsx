@@ -11,9 +11,9 @@ import { Button } from '@polkadot/ui-app';
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-type State = {
-  isFileDrop: boolean
-};
+interface State {
+  isFileDrop: boolean;
+}
 
 export default class Bytes extends React.PureComponent<Props, State> {
   public state: State = {
@@ -29,7 +29,7 @@ export default class Bytes extends React.PureComponent<Props, State> {
       : this.renderInput();
   }
 
-  private renderInput () {
+  private renderInput (): React.ReactNode {
     const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type, withLabel } = this.props;
 
     return (
@@ -54,7 +54,7 @@ export default class Bytes extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderFileButton () {
+  private renderFileButton (): React.ReactNode {
     const { isDisabled } = this.props;
 
     if (isDisabled) {
@@ -70,7 +70,7 @@ export default class Bytes extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderFile () {
+  private renderFile (): React.ReactNode {
     const { className, isDisabled, isError, label, style, withLabel } = this.props;
 
     return (
@@ -86,10 +86,10 @@ export default class Bytes extends React.PureComponent<Props, State> {
     );
   }
 
-  private toggleFile = () => {
-    this.setState(({ isFileDrop }: State) => ({
+  private toggleFile = (): void => {
+    this.setState(({ isFileDrop }: State): State => ({
       isFileDrop: !isFileDrop
-    }));
+    } as unknown as State));
   }
 
   private onChangeFile = (value: Uint8Array): void => {

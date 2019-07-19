@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -39,10 +40,10 @@ class Proposals extends React.PureComponent<Props> {
     );
   }
 
-  private renderProposals () {
+  private renderProposals (): React.ReactNode {
     const { democracy_publicProps = [] } = this.props;
 
-    return democracy_publicProps.map(([idNumber, proposal]) => (
+    return democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
       <ProposalDisplay
         idNumber={idNumber}
         key={idNumber.toString()}

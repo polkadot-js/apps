@@ -44,7 +44,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderEntry (route: Route) {
+  private renderEntry (route: Route): React.ReactNode {
     return (
       <Entry
         key={route.name}
@@ -57,7 +57,7 @@ class App extends React.PureComponent<Props, State> {
   // the entries of an equal width. So here we add a non-content spacers at the end that just
   // ensures flex has enough items to render something usable to the user. Since we don't
   // quite know how many items per row, we just render a bunch, n === routes.length
-  private renderSpacer (route: Route, index: number) {
+  private renderSpacer (route: Route, index: number): React.ReactNode {
     return (
       <Spacer key={index} />
     );

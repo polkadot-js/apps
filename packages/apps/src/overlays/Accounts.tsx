@@ -31,7 +31,7 @@ class Accounts extends React.PureComponent<Props, State> {
     isHidden: false
   };
 
-  static getDerivedStateFromProps ({ allAccounts }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ allAccounts }: Props, prevState: State): Pick<State, never> | null {
     if (!allAccounts) {
       return null;
     }
@@ -44,7 +44,7 @@ class Accounts extends React.PureComponent<Props, State> {
 
     return {
       hasAccounts
-    } as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -61,7 +61,7 @@ class Accounts extends React.PureComponent<Props, State> {
         icon='users'
       >
         <Trans i18nKey='noAccounts'>
-          You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.
+          You don&apos;t have any accounts. Some features are currently hidden and will only become available once you have accounts.
           {' '}
           <Link
             to = {{ pathname: '/accounts', state: { isCreateOpen: true } }}
@@ -74,7 +74,7 @@ class Accounts extends React.PureComponent<Props, State> {
     );
   }
 
-  private onClose = () => {
+  private onClose = (): void => {
     this.setState({ isHidden: true });
   }
 }

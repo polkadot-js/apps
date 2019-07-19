@@ -11,15 +11,15 @@ import { hexToU8a, u8aConcat } from '@polkadot/util';
 
 import Bare from './Bare';
 
-type State$Param = {
-  isValid: boolean,
-  u8a: Uint8Array
-};
+interface StateParam {
+  isValid: boolean;
+  u8a: Uint8Array;
+}
 
-type State = {
-  key: State$Param,
-  value: State$Param
-};
+interface State {
+  key: StateParam;
+  value: StateParam;
+}
 
 export default class KeyValue extends React.PureComponent<Props, State> {
   public state: State = {
@@ -66,7 +66,7 @@ export default class KeyValue extends React.PureComponent<Props, State> {
     );
   }
 
-  static createParam (hex: string, length: number = -1): State$Param {
+  public static createParam (hex: string, length: number = -1): StateParam {
     let u8a;
 
     try {
@@ -85,9 +85,9 @@ export default class KeyValue extends React.PureComponent<Props, State> {
     };
   }
 
-  nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
-      (prevState: State, { onChange }: Props) => {
+      (prevState: State, { onChange }: Props): State => {
         const { key = prevState.key, value = prevState.value } = newState;
 
         onChange && onChange({
@@ -98,16 +98,16 @@ export default class KeyValue extends React.PureComponent<Props, State> {
           )
         });
 
-        return newState;
+        return newState as State;
       }
     );
   }
 
-  onChangeKey = (key: string): void => {
-    this.nextState({ key: KeyValue.createParam(key) } as State);
+  private onChangeKey = (key: string): void => {
+    this.nextState({ key: KeyValue.createParam(key) });
   }
 
-  onChangeValue = (value: string): void => {
-    this.nextState({ value: KeyValue.createParam(value) } as State);
+  private onChangeValue = (value: string): void => {
+    this.nextState({ value: KeyValue.createParam(value) });
   }
 }

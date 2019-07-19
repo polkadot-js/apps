@@ -14,6 +14,7 @@ import { Button, CardGrid } from '@polkadot/ui-app';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Account from './Account';
+import Banner from './Banner';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
@@ -44,6 +45,7 @@ class Overview extends React.PureComponent<Props, State> {
 
     return (
       <CardGrid
+        banner={<Banner />}
         buttons={
           <Button.Group>
             <Button
@@ -107,15 +109,15 @@ class Overview extends React.PureComponent<Props, State> {
   }
 
   private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }): State => ({
+    this.setState(({ isCreateOpen }): Pick<State, never> => ({
       isCreateOpen: !isCreateOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleImport = (): void => {
-    this.setState(({ isImportOpen }): State => ({
+    this.setState(({ isImportOpen }): Pick<State, never> => ({
       isImportOpen: !isImportOpen
-    }) as unknown as State);
+    }));
   }
 }
 

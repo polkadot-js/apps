@@ -10,7 +10,7 @@ export default function createOptions (): DropdownOptions {
   return Object
     .keys(map)
     .sort()
-    .map((name) => ({
+    .map((name): { text: string; value: string } => ({
       text: name,
       value: name
     }));

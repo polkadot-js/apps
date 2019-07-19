@@ -112,6 +112,10 @@ class ABI extends React.PureComponent<Props, State> {
     const { help, isDisabled, label, onRemove } = this.props;
     const { contractAbi } = this.state;
 
+    if (!contractAbi) {
+      return null;
+    }
+
     return (
       <Labelled
         label={label}
@@ -119,7 +123,7 @@ class ABI extends React.PureComponent<Props, State> {
         withLabel={!!label}
       >
         <Messages
-          contractAbi={contractAbi!}
+          contractAbi={contractAbi}
           onRemove={onRemove || this.onRemove}
           isLabelled={!!label}
           isRemovable={!isDisabled}

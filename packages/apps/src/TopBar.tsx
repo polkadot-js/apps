@@ -8,9 +8,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
 
-type Props = {
-  className?: string
-};
+interface Props {
+  className?: string;
+}
 
 class TopBar extends React.PureComponent<Props> {
   public render (): React.ReactNode {

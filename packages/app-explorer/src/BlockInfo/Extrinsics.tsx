@@ -33,20 +33,25 @@ class Extrinsics extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { value = [] } = this.props;
 
     return (value || []).map(this.renderExtrinsic);
   }
 
   // FIXME This is _very_ similar to what we have in democracy/Item
-  private renderExtrinsic = (extrinsic: Extrinsic, index: number) => {
+  private renderExtrinsic = (extrinsic: Extrinsic, index: number): React.ReactNode => {
     const { blockNumber, t } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
-
+    const isMortal = extrinsic.signature.era.isMortalEra;
     let eraEnd;
-    if (extrinsic.signature.era.isMortalEra) {
-      eraEnd = extrinsic.signature.era.asMortalEra.death((blockNumber || new BlockNumber(0)).toNumber());
+    let eraStart;
+
+    if (blockNumber && isMortal) {
+      const mortalEra = extrinsic.signature.era.asMortalEra;
+
+      eraEnd = mortalEra.death(blockNumber.toNumber());
+      eraStart = mortalEra.birth(blockNumber.toNumber());
     }
 
     return (
@@ -66,15 +71,15 @@ class Extrinsics extends React.PureComponent<Props> {
           <Call
             className='details'
             mortality={
-              eraEnd
-                ? t(
-                  `mortal${blockNumber ? ' - ends at #{{blockNumber}}' : ''}`,
-                  {
+              isMortal
+                ? blockNumber
+                  ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
                     replace: {
-                      blockNumber: (eraEnd && blockNumber) ? formatNumber(eraEnd) : ''
+                      endsAt: formatNumber(eraEnd),
+                      startAt: formatNumber(eraStart)
                     }
-                  }
-                )
+                  })
+                  : t('mortal')
                 : t('immortal')
             }
             value={extrinsic}
@@ -90,7 +95,7 @@ class Extrinsics extends React.PureComponent<Props> {
     );
   }
 
-  private renderSigner (extrinsic: Extrinsic) {
+  private renderSigner (extrinsic: Extrinsic): React.ReactNode {
     const { t } = this.props;
 
     if (!extrinsic.signature.isSigned) {

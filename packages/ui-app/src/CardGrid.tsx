@@ -14,27 +14,27 @@ type Props = CollectionProps;
 type State = CollectionState;
 
 class CardGrid extends Collection<Props, State> {
-  static getDerivedStateFromProps ({ children, headerText }: Props) {
-    if (!children || (children as any[]).length <= 0) {
-      return { isEmpty: true, showHeader: !!headerText };
-    }
-    return { isEmpty: false, showHeader: true };
+  public static getDerivedStateFromProps ({ children, headerText }: Props): State {
+    const isEmpty = !children || (Array.isArray(children) && !children.length);
+
+    return {
+      isEmpty: isEmpty,
+      showHeader: isEmpty
+        ? !!headerText
+        : true
+    };
   }
 
-  renderEmpty () {
-    const { buttons, headerText, t } = this.props;
+  protected renderEmpty (): React.ReactNode {
+    const { buttons, emptyText, headerText, t } = this.props;
 
     if (headerText) {
       return super.renderEmpty();
     }
 
-    const emptyText = this.props.emptyText || t('No items');
-
     return (
       <div className='ui--CardGrid-empty'>
-        <h2>
-          {emptyText}
-        </h2>
+        <h2>{emptyText || t('No items')}</h2>
         {buttons && (
           <div className='ui--CardGrid-buttons'>
             {buttons}
@@ -45,7 +45,7 @@ class CardGrid extends Collection<Props, State> {
     );
   }
 
-  renderCollection () {
+  public renderCollection (): React.ReactNode {
     const { children } = this.props;
 
     return (
@@ -96,5 +96,4 @@ export default translate(
         margin-bottom: 2rem;
       }
     }
-  }
-`);
+  `);

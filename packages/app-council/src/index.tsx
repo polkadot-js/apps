@@ -10,7 +10,7 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/ui-app';
 
 import Overview from './Overview';
-import Proposals from './Proposals';
+import Motions from './Motions';
 import translate from './translate';
 
 type Props = AppProps & BareProps & I18nProps;
@@ -30,11 +30,11 @@ class App extends React.PureComponent<Props, State> {
         {
           isRoot: true,
           name: 'overview',
-          text: t('Collective overview')
+          text: t('Council overview')
         },
         {
-          name: 'proposals',
-          text: t('Proposals')
+          name: 'motions',
+          text: t('Motions')
         }
       ]
     };
@@ -53,7 +53,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/proposals`} component={Proposals} />
+          <Route path={`${basePath}/motions`} component={Motions} />
           <Route component={Overview} />
         </Switch>
       </main>

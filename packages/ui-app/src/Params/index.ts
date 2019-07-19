@@ -8,8 +8,8 @@ import Call from './Call';
 import Proposal from './Proposal';
 
 const components: ComponentMap = {
-  'Call': Call,
-  'Proposal': Proposal
+  Call,
+  Proposal
 };
 
 export default components;

@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { DigestItem, Struct, Tuple, U8a, Vector, getTypeDef } from '@polkadot/types';
+import { DigestItem, Struct, Tuple, TypeDef, U8a, Vector, getTypeDef } from '@polkadot/types';
 import { Column } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 
@@ -30,7 +31,8 @@ class Logs extends React.PureComponent<Props> {
     );
   }
 
-  private renderItem = (item: DigestItem, index: number) => {
+  private renderItem = (item: DigestItem, index: number): React.ReactNode => {
+    const { t } = this.props;
     let content: React.ReactNode;
 
     if (item.value instanceof Struct) {
@@ -55,7 +57,7 @@ class Logs extends React.PureComponent<Props> {
             <h3>{item.type.toString()}</h3>
           </div>
           <details>
-            <summary>Details</summary>
+            <summary>{t('Details')}</summary>
             {content}
           </details>
         </article>
@@ -63,7 +65,7 @@ class Logs extends React.PureComponent<Props> {
     );
   }
 
-  private formatU8a (value: U8a) {
+  private formatU8a (value: U8a): React.ReactNode {
     return (
       <Params
         isDisabled
@@ -73,13 +75,13 @@ class Logs extends React.PureComponent<Props> {
     );
   }
 
-  private formatStruct (struct: Struct) {
-    const types: { [index: string]: string } = struct.Type;
-    const params = Object.keys(types).map((name) => ({
+  private formatStruct (struct: Struct): React.ReactNode {
+    const types: Record<string, string> = struct.Type;
+    const params = Object.keys(types).map((name): { name: string; type: TypeDef } => ({
       name,
       type: getTypeDef(types[name])
     }));
-    const values = struct.toArray().map((value) => ({
+    const values = struct.toArray().map((value): { isValid: boolean; value: Codec } => ({
       isValid: true,
       value
     }));
@@ -93,12 +95,12 @@ class Logs extends React.PureComponent<Props> {
     );
   }
 
-  private formatTuple (tuple: Tuple) {
+  private formatTuple (tuple: Tuple): React.ReactNode {
     const types = tuple.Types;
-    const params = types.map((type) => ({
+    const params = types.map((type): { type: TypeDef } => ({
       type: getTypeDef(type)
     }));
-    const values = tuple.toArray().map((value) => ({
+    const values = tuple.toArray().map((value): { isValid: boolean; value: Codec } => ({
       isValid: true,
       value
     }));
@@ -112,13 +114,13 @@ class Logs extends React.PureComponent<Props> {
     );
   }
 
-  private formatVector (vector: Vector<any>) {
+  private formatVector (vector: Vector<any>): React.ReactNode {
     const type = getTypeDef(vector.Type);
-    const values = vector.toArray().map((value) => ({
+    const values = vector.toArray().map((value): { isValid: boolean; value: Codec } => ({
       isValid: true,
       value
     }));
-    const params = values.map((_, index) => ({
+    const params = values.map((_, index): { name: string; type: TypeDef } => ({
       name: `${index}`,
       type
     }));

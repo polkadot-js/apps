@@ -9,9 +9,9 @@ import styled from 'styled-components';
 
 import media from './media';
 
-type Props = BareProps & {
-  children: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+}
 
 class FilterOverlay extends React.PureComponent<Props> {
   public render (): React.ReactNode {

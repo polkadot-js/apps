@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { TabItem } from '@polkadot/ui-app/Tabs';
 import { ComponentProps, LocationProps } from './types';
 
 import React from 'react';
@@ -51,12 +52,12 @@ class App extends React.PureComponent<Props, State> {
     });
   }
 
-  public static getDerivedStateFromProps ({ contracts }: Props): State {
+  public static getDerivedStateFromProps ({ contracts }: Props): Pick<State, never> {
     const hasContracts = !!contracts && Object.keys(contracts).length >= 1;
 
     return {
       hasContracts
-    } as unknown as State;
+    };
   }
 
   public render (): React.ReactNode {
@@ -81,7 +82,7 @@ class App extends React.PureComponent<Props, State> {
                 name: 'contracts',
                 text: 'Contracts'
               }
-            ].map((tab) => ({ ...tab, text: t(tab.text) }))
+            ].map((tab): TabItem => ({ ...tab, text: t(tab.text) }))
             }
           />
         </header>

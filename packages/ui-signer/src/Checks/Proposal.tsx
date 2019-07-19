@@ -35,7 +35,11 @@ export class Proposal extends React.PureComponent<Props, State> {
     isBelowMinimum: false
   };
 
-  public static getDerivedStateFromProps ({ deposit, democracy_minimumDeposit = new BN(0), onChange }: Props): State {
+  public static getDerivedStateFromProps ({
+    deposit,
+    democracy_minimumDeposit = new BN(0),
+    onChange
+  }: Props): State {
     const extraAmount = deposit instanceof Compact
       ? deposit.toBn()
       : deposit;
@@ -87,5 +91,7 @@ export class Proposal extends React.PureComponent<Props, State> {
 export default withMulti(
   Proposal,
   translate,
-  withCalls<Props>('query.democracy.minimumDeposit')
+  withCalls<Props>(
+    ['consts.democracy.minimumDeposit', { fallbacks: ['query.democracy.minimumDeposit'] }]
+  )
 );

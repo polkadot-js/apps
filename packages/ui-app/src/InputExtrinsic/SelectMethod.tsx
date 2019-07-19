@@ -12,13 +12,13 @@ import ApiPromise from '@polkadot/api/promise';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = BareProps & {
-  api: ApiPromise,
-  isError?: boolean,
-  onChange: (value: MethodFunction) => void,
-  options: DropdownOptions,
-  value: MethodFunction
-};
+interface Props extends BareProps {
+  api: ApiPromise;
+  isError?: boolean;
+  onChange: (value: MethodFunction) => void;
+  options: DropdownOptions;
+  value: MethodFunction;
+}
 
 export default class SelectMethod extends React.PureComponent<Props> {
   public render (): React.ReactNode {

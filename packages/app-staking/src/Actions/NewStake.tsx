@@ -81,7 +81,7 @@ class NewStake extends TxComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { t } = this.props;
     const { controllerId, controllerError, bondValue, destination, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
@@ -160,23 +160,23 @@ class NewStake extends TxComponent<Props, State> {
     });
   }
 
-  private onChangeController = (controllerId: string) => {
+  private onChangeController = (controllerId: string): void => {
     this.nextState({ controllerId });
   }
 
-  private onChangeDestination = (destination: number) => {
+  private onChangeDestination = (destination: number): void => {
     this.nextState({ destination });
   }
 
-  private onChangeStash = (stashId: string) => {
+  private onChangeStash = (stashId: string): void => {
     this.nextState({ stashId });
   }
 
-  private onChangeValue = (bondValue?: BN) => {
+  private onChangeValue = (bondValue?: BN): void => {
     this.nextState({ bondValue });
   }
 
-  private onControllerError = (controllerError: string | null) => {
+  private onControllerError = (controllerError: string | null): void => {
     this.setState({ controllerError });
   }
 }

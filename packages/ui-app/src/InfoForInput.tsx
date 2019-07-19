@@ -8,11 +8,11 @@ import styled from 'styled-components';
 import { classes } from './util';
 import Labelled from './Labelled';
 
-type Props = {
-  children: React.ReactNode
-  className?: string,
+interface Props {
+  children: React.ReactNode;
+  className?: string;
   type?: 'error' | 'info' | 'warning';
-};
+}
 
 const Wrapper = styled.div`
   background: white;

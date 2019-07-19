@@ -14,14 +14,14 @@ import Card from './Card';
 import ProposedAction, { styles as proposedActionStyles } from './ProposedAction';
 import { styles as rowStyles } from './Row';
 
-type Props = RouteComponentProps & {
-  className?: string,
-  children?: React.ReactNode,
-  accessory?: React.ReactNode,
-  proposal?: Proposal | null,
-  idNumber: BN | number | string,
-  expandNested?: boolean
-};
+interface Props extends RouteComponentProps {
+  className?: string;
+  children?: React.ReactNode;
+  accessory?: React.ReactNode;
+  proposal?: Proposal | null;
+  idNumber: BN | number | string;
+  expandNested?: boolean;
+}
 
 export const styles = `
   ${rowStyles}
@@ -47,7 +47,7 @@ class ActionItem extends React.PureComponent<Props> {
     );
   }
 
-  private renderProposal () {
+  private renderProposal (): React.ReactNode {
     const { idNumber, proposal, expandNested } = this.props;
 
     return (

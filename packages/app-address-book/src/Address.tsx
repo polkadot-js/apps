@@ -101,15 +101,15 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private toggleForget = (): void => {
-    this.setState(({ isForgetOpen }): State => ({
+    this.setState(({ isForgetOpen }): Pick<State, never> => ({
       isForgetOpen: !isForgetOpen
-    }) as unknown as State);
+    }));
   }
 
   private toggleTransfer = (): void => {
-    this.setState(({ isTransferOpen }): State => ({
+    this.setState(({ isTransferOpen }): Pick<State, never> => ({
       isTransferOpen: !isTransferOpen
-    }) as unknown as State);
+    }));
   }
 
   private onForget = (): void => {

@@ -77,7 +77,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderContent () {
+  private renderContent (): React.ReactNode {
     const { controllerId, stashId, t } = this.props;
     const { sessionId } = this.state;
 
@@ -112,11 +112,11 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     );
   }
 
-  private onChangeSession = (sessionId: string) => {
+  private onChangeSession = (sessionId: string): void => {
     this.setState({ sessionId });
   }
 
-  private onSessionError = (sessionError: string | null) => {
+  private onSessionError = (sessionError: string | null): void => {
     this.setState({ sessionError });
   }
 }

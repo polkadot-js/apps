@@ -30,25 +30,33 @@ class Approve extends TxModal<Props, State> {
     isApproving: false
   };
 
-  private approveOptions = () => [
+  private approveOptions = (): { text: string; value: boolean }[] => [
     { text: this.props.t('Aye, I approve'), value: true },
     { text: this.props.t('Nay, I do not approve'), value: false }
   ]
 
-  headerText = () => this.props.t('Approve or reject proposal');
+  protected headerText = (): string => this.props.t('Approve or reject proposal');
 
-  txMethod = () => 'collective.propose';
-  txParams = () => {
+  protected txMethod = (): string => 'collective.propose';
+
+  protected txParams = (): [number, any] => {
     const { api, proposalId, threshold } = this.props;
     const { isApproving } = this.state;
 
     const method = isApproving ? 'approveProposal' : 'rejectProposal';
     const spendProposal = api.tx.treasury[method](proposalId);
+
     return [threshold, spendProposal];
   }
 
-  renderTrigger = () => {
-    const { t } = this.props;
+  protected renderTrigger = (): React.ReactNode => {
+    const { api, t } = this.props;
+
+    // disable voting for 1.x (we only use elections here)
+    if (!api.query.elections) {
+      return null;
+    }
+
     return (
       <div className='ui--Row-buttons'>
         <Button.Group>
@@ -63,7 +71,7 @@ class Approve extends TxModal<Props, State> {
     );
   }
 
-  renderPreContent = () => {
+  protected renderPreContent = (): React.ReactNode => {
     const { proposalInfo = null } = this.props;
 
     if (!proposalInfo) {
@@ -73,14 +81,14 @@ class Approve extends TxModal<Props, State> {
     return proposalInfo;
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { isApproving } = this.state;
 
     return (
       <Dropdown
-        help={t('Propose a majority collective proposal to either approve or reject this spend proposal')}
-        label={t('proposed collective action')}
+        help={t('Propose a majority council motion to either approve or reject this spend proposal')}
+        label={t('proposed council action')}
         options={this.approveOptions()}
         onChange={this.onChangeApproving}
         value={isApproving}
@@ -98,13 +106,10 @@ export default withMulti(
   translate,
   withApi,
   withCalls(
-    [
-      'query.elections.members',
-      {
-        propName: 'threshold',
-        transform: (value: [AccountId, BlockNumber][]): number =>
-          1 + (value.length / 2)
-      }
-    ]
+    ['query.elections.members', {
+      propName: 'threshold',
+      transform: (value: [AccountId, BlockNumber][]): number =>
+        1 + (value.length / 2)
+    }]
   )
 );

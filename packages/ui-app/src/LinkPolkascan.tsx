@@ -14,21 +14,21 @@ import translate from './translate';
 export type LinkTypes = 'address' | 'block' | 'extrinsic';
 
 type Props = ApiProps & I18nProps & {
-  className?: string,
-  data: string,
-  type: LinkTypes
+  className?: string;
+  data: string;
+  type: LinkTypes;
 };
 
 const BASE = 'https://polkascan.io/pre/';
 
-const CHAINS: { [index: string]: string } = {
-  'Alexander': 'alexander'
+const CHAINS: Record<string, string> = {
+  Alexander: 'alexander'
 };
 
-const TYPES: { [index: string]: string } = {
-  'address': '/module/account/',
-  'block': '/system/block/',
-  'extrinsic': '/system/extrinsic/'
+const TYPES: Record<string, string> = {
+  address: '/module/account/',
+  block: '/system/block/',
+  extrinsic: '/system/extrinsic/'
 };
 
 class LinkPolkascan extends React.PureComponent<Props> {
@@ -45,7 +45,7 @@ class LinkPolkascan extends React.PureComponent<Props> {
       <div className={className}>
         <a
           href={`${BASE}${extChain}${extType}${data}`}
-          rel='noopener'
+          rel='noopener noreferrer'
           target='_blank'
         >
           {t('View this {{type}} on Polkascan.io', { replace: { type } })}

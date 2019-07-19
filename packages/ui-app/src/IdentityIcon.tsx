@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -65,14 +66,14 @@ class IdentityIcon extends React.PureComponent<Props, State> {
     isValidator: false
   };
 
-  static getDerivedStateFromProps ({ session_validators = [], staking_bonded, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ session_validators = [], staking_bonded, value }: Props, prevState: State): State | null {
     const address = value
       ? value.toString()
       : null;
     const bonded = staking_bonded && staking_bonded.isSome
       ? staking_bonded.unwrap().toString()
       : null;
-    const isValidator = !!session_validators.find((validator) =>
+    const isValidator = !!session_validators.find((validator): boolean =>
       [address, bonded].includes(validator.toString())
     );
 
@@ -86,7 +87,7 @@ class IdentityIcon extends React.PureComponent<Props, State> {
 
     return (
       <QueueConsumer>
-        {({ queueAction }) =>
+        {({ queueAction }): React.ReactNode =>
           <CopyIconI18N
             isHighlight={isValidator}
             {...this.props}

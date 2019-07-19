@@ -9,7 +9,7 @@ import { QueueTxRpcAdd } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
-import { getTypeDef } from '@polkadot/types';
+import { TypeDef, getTypeDef } from '@polkadot/types';
 import { Button, InputRpc, TxComponent } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 
@@ -39,7 +39,7 @@ class Selection extends TxComponent<Props, State> {
   public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, rpc } = this.state;
-    const params = rpc.params.map(({ name, type }) => ({
+    const params = rpc.params.map(({ name, type }): { name: string; type: TypeDef } => ({
       name,
       type: getTypeDef(type)
     }));
@@ -71,7 +71,7 @@ class Selection extends TxComponent<Props, State> {
     );
   }
 
-  private nextState (newState: State): void {
+  private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
@@ -92,11 +92,11 @@ class Selection extends TxComponent<Props, State> {
     this.nextState({
       rpc,
       values: [] as RawParam[]
-    } as State);
+    });
   }
 
   private onChangeValues = (values: RawParam[]): void => {
-    this.nextState({ values } as State);
+    this.nextState({ values });
   }
 
   private onSubmit = (): void => {
@@ -106,9 +106,7 @@ class Selection extends TxComponent<Props, State> {
     queueRpc({
       accountId,
       rpc,
-      values: values.map(({ value }) =>
-        value
-      )
+      values: values.map(({ value }): any => value)
     });
   }
 }
