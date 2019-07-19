@@ -9,9 +9,9 @@ import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
 import { classes } from './util';
 
-type Props = BareProps & {
-  label?: React.ReactNode
-};
+interface Props extends BareProps {
+  label?: React.ReactNode;
+}
 
 const defaultLabel: React.ReactNode = (
   <div>&nbsp;</div>

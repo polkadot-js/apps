@@ -11,7 +11,7 @@ import { BestFinalized, BestNumber, TimeNow, TimePeriod, TotalIssuance } from '@
 import SummarySession from './SummarySession';
 import translate from './translate';
 
-interface Props extends I18nProps {}
+type Props = I18nProps;
 
 class Summary extends React.PureComponent<Props> {
   public render (): React.ReactNode {

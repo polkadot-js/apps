@@ -33,7 +33,7 @@ export default class Code extends React.PureComponent<Props> {
     );
   }
 
-  private renderDisabled () {
+  private renderDisabled (): React.ReactNode {
     const { className, defaultValue, isError, label, style, withLabel } = this.props;
 
     return (

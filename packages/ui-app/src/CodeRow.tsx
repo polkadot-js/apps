@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/ui-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -56,7 +57,7 @@ class CodeRow extends Row<Props, State> {
     this.state = this.createState();
   }
 
-  static getDerivedStateFromProps ({ code: { json }, accounts_idAndIndex = [] }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ code: { json }, accounts_idAndIndex = [] }: Props, prevState: State): State | null {
     const codeHash = json.codeHash || DEFAULT_HASH;
     const name = json.name || DEFAULT_NAME;
     const tags = json.tags || [];
@@ -66,7 +67,7 @@ class CodeRow extends Row<Props, State> {
       ? accountId.toString()
       : DEFAULT_ADDR;
 
-    const state = { tags } as State;
+    const state: Partial<State> = { tags };
     let hasChanged = false;
 
     if (codeHash !== prevState.codeHash) {
@@ -85,7 +86,7 @@ class CodeRow extends Row<Props, State> {
     }
 
     return hasChanged
-      ? state
+      ? state as State
       : null;
   }
 
@@ -112,7 +113,7 @@ class CodeRow extends Row<Props, State> {
     );
   }
 
-  private createState () {
+  private createState (): State {
     const { code: { json: { codeHash = DEFAULT_HASH, name = DEFAULT_NAME, tags = [] } } } = this.props;
 
     return {
@@ -125,7 +126,7 @@ class CodeRow extends Row<Props, State> {
     };
   }
 
-  protected renderCodeHash () {
+  protected renderCodeHash (): React.ReactNode {
     const { codeHash } = this.state;
 
     return (
@@ -145,7 +146,7 @@ class CodeRow extends Row<Props, State> {
     );
   }
 
-  protected renderButtons () {
+  protected renderButtons (): React.ReactNode {
     const { buttons } = this.props;
 
     if (!buttons) {
@@ -159,7 +160,7 @@ class CodeRow extends Row<Props, State> {
     );
   }
 
-  protected renderIcon () {
+  protected renderIcon (): React.ReactNode {
     return (
       <CodeIcon>
         <Icon
@@ -170,7 +171,7 @@ class CodeRow extends Row<Props, State> {
     );
   }
 
-  protected renderMessages () {
+  protected renderMessages (): React.ReactNode {
     const { code: { contractAbi }, withMessages } = this.props;
 
     if (!withMessages || !contractAbi) {
@@ -185,7 +186,7 @@ class CodeRow extends Row<Props, State> {
     );
   }
 
-  protected saveName = async () => {
+  protected saveName = async (): Promise<void> => {
     const { codeHash, name } = this.state;
     const trimmedName = name.trim();
 
@@ -197,7 +198,7 @@ class CodeRow extends Row<Props, State> {
     }
   }
 
-  protected saveTags = async () => {
+  protected saveTags = async (): Promise<void> => {
     const { codeHash, tags } = this.state;
 
     if (codeHash) {

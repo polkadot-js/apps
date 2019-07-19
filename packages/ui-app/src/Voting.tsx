@@ -35,27 +35,28 @@ interface State extends TxModalState {
 class Voting extends TxModal<Props, State> {
   public state: State;
 
-  headerText = () => {
+  protected headerText = (): string => {
     const { isCouncil, t } = this.props;
 
-    return t(isCouncil ? 'Vote on council proposal' : 'Vote on proposal');
+    return isCouncil ? t('Vote on council proposal') : t('Vote on proposal');
   }
 
-  accountLabel = () => this.props.t('Vote with account');
-  accountHelp = () => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
+  protected accountLabel = (): string => this.props.t('Vote with account');
 
-  txMethod = () => {
+  protected accountHelp = (): string => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
+
+  protected txMethod = (): string => {
     const { isCouncil } = this.props;
 
     return isCouncil ? 'collective.vote' : 'democracy.vote';
   }
 
-  txParams = () => {
+  protected txParams = (): any[] => {
     const { hash, idNumber, isCouncil } = this.props;
     const { voteValue } = this.state;
 
     return isCouncil
-      ? [hash!, idNumber, voteValue]
+      ? [hash, idNumber, voteValue]
       : [idNumber, voteValue];
   }
 
@@ -74,7 +75,7 @@ class Voting extends TxModal<Props, State> {
     };
   }
 
-  renderPreContent = () => {
+  protected renderPreContent = (): React.ReactNode => {
     const { idNumber, proposal } = this.props;
 
     return (
@@ -91,7 +92,7 @@ class Voting extends TxModal<Props, State> {
     );
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
     const { voteOptions, voteValue } = this.state;
 
@@ -106,7 +107,7 @@ class Voting extends TxModal<Props, State> {
     );
   }
 
-  renderTrigger = () => {
+  protected renderTrigger = (): React.ReactNode => {
     const { t } = this.props;
 
     return (
@@ -121,7 +122,7 @@ class Voting extends TxModal<Props, State> {
     );
   }
 
-  private onChangeVote = (voteValue: boolean) => {
+  private onChangeVote = (voteValue: boolean): void => {
     this.setState({ voteValue });
   }
 }

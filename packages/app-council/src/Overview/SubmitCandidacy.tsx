@@ -4,6 +4,7 @@
 
 import { ComponentProps } from './types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { Button } from '@polkadot/ui-app';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
@@ -15,13 +16,13 @@ interface Props extends ComponentProps, TxModalProps {}
 type State = TxModalState;
 
 class SubmitCandidacy extends TxModal<Props, State> {
-  headerText = () => this.props.t('Submit your council candidacy');
+  protected headerText = (): string => this.props.t('Submit your council candidacy');
 
-  accountLabel = () => this.props.t('Candidate account');
-  accountHelp = () => this.props.t('This account will be nominated to fill the council slot you specify.');
+  protected accountLabel = (): string => this.props.t('Candidate account');
+  protected accountHelp = (): string => this.props.t('This account will be nominated to fill the council slot you specify.');
 
-  txMethod = () => 'elections.submitCandidacy';
-  txParams = () => {
+  protected txMethod = (): string => 'elections.submitCandidacy';
+  protected txParams = (): [BN] => {
     const { electionsInfo: { candidateCount } } = this.props;
 
     return [
@@ -29,13 +30,13 @@ class SubmitCandidacy extends TxModal<Props, State> {
     ];
   }
 
-  isDisabled = () => {
+  protected isDisabled = (): boolean => {
     const { accountId } = this.state;
 
     return !accountId;
   }
 
-  renderTrigger = () => {
+  protected renderTrigger = (): React.ReactNode => {
     const { t } = this.props;
 
     return (

@@ -16,6 +16,7 @@ import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
+import { ConstValue } from '@polkadot/ui-app/InputConsts/types';
 
 interface Props extends I18nProps {
   onRemove: (id: number) => void;
@@ -23,8 +24,8 @@ interface Props extends I18nProps {
 }
 
 interface State {
-  inputs: React.ReactNode[];
-  Component: React.ComponentType<{}>;
+  inputs?: React.ReactNode[];
+  Component?: React.ComponentType<{}>;
   spread: Record<number, boolean>;
 }
 
@@ -37,53 +38,65 @@ interface CacheInstance {
 const cache: CacheInstance[] = [];
 
 class Query extends React.PureComponent<Props, State> {
-  public state: State = { spread: {} } as State;
+  public state: State = { spread: {} };
 
-  static getCachedComponent (query: QueryTypes): CacheInstance {
-    const { id, key, params = [] } = query as StorageModuleQuery;
+  public static getCachedComponent (query: QueryTypes): CacheInstance {
+    const { id, isConst, key, params = [] } = query as StorageModuleQuery;
 
     if (!cache[id]) {
-      const values: any[] = params.map(({ value }) => value);
-      const type = key.creator.meta
-        ? key.creator.meta.type.toString()
-        : 'Data';
-      const defaultProps = { className: 'ui--output' };
+      let renderHelper;
+      let type: string;
 
-      // render function to create an element for the query results which is plugged to the api
-      const renderHelper = withCallDiv('subscribe', {
-        paramName: 'params',
-        paramValid: true,
-        params: [key, ...values]
-      });
+      if (isConst) {
+        const { meta, method, section } = key as unknown as ConstValue;
+
+        renderHelper = withCallDiv(`consts.${section}.${method}`);
+        type = meta.type.toString();
+      } else {
+        const values: any[] = params.map(({ value }): any => value);
+
+        // render function to create an element for the query results which is plugged to the api
+        renderHelper = withCallDiv('subscribe', {
+          paramName: 'params',
+          paramValid: true,
+          params: [key, ...values]
+        });
+        type = key.creator.meta
+          ? key.creator.meta.type.toString()
+          : 'Data';
+      }
+
+      const defaultProps = { className: 'ui--output' };
       const Component = renderHelper(
         // By default we render a simple div node component with the query results in it
-        (value: any) => valueToText(type, value, true, true),
+        (value: any): React.ReactNode => valueToText(type, value, true, true),
         defaultProps
       );
+
       cache[query.id] = Query.createComponent(type, Component, defaultProps, renderHelper);
     }
 
     return cache[id];
   }
 
-  static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer) {
+  public static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
     return {
       Component,
       // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
-      render: (createComponent: RenderFn) => {
+      render: (createComponent: RenderFn): React.ComponentType<any> => {
         return renderHelper(createComponent, defaultProps);
       },
       // In order to modify the parameters which are used to render the default component, we can use this method
-      refresh: (swallowErrors: boolean, contentShorten: boolean) => {
+      refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> => {
         return renderHelper(
-          (value: any) => valueToText(type, value, swallowErrors, contentShorten),
+          (value: any): React.ReactNode => valueToText(type, value, swallowErrors, contentShorten),
           defaultProps
         );
       }
     };
   }
 
-  static getDerivedStateFromProps ({ value }: Props) {
+  public static getDerivedStateFromProps ({ value }: Props): Pick<State, never> {
     const Component = Query.getCachedComponent(value).Component;
     const inputs: React.ReactNode[] = isU8a(value.key)
       ? []
@@ -99,20 +112,26 @@ class Query extends React.PureComponent<Props, State> {
     return {
       Component,
       inputs
-    } as State;
+    };
   }
 
   public render (): React.ReactNode {
     const { className, value } = this.props;
     const { Component } = this.state;
-    const { key } = value;
-    const type = isU8a(key)
-      ? 'Data'
-      : (
-        key.creator.meta.modifier.isOptional
-          ? `Option<${key.creator.meta.type}>`
-          : key.creator.meta.type.toString()
-      );
+    const { isConst, key } = value;
+    const type = isConst
+      ? (key as unknown as ConstValue).meta.type.toString()
+      : isU8a(key)
+        ? 'Data'
+        : (
+          (key as StorageEntryPromise).creator.meta.modifier.isOptional
+            ? `Option<${(key as StorageEntryPromise).creator.meta.type}>`
+            : (key as StorageEntryPromise).creator.meta.type.toString()
+        );
+
+    if (!Component) {
+      return null;
+    }
 
     return (
       <div className={`storage--Query storage--actionrow ${className}`}>
@@ -120,7 +139,7 @@ class Query extends React.PureComponent<Props, State> {
           <Labelled
             label={
               <div className='ui--Param-text'>
-                {this.keyToName(key)}: {type}
+                {this.keyToName(isConst, key)}: {type}
               </div>
             }
           >
@@ -136,7 +155,7 @@ class Query extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButtons () {
+  private renderButtons (): React.ReactNode {
     const { id, key } = this.props.value as StorageModuleQuery;
 
     const buttons = [
@@ -148,7 +167,7 @@ class Query extends React.PureComponent<Props, State> {
       />
     ];
 
-    if (key.creator.meta && ['Bytes', 'Data'].includes(key.creator.meta.type.toString())) {
+    if (key.creator && key.creator.meta && ['Bytes', 'Data'].includes(key.creator.meta.type.toString())) {
       // TODO We are currently not performing a copy
       // buttons.unshift(
       //   <Button
@@ -168,7 +187,15 @@ class Query extends React.PureComponent<Props, State> {
     return buttons;
   }
 
-  private keyToName (key: Uint8Array | StorageEntryPromise): string {
+  private keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | ConstValue): string {
+    if (isConst) {
+      const key = _key as ConstValue;
+
+      return `const ${key.section}.${key.method}`;
+    }
+
+    const key = _key as Uint8Array | StorageEntryPromise;
+
     if (isU8a(key)) {
       const u8a = Compact.stripLengthPrefix(key);
 
@@ -181,8 +208,8 @@ class Query extends React.PureComponent<Props, State> {
     return `${key.creator.section}.${key.creator.method}`;
   }
 
-  private spreadHandler (id: number) {
-    return () => {
+  private spreadHandler (id: number): () => void {
+    return (): void => {
       const { spread } = this.state;
 
       cache[id].Component = cache[id].refresh(true, !!spread[id]);
@@ -207,6 +234,10 @@ class Query extends React.PureComponent<Props, State> {
 
 export default translate(styled(Query as React.ComponentClass<Props>)`
   margin-bottom: 0.25em;
+
+  label {
+    text-transform: none !important;
+  }
 
   .ui.disabled.dropdown.selection {
     color: #aaa;

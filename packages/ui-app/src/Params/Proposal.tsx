@@ -33,7 +33,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
     );
   }
 
-  private onChange = ({ isValid, value }: RawParam) => {
+  private onChange = ({ isValid, value }: RawParam): void => {
     const { onChange } = this.props;
     let proposal = null;
 

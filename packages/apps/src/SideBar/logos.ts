@@ -20,7 +20,7 @@ const LOGOS_SMALL: LogoMap = new Map([
   ['substrate', substrateSmall]
 ]);
 
-export default function getLogo (isSmall: boolean) {
+export default function getLogo (isSmall: boolean): any {
   return isSmall
     ? (LOGOS_SMALL.get(settings.uiTheme) || polkadotSmall)
     : (LOGOS_NORMAL.get(settings.uiTheme) || polkadotLogo);

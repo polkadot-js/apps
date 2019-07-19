@@ -15,18 +15,18 @@ import Inset, { InsetProps } from './Inset';
 import translate from './translate';
 
 type Props = I18nProps & ApiProps & {
-  className?: string,
-  asInset?: boolean,
-  insetProps?: Partial<InsetProps>,
-  onClick?: () => void,
-  proposalId: string,
-  proposal?: TreasuryProposalType | null,
-  withLink?: boolean
+  className?: string;
+  asInset?: boolean;
+  insetProps?: Partial<InsetProps>;
+  onClick?: () => void;
+  proposalId: string;
+  proposal?: TreasuryProposalType | null;
+  withLink?: boolean;
 };
 
-type State = {
-  proposal?: TreasuryProposalType | null
-};
+interface State {
+  proposal?: TreasuryProposalType | null;
+}
 
 class TreasuryProposal extends React.PureComponent<Props, State> {
   public state: State = {};
@@ -39,14 +39,15 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
     }
   }
 
-  static getDerivedStateFromProps ({ proposal }: Props, state: State) {
+  public static getDerivedStateFromProps ({ proposal }: Props, state: State): State | null {
     if (!state.proposal && proposal) {
       return { proposal };
     }
+
     return null;
   }
 
-  componentDidUpdate () {
+  public componentDidUpdate (): void {
     this.fetchProposal();
   }
 
@@ -108,17 +109,18 @@ class TreasuryProposal extends React.PureComponent<Props, State> {
     );
   }
 
-  private fetchProposal = () => {
+  private fetchProposal = (): void => {
     const { api, proposalId } = this.props;
 
     if (!this.state.proposal && proposalId) {
-      api.query.treasury.proposals(proposalId)
-        .then((proposal) => {
+      api.query.treasury
+        .proposals<Option<TreasuryProposalType>>(proposalId)
+        .then((proposal): void => {
           this.setState({
-            proposal: (proposal as Option<TreasuryProposalType>).unwrapOr(null)
+            proposal: proposal.unwrapOr(null)
           });
         })
-        .catch(() => {
+        .catch((): void => {
           console.error('Error fetching proposal');
         });
     }

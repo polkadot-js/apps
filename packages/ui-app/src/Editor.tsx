@@ -9,11 +9,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { classes } from '@polkadot/ui-app/util';
 
-type Props = BareProps & {
-  code: string,
-  isValid?: boolean,
-  onEdit: (code: string) => void
-};
+interface Props extends BareProps {
+  code: string;
+  isValid?: boolean;
+  onEdit: (code: string) => void;
+}
 
 /**
  * @name Editor
@@ -36,9 +36,10 @@ type Props = BareProps & {
  */
 class Editor extends React.Component<Props> {
   private id: string = `flask-${Date.now()}`;
+
   private editor: any;
 
-  componentDidMount () {
+  public componentDidMount (): void {
     const { onEdit } = this.props;
 
     this.editor = new CodeFlask(`#${this.id}`, {
@@ -48,18 +49,18 @@ class Editor extends React.Component<Props> {
 
     this.editor.updateCode(this.props.code);
 
-    this.editor.editorRoot.addEventListener('keydown', () => {
+    this.editor.editorRoot.addEventListener('keydown', (): void => {
       this.editor.onUpdate(onEdit);
     });
   }
 
-  shouldComponentUpdate (nextProps: Props): boolean {
+  public shouldComponentUpdate (nextProps: Props): boolean {
     return (
       nextProps.code !== this.props.code
     );
   }
 
-  componentDidUpdate () {
+  public componentDidUpdate (): void {
     this.editor.updateCode(this.props.code);
   }
 

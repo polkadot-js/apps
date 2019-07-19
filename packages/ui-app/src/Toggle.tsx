@@ -8,13 +8,13 @@ import React from 'react';
 import SUICheckbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import styled from 'styled-components';
 
-type Props = BareProps & {
-  asSwitch?: boolean,
-  defaultValue?: boolean,
-  label: React.ReactNode,
-  onChange?: (isChecked: boolean) => void,
-  value?: boolean
-};
+interface Props extends BareProps {
+  asSwitch?: boolean;
+  defaultValue?: boolean;
+  label: React.ReactNode;
+  onChange?: (isChecked: boolean) => void;
+  value?: boolean;
+}
 
 class Toggle extends React.PureComponent<Props> {
   public render (): React.ReactNode {

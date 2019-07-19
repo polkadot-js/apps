@@ -37,8 +37,8 @@ export default class BlockHeader extends React.PureComponent<Props> {
           <div className='header'>
             <div className='number'>{
               withLink
-              ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
-              : textNumber
+                ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
+                : textNumber
             }&nbsp;</div>
             <div className='hash'>{hashHex}</div>
             <div className='author ui--media-small'>{
@@ -62,7 +62,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
     );
   }
 
-  private renderDetails ({ blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended) {
+  private renderDetails ({ blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended): React.ReactNode {
     const parentHex = parentHash.toHex();
 
     return (

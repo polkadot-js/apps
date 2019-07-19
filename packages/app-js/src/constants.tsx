@@ -4,7 +4,11 @@
 
 import { StrictLabelProps } from 'semantic-ui-react/dist/commonjs/elements/Label';
 
-export const STORE_EXAMPLES: string = 'polkadot-app-js-examples';
-export const STORE_SELECTED: string = 'polkadot-app-js-selected';
+export const STORE_EXAMPLES = 'polkadot-app-js-examples';
+export const STORE_SELECTED = 'polkadot-app-js-selected';
 
-export const CUSTOM_LABEL: StrictLabelProps = { color: 'orange', children: 'Custom', size: 'tiny' };
+export const CUSTOM_LABEL: StrictLabelProps = {
+  color: 'orange',
+  children: 'Custom',
+  size: 'tiny'
+};

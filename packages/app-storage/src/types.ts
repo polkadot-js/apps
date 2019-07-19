@@ -3,28 +3,39 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryPromise } from '@polkadot/api/types';
+import { ConstValue } from '@polkadot/ui-app/InputConsts/types';
 import { RawParams } from '@polkadot/ui-params/types';
 
-interface IdQuery {
+interface Base {
+  isConst: boolean;
+}
+
+interface IdQuery extends Base {
   id: number;
 }
 
-export interface PartialModuleQuery {
+export interface PartialModuleQuery extends Base {
   key: StorageEntryPromise;
   params: RawParams;
 }
 
 export type StorageModuleQuery = PartialModuleQuery & IdQuery;
 
-export interface PartialRawQuery {
+export interface PartialRawQuery extends Base {
   key: Uint8Array;
 }
 
 export type StorageRawQuery = PartialRawQuery & IdQuery;
 
-export type QueryTypes = StorageModuleQuery | StorageRawQuery;
+export interface PartialConstQuery extends Base {
+  key: ConstValue;
+}
 
-export type ParitalQueryTypes = PartialModuleQuery | PartialRawQuery;
+export type ConstQuery = PartialConstQuery & IdQuery;
+
+export type QueryTypes = StorageModuleQuery | StorageRawQuery | ConstQuery;
+
+export type ParitalQueryTypes = PartialModuleQuery | PartialRawQuery | PartialConstQuery;
 
 export interface ComponentProps {
   onAdd: (query: ParitalQueryTypes) => void;

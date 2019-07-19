@@ -11,7 +11,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu, Tooltip } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withApi,withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import { withApi, withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
@@ -92,7 +92,7 @@ class Item extends React.PureComponent<Props> {
   private isVisible (): boolean {
     const { allAccounts = {}, isApiConnected, isApiReady, route: { display: { isHidden, needsAccounts, needsApi, needsSudo }, name }, sudo_key: sudoKey } = this.props;
     const hasAccounts = Object.keys(allAccounts).length !== 0;
-    const hasSudo = !!Object.keys(allAccounts).find(address => address === sudoKey);
+    const hasSudo = !!Object.keys(allAccounts).find((address): boolean => address === sudoKey);
 
     if (isHidden) {
       return false;

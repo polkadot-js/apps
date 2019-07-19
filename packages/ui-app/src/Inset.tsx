@@ -10,19 +10,19 @@ import styled from 'styled-components';
 import Icon from './Icon';
 import { classes } from './util';
 
-export type InsetProps = RouteComponentProps & {
-  className?: string,
-  children?: React.ReactNode
-  isCollapsible?: boolean,
-  header?: React.ReactNode,
-  href?: string | null,
-  withTopMargin?: boolean,
-  withBottomMargin?: boolean
-};
+export interface InsetProps extends RouteComponentProps {
+  className?: string;
+  children?: React.ReactNode;
+  isCollapsible?: boolean;
+  header?: React.ReactNode;
+  href?: string | null;
+  withTopMargin?: boolean;
+  withBottomMargin?: boolean;
+}
 
-type State = {
-  isCollapsed: boolean
-};
+interface State {
+  isCollapsed: boolean;
+}
 
 class Inset extends React.PureComponent<InsetProps, State> {
   public state: State = {
@@ -72,14 +72,14 @@ class Inset extends React.PureComponent<InsetProps, State> {
     );
   }
 
-  private onClick = () => {
+  private onClick = (): void => {
     const { history, href } = this.props;
 
-    history.push(href!);
+    href && history.push(href);
   }
 
-  private toggleCollapsed = () => {
-    this.setState(({ isCollapsed }: State) => {
+  private toggleCollapsed = (): void => {
+    this.setState(({ isCollapsed }: State): Pick<State, never> => {
       return {
         isCollapsed: !isCollapsed
       };

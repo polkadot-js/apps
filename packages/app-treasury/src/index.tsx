@@ -56,7 +56,7 @@ class App extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          {/*<Route path={`${basePath}/settings`} component={Settings} />*/}
+          {/* <Route path={`${basePath}/settings`} component={Settings} /> */}
           <Route component={Overview} />
         </Switch>
       </main>

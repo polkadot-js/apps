@@ -4,6 +4,8 @@
 
 import { GeneratorCalculation, GeneratorOptions } from './types';
 
+const MAX_OFFSET = 5;
+
 function calculateAtOne (atOffset: number, test: string[], address: string): GeneratorCalculation {
   return {
     count: test.reduce((count, c, index): number => {
@@ -45,11 +47,10 @@ export default function calculate (test: string[][], _address: string, { atOffse
     return calculateAt(atOffset, test, address);
   }
 
-  const maxOffset = address.length - test.length - 1;
   let bestCount = 0;
   let bestOffset = 1;
 
-  for (let index = 1; index < maxOffset; index++) {
+  for (let index = 0; index < MAX_OFFSET; index++) {
     const { count, offset } = calculateAt(index, test, address);
 
     if (count > bestCount) {

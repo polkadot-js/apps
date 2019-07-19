@@ -41,7 +41,7 @@ class Members extends React.PureComponent<Props> {
           {candidates.map((address): React.ReactNode => (
             <Candidate
               address={address}
-              key={address}
+              key={address.toString()}
             />
           ))}
         </Column>

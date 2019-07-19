@@ -40,8 +40,8 @@ const Wrapper = styled.div`
     position: fixed;
     right: -50rem;
     top: 0;
+    transition-duration: .5s;
     transition-property: all;
-	  transition-duration: .5s;
     z-index: 10;
 
     .help-button {
@@ -80,7 +80,7 @@ export default class HelpOverlay extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderButton (name: 'close' | 'help circle') {
+  private renderButton (name: 'close' | 'help circle'): React.ReactNode {
     return (
       <div className='help-button'>
         <Icon

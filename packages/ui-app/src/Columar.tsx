@@ -5,10 +5,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type Props = {
-  children: React.ReactNode,
-  className?: string
-};
+interface Props {
+  children: React.ReactNode;
+  className?: string;
+}
 
 class Columar extends React.PureComponent<Props> {
   public render (): React.ReactNode {

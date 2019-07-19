@@ -46,14 +46,14 @@ class Apps extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount () {
+  public componentDidMount (): void {
     this.setState({
       menuOpen: false,
-      isMenu: window.innerWidth >= SIDEBAR_MENU_THRESHOLD ? false : true
+      isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
     });
   }
 
-  componentDidUpdate () {
+  public componentDidUpdate (): void {
     this.handleMenuTransition();
   }
 
@@ -81,9 +81,9 @@ class Apps extends React.Component<Props, State> {
   }
 
   private collapse = (): void => {
-    this.setState(({ isCollapsed }: State) => ({
+    this.setState(({ isCollapsed }: State): Pick<State, never> => ({
       isCollapsed: !isCollapsed
-    }), () => {
+    }), (): void => {
       store.set('sidebar', this.state);
     });
   }
@@ -110,7 +110,7 @@ class Apps extends React.Component<Props, State> {
 
     switch (transition) {
       case SideBarTransition.MINIMISED_AND_EXPANDED:
-        setTimeout(() => {
+        setTimeout((): void => {
           this.setState({
             isMenu: true,
             isCollapsed: false,
@@ -120,7 +120,7 @@ class Apps extends React.Component<Props, State> {
         break;
 
       case SideBarTransition.EXPANDED_AND_MAXIMISED:
-        setTimeout(() => {
+        setTimeout((): void => {
           this.setState({
             isMenu: false,
             isCollapsed: store.get('sidebar').isCollapsed,
@@ -134,7 +134,7 @@ class Apps extends React.Component<Props, State> {
     }
   }
 
-  private renderMenuBg = () => {
+  private renderMenuBg = (): React.ReactNode => {
     return (
       <div
         className={`apps-Menu-bg ${this.state.menuOpen ? 'open' : 'closed'}`}
@@ -169,7 +169,7 @@ class Apps extends React.Component<Props, State> {
         break;
 
       default:
-        this.setState(({ isCollapsed }: State) => ({
+        this.setState(({ isCollapsed }: State): Pick<State, never> => ({
           isCollapsed: !isCollapsed
         }));
         break;

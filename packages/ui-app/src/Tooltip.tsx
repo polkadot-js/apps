@@ -12,14 +12,19 @@ import { classes } from './util';
 
 const rootElement = document.getElementById('tooltips');
 
-type Props = BareProps & {
-  dataFor?: string,
-  effect?: 'solid' | 'float'
-  offset?: { bottom?: number, left?: number, right?: number, top?: number },
-  place?: 'bottom' | 'top' | 'right' | 'left',
-  text: React.ReactNode,
-  trigger: string
-};
+interface Props extends BareProps {
+  dataFor?: string;
+  effect?: 'solid' | 'float';
+  offset?: {
+    bottom?: number;
+    left?: number;
+    right?: number;
+    top?: number;
+  };
+  place?: 'bottom' | 'top' | 'right' | 'left';
+  text: React.ReactNode;
+  trigger: string;
+}
 
 export default class Tooltip extends React.PureComponent<Props> {
   private tooltipContainer: HTMLElement;
@@ -30,13 +35,13 @@ export default class Tooltip extends React.PureComponent<Props> {
     this.tooltipContainer = document.createElement('div');
   }
 
-  componentDidMount () {
+  public componentDidMount (): void {
     if (rootElement !== null) {
       rootElement.appendChild(this.tooltipContainer);
     }
   }
 
-  componentWillUnmount () {
+  public componentWillUnmount (): void {
     if (rootElement !== null) {
       rootElement.removeChild(this.tooltipContainer);
     }

@@ -14,16 +14,16 @@ import Inset, { InsetProps } from './Inset';
 import TreasuryProposal from './TreasuryProposal';
 import { isTreasuryProposalVote } from './util';
 
-type Props = {
-  className?: string,
-  asInset?: boolean,
-  insetProps?: Partial<InsetProps>,
-  proposal?: Proposal | null,
-  idNumber: BN | number | string,
-  isCollapsible?: boolean,
-  withLinks?: boolean,
-  expandNested?: boolean
-};
+interface Props {
+  className?: string;
+  asInset?: boolean;
+  insetProps?: Partial<InsetProps>;
+  proposal?: Proposal | null;
+  idNumber: BN | number | string;
+  isCollapsible?: boolean;
+  withLinks?: boolean;
+  expandNested?: boolean;
+}
 
 export const styles = `
   .ui--ProposedAction-extrinsic {

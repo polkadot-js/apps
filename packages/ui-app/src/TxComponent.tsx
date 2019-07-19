@@ -5,21 +5,21 @@
 import React from 'react';
 
 export default class TxComponent<P, S> extends React.PureComponent<P, S> {
-  button: any;
+  protected button: any;
 
   public constructor (props: P) {
     super(props);
     this.button = React.createRef();
   }
 
-  sendTx = (): void => {
+  protected sendTx = (): void => {
     const { component } = this.button.current;
     if (component) {
       component.current.send();
     }
   }
 
-  submit = (): void => {
+  protected submit = (): void => {
     if (this.button && this.button.current && this.button.current.click) {
       this.button.current.click();
     }

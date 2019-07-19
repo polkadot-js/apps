@@ -53,15 +53,14 @@ class ToolboxApp extends React.PureComponent<Props, State> {
       ]
     };
   }
+
   public render (): React.ReactNode {
     const { allAccounts, basePath } = this.props;
     const { tabs } = this.state;
     const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
     const filteredTabs = hasAccounts
       ? tabs
-      : tabs.filter(({ name }) =>
-        !['sign', 'verify'].includes(name)
-      );
+      : tabs.filter(({ name }): boolean => !['sign', 'verify'].includes(name));
 
     return (
       <main className='toolbox--App'>

@@ -24,7 +24,7 @@ class InputValidationUnstakeThreshold extends React.PureComponent<Props, State> 
     error: null
   };
 
-  static getDerivedStateFromProps ({ onError, t, unstakeThreshold }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ onError, t, unstakeThreshold }: Props, prevState: State): State | null {
     let error = null;
 
     if (!unstakeThreshold) {

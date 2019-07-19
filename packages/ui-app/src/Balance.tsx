@@ -12,12 +12,12 @@ import { Balance } from '@polkadot/ui-reactive';
 
 import { classes } from './util';
 
-export type Props = BareProps & {
-  balance?: BN | BN[],
-  label?: React.ReactNode,
-  params?: AccountId | AccountIndex | Address | string | Uint8Array | null,
-  withLabel?: boolean
-};
+export interface Props extends BareProps {
+  balance?: BN | BN[];
+  label?: React.ReactNode;
+  params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
+  withLabel?: boolean;
+}
 
 export default class BalanceDisplay extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -39,14 +39,14 @@ export default class BalanceDisplay extends React.PureComponent<Props> {
       );
   }
 
-  private renderProvided () {
+  private renderProvided (): React.ReactNode {
     const { balance, className, label, style } = this.props;
     let value = `${formatBalance(Array.isArray(balance) ? balance[0] : balance)}`;
 
     if (Array.isArray(balance)) {
-      const totals = balance.filter((value, index) => index !== 0);
-      const total = totals.reduce((total, value) => total.add(value), new BN(0)).gtn(0)
-        ? `(+${totals.map((balance) => formatBalance(balance)).join(', ')})`
+      const totals = balance.filter((value, index): boolean => index !== 0);
+      const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
+        ? `(+${totals.map((balance): string => formatBalance(balance)).join(', ')})`
         : '';
 
       value = `${value}  ${total}`;

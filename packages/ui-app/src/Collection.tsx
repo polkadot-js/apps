@@ -6,19 +6,20 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 
-export type CollectionProps = I18nProps & {
-  buttons?: React.ReactNode,
-  children: React.ReactNode,
-  className?: string,
-  headerText?: React.ReactNode,
-  isEmpty?: boolean,
-  emptyText?: React.ReactNode
-};
+export interface CollectionProps extends I18nProps {
+  banner?: React.ReactNode;
+  buttons?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+  headerText?: React.ReactNode;
+  isEmpty?: boolean;
+  emptyText?: React.ReactNode;
+}
 
-export type CollectionState = {
-  isEmpty: boolean,
-  showHeader?: boolean
-};
+export interface CollectionState {
+  isEmpty: boolean;
+  showHeader?: boolean;
+}
 
 export const collectionStyles = `
   .ui--Collection-header {
@@ -42,6 +43,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   public constructor (props: P) {
     super(props);
 
+    // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
     this.state = {
       isEmpty: Collection.isEmpty(props.children)
     } as S;
@@ -51,19 +53,20 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     return !children || (Array.isArray(children) && children.length === 0);
   }
 
-  static getDerivedStateFromProps ({ children }: CollectionProps) {
+  public static getDerivedStateFromProps ({ children }: CollectionProps): Pick<any, never> {
     return {
       isEmpty: Collection.isEmpty(children)
     };
   }
 
   public render (): React.ReactNode {
-    const { className } = this.props;
+    const { banner, className } = this.props;
     const { isEmpty, showHeader } = this.state;
 
     return (
       <div className={className}>
         {showHeader && this.renderHeader()}
+        {banner}
         {isEmpty
           ? this.renderEmpty()
           : this.renderCollection()
@@ -72,7 +75,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     );
   }
 
-  protected renderHeader () {
+  protected renderHeader (): React.ReactNode {
     const { buttons, headerText } = this.props;
 
     return (
@@ -87,7 +90,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     );
   }
 
-  protected renderEmpty () {
+  protected renderEmpty (): React.ReactNode {
     const { emptyText, t } = this.props;
 
     return (

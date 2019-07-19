@@ -36,6 +36,7 @@ const Wrapper = styled.div`
   }
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkgJson = require('../../package.json');
 
 class NodeInfo extends React.PureComponent<Props> {
@@ -52,7 +53,7 @@ class NodeInfo extends React.PureComponent<Props> {
     );
   }
 
-  private renderNode () {
+  private renderNode (): React.ReactNode {
     const { isApiReady } = this.props;
 
     if (!isApiReady) {

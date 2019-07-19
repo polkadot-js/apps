@@ -16,7 +16,7 @@ import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   address?: string | null;
-  contract_contractInfoOf?: Option<ContractInfo>;
+  contracts_contractInfoOf?: Option<ContractInfo>;
   onChange: (isValid: boolean) => void;
 };
 
@@ -33,7 +33,7 @@ class ValidateAddr extends React.PureComponent<Props> {
     isValid: false
   };
 
-  public static getDerivedStateFromProps ({ address, contract_contractInfoOf, onChange }: Props): State {
+  public static getDerivedStateFromProps ({ address, contracts_contractInfoOf, onChange }: Props): State {
     let isValidAddr = false;
 
     try {
@@ -45,7 +45,7 @@ class ValidateAddr extends React.PureComponent<Props> {
     }
 
     const isStored = (
-      (!!contract_contractInfoOf && contract_contractInfoOf.isSome)
+      (!!contracts_contractInfoOf && contracts_contractInfoOf.isSome)
       // (!!contract_codeHashOf && contract_codeHashOf.isSome)
     );
     const isValid = isValidAddr && isStored;
@@ -82,7 +82,6 @@ class ValidateAddr extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    ['query.contracts.contractInfoOf', { paramName: 'address' }], // 2.x
-    ['query.contract.contractInfoOf', { paramName: 'address' }] // 1.x
+    ['query.contracts.contractInfoOf', { fallbacks: ['query.contract.contractInfoOf'], paramName: 'address' }]
   )(ValidateAddr)
 );

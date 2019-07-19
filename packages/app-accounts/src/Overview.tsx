@@ -14,6 +14,7 @@ import { Button, CardGrid } from '@polkadot/ui-app';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Account from './Account';
+import Banner from './Banner';
 import translate from './translate';
 
 type Props = ComponentProps & I18nProps & {
@@ -44,6 +45,7 @@ class Overview extends React.PureComponent<Props, State> {
 
     return (
       <CardGrid
+        banner={<Banner />}
         buttons={
           <Button.Group>
             <Button

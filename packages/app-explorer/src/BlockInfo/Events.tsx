@@ -23,7 +23,7 @@ class Events extends React.PureComponent<Props> {
       return null;
     }
 
-    const events = value.map((record, index) => ({
+    const events = value.map((record, index): { key: string; record: EventRecord } => ({
       key: `${index}`, record
     }));
 

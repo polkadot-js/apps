@@ -29,17 +29,18 @@ interface State {
 
 class App extends React.PureComponent<Props, State> {
   private isActive: boolean = true;
+
   public state: State = {
     nextRefresh: Date.now()
   };
 
-  componentDidMount () {
-    this.getStatus().catch(() => {
+  public componentDidMount (): void {
+    this.getStatus().catch((): void => {
       // ignore
     });
   }
 
-  componentWillUnmount () {
+  public componentWillUnmount (): void {
     const { timerId } = this.state;
 
     this.isActive = false;
@@ -69,7 +70,7 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private setInfo (info?: Info) {
+  private setInfo (info?: Info): void {
     if (!this.isActive) {
       return;
     }
@@ -81,7 +82,7 @@ class App extends React.PureComponent<Props, State> {
     });
   }
 
-  private getStatus = async () => {
+  private getStatus = async (): Promise<void> => {
     const { api } = this.props;
 
     try {

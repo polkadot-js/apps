@@ -16,7 +16,7 @@ import translate from '../translate';
 
 type Props = ApiProps & I18nProps & {
   codeHash?: string | null;
-  contract_codeStorage?: Option<PrefabWasmModule>;
+  contracts_codeStorage?: Option<PrefabWasmModule>;
   onChange: (isValid: boolean) => void;
 };
 
@@ -33,9 +33,9 @@ class ValidateCode extends React.PureComponent<Props> {
     isValid: false
   };
 
-  public static getDerivedStateFromProps ({ codeHash, contract_codeStorage, onChange }: Props): State {
+  public static getDerivedStateFromProps ({ codeHash, contracts_codeStorage, onChange }: Props): State {
     const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
-    const isStored = !!contract_codeStorage && contract_codeStorage.isSome;
+    const isStored = !!contracts_codeStorage && contracts_codeStorage.isSome;
     const isValid = isValidHex && isStored;
 
     // FIXME Really not convinced this is the correct place to do this type of callback?
@@ -70,7 +70,6 @@ class ValidateCode extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    ['query.contracts.codeStorage', { paramName: 'codeHash' }], // 2.x
-    ['query.contract.codeStorage', { paramName: 'codeHash' }] // 1.x
+    ['query.contracts.codeStorage', { fallbacks: ['query.contract.codeStorage'], paramName: 'codeHash' }]
   )(ValidateCode)
 );

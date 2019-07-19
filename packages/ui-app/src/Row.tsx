@@ -209,7 +209,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     isEditingTags: false
   } as unknown as S;
 
-  static defaultProps = {
+  public static defaultProps = {
     defaultName: '<unknown>'
   };
 
@@ -221,7 +221,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     this.setState({ tags });
   }
 
-  protected renderButtons () {
+  protected renderButtons (): React.ReactNode {
     const { buttons } = this.props;
 
     return buttons
@@ -229,12 +229,12 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
       : null;
   }
 
-  protected renderChildren () {
+  protected renderChildren (): React.ReactNode {
     const { children } = this.props;
     const hasChildren = !children
       ? false
       : Array.isArray(children)
-        ? children.filter((child) => child).length !== 0
+        ? children.filter((child): boolean => !!child).length !== 0
         : true;
 
     if (!hasChildren) {
@@ -248,7 +248,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     );
   }
 
-  protected renderEditIcon () {
+  protected renderEditIcon (): React.ReactNode {
     return (
       <span className='editSpan'>
         <Button
@@ -263,7 +263,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     );
   }
 
-  protected renderName (withCopy: boolean = false) {
+  protected renderName (withCopy: boolean = false): React.ReactNode {
     const { defaultName, isEditable } = this.props;
     const { address, isEditingName, name } = this.state;
     const withName = name !== defaultName;
@@ -293,8 +293,8 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
                 value={address}
               >
                 <span className={`${withName ? 'withName' : 'withAddr'}`}>{
-                    withName ? name : toShortAddress(address)
-                  }
+                  withName ? name : toShortAddress(address)
+                }
                 </span>
               </CopyButton>
             )
@@ -311,7 +311,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
       );
   }
 
-  protected renderTags () {
+  protected renderTags (): React.ReactNode {
     const { isEditingTags, tags } = this.state;
     const { isEditable, withTags = false } = this.props;
 
@@ -341,7 +341,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
           {
             !tags.length
               ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
-              : tags.map((tag) => (
+              : tags.map((tag): React.ReactNode => (
                 <Label key={tag} size='tiny' color='grey'>{tag}</Label>
               ))
           }

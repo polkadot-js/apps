@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -5,7 +6,6 @@
 import { DerivedReferendumVote } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
-import { RawParam } from '@polkadot/ui-params/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -29,7 +29,7 @@ interface Props extends I18nProps {
   idNumber: BN;
   chain_bestNumber?: BN;
   democracy_referendumVotesFor?: DerivedReferendumVote[];
-  democracy_publicDelay?: BN;
+  democracy_enactmentPeriod: BN;
   value: ReferendumInfoExtended;
 }
 
@@ -52,12 +52,12 @@ class Referendum extends React.PureComponent<Props, State> {
     votedTotal: new BN(0)
   };
 
-  static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
     if (!democracy_referendumVotesFor) {
       return null;
     }
 
-    const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }) => {
+    const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }): State => {
       if (vote.isAye) {
         state.voteCountAye++;
         state.votedAye = state.votedAye.add(balance);
@@ -110,14 +110,14 @@ class Referendum extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderInfo () {
-    const { chain_bestNumber, democracy_publicDelay, t, value: { end, threshold } } = this.props;
+  private renderInfo (): React.ReactNode {
+    const { chain_bestNumber, democracy_enactmentPeriod, t, value: { end, threshold } } = this.props;
 
     if (!chain_bestNumber) {
       return null;
     }
 
-    const enactBlock = (democracy_publicDelay || new BN(0)).add(end);
+    const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(end);
 
     return (
       <div>
@@ -139,7 +139,7 @@ class Referendum extends React.PureComponent<Props, State> {
         </Static>
         <VoteThreshold
           isDisabled
-          defaultValue={{ value: threshold } as RawParam}
+          defaultValue={{ isValid: true, value: threshold }}
           label={t('vote threshold')}
           name='voteThreshold'
           type={{
@@ -151,7 +151,7 @@ class Referendum extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderResults () {
+  private renderResults (): React.ReactNode {
     const { voteCount, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } = this.state;
 
     if (voteCount === 0 || votedTotal.eqn(0)) {
@@ -193,6 +193,6 @@ export default withMulti(
   withCalls<Props>(
     'derive.chain.bestNumber',
     ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }],
-    'query.democracy.publicDelay'
+    ['consts.democracy.enactmentPeriod', { fallbacks: ['query.democracy.publicDelay'] }]
   )
 );

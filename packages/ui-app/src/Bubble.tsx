@@ -13,12 +13,12 @@ import settings from '@polkadot/ui-settings';
 import { classes } from './util';
 import Icon from './Icon';
 
-type Props = BareProps & {
-  children: React.ReactNode,
-  color?: SemanticCOLORS,
-  icon?: SemanticICONS,
-  label?: React.ReactNode
-};
+interface Props extends BareProps {
+  children: React.ReactNode;
+  color?: SemanticCOLORS;
+  icon?: SemanticICONS;
+  label?: React.ReactNode;
+}
 
 class Bubble extends React.PureComponent<Props> {
   public render (): React.ReactNode {

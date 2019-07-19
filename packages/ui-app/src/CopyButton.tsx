@@ -13,15 +13,15 @@ import Button from './Button';
 import translate from './translate';
 import styled from 'styled-components';
 
-type Props = BareProps & {
-  children?: React.ReactNode,
-  icon?: string,
-  isAddress?: boolean,
-  value?: any
-};
+interface Props extends BareProps {
+  children?: React.ReactNode;
+  icon?: string;
+  isAddress?: boolean;
+  value?: any;
+}
 
 type InnerProps = Props & I18nProps & {
-  queueAction: QueueAction$Add
+  queueAction: QueueAction$Add;
 };
 
 class CopyButtonInner extends React.PureComponent<InnerProps> {
@@ -70,7 +70,7 @@ class CopyButton extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     return (
       <QueueConsumer>
-        {({ queueAction }) => (
+        {({ queueAction }): React.ReactNode => (
           <CopyButtonI18n
             {...this.props}
             queueAction={queueAction}
