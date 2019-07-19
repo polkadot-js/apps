@@ -8,6 +8,7 @@ import React from 'react';
 
 import { ADDRESS_PREFIX } from './constants';
 import QrScan from './Scan';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 interface Props extends BaseProps {
   onError?: (error: Error) => void;
@@ -35,6 +36,13 @@ export default class ScanAddress extends React.PureComponent<Props> {
       return;
     }
 
-    onScan(data.substr(ADDRESS_PREFIX.length));
+    const address = data.substr(ADDRESS_PREFIX.length);
+
+    try {
+      decodeAddress(address);
+      onScan(address);
+    } catch (error) {
+      console.error('@polkadot/ui-qr:QrScanAddress', error.message);
+    }
   }
 }

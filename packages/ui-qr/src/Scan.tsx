@@ -19,7 +19,7 @@ interface Props extends BaseProps {
 
 const DEFAULT_DELAY = 150;
 const DEFAULT_ERROR = (error: Error): void => {
-  console.error('@polkadot/ui-qr:Scan', error);
+  console.error('@polkadot/ui-qr:Scan', error.message);
 };
 
 class Scan extends React.PureComponent<Props> {
