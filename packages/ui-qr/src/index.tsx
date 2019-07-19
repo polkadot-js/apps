@@ -3,5 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as QrDisplayAddress } from './DisplayAddress';
-export { default as QrDisplayExtrinsic } from './DisplayExtrinsic';
+export { default as QrDisplayPayload } from './DisplayPayload';
 export { default as QrScanAddress } from './ScanAddress';
+export { default as QrScanSignature } from './ScanSignature';

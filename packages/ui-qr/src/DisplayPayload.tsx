@@ -24,7 +24,7 @@ const SUBSTRATE = new Uint8Array([53]);
 const CRYPTO_SR25519 = new Uint8Array([1]);
 const SIGN_TX = new Uint8Array([0]);
 
-export default class DisplayExtrinsic extends React.PureComponent<Props, State> {
+export default class DisplayPayload extends React.PureComponent<Props, State> {
   public state: State = {
     data: null,
     dataHash: null
