@@ -49,6 +49,8 @@
       "@polkadot/ui-contracts/*": [ "packages/ui-contracts/src/*" ],
       "@polkadot/ui-params": [ "packages/ui-params/src" ],
       "@polkadot/ui-params/*": [ "packages/ui-params/src/*" ],
+      "@polkadot/ui-qr": [ "packages/ui-qr/src" ],
+      "@polkadot/ui-qr/*": [ "packages/ui-qr/src/*" ],
       "@polkadot/ui-reactive": [ "packages/ui-reactive/src" ],
       "@polkadot/ui-reactive/*": [ "packages/ui-reactive/src/*" ],
       "@polkadot/ui-signer": [ "packages/ui-signer/src" ],

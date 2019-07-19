@@ -1,9 +1,8 @@
 {
-  "name": "@polkadot/app-council",
-  "version": "0.34.0-beta.74",
-  "description": "Council",
+  "name": "@polkadot/ui-qr",
+  "version": "0.22.11",
+  "description": "Generates and reads QR codes",
   "main": "index.js",
-  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
@@ -11,7 +10,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@polkadot/ui-app": "^0.34.0-beta.70",
-    "@polkadot/ui-reactive": "^0.34.0-beta.70"
+    "@types/react-qr-reader": "^2.1.1",
+    "qrcode-generator": "^1.4.3",
+    "react-qr-reader": "^2.2.1"
   }
 }

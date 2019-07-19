@@ -10,12 +10,12 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.82.0-beta.70",
-    "@polkadot/api-contract": "^0.82.0-beta.70",
-    "@polkadot/keyring": "^0.94.0-beta.15",
-    "@polkadot/types": "^0.82.0-beta.70",
-    "@polkadot/util": "^0.94.0-beta.15",
-    "@polkadot/util-crypto": "^0.94.0-beta.15",
+    "@polkadot/api": "^0.82.0-beta.74",
+    "@polkadot/api-contract": "^0.82.0-beta.74",
+    "@polkadot/keyring": "^0.94.0-beta.18",
+    "@polkadot/types": "^0.82.0-beta.74",
+    "@polkadot/util": "^0.94.0-beta.18",
+    "@polkadot/util-crypto": "^0.94.0-beta.18",
     "@types/styled-components": "4.1.8",
     "babel-core": "^7.0.0-bridge.0",
     "typescript": "^3.5.3"
@@ -32,9 +32,9 @@
     "start": "cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.4",
-    "@babel/runtime": "^7.5.4",
-    "@polkadot/dev-react": "^0.30.0-beta.22",
+    "@babel/core": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "@polkadot/dev-react": "^0.30.0-beta.23",
     "@polkadot/ts": "^0.1.62",
     "autoprefixer": "^9.6.1",
     "empty": "^0.10.1",
