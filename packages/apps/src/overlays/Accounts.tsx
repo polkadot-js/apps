@@ -9,7 +9,6 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ExtensionInfo from '@polkadot/app-accounts/Banner/Info';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
