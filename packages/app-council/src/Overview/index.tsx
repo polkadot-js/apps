@@ -4,7 +4,7 @@
 
 import { BlockNumber, SetIndex, VoteIndex } from '@polkadot/types';
 import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -16,8 +16,6 @@ import Members from './Members';
 import SubmitCandidacy from './SubmitCandidacy';
 import Summary from './Summary';
 import Vote from './Vote';
-
-interface Props extends ComponentProps {}
 
 const NULL_INFO: DerivedElectionsInfo = {
   members: {},

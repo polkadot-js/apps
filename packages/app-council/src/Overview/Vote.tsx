@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, SetIndex } from '@polkadot/types';
+import { AccountId, SetIndex, VoteIndex } from '@polkadot/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from './types';
 
@@ -50,18 +50,18 @@ const Candidate = styled.div`
 `;
 
 class Vote extends TxModal<Props, State> {
-  static getDerivedStateFromProps ({ electionsInfo: { candidateCount }, voters }: Props, { accountId, approvals }: State) {
+  public static getDerivedStateFromProps ({ electionsInfo: { candidateCount }, voters }: Props, { accountId, approvals }: State): Partial<State> {
     const state: Partial<State> = {};
     if (accountId && voters && voters[accountId]) {
       state.hint = new BN(voters[accountId]);
     }
     if (candidateCount && (!approvals || approvals.length !== candidateCount.toNumber())) {
-      state.approvals = state.oldApprovals || [...new Array(candidateCount.toNumber()).keys()].map(_ => false);
+      state.approvals = state.oldApprovals || [...new Array(candidateCount.toNumber()).keys()].map((): boolean => false);
     }
     return state;
   }
 
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -76,11 +76,11 @@ class Vote extends TxModal<Props, State> {
     };
   }
 
-  async componentDidMount () {
+  public componentDidMount (): void {
     this.fetchApprovals();
   }
 
-  async componentDidUpdate (_: Props, prevState: State) {
+  public componentDidUpdate (_: Props, prevState: State): void {
     const { accountId } = this.state;
 
     if (accountId !== prevState.accountId) {
@@ -88,28 +88,30 @@ class Vote extends TxModal<Props, State> {
     }
   }
 
-  headerText = () => this.props.t('Vote for current candidates');
+  protected headerText = (): string => this.props.t('Vote for current candidates');
 
-  accountLabel = () => this.props.t('Voting account');
-  accountHelp = () => this.props.t('This account will be use to approve or disapprove each candidate.');
+  protected accountLabel = (): string => this.props.t('Voting account');
 
-  txMethod = () => 'elections.setApprovals';
-  txParams = () => {
+  protected accountHelp = (): string => this.props.t('This account will be use to approve or disapprove each candidate.');
+
+  protected txMethod = (): string => 'elections.setApprovals';
+
+  protected txParams = (): [boolean[] | null, VoteIndex, BN] => {
     const { electionsInfo: { voteCount } } = this.props;
     const { approvals, hint } = this.state;
 
     return [
-      approvals, voteCount, hint
+      approvals, new VoteIndex(voteCount), hint
     ];
   }
 
-  isDisabled = () => {
+  protected isDisabled = (): boolean => {
     const { accountId } = this.state;
 
     return !accountId || this.areVotesUnchanged();
   }
 
-  renderTrigger = () => {
+  protected renderTrigger = (): React.ReactNode => {
     const { t } = this.props;
 
     return (
@@ -122,25 +124,25 @@ class Vote extends TxModal<Props, State> {
     );
   }
 
-  renderContent = () => {
+  protected renderContent = (): React.ReactNode => {
     const { electionsInfo: { candidates }, t } = this.props;
     const { approvals, oldApprovals } = this.state;
 
     return (
       <>
-      {
-        oldApprovals && (
-          <article
-            className='warning padded'
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              margin: '0.5rem 0'
-            }}
-          >
-            <div style={{ flex: '1 1' }}>
-              <Icon name='warning sign' />
-              {t('You have already voted in this round')}
+        {
+          oldApprovals && (
+            <article
+              className='warning padded'
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                margin: '0.5rem 0'
+              }}
+            >
+              <div style={{ flex: '1 1' }}>
+                <Icon name='warning sign' />
+                {t('You have already voted in this round')}
               </div>
               <Button.Group style={{ margin: 0 }}>
                 <Button
@@ -150,37 +152,38 @@ class Vote extends TxModal<Props, State> {
                   onClick={this.onResetVotes}
                 />
               </Button.Group>
-          </article>
-        )
-      }
-      <Candidates>
-        {
-          candidates.map((accountId, index) => {
-            if (!approvals) {
-              return null;
-            }
-            const { [index]: isAye } = approvals;
-            return (
-              <Candidate
-                className={isAye ? 'aye' : 'nay'}
-                onClick={() => this.onChangeVote(index)()}
-              >
-                <AddressRow
-                  isInline
-                  value={accountId}
-                >
-                  {this.renderToggle(index)}
-                </AddressRow>
-              </Candidate>
-            );
-          })
+            </article>
+          )
         }
-      </Candidates>
+        <Candidates>
+          {
+            candidates.map((accountId, index): React.ReactNode => {
+              if (!approvals) {
+                return null;
+              }
+              const { [index]: isAye } = approvals;
+              return (
+                <Candidate
+                  className={isAye ? 'aye' : 'nay'}
+                  key={accountId.toString()}
+                  onClick={(): void => this.onChangeVote(index)()}
+                >
+                  <AddressRow
+                    isInline
+                    value={accountId}
+                  >
+                    {this.renderToggle(index)}
+                  </AddressRow>
+                </Candidate>
+              );
+            })
+          }
+        </Candidates>
       </>
     );
   }
 
-  private renderToggle = (index: number) => {
+  private renderToggle = (index: number): React.ReactNode => {
     const { t } = this.props;
     const { approvals } = this.state;
 
@@ -204,13 +207,13 @@ class Vote extends TxModal<Props, State> {
                 {t('Nay')}
               </b>
             )
-          }
+        }
         value={bool}
       />
     );
   }
 
-  private fetchApprovals = () => {
+  private fetchApprovals = (): void => {
     const { api, electionsInfo: { voteCount } } = this.props;
     const { accountId } = this.state;
 
@@ -219,7 +222,7 @@ class Vote extends TxModal<Props, State> {
     }
 
     api.derive.elections.approvalsOfAt(accountId, voteCount)
-      .then((approvals: boolean[]) => {
+      .then((approvals: boolean[]): void => {
         if (approvals && approvals.length && approvals !== this.state.approvals) {
           this.setState({
             approvals,
@@ -237,31 +240,32 @@ class Vote extends TxModal<Props, State> {
     }
 
     return approvals.reduce(
-      (bool, vote, at) => bool && vote === oldApprovals[at],
+      (bool, vote, at): boolean => bool && vote === oldApprovals[at],
       true
     );
   }
 
-  onChangeAccount = (accountId: string | null) => {
+  protected onChangeAccount = (accountId: string | null): void => {
     this.setState({
       accountId,
       oldApprovals: null
     });
   }
 
-  private onChangeVote = (index: number) => (isChecked?: boolean): void => {
-    this.setState(({ approvals }: State) => {
-      if (!approvals) {
-        return;
-      }
-      return {
-        approvals: approvals!.map((b, i) => i === index ? isChecked || !approvals[index] : b)
-      } as State;
-    });
-  }
+  private onChangeVote = (index: number): (isChecked?: boolean) => void =>
+    (isChecked?: boolean): void => {
+      this.setState(({ approvals }: State): Pick<State, never> => {
+        if (!approvals) {
+          return {};
+        }
+        return {
+          approvals: approvals.map((b, i): boolean => i === index ? isChecked || !approvals[index] : b)
+        };
+      });
+    }
 
-  private onResetVotes = () => {
-    this.setState(({ oldApprovals }: State) => {
+  private onResetVotes = (): void => {
+    this.setState(({ oldApprovals }: State): Pick<State, never> => {
       return {
         approvals: oldApprovals
       };

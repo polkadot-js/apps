@@ -21,10 +21,10 @@ interface Props extends TxModalProps, ApiProps {
 interface State extends TxModalState {
   method: Method | null;
   threshold: BN | null;
-};
+}
 
 class Propose extends TxModal<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.defaultState = {

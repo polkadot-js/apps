@@ -14,10 +14,10 @@ import translate from '../translate';
 interface Props extends I18nProps {
   address: string;
   block: BlockNumber;
-};
+}
 
 class Member extends React.PureComponent<Props> {
-  render () {
+  public render (): React.ReactNode {
     const { address, block, t } = this.props;
 
     return (

@@ -13,14 +13,14 @@ import Overview from './Overview';
 import Motions from './Motions';
 import translate from './translate';
 
-interface Props extends AppProps, BareProps, I18nProps {};
+interface Props extends AppProps, BareProps, I18nProps {}
 
 interface State {
-  tabs: Array<TabItem>;
+  tabs: TabItem[];
 }
 
 class App extends React.PureComponent<Props, State> {
-  constructor (props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;
@@ -40,7 +40,7 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { tabs } = this.state;
 
