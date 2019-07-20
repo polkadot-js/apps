@@ -14,13 +14,13 @@ import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = TxModalProps & ApiProps & {
-  memberCount: number
-};
+interface Props extends TxModalProps, ApiProps {
+  memberCount: number;
+}
 
-type State = TxModalState & {
-  method: Method | null,
-  threshold: BN | null
+interface State extends TxModalState {
+  method: Method | null;
+  threshold: BN | null;
 };
 
 class Propose extends TxModal<Props, State> {

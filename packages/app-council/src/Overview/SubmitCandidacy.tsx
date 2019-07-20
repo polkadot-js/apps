@@ -13,7 +13,7 @@ import translate from '../translate';
 
 interface Props extends ComponentProps, TxModalProps {}
 
-type State = TxModalState;
+interface State extends TxModalState {};
 
 class SubmitCandidacy extends TxModal<Props, State> {
   protected headerText = (): string => this.props.t('Submit your council candidacy');
