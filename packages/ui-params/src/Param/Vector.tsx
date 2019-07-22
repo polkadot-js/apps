@@ -67,16 +67,20 @@ class Vector extends React.PureComponent<Props, State> {
         style={style}
       >
         {values.map((value, index): React.ReactNode => (
-          <Component
-            defaultValue={value}
-            isDisabled={isDisabled}
-            key={index}
-            label={`${index}: ${subType.type}`}
-            onChange={this.onChange(index)}
-            onEnter={onEnter}
-            type={subType}
-            withLabel={withLabel}
-          />
+          this.isParamHidden(index)
+            ? null
+            : (
+              <Component
+                defaultValue={value}
+                isDisabled={isDisabled}
+                key={index}
+                label={`${index}: ${subType.type}`}
+                onChange={this.onChange(index)}
+                onEnter={onEnter}
+                type={subType}
+                withLabel={withLabel}
+              />
+            )
         ))}
         {this.renderButtons()}
       </Bare>
@@ -106,6 +110,19 @@ class Vector extends React.PureComponent<Props, State> {
         />
       </div>
     );
+  }
+
+  private isParamHidden = (index: number): boolean => {
+    const { isDisabled, type } = this.props;
+    const { values } = this.state;
+
+    console.log(type, values[index]);
+
+    if (type.type === 'Vec<bool>' && isDisabled && values[index].value === false) {
+      console.log('HIDE');
+      return true;
+    }
+    return false;
   }
 
   private onChange = (index: number): (value: RawParam) => void => {

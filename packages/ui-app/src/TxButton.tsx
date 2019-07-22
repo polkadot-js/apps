@@ -37,6 +37,7 @@ interface Props extends ApiProps {
   isPrimary?: boolean;
   isUnsigned?: boolean;
   label: React.ReactNode;
+  labelIcon?: string;
   onClick?: () => any;
   onFailed?: TxFailedCallback;
   onStart?: () => void;
@@ -61,7 +62,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   };
 
   public render (): React.ReactNode {
-    const { accountId, className, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
+    const { accountId, className, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, labelIcon, tooltip } = this.props;
     const { isSending } = this.state;
     const needsAccount = isUnsigned
       ? false
@@ -78,6 +79,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
         isNegative={isNegative}
         isPrimary={isUndefined(isPrimary) ? (!isNegative && !isBasic) : isPrimary}
         label={label}
+        labelIcon={labelIcon}
         onClick={this.send}
         size={iconSize}
       />

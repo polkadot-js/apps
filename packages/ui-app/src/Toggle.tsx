@@ -11,6 +11,7 @@ import styled from 'styled-components';
 interface Props extends BareProps {
   asSwitch?: boolean;
   defaultValue?: boolean;
+  isDisabled?: boolean;
   label: React.ReactNode;
   onChange?: (isChecked: boolean) => void;
   value?: boolean;
@@ -18,12 +19,13 @@ interface Props extends BareProps {
 
 class Toggle extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, asSwitch, defaultValue, value, label } = this.props;
+    const { className, asSwitch, defaultValue, isDisabled, value, label } = this.props;
 
     return (
       <div className={className}>
         <SUICheckbox
           checked={value}
+          disabled={isDisabled}
           defaultChecked={defaultValue}
           onChange={this.onChange}
           toggle={asSwitch}
