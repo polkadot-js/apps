@@ -4,6 +4,7 @@
 
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { SignerPayload, SignerResult } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types';
 import { SignatureOptions } from '@polkadot/types/types';
@@ -92,6 +93,8 @@ export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => number;
 
 export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => number;
 
+export type QueueTxPayloadAdd = (payload: SignerPayload, signerCb: (id: number, result: SignerResult) => void) => number;
+
 export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result?: any, error?: Error) => void;
 
 export type QueueAction$Add = (status: ActionStatus) => number;
@@ -101,6 +104,7 @@ export interface QueueProps {
   txqueue: QueueTx[];
   queueAction: QueueAction$Add;
   queueExtrinsic: QueueTxExtrinsicAdd;
+  queuePayload: QueueTxPayloadAdd;
   queueRpc: QueueTxRpcAdd;
   queueSetTxStatus: QueueTxMessageSetStatus;
 }

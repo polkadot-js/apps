@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SignerPayload, SignerResult } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus } from './types';
@@ -44,8 +45,9 @@ export default class Queue extends React.Component<Props, State> {
       stqueue: [],
       txqueue: [],
       queueAction: this.queueAction,
-      queueRpc: this.queueRpc,
       queueExtrinsic: this.queueExtrinsic,
+      queuePayload: this.queuePayload,
+      queueRpc: this.queueRpc,
       queueSetTxStatus: this.queueSetTxStatus
     };
   }
@@ -183,6 +185,12 @@ export default class Queue extends React.Component<Props, State> {
       txStartCb,
       txUpdateCb
     });
+  }
+
+  // FIXME add the thing to the queue
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public queuePayload = (payload: SignerPayload, signerCb: (id: number, result: SignerResult) => void): number => {
+    return -1;
   }
 
   public queueRpc = ({ accountId, rpc, values }: PartialQueueTxRpc): number => {
