@@ -4,9 +4,9 @@
 
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { SignerPayload, SignerResult } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types';
-import { SignatureOptions } from '@polkadot/types/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
@@ -23,7 +23,7 @@ export interface AccountInfo {
 
 export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'sending' | 'sent' | 'blocked';
 
-export type SignerCallback = (id: number, isSigned: boolean) => void;
+export type SignerCallback = (id: number, result: SignerResult | null) => void;
 
 export type TxCallback = (status: SubmittableResult) => void;
 
@@ -34,11 +34,11 @@ export interface QueueTx extends AccountInfo {
   extrinsic?: SubmittableExtrinsic;
   id: number;
   isUnsigned?: boolean;
+  payload?: SignerPayload;
   result?: any;
   removeItem: () => void;
   rpc: RpcMethod;
   signerCb?: SignerCallback;
-  signerOptions?: SignatureOptions;
   txFailedCb?: TxFailedCallback;
   txSuccessCb?: TxCallback;
   txStartCb?: () => void;
@@ -60,7 +60,7 @@ export interface QueueTxResult {
 }
 
 export interface QueueTxExtrinsic extends AccountInfo {
-  extrinsic: SubmittableExtrinsic;
+  extrinsic?: SubmittableExtrinsic;
 }
 
 export interface QueueTxRpc extends AccountInfo {
@@ -73,9 +73,9 @@ export interface PartialAccountInfo {
 }
 
 export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
-  extrinsic: SubmittableExtrinsic;
+  extrinsic?: SubmittableExtrinsic;
+  payload?: SignerPayload;
   signerCb?: SignerCallback;
-  signerOptions?: SignatureOptions;
   txFailedCb?: TxFailedCallback;
   txSuccessCb?: TxCallback;
   txStartCb?: () => void;
@@ -92,6 +92,8 @@ export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => number;
 
 export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => number;
 
+export type QueueTxPayloadAdd = (payload: SignerPayload, signerCb: SignerCallback) => number;
+
 export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result?: any, error?: Error) => void;
 
 export type QueueAction$Add = (status: ActionStatus) => number;
@@ -101,6 +103,7 @@ export interface QueueProps {
   txqueue: QueueTx[];
   queueAction: QueueAction$Add;
   queueExtrinsic: QueueTxExtrinsicAdd;
+  queuePayload: QueueTxPayloadAdd;
   queueRpc: QueueTxRpcAdd;
   queueSetTxStatus: QueueTxMessageSetStatus;
 }

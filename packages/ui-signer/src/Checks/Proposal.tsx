@@ -9,7 +9,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact } from '@polkadot/types';
+import { Compact, UInt } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { formatBalance } from '@polkadot/util';
@@ -17,7 +17,7 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  deposit: BN | Compact;
+  deposit: BN | Compact<UInt>;
   fees: DerivedFees;
   democracy_minimumDeposit?: BN;
   onChange: (fees: ExtraFees) => void;

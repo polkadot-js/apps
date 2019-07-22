@@ -3,11 +3,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ContractInfo } from '@polkadot/types/srml/contracts/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { ContractInfo, Option } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { InfoForInput } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';

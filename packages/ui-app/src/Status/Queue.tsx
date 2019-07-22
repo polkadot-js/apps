@@ -2,15 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SignerPayload } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { BareProps } from '../types';
-import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus } from './types';
+import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
+import { Extrinsic, Method } from '@polkadot/types';
 
 import { QueueProvider } from './Context';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 export interface Props extends BareProps {
   children: React.ReactNode;
@@ -44,8 +47,9 @@ export default class Queue extends React.Component<Props, State> {
       stqueue: [],
       txqueue: [],
       queueAction: this.queueAction,
-      queueRpc: this.queueRpc,
       queueExtrinsic: this.queueExtrinsic,
+      queuePayload: this.queuePayload,
+      queueRpc: this.queueRpc,
       queueSetTxStatus: this.queueSetTxStatus
     };
   }
@@ -171,17 +175,28 @@ export default class Queue extends React.Component<Props, State> {
     return id;
   }
 
-  public queueExtrinsic = ({ accountId, extrinsic, signerCb, signerOptions, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): number => {
+  public queueExtrinsic = ({ accountId, extrinsic, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): number => {
     return this.queueAdd({
       accountId,
       extrinsic,
       isUnsigned,
-      signerCb,
-      signerOptions,
       txFailedCb,
       txSuccessCb,
       txStartCb,
       txUpdateCb
+    });
+  }
+
+  public queuePayload = (payload: SignerPayload, signerCb: SignerCallback): number => {
+    return this.queueAdd({
+      accountId: payload.address,
+      // this is not great, but the Extrinsic we don't need a submittable
+      extrinsic: new Extrinsic(
+        { method: new Method(payload.method) },
+        { version: payload.version }
+      ) as unknown as SubmittableExtrinsic,
+      payload,
+      signerCb
     });
   }
 

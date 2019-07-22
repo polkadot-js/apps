@@ -2,36 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer } from '@polkadot/api/types';
+import { Signer, SignerPayload, SignerResult } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { QueueTxExtrinsicAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/ui-app/Status/types';
-import { SignatureOptions } from '@polkadot/types/types';
+import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/ui-app/Status/types';
 
 import { Hash } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {
-  private _queueExtrinsic: QueueTxExtrinsicAdd;
+  private _queuePayload: QueueTxPayloadAdd;
 
   private _queueSetTxStatus: QueueTxMessageSetStatus;
 
-  public constructor (queueExtrinsic: QueueTxExtrinsicAdd, queueSetTxStatus: QueueTxMessageSetStatus) {
-    this._queueExtrinsic = queueExtrinsic;
+  public constructor (queuePayload: QueueTxPayloadAdd, queueSetTxStatus: QueueTxMessageSetStatus) {
+    this._queuePayload = queuePayload;
     this._queueSetTxStatus = queueSetTxStatus;
   }
 
-  public async sign (extrinsic: SubmittableExtrinsic, accountId: string, signerOptions: SignatureOptions): Promise<number> {
+  public async signPayload (payload: SignerPayload): Promise<SignerResult> {
     return new Promise((resolve, reject): void => {
-      this._queueExtrinsic({
-        accountId,
-        extrinsic,
-        signerOptions,
-        signerCb: (id: number, isSigned: boolean): void => {
-          if (isSigned) {
-            resolve(id);
-          } else {
-            reject(new Error());
-          }
+      this._queuePayload(payload, (id: number, result: SignerResult | null): void => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(new Error('Unable to sign'));
         }
       });
     });

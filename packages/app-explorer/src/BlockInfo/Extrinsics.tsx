@@ -43,12 +43,12 @@ class Extrinsics extends React.PureComponent<Props> {
   private renderExtrinsic = (extrinsic: Extrinsic, index: number): React.ReactNode => {
     const { blockNumber, t } = this.props;
     const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
-    const isMortal = extrinsic.signature.era.isMortalEra;
+    const isMortal = extrinsic.era.isMortalEra;
     let eraEnd;
     let eraStart;
 
     if (blockNumber && isMortal) {
-      const mortalEra = extrinsic.signature.era.asMortalEra;
+      const mortalEra = extrinsic.era.asMortalEra;
 
       eraEnd = mortalEra.death(blockNumber.toNumber());
       eraStart = mortalEra.birth(blockNumber.toNumber());
@@ -98,17 +98,17 @@ class Extrinsics extends React.PureComponent<Props> {
   private renderSigner (extrinsic: Extrinsic): React.ReactNode {
     const { t } = this.props;
 
-    if (!extrinsic.signature.isSigned) {
+    if (!extrinsic.isSigned) {
       return null;
     }
 
     return (
       <div className='explorer--BlockByHash-header'>
         <div>
-          <AddressMini value={extrinsic.signature.signer} />
+          <AddressMini value={extrinsic.signer} />
         </div>
         <div className='explorer--BlockByHash-nonce'>
-          {t('index')} {formatNumber(extrinsic.signature.nonce)}
+          {t('index')} {formatNumber(extrinsic.nonce)}
         </div>
       </div>
     );
