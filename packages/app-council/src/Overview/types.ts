@@ -12,6 +12,6 @@ export interface ComponentProps {
 }
 
 export interface VoterPosition {
-  setIndex: SetIndex,
-  globalIndex: BN
+  setIndex: SetIndex;
+  globalIndex: BN;
 }

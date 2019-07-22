@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, SetIndex, VoteIndex } from '@polkadot/types';
+import { SetIndex, VoteIndex } from '@polkadot/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps, VoterPosition } from './types';
 
@@ -22,7 +22,7 @@ interface Props extends ApiProps, ComponentProps, TxModalProps {
 interface State extends TxModalState {
   approvals: boolean[] | null;
   oldApprovals: boolean[] | null;
-  voters: Record<string, VoterPosition>
+  voters: Record<string, VoterPosition>;
 }
 
 const AlreadyVoted = styled.article`
@@ -72,11 +72,11 @@ const Candidate = styled.div`
 `;
 
 class Vote extends TxModal<Props, State> {
-  public static getDerivedStateFromProps ({ electionsInfo: { candidateCount }, voterSets }: Props, { accountId, approvals }: State): Partial<State> {
+  public static getDerivedStateFromProps ({ electionsInfo: { candidateCount }, voterSets }: Props, { approvals }: State): Partial<State> {
     const state: Partial<State> = {};
     if (voterSets) {
       state.voters = Object.keys(voterSets).reduce(
-        (result: Record<string, VoterPosition>, accountId, globalIndex) => {
+        (result: Record<string, VoterPosition>, accountId, globalIndex): Record<string, VoterPosition> => {
           result[accountId] = {
             setIndex: voterSets[accountId],
             globalIndex: new BN(globalIndex)
@@ -285,14 +285,6 @@ class Vote extends TxModal<Props, State> {
         };
       });
     }
-
-  private onResetVotes = (): void => {
-    this.setState(({ oldApprovals }: State): Pick<State, never> => {
-      return {
-        approvals: oldApprovals
-      };
-    });
-  }
 }
 
 export default withMulti(
