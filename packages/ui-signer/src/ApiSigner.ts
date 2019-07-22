@@ -20,11 +20,11 @@ export default class ApiSigner implements Signer {
 
   public async signPayload (payload: SignerPayload): Promise<SignerResult> {
     return new Promise((resolve, reject): void => {
-      this._queuePayload(payload, (id: number, result: SignerResult): void => {
+      this._queuePayload(payload, (id: number, result: SignerResult | null): void => {
         if (result) {
           resolve(result);
         } else {
-          reject(new Error());
+          reject(new Error('Unable to sign'));
         }
       });
     });
