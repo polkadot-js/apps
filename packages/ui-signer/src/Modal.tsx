@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { SignerPayload } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
@@ -23,6 +24,7 @@ import PasswordCheck from './PasswordCheck';
 import Transaction from './Transaction';
 import translate from './translate';
 import Unlock from './Unlock';
+import { SignaturePayload } from '@polkadot/types';
 
 interface BaseProps extends BareProps {
   queue: QueueTx[];
@@ -82,7 +84,7 @@ class Signer extends React.PureComponent<Props, State> {
   public async componentDidUpdate (): Promise<void> {
     const { currentItem } = this.state;
 
-    if (currentItem && currentItem.status === 'queued' && !currentItem.extrinsic) {
+    if (currentItem && currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
       return this.sendRpc(currentItem);
     }
   }
@@ -231,7 +233,7 @@ class Signer extends React.PureComponent<Props, State> {
     queueSetTxStatus(id, 'cancelled');
 
     if (isFunction(signerCb)) {
-      signerCb(id, false);
+      signerCb(id, null);
     }
 
     if (isFunction(txFailedCb)) {
@@ -265,9 +267,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
-    const { accountId, extrinsic, id, signerOptions, isUnsigned } = queueTx;
-
-    assert(extrinsic, 'Expected an extrinsic to be supplied to sendExtrinsic');
+    const { accountId, extrinsic, id, payload, isUnsigned } = queueTx;
 
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
@@ -280,18 +280,20 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
-    const submittable = extrinsic as SubmittableExtrinsic;
     const { queueSetTxStatus } = this.props;
 
-    queueSetTxStatus(id, 'sending');
-
-    if (isUnsigned) {
-      return this.makeExtrinsicCall(submittable, queueTx, submittable.send);
-    } else if (signerOptions) {
-      return this.makeExtrinsicSignature(submittable, queueTx, keyring.getPair(accountId as string));
+    if (payload) {
+      return this.makeExtrinsicSignature(payload, queueTx, keyring.getPair(accountId as string));
     }
 
-    return this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend, keyring.getPair(accountId as string));
+    const submittable = extrinsic as SubmittableExtrinsic;
+
+    assert(submittable, 'Expected an extrinsic to be supplied to sendExtrinsic');
+    queueSetTxStatus(id, 'sending');
+
+    return isUnsigned
+      ? this.makeExtrinsicCall(submittable, queueTx, submittable.send)
+      : this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend, keyring.getPair(accountId as string));
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: any[]): Promise<QueueTxResult> {
@@ -373,7 +375,7 @@ class Signer extends React.PureComponent<Props, State> {
         }
       }]);
     } catch (error) {
-      console.error('makeExtrinsicCall: error:', error.message);
+      console.error('makeExtrinsicCall: error:', error);
       queueSetTxStatus(id, 'error', {}, error);
 
       if (isFunction(txFailedCb)) {
@@ -382,13 +384,13 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicSignature (extrinsic: SubmittableExtrinsic, { id, signerCb, signerOptions }: QueueTx, pair: KeyringPair): Promise<void> {
-    console.log('makeExtrinsicSignature: extrinsic ::', extrinsic.toHex());
+  private async makeExtrinsicSignature (payload: SignerPayload, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
+    console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
 
-    extrinsic.sign(pair, signerOptions || {});
+    const result = new SignaturePayload(payload, { version: payload.version }).sign(pair);
 
     if (isFunction(signerCb)) {
-      signerCb(id, true);
+      signerCb(id, { id, ...result });
     }
   }
 }
