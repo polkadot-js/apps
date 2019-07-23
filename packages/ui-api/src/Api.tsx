@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { QueueTxExtrinsicAdd, QueueTxMessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
 
@@ -25,7 +25,7 @@ let api: ApiPromise;
 
 interface Props {
   children: React.ReactNode;
-  queueExtrinsic: QueueTxExtrinsicAdd;
+  queuePayload: QueueTxPayloadAdd;
   queueSetTxStatus: QueueTxMessageSetStatus;
   url?: string;
 }
@@ -52,9 +52,9 @@ export default class Api extends React.PureComponent<Props, State> {
   public constructor (props: Props) {
     super(props);
 
-    const { queueExtrinsic, queueSetTxStatus, url } = props;
+    const { queuePayload, queueSetTxStatus, url } = props;
     const provider = new WsProvider(url);
-    const signer = new ApiSigner(queueExtrinsic, queueSetTxStatus);
+    const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 
     const setApi = (provider: ProviderInterface): void => {
       api = new ApiPromise({ provider, signer });
