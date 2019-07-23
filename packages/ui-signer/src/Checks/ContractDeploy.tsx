@@ -7,10 +7,10 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact } from '@polkadot/types';
+import { Compact, UInt } from '@polkadot/types';
 
 interface Props {
-  endowment: BN | Compact;
+  endowment: BN | Compact<UInt>;
   fees: DerivedContractFees;
   onChange: (fees: ExtraFees) => void;
 }

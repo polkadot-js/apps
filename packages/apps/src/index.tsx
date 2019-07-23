@@ -60,9 +60,9 @@ ReactDOM.render(
   <Suspense fallback='...'>
     <Queue>
       <QueueConsumer>
-        {({ queueExtrinsic, queueSetTxStatus }): React.ReactNode => (
+        {({ queuePayload, queueSetTxStatus }): React.ReactNode => (
           <Api
-            queueExtrinsic={queueExtrinsic}
+            queuePayload={queuePayload}
             queueSetTxStatus={queueSetTxStatus}
             url={wsEndpoint}
           >

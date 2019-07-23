@@ -9,7 +9,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact } from '@polkadot/types';
+import { Compact, UInt } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { formatBalance } from '@polkadot/util';
@@ -18,7 +18,7 @@ import translate from '../translate';
 import { ZERO_BALANCE } from './constants';
 
 interface Props extends I18nProps {
-  amount: BN | Compact;
+  amount: BN | Compact<UInt>;
   fees: DerivedFees;
   balances_all?: DerivedBalances;
   recipientId: string;
