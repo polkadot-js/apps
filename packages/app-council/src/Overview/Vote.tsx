@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SetIndex, VoteIndex } from '@polkadot/types';
+import { VoteIndex } from '@polkadot/types';
+import { SetIndex } from '@polkadot/types/srml/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps, VoterPosition } from './types';
 
