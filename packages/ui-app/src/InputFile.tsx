@@ -8,6 +8,7 @@ import { BareProps } from './types';
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import styled from 'styled-components';
+import { formatNumber } from '@polkadot/util';
 
 import { classes } from './util';
 import Labelled from './Labelled';
@@ -70,7 +71,10 @@ class InputFile extends React.PureComponent<Props, State> {
             !file || clearContent
               ? placeholder || t('click to select or drag and drop the file here')
               : placeholder || t('{{name}} ({{size}} bytes)', {
-                replace: file
+                replace: {
+                  name: file.name,
+                  size: formatNumber(file.size)
+                }
               })
           }
         </em>

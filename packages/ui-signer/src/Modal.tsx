@@ -372,6 +372,8 @@ class Signer extends React.PureComponent<Props, State> {
                 txSuccessCb(result);
               }
             });
+        } else if (result.isError && isFunction(txFailedCb)) {
+          txFailedCb(result);
         }
       }]);
     } catch (error) {
