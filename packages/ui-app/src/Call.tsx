@@ -68,7 +68,7 @@ class Call extends React.PureComponent<Props> {
             ? (
               <Static
                 className='mortality'
-                label={t('mortality')}
+                label={t('lifetime')}
               >
                 {mortality}
               </Static>
