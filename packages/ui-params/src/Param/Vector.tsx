@@ -116,8 +116,6 @@ class Vector extends React.PureComponent<Props, State> {
     const { isDisabled, type } = this.props;
     const { values } = this.state;
 
-    console.log(type, values[index]);
-
     if (type.type === 'Vec<bool>' && isDisabled && values[index].value === false) {
       return true;
     }

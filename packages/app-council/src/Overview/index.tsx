@@ -23,6 +23,7 @@ const NULL_INFO: DerivedElectionsInfo = {
   candidates: [],
   candidateCount: new BN(0),
   desiredSeats: new BN(0),
+  nextVoterSet: createType<SetIndex>('SetIndex', 0),
   termDuration: new BlockNumber(0),
   voteCount: new VoteIndex(0),
   voterCount: createType<SetIndex>('SetIndex', 0)

@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { VoteIndex } from '@polkadot/types';
-import { SetIndex } from '@polkadot/types/srml/types';
+// import { SetIndex } from '@polkadot/types/srml/types';
+import { DerivedVoterPositions } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { ComponentProps, VoterPosition } from './types';
+import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -17,13 +18,13 @@ import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
 import translate from '../translate';
 
 interface Props extends ApiProps, ComponentProps, TxModalProps {
-  voterSets?: Record<string, SetIndex>;
+  voterPositions?: DerivedVoterPositions;
 }
 
 interface State extends TxModalState {
   approvals: boolean[] | null;
   oldApprovals: boolean[] | null;
-  voters: Record<string, VoterPosition>;
+  // voterPositions: DerivedVoterPositions;
 }
 
 const AlreadyVoted = styled.article`
@@ -73,23 +74,27 @@ const Candidate = styled.div`
 `;
 
 class Vote extends TxModal<Props, State> {
-  public static getDerivedStateFromProps ({ electionsInfo: { candidateCount }, voterSets }: Props, { approvals }: State): Partial<State> {
+  public static emptyApprovals (length: number): boolean[] {
+    return [...new Array(length).keys()].map((): boolean => false);
+  }
+
+  public static getDerivedStateFromProps ({ electionsInfo: { candidateCount } }: Props, { approvals }: State): Partial<State> {
     const state: Partial<State> = {};
-    if (voterSets) {
-      state.voters = Object.keys(voterSets).reduce(
-        (result: Record<string, VoterPosition>, accountId, globalIndex): Record<string, VoterPosition> => {
-          result[accountId] = {
-            setIndex: voterSets[accountId],
-            globalIndex: new BN(globalIndex)
-          };
-          return result;
-        },
-        {}
-      );
-    }
+    // if (voterPositions) {
+    //   state.voters = Object.keys(voterSets).reduce(
+    //     (result: Record<string, VoterPosition>, accountId, globalIndex): Record<string, VoterPosition> => {
+    //       result[accountId] = {
+    //         setIndex: voterSets[accountId],
+    //         globalIndex: new BN(globalIndex)
+    //       };
+    //       return result;
+    //     },
+    //     {}
+    //   );
+    // }
 
     if (candidateCount && !approvals) {
-      state.approvals = state.oldApprovals || [...new Array(candidateCount.toNumber()).keys()].map((): boolean => false);
+      state.approvals = state.oldApprovals || Vote.emptyApprovals(candidateCount.toNumber());
     }
 
     return state;
@@ -101,8 +106,7 @@ class Vote extends TxModal<Props, State> {
     this.defaultState = {
       ...this.defaultState,
       approvals: null,
-      oldApprovals: null,
-      voters: {}
+      oldApprovals: null
     };
 
     this.state = {
@@ -131,13 +135,15 @@ class Vote extends TxModal<Props, State> {
   protected txMethod = (): string => 'elections.setApprovals';
 
   protected txParams = (): [boolean[] | null, VoteIndex, BN | null] => {
-    const { electionsInfo: { voteCount } } = this.props;
-    const { accountId, approvals, voters } = this.state;
+    const { electionsInfo: { nextVoterSet, voteCount }, voterPositions } = this.props;
+    const { accountId, approvals } = this.state;
 
     return [
       approvals ? approvals.slice(0, 1 + approvals.lastIndexOf(true)) : [],
       new VoteIndex(voteCount),
-      voters && accountId && voters[accountId] ? voters[accountId].setIndex : null
+      voterPositions && accountId && voterPositions[accountId]
+        ? voterPositions[accountId].setIndex
+        : nextVoterSet
     ];
   }
 
@@ -148,10 +154,11 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
+    const { electionsInfo: { candidates }, t } = this.props;
 
     return (
       <Button
+        isDisabled={candidates.length === 0}
         isPrimary
         label={t('Vote')}
         labelIcon='check'
@@ -161,13 +168,13 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderContent = (): React.ReactNode => {
-    const { electionsInfo: { candidates }, t } = this.props;
-    const { accountId, approvals, oldApprovals, voters } = this.state;
+    const { electionsInfo: { candidates }, voterPositions, t } = this.props;
+    const { accountId, approvals, oldApprovals } = this.state;
 
     return (
       <>
         {
-          (oldApprovals && accountId && voters && voters[accountId]) && (
+          (oldApprovals && accountId && voterPositions && voterPositions[accountId]) && (
             <AlreadyVoted className='warning padded'>
               <div>
                 <Icon name='warning sign' />
@@ -179,7 +186,8 @@ class Vote extends TxModal<Props, State> {
                   isNegative
                   label={t('Retract vote')}
                   labelIcon='delete'
-                  params={[voters[accountId].globalIndex]}
+                  onSuccess={this.onRetractVote}
+                  params={[voterPositions[accountId].globalIndex]}
                   tx='elections.retractVoter'
                 />
               </Button.Group>
@@ -245,8 +253,14 @@ class Vote extends TxModal<Props, State> {
     );
   }
 
+  private emptyApprovals = (): boolean[] => {
+    const { electionsInfo: { candidateCount } } = this.props;
+
+    return Vote.emptyApprovals(candidateCount.toNumber());
+  }
+
   private fetchApprovals = (): void => {
-    const { api, electionsInfo: { candidateCount, voteCount } } = this.props;
+    const { api, electionsInfo: { voteCount }, voterPositions } = this.props;
     const { accountId } = this.state;
 
     if (!accountId) {
@@ -255,14 +269,14 @@ class Vote extends TxModal<Props, State> {
 
     api.derive.elections.approvalsOfAt(accountId, voteCount)
       .then((approvals: boolean[]): void => {
-        if (approvals && approvals.length && approvals !== this.state.approvals) {
+        if ((voterPositions && voterPositions[accountId.toString()]) && approvals && approvals.length && approvals !== this.state.approvals) {
           this.setState({
             approvals,
             oldApprovals: approvals
           });
         } else {
           this.setState({
-            approvals: [...new Array(candidateCount.toNumber()).keys()].map((): boolean => false)
+            approvals: this.emptyApprovals()
           });
         }
       });
@@ -286,6 +300,13 @@ class Vote extends TxModal<Props, State> {
         };
       });
     }
+
+  private onRetractVote = (): void => {
+    this.setState({
+      approvals: this.emptyApprovals(),
+      oldApprovals: null
+    });
+  }
 }
 
 export default withMulti(
@@ -293,6 +314,6 @@ export default withMulti(
   translate,
   withApi,
   withCalls<Props>(
-    ['derive.elections.voterSets', { propName: 'voterSets' }]
+    ['derive.elections.voterPositions', { propName: 'voterPositions' }]
   )
 );
