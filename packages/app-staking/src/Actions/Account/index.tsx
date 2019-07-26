@@ -27,9 +27,10 @@ import Validate from './Validate';
 
 type Props = ApiProps & I18nProps & {
   accountId: string;
+  allStashes?: string[];
+  balances_all?: DerivedBalances;
   className?: string;
   recentlyOffline: RecentlyOfflineMap;
-  balances_all?: DerivedBalances;
   staking_info?: DerivedStaking;
   stashOptions: KeyringSectionOption[];
 };
@@ -37,7 +38,6 @@ type Props = ApiProps & I18nProps & {
 interface State {
   controllerId: string | null;
   destination: number;
-  isActiveStash: boolean;
   isBondExtraOpen: boolean;
   isNominateOpen: boolean;
   isSetControllerAccountOpen: boolean;
@@ -66,7 +66,6 @@ class Account extends React.PureComponent<Props, State> {
   public state: State = {
     controllerId: null,
     destination: 0,
-    isActiveStash: false,
     isBondExtraOpen: false,
     isNominateOpen: false,
     isSetControllerAccountOpen: false,
@@ -81,35 +80,35 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  public static getDerivedStateFromProps ({ accountId, staking_info }: Props): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ allStashes, staking_info }: Props): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
 
     const { controllerId, nextSessionId, nominators, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isStashNominating = nominators && nominators.length !== 0;
-    const isStashValidating = !!validatorPrefs && !validatorPrefs.isEmpty && !isStashNominating;
+    const _stashId = toIdString(stashId);
+    const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
 
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
-      isActiveStash: accountId === toIdString(stashId),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
       sessionId: toIdString(nextSessionId),
       stakers,
       stakingLedger,
-      stashId: toIdString(stashId),
+      stashId: _stashId,
       validatorPrefs
     };
   }
 
   public render (): React.ReactNode {
     const { className, t } = this.props;
-    const { isActiveStash, stashId } = this.state;
+    const { stashId } = this.state;
 
-    if (!isActiveStash || !stashId) {
+    if (!stashId) {
       return null;
     }
 

@@ -32,7 +32,7 @@ class Accounts extends React.PureComponent<Props, State> {
   };
 
   public render (): React.ReactNode {
-    const { className, recentlyOffline, t } = this.props;
+    const { allStashes, className, recentlyOffline, t } = this.props;
     const { isNewStakeOpen } = this.state;
     const stashOptions = this.getStashOptions();
     const myStashes = this.getMyStashes();
@@ -61,6 +61,7 @@ class Accounts extends React.PureComponent<Props, State> {
         {myStashes && myStashes.map((address, index): React.ReactNode => (
           address &&
           <Account
+            allStashes={allStashes}
             accountId={address}
             key={index}
             recentlyOffline={recentlyOffline}
