@@ -83,7 +83,7 @@ class Extrinsics extends React.PureComponent<Props> {
                   : t('mortal')
                 : t('immortal')
             }
-            tip={new BN(extrinsic.tip)}
+            tip={extrinsic.tip.toBN()}
             value={extrinsic}
             withHash
           />
