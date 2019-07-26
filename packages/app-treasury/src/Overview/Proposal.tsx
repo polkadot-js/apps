@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Option, TreasuryProposal as TreasuryProposalType } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { ActionItem, Icon, TreasuryProposal } from '@polkadot/ui-app';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';

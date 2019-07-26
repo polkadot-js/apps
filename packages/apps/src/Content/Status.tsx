@@ -3,13 +3,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyringOptions } from '@polkadot/ui-keyring/options/types';
 import { QueueStatus, QueueTx, QueueAction$Add } from '@polkadot/ui-app/Status/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import keyringOption from '@polkadot/ui-keyring/options';
-import { EventRecord } from '@polkadot/types';
 import { Status as StatusDisplay } from '@polkadot/ui-app';
 import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { stringToU8a } from '@polkadot/util';

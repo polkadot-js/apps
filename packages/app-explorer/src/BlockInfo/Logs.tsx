@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DigestItem } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { DigestItem, Struct, Tuple, TypeDef, U8a, Vector, getTypeDef } from '@polkadot/types';
+import { Struct, Tuple, TypeDef, U8a, Vector, getTypeDef } from '@polkadot/types';
 import { Column } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 

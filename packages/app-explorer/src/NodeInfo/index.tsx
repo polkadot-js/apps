@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Health, PeerInfo, Extrinsic } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { Info } from './types';
 
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { Health, PeerInfo, PendingExtrinsics, Vector } from '@polkadot/types';
+import { Vec } from '@polkadot/types';
 
 import './index.css';
 
@@ -89,8 +90,8 @@ class App extends React.PureComponent<Props, State> {
       const [blockNumber, health, peers, extrinsics] = await Promise.all([
         api.derive.chain.bestNumber(),
         api.rpc.system.health<Health>(),
-        api.rpc.system.peers<Vector<PeerInfo>>(),
-        api.rpc.author.pendingExtrinsics<PendingExtrinsics>()
+        api.rpc.system.peers<Vec<PeerInfo>>(),
+        api.rpc.author.pendingExtrinsics<Vec<Extrinsic>>()
       ]);
 
       this.setInfo({ blockNumber, extrinsics, health, peers });

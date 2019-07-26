@@ -3,10 +3,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { Hash } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 
 import BlockByHash from './ByHash';

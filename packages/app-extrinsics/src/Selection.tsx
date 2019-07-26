@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { Method } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTxExtrinsicAdd } from '@polkadot/ui-app/Status/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { Method } from '@polkadot/types';
+import { GenericMethod } from '@polkadot/types';
 import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import { Nonce } from '@polkadot/ui-reactive';
@@ -136,7 +137,7 @@ class Selection extends TxComponent<Props, State> {
       return null;
     }
 
-    const fn = Method.findFunction(method.callIndex);
+    const fn = GenericMethod.findFunction(method.callIndex);
 
     return api.tx[fn.section][fn.method](...method.args);
   }
