@@ -3,11 +3,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, Balance, Proposal } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { AccountId, Balance, Option, Proposal, Tuple, Vector } from '@polkadot/types';
+import { Option, Tuple, Vec } from '@polkadot/types';
 import { ActionItem, InputAddress, Labelled, Static } from '@polkadot/ui-app';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';
@@ -16,7 +17,7 @@ import translate from '../translate';
 import Seconding from './Seconding';
 
 interface Props extends I18nProps {
-  democracy_depositOf?: [Balance, Vector<AccountId>] | null;
+  democracy_depositOf?: [Balance, Vec<AccountId>] | null;
   idNumber: BN;
   value: Proposal;
 }
