@@ -79,7 +79,7 @@ class Call extends React.PureComponent<Props> {
             : null
         }
         {
-          tip
+          (tip && tip.gtn(0))
             ? (
               <Static
                 className='tip'
