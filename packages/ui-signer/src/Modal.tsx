@@ -322,7 +322,7 @@ class Signer extends React.PureComponent<Props, State> {
       return this.makeExtrinsicSignature(
         {
           ...payload,
-          ...((isV2 && tip) ? { tip: tip.toString() } : {})
+          ...((isV2 && tip && !payload.tip) ? { tip: tip.toString() } : {})
         },
         queueTx,
         keyring.getPair(accountId as string)
