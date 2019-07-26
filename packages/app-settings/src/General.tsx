@@ -106,6 +106,7 @@ class General extends React.PureComponent<Props, State> {
     return (
       <>
         <Toggle
+          asSwitch
           className='settings--cutomToggle'
           defaultValue={isCustomNode}
           label={t('custom endpoint')}

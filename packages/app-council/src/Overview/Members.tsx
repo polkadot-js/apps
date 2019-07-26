@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ElectionsInfo } from './types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { Columar, Column } from '@polkadot/ui-app';
@@ -13,9 +13,7 @@ import translate from '../translate';
 import Candidate from './Candidate';
 import Member from './Member';
 
-interface Props extends I18nProps {
-  electionsInfo: ElectionsInfo;
-}
+interface Props extends I18nProps, ComponentProps {}
 
 class Members extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -28,7 +26,7 @@ class Members extends React.PureComponent<Props> {
           emptyText={t('No members found')}
           headerText={t('members')}
         >
-          {members.map(([address, block]): React.ReactNode => (
+          {Object.entries(members).map(([address, block]): React.ReactNode => (
             <Member
               address={address}
               block={block}
@@ -43,7 +41,7 @@ class Members extends React.PureComponent<Props> {
           {candidates.map((address): React.ReactNode => (
             <Candidate
               address={address}
-              key={address}
+              key={address.toString()}
             />
           ))}
         </Column>

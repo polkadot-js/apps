@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '@polkadot/types';
+import { SetIndex } from '@polkadot/types/srml/types';
+import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 
-export interface ElectionsInfo {
-  members: [string, BlockNumber][];
-  candidates: string[];
-  candidateCount: BN;
-  desiredSeats: BN;
-  termDuration: BN;
-  voteCount: BN;
+export interface ComponentProps {
+  electionsInfo: DerivedElectionsInfo;
+}
+
+export interface VoterPosition {
+  setIndex: SetIndex;
+  globalIndex: BN;
 }

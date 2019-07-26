@@ -2,54 +2,45 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber } from '@polkadot/types';
-import { ElectionsInfo } from './types';
+import { createType, BlockNumber, VoteIndex } from '@polkadot/types';
+import { SetIndex } from '@polkadot/types/srml/elections/types';
+import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
+import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 
 import { withCalls } from '@polkadot/ui-api';
+import { Button } from '@polkadot/ui-app';
 
 import Members from './Members';
 import SubmitCandidacy from './SubmitCandidacy';
 import Summary from './Summary';
+import Vote from './Vote';
 
-interface Props {
-  elections_members?: [string, BlockNumber][];
-  elections_candidates?: string[];
-  elections_candidateCount?: BN;
-  elections_desiredSeats?: BN;
-  elections_termDuration?: BN;
-  elections_voteCount?: BN;
-}
+const NULL_INFO: DerivedElectionsInfo = {
+  members: {},
+  candidates: [],
+  candidateCount: new BN(0),
+  desiredSeats: new BN(0),
+  nextVoterSet: createType<SetIndex>('SetIndex', 0),
+  termDuration: new BlockNumber(0),
+  voteCount: new VoteIndex(0),
+  voterCount: createType<SetIndex>('SetIndex', 0)
+};
 
-interface State {
-  electionsInfo: ElectionsInfo;
-}
-
-class Overview extends React.PureComponent<Props, State> {
-  public static getDerivedStateFromProps ({
-    elections_members: members = [],
-    elections_candidates: candidates = [],
-    elections_candidateCount: candidateCount = new BN(0),
-    elections_desiredSeats: desiredSeats = new BN(0),
-    elections_termDuration: termDuration = new BN(0),
-    elections_voteCount: voteCount = new BN(0)
-  }: Props): State {
-    const electionsInfo: ElectionsInfo = {
-      members, candidates, candidateCount, desiredSeats, termDuration, voteCount
-    };
-
-    return { electionsInfo };
-  }
-
+class Overview extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { electionsInfo } = this.state;
+    const { electionsInfo = NULL_INFO } = this.props;
 
     return (
       <>
         <Summary electionsInfo={electionsInfo} />
-        <SubmitCandidacy electionsInfo={electionsInfo} />
+        <Button.Group>
+          <SubmitCandidacy electionsInfo={electionsInfo} />
+          <Button.Or />
+          <Vote electionsInfo={electionsInfo} />
+        </Button.Group>
         <Members electionsInfo={electionsInfo} />
       </>
     );
@@ -57,20 +48,10 @@ class Overview extends React.PureComponent<Props, State> {
 }
 
 export default withCalls<Props>(
-  ['query.elections.members', {
-    transform: (active: [AccountId, BlockNumber][]): [string, BlockNumber][] =>
-      active.map(([accountId, blockNumber]): [string, BlockNumber] =>
-        [accountId.toString(), blockNumber]
-      )
-  }],
-  ['query.elections.candidates', {
-    transform: (candidates: AccountId[]): string[] =>
-      candidates.map((accountId): string =>
-        accountId.toString()
-      )
-  }],
-  'query.elections.candidateCount',
-  'query.elections.desiredSeats',
-  'query.elections.termDuration',
-  'query.elections.voteCount'
+  [
+    'derive.elections.info',
+    {
+      propName: 'electionsInfo'
+    }
+  ]
 )(Overview);

@@ -13,7 +13,7 @@ import Overview from './Overview';
 import Motions from './Motions';
 import translate from './translate';
 
-type Props = AppProps & BareProps & I18nProps;
+interface Props extends AppProps, BareProps, I18nProps {}
 
 interface State {
   tabs: TabItem[];

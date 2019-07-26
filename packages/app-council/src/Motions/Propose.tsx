@@ -14,9 +14,9 @@ import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 
 import translate from '../translate';
 
-type Props = TxModalProps & ApiProps & {
+interface Props extends TxModalProps, ApiProps {
   memberCount: number;
-};
+}
 
 interface State extends TxModalState {
   method: Method | null;

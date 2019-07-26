@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber } from '@polkadot/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { AddressCard } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
@@ -13,7 +13,7 @@ import translate from '../translate';
 
 interface Props extends I18nProps {
   address: string;
-  block: BN;
+  block: BlockNumber;
 }
 
 class Member extends React.PureComponent<Props> {

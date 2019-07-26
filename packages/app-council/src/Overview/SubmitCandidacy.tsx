@@ -2,20 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ElectionsInfo } from './types';
+import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Button } from '@polkadot/ui-app';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
+import TxModal, { TxModalState as State, TxModalProps } from '@polkadot/ui-app/TxModal';
 
 import translate from '../translate';
 
-interface Props extends TxModalProps {
-  electionsInfo: ElectionsInfo;
-}
-
-type State = TxModalState;
+interface Props extends ComponentProps, TxModalProps {}
 
 class SubmitCandidacy extends TxModal<Props, State> {
   protected headerText = (): string => this.props.t('Submit your council candidacy');
@@ -44,14 +40,11 @@ class SubmitCandidacy extends TxModal<Props, State> {
     const { t } = this.props;
 
     return (
-      <Button.Group>
-        <Button
-          isPrimary
-          label={t('Submit candidacy')}
-          labelIcon='add'
-          onClick={this.showModal}
-        />
-      </Button.Group>
+      <Button
+        label={t('Submit candidacy')}
+        labelIcon='add'
+        onClick={this.showModal}
+      />
     );
   }
 }
