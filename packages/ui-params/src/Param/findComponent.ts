@@ -78,7 +78,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       case TypeDefInfo.Tuple:
         return 'Tuple';
 
-      case TypeDefInfo.Vector:
+      case TypeDefInfo.Vec:
         return ['Vec<KeyValue>'].includes(type)
           ? 'Vec<KeyValue>'
           : 'Vector';
@@ -92,7 +92,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
   if (!Component) {
     try {
-      const instance = createType(type);
+      const instance = createType(type as any);
       const raw = getTypeDef(instance.toRawType());
 
       if (instance instanceof BN) {

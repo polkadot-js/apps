@@ -10,7 +10,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact, Method, UInt } from '@polkadot/types';
+import { Compact, GenericMethod, UInt } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { compactToU8a, formatBalance } from '@polkadot/util';
@@ -75,7 +75,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const fn = Method.findFunction(extrinsic.callIndex);
+    const fn = GenericMethod.findFunction(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
     const txLength = calcSignatureLength(extrinsic, system_accountNonce);

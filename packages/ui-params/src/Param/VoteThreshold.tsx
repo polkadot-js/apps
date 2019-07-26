@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { VoteThreshold } from '@polkadot/types';
+import { ClassOf } from '@polkadot/types';
 import { Dropdown } from '@polkadot/ui-app';
 import { bnToBn } from '@polkadot/util';
 
@@ -28,7 +28,7 @@ export const textMap = options.reduce((textMap, { text, value }): TextMap => {
 export default class VoteThresholdParam extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = value instanceof VoteThreshold
+    const defaultValue = value instanceof ClassOf('VoteThreshold')
       ? value.toNumber()
       : bnToBn(value as number).toNumber();
 

@@ -6,7 +6,7 @@ import { Props as BaseProps, RawParam } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { Proposal } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { withApi } from '@polkadot/ui-api';
 
 import ExtrinsicDisplay from './Extrinsic';
@@ -38,7 +38,7 @@ class ProposalDisplay extends React.PureComponent<Props> {
     let proposal = null;
 
     if (isValid && value) {
-      proposal = new Proposal(value);
+      proposal = createType('Proposal', value);
     }
 
     onChange && onChange({

@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types/interfaces';
 import { CodeJson, CodeStored } from './types';
 
 import EventEmitter from 'eventemitter3';
 import store from 'store';
 import { Abi } from '@polkadot/api-contract';
-import { Hash } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { api } from '@polkadot/ui-api';
 
 const KEY_CODE = 'code:';
@@ -30,7 +31,7 @@ class Store extends EventEmitter {
   }
 
   public async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>): Promise<void> {
-    const hex = (typeof codeHash === 'string' ? new Hash(codeHash) : codeHash).toHex();
+    const hex = (typeof codeHash === 'string' ? createType('Hash', codeHash) : codeHash).toHex();
 
     const existing = this.getCode(hex);
 

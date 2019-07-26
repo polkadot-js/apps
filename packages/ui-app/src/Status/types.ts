@@ -6,7 +6,7 @@ import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { SignerPayload, SignerResult } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { AccountId, Address } from '@polkadot/types';
+import { AccountId, Address } from '@polkadot/types/interfaces';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MethodFunction } from '@polkadot/types/primitive/Method';
+import { Method } from '@polkadot/types/interfaces';
+import { MethodFunction } from '@polkadot/types/primitive/Generic/Method';
 import { RawParamOnChange, RawParamOnEnter } from '@polkadot/ui-params/types';
 import { BareProps } from '../types';
 
 import React from 'react';
-import { Method } from '@polkadot/types';
 
 import BaseExtrinsic from '../Extrinsic';
 

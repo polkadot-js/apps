@@ -5,10 +5,10 @@
 import { RawParamValue } from './types';
 
 import BN from 'bn.js';
-import { Bytes, Hash, TypeDef, TypeDefInfo, U8a, createType, getTypeDef } from '@polkadot/types';
+import { Bytes, TypeDef, TypeDefInfo, U8a, createType, getTypeDef } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParamValue | RawParamValue[] {
-  if (def.info === TypeDefInfo.Vector) {
+  if (def.info === TypeDefInfo.Vec) {
     return [getInitValue(def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
     return Array.isArray(def.sub)
@@ -72,7 +72,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
 
     case 'CodeHash':
     case 'Hash':
-      return new Hash();
+      return createType('Hash');
 
     case 'AccountId':
     case 'AccountIdOf':
@@ -97,7 +97,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
 
     default: {
       try {
-        const instance = createType(type);
+        const instance = createType(type as any);
         const raw = getTypeDef(instance.toRawType());
 
         if (instance instanceof BN) {

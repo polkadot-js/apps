@@ -39,7 +39,7 @@ export default class EnumParam extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const sub = getTypeDef(createType(type).toRawType()).sub as TypeDef[];
+    const sub = getTypeDef(createType(type as any).toRawType()).sub as TypeDef[];
     const options = sub.map(({ name }): Option => ({
       text: name,
       value: name

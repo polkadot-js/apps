@@ -4,11 +4,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { Hash } from '@polkadot/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
 import styled from 'styled-components';
+import { createType } from '@polkadot/types';
 import { withMulti } from '@polkadot/ui-api';
 import { classes, toShortAddress } from '@polkadot/ui-app/util';
 import contracts from '@polkadot/app-contracts/store';
@@ -192,7 +192,7 @@ class CodeRow extends Row<Props, State> {
 
     // Save only if the name was changed or if it's no empty.
     if (trimmedName && codeHash) {
-      await contracts.saveCode(new Hash(codeHash), { name });
+      await contracts.saveCode(createType('Hash', codeHash), { name });
 
       this.setState({ isEditingName: false });
     }
@@ -202,7 +202,7 @@ class CodeRow extends Row<Props, State> {
     const { codeHash, tags } = this.state;
 
     if (codeHash) {
-      await contracts.saveCode(new Hash(codeHash), { tags });
+      await contracts.saveCode(createType('Hash', codeHash), { tags });
 
       this.setState({ isEditingTags: false });
     }

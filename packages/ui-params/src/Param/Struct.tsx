@@ -29,7 +29,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const defs = getTypeDef(createType(type).toRawType()).sub as TypeDef[];
+    const defs = getTypeDef(createType(type as any).toRawType()).sub as TypeDef[];
 
     return {
       defs,

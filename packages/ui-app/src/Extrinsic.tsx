@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MethodFunction } from '@polkadot/types/primitive/Method';
+import { Method } from '@polkadot/types/interfaces';
+import { MethodFunction } from '@polkadot/types/primitive/Generic/Method';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
 import React from 'react';
-import { Method, TypeDef, getTypeDef } from '@polkadot/types';
+import { GenericMethod, TypeDef, getTypeDef } from '@polkadot/types';
 
 import { InputExtrinsic } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
@@ -115,9 +116,9 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   }
 
   private getParams (methodfn: MethodFunction): { name: string; type: TypeDef }[] {
-    return Method.filterOrigin(methodfn.meta).map((arg): { name: string; type: TypeDef } => ({
+    return GenericMethod.filterOrigin(methodfn.meta).map((arg): { name: string; type: TypeDef } => ({
       name: arg.name.toString(),
-      type: getTypeDef(arg.type)
+      type: getTypeDef(arg.type.toString())
     }));
   }
 }

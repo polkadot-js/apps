@@ -129,7 +129,7 @@ class AddressInfo extends React.PureComponent<Props> {
 
       value = `${formatBalance(bonded[0])} ${extra}`;
     } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
-      value = formatBalance(staking_info.stakingLedger.active);
+      value = formatBalance(staking_info.stakingLedger.active.unwrap());
     }
 
     return value
