@@ -4,7 +4,6 @@
 
 import { I18nProps } from '@polkadot/ui-app/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/ui-app';
