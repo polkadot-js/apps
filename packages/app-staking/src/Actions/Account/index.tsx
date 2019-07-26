@@ -80,7 +80,7 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  public static getDerivedStateFromProps ({ accountId, allStashes, staking_info }: Props): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ allStashes, staking_info }: Props): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
@@ -109,7 +109,7 @@ class Account extends React.PureComponent<Props, State> {
     const { stashId } = this.state;
 
     if (!stashId) {
-      return;
+      return null;
     }
 
     // Each component is rendered and gets a `is[Component]Open` passed in a `isOpen` props.
