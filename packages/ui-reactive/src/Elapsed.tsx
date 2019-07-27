@@ -4,24 +4,25 @@
 
 import { BareProps } from '@polkadot/ui-api/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { Moment } from '@polkadot/types';
+import { bnToBn } from '@polkadot/util';
 
-type Ticker = (now: Date) => void;
+type Ticker = (now: number) => void;
 
 interface Props extends BareProps {
-  value?: Moment | Date | number;
+  value?: BN | Date | number;
 }
 
 interface State {
-  now?: Date;
+  now?: number;
 }
 
 const TICK_TIMEOUT = 100;
 const tickers = new Map<Elapsed, Ticker>();
 
 function tick (): void {
-  const now = new Date();
+  const now = Date.now();
 
   for (const ticker of tickers.values()) {
     ticker(now);
@@ -36,10 +37,8 @@ export default class Elapsed extends React.PureComponent<Props, State> {
   public state: State = {};
 
   public componentWillMount (): void {
-    tickers.set(this, (now: Date): void => {
-      this.setState({
-        now
-      });
+    tickers.set(this, (now: number): void => {
+      this.setState({ now });
     });
   }
 
@@ -61,13 +60,16 @@ export default class Elapsed extends React.PureComponent<Props, State> {
     );
   }
 
-  private getDisplayValue (now?: Date, value?: Moment | Date | number): string {
-    const tsNow = (now && now.getTime()) || 0;
-    const tsValue = (value && ((value as any).getTime ? (value as any).getTime() : value)) || 0;
+  private getDisplayValue (now: number = 0, value: BN | Date | number = 0): string {
+    const tsValue = (
+      value && (value as Date).getTime
+        ? (value as Date).getTime()
+        : bnToBn(value as number).toNumber()
+    ) || 0;
     let display = '0.0s';
 
-    if (tsNow && tsValue) {
-      const elapsed = Math.max(Math.abs(tsNow - tsValue), 0) / 1000;
+    if (now && tsValue) {
+      const elapsed = Math.max(Math.abs(now - tsValue), 0) / 1000;
 
       if (elapsed < 15) {
         display = `${elapsed.toFixed(1)}s`;

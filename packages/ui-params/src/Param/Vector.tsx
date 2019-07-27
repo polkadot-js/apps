@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { WithTranslation } from 'react-i18next';
-import { TypeDef } from '@polkadot/types';
+import { TypeDef } from '@polkadot/types/types';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';

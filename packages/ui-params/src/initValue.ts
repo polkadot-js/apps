@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { RawParamValue } from './types';
 
 import BN from 'bn.js';
-import { Bytes, TypeDef, TypeDefInfo, U8a, createType, getTypeDef } from '@polkadot/types';
+import { Bytes, U8a, createType, getTypeDef } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParamValue | RawParamValue[] {
   if (def.info === TypeDefInfo.Vec) {

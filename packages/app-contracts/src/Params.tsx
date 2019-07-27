@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIFnArg } from '@polkadot/api-contract/types';
+import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/ui-params/types';
 
 import React from 'react';
 import UIParams from '@polkadot/ui-params';
-import { getTypeDef, TypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types';
 
 interface Props {
   isDisabled?: boolean;

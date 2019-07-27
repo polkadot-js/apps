@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, IExtrinsic, IMethod } from '@polkadot/types/types';
+import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import { BareProps, I18nProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { GenericMethod, getTypeDef, TypeDef } from '@polkadot/types';
+import { GenericMethod, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params';
 
 import Static from './Static';

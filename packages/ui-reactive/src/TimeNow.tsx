@@ -3,10 +3,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Moment } from '@polkadot/types/interfaces';
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
 
 import React from 'react';
-import { Moment } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 
 import Elapsed from './Elapsed';
@@ -19,7 +19,10 @@ type Props = BareProps & CallProps & {
 
 export class TimeNow extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { children, className, label = '', style, timestamp_now } = this.props;
+    const { children, className, isSubstrateV2, label = '', style, timestamp_now } = this.props;
+    const value = isSubstrateV2 || !timestamp_now
+      ? timestamp_now
+      : timestamp_now.muln(1000); // for 1.x, timestamps are in seconds
 
     return (
       <div
@@ -27,7 +30,7 @@ export class TimeNow extends React.PureComponent<Props> {
         style={style}
       >
         {label}
-        <Elapsed value={timestamp_now} />
+        <Elapsed value={value} />
         {children}
       </div>
     );

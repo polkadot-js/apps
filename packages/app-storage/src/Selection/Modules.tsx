@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryPromise } from '@polkadot/api/types';
-import { TypeDef, getTypeDef } from '@polkadot/types';
+import { TypeDef } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { RawParams } from '@polkadot/ui-params/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
+import { getTypeDef } from '@polkadot/types';
 import { Button, InputStorage, TxComponent } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 import { withApi, withMulti } from '@polkadot/ui-api';

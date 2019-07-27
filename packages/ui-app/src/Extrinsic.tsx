@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Method } from '@polkadot/types/interfaces';
+import { TypeDef } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Generic/Method';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
 import React from 'react';
-import { GenericMethod, TypeDef, getTypeDef } from '@polkadot/types';
+import { GenericMethod, getTypeDef } from '@polkadot/types';
 
 import { InputExtrinsic } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
