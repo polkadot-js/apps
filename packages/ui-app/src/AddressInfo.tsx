@@ -129,7 +129,7 @@ class AddressInfo extends React.PureComponent<Props> {
 
       value = `${formatBalance(bonded[0])} ${extra}`;
     } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
-      value = formatBalance(staking_info.stakingLedger.active.unwrap());
+      value = formatBalance(staking_info.stakingLedger.active);
     }
 
     return value
@@ -255,8 +255,9 @@ class AddressInfo extends React.PureComponent<Props> {
         {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
           <>
             <Label label={t('commision')} />
-            <div className='result'>{formatBalance(staking_info.validatorPrefs.validatorPayment.toBn())}
-            </div>
+            <div className='result'>{
+              formatBalance(staking_info.validatorPrefs.validatorPayment)
+            }</div>
           </>
         )}
       </>

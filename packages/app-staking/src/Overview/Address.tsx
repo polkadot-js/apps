@@ -66,12 +66,12 @@ class Address extends React.PureComponent<Props, State> {
       controllerId: controllerId && controllerId.toString(),
       sessionId: nextSessionId && nextSessionId.toString(),
       stashActive: stakingLedger
-        ? formatBalance(stakingLedger.active.unwrap())
+        ? formatBalance(stakingLedger.active)
         : prevState.stashActive,
       stakers,
       stashId: stashId && stashId.toString(),
       stashTotal: stakingLedger
-        ? formatBalance(stakingLedger.total.unwrap())
+        ? formatBalance(stakingLedger.total)
         : prevState.stashTotal
     };
   }

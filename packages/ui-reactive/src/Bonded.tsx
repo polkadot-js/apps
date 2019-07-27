@@ -26,7 +26,7 @@ export class BondedDisplay extends React.PureComponent<Props> {
       <div className={className}>
         {label}{
           staking_ledger
-            ? formatBalance(staking_ledger.active.unwrap())
+            ? formatBalance(staking_ledger.active)
             : '0'
         }{children}
       </div>
