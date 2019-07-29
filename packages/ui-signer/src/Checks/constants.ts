@@ -5,11 +5,11 @@
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import { AccountId, Nonce } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 
 const ZERO_BALANCE: DerivedBalances = {
-  accountId: new AccountId(),
-  accountNonce: new Nonce(0),
+  accountId: createType('AccountId'),
+  accountNonce: createType('Index'),
   availableBalance: new BN(0),
   lockedBalance: new BN(0),
   freeBalance: new BN(0),

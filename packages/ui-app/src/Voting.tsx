@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal } from '@polkadot/types';
+import { Proposal } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 

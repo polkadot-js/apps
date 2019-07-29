@@ -14,6 +14,7 @@ import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '
 
 import React from 'react';
 import { web3FromSource } from '@polkadot/extension-dapp';
+import { createType } from '@polkadot/types';
 import { Button, Modal } from '@polkadot/ui-app';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
@@ -24,7 +25,6 @@ import PasswordCheck from './PasswordCheck';
 import Transaction from './Transaction';
 import translate from './translate';
 import Unlock from './Unlock';
-import { SignaturePayload } from '@polkadot/types';
 
 interface BaseProps extends BareProps {
   queue: QueueTx[];
@@ -389,7 +389,7 @@ class Signer extends React.PureComponent<Props, State> {
   private async makeExtrinsicSignature (payload: SignerPayload, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
     console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
 
-    const result = new SignaturePayload(payload, { version: payload.version }).sign(pair);
+    const result = createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
 
     if (isFunction(signerCb)) {
       signerCb(id, { id, ...result });

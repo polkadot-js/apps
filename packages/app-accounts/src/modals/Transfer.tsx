@@ -3,15 +3,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { Index } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Index } from '@polkadot/types';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import { Available } from '@polkadot/ui-reactive';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';

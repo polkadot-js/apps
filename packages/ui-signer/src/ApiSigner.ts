@@ -5,8 +5,9 @@
 import { Signer, SignerPayload, SignerResult } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api';
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/ui-app/Status/types';
+import { Hash } from '@polkadot/types/interfaces';
 
-import { Hash } from '@polkadot/types';
+import { ClassOf } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {
   private _queuePayload: QueueTxPayloadAdd;
@@ -31,7 +32,7 @@ export default class ApiSigner implements Signer {
   }
 
   public update (id: number, result: Hash | SubmittableResult): void {
-    if (result instanceof Hash) {
+    if (result instanceof ClassOf('Hash')) {
       this._queueSetTxStatus(id, 'sent', result.toHex());
     } else {
       this._queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);

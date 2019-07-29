@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MethodFunction } from '@polkadot/types/primitive/Method';
+import { CallFunction } from '@polkadot/types/types';
 import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -16,7 +16,7 @@ interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: string) => void;
   options: DropdownOptions;
-  value: MethodFunction;
+  value: CallFunction;
 }
 
 export default class SelectSection extends React.PureComponent<Props> {

@@ -27,9 +27,8 @@ export default class BlockHeader extends React.PureComponent<Props> {
       return null;
     }
 
-    const { author, blockNumber, hash } = value;
-    const hashHex = hash.toHex();
-    const textNumber = formatNumber(blockNumber);
+    const hashHex = value.hash.toHex();
+    const textNumber = formatNumber(value.number);
 
     return (
       <article className='explorer--BlockHeader'>
@@ -42,8 +41,8 @@ export default class BlockHeader extends React.PureComponent<Props> {
             }&nbsp;</div>
             <div className='hash'>{hashHex}</div>
             <div className='author ui--media-small'>{
-              author
-                ? <AddressMini value={author} />
+              value.author
+                ? <AddressMini value={value.author} />
                 : undefined
             }</div>
           </div>
@@ -62,7 +61,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
     );
   }
 
-  private renderDetails ({ blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended): React.ReactNode {
+  private renderDetails ({ number: blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended): React.ReactNode {
     const parentHex = parentHash.toHex();
 
     return (
@@ -70,7 +69,7 @@ export default class BlockHeader extends React.PureComponent<Props> {
         <div className='info'>
           <label>parentHash</label>
           <span className='hash'>{
-            blockNumber.gtn(1)
+            blockNumber.unwrap().gtn(1)
               ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
               : parentHex
           }</span>

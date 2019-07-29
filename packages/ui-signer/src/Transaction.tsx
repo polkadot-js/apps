@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTx } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { Method } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
 import { Call, InputAddress, Modal } from '@polkadot/ui-app';
 
 import Checks from './Checks';
@@ -26,7 +26,7 @@ class Transaction extends React.PureComponent<Props> {
       return null;
     }
 
-    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
+    const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
 
     return (
       <>

@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
 import BN from 'bn.js';
-import { TypeDef, TypeDefInfo, createType, getTypeDef } from '@polkadot/types';
+import { createType, getTypeDef } from '@polkadot/types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -78,7 +79,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       case TypeDefInfo.Tuple:
         return 'Tuple';
 
-      case TypeDefInfo.Vector:
+      case TypeDefInfo.Vec:
         return ['Vec<KeyValue>'].includes(type)
           ? 'Vec<KeyValue>'
           : 'Vector';
@@ -92,7 +93,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
   if (!Component) {
     try {
-      const instance = createType(type);
+      const instance = createType(type as any);
       const raw = getTypeDef(instance.toRawType());
 
       if (instance instanceof BN) {

@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
+import { DigestItem } from '@polkadot/types/interfaces';
+import { Codec, TypeDef } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { DigestItem, Struct, Tuple, TypeDef, U8a, Vector, getTypeDef } from '@polkadot/types';
+import { Struct, Tuple, U8a, Vec, getTypeDef } from '@polkadot/types';
 import { Column } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 
@@ -39,7 +40,7 @@ class Logs extends React.PureComponent<Props> {
       content = this.formatStruct(item.value);
     } else if (item.value instanceof Tuple) {
       content = this.formatTuple(item.value);
-    } else if (item.value instanceof Vector) {
+    } else if (item.value instanceof Vec) {
       content = this.formatVector(item.value);
     } else if (item.value instanceof U8a) {
       content = this.formatU8a(item.value);
@@ -114,7 +115,7 @@ class Logs extends React.PureComponent<Props> {
     );
   }
 
-  private formatVector (vector: Vector<any>): React.ReactNode {
+  private formatVector (vector: Vec<any>): React.ReactNode {
     const type = getTypeDef(vector.Type);
     const values = vector.toArray().map((value): { isValid: boolean; value: Codec } => ({
       isValid: true,

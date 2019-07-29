@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Call } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { Method, Proposal } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
@@ -18,7 +19,7 @@ type Props = I18nProps & ApiProps & ComponentProps & {
 };
 
 interface State {
-  method: Method | null;
+  method: Call | null;
   isValid: boolean;
 }
 
@@ -48,7 +49,7 @@ class Propose extends TxComponent<Props, State> {
               label={t('Submit')}
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
-              params={method ? [new Proposal(method)] : []}
+              params={method ? [createType('Proposal', method)] : []}
               ref={this.button}
             />
           </Button.Group>
@@ -78,7 +79,7 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeExtrinsic = (method: Method): void => {
+  private onChangeExtrinsic = (method: Call): void => {
     if (!method) {
       return;
     }

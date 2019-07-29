@@ -3,13 +3,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { AccountId, Option, StakingLedger } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
 
@@ -147,10 +148,10 @@ class Unbond extends TxComponent<Props, State> {
       return;
     }
 
-    const { active: maxBalance } = staking_ledger.unwrap();
+    const { active } = staking_ledger.unwrap();
 
     this.nextState({
-      maxBalance
+      maxBalance: active.unwrap()
     });
   }
 

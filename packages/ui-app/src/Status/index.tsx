@@ -7,7 +7,7 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Method } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
 
 import AddressMini from '../AddressMini';
 import Icon from '../Icon';
@@ -144,7 +144,7 @@ class Status extends React.PureComponent<Props> {
     let { method, section } = rpc;
 
     if (extrinsic) {
-      const found = Method.findFunction(extrinsic.callIndex);
+      const found = GenericCall.findFunction(extrinsic.callIndex);
 
       if (found.section !== 'unknown') {
         method = found.method;

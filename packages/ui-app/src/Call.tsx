@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, IExtrinsic, IMethod } from '@polkadot/types/types';
+import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import { BareProps, I18nProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Method, getTypeDef, TypeDef } from '@polkadot/types';
+import { GenericCall, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params';
 
 import Static from './Static';
@@ -33,9 +33,9 @@ const Wrapper = styled.div`
 class Call extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { children, className, style, mortality, value, withHash, t } = this.props;
-    const params = Method.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
+    const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
       name: name.toString(),
-      type: getTypeDef(type)
+      type: getTypeDef(type.toString())
     }));
     const values = value.args.map((value): { isValid: boolean; value: Codec } => ({
       isValid: true,

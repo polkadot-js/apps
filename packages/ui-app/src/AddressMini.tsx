@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { AccountId, AccountIndex, Address } from '@polkadot/types';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { classes, getAddressName, toShortAddress } from './util';

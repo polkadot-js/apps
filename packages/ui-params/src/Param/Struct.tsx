@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef } from '@polkadot/types/types';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import { TypeDef, createType, getTypeDef } from '@polkadot/types';
+import { createType, getTypeDef } from '@polkadot/types';
 
 import Params from '../';
 import Base from './Base';
@@ -29,7 +30,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const defs = getTypeDef(createType(type).toRawType()).sub as TypeDef[];
+    const defs = getTypeDef(createType(type as any).toRawType()).sub as TypeDef[];
 
     return {
       defs,

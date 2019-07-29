@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Call } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 
@@ -9,8 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Method, Proposal } from '@polkadot/types';
-
+import { createType } from '@polkadot/types';
 import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
@@ -22,7 +22,7 @@ type Props = I18nProps & ApiProps & RouteComponentProps & {
 
 interface State {
   accountId?: string;
-  method: Method | null;
+  method: Call | null;
   value: BN;
   isValid: boolean;
 }
@@ -69,7 +69,7 @@ class Propose extends TxComponent<Props, State> {
             tx='democracy.propose'
             isDisabled={!isValid}
             params={[
-              ...(method ? [new Proposal(method)] : []),
+              ...(method ? [createType('Proposal', method)] : []),
               ...(hasValue ? [value] : [])
             ]}
             onSuccess={this.onSubmitProposal}
@@ -100,7 +100,7 @@ class Propose extends TxComponent<Props, State> {
     this.nextState({ accountId });
   }
 
-  private onChangeExtrinsic = (method: Method): void => {
+  private onChangeExtrinsic = (method: Call): void => {
     if (!method) {
       return;
     }

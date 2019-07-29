@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MethodFunction } from '@polkadot/types/primitive/Method';
+import { CallFunction } from '@polkadot/types/types';
 import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -15,9 +15,9 @@ import { classes } from '../util';
 interface Props extends BareProps {
   api: ApiPromise;
   isError?: boolean;
-  onChange: (value: MethodFunction) => void;
+  onChange: (value: CallFunction) => void;
   options: DropdownOptions;
-  value: MethodFunction;
+  value: CallFunction;
 }
 
 export default class SelectMethod extends React.PureComponent<Props> {
@@ -42,7 +42,7 @@ export default class SelectMethod extends React.PureComponent<Props> {
     );
   }
 
-  private transform = (method: string): MethodFunction => {
+  private transform = (method: string): CallFunction => {
     const { api, value } = this.props;
 
     return api.tx[value.section][method];

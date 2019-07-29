@@ -3,11 +3,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Proposal } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Proposal } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api';
 import { Column } from '@polkadot/ui-app';
 

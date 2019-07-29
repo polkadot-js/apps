@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Call, Proposal } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { Method, Proposal } from '@polkadot/types';
 
 import BN from 'bn.js';
 import React from 'react';
-
+import { createType } from '@polkadot/types';
 import { Button, Extrinsic, InputNumber } from '@polkadot/ui-app';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
@@ -19,7 +19,7 @@ interface Props extends TxModalProps, ApiProps {
 }
 
 interface State extends TxModalState {
-  method: Method | null;
+  method: Call | null;
   threshold: BN | null;
 }
 
@@ -54,7 +54,7 @@ class Propose extends TxModal<Props, State> {
 
     return [
       threshold,
-      ...(method ? [new Proposal(method)] : [])
+      ...(method ? [createType('Proposal', method)] : [])
     ];
   }
 
@@ -124,7 +124,7 @@ class Propose extends TxModal<Props, State> {
     this.setState({ threshold });
   }
 
-  private onChangeExtrinsic = (method: Method): void => {
+  private onChangeExtrinsic = (method: Call): void => {
     if (!method) {
       return;
     }

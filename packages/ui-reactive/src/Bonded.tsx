@@ -4,9 +4,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import { AccountId, AccountIndex, Address, StakingLedger } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AccountId, AccountIndex, Address, StakingLedger } from '@polkadot/types';
 
 import { withCalls } from '@polkadot/ui-api';
 import { formatBalance } from '@polkadot/util';

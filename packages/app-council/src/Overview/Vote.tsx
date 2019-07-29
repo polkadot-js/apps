@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { VoteIndex } from '@polkadot/types';
-// import { SetIndex } from '@polkadot/types/srml/types';
+import { VoteIndex } from '@polkadot/types/interfaces';
 import { DerivedVoterPositions } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { ComponentProps } from './types';
@@ -11,6 +10,7 @@ import { ComponentProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+import { createType } from '@polkadot/types';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
 import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/ui-app';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
@@ -140,7 +140,7 @@ class Vote extends TxModal<Props, State> {
 
     return [
       approvals ? approvals.slice(0, 1 + approvals.lastIndexOf(true)) : [],
-      new VoteIndex(voteCount),
+      createType('VoteIndex', voteCount),
       voterPositions && accountId && voterPositions[accountId]
         ? voterPositions[accountId].setIndex
         : nextVoterSet
