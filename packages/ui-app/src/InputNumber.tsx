@@ -294,11 +294,12 @@ class InputNumber extends React.PureComponent<Props, State> {
       }
 
       const div = new BN(value.replace(/\.\d*$/, ''));
-      const mod = new BN(value.replace(/^\d+\./, ''));
+      const modString = value.replace(/^\d+\./, '');
+      const mod = new BN(modString);
 
       return div
         .mul(TEN.pow(siPower))
-        .add(mod.mul(TEN.pow(new BN(basePower + siUnitPower - mod.toString().length))));
+        .add(mod.mul(TEN.pow(new BN(basePower + siUnitPower - modString.length))));
     } else {
       return new BN(value.replace(/[^\d]/g, ''))
         .mul(TEN.pow(siPower));
