@@ -5,14 +5,14 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { IdentityProps } from '@polkadot/ui-identicon/types';
+import { IdentityProps } from '@polkadot/react-identicon/types';
 import { QueueAction$Add } from './Status/types';
 import { I18nProps } from './types';
 
 import React from 'react';
 import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import BaseIdentityIcon from '@polkadot/ui-identicon';
+import BaseIdentityIcon from '@polkadot/react-identicon';
 
 import { QueueConsumer } from './Status/Context';
 import translate from './translate';

@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/ui-api';
-import BaseIdentityIcon from '@polkadot/ui-identicon';
+import BaseIdentityIcon from '@polkadot/react-identicon';
 import keyring from '@polkadot/ui-keyring';
 
 import AddressInfo, { BalanceActiveType } from './AddressInfo';
