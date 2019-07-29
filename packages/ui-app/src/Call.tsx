@@ -5,10 +5,12 @@
 import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import { BareProps, I18nProps } from './types';
 
+import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { GenericCall, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params';
+import { formatBalance } from '@polkadot/util';
 
 import Static from './Static';
 import { classes } from './util';
@@ -19,6 +21,7 @@ export type Props = I18nProps & BareProps & {
   value: IExtrinsic | IMethod;
   withHash?: boolean;
   mortality?: string;
+  tip?: BN;
 };
 
 const Wrapper = styled.div`
@@ -32,7 +35,7 @@ const Wrapper = styled.div`
 
 class Call extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { children, className, style, mortality, value, withHash, t } = this.props;
+    const { children, className, style, mortality, tip, value, withHash, t } = this.props;
     const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
       name: name.toString(),
       type: getTypeDef(type.toString())
@@ -71,6 +74,18 @@ class Call extends React.PureComponent<Props> {
                 label={t('lifetime')}
               >
                 {mortality}
+              </Static>
+            )
+            : null
+        }
+        {
+          (tip && tip.gtn(0))
+            ? (
+              <Static
+                className='tip'
+                label={t('tip')}
+              >
+                {formatBalance(tip)}
               </Static>
             )
             : null

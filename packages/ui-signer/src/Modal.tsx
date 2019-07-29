@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { SignerPayload } from '@polkadot/api/types';
+import { SignerOptions, SignerPayload } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
@@ -12,10 +12,11 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/ui-app/Status/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, Modal } from '@polkadot/ui-app';
+import { Button, InputBalance, Modal } from '@polkadot/ui-app';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
@@ -38,7 +39,9 @@ type Props = I18nProps & ApiProps & BaseProps & {
 interface State {
   currentItem?: QueueTx;
   isSendable: boolean;
+  isV2?: boolean;
   password: string;
+  tip?: BN;
   unlockError?: string | null;
 }
 
@@ -49,7 +52,14 @@ class Signer extends React.PureComponent<Props, State> {
     unlockError: null
   };
 
-  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): State {
+  public static getDerivedStateFromProps ({ allAccounts, api, queue }: Props, { currentItem, password, unlockError }: State): State {
+    let isV2: boolean;
+    try {
+      isV2 = !!api.tx.session.setKeys;
+    } catch (e) {
+      isV2 = false;
+    }
+
     const nextItem = queue.find(({ status }): boolean => status === 'queued');
     const isSame =
       !!nextItem &&
@@ -76,6 +86,7 @@ class Signer extends React.PureComponent<Props, State> {
     return {
       currentItem: nextItem,
       isSendable,
+      isV2,
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
@@ -155,8 +166,27 @@ class Signer extends React.PureComponent<Props, State> {
         isSendable={isSendable}
         value={currentItem}
       >
+        {this.renderTip()}
         {this.renderUnlock()}
       </Transaction>
+    );
+  }
+
+  private renderTip (): React.ReactNode {
+    const { t } = this.props;
+    const { currentItem, isSendable, isV2 } = this.state;
+
+    if (!isV2 || !isSendable || !currentItem) {
+      return null;
+    }
+
+    return (
+      <InputBalance
+        defaultValue={new BN(0)}
+        help={t('Add a tip to this extrinsic')}
+        onChange={this.onChangeTip}
+        label={t('Tip (optional)')}
+      />
     );
   }
 
@@ -219,6 +249,10 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
+  private onChangeTip = (tip?: BN): void => {
+    this.setState({ tip });
+  }
+
   private onCancel = (): void => {
     const { queueSetTxStatus } = this.props;
     const { currentItem } = this.state;
@@ -267,6 +301,8 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
+    const { isV2, tip } = this.state;
+
     const { accountId, extrinsic, id, payload, isUnsigned } = queueTx;
 
     if (!isUnsigned) {
@@ -283,7 +319,14 @@ class Signer extends React.PureComponent<Props, State> {
     const { queueSetTxStatus } = this.props;
 
     if (payload) {
-      return this.makeExtrinsicSignature(payload, queueTx, keyring.getPair(accountId as string));
+      return this.makeExtrinsicSignature(
+        {
+          ...payload,
+          ...((isV2 && tip && !payload.tip) ? { tip: tip.toString() } : {})
+        },
+        queueTx,
+        keyring.getPair(accountId as string)
+      );
     }
 
     const submittable = extrinsic as SubmittableExtrinsic;
@@ -320,6 +363,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
+    const { isV2, tip } = this.state;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
 
@@ -339,6 +383,11 @@ class Signer extends React.PureComponent<Props, State> {
       } else {
         params.push(pair);
       }
+    }
+
+    if (isV2 && tip) {
+      const signerOptions: Partial<SignerOptions> = { tip };
+      params.push(signerOptions);
     }
 
     if (isFunction(txStartCb)) {
