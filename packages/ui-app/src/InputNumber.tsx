@@ -294,7 +294,7 @@ class InputNumber extends React.PureComponent<Props, State> {
       }
 
       const div = new BN(value.replace(/\.\d*$/, ''));
-      const modString = value.replace(/^\d+\./, '')
+      const modString = value.replace(/^\d+\./, '');
       const mod = new BN(modString);
 
       return div
