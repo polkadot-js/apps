@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { TypeDef } from '@polkadot/types/types';
 import { RawParam } from '@polkadot/ui-params/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { QueueTxRpcAdd } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
-import { TypeDef, getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types';
 import { Button, InputRpc, TxComponent } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
 

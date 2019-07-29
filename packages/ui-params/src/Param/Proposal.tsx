@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Extrinsic } from '@polkadot/types/interfaces';
 import { Props } from '../types';
 
 import React from 'react';
-import { Extrinsic, Method } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
 import { Call, Static } from '@polkadot/ui-app';
 import { classes } from '@polkadot/ui-app/util';
 
@@ -23,7 +24,7 @@ export default class Proposal extends React.PureComponent<Props> {
     }
 
     const proposal = value as Extrinsic;
-    const { method, section } = Method.findFunction(proposal.callIndex);
+    const { method, section } = GenericCall.findFunction(proposal.callIndex);
 
     return (
       <Bare>

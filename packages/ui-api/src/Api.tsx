@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ChainProperties } from '@polkadot/types/interfaces';
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/ui-app/Status/types';
 import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
@@ -16,7 +17,7 @@ import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
-import { ChainProperties, Text } from '@polkadot/types';
+import { createType, Text } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
@@ -107,13 +108,16 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   private async loadOnReady (api: ApiPromise): Promise<void> {
-    const [properties = new ChainProperties(), value] = await Promise.all([
+    const [properties = createType('ChainProperties'), value] = await Promise.all([
       api.rpc.system.properties<ChainProperties>(),
       api.rpc.system.chain<Text>()
     ]);
-    const addressPrefix = uiSettings.prefix === -1
-      ? properties.get('networkId')
-      : uiSettings.prefix as Prefix;
+    const addressPrefix = (
+      uiSettings.prefix === -1
+        ? 42
+        : uiSettings.prefix
+    ) as Prefix;
+    const tokenSymbol = properties.tokenSymbol.toString() || 'Unit';
     const chain = value
       ? value.toString()
       : null;
@@ -132,10 +136,10 @@ export default class Api extends React.PureComponent<Props, State> {
 
     // first setup the UI helpers
     formatBalance.setDefaults({
-      decimals: properties.tokenDecimals,
-      unit: properties.tokenSymbol
+      decimals: properties.tokenDecimals.toNumber(),
+      unit: tokenSymbol
     });
-    InputNumber.setUnit(properties.tokenSymbol);
+    InputNumber.setUnit(tokenSymbol);
 
     // finally load the keyring
     keyring.loadAll({

@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RecentlyOfflineMap } from '../../types';
-import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';

@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
+import { createType } from '@polkadot/types';
 import { Button, Input } from '@polkadot/ui-app';
-import { Hash } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
 import ValidateCode from './ValidateCode';
@@ -94,7 +94,7 @@ class Add extends ContractModal<Props, State> {
 
     this.setState({ isBusy: true }, (): void => {
       store
-        .saveCode(new Hash(codeHash), { abi, name, tags })
+        .saveCode(createType('Hash', codeHash), { abi, name, tags })
         .then((): void => {
           this.setState(
             { isBusy: false },

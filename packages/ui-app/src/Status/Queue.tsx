@@ -9,7 +9,7 @@ import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, Q
 
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
-import { Extrinsic, Method } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 
 import { QueueProvider } from './Context';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
@@ -191,8 +191,8 @@ export default class Queue extends React.Component<Props, State> {
     return this.queueAdd({
       accountId: payload.address,
       // this is not great, but the Extrinsic we don't need a submittable
-      extrinsic: new Extrinsic(
-        { method: new Method(payload.method) },
+      extrinsic: createType('Extrinsic',
+        { method: createType('Call', payload.method) },
         { version: payload.version }
       ) as unknown as SubmittableExtrinsic,
       payload,

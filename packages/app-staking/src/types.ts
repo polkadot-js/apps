@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber } from '@polkadot/types';
-import BN from 'bn.js';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+
+import BN from 'bn.js';
 
 export type Nominators = Record<string, string[]>;
 

@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
+import { Event } from '@polkadot/types/interfaces';
+import { Codec, TypeDef } from '@polkadot/types/types';
 import { BareProps } from './types';
 
 import React from 'react';
-import { Event, TypeDef, getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params';
 
 import { classes } from './util';

@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, BlockNumber, VoteIndex } from '@polkadot/types';
-import { SetIndex } from '@polkadot/types/srml/elections/types';
 import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
 import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-
+import { createType } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { Button } from '@polkadot/ui-app';
 
@@ -23,10 +21,10 @@ const NULL_INFO: DerivedElectionsInfo = {
   candidates: [],
   candidateCount: new BN(0),
   desiredSeats: new BN(0),
-  nextVoterSet: createType<SetIndex>('SetIndex', 0),
-  termDuration: new BlockNumber(0),
-  voteCount: new VoteIndex(0),
-  voterCount: createType<SetIndex>('SetIndex', 0)
+  nextVoterSet: createType('SetIndex'),
+  termDuration: createType('BlockNumber'),
+  voteCount: createType('VoteIndex'),
+  voterCount: createType('SetIndex')
 };
 
 class Overview extends React.PureComponent<Props> {

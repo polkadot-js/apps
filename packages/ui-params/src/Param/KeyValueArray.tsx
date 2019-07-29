@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { WithTranslation } from 'react-i18next';
+import { KeyValue as Pair } from '@polkadot/types/interfaces';
 import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
-import { KeyValue as Pair, Vector } from '@polkadot/types';
+import { WithTranslation } from 'react-i18next';
+import { Vec } from '@polkadot/types';
 import translate from '@polkadot/ui-app/translate';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
@@ -70,7 +71,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
 
   private renderReadOnly (): React.ReactNode {
     const { className, defaultValue: { value }, label, onEnter, style } = this.props;
-    const pairs = value as Vector<Pair>;
+    const pairs = value as Vec<Pair>;
 
     return (
       <>
@@ -83,7 +84,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
           <div />
         </Base>
         <div className='ui--Params'>
-          {pairs.map(({ key, value }): React.ReactNode => {
+          {pairs.map(([key, value]): React.ReactNode => {
             const keyHex = u8aToHex(key.toU8a(true));
 
             return (

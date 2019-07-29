@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
+import { GenericCall } from '@polkadot/types';
 import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/ui-app';
 import { formatNumber } from '@polkadot/util';
-import { BlockNumber, Extrinsic, Method } from '@polkadot/types';
 
 import translate from '../translate';
 
@@ -42,7 +43,7 @@ class Extrinsics extends React.PureComponent<Props> {
   // FIXME This is _very_ similar to what we have in democracy/Item
   private renderExtrinsic = (extrinsic: Extrinsic, index: number): React.ReactNode => {
     const { blockNumber, t } = this.props;
-    const { meta, method, section } = Method.findFunction(extrinsic.callIndex);
+    const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
     const isMortal = extrinsic.era.isMortalEra;
     let eraEnd;
     let eraStart;

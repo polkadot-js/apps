@@ -3,6 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 import { IExtrinsic } from '@polkadot/types/types';
@@ -10,7 +11,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Compact, Method, UInt } from '@polkadot/types';
+import { Compact, UInt } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { Icon } from '@polkadot/ui-app';
 import { compactToU8a, formatBalance } from '@polkadot/util';
@@ -34,7 +35,7 @@ interface State extends ExtraFees {
   overLimit: boolean;
 }
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
   contract_fees?: DerivedContractFees;
@@ -70,12 +71,12 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     overLimit: false
   };
 
-  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, api, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
 
-    const fn = Method.findFunction(extrinsic.callIndex);
+    const fn = api.findCall(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
     const txLength = calcSignatureLength(extrinsic, system_accountNonce);

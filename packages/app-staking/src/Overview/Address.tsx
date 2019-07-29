@@ -3,13 +3,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, Balance, Exposure } from '@polkadot/types/interfaces';
 import { DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AccountId, Balance, Exposure } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/ui-api/with';
 import { AddressCard, AddressMini, RecentlyOffline } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
@@ -79,8 +79,8 @@ class Address extends React.PureComponent<Props, State> {
   public render (): React.ReactNode {
     const { className, defaultName, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
-    const bonded = stakers && !stakers.own.isZero()
-      ? [stakers.own, stakers.total.sub(stakers.own)]
+    const bonded = stakers && !stakers.own.isEmpty
+      ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
       : true;
 
     if ((filter === 'hasNominators' && !this.hasNominators()) ||
@@ -148,7 +148,7 @@ class Address extends React.PureComponent<Props, State> {
     const { stakers } = this.state;
 
     return stakers
-      ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value])
+      ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
       : [];
   }
 

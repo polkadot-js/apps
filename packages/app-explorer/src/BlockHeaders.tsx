@@ -21,7 +21,7 @@ const transform = (header: HeaderExtended): HeaderExtended[] => {
 
   blockHeaders = blockHeaders
     .filter((old, index): boolean =>
-      index < MAX_ITEMS && old.blockNumber.lt(header.blockNumber)
+      index < MAX_ITEMS && old.number.unwrap().lt(header.number.unwrap())
     )
     .reduce((next, header): HeaderExtended[] => {
       next.push(header);
@@ -29,7 +29,7 @@ const transform = (header: HeaderExtended): HeaderExtended[] => {
       return next;
     }, [header])
     .sort((a, b): number =>
-      b.blockNumber.cmp(a.blockNumber)
+      b.number.unwrap().cmp(a.number.unwrap())
     );
 
   return blockHeaders;
@@ -46,9 +46,9 @@ class BlockHeaders extends React.PureComponent<Props> {
     return headers.map((header, index): React.ReactNode => (
       <BlockHeader
         isSummary={!!index}
-        key={header.blockNumber.toString()}
+        key={header.number.toString()}
         value={header}
-        withLink={!header.blockNumber.isZero()}
+        withLink={!header.number.isEmpty}
       />
     ));
   }

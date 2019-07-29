@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId } from '@polkadot/types/interfaces';
+import { TypeDef } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { I18nProps } from '@polkadot/ui-app/types';
@@ -14,7 +16,7 @@ import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/ui-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
-import { AccountId, TypeDef, getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types';
 import createValues from '@polkadot/ui-params/values';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';

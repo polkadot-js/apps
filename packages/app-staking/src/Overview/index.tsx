@@ -41,7 +41,7 @@ class Overview extends React.PureComponent<Props> {
     let lastAuthor: string | undefined;
 
     if (chain_subscribeNewHead) {
-      lastBlock = formatNumber(chain_subscribeNewHead.blockNumber);
+      lastBlock = formatNumber(chain_subscribeNewHead.number);
       lastAuthor = (chain_subscribeNewHead.author || '').toString();
     }
 

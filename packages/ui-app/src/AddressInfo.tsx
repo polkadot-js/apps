@@ -255,8 +255,9 @@ class AddressInfo extends React.PureComponent<Props> {
         {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
           <>
             <Label label={t('commision')} />
-            <div className='result'>{formatBalance(staking_info.validatorPrefs.validatorPayment.toBn())}
-            </div>
+            <div className='result'>{
+              formatBalance(staking_info.validatorPrefs.validatorPayment)
+            }</div>
           </>
         )}
       </>

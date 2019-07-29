@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MethodFunction } from '@polkadot/types/primitive/Method';
+import { Call } from '@polkadot/types/interfaces';
+import { CallFunction, TypeDef } from '@polkadot/types/types';
 import { BareProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
 import React from 'react';
-import { Method, TypeDef, getTypeDef } from '@polkadot/types';
+import { GenericCall, getTypeDef } from '@polkadot/types';
 
 import { InputExtrinsic } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
@@ -18,18 +19,18 @@ import { isUndefined } from '@polkadot/util';
 import paramComponents from './Params';
 
 type Props = BareProps & ApiProps & {
-  defaultValue: MethodFunction;
+  defaultValue: CallFunction;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate?: boolean;
   label?: React.ReactNode;
-  onChange: (method?: Method) => void;
+  onChange: (method?: Call) => void;
   onEnter: () => void;
   withLabel?: boolean;
 };
 
 interface State {
-  methodfn: MethodFunction;
+  methodfn: CallFunction;
   params: { name: string; type: TypeDef }[];
   values: RawParam[];
 }
@@ -102,7 +103,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     });
   }
 
-  private onChangeMethod = (methodfn: MethodFunction): void => {
+  private onChangeMethod = (methodfn: CallFunction): void => {
     this.nextState({
       methodfn,
       params: this.getParams(methodfn),
@@ -114,10 +115,10 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
     this.nextState({ values });
   }
 
-  private getParams (methodfn: MethodFunction): { name: string; type: TypeDef }[] {
-    return Method.filterOrigin(methodfn.meta).map((arg): { name: string; type: TypeDef } => ({
+  private getParams (methodfn: CallFunction): { name: string; type: TypeDef }[] {
+    return GenericCall.filterOrigin(methodfn.meta).map((arg): { name: string; type: TypeDef } => ({
       name: arg.name.toString(),
-      type: getTypeDef(arg.type)
+      type: getTypeDef(arg.type.toString())
     }));
   }
 }

@@ -5,7 +5,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
-import { Index } from '@polkadot/types';
+import { Index } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { QueueTx, QueueTxExtrinsicAdd, TxCallback, TxFailedCallback } from './Status/types';
 

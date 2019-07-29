@@ -3,15 +3,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/ui-api/types';
-import { IdentityProps } from '@polkadot/ui-identicon/types';
+import { IdentityProps } from '@polkadot/react-identicon/types';
 import { QueueAction$Add } from './Status/types';
 import { I18nProps } from './types';
 
 import React from 'react';
-import { AccountId, Option } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api/with';
-import BaseIdentityIcon from '@polkadot/ui-identicon';
+import BaseIdentityIcon from '@polkadot/react-identicon';
 
 import { QueueConsumer } from './Status/Context';
 import translate from './translate';
