@@ -27,9 +27,8 @@ export default class BlockHeader extends React.PureComponent<Props> {
       return null;
     }
 
-    const { author, hash } = value;
-    const hashHex = hash.toHex();
-    const textNumber = formatNumber(value.number.unwrap());
+    const hashHex = value.hash.toHex();
+    const textNumber = formatNumber(value.number);
 
     return (
       <article className='explorer--BlockHeader'>
@@ -42,8 +41,8 @@ export default class BlockHeader extends React.PureComponent<Props> {
             }&nbsp;</div>
             <div className='hash'>{hashHex}</div>
             <div className='author ui--media-small'>{
-              author
-                ? <AddressMini value={author} />
+              value.author
+                ? <AddressMini value={value.author} />
                 : undefined
             }</div>
           </div>
