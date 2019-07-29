@@ -192,7 +192,7 @@ export default class Queue extends React.Component<Props, State> {
       accountId: payload.address,
       // this is not great, but the Extrinsic we don't need a submittable
       extrinsic: createType('Extrinsic',
-        { method: createType('Method', payload.method) },
+        { method: createType('Call', payload.method) },
         { version: payload.version }
       ) as unknown as SubmittableExtrinsic,
       payload,

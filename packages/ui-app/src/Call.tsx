@@ -7,7 +7,7 @@ import { BareProps, I18nProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { GenericMethod, getTypeDef } from '@polkadot/types';
+import { GenericCall, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/ui-params';
 
 import Static from './Static';
@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 class Call extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { children, className, style, mortality, value, withHash, t } = this.props;
-    const params = GenericMethod.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
+    const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
       name: name.toString(),
       type: getTypeDef(type.toString())
     }));

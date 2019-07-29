@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal } from '@polkadot/types/interfaces';
-import { GenericMethod } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
 
 export default function isTreasuryProposalVote (proposal?: Proposal | null): boolean {
   if (!proposal) {
     return false;
   }
 
-  const { method, section } = GenericMethod.findFunction(proposal.callIndex);
+  const { method, section } = GenericCall.findFunction(proposal.callIndex);
 
   return section === 'treasury' &&
     ['approveProposal', 'rejectProposal'].includes(method) &&

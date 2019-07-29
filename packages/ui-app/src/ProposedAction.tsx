@@ -7,7 +7,7 @@ import { Proposal } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { GenericMethod } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import Call from './Call';
@@ -54,7 +54,7 @@ class ProposedAction extends React.PureComponent<Props> {
       );
     }
 
-    const { meta, method, section } = GenericMethod.findFunction(proposal.callIndex);
+    const { meta, method, section } = GenericCall.findFunction(proposal.callIndex);
 
     const header = `#${idNumber}: ${section}.${method}`;
     const documentation = (meta && meta.documentation)

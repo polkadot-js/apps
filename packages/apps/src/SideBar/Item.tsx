@@ -25,6 +25,8 @@ type Props = I18nProps & ApiProps & {
 };
 
 class Item extends React.PureComponent<Props> {
+  private _disabledLog: Map<string, string> = new Map();
+
   public render (): React.ReactNode {
     const { route: { Modal, i18n, icon, name }, t, isCollapsed, onClick } = this.props;
 
@@ -78,6 +80,14 @@ class Item extends React.PureComponent<Props> {
     );
   }
 
+  private logDisabled (route: string, message: string): void {
+    if (!this._disabledLog.get(route)) {
+      this._disabledLog.set(route, message);
+
+      console.warn(`Disabling ${route}: ${message}`);
+    }
+  }
+
   private hasApi (endpoint: string): boolean {
     const { api } = this.props;
     const [area, section, method] = endpoint.split('.');
@@ -104,7 +114,7 @@ class Item extends React.PureComponent<Props> {
       return false;
     } else if (needsSudo) {
       if (!hasSudo) {
-        console.info('Disabling route sudo, no authority');
+        this.logDisabled('sudo', 'Sudo key not available');
         return false;
       }
     }
@@ -118,7 +128,7 @@ class Item extends React.PureComponent<Props> {
     });
 
     if (notFound.length !== 0) {
-      console.info(`Disabling route ${name}, API ${notFound} not available`);
+      this.logDisabled(name, `API not available: ${notFound}`);
     }
 
     return notFound.length === 0;
