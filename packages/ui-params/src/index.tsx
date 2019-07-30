@@ -54,8 +54,6 @@ class Params extends React.PureComponent<Props, State> {
       return null;
     }
 
-    console.log('b', props.values);
-
     const values = props.params.reduce(
       (result: RawParams, param, index): RawParams => [
         ...result,
