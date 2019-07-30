@@ -2026,13 +2026,13 @@
     "@polkadot/util" "^0.95.0-beta.3"
     "@polkadot/util-crypto" "^0.95.0-beta.3"
 
-"@polkadot/react-identicon@^0.42.0-beta.22":
-  version "0.42.0-beta.22"
-  resolved "https://registry.yarnpkg.com/@polkadot/react-identicon/-/react-identicon-0.42.0-beta.22.tgz#2eef97dd278ff876f9fbae0ddb28632428044fe3"
-  integrity sha512-Ap1qnn4IZMp2yRhwMJCHfdbH/3Lp35ennWwC7OWAeFxC8Nmr8QVn5gBL6cW1qQh5wS/FRrZ25/pa9MjGYgasXw==
+"@polkadot/react-identicon@^0.42.0-beta.23":
+  version "0.42.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@polkadot/react-identicon/-/react-identicon-0.42.0-beta.23.tgz#073917cb92760f2655377b14227bec48f1038413"
+  integrity sha512-nb88u0BcI3YIjDUGeuZyy1zDvndDPQJOXWXOPXu3mQcl5mwTpCaxD2iP2XVuK2N/zGXXwedB1Ex88dfdxzvCKA==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/ui-settings" "^0.42.0-beta.22"
+    "@polkadot/ui-settings" "^0.42.0-beta.23"
     "@types/color" "^3.0.0"
     "@types/react-copy-to-clipboard" "^4.2.6"
     color "^3.1.2"
@@ -2084,17 +2084,17 @@
     "@types/memoizee" "^0.4.2"
     memoizee "^0.4.14"
 
-"@polkadot/ui-assets@^0.42.0-beta.22":
-  version "0.42.0-beta.22"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.42.0-beta.22.tgz#b118b4b4742b86b9b78cecbeaf0b26d8783c089f"
-  integrity sha512-EF+Q9iEqgqp3z0bVIrKWQxhLWlhOO0zBes6HLsPAfSq9K8mQZZ50d8Zraxynix9BjjQLBcbQn+dYEWpNkIUQmw==
+"@polkadot/ui-assets@^0.42.0-beta.23":
+  version "0.42.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.42.0-beta.23.tgz#a7d44d47d65abdc183eebde75085ab4890f46dcb"
+  integrity sha512-h0Bel58G7LW3DB2B1VhXR2tF8ffjl7wRA1ekL/5c7gbhPZHkmZ4MEqBSZTrRSCvhcyU39YzhqBsQeL4tK5d1dw==
   dependencies:
     "@babel/runtime" "^7.5.5"
 
-"@polkadot/ui-keyring@^0.42.0-beta.22":
-  version "0.42.0-beta.22"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.42.0-beta.22.tgz#45822b9275af70eeca5c8b36112d32ce0e6acaf1"
-  integrity sha512-8JZAp3tyvS6o2Ayx/KIobZjpyALZmExzYuokZncbbuik0HeLUOxMBZR1ViBEfzjMMajPugfY1ZrtPxRK5ogCJQ==
+"@polkadot/ui-keyring@^0.42.0-beta.23":
+  version "0.42.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.42.0-beta.23.tgz#6cabb25f6a769d9099f7cbfc8f2b414a87420cc8"
+  integrity sha512-fSXHPQoifRKahi268GHstMCFSNAbGOHDh6L59gXvM7WY1A+a1+rQzkuZlJNr9906lIBZokP8HRZLSLyRauJuBw==
   dependencies:
     "@babel/runtime" "^7.5.5"
     "@types/mkdirp" "^0.5.2"
@@ -2104,10 +2104,10 @@
     store "^2.0.12"
     styled-components "^4.3.1"
 
-"@polkadot/ui-settings@^0.42.0-beta.22":
-  version "0.42.0-beta.22"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-0.42.0-beta.22.tgz#4330cee408c4bc6eaed4cbab1358edbb370abed6"
-  integrity sha512-3iMRThJTjLAA4PPF84bjcdIPwrjJu4/g6wwRnU/E1gucuKyKdlpEhXLP8M+yBOvsWxxwepaz7qBshRdLlkDPww==
+"@polkadot/ui-settings@^0.42.0-beta.23":
+  version "0.42.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-0.42.0-beta.23.tgz#6559932351829a928b41bfa0cee70a1fac2b73b9"
+  integrity sha512-RFdenXu1G+afWZrRohd0dOtAhEX8ZmIsgoabuHcJUpr1iHBrINYNVwfP2Ydb4l73YFWQXLjsy4pjcUqm9NL0vQ==
   dependencies:
     "@babel/runtime" "^7.5.5"
     "@types/store" "^2.0.2"
