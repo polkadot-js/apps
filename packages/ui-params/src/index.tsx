@@ -26,7 +26,7 @@ interface Props extends I18nProps {
   onEnter?: () => void;
   overrides?: ComponentMap;
   params: Param[];
-  values?: RawParams;
+  values?: RawParams | null;
 }
 
 interface State {
@@ -54,7 +54,7 @@ class Params extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const values = createValues(props.params);
+    const values = props.values || createValues(props.params);
     const handlers = values.map(
       (_, index): RawParamOnChange =>
         (value: RawParamOnChangeValue): void =>
