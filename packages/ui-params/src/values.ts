@@ -9,13 +9,15 @@ import { isUndefined } from '@polkadot/util';
 
 import getInitValue from './initValue';
 
-export default function values (params: { type: TypeDef }[]): RawParam[] {
-  return params.map(({ type }): RawParam => {
-    const value = getInitValue(type);
+export function createValue (param: { type: TypeDef }): RawParam {
+  const value = getInitValue(param.type);
 
-    return {
-      isValid: !isUndefined(value),
-      value
-    };
-  });
+  return {
+    isValid: !isUndefined(value),
+    value
+  };
+}
+
+export default function createValues (params: { type: TypeDef }[]): RawParam[] {
+  return params.map(createValue);
 }

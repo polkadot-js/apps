@@ -102,7 +102,7 @@ class Modules extends TxComponent<Props, State> {
           const key2 = key.creator.meta.type.asDoubleMap.key2.toString();
 
           return {
-            defaultValues: prevState.key !== key ? this.getDefaultValues() : null,
+            defaultValues: this.getDefaultValues(),
             isValid: values.length === 2 && areParamsValid(),
             key,
             params: [
@@ -133,15 +133,11 @@ class Modules extends TxComponent<Props, State> {
     const { api } = this.props;
     const { key } = this.state;
 
-    if (key.creator.section === 'session' && key.creator.method === 'nextKeys') {
+    if (key.creator.section === 'session') {
       return [
         {
           isValid: true,
           value: api.consts.session.dedupKeyPrefix.toHex()
-        },
-        {
-          isValid: false,
-          value: null
         }
       ];
     }

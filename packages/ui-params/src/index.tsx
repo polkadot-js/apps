@@ -13,7 +13,7 @@ import { classes } from '@polkadot/ui-app/util';
 import translate from '@polkadot/ui-app/translate';
 
 import Param from './Param';
-import createValues from './values';
+import { createValue } from './values';
 
 interface Param {
   name?: string;
@@ -54,7 +54,18 @@ class Params extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const values = props.values || createValues(props.params);
+    console.log('b', props.values);
+
+    const values = props.params.reduce(
+      (result: RawParams, param, index): RawParams => [
+        ...result,
+        props.values && props.values[index]
+          ? props.values[index]
+          : createValue(param)
+      ],
+      []
+    );
+
     const handlers = values.map(
       (_, index): RawParamOnChange =>
         (value: RawParamOnChangeValue): void =>
