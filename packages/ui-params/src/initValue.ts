@@ -88,6 +88,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'Signature':
     case 'SessionKey':
     case 'StorageKey':
+    case 'ValidatorId':
       return void 0;
 
     case 'Extrinsic':

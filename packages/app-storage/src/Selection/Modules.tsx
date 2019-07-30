@@ -23,6 +23,7 @@ type Props = ComponentProps & ApiProps & I18nProps;
 interface State {
   isValid: boolean;
   key: StorageEntryPromise;
+  defaultValues?: RawParams | null;
   values: RawParams;
   params: { type: TypeDef }[];
 }
@@ -48,7 +49,7 @@ class Modules extends TxComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { t } = this.props;
-    const { isValid, key: { creator: { method, section, meta } }, params } = this.state;
+    const { isValid, key: { creator: { method, section, meta } }, defaultValues, params } = this.state;
 
     return (
       <section className='storage--actionrow'>
@@ -64,6 +65,7 @@ class Modules extends TxComponent<Props, State> {
             onChange={this.onChangeParams}
             onEnter={this.submit}
             params={params}
+            values={defaultValues}
           />
         </div>
         <div className='storage--actionrow-buttons'>
@@ -83,27 +85,63 @@ class Modules extends TxComponent<Props, State> {
     this.setState(
       (prevState: State): Pick<State, never> => {
         const { key = prevState.key, values = prevState.values } = newState;
-        const hasParam = key.creator.meta.type.isMap;
-        const isValid = values.length === (hasParam ? 1 : 0) &&
-          values.reduce(
-            (isValid, value): boolean =>
+
+        const areParamsValid = (): boolean => {
+          return values.reduce(
+            (isValid: boolean, value): boolean => (
               isValid &&
               !isUndefined(value) &&
               !isUndefined(value.value) &&
-              value.isValid,
+              value.isValid),
             true
           );
+        };
+
+        if (key.creator.meta.type.isDoubleMap) {
+          const key1 = key.creator.meta.type.asDoubleMap.key1.toString();
+          const key2 = key.creator.meta.type.asDoubleMap.key2.toString();
+
+          return {
+            defaultValues: this.getDefaultValues(),
+            isValid: values.length === 2 && areParamsValid(),
+            key,
+            params: [
+              { type: getTypeDef(key1) },
+              { type: getTypeDef(key2) }
+            ],
+            values
+          };
+        }
+
+        const hasParam = key.creator.meta.type.isMap;
+        const isValid = values.length === (hasParam ? 1 : 0) && areParamsValid();
 
         return {
+          defaultValues: null,
           isValid,
           key,
-          values,
           params: hasParam
             ? [{ type: getTypeDef(key.creator.meta.type.asMap.key.toString()) }]
-            : []
+            : [],
+          values
         };
       }
     );
+  }
+
+  private getDefaultValues = (): RawParams | null => {
+    const { api } = this.props;
+    const { key } = this.state;
+
+    if (key.creator.section === 'session') {
+      return [
+        {
+          isValid: true,
+          value: api.consts.session.dedupKeyPrefix.toHex()
+        }
+      ];
+    }
+    return null;
   }
 
   private onAdd = (): void => {

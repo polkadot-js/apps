@@ -21,9 +21,23 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     .map((value): DropdownOption => {
       const method = section[value] as unknown as StorageEntry;
       const type = method.meta.type;
-      const input = type.isMap
-        ? type.asMap.key.toString()
-        : '';
+      let input = '';
+
+      if (type.isMap) {
+        input = type.asMap.key.toString();
+      } else if (type.isDoubleMap) {
+        input = type.asDoubleMap.key1.toString() + ', ' + type.asDoubleMap.key2.toString();
+      }
+
+      let output = type.toString();
+
+      if (type.isDoubleMap) {
+        output = `DoubleMap<${type.asDoubleMap.value.toString()}>`;
+      }
+
+      if (method.meta.modifier.isOptional) {
+        output = `Option<${output}>`;
+      }
 
       return {
         className: 'ui--DropdownLinked-Item',
@@ -33,11 +47,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
             className='ui--DropdownLinked-Item-call'
             key={`${sectionName}_${value}:call`}
           >
-            {value}({input}): {
-              method.meta.modifier.isOptional
-                ? `Option<${type}>`
-                : type.toString()
-            }
+            {value}({input}): {output}
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
