@@ -36,10 +36,16 @@ class SummarySession extends React.PureComponent<Props> {
       return null;
     }
 
+    console.error(JSON.stringify(session_info));
+
+    const label = session_info.isEpoch
+      ? t('era slots')
+      : t('era');
+
     return session_info.sessionLength.gtn(0)
       ? (
         <CardSummary
-          label={t('era')}
+          label={label}
           progress={{
             total: session_info && session_info.eraLength,
             value: session_info && session_info.eraProgress
@@ -47,7 +53,7 @@ class SummarySession extends React.PureComponent<Props> {
         />
       )
       : (
-        <CardSummary label={t('era')}>
+        <CardSummary label={label}>
           {formatNumber(session_info.currentEra)}
         </CardSummary>
       );
@@ -60,10 +66,14 @@ class SummarySession extends React.PureComponent<Props> {
       return null;
     }
 
+    const label = session_info.isEpoch
+      ? t('epoch slots')
+      : t('session');
+
     return session_info.sessionLength.gtn(0)
       ? (
         <CardSummary
-          label={t('session')}
+          label={label}
           progress={{
             total: session_info.sessionLength,
             value: session_info.sessionProgress
@@ -71,7 +81,7 @@ class SummarySession extends React.PureComponent<Props> {
         />
       )
       : (
-        <CardSummary label={t('session')}>
+        <CardSummary label={label}>
           {formatNumber(session_info.currentIndex)}
         </CardSummary>
       );
