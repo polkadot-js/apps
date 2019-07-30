@@ -22,15 +22,19 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
       const method = section[value] as unknown as StorageEntry;
       const type = method.meta.type;
       let input = '';
+
       if (type.isMap) {
         input = type.asMap.key.toString();
       } else if (type.isDoubleMap) {
         input = type.asDoubleMap.key1.toString() + ', ' + type.asDoubleMap.key2.toString();
       }
+
       let output = type.toString();
+
       if (type.isDoubleMap) {
         output = `DoubleMap<${type.asDoubleMap.value.toString()}>`;
       }
+
       if (method.meta.modifier.isOptional) {
         output = `Option<${output}>`;
       }

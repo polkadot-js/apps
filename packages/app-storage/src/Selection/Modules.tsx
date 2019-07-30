@@ -82,8 +82,6 @@ class Modules extends TxComponent<Props, State> {
   }
 
   private nextState (newState: Partial<State>): void {
-    const { api } = this.props;
-
     this.setState(
       (prevState: State): Pick<State, never> => {
         const { key = prevState.key, values = prevState.values } = newState;
@@ -100,35 +98,21 @@ class Modules extends TxComponent<Props, State> {
         };
 
         if (key.creator.meta.type.isDoubleMap) {
-          let defaultValues = null;
           const key1 = key.creator.meta.type.asDoubleMap.key1.toString();
           const key2 = key.creator.meta.type.asDoubleMap.key2.toString();
 
-          if (key !== prevState.key && key.creator.section === 'session' && key.creator.method === 'nextKeys') {
-            console.log(api.consts.session.dedupKeyPrefix.toString());
-            defaultValues = [
-              {
-                isValid: true,
-                value: api.consts.session.dedupKeyPrefix.toString()
-              },
-              {
-                isValid: false,
-                value: null
-              }
-            ];
-          }
-
           return {
+            defaultValues: prevState.key !== key ? this.getDefaultValues() : null,
             isValid: values.length === 2 && areParamsValid(),
             key,
-            defaultValues,
-            values,
             params: [
               { type: getTypeDef(key1) },
               { type: getTypeDef(key2) }
-            ]
+            ],
+            values
           };
         }
+
         const hasParam = key.creator.meta.type.isMap;
         const isValid = values.length === (hasParam ? 1 : 0) && areParamsValid();
 
@@ -136,13 +120,32 @@ class Modules extends TxComponent<Props, State> {
           defaultValues: null,
           isValid,
           key,
-          values,
           params: hasParam
             ? [{ type: getTypeDef(key.creator.meta.type.asMap.key.toString()) }]
-            : []
+            : [],
+          values
         };
       }
     );
+  }
+
+  private getDefaultValues = (): RawParams | null => {
+    const { api } = this.props;
+    const { key } = this.state;
+
+    if (key.creator.section === 'session' && key.creator.method === 'nextKeys') {
+      return [
+        {
+          isValid: true,
+          value: api.consts.session.dedupKeyPrefix.toHex()
+        },
+        {
+          isValid: false,
+          value: null
+        }
+      ];
+    }
+    return null;
   }
 
   private onAdd = (): void => {
