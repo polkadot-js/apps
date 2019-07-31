@@ -9,7 +9,8 @@ import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
-import ValidateSession from './InputValidationSession';
+import ValidateSessionEd25519 from './InputValidationSessionEd25519';
+import ValidateSessionSr25519 from './InputValidationSessionSr25519';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
@@ -21,8 +22,10 @@ type Props = I18nProps & ApiProps & {
 };
 
 interface State {
-  sessionError: string | null;
-  sessionId: string;
+  ed25519: string;
+  ed25519Error: string | null;
+  sr25519: string;
+  sr25519Error: string | null;
 }
 
 class SetSessionKey extends React.PureComponent<Props, State> {
@@ -32,19 +35,22 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      sessionError: null,
-      sessionId: props.sessionId || props.controllerId
+      ed25519: props.sessionId || props.controllerId,
+      ed25519Error: null,
+      sr25519: '',
+      sr25519Error: null
     };
   }
 
   public render (): React.ReactNode {
-    const { api, controllerId, isOpen, onClose, t } = this.props;
-    const { sessionError, sessionId } = this.state;
-    const isV2 = !!api.tx.session.setKeys;
+    const { controllerId, isOpen, isSubstrateV2, onClose, t } = this.props;
+    const { ed25519, ed25519Error, sr25519, sr25519Error } = this.state;
 
     if (!isOpen) {
       return null;
     }
+
+    const hasError = !ed25519 || !!ed25519Error || (isSubstrateV2 ? (!sr25519 || !!sr25519Error) : false);
 
     return (
       <Modal
@@ -64,12 +70,20 @@ class SetSessionKey extends React.PureComponent<Props, State> {
             <Button.Or />
             <TxButton
               accountId={controllerId}
-              isDisabled={!sessionId || !!sessionError}
+              isDisabled={hasError}
               isPrimary
               label={t('Set Session Key')}
-              onClick={ onClose }
-              params={ isV2 ? [{ auraKey: sessionId, grandpaKey: sessionId }, new Uint8Array([])] : [sessionId]}
-              tx={isV2 ? 'session.setKeys' : 'session.setKey'}
+              onClick={onClose}
+              params={
+                isSubstrateV2
+                  ? [{ ed25519, sr25519 }, new Uint8Array([])]
+                  : [ed25519]
+              }
+              tx={
+                isSubstrateV2
+                  ? 'session.setKeys'
+                  : 'session.setKey'
+              }
             />
           </Button.Group>
         </Modal.Actions>
@@ -78,8 +92,8 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { controllerId, stashId, t } = this.props;
-    const { sessionId } = this.state;
+    const { controllerId, isSubstrateV2, stashId, t } = this.props;
+    const { ed25519, sr25519 } = this.state;
 
     return (
       <>
@@ -96,28 +110,59 @@ class SetSessionKey extends React.PureComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
-            label={t('session key')}
-            onChange={this.onChangeSession}
+            label={t('ed25519 key')}
+            onChange={this.onChangeEd25519}
             type='account'
-            value={sessionId}
+            value={ed25519}
           />
-          <ValidateSession
+          <ValidateSessionEd25519
             controllerId={controllerId}
-            onError={this.onSessionError}
-            sessionId={sessionId}
+            onError={this.onSessionErrorEd25519}
+            sessionId={ed25519}
             stashId={stashId}
           />
+          {
+            isSubstrateV2
+              ? (
+                <>
+                  <InputAddress
+                    className='medium'
+                    help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an sr25519 key.')}
+                    label={t('sr25519 key')}
+                    onChange={this.onChangeSr25519}
+                    type='account'
+                    value={sr25519}
+                  />
+                  <ValidateSessionSr25519
+                    controllerId={controllerId}
+                    onError={this.onSessionErrorSr25519}
+                    sessionId={sr25519}
+                    stashId={stashId}
+                  />
+                </>
+              )
+              : null
+          }
+
         </Modal.Content>
       </>
     );
   }
 
-  private onChangeSession = (sessionId: string): void => {
-    this.setState({ sessionId });
+  private onChangeEd25519 = (ed25519: string): void => {
+    this.setState({ ed25519 });
   }
 
-  private onSessionError = (sessionError: string | null): void => {
-    this.setState({ sessionError });
+  private onChangeSr25519 = (sr25519: string): void => {
+    this.setState({ sr25519 });
+  }
+
+  private onSessionErrorEd25519 = (ed25519Error: string | null): void => {
+    this.setState({ ed25519Error });
+  }
+
+  private onSessionErrorSr25519 = (sr25519Error: string | null): void => {
+    this.setState({ sr25519Error });
   }
 }
 
