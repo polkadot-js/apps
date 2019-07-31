@@ -32,7 +32,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
       let output = type.toString();
 
       if (type.isDoubleMap) {
-        output = `DoubleMap<${type.asDoubleMap.value.toString()}>`;
+        output = type.asDoubleMap.value.toString();
       }
 
       if (method.meta.modifier.isOptional) {
