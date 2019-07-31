@@ -47,7 +47,7 @@ class Propose extends TxModal<Props, State> {
 
   protected headerText = (): string => this.props.t('Propose a council motion');
 
-  protected txMethod = (): string => 'collective.propose';
+  protected txMethod = (): string => 'council.propose';
 
   protected txParams = (): [BN | null, ...Proposal[]] => {
     const { method, threshold } = this.state;

@@ -15,7 +15,7 @@ import Propose from './Propose';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  collective_proposals?: Hash[];
+  council_proposals?: Hash[];
 }
 
 class Proposals extends React.PureComponent<Props> {
@@ -36,9 +36,9 @@ class Proposals extends React.PureComponent<Props> {
   }
 
   private renderProposals (): React.ReactNode {
-    const { collective_proposals = [] } = this.props;
+    const { council_proposals = [] } = this.props;
 
-    return collective_proposals.map((hash: Hash): React.ReactNode => (
+    return council_proposals.map((hash: Hash): React.ReactNode => (
       <Motion
         hash={hash.toHex()}
         key={hash.toHex()}
@@ -49,6 +49,6 @@ class Proposals extends React.PureComponent<Props> {
 
 export default translate(
   withCalls<Props>(
-    'query.collective.proposals'
+    'query.council.proposals'
   )(Proposals)
 );

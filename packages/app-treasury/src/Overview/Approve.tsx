@@ -37,7 +37,7 @@ class Approve extends TxModal<Props, State> {
 
   protected headerText = (): string => this.props.t('Approve or reject proposal');
 
-  protected txMethod = (): string => 'collective.propose';
+  protected txMethod = (): string => 'council.propose';
 
   protected txParams = (): [number, any] => {
     const { api, proposalId, threshold } = this.props;

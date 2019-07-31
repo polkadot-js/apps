@@ -48,7 +48,7 @@ class Voting extends TxModal<Props, State> {
   protected txMethod = (): string => {
     const { isCouncil } = this.props;
 
-    return isCouncil ? 'collective.vote' : 'democracy.vote';
+    return isCouncil ? 'council.vote' : 'democracy.vote';
   }
 
   protected txParams = (): any[] => {

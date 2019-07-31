@@ -145,7 +145,7 @@ export default withMulti(
   translate,
   withCalls<Props>(
     [
-      'query.collective.proposalOf',
+      'query.council.proposalOf',
       {
         paramName: 'hash',
         propName: 'proposal',
@@ -154,7 +154,7 @@ export default withMulti(
       }
     ],
     [
-      'query.collective.voting',
+      'query.council.voting',
       {
         paramName: 'hash',
         propName: 'votes',
