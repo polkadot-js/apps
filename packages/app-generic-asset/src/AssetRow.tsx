@@ -16,13 +16,13 @@ type Props = I18nProps & RowProps & {
 }
 
 class AssetRow extends Row<Props, RowState> {
-  public constructor(props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state.name = this.props.defaultName || 'New Asset';
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     const { className } = this.props;
 
     return (
@@ -40,7 +40,7 @@ class AssetRow extends Row<Props, RowState> {
     );
   }
 
-  protected saveName = () => {
+  protected saveName = (): void => {
     const { name } = this.state;
     const { onSaveName } = this.props;
 
@@ -50,7 +50,7 @@ class AssetRow extends Row<Props, RowState> {
     this.setState({ isEditingName: false });
   }
 
-  private renderAssetId(): React.ReactNode {
+  private renderAssetId (): React.ReactNode {
     const { assetId, t } = this.props;
 
     return (

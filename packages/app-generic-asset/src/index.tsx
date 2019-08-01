@@ -21,7 +21,7 @@ interface State {
 }
 
 class App extends React.PureComponent<Props, State> {
-  public constructor(props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     const { t } = props;
@@ -41,7 +41,7 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     const { basePath } = this.props;
     const { tabs } = this.state;
 

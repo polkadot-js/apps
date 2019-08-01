@@ -15,7 +15,7 @@ import CreateModal from './modals/Create';
 import translate from './translate';
 
 type Props = I18nProps & {
-  assets?: AssetsSubjectInfo
+  assets?: AssetsSubjectInfo;
 };
 
 interface State {
@@ -27,7 +27,7 @@ class Assets extends React.PureComponent<Props, State> {
     isCreateOpen: false
   };
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     const { assets, t } = this.props;
     const { isCreateOpen } = this.state;
     const emptyScreen = !isCreateOpen && (!assets || Object.keys(assets).length === 0);
@@ -65,7 +65,7 @@ class Assets extends React.PureComponent<Props, State> {
     );
   }
 
-  private onRegister = (id: BN, name: string) => {
+  private onRegister = (id: BN, name: string): void => {
     assetRegistry.add(id.toString(), name);
   }
 
@@ -75,11 +75,11 @@ class Assets extends React.PureComponent<Props, State> {
     }));
   }
 
-  private onSaveName = (id: string, name: string) => {
+  private onSaveName = (id: string, name: string): void => {
     assetRegistry.add(id, name);
   }
 
-  private onForget = (id: string) => {
+  private onForget = (id: string): void => {
     assetRegistry.remove(id);
   }
 }

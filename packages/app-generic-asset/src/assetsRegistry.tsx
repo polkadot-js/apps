@@ -4,16 +4,16 @@
 
 import { BehaviorSubject } from 'rxjs';
 
-const ASSETS_KEY = 'polkadot-app-generic-asset-assets'
+const ASSETS_KEY = 'polkadot-app-generic-asset-assets';
 
-export type AssetsSubjectInfo = { [id: string]: string };
+export interface AssetsSubjectInfo { [id: string]: string }
 
 let initalAssets: AssetsSubjectInfo = {};
 
 try {
   const storedAsset = localStorage.getItem(ASSETS_KEY);
   if (storedAsset) {
-    initalAssets = JSON.parse(storedAsset)
+    initalAssets = JSON.parse(storedAsset);
   }
 } catch (e) {
   // ignore error
@@ -21,23 +21,24 @@ try {
 
 const subject = new BehaviorSubject(initalAssets);
 
-subject.subscribe(assets =>
+subject.subscribe((assets): void =>
   localStorage.setItem(ASSETS_KEY, JSON.stringify(assets))
 );
 
 export default {
-  getAssets: () => Object.entries(subject.getValue()).map(([id, name]) => ({ id, name })),
-  add: (id: string, name: string) => {
+  getAssets: (): AssetsSubjectInfo[] =>
+    Object.entries(subject.getValue()).map(([id, name]): AssetsSubjectInfo => ({ id, name })),
+  add: (id: string, name: string): void => {
     const assets = subject.getValue();
     subject.next({
       ...assets,
       [id]: name
-    })
+    });
   },
-  remove: (id: string) => {
+  remove: (id: string): void => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [id]: ignore, ...assets } = subject.getValue();
     subject.next(assets);
   },
   subject
 };
-

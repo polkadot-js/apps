@@ -99,7 +99,7 @@ class Create extends React.PureComponent<Props, State> {
   private emptyState (): State {
     return {
       assetId: new BN(0),
-      name: 'new asset',
+      name: 'new asset'
     };
   }
 

@@ -23,7 +23,7 @@ type Props = ApiProps & I18nProps & {
   onClose: () => void;
   recipientId?: string;
   senderId?: string;
-  assets?: AssetsSubjectInfo
+  assets?: AssetsSubjectInfo;
 };
 
 interface State {
@@ -40,7 +40,7 @@ const ZERO = new BN(0);
 class Transfer extends React.PureComponent<Props> {
   public state: State;
 
-  public constructor(props: Props) {
+  public constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -53,7 +53,7 @@ class Transfer extends React.PureComponent<Props> {
     };
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     return (
       <div>
         {this.renderContent()}
@@ -62,7 +62,7 @@ class Transfer extends React.PureComponent<Props> {
     );
   }
 
-  private nextState(newState: Partial<State>): void {
+  private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
       const { api } = this.props;
       const {
@@ -70,7 +70,7 @@ class Transfer extends React.PureComponent<Props> {
         recipientId = prevState.recipientId,
         hasAvailable = prevState.hasAvailable,
         senderId = prevState.senderId,
-        assetId = prevState.assetId,
+        assetId = prevState.assetId
       } = newState;
       const extrinsic = recipientId && senderId
         ? api.tx.genericAsset.transfer(assetId, recipientId, amount)
@@ -87,7 +87,7 @@ class Transfer extends React.PureComponent<Props> {
     });
   }
 
-  private renderButtons(): React.ReactNode {
+  private renderButtons (): React.ReactNode {
     const { onClose, t } = this.props;
     const { extrinsic, hasAvailable, senderId } = this.state;
 
@@ -106,10 +106,18 @@ class Transfer extends React.PureComponent<Props> {
     );
   }
 
-  private renderContent(): React.ReactNode {
+  private renderContent (): React.ReactNode {
     const { assets, className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
     const { extrinsic, hasAvailable, recipientId, senderId, assetId } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
+
+    const options = assets
+      ? Object.entries(assets)
+        .map(([id, name]): { value: string; text: string } => ({
+          value: id,
+          text: `${name} (${id})`
+        }))
+      : [];
 
     return (
       <div className={className}>
@@ -136,7 +144,7 @@ class Transfer extends React.PureComponent<Props> {
           help={t('Enter the Asset ID of the token you want to transfer.')}
           label={t('asset id')}
           onChange={this.onChangeAssetId}
-          options={assets ? Object.entries(assets).map(([id, name]) => ({ value: id, text: `${name} (${id})` })) : []}
+          options={options}
           onAdd={this.onAddAssetId}
           value={assetId}
         />
@@ -176,7 +184,7 @@ class Transfer extends React.PureComponent<Props> {
     this.nextState({ assetId });
   }
 
-  private onAddAssetId = (id: string) => {
+  private onAddAssetId = (id: string): void => {
     if (id.trim().match(/^\d+$/)) {
       assetRegistry.add(id, id);
     }

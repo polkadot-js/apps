@@ -46,14 +46,14 @@ class AssetCard extends React.PureComponent<Props> {
           />
         </Details>
       </Card>
-    )
+    );
   }
 
-  private onForget = () => {
+  private onForget = (): void => {
     this.props.onForget(this.props.assetId);
   };
 
-  private onSaveName = (name: string) => {
+  private onSaveName = (name: string): void => {
     this.props.onSaveName(this.props.assetId, name);
   }
 }
