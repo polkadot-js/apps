@@ -10,11 +10,12 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, InputNumber, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/ui-app';
 import { Available } from '@polkadot/ui-reactive';
 import Checks from '@polkadot/ui-signer/Checks';
-import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 
+import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import translate from './translate';
 
 type Props = ApiProps & I18nProps & {
@@ -22,11 +23,11 @@ type Props = ApiProps & I18nProps & {
   onClose: () => void;
   recipientId?: string;
   senderId?: string;
-  system_accountNonce?: BN;
+  assets?: AssetsSubjectInfo
 };
 
 interface State {
-  assetId: BN;
+  assetId: string;
   amount: BN;
   extrinsic: SubmittableExtrinsic | null;
   hasAvailable: boolean;
@@ -43,7 +44,7 @@ class Transfer extends React.PureComponent<Props> {
     super(props);
 
     this.state = {
-      assetId: ZERO,
+      assetId: '0',
       amount: ZERO,
       extrinsic: null,
       hasAvailable: true,
@@ -106,7 +107,7 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   private renderContent(): React.ReactNode {
-    const { className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
+    const { assets, className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
     const { extrinsic, hasAvailable, recipientId, senderId, assetId } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
 
@@ -130,11 +131,14 @@ class Transfer extends React.PureComponent<Props> {
           onChange={this.onChangeTo}
           type='allPlus'
         />
-        <InputNumber
+        <Dropdown
+          allowAdd
           help={t('Enter the Asset ID of the token you want to transfer.')}
           label={t('asset id')}
-          value={assetId}
           onChange={this.onChangeAssetId}
+          options={assets ? Object.entries(assets).map(([id, name]) => ({ value: id, text: `${name} (${id})` })) : []}
+          onAdd={this.onAddAssetId}
+          value={assetId}
         />
         <InputBalance
           help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
@@ -168,8 +172,14 @@ class Transfer extends React.PureComponent<Props> {
     this.setState({ hasAvailable });
   }
 
-  private onChangeAssetId = (assetId: BN = new BN(0)): void => {
+  private onChangeAssetId = (assetId: string): void => {
     this.nextState({ assetId });
+  }
+
+  private onAddAssetId = (id: string) => {
+    if (id.trim().match(/^\d+$/)) {
+      assetRegistry.add(id, id);
+    }
   }
 }
 
@@ -196,7 +206,5 @@ export default withMulti(
   `,
   translate,
   withApi,
-  // withCalls<Props>(
-  //   ['query.genericAsset.freeBalances', { paramName: 'balancesKey' }]
-  // )
+  withObservable(assetRegistry.subject, { propName: 'assets' })
 );
