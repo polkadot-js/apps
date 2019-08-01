@@ -5,12 +5,10 @@
 import { Routes } from './types';
 
 import GenericAsset from '@polkadot/app-generic-asset';
-import GenericAssetModal from '@polkadot/app-generic-asset/modal';
 
 export default ([
   {
     Component: GenericAsset,
-    Modal: GenericAssetModal,
     display: {
       isHidden: false,
       needsAccounts: true,
@@ -21,7 +19,7 @@ export default ([
     i18n: {
       defaultValue: 'Generic Asset'
     },
-    icon: 'send',
+    icon: 'cubes',
     name: 'generic-asset'
   }
 ] as Routes);

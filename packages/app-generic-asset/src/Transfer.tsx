@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-generic-asset authors & contributors
+// Copyright 2019 @polkadot/app-generic-asset authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, InputNumber, TxButton } from '@polkadot/ui-app';
 import { Available } from '@polkadot/ui-reactive';
 import Checks from '@polkadot/ui-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
@@ -53,18 +53,11 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   public render(): React.ReactNode {
-    const { t } = this.props;
-
     return (
-      <Modal
-        className='app--accounts-Modal'
-        dimmer='inverted'
-        open
-      >
-        <Modal.Header>{t('Send funds')}</Modal.Header>
+      <div>
         {this.renderContent()}
         {this.renderButtons()}
-      </Modal>
+      </div>
     );
   }
 
@@ -98,25 +91,17 @@ class Transfer extends React.PureComponent<Props> {
     const { extrinsic, hasAvailable, senderId } = this.state;
 
     return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={senderId}
-            extrinsic={extrinsic}
-            isDisabled={!hasAvailable}
-            isPrimary
-            label={t('Make Transfer')}
-            onStart={onClose}
-            withSpinner={false}
-          />
-        </Button.Group>
-      </Modal.Actions>
+      <Button.Group>
+        <TxButton
+          accountId={senderId}
+          extrinsic={extrinsic}
+          isDisabled={!hasAvailable}
+          isPrimary
+          label={t('Make Transfer')}
+          onStart={onClose}
+          withSpinner={false}
+        />
+      </Button.Group>
     );
   }
 
@@ -126,46 +111,44 @@ class Transfer extends React.PureComponent<Props> {
     const available = <span className='label'>{t('available ')}</span>;
 
     return (
-      <Modal.Content>
-        <div className={className}>
-          <InputAddress
-            defaultValue={propSenderId}
-            help={t('The account you will send funds from.')}
-            isDisabled={!!propSenderId}
-            label={t('send from account')}
-            labelExtra={<Available label={available} params={senderId} />}
-            onChange={this.onChangeFrom}
-            type='account'
-          />
-          <InputAddress
-            defaultValue={propRecipientId}
-            help={t('Select a contact or paste the address you want to send funds to.')}
-            isDisabled={!!propRecipientId}
-            label={t('send to address')}
-            labelExtra={<Available label={available} params={recipientId} />}
-            onChange={this.onChangeTo}
-            type='allPlus'
-          />
-          <InputNumber
-            help={t('Enter the Asset ID of the token you want to transfer.')}
-            label={t('asset id')}
-            value={assetId}
-            onChange={this.onChangeAssetId}
-          />
-          <InputBalance
-            help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
-            isError={!hasAvailable}
-            label={t('amount')}
-            onChange={this.onChangeAmount}
-          />
-          <Checks
-            accountId={senderId}
-            extrinsic={extrinsic}
-            isSendable
-            onChange={this.onChangeFees}
-          />
-        </div>
-      </Modal.Content>
+      <div className={className}>
+        <InputAddress
+          defaultValue={propSenderId}
+          help={t('The account you will send funds from.')}
+          isDisabled={!!propSenderId}
+          label={t('send from account')}
+          labelExtra={<Available label={available} params={senderId} />}
+          onChange={this.onChangeFrom}
+          type='account'
+        />
+        <InputAddress
+          defaultValue={propRecipientId}
+          help={t('Select a contact or paste the address you want to send funds to.')}
+          isDisabled={!!propRecipientId}
+          label={t('send to address')}
+          labelExtra={<Available label={available} params={recipientId} />}
+          onChange={this.onChangeTo}
+          type='allPlus'
+        />
+        <InputNumber
+          help={t('Enter the Asset ID of the token you want to transfer.')}
+          label={t('asset id')}
+          value={assetId}
+          onChange={this.onChangeAssetId}
+        />
+        <InputBalance
+          help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
+          isError={!hasAvailable}
+          label={t('amount')}
+          onChange={this.onChangeAmount}
+        />
+        <Checks
+          accountId={senderId}
+          extrinsic={extrinsic}
+          isSendable
+          onChange={this.onChangeFees}
+        />
+      </div>
     );
   }
 
