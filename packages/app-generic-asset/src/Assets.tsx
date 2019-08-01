@@ -53,7 +53,13 @@ class Assets extends React.PureComponent<Props, State> {
           />
         )}
         {assets && Object.entries(assets).map(([id, name]): React.ReactNode => (
-          <AssetCard key={id} assetId={id} name={name}/>
+          <AssetCard
+            key={id}
+            assetId={id}
+            name={name}
+            onSaveName={this.onSaveName}
+            onForget={this.onForget}
+          />
         ))}
       </CardGrid>
     );
@@ -67,6 +73,14 @@ class Assets extends React.PureComponent<Props, State> {
     this.setState(({ isCreateOpen }): State => ({
       isCreateOpen: !isCreateOpen
     }));
+  }
+
+  private onSaveName = (id: string, name: string) => {
+    assetRegistry.add(id, name);
+  }
+
+  private onForget = (id: string) => {
+    assetRegistry.remove(id);
   }
 }
 

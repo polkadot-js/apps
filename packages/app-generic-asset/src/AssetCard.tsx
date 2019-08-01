@@ -3,31 +3,58 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
+import styled from 'styled-components';
 
-import { Card } from '@polkadot/ui-app';
+import { Card, Button } from '@polkadot/ui-app';
 import { I18nProps } from '@polkadot/ui-app/types';
 
+import AssetRow from './AssetRow';
 import translate from './translate';
 
 type Props = I18nProps & {
   assetId: string;
   name: string;
+  onSaveName: (id: string, name: string) => void;
+  onForget: (id: string) => void;
 };
+
+const Details = styled.div`
+`;
 
 class AssetCard extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, assetId, name } = this.props;
+    const { className, assetId, name, t } = this.props;
 
     return (
       <Card className={className}>
-        <div>
-          {name}
-        </div>
-        <div>
-          ID: {assetId}
-        </div>
+        <Details>
+          <AssetRow
+            isEditable
+            assetId={assetId}
+            defaultName={name}
+            buttons={(
+              <Button
+                isNegative
+                onClick={this.onForget}
+                icon='trash'
+                key='forget'
+                size='small'
+                tooltip={t('Forget this asset')}
+              />
+            )}
+            onSaveName={this.onSaveName}
+          />
+        </Details>
       </Card>
     )
+  }
+
+  private onForget = () => {
+    this.props.onForget(this.props.assetId);
+  };
+
+  private onSaveName = (name: string) => {
+    this.props.onSaveName(this.props.assetId, name);
   }
 }
 
