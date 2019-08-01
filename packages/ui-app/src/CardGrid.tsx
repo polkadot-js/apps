@@ -14,14 +14,12 @@ type Props = CollectionProps;
 type State = CollectionState;
 
 class CardGrid extends Collection<Props, State> {
-  public static getDerivedStateFromProps ({ children, headerText }: Props): State {
-    const isEmpty = !children || (Array.isArray(children) && !children.length);
+  public static getDerivedStateFromProps (props: Props): State {
+    const state = super.getDerivedStateFromProps(props);
 
     return {
-      isEmpty: isEmpty,
-      showHeader: isEmpty
-        ? !!headerText
-        : true
+      ...state,
+      showHeader: !state.isEmpty || !!props.headerText
     };
   }
 
