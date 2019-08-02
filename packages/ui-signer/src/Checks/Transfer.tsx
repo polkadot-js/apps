@@ -48,7 +48,7 @@ export class Transfer extends React.PureComponent<Props, State> {
 
     const extraAmount = amount instanceof Compact ? amount.toBn() : new BN(amount);
     const isCreation = balances_all.votingBalance.isZero() && fees.creationFee.gtn(0);
-    const isNoEffect = extraAmount.add(balances_all.votingBalance).lte(fees.existentialDeposit);
+    const isNoEffect = extraAmount.add(balances_all.votingBalance).lt(fees.existentialDeposit);
     const extraWarn = isCreation || isNoEffect;
     const update = {
       extraAmount,
