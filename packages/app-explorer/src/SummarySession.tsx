@@ -36,8 +36,6 @@ class SummarySession extends React.PureComponent<Props> {
       return null;
     }
 
-    console.error(JSON.stringify(session_info));
-
     const label = session_info.isEpoch
       ? t('era slots')
       : t('era');
