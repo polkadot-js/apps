@@ -84,9 +84,9 @@ export const styles = `
   }
 
   .ui--Row-buttons {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    position: relative;
+    right: -0.5rem;
+    top: -0.5rem;
     white-space: nowrap;
 
     button.ui.button:last-child {
