@@ -21,7 +21,7 @@ interface State {
   error: string | null;
 }
 
-class ValidateSession extends React.PureComponent<Props, State> {
+class ValidateSessionSr25519 extends React.PureComponent<Props, State> {
   public state: State = {
     error: null
   };
@@ -32,8 +32,8 @@ class ValidateSession extends React.PureComponent<Props, State> {
     try {
       const pair = keyring.getPair(sessionId);
 
-      if (pair.type !== 'ed25519') {
-        error = t('The selected account is not an ed25519 (Edwards) account as required for validation');
+      if (pair.type !== 'sr25519') {
+        error = t('The selected account is not an sr25519 (Schnorrkel) account as required for validation');
       } else if (sessionId === stashId) {
         error = t('For fund security, your session key should not match your stash key.');
       } else {
@@ -68,4 +68,4 @@ class ValidateSession extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(ValidateSession);
+export default translate(ValidateSessionSr25519);
