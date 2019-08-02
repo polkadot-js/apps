@@ -145,9 +145,9 @@ export const styles = `
     input {
       height: 1em;
       text-transform: uppercase;
-      margin-top: -0.3em;
-      margin-bottom: -0.35em;
+      margin-top: -0.3em;  
     }
+    
   }
 
   .ui--Row-tags {
