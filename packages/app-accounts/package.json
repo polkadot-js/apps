@@ -13,7 +13,7 @@
     "@babel/runtime": "^7.5.5",
     "@polkadot/ui-app": "^0.34.0-beta.100",
     "@types/file-saver": "^2.0.0",
-    "@types/yargs": "^13.0.0",
+    "@types/yargs": "^13.0.2",
     "babel-plugin-module-resolver": "^3.1.1",
     "detect-browser": "^4.6.0",
     "file-saver": "^2.0.0",
