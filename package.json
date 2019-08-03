@@ -38,7 +38,7 @@
     "@polkadot/ts": "^0.1.63",
     "autoprefixer": "^9.6.1",
     "empty": "^0.10.1",
-    "gh-pages": "^2.1.0",
+    "gh-pages": "2.0.1",
     "html-loader": "^0.5.5",
     "markdown-loader": "^5.1.0",
     "postcss": "^7.0.13",

@@ -2057,17 +2057,17 @@
     vuepress "^1.0.3"
 
 "@polkadot/extension-dapp@^0.6.0-beta.2":
-  version "0.6.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.6.0-beta.2.tgz#409ade6bf3710cecedbd4a235e5f48b4748e5d04"
-  integrity sha512-85u7a0x/ubHmdxaDXXN7sRepKLGxxwL8/MNYLLn0icyY2Wj9vH28trrc1swfW9KJrhpigX9E9BNRCWfqh5soaQ==
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.6.1.tgz#19d6c99fea58c9503e29e83b6e69da7652e628fb"
+  integrity sha512-ELbhOoGZC9+roc+DTzovoYs++xbB9HsDPdC23bMbN75LrejvhiRm0HJyeOuwfTn3XLwzRdGg5qv2Qv6mEISD7w==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/extension-inject" "^0.6.0-beta.2"
+    "@polkadot/extension-inject" "^0.6.1"
 
-"@polkadot/extension-inject@^0.6.0-beta.2":
-  version "0.6.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.6.0-beta.2.tgz#3052941a7e80fa086de1c881b198f406d9049869"
-  integrity sha512-7CFyXrIqN+3WRo0u5f2HI+23iU/DsspJqqjh/14/u2XNX7hvzgrnWFrcORN0sXP2IIz4K2jU/uEFAIapXNV/mA==
+"@polkadot/extension-inject@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.6.1.tgz#198ee29017f76bc00b463e52c0c26a4d43f3d2fe"
+  integrity sha512-LLTHe+tdMuZjxgnNcqVcPdSpTkhprQNgKLujCa4RW/h0dp4wReh4UTv17mWdPh5HSmYBAOpBtfednDaeQL+IQQ==
   dependencies:
     "@babel/runtime" "^7.5.5"
 
@@ -2630,9 +2630,9 @@
     svg-tags "^1.0.0"
 
 "@vue/babel-preset-app@^3.1.1":
-  version "3.9.2"
-  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-3.9.2.tgz#b72a9b06abbe3f8f272783be13951271277be338"
-  integrity sha512-0suuCbu4jkVcVYBjPmuKxeDbrhwThYZHu3DUmtsVuOzFEGeXmco60VmXveniL/bnDUdZyknSuYP4FxgS34gw9w==
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-3.10.0.tgz#3f89d631dd0f174c8a72e769b55f081c533c4677"
+  integrity sha512-NzJLI4Qe0SYm9gVHQC9RXyP0YcPjI28TmZ0ds2RJa9NO96LXHLES2U1HqiMDN4+CVjOQFrWUNd7wWeaETRPXbg==
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
     "@babel/plugin-proposal-class-properties" "^7.0.0"
@@ -7154,10 +7154,10 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-gh-pages@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/gh-pages/-/gh-pages-2.1.0.tgz#dcf519825d77d3a3ee78763076f4158403fc88c4"
-  integrity sha512-QmV1fh/2W5GZkfoLsG4g6dRTWiNYuCetMQmm8CL6Us8JVnAufYtS0uJPD8NYogmNB4UZzdRG44uPAL+jcBzEwQ==
+gh-pages@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/gh-pages/-/gh-pages-2.0.1.tgz#aefe47a43b8d9d2aa3130576b33fe95641e29a2f"
+  integrity sha512-uFlk3bukljeiWKQ2XvPfjcSi/ou7IfoDf2p+Fj672saLAr8bnOdFVqI/JSgrSgInKpCg5BksxEwGUl++dbg8Dg==
   dependencies:
     async "^2.6.1"
     commander "^2.18.0"
