@@ -117,7 +117,8 @@ export default class Api extends React.PureComponent<Props, State> {
         ? 42
         : uiSettings.prefix
     ) as Prefix;
-    const tokenSymbol = properties.tokenSymbol.toString() || 'Unit';
+    const tokenSymbol = properties.tokenSymbol.toString() || 'DEV';
+    const tokenDecimals = properties.tokenDecimals.toNumber() || 15;
     const chain = value
       ? value.toString()
       : null;
@@ -136,7 +137,7 @@ export default class Api extends React.PureComponent<Props, State> {
 
     // first setup the UI helpers
     formatBalance.setDefaults({
-      decimals: properties.tokenDecimals.toNumber(),
+      decimals: tokenDecimals,
       unit: tokenSymbol
     });
     InputNumber.setUnit(tokenSymbol);
