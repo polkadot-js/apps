@@ -85,8 +85,8 @@ export const styles = `
 
   .ui--Row-buttons {
     position: relative;
-    right: -0.5rem;
-    top: -0.5rem;
+    margin-right: -0.5rem;
+    margin-top: -0.5rem;
     white-space: nowrap;
 
     button.ui.button:last-child {
@@ -129,6 +129,7 @@ export const styles = `
   }
 
   .ui--Row-address-or-name {
+    display: flex;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -138,6 +139,8 @@ export const styles = `
 
     .withName {
       text-transform: uppercase;
+      overflow: hidden;
+      text-overflow: inherit;      
     }
   }
 
@@ -302,8 +305,8 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
               <>
                 <span className='withName'>
                   {name}
-                  {isEditable && this.renderEditIcon()}
                 </span>
+                {isEditable && this.renderEditIcon()}
               </>
             )
           }
