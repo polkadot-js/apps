@@ -3,11 +3,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 import { AppProps, I18nProps } from '@polkadot/ui-app/types';
 import { ApiProps } from '@polkadot/ui-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { ComponentProps, RecentlyOffline, RecentlyOfflineMap } from './types';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -28,14 +28,14 @@ type Props = AppProps & ApiProps & I18nProps & {
   allAccounts?: SubjectInfo;
   allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
   currentValidatorsControllersV1OrStashesV2?: AccountId[];
-  staking_recentlyOffline?: RecentlyOffline;
+  recentlyOnline?: Record<string, BlockNumber>;
 };
 
 interface State {
   allControllers: string[];
   allStashes: string[];
   currentValidatorsControllersV1OrStashesV2: string[];
-  recentlyOffline: RecentlyOfflineMap;
+  recentlyOnline: Record<string, BlockNumber>;
   tabs: TabItem[];
 }
 
@@ -51,7 +51,7 @@ class App extends React.PureComponent<Props, State> {
       allControllers: [],
       allStashes: [],
       currentValidatorsControllersV1OrStashesV2: [],
-      recentlyOffline: {},
+      recentlyOnline: {},
       tabs: [
         {
           isRoot: true,
@@ -66,7 +66,14 @@ class App extends React.PureComponent<Props, State> {
     };
   }
 
-  public static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): Pick<State, never> {
+  public static getDerivedStateFromProps (props: Props, state: State): Pick<State, never> {
+    const { allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [] } = props;
+
+    const recentlyOnline = {
+      ...state.recentlyOnline || {},
+      ...props.recentlyOnline || {}
+    };
+
     return {
       allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
         accountId.unwrap().toString()
@@ -75,21 +82,7 @@ class App extends React.PureComponent<Props, State> {
       currentValidatorsControllersV1OrStashesV2: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
         authorityId.toString()
       ),
-      recentlyOffline: staking_recentlyOffline.reduce(
-        (result, [accountId, blockNumber, count]): RecentlyOfflineMap => {
-          const account = accountId.toString();
-
-          if (!result[account]) {
-            result[account] = [];
-          }
-
-          result[account].push({
-            blockNumber,
-            count
-          });
-
-          return result;
-        }, {} as unknown as RecentlyOfflineMap)
+      recentlyOnline
     };
   }
 
@@ -120,7 +113,7 @@ class App extends React.PureComponent<Props, State> {
 
   private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
     return (): React.ReactNode => {
-      const { allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, recentlyOffline } = this.state;
+      const { allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, recentlyOnline } = this.state;
       const { allAccounts } = this.props;
 
       if (!allAccounts) {
@@ -133,7 +126,7 @@ class App extends React.PureComponent<Props, State> {
           allControllers={allControllers}
           allStashes={allStashes}
           currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
-          recentlyOffline={recentlyOffline}
+          recentlyOnline={recentlyOnline}
         />
       );
     };
@@ -146,7 +139,27 @@ export default withMulti(
   withCalls<Props>(
     ['derive.staking.controllers', { propName: 'allStashesAndControllers' }],
     ['query.session.validators', { propName: 'currentValidatorsControllersV1OrStashesV2' }],
-    'query.staking.recentlyOffline'
+    [
+      'query.system.events',
+      {
+        propName: 'recentlyOnline',
+        transform: (value?: EventRecord[]): Record<string, BlockNumber> => {
+          return (value || [])
+            .filter(({ event: { method, section } }): boolean => {
+              return section === 'imOnline' && method === 'HeartbeatReceived';
+            })
+            .reduce(
+              (result: Record<string, BlockNumber>, { event: { data: [blockNumber, authorityId] } }): Record<string, BlockNumber> => {
+                return {
+                  ...result,
+                  [authorityId.toString()]: blockNumber as BlockNumber
+                };
+              },
+              {}
+            );
+        }
+      }
+    ]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
