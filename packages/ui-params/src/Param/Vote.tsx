@@ -6,6 +6,7 @@ import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { GenericVote } from '@polkadot/types';
 import { Dropdown } from '@polkadot/ui-app';
 
 import Bare from './Bare';
@@ -20,7 +21,9 @@ export default class Vote extends React.PureComponent<Props> {
     const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
     const defaultValue = value instanceof BN
       ? value.toNumber()
-      : value as number;
+      : value instanceof GenericVote
+        ? (value.isAye ? -1 : 0)
+        : value as number;
 
     return (
       <Bare

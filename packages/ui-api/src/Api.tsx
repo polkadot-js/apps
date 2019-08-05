@@ -17,7 +17,7 @@ import { InputNumber } from '@polkadot/ui-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/ui-signer/ApiSigner';
-import { createType, Text } from '@polkadot/types';
+import { Text } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
@@ -108,35 +108,36 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   private async loadOnReady (api: ApiPromise): Promise<void> {
-    const [properties = createType('ChainProperties'), value] = await Promise.all([
+    const [properties, value, injectedAccounts] = await Promise.all([
       api.rpc.system.properties<ChainProperties>(),
-      api.rpc.system.chain<Text>()
+      api.rpc.system.chain<Text>(),
+      web3Accounts().then((accounts): InjectedAccountExt[] =>
+        accounts.map(({ address, meta }): InjectedAccountExt => ({
+          address,
+          meta: {
+            ...meta,
+            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+          }
+        }))
+      )
     ]);
     const addressPrefix = (
       uiSettings.prefix === -1
         ? 42
         : uiSettings.prefix
     ) as Prefix;
-    const tokenSymbol = properties.tokenSymbol.toString() || 'Unit';
+    const tokenSymbol = properties.tokenSymbol.toString() || 'DEV';
+    const tokenDecimals = properties.tokenDecimals.toNumber() || 15;
     const chain = value
       ? value.toString()
       : null;
     const isDevelopment = isTestChain(chain);
-    const injectedAccounts = await web3Accounts().then((accounts): InjectedAccountExt[] =>
-      accounts.map(({ address, meta }): InjectedAccountExt => ({
-        address,
-        meta: {
-          ...meta,
-          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
-        }
-      }))
-    );
 
     console.log('api: found chain', chain, JSON.stringify(properties));
 
     // first setup the UI helpers
     formatBalance.setDefaults({
-      decimals: properties.tokenDecimals.toNumber(),
+      decimals: tokenDecimals,
       unit: tokenSymbol
     });
     InputNumber.setUnit(tokenSymbol);
@@ -149,9 +150,9 @@ export default class Api extends React.PureComponent<Props, State> {
       type: 'ed25519'
     }, injectedAccounts);
 
-    const section = Object.keys(api.tx)[0];
-    const method = Object.keys(api.tx[section])[0];
-    const apiDefaultTx = api.tx[section][method];
+    const defaultSection = Object.keys(api.tx)[0];
+    const defaultMethod = Object.keys(api.tx[defaultSection])[0];
+    const apiDefaultTx = api.tx[defaultSection][defaultMethod];
     const apiDefaultTxSudo =
       (api.tx.system && api.tx.system.setCode) || // 2.x
       (api.tx.consensus && api.tx.consensus.setCode) || // 1.x
