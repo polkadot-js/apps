@@ -65,6 +65,7 @@ export const styles = `
   }
 
   .ui--Row-balances {
+    display: flex;
     .column {
       display: block;
 
@@ -88,6 +89,8 @@ export const styles = `
     margin-right: -0.5rem;
     margin-top: -0.5rem;
     white-space: nowrap;
+    height: 0rem;
+    overflow: visible;
 
     button.ui.button:last-child {
       margin-right: 0;
@@ -138,6 +141,7 @@ export const styles = `
     white-space: normal;
 
     .withName {
+      white-space: nowrap;
       text-transform: uppercase;
       overflow: hidden;
       text-overflow: inherit;      
