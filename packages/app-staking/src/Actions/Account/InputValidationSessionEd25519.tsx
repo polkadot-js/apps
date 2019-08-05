@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Icon } from '@polkadot/ui-app';
-import keyring from '@polkadot/ui-keyring';
 
 import translate from '../../translate';
 
@@ -29,19 +28,10 @@ class ValidateSessionEd25519 extends React.PureComponent<Props, State> {
   public static getDerivedStateFromProps ({ onError, sessionId, stashId, t }: Props, prevState: State): State | null {
     let error = null;
 
-    try {
-      const pair = keyring.getPair(sessionId);
-
-      if (pair.type !== 'ed25519') {
-        error = t('The selected account is not an ed25519 (Edwards) account as required for validation');
-      } else if (sessionId === stashId) {
-        error = t('For fund security, your session key should not match your stash key.');
-      } else {
-        error = null;
-      }
-    } catch (e) {
-      // this _should_ never happen...
-      error = t('The account {{sessionId}} is not a valid account', { replace: { sessionId } });
+    if (sessionId === stashId) {
+      error = t('For fund security, your session key should not match your stash key.');
+    } else {
+      error = null;
     }
 
     if (error === prevState.error) {
