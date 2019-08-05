@@ -78,7 +78,7 @@ class App extends React.PureComponent<Props, State> {
       allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
         accountId.unwrap().toString()
       ),
-      allStashes: allStashesAndControllers[0].map((accountId): string => accountId.toString()),
+      allStashes: allStashesAndControllers[0].filter((): boolean => true).map((accountId): string => accountId.toString()),
       currentValidatorsControllersV1OrStashesV2: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
         authorityId.toString()
       ),
