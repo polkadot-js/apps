@@ -110,7 +110,11 @@ class SetSessionKey extends React.PureComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
-            label={t('ed25519 address')}
+            label={
+              isSubstrateV2
+                ? t('Grandpa key (ed25519)')
+                : t('Session key (ed25519)')
+            }
             onChange={this.onChangeEd25519}
             value={ed25519}
           />
@@ -127,7 +131,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
                   <InputAddress
                     className='medium'
                     help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an sr25519 key.')}
-                    label={t('sr25519 address')}
+                    label={t('Babe key (sr25519)')}
                     onChange={this.onChangeSr25519}
                     value={sr25519}
                   />
