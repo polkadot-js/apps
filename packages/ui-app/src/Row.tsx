@@ -65,6 +65,7 @@ export const styles = `
   }
 
   .ui--Row-balances {
+    display: flex;
     .column {
       display: block;
 
@@ -84,10 +85,12 @@ export const styles = `
   }
 
   .ui--Row-buttons {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    position: relative;
+    margin-right: -0.5rem;
+    margin-top: -0.5rem;
     white-space: nowrap;
+    height: 0rem;
+    overflow: visible;
 
     button.ui.button:last-child {
       margin-right: 0;
@@ -129,6 +132,7 @@ export const styles = `
   }
 
   .ui--Row-address-or-name {
+    display: flex;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -137,7 +141,10 @@ export const styles = `
     white-space: normal;
 
     .withName {
+      white-space: nowrap;
       text-transform: uppercase;
+      overflow: hidden;
+      text-overflow: inherit;      
     }
   }
 
@@ -145,9 +152,9 @@ export const styles = `
     input {
       height: 1em;
       text-transform: uppercase;
-      margin-top: -0.3em;
-      margin-bottom: -0.35em;
+      margin-top: -0.3em;  
     }
+    
   }
 
   .ui--Row-tags {
@@ -302,8 +309,8 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
               <>
                 <span className='withName'>
                   {name}
-                  {isEditable && this.renderEditIcon()}
                 </span>
+                {isEditable && this.renderEditIcon()}
               </>
             )
           }
