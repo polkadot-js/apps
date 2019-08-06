@@ -9,15 +9,14 @@ import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
-import ValidateSessionEd25519 from './InputValidationSessionEd25519';
-import ValidateSessionSr25519 from './InputValidationSessionSr25519';
+import ValidationSessionKey from './InputValidationSessionKey';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
   controllerId: string;
   isOpen: boolean;
   onClose: () => void;
-  sessionId?: string | null;
+  sessionIds: string[];
   stashId: string;
 };
 
@@ -35,9 +34,9 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      ed25519: props.sessionId || props.controllerId,
+      ed25519: props.sessionIds[0] || props.controllerId,
       ed25519Error: null,
-      sr25519: '',
+      sr25519: props.sessionIds[1] || props.controllerId,
       sr25519Error: null
     };
   }
@@ -118,7 +117,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
             onChange={this.onChangeEd25519}
             value={ed25519}
           />
-          <ValidateSessionEd25519
+          <ValidationSessionKey
             controllerId={controllerId}
             onError={this.onSessionErrorEd25519}
             sessionId={ed25519}
@@ -135,7 +134,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
                     onChange={this.onChangeSr25519}
                     value={sr25519}
                   />
-                  <ValidateSessionSr25519
+                  <ValidationSessionKey
                     controllerId={controllerId}
                     onError={this.onSessionErrorSr25519}
                     sessionId={sr25519}
