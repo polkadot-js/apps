@@ -298,6 +298,7 @@ class Playground extends React.PureComponent<Props, State> {
   }
 
   private decodeBase64 = (base64: string): Snippet => {
+    const { t } = this.props;
     const sharedExample: Snippet = {
       code: '',
       label: { basic: true, children: 'URL', size: 'tiny' },
@@ -319,7 +320,7 @@ class Playground extends React.PureComponent<Props, State> {
 
       sharedExample.code = code;
     } catch (error) {
-      const errorMessage = this.props.t('ERROR: Unable to decode code example from URL');
+      const errorMessage = t('Unable to decode code example from URL');
 
       console.error(`${errorMessage}: \n${error}`);
       sharedExample.code = `// ${errorMessage}`;
