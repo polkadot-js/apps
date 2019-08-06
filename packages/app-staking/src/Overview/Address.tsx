@@ -232,7 +232,7 @@ export default withMulti(
     .blockNumber {
       background: #3f3f3f;
       border-radius: 0.25rem;
-      bottom: 0.75rem;
+      top: 0rem;
       box-shadow: 0 3px 3px rgba(0,0,0,.2);
       color: #eee;
       font-size: 1.5rem;
