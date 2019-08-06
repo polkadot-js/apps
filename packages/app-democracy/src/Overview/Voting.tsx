@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from 'packages/react-api-promise';
 
 import translate from '../translate';
 

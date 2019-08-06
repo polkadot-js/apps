@@ -3,11 +3,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from 'packages/react-api-promise/types';
 
 import React from 'react';
 import { Text } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 
 type Props = BareProps & CallProps & {
   children?: React.ReactNode;

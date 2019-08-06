@@ -4,10 +4,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Header } from '@polkadot/types/interfaces';
-import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from 'packages/react-api-promise/types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 
 type Props = BareProps & CallProps & {
   label?: string;

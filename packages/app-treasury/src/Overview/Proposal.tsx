@@ -10,7 +10,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { ActionItem, Icon, TreasuryProposal } from '@polkadot/ui-app';
-import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import { withCalls, withMulti, withObservable } from 'packages/react-api-promise';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';

@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withMulti } from '@polkadot/ui-api';
+import { withMulti } from 'packages/react-api-promise';
 
 import translate from './translate';
 

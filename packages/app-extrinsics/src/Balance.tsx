@@ -3,11 +3,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from 'packages/react-api-promise/types';
 
 import React from 'react';
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 import { InputBalance } from '@polkadot/ui-app';
 
 type Props = BareProps & CallProps & {

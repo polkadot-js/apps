@@ -5,7 +5,7 @@
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SignerOptions, SignerPayload } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { I18nProps, BareProps } from '@polkadot/ui-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
@@ -17,7 +17,7 @@ import React from 'react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
 import { Button, InputBalance, Modal } from '@polkadot/ui-app';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
+import { withApi, withMulti, withObservable } from 'packages/react-api-promise';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';

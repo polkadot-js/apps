@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call, Proposal } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { createType } from '@polkadot/types';
 import { Button, Extrinsic, InputNumber } from '@polkadot/ui-app';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
-import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
+import { withApi, withCalls, withMulti } from 'packages/react-api-promise';
 
 import translate from '../translate';
 

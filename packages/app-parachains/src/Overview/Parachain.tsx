@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Bytes, Option } from '@polkadot/types';
 import { Card, Static } from '@polkadot/ui-app';
 import { styles as rowStyles } from '@polkadot/ui-app/Row';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';

@@ -4,7 +4,7 @@
 
 import { Call } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -12,7 +12,7 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { createType } from '@polkadot/types';
 import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 
 import translate from './translate';
 

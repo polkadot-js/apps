@@ -7,7 +7,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 import { CardGrid } from '@polkadot/ui-app';
 
 import Motion from './Motion';

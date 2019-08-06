@@ -5,14 +5,14 @@
 
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
+import { withCalls, withApi, withMulti } from 'packages/react-api-promise';
 
 import translate from '../../translate';
 

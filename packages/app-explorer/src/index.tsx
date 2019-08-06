@@ -12,7 +12,7 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
 import uiSettings from '@polkadot/ui-settings';
 import { stringToU8a } from '@polkadot/util';

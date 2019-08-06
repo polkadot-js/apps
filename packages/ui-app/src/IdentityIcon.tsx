@@ -4,14 +4,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { IdentityProps } from '@polkadot/react-identicon/types';
 import { QueueAction$Add } from './Status/types';
 import { I18nProps } from './types';
 
 import React from 'react';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api/with';
+import { withCalls } from 'packages/react-api-promise/with';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 
 import { QueueConsumer } from './Status/Context';

@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Button, Card, CodeRow, Forget } from '@polkadot/ui-app';
-import { withMulti } from '@polkadot/ui-api';
+import { withMulti } from 'packages/react-api-promise';
 
 import ABI from '../ABI';
 import RemoveABI from '../RemoveABI';

@@ -10,7 +10,7 @@ import React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { HelpOverlay, Tabs } from '@polkadot/ui-app';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from 'packages/react-api-promise';
 import keyring from '@polkadot/ui-keyring';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 

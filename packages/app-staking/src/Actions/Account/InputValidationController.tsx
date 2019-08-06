@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { Icon } from '@polkadot/ui-app';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 
 import translate from '../../translate';
 

@@ -4,13 +4,13 @@
 
 import { Call } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import { createType } from '@polkadot/types';
 import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 
 import translate from './translate';
 

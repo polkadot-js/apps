@@ -5,7 +5,7 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Index } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
 import { Available } from '@polkadot/ui-reactive';
 import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
-import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
+import { withApi, withCalls, withMulti } from 'packages/react-api-promise';
 import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 import translate from '../translate';

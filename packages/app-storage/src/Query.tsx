@@ -10,12 +10,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Compact } from '@polkadot/types';
 import { Button, Labelled } from '@polkadot/ui-app';
-import { withCallDiv } from '@polkadot/ui-api';
+import { withCallDiv } from 'packages/react-api-promise';
 import valueToText from '@polkadot/ui-params/valueToText';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
-import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
+import { RenderFn, DefaultProps, ComponentRenderer } from 'packages/react-api-promise/with/types';
 import { ConstValue } from '@polkadot/ui-app/InputConsts/types';
 
 interface Props extends I18nProps {

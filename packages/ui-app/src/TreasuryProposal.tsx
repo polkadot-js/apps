@@ -4,12 +4,12 @@
 
 import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import React from 'react';
 import { Option } from '@polkadot/types';
 import { InputAddress, Labelled, Static } from '@polkadot/ui-app';
-import { withMulti, withApi } from '@polkadot/ui-api';
+import { withMulti, withApi } from 'packages/react-api-promise';
 import { formatBalance } from '@polkadot/util';
 
 import Inset, { InsetProps } from './Inset';

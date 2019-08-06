@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 
 import ValidateSessionEd25519 from './InputValidationSessionEd25519';
 import ValidateSessionSr25519 from './InputValidationSessionSr25519';

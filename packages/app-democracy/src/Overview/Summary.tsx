@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/ui-app';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';

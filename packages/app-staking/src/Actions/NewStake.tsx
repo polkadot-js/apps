@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { CalculateBalanceProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 
 import translate from '../translate';
 import { rewardDestinationOptions } from './constants';

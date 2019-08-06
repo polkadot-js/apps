@@ -11,7 +11,7 @@ import { Route, Switch } from 'react-router';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 import { HelpOverlay } from '@polkadot/ui-app';
 import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from 'packages/react-api-promise';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';

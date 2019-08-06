@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import createItem from '@polkadot/ui-keyring/options/item';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from 'packages/react-api-promise';
 
 import { classes, getAddressName } from './util';
 import addressToAddress from './util/toAddress';

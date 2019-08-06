@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withApi } from '@polkadot/ui-api/with';
+import { withApi } from 'packages/react-api-promise/with';
 import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
 
 type Props = ApiProps & BareProps & {};

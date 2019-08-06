@@ -5,7 +5,7 @@
 import { Call } from '@polkadot/types/interfaces';
 import { CallFunction, TypeDef } from '@polkadot/types/types';
 import { BareProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { RawParam } from '@polkadot/ui-params/types';
 
 import React from 'react';
@@ -13,7 +13,7 @@ import { GenericCall, getTypeDef } from '@polkadot/types';
 
 import { InputExtrinsic } from '@polkadot/ui-app';
 import Params from '@polkadot/ui-params';
-import { withApi } from '@polkadot/ui-api';
+import { withApi } from 'packages/react-api-promise';
 import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';

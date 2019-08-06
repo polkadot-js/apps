@@ -4,14 +4,14 @@
 
 import { BlockNumber, BalanceOf, Permill } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { Button, InputAddress, InputBalance, InputNumber, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 
 import translate from './translate';
 

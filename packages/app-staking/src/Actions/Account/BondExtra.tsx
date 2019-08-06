@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
@@ -12,7 +12,7 @@ import React from 'react';
 import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
 import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
+import { withCalls, withApi, withMulti } from 'packages/react-api-promise';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 import translate from '../../translate';

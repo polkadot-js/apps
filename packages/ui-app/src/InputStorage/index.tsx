@@ -4,7 +4,7 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
@@ -12,7 +12,7 @@ import { I18nProps } from '../types';
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 
 import Labelled from '../Labelled';
 import translate from '../translate';

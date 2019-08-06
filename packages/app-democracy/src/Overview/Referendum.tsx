@@ -14,7 +14,7 @@ import { ActionItem, Chart, Static, Voting } from '@polkadot/ui-app';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import settings from '@polkadot/ui-settings';
 import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 
 import translate from '../translate';
 

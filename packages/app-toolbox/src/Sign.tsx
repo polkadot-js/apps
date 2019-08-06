@@ -7,7 +7,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withMulti } from '@polkadot/ui-api';
+import { withMulti } from 'packages/react-api-promise';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';

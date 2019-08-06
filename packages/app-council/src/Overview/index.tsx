@@ -8,7 +8,7 @@ import { ComponentProps as Props } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 import { Button } from '@polkadot/ui-app';
 
 import Members from './Members';

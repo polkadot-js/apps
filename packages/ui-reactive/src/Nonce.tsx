@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import { BareProps, CallProps } from '@polkadot/ui-api/types';
+import { BareProps, CallProps } from 'packages/react-api-promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { formatNumber } from '@polkadot/util';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 
 type Props = BareProps & CallProps & {
   accountNonce?: BN;

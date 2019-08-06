@@ -10,7 +10,7 @@ import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from 'packages/react-api-promise/with';
 import { AddressCard, AddressMini, RecentlyOffline } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';

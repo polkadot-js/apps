@@ -5,12 +5,12 @@
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ConstValue } from '@polkadot/ui-app/InputConsts/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import { Button, InputConsts, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 
 import translate from '../translate';
 

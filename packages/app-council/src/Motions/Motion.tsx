@@ -10,7 +10,7 @@ import React from 'react';
 import { Option } from '@polkadot/types';
 
 import { ActionItem, InputAddress, Labelled, Voting } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 
 import translate from '../translate';
 

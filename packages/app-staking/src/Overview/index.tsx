@@ -8,13 +8,13 @@ import { ComponentProps } from '../types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { withCalls, withMulti } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from 'packages/react-api-promise/with';
 import { formatNumber } from '@polkadot/util';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
-import { withApi } from '@polkadot/ui-api';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { withApi } from 'packages/react-api-promise';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 type Props = ApiProps & BareProps & ComponentProps & {
   chain_subscribeNewHead?: HeaderExtended;

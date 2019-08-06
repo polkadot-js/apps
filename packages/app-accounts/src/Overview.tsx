@@ -8,7 +8,7 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from 'packages/react-api-promise';
 import { Button, CardGrid } from '@polkadot/ui-app';
 
 import CreateModal from './modals/Create';

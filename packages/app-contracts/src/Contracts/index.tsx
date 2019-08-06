@@ -9,7 +9,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Button, CardGrid } from '@polkadot/ui-app';
-import { withMulti } from '@polkadot/ui-api';
+import { withMulti } from 'packages/react-api-promise';
 
 import translate from '../translate';
 import Add from './Add';

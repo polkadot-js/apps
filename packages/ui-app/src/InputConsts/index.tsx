@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 import { ConstValue, ConstValueBase } from './types';
@@ -11,7 +11,7 @@ import { ConstValue, ConstValueBase } from './types';
 import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 
 import Labelled from '../Labelled';
 import translate from '../translate';

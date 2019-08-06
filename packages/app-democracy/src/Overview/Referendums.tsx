@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 import { Column } from '@polkadot/ui-app';
 
 import Referendum from './Referendum';

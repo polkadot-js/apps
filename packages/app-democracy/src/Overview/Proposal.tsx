@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { Option, Tuple, Vec } from '@polkadot/types';
 import { ActionItem, InputAddress, Labelled, Static } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';

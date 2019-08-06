@@ -5,11 +5,11 @@
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 import { Columar } from '@polkadot/ui-app';
 
 import BlockHeader from '../BlockHeader';

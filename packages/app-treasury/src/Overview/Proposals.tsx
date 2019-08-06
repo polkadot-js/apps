@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 import { Column } from '@polkadot/ui-app';
 
 import Proposal from './Proposal';

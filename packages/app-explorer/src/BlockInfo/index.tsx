@@ -7,7 +7,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import { BareProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 import { isHex } from '@polkadot/util';
 
 import Query from '../Query';

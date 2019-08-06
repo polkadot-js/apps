@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { TabItem } from '@polkadot/ui-app/Tabs';
 import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
@@ -10,7 +10,7 @@ import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/ui-app';
-import { withApi } from '@polkadot/ui-api';
+import { withApi } from 'packages/react-api-promise';
 
 import Consts from './Consts';
 import Modules from './Modules';

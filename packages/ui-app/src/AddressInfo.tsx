@@ -11,7 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 
 import CryptoType from './CryptoType';
 import Label from './Label';

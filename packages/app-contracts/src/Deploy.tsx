@@ -4,7 +4,7 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { TypeDef } from '@polkadot/types/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { I18nProps } from '@polkadot/ui-app/types';
 
@@ -13,7 +13,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from 'packages/react-api-promise';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
 import { getTypeDef } from '@polkadot/types';

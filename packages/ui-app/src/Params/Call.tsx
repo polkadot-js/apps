@@ -4,10 +4,10 @@
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { Props as BaseProps } from '@polkadot/ui-params/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import React from 'react';
-import { withApi } from '@polkadot/ui-api';
+import { withApi } from 'packages/react-api-promise';
 
 import Extrinsic from './Extrinsic';
 

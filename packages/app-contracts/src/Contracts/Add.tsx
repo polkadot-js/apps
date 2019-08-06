@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { withApi } from '@polkadot/ui-api';
+import { withApi } from 'packages/react-api-promise';
 import { AddressRow, Button, Input } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 

@@ -11,7 +11,7 @@ import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
 import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/ui-app';
 import { getContractAbi } from '@polkadot/ui-app/util';
-import { withMulti } from '@polkadot/ui-api';
+import { withMulti } from 'packages/react-api-promise';
 
 import translate from '../translate';
 

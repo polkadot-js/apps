@@ -8,12 +8,12 @@ import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { BitLengthOption } from '@polkadot/ui-app/constants';
 import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
 import { InputNumber } from '@polkadot/ui-app';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withMulti, withApi } from '@polkadot/ui-api';
+import { withCalls, withMulti, withApi } from 'packages/react-api-promise';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
 
 type Props = BareProps & ApiProps & {

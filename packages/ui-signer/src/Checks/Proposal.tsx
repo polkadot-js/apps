@@ -10,7 +10,7 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { Compact, UInt } from '@polkadot/types';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from 'packages/react-api-promise';
 import { Icon } from '@polkadot/ui-app';
 import { formatBalance } from '@polkadot/util';
 

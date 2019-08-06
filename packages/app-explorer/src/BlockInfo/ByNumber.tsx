@@ -4,10 +4,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from 'packages/react-api-promise';
 
 import BlockByHash from './ByHash';
 

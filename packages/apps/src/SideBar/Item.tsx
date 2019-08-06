@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from 'packages/react-api-promise/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '@polkadot/apps-routing/types';
 
@@ -11,7 +11,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu, Tooltip } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withApi, withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import { withApi, withCalls, withMulti, withObservable } from 'packages/react-api-promise';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';

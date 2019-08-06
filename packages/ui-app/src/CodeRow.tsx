@@ -9,7 +9,7 @@ import { CodeStored } from '@polkadot/app-contracts/types';
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { withMulti } from '@polkadot/ui-api';
+import { withMulti } from 'packages/react-api-promise';
 import { classes, toShortAddress } from '@polkadot/ui-app/util';
 import contracts from '@polkadot/app-contracts/store';
 

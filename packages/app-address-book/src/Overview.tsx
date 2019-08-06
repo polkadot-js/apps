@@ -9,7 +9,7 @@ import { ComponentProps } from './types';
 import React from 'react';
 import { Button, CardGrid } from '@polkadot/ui-app';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from 'packages/react-api-promise';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
