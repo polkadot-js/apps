@@ -66,3 +66,5 @@ You can run a docker container via -
 To build a docker container containing local changes -
 
   docker build -t chevdor/polkadot-ui:latest .
+  
+When using these Docker commands, you can access the UI via http://localhost:80 (or just http://localhost)
