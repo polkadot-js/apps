@@ -183,7 +183,7 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <InputBalance
         defaultValue={new BN(0)}
-        help={t('Add a tip to this extrinsic')}
+        help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
         onChange={this.onChangeTip}
         label={t('Tip (optional)')}
       />

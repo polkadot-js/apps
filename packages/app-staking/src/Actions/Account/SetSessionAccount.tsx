@@ -9,23 +9,25 @@ import React from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
-import ValidateSessionEd25519 from './InputValidationSessionEd25519';
-import ValidateSessionSr25519 from './InputValidationSessionSr25519';
+import ValidationSessionKey from './InputValidationSessionKey';
 import translate from '../../translate';
 
 type Props = I18nProps & ApiProps & {
   controllerId: string;
   isOpen: boolean;
   onClose: () => void;
-  sessionId?: string | null;
+  sessionIds: string[];
   stashId: string;
 };
 
 interface State {
+  babe: string;
+  babeError: string | null;
+  // TODO rename grandpa
   ed25519: string;
   ed25519Error: string | null;
-  sr25519: string;
-  sr25519Error: string | null;
+  imOnline: string;
+  imOnlineError: string | null;
 }
 
 class SetSessionKey extends React.PureComponent<Props, State> {
@@ -35,22 +37,24 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     super(props);
 
     this.state = {
-      ed25519: props.sessionId || props.controllerId,
+      babe: props.sessionIds[1] || props.controllerId,
+      babeError: null,
+      ed25519: props.sessionIds[0] || props.controllerId,
       ed25519Error: null,
-      sr25519: '',
-      sr25519Error: null
+      imOnline: props.sessionIds[2] || props.controllerId,
+      imOnlineError: null
     };
   }
 
   public render (): React.ReactNode {
     const { controllerId, isOpen, isSubstrateV2, onClose, t } = this.props;
-    const { ed25519, ed25519Error, sr25519, sr25519Error } = this.state;
+    const { ed25519, ed25519Error, babe, babeError, imOnline, imOnlineError } = this.state;
 
     if (!isOpen) {
       return null;
     }
 
-    const hasError = !ed25519 || !!ed25519Error || (isSubstrateV2 ? (!sr25519 || !!sr25519Error) : false);
+    const hasError = !ed25519 || !!ed25519Error || (isSubstrateV2 ? ((!babe || !!babeError) && (!imOnline || !!imOnlineError)) : false);
 
     return (
       <Modal
@@ -76,7 +80,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               onClick={onClose}
               params={
                 isSubstrateV2
-                  ? [{ ed25519, sr25519 }, new Uint8Array([])]
+                  ? [{ babe, grandpa: ed25519, imOnline }, new Uint8Array([])]
                   : [ed25519]
               }
               tx={
@@ -93,7 +97,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
 
   private renderContent (): React.ReactNode {
     const { controllerId, isSubstrateV2, stashId, t } = this.props;
-    const { ed25519, sr25519 } = this.state;
+    const { ed25519, imOnline, babe } = this.state;
 
     return (
       <>
@@ -110,12 +114,15 @@ class SetSessionKey extends React.PureComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
-            label={t('ed25519 key')}
+            label={
+              isSubstrateV2
+                ? t('Grandpa key')
+                : t('Session key (ed25519)')
+            }
             onChange={this.onChangeEd25519}
-            type='account'
             value={ed25519}
           />
-          <ValidateSessionEd25519
+          <ValidationSessionKey
             controllerId={controllerId}
             onError={this.onSessionErrorEd25519}
             sessionId={ed25519}
@@ -128,15 +135,27 @@ class SetSessionKey extends React.PureComponent<Props, State> {
                   <InputAddress
                     className='medium'
                     help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an sr25519 key.')}
-                    label={t('sr25519 key')}
-                    onChange={this.onChangeSr25519}
-                    type='account'
-                    value={sr25519}
+                    label={t('Babe key')}
+                    onChange={this.onChangeBabe}
+                    value={babe}
                   />
-                  <ValidateSessionSr25519
+                  <ValidationSessionKey
                     controllerId={controllerId}
-                    onError={this.onSessionErrorSr25519}
-                    sessionId={sr25519}
+                    onError={this.onSessionErrorBabe}
+                    sessionId={babe}
+                    stashId={stashId}
+                  />
+                  <InputAddress
+                    className='medium'
+                    help={t('Changing the key only takes effect at the start of the next session.')}
+                    label={t('ImOnline key')}
+                    onChange={this.onChangeImOnline}
+                    value={imOnline}
+                  />
+                  <ValidationSessionKey
+                    controllerId={controllerId}
+                    onError={this.onSessionErrorImOnline}
+                    sessionId={imOnline}
                     stashId={stashId}
                   />
                 </>
@@ -149,20 +168,28 @@ class SetSessionKey extends React.PureComponent<Props, State> {
     );
   }
 
+  private onChangeBabe = (babe: string): void => {
+    this.setState({ babe });
+  }
+
   private onChangeEd25519 = (ed25519: string): void => {
     this.setState({ ed25519 });
   }
 
-  private onChangeSr25519 = (sr25519: string): void => {
-    this.setState({ sr25519 });
+  private onChangeImOnline = (imOnline: string): void => {
+    this.setState({ imOnline });
+  }
+
+  private onSessionErrorBabe = (babeError: string | null): void => {
+    this.setState({ babeError });
   }
 
   private onSessionErrorEd25519 = (ed25519Error: string | null): void => {
     this.setState({ ed25519Error });
   }
 
-  private onSessionErrorSr25519 = (sr25519Error: string | null): void => {
-    this.setState({ sr25519Error });
+  private onSessionErrorImOnline = (imOnlineError: string | null): void => {
+    this.setState({ imOnlineError });
   }
 }
 
