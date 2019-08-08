@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, InputAddressSimple, Modal, TxButton } from '@polkadot/ui-app';
 import { withApi, withMulti } from '@polkadot/ui-api';
 
 import ValidationSessionKey from './InputValidationSessionKey';
@@ -21,12 +21,12 @@ type Props = I18nProps & ApiProps & {
 };
 
 interface State {
-  babe: string;
+  babe: string | null;
   babeError: string | null;
-  // TODO rename grandpa
-  ed25519: string;
+  // TODO rename grandpa once we drop v1 support
+  ed25519: string | null;
   ed25519Error: string | null;
-  imOnline: string;
+  imOnline: string | null;
   imOnlineError: string | null;
 }
 
@@ -54,7 +54,14 @@ class SetSessionKey extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const hasError = !ed25519 || !!ed25519Error || (isSubstrateV2 ? ((!babe || !!babeError) && (!imOnline || !!imOnlineError)) : false);
+    const hasError = !ed25519 || !!ed25519Error || (
+      isSubstrateV2
+        ? (
+          (!babe || !!babeError) &&
+          (!imOnline || !!imOnlineError)
+        )
+        : false
+    );
 
     return (
       <Modal
@@ -96,13 +103,16 @@ class SetSessionKey extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { controllerId, isSubstrateV2, stashId, t } = this.props;
-    const { ed25519, imOnline, babe } = this.state;
+    const { controllerId, isSubstrateV2, t } = this.props;
 
     return (
       <>
         <Modal.Header>
-          {t('Set Session Key')}
+          {
+            isSubstrateV2
+              ? t('Set Session Keys')
+              : t('Set Session Key')
+          }
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
@@ -111,72 +121,94 @@ class SetSessionKey extends React.PureComponent<Props, State> {
             isDisabled
             label={t('controller account')}
           />
-          <InputAddress
-            className='medium'
-            help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
-            label={
-              isSubstrateV2
-                ? t('Grandpa key')
-                : t('Session key (ed25519)')
-            }
-            onChange={this.onChangeEd25519}
-            value={ed25519}
-          />
-          <ValidationSessionKey
-            controllerId={controllerId}
-            onError={this.onSessionErrorEd25519}
-            sessionId={ed25519}
-            stashId={stashId}
-          />
           {
             isSubstrateV2
-              ? (
-                <>
-                  <InputAddress
-                    className='medium'
-                    help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an sr25519 key.')}
-                    label={t('Babe key')}
-                    onChange={this.onChangeBabe}
-                    value={babe}
-                  />
-                  <ValidationSessionKey
-                    controllerId={controllerId}
-                    onError={this.onSessionErrorBabe}
-                    sessionId={babe}
-                    stashId={stashId}
-                  />
-                  <InputAddress
-                    className='medium'
-                    help={t('Changing the key only takes effect at the start of the next session.')}
-                    label={t('ImOnline key')}
-                    onChange={this.onChangeImOnline}
-                    value={imOnline}
-                  />
-                  <ValidationSessionKey
-                    controllerId={controllerId}
-                    onError={this.onSessionErrorImOnline}
-                    sessionId={imOnline}
-                    stashId={stashId}
-                  />
-                </>
-              )
-              : null
+              ? this.renderV2Keys()
+              : this.renderV1Keys()
           }
-
         </Modal.Content>
       </>
     );
   }
 
-  private onChangeBabe = (babe: string): void => {
+  private renderV1Keys (): React.ReactNode {
+    const { controllerId, stashId, t } = this.props;
+    const { ed25519 } = this.state;
+
+    return (
+      <>
+        <InputAddress
+          className='medium'
+          help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
+          label={t('Session key (ed25519)')}
+          onChange={this.onChangeEd25519}
+          value={ed25519}
+        />
+        <ValidationSessionKey
+          controllerId={controllerId}
+          onError={this.onSessionErrorEd25519}
+          sessionId={ed25519}
+          stashId={stashId}
+        />
+      </>
+    );
+  }
+
+  private renderV2Keys (): React.ReactNode {
+    const { controllerId, stashId, t } = this.props;
+    const { ed25519, imOnline, babe } = this.state;
+
+    return (
+      <>
+        <InputAddressSimple
+          className='medium'
+          help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
+          label={t('Grandpa key')}
+          onChange={this.onChangeEd25519}
+        />
+        <ValidationSessionKey
+          controllerId={controllerId}
+          onError={this.onSessionErrorEd25519}
+          sessionId={ed25519}
+          stashId={stashId}
+        />
+        <InputAddressSimple
+          className='medium'
+          help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an sr25519 key.')}
+          label={t('Babe key')}
+          onChange={this.onChangeBabe}
+        />
+        <ValidationSessionKey
+          controllerId={controllerId}
+          onError={this.onSessionErrorBabe}
+          sessionId={babe}
+          stashId={stashId}
+        />
+        <InputAddressSimple
+          className='medium'
+          help={t('Changing the key only takes effect at the start of the next session.')}
+          label={t('ImOnline key')}
+          onChange={this.onChangeImOnline}
+        />
+        <ValidationSessionKey
+          controllerId={controllerId}
+          onError={this.onSessionErrorImOnline}
+          sessionId={imOnline}
+          stashId={stashId}
+        />
+      </>
+    );
+  }
+
+  private onChangeBabe = (babe: string | null): void => {
     this.setState({ babe });
   }
 
-  private onChangeEd25519 = (ed25519: string): void => {
+  private onChangeEd25519 = (ed25519: string | null): void => {
     this.setState({ ed25519 });
   }
 
-  private onChangeImOnline = (imOnline: string): void => {
+  private onChangeImOnline = (imOnline: string | null): void => {
     this.setState({ imOnline });
   }
 
