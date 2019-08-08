@@ -11,18 +11,9 @@ import { ApiProps } from '@polkadot/ui-api/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/ui-api';
-import { Button, Icon, Input, Inset, Output } from '@polkadot/ui-app';
-import { formatBalance/*, hexToU8a, stringToU8a, u8aToString, u8aToHex*/ } from '@polkadot/util';
+import { Button, Inset } from '@polkadot/ui-app';
+import { formatBalance/* , hexToU8a, stringToU8a, u8aToString, u8aToHex */ } from '@polkadot/util';
 // import { keccakAsU8a, secp256k1Recover } from '@polkadot/util-crypto';
-
-/*
-{
-  "address": "0xe71026fcbcecc825f848bcba05cb52bc250bca92",
-  "msg": "Pay KSMs to the Kusama account:5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
-  "sig": "0x98adffe14b1882ba5a861d6aaa10805d52aed56f480e1ece01505a77470f29f15cb4b0a1dc33177761de8270199282baf160f255e1ca0e4c8354b54b0059e40a1c",
-  "version": "2"
-}
-*/
 
 import translate from './translate';
 
@@ -51,17 +42,16 @@ const ClaimInner = styled.div`
     font-size: 2.5rem;
     font-weight: 200;
   }
-`
+`;
 
 interface Props extends ApiProps, I18nProps {
   button: React.ReactNode;
   ethereumAddress: EthereumAddress | null;
-};
+}
 
 interface State {
   claim: BalanceOf | null;
   ethereumAddress: EthereumAddress | null;
-  isValidAddress: boolean;
   hasClaim: boolean;
   isBusy: boolean;
 }
@@ -71,13 +61,11 @@ class Claim extends React.PureComponent<Props, State> {
     if (ethereumAddress) {
       return {
         ethereumAddress,
-        isValidAddress: true,
         hasClaim: state.claim && state.claim.gten(0)
       };
     }
 
     return {
-      isValidAddress: false,
       hasClaim: false
     };
   }
@@ -86,15 +74,14 @@ class Claim extends React.PureComponent<Props, State> {
     claim: null,
     ethereumAddress: null,
     hasClaim: false,
-    isBusy: false,
-    isValidAddress: false,
+    isBusy: false
   }
 
-  public componentDidMount () {
+  public componentDidMount (): void {
     this.fetchClaim();
   }
 
-  public componentDidUpdate (_: Props, prevState: State) {
+  public componentDidUpdate (_: Props, prevState: State): void {
     const { ethereumAddress } = this.state;
     if (ethereumAddress !== prevState.ethereumAddress) {
       this.fetchClaim();
@@ -103,7 +90,7 @@ class Claim extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { button, t } = this.props;
-    const { claim, ethereumAddress, hasClaim, isBusy, isValidAddress } = this.state;
+    const { claim, ethereumAddress, hasClaim, isBusy } = this.state;
 
     if (isBusy || !ethereumAddress) {
       return null;
@@ -116,28 +103,28 @@ class Claim extends React.PureComponent<Props, State> {
       >
         <ClaimInner>
           {t('Your Ethereum account')}
-            <h3>
-              {ethereumAddress.toString()}
-            </h3>
-            {hasClaim && !!claim
-              ? (
-                <>
-                  {t('has a valid claim for')}
-                  <h2>
-                    {formatBalance(claim)}
-                  </h2>
-                  <Button.Group>
-                    {button}
-                  </Button.Group>
-                </>
-              )
-              : (
-                <>
-                  {t('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
-                </>
-              )}
-            </ClaimInner>
-          </Inset>
+          <h3>
+            {ethereumAddress.toString()}
+          </h3>
+          {hasClaim && !!claim
+            ? (
+              <>
+                {t('has a valid claim for')}
+                <h2>
+                  {formatBalance(claim)}
+                </h2>
+                <Button.Group>
+                  {button}
+                </Button.Group>
+              </>
+            )
+            : (
+              <>
+                {t('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
+              </>
+            )}
+        </ClaimInner>
+      </Inset>
     );
   }
 
@@ -166,9 +153,8 @@ class Claim extends React.PureComponent<Props, State> {
   }
 }
 
-
 export default withMulti(
   Claim,
   translate,
-  withApi,
+  withApi
 );

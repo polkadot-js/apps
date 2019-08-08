@@ -19,14 +19,6 @@ import { u8aToString } from '@polkadot/util';
 
 import ClaimDisplay from './Claim';
 import { recoverEthereumSignature } from './util';
-/*
-{
-  "address": "0xe71026fcbcecc825f848bcba05cb52bc250bca92",
-  "msg": "Pay KSMs to the Kusama account:5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
-  "sig": "0x98adffe14b1882ba5a861d6aaa10805d52aed56f480e1ece01505a77470f29f15cb4b0a1dc33177761de8270199282baf160f255e1ca0e4c8354b54b0059e40a1c",
-  "version": "2"
-}
-*/
 
 import translate from './translate';
 
@@ -38,7 +30,7 @@ enum Step {
 
 const { Account, Sign, Claim } = Step;
 
-interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {};
+interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
 
 interface State extends TxModalState {
   didCopy: boolean;
@@ -58,7 +50,7 @@ const Payload = styled.pre`
   margin: 1rem 0;
   white-space: normal;
   word-break: break-all;
-`
+`;
 
 const Signature = styled.textarea`
   font-family: monospace;
@@ -68,7 +60,7 @@ const Signature = styled.textarea`
   margin: 1rem 0;
   resize: none;
   width: 100%;
-`
+`;
 
 class App extends TxModal<Props, State> {
   public constructor (props: Props) {
@@ -80,15 +72,15 @@ class App extends TxModal<Props, State> {
       ethereumAddress: null,
       signature: null,
       step: 0
-    }
+    };
     this.state = this.defaultState;
   }
 
-  public componentDidUpdate () {
+  public componentDidUpdate (): void {
     if (this.state.didCopy) {
       setTimeout((): void => {
         this.setState({ didCopy: false });
-      }, 1000)
+      }, 1000);
     }
   }
 
@@ -106,77 +98,75 @@ class App extends TxModal<Props, State> {
       <main>
         <header />
         <h1>
-          {t('claim your{{unit}} tokens', { replace: { unit: ` ${InputNumber.units}` || ''} })}
+          {t('claim your{{unit}} tokens', { replace: { unit: ` ${InputNumber.units}` || '' } })}
         </h1>
         <Columar>
-        <Column>
-        <Inset withBottomMargin>
-          <h3>{t('1. Select your Polkadot account')}</h3>
-          {this.renderInputAccount()}
-          {(step === Account)
-            && (
-              <Button.Group>
-                <Button
-                  isPrimary
-                  onClick={this.setStep(Sign)}
-                  label={t('Continue')}
-                />
-              </Button.Group>
-            )}
-        </Inset>
-        {(step >= Sign && !!accountId) && (
-          <Inset withBottomMargin>
-            <h3>{t('2. Sign ETH transaction')}</h3>
-            <CopyToClipboard
-              onCopy={this.onCopy}
-              text={payload}
-            >
-              <Payload
-                data-for={`tx-payload`}
-                data-tip
-              >
-                {`${
-                  u8aToString(Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true)))
-                }${
-                  accountId.toString()
-                }`}
-              </Payload>
-            </CopyToClipboard>
-            <Tooltip
-              place='right'
-              text={t(didCopy ? 'copied' : 'click to copy')}
-              trigger='tx-payload'
-            />
-            <div>
-              {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature below')}
-              :
-            </div>
-            <Signature
-              onChange={this.onChangeSignature}
-              rows={10}
-            />
-            {(step === Sign)
-              && (
+          <Column>
+            <Inset withBottomMargin>
+              <h3>{t('1. Select your Polkadot account')}</h3>
+              {this.renderInputAccount()}
+              {(step === Account) && (
                 <Button.Group>
                   <Button
-                    isDisabled={!accountId || !signature}
                     isPrimary
-                    onClick={this.setStep(Claim)}
-                    label={t('Confirm claim')}
+                    onClick={this.setStep(Sign)}
+                    label={t('Continue')}
                   />
                 </Button.Group>
               )}
-          </Inset>
-        )}
-        </Column>
-        <Column showEmptyText={false}>
-        {(step >= Claim) && (
-          <ClaimDisplay
-            button={this.renderTxButton()}
-            ethereumAddress={ethereumAddress}
-          />
-        )}
-        </Column>
+            </Inset>
+            {(step >= Sign && !!accountId) && (
+              <Inset withBottomMargin>
+                <h3>{t('2. Sign ETH transaction')}</h3>
+                <CopyToClipboard
+                  onCopy={this.onCopy}
+                  text={payload}
+                >
+                  <Payload
+                    data-for={`tx-payload`}
+                    data-tip
+                  >
+                    {`${
+                      u8aToString(Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true)))
+                    }${
+                      accountId.toString()
+                    }`}
+                  </Payload>
+                </CopyToClipboard>
+                <Tooltip
+                  place='right'
+                  text={t(didCopy ? 'copied' : 'click to copy')}
+                  trigger='tx-payload'
+                />
+                <div>
+                  {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature below')}
+                  :
+                </div>
+                <Signature
+                  onChange={this.onChangeSignature}
+                  rows={10}
+                />
+                {(step === Sign) && (
+                  <Button.Group>
+                    <Button
+                      isDisabled={!accountId || !signature}
+                      isPrimary
+                      onClick={this.setStep(Claim)}
+                      label={t('Confirm claim')}
+                    />
+                  </Button.Group>
+                )}
+              </Inset>
+            )}
+          </Column>
+          <Column showEmptyText={false}>
+            {(step >= Claim) && (
+              <ClaimDisplay
+                button={this.renderTxButton()}
+                ethereumAddress={ethereumAddress}
+              />
+            )}
+          </Column>
         </Columar>
       </main>
     );
@@ -205,7 +195,6 @@ class App extends TxModal<Props, State> {
 
   protected onChangeAccount = (accountId: string | null): void => {
     this.setState(({ step }: State): Pick<State, never> => {
-
       return {
         ...(
           step > Account
@@ -244,7 +233,7 @@ class App extends TxModal<Props, State> {
             signature: null
           };
         })()
-      }
+      };
     });
   }
 
@@ -258,16 +247,8 @@ class App extends TxModal<Props, State> {
     }
 }
 
-
 export default withMulti(
   App,
   translate,
-  withApi,
-  // withCalls<Props>(
-  //   ['query.sudo.key', {
-  //     transform: (key): string =>
-  //       key.toString()
-  //   }]
-  // ),
-  // withObservable(accountObservable.subject, { propName: 'allAccounts' })
+  withApi
 );
