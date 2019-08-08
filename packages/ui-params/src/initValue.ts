@@ -104,7 +104,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
 
         if (instance instanceof BN) {
           return new BN(0);
-        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Plain].includes(raw.info)) {
           return getInitValue(raw);
         }
       } catch (error) {
