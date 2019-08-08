@@ -34,6 +34,7 @@ export { default as IdentityIcon } from './IdentityIcon';
 export { default as InfoForInput } from './InfoForInput';
 export { default as Input } from './Input';
 export { default as InputAddress } from './InputAddress';
+export { default as InputAddressSimple } from './InputAddressSimple';
 export { default as InputBalance } from './InputBalance';
 export { default as InputBalanceBonded } from './InputBalanceBonded';
 export { default as InputConsts } from './InputConsts';

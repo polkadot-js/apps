@@ -75,6 +75,10 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'Hash':
       return createType('Hash');
 
+    case 'Data':
+    case 'Keys':
+      return '';
+
     case 'AccountId':
     case 'AccountIdOf':
     case 'Address':
@@ -112,7 +116,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
       }
 
       console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
-      return void 0;
+      return '0x';
     }
   }
 }

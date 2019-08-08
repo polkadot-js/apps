@@ -14,6 +14,7 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
+import Data from './Data';
 import Enum from './Enum';
 import Hash from './Hash';
 import Moment from './Moment';
@@ -41,6 +42,7 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
+  { c: Data, t: ['Data', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash, t: ['CodeHash', 'Hash', 'SeedOf', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
