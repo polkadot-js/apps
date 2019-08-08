@@ -12,7 +12,7 @@ import translate from '../../translate';
 interface Props extends I18nProps {
   controllerId: string;
   onError: (error: string | null) => void;
-  sessionId: string;
+  sessionId: string | null;
   stashId: string;
 }
 
