@@ -75,6 +75,10 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'Hash':
       return createType('Hash');
 
+    case 'Data':
+    case 'Keys':
+      return '';
+
     case 'AccountId':
     case 'AccountIdOf':
     case 'Address':
