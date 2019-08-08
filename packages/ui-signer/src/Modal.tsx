@@ -176,7 +176,7 @@ class Signer extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { currentItem, isSendable, isV2 } = this.state;
 
-    if (!isV2 || !isSendable || !currentItem) {
+    if (!isV2 || !isSendable || !currentItem || currentItem.isUnsigned) {
       return null;
     }
 

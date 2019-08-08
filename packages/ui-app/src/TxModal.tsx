@@ -106,6 +106,8 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
       });
     }
 
+  protected isUnsigned: () => boolean = (): boolean => false;
+
   protected txMethod: () => string = (): string => '';
 
   protected txParams: () => any[] = (): any[] => [];
@@ -147,7 +149,11 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
 
     return (
       <TxButton
-        accountId={accountId}
+        {...(
+          this.isUnsigned()
+            ? { isUnsigned: true }
+            : { accountId }
+        )}
         isDisabled={this.isDisabled()}
         isPrimary
         label={this.submitLabel()}
