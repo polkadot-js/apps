@@ -76,7 +76,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               onClick={onClose}
               params={
                 isSubstrateV2
-                  ? [keys, new Uint8Array([])]
+                  ? [keys, new Uint8Array()]
                   : [ed25519]
               }
               tx={
