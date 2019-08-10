@@ -36,7 +36,7 @@ tick();
 export default class Elapsed extends React.PureComponent<Props, State> {
   public state: State = {};
 
-  public componentWillMount (): void {
+  public componentDidMount (): void {
     tickers.set(this, (now: number): void => {
       this.setState({ now });
     });
