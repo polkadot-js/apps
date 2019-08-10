@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, Index } from '@polkadot/types/interfaces';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import { createType } from '@polkadot/types';
 
 const ZERO_BALANCE: DerivedBalances = {
-  accountId: createType('AccountId'),
-  accountNonce: createType('Index'),
+  accountId: new Uint8Array(32) as AccountId,
+  accountNonce: new BN(0) as Index,
   availableBalance: new BN(0),
   lockedBalance: new BN(0),
   freeBalance: new BN(0),
