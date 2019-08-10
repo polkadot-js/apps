@@ -21,6 +21,8 @@ import Queue from '@polkadot/ui-app/Status/Queue';
 
 import Apps from './Apps';
 
+const ONE_X_WS = ['wss://poc3-rpc.polkadot.io/', 'wss://alex.unfrastructure.io/public/ws'];
+
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
 
@@ -28,7 +30,7 @@ const rootElement = document.getElementById(rootId);
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
 const urlOptions = queryString.parse(location.href.split('?')[1]);
-const wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl || undefined;
+const wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl;
 
 if (Array.isArray(wsEndpoint)) {
   throw new Error('Invalid WS endpoint specified');
@@ -39,6 +41,16 @@ if (!rootElement) {
 }
 
 console.log('WS endpoint=', wsEndpoint);
+
+// For Alex register the explicit types
+if (ONE_X_WS.includes(wsEndpoint)) {
+  console.log('Chain-specific type overrides for polkadot');
+
+  getTypeRegistry().register({
+    BlockNumber: 'u64',
+    Index: 'u64'
+  });
+}
 
 try {
   const types = store.get('types') || {};
