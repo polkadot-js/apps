@@ -42,9 +42,9 @@ if (!rootElement) {
 
 console.log('WS endpoint=', wsEndpoint);
 
-// For Alex register the explicit types
+// For Alex register the explicit types to their old values
 if (ONE_X_WS.includes(wsEndpoint)) {
-  console.log('Chain-specific type overrides for polkadot');
+  console.log('Chain-specific type overrides for Alexander');
 
   getTypeRegistry().register({
     BlockNumber: 'u64',
