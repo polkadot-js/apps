@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
+import { BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { createType } from '@polkadot/types';
 import { withCalls } from '@polkadot/ui-api';
 import { Button } from '@polkadot/ui-app';
 
@@ -21,10 +21,10 @@ const NULL_INFO: DerivedElectionsInfo = {
   candidates: [],
   candidateCount: new BN(0),
   desiredSeats: new BN(0),
-  nextVoterSet: createType('SetIndex'),
-  termDuration: createType('BlockNumber'),
-  voteCount: createType('VoteIndex'),
-  voterCount: createType('SetIndex')
+  nextVoterSet: new BN(0) as SetIndex,
+  termDuration: new BN(0) as BlockNumber,
+  voteCount: new BN(0) as VoteIndex,
+  voterCount: new BN(0) as SetIndex
 };
 
 class Overview extends React.PureComponent<Props> {

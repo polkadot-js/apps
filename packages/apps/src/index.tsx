@@ -28,7 +28,7 @@ const rootElement = document.getElementById(rootId);
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
 const urlOptions = queryString.parse(location.href.split('?')[1]);
-const wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl || undefined;
+const wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl;
 
 if (Array.isArray(wsEndpoint)) {
   throw new Error('Invalid WS endpoint specified');
