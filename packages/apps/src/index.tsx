@@ -21,8 +21,6 @@ import Queue from '@polkadot/ui-app/Status/Queue';
 
 import Apps from './Apps';
 
-const ONE_X_WS = ['wss://poc3-rpc.polkadot.io/', 'wss://alex.unfrastructure.io/public/ws'];
-
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
 
@@ -41,16 +39,6 @@ if (!rootElement) {
 }
 
 console.log('WS endpoint=', wsEndpoint);
-
-// For Alex register the explicit types to their old values
-if (ONE_X_WS.includes(wsEndpoint)) {
-  console.log('Chain-specific type overrides for Alexander');
-
-  getTypeRegistry().register({
-    BlockNumber: 'u64',
-    Index: 'u64'
-  });
-}
 
 try {
   const types = store.get('types') || {};
