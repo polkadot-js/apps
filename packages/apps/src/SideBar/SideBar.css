@@ -91,9 +91,22 @@
     }
 
     .apps--SideBar-logo {
-      margin: 0.5rem 1.5rem 1.5rem 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5rem 1rem 1.5rem 0;
       padding-top: 0.75em;
-      width: 9rem;
+      width: 10rem;
+
+      img {
+        width: 3rem;
+      }
+
+      > div.info {
+        color: white;
+        opacity: 0.75;
+        text-align: right;
+      }
     }
 
     .apps--SideBar-collapse {
@@ -157,6 +170,10 @@
       margin: 0.875rem auto;
       padding: 0;
       width: 3rem;
+
+      > div.info {
+        display: none;
+      }
     }
 
     .apps--SideBar-collapse .ui.basic.secondary.button {
