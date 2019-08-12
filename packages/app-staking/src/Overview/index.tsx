@@ -3,18 +3,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { withCalls, withMulti } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/react-api/with';
 import { formatNumber } from '@polkadot/util';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
-import { withApi } from '@polkadot/ui-api';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { withApi } from '@polkadot/react-api';
+import { ApiProps } from '@polkadot/react-api/types';
 
 type Props = ApiProps & BareProps & ComponentProps & {
   chain_subscribeNewHead?: HeaderExtended;

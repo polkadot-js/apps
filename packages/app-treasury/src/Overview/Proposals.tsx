@@ -4,14 +4,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProposalIndex } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { withCalls, withMulti } from '@polkadot/ui-api';
-import { Column } from '@polkadot/ui-app';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import { Column } from '@polkadot/react-components';
 
 import Proposal from './Proposal';
 import translate from '../translate';

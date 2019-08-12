@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
 import React from 'react';
-import { Columar, Column } from '@polkadot/ui-app';
+import { Columar, Column } from '@polkadot/react-components';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';

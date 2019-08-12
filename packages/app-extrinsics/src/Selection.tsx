@@ -3,16 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTxExtrinsicAdd } from '@polkadot/ui-app/Status/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
-import { Nonce } from '@polkadot/ui-reactive';
+import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/react-components';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { Nonce } from '@polkadot/react-query';
 
 import Balance from './Balance';
 import translate from './translate';

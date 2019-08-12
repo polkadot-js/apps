@@ -1,0 +1,52 @@
+/* Copyright 2017-2019 @polkadot/react-components authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the Apache-2.0 license. See the LICENSE file for details. */
+
+$green: #77c689;
+$orange: #f6a46e;
+$red: #e97f7f;
+
+$pewter-blue: #89acb4;
+$dark-sky-blue: #96bdc6;
+
+$silver-chalice: #a1b1b5;
+$cadet-grey: #98aaae;
+
+$wild-orchid: #d75ea1;
+$wild-orchid-hl: #df7eb3;
+
+$middle-purple: #e189ba;
+
+$light-slate-gray: #718d94;
+
+$moonstone-blue: #64bebe;
+$verdigris: #5badad;
+
+$primary-color: #2e86ab;
+$primary-color-hl: #579ebb;
+/*$primary-color: #d75ea1;
+$primary-color-hl: #d24a95;*/
+$secondary-color: #2e86ab;
+$secondary-color-hl: #579ebb;
+
+/*
+$anchor-color: #d75ea1;
+$anchor-color-hover: #d24a95;
+*/
+$anchor-color: $secondary-color;
+$anchor-color-hover: $secondary-color-hl;
+
+$button-primary-color: $primary-color;
+$button-primary-color-hover: $primary-color-hl;
+
+$button-color: $secondary-color;
+$button-color-hover: $secondary-color-hl;
+
+$button-positive-color: $moonstone-blue;
+$button-positive-color-hover: $verdigris;
+
+$button-negative-color: $wild-orchid;
+$button-negative-color-hover: $middle-purple;
+
+$progress-bar-color: $wild-orchid;
+$nav-link: $wild-orchid;

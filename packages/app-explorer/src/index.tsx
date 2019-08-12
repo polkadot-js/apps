@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord } from '@polkadot/types/interfaces';
-import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
 import './index.css';
@@ -12,8 +12,8 @@ import './index.css';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/ui-api';
-import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import Tabs, { TabItem } from '@polkadot/react-components/Tabs';
 import uiSettings from '@polkadot/ui-settings';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';

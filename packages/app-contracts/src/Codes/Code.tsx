@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { CodeStored } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Button, Card, CodeRow, Forget } from '@polkadot/ui-app';
-import { withMulti } from '@polkadot/ui-api';
+import { Button, Card, CodeRow, Forget } from '@polkadot/react-components';
+import { withMulti } from '@polkadot/react-api';
 
 import ABI from '../ABI';
 import RemoveABI from '../RemoveABI';

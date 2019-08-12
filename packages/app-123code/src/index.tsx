@@ -6,7 +6,7 @@
 // translatable strings. Generally the latter is quite "light",
 // `t` is inject into props (see the HOC export) and `t('any text')
 // does the translation
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 
 // external imports (including those found in the packages/*
 // of this repo)

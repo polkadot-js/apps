@@ -4,16 +4,16 @@
 
 import { VoteIndex } from '@polkadot/types/interfaces';
 import { DerivedVoterPositions } from '@polkadot/api-derive/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
-import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/ui-app';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
+import { withApi, withCalls, withMulti } from '@polkadot/react-api';
+import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 

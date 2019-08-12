@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber, BalanceOf, Permill } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { Button, InputAddress, InputBalance, InputNumber, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { Button, InputAddress, InputBalance, InputNumber, TxButton, TxComponent } from '@polkadot/react-components';
+import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';
 

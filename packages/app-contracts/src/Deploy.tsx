@@ -4,20 +4,20 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { TypeDef } from '@polkadot/types/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
-import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
+import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import { getTypeDef } from '@polkadot/types';
-import createValues from '@polkadot/ui-params/values';
+import createValues from '@polkadot/react-params/values';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';

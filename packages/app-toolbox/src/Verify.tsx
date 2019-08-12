@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/ui-app/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React from 'react';
-import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/ui-app';
+import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';

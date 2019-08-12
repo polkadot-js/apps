@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
-import { Button, Input } from '@polkadot/ui-app';
+import { Button, Input } from '@polkadot/react-components';
 
 import translate from './translate';
 

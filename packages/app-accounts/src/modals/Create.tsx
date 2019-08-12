@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../types';
 
@@ -12,9 +12,9 @@ import FileSaver from 'file-saver';
 import React from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressRow, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
-import { InputAddress } from '@polkadot/ui-app/InputAddress';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { AddressRow, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/react-components';
+import { InputAddress } from '@polkadot/react-components/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';

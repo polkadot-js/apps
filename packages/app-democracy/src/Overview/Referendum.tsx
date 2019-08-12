@@ -4,17 +4,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedReferendumVote } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { ActionItem, Chart, Static, Voting } from '@polkadot/ui-app';
+import { ActionItem, Chart, Static, Voting } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 import settings from '@polkadot/ui-settings';
-import VoteThreshold from '@polkadot/ui-params/Param/VoteThreshold';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import VoteThreshold from '@polkadot/react-params/Param/VoteThreshold';
+import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
