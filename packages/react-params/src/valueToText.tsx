@@ -34,7 +34,7 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
     ? unknown
     : div(
       {},
-      ['Bytes', 'Data'].includes(type)
+      ['Bytes', 'Data', 'DoubleMap<Keys>', 'Keys'].includes(type)
         ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
         : (
           value instanceof U8a
