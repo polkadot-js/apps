@@ -8,7 +8,7 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withApi } from '@polkadot/ui-api/with';
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
+import { NodeName, NodeVersion } from '@polkadot/ui-reactive';
 
 type Props = ApiProps & BareProps & {};
 
@@ -61,17 +61,10 @@ class NodeInfo extends React.PureComponent<Props> {
     }
 
     return (
-      <>
-        <div>
-          <Chain />&nbsp;
-          <BestNumber label='#' />
-        </div>
-        <div>
-          <NodeName />&nbsp;
-          <NodeVersion label='v' />
-        </div>
-        <div className='spacer' />
-      </>
+      <div>
+        <NodeName />&nbsp;
+        <NodeVersion label='v' />
+      </div>
     );
   }
 }
