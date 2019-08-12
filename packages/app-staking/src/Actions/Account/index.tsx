@@ -24,6 +24,7 @@ import SetSessionAccount from './SetSessionAccount';
 import translate from '../../translate';
 import Unbond from './Unbond';
 import Validate from './Validate';
+import { u8aToHex, u8aConcat } from '@polkadot/util';
 
 type Props = ApiProps & I18nProps & {
   accountId: string;
@@ -38,6 +39,7 @@ type Props = ApiProps & I18nProps & {
 interface State {
   controllerId: string | null;
   destination: number;
+  hexSessionId: string | null;
   isBondExtraOpen: boolean;
   isNominateOpen: boolean;
   isSetControllerAccountOpen: boolean;
@@ -66,6 +68,7 @@ class Account extends React.PureComponent<Props, State> {
   public state: State = {
     controllerId: null,
     destination: 0,
+    hexSessionId: null,
     isBondExtraOpen: false,
     isNominateOpen: false,
     isSetControllerAccountOpen: false,
@@ -93,6 +96,11 @@ class Account extends React.PureComponent<Props, State> {
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
+      hexSessionId: u8aToHex(u8aConcat(...(
+        nextSessionIds.length
+          ? nextSessionIds
+          : sessionIds
+      ).map((id): Uint8Array => id.toU8a())), 64),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
