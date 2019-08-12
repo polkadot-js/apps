@@ -99,7 +99,7 @@
       width: 10rem;
 
       img {
-        width: 3rem;
+        width: 2.5rem;
       }
 
       > div.info {
@@ -170,6 +170,10 @@
       margin: 0.875rem auto;
       padding: 0;
       width: 3rem;
+
+      img {
+        margin: 0 0.3rem 0 0.2rem;
+      }
 
       > div.info {
         display: none;
