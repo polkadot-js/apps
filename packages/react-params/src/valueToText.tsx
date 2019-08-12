@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Keys, ValidatorId } from '@polkadot/types/interfaces';
+
 import './Params.css';
 
 import React from 'react';
@@ -34,19 +36,29 @@ function valueToText (type: string, value: any, swallowError: boolean = true, co
     ? unknown
     : div(
       {},
+      // HACK borken DoubleMap displays (fix like in API)
       ['Bytes', 'Data', 'DoubleMap<Keys>', 'Keys'].includes(type)
         ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
         : (
-          value instanceof U8a
-            ? (
-              value.isEmpty
-                ? '<empty>'
-                : value.toString()
+          // HACK Handle Keys as hex-only (this should go away once the representation is swapped to `Bytes`)
+          type === 'Vec<(ValidatorId,Keys)>'
+            ? JSON.stringify(
+              (value as ([ValidatorId, Keys])[]).map(([validator, keys]): [string, string] => [
+                validator.toString(), keys.toHex()
+              ])
             )
             : (
-              (value instanceof Option) && value.isNone
-                ? '<empty>'
-                : value.toString()
+              value instanceof U8a
+                ? (
+                  value.isEmpty
+                    ? '<empty>'
+                    : value.toString()
+                )
+                : (
+                  (value instanceof Option) && value.isNone
+                    ? '<empty>'
+                    : value.toString()
+                )
             )
         )
     );
