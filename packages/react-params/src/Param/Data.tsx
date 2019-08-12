@@ -12,7 +12,9 @@ import Bare from './Bare';
 export default class Data extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
-    const defaultValue = value || '';
+    const defaultValue = value
+      ? (value.toHex ? value.toHex() : value)
+      : '';
 
     return (
       <Bare

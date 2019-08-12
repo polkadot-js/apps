@@ -12,14 +12,15 @@ import translate from '@polkadot/react-components/translate';
 import Bare from './Bare';
 
 type Props = BareProps & WithTranslation & {
+  asHex?: boolean;
   defaultValue: RawParam;
   withLabel?: boolean;
 };
 
 class StaticParam extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, defaultValue, label, style, t } = this.props;
-    const value = defaultValue && defaultValue.value && defaultValue.value.toString();
+    const { asHex, className, defaultValue, label, style, t } = this.props;
+    const value = defaultValue && defaultValue.value && defaultValue.value[asHex ? 'toHex' : 'toString']();
 
     return (
       <Bare
