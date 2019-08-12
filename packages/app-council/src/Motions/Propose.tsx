@@ -8,8 +8,8 @@ import { ApiProps } from '@polkadot/react-api/types';
 import BN from 'bn.js';
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Extrinsic, InputNumber } from '@polkadot/react-app';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-app/TxModal';
+import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { withApi, withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';

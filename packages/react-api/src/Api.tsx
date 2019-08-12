@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ChainProperties } from '@polkadot/types/interfaces';
-import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-app/Status/types';
+import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
 
@@ -13,7 +13,7 @@ import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { InputNumber } from '@polkadot/react-app/InputNumber';
+import { InputNumber } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';

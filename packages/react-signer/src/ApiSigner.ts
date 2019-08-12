@@ -4,7 +4,7 @@
 
 import { Signer, SignerPayload, SignerResult } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api';
-import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-app/Status/types';
+import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import { Hash } from '@polkadot/types/interfaces';
 
 import { ClassOf } from '@polkadot/types';

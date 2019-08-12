@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-app/types';
-import { TabItem } from '@polkadot/react-app/Tabs';
+import { I18nProps } from '@polkadot/react-components/types';
+import { TabItem } from '@polkadot/react-components/Tabs';
 import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Tabs } from '@polkadot/react-app';
+import { Tabs } from '@polkadot/react-components';
 import { withApi } from '@polkadot/react-api';
 
 import Consts from './Consts';

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
@@ -11,7 +11,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { createType } from '@polkadot/types';
-import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/react-app';
+import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';

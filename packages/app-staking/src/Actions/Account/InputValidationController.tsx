@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Icon } from '@polkadot/react-app';
+import { Icon } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/react-api';
 

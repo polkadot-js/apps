@@ -7,12 +7,12 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Index } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
 import { DerivedFees } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-app';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { Available } from '@polkadot/react-query';
 import Checks, { calcSignatureLength } from '@polkadot/react-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/react-api';

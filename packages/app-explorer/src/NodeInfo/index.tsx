@@ -4,7 +4,7 @@
 
 import { Health, PeerInfo, Extrinsic } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
-import { AppProps, I18nProps } from '@polkadot/react-app/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Info } from './types';
 
 import React from 'react';

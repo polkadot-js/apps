@@ -4,15 +4,15 @@
 
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from '../types';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { withCalls, withMulti } from '@polkadot/react-api/with';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, CardGrid, Icon } from '@polkadot/react-app';
+import { Button, CardGrid, Icon } from '@polkadot/react-components';
 import createOption from '@polkadot/ui-keyring/options/item';
-import { getAddressName } from '@polkadot/react-app/util';
+import { getAddressName } from '@polkadot/react-components/util';
 
 import Account from './Account';
 import StartStaking from './NewStake';

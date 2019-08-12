@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { QueueProps } from '@polkadot/react-app/Status/types';
+import { QueueProps } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { QueueConsumer } from '@polkadot/react-app/Status/Context';
+import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 
 import Status from './Status';
 import translate from '../translate';

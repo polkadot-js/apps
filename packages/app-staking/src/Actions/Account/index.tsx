@@ -7,13 +7,13 @@ import { RecentlyOfflineMap } from '../../types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton } from '@polkadot/react-app';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';

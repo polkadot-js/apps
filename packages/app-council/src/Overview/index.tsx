@@ -9,7 +9,7 @@ import { ComponentProps as Props } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { withCalls } from '@polkadot/react-api';
-import { Button } from '@polkadot/react-app';
+import { Button } from '@polkadot/react-components';
 
 import Members from './Members';
 import SubmitCandidacy from './SubmitCandidacy';

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-app/types';
-import { QueueTx } from '@polkadot/react-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { QueueTx } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
 import { GenericCall } from '@polkadot/types';
-import { Call, InputAddress, Modal } from '@polkadot/react-app';
+import { Call, InputAddress, Modal } from '@polkadot/react-components';
 
 import Checks from './Checks';
 import translate from './translate';

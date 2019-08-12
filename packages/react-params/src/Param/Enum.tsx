@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-app authors & contributors
+// Copyright 2017-2019 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { Props as BaseProps, RawParam } from '../types';
 
 import React from 'react';
 import { Enum, createType, getTypeDef } from '@polkadot/types';
-import { Dropdown } from '@polkadot/react-app';
+import { Dropdown } from '@polkadot/react-components';
 
 import Params from '../';
 import Bare from './Bare';

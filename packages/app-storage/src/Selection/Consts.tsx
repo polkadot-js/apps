@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
-import { I18nProps } from '@polkadot/react-app/types';
-import { ConstValue } from '@polkadot/react-app/InputConsts/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, InputConsts, TxComponent } from '@polkadot/react-app';
+import { Button, InputConsts, TxComponent } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';

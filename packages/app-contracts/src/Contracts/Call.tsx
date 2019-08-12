@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { BareProps, I18nProps } from '@polkadot/react-app/types';
+import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
-import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-app';
-import { getContractAbi } from '@polkadot/react-app/util';
+import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { getContractAbi } from '@polkadot/react-components/util';
 import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';

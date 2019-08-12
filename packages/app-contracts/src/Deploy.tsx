@@ -6,7 +6,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { TypeDef } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -15,7 +15,7 @@ import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
-import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-app';
+import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import { getTypeDef } from '@polkadot/types';
 import createValues from '@polkadot/react-params/values';
 

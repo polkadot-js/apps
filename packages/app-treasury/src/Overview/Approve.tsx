@@ -4,12 +4,12 @@
 
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, Dropdown } from '@polkadot/react-app';
+import { Button, Dropdown } from '@polkadot/react-components';
 import { withMulti, withApi, withCalls } from '@polkadot/react-api';
-import TxModal, { TxModalProps, TxModalState } from '@polkadot/react-app/TxModal';
+import TxModal, { TxModalProps, TxModalState } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 

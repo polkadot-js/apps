@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Option } from '@polkadot/types';
 
-import { ActionItem, InputAddress, Labelled, Voting } from '@polkadot/react-app';
+import { ActionItem, InputAddress, Labelled, Voting } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';

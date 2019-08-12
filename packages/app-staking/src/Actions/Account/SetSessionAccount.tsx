@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, InputAddress, Input, Modal, TxButton } from '@polkadot/react-app';
+import { Button, InputAddress, Input, Modal, TxButton } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api';
 
 import ValidationSessionKey from './InputValidationSessionKey';

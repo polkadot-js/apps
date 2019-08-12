@@ -3,14 +3,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-app/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Icon, Tabs } from '@polkadot/react-app';
+import { Icon, Tabs } from '@polkadot/react-components';
 import { withApi, withCalls, withMulti, withObservable } from '@polkadot/react-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 

@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-app/types';
-import { ActionStatus } from '@polkadot/react-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
 import { withApi } from '@polkadot/react-api';
-import { AddressRow, Button, Input } from '@polkadot/react-app';
+import { AddressRow, Button, Input } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';

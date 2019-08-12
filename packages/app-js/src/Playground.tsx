@@ -5,7 +5,7 @@
 import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { AppProps, I18nProps } from '@polkadot/react-app/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
@@ -13,7 +13,7 @@ import { withRouter } from 'react-router';
 import { Transition } from 'semantic-ui-react';
 import snappy from 'snappyjs';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { Button, Dropdown, Editor } from '@polkadot/react-app';
+import { Button, Dropdown, Editor } from '@polkadot/react-components';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as types from '@polkadot/types';
 import * as util from '@polkadot/util';

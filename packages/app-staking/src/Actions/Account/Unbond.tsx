@@ -4,14 +4,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
-import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-app';
+import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../../translate';

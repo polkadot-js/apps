@@ -6,8 +6,8 @@ import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button } from '@polkadot/react-app';
-import TxModal, { TxModalState as State, TxModalProps } from '@polkadot/react-app/TxModal';
+import { Button } from '@polkadot/react-components';
+import TxModal, { TxModalState as State, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 

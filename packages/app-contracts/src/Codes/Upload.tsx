@@ -9,7 +9,7 @@ import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import BN from 'bn.js';
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { Button, InputFile, TxButton } from '@polkadot/react-app';
+import { Button, InputFile, TxButton } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';

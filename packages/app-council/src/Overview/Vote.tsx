@@ -12,8 +12,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
 import { withApi, withCalls, withMulti } from '@polkadot/react-api';
-import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/react-app';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-app/TxModal';
+import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 

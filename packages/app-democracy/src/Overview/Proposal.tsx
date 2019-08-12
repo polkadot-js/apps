@@ -4,12 +4,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, Proposal } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Option, Tuple, Vec } from '@polkadot/types';
-import { ActionItem, InputAddress, Labelled, Static } from '@polkadot/react-app';
+import { ActionItem, InputAddress, Labelled, Static } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { formatBalance } from '@polkadot/util';
 

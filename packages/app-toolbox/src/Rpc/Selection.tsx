@@ -5,13 +5,13 @@
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { TypeDef } from '@polkadot/types/types';
 import { RawParam } from '@polkadot/react-params/types';
-import { I18nProps } from '@polkadot/react-app/types';
-import { QueueTxRpcAdd } from '@polkadot/react-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
 import { getTypeDef } from '@polkadot/types';
-import { Button, InputRpc, TxComponent } from '@polkadot/react-app';
+import { Button, InputRpc, TxComponent } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 
 import translate from './translate';

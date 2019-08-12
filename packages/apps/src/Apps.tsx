@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-app/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 // this is disabled, Chrome + WASM memory leak makes it slow & laggy. If enabled
 // we also need to export the default as hot(Apps) (last line)
@@ -11,7 +11,7 @@ import { BareProps } from '@polkadot/react-app/types';
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { media } from '@polkadot/react-app';
+import { media } from '@polkadot/react-components';
 import Signer from '@polkadot/react-signer';
 import settings from '@polkadot/ui-settings';
 

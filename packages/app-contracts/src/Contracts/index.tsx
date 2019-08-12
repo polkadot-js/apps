@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Button, CardGrid } from '@polkadot/react-app';
+import { Button, CardGrid } from '@polkadot/react-components';
 import { withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';

@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-app';
+import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';

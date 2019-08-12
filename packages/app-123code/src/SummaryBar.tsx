@@ -5,12 +5,12 @@
 
 import { AccountId, RuntimeVersion } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
-import { BareProps, I18nProps } from '@polkadot/react-app/types';
+import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { withCalls } from '@polkadot/react-api/with';
-import { Bubble, IdentityIcon } from '@polkadot/react-app';
+import { Bubble, IdentityIcon } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
