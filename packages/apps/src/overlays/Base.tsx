@@ -4,7 +4,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '@polkadot/ui-app';
+import { Icon } from '@polkadot/react-app';
 
 interface Props {
   children: React.ReactNode;

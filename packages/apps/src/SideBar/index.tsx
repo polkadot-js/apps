@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Route } from '@polkadot/apps-routing/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-app/types';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
@@ -13,11 +13,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
-import { withCalls, withMulti } from '@polkadot/ui-api';
-import { Button, Icon, Menu, media } from '@polkadot/ui-app';
-import { classes } from '@polkadot/ui-app/util';
-import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
-import { BestNumber, Chain } from '@polkadot/ui-reactive';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import { Button, Icon, Menu, media } from '@polkadot/react-app';
+import { classes } from '@polkadot/react-app/util';
+import { logoBackground, logoPadding } from '@polkadot/react-app/styles/theme';
+import { BestNumber, Chain } from '@polkadot/react-query';
 
 import translate from '../translate';
 import Item from './Item';

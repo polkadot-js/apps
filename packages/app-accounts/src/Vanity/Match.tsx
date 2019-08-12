@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/react-app/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, IdentityIcon } from '@polkadot/ui-app';
+import { Button, IdentityIcon } from '@polkadot/react-app';
 import { u8aToHex } from '@polkadot/util';
 
 interface Props extends BareProps {

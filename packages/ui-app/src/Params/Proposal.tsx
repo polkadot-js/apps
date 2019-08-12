@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props as BaseProps, RawParam } from '@polkadot/ui-params/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { Props as BaseProps, RawParam } from '@polkadot/react-params/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { withApi } from '@polkadot/ui-api';
+import { withApi } from '@polkadot/react-api';
 
 import ExtrinsicDisplay from './Extrinsic';
 

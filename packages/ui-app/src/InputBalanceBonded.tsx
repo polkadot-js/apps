@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/react-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,13 +8,13 @@ import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { BitLengthOption } from '@polkadot/ui-app/constants';
-import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
-import { InputNumber } from '@polkadot/ui-app';
+import { ApiProps } from '@polkadot/react-api/types';
+import { BitLengthOption } from '@polkadot/react-app/constants';
+import { calcSignatureLength } from '@polkadot/react-signer/Checks';
+import { InputNumber } from '@polkadot/react-app';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withMulti, withApi } from '@polkadot/ui-api';
-import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
+import { withCalls, withMulti, withApi } from '@polkadot/react-api';
+import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 
 type Props = BareProps & ApiProps & {
   autoFocus?: boolean;

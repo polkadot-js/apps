@@ -2,17 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from '../types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-app/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { withCalls, withMulti } from '@polkadot/ui-api/with';
+import { withCalls, withMulti } from '@polkadot/react-api/with';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, CardGrid, Icon } from '@polkadot/ui-app';
+import { Button, CardGrid, Icon } from '@polkadot/react-app';
 import createOption from '@polkadot/ui-keyring/options/item';
-import { getAddressName } from '@polkadot/ui-app/util';
+import { getAddressName } from '@polkadot/react-app/util';
 
 import Account from './Account';
 import StartStaking from './NewStake';

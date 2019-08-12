@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/react-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-app/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { withMulti } from '@polkadot/ui-api';
-import { classes, toShortAddress } from '@polkadot/ui-app/util';
+import { withMulti } from '@polkadot/react-api';
+import { classes, toShortAddress } from '@polkadot/react-app/util';
 import contracts from '@polkadot/app-contracts/store';
 
 import CopyButton from './CopyButton';

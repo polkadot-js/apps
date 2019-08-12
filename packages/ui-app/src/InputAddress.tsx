@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/react-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import createItem from '@polkadot/ui-keyring/options/item';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from '@polkadot/react-api';
 
 import { classes, getAddressName } from './util';
 import addressToAddress from './util/toAddress';

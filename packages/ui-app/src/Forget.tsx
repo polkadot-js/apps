@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-app/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { AddressRow, Button, CodeRow, Modal } from '@polkadot/ui-app';
+import { AddressRow, Button, CodeRow, Modal } from '@polkadot/react-app';
 
 import translate from './translate';
 

@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { Option } from '@polkadot/types';
-import { InputAddress, Labelled, Static } from '@polkadot/ui-app';
-import { withMulti, withApi } from '@polkadot/ui-api';
+import { InputAddress, Labelled, Static } from '@polkadot/react-app';
+import { withMulti, withApi } from '@polkadot/react-api';
 import { formatBalance } from '@polkadot/util';
 
 import Inset, { InsetProps } from './Inset';

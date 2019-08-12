@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/ui-signer",
+  "name": "@polkadot/react-signer",
   "version": "0.34.0-beta.119",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@polkadot/ui-app": "^0.34.0-beta.119"
+    "@polkadot/react-app": "^0.34.0-beta.119"
   }
 }

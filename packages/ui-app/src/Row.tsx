@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/react-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -144,7 +144,7 @@ export const styles = `
       white-space: nowrap;
       text-transform: uppercase;
       overflow: hidden;
-      text-overflow: inherit;      
+      text-overflow: inherit;
     }
   }
 
@@ -152,9 +152,9 @@ export const styles = `
     input {
       height: 1em;
       text-transform: uppercase;
-      margin-top: -0.3em;  
+      margin-top: -0.3em;
     }
-    
+
   }
 
   .ui--Row-tags {

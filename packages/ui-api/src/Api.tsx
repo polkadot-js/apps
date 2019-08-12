@@ -1,10 +1,10 @@
-// Copyright 2017-2019 @polkadot/ui-api authors & contributors
+// Copyright 2017-2019 @polkadot/react-api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ChainProperties } from '@polkadot/types/interfaces';
-import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/ui-app/Status/types';
+import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-app/Status/types';
 import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
 
@@ -13,10 +13,10 @@ import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { InputNumber } from '@polkadot/ui-app/InputNumber';
+import { InputNumber } from '@polkadot/react-app/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
-import ApiSigner from '@polkadot/ui-signer/ApiSigner';
+import ApiSigner from '@polkadot/react-signer/ApiSigner';
 import { Text } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 

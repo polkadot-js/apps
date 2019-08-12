@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
 import { Index } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
@@ -11,7 +11,7 @@ import { QueueTx, QueueTxExtrinsicAdd, TxCallback, TxFailedCallback } from './St
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { withApi } from '@polkadot/ui-api';
+import { withApi } from '@polkadot/react-api';
 
 import Button from './Button';
 import { Button$Sizes } from './Button/types';

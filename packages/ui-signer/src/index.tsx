@@ -1,14 +1,14 @@
-// Copyright 2017-2019 @polkadot/ui-signer authors & contributors
+// Copyright 2017-2019 @polkadot/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
-import { QueueProps } from '@polkadot/ui-app/Status/types';
+import { BareProps } from '@polkadot/react-app/types';
+import { QueueProps } from '@polkadot/react-app/Status/types';
 
 import './index.css';
 
 import React from 'react';
-import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
+import { QueueConsumer } from '@polkadot/react-app/Status/Context';
 
 import Modal from './Modal';
 

@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
+import { Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/react-app';
 
 import Summary from './Summary';
 

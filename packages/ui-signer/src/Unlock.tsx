@@ -1,12 +1,12 @@
-// Copyright 2017-2019 @polkadot/ui-signer authors & contributors
+// Copyright 2017-2019 @polkadot/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-app/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-import { Password } from '@polkadot/ui-app';
+import { Password } from '@polkadot/react-app';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';

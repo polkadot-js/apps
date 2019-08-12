@@ -1,11 +1,11 @@
-// Copyright 2017-2019 @polkadot/ui-app authors & contributors
+// Copyright 2017-2019 @polkadot/react-app authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Props, RawParamOnChangeValue } from '../types';
 
 import React from 'react';
-import { Static } from '@polkadot/ui-app';
+import { Static } from '@polkadot/react-app';
 
 import Amount from './Amount';
 

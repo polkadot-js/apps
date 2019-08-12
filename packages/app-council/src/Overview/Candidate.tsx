@@ -5,7 +5,7 @@
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AddressCard } from '@polkadot/ui-app';
+import { AddressCard } from '@polkadot/react-app';
 
 interface Props {
   address: AccountId;

@@ -4,7 +4,7 @@
 
 import { Call } from '@polkadot/types/interfaces';
 import { CallFunction } from '@polkadot/types/types';
-import { RawParamOnChange, RawParamOnEnter } from '@polkadot/ui-params/types';
+import { RawParamOnChange, RawParamOnEnter } from '@polkadot/react-params/types';
 import { BareProps } from '../types';
 
 import React from 'react';

@@ -4,10 +4,10 @@
 
 import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { TypeDef } from '@polkadot/types/types';
-import { RawParams } from '@polkadot/ui-params/types';
+import { RawParams } from '@polkadot/react-params/types';
 
 import React from 'react';
-import UIParams from '@polkadot/ui-params';
+import UIParams from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
 
 interface Props {

@@ -1,23 +1,23 @@
-// Copyright 2017-2019 @polkadot/ui-signer authors & contributors
+// Copyright 2017-2019 @polkadot/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SignerOptions, SignerPayload } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { I18nProps, BareProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps, BareProps } from '@polkadot/react-app/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/ui-app/Status/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-app/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, InputBalance, Modal } from '@polkadot/ui-app';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
+import { Button, InputBalance, Modal } from '@polkadot/react-app';
+import { withApi, withMulti, withObservable } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
