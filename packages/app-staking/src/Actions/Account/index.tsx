@@ -117,7 +117,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, t } = this.props;
+    const { className, isSubstrateV2, t } = this.props;
     const { stashId } = this.state;
 
     if (!stashId) {
@@ -155,7 +155,7 @@ class Account extends React.PureComponent<Props, State> {
         <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
-            {this.renderSessionAccount()}
+            {!isSubstrateV2 && this.renderSessionAccount()}
           </div>
           <div className='staking--Infos'>
             <div className='staking--balances'>
@@ -195,7 +195,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderInfos (): React.ReactNode {
-    const { stashId } = this.state;
+    const { hexSessionId, stashId } = this.state;
 
     return (
       <AddressInfo
@@ -208,6 +208,7 @@ class Account extends React.PureComponent<Props, State> {
           unlocking: true
         }}
         withRewardDestination
+        withHexSessionId={hexSessionId !== '0x' && hexSessionId}
         withValidatorPrefs
       />
     );
@@ -421,7 +422,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderPopupMenu (): React.ReactNode {
-    const { balances_all, t } = this.props;
+    const { balances_all, isSubstrateV2, t } = this.props;
     const { isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
@@ -455,7 +456,7 @@ class Account extends React.PureComponent<Props, State> {
         }
         {sessionIds.length &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
-            {t('Change session account')}
+            {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
           </Menu.Item>
         }
         {isStashNominating &&
