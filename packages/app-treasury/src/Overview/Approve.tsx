@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, Dropdown } from '@polkadot/ui-app';
-import { withMulti, withApi, withCalls } from '@polkadot/ui-api';
-import TxModal, { TxModalProps, TxModalState } from '@polkadot/ui-app/TxModal';
+import { Button, Dropdown } from '@polkadot/react-components';
+import { withMulti, withApi, withCalls } from '@polkadot/react-api';
+import TxModal, { TxModalProps, TxModalState } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 

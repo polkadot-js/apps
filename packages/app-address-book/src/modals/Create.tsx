@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
 import React from 'react';
 
-import { AddressRow, Button, Input, Modal } from '@polkadot/ui-app';
-import { InputAddress } from '@polkadot/ui-app/InputAddress';
+import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
+import { InputAddress } from '@polkadot/react-components/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';

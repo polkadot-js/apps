@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, InputAddress, Modal, TxButton } from '@polkadot/ui-app';
+import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from '@polkadot/react-api';
 
 import translate from '../translate';
 

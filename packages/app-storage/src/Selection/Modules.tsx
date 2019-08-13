@@ -4,16 +4,16 @@
 
 import { StorageEntryPromise } from '@polkadot/api/types';
 import { TypeDef } from '@polkadot/types/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { RawParams } from '@polkadot/ui-params/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { RawParams } from '@polkadot/react-params/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import { getTypeDef } from '@polkadot/types';
-import { Button, InputStorage, TxComponent } from '@polkadot/ui-app';
-import Params from '@polkadot/ui-params';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { Button, InputStorage, TxComponent } from '@polkadot/react-components';
+import Params from '@polkadot/react-params';
+import { withApi, withMulti } from '@polkadot/react-api';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';

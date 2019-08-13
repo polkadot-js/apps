@@ -3,17 +3,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
 import { DerivedBalances, DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, BlockNumber, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, OnlineStatus, TxButton } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, OnlineStatus, TxButton } from '@polkadot/react-components';
+import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';
 import Nominate from './Nominate';
@@ -51,7 +51,7 @@ interface State {
   isValidateOpen: boolean;
   nominees?: string[];
   onlineStatus: DerivedStakingOnlineStatus;
-  sessionId: string | null;
+  sessionIds: string[];
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId: string | null;
@@ -79,7 +79,7 @@ class Account extends React.PureComponent<Props, State> {
     isUnbondOpen: false,
     isValidateOpen: false,
     onlineStatus: {},
-    sessionId: null,
+    sessionIds: [],
     stashId: null
   };
 
@@ -88,7 +88,7 @@ class Account extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { controllerId, nextSessionId, nominators, online, offline, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionIds, nominators, online, offline, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isStashNominating = nominators && nominators.length !== 0;
     const _stashId = toIdString(stashId);
     const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
@@ -100,7 +100,11 @@ class Account extends React.PureComponent<Props, State> {
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
       onlineStatus: updateOnlineStatus(recentlyOnline)(controllerId || null, { online, offline }),
-      sessionId: toIdString(nextSessionId),
+      sessionIds: (
+        nextSessionIds.length
+          ? nextSessionIds
+          : sessionIds
+      ).map(toIdString),
       stakers,
       stakingLedger,
       stashId: _stashId,
@@ -273,9 +277,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderSessionAccount (): React.ReactNode {
     const { t } = this.props;
-    const { sessionId } = this.state;
+    const { sessionIds } = this.state;
 
-    if (!sessionId) {
+    if (!sessionIds.length) {
       return null;
     }
 
@@ -283,7 +287,7 @@ class Account extends React.PureComponent<Props, State> {
       <div className='staking--Account-detail actions'>
         <AddressRow
           label={t('session')}
-          value={sessionId}
+          value={sessionIds[0]}
           withAddressOrName
           withBalance={{
             available: true,
@@ -337,7 +341,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionId } = this.state;
+    const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
     const buttons = [];
 
     // if we are validating/nominating show stop
@@ -356,7 +360,7 @@ class Account extends React.PureComponent<Props, State> {
         />
       );
     } else {
-      if (!sessionId) {
+      if (!sessionIds.length) {
         buttons.push(
           <Button
             isPrimary
@@ -416,7 +420,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderPopupMenu (): React.ReactNode {
     const { balances_all, t } = this.props;
-    const { isStashNominating, isStashValidating, sessionId } = this.state;
+    const { isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
@@ -447,7 +451,7 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {sessionId &&
+        {sessionIds.length &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
             {t('Change session account')}
           </Menu.Item>
@@ -513,7 +517,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderSetSessionAccount (): React.ReactNode {
-    const { controllerId, isSetSessionAccountOpen, stashId, sessionId } = this.state;
+    const { controllerId, isSetSessionAccountOpen, stashId, sessionIds } = this.state;
 
     if (!controllerId || !stashId) {
       return null;
@@ -524,7 +528,7 @@ class Account extends React.PureComponent<Props, State> {
         controllerId={controllerId}
         isOpen={isSetSessionAccountOpen}
         onClose={this.toggleSetSessionAccount}
-        sessionId={sessionId}
+        sessionIds={sessionIds}
         stashId={stashId}
       />
     );

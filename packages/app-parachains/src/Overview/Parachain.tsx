@@ -3,15 +3,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Bytes, Option } from '@polkadot/types';
-import { Card, Static } from '@polkadot/ui-app';
-import { styles as rowStyles } from '@polkadot/ui-app/Row';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { Card, Static } from '@polkadot/react-components';
+import { styles as rowStyles } from '@polkadot/react-components/Row';
+import { withCalls, withMulti } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';

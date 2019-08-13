@@ -5,13 +5,13 @@
 
 import { AccountId, Balance, BlockNumber, Exposure } from '@polkadot/types/interfaces';
 import { DerivedBalancesMap, DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { AddressCard, AddressMini, OnlineStatus } from '@polkadot/ui-app';
+import { withCalls, withMulti } from '@polkadot/react-api/with';
+import { AddressCard, AddressMini, OnlineStatus } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 import { updateOnlineStatus } from '../util';

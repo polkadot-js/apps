@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import { getTypeRegistry } from '@polkadot/types';
-import { Button, Editor, InputFile } from '@polkadot/ui-app';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { Button, Editor, InputFile } from '@polkadot/react-components';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
 import translate from './translate';

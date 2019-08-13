@@ -4,10 +4,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber } from '@polkadot/types/interfaces';
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { withCalls, withMulti } from '@polkadot/react-api';
 import { isHex } from '@polkadot/util';
 
 import Query from '../Query';

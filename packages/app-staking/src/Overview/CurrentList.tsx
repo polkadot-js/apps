@@ -4,11 +4,11 @@
 
 import { BlockNumber } from '@polkadot/types/interfaces';
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
 import React from 'react';
-import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/ui-app';
+import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Address from './Address';

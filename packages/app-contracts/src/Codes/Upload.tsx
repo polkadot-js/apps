@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
 import BN from 'bn.js';
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api';
-import { Button, InputFile, TxButton } from '@polkadot/ui-app';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { Button, InputFile, TxButton } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
