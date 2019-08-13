@@ -5,16 +5,16 @@
 
 import { Compact } from '@polkadot/types';
 import { Balance, EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { withApi, withMulti } from '@polkadot/ui-api';
-import { Button, Columar, Column, Inset, Tooltip } from '@polkadot/ui-app';
-import { InputNumber } from '@polkadot/ui-app/InputNumber';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { Button, Columar, Column, Inset, Tooltip } from '@polkadot/react-components';
+import { InputNumber } from '@polkadot/react-components/InputNumber';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { u8aToString } from '@polkadot/util';
 
 import ClaimDisplay from './Claim';

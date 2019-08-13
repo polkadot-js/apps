@@ -9,7 +9,7 @@ import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
 // import { ComponentProps } from './types';
 
 // import secp256k1 from 'secp256k1/elliptic'
-// import { pkToEthAddr } from '@polkadot/ui-app/util';
+// import { pkToEthAddr } from '@polkadot/react-components/util';
 import { /* formatBalance, bufferToU8a, */ hexToU8a /* , stringToU8a, u8aToBuffer, u8aToString, u8aToHex */ } from '@polkadot/util';
 // import { keccakAsU8a, secp256k1Recover } from '@polkadot/util-crypto';
 

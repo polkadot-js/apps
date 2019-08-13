@@ -5,13 +5,13 @@
 
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withApi, withMulti } from '@polkadot/ui-api';
-import { Button, Inset } from '@polkadot/ui-app';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { Button, Inset } from '@polkadot/react-components';
 import { formatBalance/* , hexToU8a, stringToU8a, u8aToString, u8aToHex */ } from '@polkadot/util';
 // import { keccakAsU8a, secp256k1Recover } from '@polkadot/util-crypto';
 
