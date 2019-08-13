@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Route } from '@polkadot/apps-routing/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Icon } from '@polkadot/ui-app';
+import { Icon } from '@polkadot/react-components';
 
 import translate from './translate';
 

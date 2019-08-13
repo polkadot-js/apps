@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Health, PeerInfo, Extrinsic } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Info } from './types';
 
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from '@polkadot/react-api';
 import { Vec } from '@polkadot/types';
 
 import './index.css';

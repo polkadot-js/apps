@@ -9,7 +9,7 @@ import EventEmitter from 'eventemitter3';
 import store from 'store';
 import { Abi } from '@polkadot/api-contract';
 import { createType } from '@polkadot/types';
-import { api } from '@polkadot/ui-api';
+import { api } from '@polkadot/react-api';
 
 const KEY_CODE = 'code:';
 

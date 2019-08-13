@@ -4,13 +4,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { withCalls } from '@polkadot/ui-api';
-import { Columar } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/react-api';
+import { Columar } from '@polkadot/react-components';
 
 import BlockHeader from '../BlockHeader';
 import translate from '../translate';

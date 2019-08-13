@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
-import { BareProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withApi } from '@polkadot/ui-api/with';
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
+import { withApi } from '@polkadot/react-api/with';
+import { NodeName, NodeVersion } from '@polkadot/react-query';
 
 type Props = ApiProps & BareProps & {};
 
@@ -61,17 +61,10 @@ class NodeInfo extends React.PureComponent<Props> {
     }
 
     return (
-      <>
-        <div>
-          <Chain />&nbsp;
-          <BestNumber label='#' />
-        </div>
-        <div>
-          <NodeName />&nbsp;
-          <NodeVersion label='v' />
-        </div>
-        <div className='spacer' />
-      </>
+      <div>
+        <NodeName />&nbsp;
+        <NodeVersion label='v' />
+      </div>
     );
   }
 }

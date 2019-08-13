@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
+import Tabs, { TabItem } from '@polkadot/react-components/Tabs';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from '@polkadot/react-api';
 
 import Hash from './Hash';
 import Rpc from './Rpc';

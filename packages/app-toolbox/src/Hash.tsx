@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/ui-app/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Input, Output, Static } from '@polkadot/ui-app';
+import { Input, Output, Static } from '@polkadot/react-components';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 

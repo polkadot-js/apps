@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withMulti } from '@polkadot/ui-api';
+import { Button, Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { withMulti } from '@polkadot/react-api';
 
 import translate from '../../translate';
 import { rewardDestinationOptions } from '../constants';

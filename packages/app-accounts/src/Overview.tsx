@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
-import { Button, CardGrid } from '@polkadot/ui-app';
+import { withMulti, withObservable } from '@polkadot/react-api';
+import { Button, CardGrid } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';

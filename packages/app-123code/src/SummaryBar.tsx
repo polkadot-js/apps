@@ -4,13 +4,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, RuntimeVersion } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { withCalls } from '@polkadot/ui-api/with';
-import { Bubble, IdentityIcon } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/react-api/with';
+import { Bubble, IdentityIcon } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';

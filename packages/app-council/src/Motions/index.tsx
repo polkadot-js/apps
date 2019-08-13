@@ -4,11 +4,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/ui-api';
-import { CardGrid } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/react-api';
+import { CardGrid } from '@polkadot/react-components';
 
 import Motion from './Motion';
 import Propose from './Propose';

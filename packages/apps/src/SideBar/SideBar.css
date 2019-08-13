@@ -2,8 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-@import '../../../ui-app/src/styles/theme/_colors-polkadot.css';
-@import '../../../ui-app/src/styles/theme/_colors-substrate.css';
+@import '../../../react-components/src/styles/theme/_colors-polkadot.css';
+@import '../../../react-components/src/styles/theme/_colors-substrate.css';
 
 .apps-Wrapper {
   display: flex;
@@ -91,9 +91,28 @@
     }
 
     .apps--SideBar-logo {
-      margin: 0.5rem 1.5rem 1.5rem 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5rem 1rem 1.5rem 0;
       padding-top: 0.75em;
-      width: 9rem;
+      width: 10rem;
+
+      img {
+        border-radius: 50%;
+        width: 2.5rem;
+      }
+
+      > div.info {
+        color: white;
+        opacity: 0.75;
+        text-align: right;
+
+        > div.chain {
+          font-size: 0.9rem;
+          line-height: 1rem;
+        }
+      }
     }
 
     .apps--SideBar-collapse {
@@ -157,6 +176,14 @@
       margin: 0.875rem auto;
       padding: 0;
       width: 3rem;
+
+      img {
+        margin: 0 0.3rem 0 0.2rem;
+      }
+
+      > div.info {
+        display: none;
+      }
     }
 
     .apps--SideBar-collapse .ui.basic.secondary.button {

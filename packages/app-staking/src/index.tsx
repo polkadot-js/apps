@@ -4,17 +4,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps, RecentlyOffline, RecentlyOfflineMap } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { Option } from '@polkadot/types';
-import { HelpOverlay } from '@polkadot/ui-app';
-import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import { HelpOverlay } from '@polkadot/react-components';
+import Tabs, { TabItem } from '@polkadot/react-components/Tabs';
+import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import './index.css';

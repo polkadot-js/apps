@@ -3,17 +3,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
+import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { calcSignatureLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
-import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
+import { withCalls, withApi, withMulti } from '@polkadot/react-api';
+import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 
 import translate from '../../translate';
 

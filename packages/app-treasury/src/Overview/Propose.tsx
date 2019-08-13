@@ -5,8 +5,8 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { Button, InputAddress, InputBalance } from '@polkadot/ui-app';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
+import { Button, InputAddress, InputBalance } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 

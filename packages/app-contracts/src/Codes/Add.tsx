@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Input } from '@polkadot/ui-app';
+import { Button, Input } from '@polkadot/react-components';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
 import ValidateCode from './ValidateCode';

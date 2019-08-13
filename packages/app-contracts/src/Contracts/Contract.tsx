@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
-import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/ui-app';
-import { getContractAbi } from '@polkadot/ui-app/util';
-import { withMulti } from '@polkadot/ui-api';
+import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/react-components';
+import { getContractAbi } from '@polkadot/react-components/util';
+import { withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 

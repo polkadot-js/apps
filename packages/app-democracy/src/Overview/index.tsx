@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Columar } from '@polkadot/ui-app';
+import { Columar } from '@polkadot/react-components';
 
 import Proposals from './Proposals';
 import Referendums from './Referendums';

@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryPromise } from '@polkadot/api/types';
-import { ConstValue } from '@polkadot/ui-app/InputConsts/types';
-import { RawParams } from '@polkadot/ui-params/types';
+import { ConstValue } from '@polkadot/react-components/InputConsts/types';
+import { RawParams } from '@polkadot/react-params/types';
 
 interface Base {
   isConst: boolean;

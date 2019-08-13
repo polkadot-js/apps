@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Route } from '@polkadot/apps-routing/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
@@ -12,9 +13,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
-import { Button, Icon, Menu, media } from '@polkadot/ui-app';
-import { classes } from '@polkadot/ui-app/util';
-import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import { Button, Icon, Menu, media } from '@polkadot/react-components';
+import { classes } from '@polkadot/react-components/util';
+import { logoBackground, logoPadding } from '@polkadot/react-components/styles/theme';
+import { BestNumber, Chain } from '@polkadot/react-query';
 
 import translate from '../translate';
 import Item from './Item';
@@ -26,6 +29,8 @@ interface Props extends I18nProps {
   handleResize: () => void;
   isCollapsed: boolean;
   menuOpen: boolean;
+  system_chain?: string;
+  system_name?: string;
   toggleMenu: () => void;
 }
 
@@ -78,8 +83,8 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { handleResize, isCollapsed, toggleMenu, menuOpen } = this.props;
-    const logo = getLogo(true);
+    const { handleResize, isCollapsed, system_name, toggleMenu, menuOpen } = this.props;
+    const logo = getLogo(system_name);
 
     return (
       <Responsive
@@ -143,15 +148,20 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderLogo (): React.ReactNode {
-    const { isCollapsed } = this.props;
-    const logo = getLogo(isCollapsed);
+    const { system_chain, system_name } = this.props;
+    const logo = getLogo(system_name, system_chain);
 
     return (
-      <img
-        alt='polkadot'
-        className='apps--SideBar-logo'
-        src={logo}
-      />
+      <div className='apps--SideBar-logo'>
+        <img
+          alt='polkadot'
+          src={logo}
+        />
+        <div className='info'>
+          <Chain className='chain' />
+          <BestNumber label='#' />
+        </div>
+      </div>
     );
   }
 
@@ -250,4 +260,11 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(SideBar);
+export default withMulti(
+  SideBar,
+  translate,
+  withCalls<Props>(
+    'rpc.system.chain',
+    'rpc.system.name'
+  )
+);

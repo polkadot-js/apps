@@ -3,20 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryPromise } from '@polkadot/api/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Compact } from '@polkadot/types';
-import { Button, Labelled } from '@polkadot/ui-app';
-import { withCallDiv } from '@polkadot/ui-api';
-import valueToText from '@polkadot/ui-params/valueToText';
+import { Button, Labelled } from '@polkadot/react-components';
+import { withCallDiv } from '@polkadot/react-api';
+import valueToText from '@polkadot/react-params/valueToText';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
-import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/ui-api/with/types';
-import { ConstValue } from '@polkadot/ui-app/InputConsts/types';
+import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/with/types';
+import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 
 interface Props extends I18nProps {
   onRemove: (id: number) => void;
