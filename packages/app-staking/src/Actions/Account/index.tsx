@@ -196,7 +196,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderInfos (): React.ReactNode {
     const { isSubstrateV2 } = this.props;
-    const { hexSessionId, stashId } = this.state;
+    const { hexSessionId, isStashValidating, stashId } = this.state;
 
     return (
       <AddressInfo
@@ -210,7 +210,7 @@ class Account extends React.PureComponent<Props, State> {
         }}
         withRewardDestination
         withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
-        withValidatorPrefs
+        withValidatorPrefs={isStashValidating}
       />
     );
   }
@@ -344,8 +344,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
+    const { isSubstrateV2, t } = this.props;
+    const { controllerId, hexSessionId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
     const buttons = [];
 
     // if we are validating/nominating show stop
@@ -364,7 +364,7 @@ class Account extends React.PureComponent<Props, State> {
         />
       );
     } else {
-      if (!sessionIds.length) {
+      if (!sessionIds.length || (isSubstrateV2 && hexSessionId === '0x')) {
         buttons.push(
           <Button
             isPrimary
@@ -424,11 +424,13 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderPopupMenu (): React.ReactNode {
     const { balances_all, isSubstrateV2, t } = this.props;
-    const { isStashNominating, isStashValidating, sessionIds } = this.state;
+    const { stashId, hexSessionId, isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
     const canBondExtra = balances_all && balances_all.availableBalance.gtn(0);
+    console.log('stsashID', stashId);
+    console.log('isStashValidating', isStashValidating);
 
     return (
       <Menu
@@ -455,7 +457,7 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {sessionIds.length &&
+        {(!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
             {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
           </Menu.Item>
