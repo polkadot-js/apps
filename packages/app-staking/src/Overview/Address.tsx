@@ -116,13 +116,13 @@ class Address extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Address-info'>
         {isAuthor && stashId
-          ? <div className='blockNumber'>#{lastBlock}</div>
+          ? <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
           : null
         }
         {controllerId
           ? (
             <div>
-              <label className={classes('staking--label', isSubstrateV2 && 'controllerSpacer')}>{t('controller')}</label>
+              <label className={classes('staking--label', isSubstrateV2 && !isAuthor && 'controllerSpacer')}>{t('controller')}</label>
               <AddressMini value={controllerId} />
             </div>
           )
@@ -226,7 +226,20 @@ class Address extends React.PureComponent<Props, State> {
 
 export default withMulti(
   styled(Address as React.ComponentClass<Props>)`
-    .blockNumber {
+    .blockNumberV2 {
+      background: #3f3f3f;
+      border-radius: 0.25rem;
+      box-shadow: 0 3px 3px rgba(0,0,0,.2);
+      color: #eee;
+      font-size: 1.5rem;
+      font-weight: 100;
+      line-height: 1.5rem;
+      margin-bottom: 1rem;
+      padding: 0.25rem 0.5rem;
+      z-index: 1;
+    }
+
+    .blockNumberV1 {
       background: #3f3f3f;
       border-radius: 0.25rem;
       top: 0rem;
@@ -243,7 +256,7 @@ export default withMulti(
     }
 
     .staking--label.controllerSpacer {
-      margin-top: 3rem;
+      margin-top:3rem;
     }
   `,
   translate,
