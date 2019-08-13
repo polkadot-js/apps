@@ -100,7 +100,7 @@ class Account extends React.PureComponent<Props, State> {
         nextSessionIds.length
           ? nextSessionIds
           : sessionIds
-      ).map((id): Uint8Array => id.toU8a())), 64),
+      ).map((id): Uint8Array => id.toU8a())), 48),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
@@ -195,6 +195,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderInfos (): React.ReactNode {
+    const { isSubstrateV2 } = this.props;
     const { hexSessionId, stashId } = this.state;
 
     return (
@@ -208,7 +209,7 @@ class Account extends React.PureComponent<Props, State> {
           unlocking: true
         }}
         withRewardDestination
-        withHexSessionId={hexSessionId !== '0x' && hexSessionId}
+        withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
         withValidatorPrefs
       />
     );

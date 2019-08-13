@@ -13,8 +13,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/react-api/with';
 import { AddressCard, AddressMini, RecentlyOffline } from '@polkadot/react-components';
+import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
-import { formatBalance, u8aConcat, u8aToHex } from '@polkadot/util';
+import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -32,7 +33,6 @@ interface Props extends ApiProps, I18nProps {
 
 interface State {
   controllerId: string | null;
-  hexSessionId: string | null;
   stashActive: string | null;
   stashTotal: string | null;
   sessionId: string | null;
@@ -49,7 +49,6 @@ class Address extends React.PureComponent<Props, State> {
 
     this.state = {
       controllerId: null,
-      hexSessionId: null,
       sessionId: null,
       stashActive: null,
       stashId: null,
@@ -63,17 +62,11 @@ class Address extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { controllerId, stakers, sessionId, sessionIds = [], stashId, stakingLedger } = staking_info;
-    const hexSessionId = u8aToHex(u8aConcat(
-      ...sessionIds.map((id): Uint8Array =>
-        id.toU8a()
-      )
-    ), 64);
+    const { controllerId, nextSessionId, stakers, stashId, stakingLedger } = staking_info;
 
     return {
       controllerId: controllerId && controllerId.toString(),
-      hexSessionId,
-      sessionId: sessionId && sessionId.toString(),
+      sessionId: nextSessionId && nextSessionId.toString(),
       stashActive: stakingLedger
         ? formatBalance(stakingLedger.active)
         : prevState.stashActive,
@@ -117,7 +110,7 @@ class Address extends React.PureComponent<Props, State> {
 
   private renderKeys (): React.ReactNode {
     const { address, isSubstrateV2, lastAuthor, lastBlock, t } = this.props;
-    const { controllerId, hexSessionId, sessionId, stashId } = this.state;
+    const { controllerId, sessionId, stashId } = this.state;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
 
     return (
@@ -129,29 +122,20 @@ class Address extends React.PureComponent<Props, State> {
         {controllerId
           ? (
             <div>
-              <label className='staking--label'>{t('controller')}</label>
+              <label className={classes('staking--label', isSubstrateV2 && 'controllerSpacer')}>{t('controller')}</label>
               <AddressMini value={controllerId} />
             </div>
           )
           : null
         }
-        {isSubstrateV2
-          ? hexSessionId
-            ? (
-              <div>
-                <label className='staking--label'>{t('session')}</label>
-                <div>{hexSessionId}</div>
-              </div>
-            )
-            : null
-          : sessionId
-            ? (
-              <div>
-                <label className='staking--label'>{t('session')}</label>
-                <AddressMini value={sessionId} />
-              </div>
-            )
-            : null
+        {!isSubstrateV2 && sessionId
+          ? (
+            <div>
+              <label className='staking--label'>{t('session')}</label>
+              <AddressMini value={sessionId} />
+            </div>
+          )
+          : null
         }
       </div>
     );
@@ -256,6 +240,10 @@ export default withMulti(
       right: -0.75rem;
       vertical-align: middle;
       z-index: 1;
+    }
+
+    .staking--label.controllerSpacer {
+      margin-top: 3rem;
     }
   `,
   translate,
