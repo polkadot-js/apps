@@ -99,6 +99,7 @@
       width: 10rem;
 
       img {
+        border-radius: 50%;
         width: 2.5rem;
       }
 
@@ -106,6 +107,11 @@
         color: white;
         opacity: 0.75;
         text-align: right;
+
+        > div.chain {
+          font-size: 0.9rem;
+          line-height: 1rem;
+        }
       }
     }
 

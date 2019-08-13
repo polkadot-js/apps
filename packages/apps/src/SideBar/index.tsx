@@ -29,6 +29,7 @@ interface Props extends I18nProps {
   handleResize: () => void;
   isCollapsed: boolean;
   menuOpen: boolean;
+  system_chain?: string;
   system_name?: string;
   toggleMenu: () => void;
 }
@@ -147,8 +148,8 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderLogo (): React.ReactNode {
-    const { system_name } = this.props;
-    const logo = getLogo(system_name);
+    const { system_chain, system_name } = this.props;
+    const logo = getLogo(system_name, system_chain);
 
     return (
       <div className='apps--SideBar-logo'>
@@ -157,7 +158,7 @@ class SideBar extends React.PureComponent<Props, State> {
           src={logo}
         />
         <div className='info'>
-          <Chain />
+          <Chain className='chain' />
           <BestNumber label='#' />
         </div>
       </div>
@@ -263,6 +264,7 @@ export default withMulti(
   SideBar,
   translate,
   withCalls<Props>(
+    'rpc.system.chain',
     'rpc.system.name'
   )
 );
