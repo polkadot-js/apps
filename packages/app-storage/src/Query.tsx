@@ -40,6 +40,37 @@ const cache: CacheInstance[] = [];
 class Query extends React.PureComponent<Props, State> {
   public state: State = { spread: {} };
 
+  private static keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | ConstValue): string {
+    if (isConst) {
+      const key = _key as ConstValue;
+
+      return `const ${key.section}.${key.method}`;
+    }
+
+    const key = _key as Uint8Array | StorageEntryPromise;
+
+    if (isU8a(key)) {
+      const u8a = Compact.stripLengthPrefix(key);
+
+      // If the string starts with `:`, handle it as a pure string
+      return u8a[0] === 0x3a
+        ? u8aToString(u8a)
+        : u8aToHex(u8a);
+    }
+
+    return `${key.creator.section}.${key.creator.method}`;
+  }
+
+  private static typeToString (key: StorageEntryPromise): string {
+    const type = key.creator.meta.type.isDoubleMap
+      ? key.creator.meta.type.asDoubleMap.value.toString()
+      : key.creator.meta.type.toString();
+
+    return key.creator.meta.modifier.isOptional
+      ? `Option<${type}>`
+      : type;
+  }
+
   public static getCachedComponent (query: QueryTypes): CacheInstance {
     const { id, isConst, key, params = [] } = query as StorageModuleQuery;
 
@@ -62,7 +93,7 @@ class Query extends React.PureComponent<Props, State> {
           params: [key, ...values]
         });
         type = key.creator.meta
-          ? key.creator.meta.type.toString()
+          ? Query.typeToString(key)
           : 'Data';
       }
 
@@ -123,11 +154,7 @@ class Query extends React.PureComponent<Props, State> {
       ? (key as unknown as ConstValue).meta.type.toString()
       : isU8a(key)
         ? 'Data'
-        : (
-          (key as StorageEntryPromise).creator.meta.modifier.isOptional
-            ? `Option<${(key as StorageEntryPromise).creator.meta.type}>`
-            : (key as StorageEntryPromise).creator.meta.type.toString()
-        );
+        : Query.typeToString(key as StorageEntryPromise);
 
     if (!Component) {
       return null;
@@ -139,7 +166,7 @@ class Query extends React.PureComponent<Props, State> {
           <Labelled
             label={
               <div className='ui--Param-text'>
-                {this.keyToName(isConst, key)}: {type}
+                {Query.keyToName(isConst, key)}: {type}
               </div>
             }
           >
@@ -185,27 +212,6 @@ class Query extends React.PureComponent<Props, State> {
     }
 
     return buttons;
-  }
-
-  private keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | ConstValue): string {
-    if (isConst) {
-      const key = _key as ConstValue;
-
-      return `const ${key.section}.${key.method}`;
-    }
-
-    const key = _key as Uint8Array | StorageEntryPromise;
-
-    if (isU8a(key)) {
-      const u8a = Compact.stripLengthPrefix(key);
-
-      // If the string starts with `:`, handle it as a pure string
-      return u8a[0] === 0x3a
-        ? u8aToString(u8a)
-        : u8aToHex(u8a);
-    }
-
-    return `${key.creator.section}.${key.creator.method}`;
   }
 
   private spreadHandler (id: number): () => void {
