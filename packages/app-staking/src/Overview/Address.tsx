@@ -5,6 +5,7 @@
 
 import { AccountId, Balance, Exposure } from '@polkadot/types/interfaces';
 import { DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter, RecentlyOfflineMap } from '../types';
 
@@ -12,12 +13,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/react-api/with';
 import { AddressCard, AddressMini, RecentlyOffline } from '@polkadot/react-components';
+import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   address: string;
   balances: DerivedBalancesMap;
   className?: string;
@@ -107,31 +109,26 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private renderKeys (): React.ReactNode {
-    const { address, lastAuthor, lastBlock, t } = this.props;
+    const { address, isSubstrateV2, lastAuthor, lastBlock, t } = this.props;
     const { controllerId, sessionId, stashId } = this.state;
-    const isSame = controllerId === sessionId;
     const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
 
     return (
       <div className='staking--Address-info'>
         {isAuthor && stashId
-          ? <div className='blockNumber'>#{lastBlock}</div>
+          ? <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
           : null
         }
         {controllerId
           ? (
             <div>
-              <label className='staking--label'>{
-                isSame
-                  ? t('controller/session')
-                  : t('controller')
-              }</label>
+              <label className={classes('staking--label', isSubstrateV2 && !isAuthor && 'controllerSpacer')}>{t('controller')}</label>
               <AddressMini value={controllerId} />
             </div>
           )
           : null
         }
-        {!isSame && sessionId
+        {!isSubstrateV2 && sessionId
           ? (
             <div>
               <label className='staking--label'>{t('session')}</label>
@@ -229,7 +226,20 @@ class Address extends React.PureComponent<Props, State> {
 
 export default withMulti(
   styled(Address as React.ComponentClass<Props>)`
-    .blockNumber {
+    .blockNumberV2 {
+      background: #3f3f3f;
+      border-radius: 0.25rem;
+      box-shadow: 0 3px 3px rgba(0,0,0,.2);
+      color: #eee;
+      font-size: 1.5rem;
+      font-weight: 100;
+      line-height: 1.5rem;
+      margin-bottom: 1rem;
+      padding: 0.25rem 0.5rem;
+      z-index: 1;
+    }
+
+    .blockNumberV1 {
       background: #3f3f3f;
       border-radius: 0.25rem;
       top: 0rem;
@@ -243,6 +253,10 @@ export default withMulti(
       right: -0.75rem;
       vertical-align: middle;
       z-index: 1;
+    }
+
+    .staking--label.controllerSpacer {
+      margin-top:3rem;
     }
   `,
   translate,

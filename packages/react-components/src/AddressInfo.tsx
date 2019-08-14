@@ -42,8 +42,9 @@ type Props = BareProps & I18nProps & {
   children?: React.ReactNode;
   staking_info?: DerivedStaking;
   withBalance?: boolean | BalanceActiveType;
-  withRewardDestination?: boolean;
   withExtended?: boolean | CryptoActiveType;
+  withHexSessionId: string | null;
+  withRewardDestination?: boolean;
   withValidatorPrefs?: boolean | ValidatorPrefsType;
 };
 
@@ -55,6 +56,7 @@ class AddressInfo extends React.PureComponent<Props> {
       <div className={className}>
         <div className='column'>
           {this.renderBalances()}
+          {this.renderHexSessionId()}
           {this.renderValidatorPrefs()}
           {this.renderRewardDestination()}
         </div>
@@ -170,6 +172,21 @@ class AddressInfo extends React.PureComponent<Props> {
           </>
         )}
       </div>
+    );
+  }
+
+  private renderHexSessionId (): React.ReactNode {
+    const { t, withHexSessionId = null } = this.props;
+
+    if (!withHexSessionId) {
+      return null;
+    }
+
+    return (
+      <>
+        <Label label={t('session keys')} />
+        <div className='result'>{withHexSessionId}</div>
+      </>
     );
   }
 

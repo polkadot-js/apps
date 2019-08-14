@@ -79,7 +79,7 @@ export default translate(
     .ui--Card,
     .ui--CardGrid-spacer {
       flex: 1 1;
-      min-width: 35rem;
+      min-width: 40rem;
       max-width: 71rem;
     }
 
