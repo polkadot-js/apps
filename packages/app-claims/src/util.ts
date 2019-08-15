@@ -45,8 +45,6 @@ export function hashMessage (message: string): Buffer {
   const expanded = stringToU8a(`\x19Ethereum Signed Message:\n${message.length.toString()}${message}`);
   const hashed = keccakAsU8a(expanded);
 
-  console.error('hashMessage', expanded, hashed);
-
   return u8aToBuffer(hashed);
 }
 
