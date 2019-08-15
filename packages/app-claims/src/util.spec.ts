@@ -4,12 +4,12 @@
 
 import { hexToU8a } from '@polkadot/util';
 
-import pkToEthAddr from './pkToEthAddr';
+import { publicToAddr } from './util';
 
-describe('pkToEthAddr', (): void => {
+describe('publicToAddr', (): void => {
   it('converts a publicKey to address', (): void => {
     expect(
-      pkToEthAddr(
+      publicToAddr(
         hexToU8a(
           '0x836b35a026743e823a90a0ee3b91bf615c6a757e2b60b9e1dc1826fd0dd16106f7bc1e8179f665015f43c6c81f39062fc2086ed849625c06e04697698b21855e'
         )

@@ -12,10 +12,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/react-api';
 import { Button, Inset } from '@polkadot/react-components';
-import { formatBalance/* , hexToU8a, stringToU8a, u8aToString, u8aToHex */ } from '@polkadot/util';
-// import { keccakAsU8a, secp256k1Recover } from '@polkadot/util-crypto';
+import { formatBalance } from '@polkadot/util';
 
 import translate from './translate';
+import { addrToChecksum } from './util';
 
 const ClaimInner = styled.div`
   font-size: 1.15rem;
@@ -103,16 +103,12 @@ class Claim extends React.PureComponent<Props, State> {
       >
         <ClaimInner>
           {t('Your Ethereum account')}
-          <h3>
-            {ethereumAddress.toString()}
-          </h3>
+          <h3>{addrToChecksum(ethereumAddress.toString())}</h3>
           {hasClaim && !!claim
             ? (
               <>
                 {t('has a valid claim for')}
-                <h2>
-                  {formatBalance(claim)}
-                </h2>
+                <h2>{formatBalance(claim)}</h2>
                 <Button.Group>
                   {button}
                 </Button.Group>
@@ -136,20 +132,16 @@ class Claim extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState(
-      {
-        isBusy: true
-      },
-      (): void => {
-        api.query.claims.claims<Option<BalanceOf>>(ethereumAddress.toHex())
-          .then((claim): void => {
-            this.setState({
-              claim: claim.unwrapOr(null),
-              isBusy: false
-            });
+    this.setState({ isBusy: true }, (): void => {
+      api.query.claims
+        .claims<Option<BalanceOf>>(ethereumAddress.toHex())
+        .then((claim): void => {
+          this.setState({
+            claim: claim.unwrapOr(null),
+            isBusy: false
           });
-      }
-    );
+        });
+    });
   }
 }
 

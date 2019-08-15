@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as classes } from './classes';
-export { default as pkToEthAddr } from './pkToEthAddr';
 export { default as getAddressMeta } from './getAddressMeta';
 export { default as getAddressName } from './getAddressName';
 export { default as getAddressTags } from './getAddressTags';

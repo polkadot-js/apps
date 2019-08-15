@@ -28,8 +28,6 @@ enum Step {
   Claim = 2,
 }
 
-const { Account, Sign, Claim } = Step;
-
 interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
 
 interface State extends TxModalState {
@@ -105,17 +103,17 @@ class App extends TxModal<Props, State> {
             <Inset withBottomMargin>
               <h3>{t('1. Select your Polkadot account')}</h3>
               {this.renderInputAccount()}
-              {(step === Account) && (
+              {(step === Step.Account) && (
                 <Button.Group>
                   <Button
                     isPrimary
-                    onClick={this.setStep(Sign)}
+                    onClick={this.setStep(Step.Sign)}
                     label={t('Continue')}
                   />
                 </Button.Group>
               )}
             </Inset>
-            {(step >= Sign && !!accountId) && (
+            {(step >= Step.Sign && !!accountId) && (
               <Inset withBottomMargin>
                 <h3>{t('2. Sign ETH transaction')}</h3>
                 <CopyToClipboard
@@ -146,12 +144,12 @@ class App extends TxModal<Props, State> {
                   onChange={this.onChangeSignature}
                   rows={10}
                 />
-                {(step === Sign) && (
+                {(step === Step.Sign) && (
                   <Button.Group>
                     <Button
                       isDisabled={!accountId || !signature}
                       isPrimary
-                      onClick={this.setStep(Claim)}
+                      onClick={this.setStep(Step.Claim)}
                       label={t('Confirm claim')}
                     />
                   </Button.Group>
@@ -160,7 +158,7 @@ class App extends TxModal<Props, State> {
             )}
           </Column>
           <Column showEmptyText={false}>
-            {(step >= Claim) && (
+            {(step >= Step.Claim) && (
               <ClaimDisplay
                 button={this.renderTxButton()}
                 ethereumAddress={ethereumAddress}
@@ -197,7 +195,7 @@ class App extends TxModal<Props, State> {
     this.setState(({ step }: State): Pick<State, never> => {
       return {
         ...(
-          step > Account
+          step > Step.Account
             ? this.defaultState
             : {}
         ),
@@ -212,8 +210,8 @@ class App extends TxModal<Props, State> {
     this.setState(({ step }: State): Pick<State, never> => {
       return {
         ...(
-          step > Sign
-            ? { step: Sign }
+          step > Step.Sign
+            ? { step: Step.Sign }
             : {}
         ),
         ...((): Pick<State, never> => {
