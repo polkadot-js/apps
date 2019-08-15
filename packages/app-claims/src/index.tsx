@@ -15,7 +15,7 @@ import { withApi, withMulti } from '@polkadot/react-api';
 import { Button, Card, Columar, Column, Tooltip } from '@polkadot/react-components';
 import { InputNumber } from '@polkadot/react-components/InputNumber';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { u8aToString, u8aConcat } from '@polkadot/util';
+import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import ClaimDisplay from './Claim';
@@ -88,17 +88,17 @@ class App extends TxModal<Props, State> {
     const { accountId, didCopy, ethereumAddress, signature, step } = this.state;
 
     const payload = accountId
-      ? encodeURI(u8aToString(u8aConcat(
-        Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true)),
-        decodeAddress(accountId)
-      )))
-      : '0x';
+      ? (
+        u8aToString(Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true))) +
+        u8aToHex(decodeAddress(accountId), -1, false)
+      )
+      : '';
 
     return (
       <main>
         <header />
         <h1>
-          {t('claim your{{unit}} tokens', { replace: { unit: ` ${InputNumber.units}` || '' } })}
+          {t('claim your{{unit}} tokens', { replace: { unit: ` ${InputNumber.units.toUpperCase()}` || '' } })}
         </h1>
         <Columar>
           <Column>
