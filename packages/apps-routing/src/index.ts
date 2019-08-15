@@ -12,7 +12,7 @@ import addressbook from './addressbook';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
-import dashboard from './dashboard';
+// import dashboard from './dashboard';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
@@ -28,12 +28,11 @@ import treasury from './treasury';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
-    claims,
-    null,
-    dashboard,
+    // dashboard,
     explorer,
     accounts,
     addressbook,
+    claims,
     transfer,
     null,
     staking,
@@ -41,16 +40,14 @@ const routes: Routes = appSettings.uiMode === 'light'
     council,
     // TODO Not sure about the inclusion of treasury & parachains here
     null,
-    settings,
-    template
+    settings
   )
   : ([] as Routes).concat(
-    claims,
-    null,
-    dashboard,
+    // dashboard,
     explorer,
     accounts,
     addressbook,
+    claims,
     transfer,
     null,
     staking,
