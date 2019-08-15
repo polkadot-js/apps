@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-staking",
-  "version": "0.34.0-beta.125",
+  "version": "0.34.0-beta.126",
   "description": "A basic staking app",
   "main": "index.js",
   "scripts": {},
@@ -11,8 +11,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@polkadot/app-explorer": "^0.34.0-beta.125",
-    "@polkadot/react-components": "^0.34.0-beta.125",
-    "@polkadot/react-query": "^0.34.0-beta.125"
+    "@polkadot/app-explorer": "^0.34.0-beta.126",
+    "@polkadot/react-components": "^0.34.0-beta.126",
+    "@polkadot/react-query": "^0.34.0-beta.126"
   }
 }
