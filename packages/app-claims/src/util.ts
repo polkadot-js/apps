@@ -21,6 +21,7 @@ interface SignatureParts {
   signature: Buffer;
 }
 
+// converts an Ethereum address to a checksum representation
 export function addrToChecksum (_address: string): string {
   const address = _address.toLowerCase();
   const hash = keccakAsHex(address.substr(2)).substr(2);
@@ -37,10 +38,12 @@ export function addrToChecksum (_address: string): string {
   return result;
 }
 
+// convert a give public key to an Ethereum address (the last 20 bytes of an _exapnded_ key keccack)
 export function publicToAddr (publicKey: Uint8Array): string {
   return addrToChecksum(`0x${keccakAsHex(publicKey).slice(-40)}`);
 }
 
+// hash a message for use in signature recovery, adding the standard Ethereum header
 export function hashMessage (message: string): Buffer {
   const expanded = stringToU8a(`\x19Ethereum Signed Message:\n${message.length.toString()}${message}`);
   const hashed = keccakAsU8a(expanded);
@@ -48,6 +51,7 @@ export function hashMessage (message: string): Buffer {
   return u8aToBuffer(hashed);
 }
 
+// split is 65-byte signature into the r, s (combined) and recovery number (derived from v)
 export function sigToParts (_signature: string): SignatureParts {
   const signature = hexToU8a(_signature);
 
@@ -69,6 +73,7 @@ export function sigToParts (_signature: string): SignatureParts {
   };
 }
 
+// recover an address from a given message and a recover/signature combination
 export function recoverAddress (message: string, { recovery, signature }: SignatureParts): string {
   const msgHash = hashMessage(message);
   const senderPubKey = secp256k1.recover(msgHash, signature, recovery);
@@ -78,7 +83,8 @@ export function recoverAddress (message: string, { recovery, signature }: Signat
   );
 }
 
-export function recoverEthereumSignature (signatureJson: string | null): RecoveredSignature {
+// recover an address from a signature JSON (as supplied by e.g. MyCrypto)
+export function recoverFromJSON (signatureJson: string | null): RecoveredSignature {
   try {
     const { msg, sig } = JSON.parse(signatureJson || '{}');
 

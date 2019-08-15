@@ -20,7 +20,7 @@ import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import ClaimDisplay from './Claim';
-import { recoverEthereumSignature } from './util';
+import { recoverFromJSON } from './util';
 
 import translate from './translate';
 
@@ -207,32 +207,14 @@ class App extends TxModal<Props, State> {
   protected onChangeSignature = (event: React.SyntheticEvent<Element>): void => {
     const { value: signatureJson } = event.target as HTMLInputElement;
 
-    this.setState(({ step }: State): Pick<State, never> => {
-      return {
-        ...(
-          step > Step.Sign
-            ? { step: Step.Sign }
-            : {}
-        ),
-        ...((): Pick<State, never> => {
-          try {
-            const { ethereumAddress, signature } = recoverEthereumSignature(signatureJson);
-
-            return {
-              ethereumAddress,
-              signature
-            };
-          } catch (e) {
-            console.error(e);
-          }
-
-          return {
-            ethereumAddress: null,
-            signature: null
-          };
-        })()
-      };
-    });
+    this.setState(({ step }: State): Pick<State, never> => ({
+      ...(
+        step > Step.Sign
+          ? { step: Step.Sign }
+          : {}
+      ),
+      ...recoverFromJSON(signatureJson)
+    }));
   }
 
   private onCopy = (): void => {
