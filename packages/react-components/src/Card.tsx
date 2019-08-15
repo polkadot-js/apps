@@ -5,17 +5,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { classes } from './util';
+
 interface Props {
   children: React.ReactNode;
   className?: string;
+  isError?: boolean;
+  isSuccess?: boolean;
+  withBottomMargin?: boolean;
 }
 
 class Card extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { children, className } = this.props;
+    const { children, className, isError, isSuccess, withBottomMargin } = this.props;
 
     return (
-      <article className={`ui--Card ${className}`}>
+      <article className={classes('ui--Card', className, (isError && !isSuccess) && 'error', (!isError && isSuccess) && 'success', withBottomMargin && 'withBottomMargin')}>
         {children}
       </article>
     );
@@ -27,6 +32,27 @@ export default styled(Card)`
   flex: 1 1;
   min-width: 24%;
   justify-content: space-around;
+
+  &.error {
+    background: rgba(255, 0, 0, 0.05);
+
+    &, h1, h2, h3, h4, h5, h6, p {
+      color: rgba(156, 0, 0) !important;
+    }
+  }
+
+  &.success {
+    border: 1px solid rgb(168, 255, 136);
+    background: rgba(0, 255, 0, 0.05);
+
+    &, h1, h2, h3, h4, h5, h6, p {
+      color: rgba(34, 125, 0) !important;
+    }
+  }
+
+  &.withBottomMargin {
+    margin-bottom: 1.5rem;
+  }
 
   i.help.circle.icon,
   .ui.button.mini,

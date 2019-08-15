@@ -11,7 +11,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import React from 'react';
 import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { Button, Inset } from '@polkadot/react-components';
+import { Button, Card } from '@polkadot/react-components';
 import { formatBalance } from '@polkadot/util';
 
 import translate from './translate';
@@ -97,7 +97,7 @@ class Claim extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Inset
+      <Card
         isError={!hasClaim || !claim}
         isSuccess={hasClaim && !!claim}
       >
@@ -120,7 +120,7 @@ class Claim extends React.PureComponent<Props, State> {
               </>
             )}
         </ClaimInner>
-      </Inset>
+      </Card>
     );
   }
 

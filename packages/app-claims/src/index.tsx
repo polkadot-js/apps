@@ -12,10 +12,11 @@ import React from 'react';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { Button, Columar, Column, Inset, Tooltip } from '@polkadot/react-components';
+import { Button, Card, Columar, Column, Tooltip } from '@polkadot/react-components';
 import { InputNumber } from '@polkadot/react-components/InputNumber';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { u8aToString } from '@polkadot/util';
+import { u8aToString, u8aConcat } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import ClaimDisplay from './Claim';
 import { recoverEthereumSignature } from './util';
@@ -86,11 +87,12 @@ class App extends TxModal<Props, State> {
     const { api, t } = this.props;
     const { accountId, didCopy, ethereumAddress, signature, step } = this.state;
 
-    const payload = `${
-      u8aToString(Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true)))
-    }${
-      (accountId || '').toString()
-    }`;
+    const payload = accountId
+      ? encodeURI(u8aToString(u8aConcat(
+        Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true)),
+        decodeAddress(accountId)
+      )))
+      : '0x';
 
     return (
       <main>
@@ -100,7 +102,7 @@ class App extends TxModal<Props, State> {
         </h1>
         <Columar>
           <Column>
-            <Inset withBottomMargin>
+            <Card withBottomMargin>
               <h3>{t('1. Select your Polkadot account')}</h3>
               {this.renderInputAccount()}
               {(step === Step.Account) && (
@@ -112,9 +114,9 @@ class App extends TxModal<Props, State> {
                   />
                 </Button.Group>
               )}
-            </Inset>
+            </Card>
             {(step >= Step.Sign && !!accountId) && (
-              <Inset withBottomMargin>
+              <Card>
                 <h3>{t('2. Sign ETH transaction')}</h3>
                 <CopyToClipboard
                   onCopy={this.onCopy}
@@ -124,16 +126,12 @@ class App extends TxModal<Props, State> {
                     data-for={`tx-payload`}
                     data-tip
                   >
-                    {`${
-                      u8aToString(Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true)))
-                    }${
-                      accountId.toString()
-                    }`}
+                    {payload}
                   </Payload>
                 </CopyToClipboard>
                 <Tooltip
                   place='right'
-                  text={t(didCopy ? 'copied' : 'click to copy')}
+                  text={didCopy ? t('copied') : t('click to copy')}
                   trigger='tx-payload'
                 />
                 <div>
@@ -154,7 +152,7 @@ class App extends TxModal<Props, State> {
                     />
                   </Button.Group>
                 )}
-              </Inset>
+              </Card>
             )}
           </Column>
           <Column showEmptyText={false}>
