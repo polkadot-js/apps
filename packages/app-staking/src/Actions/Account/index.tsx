@@ -24,6 +24,7 @@ import SetSessionAccount from './SetSessionAccount';
 import translate from '../../translate';
 import Unbond from './Unbond';
 import Validate from './Validate';
+import { u8aToHex, u8aConcat } from '@polkadot/util';
 
 type Props = ApiProps & I18nProps & {
   accountId: string;
@@ -38,6 +39,7 @@ type Props = ApiProps & I18nProps & {
 interface State {
   controllerId: string | null;
   destination: number;
+  hexSessionId: string | null;
   isBondExtraOpen: boolean;
   isNominateOpen: boolean;
   isSetControllerAccountOpen: boolean;
@@ -66,6 +68,7 @@ class Account extends React.PureComponent<Props, State> {
   public state: State = {
     controllerId: null,
     destination: 0,
+    hexSessionId: null,
     isBondExtraOpen: false,
     isNominateOpen: false,
     isSetControllerAccountOpen: false,
@@ -93,6 +96,11 @@ class Account extends React.PureComponent<Props, State> {
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
+      hexSessionId: u8aToHex(u8aConcat(...(
+        nextSessionIds.length
+          ? nextSessionIds
+          : sessionIds
+      ).map((id): Uint8Array => id.toU8a())), 48),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
@@ -109,7 +117,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, t } = this.props;
+    const { className, isSubstrateV2, t } = this.props;
     const { stashId } = this.state;
 
     if (!stashId) {
@@ -147,7 +155,7 @@ class Account extends React.PureComponent<Props, State> {
         <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
-            {this.renderSessionAccount()}
+            {!isSubstrateV2 && this.renderSessionAccount()}
           </div>
           <div className='staking--Infos'>
             <div className='staking--balances'>
@@ -187,7 +195,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderInfos (): React.ReactNode {
-    const { stashId } = this.state;
+    const { isSubstrateV2 } = this.props;
+    const { hexSessionId, isStashValidating, stashId } = this.state;
 
     return (
       <AddressInfo
@@ -200,7 +209,8 @@ class Account extends React.PureComponent<Props, State> {
           unlocking: true
         }}
         withRewardDestination
-        withValidatorPrefs
+        withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
+        withValidatorPrefs={isStashValidating}
       />
     );
   }
@@ -334,8 +344,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
+    const { isSubstrateV2, t } = this.props;
+    const { controllerId, hexSessionId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
     const buttons = [];
 
     // if we are validating/nominating show stop
@@ -354,7 +364,7 @@ class Account extends React.PureComponent<Props, State> {
         />
       );
     } else {
-      if (!sessionIds.length) {
+      if (!sessionIds.length || (isSubstrateV2 && hexSessionId === '0x')) {
         buttons.push(
           <Button
             isPrimary
@@ -413,8 +423,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderPopupMenu (): React.ReactNode {
-    const { balances_all, t } = this.props;
-    const { isStashNominating, isStashValidating, sessionIds } = this.state;
+    const { balances_all, isSubstrateV2, t } = this.props;
+    const { hexSessionId, isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
@@ -445,9 +455,9 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {sessionIds.length &&
+        {(!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
-            {t('Change session account')}
+            {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
           </Menu.Item>
         }
         {isStashNominating &&
