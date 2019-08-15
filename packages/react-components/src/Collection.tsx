@@ -14,6 +14,7 @@ export interface CollectionProps extends I18nProps {
   headerText?: React.ReactNode;
   isEmpty?: boolean;
   emptyText?: React.ReactNode;
+  showEmptyText?: boolean;
 }
 
 export interface CollectionState {
@@ -78,6 +79,10 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   protected renderHeader (): React.ReactNode {
     const { buttons, headerText } = this.props;
 
+    if (!headerText) {
+      return null;
+    }
+
     return (
       <div className='ui--Collection-header'>
         <h1>{headerText}</h1>
@@ -91,12 +96,16 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   }
 
   protected renderEmpty (): React.ReactNode {
-    const { emptyText, t } = this.props;
+    const { emptyText = this.props.t('No items'), showEmptyText = true } = this.props;
+
+    if (!showEmptyText) {
+      return null;
+    }
 
     return (
       <article>
         <div className='ui--Collection-lowercase'>
-          {emptyText || t('No items')}
+          {emptyText}
         </div>
       </article>
     );

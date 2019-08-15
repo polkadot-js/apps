@@ -9,6 +9,8 @@
       "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
       "@polkadot/app-address-book": [ "packages/app-address-book/src" ],
       "@polkadot/app-address-book/*": [ "packages/app-address-book/src/*" ],
+      "@polkadot/app-claims": [ "packages/app-claims/src" ],
+      "@polkadot/app-claims/*": [ "packages/app-claims/src/*" ],
       "@polkadot/app-contracts": [ "packages/app-contracts/src" ],
       "@polkadot/app-contracts/*": [ "packages/app-contracts/src/*" ],
       "@polkadot/app-council": [ "packages/app-council/src" ],
