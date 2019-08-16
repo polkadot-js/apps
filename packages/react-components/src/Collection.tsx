@@ -79,7 +79,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   protected renderHeader (): React.ReactNode {
     const { buttons, headerText } = this.props;
 
-    if (!headerText) {
+    if (!headerText && !buttons) {
       return null;
     }
 

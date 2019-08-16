@@ -52,7 +52,6 @@ class CardGrid extends Collection<Props, State> {
         <div className='ui--CardGrid-spacer' />
         <div className='ui--CardGrid-spacer' />
         <div className='ui--CardGrid-spacer' />
-        {buttons}
       </div>
     );
   }
