@@ -44,7 +44,7 @@ class CardGrid extends Collection<Props, State> {
   }
 
   public renderCollection (): React.ReactNode {
-    const { children } = this.props;
+    const { buttons, children } = this.props;
 
     return (
       <div className='ui--CardGrid-grid'>
@@ -52,6 +52,7 @@ class CardGrid extends Collection<Props, State> {
         <div className='ui--CardGrid-spacer' />
         <div className='ui--CardGrid-spacer' />
         <div className='ui--CardGrid-spacer' />
+        {buttons}
       </div>
     );
   }
