@@ -44,7 +44,7 @@ class CardGrid extends Collection<Props, State> {
   }
 
   public renderCollection (): React.ReactNode {
-    const { buttons, children } = this.props;
+    const { children } = this.props;
 
     return (
       <div className='ui--CardGrid-grid'>
