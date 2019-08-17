@@ -226,6 +226,7 @@ class Address extends React.PureComponent<Props, State> {
 
 export default withMulti(
   styled(Address as React.ComponentClass<Props>)`
+    .blockNumberV1,
     .blockNumberV2 {
       background: #3f3f3f;
       border-radius: 0.25rem;
@@ -234,25 +235,22 @@ export default withMulti(
       font-size: 1.5rem;
       font-weight: 100;
       line-height: 1.5rem;
-      margin-bottom: 1rem;
-      padding: 0.25rem 0.5rem;
+      vertical-align: middle;
       z-index: 1;
     }
 
+    .blockNumberV2 {
+      display: inline-block;
+      margin-bottom: 1rem;
+      margin-right: -0.25rem;
+      padding: 0.25rem 0.75rem;
+    }
+
     .blockNumberV1 {
-      background: #3f3f3f;
-      border-radius: 0.25rem;
-      top: 0rem;
-      box-shadow: 0 3px 3px rgba(0,0,0,.2);
-      color: #eee;
-      font-size: 1.5rem;
-      font-weight: 100;
-      line-height: 1.5rem;
+      top: -0.25rem;
       padding: 0.25rem 0.5rem;
       position: absolute;
-      right: -0.75rem;
-      vertical-align: middle;
-      z-index: 1;
+      right: -0.25rem;
     }
 
     .staking--label.controllerSpacer {
