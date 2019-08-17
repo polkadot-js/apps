@@ -57,8 +57,8 @@ class Deploy extends ContractModal<Props, State> {
     this.state = this.defaultState;
   }
 
-  public componentWillReceiveProps (nextProps: Props, nextState: State): void {
-    super.componentWillReceiveProps(nextProps, nextState);
+  public UNSAFE_componentWillReceiveProps (nextProps: Props, nextState: State): void {
+    super.UNSAFE_componentWillReceiveProps(nextProps, nextState);
 
     if (nextProps.codeHash && nextProps.codeHash !== this.props.codeHash) {
       this.setState(

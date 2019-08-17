@@ -55,7 +55,7 @@ class ABI extends React.PureComponent<Props, State> {
     };
   }
 
-  public componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props): void {
+  public UNSAFE_componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props): void {
     if (contractAbi) {
       this.setState({
         contractAbi,

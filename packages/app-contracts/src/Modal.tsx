@@ -50,7 +50,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
   protected isContract?: boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public componentWillReceiveProps ({ isOpen }: P, prevState: S): void {
+  public UNSAFE_componentWillReceiveProps ({ isOpen }: P, prevState: S): void {
     if (isOpen && !this.props.isOpen && !this.state.isBusy) {
       this.reset();
     }

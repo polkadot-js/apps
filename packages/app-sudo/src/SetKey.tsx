@@ -36,7 +36,7 @@ class SetKey extends React.PureComponent<Props, State> {
     };
   }
 
-  public componentWillReceiveProps ({ sudoKey = this.props.sudoKey }): void {
+  public UNSAFE_componentWillReceiveProps ({ sudoKey = this.props.sudoKey }): void {
     if (sudoKey !== this.props.sudoKey) {
       this.setState({ selected: sudoKey });
     }
