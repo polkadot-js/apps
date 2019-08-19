@@ -31,7 +31,7 @@ class Events extends React.PureComponent<Props> {
 
   private renderEvent = ({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => {
     const { eventClassName, withoutIndex } = this.props;
-    const extIndex = !withoutIndex && phase.type === 'ApplyExtrinsic'
+    const extIndex = !withoutIndex && phase.isApplyExtrinsic
       ? phase.asApplyExtrinsic
       : -1;
 
