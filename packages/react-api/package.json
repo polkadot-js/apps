@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "@polkadot/api": "^0.90.0-beta.66",
-    "@polkadot/extension-dapp": "^0.7.0-beta.1",
+    "@polkadot/extension-dapp": "^0.7.1",
     "rxjs-compat": "^6.4.0"
   }
 }
