@@ -50,7 +50,7 @@ class Validate extends TxComponent<Props, State> {
         return {
           validatorPayment: validatorPayment.toBn()
         };
-      } else  {
+      } else {
         const { unstakeThreshold, validatorPayment } = validatorPrefs as ValidatorPrefs0to145;
 
         return {
