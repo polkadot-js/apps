@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
+import { ValidatorPrefs0to145 } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from './types';
 
 import BN from 'bn.js';
@@ -262,10 +263,11 @@ class AddressInfo extends React.PureComponent<Props> {
     return (
       <>
         <div className='spacer'></div>
-        {validatorPrefsDisplay.unstakeThreshold && staking_info.validatorPrefs.unstakeThreshold && (
+        {validatorPrefsDisplay.unstakeThreshold && (staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
           <>
             <Label label={t('unstake threshold')} />
-            <div className='result'>{staking_info.validatorPrefs.unstakeThreshold.toString()}
+            <div className='result'>
+              {(staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
             </div>
           </>
         )}
