@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ValidatorPrefs, ValidorPrefs0to145 } from '@polkadot/types/interfaces';
+import { ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
@@ -19,7 +19,7 @@ interface Props extends ApiProps, I18nProps {
   isOpen: boolean;
   onClose: () => void;
   stashId: string;
-  validatorPrefs?: ValidatorPrefs | ValidorPrefs0to145;
+  validatorPrefs?: ValidatorPrefs | ValidatorPrefs0to145;
 }
 
 interface State {
@@ -85,9 +85,8 @@ class Validate extends TxComponent<Props, State> {
   }
 
   private renderButtons (): React.ReactNode {
-    const { controllerId, isSubstrateV2, onClose, t, validatorPrefs } = this.props;
+    const { controllerId, isSubstrateV2, onClose, t } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
-    const isChangingPrefs = validatorPrefs && !!validatorPrefs.unstakeThreshold;
 
     return (
       <Modal.Actions>
@@ -102,7 +101,7 @@ class Validate extends TxComponent<Props, State> {
             accountId={controllerId}
             isDisabled={!!unstakeThresholdError}
             isPrimary
-            label={isChangingPrefs ? t('Set validator preferences') : t('Validate')}
+            label={t('Validate Preferences')}
             onClick={onClose}
             params={[
               isSubstrateV2
@@ -120,7 +119,7 @@ class Validate extends TxComponent<Props, State> {
   private renderContent (): React.ReactNode {
     const { controllerId, isSubstrateV2, stashId, t, validatorPrefs } = this.props;
     const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
-    const defaultValue = validatorPrefs && validatorPrefs.unstakeThreshold && validatorPrefs.unstakeThreshold.toBn();
+    const defaultThreshold = validatorPrefs && (validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toBn();
 
     return (
       <>
@@ -146,7 +145,7 @@ class Validate extends TxComponent<Props, State> {
                 autoFocus
                 bitLength={32}
                 className='medium'
-                defaultValue={defaultValue}
+                defaultValue={defaultThreshold}
                 help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
                 isError={!!unstakeThresholdError}
                 label={t('automatic unstake threshold')}
