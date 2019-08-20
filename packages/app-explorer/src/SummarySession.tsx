@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedSessionInfo } from '@polkadot/api-derive/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -13,7 +14,7 @@ import { withCalls } from '@polkadot/react-api';
 import translate from './translate';
 import { formatNumber } from '@polkadot/util';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   session_info?: DerivedSessionInfo;
   withEra?: boolean;
   withSession?: boolean;

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -14,7 +15,7 @@ import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   chain_bestNumber?: BN;
   hash: string;
   proposal: ProposalType | null;

@@ -5,6 +5,7 @@
 
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyringOptions } from '@polkadot/ui-keyring/options/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { QueueStatus, QueueTx, QueueAction$Add } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
@@ -17,7 +18,7 @@ import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   optionsAll?: KeyringOptions;
   queueAction: QueueAction$Add;
   stqueue: QueueStatus[];

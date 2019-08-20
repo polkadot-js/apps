@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
@@ -24,9 +25,9 @@ import Main from './Main';
 import NodeInfo from './NodeInfo';
 import translate from './translate';
 
-type Props = AppProps & BareProps & I18nProps & {
+interface Props extends ApiProps, AppProps, BareProps, I18nProps {
   system_events?: EventRecord[];
-};
+}
 
 interface State {
   items: TabItem[];

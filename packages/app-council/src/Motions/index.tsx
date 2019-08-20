@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -14,7 +15,7 @@ import Motion from './Motion';
 import Propose from './Propose';
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   council_proposals?: Hash[];
 }
 

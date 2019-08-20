@@ -3,6 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -13,7 +14,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   treasury_proposalCount?: BN;
   treasury_approvals?: BN[];
   treasury_pot?: BN;

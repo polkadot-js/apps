@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { CalculateBalanceProps } from '../types';
 
 import BN from 'bn.js';
@@ -16,9 +16,9 @@ import translate from '../translate';
 import { rewardDestinationOptions } from './constants';
 import InputValidationController from './Account/InputValidationController';
 
-type Props = I18nProps & ApiProps & CalculateBalanceProps & {
+interface Props extends ApiProps, I18nProps, CalculateBalanceProps {
   onClose: () => void;
-};
+}
 
 interface State {
   bondValue?: BN;

@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -14,7 +15,7 @@ import Query from '../Query';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 
-interface Props extends BareProps {
+interface Props extends ApiProps, BareProps {
   chain_bestNumber?: BlockNumber;
   match: {
     params: {

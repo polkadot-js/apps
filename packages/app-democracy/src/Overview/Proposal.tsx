@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, Proposal } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -16,7 +17,7 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 import Seconding from './Seconding';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   democracy_depositOf?: [Balance, Vec<AccountId>] | null;
   idNumber: BN;
   value: Proposal;

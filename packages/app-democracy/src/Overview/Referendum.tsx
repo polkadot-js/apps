@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedReferendumVote } from '@polkadot/api-derive/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 
@@ -25,7 +26,7 @@ const COLORS_NAY = settings.uiTheme === 'substrate'
   ? ['#d44', '#e44']
   : ['#d75ea1', '#e189ba'];
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   idNumber: BN;
   chain_bestNumber?: BN;
   democracy_referendumVotesFor?: DerivedReferendumVote[];

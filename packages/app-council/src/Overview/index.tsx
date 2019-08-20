@@ -4,6 +4,7 @@
 
 import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
 import { BlockNumber, SetIndex, VoteIndex } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
@@ -27,7 +28,7 @@ const NULL_INFO: DerivedElectionsInfo = {
   voterCount: new BN(0) as SetIndex
 };
 
-class Overview extends React.PureComponent<Props> {
+class Overview extends React.PureComponent<ApiProps & Props> {
   public render (): React.ReactNode {
     const { electionsInfo = NULL_INFO } = this.props;
 
@@ -45,7 +46,7 @@ class Overview extends React.PureComponent<Props> {
   }
 }
 
-export default withCalls<Props>(
+export default withCalls<ApiProps & Props>(
   [
     'derive.elections.info',
     {

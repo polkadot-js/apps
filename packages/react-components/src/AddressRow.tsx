@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -20,7 +21,7 @@ import IdentityIcon from './IdentityIcon';
 import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
-export type Props = I18nProps & RowProps & {
+export interface Props extends I18nProps, RowProps {
   bonded?: BN | BN[];
   isContract?: boolean;
   isValid?: boolean;
@@ -29,17 +30,17 @@ export type Props = I18nProps & RowProps & {
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;
   withIndex?: boolean;
-};
+}
 
 type State = RowState;
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
 
-class AddressRow extends Row<Props, State> {
+class AddressRow extends Row<ApiProps & Props, State> {
   public state: State;
 
-  public constructor (props: Props) {
+  public constructor (props: ApiProps & Props) {
     super(props);
 
     this.state = this.createState();
@@ -269,11 +270,11 @@ export {
 };
 
 export default withMulti(
-  styled(AddressRow as React.ComponentClass<Props>)`
+  styled(AddressRow as React.ComponentClass<ApiProps & Props>)`
     ${styles}
   `,
   translate,
-  withCalls<Props>(
+  withCalls<ApiProps & Props>(
     ['derive.accounts.idAndIndex', { paramName: 'value' }]
   )
 );

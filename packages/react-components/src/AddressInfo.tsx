@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { ValidatorPrefs0to145 } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from './types';
 
@@ -37,7 +38,7 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
-type Props = BareProps & I18nProps & {
+interface Props extends ApiProps, BareProps, I18nProps {
   address: string;
   balances_all?: DerivedBalances;
   children?: React.ReactNode;
@@ -47,7 +48,7 @@ type Props = BareProps & I18nProps & {
   withHexSessionId: string | null;
   withRewardDestination?: boolean;
   withValidatorPrefs?: boolean | ValidatorPrefsType;
-};
+}
 
 class AddressInfo extends React.PureComponent<Props> {
   public render (): React.ReactNode {

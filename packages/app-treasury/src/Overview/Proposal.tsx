@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
@@ -21,7 +22,7 @@ const Approved = styled.h3`
   margin: 0;
 `;
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   allAccounts?: SubjectInfo;
   isApproved: boolean;
   proposal?: TreasuryProposalType | null;

@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedFees } from '@polkadot/api-derive/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ExtraFees } from './types';
 
@@ -16,7 +17,7 @@ import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   deposit: BN | Compact<UInt>;
   fees: DerivedFees;
   democracy_minimumDeposit?: BN;

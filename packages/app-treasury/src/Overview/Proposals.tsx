@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProposalIndex } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -16,11 +17,11 @@ import { Column } from '@polkadot/react-components';
 import Proposal from './Proposal';
 import translate from '../translate';
 
-type Props = I18nProps & RouteComponentProps & {
+interface Props extends ApiProps, I18nProps, RouteComponentProps {
   isApprovals?: boolean;
   treasury_approvals?: BN[];
   treasury_proposalCount?: BN;
-};
+}
 
 interface State {
   isEmpty: boolean;
