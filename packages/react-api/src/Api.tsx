@@ -48,7 +48,9 @@ export { api };
 const injectedPromise = web3Enable('polkadot-js/apps');
 
 export default class Api extends React.PureComponent<Props, State> {
-  public state: State = {} as unknown as State;
+  public state: State = {
+    lastDecorated: 0
+  } as unknown as State;
 
   public constructor (props: Props) {
     super(props);
@@ -92,6 +94,11 @@ export default class Api extends React.PureComponent<Props, State> {
 
     api.on('connected', (): void => {
       this.setState({ isApiConnected: true });
+    });
+
+    api.on('decorated', (): void => {
+      console.error('re-decorated');
+      this.setState({ lastDecorated: Date.now() });
     });
 
     api.on('disconnected', (): void => {
@@ -170,7 +177,7 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl } = this.state;
+    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, lastDecorated, setApiUrl } = this.state;
 
     return (
       <ApiContext.Provider
@@ -184,6 +191,7 @@ export default class Api extends React.PureComponent<Props, State> {
           isDevelopment,
           isSubstrateV2,
           isWaitingInjected,
+          lastDecorated,
           setApiUrl
         }}
       >

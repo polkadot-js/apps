@@ -11,22 +11,22 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu, Tooltip } from '@polkadot/react-components';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withApi, withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends ApiProps, I18nProps {
   isCollapsed: boolean;
   onClick: () => void;
   allAccounts?: SubjectInfo;
   route: Route;
   sudo_key: string;
-};
+}
+
+const disabledLog: Map<string, string> = new Map();
 
 class Item extends React.PureComponent<Props> {
-  private _disabledLog: Map<string, string> = new Map();
-
   public render (): React.ReactNode {
     const { route: { Modal, i18n, icon, name }, t, isCollapsed, onClick } = this.props;
 
@@ -81,19 +81,19 @@ class Item extends React.PureComponent<Props> {
   }
 
   private logDisabled (route: string, message: string): void {
-    if (!this._disabledLog.get(route)) {
-      this._disabledLog.set(route, message);
+    if (!disabledLog.has(route)) {
+      disabledLog.set(route, message);
 
       console.warn(`Disabling ${route}: ${message}`);
     }
   }
 
-  private hasApi (endpoint: string): boolean {
+  private hasEndpoint (endpoint: string): boolean {
     const { api } = this.props;
-    const [area, section, method] = endpoint.split('.');
+    const [area, section, method] = endpoint.split('.') as ['query', string, string];
 
     try {
-      return isFunction((api as any)[area][section][method]);
+      return isFunction(api[area][section][method]);
     } catch (error) {
       return false;
     }
@@ -121,8 +121,8 @@ class Item extends React.PureComponent<Props> {
 
     const notFound = needsApi.filter((endpoint: string | string[]): boolean => {
       const hasApi = Array.isArray(endpoint)
-        ? endpoint.reduce((hasApi, endpoint): boolean => hasApi || this.hasApi(endpoint), false)
-        : this.hasApi(endpoint);
+        ? endpoint.reduce((hasApi, endpoint): boolean => hasApi || this.hasEndpoint(endpoint), false)
+        : this.hasEndpoint(endpoint);
 
       return !hasApi;
     });
@@ -138,7 +138,6 @@ class Item extends React.PureComponent<Props> {
 export default withMulti(
   Item,
   translate,
-  withApi,
   withCalls<Props>(
     ['query.sudo.key', {
       transform: (key): string =>

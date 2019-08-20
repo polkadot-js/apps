@@ -25,6 +25,7 @@ export interface ApiProps {
   isDevelopment: boolean;
   isSubstrateV2: boolean;
   isWaitingInjected: boolean;
+  lastDecorated: number;
   setApiUrl: (url?: string) => void;
 }
 
