@@ -101,7 +101,7 @@ class Validate extends TxComponent<Props, State> {
             accountId={controllerId}
             isDisabled={!!unstakeThresholdError}
             isPrimary
-            label={t('Validate Preferences')}
+            label={t('Validate')}
             onClick={onClose}
             params={[
               isSubstrateV2
