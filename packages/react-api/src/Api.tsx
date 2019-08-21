@@ -123,11 +123,11 @@ export default class Api extends React.PureComponent<Props, State> {
     ]);
     const addressPrefix = (
       uiSettings.prefix === -1
-        ? 42
+        ? properties.ss58Format.unwrapOr(42).toNumber()
         : uiSettings.prefix
     ) as Prefix;
-    const tokenSymbol = properties.tokenSymbol.toString() || 'DEV';
-    const tokenDecimals = properties.tokenDecimals.toNumber() || 15;
+    const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
+    const tokenDecimals = properties.tokenDecimals.unwrapOr(15).toNumber();
     const chain = value
       ? value.toString()
       : null;
