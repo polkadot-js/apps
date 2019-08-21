@@ -8,6 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { Header } from '@polkadot/types/interfaces';
 
 import React from 'react';
+import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { formatNumber, hexToU8a, u8aToHex } from '@polkadot/util';
 
@@ -16,6 +17,7 @@ import translate from './translate';
 const MAX_HEADS = 150;
 
 interface Props extends ApiProps, I18nProps {
+  className?: string;
   subscribeFinalizedHeads?: Header;
   subscribeNewHead?: Header;
 }
@@ -62,7 +64,9 @@ function mapToColumns (newHeads: Header[]): ForkHeaders {
         });
       }
 
-      all[num][column === -1 ? maxCols : column] = { hash, header, isFinalized: false };
+      if (!all[num].length || all[num][0].hash !== hash) {
+        all[num][column === -1 ? maxCols : column] = { hash, header, isFinalized: false };
+      }
     }
 
     return all;
@@ -112,27 +116,47 @@ class Forks extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
+    const { className } = this.props;
     const { all } = this.state;
 
     return (
-      <table>
-        <tbody>
-          {Object.entries(all).map(([bn, columns]): React.ReactNode => (
-            <tr key={bn}>
-              <td key='blockNumber'>{bn}</td>
-              {columns.map((column, index): React.ReactNode => (
-                <td key={index}>{column && u8aToHex(hexToU8a(column.hash), 64)}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className={className}>
+        <table>
+          <tbody>
+            {Object.entries(all).reverse().map(([bn, columns]): React.ReactNode => (
+              <tr key={bn}>
+                <td key='blockNumber'>{bn}</td>
+                {columns.map((column, index): React.ReactNode => (
+                  <td key={index} className={column && column.isFinalized ? 'isFinalized' : ''}>{
+                    column
+                      ? u8aToHex(hexToU8a(column.hash), 64)
+                      : ' '
+                  }</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
 
 export default withMulti(
-  Forks,
+  styled(Forks as React.ComponentClass<Props>)`
+    table {
+      font-family: monospace;
+
+      td {
+        margin: 0.25rem 0.5rem;
+        padding: 0.25rem 0.5rem;
+      }
+
+      td.isFinalized {
+        background: rgba(0, 255, 0, 0.25);
+      }
+    }
+  `,
   translate,
   withCalls<Props>(
     ['rpc.chain.subscribeNewHead', { propName: 'subscribeNewHead' }],
