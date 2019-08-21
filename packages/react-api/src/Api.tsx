@@ -97,7 +97,6 @@ export default class Api extends React.PureComponent<Props, State> {
     });
 
     api.on('decorated', (): void => {
-      console.error('re-decorated');
       this.setState({ lastDecorated: Date.now() });
     });
 
