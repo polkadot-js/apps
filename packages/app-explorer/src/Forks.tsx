@@ -206,7 +206,7 @@ class Forks extends React.PureComponent<Props, State> {
 
     return (
       <tr key={bn}>
-        <td key='blockNumber'>#{bn}</td>
+        <td className='blockNumber' key='blockNumber'>#{bn}</td>
         {curr.map(this.renderCol)}
       </tr>
     );
@@ -224,7 +224,7 @@ class Forks extends React.PureComponent<Props, State> {
 
     return (
       <td
-        className={`block ${extraClassName}`}
+        className={`header ${extraClassName}`}
         colSpan={column.count ? column.count : 1}
         key={index}
       >{
@@ -265,7 +265,11 @@ export default withMulti(
           }
         }
 
-        &.block {
+        &.blockNumber {
+          font-size: 1.25rem;
+        }
+
+        &.header {
           background: #f2f2f2;
 
           &.isFinalized {
