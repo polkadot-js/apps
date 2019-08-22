@@ -9,7 +9,7 @@ import { Header } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
@@ -18,8 +18,8 @@ const MAX_HEADS = 300;
 
 interface Props extends ApiProps, I18nProps {
   className?: string;
-  subscribeFinalizedHeads?: Header;
-  subscribeNewHead?: Header;
+  finHead?: Header;
+  newHead?: Header;
 }
 
 interface ForkHeader {
@@ -32,10 +32,9 @@ type ForkHeaders = Record<string, ForkHeader[]>;
 
 interface State {
   all: [string, ForkHeader[]][];
-  fin: Map<string, boolean>;
-  finHeads: Header[];
-  newHeads: Header[];
 }
+
+type UnsubFn = () => void;
 
 // This is the first step - we take a bundle of headers and then convert these into
 // columns based on the parent of the header
@@ -94,7 +93,7 @@ function mapToColumns (newHeads: Header[]): ForkHeaders {
 // Here we take columns that repeat and just flatten them - basically we just increase
 // the count in the entry and then drop the duplicate
 function flattenColumns (all: ForkHeaders): ForkHeaders {
-  return Object.entries(all).reduce((all: ForkHeaders, [bn, columns]): ForkHeaders => {
+  return Object.entries(all).reverse().reduce((all: ForkHeaders, [bn, columns]): ForkHeaders => {
     // columns may be completely empty (i.e. we didn't find a match)
     all[bn] = [columns[0] || { count: 1 }];
 
@@ -128,40 +127,82 @@ function flattenColumns (all: ForkHeaders): ForkHeaders {
 // This is a helper to take out map and return a sorted list of the key (blockNumber, formatted)
 // and the actual columns that we have for that entry
 function extractEntries (all: ForkHeaders): [string, ForkHeader[]][] {
-  return Object.keys(all).sort().reverse().map((bn): [string, ForkHeader[]] =>
+  return Object.keys(all).reverse().map((bn): [string, ForkHeader[]] =>
     [bn, all[bn]]
   );
 }
 
 class Forks extends React.PureComponent<Props, State> {
   public state: State = {
-    all: [],
-    fin: new Map(),
-    newHeads: [],
-    finHeads: []
+    all: []
   };
+
+  private _allFin: Map<string, boolean> = new Map();
+
+  private _allHeads: Header[] = [];
 
   private _isPrevShort: boolean = false;
 
-  public static getDerivedStateFromProps ({ subscribeFinalizedHeads, subscribeNewHead }: Props, prevState: State): Pick<State, any> | null {
-    if (!subscribeFinalizedHeads && !subscribeNewHead) {
-      return null;
+  private _subFinHead: UnsubFn | null = null;
+
+  private _subNewHead: UnsubFn | null = null;
+
+  private hasHeader (hash: Uint8Array): boolean {
+    return this._allHeads.some((prev): boolean => prev.hash.eq(hash));
+  }
+
+  private addFin = (header: Header): void => {
+    this._allFin.set(header.hash.toHex(), true);
+  }
+
+  private addHeader = (header: Header): void => {
+    const { api } = this.props;
+
+    if (!this.hasHeader(header.hash)) {
+      // add the header to the list
+      this._allHeads.unshift(header);
+
+      // sort and trim to our maxium
+      this._allHeads = this._allHeads
+        .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()))
+        .slice(0, Math.min(this._allHeads.length, MAX_HEADS));
+
+      // if we don't have the parent of this one, retrieve it
+      if (!this.hasHeader(header.parentHash)) {
+        // just make sure we are not first in the lsit, we don't want to full chain
+        if (!this._allHeads[this._allHeads.length - 1].number.eq(header.number)) {
+          console.warn(`Retrieving missing header ${header.parentHash.toHex()}`);
+
+          api.rpc.chain.getHeader(header.parentHash).then(this.addHeader);
+        }
+      }
+
+      // do the magic, extract the info into something useful and add to state
+      this.setState((): State => ({
+        all: extractEntries(
+          flattenColumns(
+            mapToColumns(this._allHeads)
+          )
+        )
+      }));
+    }
+  }
+
+  public async componentDidMount (): Promise<void> {
+    const { api } = this.props;
+
+    this._subFinHead = await api.rpc.chain.subscribeFinalizedHeads(this.addFin);
+    this._subNewHead = await api.rpc.chain.subscribeNewHead(this.addHeader);
+  }
+
+  public componentWillUnmount (): void {
+    if (this._subFinHead) {
+      this._subFinHead();
     }
 
-    // we just keep track of the finalized blocks inside a map (easy `has` access)
-    if (subscribeFinalizedHeads) {
-      prevState.fin.set(subscribeFinalizedHeads.hash.toHex(), true);
+    if (this._subNewHead) {
+      this._subNewHead();
     }
-
-    subscribeNewHead && prevState.newHeads.unshift(subscribeNewHead);
-
-    const newHeads = prevState.newHeads.slice(0, Math.min(prevState.newHeads.length, MAX_HEADS));
-    const all = extractEntries(flattenColumns(mapToColumns(newHeads)));
-
-    return {
-      all,
-      newHeads
-    };
   }
 
   public render (): React.ReactNode {
@@ -213,10 +254,9 @@ class Forks extends React.PureComponent<Props, State> {
   }
 
   private renderCol = (column: ForkHeader, index: number): React.ReactNode => {
-    const { fin } = this.state;
     const extraClassName = column.hash
       ? (
-        fin.has(column.hash)
+        this._allFin.has(column.hash)
           ? 'isFinalized'
           : ''
       )
@@ -284,8 +324,5 @@ export default withMulti(
     }
   `,
   translate,
-  withCalls<Props>(
-    ['rpc.chain.subscribeNewHead', { propName: 'subscribeNewHead' }],
-    ['rpc.chain.subscribeFinalizedHeads', { propName: 'subscribeFinalizedHeads' }]
-  )
+  withApi
 );
