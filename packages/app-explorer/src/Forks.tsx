@@ -10,7 +10,7 @@ import { Header } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { formatNumber, hexToU8a, u8aToHex } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
@@ -216,8 +216,8 @@ class Forks extends React.PureComponent<Props, State> {
           column.hash
             ? (
               <>
-                <div className='hash'>{u8aToHex(hexToU8a(column.hash), 48)}</div>
-                <div className='parent'>{u8aToHex(hexToU8a(column.parent), 48)}</div>
+                <div className='hash'>{column.hash}</div>
+                <div className='parent'>{column.parent}</div>
               </>
             )
             : <div className='empty' />
@@ -236,9 +236,18 @@ export default withMulti(
         padding: 0.25rem 0.5rem;
         text-align: center;
 
-        .parent {
-          font-size: 0.75rem;
-          line-height: 0.75rem;
+        div {
+          margin: 0 auto;
+          max-width: 7rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &.parent {
+            font-size: 0.75rem;
+            line-height: 0.75rem;
+            max-width: 5.25rem; /* 0.75 * 7rem */
+          }
         }
 
         &.block {
