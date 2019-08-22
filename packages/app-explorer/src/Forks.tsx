@@ -178,10 +178,11 @@ class Forks extends React.PureComponent<Props, State> {
 
         this._isPrevShort = true;
 
+        // …
         return (
           <tr key={bn}>
             <td key='blockNumber' />
-            <td colSpan={curr[0].count}>…</td>
+            <td colSpan={curr[0].count}>&#8942;</td>
           </tr>
         );
       }
