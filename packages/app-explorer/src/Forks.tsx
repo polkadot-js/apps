@@ -37,17 +37,23 @@ interface State {
   newHeads: Header[];
 }
 
+// This is the first step - we take a bundle of headers and then convert these into
+// columns based on the parent of the header
 function mapToColumns (newHeads: Header[]): ForkHeaders {
   let maxColumns = 1;
 
+  // traverse through all the headers we do have
   return newHeads.reduce((all: ForkHeaders, header, index): ForkHeaders => {
     const num = formatNumber(header.number);
     const cnum = formatNumber(header.number.unwrap().addn(1));
     const hash = header.hash.toHex();
     const parent = header.parentHash.toHex();
+
+    // we use the hash & parent in  our display - the count is for the number
+    // of columns we assign to this one - start that at 1
     const entry = { count: 1, hash, parent };
 
-    // this is our first entry, so just add it to a column, get out
+    // this is our first entry, so just add it to a column, and get out
     if (index === 0) {
       all[num] = [entry];
       maxColumns = 1;
@@ -55,20 +61,17 @@ function mapToColumns (newHeads: Header[]): ForkHeaders {
       return all;
     }
 
-    // if we don't have a row yet for this number, add one
+    // if we don't have a row yet for this number, add one - this will be useful
     if (!all[num]) {
       all[num] = [];
-    }
-
-    // first-off, check to see if we already have an entry for this one, if so, get out
-    if (all[num].find((entry): boolean => !!entry && entry.hash === hash)) {
-      return all;
     }
 
     // check our children (preceding) and add to all applicable columns
     let hasChildren = false;
 
     if (all[cnum]) {
+      // a single header can  have multiple children, so we actually create a column
+      // entry for each of the children we do find in the list
       all[cnum].forEach((child, index): void => {
         if (child.parent === hash) {
           all[num][index] = entry;
@@ -77,7 +80,8 @@ function mapToColumns (newHeads: Header[]): ForkHeaders {
       });
     }
 
-    // we don't have children, so create a new column and add us to it
+    // we don't have children, so create a new column and add us to it - this goes right at
+    // the end of the list since it doesn't stack on-top of anything else (yet)
     if (!hasChildren) {
       all[num][maxColumns] = entry;
       maxColumns++;
@@ -87,23 +91,31 @@ function mapToColumns (newHeads: Header[]): ForkHeaders {
   }, {});
 }
 
+// Here we take columns that repeat and just flatten them - basically we just increase
+// the count in the entry and then drop the duplicate
 function flattenColumns (all: ForkHeaders): ForkHeaders {
   return Object.entries(all).reduce((all: ForkHeaders, [bn, columns]): ForkHeaders => {
+    // columns may be completely empty (i.e. we didn't find a match)
     all[bn] = [columns[0] || { count: 1 }];
 
+    // check all columns and increment the counts
     for (let i = 1; i < columns.length; i++) {
       const prev = all[bn][all[bn].length - 1];
 
       if (columns[i]) {
         if (prev.hash === columns[i].hash) {
+          // we have a column and a hash match, so just  increment the count
           prev.count++;
         } else {
+          // ahhh, this is a new one, add it as-is
           all[bn].push(columns[i]);
         }
       } else {
         if (prev.hash) {
+          // add the first empty
           all[bn].push({ count: 1 });
         } else {
+          // another empty one, increase the count
           prev.count++;
         }
       }
@@ -113,6 +125,8 @@ function flattenColumns (all: ForkHeaders): ForkHeaders {
   }, {});
 }
 
+// This is a helper to take out map and return a sorted list of the key (blockNumber, formatted)
+// and the actual columns that we have for that entry
 function extractEntries (all: ForkHeaders): [string, ForkHeader[]][] {
   return Object.keys(all).sort().reverse().map((bn): [string, ForkHeader[]] =>
     [bn, all[bn]]
@@ -172,13 +186,13 @@ class Forks extends React.PureComponent<Props, State> {
     // when  we are not in the first of last spot and we have the same lengths, just ellipsis the thing
     if (index !== lastIndex && index !== 0) {
       if (curr.length === all[index + 1][1].length && curr.length === all[index - 1][1].length) {
+        // if the previous result was an ellipsis, we just don't do anything, one ellipsis only
         if (this._isPrevShort) {
           return null;
         }
 
         this._isPrevShort = true;
 
-        // …
         return (
           <tr key={bn}>
             <td key='blockNumber' />
