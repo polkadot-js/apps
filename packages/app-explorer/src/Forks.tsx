@@ -226,20 +226,29 @@ class Forks extends React.PureComponent<Props, State> {
 
     // when  we are not in the first of last spot and we have the same lengths, just ellipsis the thing
     if (index !== lastIndex && index !== 0) {
+      // are the lengths matching here, if not we just want to skip
       if (curr.length === all[index + 1][1].length && curr.length === all[index - 1][1].length) {
-        // if the previous result was an ellipsis, we just don't do anything, one ellipsis only
-        if (this._isPrevShort) {
-          return null;
+        // now check to ensure that each entry has the same parent
+        const sameParent = curr.reduce((same, hdr, index): boolean => {
+          return same && ((index === 0) || (hdr.hash === curr[index - 1].hash));
+        }, true);
+
+        // cool, we are ok to shortcut
+        if (sameParent) {
+          // if the previous result was an ellipsis, we just don't do anything, one ellipsis only
+          if (this._isPrevShort) {
+            return null;
+          }
+
+          this._isPrevShort = true;
+
+          return (
+            <tr key={bn}>
+              <td key='blockNumber' />
+              <td colSpan={curr[0].count}>&#8942;</td>
+            </tr>
+          );
         }
-
-        this._isPrevShort = true;
-
-        return (
-          <tr key={bn}>
-            <td key='blockNumber' />
-            <td colSpan={curr[0].count}>&#8942;</td>
-          </tr>
-        );
       }
     }
 
@@ -311,13 +320,14 @@ export default withMulti(
 
         &.header {
           background: #f2f2f2;
+          border-radius: 0.25rem;
 
           &.isFinalized {
             background: rgba(0, 255, 0, 0.15);
           }
 
           &.isMissing {
-            background: rgba(255, 0, 0, 0.075);
+            background: rgba(255, 0, 0, 0.05);
           }
         }
       }
