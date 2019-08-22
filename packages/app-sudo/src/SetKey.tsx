@@ -36,10 +36,11 @@ class SetKey extends React.PureComponent<Props, State> {
     };
   }
 
-  public UNSAFE_componentWillReceiveProps ({ sudoKey = this.props.sudoKey }): void {
-    if (sudoKey !== this.props.sudoKey) {
-      this.setState({ selected: sudoKey });
+  public static getDerivedStateFromProps ({ sudoKey }: Props, state: State): Pick<State, never> {
+    if (sudoKey && (!state.selected || sudoKey !== state.selected)) {
+      return { selected: sudoKey };
     }
+    return {};
   }
 
   public render (): React.ReactNode {
@@ -110,7 +111,7 @@ class SetKey extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(styled(SetKey)`
+export default translate(styled(SetKey as React.ComponentClass<Props, State>)`
   align-items: flex-end;
   justify-content: center;
 

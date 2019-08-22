@@ -52,19 +52,69 @@ class Deploy extends ContractModal<Props, State> {
       endowment: new BN(0),
       isHashValid: false,
       params: [],
-      ...this.getCodeState(props.codeHash)
+      ...Deploy.getCodeState(props.codeHash)
     };
     this.state = this.defaultState;
   }
 
-  public UNSAFE_componentWillReceiveProps (nextProps: Props, nextState: State): void {
-    super.UNSAFE_componentWillReceiveProps(nextProps, nextState);
-
-    if (nextProps.codeHash && nextProps.codeHash !== this.props.codeHash) {
-      this.setState(
-        this.getCodeState(nextProps.codeHash)
-      );
+  public static getDerivedStateFromProps (props: Props, state: State): Pick<State, never> {
+    if (props.codeHash && (!state.codeHash || state.codeHash !== props.codeHash)) {
+      return Deploy.getCodeState(props.codeHash);
     }
+    return {};
+  }
+
+  private static getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): Partial<State> => {
+    if (contractAbi) {
+      const args = contractAbi.deploy.args.map(({ name, type }): string => `${name}: ${type}`);
+      const text = `deploy(${args.join(', ')})`;
+
+      return {
+        abi,
+        constructOptions: [{
+          key: 'deploy',
+          text,
+          value: 'deploy'
+        }],
+        contractAbi,
+        isAbiValid: !!contractAbi,
+        params: createValues(
+          contractAbi.deploy.args.map(({ name, type }): { type: TypeDef } => ({
+            type: getTypeDef(type, name)
+          }))
+        )
+      };
+    } else {
+      return {
+        constructOptions: [] as ConstructOptions,
+        abi: null,
+        contractAbi: null,
+        isAbiSupplied: false,
+        isAbiValid: false,
+        params: [] as unknown[]
+      };
+    }
+  }
+
+  private static getCodeState = (codeHash: string | null = null): Pick<State, never> => {
+    if (codeHash) {
+      const code = store.getCode(codeHash);
+
+      if (code) {
+        const { contractAbi, json } = code;
+
+        return {
+          codeHash,
+          isAbiSupplied: !!contractAbi,
+          name: `${json.name} (instance)`,
+          isHashValid: true,
+          isNameValid: true,
+          ...Deploy.getContractAbiState(json.abi, contractAbi)
+        };
+      }
+    }
+
+    return {};
   }
 
   protected renderContent = (): React.ReactNode => {
@@ -166,59 +216,6 @@ class Deploy extends ContractModal<Props, State> {
     );
   }
 
-  private getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): Partial<State> => {
-    if (contractAbi) {
-      const args = contractAbi.deploy.args.map(({ name, type }): string => `${name}: ${type}`);
-      const text = `deploy(${args.join(', ')})`;
-
-      return {
-        abi,
-        constructOptions: [{
-          key: 'deploy',
-          text,
-          value: 'deploy'
-        }],
-        contractAbi,
-        isAbiValid: !!contractAbi,
-        params: createValues(
-          contractAbi.deploy.args.map(({ name, type }): { type: TypeDef } => ({
-            type: getTypeDef(type, name)
-          }))
-        )
-      };
-    } else {
-      return {
-        constructOptions: [] as ConstructOptions,
-        abi: null,
-        contractAbi: null,
-        isAbiSupplied: false,
-        isAbiValid: false,
-        params: [] as unknown[]
-      };
-    }
-  }
-
-  private getCodeState = (codeHash: string | null = null): Pick<State, never> => {
-    if (codeHash) {
-      const code = store.getCode(codeHash);
-
-      if (code) {
-        const { contractAbi, json } = code;
-
-        return {
-          codeHash,
-          isAbiSupplied: !!contractAbi,
-          name: `${json.name} (instance)`,
-          isHashValid: true,
-          isNameValid: true,
-          ...this.getContractAbiState(json.abi, contractAbi)
-        };
-      }
-    }
-
-    return {};
-  }
-
   private constructCall = (): any[] => {
     const { codeHash, contractAbi, endowment, gasLimit, params } = this.state;
 
@@ -231,13 +228,13 @@ class Deploy extends ContractModal<Props, State> {
 
   protected onAddAbi = (abi: string | null | undefined, contractAbi?: Abi | null): void => {
     this.setState({
-      ...(this.getContractAbiState(abi, contractAbi) as State)
+      ...(Deploy.getContractAbiState(abi, contractAbi) as State)
     });
   }
 
   private onChangeCode = (codeHash: string): void => {
     this.setState(
-      this.getCodeState(codeHash)
+      Deploy.getCodeState(codeHash)
     );
   }
 

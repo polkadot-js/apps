@@ -49,13 +49,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
   protected isContract?: boolean;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public UNSAFE_componentWillReceiveProps ({ isOpen }: P, prevState: S): void {
-    if (isOpen && !this.props.isOpen && !this.state.isBusy) {
-      this.reset();
-    }
-  }
-
   public render (): React.ReactNode {
     const { isOpen, t } = this.props;
 
@@ -203,8 +196,12 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
   protected onClose = (): void => {
     const { onClose } = this.props;
+    const { isBusy } = this.state;
 
     onClose && onClose();
+    if (!isBusy) {
+      this.reset();
+    }
   }
 
   protected onAddAbi = (abi: string | null | undefined, contractAbi: Abi | null = null, isAbiSupplied: boolean = false): void => {

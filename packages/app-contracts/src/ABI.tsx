@@ -55,20 +55,15 @@ class ABI extends React.PureComponent<Props, State> {
     };
   }
 
-  public UNSAFE_componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props): void {
+  public static getDerivedStateFromProps ({ contractAbi }: Props): Pick<State, never> | null {
     if (contractAbi) {
-      this.setState({
+      return {
         contractAbi,
         isAbiValid: true,
         isError: false
-      });
-    } else if (this.props.contractAbi) {
-      this.setState({
-        contractAbi: null,
-        isAbiValid: false,
-        isError: isError || isRequired || false
-      });
+      };
     }
+    return null;
   }
 
   public render (): React.ReactNode {
@@ -173,6 +168,6 @@ class ABI extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(styled(ABI)`
+export default translate(styled(ABI as React.ComponentClass<Props, State>)`
   min-height: 4rem;
 `);
