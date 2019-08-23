@@ -42,6 +42,19 @@ interface State {
 
 type UnsubFn = () => void;
 
+interface Col {
+  cols: number;
+  hash: string;
+  isEmpty: boolean;
+  isFinalized: boolean;
+  parent: string;
+}
+
+interface Row {
+  bn: string;
+  cols: Col[];
+}
+
 class Forks extends React.PureComponent<Props, State> {
   public state: State = {};
 
@@ -55,12 +68,18 @@ class Forks extends React.PureComponent<Props, State> {
 
   private _subNewHead: UnsubFn | null = null;
 
-  private addFin = (header: Header): void => {
-    const hdr = this._headers.get(header.hash.toHex());
+  private finalize (hash: string): void {
+    const hdr = this._headers.get(hash);
 
-    if (hdr) {
+    if (hdr && !hdr.isFinalized) {
       hdr.isFinalized = true;
+
+      this.finalize(hdr.parent);
     }
+  }
+
+  private addFin = (header: Header): void => {
+    this.finalize(header.hash.toHex());
   }
 
   private addHeader = (header: Header): void => {
@@ -143,46 +162,107 @@ class Forks extends React.PureComponent<Props, State> {
       <div className={className}>
         <table>
           <tbody>
-            {this.renderLinks(tree.arr)}
+            {this.renderRows(this.createRows(tree.arr))}
           </tbody>
         </table>
       </div>
     );
   }
 
-  private renderLinks (arr: LinkArray): React.ReactElement[] {
+  private createRows (arr: LinkArray): Row[] {
     if (!arr.length) {
       return [];
     }
 
-    const bn = arr.reduce((result, { hdr: { bn } }): string => {
-      return result || bn;
-    }, '');
-    const result: React.ReactElement = (
-      <tr key={bn}>
-        <td key='blockNumber'>{`#${bn}`}</td>
-        {arr.map(this.renderCell)}
-      </tr>
-    );
-
-    const children = arr
-      .filter(({ arr }): number => arr.length)
-      .reduce((children: LinkArray, { arr }: Link): LinkArray => {
-        return children.concat(...arr);
-      }, []);
-
-    return this.renderLinks(children).concat(result);
+    return this
+      .createRows(
+        arr.reduce((children: LinkArray, { arr }: Link): LinkArray =>
+          children.concat(...arr),
+        [])
+      )
+      .concat({
+        bn: arr.reduce((result, { hdr: { bn } }): string =>
+          result || bn
+        , ''),
+        cols: arr.map(this.createCol)
+      });
   }
 
-  private renderCell = ({ hdr: { cols, hash, isEmpty, isFinalized, parent } }: Link, index: number): React.ReactNode => {
+  private createCol = ({ hdr: { cols, hash, isEmpty, isFinalized, parent } }: Link): Col => {
+    return { cols, hash, isEmpty, isFinalized, parent };
+  }
+
+  private isSingleRow (cols: Col[]): boolean {
+    if (!cols[0]) {
+      return false;
+    } else if (cols[0].isEmpty) {
+      return false;
+    } else if (cols.length === 1) {
+      return true;
+    }
+
+    return cols.reduce((result: boolean, col, index): boolean => {
+      return index === 0
+        ? result
+        : (!col.isEmpty ? false : result);
+    }, true);
+  }
+
+  private renderRows (rows: Row[]): React.ReactNode[] {
+    const lastIndex = rows.length - 1;
+    let isPrevShort = false;
+
+    return rows.map(({ bn, cols }, index): React.ReactNode => {
+      if (index !== 0 && index !== lastIndex && this.isSingleRow(cols)) {
+        if (isPrevShort) {
+          return null;
+        } else if (this.isSingleRow(rows[index - 1].cols)) { // && this.isSingleRow(rows[index + 1].cols)) {
+          isPrevShort = true;
+
+          return (
+            <tr key={bn}>
+              <td key='blockNumber' />
+              <td className='header isLink' colSpan={cols[0].cols}>
+                <div className='link'>&#8942;</div>
+              </td>
+            </tr>
+          );
+        }
+      }
+
+      isPrevShort = false;
+
+      return (
+        <tr key={bn}>
+          <td key='blockNumber'>{`#${bn}`}</td>
+          {cols.map(this.renderCol)}
+        </tr>
+      );
+    });
+  }
+
+  private renderCol = ({ cols, hash, isEmpty, isFinalized, parent }: Col, index: number): React.ReactNode => {
+    const isLink = false;
+    const classes = ['header', isEmpty && 'isEmpty', isFinalized && 'isFinalized', isLink && 'isLink'];
+
     return (
       <td
-        className={`header ${isEmpty && 'isEmpty'} ${isFinalized && 'isFinalized'}`}
+        className={classes.join(' ')}
         colSpan={cols}
-        key={`${hash}::${index}`}
+        key={`${classes.join(':')}:${hash}:${index}:${cols}`}
       >
-        <div className='hash'>{hash}</div>
-        <div className='parent'>{parent}</div>
+        {
+          isLink
+            ? <div className='link'>&#8942;</div>
+            : isEmpty
+              ? <div className='empty' />
+              : (
+                <>
+                  <div className='hash'>{hash}</div>
+                  <div className='parent'>{parent}</div>
+                </>
+              )
+        }
       </td>
     );
   }
@@ -215,9 +295,9 @@ class Forks extends React.PureComponent<Props, State> {
     });
 
     children.sort((a, b): number => {
-      if (a.arr.length > b.arr.length) {
+      if (a.hdr.cols > b.hdr.cols || a.hdr.isFinalized) {
         return -1;
-      } else if (a.arr.length < b.arr.length) {
+      } else if (a.hdr.cols < b.hdr.cols || b.hdr.isFinalized) {
         return 1;
       }
 
@@ -229,7 +309,8 @@ class Forks extends React.PureComponent<Props, State> {
     return children;
   }
 
-  private evenColumns (arr: LinkArray): void {
+  // even out the columns, i.e. add empty spacers as applicable to get tree rendering right
+  private addColumnSpacers (arr: LinkArray): void {
     // check is any of the children has a non-empty set
     const hasChildren = arr.some(({ arr }): boolean => arr.length !== 0);
 
@@ -239,13 +320,14 @@ class Forks extends React.PureComponent<Props, State> {
         .filter(({ arr }): boolean => arr.length === 0)
         .forEach(({ arr }): number => arr.push(this.emptyLink()));
 
+      const newArr = arr.reduce((flat: LinkArray, { arr }): LinkArray => flat.concat(...arr), []);
+
       // go one level deeper, ensure that the full tree has empty spacers
-      this.evenColumns(
-        arr.reduce((flat: LinkArray, { arr }): LinkArray => flat.concat(...arr), [])
-      );
+      this.addColumnSpacers(newArr);
     }
   }
 
+  // create a linked list for the available headers
   private mapToLink (): Link {
     const root = this.emptyLink();
 
@@ -256,7 +338,7 @@ class Forks extends React.PureComponent<Props, State> {
 
       // if this fails, well, we have a bigger issue :(
       if (hdr) {
-        root.arr.push({ arr: [], hdr });
+        root.arr.push({ arr: [], hdr: { ...hdr } });
       }
     });
 
@@ -265,8 +347,9 @@ class Forks extends React.PureComponent<Props, State> {
       this.addChildren(hdr, arr);
     });
 
-    // align the columns with empty spacers - this aids in display
-    this.evenColumns(root.arr);
+    // align the columns with empty spacers and add joins - this aids in display
+    this.addColumnSpacers(root.arr);
+
     root.hdr.cols = this.countCols(root.arr);
 
     return root;
@@ -278,6 +361,8 @@ export default withMulti(
     margin-bottom: 1.5rem;
 
     table {
+      border-collapse: separate;
+      border-spacing: 0.25rem;
       font-family: monospace;
 
       td {
@@ -292,6 +377,7 @@ export default withMulti(
           white-space: nowrap;
 
           &.parent {
+            /* display: none; */
             font-size: 0.75rem;
             line-height: 0.75rem;
             max-width: 4.5rem; /* 0.75 * 7rem */
@@ -303,14 +389,22 @@ export default withMulti(
         }
 
         &.header {
+          background: #f2f2f2;
           border-radius: 0.25rem;
 
-          &:not(.isEmpty) {
-            background: #f2f2f2;
+          &.isEmpty {
+            background: transparent;
           }
 
           &.isFinalized {
             background: rgba(0, 255, 0, 0.15);
+          }
+
+          &.isLink {
+            background: transparent;
+            line-height: 1rem;
+            margin: -0.25rem 0;
+            padding: 0;
           }
 
           &.isMissing {
