@@ -60,6 +60,18 @@ const Signature = styled.textarea`
   margin: 1rem 0;
   resize: none;
   width: 100%;
+
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  &:-ms-input-placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  &::-ms-input-placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
 `;
 
 class App extends TxModal<Props, State> {
@@ -137,11 +149,12 @@ class App extends TxModal<Props, State> {
                   trigger='tx-payload'
                 />
                 <div>
-                  {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature below')}
+                  {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
                   :
                 </div>
                 <Signature
                   onChange={this.onChangeSignature}
+                  placeholder={`{\n\t"address": "0x ...",\n\t"msg": "Pay KSMs to the Kusama account: ...",\n\t"sig": "0x ...",\n\t"version": "2"\n}`}
                   rows={10}
                 />
                 {(step === Step.Sign) && (
