@@ -65,13 +65,13 @@ class CurrentList extends React.PureComponent<Props, State> {
             emptyText={t('No addresses found')}
             headerText={t('validators')}
           >
-            {this.renderColumn(currentValidatorsControllersV1OrStashesV2, t('validator (stash)'))}
+            {this.renderColumn(currentValidatorsControllersV1OrStashesV2, t('validator'))}
           </Column>
           <Column
             emptyText={t('No addresses found')}
             headerText={t('next up')}
           >
-            {this.renderColumn(next, t('intention (stash)'))}
+            {this.renderColumn(next, t('intention'))}
           </Column>
         </Columar>
       </div>

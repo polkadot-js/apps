@@ -28,7 +28,7 @@ class Summary extends React.PureComponent<Props> {
     const { className, allControllers, lastAuthor, lastBlock, style, t, staking_validatorCount, currentValidatorsControllersV1OrStashesV2 } = this.props;
     const waiting = allControllers.length > currentValidatorsControllersV1OrStashesV2.length
       ? (allControllers.length - currentValidatorsControllersV1OrStashesV2.length)
-      : 0;
+      : allControllers.length;
 
     return (
       <SummaryBox
