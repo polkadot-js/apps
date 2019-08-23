@@ -214,6 +214,16 @@ class Forks extends React.PureComponent<Props, State> {
       children.push({ arr: this.addChildren(hdr, []), hdr });
     });
 
+    children.sort((a, b): number => {
+      if (a.arr.length > b.arr.length) {
+        return -1;
+      } else if (a.arr.length < b.arr.length) {
+        return 1;
+      }
+
+      return 0;
+    });
+
     base.cols = this.countCols(children);
 
     return children;
