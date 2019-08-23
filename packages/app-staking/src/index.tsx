@@ -67,6 +67,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   public static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): Pick<State, never> {
+    console.error(JSON.stringify(currentValidatorsControllersV1OrStashesV2));
     return {
       allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
         accountId.unwrap().toString()
