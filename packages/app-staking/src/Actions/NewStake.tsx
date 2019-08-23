@@ -32,7 +32,7 @@ interface State {
   stashId: string | null;
 }
 
-export const NO_VALIDATION_CHAINS = ['Development', 'Kusama'];
+export const NO_VALIDATION_CHAINS = ['Development', 'Kusama CC1'];
 
 class NewStake extends TxComponent<Props, State> {
   public state: State;
