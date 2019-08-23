@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Compact } from '@polkadot/types';
+import { Compact, Text } from '@polkadot/types';
 import { Balance, EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
@@ -12,7 +12,7 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api';
 import { Button, Card, Columar, Column, Tooltip } from '@polkadot/react-components';
 import { InputNumber } from '@polkadot/react-components/InputNumber';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
@@ -30,7 +30,9 @@ enum Step {
   Claim = 2,
 }
 
-interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
+interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {
+  system_chain?: Text;
+}
 
 interface State extends TxModalState {
   didCopy: boolean;
@@ -98,7 +100,7 @@ class App extends TxModal<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { api, t } = this.props;
+    const { api, system_chain = '', t } = this.props;
     const { accountId, didCopy, ethereumAddress, signature, step } = this.state;
 
     const payload = accountId
@@ -117,7 +119,11 @@ class App extends TxModal<Props, State> {
         <Columar>
           <Column>
             <Card withBottomMargin>
-              <h3>{t('1. Select your Polkadot account')}</h3>
+              <h3>{t('1. Select your {{chain}} account', {
+                replace: {
+                  chain: system_chain.toString()
+                }
+              })}</h3>
               {this.renderInputAccount()}
               {(step === Step.Account) && (
                 <Button.Group>
@@ -243,5 +249,5 @@ class App extends TxModal<Props, State> {
 export default withMulti(
   App,
   translate,
-  withApi
+  withCalls<Props>('rpc.system.chain')
 );
