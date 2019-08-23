@@ -18,7 +18,7 @@ import substrate from '@polkadot/ui-assets/substrate-white.svg';
 
 // overrides based on the actual matched chain name
 const CHAINS: Record<string, any> = {
-  Kusama: chainKusama
+  'Kusama CC1': chainKusama
 };
 
 // overrides based on the actual software node type
