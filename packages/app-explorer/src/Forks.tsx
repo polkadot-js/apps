@@ -250,7 +250,7 @@ class Forks extends React.PureComponent<Props, State> {
   private renderCol = ({ hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode => {
     return (
       <td
-        className={`'header ${isEmpty && 'isEmpty'} ${isFinalized && 'isFinalized'}`}
+        className={`header ${isEmpty && 'isEmpty'} ${isFinalized && 'isFinalized'}`}
         colSpan={width}
         key={`${hash}:${index}:${width}`}
       >
