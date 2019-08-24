@@ -16,9 +16,9 @@ import Summary from './Summary';
 import { withApi } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 
-type Props = ApiProps & BareProps & ComponentProps & {
+interface Props extends ApiProps, BareProps, ComponentProps {
   chain_subscribeNewHead?: HeaderExtended;
-};
+}
 
 class Overview extends React.PureComponent<Props> {
   public render (): React.ReactNode {
@@ -52,6 +52,7 @@ class Overview extends React.PureComponent<Props> {
           currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
+          next={nextSorted}
         />
         <CurrentList
           currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
