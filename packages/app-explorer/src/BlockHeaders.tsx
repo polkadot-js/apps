@@ -54,7 +54,7 @@ class BlockHeaders extends React.PureComponent<Props> {
   }
 }
 
-export default withCalls<Props>(['derive.chain.subscribeNewHead', {
+export default withCalls<Props>(['derive.chain.subscribeNewHeads', {
   propName: 'headers',
   transform
 }])(BlockHeaders);

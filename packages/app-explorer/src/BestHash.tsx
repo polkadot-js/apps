@@ -11,12 +11,12 @@ import { withCalls } from '@polkadot/react-api';
 
 type Props = BareProps & CallProps & {
   label?: string;
-  chain_subscribeNewHead?: Header;
+  chain_subscribeNewHeads?: Header;
 };
 
 class BestHash extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, label = '', style, chain_subscribeNewHead } = this.props;
+    const { className, label = '', style, chain_subscribeNewHeads } = this.props;
 
     return (
       <div
@@ -24,8 +24,8 @@ class BestHash extends React.PureComponent<Props> {
         style={style}
       >
         {label}{
-          chain_subscribeNewHead
-            ? chain_subscribeNewHead.hash.toHex()
+          chain_subscribeNewHeads
+            ? chain_subscribeNewHeads.hash.toHex()
             : undefined
         }
       </div>
@@ -33,4 +33,4 @@ class BestHash extends React.PureComponent<Props> {
   }
 }
 
-export default withCalls<Props>('rpc.chain.subscribeNewHead')(BestHash);
+export default withCalls<Props>('rpc.chain.subscribeNewHeads')(BestHash);

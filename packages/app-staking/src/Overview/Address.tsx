@@ -241,20 +241,20 @@ export default withMulti(
 
     .blockNumberV2 {
       display: inline-block;
-      margin-bottom: 1rem;
-      margin-right: -0.25rem;
+      margin-bottom: 0.75rem;
+      margin-right: -0.5rem;
       padding: 0.25rem 0.75rem;
     }
 
     .blockNumberV1 {
-      top: -0.25rem;
+      top: 0rem;
       padding: 0.25rem 0.5rem;
       position: absolute;
       right: -0.25rem;
     }
 
     .staking--label.controllerSpacer {
-      margin-top:3rem;
+      margin-top: 2.75rem;
     }
   `,
   translate,
