@@ -141,7 +141,7 @@ class Forks extends React.PureComponent<Props, State> {
     const { api } = this.props;
 
     this._subFinHead = await api.rpc.chain.subscribeFinalizedHeads(this.addFinalized);
-    this._subNewHead = await api.rpc.chain.subscribeNewHead(this.addHeader);
+    this._subNewHead = await api.rpc.chain.subscribeNewHeads(this.addHeader);
   }
 
   // unsubscribe when we are unmounting
