@@ -1,3 +1,12 @@
+# 0.34.1
+
+- Kusama support
+- Full support for Substrate 2.x & Polkadot 0.5.0 networks
+- Lots of UI updated to support both Substrate 1.x & 2.x chains
+- Add of claims app for Kusama (and Polkadot)
+- Basic Council, Parachains & Treasury apps
+- Moved ui-* packages to react-*
+
 # 0.33.1
 
 - Allow for externally injected accounts (i.e. via extension, polkadot-js & SingleSource)
