@@ -242,15 +242,14 @@ export default withMulti(
     .blockNumberV2 {
       display: inline-block;
       margin-bottom: 0.75rem;
-      margin-right: -0.5rem;
+      margin-right: -0.25rem;
       padding: 0.25rem 0.75rem;
     }
 
     .blockNumberV1 {
-      top: 0rem;
       padding: 0.25rem 0.5rem;
       position: absolute;
-      right: -0.25rem;
+      right: 0;
     }
 
     .staking--label.controllerSpacer {
