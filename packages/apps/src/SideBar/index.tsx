@@ -149,7 +149,7 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderLogo (): React.ReactNode {
-    const { system_chain, system_name } = this.props;
+    const { api, isApiReady, system_chain, system_name } = this.props;
     const logo = getLogo(system_name, system_chain);
 
     return (
@@ -160,6 +160,9 @@ class SideBar extends React.PureComponent<Props, State> {
         />
         <div className='info'>
           <Chain className='chain' />
+          {isApiReady &&
+            <div className='runtimeVersion'>version {api.runtimeVersion.specVersion.toNumber()}</div>
+          }
           <BestNumber label='#' />
         </div>
       </div>
