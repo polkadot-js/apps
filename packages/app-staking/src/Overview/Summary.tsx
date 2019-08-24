@@ -15,20 +15,18 @@ import { withCalls, withMulti } from '@polkadot/react-api';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  className?: string;
   allControllers: string[];
+  className?: string;
+  currentValidatorsControllersV1OrStashesV2: string[];
   lastAuthor?: string;
   lastBlock: string;
   staking_validatorCount?: BN;
-  currentValidatorsControllersV1OrStashesV2: string[];
+  next: string[];
 }
 
 class Summary extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, allControllers, lastAuthor, lastBlock, style, t, staking_validatorCount, currentValidatorsControllersV1OrStashesV2 } = this.props;
-    const waiting = allControllers.length > currentValidatorsControllersV1OrStashesV2.length
-      ? (allControllers.length - currentValidatorsControllersV1OrStashesV2.length)
-      : allControllers.length;
+    const { className, currentValidatorsControllersV1OrStashesV2, lastAuthor, lastBlock, next, style, staking_validatorCount, t } = this.props;
 
     return (
       <SummaryBox
@@ -40,7 +38,7 @@ class Summary extends React.PureComponent<Props> {
             {currentValidatorsControllersV1OrStashesV2.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
           </CardSummary>
           <CardSummary label={t('waiting')}>
-            {waiting}
+            {next.length}
           </CardSummary>
         </section>
         <section>
