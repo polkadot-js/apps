@@ -17,7 +17,7 @@ import { InputNumber } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
-import { Text } from '@polkadot/types';
+import { Text, u32 as U32 } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
 import ApiContext from './ApiContext';
@@ -123,11 +123,11 @@ export default class Api extends React.PureComponent<Props, State> {
     ]);
     const addressPrefix = (
       uiSettings.prefix === -1
-        ? 42
+        ? properties.ss58Format.unwrapOr(new U32(42)).toNumber()
         : uiSettings.prefix
     ) as Prefix;
-    const tokenSymbol = properties.tokenSymbol.toString() || 'DEV';
-    const tokenDecimals = properties.tokenDecimals.toNumber() || 15;
+    const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
+    const tokenDecimals = properties.tokenDecimals.unwrapOr(new U32(15)).toNumber();
     const chain = value
       ? value.toString()
       : null;

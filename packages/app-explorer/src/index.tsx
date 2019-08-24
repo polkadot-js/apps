@@ -3,8 +3,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
+import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyedEvent } from './types';
 
 import './index.css';
@@ -20,13 +21,14 @@ import { xxhashAsHex } from '@polkadot/util-crypto';
 
 import { MAX_ITEMS } from './BlockHeaders';
 import BlockInfo from './BlockInfo';
+import Forks from './Forks';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
 import translate from './translate';
 
-type Props = AppProps & BareProps & I18nProps & {
+interface Props extends ApiProps, AppProps, BareProps, I18nProps {
   system_events?: EventRecord[];
-};
+}
 
 interface State {
   items: TabItem[];
@@ -101,6 +103,7 @@ class ExplorerApp extends React.Component<Props, State> {
           />
         </header>
         <Switch>
+          <Route path={`${basePath}/forks`} component={Forks} />
           <Route path={`${basePath}/query/:value`} component={BlockInfo} />
           <Route path={`${basePath}/query`} component={BlockInfo} />
           <Route path={`${basePath}/node`} component={NodeInfo} />

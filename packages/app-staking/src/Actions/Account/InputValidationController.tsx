@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Icon } from '@polkadot/react-components';
@@ -12,7 +13,7 @@ import { withCalls } from '@polkadot/react-api';
 
 import translate from '../../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   accountId: string | null;
   bondedId?: string | null;
   controllerId: string | null;
@@ -37,7 +38,7 @@ class ValidateController extends React.PureComponent<Props, State> {
         // this applies when changing controller
         return null;
       } else if (controllerId === accountId) {
-        return t('Please select distinct stash and controller accounts');
+        return t('Distinct stash and controller accounts are recommended to ensure fund security');
       } else if (bondedId) {
         return t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {

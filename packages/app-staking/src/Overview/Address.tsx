@@ -79,7 +79,7 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, defaultName, filter } = this.props;
+    const { address, className, defaultName, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
     const bonded = stakers && !stakers.own.isEmpty
       ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
@@ -100,7 +100,7 @@ class Address extends React.PureComponent<Props, State> {
         defaultName={defaultName}
         iconInfo={this.renderOffline()}
         key={stashId || controllerId || undefined}
-        value={stashId}
+        value={stashId || address}
         withBalance={{ bonded }}
       >
         {this.renderNominators()}
@@ -115,7 +115,7 @@ class Address extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Address-info'>
-        {isAuthor && stashId
+        {isAuthor
           ? <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
           : null
         }
@@ -241,20 +241,20 @@ export default withMulti(
 
     .blockNumberV2 {
       display: inline-block;
-      margin-bottom: 1rem;
-      margin-right: -0.25rem;
+      margin-bottom: 0.75rem;
+      margin-right: -0.5rem;
       padding: 0.25rem 0.75rem;
     }
 
     .blockNumberV1 {
-      top: -0.25rem;
+      top: 0rem;
       padding: 0.25rem 0.5rem;
       position: absolute;
       right: -0.25rem;
     }
 
     .staking--label.controllerSpacer {
-      margin-top:3rem;
+      margin-top: 2.75rem;
     }
   `,
   translate,
