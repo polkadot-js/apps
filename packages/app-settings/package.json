@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-settings",
-  "version": "0.34.0",
+  "version": "0.34.1",
   "description": "Settings management",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@polkadot/react-components": "^0.34.0",
-    "@polkadot/react-query": "^0.34.0"
+    "@polkadot/react-components": "^0.34.1",
+    "@polkadot/react-query": "^0.34.1"
   }
 }
