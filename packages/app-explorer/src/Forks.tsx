@@ -16,11 +16,11 @@ import translate from './translate';
 
 interface LinkHeader {
   bn: string;
-  cols: number;
   hash: string;
   isEmpty: boolean;
   isFinalized: boolean;
   parent: string;
+  width: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -43,11 +43,11 @@ interface State {
 type UnsubFn = () => void;
 
 interface Col {
-  cols: number;
   hash: string;
   isEmpty: boolean;
   isFinalized: boolean;
   parent: string;
+  width: number;
 }
 
 interface Row {
@@ -68,6 +68,7 @@ class Forks extends React.PureComponent<Props, State> {
 
   private _subNewHead: UnsubFn | null = null;
 
+  // mark as finalized, working down for parents as well
   private finalize (hash: string): void {
     const hdr = this._headers.get(hash);
 
@@ -78,10 +79,12 @@ class Forks extends React.PureComponent<Props, State> {
     }
   }
 
-  private addFin = (header: Header): void => {
+  // callback for the subscribe finalized sub
+  private addFinalized = (header: Header): void => {
     this.finalize(header.hash.toHex());
   }
 
+  // callback for the subscribe headers sub
   private addHeader = (header: Header): void => {
     const { api } = this.props;
 
@@ -103,7 +106,7 @@ class Forks extends React.PureComponent<Props, State> {
       }
 
       // add to the header map
-      this._headers.set(hash, { bn, cols: 0, hash, isEmpty: false, isFinalized: false, parent });
+      this._headers.set(hash, { bn, hash, isEmpty: false, isFinalized: false, parent, width: 0 });
 
       // check to see if the children already has a entry
       if (this._children.has(parent)) {
@@ -133,13 +136,15 @@ class Forks extends React.PureComponent<Props, State> {
     }
   }
 
+  // on mount, create the subscriptions for heads & finalized
   public async componentDidMount (): Promise<void> {
     const { api } = this.props;
 
-    this._subFinHead = await api.rpc.chain.subscribeFinalizedHeads(this.addFin);
+    this._subFinHead = await api.rpc.chain.subscribeFinalizedHeads(this.addFinalized);
     this._subNewHead = await api.rpc.chain.subscribeNewHead(this.addHeader);
   }
 
+  // unsubscribe when we are unmounting
   public componentWillUnmount (): void {
     if (this._subFinHead) {
       this._subFinHead();
@@ -150,6 +155,7 @@ class Forks extends React.PureComponent<Props, State> {
     }
   }
 
+  // render the acual component
   public render (): React.ReactNode {
     const { className } = this.props;
     const { tree } = this.state;
@@ -169,6 +175,7 @@ class Forks extends React.PureComponent<Props, State> {
     );
   }
 
+  // create a simplified structure that allows for easy rendering
   private createRows (arr: LinkArray): Row[] {
     if (!arr.length) {
       return [];
@@ -177,28 +184,24 @@ class Forks extends React.PureComponent<Props, State> {
     return this
       .createRows(
         arr.reduce((children: LinkArray, { arr }: Link): LinkArray =>
-          children.concat(...arr),
-        [])
+          children.concat(...arr), [])
       )
       .concat({
         bn: arr.reduce((result, { hdr: { bn } }): string =>
-          result || bn
-        , ''),
+          result || bn, ''),
         cols: arr.map(this.createCol)
       });
   }
 
-  private createCol = ({ hdr: { cols, hash, isEmpty, isFinalized, parent } }: Link): Col => {
-    return { cols, hash, isEmpty, isFinalized, parent };
+  // a single column in a row, it just has the details for the entry
+  private createCol = ({ hdr: { hash, isEmpty, isFinalized, parent, width } }: Link): Col => {
+    return { hash, isEmpty, isFinalized, parent, width };
   }
 
+  // checks to see if a row has a single non-empty entry, i.e. it is a candidate for collapsing
   private isSingleRow (cols: Col[]): boolean {
-    if (!cols[0]) {
+    if (!cols[0] || cols[0].isEmpty) {
       return false;
-    } else if (cols[0].isEmpty) {
-      return false;
-    } else if (cols.length === 1) {
-      return true;
     }
 
     return cols.reduce((result: boolean, col, index): boolean => {
@@ -208,21 +211,24 @@ class Forks extends React.PureComponent<Props, State> {
     }, true);
   }
 
+  // render the rows created by createRows to React nodes
   private renderRows (rows: Row[]): React.ReactNode[] {
     const lastIndex = rows.length - 1;
     let isPrevShort = false;
 
     return rows.map(({ bn, cols }, index): React.ReactNode => {
+      // if not first, not last and single only, see if we can collapse
       if (index !== 0 && index !== lastIndex && this.isSingleRow(cols)) {
         if (isPrevShort) {
+          // previous one was already a link, this one as well - skip it
           return null;
-        } else if (this.isSingleRow(rows[index - 1].cols)) { // && this.isSingleRow(rows[index + 1].cols)) {
+        } else if (this.isSingleRow(rows[index - 1].cols)) {
           isPrevShort = true;
 
           return (
             <tr key={bn}>
               <td key='blockNumber' />
-              <td className='header isLink' colSpan={cols[0].cols}>
+              <td className='header isLink' colSpan={cols[0].width}>
                 <div className='link'>&#8942;</div>
               </td>
             </tr>
@@ -241,50 +247,43 @@ class Forks extends React.PureComponent<Props, State> {
     });
   }
 
-  private renderCol = ({ cols, hash, isEmpty, isFinalized, parent }: Col, index: number): React.ReactNode => {
-    const isLink = false;
-    const classes = ['header', isEmpty && 'isEmpty', isFinalized && 'isFinalized', isLink && 'isLink'];
-
+  private renderCol = ({ hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode => {
     return (
       <td
-        className={classes.join(' ')}
-        colSpan={cols}
-        key={`${classes.join(':')}:${hash}:${index}:${cols}`}
+        className={`'header ${isEmpty && 'isEmpty'} ${isFinalized && 'isFinalized'}`}
+        colSpan={width}
+        key={`${hash}:${index}:${width}`}
       >
         {
-          isLink
-            ? <div className='link'>&#8942;</div>
-            : isEmpty
-              ? <div className='empty' />
-              : (
-                <>
-                  <div className='hash'>{hash}</div>
-                  <div className='parent'>{parent}</div>
-                </>
-              )
+          isEmpty
+            ? <div className='empty' />
+            : (
+              <>
+                <div className='hash'>{hash}</div>
+                <div className='parent'>{parent}</div>
+              </>
+            )
         }
       </td>
     );
   }
 
-  private generateTree (): Link {
-    return this.mapToLink();
-  }
-
+  // adjust the number of columns in a cell based on the children and tree depth
   private countCols (children: LinkArray): number {
-    return Math.max(1, children.reduce((total, { hdr: { cols } }): number => {
-      return total + cols;
+    return Math.max(1, children.reduce((total, { hdr: { width } }): number => {
+      return total + width;
     }, 0));
   }
 
-  private emptyHdr (): LinkHeader {
-    return { bn: '', cols: 0, hash: ' ', isEmpty: true, isFinalized: false, parent: ' ' };
-  }
-
+  // empty link helper
   private emptyLink (): Link {
-    return { arr: [], hdr: this.emptyHdr() };
+    return {
+      arr: [],
+      hdr: { bn: '', hash: ' ', isEmpty: true, isFinalized: false, parent: ' ', width: 0 }
+    };
   }
 
+  // adds children for a specific header, retrieving based on matching parent
   private addChildren (base: LinkHeader, children: LinkArray): LinkArray {
     const hdrs = (this._children.get(base.hash) || [])
       .map((hash): LinkHeader | null => this._headers.get(hash) || null)
@@ -294,17 +293,18 @@ class Forks extends React.PureComponent<Props, State> {
       children.push({ arr: this.addChildren(hdr, []), hdr });
     });
 
+    // place the active (larger, finalized) columns first for the pyramid display
     children.sort((a, b): number => {
-      if (a.hdr.cols > b.hdr.cols || a.hdr.isFinalized) {
+      if (a.hdr.width > b.hdr.width || a.hdr.isFinalized) {
         return -1;
-      } else if (a.hdr.cols < b.hdr.cols || b.hdr.isFinalized) {
+      } else if (a.hdr.width < b.hdr.width || b.hdr.isFinalized) {
         return 1;
       }
 
       return 0;
     });
 
-    base.cols = this.countCols(children);
+    base.width = this.countCols(children);
 
     return children;
   }
@@ -327,8 +327,8 @@ class Forks extends React.PureComponent<Props, State> {
     }
   }
 
-  // create a linked list for the available headers
-  private mapToLink (): Link {
+  // create a tree list from the available headers
+  private generateTree (): Link {
     const root = this.emptyLink();
 
     // add all the root entries first, we iterate from these
@@ -347,10 +347,10 @@ class Forks extends React.PureComponent<Props, State> {
       this.addChildren(hdr, arr);
     });
 
-    // align the columns with empty spacers and add joins - this aids in display
+    // align the columns with empty spacers - this aids in display
     this.addColumnSpacers(root.arr);
 
-    root.hdr.cols = this.countCols(root.arr);
+    root.hdr.width = this.countCols(root.arr);
 
     return root;
   }
@@ -377,10 +377,9 @@ export default withMulti(
           white-space: nowrap;
 
           &.parent {
-            /* display: none; */
             font-size: 0.75rem;
             line-height: 0.75rem;
-            max-width: 4.5rem; /* 0.75 * 7rem */
+            max-width: 4.5rem;
           }
         }
 
@@ -403,7 +402,6 @@ export default withMulti(
           &.isLink {
             background: transparent;
             line-height: 1rem;
-            margin: -0.25rem 0;
             padding: 0;
           }
 
