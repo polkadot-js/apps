@@ -14,7 +14,21 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
-const MAX_HEADS = 300;
+interface LinkHeader {
+  bn: string;
+  hash: string;
+  isEmpty: boolean;
+  isFinalized: boolean;
+  parent: string;
+  width: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface LinkArray extends Array<Link> {}
+interface Link {
+  arr: LinkArray;
+  hdr: LinkHeader;
+}
 
 interface Props extends ApiProps, I18nProps {
   className?: string;
@@ -22,179 +36,115 @@ interface Props extends ApiProps, I18nProps {
   newHead?: Header;
 }
 
-interface ForkHeader {
-  count: number;
-  hash?: string;
-  parent?: string;
-}
-
-type ForkHeaders = Record<string, ForkHeader[]>;
-
 interface State {
-  all: [string, ForkHeader[]][];
+  tree?: Link;
 }
 
 type UnsubFn = () => void;
 
-// This is the first step - we take a bundle of headers and then convert these into
-// columns based on the parent of the header
-function mapToColumns (newHeads: Header[]): ForkHeaders {
-  let maxColumns = 1;
-
-  // traverse through all the headers we do have
-  return newHeads.reduce((all: ForkHeaders, header, index): ForkHeaders => {
-    const num = formatNumber(header.number);
-    const cnum = formatNumber(header.number.unwrap().addn(1));
-    const hash = header.hash.toHex();
-    const parent = header.parentHash.toHex();
-
-    // we use the hash & parent in  our display - the count is for the number
-    // of columns we assign to this one - start that at 1
-    const entry = { count: 1, hash, parent };
-
-    // this is our first entry, so just add it to a column, and get out
-    if (index === 0) {
-      all[num] = [entry];
-      maxColumns = 1;
-
-      return all;
-    }
-
-    // if we don't have a row yet for this number, add one - this will be useful
-    if (!all[num]) {
-      all[num] = [];
-    }
-
-    // check our children (preceding) and add to all applicable columns
-    let hasChildren = false;
-
-    if (all[cnum]) {
-      // a single header can  have multiple children, so we actually create a column
-      // entry for each of the children we do find in the list
-      all[cnum].forEach((child, index): void => {
-        if (child.parent === hash) {
-          all[num][index] = entry;
-          hasChildren = true;
-        }
-      });
-    }
-
-    // we don't have children, so create a new column and add us to it - this goes right at
-    // the end of the list since it doesn't stack on-top of anything else (yet)
-    if (!hasChildren) {
-      all[num][maxColumns] = entry;
-      maxColumns++;
-    }
-
-    return all;
-  }, {});
+interface Col {
+  hash: string;
+  isEmpty: boolean;
+  isFinalized: boolean;
+  parent: string;
+  width: number;
 }
 
-// Here we take columns that repeat and just flatten them - basically we just increase
-// the count in the entry and then drop the duplicate
-function flattenColumns (all: ForkHeaders): ForkHeaders {
-  return Object.entries(all).reverse().reduce((all: ForkHeaders, [bn, columns]): ForkHeaders => {
-    // columns may be completely empty (i.e. we didn't find a match)
-    all[bn] = [columns[0] || { count: 1 }];
-
-    // check all columns and increment the counts
-    for (let i = 1; i < columns.length; i++) {
-      const prev = all[bn][all[bn].length - 1];
-
-      if (columns[i]) {
-        if (prev.hash === columns[i].hash) {
-          // we have a column and a hash match, so just  increment the count
-          prev.count++;
-        } else {
-          // ahhh, this is a new one, add it as-is
-          all[bn].push(columns[i]);
-        }
-      } else {
-        if (prev.hash) {
-          // add the first empty
-          all[bn].push({ count: 1 });
-        } else {
-          // another empty one, increase the count
-          prev.count++;
-        }
-      }
-    }
-
-    return all;
-  }, {});
-}
-
-// This is a helper to take out map and return a sorted list of the key (blockNumber, formatted)
-// and the actual columns that we have for that entry
-function extractEntries (all: ForkHeaders): [string, ForkHeader[]][] {
-  return Object.keys(all).reverse().map((bn): [string, ForkHeader[]] =>
-    [bn, all[bn]]
-  );
+interface Row {
+  bn: string;
+  cols: Col[];
 }
 
 class Forks extends React.PureComponent<Props, State> {
-  public state: State = {
-    all: []
-  };
+  public state: State = {};
 
-  private _allFin: Map<string, boolean> = new Map();
+  private _children: Map<string, string[]> = new Map([['root', []]]);
 
-  private _allHeads: Header[] = [];
+  private _headers: Map<string, LinkHeader> = new Map();
 
-  private _isPrevShort: boolean = false;
+  private _firstNum: string = '';
 
   private _subFinHead: UnsubFn | null = null;
 
   private _subNewHead: UnsubFn | null = null;
 
-  private hasHeader (hash: Uint8Array): boolean {
-    return this._allHeads.some((prev): boolean => prev.hash.eq(hash));
+  // mark as finalized, working down for parents as well
+  private finalize (hash: string): void {
+    const hdr = this._headers.get(hash);
+
+    if (hdr && !hdr.isFinalized) {
+      hdr.isFinalized = true;
+
+      this.finalize(hdr.parent);
+    }
   }
 
-  private addFin = (header: Header): void => {
-    this._allFin.set(header.hash.toHex(), true);
+  // callback for the subscribe finalized sub
+  private addFinalized = (header: Header): void => {
+    this.finalize(header.hash.toHex());
   }
 
+  // callback for the subscribe headers sub
   private addHeader = (header: Header): void => {
     const { api } = this.props;
 
-    if (!this.hasHeader(header.hash)) {
-      // add the header to the list
-      this._allHeads.unshift(header);
+    // formatted block info
+    const bn = formatNumber(header.number);
+    const hash = header.hash.toHex();
+    const parent = header.parentHash.toHex();
 
-      // sort and trim to our maxium
-      this._allHeads = this._allHeads
-        .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()))
-        .slice(0, Math.min(this._allHeads.length, MAX_HEADS));
+    // if this the first one?
+    if (!this._firstNum) {
+      this._firstNum = bn;
+    }
+
+    if (!this._headers.has(hash)) {
+      // if this is the first, add to the root entry
+      if (this._firstNum === bn) {
+        // @ts-ignore root will always exist
+        this._children.get('root').push(hash);
+      }
+
+      // add to the header map
+      this._headers.set(hash, { bn, hash, isEmpty: false, isFinalized: false, parent, width: 0 });
+
+      // check to see if the children already has a entry
+      if (this._children.has(parent)) {
+        // @ts-ignore, we just checked for existence above
+        this._children.get(parent).push(hash);
+      } else {
+        this._children.set(parent, [hash]);
+      }
 
       // if we don't have the parent of this one, retrieve it
-      if (!this.hasHeader(header.parentHash)) {
-        // just make sure we are not first in the lsit, we don't want to full chain
-        if (!this._allHeads[this._allHeads.length - 1].number.eq(header.number)) {
+      if (!this._headers.has(parent)) {
+        // just make sure we are not first in the list, we don't want to full chain
+        if (this._firstNum !== bn) {
           console.warn(`Retrieving missing header ${header.parentHash.toHex()}`);
 
           api.rpc.chain.getHeader(header.parentHash).then(this.addHeader);
+
+          // catch the refresh on the result
+          return;
         }
       }
 
       // do the magic, extract the info into something useful and add to state
       this.setState((): State => ({
-        all: extractEntries(
-          flattenColumns(
-            mapToColumns(this._allHeads)
-          )
-        )
+        tree: this.generateTree()
       }));
     }
   }
 
+  // on mount, create the subscriptions for heads & finalized
   public async componentDidMount (): Promise<void> {
     const { api } = this.props;
 
-    this._subFinHead = await api.rpc.chain.subscribeFinalizedHeads(this.addFin);
+    this._subFinHead = await api.rpc.chain.subscribeFinalizedHeads(this.addFinalized);
     this._subNewHead = await api.rpc.chain.subscribeNewHead(this.addHeader);
   }
 
+  // unsubscribe when we are unmounting
   public componentWillUnmount (): void {
     if (this._subFinHead) {
       this._subFinHead();
@@ -205,95 +155,214 @@ class Forks extends React.PureComponent<Props, State> {
     }
   }
 
+  // render the acual component
   public render (): React.ReactNode {
     const { className } = this.props;
-    const { all } = this.state;
+    const { tree } = this.state;
+
+    if (!tree) {
+      return null;
+    }
 
     return (
       <div className={className}>
         <table>
           <tbody>
-            {all.map(this.renderEntry)}
+            {this.renderRows(this.createRows(tree.arr))}
           </tbody>
         </table>
       </div>
     );
   }
 
-  private renderEntry = ([bn, curr]: [string, ForkHeader[]], index: number): React.ReactNode => {
-    const { all } = this.state;
-    const lastIndex = all.length - 1;
+  // create a simplified structure that allows for easy rendering
+  private createRows (arr: LinkArray): Row[] {
+    if (!arr.length) {
+      return [];
+    }
 
-    // when  we are not in the first of last spot and we have the same lengths, just ellipsis the thing
-    if (index !== lastIndex && index !== 0) {
-      // are the lengths matching here, if not we just want to skip
-      if (curr.length === all[index + 1][1].length && curr.length === all[index - 1][1].length) {
-        // now check to ensure that each entry has the same parent
-        const sameParent = curr.reduce((same, hdr, index): boolean => {
-          return same && ((index === 0) || (hdr.hash === curr[index - 1].hash));
-        }, true);
+    return this
+      .createRows(
+        arr.reduce((children: LinkArray, { arr }: Link): LinkArray =>
+          children.concat(...arr), [])
+      )
+      .concat({
+        bn: arr.reduce((result, { hdr: { bn } }): string =>
+          result || bn, ''),
+        cols: arr.map(this.createCol)
+      });
+  }
 
-        // cool, we are ok to shortcut
-        if (sameParent) {
-          // if the previous result was an ellipsis, we just don't do anything, one ellipsis only
-          if (this._isPrevShort) {
-            return null;
-          }
+  // a single column in a row, it just has the details for the entry
+  private createCol = ({ hdr: { hash, isEmpty, isFinalized, parent, width } }: Link): Col => {
+    return { hash, isEmpty, isFinalized, parent, width };
+  }
 
-          this._isPrevShort = true;
+  // checks to see if a row has a single non-empty entry, i.e. it is a candidate for collapsing
+  private isSingleRow (cols: Col[]): boolean {
+    if (!cols[0] || cols[0].isEmpty) {
+      return false;
+    }
+
+    return cols.reduce((result: boolean, col, index): boolean => {
+      return index === 0
+        ? result
+        : (!col.isEmpty ? false : result);
+    }, true);
+  }
+
+  // render the rows created by createRows to React nodes
+  private renderRows (rows: Row[]): React.ReactNode[] {
+    const lastIndex = rows.length - 1;
+    let isPrevShort = false;
+
+    return rows.map(({ bn, cols }, index): React.ReactNode => {
+      // if not first, not last and single only, see if we can collapse
+      if (index !== 0 && index !== lastIndex && this.isSingleRow(cols)) {
+        if (isPrevShort) {
+          // previous one was already a link, this one as well - skip it
+          return null;
+        } else if (this.isSingleRow(rows[index - 1].cols)) {
+          isPrevShort = true;
 
           return (
             <tr key={bn}>
               <td key='blockNumber' />
-              <td colSpan={curr[0].count}>&#8942;</td>
+              <td className='header isLink' colSpan={cols[0].width}>
+                <div className='link'>&#8942;</div>
+              </td>
             </tr>
           );
         }
       }
-    }
 
-    this._isPrevShort = false;
+      isPrevShort = false;
 
-    return (
-      <tr key={bn}>
-        <td className='blockNumber' key='blockNumber'>#{bn}</td>
-        {curr.map(this.renderCol)}
-      </tr>
-    );
+      return (
+        <tr key={bn}>
+          <td key='blockNumber'>{`#${bn}`}</td>
+          {cols.map(this.renderCol)}
+        </tr>
+      );
+    });
   }
 
-  private renderCol = (column: ForkHeader, index: number): React.ReactNode => {
-    const extraClassName = column.hash
-      ? (
-        this._allFin.has(column.hash)
-          ? 'isFinalized'
-          : ''
-      )
-      : 'isMissing';
-
+  private renderCol = ({ hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode => {
     return (
       <td
-        className={`header ${extraClassName}`}
-        colSpan={column.count ? column.count : 1}
-        key={index}
-      >{
-          column.hash
-            ? (
+        className={`'header ${isEmpty && 'isEmpty'} ${isFinalized && 'isFinalized'}`}
+        colSpan={width}
+        key={`${hash}:${index}:${width}`}
+      >
+        {
+          isEmpty
+            ? <div className='empty' />
+            : (
               <>
-                <div className='hash'>{column.hash}</div>
-                <div className='parent'>{column.parent}</div>
+                <div className='hash'>{hash}</div>
+                <div className='parent'>{parent}</div>
               </>
             )
-            : <div className='empty' />
         }
       </td>
     );
+  }
+
+  // adjust the number of columns in a cell based on the children and tree depth
+  private countCols (children: LinkArray): number {
+    return Math.max(1, children.reduce((total, { hdr: { width } }): number => {
+      return total + width;
+    }, 0));
+  }
+
+  // empty link helper
+  private emptyLink (): Link {
+    return {
+      arr: [],
+      hdr: { bn: '', hash: ' ', isEmpty: true, isFinalized: false, parent: ' ', width: 0 }
+    };
+  }
+
+  // adds children for a specific header, retrieving based on matching parent
+  private addChildren (base: LinkHeader, children: LinkArray): LinkArray {
+    const hdrs = (this._children.get(base.hash) || [])
+      .map((hash): LinkHeader | null => this._headers.get(hash) || null)
+      .filter((hdr): boolean => !!hdr) as LinkHeader[];
+
+    hdrs.forEach((hdr): void => {
+      children.push({ arr: this.addChildren(hdr, []), hdr });
+    });
+
+    // place the active (larger, finalized) columns first for the pyramid display
+    children.sort((a, b): number => {
+      if (a.hdr.width > b.hdr.width || a.hdr.isFinalized) {
+        return -1;
+      } else if (a.hdr.width < b.hdr.width || b.hdr.isFinalized) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    base.width = this.countCols(children);
+
+    return children;
+  }
+
+  // even out the columns, i.e. add empty spacers as applicable to get tree rendering right
+  private addColumnSpacers (arr: LinkArray): void {
+    // check is any of the children has a non-empty set
+    const hasChildren = arr.some(({ arr }): boolean => arr.length !== 0);
+
+    if (hasChildren) {
+      // ok, non-empty found - iterate through an add at least an empty cell to all
+      arr
+        .filter(({ arr }): boolean => arr.length === 0)
+        .forEach(({ arr }): number => arr.push(this.emptyLink()));
+
+      const newArr = arr.reduce((flat: LinkArray, { arr }): LinkArray => flat.concat(...arr), []);
+
+      // go one level deeper, ensure that the full tree has empty spacers
+      this.addColumnSpacers(newArr);
+    }
+  }
+
+  // create a tree list from the available headers
+  private generateTree (): Link {
+    const root = this.emptyLink();
+
+    // add all the root entries first, we iterate from these
+    // @ts-ignore We add the root entry explicitly, it exists as per init
+    this._children.get('root').forEach((hash): void => {
+      const hdr = this._headers.get(hash);
+
+      // if this fails, well, we have a bigger issue :(
+      if (hdr) {
+        root.arr.push({ arr: [], hdr: { ...hdr } });
+      }
+    });
+
+    // iterate through, adding the children for each of the root nodes
+    root.arr.forEach(({ arr, hdr }): void => {
+      this.addChildren(hdr, arr);
+    });
+
+    // align the columns with empty spacers - this aids in display
+    this.addColumnSpacers(root.arr);
+
+    root.hdr.width = this.countCols(root.arr);
+
+    return root;
   }
 }
 
 export default withMulti(
   styled(Forks as React.ComponentClass<Props>)`
+    margin-bottom: 1.5rem;
+
     table {
+      border-collapse: separate;
+      border-spacing: 0.25rem;
       font-family: monospace;
 
       td {
@@ -302,7 +371,7 @@ export default withMulti(
 
         div {
           margin: 0 auto;
-          max-width: 7rem;
+          max-width: 6rem;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -310,7 +379,7 @@ export default withMulti(
           &.parent {
             font-size: 0.75rem;
             line-height: 0.75rem;
-            max-width: 5.25rem; /* 0.75 * 7rem */
+            max-width: 4.5rem;
           }
         }
 
@@ -322,8 +391,18 @@ export default withMulti(
           background: #f2f2f2;
           border-radius: 0.25rem;
 
+          &.isEmpty {
+            background: transparent;
+          }
+
           &.isFinalized {
             background: rgba(0, 255, 0, 0.15);
+          }
+
+          &.isLink {
+            background: transparent;
+            line-height: 1rem;
+            padding: 0;
           }
 
           &.isMissing {
