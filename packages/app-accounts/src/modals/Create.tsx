@@ -18,7 +18,7 @@ import { InputAddress } from '@polkadot/react-components/InputAddress';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
-import { keyExtractPath, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import translate from '../translate';
 
@@ -54,9 +54,9 @@ interface State {
 
 const DEFAULT_TYPE = 'sr25519';
 
-function deriveValidate (derivePath: string, pairType: KeypairType): string | null {
+function deriveValidate (seed: string, derivePath: string, pairType: KeypairType): string | null {
   try {
-    const { path } = keyExtractPath(derivePath);
+    const { path } = keyExtractSuri(`${seed}${derivePath}`);
 
     // we don't allow soft for ed25519
     if (pairType === 'ed25519') {
@@ -297,6 +297,7 @@ class Create extends React.PureComponent<Props, State> {
       address,
       deriveError: null,
       derivePath,
+      isSeedValid: true,
       seed
     };
   }
@@ -310,7 +311,6 @@ class Create extends React.PureComponent<Props, State> {
       ...this.generateSeed(seed, derivePath, seedType, pairType),
       isNameValid: true,
       isPassValid: false,
-      isSeedValid: true,
       isValid: false,
       name: 'new account',
       password: '',
@@ -326,7 +326,7 @@ class Create extends React.PureComponent<Props, State> {
       (prevState: State): State => {
         const { derivePath = prevState.derivePath, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning, tags = prevState.tags } = newState;
         let address = prevState.address;
-        const deriveError = deriveValidate(derivePath, pairType);
+        const deriveError = deriveValidate(seed, derivePath, pairType);
         const isNameValid = !!name;
         const isPassValid = keyring.isPassValid(password);
         let isSeedValid = seedType === 'raw'
