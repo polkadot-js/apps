@@ -2056,18 +2056,18 @@
     typescript "^3.5.3"
     vuepress "^1.0.3"
 
-"@polkadot/extension-dapp@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.7.1.tgz#368c261f66bd6cc46fac8afb62be88444c9297c7"
-  integrity sha512-P/yyCHQtshbpX9qPA0ledvAsNE7Dyxj4LIAbtPZ5co1fvPXBy1ztdNigmNLsRI2KRDWJifUTeZKjAxLEqSy/Nw==
+"@polkadot/extension-dapp@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.8.1.tgz#ef57b8e2229032c64ff1f01f230256b11ddbe4e2"
+  integrity sha512-rId+7DBwAqWgOgGQ+ehm9u05s2OATw0r65gmBYqf8Go4nQVnaRpfgfqmEdB5UhIB1yYTQInv1jGrUSfyvX+2jw==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/extension-inject" "^0.7.1"
+    "@polkadot/extension-inject" "^0.8.1"
 
-"@polkadot/extension-inject@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.7.1.tgz#b6829ac9462754e40cf9d1f218723856a028b483"
-  integrity sha512-QWYOKYW/H/to1TwsomgfRtnOxzy2uONPX1mfcvdB0ydOgFgQyH13km9Vfo30geaPeb7z31m1EiZIqiDhoDomsQ==
+"@polkadot/extension-inject@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.8.1.tgz#b75e11229566a70cd7deb891de53753a1a396393"
+  integrity sha512-QIm41Zyy+4WaPGBxwUe5Iooae737R3woaXLR9RRzD1uLg/GqpHum00qOrHbUOuF9Gwehwrk2SHcpY4cihfHU/Q==
   dependencies:
     "@babel/runtime" "^7.5.5"
 
