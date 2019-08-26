@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { Button, Icon, Menu, media } from '@polkadot/react-components';
+import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import { logoBackground, logoPadding } from '@polkadot/react-components/styles/theme';
 import { BestNumber, Chain } from '@polkadot/react-query';
@@ -23,47 +23,20 @@ import { BestNumber, Chain } from '@polkadot/react-query';
 import translate from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
-import getLogo from './logos';
 
 interface Props extends ApiProps, I18nProps {
+  className?: string;
   collapse: () => void;
   handleResize: () => void;
   isCollapsed: boolean;
   menuOpen: boolean;
   system_chain?: string;
-  system_name?: string;
   toggleMenu: () => void;
 }
 
 interface State {
   modals: Record<string, boolean>;
 }
-
-const Toggle = styled.img`
-  background: ${logoBackground};
-  padding: ${logoPadding};
-  border-radius: 50%;
-  cursor: pointer;
-  left: 0.9rem;
-  opacity: 0;
-  position: absolute;
-  top: 0px;
-  transition: opacity 0.2s ease-in, top 0.2s ease-in;
-  width: 2.8rem;
-
-  &.delayed {
-    transition-delay: 0.4s;
-  }
-  &.open {
-    opacity: 1;
-    top: 0.9rem;
-  }
-
-  ${media.DESKTOP`
-    opacity: 0 !important;
-    top: -2.9rem !important;
-  `}
-`;
 
 class SideBar extends React.PureComponent<Props, State> {
   public state: State;
@@ -84,19 +57,16 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { handleResize, isCollapsed, system_name, toggleMenu, menuOpen } = this.props;
-    const logo = getLogo(system_name);
+    const { className, handleResize, isCollapsed, toggleMenu, menuOpen } = this.props;
 
     return (
       <Responsive
         onUpdate={handleResize}
-        className={classes('apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+        className={classes(className, 'apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
       >
-        <Toggle
-          alt='logo'
-          className={menuOpen ? 'closed' : 'open delayed'}
+        <ChainImg
+          className={`toggleImg ${menuOpen ? 'closed' : 'open delayed'}`}
           onClick={toggleMenu}
-          src={logo}
         />
         {this.renderModals()}
         <div className='apps--SideBar'>
@@ -149,15 +119,11 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderLogo (): React.ReactNode {
-    const { api, isApiReady, system_chain, system_name } = this.props;
-    const logo = getLogo(system_name, system_chain);
+    const { api, isApiReady } = this.props;
 
     return (
       <div className='apps--SideBar-logo'>
-        <img
-          alt='polkadot'
-          src={logo}
-        />
+        <ChainImg />
         <div className='info'>
           <Chain className='chain' />
           {isApiReady &&
@@ -265,10 +231,36 @@ class SideBar extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  SideBar,
+  styled(SideBar)`
+    .toggleImg {
+      background: ${logoBackground};
+      padding: ${logoPadding};
+      border-radius: 50%;
+      cursor: pointer;
+      left: 0.9rem;
+      opacity: 0;
+      position: absolute;
+      top: 0px;
+      transition: opacity 0.2s ease-in, top 0.2s ease-in;
+      width: 2.8rem;
+
+      &.delayed {
+        transition-delay: 0.4s;
+      }
+
+      &.open {
+        opacity: 1;
+        top: 0.9rem;
+      }
+
+      ${media.DESKTOP`
+        opacity: 0 !important;
+        top: -2.9rem !important;
+      `}
+    }
+  `,
   translate,
   withCalls<Props>(
-    'rpc.system.chain',
-    'rpc.system.name'
+    'rpc.system.chain'
   )
 );

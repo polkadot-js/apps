@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+import { ApiProps } from '@polkadot/react-api/types';
+
+import React from 'react';
+import { withCalls } from '@polkadot/react-api';
+import { Text } from '@polkadot/types';
 
 // the imports here as a bit all-over, non-aphabetical - since we expect this to grow,
 // rather organise based on type, grouping chains and nodes as opposed to location
@@ -30,6 +37,48 @@ const NODES: Record<string, any> = {
   'substrate-node': substrate
 };
 
-export default function getLogo (node: string = '', chain: string = ''): any {
-  return CHAINS[chain] || NODES[node] || EMPTY;
+// overrides as specified
+const LOGOS: Record<string, any> = {
+  empty: EMPTY,
+  alexander: polkadot,
+  kusama: chainKusama,
+  polkadot,
+  substrate
+};
+
+interface Props extends ApiProps {
+  className?: string;
+  logo?: keyof typeof LOGOS;
+  onClick?: () => any;
+  system_chain?: Text;
+  system_name?: Text;
 }
+
+function getLogo (node: Text | string = '', chain: Text | string = ''): any {
+  return CHAINS[chain.toString()] || NODES[node.toString()];
+}
+
+function getOverride (logo: string = ''): any {
+  return LOGOS[logo];
+}
+
+class ChainImg extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { className, logo, onClick, system_chain, system_name } = this.props;
+    const img = getOverride(logo) || getLogo(system_name, system_chain) || EMPTY;
+
+    return (
+      <img
+        alt='chain logo'
+        className={className}
+        onClick={onClick}
+        src={img}
+      />
+    );
+  }
+}
+
+export default withCalls<Props>(
+  'rpc.system.chain',
+  'rpc.system.name'
+)(ChainImg);
