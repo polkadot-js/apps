@@ -129,7 +129,7 @@ class App extends TxModal<Props, State> {
                 help={t('The account you want to claim to.')}
                 label={t('claim to account')}
                 onChange={this.onChangeAccount}
-                type='allPlus'
+                type='all'
               />
               {(step === Step.Account) && (
                 <Button.Group>
