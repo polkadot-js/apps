@@ -13,7 +13,7 @@ import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { Button, Card, Columar, Column, Tooltip } from '@polkadot/react-components';
+import { Button, Card, Columar, Column, InputAddress, Tooltip } from '@polkadot/react-components';
 import { InputNumber } from '@polkadot/react-components/InputNumber';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { u8aToHex, u8aToString } from '@polkadot/util';
@@ -124,7 +124,13 @@ class App extends TxModal<Props, State> {
                   chain: system_chain.toString()
                 }
               })}</h3>
-              {this.renderInputAccount()}
+              <InputAddress
+                defaultValue={this.state.accountId}
+                help={t('The account you want to claim to.')}
+                label={t('claim to account')}
+                onChange={this.onChangeAccount}
+                type='all'
+              />
               {(step === Step.Account) && (
                 <Button.Group>
                   <Button
