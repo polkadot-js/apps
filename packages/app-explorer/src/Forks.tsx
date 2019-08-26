@@ -17,6 +17,7 @@ import translate from './translate';
 interface LinkHeader {
   bn: string;
   hash: string;
+  height: number;
   isEmpty: boolean;
   isFinalized: boolean;
   parent: string;
@@ -106,7 +107,7 @@ class Forks extends React.PureComponent<Props, State> {
       }
 
       // add to the header map
-      this._headers.set(hash, { bn, hash, isEmpty: false, isFinalized: false, parent, width: 0 });
+      this._headers.set(hash, this.createHdr(bn, hash, parent));
 
       // check to see if the children already has a entry
       if (this._children.has(parent)) {
@@ -269,17 +270,33 @@ class Forks extends React.PureComponent<Props, State> {
   }
 
   // adjust the number of columns in a cell based on the children and tree depth
-  private countCols (children: LinkArray): number {
+  private calcWidth (children: LinkArray): number {
     return Math.max(1, children.reduce((total, { hdr: { width } }): number => {
       return total + width;
     }, 0));
   }
 
+  // counts the height of a specific node
+  private calcHeight (children: LinkArray): number {
+    return children.reduce((max, { hdr, arr }): number => {
+      hdr.height = hdr.isEmpty
+        ? 0
+        : 1 + this.calcHeight(arr);
+
+      return Math.max(max, hdr.height);
+    }, 0);
+  }
+
+  // fills in a header based on the supplied data
+  private createHdr (bn: string, hash: string, parent: string, isEmpty: boolean = false): LinkHeader {
+    return { bn, hash, height: 0, isEmpty, isFinalized: false, parent, width: 0 };
+  }
+
   // empty link helper
-  private emptyLink (): Link {
+  private createLink (): Link {
     return {
       arr: [],
-      hdr: { bn: '', hash: ' ', isEmpty: true, isFinalized: false, parent: ' ', width: 0 }
+      hdr: this.createHdr('', ' ', ' ', true)
     };
   }
 
@@ -293,18 +310,20 @@ class Forks extends React.PureComponent<Props, State> {
       children.push({ arr: this.addChildren(hdr, []), hdr });
     });
 
+    // caclulate the max height/width for this entry
+    base.height = this.calcHeight(children);
+    base.width = this.calcWidth(children);
+
     // place the active (larger, finalized) columns first for the pyramid display
     children.sort((a, b): number => {
-      if (a.hdr.width > b.hdr.width || a.hdr.isFinalized) {
+      if (a.hdr.width > b.hdr.width || a.hdr.height > b.hdr.height || a.hdr.isFinalized) {
         return -1;
-      } else if (a.hdr.width < b.hdr.width || b.hdr.isFinalized) {
+      } else if (a.hdr.width < b.hdr.width || a.hdr.height < b.hdr.height || b.hdr.isFinalized) {
         return 1;
       }
 
       return 0;
     });
-
-    base.width = this.countCols(children);
 
     return children;
   }
@@ -318,7 +337,7 @@ class Forks extends React.PureComponent<Props, State> {
       // ok, non-empty found - iterate through an add at least an empty cell to all
       arr
         .filter(({ arr }): boolean => arr.length === 0)
-        .forEach(({ arr }): number => arr.push(this.emptyLink()));
+        .forEach(({ arr }): number => arr.push(this.createLink()));
 
       const newArr = arr.reduce((flat: LinkArray, { arr }): LinkArray => flat.concat(...arr), []);
 
@@ -329,7 +348,7 @@ class Forks extends React.PureComponent<Props, State> {
 
   // create a tree list from the available headers
   private generateTree (): Link {
-    const root = this.emptyLink();
+    const root = this.createLink();
 
     // add all the root entries first, we iterate from these
     // @ts-ignore We add the root entry explicitly, it exists as per init
@@ -350,7 +369,8 @@ class Forks extends React.PureComponent<Props, State> {
     // align the columns with empty spacers - this aids in display
     this.addColumnSpacers(root.arr);
 
-    root.hdr.width = this.countCols(root.arr);
+    root.hdr.height = this.calcHeight(root.arr);
+    root.hdr.width = this.calcWidth(root.arr);
 
     return root;
   }
