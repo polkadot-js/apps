@@ -22,7 +22,9 @@ type Props = ApiProps & I18nProps & {
 const BASE = 'https://polkascan.io/pre/';
 
 const CHAINS: Record<string, string> = {
-  Alexander: 'alexander'
+  Alexander: 'alexander',
+  Kusama: 'kusama', // old name via W3F nodes
+  'Kusama CC1': 'kusama'
 };
 
 const TYPES: Record<string, string> = {
