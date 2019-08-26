@@ -36,9 +36,7 @@ class SummarySession extends React.PureComponent<Props> {
       return null;
     }
 
-    const label = session_info.isEpoch
-      ? t('era slots')
-      : t('era');
+    const label = t('era');
 
     return session_info.sessionLength.gtn(0)
       ? (
@@ -65,7 +63,7 @@ class SummarySession extends React.PureComponent<Props> {
     }
 
     const label = session_info.isEpoch
-      ? t('epoch slots')
+      ? t('epoch')
       : t('session');
 
     return session_info.sessionLength.gtn(0)
