@@ -24,10 +24,7 @@ interface State {
 
 interface Parsed {
   isValid: boolean;
-  value: {
-    key: Uint8Array;
-    value: Uint8Array;
-  }[];
+  value: [Uint8Array, Uint8Array][];
 }
 
 const BYTES_TYPE = {
@@ -133,7 +130,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
     const json = JSON.parse(u8aToString(raw));
     const keys = Object.keys(json);
     let isValid = keys.length !== 0;
-    const value = keys.map((key): { key: Uint8Array; value: Uint8Array } => {
+    const value = keys.map((key): [Uint8Array, Uint8Array] => {
       const value = json[key];
 
       assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);
@@ -143,10 +140,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
 
       isValid = isValid && encKey.isValid && encValue.isValid;
 
-      return {
-        key: encKey.u8a,
-        value: encValue.u8a
-      };
+      return [encKey.u8a, encValue.u8a];
     });
 
     return {
