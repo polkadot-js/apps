@@ -113,7 +113,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       // console.error(error.message);
     }
 
-    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`, components[type]);
+    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`);
   }
 
   return Component || Unknown;
