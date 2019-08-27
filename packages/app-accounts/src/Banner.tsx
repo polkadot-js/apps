@@ -61,9 +61,11 @@ class Banner extends React.PureComponent<Props> {
       <div className={className}>
         <div className='box'>
           <div className='info'>
-            <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', { replace: {
-              yourBrowser: stringUpperFirst(browserName)
-            } })}</p>
+            <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
+              replace: {
+                yourBrowser: stringUpperFirst(browserName)
+              }
+            })}</p>
             <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
               <li key={name}>
                 <a

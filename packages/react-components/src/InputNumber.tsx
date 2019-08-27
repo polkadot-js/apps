@@ -182,7 +182,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     return new RegExp(
       (isSi || isDecimal)
         ? `^(0|[1-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$`
-        : `^(0|[1-9]\\d*)$`
+        : '^(0|[1-9]\\d*)$'
     );
   }
 
