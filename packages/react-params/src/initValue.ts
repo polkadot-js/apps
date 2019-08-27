@@ -115,7 +115,8 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
         // console.error(error.message);
       }
 
-      console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
+      console.warn(`Unable to determine default type for ${JSON.stringify(def)}`);
+
       return '0x';
     }
   }
