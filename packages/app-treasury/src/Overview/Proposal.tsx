@@ -44,10 +44,10 @@ class ProposalDisplay extends React.PureComponent<Props, State> {
     }
   }
 
-  public UNSAFE_componentWillReceiveProps ({ proposal }: Props): void {
+  public componentDidUpdate ({ proposal }: Props): void {
     const { onPopulate } = this.props;
 
-    if (proposal && !this.props.proposal) {
+    if (this.props.proposal && !proposal) {
       onPopulate();
     }
   }
