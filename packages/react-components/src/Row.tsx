@@ -141,7 +141,7 @@ export const styles = `
     white-space: normal;
 
     .withName {
-      white-space: nowrap;
+      white-space: normal;
       text-transform: uppercase;
       overflow: hidden;
       text-overflow: inherit;
