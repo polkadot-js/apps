@@ -51,7 +51,7 @@ class Verify extends React.PureComponent<Props, State> {
       cryptoOptions: [{ value: 'unknown', text: t('Crypto not detected') }].concat(uiSettings.availableCryptos as any[]),
       cryptoType: 'unknown',
       currentPublicKey,
-      defaultPublicKey: currentPublicKey || void 0,
+      defaultPublicKey: currentPublicKey || undefined,
       data: '',
       isHexData: false,
       isValidAddress: !!currentPair,
@@ -131,7 +131,7 @@ class Verify extends React.PureComponent<Props, State> {
           className='full'
           icon={
             <Icon
-              color={isValid ? 'green' : (isValidSignature ? 'red' : void 0)}
+              color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
               name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
               size='big'
             />

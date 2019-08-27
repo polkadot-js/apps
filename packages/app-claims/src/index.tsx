@@ -149,7 +149,7 @@ class App extends TxModal<Props, State> {
                   text={payload}
                 >
                   <Payload
-                    data-for={`tx-payload`}
+                    data-for='tx-payload'
                     data-tip
                   >
                     {payload}
@@ -166,7 +166,7 @@ class App extends TxModal<Props, State> {
                 </div>
                 <Signature
                   onChange={this.onChangeSignature}
-                  placeholder={`{\n\t"address": "0x ...",\n\t"msg": "Pay KSMs to the Kusama account: ...",\n\t"sig": "0x ...",\n\t"version": "2"\n}`}
+                  placeholder='{\n  "address": "0x ...",\n  "msg": "Pay KSMs to the Kusama account: ...",\n  "sig": "0x ...",\n  "version": "2"\n}'
                   rows={10}
                 />
                 {(step === Step.Sign) && (

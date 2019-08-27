@@ -24,7 +24,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps = {}, render?: RenderFn): React.ComponentType<any> => {
     return class WithObservable extends React.Component<any, State> {
       public state: State = {
-        callResult: void 0,
+        callResult: undefined,
         callUpdated: false,
         callUpdatedAt: 0,
         subscriptions: []

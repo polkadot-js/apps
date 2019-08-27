@@ -93,7 +93,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'SessionKey':
     case 'StorageKey':
     case 'ValidatorId':
-      return void 0;
+      return undefined;
 
     case 'Extrinsic':
       return new U8a();

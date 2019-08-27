@@ -65,7 +65,7 @@ export function sigToParts (_signature: string): SignatureParts {
 
   const recovery = v - 27;
 
-  assert(recovery === 0 || recovery === 1, `Invalid signature v value`);
+  assert(recovery === 0 || recovery === 1, 'Invalid signature v value');
 
   return {
     recovery,

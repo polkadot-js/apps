@@ -39,9 +39,9 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     ].filter((entry) => entry),
     mode: ENV,
     output: {
-      chunkFilename: `[name].[chunkhash:8].js`,
-      filename: `[name].[hash:8].js`,
-      globalObject: `(typeof self !== 'undefined' ? self : this)`,
+      chunkFilename: '[name].[chunkhash:8].js',
+      filename: '[name].[hash:8].js',
+      globalObject: '(typeof self !== \'undefined\' ? self : this)',
       path: path.join(context, 'build')
     },
     resolve: {
@@ -184,7 +184,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
-        filename: `[name].[contenthash:8].css`
+        filename: '[name].[contenthash:8].css'
       }),
       isProd
         ? null

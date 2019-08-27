@@ -17,6 +17,6 @@
     "babel-plugin-module-resolver": "^3.1.1",
     "detect-browser": "^4.6.0",
     "file-saver": "^2.0.0",
-    "yargs": "^13.2.0"
+    "yargs": "^14.0.0"
   }
 }
