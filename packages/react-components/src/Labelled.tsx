@@ -33,13 +33,13 @@ class Labelled extends React.PureComponent<Props> {
       return null;
     } else if (!withLabel) {
       return (
-        <div>{children}</div>
+        <div className={className}>{children}</div>
       );
     }
 
     return (
       <div
-        className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
+        className={classes('ui--Labelled', isSmall && 'label-small', className)}
         style={style}
       >
         <label>
