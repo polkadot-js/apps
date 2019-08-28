@@ -7,7 +7,6 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 import { Option } from './types';
 
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
@@ -88,25 +87,4 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(
-  styled(General)`
-    .settings--cutomToggle {
-      text-align: right;
-    }
-
-    .ui.menu {
-      justify-content: flex-end;
-      margin-bottom: 0;
-
-      .active.item {
-        font-weight: bold;
-      }
-    }
-
-    .sub-label {
-      cursor: pointer;
-      padding: 0rem .5833rem;
-      text-align: right;
-    }
-  `
-);
+export default translate(General);
