@@ -107,7 +107,7 @@ class Account extends React.PureComponent<Props, State> {
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
-      onlineStatus: updateOnlineStatus(recentlyOnline)(controllerId || null, { online, offline }),
+      onlineStatus: updateOnlineStatus(recentlyOnline)(sessionIds || null, { online, offline }),
       sessionIds: (
         nextSessionIds.length
           ? nextSessionIds

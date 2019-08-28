@@ -6,19 +6,21 @@
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
 
-export function updateOnlineStatus (recentlyOnline?: Record<string, BlockNumber>): (accountId: AccountId | string | null, onlineStatus: DerivedStakingOnlineStatus) => DerivedStakingOnlineStatus {
-  return (accountId: AccountId | string | null, onlineStatus: DerivedStakingOnlineStatus): DerivedStakingOnlineStatus => {
-    if (!recentlyOnline || !accountId) {
+export function updateOnlineStatus (recentlyOnline?: Record<string, BlockNumber>): (sessionIds: AccountId[] | null, onlineStatus: DerivedStakingOnlineStatus) => DerivedStakingOnlineStatus {
+  return (sessionIds: AccountId[] | null, onlineStatus: DerivedStakingOnlineStatus): DerivedStakingOnlineStatus => {
+    if (!recentlyOnline || !sessionIds) {
       return onlineStatus;
     }
+
+    const sessionId: AccountId | undefined = sessionIds.find((accountId): boolean => Object.keys(recentlyOnline).includes(accountId.toString()));
 
     return {
       ...onlineStatus,
       ...(
-        accountId && recentlyOnline[accountId.toString()]
+        sessionId
           ? {
             online: {
-              blockNumber: recentlyOnline[accountId.toString()],
+              blockNumber: recentlyOnline[sessionId.toString()],
               isOnline: true
             }
           }

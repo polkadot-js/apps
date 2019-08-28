@@ -69,7 +69,7 @@ class Address extends React.PureComponent<Props, State> {
 
     return {
       controllerId: controllerId && controllerId.toString(),
-      onlineStatus: updateOnlineStatus(recentlyOnline)(controllerId || null, { offline, online }),
+      onlineStatus: updateOnlineStatus(recentlyOnline)(staking_info.sessionIds || null, { offline, online }),
       sessionId: nextSessionId && nextSessionId.toString(),
       stashActive: stakingLedger
         ? formatBalance(stakingLedger.active)

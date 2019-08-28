@@ -54,12 +54,16 @@ class OnlineStatus extends React.PureComponent<Props, State> {
     const classNames: (string | false | undefined)[] = ['ui--OnlineStatus', isOpen && 'expand', tooltip && 'tooltip', className];
     let text: string;
     let contents: React.ReactNode;
+    let offline;
+    let count;
+    let blockNumbers;
+    let blockNumber;
 
     switch (version) {
       case 'offline':
-        const { offline = [] } = value;
-        const count = offline.reduce((total, { count }): BN => total.add(count), new BN(0));
-        const blockNumbers = offline.map(({ blockNumber }): string => `#${formatNumber(blockNumber)}`);
+        offline = value.offline || [];
+        count = offline.reduce((total, { count }): BN => total.add(count), new BN(0));
+        blockNumbers = offline.map(({ blockNumber }): string => `#${formatNumber(blockNumber)}`);
 
         classNames.push('offline');
         contents = count.toString();
@@ -72,7 +76,7 @@ class OnlineStatus extends React.PureComponent<Props, State> {
         break;
 
       case 'online':
-        const { online: { blockNumber = null } = {} } = value;
+        blockNumber = value.online ? value.online.blockNumber : null;
 
         classNames.push('online');
         contents = (
