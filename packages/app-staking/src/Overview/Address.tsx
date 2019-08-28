@@ -83,7 +83,7 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, defaultName, filter } = this.props;
+    const { address, className, defaultName, filter } = this.props;
     const { controllerId, stakers, stashId } = this.state;
     const bonded = stakers && !stakers.own.isEmpty
       ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
@@ -104,7 +104,7 @@ class Address extends React.PureComponent<Props, State> {
         defaultName={defaultName}
         iconInfo={this.renderOnlineStatus()}
         key={stashId || controllerId || undefined}
-        value={stashId}
+        value={stashId || address}
         withBalance={{ bonded }}
       >
         {this.renderNominators()}
@@ -119,7 +119,7 @@ class Address extends React.PureComponent<Props, State> {
 
     return (
       <div className='staking--Address-info'>
-        {isAuthor && stashId
+        {isAuthor
           ? <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
           : null
         }
@@ -225,6 +225,7 @@ class Address extends React.PureComponent<Props, State> {
 
 export default withMulti(
   styled(Address as React.ComponentClass<Props>)`
+    .blockNumberV1,
     .blockNumberV2 {
       background: #3f3f3f;
       border-radius: 0.25rem;
@@ -233,29 +234,25 @@ export default withMulti(
       font-size: 1.5rem;
       font-weight: 100;
       line-height: 1.5rem;
-      margin-bottom: 1rem;
-      padding: 0.25rem 0.5rem;
-      z-index: 1;
-    }
-
-    .blockNumberV1 {
-      background: #3f3f3f;
-      border-radius: 0.25rem;
-      top: 0rem;
-      box-shadow: 0 3px 3px rgba(0,0,0,.2);
-      color: #eee;
-      font-size: 1.5rem;
-      font-weight: 100;
-      line-height: 1.5rem;
-      padding: 0.25rem 0.5rem;
-      position: absolute;
-      right: -0.75rem;
       vertical-align: middle;
       z-index: 1;
     }
 
+    .blockNumberV2 {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      margin-right: -0.25rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .blockNumberV1 {
+      padding: 0.25rem 0.5rem;
+      position: absolute;
+      right: 0;
+    }
+
     .staking--label.controllerSpacer {
-      margin-top:3rem;
+      margin-top: 2.75rem;
     }
   `,
   translate,

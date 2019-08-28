@@ -64,7 +64,7 @@ class Connecting extends React.PureComponent<Props> {
         }
         {
           isWs && isWsRemote && isHttps
-            ? <div>{t(`You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.`, { replace: { wsUrl } })}</div>
+            ? <div>{t('You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure \'wss\' endpoint.', { replace: { wsUrl } })}</div>
             : undefined
         }
       </BaseOverlay>

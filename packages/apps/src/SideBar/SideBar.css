@@ -107,9 +107,15 @@
         color: white;
         opacity: 0.75;
         text-align: right;
+        vertical-align: middle;
 
         > div.chain {
           font-size: 0.9rem;
+          line-height: 1rem;
+        }
+
+        > div.runtimeVersion {
+          font-size: 0.75rem;
           line-height: 1rem;
         }
       }

@@ -19,9 +19,9 @@ type Props = ApiProps & BareProps & I18nProps & {
   balances_totalIssuance?: BN;
   chain_bestNumber?: BN;
   chain_bestNumberLag?: BN;
-  chain_getRuntimeVersion?: RuntimeVersion;
   session_validators?: AccountId[];
   staking_intentions?: AccountId[];
+  state_getRuntimeVersion?: RuntimeVersion;
   system_chain?: string;
   system_name?: string;
   system_version?: string;
@@ -50,7 +50,7 @@ class SummaryBar extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, chain_getRuntimeVersion, session_validators = [], system_chain, system_name, system_version } = this.props;
+    const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, session_validators = [], state_getRuntimeVersion, system_chain, system_name, system_version } = this.props;
     const { nextUp } = this.state;
 
     return (
@@ -63,9 +63,8 @@ class SummaryBar extends React.PureComponent<Props, State> {
             {system_chain}
           </Bubble>
           <Bubble icon='code' label='runtime'>{
-            chain_getRuntimeVersion
-              ? `${chain_getRuntimeVersion.implName} v${chain_getRuntimeVersion.implVersion}`
-              : undefined
+            state_getRuntimeVersion &&
+              `${state_getRuntimeVersion.implName} v${state_getRuntimeVersion.implVersion}`
           }</Bubble>
           <Bubble icon='bullseye' label='best #'>
             {formatNumber(chain_bestNumber)} ({formatNumber(chain_bestNumberLag)} lag)
@@ -96,7 +95,7 @@ export default translate(
     'derive.chain.bestNumberLag',
     'query.balances.totalIssuance',
     'query.session.validators',
-    'rpc.chain.getRuntimeVersion',
+    'rpc.state.getRuntimeVersion',
     'rpc.system.chain',
     'rpc.system.name',
     'rpc.system.version'

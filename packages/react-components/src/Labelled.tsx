@@ -52,7 +52,6 @@ const Wrapper = styled.div`
     .labelExtra {
       position: absolute;
       text-align: left;
-      text-transform: lowercase;
       top: 0.5rem;
       z-index: 1;
     }

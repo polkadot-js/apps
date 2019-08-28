@@ -46,7 +46,7 @@ export default function withCall<P extends ApiProps> (
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       public state: State = {
-        callResult: void 0,
+        callResult: undefined,
         callUpdated: false,
         callUpdatedAt: 0
       };
@@ -90,10 +90,14 @@ export default function withCall<P extends ApiProps> (
           }
         }, 500);
 
-        this
-          .subscribe(this.getParams(this.props))
-          .then(NOOP)
-          .catch(NOOP);
+        // The attachment takes time when a lot is available, set a timeout
+        // to first handle the current queue before subscribing
+        setTimeout((): void => {
+          this
+            .subscribe(this.getParams(this.props))
+            .then(NOOP)
+            .catch(NOOP);
+        }, 0);
       }
 
       public componentWillUnmount (): void {
@@ -147,7 +151,7 @@ export default function withCall<P extends ApiProps> (
 
         assert(area.length && section.length && method.length && others.length === 0, `Invalid API format, expected <area>.<section>.<method>, found ${endpoint}`);
         assert(['consts', 'rpc', 'query', 'derive'].includes(area), `Unknown api.${area}, expected consts, rpc, query or derive`);
-        assert(!at || area === 'query', `Only able to do an 'at' query on the api.query interface`);
+        assert(!at || area === 'query', 'Only able to do an \'at\' query on the api.query interface');
 
         const apiSection = (api as any)[area][section];
 
@@ -183,7 +187,7 @@ export default function withCall<P extends ApiProps> (
         if (area === 'query' && meta && meta.type.isMap) {
           const arg = newParams[0];
 
-          assert((!isUndefined(arg) && !isNull(arg)) || meta.type.asMap.isLinked, `${meta.name} expects one argument`);
+          assert((!isUndefined(arg) && !isNull(arg)) || meta.type.asMap.linked.isTrue, `${meta.name} expects one argument`);
         }
 
         return [

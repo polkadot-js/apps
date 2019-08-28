@@ -93,7 +93,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'SessionKey':
     case 'StorageKey':
     case 'ValidatorId':
-      return void 0;
+      return undefined;
 
     case 'Extrinsic':
       return new U8a();
@@ -115,7 +115,8 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
         // console.error(error.message);
       }
 
-      console.error(`Unable to determine default type for ${JSON.stringify(def)}`);
+      console.warn(`Unable to determine default type for ${JSON.stringify(def)}`);
+
       return '0x';
     }
   }

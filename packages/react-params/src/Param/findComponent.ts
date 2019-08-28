@@ -53,7 +53,7 @@ const components: ComponentMap = ([
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
-  { c: Vector, t: ['Vector'] },
+  { c: Vector, t: ['Vec'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
   { c: Unknown, t: ['Unknown'] }
@@ -66,6 +66,8 @@ const components: ComponentMap = ([
 }, {} as unknown as ComponentMap);
 
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
+  const findOne = (type: string): React.ComponentType<Props> | null =>
+    overrides[type] || components[type];
   const type = (({ info, sub, type }: TypeDef): string => {
     switch (info) {
       case TypeDefInfo.Compact:
@@ -84,21 +86,25 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       case TypeDefInfo.Vec:
         return ['Vec<KeyValue>'].includes(type)
           ? 'Vec<KeyValue>'
-          : 'Vector';
+          : 'Vec';
 
       default:
         return type;
     }
   })(def);
 
-  const Component = overrides[type] || components[type];
+  let Component = findOne(type);
 
   if (!Component) {
     try {
       const instance = createType(type as any);
       const raw = getTypeDef(instance.toRawType());
 
-      if (instance instanceof BN) {
+      Component = findOne(raw.type);
+
+      if (Component) {
+        return Component;
+      } else if (instance instanceof BN) {
         return Amount;
       } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
         return findComponent(raw, overrides);
@@ -106,6 +112,8 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     } catch (error) {
       // console.error(error.message);
     }
+
+    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`);
   }
 
   return Component || Unknown;

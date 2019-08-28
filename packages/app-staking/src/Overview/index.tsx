@@ -16,13 +16,13 @@ import Summary from './Summary';
 import { withApi } from '@polkadot/react-api';
 import { ApiProps } from '@polkadot/react-api/types';
 
-type Props = ApiProps & BareProps & ComponentProps & {
-  chain_subscribeNewHead?: HeaderExtended;
-};
+interface Props extends ApiProps, BareProps, ComponentProps {
+  chain_subscribeNewHeads?: HeaderExtended;
+}
 
 class Overview extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { chain_subscribeNewHead, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, isSubstrateV2, recentlyOnline } = this.props;
+    const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, isSubstrateV2, recentlyOnline } = this.props;
     let nextSorted: string[];
 
     if (isSubstrateV2) {
@@ -40,9 +40,9 @@ class Overview extends React.PureComponent<Props> {
     let lastBlock = '—';
     let lastAuthor: string | undefined;
 
-    if (chain_subscribeNewHead) {
-      lastBlock = formatNumber(chain_subscribeNewHead.number);
-      lastAuthor = (chain_subscribeNewHead.author || '').toString();
+    if (chain_subscribeNewHeads) {
+      lastBlock = formatNumber(chain_subscribeNewHeads.number);
+      lastAuthor = (chain_subscribeNewHeads.author || '').toString();
     }
 
     return (
@@ -52,6 +52,7 @@ class Overview extends React.PureComponent<Props> {
           currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
+          next={nextSorted}
         />
         <CurrentList
           currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
@@ -69,6 +70,6 @@ export default withMulti(
   Overview,
   withApi,
   withCalls<Props>(
-    'derive.chain.subscribeNewHead'
+    'derive.chain.subscribeNewHeads'
   )
 );
