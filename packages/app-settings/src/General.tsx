@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { SettingsStruct } from '@polkadot/ui-settings/types';
 import { Option } from './types';
 
 import React, { useState } from 'react';
@@ -23,14 +22,14 @@ const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOpti
 const themeOptions = uiSettings.availableUIThemes; // .map((o): Option => createOption(o));
 
 function General ({ className, t }: Props): React.ReactElement<Props> {
-  const [settings, setSettings] = useState<SettingsStruct>(uiSettings.get());
+  const [settings, setSettings] = useState(uiSettings.get());
+  const { i18nLang, prefix, uiMode, uiTheme } = settings;
+
   const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
   const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
   const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
   const _onChangeUiTheme = (uiTheme: string): void => setSettings({ ...settings, uiTheme });
   const _saveAndReload = (): void => saveAndReload(settings);
-
-  const { i18nLang, prefix, uiMode, uiTheme } = settings;
 
   return (
     <div className={className}>

@@ -61,6 +61,9 @@ function getInitialState (): State {
 
 function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props> {
   const [info, setInfo] = useState(getInitialState());
+  const { isCustom, isValid, url } = info;
+  const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
+  const label = t('remote node/endpoint to connect to');
   const _onChangeUrl = (url: string): void => setInfo({ ...info, ...makeUrl(url) });
   const _onChangeCustom = (isCustom: boolean): void => {
     const url = isCustom
@@ -75,10 +78,6 @@ function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props
       onChange(info.url);
     }
   }, [info]);
-
-  const { isCustom, isValid, url } = info;
-  const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
-  const label = t('remote node/endpoint to connect to');
 
   return (
     <div className={className}>
