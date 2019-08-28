@@ -27,7 +27,7 @@ interface State extends StateUrl {
   isCustom: boolean;
 }
 
-const endpointOptions: Option[] = uiSettings.availableNodes.map((o): Option => createOption(o, ['local']));
+const endpointOptions = uiSettings.availableNodes.map((o): Option => createOption(o, ['local']));
 
 // check the validity of the url
 function isValidUrl (url: string): boolean {

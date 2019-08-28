@@ -20,8 +20,8 @@ interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-const prefixOptions: Option[] = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
-const themeOptions: Option[] = uiSettings.availableUIThemes.map((o): Option => createOption(o));
+const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
+const themeOptions = uiSettings.availableUIThemes; // .map((o): Option => createOption(o));
 
 function General ({ className, t }: Props): React.ReactElement<Props> {
   const [settings, setSettings] = useState<SettingsStruct>(uiSettings.get());
