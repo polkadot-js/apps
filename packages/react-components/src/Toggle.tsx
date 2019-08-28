@@ -19,7 +19,7 @@ interface Props extends BareProps {
 
 class Toggle extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, asSwitch, defaultValue, isDisabled, value, label } = this.props;
+    const { className, asSwitch = true, defaultValue, isDisabled, value, label } = this.props;
 
     return (
       <div className={className}>

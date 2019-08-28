@@ -73,6 +73,7 @@ class Vector extends React.PureComponent<Props, State> {
               <Component
                 defaultValue={value}
                 isDisabled={isDisabled}
+                isOptional={false}
                 key={index}
                 label={`${index}: ${subType.type}`}
                 onChange={this.onChange(index)}

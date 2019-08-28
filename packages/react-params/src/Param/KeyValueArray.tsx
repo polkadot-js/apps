@@ -75,7 +75,6 @@ class KeyValueArray extends React.PureComponent<Props, State> {
         <Base
           className={className}
           label={label}
-          size='full'
           style={style}
         >
           <div />
@@ -88,6 +87,7 @@ class KeyValueArray extends React.PureComponent<Props, State> {
               <Bytes
                 defaultValue={{ value } as unknown as RawParam}
                 isDisabled
+                isOptional={false}
                 key={keyHex}
                 label={keyHex}
                 name={keyHex}

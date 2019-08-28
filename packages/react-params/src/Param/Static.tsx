@@ -11,11 +11,11 @@ import translate from '@polkadot/react-components/translate';
 
 import Bare from './Bare';
 
-type Props = BareProps & WithTranslation & {
+interface Props extends BareProps, WithTranslation {
   asHex?: boolean;
   defaultValue: RawParam;
   withLabel?: boolean;
-};
+}
 
 class StaticParam extends React.PureComponent<Props> {
   public render (): React.ReactNode {

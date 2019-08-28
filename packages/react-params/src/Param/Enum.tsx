@@ -75,7 +75,7 @@ export default class EnumParam extends React.PureComponent<Props, State> {
         style={style}
       >
         <Dropdown
-          className='large'
+          className='full'
           defaultValue={initialValue}
           isDisabled={isDisabled}
           isError={isError}

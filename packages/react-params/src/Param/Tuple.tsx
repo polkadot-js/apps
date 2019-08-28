@@ -66,6 +66,7 @@ export default class Tuple extends React.PureComponent<Props, State> {
           <Component
             defaultValue={values[index] || {}}
             isDisabled={isDisabled}
+            isOptional={false}
             key={index}
             label={sub[index]}
             onChange={this.onChange(index)}

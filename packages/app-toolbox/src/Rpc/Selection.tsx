@@ -76,9 +76,10 @@ class Selection extends TxComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
+        const reqCount = rpc.params.reduce((count, { isOptional }): number => count + (isOptional ? 0 : 1), 0);
         const isValid = values.reduce((isValid, value): boolean => {
           return isValid && value.isValid === true;
-        }, rpc.params.length === values.length);
+        }, reqCount <= values.length);
 
         return {
           isValid,

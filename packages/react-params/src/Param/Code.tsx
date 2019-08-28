@@ -31,13 +31,14 @@ export default class Code extends React.PureComponent<Props> {
   }
 
   private renderDisabled (): React.ReactNode {
-    const { className, defaultValue, isError, label, onEnter, style, type, withLabel } = this.props;
+    const { className, defaultValue, isError, isOptional, label, onEnter, style, type, withLabel } = this.props;
 
     return (
       <Bytes
         className={className}
         defaultValue={defaultValue}
         isError={isError}
+        isOptional={isOptional}
         label={label}
         onEnter={onEnter}
         style={style}

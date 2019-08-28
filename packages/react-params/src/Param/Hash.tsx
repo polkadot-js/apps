@@ -10,7 +10,7 @@ import BaseBytes from './BaseBytes';
 
 export default class Hash extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type, withLabel } = this.props;
+    const { className, defaultValue, isDisabled, isError, isOptional, label, name, onChange, onEnter, style, type, withLabel } = this.props;
 
     return (
       <BaseBytes
@@ -18,12 +18,12 @@ export default class Hash extends React.PureComponent<Props> {
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
+        isOptional={isOptional}
         label={label}
         length={32}
         name={name}
         onChange={onChange}
         onEnter={onEnter}
-        size={isDisabled ? 'full' : 'large'}
         style={style}
         type={type}
         withLabel={withLabel}
