@@ -10,13 +10,13 @@ import React from 'react';
 import { formatNumber } from '@polkadot/util';
 import { withCalls } from '@polkadot/react-api';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   accountNonce?: BN;
   callOnResult?: (accountNonce: BN) => void;
   children?: React.ReactNode;
   label?: React.ReactNode;
   params?: string;
-};
+}
 
 export class Nonce extends React.PureComponent<Props> {
   public render (): React.ReactNode {

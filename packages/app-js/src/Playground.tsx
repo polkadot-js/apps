@@ -42,7 +42,7 @@ interface Injected {
   window: null;
 }
 
-type Props = ApiProps & AppProps & I18nProps & {
+interface Props extends ApiProps, AppProps, I18nProps {
   match: {
     params: {
       base64?: string;
@@ -50,7 +50,7 @@ type Props = ApiProps & AppProps & I18nProps & {
   };
   // FIXME wait for proper eslint integration in tslint, then hopefully remove this
   history: any;
-};
+}
 
 interface State {
   animated: boolean;

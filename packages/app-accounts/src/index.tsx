@@ -18,9 +18,9 @@ import Overview from './Overview';
 import translate from './translate';
 import Vanity from './Vanity';
 
-type Props = AppProps & I18nProps & {
+interface Props extends AppProps, I18nProps {
   allAccounts?: SubjectInfo;
-};
+}
 
 interface State {
   hidden: string[];
