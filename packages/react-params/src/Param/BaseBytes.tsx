@@ -12,6 +12,7 @@ import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 import Bare from './Bare';
 
 interface Props extends BaseProps {
+  asHex?: boolean;
   children?: React.ReactNode;
   length?: number;
   size?: Size;
@@ -59,7 +60,7 @@ export default class BaseBytes extends React.PureComponent<Props> {
   }
 
   private onChange = (hex: string): void => {
-    const { length = -1, onChange, validate = defaultValidate, withLength } = this.props;
+    const { asHex, length = -1, onChange, validate = defaultValidate, withLength } = this.props;
 
     let value: Uint8Array;
     let isValid = true;
@@ -83,7 +84,9 @@ export default class BaseBytes extends React.PureComponent<Props> {
 
     onChange && onChange({
       isValid,
-      value
+      value: asHex
+        ? u8aToHex(value)
+        : value
     });
   }
 }

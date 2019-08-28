@@ -24,6 +24,7 @@ export default class Unknown extends React.PureComponent<Props> {
 
     return (
       <BaseBytes
+        asHex
         className={className}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
