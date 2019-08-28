@@ -6,7 +6,8 @@
 import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
+import styled from 'styled-components';
+import { withCalls, withMulti } from '@polkadot/react-api';
 import { Text } from '@polkadot/types';
 
 // the imports here as a bit all-over, non-aphabetical - since we expect this to grow,
@@ -49,23 +50,15 @@ const LOGOS: Record<string, any> = {
 interface Props extends ApiProps {
   className?: string;
   logo?: keyof typeof LOGOS;
+  logoChain?: any;
+  logoNode?: any;
   onClick?: () => any;
-  system_chain?: Text;
-  system_name?: Text;
-}
-
-function getLogo (node: Text | string = '', chain: Text | string = ''): any {
-  return CHAINS[chain.toString()] || NODES[node.toString()];
-}
-
-function getOverride (logo: string = ''): any {
-  return LOGOS[logo];
 }
 
 class ChainImg extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, logo, onClick, system_chain, system_name } = this.props;
-    const img = getOverride(logo) || getLogo(system_name, system_chain) || EMPTY;
+    const { className, logo = '', logoChain, logoNode, onClick } = this.props;
+    const img = LOGOS[logo] || logoChain || logoNode || EMPTY;
 
     return (
       <img
@@ -78,7 +71,20 @@ class ChainImg extends React.PureComponent<Props> {
   }
 }
 
-export default withCalls<Props>(
-  'rpc.system.chain',
-  'rpc.system.name'
-)(ChainImg);
+export default withMulti(
+  styled(ChainImg)`
+    background: #3f3f3f;
+    border: 1px solid #3f3f3f;
+    border-radius: 50%;
+  `,
+  withCalls<Props>(
+    ['rpc.system.chain', {
+      propName: 'logoChain',
+      transform: (chain: Text): any | null => CHAINS[chain.toString()]
+    }],
+    ['rpc.system.name', {
+      propName: 'logoNode',
+      transform: (node: Text): any | null => NODES[node.toString()]
+    }]
+  )
+);
