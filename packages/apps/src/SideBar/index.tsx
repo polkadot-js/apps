@@ -17,7 +17,6 @@ import routing from '@polkadot/apps-routing';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
-import { logoBackground, logoPadding } from '@polkadot/react-components/styles/theme';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
 import translate from '../translate';
@@ -233,16 +232,13 @@ class SideBar extends React.PureComponent<Props, State> {
 export default withMulti(
   styled(SideBar)`
     .toggleImg {
-      background: ${logoBackground};
-      padding: ${logoPadding};
-      border-radius: 50%;
       cursor: pointer;
       left: 0.9rem;
       opacity: 0;
       position: absolute;
       top: 0px;
       transition: opacity 0.2s ease-in, top 0.2s ease-in;
-      width: 2.8rem;
+      width: 2.75rem;
 
       &.delayed {
         transition-delay: 0.4s;
