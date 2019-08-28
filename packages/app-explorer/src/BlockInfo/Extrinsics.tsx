@@ -125,9 +125,9 @@ export default translate(styled(Extrinsics)`
   }
 
   .explorer--BlockByHash-nonce {
-    font-size: .75rem;
+    font-size: 0.75rem;
     margin-right: 2.25rem;
-    margin-top: -1rem;
+    margin-top: -0.625rem;
     opacity: 0.45;
     text-align: right;
   }
