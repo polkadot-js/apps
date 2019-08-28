@@ -7,11 +7,22 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Input, Toggle } from '@polkadot/react-components';
+import { Button, ChainImg, Dropdown, Input, Toggle } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
+
+interface Option {
+  text: React.ReactNode;
+  value: string | number;
+}
+
+interface SetOption {
+  info: string;
+  text: string;
+  value: string | number;
+}
 
 interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
@@ -22,6 +33,27 @@ interface State {
   isUrlValid: boolean;
   settings: SettingsStruct;
 }
+
+const createOption = ({ info, text, value }: SetOption, overrides: string[] = [], override: string = 'empty'): Option => ({
+  text: (
+    <div className='ui--Dropdown-item'>
+      <ChainImg
+        className='ui--Dropdown-icon'
+        logo={
+          overrides.includes(info)
+            ? override
+            : info
+        }
+      />
+      <div className='ui--Dropdown-name'>{text}</div>
+    </div>
+  ),
+  value
+});
+
+const endpointOptions: Option[] = uiSettings.availableNodes.map((o): Option => createOption(o, ['local']));
+const prefixOptions: Option[] = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
+const themeOptions: Option[] = uiSettings.availableUIThemes.map((o): Option => createOption(o));
 
 class General extends React.PureComponent<Props, State> {
   public constructor (props: Props) {
@@ -50,10 +82,10 @@ class General extends React.PureComponent<Props, State> {
           <div className='ui--medium'>
             <Dropdown
               defaultValue={prefix}
-              help={t('Override the default network prefix for address generation')}
-              label={t('address network prefix')}
+              help={t('Override the default ss58 prefix for address generation')}
+              label={t('address prefix')}
               onChange={this.onChangePrefix}
-              options={uiSettings.availablePrefixes}
+              options={prefixOptions}
             />
           </div>
         </div>
@@ -64,7 +96,7 @@ class General extends React.PureComponent<Props, State> {
               help={t('The logo and colors for the app along with the identity icon theme.')}
               label={t('default interface theme')}
               onChange={this.onChangeUiTheme}
-              options={uiSettings.availableUIThemes}
+              options={themeOptions}
             />
           </div>
           <div className='medium'>
@@ -128,7 +160,7 @@ class General extends React.PureComponent<Props, State> {
                   defaultValue={apiUrl}
                   label={t('remote node/endpoint to connect to')}
                   onChange={this.onChangeApiUrl}
-                  options={uiSettings.availableNodes}
+                  options={endpointOptions}
                 />
               )
           }
