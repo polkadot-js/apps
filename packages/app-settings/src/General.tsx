@@ -13,9 +13,9 @@ import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
 
-type Props = AppProps & I18nProps & {
+interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
-};
+}
 
 interface State {
   isCustomNode: boolean;

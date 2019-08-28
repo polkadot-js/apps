@@ -10,7 +10,7 @@ import React from 'react';
 import { withCalls } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   babe_expectedBlockTime?: Moment;
   children?: React.ReactNode;
   label?: React.ReactNode;

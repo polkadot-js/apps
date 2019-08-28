@@ -7,7 +7,7 @@ import { TabItem } from '@polkadot/react-components/Tabs';
 import { ComponentProps, LocationProps } from './types';
 
 import React from 'react';
-import { Route, RouteComponentProps, Switch } from 'react-router';
+import { Route, Switch } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { withMulti, withObservable } from '@polkadot/react-api';
@@ -21,10 +21,10 @@ import Contracts from './Contracts';
 import Codes from './Codes';
 import Deploy from './Deploy';
 
-type Props = AppProps & I18nProps & RouteComponentProps & {
+interface Props extends AppProps, I18nProps {
   accounts: SubjectInfo[];
   contracts: SubjectInfo[];
-};
+}
 
 interface State {
   codeHash?: string;

@@ -17,9 +17,9 @@ import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';
 
-type Props = AppProps & I18nProps & {
+interface Props extends AppProps, I18nProps {
   allAddresses?: SubjectInfo;
-};
+}
 
 interface State {
   hidden: string[];

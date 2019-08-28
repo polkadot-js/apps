@@ -9,12 +9,12 @@ import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 import React from 'react';
 import { withCalls } from '@polkadot/react-api';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
   params?: string;
   accounts_idAndIndex?: [AccountId?, AccountIndex?];
-};
+}
 
 export class AccountIndexDisplay extends React.PureComponent<Props> {
   public render (): React.ReactNode {

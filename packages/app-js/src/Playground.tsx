@@ -42,7 +42,7 @@ interface Injected {
   window: null;
 }
 
-type Props = ApiProps & AppProps & I18nProps & {
+interface Props extends ApiProps, AppProps, I18nProps {
   match: {
     params: {
       base64?: string;

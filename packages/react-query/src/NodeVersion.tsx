@@ -9,11 +9,11 @@ import React from 'react';
 import { Text } from '@polkadot/types';
 import { withCalls } from '@polkadot/react-api';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
   system_version?: Text;
-};
+}
 
 export class NodeVersion extends React.PureComponent<Props> {
   public render (): React.ReactNode {

@@ -12,12 +12,12 @@ import React from 'react';
 import { withCalls } from '@polkadot/react-api';
 import { formatBalance } from '@polkadot/util';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
   balances_all?: DerivedBalances;
-};
+}
 
 export class BalanceDisplay extends React.PureComponent<Props> {
   public render (): React.ReactNode {

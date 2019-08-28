@@ -19,7 +19,8 @@ import Transfer from './Transfer';
 import translate from './translate';
 
 // define out internal types
-type Props = AppProps & I18nProps;
+interface Props extends AppProps, I18nProps {}
+
 interface State {
   accountId?: string;
 }

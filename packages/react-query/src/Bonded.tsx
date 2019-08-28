@@ -11,12 +11,12 @@ import React from 'react';
 import { withCalls } from '@polkadot/react-api';
 import { formatBalance } from '@polkadot/util';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
   label?: React.ReactNode;
   staking_ledger?: StakingLedger | null;
-};
+}
 
 export class BondedDisplay extends React.PureComponent<Props> {
   public render (): React.ReactNode {

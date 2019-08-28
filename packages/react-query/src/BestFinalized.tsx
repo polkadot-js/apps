@@ -10,11 +10,11 @@ import React from 'react';
 import { withCalls } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
   chain_bestNumberFinalized?: BlockNumber;
-};
+}
 
 export class BestFinalized extends React.PureComponent<Props> {
   public render (): React.ReactNode {
