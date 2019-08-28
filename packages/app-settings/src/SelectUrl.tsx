@@ -119,7 +119,7 @@ export default translate(
     .settings--customToggle {
       position: absolute;
       top: .5rem;
-      right: 4.5rem;
+      right: 3.5rem;
     }
   `
 );

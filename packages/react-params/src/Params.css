@@ -13,26 +13,10 @@
   .ui--row {
     flex-wrap: wrap;
   }
-
-  .ui--Param-overlay {
-    margin-bottom: -100%;
-    z-index: 1;
-    text-align: right;
-  }
 }
 
 .ui--Param-Address {
   font-family: monospace;
-}
-
-.ui--Param-composite {
-  position: relative;
-
-  .ui--Param-overlay {
-    position: absolute;
-    top: 0.5rem;
-    right: 4.5rem;
-  }
 }
 
 .ui--Params-Content {

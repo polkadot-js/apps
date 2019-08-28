@@ -23,6 +23,7 @@ class Toggle extends React.PureComponent<Props> {
 
     return (
       <div className={className}>
+        <label>{label}</label>
         <SUICheckbox
           checked={value}
           disabled={isDisabled}
@@ -30,7 +31,6 @@ class Toggle extends React.PureComponent<Props> {
           onChange={this.onChange}
           toggle={asSwitch}
         />
-        <label>{label}</label>
       </div>
     );
   }
@@ -45,7 +45,7 @@ class Toggle extends React.PureComponent<Props> {
 export default styled(Toggle)`
   > label {
     display: inline-block;
-    margin-left: 0.5rem;
+    margin: 0 0.5rem;
   }
 
   > label,
