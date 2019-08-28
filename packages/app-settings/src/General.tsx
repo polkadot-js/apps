@@ -18,6 +18,12 @@ interface Option {
   value: string | number;
 }
 
+interface SetOption {
+  info: string;
+  text: string;
+  value: string | number;
+}
+
 interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
 }
@@ -28,18 +34,26 @@ interface State {
   settings: SettingsStruct;
 }
 
-const endpointOptions: Option[] = uiSettings.availableNodes.map(({ info, text, value }): Option => ({
+const createOption = ({ info, text, value }: SetOption, overrides: string[] = [], override: string = 'empty'): Option => ({
   text: (
     <div className='ui--Dropdown-item'>
       <ChainImg
         className='ui--Dropdown-icon'
-        logo={info}
+        logo={
+          overrides.includes(info)
+            ? override
+            : info
+        }
       />
       <div className='ui--Dropdown-name'>{text}</div>
     </div>
   ),
   value
-}));
+});
+
+const endpointOptions: Option[] = uiSettings.availableNodes.map((o): Option => createOption(o, ['local']));
+const prefixOptions: Option[] = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
+const themeOptions: Option[] = uiSettings.availableUIThemes.map((o): Option => createOption(o));
 
 class General extends React.PureComponent<Props, State> {
   public constructor (props: Props) {
@@ -68,10 +82,10 @@ class General extends React.PureComponent<Props, State> {
           <div className='ui--medium'>
             <Dropdown
               defaultValue={prefix}
-              help={t('Override the default network prefix for address generation')}
-              label={t('address network prefix')}
+              help={t('Override the default ss58 prefix for address generation')}
+              label={t('address prefix')}
               onChange={this.onChangePrefix}
-              options={uiSettings.availablePrefixes}
+              options={prefixOptions}
             />
           </div>
         </div>
@@ -82,7 +96,7 @@ class General extends React.PureComponent<Props, State> {
               help={t('The logo and colors for the app along with the identity icon theme.')}
               label={t('default interface theme')}
               onChange={this.onChangeUiTheme}
-              options={uiSettings.availableUIThemes}
+              options={themeOptions}
             />
           </div>
           <div className='medium'>
