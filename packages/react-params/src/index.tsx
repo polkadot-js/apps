@@ -237,7 +237,7 @@ class Params extends React.PureComponent<Props, State> {
 }
 
 export default translate(
-  styled(Params)`
+  styled(Params as React.ComponentClass<Props>)`
     .ui--Param-composite {
       position: relative;
 
