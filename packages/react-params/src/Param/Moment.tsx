@@ -22,6 +22,7 @@ export default class Code extends React.PureComponent<Props> {
         className={className}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
+        isOptional={false}
         isError={isError}
         label={label}
         onChange={this.onChange}

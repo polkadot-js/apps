@@ -16,7 +16,7 @@ interface Props extends BareProps {
 
 export default class Unknown extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type } = this.props;
+    const { className, defaultValue, isDisabled, isError, isOptional, label, name, onChange, onEnter, style, type } = this.props;
 
     if (isDisabled) {
       return <Static {...this.props} />;
@@ -29,12 +29,12 @@ export default class Unknown extends React.PureComponent<Props> {
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
+        isOptional={isOptional}
         label={label}
         length={-1}
         name={name}
         onChange={onChange}
         onEnter={onEnter}
-        size='full'
         style={style}
         type={type}
         withLength={false}

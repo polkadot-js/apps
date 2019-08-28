@@ -139,6 +139,7 @@ class Referendum extends React.PureComponent<Props, State> {
         </Static>
         <VoteThreshold
           isDisabled
+          isOptional={false}
           defaultValue={{ isValid: true, value: threshold }}
           label={t('vote threshold')}
           name='voteThreshold'

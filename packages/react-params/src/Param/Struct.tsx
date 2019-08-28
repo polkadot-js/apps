@@ -53,7 +53,6 @@ export default class StructParam extends React.PureComponent<Props, State> {
         <Base
           className={className}
           label={label}
-          size='full'
           style={style}
           withLabel={withLabel}
         >

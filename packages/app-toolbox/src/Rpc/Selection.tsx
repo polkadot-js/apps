@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { TypeDef } from '@polkadot/types/types';
-import { RawParam } from '@polkadot/react-params/types';
+import { ParamDef, RawParam } from '@polkadot/react-params/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
 
@@ -40,7 +39,8 @@ class Selection extends TxComponent<Props, State> {
   public render (): React.ReactNode {
     const { t } = this.props;
     const { isValid, rpc } = this.state;
-    const params = rpc.params.map(({ name, type }): { name: string; type: TypeDef } => ({
+    const params = rpc.params.map(({ isOptional, name, type }): ParamDef => ({
+      isOptional,
       name,
       type: getTypeDef(type)
     }));
@@ -76,9 +76,11 @@ class Selection extends TxComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
+        const reqCount = rpc.params.reduce((count, { isOptional }): number => count + (isOptional ? 0 : 1), 0);
         const isValid = values.reduce((isValid, value): boolean => {
           return isValid && value.isValid === true;
-        }, rpc.params.length === values.length);
+        }, reqCount <= values.length);
+
         return {
           isValid,
           rpc,

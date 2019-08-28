@@ -20,7 +20,7 @@ interface Props extends BareProps {
 
 export default class Base extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { children, className, isDisabled, label, size = 'medium', style, withLabel } = this.props;
+    const { children, className, label, size = 'full', style, withLabel } = this.props;
 
     return (
       <Bare
@@ -28,7 +28,7 @@ export default class Base extends React.PureComponent<Props> {
         style={style}
       >
         <Labelled
-          className={isDisabled ? 'full' : size}
+          className={size}
           label={label}
           withEllipsis
           withLabel={withLabel}

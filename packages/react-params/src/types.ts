@@ -29,6 +29,7 @@ export type RawParams = RawParam[];
 
 export interface BaseProps extends BareProps {
   defaultValue: RawParam;
+  isOptional: boolean;
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
@@ -46,3 +47,9 @@ export interface Props extends BaseProps {
 export type Size = 'full' | 'large' | 'medium' | 'small';
 
 export type ComponentMap = Record<string, React.ComponentType<Props>>;
+
+export interface ParamDef {
+  isOptional?: boolean;
+  name?: string;
+  type: TypeDef;
+}
