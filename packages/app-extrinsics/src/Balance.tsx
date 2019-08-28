@@ -10,10 +10,10 @@ import { DerivedBalances } from '@polkadot/api-derive/types';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { InputBalance } from '@polkadot/react-components';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   balances_all?: DerivedBalances;
   label?: React.ReactNode;
-};
+}
 
 class BalanceDisplay extends React.PureComponent<Props> {
   public render (): React.ReactNode {

@@ -9,10 +9,10 @@ import { BareProps, CallProps } from '@polkadot/react-api/types';
 import React from 'react';
 import { withCalls } from '@polkadot/react-api';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   label?: string;
   chain_subscribeNewHeads?: Header;
-};
+}
 
 class BestHash extends React.PureComponent<Props> {
   public render (): React.ReactNode {

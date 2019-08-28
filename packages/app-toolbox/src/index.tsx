@@ -17,9 +17,9 @@ import Sign from './Sign';
 import Verify from './Verify';
 import translate from './translate';
 
-type Props = AppProps & I18nProps & {
+interface Props extends AppProps, I18nProps {
   allAccounts?: SubjectInfo;
-};
+}
 
 interface State {
   tabs: TabItem[];

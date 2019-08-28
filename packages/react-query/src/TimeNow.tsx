@@ -11,11 +11,11 @@ import { withCalls } from '@polkadot/react-api';
 
 import Elapsed from './Elapsed';
 
-type Props = BareProps & CallProps & {
+interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
   timestamp_now?: Moment;
-};
+}
 
 export class TimeNow extends React.PureComponent<Props> {
   public render (): React.ReactNode {

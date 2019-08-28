@@ -15,7 +15,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
-type Props = ApiProps & BareProps & I18nProps & {
+interface Props extends ApiProps, BareProps, I18nProps {
   balances_totalIssuance?: BN;
   chain_bestNumber?: BN;
   chain_bestNumberLag?: BN;
@@ -25,7 +25,8 @@ type Props = ApiProps & BareProps & I18nProps & {
   system_chain?: string;
   system_name?: string;
   system_version?: string;
-};
+}
+
 interface State {
   nextUp: AccountId[];
 }
