@@ -65,13 +65,15 @@ function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props
   const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
   const label = t('remote node/endpoint to connect to');
   const _onChangeUrl = (url: string): void => setInfo({ ...info, ...makeUrl(url) });
-  const _onChangeCustom = (isCustom: boolean): void => {
-    const url = isCustom
-      ? info.url
-      : uiSettings.availableNodes[0].value as string;
-
-    setInfo({ ...info, isCustom, isValid: true, url });
-  };
+  const _onChangeCustom = (isCustom: boolean): void =>
+    setInfo({
+      ...makeUrl(
+        isCustom
+          ? info.url
+          : uiSettings.availableNodes[0].value as string
+      ),
+      isCustom
+    });
 
   useEffect((): void => {
     if (onChange && info.isValid) {
