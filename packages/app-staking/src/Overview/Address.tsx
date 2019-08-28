@@ -3,19 +3,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, Exposure } from '@polkadot/types/interfaces';
-import { DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
+import { AccountId, Balance, BlockNumber, Exposure } from '@polkadot/types/interfaces';
+import { DerivedBalancesMap, DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ValidatorFilter, RecentlyOfflineMap } from '../types';
+import { ValidatorFilter } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/react-api/with';
-import { AddressCard, AddressMini, RecentlyOffline } from '@polkadot/react-components';
+import { AddressCard, AddressMini, OnlineStatus } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
+import { updateOnlineStatus } from '../util';
 
 import translate from '../translate';
 
@@ -24,15 +25,16 @@ interface Props extends ApiProps, I18nProps {
   balances: DerivedBalancesMap;
   className?: string;
   defaultName: string;
+  filter: ValidatorFilter;
   lastAuthor: string;
   lastBlock: string;
-  recentlyOffline: RecentlyOfflineMap;
-  filter: ValidatorFilter;
+  recentlyOnline?: Record<string, BlockNumber>;
   staking_info?: DerivedStaking;
 }
 
 interface State {
   controllerId: string | null;
+  onlineStatus: DerivedStakingOnlineStatus;
   stashActive: string | null;
   stashTotal: string | null;
   sessionId: string | null;
@@ -49,6 +51,7 @@ class Address extends React.PureComponent<Props, State> {
 
     this.state = {
       controllerId: null,
+      onlineStatus: {},
       sessionId: null,
       stashActive: null,
       stashId: null,
@@ -57,15 +60,16 @@ class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  public static getDerivedStateFromProps ({ staking_info }: Props, prevState: State): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ recentlyOnline = {}, staking_info }: Props, prevState: State): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
 
-    const { controllerId, nextSessionId, stakers, stashId, stakingLedger } = staking_info;
+    const { controllerId, nextSessionId, online, offline, stakers, stakingLedger, stashId } = staking_info;
 
     return {
       controllerId: controllerId && controllerId.toString(),
+      onlineStatus: updateOnlineStatus(recentlyOnline)(staking_info.sessionIds || null, { offline, online }),
       sessionId: nextSessionId && nextSessionId.toString(),
       stashActive: stakingLedger
         ? formatBalance(stakingLedger.active)
@@ -98,7 +102,7 @@ class Address extends React.PureComponent<Props, State> {
         buttons={this.renderKeys()}
         className={className}
         defaultName={defaultName}
-        iconInfo={this.renderOffline()}
+        iconInfo={this.renderOnlineStatus()}
         key={stashId || controllerId || undefined}
         value={stashId || address}
         withBalance={{ bonded }}
@@ -165,10 +169,9 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private hasWarnings (): boolean {
-    const { recentlyOffline } = this.props;
-    const { stashId } = this.state;
+    const { stashId, onlineStatus } = this.state;
 
-    if (!stashId || !recentlyOffline[stashId]) {
+    if (!stashId || !onlineStatus.offline || !onlineStatus.offline.length) {
       return false;
     }
 
@@ -204,20 +207,16 @@ class Address extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderOffline (): React.ReactNode {
-    const { recentlyOffline } = this.props;
-    const { stashId } = this.state;
-
-    if (!stashId || !recentlyOffline[stashId]) {
+  private renderOnlineStatus (): React.ReactNode {
+    const { controllerId, onlineStatus } = this.state;
+    if (!controllerId || !onlineStatus) {
       return null;
     }
 
-    const offline = recentlyOffline[stashId];
-
     return (
-      <RecentlyOffline
-        accountId={stashId}
-        offline={offline}
+      <OnlineStatus
+        accountId={controllerId}
+        value={onlineStatus}
         tooltip
       />
     );

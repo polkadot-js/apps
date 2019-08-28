@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber } from '@polkadot/types/interfaces';
 import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ValidatorFilter, RecentlyOfflineMap } from '../types';
+import { ValidatorFilter } from '../types';
 
 import React from 'react';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
@@ -18,7 +19,7 @@ interface Props extends I18nProps {
   lastAuthor?: string;
   lastBlock: string;
   next: string[];
-  recentlyOffline: RecentlyOfflineMap;
+  recentlyOnline: Record<string, BlockNumber>;
 }
 
 interface State {
@@ -79,7 +80,7 @@ class CurrentList extends React.PureComponent<Props, State> {
   }
 
   private renderColumn (addresses: string[], defaultName: string): React.ReactNode {
-    const { balances, lastAuthor, lastBlock, recentlyOffline } = this.props;
+    const { balances, lastAuthor, lastBlock, recentlyOnline } = this.props;
     const { filter } = this.state;
 
     return addresses.map((address): React.ReactNode => (
@@ -91,7 +92,7 @@ class CurrentList extends React.PureComponent<Props, State> {
         filter={filter}
         lastAuthor={lastAuthor}
         lastBlock={lastBlock}
-        recentlyOffline={recentlyOffline}
+        recentlyOnline={recentlyOnline}
       />
     ));
   }

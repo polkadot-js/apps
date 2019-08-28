@@ -32,7 +32,7 @@ class Accounts extends React.PureComponent<Props, State> {
   };
 
   public render (): React.ReactNode {
-    const { allStashes, className, recentlyOffline, t } = this.props;
+    const { allStashes, className, recentlyOnline, t } = this.props;
     const { isNewStakeOpen } = this.state;
     const stashOptions = this.getStashOptions();
     const myStashes = this.getMyStashes();
@@ -64,7 +64,7 @@ class Accounts extends React.PureComponent<Props, State> {
             allStashes={allStashes}
             accountId={address}
             key={index}
-            recentlyOffline={recentlyOffline}
+            recentlyOnline={recentlyOnline}
             stashOptions={stashOptions}
           />
         ))}
@@ -112,14 +112,14 @@ class Accounts extends React.PureComponent<Props, State> {
   }
 
   private toggleNewStake = (): void => {
-    this.setState(({ isNewStakeOpen }): State => ({
+    this.setState(({ isNewStakeOpen }): Pick<State, never> => ({
       isNewStakeOpen: !isNewStakeOpen
     }));
   }
 }
 
 export default withMulti(
-  styled(Accounts)`
+  styled(Accounts as React.ComponentClass<Props, State>)`
     .ui--CardGrid-buttons {
       text-align: right;
     }

@@ -22,7 +22,7 @@ interface Props extends ApiProps, BareProps, ComponentProps {
 
 class Overview extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { chain_subscribeNewHeads, allControllers, allStashes, recentlyOffline, currentValidatorsControllersV1OrStashesV2, isSubstrateV2 } = this.props;
+    const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, isSubstrateV2, recentlyOnline } = this.props;
     let nextSorted: string[];
 
     if (isSubstrateV2) {
@@ -59,7 +59,7 @@ class Overview extends React.PureComponent<Props> {
           lastBlock={lastBlock}
           lastAuthor={lastAuthor}
           next={nextSorted}
-          recentlyOffline={recentlyOffline}
+          recentlyOnline={recentlyOnline}
         />
       </div>
     );

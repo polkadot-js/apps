@@ -3,17 +3,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RecentlyOfflineMap } from '../../types';
-import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { DerivedBalances, DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, BlockNumber, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, OnlineStatus, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';
@@ -26,12 +25,14 @@ import Unbond from './Unbond';
 import Validate from './Validate';
 import { u8aToHex, u8aConcat } from '@polkadot/util';
 
+import { updateOnlineStatus } from '../../util';
+
 type Props = ApiProps & I18nProps & {
   accountId: string;
   allStashes?: string[];
   balances_all?: DerivedBalances;
   className?: string;
-  recentlyOffline: RecentlyOfflineMap;
+  recentlyOnline: Record<string, BlockNumber>;
   staking_info?: DerivedStaking;
   stashOptions: KeyringSectionOption[];
 };
@@ -51,6 +52,7 @@ interface State {
   isUnbondOpen: boolean;
   isValidateOpen: boolean;
   nominees?: string[];
+  onlineStatus: DerivedStakingOnlineStatus;
   sessionIds: string[];
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
@@ -79,16 +81,17 @@ class Account extends React.PureComponent<Props, State> {
     isStashValidating: false,
     isUnbondOpen: false,
     isValidateOpen: false,
+    onlineStatus: {},
     sessionIds: [],
     stashId: null
   };
 
-  public static getDerivedStateFromProps ({ allStashes, staking_info }: Props): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ allStashes, recentlyOnline, staking_info }: Props): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
 
-    const { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionIds, nominators, online, offline, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isStashNominating = nominators && nominators.length !== 0;
     const _stashId = toIdString(stashId);
     const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
@@ -104,6 +107,7 @@ class Account extends React.PureComponent<Props, State> {
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
+      onlineStatus: updateOnlineStatus(recentlyOnline)(sessionIds || null, { online, offline }),
       sessionIds: (
         nextSessionIds.length
           ? nextSessionIds
@@ -131,7 +135,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <AddressCard
         buttons={this.renderButtons()}
-        iconInfo={this.renderOffline(stashId)}
+        iconInfo={this.renderOnlineStatus()}
         label={t('stash')}
         type='account'
         value={stashId}
@@ -229,7 +233,6 @@ class Account extends React.PureComponent<Props, State> {
         {nominees.map((nomineeId, index): React.ReactNode => (
           <AddressMini
             key={index}
-            iconInfo={this.renderOffline(nomineeId)}
             value={nomineeId}
             withBalance={false}
             withBonded
@@ -239,13 +242,17 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderOffline (address: AccountId | string): React.ReactNode {
-    const { recentlyOffline } = this.props;
+  private renderOnlineStatus (): React.ReactNode {
+    const { onlineStatus, controllerId } = this.state;
+
+    if (!controllerId || !onlineStatus) {
+      return null;
+    }
 
     return (
-      <RecentlyOffline
-        accountId={address}
-        offline={recentlyOffline[address.toString()]}
+      <OnlineStatus
+        accountId={controllerId}
+        value={onlineStatus}
         tooltip
       />
     );
@@ -262,7 +269,6 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-detail actions'>
         <AddressRow
-          iconInfo={this.renderOffline(controllerId)}
           label={t('controller')}
           value={controllerId}
           withAddressOrName
