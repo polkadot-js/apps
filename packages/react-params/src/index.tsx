@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentMap, RawParam, RawParams, RawParamOnChange, RawParamOnChangeValue } from './types';
+import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChange, RawParamOnChangeValue } from './types';
 
 import './Params.css';
 
@@ -15,24 +14,19 @@ import translate from '@polkadot/react-components/translate';
 import Param from './Param';
 import { createValue } from './values';
 
-interface Param {
-  name?: string;
-  type: TypeDef;
-}
-
 interface Props extends I18nProps {
   isDisabled?: boolean;
   onChange?: (value: RawParams) => void;
   onEnter?: () => void;
   overrides?: ComponentMap;
-  params: Param[];
+  params: ParamDef[];
   values?: RawParams | null;
 }
 
 interface State {
   handlers?: RawParamOnChange[];
   onChangeParam: (at: number, next: RawParamOnChangeValue) => void;
-  params?: Param[];
+  params?: ParamDef[];
   values?: RawParams;
 }
 
@@ -108,10 +102,11 @@ class Params extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--Params-Content'>
-          {params.map(({ name, type }, index): React.ReactNode => (
+          {params.map(({ isOptional = false, name, type }, index): React.ReactNode => (
             <Param
               defaultValue={values[index]}
               isDisabled={isDisabled}
+              isOptional={isOptional}
               key={`${name}:${name}:${index}`}
               name={name}
               onChange={handlers[index]}

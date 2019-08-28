@@ -12,10 +12,10 @@ import { isUndefined } from '@polkadot/util';
 
 import findComponent from './findComponent';
 
-type Props = I18nProps & BaseProps & {
+interface Props extends I18nProps, BaseProps {
   isDisabled?: boolean;
   overrides?: ComponentMap;
-};
+}
 
 interface State {
   Component: React.ComponentType<ComponentProps> | null;
