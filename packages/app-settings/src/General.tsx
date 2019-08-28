@@ -7,21 +7,39 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Input, Toggle } from '@polkadot/react-components';
+import { Button, ChainImg, Dropdown, Input, Toggle } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
 
-type Props = AppProps & I18nProps & {
+interface Option {
+  text: React.ReactNode;
+  value: string | number;
+}
+
+interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
-};
+}
 
 interface State {
   isCustomNode: boolean;
   isUrlValid: boolean;
   settings: SettingsStruct;
 }
+
+const endpointOptions: Option[] = uiSettings.availableNodes.map(({ info, text, value }): Option => ({
+  text: (
+    <div className='ui--Dropdown-item'>
+      <ChainImg
+        className='ui--Dropdown-icon'
+        logo={info}
+      />
+      <div className='ui--Dropdown-name'>{text}</div>
+    </div>
+  ),
+  value
+}));
 
 class General extends React.PureComponent<Props, State> {
   public constructor (props: Props) {
@@ -128,7 +146,7 @@ class General extends React.PureComponent<Props, State> {
                   defaultValue={apiUrl}
                   label={t('remote node/endpoint to connect to')}
                   onChange={this.onChangeApiUrl}
-                  options={uiSettings.availableNodes}
+                  options={endpointOptions}
                 />
               )
           }

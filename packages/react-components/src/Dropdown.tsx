@@ -5,6 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
@@ -38,7 +39,7 @@ interface Props<Option> extends BareProps {
   withLabel?: boolean;
 }
 
-export default class Dropdown<Option> extends React.PureComponent<Props<Option>> {
+class Dropdown<Option> extends React.PureComponent<Props<Option>> {
   // Trigger the update on mount - ensuring that the onChange (as described below)
   // is trigerred.
   public componentDidMount (): void {
@@ -143,3 +144,42 @@ export default class Dropdown<Option> extends React.PureComponent<Props<Option>>
     onClose && onClose();
   }
 }
+
+export default styled(Dropdown)`
+  .ui--Dropdown-item {
+    position: relative;
+    white-space: nowrap;
+
+    .ui--Dropdown-icon,
+    .ui--Dropdown-name {
+      display: inline-block;
+    }
+
+    .ui--Dropdown-icon {
+      border-radius: 50%;
+      height: 32px;
+      left: 0;
+      position: absolute;
+      top: -9px;
+      width: 32px;
+    }
+
+    .ui--Dropdown-name {
+      margin-left: 3rem;
+    }
+  }
+
+  .ui.selection.dropdown {
+    > .text > .ui--Dropdown-item {
+      .ui--Dropdown-icon {
+        left: -2.6rem;
+        top: -1rem;
+        opacity: 1;
+      }
+
+      .ui--Dropdown-name {
+        margin-left: 0;
+      }
+    }
+  }
+`;

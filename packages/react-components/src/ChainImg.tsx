@@ -42,6 +42,7 @@ const LOGOS: Record<string, any> = {
   empty: EMPTY,
   alexander: polkadot,
   kusama: chainKusama,
+  local: EMPTY,
   polkadot,
   substrate
 };
