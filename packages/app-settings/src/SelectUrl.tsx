@@ -78,29 +78,26 @@ function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props
 
   const { isCustom, isValid, url } = info;
   const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
+  const label = t('remote node/endpoint to connect to');
 
   return (
     <div className={className}>
       <div className='ui--row'>{
         isCustom
-          ? (
-            <Input
-              defaultValue={url}
-              help={help}
-              isError={!isValid}
-              label={t('remote node/endpoint to connect to')}
-              onChange={_onChangeUrl}
-            />
-          )
-          : (
-            <Dropdown
-              defaultValue={url}
-              help={help}
-              label={t('remote node/endpoint to connect to')}
-              onChange={_onChangeUrl}
-              options={endpointOptions}
-            />
-          )
+          ? <Input
+            defaultValue={url}
+            help={help}
+            isError={!isValid}
+            label={label}
+            onChange={_onChangeUrl}
+          />
+          : <Dropdown
+            defaultValue={url}
+            help={help}
+            label={label}
+            onChange={_onChangeUrl}
+            options={endpointOptions}
+          />
       }</div>
       <Toggle
         className='settings--customToggle'
