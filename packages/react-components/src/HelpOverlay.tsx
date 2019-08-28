@@ -18,7 +18,47 @@ interface State {
   isVisible: boolean;
 }
 
-const Wrapper = styled.div`
+class HelpOverlay extends React.PureComponent<Props, State> {
+  public state: State = { isVisible: false };
+
+  public render (): React.ReactNode {
+    const { className, md } = this.props;
+    const { isVisible } = this.state;
+
+    return (
+      <div className={className}>
+        {this.renderButton('help circle')}
+        <div className={`help-slideout ${isVisible ? 'open' : 'closed'}`}>
+          {this.renderButton('close')}
+          <ReactMd
+            className='help-content'
+            escapeHtml={false}
+            source={md}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  private renderButton (name: 'close' | 'help circle'): React.ReactNode {
+    return (
+      <div className='help-button'>
+        <Icon
+          name={name}
+          onClick={this.toggleVisible}
+        />
+      </div>
+    );
+  }
+
+  private toggleVisible = (): void => {
+    this.setState(({ isVisible }): State => ({
+      isVisible: !isVisible
+    }));
+  }
+}
+
+export default styled(HelpOverlay)`
   .help-button {
     cursor: pointer;
     font-size: 2rem;
@@ -57,43 +97,3 @@ const Wrapper = styled.div`
     }
   }
 `;
-
-export default class HelpOverlay extends React.PureComponent<Props, State> {
-  public state: State = { isVisible: false };
-
-  public render (): React.ReactNode {
-    const { md } = this.props;
-    const { isVisible } = this.state;
-
-    return (
-      <Wrapper>
-        {this.renderButton('help circle')}
-        <div className={`help-slideout ${isVisible ? 'open' : 'closed'}`}>
-          {this.renderButton('close')}
-          <ReactMd
-            className='help-content'
-            escapeHtml={false}
-            source={md}
-          />
-        </div>
-      </Wrapper>
-    );
-  }
-
-  private renderButton (name: 'close' | 'help circle'): React.ReactNode {
-    return (
-      <div className='help-button'>
-        <Icon
-          name={name}
-          onClick={this.toggleVisible}
-        />
-      </div>
-    );
-  }
-
-  private toggleVisible = (): void => {
-    this.setState(({ isVisible }): State => ({
-      isVisible: !isVisible
-    }));
-  }
-}

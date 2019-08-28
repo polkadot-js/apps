@@ -13,25 +13,25 @@ interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-const Wrapper = styled.div`
-  position: relative;
+class BaseChart extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { children, className, style } = this.props;
+
+    return (
+      <div
+        className={classes('ui--Chart', className)}
+        style={style}
+      >
+        {children}
+      </div>
+    );
+  }
+}
+
+export default styled(BaseChart)`
+position: relative;
   display: inline-block;
   padding: 1em 1em 0;
   height: 15vw;
   width: 15vw;
 `;
-
-export default class BaseChart extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, style } = this.props;
-
-    return (
-      <Wrapper
-        className={classes('ui--Chart', className)}
-        style={style}
-      >
-        {children}
-      </Wrapper>
-    );
-  }
-}

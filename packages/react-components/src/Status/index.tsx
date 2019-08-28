@@ -15,83 +15,14 @@ import { classes } from '../util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
+  className?: string;
   stqueue?: QueueStatus[];
   txqueue?: QueueTx[];
 }
 
-const Wrapper = styled.div`
-  display: inline-block;
-  position: fixed;
-  right: 0.25rem;
-  top: 0.25rem;
-  width: 20rem;
-  z-index: 1001;
-
-  .item {
-    display: block;
-    text-align: right;
-
-    > .wrapper > .container {
-      align-items: center;
-      background: #00688b;
-      border-radius: $small-corner;
-      color: white;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.25rem;
-      padding: 0 0.5rem;
-      text-align: center;
-      opacity: 0.95;
-      vertical-align: middle;
-
-      .desc {
-        flex: 1;
-        overflow: hidden;
-        padding: 0.5rem 1rem;
-
-        .status {
-          font-weight: 700;
-        }
-      }
-
-      .short {
-        font-size: 2.5rem;
-        padding: 0.5rem;
-
-        i.icon {
-          line-height: 1;
-        }
-      }
-    }
-
-    &.cancelled > .wrapper > .container {
-      background: #cd9b1d
-    }
-
-    &.event > .wrapper > .container {
-      background: teal;
-    }
-
-    &.completed > .wrapper > .container,
-    &.finalized > .wrapper > .container,
-    &.sent > .wrapper > .container,
-    &.success > .wrapper > .container {
-      background: green;
-    }
-
-    &.dropped > .wrapper > .container,
-    &.error > .wrapper > .container,
-    &.invalid > .wrapper > .container,
-    &.usurped > .wrapper > .container {
-      background: red;
-    }
-  }
-`;
-
 class Status extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { stqueue = [], txqueue = [] } = this.props;
+    const { className, stqueue = [], txqueue = [] } = this.props;
     const allst: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
     const alltx: QueueTx[] = txqueue.filter(({ status }): boolean =>
       !['completed', 'incomplete'].includes(status)
@@ -102,10 +33,10 @@ class Status extends React.PureComponent<Props> {
     }
 
     return (
-      <Wrapper className='ui--Status'>
+      <div className={`ui--Status ${className}`}>
         {alltx.map(this.renderItem)}
         {allst.map(this.renderStatus)}
-      </Wrapper>
+      </div>
     );
   }
 
@@ -225,4 +156,74 @@ class Status extends React.PureComponent<Props> {
   }
 }
 
-export default translate(Status);
+export default translate(
+  styled(Status)`
+    display: inline-block;
+    position: fixed;
+    right: 0.25rem;
+    top: 0.25rem;
+    width: 20rem;
+    z-index: 1001;
+
+    .item {
+      display: block;
+      text-align: right;
+
+      > .wrapper > .container {
+        align-items: center;
+        background: #00688b;
+        border-radius: $small-corner;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.25rem;
+        padding: 0 0.5rem;
+        text-align: center;
+        opacity: 0.95;
+        vertical-align: middle;
+
+        .desc {
+          flex: 1;
+          overflow: hidden;
+          padding: 0.5rem 1rem;
+
+          .status {
+            font-weight: 700;
+          }
+        }
+
+        .short {
+          font-size: 2.5rem;
+          padding: 0.5rem;
+
+          i.icon {
+            line-height: 1;
+          }
+        }
+      }
+
+      &.cancelled > .wrapper > .container {
+        background: #cd9b1d
+      }
+
+      &.event > .wrapper > .container {
+        background: teal;
+      }
+
+      &.completed > .wrapper > .container,
+      &.finalized > .wrapper > .container,
+      &.sent > .wrapper > .container,
+      &.success > .wrapper > .container {
+        background: green;
+      }
+
+      &.dropped > .wrapper > .container,
+      &.error > .wrapper > .container,
+      &.invalid > .wrapper > .container,
+      &.usurped > .wrapper > .container {
+        background: red;
+      }
+    }
+  `
+);

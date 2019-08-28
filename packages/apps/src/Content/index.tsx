@@ -17,30 +17,10 @@ import Status from './Status';
 import translate from '../translate';
 import NotFound from './NotFound';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends I18nProps, ApiProps {
+  className?: string;
   location: Location;
-};
-
-const Wrapper = styled.div`
-  background: #fafafa;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 100%;
-  padding: 0 2rem;
-
-  @media(max-width: 768px) {
-    padding: 0 0.5rem;
-  }
-`;
-
-const Connecting = styled.div`
-  padding: 1rem 0;
-`;
+}
 
 const unknown = {
   display: {
@@ -52,7 +32,7 @@ const unknown = {
 
 class Content extends React.Component<Props> {
   public render (): React.ReactNode {
-    const { isApiConnected, isApiReady, location, t } = this.props;
+    const { className, isApiConnected, isApiReady, location, t } = this.props;
     const app = location.pathname.slice(1) || '';
     const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
       !!(route && app.indexOf(route.name) === 0)
@@ -60,14 +40,14 @@ class Content extends React.Component<Props> {
 
     if (needsApi && (!isApiReady || !isApiConnected)) {
       return (
-        <Wrapper>
-          <Connecting>{t('Waiting for API to be connected and ready.')}</Connecting>
-        </Wrapper>
+        <div className={className}>
+          <div className='apps--connecting'>{t('Waiting for API to be connected and ready.')}</div>
+        </div>
       );
     }
 
     return (
-      <Wrapper>
+      <div className={className}>
         <QueueConsumer>
           {({ queueAction, stqueue, txqueue }: QueueProps): React.ReactNode => (
             <>
@@ -84,14 +64,33 @@ class Content extends React.Component<Props> {
             </>
           )}
         </QueueConsumer>
-      </Wrapper>
+      </div>
     );
   }
 }
 
 // React-router needs to be first, otherwise we have blocked updates
 export default withMulti(
-  Content,
+  styled(Content)`
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    padding: 0 2rem;
+
+    @media(max-width: 768px) {
+      padding: 0 0.5rem;
+    }
+
+    .apps--connecting {
+      padding: 1rem 0;
+    }
+  `,
   withRouter,
   translate,
   // These API queries are used in a number of places, warm them up
@@ -100,7 +99,7 @@ export default withMulti(
     'derive.accounts.indexes',
     'derive.balances.fees',
     'query.session.validators'
-    // This are very ineffective queries that
+    // These are very ineffective queries that
     //   (a) adds load to the RPC node when activated globally
     //   (b) is used in additional information (next-up)
     // 'derive.staking.controllers'

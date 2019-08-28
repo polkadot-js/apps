@@ -19,14 +19,7 @@ interface State {
   tooltipOpen: boolean;
 }
 
-const Wrapper = styled.div`
-  cursor: help;
-  display: inline-block;
-  line-height: 1rem;
-  margin: 0 0 0 0.25rem;
-`;
-
-export default class LabelHelp extends React.PureComponent<Props, State> {
+class LabelHelp extends React.PureComponent<Props, State> {
   public state: State = {
     tooltipOpen: false
   };
@@ -36,7 +29,7 @@ export default class LabelHelp extends React.PureComponent<Props, State> {
     const { tooltipOpen } = this.state;
 
     return (
-      <Wrapper
+      <div
         className={classes('ui--LabelHelp', className)}
         style={style}
       >
@@ -53,7 +46,7 @@ export default class LabelHelp extends React.PureComponent<Props, State> {
             trigger='controlled-trigger'
           />
         )}
-      </Wrapper>
+      </div>
     );
   }
 
@@ -63,3 +56,10 @@ export default class LabelHelp extends React.PureComponent<Props, State> {
     }));
   }
 }
+
+export default styled(LabelHelp)`
+  cursor: help;
+  display: inline-block;
+  line-height: 1rem;
+  margin: 0 0 0 0.25rem;
+`;

@@ -25,7 +25,40 @@ const defaultLabel: React.ReactNode = (
   <div>&nbsp;</div>
 );
 
-const Wrapper = styled.div`
+class Labelled extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { className, children, help, isSmall, isHidden, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true } = this.props;
+
+    if (isHidden) {
+      return null;
+    } else if (!withLabel) {
+      return (
+        <div>{children}</div>
+      );
+    }
+
+    return (
+      <div
+        className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
+        style={style}
+      >
+        <label>
+          {
+            withEllipsis
+              ? <div className='withEllipsis'>{label}</div>
+              : label
+          }{help && <LabelHelp help={help} />}
+        </label>
+        {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
+        <div className='ui--Labelled-content'>
+          {children}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default styled(Labelled)`
   display: block;
   position: relative;
 
@@ -115,36 +148,3 @@ const Wrapper = styled.div`
     }
   }
 `;
-
-export default class Labelled extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, children, help, isSmall, isHidden, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true } = this.props;
-
-    if (isHidden) {
-      return null;
-    } else if (!withLabel) {
-      return (
-        <div className={className}>{children}</div>
-      );
-    }
-
-    return (
-      <Wrapper
-        className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
-        style={style}
-      >
-        <label>
-          {
-            withEllipsis
-              ? <div className='withEllipsis'>{label}</div>
-              : label
-          }{help && <LabelHelp help={help} />}
-        </label>
-        {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
-        <div className='ui--Labelled-content'>
-          {children}
-        </div>
-      </Wrapper>
-    );
-  }
-}

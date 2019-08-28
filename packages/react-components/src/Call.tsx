@@ -24,15 +24,6 @@ export type Props = I18nProps & BareProps & {
   tip?: BN;
 };
 
-const Wrapper = styled.div`
-  .hash .ui--Static {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: unset;
-    word-wrap: unset;
-  }
-`;
-
 class Call extends React.PureComponent<Props> {
   public render (): React.ReactNode {
     const { children, className, style, mortality, tip, value, withHash, t } = this.props;
@@ -49,7 +40,7 @@ class Call extends React.PureComponent<Props> {
       : null;
 
     return (
-      <Wrapper
+      <div
         className={classes('ui--Extrinsic', className)}
         style={style}
       >
@@ -95,9 +86,18 @@ class Call extends React.PureComponent<Props> {
           params={params}
           values={values}
         />
-      </Wrapper>
+      </div>
     );
   }
 }
 
-export default translate(Call);
+export default translate(
+  styled(Call)`
+    .hash .ui--Static {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: unset;
+      word-wrap: unset;
+    }
+  `
+);
