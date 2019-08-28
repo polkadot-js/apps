@@ -10,46 +10,22 @@ import styled from 'styled-components';
 import { withApi } from '@polkadot/react-api/with';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 
-type Props = ApiProps & BareProps & {};
-
-const Wrapper = styled.div`
-  background: transparent;
-  color: white;
-  font-size: 0.75rem;
-  opacity: 0.5;
-  padding: 0 1.5rem 0 1.5rem;
-  text-align: right;
-
-  > div {
-    margin-bottom: -0.125em;
-    > div {
-      display: inline-block;
-    }
-
-    &.spacer {
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  .rx--updated {
-    background: inherit !important;
-  }
-`;
+interface Props extends ApiProps, BareProps {}
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkgJson = require('../../package.json');
 
 class NodeInfo extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { api } = this.props;
+    const { api, className } = this.props;
     const uiInfo = `apps v${pkgJson.version}`;
 
     return (
-      <Wrapper>
+      <div className={className}>
         {this.renderNode()}
         <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
         <div>{uiInfo}</div>
-      </Wrapper>
+      </div>
     );
   }
 
@@ -69,4 +45,28 @@ class NodeInfo extends React.PureComponent<Props> {
   }
 }
 
-export default withApi(NodeInfo);
+export default withApi(
+  styled(NodeInfo)`
+    background: transparent;
+    color: white;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    padding: 0 1.5rem 0 1.5rem;
+    text-align: right;
+
+    > div {
+      margin-bottom: -0.125em;
+      > div {
+        display: inline-block;
+      }
+
+      &.spacer {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .rx--updated {
+      background: inherit !important;
+    }
+  `
+);
