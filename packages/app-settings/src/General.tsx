@@ -3,259 +3,87 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { SettingsStruct } from '@polkadot/ui-settings/types';
+import { Option } from './types';
 
-import React from 'react';
-import styled from 'styled-components';
-import { Button, ChainImg, Dropdown, Input, Toggle } from '@polkadot/react-components';
+import React, { useState } from 'react';
+import { Button, Dropdown } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
-
-interface Option {
-  text: React.ReactNode;
-  value: string | number;
-}
-
-interface SetOption {
-  info: string;
-  text: string;
-  value: string | number;
-}
+import { createOption, saveAndReload } from './util';
+import SelectUrl from './SelectUrl';
 
 interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-interface State {
-  isCustomNode: boolean;
-  isUrlValid: boolean;
-  settings: SettingsStruct;
-}
+const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
+const themeOptions = uiSettings.availableUIThemes; // .map((o): Option => createOption(o));
 
-const createOption = ({ info, text, value }: SetOption, overrides: string[] = [], override: string = 'empty'): Option => ({
-  text: (
-    <div className='ui--Dropdown-item'>
-      <ChainImg
-        className='ui--Dropdown-icon'
-        logo={
-          overrides.includes(info)
-            ? override
-            : info
-        }
-      />
-      <div className='ui--Dropdown-name'>{text}</div>
-    </div>
-  ),
-  value
-});
+function General ({ className, t }: Props): React.ReactElement<Props> {
+  const [settings, setSettings] = useState(uiSettings.get());
+  const { i18nLang, prefix, uiMode, uiTheme } = settings;
 
-const endpointOptions: Option[] = uiSettings.availableNodes.map((o): Option => createOption(o, ['local']));
-const prefixOptions: Option[] = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
-const themeOptions: Option[] = uiSettings.availableUIThemes.map((o): Option => createOption(o));
+  const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
+  const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
+  const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
+  const _onChangeUiTheme = (uiTheme: string): void => setSettings({ ...settings, uiTheme });
+  const _saveAndReload = (): void => saveAndReload(settings);
 
-class General extends React.PureComponent<Props, State> {
-  public constructor (props: Props) {
-    super(props);
-
-    const settings = uiSettings.get();
-    const isCustomNode = uiSettings.availableNodes.reduce((isCustomNode, { value }): boolean => {
-      return isCustomNode && value !== settings.apiUrl;
-    }, true);
-
-    this.state = {
-      isCustomNode,
-      isUrlValid: this.isValidUrl(settings.apiUrl),
-      settings
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { className, t } = this.props;
-    const { isUrlValid, settings: { i18nLang, prefix, uiMode, uiTheme } } = this.state;
-
-    return (
-      <div className={className}>
-        {this.renderEndpoint()}
-        <div className='ui--row'>
-          <div className='ui--medium'>
-            <Dropdown
-              defaultValue={prefix}
-              help={t('Override the default ss58 prefix for address generation')}
-              label={t('address prefix')}
-              onChange={this.onChangePrefix}
-              options={prefixOptions}
-            />
-          </div>
-        </div>
-        <div className='ui--row'>
-          <div className='medium'>
-            <Dropdown
-              defaultValue={uiTheme}
-              help={t('The logo and colors for the app along with the identity icon theme.')}
-              label={t('default interface theme')}
-              onChange={this.onChangeUiTheme}
-              options={themeOptions}
-            />
-          </div>
-          <div className='medium'>
-            <Dropdown
-              defaultValue={uiMode}
-              help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
-              label={t('interface operation mode')}
-              onChange={this.onChangeUiMode}
-              options={uiSettings.availableUIModes}
-            />
-          </div>
-        </div>
-        <div className='ui--row'>
-          <div className='full'>
-            <Dropdown
-              defaultValue={i18nLang}
-              isDisabled
-              label={t('default interface language')}
-              options={uiSettings.availableLanguages}
-            />
-          </div>
-        </div>
-        <Button.Group>
-          <Button
-            isDisabled={!isUrlValid}
-            isPrimary
-            onClick={this.saveAndReload}
-            label={t('Save & Reload')}
+  return (
+    <div className={className}>
+      <SelectUrl onChange={_onChangeApiUrl} />
+      <div className='ui--row'>
+        <div className='ui--medium'>
+          <Dropdown
+            defaultValue={prefix}
+            help={t('Override the default ss58 prefix for address generation')}
+            label={t('address prefix')}
+            onChange={_onChangePrefix}
+            options={prefixOptions}
           />
-        </Button.Group>
-      </div>
-    );
-  }
-
-  private renderEndpoint = (): React.ReactNode => {
-    const { t } = this.props;
-    const { isCustomNode, isUrlValid, settings: { apiUrl } } = this.state;
-
-    return (
-      <>
-        <Toggle
-          asSwitch
-          className='settings--cutomToggle'
-          defaultValue={isCustomNode}
-          label={t('custom endpoint')}
-          onChange={this.onChangeCustom}
-        />
-        <div className='ui--row'>
-          {
-            isCustomNode
-              ? (
-                <Input
-                  defaultValue={apiUrl}
-                  isError={!isUrlValid}
-                  label={t('remote node/endpoint to connect to')}
-                  onChange={this.onChangeApiUrl}
-                />
-              )
-              : (
-                <Dropdown
-                  defaultValue={apiUrl}
-                  label={t('remote node/endpoint to connect to')}
-                  onChange={this.onChangeApiUrl}
-                  options={endpointOptions}
-                />
-              )
-          }
         </div>
-      </>
-    );
-  }
-
-  private onChangeApiUrl = (apiUrl: string): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      isUrlValid: this.isValidUrl(apiUrl),
-      settings: {
-        ...settings,
-        apiUrl
-      }
-    }));
-  }
-
-  private onChangePrefix = (prefix: number): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      settings: {
-        ...settings,
-        prefix
-      }
-    }));
-  }
-
-  private onChangeUiMode = (uiMode: string): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      settings: {
-        ...settings,
-        uiMode
-      }
-    }));
-  }
-
-  private onChangeUiTheme = (uiTheme: string): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      settings: {
-        ...settings,
-        uiTheme
-      }
-    }));
-  }
-
-  private onChangeCustom = (isCustomNode: boolean): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      isCustomNode,
-      isUrlValid: true,
-      settings: {
-        ...settings,
-        apiUrl: isCustomNode
-          ? settings.apiUrl
-          : uiSettings.availableNodes[0].value
-      }
-    }));
-  }
-
-  private isValidUrl (apiUrl: string): boolean {
-    return (
-      // some random length... we probably want to parse via some lib
-      (apiUrl.length >= 7) &&
-      // check that it starts with a valid ws identifier
-      (apiUrl.startsWith('ws://') || apiUrl.startsWith('wss://'))
-    );
-  }
-
-  private saveAndReload = (): void => {
-    const { settings } = this.state;
-
-    uiSettings.set(settings);
-
-    // HACK This is terribe, but since the API needs to re-connect, but since
-    // the API does not yet handle re-connections properly, it is what it is
-    window.location.reload();
-  }
+      </div>
+      <div className='ui--row'>
+        <div className='medium'>
+          <Dropdown
+            defaultValue={uiTheme}
+            help={t('The logo and colors for the app along with the identity icon theme.')}
+            label={t('default interface theme')}
+            onChange={_onChangeUiTheme}
+            options={themeOptions}
+          />
+        </div>
+        <div className='medium'>
+          <Dropdown
+            defaultValue={uiMode}
+            help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
+            label={t('interface operation mode')}
+            onChange={_onChangeUiMode}
+            options={uiSettings.availableUIModes}
+          />
+        </div>
+      </div>
+      <div className='ui--row'>
+        <div className='full'>
+          <Dropdown
+            defaultValue={i18nLang}
+            isDisabled
+            label={t('default interface language')}
+            options={uiSettings.availableLanguages}
+          />
+        </div>
+      </div>
+      <Button.Group>
+        <Button
+          isPrimary
+          onClick={_saveAndReload}
+          label={t('Save & Reload')}
+        />
+      </Button.Group>
+    </div>
+  );
 }
 
-export default translate(styled(General)`
-  .settings--cutomToggle {
-    text-align: right;
-  }
-
-  .ui.menu {
-    justify-content: flex-end;
-    margin-bottom: 0;
-
-    .active.item {
-      font-weight: bold;
-    }
-  }
-
-  .sub-label {
-    cursor: pointer;
-    padding: 0rem .5833rem;
-    text-align: right;
-  }
-`);
+export default translate(General);

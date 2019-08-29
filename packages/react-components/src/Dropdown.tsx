@@ -172,7 +172,7 @@ export default styled(Dropdown)`
     > .text > .ui--Dropdown-item {
       .ui--Dropdown-icon {
         left: -2.6rem;
-        top: -1rem;
+        top: -1.15rem;
         opacity: 1;
       }
 

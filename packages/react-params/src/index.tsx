@@ -8,6 +8,7 @@ import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChange, RawParam
 import './Params.css';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Toggle } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import translate from '@polkadot/react-components/translate';
@@ -235,4 +236,16 @@ class Params extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(Params);
+export default translate(
+  styled(Params as React.ComponentClass<Props>)`
+    .ui--Param-composite {
+      position: relative;
+
+      .ui--Param-overlay {
+        position: absolute;
+        top: 0.5rem;
+        right: 3.5rem;
+      }
+    }
+  `
+);
