@@ -15,34 +15,28 @@ interface Props extends ApiProps, BareProps {}
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkgJson = require('../../package.json');
 
-class NodeInfo extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { api, className } = this.props;
-    const uiInfo = `apps v${pkgJson.version}`;
-
-    return (
-      <div className={className}>
-        {this.renderNode()}
-        <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
-        <div>{uiInfo}</div>
-      </div>
-    );
+const renderNode = ({ isApiReady }: Props): React.ReactNode => {
+  if (!isApiReady) {
+    return null;
   }
 
-  private renderNode (): React.ReactNode {
-    const { isApiReady } = this.props;
+  return (
+    <div>
+      <NodeName />&nbsp;
+      <NodeVersion label='v' />
+    </div>
+  );
+};
 
-    if (!isApiReady) {
-      return null;
-    }
-
-    return (
-      <div>
-        <NodeName />&nbsp;
-        <NodeVersion label='v' />
-      </div>
-    );
-  }
+function NodeInfo (props: Props): React.ReactElement<Props> {
+  const { api, className } = props;
+  return (
+    <div className={className}>
+      {renderNode(props)}
+      <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
+      <div>apps v{pkgJson.version}</div>
+    </div>
+  );
 }
 
 export default withApi(

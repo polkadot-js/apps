@@ -15,16 +15,12 @@ interface Props {
   withBottomMargin?: boolean;
 }
 
-class Card extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, isError, isSuccess, withBottomMargin } = this.props;
-
-    return (
-      <article className={classes('ui--Card', className, (isError && !isSuccess) && 'error', (!isError && isSuccess) && 'success', withBottomMargin && 'withBottomMargin')}>
-        {children}
-      </article>
-    );
-  }
+function Card ({ children, className, isError, isSuccess, withBottomMargin }: Props): React.ReactElement<Props> {
+  return (
+    <article className={classes('ui--Card', className, (isError && !isSuccess) && 'error', (!isError && isSuccess) && 'success', withBottomMargin && 'withBottomMargin')}>
+      {children}
+    </article>
+  );
 }
 
 export default styled(Card)`

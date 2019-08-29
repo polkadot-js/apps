@@ -19,21 +19,17 @@ interface Props extends BareProps {
   value: RpcMethod;
 }
 
-export default class SelectSection extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue, isError, onChange, options, style, value } = this.props;
-
-    return (
-      <Dropdown
-        className={classes('ui--DropdownLinked-Sections', className)}
-        defaultValue={defaultValue}
-        isError={isError}
-        onChange={onChange}
-        options={options}
-        style={style}
-        value={value.section}
-        withLabel={false}
-      />
-    );
-  }
+export default function SelectSection ({ className, defaultValue, isError, onChange, options, style, value }: Props): React.ReactElement<Props> {
+  return (
+    <Dropdown
+      className={classes('ui--DropdownLinked-Sections', className)}
+      defaultValue={defaultValue}
+      isError={isError}
+      onChange={onChange}
+      options={options}
+      style={style}
+      value={value.section}
+      withLabel={false}
+    />
+  );
 }

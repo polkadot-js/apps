@@ -15,29 +15,26 @@ interface Props extends BareProps {
   label?: string;
 }
 
-export default class CryptoType extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { accountId, className, label = '' } = this.props;
-    let type = 'unknown';
+export default function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
+  let type = 'unknown';
 
-    try {
-      const current = accountId
-        ? keyring.getPair(accountId.toString())
-        : null;
+  try {
+    const current = accountId
+      ? keyring.getPair(accountId.toString())
+      : null;
 
-      if (current) {
-        type = current.meta.isInjected
-          ? 'injected'
-          : current.type;
-      }
-    } catch (error) {
-      // cannot determine, keep unknown
+    if (current) {
+      type = current.meta.isInjected
+        ? 'injected'
+        : current.type;
     }
-
-    return (
-      <div className={classes('ui--CryptoType', className)}>
-        {label}{type}
-      </div>
-    );
+  } catch (error) {
+    // cannot determine, keep unknown
   }
+
+  return (
+    <div className={classes('ui--CryptoType', className)}>
+      {label}{type}
+    </div>
+  );
 }

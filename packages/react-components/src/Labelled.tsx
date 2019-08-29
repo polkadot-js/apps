@@ -116,35 +116,31 @@ const Wrapper = styled.div`
   }
 `;
 
-export default class Labelled extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, children, help, isSmall, isHidden, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true } = this.props;
-
-    if (isHidden) {
-      return null;
-    } else if (!withLabel) {
-      return (
-        <div className={className}>{children}</div>
-      );
-    }
-
+export default function Labelled ({ className, children, help, isSmall, isHidden, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+  if (isHidden) {
+    return null;
+  } else if (!withLabel) {
     return (
-      <Wrapper
-        className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
-        style={style}
-      >
-        <label>
-          {
-            withEllipsis
-              ? <div className='withEllipsis'>{label}</div>
-              : label
-          }{help && <LabelHelp help={help} />}
-        </label>
-        {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
-        <div className='ui--Labelled-content'>
-          {children}
-        </div>
-      </Wrapper>
+      <div className={className}>{children}</div>
     );
   }
+
+  return (
+    <Wrapper
+      className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
+      style={style}
+    >
+      <label>
+        {
+          withEllipsis
+            ? <div className='withEllipsis'>{label}</div>
+            : label
+        }{help && <LabelHelp help={help} />}
+      </label>
+      {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
+      <div className='ui--Labelled-content'>
+        {children}
+      </div>
+    </Wrapper>
+  );
 }

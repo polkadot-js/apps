@@ -19,30 +19,26 @@ interface Props extends AddressProps {
   withExplorer?: boolean;
 }
 
-class AddressCard extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, value, withExplorer } = this.props;
-
-    return (
-      <Card className={className}>
-        <AddressRow
-          {...this.props}
-          className='ui--AddressCard-AddressRow'
-        />
-        {withExplorer && (
-          <div className='ui--AddressCard-explorer'>
-            <LinkPolkascan
-              className='ui--AddressCard-exporer-link'
-              data={value}
-            />
-          </div>
-        )}
-      </Card>
-    );
-  }
+function AddressCard (props: Props): React.ReactElement<Props> {
+  return (
+    <Card className={props.className}>
+      <AddressRow
+        {...props}
+        className='ui--AddressCard-AddressRow'
+      />
+      {props.withExplorer && (
+        <div className='ui--AddressCard-explorer'>
+          <LinkPolkascan
+            className='ui--AddressCard-exporer-link'
+            data={props.value}
+          />
+        </div>
+      )}
+    </Card>
+  );
 }
 
-export default translate(styled(AddressCard as React.ComponentClass<Props>)`
+export default translate(styled(AddressCard)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

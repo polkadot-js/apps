@@ -21,17 +21,13 @@ const Wrapper = styled.div`
   width: 15vw;
 `;
 
-export default class BaseChart extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, style } = this.props;
-
-    return (
-      <Wrapper
-        className={classes('ui--Chart', className)}
-        style={style}
-      >
-        {children}
-      </Wrapper>
-    );
-  }
+export default function BaseChart ({ children, className, style }: Props): React.ReactElement<Props> {
+  return (
+    <Wrapper
+      className={classes('ui--Chart', className)}
+      style={style}
+    >
+      {children}
+    </Wrapper>
+  );
 }
