@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-export default function App (): React.ReactElement<Props> {
+export default function App (): React.ReactElement {
   return (
     <>
       Deprecated, now operates via modal

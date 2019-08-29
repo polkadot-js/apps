@@ -10,7 +10,7 @@ import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Results from './Results';
 import Selection from './Selection';
 
-export default function RpcApp (): React.ReactElement<Props> {
+export default function RpcApp (): React.ReactElement {
   return (
     <QueueConsumer>
       {({ txqueue, queueRpc }: QueueProps): React.ReactNode => (

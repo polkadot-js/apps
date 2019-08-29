@@ -9,7 +9,7 @@ import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
 
-export default function Overview (): React.ReactElement<Props> {
+export default function Overview (): React.ReactElement {
   return (
     <>
       <Summary />
