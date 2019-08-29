@@ -11,19 +11,15 @@ interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-class Summary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, style } = this.props;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {children}
-      </div>
-    );
-  }
+function Summary ({ children, className, style }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default styled(Summary)`

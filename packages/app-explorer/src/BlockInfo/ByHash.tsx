@@ -25,33 +25,29 @@ type Props = ApiProps & I18nProps & {
   value: string;
 };
 
-class BlockByHash extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { system_events, chain_getBlock, chain_getHeader } = this.props;
-
-    if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {
-      return null;
-    }
-
-    return (
-      <>
-        <header>
-          <BlockHeader
-            value={chain_getHeader}
-            withExplorer
-          />
-        </header>
-        <Columar>
-          <Extrinsics
-            blockNumber={chain_getHeader.number.unwrap()}
-            value={chain_getBlock.block.extrinsics}
-          />
-          <Events value={system_events} />
-          <Logs value={chain_getHeader.digest.logs} />
-        </Columar>
-      </>
-    );
+function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<Props> | null {
+  if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {
+    return null;
   }
+
+  return (
+    <>
+      <header>
+        <BlockHeader
+          value={chain_getHeader}
+          withExplorer
+        />
+      </header>
+      <Columar>
+        <Extrinsics
+          blockNumber={chain_getHeader.number.unwrap()}
+          value={chain_getBlock.block.extrinsics}
+        />
+        <Events value={system_events} />
+        <Logs value={chain_getHeader.digest.logs} />
+      </Columar>
+    </>
+  );
 }
 
 export default translate(

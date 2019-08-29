@@ -18,39 +18,23 @@ interface Props extends I18nProps {
   democracy_publicProps?: [BN, Proposal][];
 }
 
-interface State {
-  isProposeOpen: boolean;
-}
-
-class Proposals extends React.PureComponent<Props> {
-  public state: State = {
-    isProposeOpen: false
-  };
-
-  public render (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <Column
-        emptyText={t('No available proposals')}
-        headerText={t('proposals')}
-      >
-        {this.renderProposals()}
-      </Column>
-    );
-  }
-
-  private renderProposals (): React.ReactNode {
-    const { democracy_publicProps = [] } = this.props;
-
-    return democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
-      <ProposalDisplay
-        idNumber={idNumber}
-        key={idNumber.toString()}
-        value={proposal}
-      />
-    ));
-  }
+function Proposals ({ democracy_publicProps = [], t }: Props): React.ReactElement<Props> {
+  return (
+    <Column
+      emptyText={t('No available proposals')}
+      headerText={t('proposals')}
+    >
+      {
+        democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
+          <ProposalDisplay
+            idNumber={idNumber}
+            key={idNumber.toString()}
+            value={proposal}
+          />
+        ))
+      }
+    </Column>
+  );
 }
 
 export default withMulti(

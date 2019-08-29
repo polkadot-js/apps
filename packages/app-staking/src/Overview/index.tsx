@@ -20,50 +20,49 @@ interface Props extends ApiProps, BareProps, ComponentProps {
   chain_subscribeNewHeads?: HeaderExtended;
 }
 
-class Overview extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, isSubstrateV2, recentlyOnline } = this.props;
-    let nextSorted: string[];
+// TODO: Switch to useState
+function Overview (props: Props): React.ReactElement<Props> {
+  const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, isSubstrateV2, recentlyOnline } = props;
+  let nextSorted: string[];
 
-    if (isSubstrateV2) {
-      // this is a V2 node currentValidatorsControllersV1OrStashesV2 is a list of stashes
-      nextSorted = allStashes.filter((address): boolean =>
-        !currentValidatorsControllersV1OrStashesV2.includes(address)
-      );
-    } else {
-      // this is a V1 node currentValidatorsControllersV1OrStashesV2 is a list of controllers
-      nextSorted = allControllers.filter((address): boolean =>
-        !currentValidatorsControllersV1OrStashesV2.includes(address)
-      );
-    }
-
-    let lastBlock = '—';
-    let lastAuthor: string | undefined;
-
-    if (chain_subscribeNewHeads) {
-      lastBlock = formatNumber(chain_subscribeNewHeads.number);
-      lastAuthor = (chain_subscribeNewHeads.author || '').toString();
-    }
-
-    return (
-      <div className='staking--Overview'>
-        <Summary
-          allControllers={allControllers}
-          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
-          lastBlock={lastBlock}
-          lastAuthor={lastAuthor}
-          next={nextSorted}
-        />
-        <CurrentList
-          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
-          lastBlock={lastBlock}
-          lastAuthor={lastAuthor}
-          next={nextSorted}
-          recentlyOnline={recentlyOnline}
-        />
-      </div>
+  if (isSubstrateV2) {
+    // this is a V2 node currentValidatorsControllersV1OrStashesV2 is a list of stashes
+    nextSorted = allStashes.filter((address): boolean =>
+      !currentValidatorsControllersV1OrStashesV2.includes(address)
+    );
+  } else {
+    // this is a V1 node currentValidatorsControllersV1OrStashesV2 is a list of controllers
+    nextSorted = allControllers.filter((address): boolean =>
+      !currentValidatorsControllersV1OrStashesV2.includes(address)
     );
   }
+
+  let lastBlock = '—';
+  let lastAuthor: string | undefined;
+
+  if (chain_subscribeNewHeads) {
+    lastBlock = formatNumber(chain_subscribeNewHeads.number);
+    lastAuthor = (chain_subscribeNewHeads.author || '').toString();
+  }
+
+  return (
+    <div className='staking--Overview'>
+      <Summary
+        allControllers={allControllers}
+        currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
+        lastBlock={lastBlock}
+        lastAuthor={lastAuthor}
+        next={nextSorted}
+      />
+      <CurrentList
+        currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
+        lastBlock={lastBlock}
+        lastAuthor={lastAuthor}
+        next={nextSorted}
+        recentlyOnline={recentlyOnline}
+      />
+    </div>
+  );
 }
 
 export default withMulti(

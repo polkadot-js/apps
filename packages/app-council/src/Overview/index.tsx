@@ -27,22 +27,18 @@ const NULL_INFO: DerivedElectionsInfo = {
   voterCount: new BN(0) as SetIndex
 };
 
-class Overview extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { electionsInfo = NULL_INFO } = this.props;
-
-    return (
-      <>
-        <Summary electionsInfo={electionsInfo} />
-        <Button.Group>
-          <SubmitCandidacy electionsInfo={electionsInfo} />
-          <Button.Or />
-          <Vote electionsInfo={electionsInfo} />
-        </Button.Group>
-        <Members electionsInfo={electionsInfo} />
-      </>
-    );
-  }
+function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<Props> {
+  return (
+    <>
+      <Summary electionsInfo={electionsInfo} />
+      <Button.Group>
+        <SubmitCandidacy electionsInfo={electionsInfo} />
+        <Button.Or />
+        <Vote electionsInfo={electionsInfo} />
+      </Button.Group>
+      <Members electionsInfo={electionsInfo} />
+    </>
+  );
 }
 
 export default withCalls<Props>(

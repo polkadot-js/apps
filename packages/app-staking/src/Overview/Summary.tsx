@@ -24,41 +24,39 @@ interface Props extends I18nProps {
   next: string[];
 }
 
-class Summary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, currentValidatorsControllersV1OrStashesV2, lastAuthor, lastBlock, next, style, staking_validatorCount, t } = this.props;
+function Summary (props: Props): React.ReactElement<Props> {
+  const { className, currentValidatorsControllersV1OrStashesV2, lastAuthor, lastBlock, next, style, staking_validatorCount, t } = props;
 
-    return (
-      <SummaryBox
-        className={className}
-        style={style}
-      >
-        <section>
-          <CardSummary label={t('validators')}>
-            {currentValidatorsControllersV1OrStashesV2.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
-          </CardSummary>
-          <CardSummary label={t('waiting')}>
-            {next.length}
-          </CardSummary>
-        </section>
-        <section>
-          <CardSummary label={t('last block')}>
-            {lastAuthor && (
-              <IdentityIcon
-                className='validator--Account-block-icon'
-                size={24}
-                value={lastAuthor}
-              />
-            )}
-            {lastBlock}
-          </CardSummary>
-        </section>
-        <section>
-          <SummarySession />
-        </section>
-      </SummaryBox>
-    );
-  }
+  return (
+    <SummaryBox
+      className={className}
+      style={style}
+    >
+      <section>
+        <CardSummary label={t('validators')}>
+          {currentValidatorsControllersV1OrStashesV2.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
+        </CardSummary>
+        <CardSummary label={t('waiting')}>
+          {next.length}
+        </CardSummary>
+      </section>
+      <section>
+        <CardSummary label={t('last block')}>
+          {lastAuthor && (
+            <IdentityIcon
+              className='validator--Account-block-icon'
+              size={24}
+              value={lastAuthor}
+            />
+          )}
+          {lastBlock}
+        </CardSummary>
+      </section>
+      <section>
+        <SummarySession />
+      </section>
+    </SummaryBox>
+  );
 }
 
 export default withMulti(

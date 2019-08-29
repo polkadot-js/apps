@@ -14,23 +14,19 @@ interface Props extends BareProps, CallProps {
   chain_subscribeNewHeads?: Header;
 }
 
-class BestHash extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, label = '', style, chain_subscribeNewHeads } = this.props;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}{
-          chain_subscribeNewHeads
-            ? chain_subscribeNewHeads.hash.toHex()
-            : undefined
-        }
-      </div>
-    );
-  }
+function BestHash ({ className, label = '', style, chain_subscribeNewHeads }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}{
+        chain_subscribeNewHeads
+          ? chain_subscribeNewHeads.hash.toHex()
+          : undefined
+      }
+    </div>
+  );
 }
 
 export default withCalls<Props>('rpc.chain.subscribeNewHeads')(BestHash);

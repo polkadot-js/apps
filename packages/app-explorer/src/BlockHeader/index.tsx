@@ -19,70 +19,68 @@ interface Props extends BareProps {
   withLink?: boolean;
 }
 
-export default class BlockHeader extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { isSummary, value, withExplorer, withLink } = this.props;
+const renderDetails = ({ number: blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended): React.ReactNode => {
+  const parentHex = parentHash.toHex();
 
-    if (!value) {
-      return null;
-    }
+  return (
+    <div className='contains'>
+      <div className='info'>
+        <label>parentHash</label>
+        <span className='hash'>{
+          blockNumber.unwrap().gtn(1)
+            ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
+            : parentHex
+        }</span>
+      </div>
+      <div className='info'>
+        <label>extrinsicsRoot</label>
+        <span className='hash'>{extrinsicsRoot.toHex()}</span>
+      </div>
+      <div className='info'>
+        <label>stateRoot</label>
+        <span className='hash'>{stateRoot.toHex()}</span>
+      </div>
+    </div>
+  );
+};
 
-    const hashHex = value.hash.toHex();
-    const textNumber = formatNumber(value.number);
-
-    return (
-      <article className='explorer--BlockHeader'>
-        <div className='header-outer'>
-          <div className='header'>
-            <div className='number'>{
-              withLink
-                ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
-                : textNumber
-            }&nbsp;</div>
-            <div className='hash'>{hashHex}</div>
-            <div className='author ui--media-small'>{
-              value.author
-                ? <AddressMini value={value.author} />
-                : undefined
-            }</div>
-          </div>
-        </div>
-        {
-          isSummary
-            ? undefined
-            : this.renderDetails(value)
-        }
-        {
-          withExplorer
-            ? <LinkPolkascan data={hashHex} type='block' />
-            : undefined
-        }
-      </article>
-    );
+function BlockHeader ({ isSummary, value, withExplorer, withLink }: Props): React.ReactElement<Props> | null {
+  if (!value) {
+    return null;
   }
 
-  private renderDetails ({ number: blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended): React.ReactNode {
-    const parentHex = parentHash.toHex();
+  const hashHex = value.hash.toHex();
+  const textNumber = formatNumber(value.number);
 
-    return (
-      <div className='contains'>
-        <div className='info'>
-          <label>parentHash</label>
-          <span className='hash'>{
-            blockNumber.unwrap().gtn(1)
-              ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
-              : parentHex
-          }</span>
-        </div>
-        <div className='info'>
-          <label>extrinsicsRoot</label>
-          <span className='hash'>{extrinsicsRoot.toHex()}</span>
-        </div>
-        <div className='info'>
-          <label>stateRoot</label>
-          <span className='hash'>{stateRoot.toHex()}</span>
+  return (
+    <article className='explorer--BlockHeader'>
+      <div className='header-outer'>
+        <div className='header'>
+          <div className='number'>{
+            withLink
+              ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
+              : textNumber
+          }&nbsp;</div>
+          <div className='hash'>{hashHex}</div>
+          <div className='author ui--media-small'>{
+            value.author
+              ? <AddressMini value={value.author} />
+              : undefined
+          }</div>
         </div>
       </div>
-    );
-  }
+      {
+        isSummary
+          ? undefined
+          : renderDetails(value)
+      }
+      {
+        withExplorer
+          ? <LinkPolkascan data={hashHex} type='block' />
+          : undefined
+      }
+    </article>
+  );
 }
+
+export default BlockHeader;

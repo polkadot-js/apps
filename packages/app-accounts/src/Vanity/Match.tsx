@@ -84,7 +84,7 @@ class Match extends React.PureComponent<Props, State> {
   }
 }
 
-export default styled(Match as React.ComponentClass<Props>)`
+export default styled(Match as React.ComponentClass<Props, State>)`
   text-align: center;
 
   &:hover {

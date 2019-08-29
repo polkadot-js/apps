@@ -18,34 +18,26 @@ interface Props extends I18nProps {
   democracy_referendums?: Option<ReferendumInfoExtended>[];
 }
 
-class Referendums extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <Column
-        emptyText={t('No available referendums')}
-        headerText={t('referendum')}
-      >
-        {this.renderReferendums()}
-      </Column>
-    );
-  }
-
-  private renderReferendums (): React.ReactNode {
-    const { democracy_referendums = [] } = this.props;
-    const referendums = democracy_referendums
-      .filter((opt): boolean => opt.isSome)
-      .map((opt): ReferendumInfoExtended => opt.unwrap());
-
-    return referendums.map((referendum): React.ReactNode => (
-      <Referendum
-        idNumber={referendum.index}
-        key={referendum.index.toString()}
-        value={referendum}
-      />
-    ));
-  }
+function Referendums ({ democracy_referendums = [], t }: Props): React.ReactElement<Props> {
+  return (
+    <Column
+      emptyText={t('No available referendums')}
+      headerText={t('referendum')}
+    >
+      {
+        democracy_referendums
+          .filter((opt): boolean => opt.isSome)
+          .map((opt): ReferendumInfoExtended => opt.unwrap())
+          .map((referendum): React.ReactNode => (
+            <Referendum
+              idNumber={referendum.index}
+              key={referendum.index.toString()}
+              value={referendum}
+            />
+          ))
+      }
+    </Column>
+  );
 }
 
 export default translate(

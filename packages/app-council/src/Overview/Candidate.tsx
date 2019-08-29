@@ -2,24 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { AddressCard } from '@polkadot/react-components';
 
-interface Props {
+import translate from '../translate';
+
+interface Props extends I18nProps {
   address: AccountId;
 }
 
-export default class Candidate extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { address } = this.props;
-
-    return (
-      <AddressCard
-        defaultName='candidate'
-        value={address}
-      />
-    );
-  }
+function Candidate ({ address, t }: Props): React.ReactElement<Props> {
+  return (
+    <AddressCard
+      defaultName={t('candidate')}
+      value={address}
+    />
+  );
 }
+
+export default translate(Candidate);

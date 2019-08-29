@@ -49,45 +49,41 @@ const browserInfo = detect();
 const browserName: Browser | null = (browserInfo && (browserInfo.name as Browser)) || null;
 const isSupported = browserName && Object.keys(available).includes(browserName);
 
-class Banner extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, t } = this.props;
+function Banner ({ className, t }: Props): React.ReactElement<Props> | null {
+  if (isWeb3Injected || !isSupported || !browserName) {
+    return null;
+  }
 
-    if (isWeb3Injected || !isSupported || !browserName) {
-      return null;
-    }
-
-    return (
-      <div className={className}>
-        <div className='box'>
-          <div className='info'>
-            <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
-              replace: {
-                yourBrowser: stringUpperFirst(browserName)
-              }
-            })}</p>
-            <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
-              <li key={name}>
-                <a
-                  href={link}
-                  rel='noopener noreferrer'
-                  target='_blank'
-                >
-                  {name}
-                </a> ({desc})
-              </li>
-            ))
-            }</ul>
-            <p>{t('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;<a
-              href='https://github.com/polkadot-js/extension'
-              rel='noopener noreferrer'
-              target='_blank'
-            >{t('Learn more...')}</a></p>
-          </div>
+  return (
+    <div className={className}>
+      <div className='box'>
+        <div className='info'>
+          <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
+            replace: {
+              yourBrowser: stringUpperFirst(browserName)
+            }
+          })}</p>
+          <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
+            <li key={name}>
+              <a
+                href={link}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                {name}
+              </a> ({desc})
+            </li>
+          ))
+          }</ul>
+          <p>{t('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;<a
+            href='https://github.com/polkadot-js/extension'
+            rel='noopener noreferrer'
+            target='_blank'
+          >{t('Learn more...')}</a></p>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default translate(styled(Banner)`

@@ -19,35 +19,33 @@ interface Props extends I18nProps {
   treasury_pot?: BN;
 }
 
-class Summary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { treasury_proposalCount = new BN(0), treasury_approvals = [] as BN[], treasury_pot = new BN(0), t } = this.props;
-    const value = treasury_pot
-      ? treasury_pot.toString()
-      : null;
+function Summary (props: Props): React.ReactElement<Props> {
+  const { treasury_proposalCount = new BN(0), treasury_approvals = [] as BN[], treasury_pot = new BN(0), t } = props;
+  const value = treasury_pot
+    ? treasury_pot.toString()
+    : null;
 
-    return (
-      <SummaryBox>
-        <section>
-          <CardSummary label={t('proposals')}>
-            {formatNumber(treasury_proposalCount)}
-          </CardSummary>
-          <CardSummary label={t('approved')}>
-            {treasury_approvals ? treasury_approvals.length : '0'}
-          </CardSummary>
-        </section>
-        <section>
-          <CardSummary label={t('pot')}>
-            {
-              value
-                ? `${formatBalance(value, false)}${treasury_pot.gtn(0) ? formatBalance.calcSi(value).value : ''}`
-                : '-'
-            }
-          </CardSummary>
-        </section>
-      </SummaryBox>
-    );
-  }
+  return (
+    <SummaryBox>
+      <section>
+        <CardSummary label={t('proposals')}>
+          {formatNumber(treasury_proposalCount)}
+        </CardSummary>
+        <CardSummary label={t('approved')}>
+          {treasury_approvals ? treasury_approvals.length : '0'}
+        </CardSummary>
+      </section>
+      <section>
+        <CardSummary label={t('pot')}>
+          {
+            value
+              ? `${formatBalance(value, false)}${treasury_pot.gtn(0) ? formatBalance.calcSi(value).value : ''}`
+              : '-'
+          }
+        </CardSummary>
+      </section>
+    </SummaryBox>
+  );
 }
 
 export default translate(

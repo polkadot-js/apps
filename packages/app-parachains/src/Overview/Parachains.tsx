@@ -17,25 +17,21 @@ interface Props extends I18nProps {
   parachains_parachains?: BN[];
 }
 
-class Parachains extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { parachains_parachains = [], t } = this.props;
-
-    return (
-      <Column
-        emptyText={t('no deployed parachains')}
-        headerText={t('parachains')}
-      >
-        {
-          parachains_parachains.length
-            ? parachains_parachains.map((paraId): React.ReactNode =>
-              <Parachain key={paraId.toString()} paraId={paraId} />
-            )
-            : null
-        }
-      </Column>
-    );
-  }
+function Parachains ({ parachains_parachains = [], t }: Props): React.ReactElement<Props> {
+  return (
+    <Column
+      emptyText={t('no deployed parachains')}
+      headerText={t('parachains')}
+    >
+      {
+        parachains_parachains.length
+          ? parachains_parachains.map((paraId): React.ReactNode =>
+            <Parachain key={paraId.toString()} paraId={paraId} />
+          )
+          : null
+      }
+    </Column>
+  );
 }
 
 export default translate(

@@ -16,18 +16,14 @@ interface Props extends ApiProps {
   value: string;
 }
 
-class BlockByNumber extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { chain_getBlockHash } = this.props;
-
-    if (!chain_getBlockHash) {
-      return null;
-    }
-
-    return (
-      <BlockByHash value={chain_getBlockHash.toHex()} />
-    );
+function BlockByNumber ({ chain_getBlockHash }: Props): React.ReactElement<Props> | null {
+  if (!chain_getBlockHash) {
+    return null;
   }
+
+  return (
+    <BlockByHash value={chain_getBlockHash.toHex()} />
+  );
 }
 
 export default withCalls<Props>(

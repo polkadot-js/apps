@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 
-type Props = AppProps;
-
-export default class App extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    return 'Deprecated, now operates via modal';
-  }
+export default function App (): React.ReactElement {
+  return (
+    <>
+      Deprecated, now operates via modal
+    </>
+  );
 }

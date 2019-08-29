@@ -14,35 +14,30 @@ import translate from '../translate';
 
 interface Props extends I18nProps, ComponentProps {}
 
-class Summary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { electionsInfo, t } = this.props;
-    const { members, candidateCount, desiredSeats, termDuration, voteCount } = electionsInfo;
+function Summary ({ electionsInfo: { members, candidateCount, desiredSeats, termDuration, voteCount }, t }: Props): React.ReactElement<Props> {
+  return (
+    <SummaryBox>
+      <section>
+        <CardSummary label={t('seats')}>
+          {formatNumber(Object.keys(members).length)}/{formatNumber(desiredSeats)}
+        </CardSummary>
+        <CardSummary label={t('candidates')}>
+          {formatNumber(candidateCount)}
+        </CardSummary>
+      </section>
+      <section>
+        <CardSummary label={t('voting round')}>
+          #{formatNumber(voteCount)}
+        </CardSummary>
+      </section>
 
-    return (
-      <SummaryBox>
-        <section>
-          <CardSummary label={t('seats')}>
-            {formatNumber(Object.keys(members).length)}/{formatNumber(desiredSeats)}
-          </CardSummary>
-          <CardSummary label={t('candidates')}>
-            {formatNumber(candidateCount)}
-          </CardSummary>
-        </section>
-        <section>
-          <CardSummary label={t('voting round')}>
-            #{formatNumber(voteCount)}
-          </CardSummary>
-        </section>
-
-        <section>
-          <CardSummary label={t('term duration')}>
-            {formatNumber(termDuration)}
-          </CardSummary>
-        </section>
-      </SummaryBox>
-    );
-  }
+      <section>
+        <CardSummary label={t('term duration')}>
+          {formatNumber(termDuration)}
+        </CardSummary>
+      </section>
+    </SummaryBox>
+  );
 }
 
 export default translate(Summary);

@@ -16,24 +16,20 @@ interface Props extends I18nProps {
   route: Route;
 }
 
-class Entry extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, route: { i18n, icon, name }, t } = this.props;
-
-    return (
-      <div className={className}>
-        <Link to={`/${name}`}>
-          <Icon
-            name={icon}
-            size='massive'
-          />
-          <div className='name'>
-            {t(`entry.${name}`, i18n)}
-          </div>
-        </Link>
-      </div>
-    );
-  }
+function Entry ({ className, route: { i18n, icon, name }, t }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      <Link to={`/${name}`}>
+        <Icon
+          name={icon}
+          size='massive'
+        />
+        <div className='name'>
+          {t(`entry.${name}`, i18n)}
+        </div>
+      </Link>
+    </div>
+  );
 }
 
 export default translate(styled(Entry)`

@@ -27,7 +27,7 @@ interface State {
   isValid: boolean;
 }
 
-class ValidateAddr extends React.PureComponent<Props> {
+class ValidateAddr extends React.PureComponent<Props, State> {
   public state: State = {
     isStored: false,
     isValidAddr: false,

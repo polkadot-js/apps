@@ -27,17 +27,12 @@ interface State {
   isPasswordOpen: boolean;
 }
 
-class Contract extends React.PureComponent<Props> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-    this.state = {
-      isBackupOpen: false,
-      isForgetOpen: false,
-      isPasswordOpen: false
-    };
-  }
+class Contract extends React.PureComponent<Props, State> {
+  public state: State = {
+    isBackupOpen: false,
+    isForgetOpen: false,
+    isPasswordOpen: false
+  };
 
   public render (): React.ReactNode {
     const { address, onCall } = this.props;

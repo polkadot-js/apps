@@ -27,7 +27,7 @@ interface State {
   isValid: boolean;
 }
 
-class ValidateCode extends React.PureComponent<Props> {
+class ValidateCode extends React.PureComponent<Props, State> {
   public state: State = {
     isStored: false,
     isValidHex: false,
