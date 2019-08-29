@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   parachains_parachains?: BN[];
 }
 
-function Summary ({ parachains_nextFreeId, parachains_parachains = [], t }: Props): React.ReactElement<any> {
+function Summary ({ parachains_nextFreeId, parachains_parachains = [], t }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>

@@ -44,7 +44,7 @@ const renderDetails = ({ number: blockNumber, extrinsicsRoot, parentHash, stateR
   );
 };
 
-function BlockHeader ({ isSummary, value, withExplorer, withLink }: Props): React.ReactElement<any> | null {
+function BlockHeader ({ isSummary, value, withExplorer, withLink }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }

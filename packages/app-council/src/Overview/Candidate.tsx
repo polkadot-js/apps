@@ -11,7 +11,7 @@ interface Props {
   address: AccountId;
 }
 
-function Candidate ({ address }: Props): React.ReactElement<any> {
+function Candidate ({ address }: Props): React.ReactElement<Props> {
   return (
     <AddressCard
       defaultName='candidate'

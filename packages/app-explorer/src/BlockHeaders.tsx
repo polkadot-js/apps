@@ -39,7 +39,7 @@ interface Props extends CallProps {
   headers?: HeaderExtended[];
 }
 
-function BlockHeaders ({ headers = [] }: Props): React.ReactElement<any> {
+function BlockHeaders ({ headers = [] }: Props): React.ReactElement<Props> {
   return (
     <>
       {

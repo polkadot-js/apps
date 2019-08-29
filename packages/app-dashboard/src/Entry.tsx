@@ -16,7 +16,7 @@ interface Props extends I18nProps {
   route: Route;
 }
 
-function Entry ({ className, route: { i18n, icon, name }, t }: Props): React.ReactElement<any> {
+function Entry ({ className, route: { i18n, icon, name }, t }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Link to={`/${name}`}>

@@ -12,7 +12,7 @@ import translate from './translate';
 
 type Props = AppProps & I18nProps;
 
-function ExtrinsicsApp ({ basePath, t }: Props): React.ReactElement<any> {
+function ExtrinsicsApp ({ basePath, t }: Props): React.ReactElement<Props> {
   return (
     <main className='extrinsics--App'>
       <header>

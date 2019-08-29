@@ -15,7 +15,7 @@ interface Props extends I18nProps {
   value?: EventRecord[];
 }
 
-function Events ({ value, t }: Props): React.ReactElement<any> | null {
+function Events ({ value, t }: Props): React.ReactElement<Props> | null {
   if (!value || !value.length) {
     return null;
   }

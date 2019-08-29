@@ -14,7 +14,7 @@ interface Props extends BareProps {
   value?: QueryTypes[];
 }
 
-export default function Queries ({ onRemove, value }: Props): React.ReactElement<any> | null {
+export default function Queries ({ onRemove, value }: Props): React.ReactElement<Props> | null {
   if (!value || !value.length) {
     return null;
   }

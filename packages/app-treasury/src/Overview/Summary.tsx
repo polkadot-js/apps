@@ -19,7 +19,7 @@ interface Props extends I18nProps {
   treasury_pot?: BN;
 }
 
-function Summary (props: Props): React.ReactElement<any> {
+function Summary (props: Props): React.ReactElement<Props> {
   const { treasury_proposalCount = new BN(0), treasury_approvals = [] as BN[], treasury_pot = new BN(0), t } = props;
   const value = treasury_pot
     ? treasury_pot.toString()

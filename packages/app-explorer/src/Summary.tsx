@@ -13,7 +13,7 @@ import translate from './translate';
 
 type Props = I18nProps;
 
-function Summary ({ t }: Props): React.ReactElement<any> {
+function Summary ({ t }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>

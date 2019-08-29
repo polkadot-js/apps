@@ -25,7 +25,7 @@ type Props = ApiProps & I18nProps & {
   value: string;
 };
 
-function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<any> | null {
+function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<Props> | null {
   if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {
     return null;
   }

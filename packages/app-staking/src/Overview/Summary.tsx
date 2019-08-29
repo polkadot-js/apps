@@ -24,7 +24,7 @@ interface Props extends I18nProps {
   next: string[];
 }
 
-function Summary (props: Props): React.ReactElement<any> {
+function Summary (props: Props): React.ReactElement<Props> {
   const { className, currentValidatorsControllersV1OrStashesV2, lastAuthor, lastBlock, next, style, staking_validatorCount, t } = props;
 
   return (

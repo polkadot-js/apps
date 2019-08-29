@@ -21,7 +21,7 @@ interface Props extends I18nProps {
   democracy_referendumCount?: BN;
 }
 
-function Summary (props: Props): React.ReactElement<any> {
+function Summary (props: Props): React.ReactElement<Props> {
   const {
     chain_bestNumber = new BN(0),
     democracy_launchPeriod = new BN(1),

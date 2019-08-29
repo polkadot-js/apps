@@ -58,7 +58,7 @@ const renderPeers = ({ peers, t }: Props): React.ReactNode => {
   );
 };
 
-function Peers (props: Props): React.ReactElement<any> {
+function Peers (props: Props): React.ReactElement<Props> {
   return (
     <section className='status--Peers'>
       <h1>{props.t('connected peers')}</h1>

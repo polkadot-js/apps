@@ -20,7 +20,7 @@ interface Props extends ApiProps, BareProps, ComponentProps {
   chain_subscribeNewHeads?: HeaderExtended;
 }
 
-function Overview (props: Props): React.ReactElement<any> {
+function Overview (props: Props): React.ReactElement<Props> {
   const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, isSubstrateV2, recentlyOnline } = props;
   let nextSorted: string[];
 

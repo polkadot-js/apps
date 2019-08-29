@@ -16,7 +16,7 @@ interface Props extends I18nProps {
   onRemove: () => void;
 }
 
-function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<any> {
+function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<Props> {
   return (
     <Modal
       className='app--accounts-Modal'

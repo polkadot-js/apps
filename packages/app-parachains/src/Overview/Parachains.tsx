@@ -17,7 +17,7 @@ interface Props extends I18nProps {
   parachains_parachains?: BN[];
 }
 
-function Parachains ({ parachains_parachains = [], t }: Props): React.ReactElement<any> {
+function Parachains ({ parachains_parachains = [], t }: Props): React.ReactElement<Props> {
   return (
     <Column
       emptyText={t('no deployed parachains')}

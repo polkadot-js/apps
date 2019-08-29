@@ -49,7 +49,7 @@ const browserInfo = detect();
 const browserName: Browser | null = (browserInfo && (browserInfo.name as Browser)) || null;
 const isSupported = browserName && Object.keys(available).includes(browserName);
 
-function Banner ({ className, t }: Props): React.ReactElement<any> | null {
+function Banner ({ className, t }: Props): React.ReactElement<Props> | null {
   if (isWeb3Injected || !isSupported || !browserName) {
     return null;
   }

@@ -35,7 +35,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
   </div>
 );
 
-export default function Output ({ children, logs }: Props): React.ReactElement<any> {
+export default function Output ({ children, logs }: Props): React.ReactElement<Props> {
   return (
     <article className='container js--Output'>
       <div className='logs-wrapper'>

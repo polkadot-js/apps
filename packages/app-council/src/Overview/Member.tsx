@@ -16,7 +16,7 @@ interface Props extends I18nProps {
   block: BlockNumber;
 }
 
-function Member ({ address, block, t }: Props): React.ReactElement<any> {
+function Member ({ address, block, t }: Props): React.ReactElement<Props> {
   return (
     <AddressCard
       buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}

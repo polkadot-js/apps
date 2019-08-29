@@ -69,7 +69,7 @@ const renderEra = ({ session_info, t, withEra = true }: Props): React.ReactNode 
     );
 };
 
-function SummarySession (props: Props): React.ReactElement<any> {
+function SummarySession (props: Props): React.ReactElement<Props> {
   return (
     <>
       {renderSession(props)}

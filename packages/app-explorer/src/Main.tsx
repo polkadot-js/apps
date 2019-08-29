@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   events: KeyedEvent[];
 }
 
-function Main ({ events, t }: Props): React.ReactElement<any> {
+function Main ({ events, t }: Props): React.ReactElement<Props> {
   return (
     <>
       <Query />

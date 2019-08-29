@@ -14,7 +14,7 @@ import translate from '../translate';
 
 interface Props extends I18nProps, ComponentProps {}
 
-function Summary ({ electionsInfo, t }: Props): React.ReactElement<any> {
+function Summary ({ electionsInfo, t }: Props): React.ReactElement<Props> {
   const { members, candidateCount, desiredSeats, termDuration, voteCount } = electionsInfo;
 
   return (

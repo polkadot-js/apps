@@ -15,7 +15,7 @@ import Member from './Member';
 
 interface Props extends I18nProps, ComponentProps {}
 
-function Members ({ electionsInfo: { candidates, members }, t }: Props): React.ReactElement<any> {
+function Members ({ electionsInfo: { candidates, members }, t }: Props): React.ReactElement<Props> {
   return (
     <Columar>
       <Column

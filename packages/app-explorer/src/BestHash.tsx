@@ -14,7 +14,7 @@ interface Props extends BareProps, CallProps {
   chain_subscribeNewHeads?: Header;
 }
 
-function BestHash ({ className, label = '', style, chain_subscribeNewHeads }: Props): React.ReactElement<any> {
+function BestHash ({ className, label = '', style, chain_subscribeNewHeads }: Props): React.ReactElement<Props> {
   return (
     <div
       className={className}

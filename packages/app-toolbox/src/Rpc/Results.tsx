@@ -13,7 +13,7 @@ interface Props extends BareProps {
   queue: QueueTx[];
 }
 
-function Results ({ queue = [] }: Props): React.ReactElement<any> | null {
+function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
   const filtered = queue
     .filter(({ error, result }): boolean =>
       !isUndefined(error) || !isUndefined(result)

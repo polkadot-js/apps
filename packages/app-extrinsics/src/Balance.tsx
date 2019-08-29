@@ -15,7 +15,7 @@ interface Props extends BareProps, CallProps {
   label?: React.ReactNode;
 }
 
-function BalanceDisplay ({ className, label, style, balances_all }: Props): React.ReactElement<any> {
+function BalanceDisplay ({ className, label, style, balances_all }: Props): React.ReactElement<Props> {
   return (
     <InputBalance
       className={className}

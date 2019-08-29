@@ -16,7 +16,7 @@ interface Props extends ApiProps {
   value: string;
 }
 
-function BlockByNumber ({ chain_getBlockHash }: Props): React.ReactElement<any> | null {
+function BlockByNumber ({ chain_getBlockHash }: Props): React.ReactElement<Props> | null {
   if (!chain_getBlockHash) {
     return null;
   }

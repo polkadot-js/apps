@@ -22,7 +22,7 @@ interface Props extends I18nProps {
   value: Proposal;
 }
 
-function ProposalDisplay ({ className, democracy_depositOf, idNumber, value, t }: Props): React.ReactElement<any> {
+function ProposalDisplay ({ className, democracy_depositOf, idNumber, value, t }: Props): React.ReactElement<Props> {
   const depositors = democracy_depositOf
     ? democracy_depositOf[1]
     : [];

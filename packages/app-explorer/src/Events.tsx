@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   withoutIndex?: boolean;
 }
 
-function Events ({ emptyLabel, eventClassName, events, withoutIndex, t }: Props): React.ReactElement<any> {
+function Events ({ emptyLabel, eventClassName, events, withoutIndex, t }: Props): React.ReactElement<Props> {
   if (!events || events.length === 0) {
     return (
       <article>

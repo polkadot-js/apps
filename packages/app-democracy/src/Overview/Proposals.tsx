@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   democracy_publicProps?: [BN, Proposal][];
 }
 
-function Proposals ({ democracy_publicProps = [], t }: Props): React.ReactElement<any> {
+function Proposals ({ democracy_publicProps = [], t }: Props): React.ReactElement<Props> {
   return (
     <Column
       emptyText={t('No available proposals')}

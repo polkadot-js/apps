@@ -27,7 +27,7 @@ const NULL_INFO: DerivedElectionsInfo = {
   voterCount: new BN(0) as SetIndex
 };
 
-function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<any> {
+function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<Props> {
   return (
     <>
       <Summary electionsInfo={electionsInfo} />

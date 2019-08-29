@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   democracy_referendums?: Option<ReferendumInfoExtended>[];
 }
 
-function Referendums ({ democracy_referendums = [], t }: Props): React.ReactElement<any> {
+function Referendums ({ democracy_referendums = [], t }: Props): React.ReactElement<Props> {
   return (
     <Column
       emptyText={t('No available referendums')}

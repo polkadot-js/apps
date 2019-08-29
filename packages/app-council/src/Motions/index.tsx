@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   council_proposals?: Hash[];
 }
 
-function Proposals ({ council_proposals = [], t }: Props): React.ReactElement<any> {
+function Proposals ({ council_proposals = [], t }: Props): React.ReactElement<Props> {
   return (
     <CardGrid
       emptyText={t('No council motions')}

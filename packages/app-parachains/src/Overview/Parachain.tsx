@@ -23,7 +23,7 @@ interface Props extends I18nProps {
   parachains_relayDispatchQueueSize?: [BN, BN];
 }
 
-function Parachain ({ className, paraId, parachains_heads, parachains_relayDispatchQueueSize, t }: Props): React.ReactElement<any> {
+function Parachain ({ className, paraId, parachains_heads, parachains_relayDispatchQueueSize, t }: Props): React.ReactElement<Props> {
   return (
     <Card className={className}>
       <div className='ui--Row'>
