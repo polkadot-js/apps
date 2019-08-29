@@ -16,11 +16,11 @@ import { Column } from '@polkadot/react-components';
 import Proposal from './Proposal';
 import translate from '../translate';
 
-type Props = I18nProps & RouteComponentProps & {
+interface Props extends I18nProps, RouteComponentProps<{}> {
   isApprovals?: boolean;
   treasury_approvals?: BN[];
   treasury_proposalCount?: BN;
-};
+}
 
 interface State {
   isEmpty: boolean;
@@ -100,7 +100,7 @@ class ProposalsBase extends React.PureComponent<Props, State> {
 }
 
 const Proposals = withMulti(
-  ProposalsBase,
+  withRouter(ProposalsBase),
   translate,
   withCalls<Props>(
     [
@@ -111,8 +111,7 @@ const Proposals = withMulti(
       }
     ],
     'query.treasury.proposalCount'
-  ),
-  withRouter
+  )
 );
 
 export default Proposals;

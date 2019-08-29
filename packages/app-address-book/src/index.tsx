@@ -19,6 +19,7 @@ import translate from './translate';
 
 interface Props extends AppProps, I18nProps {
   allAddresses?: SubjectInfo;
+  location: any;
 }
 
 interface State {

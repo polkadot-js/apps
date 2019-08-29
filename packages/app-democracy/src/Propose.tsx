@@ -16,9 +16,9 @@ import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & RouteComponentProps & {
+interface Props extends I18nProps, ApiProps, RouteComponentProps {
   basePath: string;
-};
+}
 
 interface State {
   accountId?: string;
@@ -120,8 +120,7 @@ class Propose extends TxComponent<Props, State> {
 }
 
 export default withMulti(
-  Propose,
+  withRouter(Propose),
   translate,
-  withRouter,
   withApi
 );

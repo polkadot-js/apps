@@ -26,9 +26,9 @@ import translate from './translate';
 
 type ConstructOptions = { key: string; text: string; value: string }[];
 
-type Props = ContractModalProps & ApiProps & I18nProps & RouteComponentProps & {
+interface Props extends ContractModalProps, ApiProps, I18nProps, RouteComponentProps {
   codeHash?: string;
-};
+}
 
 interface State extends ContractModalState {
   codeHash?: string;
@@ -280,8 +280,7 @@ class Deploy extends ContractModal<Props, State> {
 }
 
 export default withMulti(
-  Deploy,
+  withRouter(Deploy),
   translate,
-  withRouter,
   withApi
 );

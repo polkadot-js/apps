@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Button, Card, CodeRow, Forget } from '@polkadot/react-components';
-import { withMulti } from '@polkadot/react-api';
 
 import ABI from '../ABI';
 import RemoveABI from '../RemoveABI';
@@ -18,11 +17,10 @@ import RemoveABI from '../RemoveABI';
 import contracts from '../store';
 import translate from '../translate';
 
-type Props = I18nProps & RouteComponentProps & {
-  basePath: string;
+interface Props extends I18nProps, RouteComponentProps<{}> {
   code: CodeStored;
   showDeploy: (codeHash?: string) => () => void;
-};
+}
 
 interface State {
   isForgetOpen: boolean;
@@ -165,8 +163,4 @@ class Contract extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Contract,
-  translate,
-  withRouter
-);
+export default translate(withRouter(Contract));

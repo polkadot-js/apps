@@ -20,6 +20,7 @@ import Vanity from './Vanity';
 
 interface Props extends AppProps, I18nProps {
   allAccounts?: SubjectInfo;
+  location: any;
 }
 
 interface State {
