@@ -20,15 +20,15 @@ function Events ({ value, t }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  const events = value.map((record, index): { key: string; record: EventRecord } => ({
-    key: `${index}`, record
-  }));
-
   return (
     <Column headerText={t('events')}>
       <EventsDisplay
         eventClassName='explorer--BlockByHash-block'
-        events={events}
+        events={
+          value.map((record, index): { key: string; record: EventRecord } => ({
+            key: `${index}`, record
+          }))
+        }
       />
     </Column>
   );

@@ -20,7 +20,7 @@ function Member ({ address, block, t }: Props): React.ReactElement<Props> {
   return (
     <AddressCard
       buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}
-      defaultName='council member'
+      defaultName={t('council member')}
       value={address}
     />
   );

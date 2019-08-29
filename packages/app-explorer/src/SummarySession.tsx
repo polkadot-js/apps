@@ -19,7 +19,7 @@ interface Props extends I18nProps {
   withSession?: boolean;
 }
 
-const renderSession = ({ session_info, t, withSession = true }: Props): React.ReactNode => {
+function renderSession ({ session_info, t, withSession = true }: Props): React.ReactNode {
   if (!withSession || !session_info) {
     return null;
   }
@@ -43,9 +43,9 @@ const renderSession = ({ session_info, t, withSession = true }: Props): React.Re
         {formatNumber(session_info.currentIndex)}
       </CardSummary>
     );
-};
+}
 
-const renderEra = ({ session_info, t, withEra = true }: Props): React.ReactNode => {
+function renderEra ({ session_info, t, withEra = true }: Props): React.ReactNode {
   if (!withEra || !session_info) {
     return null;
   }
@@ -67,7 +67,7 @@ const renderEra = ({ session_info, t, withEra = true }: Props): React.ReactNode 
         {formatNumber(session_info.currentEra)}
       </CardSummary>
     );
-};
+}
 
 function SummarySession (props: Props): React.ReactElement<Props> {
   return (
