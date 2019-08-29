@@ -233,6 +233,7 @@ export default withMulti(
   styled(SideBar)`
     .toggleImg {
       cursor: pointer;
+      height: 2.75rem;
       left: 0.9rem;
       opacity: 0;
       position: absolute;
