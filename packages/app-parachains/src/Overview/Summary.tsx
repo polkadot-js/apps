@@ -18,28 +18,22 @@ interface Props extends I18nProps {
   parachains_parachains?: BN[];
 }
 
-class Summary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { parachains_nextFreeId, parachains_parachains = [], t } = this.props;
-
-    return (
-      <SummaryBox>
-        <section>
-          <CardSummary label={t('parachains')}>
-            {formatNumber(parachains_parachains.length)}
-          </CardSummary>
-        </section>
-        {parachains_nextFreeId && (
-          <section>
-            <CardSummary label={t('next id')}>
-              {formatNumber(parachains_nextFreeId)}
-            </CardSummary>
-          </section>
-        )}
-      </SummaryBox>
-    );
-  }
-}
+const Summary: React.FC<Props> = ({ parachains_nextFreeId, parachains_parachains = [], t }: Props): React.ReactElement<any> => ((
+  <SummaryBox>
+    <section>
+      <CardSummary label={t('parachains')}>
+        {formatNumber(parachains_parachains.length)}
+      </CardSummary>
+    </section>
+    {parachains_nextFreeId && (
+      <section>
+        <CardSummary label={t('next id')}>
+          {formatNumber(parachains_nextFreeId)}
+        </CardSummary>
+      </section>
+    )}
+  </SummaryBox>
+));
 
 export default translate(
   withCalls<Props>(

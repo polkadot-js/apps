@@ -22,58 +22,53 @@ interface Props extends I18nProps {
   value: Proposal;
 }
 
-class ProposalDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, democracy_depositOf, idNumber, value } = this.props;
-    const depositors = democracy_depositOf
-      ? democracy_depositOf[1]
-      : [];
+const ProposalDisplay: React.FC<Props> = ({ className, democracy_depositOf, idNumber, value, t }: Props): React.ReactElement<any> => {
+  const depositors = democracy_depositOf
+    ? democracy_depositOf[1]
+    : [];
 
-    return (
-      <ActionItem
-        className={className}
-        idNumber={idNumber}
-        proposal={value}
-        accessory={
-          <Seconding
-            depositors={depositors}
-            proposalId={idNumber}
-          />
-        }
-      >
-        {this.renderInfo()}
-      </ActionItem>
-    );
-  }
+  return (
+    <ActionItem
+      className={className}
+      idNumber={idNumber}
+      proposal={value}
+      accessory={
+        <Seconding
+          depositors={depositors}
+          proposalId={idNumber}
+        />
+      }
+    >
+      {
+        ((): React.ReactNode => {
+          if (!democracy_depositOf) {
+            return null;
+          }
 
-  private renderInfo (): React.ReactNode {
-    const { democracy_depositOf, t } = this.props;
+          const [balance, addresses] = democracy_depositOf;
 
-    if (!democracy_depositOf) {
-      return null;
-    }
-
-    const [balance, addresses] = democracy_depositOf;
-
-    return (
-      <div>
-        <Labelled label={t('depositors')}>
-          {addresses.map((address, index): React.ReactNode => (
-            <InputAddress
-              isDisabled
-              key={`${index}:${address}`}
-              value={address}
-              withLabel={false}
-            />
-          ))}
-        </Labelled>
-        <Static label={t('balance')}>
-          {formatBalance(balance)}
-        </Static>
-      </div>
-    );
-  }
-}
+          return (
+            <div>
+              <Labelled label={t('depositors')}>
+                {addresses.map((address, index): React.ReactNode => (
+                  <InputAddress
+                    isDisabled
+                    key={`${index}:${address}`}
+                    value={address}
+                    withLabel={false}
+                  />
+                ))}
+              </Labelled>
+              <Static label={t('balance')}>
+                {formatBalance(balance)}
+              </Static>
+            </div>
+          );
+        })()
+      }
+    </ActionItem>
+  );
+};
 
 export default withMulti(
   ProposalDisplay,

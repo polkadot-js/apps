@@ -18,25 +18,19 @@ interface Props extends I18nProps {
   events: KeyedEvent[];
 }
 
-class Main extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { events, t } = this.props;
-
-    return (
-      <>
-        <Query />
-        <Summary />
-        <Columar>
-          <Column headerText={t('recent blocks')}>
-            <BlockHeaders />
-          </Column>
-          <Column headerText={t('recent events')}>
-            <Events events={events} />
-          </Column>
-        </Columar>
-      </>
-    );
-  }
-}
+const Main: React.FC<Props> = ({ events, t }: Props): React.ReactElement<any> => ((
+  <>
+    <Query />
+    <Summary />
+    <Columar>
+      <Column headerText={t('recent blocks')}>
+        <BlockHeaders />
+      </Column>
+      <Column headerText={t('recent events')}>
+        <Events events={events} />
+      </Column>
+    </Columar>
+  </>
+));
 
 export default translate(Main);

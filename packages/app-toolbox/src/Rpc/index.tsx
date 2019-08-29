@@ -13,17 +13,15 @@ import Selection from './Selection';
 
 type Props = BareProps;
 
-export default class RpcApp extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    return (
-      <QueueConsumer>
-        {({ txqueue, queueRpc }: QueueProps): React.ReactNode => (
-          <>
-            <Selection queueRpc={queueRpc} />
-            <Results queue={txqueue} />
-          </>
-        )}
-      </QueueConsumer>
-    );
-  }
-}
+const RpcApp: React.FC<Props> = (): React.ReactElement<any> => ((
+  <QueueConsumer>
+    {({ txqueue, queueRpc }: QueueProps): React.ReactNode => (
+      <>
+        <Selection queueRpc={queueRpc} />
+        <Results queue={txqueue} />
+      </>
+    )}
+  </QueueConsumer>
+));
+
+export default RpcApp;

@@ -12,27 +12,21 @@ import translate from './translate';
 
 type Props = AppProps & I18nProps;
 
-class ExtrinsicsApp extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { basePath, t } = this.props;
-
-    return (
-      <main className='extrinsics--App'>
-        <header>
-          <Tabs
-            basePath={basePath}
-            items={[{
-              isRoot: true,
-              name: 'create',
-              text: t('Extrinsic submission')
-            }]}
-          />
-        </header>
-        <Selection />
-      </main>
-    );
-  }
-}
+const ExtrinsicsApp: React.FC<Props> = ({ basePath, t }: Props): React.ReactElement<any> => ((
+  <main className='extrinsics--App'>
+    <header>
+      <Tabs
+        basePath={basePath}
+        items={[{
+          isRoot: true,
+          name: 'create',
+          text: t('Extrinsic submission')
+        }]}
+      />
+    </header>
+    <Selection />
+  </main>
+));
 
 export { ExtrinsicsApp };
 

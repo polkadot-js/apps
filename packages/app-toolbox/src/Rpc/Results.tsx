@@ -13,35 +13,33 @@ interface Props extends BareProps {
   queue: QueueTx[];
 }
 
-export default class Results extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { queue = [] } = this.props;
+const Results: React.FC<Props> = ({ queue = [] }: Props): React.ReactElement<any> | null => {
+  const filtered = queue
+    .filter(({ error, result }): boolean =>
+      !isUndefined(error) || !isUndefined(result)
+    )
+    .reverse();
 
-    const filtered = queue
-      .filter(({ error, result }): boolean =>
-        !isUndefined(error) || !isUndefined(result)
-      )
-      .reverse();
-
-    if (!filtered.length) {
-      return null;
-    }
-
-    return (
-      <section className='rpc--Results'>
-        {filtered.map(({ error, id, result, rpc: { section, method } }): React.ReactNode => (
-          <Output
-            isError={!!error}
-            key={id}
-            label={`${id}: ${section}.${method}`}
-            value={
-              error
-                ? error.message
-                : <pre>{JSON.stringify(result, null, 2)}</pre>
-            }
-          />
-        ))}
-      </section>
-    );
+  if (!filtered.length) {
+    return null;
   }
-}
+
+  return (
+    <section className='rpc--Results'>
+      {filtered.map(({ error, id, result, rpc: { section, method } }): React.ReactNode => (
+        <Output
+          isError={!!error}
+          key={id}
+          label={`${id}: ${section}.${method}`}
+          value={
+            error
+              ? error.message
+              : <pre>{JSON.stringify(result, null, 2)}</pre>
+          }
+        />
+      ))}
+    </section>
+  );
+};
+
+export default Results;

@@ -35,21 +35,17 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
   </div>
 );
 
-export default class Output extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, logs } = this.props;
+const Output: React.FC<Props> = ({ children, logs }: Props): React.ReactElement<any> => ((
+  <article className='container js--Output'>
+    <div className='logs-wrapper'>
+      <div className='logs-container'>
+        <pre className='logs-content'>
+          {logs.map(renderEntry)}
+        </pre>
+      </div>
+    </div>
+    {children}
+  </article>
+));
 
-    return (
-      <article className='container js--Output'>
-        <div className='logs-wrapper'>
-          <div className='logs-container'>
-            <pre className='logs-content'>
-              {logs.map(renderEntry)}
-            </pre>
-          </div>
-        </div>
-        {children}
-      </article>
-    );
-  }
-}
+export default Output;

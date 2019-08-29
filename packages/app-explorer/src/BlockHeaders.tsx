@@ -39,20 +39,20 @@ interface Props extends CallProps {
   headers?: HeaderExtended[];
 }
 
-class BlockHeaders extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { headers = [] } = this.props;
-
-    return headers.map((header, index): React.ReactNode => (
-      <BlockHeader
-        isSummary={!!index}
-        key={header.number.toString()}
-        value={header}
-        withLink={!header.number.isEmpty}
-      />
-    ));
-  }
-}
+const BlockHeaders: React.FC<Props> = ({ headers = [] }: Props): React.ReactElement<any> => ((
+  <>
+    {
+      headers.map((header, index): React.ReactNode => (
+        <BlockHeader
+          isSummary={!!index}
+          key={header.number.toString()}
+          value={header}
+          withLink={!header.number.isEmpty}
+        />
+      ))
+    }
+  </>
+));
 
 export default withCalls<Props>(['derive.chain.subscribeNewHeads', {
   propName: 'headers',

@@ -14,24 +14,22 @@ interface Props extends BareProps {
   value?: QueryTypes[];
 }
 
-export default class Queries extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { onRemove, value } = this.props;
-
-    if (!value || !value.length) {
-      return null;
-    }
-
-    return (
-      <section className='storage--Queries'>
-        {value.map((query): React.ReactNode =>
-          <Query
-            key={query.id}
-            onRemove={onRemove}
-            value={query}
-          />
-        )}
-      </section>
-    );
+const Queries: React.FC<Props> = ({ onRemove, value }: Props): React.ReactElement<any> | null => {
+  if (!value || !value.length) {
+    return null;
   }
-}
+
+  return (
+    <section className='storage--Queries'>
+      {value.map((query): React.ReactNode =>
+        <Query
+          key={query.id}
+          onRemove={onRemove}
+          value={query}
+        />
+      )}
+    </section>
+  );
+};
+
+export default Queries;

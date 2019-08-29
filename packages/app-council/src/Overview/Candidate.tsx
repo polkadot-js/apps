@@ -11,15 +11,11 @@ interface Props {
   address: AccountId;
 }
 
-export default class Candidate extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { address } = this.props;
+const Candidate: React.FC<Props> = ({ address }: Props): React.ReactElement<any> => ((
+  <AddressCard
+    defaultName='candidate'
+    value={address}
+  />
+));
 
-    return (
-      <AddressCard
-        defaultName='candidate'
-        value={address}
-      />
-    );
-  }
-}
+export default Candidate;

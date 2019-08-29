@@ -22,7 +22,7 @@ interface State {
   isUploadOpen: boolean;
 }
 
-class Codes extends React.PureComponent<Props> {
+class Codes extends React.PureComponent<Props, State> {
   public state: State = {
     isAddOpen: false,
     isUploadOpen: false

@@ -16,19 +16,15 @@ interface Props extends ApiProps {
   value: string;
 }
 
-class BlockByNumber extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { chain_getBlockHash } = this.props;
-
-    if (!chain_getBlockHash) {
-      return null;
-    }
-
-    return (
-      <BlockByHash value={chain_getBlockHash.toHex()} />
-    );
+const BlockByNumber: React.FC<Props> = ({ chain_getBlockHash }: Props): React.ReactElement<any> | null => {
+  if (!chain_getBlockHash) {
+    return null;
   }
-}
+
+  return (
+    <BlockByHash value={chain_getBlockHash.toHex()} />
+  );
+};
 
 export default withCalls<Props>(
   ['rpc.chain.getBlockHash', { paramName: 'value' }]

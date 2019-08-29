@@ -35,7 +35,7 @@ const CodeCard = styled(Card)`
   }
 `;
 
-class Contract extends React.PureComponent<Props> {
+class Contract extends React.PureComponent<Props, State> {
   public state: State = {
     isForgetOpen: false,
     isRemoveABIOpen: false

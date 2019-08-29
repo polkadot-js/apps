@@ -28,7 +28,7 @@ interface State {
   proposalIndices: BN[];
 }
 
-class ProposalsBase extends React.PureComponent<Props> {
+class ProposalsBase extends React.PureComponent<Props, State> {
   public state: State = {
     isEmpty: true,
     isProposeOpen: false,

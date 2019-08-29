@@ -40,7 +40,7 @@ interface State {
 
 const ZERO = new BN(0);
 
-class Transfer extends React.PureComponent<Props> {
+class Transfer extends React.PureComponent<Props, State> {
   public state: State;
 
   public constructor (props: Props) {

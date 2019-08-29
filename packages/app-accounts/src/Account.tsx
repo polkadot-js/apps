@@ -27,7 +27,7 @@ interface State {
   isTransferOpen: boolean;
 }
 
-class Account extends React.PureComponent<Props> {
+class Account extends React.PureComponent<Props, State> {
   public state: State;
 
   public constructor (props: Props) {

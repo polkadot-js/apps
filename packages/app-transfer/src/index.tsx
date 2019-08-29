@@ -8,8 +8,10 @@ import React from 'react';
 
 type Props = AppProps;
 
-export default class App extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    return 'Deprecated, now operates via modal';
-  }
-}
+const App: React.FC<Props> = (): React.ReactElement<any> => ((
+  <>
+    Deprecated, now operates via modal
+  </>
+));
+
+export default App;

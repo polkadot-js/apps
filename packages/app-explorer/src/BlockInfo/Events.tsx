@@ -15,27 +15,23 @@ interface Props extends I18nProps {
   value?: EventRecord[];
 }
 
-class Events extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { t, value } = this.props;
-
-    if (!value || !value.length) {
-      return null;
-    }
-
-    const events = value.map((record, index): { key: string; record: EventRecord } => ({
-      key: `${index}`, record
-    }));
-
-    return (
-      <Column headerText={t('events')}>
-        <EventsDisplay
-          eventClassName='explorer--BlockByHash-block'
-          events={events}
-        />
-      </Column>
-    );
+const Events: React.FC<Props> = ({ value, t }: Props): React.ReactElement<any> | null => {
+  if (!value || !value.length) {
+    return null;
   }
-}
+
+  const events = value.map((record, index): { key: string; record: EventRecord } => ({
+    key: `${index}`, record
+  }));
+
+  return (
+    <Column headerText={t('events')}>
+      <EventsDisplay
+        eventClassName='explorer--BlockByHash-block'
+        events={events}
+      />
+    </Column>
+  );
+};
 
 export default translate(Events);

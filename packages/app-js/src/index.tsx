@@ -12,15 +12,11 @@ import Playground from './Playground';
 
 type Props = AppProps & BareProps;
 
-export default class AppJs extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { basePath } = this.props;
+const AppJs: React.FC<Props> = ({ basePath }: Props): React.ReactElement<any> => ((
+  <Switch>
+    <Route path={`${basePath}/share/:base64`} component={Playground} />
+    <Route component={Playground} />
+  </Switch>
+));
 
-    return (
-      <Switch>
-        <Route path={`${basePath}/share/:base64`} component={Playground} />
-        <Route component={Playground} />
-      </Switch>
-    );
-  }
-}
+export default AppJs;

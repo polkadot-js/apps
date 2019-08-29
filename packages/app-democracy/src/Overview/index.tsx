@@ -13,16 +13,14 @@ import Summary from './Summary';
 
 type Props = AppProps & BareProps & I18nProps;
 
-export default class Overview extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    return (
-      <>
-        <Summary />
-        <Columar>
-          <Referendums />
-          <Proposals />
-        </Columar>
-      </>
-    );
-  }
-}
+const Overview: React.FC<Props> = (): React.ReactElement<any> => ((
+  <>
+    <Summary />
+    <Columar>
+      <Referendums />
+      <Proposals />
+    </Columar>
+  </>
+));
+
+export default Overview;
