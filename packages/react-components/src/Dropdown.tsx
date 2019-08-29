@@ -156,7 +156,6 @@ export default styled(Dropdown)`
     }
 
     .ui--Dropdown-icon {
-      border-radius: 50%;
       height: 32px;
       left: 0;
       position: absolute;

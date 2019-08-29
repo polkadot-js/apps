@@ -22,7 +22,7 @@ import chainKusama from '@polkadot/ui-assets/chains/kusama-128.gif';
 // defaults for the node type, assuming we don't have a specific chain
 import polkadot from '@polkadot/ui-assets/polkadot-circle.svg';
 import polkadotJs from '@polkadot/ui-assets/polkadot-js.svg';
-import substrate from '@polkadot/ui-assets/substrate-white.svg';
+import substrate from '@polkadot/ui-assets/substrate-hexagon.svg';
 
 // overrides based on the actual matched chain name
 const CHAINS: Record<string, any> = {
@@ -49,16 +49,16 @@ const LOGOS: Record<string, any> = {
 
 interface Props extends ApiProps {
   className?: string;
+  injectedLogoChain?: any;
+  injectedLogoNode?: any;
   logo?: keyof typeof LOGOS;
-  logoChain?: any;
-  logoNode?: any;
   onClick?: () => any;
 }
 
 class ChainImg extends React.PureComponent<Props> {
   public render (): React.ReactNode {
-    const { className, logo = '', logoChain, logoNode, onClick } = this.props;
-    const img = LOGOS[logo] || logoChain || logoNode || EMPTY;
+    const { className, injectedLogoChain, injectedLogoNode, logo = '', onClick } = this.props;
+    const img = LOGOS[logo] || injectedLogoChain || injectedLogoNode || EMPTY;
 
     return (
       <img
@@ -73,17 +73,16 @@ class ChainImg extends React.PureComponent<Props> {
 
 export default withMulti(
   styled(ChainImg)`
-    background: #3f3f3f;
-    border: 1px solid #3f3f3f;
     border-radius: 50%;
+    box-sizing: border-box;
   `,
   withCalls<Props>(
     ['rpc.system.chain', {
-      propName: 'logoChain',
+      propName: 'injectedLogoChain',
       transform: (chain: Text): any | null => CHAINS[chain.toString()]
     }],
     ['rpc.system.name', {
-      propName: 'logoNode',
+      propName: 'injectedLogoNode',
       transform: (node: Text): any | null => NODES[node.toString()]
     }]
   )

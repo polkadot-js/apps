@@ -98,15 +98,6 @@
     background-color: $red;
   }
 
-  a.apps--SideBar-Item-NavLink:hover {
-    color: $nav-link;
-    transition: 0.15s;
-
-    &:hover {
-      background: rgba(0,0,0,0.05);
-    }
-  }
-
   a.apps--SideBar-Item-NavLink-active {
     color: $nav-link;
     &:hover {
