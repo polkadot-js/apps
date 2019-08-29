@@ -13,37 +13,39 @@ import translate from './translate';
 
 type Props = I18nProps;
 
-const Summary: React.FC<Props> = ({ t }: Props): React.ReactElement<any> => ((
-  <SummaryBox>
-    <section>
-      <CardSummary label={t('last block')}>
-        <TimeNow />
-      </CardSummary>
-      <CardSummary
-        className='ui--media-small'
-        label={t('target')}
-      >
-        <TimePeriod />
-      </CardSummary>
-      <CardSummary
-        className='ui--media-small'
-        label={t('total issuance')}
-      >
-        <TotalIssuance />
-      </CardSummary>
-    </section>
-    <section className='ui--media-large'>
-      <SummarySession />
-    </section>
-    <section>
-      <CardSummary label={t('finalized')}>
-        <BestFinalized />
-      </CardSummary>
-      <CardSummary label={t('best')}>
-        <BestNumber />
-      </CardSummary>
-    </section>
-  </SummaryBox>
-));
+function Summary ({ t }: Props): React.ReactElement<any> {
+  return (
+    <SummaryBox>
+      <section>
+        <CardSummary label={t('last block')}>
+          <TimeNow />
+        </CardSummary>
+        <CardSummary
+          className='ui--media-small'
+          label={t('target')}
+        >
+          <TimePeriod />
+        </CardSummary>
+        <CardSummary
+          className='ui--media-small'
+          label={t('total issuance')}
+        >
+          <TotalIssuance />
+        </CardSummary>
+      </section>
+      <section className='ui--media-large'>
+        <SummarySession />
+      </section>
+      <section>
+        <CardSummary label={t('finalized')}>
+          <BestFinalized />
+        </CardSummary>
+        <CardSummary label={t('best')}>
+          <BestNumber />
+        </CardSummary>
+      </section>
+    </SummaryBox>
+  );
+}
 
 export default translate(Summary);

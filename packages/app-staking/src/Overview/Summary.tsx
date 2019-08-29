@@ -24,7 +24,7 @@ interface Props extends I18nProps {
   next: string[];
 }
 
-const Summary: React.FC<Props> = (props: Props): React.ReactElement<any> => {
+function Summary (props: Props): React.ReactElement<any> {
   const { className, currentValidatorsControllersV1OrStashesV2, lastAuthor, lastBlock, next, style, staking_validatorCount, t } = props;
 
   return (
@@ -57,7 +57,7 @@ const Summary: React.FC<Props> = (props: Props): React.ReactElement<any> => {
       </section>
     </SummaryBox>
   );
-};
+}
 
 export default withMulti(
   styled(Summary)`

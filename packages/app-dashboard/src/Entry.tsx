@@ -16,19 +16,21 @@ interface Props extends I18nProps {
   route: Route;
 }
 
-const Entry: React.FC<Props> = ({ className, route: { i18n, icon, name }, t }: Props): React.ReactElement<any> => ((
-  <div className={className}>
-    <Link to={`/${name}`}>
-      <Icon
-        name={icon}
-        size='massive'
-      />
-      <div className='name'>
-        {t(`entry.${name}`, i18n)}
-      </div>
-    </Link>
-  </div>
-));
+function Entry ({ className, route: { i18n, icon, name }, t }: Props): React.ReactElement<any> {
+  return (
+    <div className={className}>
+      <Link to={`/${name}`}>
+        <Icon
+          name={icon}
+          size='massive'
+        />
+        <div className='name'>
+          {t(`entry.${name}`, i18n)}
+        </div>
+      </Link>
+    </div>
+  );
+}
 
 export default translate(styled(Entry)`
   .name {

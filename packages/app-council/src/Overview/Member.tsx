@@ -16,12 +16,14 @@ interface Props extends I18nProps {
   block: BlockNumber;
 }
 
-const Member: React.FC<Props> = ({ address, block, t }: Props): React.ReactElement<any> => ((
-  <AddressCard
-    buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}
-    defaultName='council member'
-    value={address}
-  />
-));
+function Member ({ address, block, t }: Props): React.ReactElement<any> {
+  return (
+    <AddressCard
+      buttons={<div><label>{t('active until')}</label>#{formatNumber(block)}</div>}
+      defaultName='council member'
+      value={address}
+    />
+  );
+}
 
 export default translate(Member);

@@ -14,7 +14,7 @@ interface Props extends BareProps {
   value?: QueryTypes[];
 }
 
-const Queries: React.FC<Props> = ({ onRemove, value }: Props): React.ReactElement<any> | null => {
+export default function Queries ({ onRemove, value }: Props): React.ReactElement<any> | null {
   if (!value || !value.length) {
     return null;
   }
@@ -30,6 +30,4 @@ const Queries: React.FC<Props> = ({ onRemove, value }: Props): React.ReactElemen
       )}
     </section>
   );
-};
-
-export default Queries;
+}

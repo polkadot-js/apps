@@ -15,15 +15,17 @@ interface Props extends BareProps, CallProps {
   label?: React.ReactNode;
 }
 
-const BalanceDisplay: React.FC<Props> = ({ className, label, style, balances_all }: Props): React.ReactElement<any> => ((
-  <InputBalance
-    className={className}
-    isDisabled
-    label={label}
-    style={style}
-    defaultValue={balances_all && balances_all.freeBalance}
-  />
-));
+function BalanceDisplay ({ className, label, style, balances_all }: Props): React.ReactElement<any> {
+  return (
+    <InputBalance
+      className={className}
+      isDisabled
+      label={label}
+      style={style}
+      defaultValue={balances_all && balances_all.freeBalance}
+    />
+  );
+}
 
 export default withMulti(
   BalanceDisplay,

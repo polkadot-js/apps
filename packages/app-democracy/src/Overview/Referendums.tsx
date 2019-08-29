@@ -18,25 +18,27 @@ interface Props extends I18nProps {
   democracy_referendums?: Option<ReferendumInfoExtended>[];
 }
 
-const Referendums: React.FC<Props> = ({ democracy_referendums = [], t }: Props): React.ReactElement<any> => ((
-  <Column
-    emptyText={t('No available referendums')}
-    headerText={t('referendum')}
-  >
-    {
-      democracy_referendums
-        .filter((opt): boolean => opt.isSome)
-        .map((opt): ReferendumInfoExtended => opt.unwrap())
-        .map((referendum): React.ReactNode => (
-          <Referendum
-            idNumber={referendum.index}
-            key={referendum.index.toString()}
-            value={referendum}
-          />
-        ))
-    }
-  </Column>
-));
+function Referendums ({ democracy_referendums = [], t }: Props): React.ReactElement<any> {
+  return (
+    <Column
+      emptyText={t('No available referendums')}
+      headerText={t('referendum')}
+    >
+      {
+        democracy_referendums
+          .filter((opt): boolean => opt.isSome)
+          .map((opt): ReferendumInfoExtended => opt.unwrap())
+          .map((referendum): React.ReactNode => (
+            <Referendum
+              idNumber={referendum.index}
+              key={referendum.index.toString()}
+              value={referendum}
+            />
+          ))
+      }
+    </Column>
+  );
+}
 
 export default translate(
   withCalls<Props>(

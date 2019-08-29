@@ -11,11 +11,13 @@ interface Props {
   address: AccountId;
 }
 
-const Candidate: React.FC<Props> = ({ address }: Props): React.ReactElement<any> => ((
-  <AddressCard
-    defaultName='candidate'
-    value={address}
-  />
-));
+function Candidate ({ address }: Props): React.ReactElement<any> {
+  return (
+    <AddressCard
+      defaultName='candidate'
+      value={address}
+    />
+  );
+}
 
 export default Candidate;

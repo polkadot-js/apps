@@ -25,7 +25,7 @@ type Props = ApiProps & I18nProps & {
   value: string;
 };
 
-const BlockByHash: React.FC<Props> = ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<any> | null => {
+function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<any> | null {
   if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {
     return null;
   }
@@ -48,7 +48,7 @@ const BlockByHash: React.FC<Props> = ({ system_events, chain_getBlock, chain_get
       </Columar>
     </>
   );
-};
+}
 
 export default translate(
   withCalls<Props>(

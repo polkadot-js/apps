@@ -17,20 +17,22 @@ interface Props extends I18nProps {
   parachains_parachains?: BN[];
 }
 
-const Parachains: React.FC<Props> = ({ parachains_parachains = [], t }: Props): React.ReactElement<any> => ((
-  <Column
-    emptyText={t('no deployed parachains')}
-    headerText={t('parachains')}
-  >
-    {
-      parachains_parachains.length
-        ? parachains_parachains.map((paraId): React.ReactNode =>
-          <Parachain key={paraId.toString()} paraId={paraId} />
-        )
-        : null
-    }
-  </Column>
-));
+function Parachains ({ parachains_parachains = [], t }: Props): React.ReactElement<any> {
+  return (
+    <Column
+      emptyText={t('no deployed parachains')}
+      headerText={t('parachains')}
+    >
+      {
+        parachains_parachains.length
+          ? parachains_parachains.map((paraId): React.ReactNode =>
+            <Parachain key={paraId.toString()} paraId={paraId} />
+          )
+          : null
+      }
+    </Column>
+  );
+}
 
 export default translate(
   withCalls<Props>(

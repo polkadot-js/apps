@@ -35,17 +35,17 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
   </div>
 );
 
-const Output: React.FC<Props> = ({ children, logs }: Props): React.ReactElement<any> => ((
-  <article className='container js--Output'>
-    <div className='logs-wrapper'>
-      <div className='logs-container'>
-        <pre className='logs-content'>
-          {logs.map(renderEntry)}
-        </pre>
+export default function Output ({ children, logs }: Props): React.ReactElement<any> {
+  return (
+    <article className='container js--Output'>
+      <div className='logs-wrapper'>
+        <div className='logs-container'>
+          <pre className='logs-content'>
+            {logs.map(renderEntry)}
+          </pre>
+        </div>
       </div>
-    </div>
-    {children}
-  </article>
-));
-
-export default Output;
+      {children}
+    </article>
+  );
+}

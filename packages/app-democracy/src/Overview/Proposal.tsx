@@ -22,7 +22,7 @@ interface Props extends I18nProps {
   value: Proposal;
 }
 
-const ProposalDisplay: React.FC<Props> = ({ className, democracy_depositOf, idNumber, value, t }: Props): React.ReactElement<any> => {
+function ProposalDisplay ({ className, democracy_depositOf, idNumber, value, t }: Props): React.ReactElement<any> {
   const depositors = democracy_depositOf
     ? democracy_depositOf[1]
     : [];
@@ -68,7 +68,7 @@ const ProposalDisplay: React.FC<Props> = ({ className, democracy_depositOf, idNu
       }
     </ActionItem>
   );
-};
+}
 
 export default withMulti(
   ProposalDisplay,

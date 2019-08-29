@@ -11,14 +11,16 @@ interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-const Summary: React.FC<Props> = ({ children, className, style }: Props): React.ReactElement<any> => ((
-  <div
-    className={className}
-    style={style}
-  >
-    {children}
-  </div>
-));
+function Summary ({ children, className, style }: Props): React.ReactElement<any> {
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default styled(Summary)`
   opacity: 0.5;

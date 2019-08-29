@@ -18,22 +18,24 @@ interface Props extends I18nProps {
   democracy_publicProps?: [BN, Proposal][];
 }
 
-const Proposals: React.FC<Props> = ({ democracy_publicProps = [], t }: Props): React.ReactElement<any> => ((
-  <Column
-    emptyText={t('No available proposals')}
-    headerText={t('proposals')}
-  >
-    {
-      democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
-        <ProposalDisplay
-          idNumber={idNumber}
-          key={idNumber.toString()}
-          value={proposal}
-        />
-      ))
-    }
-  </Column>
-));
+function Proposals ({ democracy_publicProps = [], t }: Props): React.ReactElement<any> {
+  return (
+    <Column
+      emptyText={t('No available proposals')}
+      headerText={t('proposals')}
+    >
+      {
+        democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
+          <ProposalDisplay
+            idNumber={idNumber}
+            key={idNumber.toString()}
+            value={proposal}
+          />
+        ))
+      }
+    </Column>
+  );
+}
 
 export default withMulti(
   Proposals,

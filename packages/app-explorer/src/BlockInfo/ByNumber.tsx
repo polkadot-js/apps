@@ -16,7 +16,7 @@ interface Props extends ApiProps {
   value: string;
 }
 
-const BlockByNumber: React.FC<Props> = ({ chain_getBlockHash }: Props): React.ReactElement<any> | null => {
+function BlockByNumber ({ chain_getBlockHash }: Props): React.ReactElement<any> | null {
   if (!chain_getBlockHash) {
     return null;
   }
@@ -24,7 +24,7 @@ const BlockByNumber: React.FC<Props> = ({ chain_getBlockHash }: Props): React.Re
   return (
     <BlockByHash value={chain_getBlockHash.toHex()} />
   );
-};
+}
 
 export default withCalls<Props>(
   ['rpc.chain.getBlockHash', { paramName: 'value' }]

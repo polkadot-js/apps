@@ -44,7 +44,7 @@ const renderDetails = ({ number: blockNumber, extrinsicsRoot, parentHash, stateR
   );
 };
 
-const BlockHeader: React.FC<Props> = ({ isSummary, value, withExplorer, withLink }: Props): React.ReactElement<any> | null => {
+function BlockHeader ({ isSummary, value, withExplorer, withLink }: Props): React.ReactElement<any> | null {
   if (!value) {
     return null;
   }
@@ -81,6 +81,6 @@ const BlockHeader: React.FC<Props> = ({ isSummary, value, withExplorer, withLink
       }
     </article>
   );
-};
+}
 
 export default BlockHeader;

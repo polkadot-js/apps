@@ -14,7 +14,7 @@ import translate from '../translate';
 
 interface Props extends I18nProps, ComponentProps {}
 
-const Summary: React.FC<Props> = ({ electionsInfo, t }: Props): React.ReactElement<any> => {
+function Summary ({ electionsInfo, t }: Props): React.ReactElement<any> {
   const { members, candidateCount, desiredSeats, termDuration, voteCount } = electionsInfo;
 
   return (
@@ -40,6 +40,6 @@ const Summary: React.FC<Props> = ({ electionsInfo, t }: Props): React.ReactEleme
       </section>
     </SummaryBox>
   );
-};
+}
 
 export default translate(Summary);

@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   withoutIndex?: boolean;
 }
 
-const Events: React.FC<Props> = ({ emptyLabel, eventClassName, events, withoutIndex, t }: Props): React.ReactElement<any> => {
+function Events ({ emptyLabel, eventClassName, events, withoutIndex, t }: Props): React.ReactElement<any> {
   if (!events || events.length === 0) {
     return (
       <article>
@@ -74,6 +74,6 @@ const Events: React.FC<Props> = ({ emptyLabel, eventClassName, events, withoutIn
       }
     </>
   );
-};
+}
 
 export default translate(Events);

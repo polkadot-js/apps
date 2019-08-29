@@ -13,7 +13,7 @@ interface Props extends BareProps {
   queue: QueueTx[];
 }
 
-const Results: React.FC<Props> = ({ queue = [] }: Props): React.ReactElement<any> | null => {
+function Results ({ queue = [] }: Props): React.ReactElement<any> | null {
   const filtered = queue
     .filter(({ error, result }): boolean =>
       !isUndefined(error) || !isUndefined(result)
@@ -40,6 +40,6 @@ const Results: React.FC<Props> = ({ queue = [] }: Props): React.ReactElement<any
       ))}
     </section>
   );
-};
+}
 
 export default Results;

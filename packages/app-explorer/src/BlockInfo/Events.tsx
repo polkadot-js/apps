@@ -15,7 +15,7 @@ interface Props extends I18nProps {
   value?: EventRecord[];
 }
 
-const Events: React.FC<Props> = ({ value, t }: Props): React.ReactElement<any> | null => {
+function Events ({ value, t }: Props): React.ReactElement<any> | null {
   if (!value || !value.length) {
     return null;
   }
@@ -32,6 +32,6 @@ const Events: React.FC<Props> = ({ value, t }: Props): React.ReactElement<any> |
       />
     </Column>
   );
-};
+}
 
 export default translate(Events);

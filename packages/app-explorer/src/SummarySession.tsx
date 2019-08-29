@@ -69,12 +69,14 @@ const renderEra = ({ session_info, t, withEra = true }: Props): React.ReactNode 
     );
 };
 
-const SummarySession: React.FC<Props> = (props: Props): React.ReactElement<any> => ((
-  <>
-    {renderSession(props)}
-    {renderEra(props)}
-  </>
-));
+function SummarySession (props: Props): React.ReactElement<any> {
+  return (
+    <>
+      {renderSession(props)}
+      {renderEra(props)}
+    </>
+  );
+}
 
 export default translate(
   withCalls<Props>(

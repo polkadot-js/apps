@@ -23,31 +23,33 @@ interface Props extends I18nProps {
   parachains_relayDispatchQueueSize?: [BN, BN];
 }
 
-const Parachain: React.FC<Props> = ({ className, paraId, parachains_heads, parachains_relayDispatchQueueSize, t }: Props): React.ReactElement<any> => ((
-  <Card className={className}>
-    <div className='ui--Row'>
-      <div className='ui--Row-base'>
-        <div className='ui--Row-details parachains--Item-header'>
-          <h3>#{formatNumber(paraId)}</h3>
+function Parachain ({ className, paraId, parachains_heads, parachains_relayDispatchQueueSize, t }: Props): React.ReactElement<any> {
+  return (
+    <Card className={className}>
+      <div className='ui--Row'>
+        <div className='ui--Row-base'>
+          <div className='ui--Row-details parachains--Item-header'>
+            <h3>#{formatNumber(paraId)}</h3>
+          </div>
         </div>
+        <Static
+          help={t('the last heads of this parachain')}
+          label={t('heads')}
+          value={parachains_heads || t('<unknown>')}
+        />
+        <Static
+          help={t('the relay dispatch queue size')}
+          label={t('relay queue')}
+          value={
+            parachains_relayDispatchQueueSize
+              ? formatNumber(parachains_relayDispatchQueueSize[0])
+              : '-'
+          }
+        />
       </div>
-      <Static
-        help={t('the last heads of this parachain')}
-        label={t('heads')}
-        value={parachains_heads || t('<unknown>')}
-      />
-      <Static
-        help={t('the relay dispatch queue size')}
-        label={t('relay queue')}
-        value={
-          parachains_relayDispatchQueueSize
-            ? formatNumber(parachains_relayDispatchQueueSize[0])
-            : '-'
-        }
-      />
-    </div>
-  </Card>
-));
+    </Card>
+  );
+}
 
 export default withMulti(
   styled(Parachain)`

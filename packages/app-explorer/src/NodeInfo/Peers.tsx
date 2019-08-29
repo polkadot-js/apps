@@ -58,11 +58,13 @@ const renderPeers = ({ peers, t }: Props): React.ReactNode => {
   );
 };
 
-const Peers: React.FC<Props> = (props: Props): React.ReactElement<any> => ((
-  <section className='status--Peers'>
-    <h1>{props.t('connected peers')}</h1>
-    {renderPeers(props)}
-  </section>
-));
+function Peers (props: Props): React.ReactElement<any> {
+  return (
+    <section className='status--Peers'>
+      <h1>{props.t('connected peers')}</h1>
+      {renderPeers(props)}
+    </section>
+  );
+}
 
 export default translate(Peers);

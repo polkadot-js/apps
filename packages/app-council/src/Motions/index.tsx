@@ -18,22 +18,24 @@ interface Props extends I18nProps {
   council_proposals?: Hash[];
 }
 
-const Proposals: React.FC<Props> = ({ council_proposals = [], t }: Props): React.ReactElement<any> => ((
-  <CardGrid
-    emptyText={t('No council motions')}
-    headerText={t('Motions')}
-    buttons={
-      <Propose />
-    }
-  >
-    {council_proposals.map((hash: Hash): React.ReactNode => (
-      <Motion
-        hash={hash.toHex()}
-        key={hash.toHex()}
-      />
-    ))}
-  </CardGrid>
-));
+function Proposals ({ council_proposals = [], t }: Props): React.ReactElement<any> {
+  return (
+    <CardGrid
+      emptyText={t('No council motions')}
+      headerText={t('Motions')}
+      buttons={
+        <Propose />
+      }
+    >
+      {council_proposals.map((hash: Hash): React.ReactNode => (
+        <Motion
+          hash={hash.toHex()}
+          key={hash.toHex()}
+        />
+      ))}
+    </CardGrid>
+  );
+}
 
 export default translate(
   withCalls<Props>(

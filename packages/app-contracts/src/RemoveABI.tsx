@@ -16,44 +16,46 @@ interface Props extends I18nProps {
   onRemove: () => void;
 }
 
-const RemoveABI: React.FC<Props> = ({ code, onClose, onRemove, t }: Props): React.ReactElement<any> => ((
-  <Modal
-    className='app--accounts-Modal'
-    dimmer='inverted'
-    onClose={onClose}
-    open
-  >
-    <Modal.Header>
-      {t('Confirm ABI removal')}
-    </Modal.Header>
-    <Modal.Content>
-      <CodeRow
-        code={code}
-        isInline
-      >
-        <p>{t('You are about to remove this code\'s ABI. Once completed, should you need to access it again, you will have to manually re-upload it.')}</p>
-        <p>{t('This operaion does not impact the associated on-chain code or any of its contracts.')}</p>
-      </CodeRow>
-    </Modal.Content>
-    <Modal.Actions>
-      <Button.Group>
-        <Button
-          isNegative
-          onClick={onClose}
-          label={t('Cancel')}
-        />
-        <Button.Or />
-        <Button
-          isPrimary
-          onClick={(): void => {
-            onClose && onClose();
-            onRemove();
-          }}
-          label={t('Remove')}
-        />
-      </Button.Group>
-    </Modal.Actions>
-  </Modal>
-));
+function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<any> {
+  return (
+    <Modal
+      className='app--accounts-Modal'
+      dimmer='inverted'
+      onClose={onClose}
+      open
+    >
+      <Modal.Header>
+        {t('Confirm ABI removal')}
+      </Modal.Header>
+      <Modal.Content>
+        <CodeRow
+          code={code}
+          isInline
+        >
+          <p>{t('You are about to remove this code\'s ABI. Once completed, should you need to access it again, you will have to manually re-upload it.')}</p>
+          <p>{t('This operaion does not impact the associated on-chain code or any of its contracts.')}</p>
+        </CodeRow>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={(): void => {
+              onClose && onClose();
+              onRemove();
+            }}
+            label={t('Remove')}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    </Modal>
+  );
+}
 
 export default translate(RemoveABI);

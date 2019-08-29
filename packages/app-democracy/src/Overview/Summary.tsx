@@ -21,7 +21,7 @@ interface Props extends I18nProps {
   democracy_referendumCount?: BN;
 }
 
-const Summary: React.FC<Props> = (props: Props): React.ReactElement<any> => {
+function Summary (props: Props): React.ReactElement<any> {
   const {
     chain_bestNumber = new BN(0),
     democracy_launchPeriod = new BN(1),
@@ -55,7 +55,7 @@ const Summary: React.FC<Props> = (props: Props): React.ReactElement<any> => {
       </section>
     </SummaryBox>
   );
-};
+}
 
 export default translate(
   withCalls<Props>(

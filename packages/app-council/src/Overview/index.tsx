@@ -27,17 +27,19 @@ const NULL_INFO: DerivedElectionsInfo = {
   voterCount: new BN(0) as SetIndex
 };
 
-const Overview: React.FC<Props> = ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<any> => ((
-  <>
-    <Summary electionsInfo={electionsInfo} />
-    <Button.Group>
-      <SubmitCandidacy electionsInfo={electionsInfo} />
-      <Button.Or />
-      <Vote electionsInfo={electionsInfo} />
-    </Button.Group>
-    <Members electionsInfo={electionsInfo} />
-  </>
-));
+function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<any> {
+  return (
+    <>
+      <Summary electionsInfo={electionsInfo} />
+      <Button.Group>
+        <SubmitCandidacy electionsInfo={electionsInfo} />
+        <Button.Or />
+        <Vote electionsInfo={electionsInfo} />
+      </Button.Group>
+      <Members electionsInfo={electionsInfo} />
+    </>
+  );
+}
 
 export default withCalls<Props>(
   [

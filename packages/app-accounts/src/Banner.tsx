@@ -49,7 +49,7 @@ const browserInfo = detect();
 const browserName: Browser | null = (browserInfo && (browserInfo.name as Browser)) || null;
 const isSupported = browserName && Object.keys(available).includes(browserName);
 
-const Banner: React.FC<Props> = ({ className, t }: Props): React.ReactElement<any> | null => {
+function Banner ({ className, t }: Props): React.ReactElement<any> | null {
   if (isWeb3Injected || !isSupported || !browserName) {
     return null;
   }
@@ -84,7 +84,7 @@ const Banner: React.FC<Props> = ({ className, t }: Props): React.ReactElement<an
       </div>
     </div>
   );
-};
+}
 
 export default translate(styled(Banner)`
   padding: 0 0.5rem 0.5rem;

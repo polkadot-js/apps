@@ -15,32 +15,34 @@ import Member from './Member';
 
 interface Props extends I18nProps, ComponentProps {}
 
-const Members: React.FC<Props> = ({ electionsInfo: { candidates, members }, t }: Props): React.ReactElement<any> => ((
-  <Columar>
-    <Column
-      emptyText={t('No members found')}
-      headerText={t('members')}
-    >
-      {Object.entries(members).map(([address, block]): React.ReactNode => (
-        <Member
-          address={address}
-          block={block}
-          key={address}
-        />
-      ))}
-    </Column>
-    <Column
-      emptyText={t('No members found')}
-      headerText={t('candidates')}
-    >
-      {candidates.map((address): React.ReactNode => (
-        <Candidate
-          address={address}
-          key={address.toString()}
-        />
-      ))}
-    </Column>
-  </Columar>
-));
+function Members ({ electionsInfo: { candidates, members }, t }: Props): React.ReactElement<any> {
+  return (
+    <Columar>
+      <Column
+        emptyText={t('No members found')}
+        headerText={t('members')}
+      >
+        {Object.entries(members).map(([address, block]): React.ReactNode => (
+          <Member
+            address={address}
+            block={block}
+            key={address}
+          />
+        ))}
+      </Column>
+      <Column
+        emptyText={t('No members found')}
+        headerText={t('candidates')}
+      >
+        {candidates.map((address): React.ReactNode => (
+          <Candidate
+            address={address}
+            key={address.toString()}
+          />
+        ))}
+      </Column>
+    </Columar>
+  );
+}
 
 export default translate(Members);
