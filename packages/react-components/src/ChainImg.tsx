@@ -55,15 +55,20 @@ interface Props extends ApiProps {
   onClick?: () => any;
 }
 
-function ChainImg ({ className, injectedLogoChain, injectedLogoNode, logo = '', onClick }: Props): React.ReactElement<Props> {
-  return (
-    <img
-      alt='chain logo'
-      className={className}
-      onClick={onClick}
-      src={LOGOS[logo] || injectedLogoChain || injectedLogoNode || EMPTY}
-    />
-  );
+class ChainImg extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { className, injectedLogoChain, injectedLogoNode, logo = '', onClick } = this.props;
+    const img = LOGOS[logo] || injectedLogoChain || injectedLogoNode || EMPTY;
+
+    return (
+      <img
+        alt='chain logo'
+        className={className}
+        onClick={onClick}
+        src={img}
+      />
+    );
+  }
 }
 
 export default withMulti(

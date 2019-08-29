@@ -17,7 +17,7 @@ interface Props extends I18nProps {
 }
 
 function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<Props> {
-  const _onRemove = (): void => {
+  const onClick = (): void => {
     onClose && onClose();
     onRemove();
   };
@@ -50,7 +50,7 @@ function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<P
           <Button.Or />
           <Button
             isPrimary
-            onClick={_onRemove}
+            onClick={onClick}
             label={t('Remove')}
           />
         </Button.Group>

@@ -13,12 +13,16 @@ interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-function FilterOverlay ({ children, className }: Props): React.ReactElement<Props> {
-  return (
-    <div className={className}>
-      {children}
-    </div>
-  );
+class FilterOverlay extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { children, className } = this.props;
+
+    return (
+      <div className={className}>
+        {children}
+      </div>
+    );
+  }
 }
 
 export default styled(FilterOverlay)`

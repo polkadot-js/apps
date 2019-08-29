@@ -14,18 +14,22 @@ interface Props extends I18nProps {
   text?: string;
 }
 
-function ButtonOr ({ className, style, t, text }: Props): React.ReactElement<Props> {
-  return (
-    <SUIButton.Or
-      className={className}
-      style={style}
-      label={
-        isUndefined(text)
-          ? t('or')
-          : text
-      }
-    />
-  );
+class ButtonOr extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { className, style, t, text } = this.props;
+
+    return (
+      <SUIButton.Or
+        className={className}
+        style={style}
+        label={
+          isUndefined(text)
+            ? t('or')
+            : text
+        }
+      />
+    );
+  }
 }
 
 export default translate(ButtonOr);

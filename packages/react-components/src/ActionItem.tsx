@@ -28,27 +28,37 @@ export const styles = `
   ${proposedActionStyles}
 `;
 
-function ActionItem ({ className, children, accessory, expandNested, idNumber, proposal }: Props): React.ReactElement<Props> {
-  return (
-    <Card className={className}>
-      <div className='ui--Row'>
-        <div className='ui--Row-base'>
-          <div className='ui--Row-details'>
-            <ProposedAction
-              idNumber={idNumber}
-              proposal={proposal}
-              withLinks={expandNested}
-              expandNested={expandNested}
-            />
+class ActionItem extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { className, children, accessory } = this.props;
+
+    return (
+      <Card className={className}>
+        <div className='ui--Row'>
+          <div className='ui--Row-base'>
+            <div className='ui--Row-details'>
+              {this.renderProposal()}
+            </div>
+            {accessory}
           </div>
-          {accessory}
+          {children}
         </div>
-        {children}
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  }
+
+  private renderProposal (): React.ReactNode {
+    const { idNumber, proposal, expandNested } = this.props;
+
+    return (
+      <ProposedAction
+        idNumber={idNumber}
+        proposal={proposal}
+        withLinks={expandNested}
+        expandNested={expandNested}
+      />
+    );
+  }
 }
 
-export default withRouter(
-  styled(ActionItem)`${styles}`
-);
+export default withRouter(styled(ActionItem as React.ComponentClass<Props>)`${styles}`);

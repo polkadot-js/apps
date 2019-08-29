@@ -35,12 +35,14 @@ const Wrapper = styled.div`
   }
 `;
 
-function InfoForInput ({ children, className, type = 'info' }: Props): React.ReactElement<Props> {
-  return (
-    <Labelled>
-      <Wrapper className={classes(className, type)}>{children}</Wrapper>
-    </Labelled>
-  );
-}
+export default class InfoForInput extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { children, className, type = 'info' } = this.props;
 
-export default InfoForInput;
+    return (
+      <Labelled>
+        <Wrapper className={classes(className, type)}>{children}</Wrapper>
+      </Labelled>
+    );
+  }
+}

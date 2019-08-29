@@ -15,17 +15,21 @@ export interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export default function AvailableDisplay ({ params, className, label, style }: Props): React.ReactElement<Props> | null {
-  if (!params) {
-    return null;
-  }
+export default class AvailableDisplay extends React.PureComponent<Props> {
+  public render (): React.ReactNode {
+    const { params, className, label, style } = this.props;
 
-  return (
-    <Available
-      className={classes('ui--Available', className)}
-      label={label}
-      params={params}
-      style={style}
-    />
-  );
+    if (!params) {
+      return null;
+    }
+
+    return (
+      <Available
+        className={classes('ui--Available', className)}
+        label={label}
+        params={params}
+        style={style}
+      />
+    );
+  }
 }
