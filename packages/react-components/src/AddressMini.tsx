@@ -29,94 +29,86 @@ interface Props extends BareProps {
   withBonded?: boolean;
 }
 
-class AddressMini extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, iconInfo, isPadded = true, style, value } = this.props;
+function renderAddressOrName ({ isShort = true, withAddress = true, type }: Props, address: string): React.ReactNode {
+  if (!withAddress) {
+    return null;
+  }
 
-    if (!value) {
-      return null;
-    }
+  const name = getAddressName(address, type);
 
-    const address = value.toString();
+  return (
+    <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{
+      name || (
+        isShort
+          ? toShortAddress(address)
+          : address
+      )
+    }</div>
+  );
+}
 
-    return (
-      <div
-        className={classes('ui--AddressMini', isPadded ? 'padded' : '', className)}
-        style={style}
-      >
-        <div className='ui--AddressMini-info'>
-          {this.renderAddressOrName(address)}
-          {children}
-        </div>
-        <div className='ui--AddressMini-icon'>
-          <IdentityIcon
-            size={24}
-            value={address}
-          />
-          {iconInfo && (
-            <div className='ui--AddressMini-icon-info'>
-              {iconInfo}
-            </div>
-          )}
-        </div>
-        <div className='ui--AddressMini-balances'>
-          {this.renderBalance()}
-          {this.renderBonded()}
-        </div>
+function renderBalance ({ balance, value, withBalance = false }: Props): React.ReactNode {
+  if (!withBalance || !value) {
+    return null;
+  }
+
+  return (
+    <BalanceDisplay
+      balance={balance}
+      params={value}
+    />
+  );
+}
+
+function renderBonded ({ bonded, value, withBonded = false }: Props): React.ReactNode {
+  if (!withBonded || !value) {
+    return null;
+  }
+
+  return (
+    <BondedDisplay
+      bonded={bonded}
+      label=''
+      params={value}
+    />
+  );
+}
+
+function AddressMini (props: Props): React.ReactElement<Props> | null {
+  const { children, className, iconInfo, isPadded = true, style, value } = props;
+
+  if (!value) {
+    return null;
+  }
+
+  const address = value.toString();
+
+  return (
+    <div
+      className={classes('ui--AddressMini', isPadded ? 'padded' : '', className)}
+      style={style}
+    >
+      <div className='ui--AddressMini-info'>
+        {renderAddressOrName(props, address)}
+        {children}
       </div>
-    );
-  }
-
-  private renderAddressOrName (address: string): React.ReactNode {
-    const { isShort = true, withAddress = true, type } = this.props;
-
-    if (!withAddress) {
-      return null;
-    }
-
-    const name = getAddressName(address, type);
-
-    return (
-      <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{
-        name || (
-          isShort
-            ? toShortAddress(address)
-            : address
-        )
-      }</div>
-    );
-  }
-
-  private renderBalance (): React.ReactNode {
-    const { balance, value, withBalance = false } = this.props;
-
-    if (!withBalance || !value) {
-      return null;
-    }
-
-    return (
-      <BalanceDisplay
-        balance={balance}
-        params={value}
-      />
-    );
-  }
-
-  private renderBonded (): React.ReactNode {
-    const { bonded, value, withBonded = false } = this.props;
-
-    if (!withBonded || !value) {
-      return null;
-    }
-
-    return (
-      <BondedDisplay
-        bonded={bonded}
-        label=''
-        params={value}
-      />
-    );
-  }
+      <div className='ui--AddressMini-icon'>
+        <IdentityIcon
+          size={24}
+          value={address}
+        />
+        {iconInfo && (
+          <div className='ui--AddressMini-icon-info'>
+            {iconInfo}
+          </div>
+        )}
+      </div>
+      <div className='ui--AddressMini-balances'>
+        {renderBalance(props)}
+        {renderBonded(props)}
+      </div>
+    </div>
+  );
 }
 
 export default styled(AddressMini)`

@@ -13,32 +13,29 @@ import Extrinsic from './Extrinsic';
 
 type Props = ApiProps & BaseProps;
 
-class Call extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { apiDefaultTx, api, className, isDisabled, isError, label, onChange, onEnter, style, withLabel } = this.props;
-    const defaultValue = ((): SubmittableExtrinsicFunction<'promise'> => {
-      try {
-        return api.tx.balances.transfer;
-      } catch (error) {
-        return apiDefaultTx;
-      }
-    })();
+function Call ({ apiDefaultTx, api, className, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+  const defaultValue = ((): SubmittableExtrinsicFunction<'promise'> => {
+    try {
+      return api.tx.balances.transfer;
+    } catch (error) {
+      return apiDefaultTx;
+    }
+  })();
 
-    return (
-      <Extrinsic
-        className={className}
-        defaultValue={defaultValue}
-        isDisabled={isDisabled}
-        isError={isError}
-        isPrivate={false}
-        label={label}
-        onChange={onChange}
-        onEnter={onEnter}
-        style={style}
-        withLabel={withLabel}
-      />
-    );
-  }
+  return (
+    <Extrinsic
+      className={className}
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
+      isError={isError}
+      isPrivate={false}
+      label={label}
+      onChange={onChange}
+      onEnter={onEnter}
+      style={style}
+      withLabel={withLabel}
+    />
+  );
 }
 
 export default withApi(Call);

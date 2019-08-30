@@ -20,36 +20,33 @@ type Props = ApiProps & BareProps & {
   value: StorageEntryPromise;
 };
 
-class SelectKey extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, isError, onChange, options, style, value } = this.props;
-
-    if (!options.length) {
-      return null;
-    }
-
-    return (
-      <Dropdown
-        className={classes('ui--DropdownLinked-Items', className)}
-        isError={isError}
-        onChange={onChange}
-        options={options}
-        style={style}
-        transform={this.transform}
-        value={value.creator.method}
-        withLabel={false}
-      />
-    );
-  }
-
-  private transform = (method: string): StorageEntryPromise => {
-    const { api, value } = this.props;
-
-    // We should not get to the fallback, but ... https://github.com/polkadot-js/apps/issues/1375
+function transform ({ api, value }: Props): (method: string) => StorageEntryPromise {
+  return function (method: string): StorageEntryPromise {
     return api.query[value.creator.section]
       ? api.query[value.creator.section][method]
       : value;
+  };
+}
+
+function SelectKey (props: Props): React.ReactElement<Props> | null {
+  const { className, isError, onChange, options, style, value } = props;
+
+  if (!options.length) {
+    return null;
   }
+
+  return (
+    <Dropdown
+      className={classes('ui--DropdownLinked-Items', className)}
+      isError={isError}
+      onChange={onChange}
+      options={options}
+      style={style}
+      transform={transform(props)}
+      value={value.creator.method}
+      withLabel={false}
+    />
+  );
 }
 
 export default withApi(SelectKey);

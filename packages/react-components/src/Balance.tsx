@@ -19,46 +19,47 @@ export interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class BalanceDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { balance, className, label, params, style } = this.props;
+function renderProvided ({ balance, className, label, style }: Props): React.ReactNode {
+  let value = `${formatBalance(Array.isArray(balance) ? balance[0] : balance)}`;
 
-    if (!params) {
-      return null;
-    }
+  if (Array.isArray(balance)) {
+    const totals = balance.filter((_, index): boolean => index !== 0);
+    const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
+      ? `(+${totals.map((balance): string => formatBalance(balance)).join(', ')})`
+      : '';
 
-    return balance
-      ? this.renderProvided()
-      : (
-        <Balance
-          className={classes('ui--Balance', className)}
-          label={label}
-          params={params}
-          style={style}
-        />
-      );
+    value = `${value}  ${total}`;
   }
 
-  private renderProvided (): React.ReactNode {
-    const { balance, className, label, style } = this.props;
-    let value = `${formatBalance(Array.isArray(balance) ? balance[0] : balance)}`;
+  return (
+    <div
+      className={classes('ui--Balance', className)}
+      style={style}
+    >
+      {label}{value}
+    </div>
+  );
+}
 
-    if (Array.isArray(balance)) {
-      const totals = balance.filter((value, index): boolean => index !== 0);
-      const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
-        ? `(+${totals.map((balance): string => formatBalance(balance)).join(', ')})`
-        : '';
+export default function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
+  const { balance, className, label, params, style } = props;
 
-      value = `${value}  ${total}`;
-    }
+  if (!params) {
+    return null;
+  }
 
-    return (
-      <div
+  return balance
+    ? (
+      <>
+        {renderProvided(props)}
+      </>
+    )
+    : (
+      <Balance
         className={classes('ui--Balance', className)}
+        label={label}
+        params={params}
         style={style}
-      >
-        {label}{value}
-      </div>
+      />
     );
-  }
 }

@@ -22,45 +22,42 @@ interface Props extends BareProps {
   value?: UInt | BN | number;
 }
 
-export default class Progress extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, color = 'blue', percent, total, style, value } = this.props;
-    let calculated: number | undefined;
-    const _total = bnToBn(total);
-    const _value = bnToBn(value);
+export default function Progress ({ className, color = 'blue', percent, total, style, value }: Props): React.ReactElement<Props> | null {
+  let calculated: number | undefined;
+  const _total = bnToBn(total);
+  const _value = bnToBn(value);
 
-    if (_total.gtn(0)) {
-      calculated = 100.0 * _value.toNumber() / _total.toNumber();
-    } else {
-      calculated = isBn(percent) ? percent.toNumber() : percent;
-    }
-
-    if (isUndefined(calculated) || calculated < 0) {
-      return null;
-    }
-
-    let rainbow: BaseColors;
-
-    if (color === 'auto' || color === 'autoReverse') {
-      if (calculated > 66.6) {
-        rainbow = color === 'auto' ? 'green' : 'red';
-      } else if (calculated > 33.3) {
-        rainbow = 'orange';
-      } else {
-        rainbow = color === 'auto' ? 'red' : 'green';
-      }
-    } else {
-      rainbow = color;
-    }
-
-    return (
-      <SUIProgress
-        className={classes('ui--Progress', className)}
-        color={rainbow}
-        percent={calculated}
-        size='tiny'
-        style={style}
-      />
-    );
+  if (_total.gtn(0)) {
+    calculated = 100.0 * _value.toNumber() / _total.toNumber();
+  } else {
+    calculated = isBn(percent) ? percent.toNumber() : percent;
   }
+
+  if (isUndefined(calculated) || calculated < 0) {
+    return null;
+  }
+
+  let rainbow: BaseColors;
+
+  if (color === 'auto' || color === 'autoReverse') {
+    if (calculated > 66.6) {
+      rainbow = color === 'auto' ? 'green' : 'red';
+    } else if (calculated > 33.3) {
+      rainbow = 'orange';
+    } else {
+      rainbow = color === 'auto' ? 'red' : 'green';
+    }
+  } else {
+    rainbow = color;
+  }
+
+  return (
+    <SUIProgress
+      className={classes('ui--Progress', className)}
+      color={rainbow}
+      percent={calculated}
+      size='tiny'
+      style={style}
+    />
+  );
 }

@@ -269,7 +269,7 @@ export {
 };
 
 export default withMulti(
-  styled(AddressRow as React.ComponentClass<Props>)`
+  styled(AddressRow as React.ComponentClass<Props, State>)`
     ${styles}
   `,
   translate,

@@ -20,31 +20,29 @@ interface Props extends BareProps {
   value: RpcMethod;
 }
 
-export default class SelectMethod extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, isError, onChange, options, style, value } = this.props;
-
-    if (!options.length) {
-      return null;
-    }
-
-    return (
-      <Dropdown
-        className={classes('ui--DropdownLinked-Items', className)}
-        isError={isError}
-        onChange={onChange}
-        options={options}
-        style={style}
-        transform={this.transform}
-        value={value.method}
-        withLabel={false}
-      />
-    );
-  }
-
-  private transform = (method: string): RpcMethod => {
-    const { value } = this.props;
-
+function transform ({ value }: Props): (method: string) => RpcMethod {
+  return function (method: string): RpcMethod {
     return map[value.section].methods[method];
+  };
+}
+
+export default function SelectMethod (props: Props): React.ReactElement<Props> | null {
+  const { className, isError, onChange, options, style, value } = props;
+
+  if (!options.length) {
+    return null;
   }
+
+  return (
+    <Dropdown
+      className={classes('ui--DropdownLinked-Items', className)}
+      isError={isError}
+      onChange={onChange}
+      options={options}
+      style={style}
+      transform={transform(props)}
+      value={value.method}
+      withLabel={false}
+    />
+  );
 }

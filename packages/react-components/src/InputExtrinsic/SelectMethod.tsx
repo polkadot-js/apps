@@ -20,31 +20,28 @@ interface Props extends BareProps {
   value: CallFunction;
 }
 
-export default class SelectMethod extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, isError, onChange, options, style, value } = this.props;
-
-    if (!options.length) {
-      return null;
-    }
-
-    return (
-      <Dropdown
-        className={classes('ui--DropdownLinked-Items', className)}
-        isError={isError}
-        onChange={onChange}
-        options={options}
-        style={style}
-        transform={this.transform}
-        value={value.method}
-        withLabel={false}
-      />
-    );
-  }
-
-  private transform = (method: string): CallFunction => {
-    const { api, value } = this.props;
-
+function transform ({ api, value }: Props): (method: string) => CallFunction {
+  return (method: string): CallFunction => {
     return api.tx[value.section][method];
+  };
+}
+
+export default function SelectMethod (props: Props): React.ReactElement<Props> | null {
+  const { className, isError, onChange, options, style, value } = props;
+  if (!options.length) {
+    return null;
   }
+
+  return (
+    <Dropdown
+      className={classes('ui--DropdownLinked-Items', className)}
+      isError={isError}
+      onChange={onChange}
+      options={options}
+      style={style}
+      transform={transform(props)}
+      value={value.method}
+      withLabel={false}
+    />
+  );
 }

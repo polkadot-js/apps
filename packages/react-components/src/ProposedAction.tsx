@@ -40,82 +40,79 @@ export const styles = `
   }
 `;
 
-class ProposedAction extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = this.props;
+function ProposedAction (props: Props): React.ReactElement<Props> {
+  const { asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = props;
+  const idNumber = typeof props.idNumber === 'string'
+    ? props.idNumber
+    : formatNumber(props.idNumber);
 
-    const idNumber = typeof this.props.idNumber === 'string'
-      ? this.props.idNumber
-      : formatNumber(this.props.idNumber);
-
-    if (!proposal) {
-      return (
-        <h3>#{idNumber}</h3>
-      );
-    }
-
-    const { meta, method, section } = GenericCall.findFunction(proposal.callIndex);
-
-    const header = `#${idNumber}: ${section}.${method}`;
-    const documentation = (meta && meta.documentation)
-      ? (
-        <summary>{meta.documentation.join(' ')}</summary>
-      )
-      : null;
-    const params = (isTreasuryProposalVote(proposal) && expandNested) ? (
-      <TreasuryProposal
-        className='ui--ProposedAction-extrinsic'
-        asInset={withLinks}
-        insetProps={{
-          withTopMargin: true,
-          withBottomMargin: true,
-          ...(withLinks ? { href: '/treasury' } : {})
-        }}
-        proposalId={proposal.args[0].toString()}
-      />
-    ) : (
-      <Call
-        className='ui--ProposedAction-extrinsic'
-        value={proposal}
-      />
-    );
-
-    if (asInset) {
-      return (
-        <Inset
-          header={header}
-          isCollapsible
-          {...insetProps}
-        >
-          <>
-            {documentation}
-            {params}
-          </>
-        </Inset>
-      );
-    }
-
+  if (!proposal) {
     return (
-      <>
-        <h3>{header}</h3>
-        {isCollapsible
-          ? (
-            <details>
-              {documentation}
-              {params}
-            </details>
-          )
-          : (
-            <>
-              <details>
-                {documentation}
-              </details>
-              {params}
-            </>
-          )}
-      </>
+      <h3>#{idNumber}</h3>
     );
   }
+
+  const { meta, method, section } = GenericCall.findFunction(proposal.callIndex);
+
+  const header = `#${idNumber}: ${section}.${method}`;
+  const documentation = (meta && meta.documentation)
+    ? (
+      <summary>{meta.documentation.join(' ')}</summary>
+    )
+    : null;
+  const params = (isTreasuryProposalVote(proposal) && expandNested) ? (
+    <TreasuryProposal
+      className='ui--ProposedAction-extrinsic'
+      asInset={withLinks}
+      insetProps={{
+        withTopMargin: true,
+        withBottomMargin: true,
+        ...(withLinks ? { href: '/treasury' } : {})
+      }}
+      proposalId={proposal.args[0].toString()}
+    />
+  ) : (
+    <Call
+      className='ui--ProposedAction-extrinsic'
+      value={proposal}
+    />
+  );
+
+  if (asInset) {
+    return (
+      <Inset
+        header={header}
+        isCollapsible
+        {...insetProps}
+      >
+        <>
+          {documentation}
+          {params}
+        </>
+      </Inset>
+    );
+  }
+
+  return (
+    <>
+      <h3>{header}</h3>
+      {isCollapsible
+        ? (
+          <details>
+            {documentation}
+            {params}
+          </details>
+        )
+        : (
+          <>
+            <details>
+              {documentation}
+            </details>
+            {params}
+          </>
+        )}
+    </>
+  );
 }
 
-export default styled(ProposedAction as React.ComponentClass<Props>)`${styles}`;
+export default styled(ProposedAction)`${styles}`;

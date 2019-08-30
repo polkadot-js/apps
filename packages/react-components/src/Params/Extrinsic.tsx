@@ -22,32 +22,30 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class ExtrinsicDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, withLabel } = this.props;
-
-    return (
-      <BaseExtrinsic
-        className={className}
-        defaultValue={defaultValue}
-        isDisabled={isDisabled}
-        isError={isError}
-        isPrivate={isPrivate}
-        label={label}
-        onChange={this.onChange}
-        onEnter={onEnter}
-        style={style}
-        withLabel={withLabel}
-      />
-    );
-  }
-
-  private onChange = (method: Call): void => {
-    const { onChange } = this.props;
-
+function onChange ({ onChange }: Props): (_: Call) => void {
+  return function (method: Call): void {
     onChange && onChange({
       isValid: !!method,
       value: method
     });
-  }
+  };
+}
+
+export default function ExtrinsicDisplay (props: Props): React.ReactElement<Props> {
+  const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, withLabel } = props;
+
+  return (
+    <BaseExtrinsic
+      className={className}
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
+      isError={isError}
+      isPrivate={isPrivate}
+      label={label}
+      onChange={onChange(props)}
+      onEnter={onEnter}
+      style={style}
+      withLabel={withLabel}
+    />
+  );
 }

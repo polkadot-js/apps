@@ -17,29 +17,27 @@ interface Props extends BareProps {
   value?: boolean;
 }
 
-class Toggle extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, asSwitch = true, defaultValue, isDisabled, value, label } = this.props;
-
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <SUICheckbox
-          checked={value}
-          disabled={isDisabled}
-          defaultChecked={defaultValue}
-          onChange={this.onChange}
-          toggle={asSwitch}
-        />
-      </div>
-    );
-  }
-
-  private onChange = (_: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
-    const { onChange } = this.props;
-
+function onChange ({ onChange }: Props): (_: React.FormEvent<HTMLInputElement>, __: any) => void {
+  return function (_: React.FormEvent<HTMLInputElement>, { checked }: any): void {
     onChange && onChange(checked);
-  }
+  };
+}
+
+function Toggle (props: Props): React.ReactElement<Props> {
+  const { className, asSwitch = true, defaultValue, isDisabled, value, label } = props;
+
+  return (
+    <div className={className}>
+      <label>{label}</label>
+      <SUICheckbox
+        checked={value}
+        disabled={isDisabled}
+        defaultChecked={defaultValue}
+        onChange={onChange(props)}
+        toggle={asSwitch}
+      />
+    </div>
+  );
 }
 
 export default styled(Toggle)`
