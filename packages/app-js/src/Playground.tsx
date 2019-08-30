@@ -9,7 +9,7 @@ import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { Transition } from 'semantic-ui-react';
 import snappy from 'snappyjs';
 import { withApi, withMulti } from '@polkadot/react-api';
@@ -42,11 +42,14 @@ interface Injected {
   window: null;
 }
 
-interface Props extends ApiProps, AppProps, I18nProps {
+interface Props extends ApiProps, AppProps, I18nProps, RouteComponentProps<{}> {
   match: {
+    isExact: boolean;
     params: {
       base64?: string;
     };
+    path: string;
+    url: string;
   };
   // FIXME wait for proper eslint integration in tslint, then hopefully remove this
   history: any;
@@ -383,8 +386,7 @@ class Playground extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  Playground,
+  withRouter(Playground),
   translate,
-  withRouter,
   withApi
 );

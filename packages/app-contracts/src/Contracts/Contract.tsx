@@ -11,15 +11,14 @@ import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
 import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/react-components';
 import { getContractAbi } from '@polkadot/react-components/util';
-import { withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
-type Props = I18nProps & RouteComponentProps & {
+interface Props extends I18nProps, RouteComponentProps {
   basePath: string;
   address: string;
   onCall: (callAddress?: string, callMethod?: string) => void;
-};
+}
 
 interface State {
   isBackupOpen: boolean;
@@ -148,8 +147,4 @@ class Contract extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Contract,
-  translate,
-  withRouter
-);
+export default translate(withRouter(Contract));

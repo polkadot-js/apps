@@ -9,14 +9,13 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Button, CardGrid } from '@polkadot/react-components';
-import { withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 import Add from './Add';
 import Contract from './Contract';
 import Call from './Call';
 
-type Props = ComponentProps & I18nProps & RouteComponentProps;
+interface Props extends ComponentProps, I18nProps, RouteComponentProps {}
 
 interface State {
   isAddOpen: boolean;
@@ -117,8 +116,4 @@ class Contracts extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Contracts,
-  translate,
-  withRouter
-);
+export default translate(withRouter(Contracts));

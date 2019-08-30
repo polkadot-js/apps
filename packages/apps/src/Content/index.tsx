@@ -7,7 +7,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { QueueProps } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
 import { withCalls, withMulti } from '@polkadot/react-api';
@@ -17,9 +17,7 @@ import Status from './Status';
 import translate from '../translate';
 import NotFound from './NotFound';
 
-type Props = I18nProps & ApiProps & {
-  location: Location;
-};
+interface Props extends I18nProps, ApiProps, RouteComponentProps {}
 
 const Wrapper = styled.div`
   background: #fafafa;
@@ -91,8 +89,7 @@ class Content extends React.Component<Props> {
 
 // React-router needs to be first, otherwise we have blocked updates
 export default withMulti(
-  Content,
-  withRouter,
+  withRouter(Content),
   translate,
   // These API queries are used in a number of places, warm them up
   // to avoid constant un-/re-subscribe on these

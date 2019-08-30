@@ -7,6 +7,7 @@ import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
 import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
@@ -16,12 +17,12 @@ import { withApi, withMulti } from '@polkadot/react-api';
 import translate from '../translate';
 import Params from '../Params';
 
-type Props = BareProps & I18nProps & ApiProps & {
+interface Props extends BareProps, I18nProps, ApiProps, RouteComponentProps<{}> {
   address: string | null;
   isOpen: boolean;
   method: string | null;
   onClose: () => void;
-};
+}
 
 interface State {
   accountId: string | null;
@@ -303,8 +304,6 @@ class Call extends TxComponent<Props, State> {
 }
 
 export default withMulti(
-  Call,
-  translate,
-  withRouter,
+  translate(withRouter(Call)),
   withApi
 );

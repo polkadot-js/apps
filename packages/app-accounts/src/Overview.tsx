@@ -17,9 +17,9 @@ import Account from './Account';
 import Banner from './Banner';
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps & {
+interface Props extends ComponentProps, I18nProps {
   accounts?: SubjectInfo[];
-};
+}
 
 interface State {
   isCreateOpen: boolean;

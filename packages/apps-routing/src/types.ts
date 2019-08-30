@@ -5,7 +5,9 @@
 import { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-export type RouteProps = AppProps & BareProps;
+export interface RouteProps extends AppProps, BareProps {
+  location: any;
+}
 
 export interface Route {
   Component: React.ComponentType<RouteProps>;

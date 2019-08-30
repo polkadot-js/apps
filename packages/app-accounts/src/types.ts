@@ -8,6 +8,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { WithTranslation } from 'react-i18next';
 
 export interface LocationProps {
+  location: any;
   match: {
     params: Record<string, string>;
   };
