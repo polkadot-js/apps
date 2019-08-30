@@ -4,16 +4,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/ui-app';
-import { Available } from '@polkadot/ui-reactive';
-import Checks from '@polkadot/ui-signer/Checks';
-import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
+import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
+import { Available } from '@polkadot/react-query';
+import Checks from '@polkadot/react-signer/Checks';
+import { withApi, withMulti, withObservable } from '@polkadot/react-api';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import translate from './translate';

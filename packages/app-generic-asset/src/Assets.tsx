@@ -5,9 +5,9 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { Button, CardGrid } from '@polkadot/ui-app';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { I18nProps } from '@polkadot/react-components/types';
+import { Button, CardGrid } from '@polkadot/react-components';
+import { withMulti, withObservable } from '@polkadot/react-api';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import AssetCard from './AssetCard';

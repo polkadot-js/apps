@@ -4,9 +4,9 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { CopyButton } from '@polkadot/ui-app';
-import Row, { styles, RowProps, RowState } from '@polkadot/ui-app/Row';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { CopyButton } from '@polkadot/react-components';
+import Row, { styles, RowProps, RowState } from '@polkadot/react-components/Row';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import translate from './translate';
 

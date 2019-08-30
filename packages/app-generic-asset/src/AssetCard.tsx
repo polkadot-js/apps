@@ -5,8 +5,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Card, Button } from '@polkadot/ui-app';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { Card, Button } from '@polkadot/react-components';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import AssetRow from './AssetRow';
 import translate from './translate';

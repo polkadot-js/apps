@@ -5,8 +5,8 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { InputNumber, Button, Input, Modal } from '@polkadot/ui-app';
+import { I18nProps } from '@polkadot/react-components/types';
+import { InputNumber, Button, Input, Modal } from '@polkadot/react-components';
 
 import translate from '../translate';
 
