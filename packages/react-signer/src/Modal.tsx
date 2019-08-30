@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { SignerOptions, SignerPayload } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
@@ -14,6 +13,7 @@ import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '
 
 import BN from 'bn.js';
 import React from 'react';
+import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
 import { Button, InputBalance, Modal } from '@polkadot/react-components';

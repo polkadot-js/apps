@@ -3,17 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignerPayload } from '@polkadot/api/types';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React from 'react';
+import { SubmittableResult } from '@polkadot/api';
 import jsonrpc from '@polkadot/jsonrpc';
 import { createType } from '@polkadot/types';
 
 import { QueueProvider } from './Context';
-import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 export interface Props extends BareProps {
   children: React.ReactNode;
