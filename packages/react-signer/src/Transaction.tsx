@@ -18,70 +18,64 @@ interface Props extends I18nProps {
   value: QueueTx;
 }
 
-class Transaction extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, value: { extrinsic } } = this.props;
-
-    if (!extrinsic) {
-      return null;
-    }
-
-    const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
-
-    return (
-      <>
-        <Modal.Header>
-          {section}.{method}
-          <label><details><summary>{
-            meta && meta.documentation
-              ? meta.documentation.join(' ')
-              : ''
-          }</summary></details></label>
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          {this.renderAccount()}
-          <Call value={extrinsic} />
-          {this.renderChecks()}
-          {children}
-        </Modal.Content>
-      </>
-    );
+function renderAccount ({ t, value: { accountId, isUnsigned } }: Props): React.ReactNode {
+  if (isUnsigned || !accountId) {
+    return null;
   }
 
-  private renderAccount (): React.ReactNode {
-    const { t, value: { accountId, isUnsigned } } = this.props;
+  return (
+    <InputAddress
+      className='full'
+      defaultValue={accountId}
+      isDisabled
+      isInput
+      label={t('sending from my account')}
+      withLabel
+    />
+  );
+}
 
-    if (isUnsigned || !accountId) {
-      return null;
-    }
-
-    return (
-      <InputAddress
-        className='full'
-        defaultValue={accountId}
-        isDisabled
-        isInput
-        label={t('sending from my account')}
-        withLabel
-      />
-    );
+function renderChecks ({ isSendable, value: { accountId, extrinsic, isUnsigned } }: Props): React.ReactNode {
+  if (isUnsigned) {
+    return null;
   }
 
-  private renderChecks (): React.ReactNode {
-    const { isSendable, value: { accountId, extrinsic, isUnsigned } } = this.props;
+  return (
+    <Checks
+      accountId={accountId}
+      extrinsic={extrinsic}
+      isSendable={isSendable}
+    />
+  );
+}
 
-    if (isUnsigned) {
-      return null;
-    }
+function Transaction (props: Props): React.ReactElement<Props> | null {
+  const { children, value: { extrinsic } } = props;
 
-    return (
-      <Checks
-        accountId={accountId}
-        extrinsic={extrinsic}
-        isSendable={isSendable}
-      />
-    );
+  if (!extrinsic) {
+    return null;
   }
+
+  const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
+
+  return (
+    <>
+      <Modal.Header>
+        {section}.{method}
+        <label><details><summary>{
+          meta && meta.documentation
+            ? meta.documentation.join(' ')
+            : ''
+        }</summary></details></label>
+      </Modal.Header>
+      <Modal.Content className='ui--signer-Signer-Content'>
+        {renderAccount(props)}
+        <Call value={extrinsic} />
+        {renderChecks(props)}
+        {children}
+      </Modal.Content>
+    </>
+  );
 }
 
 export default translate(Transaction);

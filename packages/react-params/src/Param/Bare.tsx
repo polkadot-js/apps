@@ -11,17 +11,13 @@ interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-export default class Bare extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, style } = this.props;
-
-    return (
-      <div
-        className={classes('ui--row', className)}
-        style={style}
-      >
-        {children}
-      </div>
-    );
-  }
+export default function Bare ({ children, className, style }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={classes('ui--row', className)}
+      style={style}
+    >
+      {children}
+    </div>
+  );
 }

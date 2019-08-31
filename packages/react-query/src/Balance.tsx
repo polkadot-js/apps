@@ -19,20 +19,16 @@ interface Props extends BareProps, CallProps {
   balances_all?: DerivedBalances;
 }
 
-export class BalanceDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', balances_all } = this.props;
-
-    return (
-      <div className={className}>
-        {label}{
-          balances_all
-            ? formatBalance(balances_all.freeBalance)
-            : '0'
-        }{children}
-      </div>
-    );
-  }
+export function BalanceDisplay ({ children, className, label = '', balances_all }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      {label}{
+        balances_all
+          ? formatBalance(balances_all.freeBalance)
+          : '0'
+      }{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>(

@@ -15,19 +15,15 @@ interface Props extends BareProps, CallProps {
   system_version?: Text;
 }
 
-export class NodeVersion extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', style, system_version = '-' } = this.props;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}{system_version.toString()}{children}
-      </div>
-    );
-  }
+export function NodeVersion ({ children, className, label = '', style, system_version = new Text('-') }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}{system_version.toString()}{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>('rpc.system.version')(NodeVersion);

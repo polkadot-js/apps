@@ -25,38 +25,36 @@ export const textMap = options.reduce((textMap, { text, value }): TextMap => {
   return textMap;
 }, {} as unknown as TextMap);
 
-export default class VoteThresholdParam extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
-    const defaultValue = value instanceof ClassOf('VoteThreshold')
-      ? value.toNumber()
-      : bnToBn(value as number).toNumber();
-
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <Dropdown
-          className='full'
-          defaultValue={defaultValue}
-          isDisabled={isDisabled}
-          isError={isError}
-          label={label}
-          options={options}
-          onChange={this.onChange}
-          withLabel={withLabel}
-        />
-      </Bare>
-    );
-  }
-
-  private onChange = (value: number): void => {
-    const { onChange } = this.props;
-
+function onChange ({ onChange }: Props): (_: number) => void {
+  return function (value: number): void {
     onChange && onChange({
       isValid: true,
       value
     });
-  }
+  };
+}
+
+export default function VoteThresholdParam (props: Props): React.ReactElement<Props> {
+  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
+  const defaultValue = value instanceof ClassOf('VoteThreshold')
+    ? value.toNumber()
+    : bnToBn(value as number).toNumber();
+
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <Dropdown
+        className='full'
+        defaultValue={defaultValue}
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        options={options}
+        onChange={onChange(props)}
+        withLabel={withLabel}
+      />
+    </Bare>
+  );
 }

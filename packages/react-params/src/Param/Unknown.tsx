@@ -14,31 +14,29 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class Unknown extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue, isDisabled, isError, isOptional, label, name, onChange, onEnter, style, type } = this.props;
+export default function Unknown (props: Props): React.ReactElement<Props> {
+  const { className, defaultValue, isDisabled, isError, isOptional, label, name, onChange, onEnter, style, type } = props;
 
-    if (isDisabled) {
-      return <Static {...this.props} />;
-    }
-
-    return (
-      <BaseBytes
-        asHex
-        className={className}
-        defaultValue={defaultValue}
-        isDisabled={isDisabled}
-        isError={isError}
-        isOptional={isOptional}
-        label={label}
-        length={-1}
-        name={name}
-        onChange={onChange}
-        onEnter={onEnter}
-        style={style}
-        type={type}
-        withLength={false}
-      />
-    );
+  if (isDisabled) {
+    return <Static {...props} />;
   }
+
+  return (
+    <BaseBytes
+      asHex
+      className={className}
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
+      isError={isError}
+      isOptional={isOptional}
+      label={label}
+      length={-1}
+      name={name}
+      onChange={onChange}
+      onEnter={onEnter}
+      style={style}
+      type={type}
+      withLength={false}
+    />
+  );
 }

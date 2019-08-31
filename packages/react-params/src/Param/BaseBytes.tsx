@@ -23,45 +23,8 @@ interface Props extends BaseProps {
 const defaultValidate = (): boolean =>
   true;
 
-export default class BaseBytes extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, defaultValue: { value }, isDisabled, isError, label, onEnter, size = 'full', style, withLabel } = this.props;
-    const defaultValue = value
-      ? (
-        isHex(value)
-          ? value
-          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
-      )
-      : undefined;
-
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <Input
-          className={size}
-          defaultValue={defaultValue}
-          isAction={!!children}
-          isDisabled={isDisabled}
-          isError={isError}
-          label={label}
-          onChange={this.onChange}
-          onEnter={onEnter}
-          placeholder='0x...'
-          type='text'
-          withEllipsis
-          withLabel={withLabel}
-        >
-          {children}
-        </Input>
-      </Bare>
-    );
-  }
-
-  private onChange = (hex: string): void => {
-    const { asHex, length = -1, onChange, validate = defaultValidate, withLength } = this.props;
-
+function onChange ({ asHex, length = -1, onChange, validate = defaultValidate, withLength }: Props): (_: string) => void {
+  return function (hex: string): void {
     let value: Uint8Array;
     let isValid = true;
 
@@ -88,5 +51,40 @@ export default class BaseBytes extends React.PureComponent<Props> {
         ? u8aToHex(value)
         : value
     });
-  }
+  };
+}
+
+export default function BaseBytes (props: Props): React.ReactElement<Props> {
+  const { children, className, defaultValue: { value }, isDisabled, isError, label, onEnter, size = 'full', style, withLabel } = props;
+  const defaultValue = value
+    ? (
+      isHex(value)
+        ? value
+        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+    )
+    : undefined;
+
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <Input
+        className={size}
+        defaultValue={defaultValue}
+        isAction={!!children}
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        onChange={onChange(props)}
+        onEnter={onEnter}
+        placeholder='0x...'
+        type='text'
+        withEllipsis
+        withLabel={withLabel}
+      >
+        {children}
+      </Input>
+    </Bare>
+  );
 }

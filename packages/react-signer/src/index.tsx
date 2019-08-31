@@ -16,25 +16,21 @@ interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-export default class Signer extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, style } = this.props;
-
-    return (
-      <>
-        {children}
-        <QueueConsumer>
-          {({ txqueue, queueSetTxStatus }: QueueProps): React.ReactNode => (
-            <Modal
-              className={className}
-              key='signer-modal'
-              queue={txqueue}
-              queueSetTxStatus={queueSetTxStatus}
-              style={style}
-            />
-          )}
-        </QueueConsumer>
-      </>
-    );
-  }
+export default function Signer ({ children, className, style }: Props): React.ReactElement<Props> {
+  return (
+    <>
+      {children}
+      <QueueConsumer>
+        {({ txqueue, queueSetTxStatus }: QueueProps): React.ReactNode => (
+          <Modal
+            className={className}
+            key='signer-modal'
+            queue={txqueue}
+            queueSetTxStatus={queueSetTxStatus}
+            style={style}
+          />
+        )}
+      </QueueConsumer>
+    </>
+  );
 }

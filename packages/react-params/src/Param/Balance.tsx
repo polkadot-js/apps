@@ -12,34 +12,8 @@ import Bare from './Bare';
 
 type Props = BareProps;
 
-class Balance extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
-    const defaultValue = new BN((value as BN || '0').toString()).toString(10);
-
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <InputBalance
-          className='full'
-          defaultValue={defaultValue}
-          isDisabled={isDisabled}
-          isError={isError}
-          label={label}
-          onChange={this.onChange}
-          withEllipsis
-          onEnter={onEnter}
-          withLabel={withLabel}
-        />
-      </Bare>
-    );
-  }
-
-  private onChange = (value?: BN): void => {
-    const { isError, onChange } = this.props;
-
+function onChange ({ isError, onChange }: Props): (_?: BN) => void {
+  return function (value?: BN): void {
     if (!onChange) {
       return;
     }
@@ -48,7 +22,31 @@ class Balance extends React.PureComponent<Props> {
       isValid: !isError && !!value,
       value
     });
-  }
+  };
+}
+
+function Balance (props: Props): React.ReactElement<Props> {
+  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
+  const defaultValue = new BN((value as BN || '0').toString()).toString(10);
+
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <InputBalance
+        className='full'
+        defaultValue={defaultValue}
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        onChange={onChange(props)}
+        withEllipsis
+        onEnter={onEnter}
+        withLabel={withLabel}
+      />
+    </Bare>
+  );
 }
 
 export {

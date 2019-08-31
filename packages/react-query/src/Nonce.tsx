@@ -18,20 +18,16 @@ interface Props extends BareProps, CallProps {
   params?: string;
 }
 
-export class Nonce extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { accountNonce, children, className, label = '' } = this.props;
-
-    return (
-      <div className={className}>
-        {label}{
-          accountNonce
-            ? formatNumber(accountNonce)
-            : '0'
-        }{children}
-      </div>
-    );
-  }
+export function Nonce ({ accountNonce, children, className, label = '' }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      {label}{
+        accountNonce
+          ? formatNumber(accountNonce)
+          : '0'
+      }{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>(

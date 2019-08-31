@@ -17,24 +17,21 @@ interface Props extends BareProps, CallProps {
   timestamp_now?: Moment;
 }
 
-export class TimeNow extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, isSubstrateV2, label = '', style, timestamp_now } = this.props;
-    const value = isSubstrateV2 || !timestamp_now
-      ? timestamp_now
-      : timestamp_now.muln(1000); // for 1.x, timestamps are in seconds
+export function TimeNow ({ children, className, isSubstrateV2, label = '', style, timestamp_now }: Props): React.ReactElement<Props> {
+  const value = isSubstrateV2 || !timestamp_now
+    ? timestamp_now
+    : timestamp_now.muln(1000); // for 1.x, timestamps are in seconds
 
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}
-        <Elapsed value={value} />
-        {children}
-      </div>
-    );
-  }
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}
+      <Elapsed value={value} />
+      {children}
+    </div>
+  );
 }
 
 export default withCalls<Props>('query.timestamp.now')(TimeNow);
