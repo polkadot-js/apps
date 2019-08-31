@@ -16,6 +16,10 @@ import BaseOverlay from './Base';
 type Props = I18nProps & ApiProps;
 // @ts-ignore
 const isFirefox = typeof InstallTrigger !== 'undefined';
+const wsUrl = settings.apiUrl;
+const isWs = wsUrl.indexOf('ws://') === 0;
+const isWsRemote = wsUrl.indexOf('127.0.0.1') === -1;
+const isHttps = window.location.protocol.indexOf('https:') === 0;
 
 function renderExtension ({ className, isWaitingInjected, t }: Props): React.ReactNode {
   if (!isWaitingInjected) {
@@ -36,11 +40,6 @@ function renderConnecting ({ className, isApiConnected, t }: Props): React.React
   if (isApiConnected) {
     return null;
   }
-
-  const wsUrl = settings.apiUrl;
-  const isWs = wsUrl.indexOf('ws://') === 0;
-  const isWsRemote = wsUrl.indexOf('127.0.0.1') === -1;
-  const isHttps = window.location.protocol.indexOf('https:') === 0;
 
   return (
     <BaseOverlay

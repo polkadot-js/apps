@@ -15,6 +15,8 @@ interface Props extends ApiProps, BareProps {}
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkgJson = require('../../package.json');
 
+const uiInfo = `apps v${pkgJson.version}`;
+
 function renderNode ({ isApiReady }: Props): React.ReactNode {
   if (!isApiReady) {
     return null;
@@ -30,7 +32,6 @@ function renderNode ({ isApiReady }: Props): React.ReactNode {
 
 function NodeInfo (props: Props): React.ReactElement<Props> {
   const { api, className } = props;
-  const uiInfo = `apps v${pkgJson.version}`;
 
   return (
     <div className={className}>
