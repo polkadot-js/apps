@@ -29,9 +29,9 @@ The repo is split into a number of packages, each representing an application. T
 
 In addition the following libraries are also included in the repo. These are to be moved to the [@polkadot/ui](https://github.com/polkadot-js/ui/) repository once it reaches a base level of stability and usability. (At this point with the framework being tested on the apps above, it makes development easier having it close)
 
-- [ui-app](packages/ui-app/) A reactive (using RxJS) application framework with a number of useful shared components.
-- [ui-signer](packages/ui-signer/) Signer implementation for apps.
-- [ui-react-rx](packages/ui-react-rx) Base components that use the RxJS Observable APIs
+- [react-components](packages/react-components/) A reactive (using RxJS) application framework with a number of useful shared components.
+- [react-signer](packages/react-signer/) Signer implementation for apps.
+- [react-query](packages/react-query) Base components that use the RxJS Observable APIs
 
 ## development
 
