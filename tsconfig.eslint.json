@@ -7,6 +7,7 @@
     "packages/**/*.js",
     "packages/**/*.spec.ts",
     "packages/**/*.spec.js",
+    "test/*.js",
     "*.js"
   ],
   "compilerOptions": {

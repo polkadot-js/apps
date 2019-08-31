@@ -130,4 +130,4 @@ cryptoWaitReady()
       }
     }
   })
-  .catch(console.error);
+  .catch((error: Error): void => console.error(error));

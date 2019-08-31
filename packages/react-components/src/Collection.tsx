@@ -44,7 +44,6 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   public constructor (props: P) {
     super(props);
 
-    // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
     this.state = {
       isEmpty: Collection.isEmpty(props.children)
     } as S;

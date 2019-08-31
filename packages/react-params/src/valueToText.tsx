@@ -28,7 +28,7 @@ function div ({ key, className }: DivProps, ...values: React.ReactNode[]): React
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function valueToText (type: string, value: any, swallowError: boolean = true, contentShorten: boolean = true): React.ReactNode {
+function valueToText (type: string, value: any, swallowError = true, contentShorten = true): React.ReactNode {
   if (isNull(value) || isUndefined(value)) {
     return div({}, '<unknown>');
   }

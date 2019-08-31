@@ -33,7 +33,6 @@ export interface ContractModalState {
 
 class ContractModal<P extends ContractModalProps, S extends ContractModalState> extends TxComponent<P, S> {
   // horrible :(
-  // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
   protected defaultState: S = {
     accountId: null,
     gasLimit: new BN(0),
@@ -72,7 +71,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected headerText: string = '';
+  protected headerText = '';
 
   protected renderContent: () => React.ReactNode | null = (): React.ReactNode => null;
 
@@ -204,7 +203,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     }
   }
 
-  protected onAddAbi = (abi: string | null | undefined, contractAbi: Abi | null = null, isAbiSupplied: boolean = false): void => {
+  protected onAddAbi = (abi: string | null | undefined, contractAbi: Abi | null = null, isAbiSupplied = false): void => {
     this.setState({ abi, contractAbi, isAbiSupplied, isAbiValid: !!abi });
   }
 

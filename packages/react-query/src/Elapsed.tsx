@@ -60,7 +60,7 @@ export default class Elapsed extends React.PureComponent<Props, State> {
     );
   }
 
-  private getDisplayValue (now: number = 0, value: BN | Date | number = 0): string {
+  private getDisplayValue (now = 0, value: BN | Date | number = 0): string {
     const tsValue = (
       value && (value as Date).getTime
         ? (value as Date).getTime()

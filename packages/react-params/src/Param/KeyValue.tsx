@@ -66,7 +66,7 @@ export default class KeyValue extends React.PureComponent<Props, State> {
     );
   }
 
-  public static createParam (hex: string, length: number = -1): StateParam {
+  public static createParam (hex: string, length = -1): StateParam {
     let u8a;
 
     try {
