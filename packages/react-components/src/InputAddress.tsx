@@ -251,8 +251,8 @@ class InputAddress extends React.PureComponent<Props, State> {
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item): boolean =>
       item.value !== null && (
-        item.name.toLowerCase().indexOf(queryLower) !== -1 ||
-        item.value.toLowerCase().indexOf(queryLower) !== -1
+        item.name.toLowerCase().includes(queryLower) ||
+        item.value.toLowerCase().includes(queryLower)
       )
     );
 

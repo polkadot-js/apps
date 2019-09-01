@@ -35,7 +35,7 @@ interface Props extends BareProps {
  * ```
  */
 class Editor extends React.Component<Props> {
-  private id: string = `flask-${Date.now()}`;
+  private id = `flask-${Date.now()}`;
 
   private editor: any;
 

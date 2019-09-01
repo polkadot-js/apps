@@ -107,8 +107,8 @@ class InputFile extends React.PureComponent<Props, State> {
         // ignore
       };
 
-      // @ts-ignore ummm... events are not properly specified here?
-      reader.onload = ({ target: { result } }: LoadEvent): void => {
+      // ummm... events are not properly specified here?
+      (reader as any).onload = ({ target: { result } }: LoadEvent): void => {
         const data = new Uint8Array(result);
         const name = file.name;
 

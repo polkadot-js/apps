@@ -53,11 +53,11 @@ export default function withCall<P extends ApiProps> (
 
       private destroy?: () => void;
 
-      private isActive: boolean = false;
+      private isActive = false;
 
       private propName: string;
 
-      private timerId: number = -1;
+      private timerId = -1;
 
       public constructor (props: P) {
         super(props);
@@ -244,6 +244,7 @@ export default function withCall<P extends ApiProps> (
         }
       }
 
+      // eslint-disable-next-line @typescript-eslint/require-await
       private async unsubscribe (): Promise<void> {
         if (this.destroy) {
           this.destroy();

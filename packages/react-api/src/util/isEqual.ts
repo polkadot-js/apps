@@ -20,7 +20,7 @@ function flatten (key: string | null, value: any): any {
   return value;
 }
 
-export default function isEqual <T> (a?: T, b?: T, debug: boolean = false): boolean {
+export default function isEqual <T> (a?: T, b?: T, debug = false): boolean {
   const jsonA = JSON.stringify({ test: a }, flatten);
   const jsonB = JSON.stringify({ test: b }, flatten);
 

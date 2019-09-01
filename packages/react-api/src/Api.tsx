@@ -84,7 +84,7 @@ export default class Api extends React.PureComponent<Props, State> {
 
     injectedPromise
       .then((): void => this.setState({ isWaitingInjected: false }))
-      .catch(console.error);
+      .catch((error: Error) => console.error(error));
   }
 
   private subscribeEvents (): void {

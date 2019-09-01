@@ -29,7 +29,7 @@ interface State {
 }
 
 class App extends React.PureComponent<Props, State> {
-  private isActive: boolean = true;
+  private isActive = true;
 
   public state: State = {
     nextRefresh: Date.now()
@@ -79,6 +79,7 @@ class App extends React.PureComponent<Props, State> {
     this.setState({
       info,
       nextRefresh: (Date.now() + POLL_TIMEOUT),
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       timerId: window.setTimeout(this.getStatus, POLL_TIMEOUT)
     });
   }

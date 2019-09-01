@@ -60,7 +60,7 @@ class VanityApp extends TxComponent<Props, State> {
     withHex: true
   };
 
-  private _isActive: boolean = false;
+  private _isActive = false;
 
   public componentWillUnmount (): void {
     this._isActive = false;

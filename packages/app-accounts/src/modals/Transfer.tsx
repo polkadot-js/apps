@@ -65,7 +65,7 @@ class Transfer extends React.PureComponent<Props, State> {
       (balances_fees !== prevProps.balances_fees) || (prevState.senderId !== senderId) ||
       hasLengthChanged
     ) {
-      this.setMaxBalance().catch(console.error);
+      this.setMaxBalance().catch((error: Error): void => console.error(error));
     }
   }
 
