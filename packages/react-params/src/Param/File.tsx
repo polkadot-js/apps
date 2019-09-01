@@ -19,25 +19,21 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class File extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, isDisabled, isError = false, label, onChange, placeholder, style, withLabel } = this.props;
-
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <InputFile
-          isDisabled={isDisabled}
-          isError={isError}
-          label={label}
-          onChange={onChange}
-          placeholder={placeholder}
-          withEllipsis
-          withLabel={withLabel}
-        />
-      </Bare>
-    );
-  }
+export default function File ({ className, isDisabled, isError = false, label, onChange, placeholder, style, withLabel }: Props): React.ReactElement<Props> {
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <InputFile
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        onChange={onChange}
+        placeholder={placeholder}
+        withEllipsis
+        withLabel={withLabel}
+      />
+    </Bare>
+  );
 }

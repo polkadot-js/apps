@@ -8,26 +8,22 @@ import React from 'react';
 
 import BaseBytes from './BaseBytes';
 
-export default class Hash extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue, isDisabled, isError, isOptional, label, name, onChange, onEnter, style, type, withLabel } = this.props;
-
-    return (
-      <BaseBytes
-        className={className}
-        defaultValue={defaultValue}
-        isDisabled={isDisabled}
-        isError={isError}
-        isOptional={isOptional}
-        label={label}
-        length={32}
-        name={name}
-        onChange={onChange}
-        onEnter={onEnter}
-        style={style}
-        type={type}
-        withLabel={withLabel}
-      />
-    );
-  }
+export default function Hash ({ className, defaultValue, isDisabled, isError, isOptional, label, name, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
+  return (
+    <BaseBytes
+      className={className}
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
+      isError={isError}
+      isOptional={isOptional}
+      label={label}
+      length={32}
+      name={name}
+      onChange={onChange}
+      onEnter={onEnter}
+      style={style}
+      type={type}
+      withLabel={withLabel}
+    />
+  );
 }

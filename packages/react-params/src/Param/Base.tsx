@@ -18,24 +18,20 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class Base extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label, size = 'full', style, withLabel } = this.props;
-
-    return (
-      <Bare
-        className={className}
-        style={style}
+export default function Base ({ children, className, label, size = 'full', style, withLabel }: Props): React.ReactElement<Props> {
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <Labelled
+        className={size}
+        label={label}
+        withEllipsis
+        withLabel={withLabel}
       >
-        <Labelled
-          className={size}
-          label={label}
-          withEllipsis
-          withLabel={withLabel}
-        >
-          {children}
-        </Labelled>
-      </Bare>
-    );
-  }
+        {children}
+      </Labelled>
+    </Bare>
+  );
 }

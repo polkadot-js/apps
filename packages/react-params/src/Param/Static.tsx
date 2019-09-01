@@ -17,24 +17,21 @@ interface Props extends BareProps, WithTranslation {
   withLabel?: boolean;
 }
 
-class StaticParam extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { asHex, className, defaultValue, label, style, t } = this.props;
-    const value = defaultValue && defaultValue.value && defaultValue.value[asHex ? 'toHex' : 'toString']();
+function StaticParam ({ asHex, className, defaultValue, label, style, t }: Props): React.ReactElement<Props> {
+  const value = defaultValue && defaultValue.value && defaultValue.value[asHex ? 'toHex' : 'toString']();
 
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <Static
-          className='full'
-          label={label}
-          value={value || t('empty')}
-        />
-      </Bare>
-    );
-  }
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <Static
+        className='full'
+        label={label}
+        value={value || t('empty')}
+      />
+    </Bare>
+  );
 }
 
 export default translate(StaticParam);

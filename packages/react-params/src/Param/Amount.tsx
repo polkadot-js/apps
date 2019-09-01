@@ -12,49 +12,47 @@ import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
 
-export default class Amount extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
-    const defaultValue = isDisabled
-      ? (
-        value instanceof ClassOf('AccountIndex')
-          ? value.toString()
-          : formatNumber(value)
-      )
-      : bnToBn((value as number) || 0).toString();
-
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <Input
-          className='full'
-          defaultValue={defaultValue}
-          isDisabled={isDisabled}
-          isError={isError}
-          label={label}
-          min={0}
-          onChange={this.onChange}
-          onEnter={onEnter}
-          type={
-            isDisabled
-              ? 'text'
-              : 'number'
-          }
-          withEllipsis
-          withLabel={withLabel}
-        />
-      </Bare>
-    );
-  }
-
-  private onChange = (value: string): void => {
-    const { onChange } = this.props;
-
+function onChange ({ onChange }: Props): (_: string) => void {
+  return function (value: string): void {
     onChange && onChange({
       isValid: true,
       value: new BN(value || 0)
     });
-  }
+  };
+}
+
+export default function Amount (props: Props): React.ReactElement<Props> {
+  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
+  const defaultValue = isDisabled
+    ? (
+      value instanceof ClassOf('AccountIndex')
+        ? value.toString()
+        : formatNumber(value)
+    )
+    : bnToBn((value as number) || 0).toString();
+
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <Input
+        className='full'
+        defaultValue={defaultValue}
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        min={0}
+        onChange={onChange(props)}
+        onEnter={onEnter}
+        type={
+          isDisabled
+            ? 'text'
+            : 'number'
+        }
+        withEllipsis
+        withLabel={withLabel}
+      />
+    </Bare>
+  );
 }

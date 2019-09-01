@@ -18,20 +18,16 @@ interface Props extends BareProps, CallProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export class AvailableDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { balances_all, children, className, label = '' } = this.props;
-
-    return (
-      <div className={className}>
-        {label}{
-          balances_all
-            ? formatBalance(balances_all.availableBalance)
-            : '0'
-        }{children}
-      </div>
-    );
-  }
+export function AvailableDisplay ({ balances_all, children, className, label = '' }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      {label}{
+        balances_all
+          ? formatBalance(balances_all.availableBalance)
+          : '0'
+      }{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>(

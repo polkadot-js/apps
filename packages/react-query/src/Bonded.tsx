@@ -18,20 +18,16 @@ interface Props extends BareProps, CallProps {
   staking_ledger?: StakingLedger | null;
 }
 
-export class BondedDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', staking_ledger } = this.props;
-
-    return (
-      <div className={className}>
-        {label}{
-          staking_ledger
-            ? formatBalance(staking_ledger.active)
-            : '0'
-        }{children}
-      </div>
-    );
-  }
+export function BondedDisplay ({ children, className, label = '', staking_ledger }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      {label}{
+        staking_ledger
+          ? formatBalance(staking_ledger.active)
+          : '0'
+      }{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>(

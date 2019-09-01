@@ -16,23 +16,19 @@ interface Props extends BareProps, CallProps {
   chain_bestNumber?: BlockNumber;
 }
 
-export class BestNumber extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', style, chain_bestNumber } = this.props;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}{
-          chain_bestNumber
-            ? formatNumber(chain_bestNumber)
-            : '-'
-        }{children}
-      </div>
-    );
-  }
+export function BestNumber ({ children, className, label = '', style, chain_bestNumber }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}{
+        chain_bestNumber
+          ? formatNumber(chain_bestNumber)
+          : '-'
+      }{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>('derive.chain.bestNumber')(BestNumber);

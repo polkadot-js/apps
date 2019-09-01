@@ -15,19 +15,15 @@ interface Props extends BareProps, CallProps {
   system_name?: Text;
 }
 
-export class NodeName extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', style, system_name = 'unknown' } = this.props;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}{system_name.toString()}{children}
-      </div>
-    );
-  }
+export function NodeName ({ children, className, label = '', style, system_name = new Text('unknown') }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}{system_name.toString()}{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>('rpc.system.name')(NodeName);

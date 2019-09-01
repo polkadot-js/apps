@@ -13,31 +13,29 @@ import { classes } from '@polkadot/react-components/util';
 import Bare from './Bare';
 import Unknown from './Unknown';
 
-export default class Proposal extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = this.props;
+export default function Proposal (props: Props): React.ReactElement<Props> {
+  const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = props;
 
-    if (!isDisabled) {
-      return (
-        <Unknown {...this.props} />
-      );
-    }
-
-    const proposal = value as Extrinsic;
-    const { method, section } = GenericCall.findFunction(proposal.callIndex);
-
+  if (!isDisabled) {
     return (
-      <Bare>
-        <Static
-          className={classes(className, 'full')}
-          label={label}
-          style={style}
-          withLabel={withLabel}
-        >
-          {section}.{method}
-        </Static>
-        <Call value={proposal} />
-      </Bare>
+      <Unknown {...props} />
     );
   }
+
+  const proposal = value as Extrinsic;
+  const { method, section } = GenericCall.findFunction(proposal.callIndex);
+
+  return (
+    <Bare>
+      <Static
+        className={classes(className, 'full')}
+        label={label}
+        style={style}
+        withLabel={withLabel}
+      >
+        {section}.{method}
+      </Static>
+      <Call value={proposal} />
+    </Bare>
+  );
 }

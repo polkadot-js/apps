@@ -16,26 +16,23 @@ interface Props extends BareProps, CallProps {
   balances_totalIssuance?: Balance;
 }
 
-export class TotalIssuance extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', style, balances_totalIssuance } = this.props;
-    const value = balances_totalIssuance
-      ? balances_totalIssuance.toString()
-      : null;
+export function TotalIssuance ({ children, className, label = '', style, balances_totalIssuance }: Props): React.ReactElement<Props> {
+  const value = balances_totalIssuance
+    ? balances_totalIssuance.toString()
+    : null;
 
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}{
-          value
-            ? `${formatBalance(value, false)}${formatBalance.calcSi(value).value}`
-            : '-'
-        }{children}
-      </div>
-    );
-  }
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}{
+        value
+          ? `${formatBalance(value, false)}${formatBalance.calcSi(value).value}`
+          : '-'
+      }{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>('query.balances.totalIssuance')(TotalIssuance);

@@ -16,24 +16,21 @@ interface Props extends BareProps, CallProps {
   accounts_idAndIndex?: [AccountId?, AccountIndex?];
 }
 
-export class AccountIndexDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', style, accounts_idAndIndex = [] } = this.props;
-    const [, accountIndex] = accounts_idAndIndex;
+export function AccountIndexDisplay ({ children, className, label = '', style, accounts_idAndIndex = [] }: Props): React.ReactElement<Props> {
+  const [, accountIndex] = accounts_idAndIndex;
 
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}{
-          accountIndex
-            ? accountIndex.toString()
-            : '-'
-        }{children}
-      </div>
-    );
-  }
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}{
+        accountIndex
+          ? accountIndex.toString()
+          : '-'
+      }{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>(

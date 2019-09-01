@@ -15,19 +15,15 @@ interface Props extends BareProps, CallProps {
   system_chain?: Text;
 }
 
-export class Chain extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, label = '', style, system_chain = 'unknown' } = this.props;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        {label}{system_chain.toString()}{children}
-      </div>
-    );
-  }
+export function Chain ({ children, className, label = '', style, system_chain = new Text('unknown') }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      {label}{system_chain.toString()}{children}
+    </div>
+  );
 }
 
 export default withCalls<Props>('rpc.system.chain')(Chain);

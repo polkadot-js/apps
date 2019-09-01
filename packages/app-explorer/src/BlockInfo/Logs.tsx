@@ -17,33 +17,87 @@ interface Props extends I18nProps {
   value?: DigestItem[];
 }
 
-class Logs extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { t, value } = this.props;
+function formatU8a (value: U8a): React.ReactNode {
+  return (
+    <Params
+      isDisabled
+      params={[{ type: getTypeDef('Bytes') }]}
+      values={[{ isValid: true, value }]}
+    />
+  );
+}
 
-    if (!value || !value.length) {
-      return null;
-    }
+function formatStruct (struct: Struct): React.ReactNode {
+  const types: Record<string, string> = struct.Type;
+  const params = Object.keys(types).map((name): { name: string; type: TypeDef } => ({
+    name,
+    type: getTypeDef(types[name])
+  }));
+  const values = struct.toArray().map((value): { isValid: boolean; value: Codec } => ({
+    isValid: true,
+    value
+  }));
 
-    return (
-      <Column headerText={t('logs')}>
-        {value.map(this.renderItem)}
-      </Column>
-    );
-  }
+  return (
+    <Params
+      isDisabled
+      params={params}
+      values={values}
+    />
+  );
+}
 
-  private renderItem = (item: DigestItem, index: number): React.ReactNode => {
-    const { t } = this.props;
+function formatTuple (tuple: Tuple): React.ReactNode {
+  const types = tuple.Types;
+  const params = types.map((type): { type: TypeDef } => ({
+    type: getTypeDef(type)
+  }));
+  const values = tuple.toArray().map((value): { isValid: boolean; value: Codec } => ({
+    isValid: true,
+    value
+  }));
+
+  return (
+    <Params
+      isDisabled
+      params={params}
+      values={values}
+    />
+  );
+}
+
+function formatVector (vector: Vec<any>): React.ReactNode {
+  const type = getTypeDef(vector.Type);
+  const values = vector.toArray().map((value): { isValid: boolean; value: Codec } => ({
+    isValid: true,
+    value
+  }));
+  const params = values.map((_, index): { name: string; type: TypeDef } => ({
+    name: `${index}`,
+    type
+  }));
+
+  return (
+    <Params
+      isDisabled
+      params={params}
+      values={values}
+    />
+  );
+}
+
+function renderItem ({ t }: Props): (item: DigestItem, index: number) => React.ReactNode {
+  return function LogItem (item: DigestItem, index: number): React.ReactNode {
     let content: React.ReactNode;
 
     if (item.value instanceof Struct) {
-      content = this.formatStruct(item.value);
+      content = formatStruct(item.value);
     } else if (item.value instanceof Tuple) {
-      content = this.formatTuple(item.value);
+      content = formatTuple(item.value);
     } else if (item.value instanceof Vec) {
-      content = this.formatVector(item.value);
+      content = formatVector(item.value);
     } else if (item.value instanceof U8a) {
-      content = this.formatU8a(item.value);
+      content = formatU8a(item.value);
     } else {
       content = <div>{item.value.toString().split(',').join(', ')}</div>;
     }
@@ -64,76 +118,21 @@ class Logs extends React.PureComponent<Props> {
         </article>
       </div>
     );
+  };
+}
+
+function Logs (props: Props): React.ReactElement<Props> | null {
+  const { t, value } = props;
+
+  if (!value || !value.length) {
+    return null;
   }
 
-  private formatU8a (value: U8a): React.ReactNode {
-    return (
-      <Params
-        isDisabled
-        params={[{ type: getTypeDef('Bytes') }]}
-        values={[{ isValid: true, value }]}
-      />
-    );
-  }
-
-  private formatStruct (struct: Struct): React.ReactNode {
-    const types: Record<string, string> = struct.Type;
-    const params = Object.keys(types).map((name): { name: string; type: TypeDef } => ({
-      name,
-      type: getTypeDef(types[name])
-    }));
-    const values = struct.toArray().map((value): { isValid: boolean; value: Codec } => ({
-      isValid: true,
-      value
-    }));
-
-    return (
-      <Params
-        isDisabled
-        params={params}
-        values={values}
-      />
-    );
-  }
-
-  private formatTuple (tuple: Tuple): React.ReactNode {
-    const types = tuple.Types;
-    const params = types.map((type): { type: TypeDef } => ({
-      type: getTypeDef(type)
-    }));
-    const values = tuple.toArray().map((value): { isValid: boolean; value: Codec } => ({
-      isValid: true,
-      value
-    }));
-
-    return (
-      <Params
-        isDisabled
-        params={params}
-        values={values}
-      />
-    );
-  }
-
-  private formatVector (vector: Vec<any>): React.ReactNode {
-    const type = getTypeDef(vector.Type);
-    const values = vector.toArray().map((value): { isValid: boolean; value: Codec } => ({
-      isValid: true,
-      value
-    }));
-    const params = values.map((_, index): { name: string; type: TypeDef } => ({
-      name: `${index}`,
-      type
-    }));
-
-    return (
-      <Params
-        isDisabled
-        params={params}
-        values={values}
-      />
-    );
-  }
+  return (
+    <Column headerText={t('logs')}>
+      {value.map(renderItem(props))}
+    </Column>
+  );
 }
 
 export default translate(Logs);
