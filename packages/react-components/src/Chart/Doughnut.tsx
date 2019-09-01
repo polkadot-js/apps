@@ -29,46 +29,43 @@ interface Options {
   labels: string[];
 }
 
-export default class ChartDoughnut extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, size = 100, style, values } = this.props;
-    const options: Options = {
-      colorNormal: [],
-      colorHover: [],
-      data: [],
-      labels: []
-    };
+export default function ChartDoughnut ({ className, size = 100, style, values }: Props): React.ReactElement<Props> {
+  const options: Options = {
+    colorNormal: [],
+    colorHover: [],
+    data: [],
+    labels: []
+  };
 
-    // FIXME Classic case of kicking the can down the road, i.e. don't expend energy
-    // when stuff are not used. This was replaced by the HorizBar as the only Chart
-    // in actual use (by Referendum). However the below is not optimal, and gets re-
-    // calculated on each render. If this component is put back in use, look at
-    // getDerivedStateFromProps in HorizBar (the logic is the same for chartData)
-    values.forEach(({ colors: [normalColor = '#00f', hoverColor], label, value }): void => {
-      options.colorNormal.push(normalColor);
-      options.colorHover.push(hoverColor || normalColor);
-      options.data.push(bnToBn(value).toNumber());
-      options.labels.push(label);
-    });
+  // FIXME Classic case of kicking the can down the road, i.e. don't expend energy
+  // when stuff are not used. This was replaced by the HorizBar as the only Chart
+  // in actual use (by Referendum). However the below is not optimal, and gets re-
+  // calculated on each render. If this component is put back in use, look at
+  // getDerivedStateFromProps in HorizBar (the logic is the same for chartData)
+  values.forEach(({ colors: [normalColor = '#00f', hoverColor], label, value }): void => {
+    options.colorNormal.push(normalColor);
+    options.colorHover.push(hoverColor || normalColor);
+    options.data.push(bnToBn(value).toNumber());
+    options.labels.push(label);
+  });
 
-    return (
-      <Base
-        className={className}
-        style={style}
-      >
-        <Doughnut
-          data={{
-            labels: options.labels,
-            datasets: [{
-              data: options.data,
-              backgroundColor: options.colorNormal,
-              hoverBackgroundColor: options.colorHover
-            }]
-          }}
-          height={size}
-          width={size}
-        />
-      </Base>
-    );
-  }
+  return (
+    <Base
+      className={className}
+      style={style}
+    >
+      <Doughnut
+        data={{
+          labels: options.labels,
+          datasets: [{
+            data: options.data,
+            backgroundColor: options.colorNormal,
+            hoverBackgroundColor: options.colorHover
+          }]
+        }}
+        height={size}
+        width={size}
+      />
+    </Base>
+  );
 }

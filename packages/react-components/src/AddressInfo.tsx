@@ -49,239 +49,225 @@ type Props = BareProps & I18nProps & {
   withValidatorPrefs?: boolean | ValidatorPrefsType;
 };
 
-class AddressInfo extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className } = this.props;
+// either true (filtered above already) or [own, ...all extras bonded funds from nominators]
+function renderBonded ({ staking_info, t }: Props, bonded: true | BN[]): React.ReactNode {
+  let value;
 
-    return (
-      <div className={className}>
-        <div className='column'>
-          {this.renderBalances()}
-          {this.renderHexSessionId()}
-          {this.renderValidatorPrefs()}
-          {this.renderRewardDestination()}
-        </div>
+  if (Array.isArray(bonded)) {
+    // Get the sum of funds bonded by any nominator (if available)
+    const extras = bonded.filter((_, index): boolean => index !== 0);
+    const extra = extras.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
+      ? `(+${extras.map((bonded): string => formatBalance(bonded)).join(', ')})`
+      : '';
 
-        {this.renderExtended()}
-        {children && (
-          <div className='column'>
-            {children}
-          </div>
-        )}
-      </div>
-    );
+    value = `${formatBalance(bonded[0])} ${extra}`;
+  } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
+    value = formatBalance(staking_info.stakingLedger.active);
   }
 
-  private renderBalances (): React.ReactNode {
-    const { balances_all, staking_info, t, withBalance = true } = this.props;
-    const balanceDisplay = withBalance === true
-      ? { available: true, bonded: true, free: true, redeemable: true, unlocking: true }
-      : withBalance || undefined;
-
-    if (!balanceDisplay || !balances_all) {
-      return null;
-    }
-
-    return (
+  return value
+    ? (
       <>
-        {balanceDisplay.free && (
-          <>
-            <Label label={t('total')} />
-            <div className='result'>{formatBalance(balances_all.freeBalance)}</div>
-          </>
-        )}
-        {balanceDisplay.available && (
-          <>
-            <Label label={t('available')} />
-            <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
-          </>
-        )}
-        {balanceDisplay.bonded && this.renderBonded(balanceDisplay.bonded)}
-        {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
-          <>
-            <Label label={t('redeemable')} />
-            <div className='result'>
-              {formatBalance(staking_info.redeemable)}
-              {this.renderRedeemButton()}
-            </div>
-          </>
-        )}
-        {balanceDisplay.unlocking && staking_info && staking_info.unlocking && (
-          <>
-            <Label label={t('unbonding')} />
-            <div className='result'>
-              {this.renderUnlocking()}
-            </div>
-          </>
-        )}
-    </>
-    );
+        <Label label={t('bonded')} />
+        <div className='result'>{value}</div>
+      </>
+    )
+    : undefined;
+}
+
+function renderExtended ({ balances_all, t, address, withExtended }: Props): React.ReactNode {
+  const extendedDisplay = withExtended === true
+    ? { crypto: true, nonce: true }
+    : withExtended || undefined;
+
+  if (!extendedDisplay || !balances_all) {
+    return null;
   }
 
-  // either true (filtered above already) or [own, ...all extras bonded funds from nominators]
-  private renderBonded (bonded: true | BN[]): React.ReactNode {
-    const { staking_info, t } = this.props;
-    let value;
-
-    if (Array.isArray(bonded)) {
-      // Get the sum of funds bonded by any nominator (if available)
-      const extras = bonded.filter((value, index): boolean => index !== 0);
-      const extra = extras.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
-        ? `(+${extras.map((bonded): string => formatBalance(bonded)).join(', ')})`
-        : '';
-
-      value = `${formatBalance(bonded[0])} ${extra}`;
-    } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
-      value = formatBalance(staking_info.stakingLedger.active);
-    }
-
-    return value
-      ? (
+  return (
+    <div className='column'>
+      {extendedDisplay.nonce && (
         <>
-          <Label label={t('bonded')} />
-          <div className='result'>{value}</div>
+          <Label label={t('transactions')} />
+          <div className='result'>{formatNumber(balances_all.accountNonce)}</div>
         </>
-      )
-      : undefined;
+      )}
+      {extendedDisplay.crypto && (
+        <>
+          <Label label={t('crypto type')} />
+          <CryptoType
+            accountId={address}
+            className='result'
+          />
+        </>
+      )}
+    </div>
+  );
+}
+
+function renderHexSessionId ({ t, withHexSessionId = null }: Props): React.ReactNode {
+  if (!withHexSessionId) {
+    return null;
   }
 
-  private renderExtended (): React.ReactNode {
-    const { balances_all, t, address, withExtended } = this.props;
-    const extendedDisplay = withExtended === true
-      ? { crypto: true, nonce: true }
-      : withExtended || undefined;
+  return (
+    <>
+      <Label label={t('session keys')} />
+      <div className='result'>{withHexSessionId}</div>
+    </>
+  );
+}
 
-    if (!extendedDisplay || !balances_all) {
-      return null;
-    }
+function renderRedeemButton ({ staking_info, t }: Props): React.ReactNode {
+  return (staking_info && staking_info.controllerId && (
+    <TxButton
+      accountId={staking_info.controllerId.toString()}
+      className='iconButton'
+      icon='lock'
+      size='small'
+      isPrimary
+      key='unlock'
+      params={[]}
+      tooltip={t('Redeem these funds')}
+      tx='staking.withdrawUnbonded'
+    />
+  ));
+}
 
-    return (
-      <div className='column'>
-        {extendedDisplay.nonce && (
-          <>
-            <Label label={t('transactions')} />
-            <div className='result'>{formatNumber(balances_all.accountNonce)}</div>
-          </>
-        )}
-        {extendedDisplay.crypto && (
-          <>
-            <Label label={t('crypto type')} />
-            <CryptoType
-              accountId={address}
-              className='result'
-            />
-          </>
-        )}
+function renderRewardDestination ({ staking_info, withRewardDestination, t }: Props): React.ReactNode {
+  if (!withRewardDestination) {
+    return null;
+  }
+
+  return (
+    staking_info &&
+    staking_info.rewardDestination &&
+    <>
+      <Label label={t('reward destination')} />
+      <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
+    </>
+  );
+}
+
+function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
+  return (
+    staking_info &&
+    staking_info.unlocking &&
+    staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
+      <div key={index}>
+        {formatBalance(value)}
+        <Icon
+          name='info circle'
+          data-tip
+          data-for={`unlocking-trigger-${index}`}
+        />
+        <Tooltip
+          text={t('{{remainingBlocks}} blocks left', { replace: { remainingBlocks } })}
+          trigger={`unlocking-trigger-${index}`}
+        />
       </div>
-    );
+    ))
+  );
+}
+
+function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: Props): React.ReactNode {
+  const validatorPrefsDisplay = withValidatorPrefs === true
+    ? { unstakeThreshold: true, validatorPayment: true }
+    : withValidatorPrefs;
+
+  if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
+    return null;
   }
 
-  private renderHexSessionId (): React.ReactNode {
-    const { t, withHexSessionId = null } = this.props;
+  // start with a spacer
+  return (
+    <>
+      <div className='spacer'></div>
+      {validatorPrefsDisplay.unstakeThreshold && (staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
+        <>
+          <Label label={t('unstake threshold')} />
+          <div className='result'>
+            {(staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
+          </div>
+        </>
+      )}
+      {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
+        <>
+          <Label label={t('commision')} />
+          <div className='result'>{
+            formatBalance(staking_info.validatorPrefs.validatorPayment)
+          }</div>
+        </>
+      )}
+    </>
+  );
+}
 
-    if (!withHexSessionId) {
-      return null;
-    }
+function renderBalances (props: Props): React.ReactNode {
+  const { balances_all, staking_info, t, withBalance = true } = props;
+  const balanceDisplay = withBalance === true
+    ? { available: true, bonded: true, free: true, redeemable: true, unlocking: true }
+    : withBalance || undefined;
 
-    return (
-      <>
-        <Label label={t('session keys')} />
-        <div className='result'>{withHexSessionId}</div>
-      </>
-    );
+  if (!balanceDisplay || !balances_all) {
+    return null;
   }
 
-  private renderRewardDestination (): React.ReactNode {
-    const { staking_info, withRewardDestination, t } = this.props;
+  return (
+    <>
+      {balanceDisplay.free && (
+        <>
+          <Label label={t('total')} />
+          <div className='result'>{formatBalance(balances_all.freeBalance)}</div>
+        </>
+      )}
+      {balanceDisplay.available && (
+        <>
+          <Label label={t('available')} />
+          <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
+        </>
+      )}
+      {balanceDisplay.bonded && renderBonded(props, balanceDisplay.bonded)}
+      {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
+        <>
+          <Label label={t('redeemable')} />
+          <div className='result'>
+            {formatBalance(staking_info.redeemable)}
+            {renderRedeemButton(props)}
+          </div>
+        </>
+      )}
+      {balanceDisplay.unlocking && staking_info && staking_info.unlocking && (
+        <>
+          <Label label={t('unbonding')} />
+          <div className='result'>
+            {renderUnlocking(props)}
+          </div>
+        </>
+      )}
+  </>
+  );
+}
 
-    if (!withRewardDestination) {
-      return null;
-    }
+function AddressInfo (props: Props): React.ReactElement<Props> {
+  const { className, children } = props;
+  return (
+    <div className={className}>
+      <div className='column'>
+        {renderBalances(props)}
+        {renderHexSessionId(props)}
+        {renderValidatorPrefs(props)}
+        {renderRewardDestination(props)}
+      </div>
 
-    return (
-      staking_info &&
-      staking_info.rewardDestination &&
-      <>
-        <Label label={t('reward destination')} />
-        <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
-      </>
-    );
-  }
-
-  private renderRedeemButton (): React.ReactNode {
-    const { staking_info, t } = this.props;
-
-    return (staking_info && staking_info.controllerId && (
-      <TxButton
-        accountId={staking_info.controllerId.toString()}
-        className='iconButton'
-        icon='lock'
-        size='small'
-        isPrimary
-        key='unlock'
-        params={[]}
-        tooltip={t('Redeem these funds')}
-        tx='staking.withdrawUnbonded'
-      />
-    ));
-  }
-
-  private renderUnlocking (): React.ReactNode {
-    const { staking_info, t } = this.props;
-
-    return (
-      staking_info &&
-      staking_info.unlocking &&
-      staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
-        <div key={index}>
-          {formatBalance(value)}
-          <Icon
-            name='info circle'
-            data-tip
-            data-for={`unlocking-trigger-${index}`}
-          />
-          <Tooltip
-            text={t('{{remainingBlocks}} blocks left', { replace: { remainingBlocks } })}
-            trigger={`unlocking-trigger-${index}`}
-          />
+      {renderExtended(props)}
+      {children && (
+        <div className='column'>
+          {children}
         </div>
-      ))
-    );
-  }
-
-  private renderValidatorPrefs (): React.ReactNode {
-    const { staking_info, t, withValidatorPrefs = false } = this.props;
-    const validatorPrefsDisplay = withValidatorPrefs === true
-      ? { unstakeThreshold: true, validatorPayment: true }
-      : withValidatorPrefs;
-
-    if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
-      return null;
-    }
-
-    // start with a spacer
-    return (
-      <>
-        <div className='spacer'></div>
-        {validatorPrefsDisplay.unstakeThreshold && (staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
-          <>
-            <Label label={t('unstake threshold')} />
-            <div className='result'>
-              {(staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
-            </div>
-          </>
-        )}
-        {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
-          <>
-            <Label label={t('commision')} />
-            <div className='result'>{
-              formatBalance(staking_info.validatorPrefs.validatorPayment)
-            }</div>
-          </>
-        )}
-      </>
-    );
-  }
+      )}
+    </div>
+  );
 }
 
 export default withMulti(

@@ -33,25 +33,8 @@ interface Props extends BareProps {
   isSequence?: boolean;
 }
 
-export default class Tabs extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, hidden = [], items, style } = this.props;
-    return (
-      <div
-        className={classes('ui--Menu ui menu tabular', className)}
-        style={style}
-      >
-        {
-          items
-            .filter(({ name }): boolean => !hidden.includes(name))
-            .map(this.renderItem)
-        }
-      </div>
-    );
-  }
-
-  private renderItem = ({ hasParams, isRoot, name, text, ...tab }: TabItem, index: number): React.ReactNode => {
-    const { basePath, isSequence, items } = this.props;
+function renderItem ({ basePath, isSequence, items }: Props): (tabItem: TabItem, index: number) => React.ReactNode {
+  return function Tab ({ hasParams, isRoot, name, text, ...tab }: TabItem, index: number): React.ReactNode {
     const to = isRoot
       ? basePath
       : `${basePath}/${name}`;
@@ -75,5 +58,21 @@ export default class Tabs extends React.PureComponent<Props> {
         )}
       </React.Fragment>
     );
-  }
+  };
+}
+
+export default function Tabs (props: Props): React.ReactElement<Props> {
+  const { className, hidden = [], items, style } = props;
+  return (
+    <div
+      className={classes('ui--Menu ui menu tabular', className)}
+      style={style}
+    >
+      {
+        items
+          .filter(({ name }): boolean => !hidden.includes(name))
+          .map(renderItem(props))
+      }
+    </div>
+  );
 }

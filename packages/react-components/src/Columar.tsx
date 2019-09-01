@@ -10,16 +10,12 @@ interface Props {
   className?: string;
 }
 
-class Columar extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className } = this.props;
-
-    return (
-      <div className={`ui--Columnar ${className}`}>
-        {children}
-      </div>
-    );
-  }
+function Columar ({ children, className }: Props): React.ReactElement<Props> {
+  return (
+    <div className={`ui--Columnar ${className}`}>
+      {children}
+    </div>
+  );
 }
 
 export default styled(Columar)`

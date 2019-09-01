@@ -46,7 +46,7 @@ function saveTags (tags: string[]): void {
 
 const tags = loadTags();
 
-export default class InputTags extends React.PureComponent<Props> {
+export default class InputTags extends React.PureComponent<Props, State> {
   public state: State = {
     options: tags.map((value): { key: string; text: string; value: string } => ({
       key: value, text: value, value

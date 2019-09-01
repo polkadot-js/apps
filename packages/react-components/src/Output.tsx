@@ -22,34 +22,30 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class Output extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, children, help, isError, isHidden, isMonospace, label, style, value, withCopy = false, withLabel } = this.props;
-
-    return (
-      <Labelled
-        className={className}
-        help={help}
-        isHidden={isHidden}
-        label={label}
-        style={style}
-        withLabel={withLabel}
-      >
-        <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
-          {value}
-          {children}
-          {
-            withCopy
-              ? (
-                <CopyButton
-                  className='ui--output-button'
-                  value={value}
-                />
-              )
-              : null
-          }
-        </div>
-      </Labelled>
-    );
-  }
+export default function Output ({ className, children, help, isError, isHidden, isMonospace, label, style, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+  return (
+    <Labelled
+      className={className}
+      help={help}
+      isHidden={isHidden}
+      label={label}
+      style={style}
+      withLabel={withLabel}
+    >
+      <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
+        {value}
+        {children}
+        {
+          withCopy
+            ? (
+              <CopyButton
+                className='ui--output-button'
+                value={value}
+              />
+            )
+            : null
+        }
+      </div>
+    </Labelled>
+  );
 }

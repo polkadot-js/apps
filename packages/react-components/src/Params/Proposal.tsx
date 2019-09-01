@@ -13,28 +13,8 @@ import ExtrinsicDisplay from './Extrinsic';
 
 type Props = ApiProps & BaseProps;
 
-class ProposalDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { apiDefaultTxSudo, className, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
-
-    return (
-      <ExtrinsicDisplay
-        className={className}
-        defaultValue={apiDefaultTxSudo}
-        isDisabled={isDisabled}
-        isError={isError}
-        isPrivate
-        label={label}
-        onChange={this.onChange}
-        onEnter={onEnter}
-        style={style}
-        withLabel={withLabel}
-      />
-    );
-  }
-
-  private onChange = ({ isValid, value }: RawParam): void => {
-    const { onChange } = this.props;
+function onChange ({ onChange }: Props): (_: RawParam) => void {
+  return function ({ isValid, value }: RawParam): void {
     let proposal = null;
 
     if (isValid && value) {
@@ -45,7 +25,26 @@ class ProposalDisplay extends React.PureComponent<Props> {
       isValid,
       value: proposal
     });
-  }
+  };
+}
+
+function ProposalDisplay (props: Props): React.ReactElement<Props> {
+  const { apiDefaultTxSudo, className, isDisabled, isError, label, onEnter, style, withLabel } = props;
+
+  return (
+    <ExtrinsicDisplay
+      className={className}
+      defaultValue={apiDefaultTxSudo}
+      isDisabled={isDisabled}
+      isError={isError}
+      isPrivate
+      label={label}
+      onChange={onChange(props)}
+      onEnter={onEnter}
+      style={style}
+      withLabel={withLabel}
+    />
+  );
 }
 
 export default withApi(ProposalDisplay);

@@ -140,7 +140,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 }
 
-class TxButton extends React.PureComponent<Props> {
+class TxButton extends React.PureComponent<Props, State> {
   protected button: any = React.createRef();
 
   public render (): React.ReactNode {

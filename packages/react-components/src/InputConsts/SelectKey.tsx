@@ -20,37 +20,36 @@ type Props = ApiProps & BareProps & {
   value: ConstValueBase;
 };
 
-class SelectKey extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, isError, onChange, options, style, value } = this.props;
-
-    if (!options.length) {
-      return null;
-    }
-
-    return (
-      <Dropdown
-        className={classes('ui--DropdownLinked-Items', className)}
-        isError={isError}
-        onChange={onChange}
-        options={options}
-        style={style}
-        transform={this.transform}
-        value={value.method}
-        withLabel={false}
-      />
-    );
-  }
-
-  private transform = (method: string): ConstValueBase => {
-    const { value } = this.props;
+function transform ({ value }: Props): (method: string) => ConstValueBase {
+  return (method: string): ConstValueBase => {
     const section = value.section;
 
     return {
       method,
       section
     };
+  };
+}
+
+function SelectKey (props: Props): React.ReactElement<Props> | null {
+  const { className, isError, onChange, options, style, value } = props;
+
+  if (!options.length) {
+    return null;
   }
+
+  return (
+    <Dropdown
+      className={classes('ui--DropdownLinked-Items', className)}
+      isError={isError}
+      onChange={onChange}
+      options={options}
+      style={style}
+      transform={transform(props)}
+      value={value.method}
+      withLabel={false}
+    />
+  );
 }
 
 export default withApi(SelectKey);

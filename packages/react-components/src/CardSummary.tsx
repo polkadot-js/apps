@@ -28,54 +28,51 @@ interface Props extends BareProps {
   progress?: ProgressProps;
 }
 
-class CardSummary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, help, label, progress } = this.props;
-    const value = progress && progress.value;
-    const total = progress && progress.total;
-    const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
-      ? (
-        value.gt(total)
-          ? `>${
-            progress.isPercent
-              ? '100'
-              : formatNumber(total)
-          }`
-          : (
-            progress.isPercent
-              ? value.muln(100).div(total).toString()
-              : formatNumber(value)
-          )
-      )
-      : undefined;
+function CardSummary ({ children, className, help, label, progress }: Props): React.ReactElement<Props> | null {
+  const value = progress && progress.value;
+  const total = progress && progress.total;
+  const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
+    ? (
+      value.gt(total)
+        ? `>${
+          progress.isPercent
+            ? '100'
+            : formatNumber(total)
+        }`
+        : (
+          progress.isPercent
+            ? value.muln(100).div(total).toString()
+            : formatNumber(value)
+        )
+    )
+    : undefined;
 
-    if (progress && isUndefined(left)) {
-      return null;
-    }
-
-    return (
-      <article className={className}>
-        <Labelled
-          help={help}
-          isSmall
-          label={label}
-        >
-          {children}{
-            progress && !progress.hideValue && (
-              !left || isUndefined(progress.total)
-                ? '-'
-                : `${left}${progress.isPercent ? '' : '/'}${
-                  progress.isPercent
-                    ? '%'
-                    : formatNumber(progress.total)
-                }`
-            )
-          }
-          {progress && <Progress {...progress} />}
-        </Labelled>
-      </article>
-    );
+  if (progress && isUndefined(left)) {
+    return null;
   }
+
+  return (
+    <article className={className}>
+      <Labelled
+        help={help}
+        isSmall
+        label={label}
+      >
+        {children}{
+          progress && !progress.hideValue && (
+            !left || isUndefined(progress.total)
+              ? '-'
+              : `${left}${progress.isPercent ? '' : '/'}${
+                progress.isPercent
+                  ? '%'
+                  : formatNumber(progress.total)
+              }`
+          )
+        }
+        {progress && <Progress {...progress} />}
+      </Labelled>
+    </article>
+  );
 }
 
 export default styled(CardSummary)`

@@ -33,71 +33,68 @@ const Wrapper = styled.div`
   }
 `;
 
-class Call extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, style, mortality, tip, value, withHash, t } = this.props;
-    const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
-      name: name.toString(),
-      type: getTypeDef(type.toString())
-    }));
-    const values = value.args.map((value): { isValid: boolean; value: Codec } => ({
-      isValid: true,
-      value
-    }));
-    const hash = withHash
-      ? (value as IExtrinsic).hash
-      : null;
+function Call ({ children, className, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
+  const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
+    name: name.toString(),
+    type: getTypeDef(type.toString())
+  }));
+  const values = value.args.map((value): { isValid: boolean; value: Codec } => ({
+    isValid: true,
+    value
+  }));
+  const hash = withHash
+    ? (value as IExtrinsic).hash
+    : null;
 
-    return (
-      <Wrapper
-        className={classes('ui--Extrinsic', className)}
-        style={style}
-      >
-        {children}
-        {
-          hash
-            ? (
-              <Static
-                className='hash'
-                label={t('extrinsic hash')}
-              >
-                {hash.toHex()}
-              </Static>
-            )
-            : null
-        }
-        {
-          mortality
-            ? (
-              <Static
-                className='mortality'
-                label={t('lifetime')}
-              >
-                {mortality}
-              </Static>
-            )
-            : null
-        }
-        {
-          (tip && tip.gtn(0))
-            ? (
-              <Static
-                className='tip'
-                label={t('tip')}
-              >
-                {formatBalance(tip)}
-              </Static>
-            )
-            : null
-        }
-        <Params
-          isDisabled
-          params={params}
-          values={values}
-        />
-      </Wrapper>
-    );
-  }
+  return (
+    <Wrapper
+      className={classes('ui--Extrinsic', className)}
+      style={style}
+    >
+      {children}
+      {
+        hash
+          ? (
+            <Static
+              className='hash'
+              label={t('extrinsic hash')}
+            >
+              {hash.toHex()}
+            </Static>
+          )
+          : null
+      }
+      {
+        mortality
+          ? (
+            <Static
+              className='mortality'
+              label={t('lifetime')}
+            >
+              {mortality}
+            </Static>
+          )
+          : null
+      }
+      {
+        (tip && tip.gtn(0))
+          ? (
+            <Static
+              className='tip'
+              label={t('tip')}
+            >
+              {formatBalance(tip)}
+            </Static>
+          )
+          : null
+      }
+      <Params
+        isDisabled
+        params={params}
+        values={values}
+      />
+    </Wrapper>
+  );
 }
 
 export default translate(Call);

@@ -20,24 +20,20 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class Static extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, children, defaultValue, help, isHidden, label, style, value, withLabel } = this.props;
-
-    return (
-      <Labelled
-        className={className}
-        help={help}
-        isHidden={isHidden}
-        label={label}
-        style={style}
-        withLabel={withLabel}
-      >
-        <div className='ui--Static ui dropdown selection disabled'>
-          {value || defaultValue}
-          {children}
-        </div>
-      </Labelled>
-    );
-  }
+export default function Static ({ className, children, defaultValue, help, isHidden, label, style, value, withLabel }: Props): React.ReactElement<Props> {
+  return (
+    <Labelled
+      className={className}
+      help={help}
+      isHidden={isHidden}
+      label={label}
+      style={style}
+      withLabel={withLabel}
+    >
+      <div className='ui--Static ui dropdown selection disabled'>
+        {value || defaultValue}
+        {children}
+      </div>
+    </Labelled>
+  );
 }

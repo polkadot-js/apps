@@ -19,46 +19,47 @@ export interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default class BondedDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { bonded, params, className, label, style } = this.props;
+function renderProvided ({ bonded, className, label, style }: Props): React.ReactNode {
+  let value = `${formatBalance(Array.isArray(bonded) ? bonded[0] : bonded)}`;
 
-    if (!params) {
-      return null;
-    }
+  if (Array.isArray(bonded)) {
+    const totals = bonded.filter((_, index): boolean => index !== 0);
+    const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
+      ? `(+${totals.map((bonded): string => formatBalance(bonded)).join(', ')})`
+      : '';
 
-    return bonded
-      ? this.renderProvided()
-      : (
-        <Bonded
-          className={classes('ui--Bonded', className)}
-          label={label}
-          params={params}
-          style={style}
-        />
-      );
+    value = `${value}  ${total}`;
   }
 
-  private renderProvided (): React.ReactNode {
-    const { bonded, className, label, style } = this.props;
-    let value = `${formatBalance(Array.isArray(bonded) ? bonded[0] : bonded)}`;
+  return (
+    <div
+      className={classes('ui--Bonded', className)}
+      style={style}
+    >
+      {label}{value}
+    </div>
+  );
+}
 
-    if (Array.isArray(bonded)) {
-      const totals = bonded.filter((value, index): boolean => index !== 0);
-      const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
-        ? `(+${totals.map((bonded): string => formatBalance(bonded)).join(', ')})`
-        : '';
+export default function BondedDisplay (props: Props): React.ReactElement<Props> | null {
+  const { bonded, params, className, label, style } = props;
 
-      value = `${value}  ${total}`;
-    }
+  if (!params) {
+    return null;
+  }
 
-    return (
-      <div
+  return bonded
+    ? (
+        <>
+          {renderProvided(props)}
+        </>
+    )
+    : (
+      <Bonded
         className={classes('ui--Bonded', className)}
+        label={label}
+        params={params}
         style={style}
-      >
-        {label}{value}
-      </div>
+      />
     );
-  }
 }

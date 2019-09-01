@@ -89,140 +89,137 @@ const Wrapper = styled.div`
   }
 `;
 
-class Status extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { stqueue = [], txqueue = [] } = this.props;
-    const allst: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
-    const alltx: QueueTx[] = txqueue.filter(({ status }): boolean =>
-      !['completed', 'incomplete'].includes(status)
-    );
+function iconName (status: string): any {
+  switch (status) {
+    case 'error':
+      return 'ban';
 
-    if (!allst.length && !alltx.length) {
-      return null;
-    }
+    case 'event':
+      return 'assistive listening devices';
 
-    return (
-      <Wrapper className='ui--Status'>
-        {alltx.map(this.renderItem)}
-        {allst.map(this.renderStatus)}
-      </Wrapper>
-    );
+    case 'received':
+      return 'telegram plane';
+
+    default:
+      return 'check';
   }
+}
 
-  private renderStatus = ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode => {
-    const addressRendered = account
-      ? <AddressMini value={account} />
-      : undefined;
+function signerIconName (status: QueueTxStatus): any {
+  switch (status) {
+    case 'cancelled':
+      return 'ban';
 
-    return (
-      <div
-        className={classes('item', status)}
-        onClick={removeItem}
-        key={id}
-      >
-        <div className='wrapper'>
-          <div className='container'>
-            <div className='desc'>
-              <div className='header'>
-                {action}
-              </div>
-              {addressRendered}
-              <div className='status'>
-                {message}
-              </div>
+    case 'completed':
+    case 'finalized':
+    case 'sent':
+      return 'check';
+
+    case 'dropped':
+    case 'invalid':
+    case 'usurped':
+      return 'arrow down';
+
+    case 'error':
+      return 'warning sign';
+
+    case 'queued':
+      return 'random';
+
+    default:
+      return 'spinner';
+  }
+}
+
+function renderStatus ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode {
+  const addressRendered = account
+    ? <AddressMini value={account} />
+    : undefined;
+
+  return (
+    <div
+      className={classes('item', status)}
+      onClick={removeItem}
+      key={id}
+    >
+      <div className='wrapper'>
+        <div className='container'>
+          <div className='desc'>
+            <div className='header'>
+              {action}
             </div>
-            <div className='short'>
-              <Icon name={this.iconName(status)} />
+            {addressRendered}
+            <div className='status'>
+              {message}
             </div>
+          </div>
+          <div className='short'>
+            <Icon name={iconName(status)} />
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
+}
+
+function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx): React.ReactNode {
+  let { method, section } = rpc;
+
+  if (extrinsic) {
+    const found = GenericCall.findFunction(extrinsic.callIndex);
+
+    if (found.section !== 'unknown') {
+      method = found.method;
+      section = found.section;
+    }
   }
 
-  private renderItem = ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx): React.ReactNode => {
-    let { method, section } = rpc;
+  const icon = signerIconName(status);
 
-    if (extrinsic) {
-      const found = GenericCall.findFunction(extrinsic.callIndex);
-
-      if (found.section !== 'unknown') {
-        method = found.method;
-        section = found.section;
-      }
-    }
-
-    const icon = this.signerIconName(status);
-
-    return (
-      <div
-        className={classes('item', status)}
-        onClick={removeItem}
-        key={id}
-      >
-        <div className='wrapper'>
-          <div className='container'>
-            <div className='desc'>
-              <div className='header'>
-                {section}.{method}
-              </div>
-              <div className='status'>
-                {error ? error.message : status}
-              </div>
+  return (
+    <div
+      className={classes('item', status)}
+      onClick={removeItem}
+      key={id}
+    >
+      <div className='wrapper'>
+        <div className='container'>
+          <div className='desc'>
+            <div className='header'>
+              {section}.{method}
             </div>
-            <div className='short'>
-              <Icon
-                loading={icon === 'spinner'}
-                name={icon}
-              />
+            <div className='status'>
+              {error ? error.message : status}
             </div>
+          </div>
+          <div className='short'>
+            <Icon
+              loading={icon === 'spinner'}
+              name={icon}
+            />
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
+}
+
+function Status ({ stqueue = [], txqueue = [] }: Props): React.ReactElement<Props> | null {
+  const allst: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
+  const alltx: QueueTx[] = txqueue.filter(({ status }): boolean =>
+    !['completed', 'incomplete'].includes(status)
+  );
+
+  if (!allst.length && !alltx.length) {
+    return null;
   }
 
-  private iconName = (status: string): any => {
-    switch (status) {
-      case 'error':
-        return 'ban';
-
-      case 'event':
-        return 'assistive listening devices';
-
-      case 'received':
-        return 'telegram plane';
-
-      default:
-        return 'check';
-    }
-  }
-
-  private signerIconName = (status: QueueTxStatus): any => {
-    switch (status) {
-      case 'cancelled':
-        return 'ban';
-
-      case 'completed':
-      case 'finalized':
-      case 'sent':
-        return 'check';
-
-      case 'dropped':
-      case 'invalid':
-      case 'usurped':
-        return 'arrow down';
-
-      case 'error':
-        return 'warning sign';
-
-      case 'queued':
-        return 'random';
-
-      default:
-        return 'spinner';
-    }
-  }
+  return (
+    <Wrapper className='ui--Status'>
+      {alltx.map(renderItem)}
+      {allst.map(renderStatus)}
+    </Wrapper>
+  );
 }
 
 export default translate(Status);

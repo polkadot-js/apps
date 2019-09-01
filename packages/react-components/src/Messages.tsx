@@ -21,57 +21,9 @@ export interface Props extends I18nProps {
   onSelect?: (callAddress?: string, callMethod?: string) => void;
 }
 
-class Messages extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = (): void => { /* . */ }, onSelect, t } = this.props;
-
-    return (
-      <div className={classes(className, 'ui--Messages', isLabelled && 'labelled', onSelect && 'select')}>
-        {messages.map((_, index): React.ReactNode => {
-          return this.renderMessage(index);
-        })}
-        {isRemovable && (
-          <Button
-            className='iconButton'
-            icon='remove'
-            onClick={onRemove}
-            size='tiny'
-            isNegative
-            tooltip={t('Remove ABI')}
-          />
-        )}
-      </div>
-    );
-  }
-
-  private renderMessage (index: number): React.ReactNode {
-    const { contractAbi: { abi: { messages } }, onSelect } = this.props;
-
-    if (!messages[index]) {
-      return null;
-    }
-
-    const { args, name, return_type: returnType } = messages[index];
-
-    return (
-      <Button
-        key={name}
-        className={classes('message', !onSelect && 'exempt-hover')}
-        isDisabled={!onSelect}
-        onClick={this.onSelect(index)}
-        isPrimary={!!onSelect}
-      >
-        {name}
-        (
-        {args.map(({ name, type }): string => `${name}: ${type}`).join(', ')}
-        )
-        {returnType && `: ${returnType}`}
-      </Button>
-    );
-  }
-
-  private onSelect = (index: number): () => void => (): void => {
-    const { address: callAddress, contractAbi: { abi: { messages } }, onSelect } = this.props;
+function onSelect (props: Props, index: number): () => void {
+  return function (): void {
+    const { address: callAddress, contractAbi: { abi: { messages } }, onSelect } = props;
 
     if (!callAddress || !messages || !messages[index]) {
       return;
@@ -80,7 +32,53 @@ class Messages extends React.PureComponent<Props> {
     const { name: callMethod } = messages[index];
 
     onSelect && onSelect(callAddress, callMethod);
+  };
+}
+
+function renderMessage (props: Props, index: number): React.ReactNode {
+  const { contractAbi: { abi: { messages } }, onSelect: onSelectProp } = props;
+  if (!messages[index]) {
+    return null;
   }
+
+  const { args, name, return_type: returnType } = messages[index];
+
+  return (
+    <Button
+      key={name}
+      className={classes('message', !onSelect && 'exempt-hover')}
+      isDisabled={!onSelectProp}
+      onClick={onSelect(props, index)}
+      isPrimary={!!onSelectProp}
+    >
+      {name}
+      (
+      {args.map(({ name, type }): string => `${name}: ${type}`).join(', ')}
+      )
+      {returnType && `: ${returnType}`}
+    </Button>
+  );
+}
+
+function Messages (props: Props): React.ReactElement<Props> {
+  const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = (): void => { /* . */ }, onSelect, t } = props;
+  return (
+    <div className={classes(className, 'ui--Messages', isLabelled && 'labelled', onSelect && 'select')}>
+      {messages.map((_, index): React.ReactNode => {
+        return renderMessage(props, index);
+      })}
+      {isRemovable && (
+        <Button
+          className='iconButton'
+          icon='remove'
+          onClick={onRemove}
+          size='tiny'
+          isNegative
+          tooltip={t('Remove ABI')}
+        />
+      )}
+    </div>
+  );
 }
 
 export default translate(styled(Messages)`

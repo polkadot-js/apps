@@ -15,21 +15,17 @@ export interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export default class NonceDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, label, params, style } = this.props;
-
-    if (!params) {
-      return null;
-    }
-
-    return (
-      <Nonce
-        className={classes('ui--Nonce', className)}
-        label={label}
-        params={params.toString()}
-        style={style}
-      />
-    );
+export default function NonceDisplay ({ className, label, params, style }: Props): React.ReactElement<Props> | null {
+  if (!params) {
+    return null;
   }
+
+  return (
+    <Nonce
+      className={classes('ui--Nonce', className)}
+      label={label}
+      params={params.toString()}
+      style={style}
+    />
+  );
 }

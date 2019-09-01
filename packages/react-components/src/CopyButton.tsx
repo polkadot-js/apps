@@ -24,35 +24,8 @@ type InnerProps = Props & I18nProps & {
   queueAction: QueueAction$Add;
 };
 
-class CopyButtonInner extends React.PureComponent<InnerProps> {
-  public render (): React.ReactNode {
-    const { children, className, icon = 'copy', value } = this.props;
-
-    return (
-      <div className={className}>
-        <CopyToClipboard
-          onCopy={this.onCopy}
-          text={value}
-        >
-          <div>
-            {children}
-            <span className='copySpan'>
-              <Button
-                className='iconButton'
-                icon={icon}
-                size='mini'
-                isPrimary
-              />
-            </span>
-          </div>
-        </CopyToClipboard>
-      </div>
-    );
-  }
-
-  private onCopy = (): void => {
-    const { isAddress = false, queueAction, t, value } = this.props;
-
+function onCopy ({ isAddress = false, queueAction, t, value }: InnerProps): () => void {
+  return (): void => {
     if (isAddress && queueAction) {
       queueAction({
         account: value,
@@ -61,24 +34,47 @@ class CopyButtonInner extends React.PureComponent<InnerProps> {
         message: t('address copied')
       });
     }
-  }
+  };
+}
+
+function CopyButtonInner (props: InnerProps): React.ReactElement<InnerProps> {
+  const { children, className, icon = 'copy', value } = props;
+
+  return (
+    <div className={className}>
+      <CopyToClipboard
+        onCopy={onCopy(props)}
+        text={value}
+      >
+        <div>
+          {children}
+          <span className='copySpan'>
+            <Button
+              className='iconButton'
+              icon={icon}
+              size='mini'
+              isPrimary
+            />
+          </span>
+        </div>
+      </CopyToClipboard>
+    </div>
+  );
 }
 
 const CopyButtonI18n = translate(CopyButtonInner);
 
-class CopyButton extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    return (
-      <QueueConsumer>
-        {({ queueAction }): React.ReactNode => (
-          <CopyButtonI18n
-            {...this.props}
-            queueAction={queueAction}
-          />
-        )}
-      </QueueConsumer>
-    );
-  }
+function CopyButton (props: Props): React.ReactElement<Props> {
+  return (
+    <QueueConsumer>
+      {({ queueAction }): React.ReactNode => (
+        <CopyButtonI18n
+          {...props}
+          queueAction={queueAction}
+        />
+      )}
+    </QueueConsumer>
+  );
 }
 
 export default styled(CopyButton)`

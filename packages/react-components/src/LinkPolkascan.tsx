@@ -33,28 +33,25 @@ const TYPES: Record<string, string> = {
   extrinsic: '/system/extrinsic/'
 };
 
-class LinkPolkascan extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, currentChain, data, t, type } = this.props;
-    const extChain = CHAINS[currentChain];
-    const extType = TYPES[type];
+function LinkPolkascan ({ className, currentChain, data, t, type }: Props): React.ReactElement<Props> | null {
+  const extChain = CHAINS[currentChain];
+  const extType = TYPES[type];
 
-    if (!extChain || !extType) {
-      return null;
-    }
-
-    return (
-      <div className={className}>
-        <a
-          href={`${BASE}${extChain}${extType}${data}`}
-          rel='noopener noreferrer'
-          target='_blank'
-        >
-          {t('View this {{type}} on Polkascan.io', { replace: { type } })}
-        </a>
-      </div>
-    );
+  if (!extChain || !extType) {
+    return null;
   }
+
+  return (
+    <div className={className}>
+      <a
+        href={`${BASE}${extChain}${extType}${data}`}
+        rel='noopener noreferrer'
+        target='_blank'
+      >
+        {t('View this {{type}} on Polkascan.io', { replace: { type } })}
+      </a>
+    </div>
+  );
 }
 
 export default withMulti(

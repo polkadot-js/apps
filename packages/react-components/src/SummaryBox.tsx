@@ -12,16 +12,12 @@ interface Props extends BareProps {
   className?: string;
 }
 
-class SummaryBox extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className } = this.props;
-
-    return (
-      <div className={className}>
-        {children}
-      </div>
-    );
-  }
+function SummaryBox ({ children, className }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      {children}
+    </div>
+  );
 }
 
 export default styled(SummaryBox)`

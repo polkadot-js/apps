@@ -17,29 +17,26 @@ export interface Props extends BareProps {
   value: Event;
 }
 
-export default class EventDisplay extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { children, className, style, value } = this.props;
-    const params = value.typeDef.map(({ type }): { type: TypeDef } => ({
-      type: getTypeDef(type)
-    }));
-    const values = value.data.map((value): { isValid: boolean; value: Codec } => ({
-      isValid: true,
-      value
-    }));
+export default function EventDisplay ({ children, className, style, value }: Props): React.ReactElement<Props> {
+  const params = value.typeDef.map(({ type }): { type: TypeDef } => ({
+    type: getTypeDef(type)
+  }));
+  const values = value.data.map((value): { isValid: boolean; value: Codec } => ({
+    isValid: true,
+    value
+  }));
 
-    return (
-      <div
-        className={classes('ui--Event', className)}
-        style={style}
-      >
-        {children}
-        <Params
-          isDisabled
-          params={params}
-          values={values}
-        />
-      </div>
-    );
-  }
+  return (
+    <div
+      className={classes('ui--Event', className)}
+      style={style}
+    >
+      {children}
+      <Params
+        isDisabled
+        params={params}
+        values={values}
+      />
+    </div>
+  );
 }
