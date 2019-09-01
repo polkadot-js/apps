@@ -120,7 +120,7 @@ class Create extends React.PureComponent<Props, State> {
     };
   }
 
-  private nextState (newState: Partial<State>, allowEdit: boolean = false): void {
+  private nextState (newState: Partial<State>, allowEdit = false): void {
     this.setState(
       (prevState: State): State => {
         let { address = prevState.address, name = prevState.name, tags = prevState.tags } = newState;

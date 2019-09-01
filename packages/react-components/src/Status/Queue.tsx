@@ -12,7 +12,7 @@ import jsonrpc from '@polkadot/jsonrpc';
 import { createType } from '@polkadot/types';
 
 import { QueueProvider } from './Context';
-import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 export interface Props extends BareProps {

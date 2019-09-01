@@ -5,13 +5,13 @@
 import { AccountId } from '@polkadot/types/interfaces';
 import { TypeDef } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
@@ -246,7 +246,7 @@ class Deploy extends ContractModal<Props, State> {
     this.setState({ params });
   }
 
-  private onSuccess = async (result: SubmittableResult): Promise<void> => {
+  private onSuccess = (result: SubmittableResult): void => {
     const { api, history } = this.props;
 
     const section = api.tx.contracts ? 'contracts' : 'contract';

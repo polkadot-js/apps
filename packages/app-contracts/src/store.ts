@@ -13,8 +13,6 @@ import { api } from '@polkadot/react-api';
 
 const KEY_CODE = 'code:';
 
-const codeRegex = new RegExp(`^${KEY_CODE}`, '');
-
 class Store extends EventEmitter {
   private allCode: Record<string, CodeStored> = {};
 
@@ -30,6 +28,7 @@ class Store extends EventEmitter {
     return this.allCode[codeHash];
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>): Promise<void> {
     const hex = (typeof codeHash === 'string' ? createType('Hash', codeHash) : codeHash).toHex();
 
@@ -64,7 +63,7 @@ class Store extends EventEmitter {
           return;
         }
 
-        if (codeRegex.test(key)) {
+        if (key.startsWith(KEY_CODE)) {
           this.addCode(json);
         }
       });

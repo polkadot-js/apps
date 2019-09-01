@@ -4,10 +4,10 @@
 
 import { Hash } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
-import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
 import BN from 'bn.js';
 import React from 'react';
+import { SubmittableResult } from '@polkadot/api';
 import { withApi, withMulti } from '@polkadot/react-api';
 import { Button, InputFile, TxButton } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';

@@ -74,7 +74,7 @@ class InputNumber extends React.PureComponent<Props, State> {
     };
   }
 
-  public static units: string = 'Unit';
+  public static units = 'Unit';
 
   public static setUnit (units: string = InputNumber.units): void {
     InputNumber.units = units;
@@ -286,6 +286,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   private inputValueToBn = (value: string, siUnit?: string): BN => {
     const [siPower, basePower, siUnitPower] = this.getSiPowers(siUnit);
 
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     const isDecimalValue = value.match(/^(\d+)\.(\d+)$/);
 
     if (isDecimalValue) {
