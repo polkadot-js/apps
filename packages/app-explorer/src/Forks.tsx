@@ -63,7 +63,7 @@ class Forks extends React.PureComponent<Props, State> {
 
   private _headers: Map<string, LinkHeader> = new Map();
 
-  private _firstNum: string = '';
+  private _firstNum = '';
 
   private _subFinHead: UnsubFn | null = null;
 
@@ -102,8 +102,7 @@ class Forks extends React.PureComponent<Props, State> {
     if (!this._headers.has(hash)) {
       // if this is the first, add to the root entry
       if (this._firstNum === bn) {
-        // @ts-ignore root will always exist
-        this._children.get('root').push(hash);
+        (this._children.get('root') as any[]).push(hash);
       }
 
       // add to the header map
@@ -111,8 +110,7 @@ class Forks extends React.PureComponent<Props, State> {
 
       // check to see if the children already has a entry
       if (this._children.has(parent)) {
-        // @ts-ignore, we just checked for existence above
-        this._children.get(parent).push(hash);
+        (this._children.get(parent) as any[]).push(hash);
       } else {
         this._children.set(parent, [hash]);
       }
@@ -288,7 +286,7 @@ class Forks extends React.PureComponent<Props, State> {
   }
 
   // fills in a header based on the supplied data
-  private createHdr (bn: string, hash: string, parent: string, isEmpty: boolean = false): LinkHeader {
+  private createHdr (bn: string, hash: string, parent: string, isEmpty = false): LinkHeader {
     return { bn, hash, height: 0, isEmpty, isFinalized: false, parent, width: 0 };
   }
 
@@ -351,8 +349,8 @@ class Forks extends React.PureComponent<Props, State> {
     const root = this.createLink();
 
     // add all the root entries first, we iterate from these
-    // @ts-ignore We add the root entry explicitly, it exists as per init
-    this._children.get('root').forEach((hash): void => {
+    // We add the root entry explicitly, it exists as per init
+    (this._children.get('root') as string[]).forEach((hash): void => {
       const hdr = this._headers.get(hash);
 
       // if this fails, well, we have a bigger issue :(

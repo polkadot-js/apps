@@ -270,7 +270,7 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     );
   }
 
-  protected renderName (withCopy: boolean = false): React.ReactNode {
+  protected renderName (withCopy = false): React.ReactNode {
     const { defaultName, isEditable } = this.props;
     const { address, isEditingName, name } = this.state;
     const withName = name !== defaultName;

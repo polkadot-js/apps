@@ -27,7 +27,7 @@ interface State {
 }
 
 class Developer extends React.PureComponent<Props, State> {
-  private defaultCode: string = '{\n\n}';
+  private defaultCode = '{\n\n}';
 
   public constructor (props: Props) {
     super(props);

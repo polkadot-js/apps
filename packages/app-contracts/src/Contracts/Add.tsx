@@ -96,7 +96,7 @@ class Add extends ContractModal<Props, State> {
     this.setState({ isAddressValid });
   }
 
-  private onAdd = async (): Promise<void> => {
+  private onAdd = (): void => {
     const { api } = this.props;
     const status: Partial<ActionStatus> = { action: 'create' };
     const { address, abi, name, tags } = this.state;

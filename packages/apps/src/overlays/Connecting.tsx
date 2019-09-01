@@ -14,12 +14,12 @@ import translate from '../translate';
 import BaseOverlay from './Base';
 
 type Props = I18nProps & ApiProps;
-// @ts-ignore
-const isFirefox = typeof InstallTrigger !== 'undefined';
+
+const isFirefox = typeof (window as any).InstallTrigger !== 'undefined';
 const wsUrl = settings.apiUrl;
-const isWs = wsUrl.indexOf('ws://') === 0;
-const isWsRemote = wsUrl.indexOf('127.0.0.1') === -1;
-const isHttps = window.location.protocol.indexOf('https:') === 0;
+const isWs = wsUrl.startsWith('ws://');
+const isWsRemote = wsUrl.includes('127.0.0.1');
+const isHttps = window.location.protocol.startsWith('https:');
 
 function renderExtension ({ className, isWaitingInjected, t }: Props): React.ReactNode {
   if (!isWaitingInjected) {

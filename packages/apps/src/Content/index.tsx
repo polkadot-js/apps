@@ -53,7 +53,7 @@ class Content extends React.Component<Props> {
     const { isApiConnected, isApiReady, location, t } = this.props;
     const app = location.pathname.slice(1) || '';
     const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
-      !!(route && app.indexOf(route.name) === 0)
+      !!(route && app.startsWith(route.name))
     ) || unknown;
 
     if (needsApi && (!isApiReady || !isApiConnected)) {

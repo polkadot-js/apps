@@ -9,7 +9,7 @@ import React from 'react';
 import { ChainImg } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
-export function createOption ({ info, text, value }: SetOption, overrides: string[] = [], override: string = 'empty'): Option {
+export function createOption ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
   return {
     text: (
       <div className='ui--Dropdown-item'>
