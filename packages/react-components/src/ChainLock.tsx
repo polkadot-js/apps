@@ -6,9 +6,9 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useContext } from 'react';
 import { ApiContext } from '@polkadot/react-api';
-import { Toggle } from '@polkadot/react-components';
 
 import translate from './translate';
+import Toggle from './Toggle';
 
 interface Props extends I18nProps {
   className?: string;

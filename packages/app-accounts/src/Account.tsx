@@ -7,13 +7,12 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, Forget, Icon } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget, Icon } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Transfer from './modals/Transfer';
-import ChainLock from './ChainLock';
 import translate from './translate';
 
 interface Props extends I18nProps {
