@@ -4,16 +4,17 @@
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { Props as BaseProps } from '@polkadot/react-params/types';
-import { ApiProps } from '@polkadot/react-api/types';
 
-import React from 'react';
-import { withApi } from '@polkadot/react-api';
+import React, { useContext } from 'react';
+import { ApiContext } from '@polkadot/react-api';
 
 import Extrinsic from './Extrinsic';
 
-type Props = ApiProps & BaseProps;
+type Props = BaseProps;
 
-function Call ({ apiDefaultTx, api, className, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+function Call ({ className, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+  const { api, apiDefaultTx } = useContext(ApiContext);
+
   const defaultValue = ((): SubmittableExtrinsicFunction<'promise'> => {
     try {
       return api.tx.balances.transfer;
@@ -38,4 +39,4 @@ function Call ({ apiDefaultTx, api, className, isDisabled, isError, label, onCha
   );
 }
 
-export default withApi(Call);
+export default Call;

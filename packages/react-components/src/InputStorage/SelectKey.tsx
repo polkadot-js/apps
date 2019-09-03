@@ -2,25 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
-import React from 'react';
-import { withApi } from '@polkadot/react-api';
+import React, { useContext } from 'react';
+import { ApiContext } from '@polkadot/react-api';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = ApiProps & BareProps & {
+type Props = BareProps & {
   isError?: boolean;
   onChange: (value: StorageEntryPromise) => void;
   options: DropdownOptions;
   value: StorageEntryPromise;
 };
 
-function transform ({ api, value }: Props): (method: string) => StorageEntryPromise {
+function transform ({ value }: Props): (method: string) => StorageEntryPromise {
+  const { api } = useContext(ApiContext);
   return function (method: string): StorageEntryPromise {
     return api.query[value.creator.section]
       ? api.query[value.creator.section][method]
@@ -49,4 +49,4 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default withApi(SelectKey);
+export default SelectKey;

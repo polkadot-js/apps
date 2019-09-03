@@ -4,7 +4,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, RuntimeVersion } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/react-api/types';
 import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -15,7 +14,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
-interface Props extends ApiProps, BareProps, I18nProps {
+interface Props extends BareProps, I18nProps {
   balances_totalIssuance?: BN;
   chain_bestNumber?: BN;
   chain_bestNumberLag?: BN;

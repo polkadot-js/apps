@@ -5,7 +5,6 @@
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
@@ -18,7 +17,7 @@ import Events from './Events';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 
-type Props = ApiProps & I18nProps & {
+type Props = I18nProps & {
   system_events?: EventRecord[];
   chain_getBlock?: SignedBlock;
   chain_getHeader?: HeaderExtended;
