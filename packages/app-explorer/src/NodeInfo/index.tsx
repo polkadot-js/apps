@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Health, PeerInfo, Extrinsic } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/react-api/types';
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { Info } from './types';
 
-import React from 'react';
-import { withApi, withMulti } from '@polkadot/react-api';
+import React, { useContext, useEffect, useState } from 'react';
+import { ApiContext } from '@polkadot/react-api';
 import { Vec } from '@polkadot/types';
 
 import './index.css';
@@ -20,73 +19,19 @@ import translate from './translate';
 
 const POLL_TIMEOUT = 9900;
 
-type Props = ApiProps & AppProps & I18nProps;
+type Props = I18nProps;
 
-interface State {
-  info?: Info;
-  nextRefresh: number;
-  timerId?: number;
-}
+function NodeInfo ({ t }: Props): React.ReactElement<Props> {
+  const { api } = useContext(ApiContext);
+  const [info, setInfo] = useState<Partial<Info>>({});
+  const [nextRefresh, setNextRefresh] = useState(Date.now());
+  const [timerId, setTimerId] = useState(0);
 
-class App extends React.PureComponent<Props, State> {
-  private isActive = true;
-
-  public state: State = {
-    nextRefresh: Date.now()
+  const executeStatus = (): void => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    getStatus().catch((): void => {});
   };
-
-  public componentDidMount (): void {
-    this.getStatus().catch((): void => {
-      // ignore
-    });
-  }
-
-  public componentWillUnmount (): void {
-    const { timerId } = this.state;
-
-    this.isActive = false;
-
-    if (timerId) {
-      window.clearTimeout(timerId);
-    }
-  }
-
-  public render (): React.ReactNode {
-    const { t } = this.props;
-    const { info = {}, nextRefresh } = this.state;
-
-    return (
-      <>
-        <Summary
-          info={info}
-          nextRefresh={nextRefresh}
-        />
-        <Peers peers={info.peers} />
-        <Extrinsics
-          blockNumber={info.blockNumber}
-          label={t('pending extrinsics')}
-          value={info.extrinsics}
-        />
-      </>
-    );
-  }
-
-  private setInfo (info?: Info): void {
-    if (!this.isActive) {
-      return;
-    }
-
-    this.setState({
-      info,
-      nextRefresh: (Date.now() + POLL_TIMEOUT),
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      timerId: window.setTimeout(this.getStatus, POLL_TIMEOUT)
-    });
-  }
-
-  private getStatus = async (): Promise<void> => {
-    const { api } = this.props;
-
+  const getStatus = async (): Promise<void> => {
     try {
       const [blockNumber, health, peers, extrinsics] = await Promise.all([
         api.derive.chain.bestNumber(),
@@ -95,15 +40,37 @@ class App extends React.PureComponent<Props, State> {
         api.rpc.author.pendingExtrinsics<Vec<Extrinsic>>()
       ]);
 
-      this.setInfo({ blockNumber, extrinsics, health, peers });
+      setInfo({ blockNumber, extrinsics, health, peers });
     } catch (error) {
-      this.setInfo();
+      setInfo({});
     }
-  }
+
+    setNextRefresh(Date.now() + POLL_TIMEOUT);
+    setTimerId(window.setTimeout(executeStatus, POLL_TIMEOUT));
+  };
+
+  useEffect((): () => void => {
+    executeStatus();
+
+    return (): void => {
+      window.clearTimeout(timerId);
+    };
+  }, []);
+
+  return (
+    <>
+      <Summary
+        info={info}
+        nextRefresh={nextRefresh}
+      />
+      <Peers peers={info.peers} />
+      <Extrinsics
+        blockNumber={info.blockNumber}
+        label={t('pending extrinsics')}
+        value={info.extrinsics}
+      />
+    </>
+  );
 }
 
-export default withMulti(
-  App,
-  translate,
-  withApi
-);
+export default translate(NodeInfo);

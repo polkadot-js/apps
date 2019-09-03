@@ -28,11 +28,12 @@ function AddressCard (props: Props): React.ReactElement<Props> {
         {...props}
         className='ui--AddressCard-AddressRow'
       />
-      {withExplorer && (
+      {withExplorer && value && (
         <div className='ui--AddressCard-explorer'>
           <LinkPolkascan
             className='ui--AddressCard-exporer-link'
-            data={value}
+            data={value.toString()}
+            type='address'
           />
         </div>
       )}
