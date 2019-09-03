@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/react-api';
 import { Button, CardGrid } from '@polkadot/react-components';
@@ -21,104 +21,55 @@ interface Props extends ComponentProps, I18nProps {
   accounts?: SubjectInfo[];
 }
 
-interface State {
-  isCreateOpen: boolean;
-  isImportOpen: boolean;
-}
+function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const [isCreateOpen, setCreateOpen] = useState(false);
+  const [isImportOpen, setImportOpen] = useState(false);
+  const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);
 
-class Overview extends React.PureComponent<Props, State> {
-  public constructor (props: Props) {
-    super(props);
+  const toggleCreate = (): void => setCreateOpen(!isCreateOpen);
+  const toggleImport = (): void => setImportOpen(!isImportOpen);
 
-    const { state: { isCreateOpen = false } = {} } = this.props.location;
-
-    this.state = {
-      isCreateOpen,
-      isImportOpen: false
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { accounts, t } = this.props;
-    const { isCreateOpen, isImportOpen } = this.state;
-    const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);
-
-    return (
-      <CardGrid
-        banner={<Banner />}
-        buttons={
-          <Button.Group>
-            <Button
-              isPrimary
-              label={t('Add account')}
-              onClick={this.toggleCreate}
-            />
-            <Button.Or />
-            <Button
-              isPrimary
-              label={t('Restore JSON')}
-              onClick={this.toggleImport}
-            />
-          </Button.Group>
-        }
-        isEmpty={emptyScreen}
-        emptyText={t('No account yet?')}
-      >
-        {this.renderCreate()}
-        {this.renderImport()}
-        {accounts && Object.keys(accounts).map((address): React.ReactNode => (
-          <Account
-            address={address}
-            key={address}
+  return (
+    <CardGrid
+      banner={<Banner />}
+      buttons={
+        <Button.Group>
+          <Button
+            isPrimary
+            label={t('Add account')}
+            onClick={toggleCreate}
           />
-        ))}
-      </CardGrid>
-    );
-  }
-
-  private renderCreate (): React.ReactNode {
-    const { isCreateOpen } = this.state;
-    const { onStatusChange } = this.props;
-
-    if (!isCreateOpen) {
-      return null;
-    }
-
-    return (
-      <CreateModal
-        onClose={this.toggleCreate}
-        onStatusChange={onStatusChange}
-      />
-    );
-  }
-
-  private renderImport (): React.ReactNode {
-    const { isImportOpen } = this.state;
-    const { onStatusChange } = this.props;
-
-    if (!isImportOpen) {
-      return null;
-    }
-
-    return (
-      <ImportModal
-        onClose={this.toggleImport}
-        onStatusChange={onStatusChange}
-      />
-    );
-  }
-
-  private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }): Pick<State, never> => ({
-      isCreateOpen: !isCreateOpen
-    }));
-  }
-
-  private toggleImport = (): void => {
-    this.setState(({ isImportOpen }): Pick<State, never> => ({
-      isImportOpen: !isImportOpen
-    }));
-  }
+          <Button.Or />
+          <Button
+            isPrimary
+            label={t('Restore JSON')}
+            onClick={toggleImport}
+          />
+        </Button.Group>
+      }
+      isEmpty={emptyScreen}
+      emptyText={t('No account yet?')}
+    >
+      {isCreateOpen && (
+        <CreateModal
+          onClose={toggleCreate}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {isImportOpen && (
+        <ImportModal
+          onClose={toggleImport}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {accounts && Object.keys(accounts).map((address): React.ReactNode => (
+        <Account
+          address={address}
+          key={address}
+        />
+      ))}
+    </CardGrid>
+  );
 }
 
 export default withMulti(

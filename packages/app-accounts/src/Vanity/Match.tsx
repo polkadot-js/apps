@@ -4,7 +4,7 @@
 
 import { BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, IdentityIcon } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
@@ -18,73 +18,51 @@ interface Props extends BareProps {
   seed: Uint8Array;
 }
 
-interface State {
-  hexSeed: string;
-}
+function Match ({ address, className, count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
+  const [hexSeed, setHexSeed] = useState('');
+  const _onCreate = (): void => onCreateToggle(hexSeed);
+  const _onRemove = (): void => onRemove(address);
 
-class Match extends React.PureComponent<Props, State> {
-  public state: State = { hexSeed: '' };
+  useEffect((): void => {
+    setHexSeed(u8aToHex(seed));
+  }, [seed]);
 
-  public static getDerivedStateFromProps ({ seed }: Props): State {
-    return {
-      hexSeed: u8aToHex(seed)
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { address, className, count, offset } = this.props;
-    const { hexSeed } = this.state;
-
-    return (
-      <div className={className}>
-        <div className='vanity--Match-item'>
-          <IdentityIcon
-            className='vanity--Match-icon'
-            size={48}
-            value={address}
-          />
-          <div className='vanity--Match-data'>
-            <div className='vanity--Match-addr'>
-              <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
-            </div>
-            <div className='vanity--Match-seed'>
-              {hexSeed}
-            </div>
+  return (
+    <div className={className}>
+      <div className='vanity--Match-item'>
+        <IdentityIcon
+          className='vanity--Match-icon'
+          size={48}
+          value={address}
+        />
+        <div className='vanity--Match-data'>
+          <div className='vanity--Match-addr'>
+            <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
           </div>
-          <div className='vanity--Match-buttons'>
-            <Button
-              icon='plus'
-              isPrimary
-              onClick={this.onCreate}
-              size='tiny'
-            />
-            <Button
-              icon='close'
-              isNegative
-              onClick={this.onRemove}
-              size='tiny'
-            />
+          <div className='vanity--Match-seed'>
+            {hexSeed}
           </div>
         </div>
+        <div className='vanity--Match-buttons'>
+          <Button
+            icon='plus'
+            isPrimary
+            onClick={_onCreate}
+            size='tiny'
+          />
+          <Button
+            icon='close'
+            isNegative
+            onClick={_onRemove}
+            size='tiny'
+          />
+        </div>
       </div>
-    );
-  }
-
-  private onCreate = (): void => {
-    const { onCreateToggle } = this.props;
-    const { hexSeed } = this.state;
-
-    onCreateToggle(hexSeed);
-  }
-
-  private onRemove = (): void => {
-    const { address, onRemove } = this.props;
-
-    onRemove(address);
-  }
+    </div>
+  );
 }
 
-export default styled(Match as React.ComponentClass<Props, State>)`
+export default styled(Match)`
   text-align: center;
 
   &:hover {
