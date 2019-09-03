@@ -6,7 +6,6 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withMulti } from '@polkadot/react-api';
 
 import translate from './translate';
 
@@ -15,18 +14,15 @@ interface Props extends I18nProps {
   unlockError?: string | null;
 }
 
-function PasswordCheck (props: Props): React.ReactElement<Props> | null {
-  const { className, unlockError, t } = props;
-
+function PasswordCheck ({ className, unlockError, t }: Props): React.ReactElement<Props> | null {
   return unlockError
     ? <div className={className}>{t('wrong password')}</div>
     : null;
 }
 
-export default withMulti(
+export default translate(
   styled(PasswordCheck)`
     margin-left: 15em;
     color: #9f3a38;
-  `,
-  translate
+  `
 );

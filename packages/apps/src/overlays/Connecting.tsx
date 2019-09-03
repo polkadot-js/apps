@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { ApiContext } from '@polkadot/react-api';
 import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';
 import BaseOverlay from './Base';
 
-type Props = I18nProps & ApiProps;
+type Props = I18nProps;
 
 const isFirefox = typeof (window as any).InstallTrigger !== 'undefined';
 const wsUrl = settings.apiUrl;
@@ -21,7 +21,7 @@ const isWs = wsUrl.startsWith('ws://');
 const isWsRemote = wsUrl.includes('127.0.0.1');
 const isHttps = window.location.protocol.startsWith('https:');
 
-function renderExtension ({ className, isWaitingInjected, t }: Props): React.ReactNode {
+function ExtensionOverlay ({ className, isWaitingInjected, t }: ApiProps & Props): React.ReactElement<Props> | null {
   if (!isWaitingInjected) {
     return null;
   }
@@ -36,7 +36,7 @@ function renderExtension ({ className, isWaitingInjected, t }: Props): React.Rea
   );
 }
 
-function renderConnecting ({ className, isApiConnected, t }: Props): React.ReactNode {
+function ConnectOverlay ({ className, isApiConnected, t }: ApiProps & Props): React.ReactElement<Props> | null {
   if (isApiConnected) {
     return null;
   }
@@ -61,20 +61,16 @@ function renderConnecting ({ className, isApiConnected, t }: Props): React.React
   );
 }
 
-function Connecting (props: Props): React.ReactElement<Props> {
-  return (
-    <>
-      {renderExtension(props) || renderConnecting(props)}
-    </>
-  );
+function Connecting (props: Props): React.ReactElement<Props> | null {
+  const api = useContext(ApiContext);
+
+  return <ExtensionOverlay {...props} {...api} /> || <ConnectOverlay {...props} {...api} />;
 }
 
-export default withMulti(
+export default translate(
   styled(Connecting)`
     background: #ffe6e6;
     border-color: #c00;
     color: #4d0000;
-  `,
-  translate,
-  withApi
+  `
 );
