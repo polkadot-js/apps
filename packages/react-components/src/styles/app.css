@@ -118,6 +118,11 @@ article {
       color: #555 !important;
     }
 
+    .ui.toggle.checkbox input:checked~.box:before,
+    .ui.toggle.checkbox input:checked~label:before {
+      background-color: #eee !important;
+    }
+
     .ui.button.mini {
       visibility: hidden;
     }

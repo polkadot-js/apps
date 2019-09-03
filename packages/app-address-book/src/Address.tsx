@@ -7,7 +7,8 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { AddressCard, AddressInfo, Button, Forget, Icon } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget, Icon } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -16,10 +17,12 @@ import translate from './translate';
 
 interface Props extends I18nProps {
   address: string;
+  className?: string;
 }
 
 interface State {
   current?: KeyringAddress;
+  genesisHash: string | null;
   isEditable: boolean;
   isForgetOpen: boolean;
   isTransferOpen: boolean;
@@ -32,9 +35,11 @@ class Address extends React.PureComponent<Props, State> {
     super(props);
 
     const { address } = this.props;
+    const current = keyring.getAddress(address);
 
     this.state = {
-      current: keyring.getAddress(address),
+      current,
+      genesisHash: (current && current.meta.genesisHash) || null,
       isEditable: true,
       isForgetOpen: false,
       isTransferOpen: false
@@ -42,12 +47,13 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { address } = this.props;
+    const { address, className } = this.props;
     const { isEditable } = this.state;
 
     return (
       <AddressCard
         buttons={this.renderButtons()}
+        className={className}
         isEditable={isEditable}
         type='address'
         value={address}
@@ -134,35 +140,65 @@ class Address extends React.PureComponent<Props, State> {
     }
   }
 
+  private onGenesisChange = (genesisHash: string | null): void => {
+    const { address } = this.props;
+
+    this.setState({ genesisHash }, (): void => {
+      const account = keyring.getAddress(address);
+
+      account && keyring.saveAddress(address, { ...account.meta, genesisHash });
+    });
+  }
+
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { isEditable } = this.state;
+    const { genesisHash, isEditable } = this.state;
 
     return (
-      <div className='accounts--Account-buttons buttons'>
+      <div className='addresses--Address-buttons buttons'>
+        <div className='actions'>
+          {isEditable && (
+            <>
+              <Button
+                isNegative
+                onClick={this.toggleForget}
+                icon='trash'
+                key='forget'
+                size='small'
+                tooltip={t('Forget this address')}
+              />
+            </>
+          )}
+          <Button
+            isPrimary
+            key='deposit'
+            label={<><Icon name='paper plane' /> {t('deposit')}</>}
+            onClick={this.toggleTransfer}
+            size='small'
+            tooltip={t('Send funds to this address')}
+          />
+        </div>
         {isEditable && (
-          <>
-            <Button
-              isNegative
-              onClick={this.toggleForget}
-              icon='trash'
-              key='forget'
-              size='small'
-              tooltip={t('Forget this address')}
+          <div className='others'>
+            <ChainLock
+              genesisHash={genesisHash}
+              onChange={this.onGenesisChange}
             />
-          </>
+          </div>
         )}
-        <Button
-          isPrimary
-          key='deposit'
-          label={<><Icon name='paper plane' /> {t('deposit')}</>}
-          onClick={this.toggleTransfer}
-          size='small'
-          tooltip={t('Send funds to this address')}
-        />
       </div>
     );
   }
 }
 
-export default translate(Address);
+export default translate(
+  styled(Address)`
+    .addresses--Address-buttons {
+      text-align: right;
+
+      .others {
+        margin-right: 0.125rem;
+        margin-top: 0.25rem;
+      }
+    }`
+);

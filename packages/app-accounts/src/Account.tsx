@@ -6,20 +6,22 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { AddressCard, AddressInfo, Button, Forget, Icon } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget, Icon } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Transfer from './modals/Transfer';
-
 import translate from './translate';
 
 interface Props extends I18nProps {
   address: string;
+  className?: string;
 }
 
 interface State {
+  genesisHash: string | null;
   isBackupOpen: boolean;
   isEditable: boolean;
   isForgetOpen: boolean;
@@ -36,6 +38,7 @@ class Account extends React.PureComponent<Props, State> {
     const account = keyring.getAccount(props.address);
 
     this.state = {
+      genesisHash: (account && account.meta.genesisHash) || null,
       isBackupOpen: false,
       isEditable: account
         ? !(account.meta.isInjected)
@@ -47,7 +50,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { address } = this.props;
+    const { address, className } = this.props;
     const { isEditable } = this.state;
 
     // FIXME It is a bit heavy-handled switching of being editable here completely
@@ -55,6 +58,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <AddressCard
         buttons={this.renderButtons()}
+        className={className}
         isEditable={isEditable}
         type='account'
         value={address}
@@ -172,47 +176,78 @@ class Account extends React.PureComponent<Props, State> {
     }
   }
 
+  private onGenesisChange = (genesisHash: string | null): void => {
+    const { address } = this.props;
+
+    this.setState({ genesisHash }, (): void => {
+      const account = keyring.getPair(address);
+
+      account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
+    });
+  }
+
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { isEditable } = this.state;
+    const { genesisHash, isEditable } = this.state;
 
     return (
       <div className='accounts--Account-buttons buttons'>
+        <div className='actions'>
+          {isEditable && (
+            <>
+              <Button
+                isNegative
+                onClick={this.toggleForget}
+                icon='trash'
+                size='small'
+                tooltip={t('Forget this account')}
+              />
+              <Button
+                icon='cloud download'
+                isPrimary
+                onClick={this.toggleBackup}
+                size='small'
+                tooltip={t('Create a backup file for this account')}
+              />
+              <Button
+                icon='key'
+                isPrimary
+                onClick={this.togglePass}
+                size='small'
+                tooltip={t("Change this account's password")}
+              />
+            </>
+          )}
+          <Button
+            isPrimary
+            label={<><Icon name='paper plane' /> {t('send')}</>}
+            onClick={this.toggleTransfer}
+            size='small'
+            tooltip={t('Send funds from this account')}
+          />
+        </div>
         {isEditable && (
-          <>
-            <Button
-              isNegative
-              onClick={this.toggleForget}
-              icon='trash'
-              size='small'
-              tooltip={t('Forget this account')}
+          <div className='others'>
+            <ChainLock
+              genesisHash={genesisHash}
+              onChange={this.onGenesisChange}
             />
-            <Button
-              icon='cloud download'
-              isPrimary
-              onClick={this.toggleBackup}
-              size='small'
-              tooltip={t('Create a backup file for this account')}
-            />
-            <Button
-              icon='key'
-              isPrimary
-              onClick={this.togglePass}
-              size='small'
-              tooltip={t("Change this account's password")}
-            />
-          </>
+          </div>
         )}
-        <Button
-          isPrimary
-          label={<><Icon name='paper plane' /> {t('send')}</>}
-          onClick={this.toggleTransfer}
-          size='small'
-          tooltip={t('Send funds from this account')}
-        />
       </div>
     );
   }
 }
 
-export default translate(Account);
+export default translate(
+  styled(Account)`
+    .accounts--Account-buttons {
+      text-align: right;
+
+      .others {
+        margin-right: 0.125rem;
+        margin-top: 0.25rem;
+      }
+    }
+  `
+);

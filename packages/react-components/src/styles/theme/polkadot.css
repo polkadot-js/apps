@@ -19,6 +19,11 @@
     background-color: $button-primary-color-hover;
   }
 
+  .ui.toggle.checkbox input:checked~.box:before,
+  .ui.toggle.checkbox input:checked~label:before {
+    background-color: $button-primary-color !important;
+  }
+
   .ui.basic.negative.button {
     box-shadow: 0 0 0 1px rgba(215, 94, 161, 1) inset !important;
     color: rgba(215, 94, 161, 1) !important;
