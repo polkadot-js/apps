@@ -210,7 +210,7 @@ export interface RowState {
 // const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 // const ICON_SIZE = 48;
 
-class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P, S> {
+export default class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P, S> {
   public state: S = {
     isEditingName: false,
     isEditingTags: false
@@ -373,5 +373,3 @@ class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P,
     }) as unknown as S);
   }
 }
-
-export default Row;

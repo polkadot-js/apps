@@ -23,7 +23,7 @@ function onChange ({ isError, onChange }: Props): (_?: BN) => void {
   };
 }
 
-function Balance (props: Props): React.ReactElement<Props> {
+export default function Balance (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
   const defaultValue = new BN((value as BN || '0').toString()).toString(10);
 
@@ -50,5 +50,3 @@ function Balance (props: Props): React.ReactElement<Props> {
 export {
   Balance
 };
-
-export default Balance;
