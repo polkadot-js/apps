@@ -19,7 +19,7 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   defaultValue: CallFunction;
   help?: React.ReactNode;
   isDisabled?: boolean;
@@ -28,7 +28,7 @@ type Props = ApiProps & I18nProps & {
   label: React.ReactNode;
   onChange: (value: CallFunction) => void;
   withLabel?: boolean;
-};
+}
 
 interface State {
   optionsMethod?: DropdownOptions;

@@ -15,7 +15,7 @@ import translate from './translate';
 import Developer from './Developer';
 import General from './General';
 
-type Props = AppProps & I18nProps;
+interface Props extends AppProps, I18nProps {}
 
 interface State {
   tabs: TabItem[];

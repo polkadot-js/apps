@@ -2,16 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props as BaseProps, RawParam } from '@polkadot/react-params/types';
-import { ApiProps } from '@polkadot/react-api/types';
+import { Props, RawParam } from '@polkadot/react-params/types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { createType } from '@polkadot/types';
-import { withApi } from '@polkadot/react-api';
+import { ApiContext } from '@polkadot/react-api';
 
 import ExtrinsicDisplay from './Extrinsic';
-
-type Props = ApiProps & BaseProps;
 
 function onChange ({ onChange }: Props): (_: RawParam) => void {
   return function ({ isValid, value }: RawParam): void {
@@ -28,8 +25,9 @@ function onChange ({ onChange }: Props): (_: RawParam) => void {
   };
 }
 
-function ProposalDisplay (props: Props): React.ReactElement<Props> {
-  const { apiDefaultTxSudo, className, isDisabled, isError, label, onEnter, style, withLabel } = props;
+export default function ProposalDisplay (props: Props): React.ReactElement<Props> {
+  const { apiDefaultTxSudo } = useContext(ApiContext);
+  const { className, isDisabled, isError, label, onEnter, style, withLabel } = props;
 
   return (
     <ExtrinsicDisplay
@@ -46,5 +44,3 @@ function ProposalDisplay (props: Props): React.ReactElement<Props> {
     />
   );
 }
-
-export default withApi(ProposalDisplay);

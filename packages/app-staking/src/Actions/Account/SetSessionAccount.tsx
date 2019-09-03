@@ -12,13 +12,13 @@ import { withApi, withMulti } from '@polkadot/react-api';
 import ValidationSessionKey from './InputValidationSessionKey';
 import translate from '../../translate';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends I18nProps, ApiProps {
   controllerId: string;
   isOpen: boolean;
   onClose: () => void;
   sessionIds: string[];
   stashId: string;
-};
+}
 
 interface State {
   // TODO remove once we drop v1 support

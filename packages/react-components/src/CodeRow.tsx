@@ -20,10 +20,10 @@ import Messages from './Messages';
 import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
-type Props = I18nProps & RowProps & {
+interface Props extends I18nProps, RowProps {
   code: CodeStored;
   withMessages?: boolean;
-};
+}
 
 interface State extends RowState {
   codeHash: string;

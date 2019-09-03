@@ -2,25 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
-import React from 'react';
-import { withApi } from '@polkadot/react-api';
+import React, { useContext } from 'react';
+import { ApiPromise } from '@polkadot/api';
+import { ApiContext } from '@polkadot/react-api';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = ApiProps & BareProps & {
+interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: StorageEntryPromise) => void;
   options: DropdownOptions;
   value: StorageEntryPromise;
-};
+}
 
-function transform ({ api, value }: Props): (method: string) => StorageEntryPromise {
+function transform (api: ApiPromise, { value }: Props): (method: string) => StorageEntryPromise {
   return function (method: string): StorageEntryPromise {
     return api.query[value.creator.section]
       ? api.query[value.creator.section][method]
@@ -28,7 +28,8 @@ function transform ({ api, value }: Props): (method: string) => StorageEntryProm
   };
 }
 
-function SelectKey (props: Props): React.ReactElement<Props> | null {
+export default function SelectKey (props: Props): React.ReactElement<Props> | null {
+  const { api } = useContext(ApiContext);
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {
@@ -42,11 +43,9 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
       onChange={onChange}
       options={options}
       style={style}
-      transform={transform(props)}
+      transform={transform(api, props)}
       value={value.creator.method}
       withLabel={false}
     />
   );
 }
-
-export default withApi(SelectKey);

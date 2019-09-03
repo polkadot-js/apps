@@ -15,9 +15,9 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import translate from '../translate';
 import BaseOverlay from './Base';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends I18nProps, ApiProps {
   allAccounts?: SubjectInfo;
-};
+}
 
 interface State {
   hasAccounts: boolean;

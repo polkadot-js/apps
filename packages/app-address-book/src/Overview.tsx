@@ -15,9 +15,9 @@ import CreateModal from './modals/Create';
 import Address from './Address';
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps & {
+interface Props extends ComponentProps, I18nProps {
   addresses?: SubjectInfo[];
-};
+}
 
 interface State {
   isCreateOpen: boolean;

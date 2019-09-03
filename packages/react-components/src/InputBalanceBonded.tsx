@@ -17,7 +17,7 @@ import { withCalls, withMulti, withApi } from '@polkadot/react-api';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 import { bnMax } from '@polkadot/util';
 
-type Props = BareProps & ApiProps & {
+interface Props extends BareProps, ApiProps {
   autoFocus?: boolean;
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
@@ -38,7 +38,7 @@ type Props = BareProps & ApiProps & {
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
-};
+}
 
 interface State {
   maxBalance?: BN;

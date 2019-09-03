@@ -10,7 +10,7 @@ import { Button, Input } from '@polkadot/react-components';
 
 import translate from './translate';
 
-type Props = BareProps & I18nProps & {
+interface Props extends BareProps, I18nProps {
   isCustomExample: boolean;
   isRunning: boolean;
   generateLink: () => void;
@@ -19,7 +19,7 @@ type Props = BareProps & I18nProps & {
   saveSnippet: (snippetName: string) => void;
   snippetName?: string;
   stopJs: () => void;
-};
+}
 
 interface State {
   isOpen: boolean;

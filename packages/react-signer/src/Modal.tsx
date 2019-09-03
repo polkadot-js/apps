@@ -32,9 +32,9 @@ interface BaseProps extends BareProps {
   queueSetTxStatus: QueueTxMessageSetStatus;
 }
 
-type Props = I18nProps & ApiProps & BaseProps & {
+interface Props extends I18nProps, ApiProps, BaseProps {
   allAccounts?: SubjectInfo;
-};
+}
 
 interface State {
   currentItem?: QueueTx;

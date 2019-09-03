@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedContractFees } from '@polkadot/api-derive/types';
-import { ExtraFees } from './types';
+import { ExtraFees as State } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -12,10 +12,8 @@ import { Compact, UInt } from '@polkadot/types';
 interface Props {
   endowment: BN | Compact<UInt>;
   fees: DerivedContractFees;
-  onChange: (fees: ExtraFees) => void;
+  onChange: (fees: State) => void;
 }
-
-type State = ExtraFees;
 
 export default class ContractDeploy extends React.PureComponent<Props, State> {
   public state: State = {

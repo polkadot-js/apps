@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props as BareProps } from '../types';
+import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { InputBalance } from '@polkadot/react-components';
 
 import Bare from './Bare';
-
-type Props = BareProps;
 
 function onChange ({ isError, onChange }: Props): (_?: BN) => void {
   return function (value?: BN): void {

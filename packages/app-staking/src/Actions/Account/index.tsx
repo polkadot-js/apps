@@ -27,7 +27,7 @@ import { u8aToHex, u8aConcat } from '@polkadot/util';
 
 import { updateOnlineStatus } from '../../util';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   accountId: string;
   allStashes?: string[];
   balances_all?: DerivedBalances;
@@ -35,7 +35,7 @@ type Props = ApiProps & I18nProps & {
   recentlyOnline: Record<string, BlockNumber>;
   staking_info?: DerivedStaking;
   stashOptions: KeyringSectionOption[];
-};
+}
 
 interface State {
   controllerId: string | null;

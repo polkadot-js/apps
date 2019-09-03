@@ -13,7 +13,7 @@ import Queries from './Queries';
 import Selection from './Selection';
 import translate from './translate';
 
-type Props = AppProps & I18nProps;
+interface Props extends AppProps, I18nProps {}
 
 interface State {
   queue: QueryTypes[];

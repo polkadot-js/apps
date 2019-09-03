@@ -19,10 +19,10 @@ import Sudo from './Sudo';
 
 import translate from './translate';
 
-type Props = AppProps & ApiProps & I18nProps & {
+interface Props extends AppProps, ApiProps, I18nProps {
   allAccounts: SubjectInfo;
   sudo_key?: string;
-};
+}
 
 interface State {
   isMine: boolean;

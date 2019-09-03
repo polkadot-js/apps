@@ -16,13 +16,13 @@ import Static from './Static';
 import { classes } from './util';
 import translate from './translate';
 
-export type Props = I18nProps & BareProps & {
+export interface Props extends I18nProps, BareProps {
   children?: React.ReactNode;
   value: IExtrinsic | IMethod;
   withHash?: boolean;
   mortality?: string;
   tip?: BN;
-};
+}
 
 const Wrapper = styled.div`
   .hash .ui--Static {

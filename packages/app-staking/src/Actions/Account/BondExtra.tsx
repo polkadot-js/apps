@@ -18,12 +18,12 @@ import { bnMax } from '@polkadot/util';
 
 import translate from '../../translate';
 
-type Props = I18nProps & ApiProps & CalculateBalanceProps & {
+interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
   controllerId: string;
   isOpen: boolean;
   onClose: () => void;
   stashId: string;
-};
+}
 
 interface State {
   extrinsic: SubmittableExtrinsic | null;

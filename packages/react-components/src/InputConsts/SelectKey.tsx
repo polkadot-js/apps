@@ -2,23 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 import { ConstValueBase } from './types';
 
 import React from 'react';
-import { withApi } from '@polkadot/react-api';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = ApiProps & BareProps & {
+interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: ConstValueBase) => void;
   options: DropdownOptions;
   value: ConstValueBase;
-};
+}
 
 function transform ({ value }: Props): (method: string) => ConstValueBase {
   return (method: string): ConstValueBase => {
@@ -31,7 +29,7 @@ function transform ({ value }: Props): (method: string) => ConstValueBase {
   };
 }
 
-function SelectKey (props: Props): React.ReactElement<Props> | null {
+export default function SelectKey (props: Props): React.ReactElement<Props> | null {
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {
@@ -51,5 +49,3 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
     />
   );
 }
-
-export default withApi(SelectKey);

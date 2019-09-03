@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, CallState, SubtractProps } from '../types';
+import { ApiProps, CallState as State, SubtractProps } from '../types';
 import { Options } from './types';
 
 import React from 'react';
@@ -21,8 +21,6 @@ interface Method {
 }
 
 type ApiMethodInfo = [Method, any[], string];
-
-type State = CallState;
 
 const NOOP = (): void => {
   // ignore
