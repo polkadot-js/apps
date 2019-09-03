@@ -227,12 +227,14 @@ class Account extends React.PureComponent<Props, State> {
             tooltip={t('Send funds from this account')}
           />
         </div>
-        <div className='others'>
-          <ChainLock
-            genesisHash={genesisHash}
-            onChange={this.onGenesisChange}
-          />
-        </div>
+        {isEditable && (
+          <div className='others'>
+            <ChainLock
+              genesisHash={genesisHash}
+              onChange={this.onGenesisChange}
+            />
+          </div>
+        )}
       </div>
     );
   }

@@ -2,57 +2,46 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
-import { withApi, withMulti } from '@polkadot/react-api';
+import React, { useContext } from 'react';
+import { ApiContext } from '@polkadot/react-api';
 import { Toggle } from '@polkadot/react-components';
 
 import translate from './translate';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends I18nProps {
   className?: string;
   genesisHash: string | null;
   onChange: (genesisHash: string | null) => void;
 }
 
-class ChainLock extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { api, genesisHash, isDevelopment, t } = this.props;
+function ChainLock ({ genesisHash, onChange, t }: Props): React.ReactElement<Props> | null {
+  const { isDevelopment, api } = useContext(ApiContext);
 
-    if (isDevelopment) {
-      return null;
-    }
-
-    const isTiedToChain = api.genesisHash.eq(genesisHash);
-
-    return (
-      <Toggle
-        label={
-          isTiedToChain
-            ? t('only on this chain')
-            : t('allow on any chain')
-        }
-        onChange={this.onChange}
-        value={isTiedToChain}
-      />
-    );
+  if (isDevelopment) {
+    return null;
   }
 
-  private onChange = (isToggled: boolean): void => {
-    const { api, onChange } = this.props;
-
+  const isTiedToChain = api.genesisHash.eq(genesisHash);
+  const _onChange = (isTiedToChain: boolean): void =>
     onChange(
-      isToggled
+      isTiedToChain
         ? api.genesisHash.toHex()
         : null
     );
-  }
+
+  return (
+    <Toggle
+      defaultValue={isTiedToChain}
+      label={
+        isTiedToChain
+          ? t('only this network')
+          : t('use on any network')
+      }
+      onChange={_onChange}
+    />
+  );
 }
 
-export default withMulti(
-  ChainLock,
-  translate,
-  withApi
-);
+export default translate(ChainLock);
