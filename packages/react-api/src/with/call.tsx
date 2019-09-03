@@ -26,6 +26,9 @@ const NOOP = (): void => {
   // ignore
 };
 
+// a mapping of actual error messages that has already been shown
+const errorred: Record<string, boolean> = {};
+
 export default function withCall<P extends ApiProps> (
   endpoint: string,
   {
@@ -210,7 +213,13 @@ export default function withCall<P extends ApiProps> (
 
           info = this.getApiMethod(newParams);
         } catch (error) {
-          console.error(endpoint, '::', error);
+          // don't flood the console with the same errors each time, just do it once, then
+          // ignore it going forward
+          if (!errorred[error.message]) {
+            console.error(endpoint, '::', error);
+
+            errorred[error.message] = true;
+          }
         }
 
         if (!info) {

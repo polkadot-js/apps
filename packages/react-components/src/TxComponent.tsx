@@ -9,11 +9,13 @@ export default class TxComponent<P, S> extends React.PureComponent<P, S> {
 
   public constructor (props: P) {
     super(props);
+
     this.button = React.createRef();
   }
 
   protected sendTx = (): void => {
     const { component } = this.button.current;
+
     if (component) {
       component.current.send();
     }
