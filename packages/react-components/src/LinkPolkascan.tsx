@@ -2,22 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from './types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { ApiContext } from '@polkadot/react-api';
 
 import translate from './translate';
 
 export type LinkTypes = 'address' | 'block' | 'extrinsic';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends I18nProps {
   className?: string;
   data: string;
   type: LinkTypes;
-};
+}
 
 const BASE = 'https://polkascan.io/pre/';
 
@@ -33,7 +32,8 @@ const TYPES: Record<string, string> = {
   extrinsic: '/system/extrinsic/'
 };
 
-function LinkPolkascan ({ className, currentChain, data, t, type }: Props): React.ReactElement<Props> | null {
+function LinkPolkascan ({ className, data, t, type }: Props): React.ReactElement<Props> | null {
+  const { currentChain } = useContext(ApiContext);
   const extChain = CHAINS[currentChain];
   const extType = TYPES[type];
 
@@ -54,11 +54,9 @@ function LinkPolkascan ({ className, currentChain, data, t, type }: Props): Reac
   );
 }
 
-export default withMulti(
+export default translate(
   styled(LinkPolkascan)`
     margin-top: 1rem;
     text-align: right;
-  `,
-  translate,
-  withApi
+  `
 );
