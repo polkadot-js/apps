@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { GovernanceTypes } from 'edgeware-node-types/dist/governance';
 import { IdentityTypes } from 'edgeware-node-types/dist/identity';
+import { SignalingTypes } from 'edgeware-node-types/dist/signaling';
 import { VotingTypes } from 'edgeware-node-types/dist/voting';
 
 export default {
-  ...GovernanceTypes,
   ...IdentityTypes,
+  ...SignalingTypes,
   ...VotingTypes
-  // 'voting::TallyType': 'TallyType',
-  // 'voting::VoteType': 'VoteType'
 };
