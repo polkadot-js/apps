@@ -15,7 +15,7 @@ import { formatBalance } from '@polkadot/util';
 import Inset, { InsetProps } from './Inset';
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends I18nProps, ApiProps {
   className?: string;
   asInset?: boolean;
   insetProps?: Partial<InsetProps>;
@@ -23,7 +23,7 @@ type Props = I18nProps & ApiProps & {
   proposalId: string;
   proposal?: TreasuryProposalType | null;
   withLink?: boolean;
-};
+}
 
 interface State {
   proposal?: TreasuryProposalType | null;

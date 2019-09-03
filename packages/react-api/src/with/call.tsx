@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps, CallState, SubtractProps } from '../types';
+import { ApiProps, CallState as State, SubtractProps } from '../types';
 import { Options } from './types';
 
 import React from 'react';
@@ -22,11 +22,12 @@ interface Method {
 
 type ApiMethodInfo = [Method, any[], string];
 
-type State = CallState;
-
 const NOOP = (): void => {
   // ignore
 };
+
+// a mapping of actual error messages that has already been shown
+const errorred: Record<string, boolean> = {};
 
 export default function withCall<P extends ApiProps> (
   endpoint: string,
@@ -212,7 +213,13 @@ export default function withCall<P extends ApiProps> (
 
           info = this.getApiMethod(newParams);
         } catch (error) {
-          console.error(endpoint, '::', error);
+          // don't flood the console with the same errors each time, just do it once, then
+          // ignore it going forward
+          if (!errorred[error.message]) {
+            console.error(endpoint, '::', error);
+
+            errorred[error.message] = true;
+          }
         }
 
         if (!info) {

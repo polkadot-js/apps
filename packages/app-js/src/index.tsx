@@ -10,7 +10,7 @@ import { Route, Switch } from 'react-router';
 import './index.css';
 import Playground from './Playground';
 
-type Props = AppProps & BareProps;
+interface Props extends AppProps, BareProps {}
 
 export default function AppJs ({ basePath }: Props): React.ReactElement<Props> {
   return (

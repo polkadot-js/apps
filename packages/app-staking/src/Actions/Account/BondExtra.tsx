@@ -14,15 +14,16 @@ import { calcSignatureLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
+import { bnMax } from '@polkadot/util';
 
 import translate from '../../translate';
 
-type Props = I18nProps & ApiProps & CalculateBalanceProps & {
+interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
   controllerId: string;
   isOpen: boolean;
   onClose: () => void;
   stashId: string;
-};
+}
 
 interface State {
   extrinsic: SubmittableExtrinsic | null;
@@ -152,17 +153,14 @@ class BondExtra extends TxComponent<Props, State> {
 
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
-
       extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
       const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+      const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
-      const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength));
-
-      maxBalance = availableBalance.sub(fees);
+      maxBalance = bnMax(availableBalance.sub(fees), ZERO);
     }
 
     this.nextState({

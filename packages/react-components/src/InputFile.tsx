@@ -14,7 +14,7 @@ import { classes } from './util';
 import Labelled from './Labelled';
 import translate from './translate';
 
-type Props = BareProps & WithTranslation & {
+interface Props extends BareProps, WithTranslation {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string;
@@ -27,7 +27,7 @@ type Props = BareProps & WithTranslation & {
   placeholder?: React.ReactNode | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
-};
+}
 
 interface State {
   file?: {

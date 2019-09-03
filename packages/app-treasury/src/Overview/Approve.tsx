@@ -13,12 +13,12 @@ import TxModal, { TxModalProps, TxModalState } from '@polkadot/react-components/
 
 import translate from '../translate';
 
-type Props = I18nProps & ApiProps & TxModalProps & {
+interface Props extends I18nProps, ApiProps, TxModalProps {
   isApproved?: boolean;
   proposalInfo?: React.ReactNode;
   proposalId: string;
   threshold: number;
-};
+}
 
 interface State extends TxModalState {
   isApproving: boolean;

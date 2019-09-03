@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import translate from './translate';
 
-type Props = I18nProps & ComponentProps;
+interface Props extends I18nProps, ComponentProps {}
 
 interface State {
   selected?: string;

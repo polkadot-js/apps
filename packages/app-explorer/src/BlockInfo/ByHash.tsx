@@ -5,7 +5,6 @@
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
@@ -18,12 +17,12 @@ import Events from './Events';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends I18nProps {
   system_events?: EventRecord[];
   chain_getBlock?: SignedBlock;
   chain_getHeader?: HeaderExtended;
   value: string;
-};
+}
 
 function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<Props> | null {
   if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {

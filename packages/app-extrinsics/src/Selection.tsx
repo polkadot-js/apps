@@ -17,9 +17,9 @@ import { Nonce } from '@polkadot/react-query';
 import Balance from './Balance';
 import translate from './translate';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   queueExtrinsic: QueueTxExtrinsicAdd;
-};
+}
 
 interface State {
   isValid: boolean;

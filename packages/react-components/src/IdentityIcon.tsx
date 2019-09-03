@@ -4,7 +4,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/react-api/types';
 import { IdentityProps } from '@polkadot/react-identicon/types';
 import { QueueAction$Add } from './Status/types';
 import { I18nProps } from './types';
@@ -17,16 +16,16 @@ import BaseIdentityIcon from '@polkadot/react-identicon';
 import { QueueConsumer } from './Status/Context';
 import translate from './translate';
 
-type CopyProps = IdentityProps & I18nProps & {
+interface CopyProps extends IdentityProps, I18nProps {
   queueAction?: QueueAction$Add;
-};
+}
 
-type IconProps = ApiProps & IdentityProps & {
+interface IconProps extends IdentityProps {
   session_validators?: AccountId[];
   staking_bonded?: Option<AccountId>;
-};
+}
 
-type Props = IconProps & IdentityProps;
+interface Props extends IconProps, IdentityProps {}
 
 interface State {
   isValidator: boolean;

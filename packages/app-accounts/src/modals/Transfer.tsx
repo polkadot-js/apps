@@ -17,17 +17,18 @@ import { Available } from '@polkadot/react-query';
 import Checks, { calcSignatureLength } from '@polkadot/react-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/react-api';
 import { ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
+import { bnMax } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   balances_fees?: DerivedFees;
   className?: string;
   onClose: () => void;
   recipientId?: string;
   senderId?: string;
   system_accountNonce?: BN;
-};
+}
 
 interface State {
   amount: BN;
@@ -215,11 +216,11 @@ class Transfer extends React.PureComponent<Props, State> {
 
       const txLength = calcSignatureLength(extrinsic, accountNonce);
       const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength))
+        .add(transactionByteFee.mul(txLength))
         .add(transferFee)
         .add(recipientBalance.isZero() ? creationFee : ZERO);
 
-      maxBalance = senderBalance.sub(fees);
+      maxBalance = bnMax(senderBalance.sub(fees), ZERO);
     }
 
     this.nextState({

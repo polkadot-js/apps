@@ -18,14 +18,14 @@ import ProposedAction from './ProposedAction';
 import TxModal, { TxModalProps, TxModalState } from './TxModal';
 import { isTreasuryProposalVote } from './util';
 
-type Props = I18nProps & TxModalProps & {
+interface Props extends I18nProps, TxModalProps {
   allAccounts?: SubjectInfo;
   hash?: string;
   idNumber: BN | number;
   isCouncil: boolean;
   proposal?: Proposal | null;
   preContent?: React.ReactNode;
-};
+}
 
 interface State extends TxModalState {
   voteOptions: { text: React.ReactNode; value: boolean }[];

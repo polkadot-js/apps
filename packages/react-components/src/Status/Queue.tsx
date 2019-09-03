@@ -5,7 +5,7 @@
 import { SignerPayload } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { BareProps } from '../types';
-import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
+import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps as State, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
@@ -19,9 +19,7 @@ export interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-type State = QueueProps;
-
-const defaultState: Partial<QueueProps> = {
+const defaultState: Partial<State> = {
   stqueue: [] as QueueStatus[],
   txqueue: [] as QueueTx[]
 };

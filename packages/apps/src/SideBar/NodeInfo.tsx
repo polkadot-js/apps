@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@polkadot/react-components/types';
 
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ApiContext } from '@polkadot/react-api';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
-
-type Props = BareProps;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkgJson = require('../../package.json');

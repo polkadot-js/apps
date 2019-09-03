@@ -18,7 +18,7 @@ import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';
 
-type Props = BareProps & ApiProps & {
+interface Props extends BareProps, ApiProps {
   defaultValue: CallFunction;
   isDisabled?: boolean;
   isError?: boolean;
@@ -27,7 +27,7 @@ type Props = BareProps & ApiProps & {
   onChange: (method?: Call) => void;
   onEnter: () => void;
   withLabel?: boolean;
-};
+}
 
 interface State {
   methodfn: CallFunction;

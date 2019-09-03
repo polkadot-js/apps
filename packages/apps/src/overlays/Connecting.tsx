@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React, { useContext } from 'react';
 import styled from 'styled-components';
@@ -12,8 +12,6 @@ import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';
 import BaseOverlay from './Base';
-
-type Props = I18nProps;
 
 const isFirefox = typeof (window as any).InstallTrigger !== 'undefined';
 const wsUrl = settings.apiUrl;

@@ -27,7 +27,7 @@ export function TimePeriod ({ babe_expectedBlockTime, children, className, label
         babe_expectedBlockTime
           ? `${formatNumber(babe_expectedBlockTime.toNumber() / 1000)}s`
           : timestamp_minimumPeriod
-            ? `${formatNumber(timestamp_minimumPeriod.toNumber() * 2)}s`
+            ? `${formatNumber(timestamp_minimumPeriod.gtn(1000) ? (timestamp_minimumPeriod.toNumber() / 500) : (timestamp_minimumPeriod.toNumber() * 2))}s`
             : '-'
       }{children}
     </div>

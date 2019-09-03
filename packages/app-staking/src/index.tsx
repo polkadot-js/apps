@@ -25,13 +25,13 @@ import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';
 
-type Props = AppProps & ApiProps & I18nProps & {
+interface Props extends AppProps, ApiProps, I18nProps {
   allAccounts?: SubjectInfo;
   allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
   chain_bestNumber?: BlockNumber;
   currentValidatorsControllersV1OrStashesV2?: AccountId[];
   recentlyOnline?: AuthorityId[];
-};
+}
 
 interface State {
   allControllers: string[];

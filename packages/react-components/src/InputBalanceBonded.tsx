@@ -15,8 +15,9 @@ import { InputNumber } from '@polkadot/react-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withMulti, withApi } from '@polkadot/react-api';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
+import { bnMax } from '@polkadot/util';
 
-type Props = BareProps & ApiProps & {
+interface Props extends BareProps, ApiProps {
   autoFocus?: boolean;
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
@@ -37,7 +38,7 @@ type Props = BareProps & ApiProps & {
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
-};
+}
 
 interface State {
   maxBalance?: BN;
@@ -124,10 +125,9 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       }
 
       const txLength = calcSignatureLength(extrinsic, system_accountNonce);
-      const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength));
+      const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
-      maxBalance = new BN(freeBalance).sub(fees);
+      maxBalance = bnMax(freeBalance.sub(fees), ZERO);
     }
 
     this.nextState({

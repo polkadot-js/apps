@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
@@ -10,8 +10,6 @@ import { BestFinalized, BestNumber, TimeNow, TimePeriod, TotalIssuance } from '@
 
 import SummarySession from './SummarySession';
 import translate from './translate';
-
-type Props = I18nProps;
 
 function Summary ({ t }: Props): React.ReactElement<Props> {
   return (

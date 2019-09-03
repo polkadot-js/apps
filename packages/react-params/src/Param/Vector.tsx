@@ -15,7 +15,7 @@ import getInitValue from '../initValue';
 import Bare from './Bare';
 import findComponent from './findComponent';
 
-type Props = BareProps & WithTranslation;
+interface Props extends BareProps, WithTranslation {}
 
 interface State {
   Component: React.ComponentType<BareProps> | null;

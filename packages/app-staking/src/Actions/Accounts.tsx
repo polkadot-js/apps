@@ -18,9 +18,9 @@ import Account from './Account';
 import StartStaking from './NewStake';
 import translate from '../translate';
 
-type Props = I18nProps & ComponentProps & ApiProps & {
+interface Props extends I18nProps, ComponentProps, ApiProps {
   myControllers?: string[];
-};
+}
 
 interface State {
   isNewStakeOpen: boolean;

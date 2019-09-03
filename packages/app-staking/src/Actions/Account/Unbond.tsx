@@ -16,13 +16,13 @@ import { withCalls, withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../../translate';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends I18nProps, ApiProps {
   controllerId?: AccountId | null;
   isOpen: boolean;
   onClose: () => void;
   stashId: string;
   staking_ledger?: Option<StakingLedger>;
-};
+}
 
 interface State {
   maxBalance?: BN;

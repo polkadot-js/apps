@@ -6,23 +6,23 @@
 import { BareProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
+import { ApiContext } from '@polkadot/react-api';
 import { withCalls, withMulti } from '@polkadot/react-api/with';
 import { formatNumber } from '@polkadot/util';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
-import { withApi } from '@polkadot/react-api';
-import { ApiProps } from '@polkadot/react-api/types';
 
-interface Props extends ApiProps, BareProps, ComponentProps {
+interface Props extends BareProps, ComponentProps {
   chain_subscribeNewHeads?: HeaderExtended;
 }
 
 // TODO: Switch to useState
 function Overview (props: Props): React.ReactElement<Props> {
-  const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, isSubstrateV2, recentlyOnline } = props;
+  const { isSubstrateV2 } = useContext(ApiContext);
+  const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, recentlyOnline } = props;
   let nextSorted: string[];
 
   if (isSubstrateV2) {
@@ -67,7 +67,6 @@ function Overview (props: Props): React.ReactElement<Props> {
 
 export default withMulti(
   Overview,
-  withApi,
   withCalls<Props>(
     'derive.chain.subscribeNewHeads'
   )
