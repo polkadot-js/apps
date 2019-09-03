@@ -17,6 +17,7 @@ import { Available } from '@polkadot/react-query';
 import Checks, { calcSignatureLength } from '@polkadot/react-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/react-api';
 import { ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
+import { bnMax } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -219,7 +220,7 @@ class Transfer extends React.PureComponent<Props, State> {
         .add(transferFee)
         .add(recipientBalance.isZero() ? creationFee : ZERO);
 
-      maxBalance = senderBalance.sub(fees);
+      maxBalance = bnMax(senderBalance.sub(fees), ZERO);
     }
 
     this.nextState({

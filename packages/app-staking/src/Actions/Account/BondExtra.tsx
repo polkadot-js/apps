@@ -14,6 +14,7 @@ import { calcSignatureLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
+import { bnMax } from '@polkadot/util';
 
 import translate from '../../translate';
 
@@ -159,7 +160,7 @@ class BondExtra extends TxComponent<Props, State> {
       const txLength = calcSignatureLength(extrinsic, system_accountNonce);
       const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
-      maxBalance = availableBalance.sub(fees);
+      maxBalance = bnMax(availableBalance.sub(fees), ZERO);
     }
 
     this.nextState({
