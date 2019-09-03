@@ -27,11 +27,15 @@ function NodeInfo ({ t }: Props): React.ReactElement<Props> {
   const [nextRefresh, setNextRefresh] = useState(Date.now());
   const [timerId, setTimerId] = useState(0);
 
-  const executeStatus = (): void => {
+  const executeStatus = (isFirstRun = false): void => {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getStatus().catch((): void => {});
+    getStatus(isFirstRun).catch((): void => {});
   };
-  const getStatus = async (): Promise<void> => {
+  const getStatus = async (isFirstRun: boolean): Promise<void> => {
+    if (!isFirstRun && !timerId) {
+      return;
+    }
+
     try {
       const [blockNumber, health, peers, extrinsics] = await Promise.all([
         api.derive.chain.bestNumber(),
@@ -50,10 +54,11 @@ function NodeInfo ({ t }: Props): React.ReactElement<Props> {
   };
 
   useEffect((): () => void => {
-    executeStatus();
+    executeStatus(true);
 
     return (): void => {
       window.clearTimeout(timerId);
+      setTimerId(0);
     };
   }, []);
 
