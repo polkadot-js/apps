@@ -51,10 +51,12 @@ const LENGTH_SIGNATURE = 64;
 const LENGTH_ERA = 1;
 export const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
-export const calcSignatureLength = (extrinsic?: IExtrinsic | null, accountNonce?: BN): number => {
-  return SIGNATURE_SIZE +
+export const calcSignatureLength = (extrinsic?: IExtrinsic | null, accountNonce?: BN): BN => {
+  return new BN(
+    SIGNATURE_SIZE +
     (accountNonce ? compactToU8a(accountNonce).length : 0) +
-    (extrinsic ? extrinsic.encodedLength : 0);
+    (extrinsic ? extrinsic.encodedLength : 0)
+  );
 };
 
 export class FeeDisplay extends React.PureComponent<Props, State> {
@@ -93,14 +95,14 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
       : false;
     const allFees = extraFees
       .add(balances_fees.transactionBaseFee)
-      .add(balances_fees.transactionByteFee.muln(txLength));
+      .add(balances_fees.transactionByteFee.mul(txLength));
 
     const allTotal = extraAmount.add(allFees);
     const hasAvailable = balances_all.availableBalance.gtn(0);
     const isRemovable = balances_all.votingBalance.sub(allTotal).lt(balances_fees.existentialDeposit);
     const isReserved = balances_all.freeBalance.isZero() && balances_all.reservedBalance.gtn(0);
     const allWarn = extraWarn;
-    const overLimit = txLength >= MAX_SIZE_BYTES;
+    const overLimit = txLength.gten(MAX_SIZE_BYTES);
 
     return {
       allFees,
