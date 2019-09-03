@@ -183,7 +183,7 @@ class Create extends React.PureComponent<Props, State> {
     }
 
     try {
-      keyring.saveAddress(address, { name, tags });
+      keyring.saveAddress(address, { name, genesisHash: keyring.genesisHash, tags });
 
       status.account = address;
       status.status = address ? 'success' : 'error';

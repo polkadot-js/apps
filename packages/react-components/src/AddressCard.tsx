@@ -22,6 +22,7 @@ interface Props extends AddressProps {
 
 function AddressCard (props: Props): React.ReactElement<Props> {
   const { className, value, withExplorer } = props;
+
   return (
     <Card className={className}>
       <AddressRow
