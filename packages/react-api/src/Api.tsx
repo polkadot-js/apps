@@ -20,6 +20,8 @@ import ApiSigner from '@polkadot/react-signer/ApiSigner';
 import { Text, u32 as U32 } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 
+import typesChain from './overrides/chain';
+import typesSpec from './overrides/spec';
 import ApiContext from './ApiContext';
 
 let api: ApiPromise;
@@ -58,7 +60,7 @@ export default class Api extends React.PureComponent<Props, State> {
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 
     const setApi = (provider: ProviderInterface): void => {
-      api = new ApiPromise({ provider, signer });
+      api = this.createApi(provider, signer);
 
       this.setState({ api }, (): void => {
         this.subscribeEvents();
@@ -67,7 +69,7 @@ export default class Api extends React.PureComponent<Props, State> {
     const setApiUrl = (url: string = defaults.WS_URL): void =>
       setApi(new WsProvider(url));
 
-    api = new ApiPromise({ provider, signer });
+    api = this.createApi(provider, signer);
 
     this.state = {
       api,
@@ -77,6 +79,15 @@ export default class Api extends React.PureComponent<Props, State> {
       isWaitingInjected: isWeb3Injected,
       setApiUrl
     } as unknown as State;
+  }
+
+  private createApi (provider: ProviderInterface, signer: ApiSigner): ApiPromise {
+    return new ApiPromise({
+      provider,
+      signer,
+      typesChain,
+      typesSpec
+    });
   }
 
   public componentDidMount (): void {
