@@ -15,7 +15,7 @@ import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import translate from './translate';
 
-type Props = BareProps & I18nProps & {
+interface Props extends BareProps, I18nProps {
   autoFocus?: boolean;
   bitLength?: BitLength;
   defaultValue?: BN | string;
@@ -34,7 +34,7 @@ type Props = BareProps & I18nProps & {
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
-};
+}
 
 interface State {
   isPreKeyDown: boolean;

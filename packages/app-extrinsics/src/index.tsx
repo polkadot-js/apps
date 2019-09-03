@@ -10,7 +10,7 @@ import { Tabs } from '@polkadot/react-components';
 import Selection from './Selection';
 import translate from './translate';
 
-type Props = AppProps & I18nProps;
+interface Props extends AppProps, I18nProps {}
 
 function ExtrinsicsApp ({ basePath, t }: Props): React.ReactElement<Props> {
   return (

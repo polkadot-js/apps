@@ -16,7 +16,7 @@ import ContractModal, { ContractModalProps, ContractModalState } from '../Modal'
 import store from '../store';
 import translate from '../translate';
 
-type Props = ContractModalProps & ApiProps;
+interface Props extends ContractModalProps, ApiProps {}
 
 interface State extends ContractModalState {
   gasLimit: BN;

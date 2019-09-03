@@ -22,10 +22,10 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 
 import translate from '../translate';
 
-type Props = ModalProps & ApiProps & I18nProps & {
+interface Props extends ModalProps, ApiProps, I18nProps {
   seed?: string;
   type?: KeypairType;
-};
+}
 
 type SeedType = 'bip' | 'raw' | 'dev';
 

@@ -37,7 +37,7 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
-type Props = BareProps & I18nProps & {
+interface Props extends BareProps, I18nProps {
   address: string;
   balances_all?: DerivedBalances;
   children?: React.ReactNode;
@@ -47,7 +47,7 @@ type Props = BareProps & I18nProps & {
   withHexSessionId: string | null;
   withRewardDestination?: boolean;
   withValidatorPrefs?: boolean | ValidatorPrefsType;
-};
+}
 
 // either true (filtered above already) or [own, ...all extras bonded funds from nominators]
 function renderBonded ({ staking_info, t }: Props, bonded: true | BN[]): React.ReactNode {

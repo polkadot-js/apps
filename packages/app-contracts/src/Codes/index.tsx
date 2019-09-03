@@ -15,7 +15,7 @@ import Code from './Code';
 import Upload from './Upload';
 import Add from './Add';
 
-type Props = ComponentProps & I18nProps;
+interface Props extends ComponentProps, I18nProps {}
 
 interface State {
   isAddOpen: boolean;

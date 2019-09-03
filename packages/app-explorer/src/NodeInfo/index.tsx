@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Health, PeerInfo, Extrinsic } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 import { Info } from './types';
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -18,8 +18,6 @@ import Summary from './Summary';
 import translate from './translate';
 
 const POLL_TIMEOUT = 9900;
-
-type Props = I18nProps;
 
 function NodeInfo ({ t }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);

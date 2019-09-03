@@ -14,9 +14,9 @@ import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & ComponentProps & {
+interface Props extends I18nProps, ApiProps, ComponentProps {
   onChange: (accountId?: string) => void;
-};
+}
 
 interface State {
   method: Call | null;

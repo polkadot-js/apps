@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@polkadot/react-components/types';
 
 // this is disabled, Chrome + WASM memory leak makes it slow & laggy. If enabled
 // we also need to export the default as hot(Apps) (last line)
@@ -20,8 +20,6 @@ import AccountsOverlay from './overlays/Accounts';
 import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
-
-type Props = BareProps;
 
 interface State {
   isCollapsed: boolean;

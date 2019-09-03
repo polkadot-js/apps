@@ -20,14 +20,14 @@ import { ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   balances_fees?: DerivedFees;
   className?: string;
   onClose: () => void;
   recipientId?: string;
   senderId?: string;
   system_accountNonce?: BN;
-};
+}
 
 interface State {
   amount: BN;

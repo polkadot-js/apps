@@ -14,7 +14,7 @@ import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
-type Props = ComponentProps & ApiProps & I18nProps;
+interface Props extends ComponentProps, ApiProps, I18nProps {}
 
 interface State {
   value: ConstValue;

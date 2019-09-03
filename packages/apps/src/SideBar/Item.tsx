@@ -16,13 +16,13 @@ import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends I18nProps, ApiProps {
   isCollapsed: boolean;
   onClick: () => void;
   allAccounts?: SubjectInfo;
   route: Route;
   sudo_key: string;
-};
+}
 
 class Item extends React.PureComponent<Props> {
   private _disabledLog: Map<string, string> = new Map();

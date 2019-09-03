@@ -16,7 +16,7 @@ import ValidateAddr from './ValidateAddr';
 
 import translate from '../translate';
 
-type Props = ContractModalProps & ApiProps & I18nProps;
+interface Props extends ContractModalProps, ApiProps, I18nProps {}
 
 interface State extends ContractModalState {
   address?: string | null;

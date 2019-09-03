@@ -15,14 +15,14 @@ import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & RouteComponentProps & {
+interface Props extends I18nProps, ApiProps, RouteComponentProps {
   basePath: string;
   proposalBond: Permill;
   proposalBondMinimum: BalanceOf;
   spendPeriod: BlockNumber;
   burn: Permill;
   pot: BalanceOf;
-};
+}
 
 interface State {
   accountId?: string;

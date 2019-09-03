@@ -18,7 +18,7 @@ import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = ComponentProps & ApiProps & I18nProps;
+interface Props extends ComponentProps, ApiProps, I18nProps {}
 
 interface State {
   isValid: boolean;

@@ -11,12 +11,12 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = BareProps & {
+interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: ConstValueBase) => void;
   options: DropdownOptions;
   value: ConstValueBase;
-};
+}
 
 function transform ({ value }: Props): (method: string) => ConstValueBase {
   return (method: string): ConstValueBase => {
@@ -29,7 +29,7 @@ function transform ({ value }: Props): (method: string) => ConstValueBase {
   };
 }
 
-function SelectKey (props: Props): React.ReactElement<Props> | null {
+export default function SelectKey (props: Props): React.ReactElement<Props> | null {
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {
@@ -49,5 +49,3 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
     />
   );
 }
-
-export default SelectKey;

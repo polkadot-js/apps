@@ -11,7 +11,7 @@ import Summary from './Summary';
 import Proposals, { Approvals } from './Proposals';
 import Propose from './Propose';
 
-type Props = AppProps & BareProps & I18nProps;
+interface Props extends AppProps, BareProps, I18nProps {}
 
 interface State {
   isProposeOpen: boolean;

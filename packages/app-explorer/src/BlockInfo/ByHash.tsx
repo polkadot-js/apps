@@ -17,12 +17,12 @@ import Events from './Events';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   system_events?: EventRecord[];
   chain_getBlock?: SignedBlock;
   chain_getHeader?: HeaderExtended;
   value: string;
-};
+}
 
 function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<Props> | null {
   if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {

@@ -10,10 +10,10 @@ import settings from '@polkadot/ui-settings';
 
 import { classes } from './util';
 
-type Props = BareProps & {
+interface Props extends BareProps {
   children: React.ReactNode;
   [index: string]: any;
-};
+}
 
 export default class Modal extends React.PureComponent<Props> {
   public static Actions = SUIModal.Actions;

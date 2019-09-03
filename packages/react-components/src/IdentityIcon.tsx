@@ -16,16 +16,16 @@ import BaseIdentityIcon from '@polkadot/react-identicon';
 import { QueueConsumer } from './Status/Context';
 import translate from './translate';
 
-type CopyProps = IdentityProps & I18nProps & {
+interface CopyProps extends IdentityProps, I18nProps {
   queueAction?: QueueAction$Add;
-};
+}
 
-type IconProps = IdentityProps & {
+interface IconProps extends IdentityProps {
   session_validators?: AccountId[];
   staking_bonded?: Option<AccountId>;
-};
+}
 
-type Props = IconProps & IdentityProps;
+interface Props extends IconProps, IdentityProps {}
 
 interface State {
   isValidator: boolean;

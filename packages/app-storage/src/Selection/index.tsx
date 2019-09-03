@@ -17,10 +17,10 @@ import Modules from './Modules';
 import Raw from './Raw';
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   basePath: string;
   onAdd: (query: QueryTypes) => void;
-};
+}
 
 interface State {
   items: TabItem[];

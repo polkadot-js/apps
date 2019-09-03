@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/types';
-import { Props as BaseProps, RawParam } from '../types';
+import { Props, RawParam } from '../types';
 
 import React from 'react';
 import { Enum, createType, getTypeDef } from '@polkadot/types';
@@ -17,8 +17,6 @@ interface Option {
   text?: string;
   value?: string;
 }
-
-type Props = BaseProps;
 
 interface State {
   def: TypeDef | null;

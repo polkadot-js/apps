@@ -20,14 +20,14 @@ import SelectSection from './SelectSection';
 import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   defaultValue: ConstValueBase;
   help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: ConstValue) => void;
   withLabel?: boolean;
-};
+}
 
 interface State {
   optionsMethod: DropdownOptions;

@@ -17,10 +17,10 @@ import AddressInfo, { BalanceActiveType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import IdentityIcon from './IdentityIcon';
-import Row, { RowProps, RowState, styles } from './Row';
+import Row, { RowProps, RowState as State, styles } from './Row';
 import translate from './translate';
 
-export type Props = I18nProps & RowProps & {
+export interface Props extends I18nProps, RowProps {
   bonded?: BN | BN[];
   isContract?: boolean;
   isValid?: boolean;
@@ -29,9 +29,7 @@ export type Props = I18nProps & RowProps & {
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;
   withIndex?: boolean;
-};
-
-type State = RowState;
+}
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;

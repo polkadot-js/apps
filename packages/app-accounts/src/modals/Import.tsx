@@ -15,7 +15,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-type Props = ModalProps & I18nProps;
+interface Props extends ModalProps, I18nProps {}
 
 interface State {
   address: string | null;

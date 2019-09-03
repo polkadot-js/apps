@@ -19,7 +19,7 @@ import generatorSort from '../vanitygen/sort';
 import Match from './Match';
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps;
+interface Props extends ComponentProps, I18nProps {}
 
 interface State {
   createSeed: string | null;

@@ -16,7 +16,7 @@ import Bytes from './Bytes';
 import File from './File';
 import KeyValue from './KeyValue';
 
-type Props = BaseProps & WithTranslation;
+interface Props extends BaseProps, WithTranslation {}
 
 interface State {
   placeholder?: string;

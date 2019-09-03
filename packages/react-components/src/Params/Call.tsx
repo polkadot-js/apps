@@ -3,16 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { Props as BaseProps } from '@polkadot/react-params/types';
+import { Props } from '@polkadot/react-params/types';
 
 import React, { useContext } from 'react';
 import { ApiContext } from '@polkadot/react-api';
 
 import Extrinsic from './Extrinsic';
 
-type Props = BaseProps;
-
-function Call ({ className, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+export default function Call ({ className, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
   const { api, apiDefaultTx } = useContext(ApiContext);
 
   const defaultValue = ((): SubmittableExtrinsicFunction<'promise'> => {
@@ -38,5 +36,3 @@ function Call ({ className, isDisabled, isError, label, onChange, onEnter, style
     />
   );
 }
-
-export default Call;

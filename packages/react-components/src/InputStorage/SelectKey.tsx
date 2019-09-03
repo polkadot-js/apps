@@ -7,20 +7,20 @@ import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
 import React, { useContext } from 'react';
+import { ApiPromise } from '@polkadot/api';
 import { ApiContext } from '@polkadot/react-api';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-type Props = BareProps & {
+interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: StorageEntryPromise) => void;
   options: DropdownOptions;
   value: StorageEntryPromise;
-};
+}
 
-function transform ({ value }: Props): (method: string) => StorageEntryPromise {
-  const { api } = useContext(ApiContext);
+function transform (api: ApiPromise, { value }: Props): (method: string) => StorageEntryPromise {
   return function (method: string): StorageEntryPromise {
     return api.query[value.creator.section]
       ? api.query[value.creator.section][method]
@@ -28,7 +28,8 @@ function transform ({ value }: Props): (method: string) => StorageEntryPromise {
   };
 }
 
-function SelectKey (props: Props): React.ReactElement<Props> | null {
+export default function SelectKey (props: Props): React.ReactElement<Props> | null {
+  const { api } = useContext(ApiContext);
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {
@@ -42,11 +43,9 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
       onChange={onChange}
       options={options}
       style={style}
-      transform={transform(props)}
+      transform={transform(api, props)}
       value={value.creator.method}
       withLabel={false}
     />
   );
 }
-
-export default SelectKey;
