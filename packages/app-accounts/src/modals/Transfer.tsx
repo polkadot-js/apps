@@ -215,7 +215,7 @@ class Transfer extends React.PureComponent<Props, State> {
 
       const txLength = calcSignatureLength(extrinsic, accountNonce);
       const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength))
+        .add(transactionByteFee.mul(txLength))
         .add(transferFee)
         .add(recipientBalance.isZero() ? creationFee : ZERO);
 

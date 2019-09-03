@@ -152,15 +152,12 @@ class BondExtra extends TxComponent<Props, State> {
 
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
-
       extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
       const txLength = calcSignatureLength(extrinsic, system_accountNonce);
-
-      const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength));
+      const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
       maxBalance = availableBalance.sub(fees);
     }

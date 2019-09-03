@@ -124,8 +124,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       }
 
       const txLength = calcSignatureLength(extrinsic, system_accountNonce);
-      const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength));
+      const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
       maxBalance = new BN(freeBalance).sub(fees);
     }
