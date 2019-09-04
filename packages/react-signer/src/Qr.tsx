@@ -36,5 +36,8 @@ function Qr ({ address, className, isScanning, onSignature, payload }: Props): R
 }
 
 export default translate(
-  styled(Qr)``
+  styled(Qr)`
+    margin: 0 auto;
+    max-width: 30rem;
+  `
 );

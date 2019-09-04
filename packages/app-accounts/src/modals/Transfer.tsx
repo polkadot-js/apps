@@ -121,7 +121,7 @@ class Transfer extends React.PureComponent<Props, State> {
           <TxButton
             accountId={senderId}
             extrinsic={extrinsic}
-            // isDisabled={!hasAvailable}
+            isDisabled={!hasAvailable}
             isPrimary
             label={t('Make Transfer')}
             onStart={onClose}

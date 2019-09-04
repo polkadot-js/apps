@@ -193,24 +193,29 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      isQrVisible
-        ? (
-          <Qr
-            address={qrAddress}
-            isScanning={isQrScanning}
-            onSignature={this.addQrSignature}
-            payload={qrPayload}
-          />
-        )
-        : (
-          <Transaction
-            isSendable={isSendable}
-            value={currentItem}
-          >
-            {this.renderTip()}
-            {this.renderUnlock()}
-          </Transaction>
-        )
+      <Transaction
+        hideDetails={isQrVisible}
+        isSendable={isSendable}
+        value={currentItem}
+      >
+        {
+          isQrVisible
+            ? (
+              <Qr
+                address={qrAddress}
+                isScanning={isQrScanning}
+                onSignature={this.addQrSignature}
+                payload={qrPayload}
+              />
+            )
+            : (
+              <>
+                {this.renderTip()}
+                {this.renderUnlock()}
+              </>
+            )
+        }
+      </Transaction>
     );
   }
 
@@ -480,18 +485,22 @@ class Signer extends React.PureComponent<Props, State> {
 
       // set the signer
       if (isExternal) {
-        queueSetTxStatus(id, 'signing');
+        // Keep it as queued- signing closes the actual UI
+        // queueSetTxStatus(id, 'signing');
+
         api.setSigner({ signPayload: this.signQrPayload });
         params.push(address);
       } else if (isInjected) {
+        queueSetTxStatus(id, 'signing');
+
         const injected = await web3FromSource(source);
 
         assert(injected, `Unable to find a signer for ${address}`);
 
-        queueSetTxStatus(id, 'signing');
         api.setSigner(injected.signer);
         params.push(address);
       } else {
+        queueSetTxStatus(id, 'signing');
         params.push(pair);
       }
     }
