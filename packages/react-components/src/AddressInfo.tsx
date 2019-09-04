@@ -94,7 +94,7 @@ function renderExtended ({ balances_all, t, address, withExtended }: Props): Rea
       )}
       {extendedDisplay.crypto && (
         <>
-          <Label label={t('crypto type')} />
+          <Label label={t('type')} />
           <CryptoType
             accountId={address}
             className='result'

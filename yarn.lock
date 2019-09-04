@@ -2051,18 +2051,18 @@
     typescript "^3.6.2"
     vuepress "^1.0.3"
 
-"@polkadot/extension-dapp@^0.10.0-beta.1":
-  version "0.10.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.10.0-beta.1.tgz#e4c76431c34b57f4bfc97a1483c00dada4d64d77"
-  integrity sha512-TZiBEn44aFLzU+TAimF18Z/4wVWdjWWIjgCMwQlyvrGweg+KKGzgemgr9KspWw2oV5Oc/7gBQWOZGiKHpg7AEg==
+"@polkadot/extension-dapp@^0.10.0-beta.2":
+  version "0.10.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.10.0-beta.2.tgz#2768143cca486b3a907deb314ff8350e00068392"
+  integrity sha512-QGlhMrMM2qOVlGQ+ONdvfK+Xdh7gP9A6ojUybL/cU5UN7HYrQvekcGbeqfNRvYe0zF3+xvPl1wQZX89vnLtqiw==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/extension-inject" "^0.10.0-beta.1"
+    "@polkadot/extension-inject" "^0.10.0-beta.2"
 
-"@polkadot/extension-inject@^0.10.0-beta.1":
-  version "0.10.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.10.0-beta.1.tgz#c27e16c9d2b5f85522b207b0faf6cae5f0420d97"
-  integrity sha512-0HKNZfsqslQifMOvyUMxCtEjx2hIQMyJvYtqgr0+rIqrOxcpRoMyaLtmUEOlgacWns2fHtc+04qVK8G8z+i4PA==
+"@polkadot/extension-inject@^0.10.0-beta.2":
+  version "0.10.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.10.0-beta.2.tgz#e793c2bddf2d80cc26ad16f41c2697f157195a59"
+  integrity sha512-nKS46YpmY/VuNSRicr95Hv/RwFa/dYH9dK9KulLSrhwNHegp4PSJDkzIhuKw0NSbTJEhz4vYaOcwc8D+rh+hlg==
   dependencies:
     "@babel/runtime" "^7.5.5"
 
@@ -2082,20 +2082,30 @@
     "@polkadot/util" "^1.2.0-beta.6"
     "@polkadot/util-crypto" "^1.2.0-beta.6"
 
-"@polkadot/react-identicon@^0.43.0-beta.9":
-  version "0.43.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/react-identicon/-/react-identicon-0.43.0-beta.9.tgz#29fcaa5586699f2a8bff9976fb74cfa94c083c51"
-  integrity sha512-bOhIqwr7YMuw8ZPDGL0OJmKFWGVxS4voQI2Q6dYq/9CmTi9vUQ8oWbCmb/+TOZp6963GXGMecDqfBqA6qGW65w==
+"@polkadot/react-identicon@^0.43.0-beta.10":
+  version "0.43.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/react-identicon/-/react-identicon-0.43.0-beta.10.tgz#3eb94c982f4587865723fc238ab82bddd564f979"
+  integrity sha512-gPIC33SMnwWh6QyCGT93UHMpLpib+cS0BD8rF/tcziWWeUZgO86rSGa5Ko+fWZQDx1ipGLIFlmSTL1SHAEckng==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/ui-settings" "^0.43.0-beta.9"
-    "@polkadot/ui-shared" "^0.43.0-beta.9"
+    "@polkadot/ui-settings" "^0.43.0-beta.10"
+    "@polkadot/ui-shared" "^0.43.0-beta.10"
     "@types/color" "^3.0.0"
     "@types/react-copy-to-clipboard" "^4.2.6"
     color "^3.1.2"
     jdenticon "2.2.0"
     react-copy-to-clipboard "^5.0.1"
     styled-components "^4.3.1"
+
+"@polkadot/react-qr@^0.43.0-beta.10":
+  version "0.43.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/react-qr/-/react-qr-0.43.0-beta.10.tgz#ab050288473d04822a5b85e0eb6d184c224d0656"
+  integrity sha512-2PQn3QRfv7CTT1Xl5JvLmZatk1IIFnaCXaLMWWY54M3JlrwVSAHn3OMKlmHw/kwS8bYoSDKbYL/Qhrtustalrw==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    "@types/react-qr-reader" "^2.1.1"
+    qrcode-generator "^1.4.3"
+    react-qr-reader "^2.2.1"
 
 "@polkadot/rpc-core@^0.91.0-beta.16":
   version "0.91.0-beta.16"
@@ -2141,17 +2151,17 @@
     "@types/memoizee" "^0.4.2"
     memoizee "^0.4.14"
 
-"@polkadot/ui-assets@^0.43.0-beta.9":
-  version "0.43.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.43.0-beta.9.tgz#6d0e4b852926dc10ba925337bb6beb387456d915"
-  integrity sha512-WohtCLwySQEepZkUCxn8RIR/Zcs7Vjpp8dURhNDPE3ubTtH6v4u9IlrJ/dT1J03t0LaieNF+CQR6kMVivPeAfg==
+"@polkadot/ui-assets@^0.43.0-beta.10":
+  version "0.43.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-assets/-/ui-assets-0.43.0-beta.10.tgz#167175fb2b38dfa66b302a385766acc6d59b5c83"
+  integrity sha512-FLyQKLLfJ/StsJCyHI+/qnmD+dxWL1uKUVp/YEujYiNLsF4djMnKT/1U8m0/maYQQqp26zIob2H3UTqJoKJMdg==
   dependencies:
     "@babel/runtime" "^7.5.5"
 
-"@polkadot/ui-keyring@^0.43.0-beta.9":
-  version "0.43.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.43.0-beta.9.tgz#a3e66df5784f8a035b32c7096faa521fd34dec43"
-  integrity sha512-1lyRGSxRwAU37PNITGuxYt4pADWbPDThXBiehCw7cNLTm37YukiFyBR7IzTMxLvEc3xCvXJqSVSGEAKeW1xYpg==
+"@polkadot/ui-keyring@^0.43.0-beta.10":
+  version "0.43.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-0.43.0-beta.10.tgz#cc087bd4bcb61f0f9203b2d0770570a480d879ba"
+  integrity sha512-y6/w78466j0+T3Y4FFAt82LXCdDh0FxF0KyIWfrlDC6pQAJf95+lFRTRqUlZRD/WgPcijy97shUITqt9SMEmJA==
   dependencies:
     "@babel/runtime" "^7.5.5"
     "@types/mkdirp" "^0.5.2"
@@ -2161,19 +2171,19 @@
     store "^2.0.12"
     styled-components "^4.3.1"
 
-"@polkadot/ui-settings@^0.43.0-beta.9":
-  version "0.43.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-0.43.0-beta.9.tgz#23f207dc50c13d4e79195dc32869149829a63d3f"
-  integrity sha512-3DzaL2jyl4tBQbhfscySqdaQqZ03JLTwo1N/pFjRb0vOOSFL9opp1X4muJVO5rznOB/o9EZoiWRfmdQ4l76J+w==
+"@polkadot/ui-settings@^0.43.0-beta.10":
+  version "0.43.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-0.43.0-beta.10.tgz#f77f0350d1bd79f032ebceb480956867c929b056"
+  integrity sha512-wsYh1YR71K0aZvvxiru4AwpSj9NhTr0lRC/sQ3r4532P4DtFjEjpJn7d7uwA4JugP4LMsqNhti1ZEhNlMT3lHA==
   dependencies:
     "@babel/runtime" "^7.5.5"
     "@types/store" "^2.0.2"
     store "^2.0.12"
 
-"@polkadot/ui-shared@^0.43.0-beta.9":
-  version "0.43.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-shared/-/ui-shared-0.43.0-beta.9.tgz#11626a8fcedc18e71a2afebb8f01af71a30e26d6"
-  integrity sha512-pEJSQmbtl59+Keq9vGEBdH/9yWtJJsIJThZca4VGB7KjcZ4yxYBFu/nS35fKyz5QNdbPg+r05+Kq57idz+XOUw==
+"@polkadot/ui-shared@^0.43.0-beta.10":
+  version "0.43.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-shared/-/ui-shared-0.43.0-beta.10.tgz#42e1d35bf47aa6fbef7aca4708fc582ce0ffd1eb"
+  integrity sha512-dFAUWl+t2gks1YUHOrWO/0P39f0WYWzS1oVZPmGlbpS8htUG+b5rL126jai1l2B7GooXNQuOF6T4kv88NTndQQ==
   dependencies:
     "@babel/runtime" "^7.5.5"
     "@types/color" "^3.0.0"
@@ -2478,6 +2488,13 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@types/react-dropzone/-/react-dropzone-4.2.2.tgz#af0a2595169700c8ab1114e9096285499beaff40"
   integrity sha512-okO6HY+w7V0uHoy6JpLY6BwY/s/oObtXZmUQdX0ycjPeLhK8Af/xf79CFkLA1fM6oVp16n1d962ejdkEXk375Q==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-qr-reader@^2.1.1":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-qr-reader/-/react-qr-reader-2.1.2.tgz#da7a674cf9e3ceb1c026e89d5aa41fb1587fc66b"
+  integrity sha512-tDLqqiQMZlTKBKtWedcf7QZ3L9fyz8nPHNq/j+1mcJoEvrdM3Y89i3/FKwdmZ4H7G6uUk4JqShpWXLCuYpZK+w==
   dependencies:
     "@types/react" "*"
 
@@ -9216,6 +9233,11 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jsqr@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/jsqr/-/jsqr-1.2.0.tgz#f93fc65fa7d1ded78b1bcb020fa044352b04261a"
+  integrity sha512-wKcQS9QC2VHGk7aphWCp1RrFyC0CM6fMgC5prZZ2KV/Lk6OKNoCod9IR6bao+yx3KPY0gZFC5dc+h+KFzCI0Wg==
+
 jstransform@^11.0.3:
   version "11.0.3"
   resolved "https://registry.yarnpkg.com/jstransform/-/jstransform-11.0.3.tgz#09a78993e0ae4d4ef4487f6155a91f6190cb4223"
@@ -12502,6 +12524,11 @@ q@^1.1.2, q@^1.5.1:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
+qrcode-generator@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/qrcode-generator/-/qrcode-generator-1.4.3.tgz#4876e8f280e65b6c94615f4c19c484f6b964b199"
+  integrity sha512-++rVRvMRq5BlHfmAafl8a4ppUntzUxCCUTT2t0siUgqKwdnqRzY8IH6f6WSX5dZUhD2Ul5/MIKuTJddflwrGzw==
+
 qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
@@ -12722,6 +12749,15 @@ react-popper@^1.3.3:
     prop-types "^15.6.1"
     typed-styles "^0.0.7"
     warning "^4.0.2"
+
+react-qr-reader@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.2.1.tgz#dc89046d1c1a1da837a683dd970de5926817d55b"
+  integrity sha512-EL5JEj53u2yAOgtpAKAVBzD/SiKWn0Bl7AZy6ZrSf1lub7xHwtaXe6XSx36Wbhl1VMGmvmrwYMRwO1aSCT2fwA==
+  dependencies:
+    jsqr "^1.2.0"
+    prop-types "^15.7.2"
+    webrtc-adapter "^7.2.1"
 
 react-router-dom@^5.0.0:
   version "5.0.1"
@@ -13376,6 +13412,13 @@ rsvp@^4.8.4:
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"
   integrity sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==
 
+rtcpeerconnection-shim@^1.2.15:
+  version "1.2.15"
+  resolved "https://registry.yarnpkg.com/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.15.tgz#e7cc189a81b435324c4949aa3dfb51888684b243"
+  integrity sha512-C6DxhXt7bssQ1nHb154lqeL0SXz5Dx4RczXZu2Aa/L1NJFnEVDxFwCBo3fqtuljhHIGceg5JKBV4XJ0gW5JKyw==
+  dependencies:
+    sdp "^2.6.0"
+
 run-async@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
@@ -13481,6 +13524,11 @@ schema-utils@^2.0.0, schema-utils@^2.0.1:
   dependencies:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
+
+sdp@^2.10.0, sdp@^2.6.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-2.10.0.tgz#643fff1a43cdba54a739c7b202f56bd854474af2"
+  integrity sha512-H+VjfyQpRz9GezhshJmkXTtCAT9/2g9az3GFDPYfGOz0eAOQU1fCrL3S9Dq/eUT9FtOyLi/czdR9PzK3fKUYOQ==
 
 secp256k1@^3.7.0:
   version "3.7.1"
@@ -15670,6 +15718,14 @@ webpackbar@3.2.0:
     std-env "^2.2.1"
     text-table "^0.2.0"
     wrap-ansi "^5.1.0"
+
+webrtc-adapter@^7.2.1:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-7.3.0.tgz#a65e18aad42759bab6ced7f8cfff11b051321e2a"
+  integrity sha512-pKcwt6IR6RLCD6jlcdOOi88iVwdzppHlkOhtgTSuZHtYTxdD09t5fA1Di7GJU7je8oHcCBlNfb7zwBsetERnmQ==
+  dependencies:
+    rtcpeerconnection-shim "^1.2.15"
+    sdp "^2.10.0"
 
 websocket-driver@>=0.5.1:
   version "0.7.3"

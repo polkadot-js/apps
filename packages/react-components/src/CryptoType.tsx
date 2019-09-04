@@ -26,7 +26,9 @@ export default function CryptoType ({ accountId, className, label = '' }: Props)
     if (current) {
       type = current.meta.isInjected
         ? 'injected'
-        : current.type;
+        : current.meta.isExternal
+          ? 'external'
+          : current.type;
     }
   } catch (error) {
     // cannot determine, keep unknown
