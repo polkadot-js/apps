@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignerOptions, SignerPayload } from '@polkadot/api/types';
+import { SignerOptions } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps, BareProps } from '@polkadot/react-components/types';
@@ -10,6 +10,7 @@ import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -439,7 +440,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  private async makeExtrinsicSignature (payload: SignerPayload, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
+  private async makeExtrinsicSignature (payload: SignerPayloadJSON, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
     console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
 
     const result = createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
