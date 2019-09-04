@@ -73,7 +73,7 @@ class Signer extends React.PureComponent<Props, State> {
       isV2 = false;
     }
 
-    const nextItem = queue.find(({ status }): boolean => status === 'queued');
+    const nextItem = queue.find(({ status }): boolean => ['queued', 'qr'].includes(status));
     const isSame =
       !!nextItem &&
       !!currentItem &&
@@ -483,16 +483,14 @@ class Signer extends React.PureComponent<Props, State> {
     if (pair) {
       const { address, meta: { isExternal, isInjected, source } } = pair;
 
+      queueSetTxStatus(id, 'signing');
+
       // set the signer
       if (isExternal) {
-        // Keep it as queued- signing closes the actual UI
-        // queueSetTxStatus(id, 'signing');
-
+        queueSetTxStatus(id, 'qr');
         api.setSigner({ signPayload: this.signQrPayload });
         params.push(address);
       } else if (isInjected) {
-        queueSetTxStatus(id, 'signing');
-
         const injected = await web3FromSource(source);
 
         assert(injected, `Unable to find a signer for ${address}`);
@@ -500,7 +498,7 @@ class Signer extends React.PureComponent<Props, State> {
         api.setSigner(injected.signer);
         params.push(address);
       } else {
-        queueSetTxStatus(id, 'signing');
+
         params.push(pair);
       }
     }
