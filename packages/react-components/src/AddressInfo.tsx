@@ -113,7 +113,7 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
   const total = staking_info.unlocking.reduce((total, { value }): BN => total.add(value), new BN(0));
 
   if (total.eqn(0)) {
-    return 0;
+    return null;
   }
 
   return (
