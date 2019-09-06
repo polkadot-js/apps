@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignerOptions } from '@polkadot/api/types';
+import { SignerOptions, SignerResult } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps, BareProps } from '@polkadot/react-components/types';
@@ -25,8 +25,9 @@ import { format } from '@polkadot/util/logger';
 
 import PasswordCheck from './PasswordCheck';
 import Transaction from './Transaction';
-import translate from './translate';
+import Qr from './Qr';
 import Unlock from './Unlock';
+import translate from './translate';
 
 interface BaseProps extends BareProps {
   queue: QueueTx[];
@@ -39,21 +40,33 @@ interface Props extends I18nProps, ApiProps, BaseProps {
 
 interface State {
   currentItem?: QueueTx;
+  isQrScanning: boolean;
+  isQrVisible: boolean;
   isSendable: boolean;
   isV2?: boolean;
   password: string;
+  qrAddress: string;
+  qrPayload: Uint8Array;
+  qrResolve?: (result: SignerResult) => void;
+  qrReject?: (error: Error) => void;
   tip?: BN;
   unlockError?: string | null;
 }
 
+let qrId = 0;
+
 class Signer extends React.PureComponent<Props, State> {
   public state: State = {
     isSendable: false,
+    isQrScanning: false,
+    isQrVisible: false,
     password: '',
+    qrAddress: '',
+    qrPayload: new Uint8Array(),
     unlockError: null
   };
 
-  public static getDerivedStateFromProps ({ allAccounts, api, queue }: Props, { currentItem, password, unlockError }: State): State {
+  public static getDerivedStateFromProps ({ allAccounts, api, queue }: Props, { currentItem, password, unlockError }: State): Partial<State> {
     let isV2: boolean;
     try {
       isV2 = !!api.tx.session.setKeys;
@@ -61,7 +74,7 @@ class Signer extends React.PureComponent<Props, State> {
       isV2 = false;
     }
 
-    const nextItem = queue.find(({ status }): boolean => status === 'queued');
+    const nextItem = queue.find(({ status }): boolean => ['queued', 'qr'].includes(status));
     const isSame =
       !!nextItem &&
       !!currentItem &&
@@ -122,41 +135,59 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, isSendable } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isSendable } = this.state;
 
     if (!currentItem) {
       return null;
     }
+
+    const isExternal = this.isExternal(currentItem.accountId);
 
     return (
       <Modal.Actions>
         <Button.Group>
           <Button
             isNegative
-            onClick={this.onCancel}
+            onClick={
+              isQrVisible
+                ? this.onCancelQr
+                : this.onCancel
+            }
             tabIndex={3}
             label={t('Cancel')}
           />
-          <Button.Or />
-          <Button
-            className='ui--signer-Signer-Submit'
-            isDisabled={!isSendable}
-            isPrimary
-            onClick={this.onSend}
-            tabIndex={2}
-            label={
-              currentItem.isUnsigned
-                ? t('Submit (no signature)')
-                : t('Sign and Submit')
-            }
-          />
+          {(!isQrVisible || !isQrScanning) && (
+            <>
+              <Button.Or />
+              <Button
+                className='ui--signer-Signer-Submit'
+                isDisabled={!isSendable}
+                isPrimary
+                onClick={
+                  isQrVisible
+                    ? this.activateQrScanning
+                    : this.onSend
+                }
+                tabIndex={2}
+                label={
+                  isQrVisible
+                    ? t('Scan Signature Qr')
+                    : currentItem.isUnsigned
+                      ? t('Submit (no signature)')
+                      : isExternal
+                        ? t('Sign via Qr')
+                        : t('Sign and Submit')
+                }
+              />
+            </>
+          )}
         </Button.Group>
       </Modal.Actions>
     );
   }
 
   private renderContent (): React.ReactNode {
-    const { currentItem, isSendable } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isSendable, qrAddress, qrPayload } = this.state;
 
     if (!currentItem) {
       return null;
@@ -164,11 +195,27 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Transaction
+        hideDetails={isQrVisible}
         isSendable={isSendable}
         value={currentItem}
       >
-        {this.renderTip()}
-        {this.renderUnlock()}
+        {
+          isQrVisible
+            ? (
+              <Qr
+                address={qrAddress}
+                isScanning={isQrScanning}
+                onSignature={this.addQrSignature}
+                payload={qrPayload}
+              />
+            )
+            : (
+              <>
+                {this.renderTip()}
+                {this.renderUnlock()}
+              </>
+            )
+        }
       </Transaction>
     );
   }
@@ -194,7 +241,7 @@ class Signer extends React.PureComponent<Props, State> {
   private renderUnlock (): React.ReactNode {
     const { currentItem, isSendable, password, unlockError } = this.state;
 
-    if (!isSendable || !currentItem || currentItem.isUnsigned) {
+    if (!isSendable || !currentItem || currentItem.isUnsigned || this.isExternal(currentItem.accountId)) {
       return null;
     }
 
@@ -215,6 +262,26 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
+  private isExternal (accountId?: string | null): boolean {
+    if (!accountId) {
+      return false;
+    }
+
+    let publicKey;
+
+    try {
+      publicKey = keyring.decodeAddress(accountId);
+    } catch (error) {
+      console.error(error);
+
+      return false;
+    }
+
+    const pair = keyring.getPair(publicKey);
+
+    return !!pair.meta.isExternal;
+  }
+
   private unlockAccount (accountId: string, password?: string): string | null {
     let publicKey;
 
@@ -228,7 +295,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(publicKey);
 
-    if (!pair.isLocked || pair.meta.isInjected) {
+    if (!pair.isLocked || pair.meta.isInjected || pair.meta.isExternal) {
       return null;
     }
 
@@ -253,6 +320,19 @@ class Signer extends React.PureComponent<Props, State> {
   private onChangeTip = (tip?: BN): void => {
     this.setState({ tip });
   }
+
+  private onCancelQr = (): void => {
+    this.setState({
+      isQrScanning: false,
+      isQrVisible: false
+    }, (): void => {
+      const { qrReject } = this.state;
+
+      qrReject && qrReject(new Error('cancelled'));
+
+      this.onCancel();
+    });
+  };
 
   private onCancel = (): void => {
     const { queueSetTxStatus } = this.props;
@@ -287,6 +367,38 @@ class Signer extends React.PureComponent<Props, State> {
     return this.sendExtrinsic(currentItem, password);
   }
 
+  private signQrPayload = (payload: SignerPayloadJSON): Promise<SignerResult> => {
+    console.error('signQrPayload', payload);
+
+    return new Promise((resolve, reject): void => {
+      this.setState({
+        isQrVisible: true,
+        qrAddress: payload.address,
+        qrPayload: createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
+        qrResolve: resolve,
+        qrReject: reject
+      });
+    });
+  }
+
+  private addQrSignature = ({ signature }: { signature: string }): void => {
+    this.setState(({ qrResolve }: State): Pick<State, never> => {
+      qrResolve && qrResolve({
+        id: ++qrId,
+        signature
+      });
+
+      return {
+        isQrScanning: false,
+        isQrVisible: false
+      };
+    });
+  }
+
+  private activateQrScanning = (): void => {
+    this.setState({ isQrScanning: true });
+  }
+
   private sendRpc = async ({ id, rpc, values = [] }: QueueTx): Promise<void> => {
     if (!rpc) {
       return;
@@ -304,7 +416,7 @@ class Signer extends React.PureComponent<Props, State> {
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
     const { isV2, tip } = this.state;
 
-    const { accountId, extrinsic, id, payload, isUnsigned } = queueTx;
+    const { accountId, extrinsic, payload, isUnsigned } = queueTx;
 
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
@@ -316,8 +428,6 @@ class Signer extends React.PureComponent<Props, State> {
         return;
       }
     }
-
-    const { queueSetTxStatus } = this.props;
 
     if (payload) {
       return this.makeExtrinsicSignature(
@@ -333,7 +443,6 @@ class Signer extends React.PureComponent<Props, State> {
     const submittable = extrinsic as SubmittableExtrinsic;
 
     assert(submittable, 'Expected an extrinsic to be supplied to sendExtrinsic');
-    queueSetTxStatus(id, 'sending');
 
     return isUnsigned
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -373,15 +482,21 @@ class Signer extends React.PureComponent<Props, State> {
     const params = [];
 
     if (pair) {
+      const { address, meta: { isExternal, isInjected, source } } = pair;
+
+      queueSetTxStatus(id, 'signing');
+
       // set the signer
-      if (pair.meta.isInjected) {
-        const { address, meta: { source } } = pair;
+      if (isExternal) {
+        queueSetTxStatus(id, 'qr');
+        api.setSigner({ signPayload: this.signQrPayload });
+        params.push(address);
+      } else if (isInjected) {
         const injected = await web3FromSource(source);
 
         assert(injected, `Unable to find a signer for ${address}`);
 
         api.setSigner(injected.signer);
-
         params.push(address);
       } else {
         params.push(pair);
@@ -389,8 +504,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     if (isV2 && tip) {
-      const signerOptions: Partial<SignerOptions> = { tip };
-      params.push(signerOptions);
+      params.push({ tip } as Partial<SignerOptions>);
     }
 
     if (isFunction(txStartCb)) {
@@ -429,6 +543,8 @@ class Signer extends React.PureComponent<Props, State> {
           txFailedCb(result);
         }
       }]);
+
+      queueSetTxStatus(id, 'sending');
     } catch (error) {
       console.error('makeExtrinsicCall: error:', error);
       queueSetTxStatus(id, 'error', {}, error);

@@ -14,44 +14,12 @@ import translate from './translate';
 
 interface Props extends I18nProps {
   children?: React.ReactNode;
+  hideDetails?: boolean;
   isSendable: boolean;
   value: QueueTx;
 }
 
-function renderAccount ({ t, value: { accountId, isUnsigned } }: Props): React.ReactNode {
-  if (isUnsigned || !accountId) {
-    return null;
-  }
-
-  return (
-    <InputAddress
-      className='full'
-      defaultValue={accountId}
-      isDisabled
-      isInput
-      label={t('sending from my account')}
-      withLabel
-    />
-  );
-}
-
-function renderChecks ({ isSendable, value: { accountId, extrinsic, isUnsigned } }: Props): React.ReactNode {
-  if (isUnsigned) {
-    return null;
-  }
-
-  return (
-    <Checks
-      accountId={accountId}
-      extrinsic={extrinsic}
-      isSendable={isSendable}
-    />
-  );
-}
-
-function Transaction (props: Props): React.ReactElement<Props> | null {
-  const { children, value: { extrinsic } } = props;
-
+function Transaction ({ children, hideDetails, isSendable, value: { accountId, extrinsic, isUnsigned }, t }: Props): React.ReactElement<Props> | null {
   if (!extrinsic) {
     return null;
   }
@@ -69,9 +37,28 @@ function Transaction (props: Props): React.ReactElement<Props> | null {
         }</summary></details></label>
       </Modal.Header>
       <Modal.Content className='ui--signer-Signer-Content'>
-        {renderAccount(props)}
-        <Call value={extrinsic} />
-        {renderChecks(props)}
+        {!hideDetails && (
+          <>
+            {!isUnsigned && accountId && (
+              <InputAddress
+                className='full'
+                defaultValue={accountId}
+                isDisabled
+                isInput
+                label={t('sending from my account')}
+                withLabel
+              />
+            )}
+            <Call value={extrinsic} />
+            {!isUnsigned && (
+              <Checks
+                accountId={accountId}
+                extrinsic={extrinsic}
+                isSendable={isSendable}
+              />
+            )}
+          </>
+        )}
         {children}
       </Modal.Content>
     </>

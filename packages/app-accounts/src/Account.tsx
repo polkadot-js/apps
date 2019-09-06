@@ -24,6 +24,7 @@ interface State {
   genesisHash: string | null;
   isBackupOpen: boolean;
   isEditable: boolean;
+  isExternal: boolean;
   isForgetOpen: boolean;
   isPasswordOpen: boolean;
   isTransferOpen: boolean;
@@ -43,6 +44,7 @@ class Account extends React.PureComponent<Props, State> {
       isEditable: account
         ? !(account.meta.isInjected)
         : false,
+      isExternal: (account && account.meta.isExternal) || false,
       isForgetOpen: false,
       isPasswordOpen: false,
       isTransferOpen: false
@@ -188,20 +190,22 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { genesisHash, isEditable } = this.state;
+    const { genesisHash, isEditable, isExternal } = this.state;
 
     return (
       <div className='accounts--Account-buttons buttons'>
         <div className='actions'>
           {isEditable && (
+            <Button
+              isNegative
+              onClick={this.toggleForget}
+              icon='trash'
+              size='small'
+              tooltip={t('Forget this account')}
+            />
+          )}
+          {isEditable && !isExternal && (
             <>
-              <Button
-                isNegative
-                onClick={this.toggleForget}
-                icon='trash'
-                size='small'
-                tooltip={t('Forget this account')}
-              />
               <Button
                 icon='cloud download'
                 isPrimary
@@ -226,7 +230,7 @@ class Account extends React.PureComponent<Props, State> {
             tooltip={t('Send funds from this account')}
           />
         </div>
-        {isEditable && (
+        {isEditable && !isExternal && (
           <div className='others'>
             <ChainLock
               genesisHash={genesisHash}

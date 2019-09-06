@@ -2048,18 +2048,18 @@
     typescript "^3.6.2"
     vuepress "^1.0.3"
 
-"@polkadot/extension-dapp@^0.10.0-beta.3":
-  version "0.10.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.10.0-beta.3.tgz#ffdfdf4600e6762d02f5b8d86969e47b67825c3d"
-  integrity sha512-4Mb5ZRCzeV1AWh9MJB0NKTJHGM69/DUmslm1ej+tdV3MvMzlcQw0mx8WHfxOoYycDcTDWpwGEPJ8cUbwaWZI1w==
+"@polkadot/extension-dapp@^0.10.0-beta.7":
+  version "0.10.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.10.0-beta.7.tgz#8f118f75ea5071cb1f4cd16cf13990158efa509a"
+  integrity sha512-cLEs1ywhK4EvgiY9fK5Kzek4ZnhlTsXFUhBwKXQ+bJnEJKVOnEBvZa7kElT4t7fse+DZegF7x4fNy8ZIr5O6fQ==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/extension-inject" "^0.10.0-beta.3"
+    "@polkadot/extension-inject" "^0.10.0-beta.7"
 
-"@polkadot/extension-inject@^0.10.0-beta.3":
-  version "0.10.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.10.0-beta.3.tgz#1f53734dbfd388177a67f12495ba622ee4761d60"
-  integrity sha512-m1xI0bRhPhmdVN1BXYKIJcl5U9lgWUmunxmGfkJzpJOiJOPqCAZKBbGMb/EFcj9YNiqoRL8k0H1gTQramp07Gg==
+"@polkadot/extension-inject@^0.10.0-beta.7":
+  version "0.10.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.10.0-beta.7.tgz#64112a91d1d6575f2e289a89b901e49296d5d9c2"
+  integrity sha512-TWHQTvDFi2/CBqh9Cdz4vvw7Tba9JTWHpUPFMFau2aI32nkr+OddrY4sd7LomY3foSEa+z1+Tp/FggM9HbO6yg==
   dependencies:
     "@babel/runtime" "^7.5.5"
 
@@ -2093,6 +2093,16 @@
     jdenticon "2.2.0"
     react-copy-to-clipboard "^5.0.1"
     styled-components "^4.3.1"
+
+"@polkadot/react-qr@^0.43.0-beta.11":
+  version "0.43.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/react-qr/-/react-qr-0.43.0-beta.11.tgz#38b0d9c5d763560dd09a7595521a51e362b63c3a"
+  integrity sha512-VYBSopaTedYWUhl1Fhyefe0vKjYIsMIV2jzr6XCYL9hc1RptGOIf0lpm6peQaSPLxNQEAxSAvrItKKXtAhwV5A==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    "@types/react-qr-reader" "^2.1.1"
+    qrcode-generator "^1.4.3"
+    react-qr-reader "^2.2.1"
 
 "@polkadot/rpc-core@^0.91.0-beta.22":
   version "0.91.0-beta.22"
@@ -2475,6 +2485,13 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@types/react-dropzone/-/react-dropzone-4.2.2.tgz#af0a2595169700c8ab1114e9096285499beaff40"
   integrity sha512-okO6HY+w7V0uHoy6JpLY6BwY/s/oObtXZmUQdX0ycjPeLhK8Af/xf79CFkLA1fM6oVp16n1d962ejdkEXk375Q==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-qr-reader@^2.1.1":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-qr-reader/-/react-qr-reader-2.1.2.tgz#da7a674cf9e3ceb1c026e89d5aa41fb1587fc66b"
+  integrity sha512-tDLqqiQMZlTKBKtWedcf7QZ3L9fyz8nPHNq/j+1mcJoEvrdM3Y89i3/FKwdmZ4H7G6uUk4JqShpWXLCuYpZK+w==
   dependencies:
     "@types/react" "*"
 
@@ -9214,6 +9231,11 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jsqr@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/jsqr/-/jsqr-1.2.0.tgz#f93fc65fa7d1ded78b1bcb020fa044352b04261a"
+  integrity sha512-wKcQS9QC2VHGk7aphWCp1RrFyC0CM6fMgC5prZZ2KV/Lk6OKNoCod9IR6bao+yx3KPY0gZFC5dc+h+KFzCI0Wg==
+
 jstransform@^11.0.3:
   version "11.0.3"
   resolved "https://registry.yarnpkg.com/jstransform/-/jstransform-11.0.3.tgz#09a78993e0ae4d4ef4487f6155a91f6190cb4223"
@@ -12500,6 +12522,11 @@ q@^1.1.2, q@^1.5.1:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
+qrcode-generator@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/qrcode-generator/-/qrcode-generator-1.4.3.tgz#4876e8f280e65b6c94615f4c19c484f6b964b199"
+  integrity sha512-++rVRvMRq5BlHfmAafl8a4ppUntzUxCCUTT2t0siUgqKwdnqRzY8IH6f6WSX5dZUhD2Ul5/MIKuTJddflwrGzw==
+
 qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
@@ -12721,6 +12748,15 @@ react-popper@^1.3.3:
     prop-types "^15.6.1"
     typed-styles "^0.0.7"
     warning "^4.0.2"
+
+react-qr-reader@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.2.1.tgz#dc89046d1c1a1da837a683dd970de5926817d55b"
+  integrity sha512-EL5JEj53u2yAOgtpAKAVBzD/SiKWn0Bl7AZy6ZrSf1lub7xHwtaXe6XSx36Wbhl1VMGmvmrwYMRwO1aSCT2fwA==
+  dependencies:
+    jsqr "^1.2.0"
+    prop-types "^15.7.2"
+    webrtc-adapter "^7.2.1"
 
 react-router-dom@^5.0.0:
   version "5.0.1"
@@ -13380,6 +13416,13 @@ rsvp@^4.8.4:
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"
   integrity sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==
 
+rtcpeerconnection-shim@^1.2.15:
+  version "1.2.15"
+  resolved "https://registry.yarnpkg.com/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.15.tgz#e7cc189a81b435324c4949aa3dfb51888684b243"
+  integrity sha512-C6DxhXt7bssQ1nHb154lqeL0SXz5Dx4RczXZu2Aa/L1NJFnEVDxFwCBo3fqtuljhHIGceg5JKBV4XJ0gW5JKyw==
+  dependencies:
+    sdp "^2.6.0"
+
 run-async@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
@@ -13485,6 +13528,11 @@ schema-utils@^2.0.0, schema-utils@^2.0.1:
   dependencies:
     ajv "^6.10.2"
     ajv-keywords "^3.4.1"
+
+sdp@^2.10.0, sdp@^2.6.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-2.10.0.tgz#643fff1a43cdba54a739c7b202f56bd854474af2"
+  integrity sha512-H+VjfyQpRz9GezhshJmkXTtCAT9/2g9az3GFDPYfGOz0eAOQU1fCrL3S9Dq/eUT9FtOyLi/czdR9PzK3fKUYOQ==
 
 secp256k1@^3.7.0:
   version "3.7.1"
@@ -15686,6 +15734,14 @@ webpackbar@3.2.0:
     std-env "^2.2.1"
     text-table "^0.2.0"
     wrap-ansi "^5.1.0"
+
+webrtc-adapter@^7.2.1:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-7.3.0.tgz#a65e18aad42759bab6ced7f8cfff11b051321e2a"
+  integrity sha512-pKcwt6IR6RLCD6jlcdOOi88iVwdzppHlkOhtgTSuZHtYTxdD09t5fA1Di7GJU7je8oHcCBlNfb7zwBsetERnmQ==
+  dependencies:
+    rtcpeerconnection-shim "^1.2.15"
+    sdp "^2.10.0"
 
 websocket-driver@>=0.5.1:
   version "0.7.3"
