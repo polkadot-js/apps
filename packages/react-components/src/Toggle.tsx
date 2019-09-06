@@ -17,14 +17,10 @@ interface Props extends BareProps {
   value?: boolean;
 }
 
-function onChange ({ onChange }: Props): (_: React.FormEvent<HTMLInputElement>, __: any) => void {
-  return function (_: React.FormEvent<HTMLInputElement>, { checked }: any): void {
+function Toggle ({ className, asSwitch = true, defaultValue, isDisabled, onChange, value, label }: Props): React.ReactElement<Props> {
+  const _onChange = (_: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
     onChange && onChange(checked);
   };
-}
-
-function Toggle (props: Props): React.ReactElement<Props> {
-  const { className, asSwitch = true, defaultValue, isDisabled, value, label } = props;
 
   return (
     <div className={className}>
@@ -33,7 +29,7 @@ function Toggle (props: Props): React.ReactElement<Props> {
         checked={value}
         disabled={isDisabled}
         defaultChecked={defaultValue}
-        onChange={onChange(props)}
+        onChange={_onChange}
         toggle={asSwitch}
       />
     </div>

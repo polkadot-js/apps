@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from './Icon';
@@ -15,51 +15,36 @@ interface Props extends BareProps {
   help: React.ReactNode;
 }
 
-interface State {
-  tooltipOpen: boolean;
+function LabelHelp ({ className, help, style }: Props): React.ReactElement<Props> {
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
+  const _toggleTooltip = (): void => setIsTooltipOpen(!isTooltipOpen);
+
+  return (
+    <div
+      className={classes('ui--LabelHelp', className)}
+      style={style}
+    >
+      <Icon
+        name='help circle'
+        data-tip
+        data-for='controlled-trigger'
+        onMouseOver={_toggleTooltip}
+        onMouseOut={_toggleTooltip}
+      />
+      {isTooltipOpen && (
+        <Tooltip
+          text={help}
+          trigger='controlled-trigger'
+        />
+      )}
+    </div>
+  );
 }
 
-const Wrapper = styled.div`
+export default styled(LabelHelp)`
   cursor: help;
   display: inline-block;
   line-height: 1rem;
   margin: 0 0 0 0.25rem;
 `;
-
-export default class LabelHelp extends React.PureComponent<Props, State> {
-  public state: State = {
-    tooltipOpen: false
-  };
-
-  public render (): React.ReactNode {
-    const { className, help, style } = this.props;
-    const { tooltipOpen } = this.state;
-
-    return (
-      <Wrapper
-        className={classes('ui--LabelHelp', className)}
-        style={style}
-      >
-        <Icon
-          name='help circle'
-          data-tip
-          data-for='controlled-trigger'
-          onMouseOver={this.toggleTooltip}
-          onMouseOut={this.toggleTooltip}
-        />
-        {tooltipOpen && (
-          <Tooltip
-            text={help}
-            trigger='controlled-trigger'
-          />
-        )}
-      </Wrapper>
-    );
-  }
-
-  private toggleTooltip = (): void => {
-    this.setState(({ tooltipOpen }): Pick<State, never> => ({
-      tooltipOpen: !tooltipOpen
-    }));
-  }
-}

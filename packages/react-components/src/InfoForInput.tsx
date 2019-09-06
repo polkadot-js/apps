@@ -14,7 +14,15 @@ interface Props {
   type?: 'error' | 'info' | 'warning';
 }
 
-const Wrapper = styled.div`
+function InfoForInput ({ children, className, type = 'info' }: Props): React.ReactElement<Props> {
+  return (
+    <Labelled>
+      <div className={classes(className, type)}>{children}</div>
+    </Labelled>
+  );
+}
+
+export default styled(InfoForInput)`
   background: white;
   border-radius: 0 0 0.25rem 0.25rem;
   margin: -0.5rem 0 0.25rem;
@@ -34,11 +42,3 @@ const Wrapper = styled.div`
     padding: 0;
   }
 `;
-
-export default function InfoForInput ({ children, className, type = 'info' }: Props): React.ReactElement<Props> {
-  return (
-    <Labelled>
-      <Wrapper className={classes(className, type)}>{children}</Wrapper>
-    </Labelled>
-  );
-}

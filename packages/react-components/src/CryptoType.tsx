@@ -5,7 +5,7 @@
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 
 import { classes } from './util';
@@ -16,23 +16,27 @@ interface Props extends BareProps {
 }
 
 export default function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
-  let type = 'unknown';
+  const [type, setType] = useState('unknown');
 
-  try {
-    const current = accountId
-      ? keyring.getPair(accountId.toString())
-      : null;
+  useEffect((): void => {
+    try {
+      const current = accountId
+        ? keyring.getPair(accountId.toString())
+        : null;
 
-    if (current) {
-      type = current.meta.isInjected
-        ? 'injected'
-        : current.meta.isExternal
-          ? 'external'
-          : current.type;
+      if (current) {
+        setType(
+          current.meta.isInjected
+            ? 'injected'
+            : current.meta.isExternal
+              ? 'external'
+              : current.type
+        );
+      }
+    } catch (error) {
+      // cannot determine, keep unknown
     }
-  } catch (error) {
-    // cannot determine, keep unknown
-  }
+  }, [accountId]);
 
   return (
     <div className={classes('ui--CryptoType', className)}>
