@@ -28,7 +28,7 @@ interface Props extends BareProps {
 }
 
 export default function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
-  const  [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const _toggleVisible = (): void => setIsVisible(!isVisible);
 

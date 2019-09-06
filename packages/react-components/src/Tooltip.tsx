@@ -29,7 +29,7 @@ interface Props extends BareProps {
 export default function Tooltip ({ className, effect = 'solid', offset, place = 'bottom', text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(document.createElement('div'));
 
-  useEffect((): () => void  => {
+  useEffect((): () => void => {
     if (rootElement !== null) {
       rootElement.appendChild(tooltipContainer);
     }
