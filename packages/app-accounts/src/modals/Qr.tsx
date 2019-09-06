@@ -26,10 +26,11 @@ interface Props extends I18nProps, ModalProps {
 function QrModal ({ className, onClose, onStatusChange, t }: Props): React.ReactElement<Props> {
   const [name, setName] = useState('');
   const [scanned, setScanned] = useState<Scanned | null>(null);
-  const isNameValid = name.length > 3;
+  const isNameValid = !!name;
 
+  const _onNameChange = (name: string): void => setName(name.trim());
   const _onSave = (): void => {
-    if (!scanned) {
+    if (!scanned || !isNameValid) {
       return;
     }
 
@@ -69,7 +70,8 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
                   help={t('Name given to this account. You can change it at any point in the future.')}
                   isError={!isNameValid}
                   label={t('name')}
-                  onChange={setName}
+                  onChange={_onNameChange}
+                  onEnter={_onSave}
                   value={name}
                 />
               </>
