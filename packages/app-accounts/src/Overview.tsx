@@ -13,6 +13,7 @@ import { Button, CardGrid } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
+import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
 import translate from './translate';
@@ -21,13 +22,15 @@ interface Props extends ComponentProps, I18nProps {
   accounts?: SubjectInfo[];
 }
 
-function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<Props> {
-  const [isCreateOpen, setCreateOpen] = useState(false);
-  const [isImportOpen, setImportOpen] = useState(false);
-  const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);
+function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElement<Props> {
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isQrOpen, setIsQrOpen] = useState(false);
+  const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && (Object.keys(accounts).length === 0);
 
-  const toggleCreate = (): void => setCreateOpen(!isCreateOpen);
-  const toggleImport = (): void => setImportOpen(!isImportOpen);
+  const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
+  const _toggleImport = (): void => setIsImportOpen(!setIsImportOpen);
+  const _toggleQr = (): void => setIsQrOpen(!isQrOpen);
 
   return (
     <CardGrid
@@ -37,13 +40,19 @@ function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<P
           <Button
             isPrimary
             label={t('Add account')}
-            onClick={toggleCreate}
+            onClick={_toggleCreate}
           />
           <Button.Or />
           <Button
             isPrimary
             label={t('Restore JSON')}
-            onClick={toggleImport}
+            onClick={_toggleImport}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            label={t('Add via Qr')}
+            onClick={_toggleQr}
           />
         </Button.Group>
       }
@@ -52,17 +61,23 @@ function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<P
     >
       {isCreateOpen && (
         <CreateModal
-          onClose={toggleCreate}
+          onClose={_toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
       {isImportOpen && (
         <ImportModal
-          onClose={toggleImport}
+          onClose={_toggleImport}
           onStatusChange={onStatusChange}
         />
       )}
-      {accounts && Object.keys(accounts).map((address): React.ReactNode => (
+      {isQrOpen && (
+        <QrModal
+          onClose={_toggleQr}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {Object.keys(accounts).map((address): React.ReactNode => (
         <Account
           address={address}
           key={address}
