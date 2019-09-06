@@ -367,7 +367,7 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private onChangeName = (name: string): void => {
-    this.nextState({ name });
+    this.nextState({ name: name.trim() });
   }
 
   private onChangePairType = (pairType: KeypairType): void => {
