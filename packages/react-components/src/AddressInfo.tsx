@@ -132,7 +132,7 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
                 {t('{{value}}, {{remaining}} blocks left', {
                   replace: {
                     remaining: formatNumber(remainingBlocks),
-                    value: formatBalance(value),
+                    value: formatBalance(value)
                   }
                 })}
               </div>
