@@ -2048,18 +2048,18 @@
     typescript "^3.6.2"
     vuepress "^1.0.3"
 
-"@polkadot/extension-dapp@^0.10.0-beta.3":
-  version "0.10.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.10.0-beta.3.tgz#ffdfdf4600e6762d02f5b8d86969e47b67825c3d"
-  integrity sha512-4Mb5ZRCzeV1AWh9MJB0NKTJHGM69/DUmslm1ej+tdV3MvMzlcQw0mx8WHfxOoYycDcTDWpwGEPJ8cUbwaWZI1w==
+"@polkadot/extension-dapp@^0.10.0-beta.7":
+  version "0.10.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.10.0-beta.7.tgz#8f118f75ea5071cb1f4cd16cf13990158efa509a"
+  integrity sha512-cLEs1ywhK4EvgiY9fK5Kzek4ZnhlTsXFUhBwKXQ+bJnEJKVOnEBvZa7kElT4t7fse+DZegF7x4fNy8ZIr5O6fQ==
   dependencies:
     "@babel/runtime" "^7.5.5"
-    "@polkadot/extension-inject" "^0.10.0-beta.3"
+    "@polkadot/extension-inject" "^0.10.0-beta.7"
 
-"@polkadot/extension-inject@^0.10.0-beta.3":
-  version "0.10.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.10.0-beta.3.tgz#1f53734dbfd388177a67f12495ba622ee4761d60"
-  integrity sha512-m1xI0bRhPhmdVN1BXYKIJcl5U9lgWUmunxmGfkJzpJOiJOPqCAZKBbGMb/EFcj9YNiqoRL8k0H1gTQramp07Gg==
+"@polkadot/extension-inject@^0.10.0-beta.7":
+  version "0.10.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.10.0-beta.7.tgz#64112a91d1d6575f2e289a89b901e49296d5d9c2"
+  integrity sha512-TWHQTvDFi2/CBqh9Cdz4vvw7Tba9JTWHpUPFMFau2aI32nkr+OddrY4sd7LomY3foSEa+z1+Tp/FggM9HbO6yg==
   dependencies:
     "@babel/runtime" "^7.5.5"
 
@@ -2094,10 +2094,10 @@
     react-copy-to-clipboard "^5.0.1"
     styled-components "^4.3.1"
 
-"@polkadot/react-qr@^0.43.0-beta.10":
-  version "0.43.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/react-qr/-/react-qr-0.43.0-beta.10.tgz#ab050288473d04822a5b85e0eb6d184c224d0656"
-  integrity sha512-2PQn3QRfv7CTT1Xl5JvLmZatk1IIFnaCXaLMWWY54M3JlrwVSAHn3OMKlmHw/kwS8bYoSDKbYL/Qhrtustalrw==
+"@polkadot/react-qr@^0.43.0-beta.11":
+  version "0.43.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/react-qr/-/react-qr-0.43.0-beta.11.tgz#38b0d9c5d763560dd09a7595521a51e362b63c3a"
+  integrity sha512-VYBSopaTedYWUhl1Fhyefe0vKjYIsMIV2jzr6XCYL9hc1RptGOIf0lpm6peQaSPLxNQEAxSAvrItKKXtAhwV5A==
   dependencies:
     "@babel/runtime" "^7.5.5"
     "@types/react-qr-reader" "^2.1.1"
