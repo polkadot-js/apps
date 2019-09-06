@@ -18,6 +18,7 @@ interface Props extends ApiProps, I18nProps {
   bondedId?: string | null;
   controllerId: string | null;
   defaultController?: string;
+  isUnsafeChain?: boolean;
   onError: (error: string | null) => void;
   stashId?: string | null;
 }
@@ -26,19 +27,23 @@ interface State {
   error: string | null;
 }
 
+const DISTINCT = 'Distinct stash and controller accounts are recommended to ensure fund security.';
+
 class ValidateController extends React.PureComponent<Props, State> {
   public state: State = {
     error: null
   };
 
-  public static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, onError, stashId, t }: Props, prevState: State): State {
+  public static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, isUnsafeChain, onError, stashId, t }: Props, prevState: State): State {
     const error = ((): string | null => {
       if (defaultController === controllerId) {
         // don't show an error if the selected controller is the default
         // this applies when changing controller
         return null;
       } else if (controllerId === accountId) {
-        return t('Distinct stash and controller accounts are recommended to ensure fund security');
+        return isUnsafeChain
+          ? t(`${DISTINCT} You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.`)
+          : t(DISTINCT);
       } else if (bondedId) {
         return t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
