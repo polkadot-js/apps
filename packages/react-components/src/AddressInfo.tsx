@@ -105,68 +105,43 @@ function renderExtended ({ balances_all, t, address, withExtended }: Props): Rea
   );
 }
 
-function renderHexSessionId ({ t, withHexSessionId = null }: Props): React.ReactNode {
-  if (!withHexSessionId) {
-    return null;
-  }
-
-  return (
-    <>
-      <Label label={t('session keys')} />
-      <div className='result'>{withHexSessionId}</div>
-    </>
-  );
-}
-
-function renderRedeemButton ({ staking_info, t }: Props): React.ReactNode {
-  return (staking_info && staking_info.controllerId && (
-    <TxButton
-      accountId={staking_info.controllerId.toString()}
-      className='iconButton'
-      icon='lock'
-      size='small'
-      isPrimary
-      key='unlock'
-      params={[]}
-      tooltip={t('Redeem these funds')}
-      tx='staking.withdrawUnbonded'
-    />
-  ));
-}
-
-function renderRewardDestination ({ staking_info, withRewardDestination, t }: Props): React.ReactNode {
-  if (!withRewardDestination) {
-    return null;
-  }
-
-  return (
-    staking_info &&
-    staking_info.rewardDestination &&
-    <>
-      <Label label={t('reward destination')} />
-      <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
-    </>
-  );
-}
-
 function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
+  if (!staking_info || !staking_info.unlocking || !staking_info.unlocking.length) {
+    return null;
+  }
+
+  const total = staking_info.unlocking.reduce((total, { value }): BN => total.add(value), new BN(0));
+
+  if (total.eqn(0)) {
+    return null;
+  }
+
   return (
-    staking_info &&
-    staking_info.unlocking &&
-    staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
-      <div key={index}>
-        {formatBalance(value)}
-        <Icon
-          name='info circle'
-          data-tip
-          data-for={`unlocking-trigger-${index}`}
-        />
-        <Tooltip
-          text={t('{{remainingBlocks}} blocks left', { replace: { remainingBlocks } })}
-          trigger={`unlocking-trigger-${index}`}
-        />
-      </div>
-    ))
+    <div>
+      {formatBalance(total)}
+      <Icon
+        name='info circle'
+        data-tip
+        data-for='unlocking-trigger'
+      />
+      <Tooltip
+        text={
+          <>
+            {staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
+              <div key={index}>
+                {t('{{value}}, {{remaining}} blocks left', {
+                  replace: {
+                    remaining: formatNumber(remainingBlocks),
+                    value: formatBalance(value)
+                  }
+                })}
+              </div>
+            ))}
+          </>
+        }
+        trigger='unlocking-trigger'
+      />
+    </div>
   );
 }
 
@@ -233,7 +208,19 @@ function renderBalances (props: Props): React.ReactNode {
           <Label label={t('redeemable')} />
           <div className='result'>
             {formatBalance(staking_info.redeemable)}
-            {renderRedeemButton(props)}
+            {staking_info.controllerId && (
+              <TxButton
+                accountId={staking_info.controllerId.toString()}
+                className='iconButton'
+                icon='lock'
+                size='small'
+                isPrimary
+                key='unlock'
+                params={[]}
+                tooltip={t('Redeem these funds')}
+                tx='staking.withdrawUnbonded'
+              />
+            )}
           </div>
         </>
       )}
@@ -250,16 +237,26 @@ function renderBalances (props: Props): React.ReactNode {
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
-  const { className, children } = props;
+  const { className, children, staking_info, t, withHexSessionId, withRewardDestination } = props;
+
   return (
     <div className={className}>
       <div className='column'>
         {renderBalances(props)}
-        {renderHexSessionId(props)}
+        {withHexSessionId && (
+          <>
+            <Label label={t('session keys')} />
+            <div className='result'>{withHexSessionId}</div>
+          </>
+        )}
         {renderValidatorPrefs(props)}
-        {renderRewardDestination(props)}
+        {withRewardDestination && staking_info && staking_info.rewardDestination && (
+          <>
+            <Label label={t('reward destination')} />
+            <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
+          </>
+        )}
       </div>
-
       {renderExtended(props)}
       {children && (
         <div className='column'>

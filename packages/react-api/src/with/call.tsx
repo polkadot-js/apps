@@ -216,7 +216,7 @@ export default function withCall<P extends ApiProps> (
           // don't flood the console with the same errors each time, just do it once, then
           // ignore it going forward
           if (!errorred[error.message]) {
-            console.error(endpoint, '::', error);
+            console.warn(endpoint, '::', error);
 
             errorred[error.message] = true;
           }
@@ -247,7 +247,7 @@ export default function withCall<P extends ApiProps> (
             );
           }
         } catch (error) {
-          // console.error(endpoint, '::', error);
+          // console.warn(endpoint, '::', error);
         }
       }
 
@@ -275,7 +275,7 @@ export default function withCall<P extends ApiProps> (
             callUpdatedAt: Date.now()
           });
         } catch (error) {
-          // console.error(endpoint, '::', error.message);
+          // console.warn(endpoint, '::', error.message);
         }
       }
 
