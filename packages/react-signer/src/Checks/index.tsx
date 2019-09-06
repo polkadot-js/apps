@@ -44,17 +44,19 @@ interface Props extends ApiProps, I18nProps {
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
   system_accountNonce?: BN;
+  tip?: BN;
 }
 
 const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
 const LENGTH_SIGNATURE = 64;
-const LENGTH_ERA = 1;
+const LENGTH_ERA = 2;
 export const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
 
-export const calcSignatureLength = (extrinsic?: IExtrinsic | null, accountNonce?: BN): BN => {
+export const calcSignatureLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN): BN => {
   return new BN(
     SIGNATURE_SIZE +
-    (accountNonce ? compactToU8a(accountNonce).length : 0) +
+    (nonce ? compactToU8a(nonce).length : 0) +
+    (tip ? compactToU8a(tip).length : 0) +
     (extrinsic ? extrinsic.encodedLength : 0)
   );
 };
@@ -73,7 +75,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     overLimit: false
   };
 
-  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, api, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, api, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0), tip }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
@@ -81,7 +83,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const fn = api.findCall(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
-    const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+    const txLength = calcSignatureLength(extrinsic, system_accountNonce, tip);
 
     const isSameExtrinsic = prevState.extMethod === extMethod && prevState.extSection === extSection;
     const extraAmount = isSameExtrinsic

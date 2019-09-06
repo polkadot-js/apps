@@ -4,8 +4,10 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
+import { CallFunction } from '@polkadot/types/types';
 
-import React from 'react';
+import BN from 'bn.js';
+import React, { useEffect, useState } from 'react';
 import { GenericCall } from '@polkadot/types';
 import { Call, InputAddress, Modal } from '@polkadot/react-components';
 
@@ -16,15 +18,22 @@ interface Props extends I18nProps {
   children?: React.ReactNode;
   hideDetails?: boolean;
   isSendable: boolean;
+  tip?: BN;
   value: QueueTx;
 }
 
-function Transaction ({ children, hideDetails, isSendable, value: { accountId, extrinsic, isUnsigned }, t }: Props): React.ReactElement<Props> | null {
-  if (!extrinsic) {
+function Transaction ({ children, hideDetails, isSendable, value: { accountId, extrinsic, isUnsigned }, t, tip }: Props): React.ReactElement<Props> | null {
+  const [info, setInfo] = useState<CallFunction | null>(null);
+
+  useEffect((): void => {
+    extrinsic && setInfo(GenericCall.findFunction(extrinsic.callIndex));
+  }, [extrinsic]);
+
+  if (!info || !extrinsic) {
     return null;
   }
 
-  const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
+  const { meta, method, section } = info;
 
   return (
     <>
@@ -55,6 +64,7 @@ function Transaction ({ children, hideDetails, isSendable, value: { accountId, e
                 accountId={accountId}
                 extrinsic={extrinsic}
                 isSendable={isSendable}
+                tip={tip}
               />
             )}
           </>
