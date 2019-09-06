@@ -11,15 +11,15 @@ import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { Text } from '@polkadot/types';
 
 import translate from '../translate';
+import detectUnsafe from '../unsafeChains';
 import InputValidationController from './Account/InputValidationController';
 import { rewardDestinationOptions } from './constants';
 
 interface Props extends ApiProps, I18nProps, CalculateBalanceProps {
+  isUnsafeChain?: boolean;
   onClose: () => void;
-  systemChain?: Text;
 }
 
 interface State {
@@ -28,11 +28,8 @@ interface State {
   controllerId: string | null;
   destination: number;
   extrinsic: SubmittableExtrinsic | null;
-  ignoreController: boolean;
   stashId: string | null;
 }
-
-export const NO_VALIDATION_CHAINS = ['Development', 'Kusama CC1', 'Kusama'];
 
 class NewStake extends TxComponent<Props, State> {
   public state: State;
@@ -45,26 +42,15 @@ class NewStake extends TxComponent<Props, State> {
       controllerId: null,
       destination: 0,
       extrinsic: null,
-      ignoreController: false,
       stashId: null
     };
   }
 
-  public static getDerivedStateFromProps ({ systemChain }: Props): Pick<State, any> | null {
-    if (!systemChain) {
-      return null;
-    }
-
-    return {
-      ignoreController: NO_VALIDATION_CHAINS.includes(systemChain.toString())
-    };
-  }
-
   public render (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { bondValue, controllerError, controllerId, extrinsic, ignoreController, stashId } = this.state;
+    const { isUnsafeChain, onClose, t } = this.props;
+    const { bondValue, controllerError, controllerId, extrinsic, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
-    const canSubmit = (hasValue && (ignoreController || (!controllerError && !!controllerId)));
+    const canSubmit = (hasValue && (isUnsafeChain || (!controllerError && !!controllerId)));
 
     return (
       <Modal
@@ -98,8 +84,8 @@ class NewStake extends TxComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { t } = this.props;
-    const { controllerId, controllerError, bondValue, destination, ignoreController, stashId } = this.state;
+    const { isUnsafeChain, t } = this.props;
+    const { controllerId, controllerError, bondValue, destination, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
 
     return (
@@ -118,7 +104,7 @@ class NewStake extends TxComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            isError={!ignoreController && !!controllerError}
+            isError={!isUnsafeChain && !!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
             type='account'
@@ -127,6 +113,7 @@ class NewStake extends TxComponent<Props, State> {
           <InputValidationController
             accountId={stashId}
             controllerId={controllerId}
+            isUnsafeChain={isUnsafeChain}
             onError={this.onControllerError}
           />
           <InputBalanceBonded
@@ -141,7 +128,7 @@ class NewStake extends TxComponent<Props, State> {
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
             stashId={stashId}
-            withMax
+            withMax={!isUnsafeChain}
           />
           <Dropdown
             className='medium'
@@ -160,7 +147,7 @@ class NewStake extends TxComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
       const { api } = this.props;
-      const { bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, ignoreController = prevState.ignoreController, stashId = prevState.stashId } = newState;
+      const { bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, stashId = prevState.stashId } = newState;
       const extrinsic = (bondValue && controllerId)
         ? api.tx.staking.bond(controllerId, bondValue, destination)
         : null;
@@ -171,7 +158,6 @@ class NewStake extends TxComponent<Props, State> {
         controllerId,
         destination,
         extrinsic,
-        ignoreController,
         stashId
       };
     });
@@ -202,6 +188,9 @@ export default withMulti(
   NewStake,
   translate,
   withCalls<Props>(
-    ['rpc.system.chain', { propName: 'systemChain' }]
+    ['rpc.system.chain', {
+      propName: 'isUnsafeChain',
+      transform: detectUnsafe
+    }]
   )
 );

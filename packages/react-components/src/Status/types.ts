@@ -4,9 +4,10 @@
 
 import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { SignerPayload, SignerResult } from '@polkadot/api/types';
+import { SignerResult } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types/interfaces';
+import { SignerPayloadJSON } from '@polkadot/types/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
@@ -34,7 +35,7 @@ export interface QueueTx extends AccountInfo {
   extrinsic?: SubmittableExtrinsic;
   id: number;
   isUnsigned?: boolean;
-  payload?: SignerPayload;
+  payload?: SignerPayloadJSON;
   result?: any;
   removeItem: () => void;
   rpc: RpcMethod;
@@ -74,7 +75,7 @@ export interface PartialAccountInfo {
 
 export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
   extrinsic?: SubmittableExtrinsic;
-  payload?: SignerPayload;
+  payload?: SignerPayloadJSON;
   signerCb?: SignerCallback;
   txFailedCb?: TxFailedCallback;
   txSuccessCb?: TxCallback;
@@ -92,7 +93,7 @@ export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => number;
 
 export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => number;
 
-export type QueueTxPayloadAdd = (payload: SignerPayload, signerCb: SignerCallback) => number;
+export type QueueTxPayloadAdd = (payload: SignerPayloadJSON, signerCb: SignerCallback) => number;
 
 export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result?: any, error?: Error) => void;
 

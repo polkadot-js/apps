@@ -4,17 +4,6 @@
     "build",
     "packages/*/build"
   ],
-  "include": [
-    "packages/**/*.d.ts",
-    "packages/**/*.ts",
-    "packages/**/*.tsx",
-    "packages/**/*.js",
-    "packages/**/*.spec.ts",
-    "packages/**/*.spec.js",
-    "scripts/*.js",
-    "test/*.js",
-    "*.js"
-  ],
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true

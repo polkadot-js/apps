@@ -17,10 +17,12 @@ import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants
 import { bnMax } from '@polkadot/util';
 
 import translate from '../../translate';
+import detectUnsafe from '../../unsafeChains';
 
 interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
   controllerId: string;
   isOpen: boolean;
+  isUnsafeChain: boolean;
   onClose: () => void;
   stashId: string;
 }
@@ -92,7 +94,7 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { stashId, t } = this.props;
+    const { isUnsafeChain, stashId, t } = this.props;
     const { maxBalance } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
 
@@ -117,7 +119,7 @@ class BondExtra extends TxComponent<Props, State> {
             maxValue={maxBalance}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
-            withMax
+            withMax={!isUnsafeChain}
           />
         </Modal.Content>
       </>
@@ -182,6 +184,10 @@ export default withMulti(
   withCalls<Props>(
     'derive.balances.fees',
     ['derive.balances.all', { paramName: 'stashId' }],
-    ['query.system.accountNonce', { paramName: 'stashId' }]
+    ['query.system.accountNonce', { paramName: 'stashId' }],
+    ['rpc.system.chain', {
+      propName: 'isUnsafeChain',
+      transform: detectUnsafe
+    }]
   )
 );

@@ -7,24 +7,22 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React from 'react';
 import { Button, Icon, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { Text } from '@polkadot/types';
 
 import translate from '../../translate';
-import { NO_VALIDATION_CHAINS } from '../NewStake';
+import detectUnsafe from '../../unsafeChains';
 import InputValidationController from '../Account/InputValidationController';
 
 interface Props extends I18nProps {
   defaultControllerId: string;
+  isUnsafeChain?: boolean;
   isValidating?: boolean;
   onClose: () => void;
   stashId: string;
-  systemChain?: Text;
 }
 
 interface State {
   controllerError: string | null;
   controllerId: string | null;
-  ignoreController: boolean;
 }
 
 class SetControllerAccount extends TxComponent<Props, State> {
@@ -33,25 +31,14 @@ class SetControllerAccount extends TxComponent<Props, State> {
 
     this.state = {
       controllerError: null,
-      controllerId: null,
-      ignoreController: false
-    };
-  }
-
-  public static getDerivedStateFromProps ({ systemChain }: Props): Pick<State, any> | null {
-    if (!systemChain) {
-      return null;
-    }
-
-    return {
-      ignoreController: NO_VALIDATION_CHAINS.includes(systemChain.toString())
+      controllerId: null
     };
   }
 
   public render (): React.ReactNode {
-    const { defaultControllerId, onClose, stashId, t } = this.props;
-    const { controllerError, controllerId, ignoreController } = this.state;
-    const canSubmit = ignoreController || (!controllerError && !!controllerId && (defaultControllerId !== controllerId));
+    const { defaultControllerId, isUnsafeChain, onClose, stashId, t } = this.props;
+    const { controllerError, controllerId } = this.state;
+    const canSubmit = isUnsafeChain || (!controllerError && !!controllerId && (defaultControllerId !== controllerId));
 
     return (
       <Modal
@@ -86,8 +73,8 @@ class SetControllerAccount extends TxComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { defaultControllerId, stashId, t } = this.props;
-    const { controllerId, controllerError, ignoreController } = this.state;
+    const { defaultControllerId, isUnsafeChain, stashId, t } = this.props;
+    const { controllerId, controllerError } = this.state;
 
     return (
       <>
@@ -106,7 +93,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
             className='medium'
             defaultValue={defaultControllerId}
             help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            isError={!ignoreController && !!controllerError}
+            isError={!isUnsafeChain && !!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
             type='account'
@@ -116,6 +103,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
             accountId={stashId}
             defaultController={defaultControllerId}
             controllerId={controllerId}
+            isUnsafeChain={isUnsafeChain}
             onError={this.onControllerError}
           />
         </Modal.Content>
@@ -153,6 +141,9 @@ export default withMulti(
   SetControllerAccount,
   translate,
   withCalls<Props>(
-    ['rpc.system.chain', { propName: 'systemChain' }]
+    ['rpc.system.chain', {
+      propName: 'isUnsafeChain',
+      transform: detectUnsafe
+    }]
   )
 );

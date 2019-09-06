@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignerPayload } from '@polkadot/api/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { SignerPayloadJSON } from '@polkadot/types/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueProps as State, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
@@ -185,7 +185,7 @@ export default class Queue extends React.Component<Props, State> {
     });
   }
 
-  public queuePayload = (payload: SignerPayload, signerCb: SignerCallback): number => {
+  public queuePayload = (payload: SignerPayloadJSON, signerCb: SignerCallback): number => {
     return this.queueAdd({
       accountId: payload.address,
       // this is not great, but the Extrinsic we don't need a submittable
