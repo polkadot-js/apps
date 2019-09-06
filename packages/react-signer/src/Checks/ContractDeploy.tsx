@@ -15,7 +15,7 @@ interface Props {
   onChange: (fees: State) => void;
 }
 
-export default function ContractDeploy ({ endowment, fees, onChange }: Props): React.ReactElement<Props> |  null {
+export default function ContractDeploy ({ endowment, fees, onChange }: Props): React.ReactElement<Props> | null {
   const [state, setState] = useState<State>({
     extraFees: new BN(0),
     extraAmount: new BN(0),
