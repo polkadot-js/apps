@@ -35,6 +35,8 @@ function ExtensionOverlay ({ className, isWaitingInjected, t }: ApiProps & Props
 }
 
 function ConnectOverlay ({ className, isApiConnected, t }: ApiProps & Props): React.ReactElement<Props> | null {
+  console.error('isApiConnected', isApiConnected);
+
   if (isApiConnected) {
     return null;
   }
@@ -62,7 +64,7 @@ function ConnectOverlay ({ className, isApiConnected, t }: ApiProps & Props): Re
 function Connecting (props: Props): React.ReactElement<Props> | null {
   const api = useContext(ApiContext);
 
-  return <ExtensionOverlay {...props} {...api} /> || <ConnectOverlay {...props} {...api} />;
+  return ExtensionOverlay({ ...props, ...api }) || ConnectOverlay({ ...props, ...api });
 }
 
 export default translate(
