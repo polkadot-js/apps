@@ -35,8 +35,6 @@ function ExtensionOverlay ({ className, isWaitingInjected, t }: ApiProps & Props
 }
 
 function ConnectOverlay ({ className, isApiConnected, t }: ApiProps & Props): React.ReactElement<Props> | null {
-  console.error('isApiConnected', isApiConnected);
-
   if (isApiConnected) {
     return null;
   }
