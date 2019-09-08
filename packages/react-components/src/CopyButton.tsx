@@ -46,7 +46,7 @@ function CopyButtonInner (props: InnerProps): React.ReactElement<InnerProps> {
         onCopy={onCopy(props)}
         text={value}
       >
-        <div>
+        <div className='copyContainer'>
           {children}
           <span className='copySpan'>
             <Button
@@ -77,7 +77,8 @@ function CopyButton (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(CopyButton)`
+export default styled(CopyButton)`  
+  width: 100%;
   cursor: copy;
 
   button.ui.mini.icon.primary.button.iconButton {
@@ -86,5 +87,9 @@ export default styled(CopyButton)`
 
   .copySpan {
     white-space: nowrap;
+  }
+  .copyContainer {
+    display: flex;
+    text-overflow: ellipsis;
   }
 `;
