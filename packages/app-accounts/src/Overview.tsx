@@ -29,7 +29,7 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
   const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && (Object.keys(accounts).length === 0);
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
-  const _toggleImport = (): void => setIsImportOpen(!setIsImportOpen);
+  const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
   const _toggleQr = (): void => setIsQrOpen(!isQrOpen);
 
   return (
