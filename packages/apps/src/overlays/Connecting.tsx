@@ -16,7 +16,7 @@ import BaseOverlay from './Base';
 const isFirefox = typeof (window as any).InstallTrigger !== 'undefined';
 const wsUrl = settings.apiUrl;
 const isWs = wsUrl.startsWith('ws://');
-const isWsRemote = wsUrl.includes('127.0.0.1');
+const isWsLocal = wsUrl.includes('127.0.0.1');
 const isHttps = window.location.protocol.startsWith('https:');
 
 function ExtensionOverlay ({ className, isWaitingInjected, t }: ApiProps & Props): React.ReactElement<Props> | null {
@@ -51,7 +51,7 @@ function ConnectOverlay ({ className, isApiConnected, t }: ApiProps & Props): Re
           : undefined
       }
       {
-        isWs && isWsRemote && isHttps
+        isWs && !isWsLocal && isHttps
           ? <div>{t('You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure \'wss\' endpoint.', { replace: { wsUrl } })}</div>
           : undefined
       }
