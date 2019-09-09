@@ -62,7 +62,7 @@ function ConnectOverlay ({ className, isApiConnected, t }: ApiProps & Props): Re
 function Connecting (props: Props): React.ReactElement<Props> | null {
   const api = useContext(ApiContext);
 
-  return <ExtensionOverlay {...props} {...api} /> || <ConnectOverlay {...props} {...api} />;
+  return ExtensionOverlay({ ...props, ...api }) || ConnectOverlay({ ...props, ...api });
 }
 
 export default translate(
