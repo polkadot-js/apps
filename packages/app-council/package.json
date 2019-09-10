@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-council",
-  "version": "0.35.0",
+  "version": "0.35.1",
   "description": "Council",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "@polkadot/react-components": "^0.35.0",
-    "@polkadot/react-query": "^0.35.0"
+    "@polkadot/react-components": "^0.35.1",
+    "@polkadot/react-query": "^0.35.1"
   }
 }
