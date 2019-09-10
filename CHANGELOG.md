@@ -1,3 +1,16 @@
+# 0.35.1
+
+- Api 0.91.1, Util 1.2.1, Extension 0.10.1
+- Support for accouns added via Qr (for instance, the Parity Signer)
+- Support for accounts tied to specific chains (instead of just available to all)
+- GenericAsset app transfers
+- Support for Edgeware with default types
+- Display received heartbeats for validators
+- Allow optional params (really as optional) in RPC toolbox
+- Add Polkascan for Kusama
+- Fix account derivation with `///password`
+- Lots of component & maintainability cleanups
+
 # 0.34.1
 
 - Kusama support
