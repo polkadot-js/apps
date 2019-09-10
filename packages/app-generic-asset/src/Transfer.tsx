@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2019 @polkadot/app-generic-asset authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -185,6 +184,7 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   private onAddAssetId = (id: string): void => {
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (id.trim().match(/^\d+$/)) {
       assetRegistry.add(id, id);
     }
