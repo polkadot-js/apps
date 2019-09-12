@@ -25,7 +25,8 @@ import substrate from '@polkadot/ui-assets/substrate-hexagon.svg';
 // overrides based on the actual matched chain name
 const CHAINS: Record<string, any> = {
   Kusama: chainKusama, // old name, the W3F nodes still has these
-  'Kusama CC1': chainKusama
+  'Kusama CC1': chainKusama,
+  'Kusama CC2': chainKusama
 };
 
 // overrides based on the actual software node type
