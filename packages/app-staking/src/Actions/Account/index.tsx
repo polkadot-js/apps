@@ -598,9 +598,10 @@ export default withMulti(
     display: flex;
 
     .staking--Accounts {
-      flex: 1;
+      flex: 3;
       display: flex;
-      flex-direction: column
+      flex-direction: column;
+      width: 0px;
     }
 
     .staking--Account-detail.actions{

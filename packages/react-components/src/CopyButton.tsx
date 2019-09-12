@@ -37,7 +37,7 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, t,
         onCopy={_onCopy}
         text={value}
       >
-        <div>
+        <div className='copyContainer'>
           {children}
           <span className='copySpan'>
             <Button
