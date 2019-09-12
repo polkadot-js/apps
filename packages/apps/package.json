@@ -12,10 +12,10 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.5.5",
+    "@babel/runtime": "^7.6.0",
     "@polkadot/react-components": "^0.35.1",
     "@polkadot/react-signer": "^0.35.1",
-    "@polkadot/ui-assets": "^0.43.1",
+    "@polkadot/ui-assets": "^0.44.0-beta.1",
     "query-string": "^6.8.2"
   }
 }

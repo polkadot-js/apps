@@ -10,7 +10,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.4.5",
+    "@babel/runtime": "^7.6.0",
     "@polkadot/react-components": "^0.35.1",
     "@polkadot/react-query": "^0.35.1"
   }
