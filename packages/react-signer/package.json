@@ -12,6 +12,6 @@
   "dependencies": {
     "@babel/runtime": "^7.6.0",
     "@polkadot/react-components": "^0.36.0-beta.3",
-    "@polkadot/react-qr": "^0.44.1"
+    "@polkadot/react-qr": "^0.45.0-beta.0"
   }
 }

@@ -18,6 +18,7 @@ import EMPTY from '@polkadot/ui-assets/empty.svg';
 import chainKusama from '@polkadot/ui-assets/chains/kusama-128.gif';
 
 // defaults for the node type, assuming we don't have a specific chain
+import edgeware from '@polkadot/ui-assets/edgeware-circle.svg';
 import polkadot from '@polkadot/ui-assets/polkadot-circle.svg';
 import polkadotJs from '@polkadot/ui-assets/polkadot-js.svg';
 import substrate from '@polkadot/ui-assets/substrate-hexagon.svg';
@@ -31,6 +32,7 @@ const CHAINS: Record<string, any> = {
 
 // overrides based on the actual software node type
 const NODES: Record<string, any> = {
+  'edgeware-node': edgeware,
   'node-template': substrate,
   'parity-polkadot': polkadot,
   'polkadot-js': polkadotJs,
