@@ -115,7 +115,7 @@ class Address extends React.PureComponent<Props, State> {
   private renderKeys (): React.ReactNode {
     const { address, isSubstrateV2, lastAuthor, lastBlock, t } = this.props;
     const { controllerId, sessionId, stashId } = this.state;
-    const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
+    const isAuthor = !!lastBlock && !!lastAuthor && [address, controllerId, stashId].includes(lastAuthor);
 
     return (
       <div className='staking--Address-info'>
