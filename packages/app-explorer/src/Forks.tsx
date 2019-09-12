@@ -10,11 +10,13 @@ import { Header } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 import { withApi, withMulti } from '@polkadot/react-api';
+import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
 interface LinkHeader {
+  author: string | null;
   bn: string;
   hash: string;
   height: number;
@@ -38,12 +40,15 @@ interface Props extends ApiProps, I18nProps {
 }
 
 interface State {
+  numBlocks: number;
+  numForks: number;
   tree?: Link;
 }
 
 type UnsubFn = () => void;
 
 interface Col {
+  author: string | null;
   hash: string;
   isEmpty: boolean;
   isFinalized: boolean;
@@ -57,7 +62,10 @@ interface Row {
 }
 
 class Forks extends React.PureComponent<Props, State> {
-  public state: State = {};
+  public state: State = {
+    numBlocks: 0,
+    numForks: 0
+  };
 
   private _children: Map<string, string[]> = new Map([['root', []]]);
 
@@ -93,6 +101,7 @@ class Forks extends React.PureComponent<Props, State> {
     const bn = formatNumber(header.number);
     const hash = header.hash.toHex();
     const parent = header.parentHash.toHex();
+    let isFork = false;
 
     // if this the first one?
     if (!this._firstNum) {
@@ -106,10 +115,12 @@ class Forks extends React.PureComponent<Props, State> {
       }
 
       // add to the header map
-      this._headers.set(hash, this.createHdr(bn, hash, parent));
+      // also for HeaderExtended header.author ? header.author.toString() : null
+      this._headers.set(hash, this.createHdr(bn, hash, parent, null));
 
       // check to see if the children already has a entry
       if (this._children.has(parent)) {
+        isFork = true;
         (this._children.get(parent) as any[]).push(hash);
       } else {
         this._children.set(parent, [hash]);
@@ -129,7 +140,9 @@ class Forks extends React.PureComponent<Props, State> {
       }
 
       // do the magic, extract the info into something useful and add to state
-      this.setState((): State => ({
+      this.setState(({ numBlocks, numForks }): State => ({
+        numBlocks: numBlocks + 1,
+        numForks: numForks + (isFork ? 1 : 0),
         tree: this.generateTree()
       }));
     }
@@ -156,8 +169,8 @@ class Forks extends React.PureComponent<Props, State> {
 
   // render the acual component
   public render (): React.ReactNode {
-    const { className } = this.props;
-    const { tree } = this.state;
+    const { className, t } = this.props;
+    const { numBlocks, numForks, tree } = this.state;
 
     if (!tree) {
       return null;
@@ -165,6 +178,12 @@ class Forks extends React.PureComponent<Props, State> {
 
     return (
       <div className={className}>
+        <SummaryBox>
+          <section>
+            <CardSummary label={t('blocks')}>{formatNumber(numBlocks)}</CardSummary>
+            <CardSummary label={t('forks')}>{formatNumber(numForks)}</CardSummary>
+          </section>
+        </SummaryBox>
         <table>
           <tbody>
             {this.renderRows(this.createRows(tree.arr))}
@@ -193,8 +212,8 @@ class Forks extends React.PureComponent<Props, State> {
   }
 
   // a single column in a row, it just has the details for the entry
-  private createCol = ({ hdr: { hash, isEmpty, isFinalized, parent, width } }: Link): Col => {
-    return { hash, isEmpty, isFinalized, parent, width };
+  private createCol = ({ hdr: { author, hash, isEmpty, isFinalized, parent, width } }: Link): Col => {
+    return { author, hash, isEmpty, isFinalized, parent, width };
   }
 
   // checks to see if a row has a single non-empty entry, i.e. it is a candidate for collapsing
@@ -246,7 +265,7 @@ class Forks extends React.PureComponent<Props, State> {
     });
   }
 
-  private renderCol = ({ hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode => {
+  private renderCol = ({ author, hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode => {
     return (
       <td
         className={`header ${isEmpty && 'isEmpty'} ${isFinalized && 'isFinalized'}`}
@@ -258,8 +277,17 @@ class Forks extends React.PureComponent<Props, State> {
             ? <div className='empty' />
             : (
               <>
-                <div className='hash'>{hash}</div>
-                <div className='parent'>{parent}</div>
+                {author && (
+                  <IdentityIcon
+                    className='author'
+                    size={28}
+                    value={author}
+                  />
+                )}
+                <div className='contents'>
+                  <div className='hash'>{hash}</div>
+                  <div className='parent'>{parent}</div>
+                </div>
               </>
             )
         }
@@ -286,15 +314,15 @@ class Forks extends React.PureComponent<Props, State> {
   }
 
   // fills in a header based on the supplied data
-  private createHdr (bn: string, hash: string, parent: string, isEmpty = false): LinkHeader {
-    return { bn, hash, height: 0, isEmpty, isFinalized: false, parent, width: 0 };
+  private createHdr (bn: string, hash: string, parent: string, author: string | null, isEmpty = false): LinkHeader {
+    return { author, bn, hash, height: 0, isEmpty, isFinalized: false, parent, width: 0 };
   }
 
   // empty link helper
   private createLink (): Link {
     return {
       arr: [],
-      hdr: this.createHdr('', ' ', ' ', true)
+      hdr: this.createHdr('', ' ', ' ', null, true)
     };
   }
 
@@ -383,18 +411,56 @@ export default withMulti(
       border-spacing: 0.25rem;
       font-family: monospace;
 
+      /* tr {
+        opacity: 0.05;
+
+        &:nth-child(1) { opacity: 1; }
+        &:nth-child(2) { opacity: 0.95; }
+        &:nth-child(3) { opacity: 0.9; }
+        &:nth-child(4) { opacity: 0.85; }
+        &:nth-child(5) { opacity: 0.8; }
+        &:nth-child(6) { opacity: 0.75; }
+        &:nth-child(7) { opacity: 0.70; }
+        &:nth-child(8) { opacity: 0.65; }
+        &:nth-child(9) { opacity: 0.6; }
+        &:nth-child(10) { opacity: 0.55; }
+        &:nth-child(11) { opacity: 0.6; }
+        &:nth-child(12) { opacity: 0.55; }
+        &:nth-child(13) { opacity: 0.5; }
+        &:nth-child(14) { opacity: 0.45; }
+        &:nth-child(15) { opacity: 0.4; }
+        &:nth-child(16) { opacity: 0.35; }
+        &:nth-child(17) { opacity: 0.3; }
+        &:nth-child(18) { opacity: 0.25; }
+        &:nth-child(19) { opacity: 0.2; }
+        &:nth-child(20) { opacity: 0.15; }
+        &:nth-child(21) { opacity: 0.1; }
+      } */
+
       td {
         padding: 0.25rem 0.5rem;
         text-align: center;
 
-        div {
-          margin: 0 auto;
-          max-width: 6rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+        .author,
+        .contents {
+          display: inline-block;
+          vertical-align: middle;
+        }
 
-          &.parent {
+        .author {
+          margin-right: 0.25rem;
+        }
+
+        .contents {
+          .hash, .parent {
+            margin: 0 auto;
+            max-width: 6rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .parent {
             font-size: 0.75rem;
             line-height: 0.75rem;
             max-width: 4.5rem;
@@ -406,25 +472,30 @@ export default withMulti(
         }
 
         &.header {
-          background: #f2f2f2;
+          background: #f5f5f5;
+          border: 1px solid #eee;
           border-radius: 0.25rem;
 
           &.isEmpty {
             background: transparent;
+            border-color: transparent;
           }
 
           &.isFinalized {
-            background: rgba(0, 255, 0, 0.15);
+            background: rgba(0, 255, 0, 0.1);
+            border-color: rgba(0, 255, 0, 0.17);
           }
 
           &.isLink {
             background: transparent;
+            border-color: transparent;
             line-height: 1rem;
             padding: 0;
           }
 
           &.isMissing {
             background: rgba(255, 0, 0, 0.05);
+            border-color: rgba(255, 0, 0, 0.06);
           }
         }
       }
