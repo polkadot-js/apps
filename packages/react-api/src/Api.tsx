@@ -19,12 +19,11 @@ import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
 import { Text, u32 as U32 } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
+import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import typesChain from './overrides/chain';
 import typesSpec from './overrides/spec';
 import ApiContext from './ApiContext';
-
-let api: ApiPromise;
 
 interface Props {
   children: React.ReactNode;
@@ -45,9 +44,13 @@ interface InjectedAccountExt {
   };
 }
 
-export { api };
+const DEFAULT_DECIMALS = new U32(12);
+const DEFAULT_SS58 = new U32(addressDefaults.prefix);
 
 const injectedPromise = web3Enable('polkadot-js/apps');
+let api: ApiPromise;
+
+export { api };
 
 export default class Api extends React.PureComponent<Props, State> {
   public state: State = {} as unknown as State;
@@ -132,13 +135,13 @@ export default class Api extends React.PureComponent<Props, State> {
         }))
       )
     ]);
-    const addressPrefix = (
+    const ss58Format = (
       uiSettings.prefix === -1
-        ? properties.ss58Format.unwrapOr(new U32(42)).toNumber()
+        ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
         : uiSettings.prefix
     ) as Prefix;
     const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
-    const tokenDecimals = properties.tokenDecimals.unwrapOr(new U32(15)).toNumber();
+    const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
     const chain = value
       ? value.toString()
       : null;
@@ -155,9 +158,9 @@ export default class Api extends React.PureComponent<Props, State> {
 
     // finally load the keyring
     keyring.loadAll({
-      addressPrefix,
       genesisHash: api.genesisHash,
       isDevelopment,
+      ss58Format,
       type: 'ed25519'
     }, injectedAccounts);
 
