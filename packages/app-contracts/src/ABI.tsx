@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
+import { AbiVersion, ContractABIV2Data } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -130,9 +131,13 @@ class ABI extends React.PureComponent<Props, State> {
   private onChange = (u8a: Uint8Array): void => {
     const { onChange } = this.props;
     const json = u8aToString(u8a);
-
     try {
-      const contractAbi = new Abi(JSON.parse(json));
+      const data = JSON.parse(json);
+      const isV2 = !!(data as ContractABIV2Data).contract;
+      const contractAbi = new Abi({
+        isV2,
+        data
+      });
 
       this.setState({
         contractAbi,

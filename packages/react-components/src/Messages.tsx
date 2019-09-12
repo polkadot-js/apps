@@ -23,7 +23,7 @@ export interface Props extends I18nProps {
 
 function onSelect (props: Props, index: number): () => void {
   return function (): void {
-    const { address: callAddress, contractAbi: { abi: { messages } }, onSelect } = props;
+    const { address: callAddress, contractAbi: { abi: { messages }, isV2, registry }, onSelect } = props;
 
     if (!callAddress || !messages || !messages[index]) {
       return;
@@ -31,18 +31,18 @@ function onSelect (props: Props, index: number): () => void {
 
     const { name: callMethod } = messages[index];
 
-    onSelect && onSelect(callAddress, callMethod);
+    onSelect && onSelect(callAddress, isV2 ? registry.stringAt(callMethod as number) : callMethod as string);
   };
 }
 
 function renderMessage (props: Props, index: number): React.ReactNode {
-  const { contractAbi: { abi: { messages } }, onSelect: onSelectProp } = props;
+  console.log(props.contractAbi);
+  const { contractAbi: { abi: { messages }, isV2, registry }, onSelect: onSelectProp } = props;
   if (!messages[index]) {
     return null;
   }
 
   const { args, name, return_type: returnType } = messages[index];
-
   return (
     <Button
       key={name}
@@ -51,11 +51,11 @@ function renderMessage (props: Props, index: number): React.ReactNode {
       onClick={onSelect(props, index)}
       isPrimary={!!onSelectProp}
     >
-      {name}
+      {isV2 ? registry.stringAt(name as number) : name}
       (
-      {args.map(({ name, type }): string => `${name}: ${type}`).join(', ')}
+      {args.map(({ name, type }): string => isV2 ? `${registry.stringAt(name as number)}: ${(registry.typeDefAt(type as number) || { type: '' }).type}` : `${name}: ${type}`).join(', ')}
       )
-      {returnType && `: ${returnType}`}
+      {returnType && `: ${isV2 ? registry.typeDefAt(returnType as number).type : returnType}`}
     </Button>
   );
 }
