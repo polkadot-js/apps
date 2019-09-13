@@ -2,8 +2,8 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-/* polkadot-js logo color */
-$highlight: darkorange;
+/* polkadot-js logo color is `darkorange` */
+$highlight: #f19135;
 
 /*
 The default for the primary buttons, as per SUI, only included here as a reference. Alternatives
@@ -31,14 +31,14 @@ $default: #4d4e4f;
   .ui.button,
   .ui.buttons .button {
     background-color: $default;
-    color: #eee;
+    color: #f2f2f2;
 
     &.active,
     &:active,
     &:focus,
     &:hover {
       background-color: $default;
-      color: #eee;
+      color: #f2f2f2;
     }
 
     &:hover {
