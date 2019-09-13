@@ -10,22 +10,13 @@ import { InputBalance } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function onChange ({ isError, onChange }: Props): (_?: BN) => void {
-  return function (value?: BN): void {
-    if (!onChange) {
-      return;
-    }
-
-    onChange({
+export default function Balance ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+  const defaultValue = new BN((value as BN || '0').toString()).toString(10);
+  const _onChange = (value?: BN): void =>
+    onChange && onChange({
       isValid: !isError && !!value,
       value
     });
-  };
-}
-
-function Balance (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
-  const defaultValue = new BN((value as BN || '0').toString()).toString(10);
 
   return (
     <Bare
@@ -38,7 +29,7 @@ function Balance (props: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        onChange={onChange(props)}
+        onChange={_onChange}
         withEllipsis
         onEnter={onEnter}
         withLabel={withLabel}
@@ -50,5 +41,3 @@ function Balance (props: Props): React.ReactElement<Props> {
 export {
   Balance
 };
-
-export default Balance;

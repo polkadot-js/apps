@@ -2,48 +2,39 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueAction$Add } from './Status/types';
 import { BareProps, I18nProps } from './types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { QueueConsumer } from './Status/Context';
+import QueueContext from './Status/Context';
 import Button from './Button';
 import translate from './translate';
 import styled from 'styled-components';
 
-interface Props extends BareProps {
+interface Props extends BareProps, I18nProps {
   children?: React.ReactNode;
   icon?: string;
   isAddress?: boolean;
   value?: any;
 }
 
-type InnerProps = Props & I18nProps & {
-  queueAction: QueueAction$Add;
-};
+function CopyButton ({ children, className, icon = 'copy', isAddress = false, t, value }: Props): React.ReactElement<Props> {
+  const { queueAction } = useContext(QueueContext);
 
-function onCopy ({ isAddress = false, queueAction, t, value }: InnerProps): () => void {
-  return (): void => {
-    if (isAddress && queueAction) {
-      queueAction({
-        account: value,
-        action: t('clipboard'),
-        status: 'queued',
-        message: t('address copied')
-      });
-    }
+  const _onCopy = (): void => {
+    isAddress && queueAction && queueAction({
+      account: value,
+      action: t('clipboard'),
+      status: 'queued',
+      message: t('address copied')
+    });
   };
-}
-
-function CopyButtonInner (props: InnerProps): React.ReactElement<InnerProps> {
-  const { children, className, icon = 'copy', value } = props;
 
   return (
     <div className={className}>
       <CopyToClipboard
-        onCopy={onCopy(props)}
+        onCopy={_onCopy}
         text={value}
       >
         <div className='copyContainer'>
@@ -62,34 +53,16 @@ function CopyButtonInner (props: InnerProps): React.ReactElement<InnerProps> {
   );
 }
 
-const CopyButtonI18n = translate(CopyButtonInner);
-
-function CopyButton (props: Props): React.ReactElement<Props> {
-  return (
-    <QueueConsumer>
-      {({ queueAction }): React.ReactNode => (
-        <CopyButtonI18n
-          {...props}
-          queueAction={queueAction}
-        />
-      )}
-    </QueueConsumer>
-  );
-}
-
-export default styled(CopyButton)`  
-  width: 100%;
-  cursor: copy;
-
-  button.ui.mini.icon.primary.button.iconButton {
+export default translate(
+  styled(CopyButton)`
     cursor: copy;
-  }
 
-  .copySpan {
-    white-space: nowrap;
-  }
-  .copyContainer {
-    display: flex;
-    text-overflow: ellipsis;
-  }
-`;
+    button.ui.mini.icon.primary.button.iconButton {
+      cursor: copy;
+    }
+
+    .copySpan {
+      white-space: nowrap;
+    }
+  `
+);

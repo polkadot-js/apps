@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
 
 import { classes } from './util';
@@ -27,60 +27,45 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-interface State {
-  isVisible: boolean;
-}
+export default function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
+  const [isVisible, setIsVisible] = useState(false);
 
-export default class Password extends React.PureComponent<Props, State> {
-  public state: State = {
-    isVisible: false
-  };
+  const _toggleVisible = (): void => setIsVisible(!isVisible);
 
-  public render (): React.ReactNode {
-    const { autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, style, tabIndex, value, withLabel } = this.props;
-    const { isVisible } = this.state;
-
-    return (
-      <Input
-        autoFocus={autoFocus}
-        className={classes('ui--Password', className)}
-        defaultValue={defaultValue}
-        help={help}
-        isAction
-        isDisabled={isDisabled}
-        isError={isError}
-        label={label}
-        maxLength={MAX_PASS_LEN}
-        name={name}
-        onChange={onChange}
-        onEnter={onEnter}
-        style={style}
-        tabIndex={tabIndex}
-        type={
+  return (
+    <Input
+      autoFocus={autoFocus}
+      className={classes('ui--Password', className)}
+      defaultValue={defaultValue}
+      help={help}
+      isAction
+      isDisabled={isDisabled}
+      isError={isError}
+      label={label}
+      maxLength={MAX_PASS_LEN}
+      name={name}
+      onChange={onChange}
+      onEnter={onEnter}
+      style={style}
+      tabIndex={tabIndex}
+      type={
+        isVisible
+          ? 'text'
+          : 'password'
+      }
+      value={value}
+      withLabel={withLabel}
+    >
+      <Button
+        icon={
           isVisible
-            ? 'text'
-            : 'password'
+            ? 'hide'
+            : 'unhide'
         }
-        value={value}
-        withLabel={withLabel}
-      >
-        <Button
-          icon={
-            isVisible
-              ? 'hide'
-              : 'unhide'
-          }
-          isPrimary
-          onClick={this.onToggleVisible}
-        />
-        {children}
-      </Input>
-    );
-  }
-
-  private onToggleVisible = (): void => {
-    this.setState({
-      isVisible: !this.state.isVisible
-    });
-  }
+        isPrimary
+        onClick={_toggleVisible}
+      />
+      {children}
+    </Input>
+  );
 }
