@@ -12,7 +12,10 @@ import uiSettings from '@polkadot/ui-settings';
 export function createOption ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
   return {
     text: (
-      <div className='ui--Dropdown-item'>
+      <div
+        className='ui--Dropdown-item'
+        key={value}
+      >
         <ChainImg
           className='ui--Dropdown-icon'
           logo={
@@ -31,7 +34,10 @@ export function createOption ({ info, text, value }: SetOption, overrides: strin
 export function createIdenticon ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
   return {
     text: (
-      <div className='ui--Dropdown-item'>
+      <div
+        className='ui--Dropdown-item'
+        key={value}
+      >
         <IdentityIcon
           className='ui--Dropdown-icon'
           size={32}
