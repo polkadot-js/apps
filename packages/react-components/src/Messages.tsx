@@ -23,7 +23,7 @@ export interface Props extends I18nProps {
 
 function onSelect (props: Props, index: number): () => void {
   return function (): void {
-    const { address: callAddress, contractAbi: { abi: { messages }, isV2, registry }, onSelect } = props;
+    const { address: callAddress, contractAbi, contractAbi: { abi: { contract: { messages } } }, onSelect } = props;
 
     if (!callAddress || !messages || !messages[index]) {
       return;
@@ -31,13 +31,12 @@ function onSelect (props: Props, index: number): () => void {
 
     const { name: callMethod } = messages[index];
 
-    onSelect && onSelect(callAddress, isV2 ? registry.stringAt(callMethod as number) : callMethod as string);
+    onSelect && onSelect(callAddress, contractAbi.stringAt(callMethod));
   };
 }
 
 function renderMessage (props: Props, index: number): React.ReactNode {
-  console.log(props.contractAbi);
-  const { contractAbi: { abi: { messages }, isV2, registry }, onSelect: onSelectProp } = props;
+  const { contractAbi, contractAbi: { abi: { contract: { messages } } }, onSelect: onSelectProp } = props;
   if (!messages[index]) {
     return null;
   }
@@ -51,17 +50,17 @@ function renderMessage (props: Props, index: number): React.ReactNode {
       onClick={onSelect(props, index)}
       isPrimary={!!onSelectProp}
     >
-      {isV2 ? registry.stringAt(name as number) : name}
+      {contractAbi.stringAt(name)}
       (
-      {args.map(({ name, type }): string => isV2 ? `${registry.stringAt(name as number)}: ${(registry.typeDefAt(type as number) || { type: '' }).type}` : `${name}: ${type}`).join(', ')}
+      {args.map(({ name, type }): string => `${contractAbi.stringAt(name)}: ${contractAbi.typeDefAt(type).type}`).join(', ')}
       )
-      {returnType && `: ${isV2 ? registry.typeDefAt(returnType as number).type : returnType}`}
+      {returnType && `: ${contractAbi.typeDefAt(returnType).type}`}
     </Button>
   );
 }
 
 function Messages (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi: { abi: { messages } }, isLabelled, isRemovable, onRemove = (): void => { /* . */ }, onSelect, t } = props;
+  const { className, contractAbi: { abi: { contract: { messages } } }, isLabelled, isRemovable, onRemove = (): void => { /* . */ }, onSelect, t } = props;
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled', onSelect && 'select')}>
       {messages.map((_, index): React.ReactNode => {

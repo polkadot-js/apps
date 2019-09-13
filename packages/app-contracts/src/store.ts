@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '@polkadot/types/interfaces';
-import { AbiVersion, ContractABIV2Data } from '@polkadot/api-contract/types';
 import { CodeJson, CodeStored } from './types';
 
 import EventEmitter from 'eventemitter3';
@@ -75,15 +74,11 @@ class Store extends EventEmitter {
 
   private addCode (json: CodeJson): void {
     try {
-      const data = json.abi ? JSON.parse(json.abi) : null;
-      const isV2 = data && !!(data as ContractABIV2Data).contract;
+      const abi = json.abi ? JSON.parse(json.abi) : null;
       this.allCode[json.codeHash] = {
         json,
-        contractAbi: data
-          ? new Abi({
-            isV2,
-            data
-          })
+        contractAbi: abi
+          ? new Abi(abi)
           : undefined
       };
 

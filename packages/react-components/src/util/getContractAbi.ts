@@ -12,8 +12,7 @@ export default function getContractAbi (address: string): Abi | null {
 
   try {
     const data = meta.contract && JSON.parse(meta.contract.abi);
-    const isV2 = !!data.registry;
-    abi = new Abi({ isV2, data });
+    abi = new Abi(data);
   } catch (error) {
     // invalid address, maybe
   }
