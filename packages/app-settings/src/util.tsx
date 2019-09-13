@@ -6,7 +6,7 @@ import { SettingsStruct } from '@polkadot/ui-settings/types';
 import { Option, SetOption } from './types';
 
 import React from 'react';
-import { ChainImg } from '@polkadot/react-components';
+import { ChainImg, IdentityIcon } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
 export function createOption ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
@@ -20,6 +20,27 @@ export function createOption ({ info, text, value }: SetOption, overrides: strin
               ? override
               : info
           }
+        />
+        <div className='ui--Dropdown-name'>{text}</div>
+      </div>
+    ),
+    value
+  };
+}
+
+export function createIdenticon ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
+  return {
+    text: (
+      <div className='ui--Dropdown-item'>
+        <IdentityIcon
+          className='ui--Dropdown-icon'
+          size={32}
+          theme={
+            overrides.includes(info)
+              ? override as 'empty'
+              : info as 'substrate'
+          }
+          value='5F9999K9UgTUgSsbXZQcEmRMvQqwJoBUHMv9e1k2MdgghuRA'
         />
         <div className='ui--Dropdown-name'>{text}</div>
       </div>

@@ -11,7 +11,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
-import { createOption, saveAndReload } from './util';
+import { createIdenticon, createOption, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
 
 interface Props extends AppProps, I18nProps {
@@ -19,16 +19,16 @@ interface Props extends AppProps, I18nProps {
 }
 
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
-const themeOptions = uiSettings.availableUIThemes; // .map((o): Option => createOption(o));
+const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
 
 function General ({ className, t }: Props): React.ReactElement<Props> {
   const [settings, setSettings] = useState(uiSettings.get());
-  const { i18nLang, prefix, uiMode, uiTheme } = settings;
+  const { icon, i18nLang, prefix, uiMode } = settings;
 
   const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
+  const _onChangeIcon = (icon: string): void => setSettings({ ...settings, icon });
   const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
   const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
-  const _onChangeUiTheme = (uiTheme: string): void => setSettings({ ...settings, uiTheme });
   const _saveAndReload = (): void => saveAndReload(settings);
 
   return (
@@ -48,11 +48,11 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <div className='medium'>
           <Dropdown
-            defaultValue={uiTheme}
-            help={t('The logo and colors for the app along with the identity icon theme.')}
-            label={t('default interface theme')}
-            onChange={_onChangeUiTheme}
-            options={themeOptions}
+            defaultValue={icon}
+            help={t('Override the default identity icon display with a specific theme')}
+            label={t('default icon theme')}
+            onChange={_onChangeIcon}
+            options={iconOptions}
           />
         </div>
         <div className='medium'>
