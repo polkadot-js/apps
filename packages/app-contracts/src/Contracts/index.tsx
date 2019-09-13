@@ -54,6 +54,7 @@ class Contracts extends React.PureComponent<Props, State> {
                 </>
               )}
               <Button
+                isPrimary
                 label={t('Add an existing contract')}
                 labelIcon='add'
                 onClick={this.showAdd}
