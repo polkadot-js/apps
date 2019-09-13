@@ -86,18 +86,20 @@ function Banner ({ className, t }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default translate(styled(Banner)`
-  padding: 0 0.5rem 0.5rem;
+export default translate(
+  styled(Banner)`
+    padding: 0 0.5rem 0.5rem;
 
-  .box {
-    background: #fff6e5;
-    border-left: 0.25rem solid darkorange;
-    border-radius: 0 0.25rem 0.25rem 0;
-    box-sizing: border-box;
-    padding: 1rem 1.5rem;
+    .box {
+      background: #fff6e5;
+      border-left: 0.25rem solid darkorange;
+      border-radius: 0 0.25rem 0.25rem 0;
+      box-sizing: border-box;
+      padding: 1rem 1.5rem;
 
-    .info {
-      max-width: 50rem;
+      .info {
+        max-width: 50rem;
+      }
     }
-  }
-`);
+  `
+);

@@ -24,15 +24,6 @@ export interface Props extends I18nProps, BareProps {
   tip?: BN;
 }
 
-const Wrapper = styled.div`
-  .hash .ui--Static {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: unset;
-    word-wrap: unset;
-  }
-`;
-
 function Call ({ children, className, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
   const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
     name: name.toString(),
@@ -47,54 +38,51 @@ function Call ({ children, className, style, mortality, tip, value, withHash, t 
     : null;
 
   return (
-    <Wrapper
+    <div
       className={classes('ui--Extrinsic', className)}
       style={style}
     >
       {children}
-      {
-        hash
-          ? (
-            <Static
-              className='hash'
-              label={t('extrinsic hash')}
-            >
-              {hash.toHex()}
-            </Static>
-          )
-          : null
-      }
-      {
-        mortality
-          ? (
-            <Static
-              className='mortality'
-              label={t('lifetime')}
-            >
-              {mortality}
-            </Static>
-          )
-          : null
-      }
-      {
-        (tip && tip.gtn(0))
-          ? (
-            <Static
-              className='tip'
-              label={t('tip')}
-            >
-              {formatBalance(tip)}
-            </Static>
-          )
-          : null
-      }
+      {hash && (
+        <Static
+          className='hash'
+          label={t('extrinsic hash')}
+        >
+          {hash.toHex()}
+        </Static>
+      )}
+      {mortality && (
+        <Static
+          className='mortality'
+          label={t('lifetime')}
+        >
+          {mortality}
+        </Static>
+      )}
+      {tip && tip.gtn(0) && (
+        <Static
+          className='tip'
+          label={t('tip')}
+        >
+          {formatBalance(tip)}
+        </Static>
+      )}
       <Params
         isDisabled
         params={params}
         values={values}
       />
-    </Wrapper>
+    </div>
   );
 }
 
-export default translate(Call);
+export default translate(
+  styled(Call)`
+    .hash .ui--Static {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: unset;
+      word-wrap: unset;
+    }
+  `
+);

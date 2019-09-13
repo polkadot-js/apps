@@ -20,7 +20,7 @@ export interface TxModalState {
   isOpen: boolean;
 }
 
-class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
+export default class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
     accountId: null,
     isOpen: false,
@@ -204,5 +204,3 @@ class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponen
     );
   }
 }
-
-export default TxModal;

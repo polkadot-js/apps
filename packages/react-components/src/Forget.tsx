@@ -65,28 +65,9 @@ function getHeaderText ({ mode = 'account', t }: Props): string {
   }
 }
 
-function renderButtons ({ onClose, onForget, t }: Props): React.ReactNode {
-  return (
-    <Modal.Actions>
-      <Button.Group>
-        <Button
-          isNegative
-          onClick={onClose}
-          label={t('Cancel')}
-        />
-        <Button.Or />
-        <Button
-          isPrimary
-          onClick={onForget}
-          label={t('Forget')}
-        />
-      </Button.Group>
-    </Modal.Actions>
-  );
-}
-
 function renderContent (props: Props): React.ReactNode {
   const { address, code, mode = 'account' } = props;
+
   switch (mode) {
     case 'account':
     case 'address':
@@ -112,7 +93,8 @@ function renderContent (props: Props): React.ReactNode {
 }
 
 function Forget (props: Props): React.ReactElement<Props> {
-  const { onClose } = props;
+  const { onForget, onClose, t } = props;
+
   return (
     <Modal
       className='app--accounts-Modal'
@@ -126,7 +108,21 @@ function Forget (props: Props): React.ReactElement<Props> {
       <Modal.Content>
         {renderContent(props)}
       </Modal.Content>
-      {renderButtons(props)}
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          <Button
+            isPrimary
+            onClick={onForget}
+            label={t('Forget')}
+          />
+        </Button.Group>
+      </Modal.Actions>
     </Modal>
   );
 }
