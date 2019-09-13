@@ -37,7 +37,7 @@ function Overview (props: Props): React.ReactElement<Props> {
     );
   }
 
-  let lastBlock = '—';
+  let lastBlock = '';
   let lastAuthor: string | undefined;
 
   if (chain_subscribeNewHeads) {

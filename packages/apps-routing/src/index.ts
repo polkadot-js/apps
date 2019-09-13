@@ -16,6 +16,7 @@ import council from './council';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
+import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
 import settings from './settings';
@@ -34,6 +35,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     addressbook,
     claims,
     transfer,
+    genericAsset,
     null,
     staking,
     democracy,
@@ -49,6 +51,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     addressbook,
     claims,
     transfer,
+    genericAsset,
     null,
     staking,
     democracy,

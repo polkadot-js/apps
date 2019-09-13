@@ -37,7 +37,7 @@ interface TypeToComponent {
 
 const components: ComponentMap = ([
   { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'SessionKey', 'ValidatorId'] },
-  { c: Amount, t: ['AccountIndex', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
+  { c: Amount, t: ['AccountIndex', 'AssetId', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
   { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },

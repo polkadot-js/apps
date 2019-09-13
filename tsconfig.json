@@ -23,6 +23,8 @@
       "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],
       "@polkadot/app-explorer": [ "packages/app-explorer/src" ],
       "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
+      "@polkadot/app-generic-asset": [ "packages/app-generic-asset/src" ],
+      "@polkadot/app-generic-asset/*": [ "packages/app-generic-asset/src/*" ],
       "@polkadot/app-js": [ "packages/app-js/src" ],
       "@polkadot/app-js/*": [ "packages/app-js/src/*" ],
       "@polkadot/app-parachains": [ "packages/app-parachains/src" ],

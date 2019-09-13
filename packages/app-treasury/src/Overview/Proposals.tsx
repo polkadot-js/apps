@@ -115,4 +115,5 @@ const Proposals = withMulti(
 );
 
 export default Proposals;
+
 export const Approvals = (): JSX.Element => <Proposals isApprovals />;

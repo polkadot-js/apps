@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-123code",
-  "version": "0.35.0-beta.37",
+  "version": "0.36.0-beta.5",
   "description": "A basic app that shows the ropes on customisation",
   "main": "index.js",
   "scripts": {},
@@ -10,7 +10,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.5.5",
-    "@polkadot/react-components": "^0.35.0-beta.37"
+    "@babel/runtime": "^7.6.0",
+    "@polkadot/react-components": "^0.36.0-beta.5"
   }
 }
