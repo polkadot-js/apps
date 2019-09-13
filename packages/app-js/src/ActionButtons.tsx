@@ -50,7 +50,6 @@ class ActionButtons extends React.PureComponent<Props, State> {
               circular
               icon='share alternate'
               onClick={this.generateLink}
-              primary
             />
           }
           wide='very'
@@ -84,7 +83,6 @@ class ActionButtons extends React.PureComponent<Props, State> {
                 circular
                 icon='save'
                 onClick={this.onPopupOpen}
-                primary
               />
             }
           >
@@ -156,9 +154,5 @@ class ActionButtons extends React.PureComponent<Props, State> {
 }
 
 export default translate(
-  styled(ActionButtons)`
-    .play-button {
-      margin-left: 1rem;
-    }
-  `
+  styled(ActionButtons)``
 );

@@ -15,39 +15,55 @@ Actually the first still goes quite nicely with the drakorange
 $primary: #2185d0;
 
 /* the default button color in the extension, this works well with the drakorange as well */
-$alternative: #4d4e4f;
+$default: #4d4e4f;
 
 .theme--default {
+  .ui.button,
+  .ui.buttons .button {
+    background-color: $default;
+    color: #eee;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $default;
+      color: #eee;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
   .ui.basic.negative.button {
     box-shadow: 0 0 0 1px $highlight inset !important;
     color: $highlight !important;
   }
 
-  /* negative */
   .ui.negative.button,
-  .ui.buttons .negative.button,
-  .ui.negative.button:focus,
-  .ui.buttons .negative.button:focus,
-  .ui.negative.button:active,
-  .ui.buttons .negative.button:active,
-  /* secondary */
-  .ui.secondary.button,
-  .ui.buttons .secondary.button,
-  .ui.secondary.button:focus,
-  .ui.buttons .secondary.button:focus,
-  .ui.secondary.button:active,
-  .ui.buttons .secondary.button:active {
+  .ui.buttons .negative.button {
     background-color: $highlight;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $highlight;
+    }
   }
 
-  /* negative */
-  .ui.negative.button:hover,
-  .ui.buttons .negative.button:hover,
-  /* secondary */
-  .ui.secondary.button:hover,
-  .ui.buttons .secondary.button:hover {
-    background-color: $highlight;
-    opacity: 0.8;
+  .ui.primary.button,
+  .ui.buttons .primary.button
+  /*, .ui.primary.buttons .button (for dropdowns) */ {
+    background-color: $primary;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $primary;
+    }
   }
 
   .ui.blue.progress .bar {
@@ -60,5 +76,17 @@ $alternative: #4d4e4f;
 
   .ui.menu.tabular .item.active {
     border-bottom-color: $highlight;
+  }
+
+  /* this is for dropdown buttons */
+  .ui.buttons .ui.button.selection.visible.dropdown {
+    &:hover {
+      /* reset opacity, this is now open */
+      opacity: 1;
+    }
+
+    > .text:not(.default) {
+      color: #eee;
+    }
   }
 }
