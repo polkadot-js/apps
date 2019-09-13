@@ -24,7 +24,7 @@ function renderSession ({ session_info, t, withSession = true }: Props): React.R
     return null;
   }
 
-  const label = session_info.isEpoch
+  const label = session_info.isEpoch && session_info.sessionLength.gtn(1)
     ? t('epoch')
     : t('session');
 
