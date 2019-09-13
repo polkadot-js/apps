@@ -12,6 +12,7 @@ import React from 'react';
 import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/react-api/with';
 import BaseIdentityIcon from '@polkadot/react-identicon';
+import uiSettings, { ICON_DEFAULT_HOST } from '@polkadot/ui-settings';
 
 import { QueueConsumer } from './Status/Context';
 import translate from './translate';
@@ -22,14 +23,31 @@ interface CopyProps extends IdentityProps, I18nProps {
 
 interface IconProps extends IdentityProps {
   session_validators?: AccountId[];
-  staking_bonded?: Option<AccountId>;
+  staking_bonded?: string | null;
+  system_name?: string;
 }
 
 interface Props extends IconProps, IdentityProps {}
 
 interface State {
   isValidator: boolean;
+  theme: string;
 }
+
+// overrides based on the actual software node type
+const NODES: Record<string, string> = {
+  'edgeware-node': 'substrate',
+  'joystream-node': 'beachball',
+  'node-template': 'substrate',
+  'parity-polkadot': 'polkadot',
+  'polkadot-js': 'polkadot',
+  'substrate-node': 'substrate'
+};
+
+// toString() => null
+const NULL_TOSTRING = {
+  toString: (): null => null
+};
 
 class CopyIcon extends React.PureComponent<CopyProps> {
   public render (): React.ReactNode {
@@ -63,33 +81,33 @@ const CopyIconI18N = translate(CopyIcon);
 
 class IdentityIcon extends React.PureComponent<Props, State> {
   public state: State = {
-    isValidator: false
+    isValidator: false,
+    theme: ICON_DEFAULT_HOST
   };
 
-  public static getDerivedStateFromProps ({ session_validators = [], staking_bonded, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ session_validators = [], staking_bonded, system_name, value }: Props): State {
     const address = value
       ? value.toString()
       : null;
-    const bonded = staking_bonded && staking_bonded.isSome
-      ? staking_bonded.unwrap().toString()
-      : null;
     const isValidator = !!session_validators.find((validator): boolean =>
-      [address, bonded].includes(validator.toString())
+      [address, staking_bonded].includes(validator.toString())
     );
 
-    return prevState.isValidator !== isValidator
-      ? { isValidator }
-      : null;
+    return {
+      isValidator,
+      theme: (system_name && uiSettings.icon === 'default' && NODES[system_name]) || uiSettings.icon
+    };
   }
 
   public render (): React.ReactNode {
-    const { isValidator } = this.state;
+    const { isValidator, theme } = this.state;
 
     return (
       <QueueConsumer>
         {({ queueAction }): React.ReactNode =>
           <CopyIconI18N
             isHighlight={isValidator}
+            theme={theme as 'substrate'}
             {...this.props}
             queueAction={queueAction}
           />
@@ -101,5 +119,13 @@ class IdentityIcon extends React.PureComponent<Props, State> {
 
 export default withCalls<Props>(
   'query.session.validators',
-  ['query.staking.bonded', { paramName: 'value' }]
+  ['query.staking.bonded', {
+    paramName: 'value',
+    transform: (bonded: Option<AccountId>): string | null =>
+      bonded.unwrapOr(NULL_TOSTRING).toString()
+  }],
+  ['rpc.system.name', {
+    transform: (node: Text): string =>
+      node.toString()
+  }]
 )(IdentityIcon);

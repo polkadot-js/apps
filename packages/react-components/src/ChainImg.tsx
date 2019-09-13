@@ -42,6 +42,7 @@ const NODES: Record<string, any> = {
 // overrides as specified
 const LOGOS: Record<string, any> = {
   empty: EMPTY,
+  edgeware,
   alexander: polkadot,
   kusama: chainKusama,
   polkadot,
