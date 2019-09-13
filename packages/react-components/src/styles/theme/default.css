@@ -9,15 +9,25 @@ $highlight: darkorange;
 The default for the primary buttons, as per SUI, only included here as a reference. Alternatives
 here are (as looking at the polkadot overrides)
   - https://www.colorhexa.com/4183c4
-  - https://www.colorhexa.com/2185d0
+  - https://www.colorhexa.com/2e86ab (original polkadot)
+  - https://www.colorhexa.com/2185d0 (sui default)
 Actually the first still goes quite nicely with the drakorange
 */
-$primary: #2185d0;
+$primary: #2e86ab;
 
 /* the default button color in the extension, this works well with the drakorange as well */
 $default: #4d4e4f;
 
 .theme--default {
+  a {
+    color: $primary;
+
+    &:hover,
+    a:visited {
+      color: $primary;
+    }
+  }
+
   .ui.button,
   .ui.buttons .button {
     background-color: $default;
@@ -88,5 +98,10 @@ $default: #4d4e4f;
     > .text:not(.default) {
       color: #eee;
     }
+  }
+
+  .ui.toggle.checkbox input:checked~.box:before,
+  .ui.toggle.checkbox input:checked~label:before {
+    background-color: $highlight !important;
   }
 }
