@@ -7,7 +7,7 @@ import { QueryTypes } from './types';
 
 import './index.css';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import Queries from './Queries';
 import Selection from './Selection';
@@ -15,48 +15,24 @@ import translate from './translate';
 
 interface Props extends AppProps, I18nProps {}
 
-interface State {
-  queue: QueryTypes[];
-}
+function StorageApp ({ basePath }: Props): React.ReactElement<Props> {
+  const [queue, setQueue] = useState<QueryTypes[]>([]);
 
-class StorageApp extends React.PureComponent<Props, State> {
-  public state: State = {
-    queue: []
-  };
+  const _onAdd = (query: QueryTypes): void => setQueue([query].concat(queue));
+  const _onRemove = (id: number): void => setQueue(queue.filter((item): boolean => item.id !== id));
 
-  public render (): React.ReactNode {
-    const { basePath } = this.props;
-    const { queue } = this.state;
-
-    return (
-      <main className='storage--App'>
-        <Selection
-          basePath={basePath}
-          onAdd={this.onAdd}
-        />
-        <Queries
-          onRemove={this.onRemove}
-          value={queue}
-        />
-      </main>
-    );
-  }
-
-  private onAdd = (query: QueryTypes): void => {
-    this.setState(
-      (prevState: State): State => ({
-        queue: [query].concat(prevState.queue)
-      })
-    );
-  }
-
-  private onRemove = (id: number): void => {
-    this.setState(
-      (prevState: State): State => ({
-        queue: prevState.queue.filter((item): boolean => item.id !== id)
-      })
-    );
-  }
+  return (
+    <main className='storage--App'>
+      <Selection
+        basePath={basePath}
+        onAdd={_onAdd}
+      />
+      <Queries
+        onRemove={_onRemove}
+        value={queue}
+      />
+    </main>
+  );
 }
 
 export default translate(StorageApp);

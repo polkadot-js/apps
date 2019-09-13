@@ -21,6 +21,10 @@ interface State {
   tabs: TabItem[];
 }
 
+const hidden = uiSettings.uiMode === 'full'
+  ? []
+  : ['developer'];
+
 class App extends React.PureComponent<Props, State> {
   public constructor (props: Props) {
     super(props);
@@ -45,9 +49,6 @@ class App extends React.PureComponent<Props, State> {
   public render (): React.ReactNode {
     const { basePath } = this.props;
     const { tabs } = this.state;
-    const hidden = uiSettings.uiMode === 'full'
-      ? []
-      : ['developer'];
 
     return (
       <main className='settings--App'>
