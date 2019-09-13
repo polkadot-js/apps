@@ -5,18 +5,11 @@
 /* polkadot-js logo color is `darkorange` */
 $highlight: #f19135;
 
-/*
-The default for the primary buttons, as per SUI, only included here as a reference. Alternatives
-here are (as looking at the polkadot overrides)
-  - https://www.colorhexa.com/4183c4
-  - https://www.colorhexa.com/2e86ab (original polkadot)
-  - https://www.colorhexa.com/2185d0 (sui default)
-Actually the first still goes quite nicely with the drakorange
-*/
+/* the default for the primary buttons */
 $primary: #2e86ab;
 
-/* the default button color in the extension, this works well with the drakorange as well */
-$default: #4d4e4f;
+/* the default button color */
+$default: #656667;
 
 .theme--default {
   a {
