@@ -49,8 +49,8 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
         <div className='medium'>
           <Dropdown
             defaultValue={uiTheme}
-            help={t('The logo and colors for the app along with the identity icon theme.')}
-            label={t('default interface theme')}
+            help={t('The logo and colors for the identity icon theme.')}
+            label={t('default identity icon theme')}
             onChange={_onChangeUiTheme}
             options={themeOptions}
           />

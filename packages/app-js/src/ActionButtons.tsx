@@ -5,6 +5,7 @@
 import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import { Button, Input } from '@polkadot/react-components';
 
@@ -35,13 +36,11 @@ class ActionButtons extends React.PureComponent<Props, State> {
   };
 
   public render (): React.ReactNode {
-    const {
-      props: { isCustomExample, isRunning, removeSnippet, runJs, stopJs, t },
-      state: { isOpen, shareText, snippetName }
-    } = this;
+    const { className, isCustomExample, isRunning, removeSnippet, runJs, stopJs, t } = this.props;
+    const { isOpen, shareText, snippetName } = this.state;
 
     return (
-      <div className='action-button'>
+      <div className={`${className} action-button`}>
         <Popup
           content={shareText}
           on='hover'
@@ -51,6 +50,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
               circular
               icon='share alternate'
               onClick={this.generateLink}
+              primary
             />
           }
           wide='very'
@@ -82,8 +82,9 @@ class ActionButtons extends React.PureComponent<Props, State> {
             trigger={
               <SUIB
                 circular
-                onClick={this.onPopupOpen}
                 icon='save'
+                onClick={this.onPopupOpen}
+                primary
               />
             }
           >
@@ -99,16 +100,17 @@ class ActionButtons extends React.PureComponent<Props, State> {
             />
             <Button
               isDisabled={!snippetName.length}
-              isPositive
+              isPrimary
               label={t('Save snippet to local storage')}
               onClick={this.saveSnippet}
             />
           </Popup>
         )}
         <Button
+          className='play-button'
           icon='play'
           isCircular
-          isPositive
+          isPrimary
           onClick={runJs}
         />
         <Button
@@ -153,4 +155,10 @@ class ActionButtons extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(ActionButtons);
+export default translate(
+  styled(ActionButtons)`
+    .play-button {
+      margin-left: 1rem;
+    }
+  `
+);

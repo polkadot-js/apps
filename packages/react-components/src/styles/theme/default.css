@@ -1,0 +1,58 @@
+/* Copyright 2017-2019 @polkadot/react-components authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the Apache-2.0 license. See the LICENSE file for details. */
+
+/* polkadot-js logo color */
+$highlight: darkorange;
+
+/* the default for the primary buttons, as per SUI */
+$primary: #2185d0;
+
+/* the default button color in the extension */
+$alternative: #4d4e4f;
+
+.theme--default {
+  .ui.basic.negative.button {
+    box-shadow: 0 0 0 1px $highlight inset !important;
+    color: $highlight !important;
+  }
+
+  /* negative */
+  .ui.negative.button,
+  .ui.buttons .negative.button,
+  .ui.negative.button:focus,
+  .ui.buttons .negative.button:focus,
+  .ui.negative.button:active,
+  .ui.buttons .negative.button:active,
+  /* secondary */
+  .ui.secondary.button,
+  .ui.buttons .secondary.button,
+  .ui.secondary.button:focus,
+  .ui.buttons .secondary.button:focus,
+  .ui.secondary.button:active,
+  .ui.buttons .secondary.button:active {
+    background-color: $highlight;
+  }
+
+  /* negative */
+  .ui.negative.button:hover,
+  .ui.buttons .negative.button:hover,
+  /* secondary */
+  .ui.secondary.button:hover,
+  .ui.buttons .secondary.button:hover {
+    background-color: $highlight;
+    opacity: 0.8;
+  }
+
+  .ui.blue.progress .bar {
+    background-color: $highlight;
+  }
+
+  .ui.modal > .header:not(.ui) {
+    border-bottom-color: $highlight;
+  }
+
+  .ui.menu.tabular .item.active {
+    border-bottom-color: $highlight;
+  }
+}
