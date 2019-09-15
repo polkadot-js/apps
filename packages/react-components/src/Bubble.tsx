@@ -8,7 +8,6 @@ import { SemanticCOLORS, SemanticICONS } from 'semantic-ui-react/dist/commonjs/g
 import React from 'react';
 import SUILabel from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 import styled from 'styled-components';
-import settings from '@polkadot/ui-settings';
 
 import { classes } from './util';
 import Icon from './Icon';
@@ -23,7 +22,7 @@ interface Props extends BareProps {
 function Bubble ({ color, children, className, icon, label }: Props): React.ReactElement<Props> {
   return (
     <SUILabel
-      className={classes(`theme--${settings.uiTheme}`, 'ui--Bubble', className)}
+      className={classes('theme--default', 'ui--Bubble', className)}
       color={color}
     >
       <div className='ui--Bubble-header'>
