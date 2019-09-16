@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-transfer",
-  "version": "0.36.0-beta.10",
+  "version": "0.36.0-beta.11",
   "description": "A basic transfer app",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.6.0",
-    "@polkadot/react-components": "^0.36.0-beta.10",
-    "@polkadot/react-query": "^0.36.0-beta.10"
+    "@polkadot/react-components": "^0.36.0-beta.11",
+    "@polkadot/react-query": "^0.36.0-beta.11"
   }
 }
