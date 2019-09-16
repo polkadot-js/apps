@@ -65,6 +65,7 @@ class SetKey extends React.PureComponent<Props, State> {
                   isDisabled={!isMine || sudoKey === selected}
                   isPrimary
                   label={t('Reassign')}
+                  labelIcon='sign-in'
                   params={[selected]}
                   tx='sudo.setKey'
                 />

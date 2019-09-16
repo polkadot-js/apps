@@ -115,6 +115,7 @@ class Transfer extends React.PureComponent<Props, State> {
           <Button
             isNegative
             label={t('Cancel')}
+            labelIcon='cancel'
             onClick={onClose}
           />
           <Button.Or />
@@ -124,6 +125,7 @@ class Transfer extends React.PureComponent<Props, State> {
             isDisabled={!hasAvailable}
             isPrimary
             label={t('Make Transfer')}
+            labelIcon='send'
             onStart={onClose}
             withSpinner={false}
           />

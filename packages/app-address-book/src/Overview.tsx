@@ -40,6 +40,7 @@ class Overview extends React.PureComponent<Props, State> {
             <Button
               isPrimary
               label={t('Add contact')}
+              labelIcon='add'
               onClick={this.toggleCreate}
             />
           </Button.Group>

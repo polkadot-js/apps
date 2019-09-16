@@ -81,6 +81,7 @@ class Add extends ContractModal<Props, State> {
           isDisabled={!isValid}
           isPrimary
           label={t('Save')}
+          labelIcon='save'
           onClick={this.onAdd}
           ref={this.button}
         />

@@ -47,6 +47,7 @@ class Propose extends TxComponent<Props, State> {
             <TxButton
               accountId={sudoKey}
               label={t('Submit')}
+              labelIcon='sign-in'
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
               params={method ? [createType('Proposal', method)] : []}

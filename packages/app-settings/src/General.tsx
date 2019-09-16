@@ -80,6 +80,7 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
           isPrimary
           onClick={_saveAndReload}
           label={t('Save & Reload')}
+          labelIcon='save'
         />
       </Button.Group>
     </div>

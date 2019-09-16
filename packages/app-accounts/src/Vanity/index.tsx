@@ -103,6 +103,11 @@ class VanityApp extends TxComponent<Props, State> {
               ? t('Stop generation')
               : t('Start generation')
           }
+          labelIcon={
+            isRunning
+              ? 'stop'
+              : 'sign-in'
+          }
           ref={this.button}
         />
       </Button.Group>
