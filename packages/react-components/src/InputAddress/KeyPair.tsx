@@ -14,29 +14,25 @@ interface Props {
   style?: Record<string, string>;
 }
 
-class KeyPair extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { address, className, isUppercase, name, style } = this.props;
-
-    return (
-      <div
-        className={['ui--KeyPair', className].join(' ')}
-        style={style}
-      >
-        <IdentityIcon
-          className='icon'
-          size={32}
-          value={address}
-        />
-        <div className={`name ${isUppercase ? 'uppercase' : 'normalcase'}`}>
-          {name}
-        </div>
-        <div className='address'>
-          {address}
-        </div>
+function KeyPair ({ address, className, isUppercase, name, style }: Props): React.ReactElement<Props> {
+  return (
+    <div
+      className={['ui--KeyPair', className].join(' ')}
+      style={style}
+    >
+      <IdentityIcon
+        className='icon'
+        size={32}
+        value={address}
+      />
+      <div className={`name ${isUppercase ? 'uppercase' : 'normalcase'}`}>
+        {name}
       </div>
-    );
-  }
+      <div className='address'>
+        {address}
+      </div>
+    </div>
+  );
 }
 
 export default styled(KeyPair)`
