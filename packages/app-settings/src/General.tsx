@@ -5,81 +5,117 @@
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Option } from './types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
-import { createIdenticon, createOption, saveAndReload } from './util';
+import { createIdenticon, createOption, save, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
 
 interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
+const WITH_LEDGER = false;
+
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
 const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
+const ledgerConnOptions = uiSettings.availableLedgerConn;
 
 function General ({ className, t }: Props): React.ReactElement<Props> {
+  // tri-state: null = nothing  changed, false = no reload, true = reload required
+  const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState(uiSettings.get());
-  const { icon, i18nLang, prefix, uiMode } = settings;
+
+  useEffect((): void => {
+    const prev = uiSettings.get();
+    const hasChanges = Object.entries(settings).some(([key, value]): boolean => (prev as any)[key] !== value);
+
+    if (hasChanges) {
+      setChanged(prev.apiUrl !== settings.apiUrl);
+    } else {
+      setChanged(null);
+    }
+  }, [settings]);
 
   const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
   const _onChangeIcon = (icon: string): void => setSettings({ ...settings, icon });
+  const _onChangeLedgerConn = (ledgerConn: string): void => setSettings({ ...settings, ledgerConn });
   const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
   const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
   const _saveAndReload = (): void => saveAndReload(settings);
+  const _save = (): void => {
+    save(settings);
+    setChanged(null);
+  };
+
+  const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
   return (
     <div className={className}>
       <SelectUrl onChange={_onChangeApiUrl} />
       <div className='ui--row'>
-        <div className='ui--medium'>
-          <Dropdown
-            defaultValue={prefix}
-            help={t('Override the default ss58 prefix for address generation')}
-            label={t('address prefix')}
-            onChange={_onChangePrefix}
-            options={prefixOptions}
-          />
-        </div>
+        <Dropdown
+          defaultValue={prefix}
+          help={t('Override the default ss58 prefix for address generation')}
+          label={t('address prefix')}
+          onChange={_onChangePrefix}
+          options={prefixOptions}
+        />
       </div>
       <div className='ui--row'>
-        <div className='medium'>
-          <Dropdown
-            defaultValue={icon}
-            help={t('Override the default identity icon display with a specific theme')}
-            label={t('default icon theme')}
-            onChange={_onChangeIcon}
-            options={iconOptions}
-          />
-        </div>
-        <div className='medium'>
-          <Dropdown
-            defaultValue={uiMode}
-            help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
-            label={t('interface operation mode')}
-            onChange={_onChangeUiMode}
-            options={uiSettings.availableUIModes}
-          />
-        </div>
+        <Dropdown
+          defaultValue={icon}
+          help={t('Override the default identity icon display with a specific theme')}
+          label={t('default icon theme')}
+          onChange={_onChangeIcon}
+          options={iconOptions}
+        />
       </div>
       <div className='ui--row'>
-        <div className='full'>
+        <Dropdown
+          defaultValue={uiMode}
+          help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
+          label={t('interface operation mode')}
+          onChange={_onChangeUiMode}
+          options={uiSettings.availableUIModes}
+        />
+      </div>
+      {WITH_LEDGER && (
+        <div className='ui--row'>
           <Dropdown
-            defaultValue={i18nLang}
-            isDisabled
-            label={t('default interface language')}
-            options={uiSettings.availableLanguages}
+            defaultValue={ledgerConn}
+            help={t('Manage your connection to Ledger S')}
+            label={t('manage hardware connections')}
+            onChange={_onChangeLedgerConn}
+            options={ledgerConnOptions}
           />
         </div>
+      )}
+      <div className='ui--row'>
+        <Dropdown
+          defaultValue={i18nLang}
+          isDisabled
+          label={t('default interface language')}
+          options={uiSettings.availableLanguages}
+        />
       </div>
       <Button.Group>
         <Button
+          isDisabled={changed === null}
           isPrimary
-          onClick={_saveAndReload}
-          label={t('Save & Reload')}
+          onClick={
+            changed
+              ? _saveAndReload
+              : _save
+          }
+          label={
+            changed
+              ? t('Save & Reload')
+              : t('Save')
+          }
         />
       </Button.Group>
     </div>
