@@ -7,8 +7,9 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React, { useState } from 'react';
+import keyring from '@polkadot/ui-keyring';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { getLedger, isLedger, withMulti, withObservable } from '@polkadot/react-api';
 import { Button, CardGrid } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
@@ -31,6 +32,18 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
   const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
   const _toggleQr = (): void => setIsQrOpen(!isQrOpen);
+  const _triggerHw = async (): Promise<void> => {
+    const ledger = getLedger();
+
+    try {
+      const { address } = await ledger.getAddress();
+
+      keyring.addHardware(address, 'ledger', { name: 'ledger' });
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <CardGrid
@@ -54,6 +67,16 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
             label={t('Add via Qr')}
             onClick={_toggleQr}
           />
+          {isLedger() && (
+            <>
+              <Button.Or />
+              <Button
+                isPrimary
+                label={t('Query Ledger')}
+                onClick={_triggerHw}
+              />
+            </>
+          )}
         </Button.Group>
       }
       isEmpty={emptyScreen}
