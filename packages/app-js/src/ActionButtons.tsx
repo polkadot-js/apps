@@ -101,6 +101,7 @@ class ActionButtons extends React.PureComponent<Props, State> {
               isDisabled={!snippetName.length}
               isPositive
               label={t('Save snippet to local storage')}
+              labelIcon='save'
               onClick={this.saveSnippet}
             />
           </Popup>

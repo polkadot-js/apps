@@ -377,6 +377,7 @@ class Account extends React.PureComponent<Props, State> {
             key='set'
             onClick={this.toggleSetSessionAccount}
             label={t('Set Session Key')}
+            labelIcon='sign-in'
           />
         );
       } else {
@@ -386,6 +387,7 @@ class Account extends React.PureComponent<Props, State> {
             key='validate'
             onClick={this.toggleValidate}
             label={t('Validate')}
+            labelIcon='check circle outline'
           />
         );
       }
@@ -397,6 +399,7 @@ class Account extends React.PureComponent<Props, State> {
           key='nominate'
           onClick={this.toggleNominate}
           label={t('Nominate')}
+          labelIcon='hand paper outline'
         />
       );
     }

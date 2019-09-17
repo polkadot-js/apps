@@ -137,6 +137,7 @@ class App extends TxModal<Props, State> {
                     isPrimary
                     onClick={this.setStep(Step.Sign)}
                     label={t('Continue')}
+                    labelIcon='sign-in'
                   />
                 </Button.Group>
               )}
@@ -176,6 +177,7 @@ class App extends TxModal<Props, State> {
                       isPrimary
                       onClick={this.setStep(Step.Claim)}
                       label={t('Confirm claim')}
+                      labelIcon='sign-in'
                     />
                   </Button.Group>
                 )}

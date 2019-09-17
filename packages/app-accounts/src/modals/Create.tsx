@@ -268,12 +268,14 @@ class Create extends React.PureComponent<Props, State> {
             <Button
               isNegative
               label={t('Cancel')}
+              labelIcon='cancel'
               onClick={this.onHideWarning}
             />
             <Button.Or />
             <Button
               isPrimary
               label={t('Create and backup account')}
+              labelIcon='sign-in'
               onClick={this.onCommit}
             />
           </Button.Group>

@@ -192,6 +192,7 @@ class Call extends TxComponent<Props, State> {
           isNegative
           onClick={this.onClose}
           label={t('Cancel')}
+          labelIcon='cancel'
         />
         <Button.Or />
         <TxButton
