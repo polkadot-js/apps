@@ -18,9 +18,11 @@ interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
+const WITH_LEDGER = false;
+
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
 const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
-// const ledgerConnOptions = uiSettings.availableLedgerConn;
+const ledgerConnOptions = uiSettings.availableLedgerConn;
 
 function General ({ className, t }: Props): React.ReactElement<Props> {
   // tri-state: null = nothing  changed, false = no reload, true = reload required
@@ -40,7 +42,7 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
 
   const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
   const _onChangeIcon = (icon: string): void => setSettings({ ...settings, icon });
-  // const _onChangeLedgerConn = (ledgerConn: string): void => setSettings({ ...settings, ledgerConn });
+  const _onChangeLedgerConn = (ledgerConn: string): void => setSettings({ ...settings, ledgerConn });
   const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
   const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
   const _saveAndReload = (): void => saveAndReload(settings);
@@ -49,7 +51,7 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
     setChanged(null);
   };
 
-  const { icon, i18nLang, /* ledgerConn, */ prefix, uiMode } = settings;
+  const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
   return (
     <div className={className}>
@@ -81,15 +83,17 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
           options={uiSettings.availableUIModes}
         />
       </div>
-      {/* <div className='ui--row'>
-        <Dropdown
-          defaultValue={ledgerConn}
-          help={t('Manage your connection to Ledger S')}
-          label={t('manage hardware connections')}
-          onChange={_onChangeLedgerConn}
-          options={ledgerConnOptions}
-        />
-      </div> */}
+      {WITH_LEDGER &&
+        (<div className='ui--row'>
+          <Dropdown
+            defaultValue={ledgerConn}
+            help={t('Manage your connection to Ledger S')}
+            label={t('manage hardware connections')}
+            onChange={_onChangeLedgerConn}
+            options={ledgerConnOptions}
+          />
+        </div>
+      )}
       <div className='ui--row'>
         <Dropdown
           defaultValue={i18nLang}
