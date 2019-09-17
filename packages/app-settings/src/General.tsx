@@ -83,8 +83,8 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
           options={uiSettings.availableUIModes}
         />
       </div>
-      {WITH_LEDGER &&
-        (<div className='ui--row'>
+      {WITH_LEDGER && (
+        <div className='ui--row'>
           <Dropdown
             defaultValue={ledgerConn}
             help={t('Manage your connection to Ledger S')}
