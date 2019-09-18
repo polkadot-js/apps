@@ -5,6 +5,7 @@
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -12,6 +13,7 @@ import '../InputExtrinsic/InputExtrinsic.css';
 
 import React from 'react';
 import map from '@polkadot/jsonrpc';
+import { withApi } from '@polkadot/react-api';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -20,7 +22,7 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   defaultValue: RpcMethod;
   help?: React.ReactNode;
   isError?: boolean;
@@ -44,8 +46,8 @@ class InputRpc extends React.PureComponent<Props, State> {
     const { section } = this.props.defaultValue;
 
     this.state = {
-      optionsMethod: methodOptions(section),
-      optionsSection: sectionOptions(),
+      optionsMethod: methodOptions(props.api, section),
+      optionsSection: sectionOptions(props.api),
       value: this.props.defaultValue
     };
   }
@@ -97,13 +99,14 @@ class InputRpc extends React.PureComponent<Props, State> {
   }
 
   private onSectionChange = (newSection: string): void => {
+    const { api } = this.props;
     const { value } = this.state;
 
     if (newSection === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(newSection);
+    const optionsMethod = methodOptions(api, newSection);
     const newValue = map[newSection].methods[optionsMethod[0].value];
 
     this.setState({ optionsMethod }, (): void =>
@@ -112,4 +115,4 @@ class InputRpc extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(InputRpc);
+export default translate(withApi(InputRpc));

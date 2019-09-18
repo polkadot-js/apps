@@ -55,12 +55,12 @@ export function createIdenticon ({ info, text, value }: SetOption, overrides: st
   };
 }
 
-export function saveAndReload (settings: SettingsStruct | null): void {
-  if (!settings) {
-    return;
-  }
-
+export function save (settings: SettingsStruct): void {
   uiSettings.set(settings);
+}
+
+export function saveAndReload (settings: SettingsStruct): void {
+  save(settings);
 
   // HACK This is terribe, but since the API needs to re-connect, but since
   // the API does not yet handle re-connections properly, it is what it is

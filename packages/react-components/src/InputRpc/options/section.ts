@@ -4,12 +4,13 @@
 
 import { DropdownOptions } from '../../util/types';
 
-import map from '@polkadot/jsonrpc';
+import ApiPromise from '@polkadot/api/promise';
 
-export default function createOptions (): DropdownOptions {
+export default function createOptions (api: ApiPromise): DropdownOptions {
   return Object
-    .keys(map)
+    .keys(api.rpc)
     .sort()
+    .filter((section): boolean => Object.keys((api.rpc as any)[section]).length !== 0)
     .map((name): { text: string; value: string } => ({
       text: name,
       value: name
