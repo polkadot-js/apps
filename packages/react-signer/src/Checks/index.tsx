@@ -200,11 +200,12 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
             fees: formatBalance(allFees)
           }
         })}</div>
-        <div><Icon name='arrow right' />{t('{{total}} total transaction amount (fees + value)', {
+        <div><Icon name='arrow right' />{t('{{total}} estimated total amount (fees + value)', {
           replace: {
             total: formatBalance(allTotal)
           }
         })}</div>
+        <div><Icon name='dot circle outline' />{t('Estimation does account for the transaction weight')}</div>
       </article>
     );
   }
