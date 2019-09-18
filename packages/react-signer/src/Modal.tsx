@@ -244,7 +244,11 @@ class Signer extends React.PureComponent<Props, State> {
   private renderUnlock (): React.ReactNode {
     const { currentItem, isSendable, password, unlockError } = this.state;
 
-    if (!isSendable || !currentItem || currentItem.isUnsigned || this.isExternal(currentItem.accountId)) {
+    const { isExternal } = currentItem
+      ? this.isExternal(currentItem.accountId)
+      : { isExternal: false };
+
+    if (!isSendable || !currentItem || currentItem.isUnsigned || isExternal) {
       return null;
     }
 
