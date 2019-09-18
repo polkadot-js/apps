@@ -13,7 +13,6 @@ import store from 'store';
 import styled from 'styled-components';
 import { media } from '@polkadot/react-components';
 import Signer from '@polkadot/react-signer';
-import settings from '@polkadot/ui-settings';
 
 import ConnectingOverlay from './overlays/Connecting';
 import AccountsOverlay from './overlays/Accounts';
@@ -60,7 +59,7 @@ class Apps extends React.Component<Props, State> {
     const { isCollapsed, isMenu, menuOpen } = this.state;
 
     return (
-      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--${settings.uiTheme} ${className}`}>
+      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--default ${className}`}>
         {this.renderMenuBg()}
         <SideBar
           collapse={this.collapse}

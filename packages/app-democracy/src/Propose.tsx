@@ -65,7 +65,7 @@ class Propose extends TxComponent<Props, State> {
         <Button.Group>
           <TxButton
             accountId={accountId}
-            label={t('Submit')}
+            label={t('Submit Proposal')}
             tx='democracy.propose'
             isDisabled={!isValid}
             params={[

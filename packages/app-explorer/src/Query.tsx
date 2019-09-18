@@ -47,7 +47,6 @@ class Query extends TxComponent<Props, State> {
         >
           <Button
             icon='play'
-            isPrimary
             onClick={this.onQuery}
             ref={this.button}
           />

@@ -78,7 +78,7 @@ class Selection extends TxComponent<Props, State> {
             isBasic
             isDisabled={!isValidUnsigned}
             isUnsigned
-            label={t('Submit Inherent')}
+            label={t('Submit Unsigned')}
             extrinsic={extrinsic}
           />
           <Button.Or />

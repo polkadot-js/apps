@@ -6,7 +6,6 @@ import { BareProps } from './types';
 
 import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
-import settings from '@polkadot/ui-settings';
 
 import { classes } from './util';
 
@@ -30,7 +29,7 @@ export default class Modal extends React.PureComponent<Props> {
     return (
       <SUIModal
         {...this.props}
-        className={classes(`theme--${settings.uiTheme}`, 'ui--Modal', className)}
+        className={classes('theme--default', 'ui--Modal', className)}
       />
     );
   }

@@ -1,0 +1,100 @@
+/* Copyright 2017-2019 @polkadot/react-components authors & contributors
+/* This software may be modified and distributed under the terms
+/* of the Apache-2.0 license. See the LICENSE file for details. */
+
+/* default buttons, dark gray */
+$default: #666;
+
+/* highlighted buttons, orange */
+$highlight: #f19135;
+
+/* primary buttons, blue */
+$primary: #2e86ab;
+
+.theme--default {
+  a {
+    color: $primary;
+
+    &:hover,
+    a:visited {
+      color: $primary;
+    }
+  }
+
+  .ui.button,
+  .ui.buttons .button {
+    background-color: $default;
+    color: #f9f9f9;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $default;
+      color: #f9f9f9;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .ui.basic.negative.button {
+    box-shadow: 0 0 0 1px $highlight inset !important;
+    color: $highlight !important;
+  }
+
+  .ui.negative.button,
+  .ui.buttons .negative.button {
+    background-color: $highlight;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $highlight;
+    }
+  }
+
+  .ui.primary.button,
+  .ui.buttons .primary.button
+  /*, .ui.primary.buttons .button (for dropdowns) */ {
+    background-color: $primary;
+
+    &.active,
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $primary;
+    }
+  }
+
+  .ui.blue.progress .bar {
+    background-color: $highlight;
+  }
+
+  .ui.modal > .header:not(.ui) {
+    border-bottom-color: $highlight;
+  }
+
+  .ui.menu.tabular .item.active {
+    border-bottom-color: $highlight;
+  }
+
+  /* this is for dropdown buttons */
+  .ui.buttons .ui.button.selection.visible.dropdown {
+    &:hover {
+      /* reset opacity, this is now open */
+      opacity: 1;
+    }
+
+    > .text:not(.default) {
+      color: #eee;
+    }
+  }
+
+  .ui.toggle.checkbox input:checked~.box:before,
+  .ui.toggle.checkbox input:checked~label:before {
+    background-color: $highlight !important;
+  }
+}
