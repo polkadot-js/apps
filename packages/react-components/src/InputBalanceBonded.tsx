@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { ApiProps } from '@polkadot/react-api/types';
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { calcSignatureLength } from '@polkadot/react-signer/Checks';
+import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { InputNumber } from '@polkadot/react-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withMulti, withApi } from '@polkadot/react-api';
@@ -124,7 +124,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
         extrinsic = api.tx.staking.bonExtra(prevMax);
       }
 
-      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+      const txLength = calcTxLength(extrinsic, system_accountNonce);
       const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
       maxBalance = bnMax(freeBalance.sub(fees), ZERO);

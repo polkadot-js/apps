@@ -14,7 +14,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { Available } from '@polkadot/react-query';
-import Checks, { calcSignatureLength } from '@polkadot/react-signer/Checks';
+import Checks, { calcTxLength } from '@polkadot/react-signer/Checks';
 import { withApi, withCalls, withMulti } from '@polkadot/react-api';
 import { ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 import { bnMax } from '@polkadot/util';
@@ -214,7 +214,7 @@ class Transfer extends React.PureComponent<Props, State> {
       prevMax = maxBalance;
       extrinsic = api.tx.balances.transfer(recipientId, prevMax);
 
-      const txLength = calcSignatureLength(extrinsic, accountNonce);
+      const txLength = calcTxLength(extrinsic, accountNonce);
       const fees = transactionBaseFee
         .add(transactionByteFee.mul(txLength))
         .add(transferFee)
