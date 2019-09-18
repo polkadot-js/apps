@@ -36,26 +36,55 @@ function onSelect (props: Props, index: number): () => void {
 }
 
 function renderMessage (props: Props, index: number): React.ReactNode {
-  const { contractAbi, contractAbi: { abi: { contract: { messages } } }, onSelect: onSelectProp } = props;
+  const { contractAbi, contractAbi: { abi: { contract: { messages } } } } = props;
   if (!messages[index]) {
     return null;
   }
 
-  const { args, name, return_type: returnType } = messages[index];
+  const { args, docs = [], name, return_type: returnType } = messages[index];
   return (
-    <Button
+    <div
       key={name}
       className={classes('message', !onSelect && 'exempt-hover')}
-      isDisabled={!onSelectProp}
       onClick={onSelect(props, index)}
-      isPrimary={!!onSelectProp}
     >
-      {contractAbi.stringAt(name)}
-      (
-      {args.map(({ name, type }): string => `${contractAbi.stringAt(name)}: ${contractAbi.typeDefAt(type).type}`).join(', ')}
-      )
-      {returnType && `: ${contractAbi.typeDefAt(returnType).type}`}
-    </Button>
+      <div className="signature">
+        <span className="name">
+          {contractAbi.stringAt(name)}
+        </span>
+        (
+        {args.map(({ name, type }, index): React.ReactNode => ((
+          <>
+            {contractAbi.stringAt(name)}:
+            {' '}
+            <span className='type'>
+              {contractAbi.typeDefAt(type).type}
+            </span>
+            {index < args.length - 1 && ', '}
+          </>
+        )))}
+        )
+        {returnType && (
+          <>
+            :
+            {' '}
+            <span className="return-type">
+              {contractAbi.typeDefAt(returnType).type}
+            </span>
+          </>
+        )}
+      </div>
+      <div className="docs">
+        {docs.map((line, index) => ((
+          <>
+            {line}
+            {index < docs.length - 1 && (
+              <br />
+            )}
+          </>
+        )))}
+      </div>
+    </div>
   );
 }
 
@@ -100,13 +129,41 @@ export default translate(styled(Messages)`
   }
 
   & > .message {
-    font-family: monospace;
-    font-weight: normal;
-    margin-bottom: 0;
+    background: #f2f2f2;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
     margin-right: 0;
+    height: 5rem;
     padding: 0.5rem;
-    margin: 0;
-    /* border-radius: 0.7rem; */
+    border-radius: 0.7rem;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #ededed;
+    }
+
+    .signature {
+      font-family: monospace;
+      font-weight: normal;
+
+      .name {
+        /* color: #61afef; */
+        font-weight: bold;
+      }
+
+      .type {
+        /* color: #56b6c2; */
+      }
+
+      .return-type {
+        /* color: #ffbb15; */
+      }
+    }
+
+    .docs {
+      font-size: 0.8rem;
+      font-weight: normal;
+    }
 
     &.disabled {
       opacity: 1 !important;

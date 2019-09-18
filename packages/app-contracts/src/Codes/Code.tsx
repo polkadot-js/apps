@@ -40,7 +40,15 @@ class Contract extends React.PureComponent<Props, State> {
   };
 
   public render (): React.ReactNode {
-    const { code, code: { contractAbi } } = this.props;
+    const { code, code: { contractAbi }, t } = this.props;
+
+    const abi = (
+      <ABI
+        contractAbi={contractAbi}
+        onChange={this.onChangeABI}
+        onRemove={this.toggleRemoveABI}
+      />
+    );
 
     return (
       <CodeCard>
@@ -51,11 +59,15 @@ class Contract extends React.PureComponent<Props, State> {
           isEditable
           withTags
         >
-          <ABI
-            contractAbi={contractAbi}
-            onChange={this.onChangeABI}
-            onRemove={this.toggleRemoveABI}
-          />
+          {contractAbi
+            ? (
+              <details>
+                <summary>{t('ABI')}</summary>
+                {abi}
+              </details>
+            )
+            : abi
+          }
         </CodeRow>
       </CodeCard>
     );

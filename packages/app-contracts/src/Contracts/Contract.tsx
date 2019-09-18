@@ -34,7 +34,7 @@ class Contract extends React.PureComponent<Props, State> {
   };
 
   public render (): React.ReactNode {
-    const { address, onCall } = this.props;
+    const { address, onCall, t } = this.props;
 
     const contractAbi = getContractAbi(address);
 
@@ -55,12 +55,15 @@ class Contract extends React.PureComponent<Props, State> {
           withNonce={false}
           withTags
         >
-          <Messages
-            address={address}
-            contractAbi={contractAbi}
-            isRemovable={false}
-            onSelect={onCall}
-          />
+          <details>
+            <summary>{t('Messages')}</summary>
+            <Messages
+              address={address}
+              contractAbi={contractAbi}
+              isRemovable={false}
+              onSelect={onCall}
+            />
+          </details>
         </AddressRow>
       </Card>
     );
