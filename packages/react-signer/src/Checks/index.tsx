@@ -205,7 +205,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
             total: formatBalance(allTotal)
           }
         })}</div>
-        <div><Icon name='dot circle outline' />{t('Estimation does account for the transaction weight')}</div>
+        <div><Icon name='dot circle outline' />{t('Estimation does not account for the transaction weight')}</div>
       </article>
     );
   }
