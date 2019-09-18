@@ -365,6 +365,7 @@ class Account extends React.PureComponent<Props, State> {
               ? t('Stop Nominating')
               : t('Stop Validating')
           }
+          labelIcon='stop'
           key='stop'
           tx='staking.chill'
         />

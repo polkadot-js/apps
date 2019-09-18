@@ -59,6 +59,7 @@ class Nominate extends React.PureComponent<Props, State> {
             isNegative
             onClick={onClose}
             label={t('Cancel')}
+            labelIcon='cancel'
           />
           <Button.Or />
           <TxButton
@@ -68,6 +69,7 @@ class Nominate extends React.PureComponent<Props, State> {
             onClick={onClose}
             params={[nominees]}
             label={t('Nominate')}
+            labelIcon='hand paper outline'
             tx='staking.nominate'
           />
         </Button.Group>

@@ -76,6 +76,7 @@ class BondExtra extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -83,6 +84,7 @@ class BondExtra extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Bond more')}
+              labelIcon='sign-in'
               onClick={onClose}
               extrinsic={extrinsic}
               ref={this.button}
