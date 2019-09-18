@@ -28,9 +28,11 @@ export default function CryptoType ({ accountId, className, label = '' }: Props)
         setType(
           current.meta.isInjected
             ? 'injected'
-            : current.meta.isExternal
-              ? 'external'
-              : current.type
+            : current.meta.isHardware
+              ? current.meta.hardwareType || 'hardware'
+              : current.meta.isExternal
+                ? 'external'
+                : current.type
         );
       }
     } catch (error) {

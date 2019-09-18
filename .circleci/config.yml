@@ -12,6 +12,9 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
+          name: install-apt
+          command: sudo apt-get install libusb-1.0.0
+      - run:
           name: install-deps
           command: yarn install --frozen-lockfile
       - save_cache:

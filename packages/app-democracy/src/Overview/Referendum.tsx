@@ -12,18 +12,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { ActionItem, Chart, Static, Voting } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
-import settings from '@polkadot/ui-settings';
 import VoteThreshold from '@polkadot/react-params/Param/VoteThreshold';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
-const COLORS_AYE = settings.uiTheme === 'substrate'
-  ? ['#4d4', '#4e4']
-  : ['#64bebe', '#5badad'];
-const COLORS_NAY = settings.uiTheme === 'substrate'
-  ? ['#d44', '#e44']
-  : ['#d75ea1', '#e189ba'];
+const COLORS_AYE = ['#64bebe', '#5badad'];
+const COLORS_NAY = ['#d75ea1', '#e189ba'];
 
 interface Props extends I18nProps {
   idNumber: BN;
