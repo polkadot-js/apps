@@ -190,7 +190,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { currentItem, isQrScanning, isQrVisible, isSendable, qrAddress, qrPayload } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isSendable, qrAddress, qrPayload, tip } = this.state;
 
     if (!currentItem) {
       return null;
@@ -200,6 +200,7 @@ class Signer extends React.PureComponent<Props, State> {
       <Transaction
         hideDetails={isQrVisible}
         isSendable={isSendable}
+        tip={tip}
         value={currentItem}
       >
         {

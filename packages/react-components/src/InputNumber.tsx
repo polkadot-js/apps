@@ -15,6 +15,8 @@ import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import translate from './translate';
 
+const ALLOW_MAX = false;
+
 interface Props extends BareProps, I18nProps {
   autoFocus?: boolean;
   bitLength?: BitLength;
@@ -115,7 +117,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         type='text'
         value={value}
       >
-        {(withMax && !!maxValue) && this.renderMaxButton()}
+        {(ALLOW_MAX && withMax && !!maxValue) && this.renderMaxButton()}
         {isSi && this.renderSiDropdown()}
       </Input>
     );

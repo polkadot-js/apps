@@ -10,7 +10,7 @@ import { CalculateBalanceProps } from '../../types';
 import BN from 'bn.js';
 import React from 'react';
 import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { calcSignatureLength } from '@polkadot/react-signer/Checks';
+import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
@@ -159,7 +159,7 @@ class BondExtra extends TxComponent<Props, State> {
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
-      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+      const txLength = calcTxLength(extrinsic, system_accountNonce);
       const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
       maxBalance = bnMax(availableBalance.sub(fees), ZERO);

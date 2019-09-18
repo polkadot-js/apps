@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/react-components/types';
-import { QueueProps } from '@polkadot/react-components/Status/types';
 
 import './index.css';
 
-import React from 'react';
-import { QueueConsumer } from '@polkadot/react-components/Status/Context';
+import React, { useContext } from 'react';
+import QueueContext from '@polkadot/react-components/Status/Context';
 
 import Modal from './Modal';
 
@@ -17,20 +16,18 @@ interface Props extends BareProps {
 }
 
 export default function Signer ({ children, className, style }: Props): React.ReactElement<Props> {
+  const { txqueue, queueSetTxStatus } = useContext(QueueContext);
+
   return (
     <>
       {children}
-      <QueueConsumer>
-        {({ txqueue, queueSetTxStatus }: QueueProps): React.ReactNode => (
-          <Modal
-            className={className}
-            key='signer-modal'
-            queue={txqueue}
-            queueSetTxStatus={queueSetTxStatus}
-            style={style}
-          />
-        )}
-      </QueueConsumer>
+      <Modal
+        className={className}
+        key='signer-modal'
+        queue={txqueue}
+        queueSetTxStatus={queueSetTxStatus}
+        style={style}
+      />
     </>
   );
 }
