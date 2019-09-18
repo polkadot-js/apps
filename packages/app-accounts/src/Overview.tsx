@@ -77,6 +77,7 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
               <Button
                 isPrimary
                 label={t('Query Ledger')}
+                labelIcon='question'
                 onClick={queryLedger}
               />
             </>

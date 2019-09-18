@@ -43,6 +43,7 @@ export default class Transfer extends TxComponent<Props, State> {
               <TxButton
                 accountId={accountId}
                 label='make transfer'
+                labelIcon='send'
                 params={[recipientId, amount]}
                 tx='balances.transfer'
                 ref={this.button}

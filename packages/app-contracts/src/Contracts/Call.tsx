@@ -200,6 +200,7 @@ class Call extends TxComponent<Props, State> {
           isDisabled={!isValid}
           isPrimary
           label={t('Call')}
+          labelIcon='sign-in'
           onClick={this.toggleBusy}
           onFailed={this.toggleBusy}
           onSuccess={this.toggleBusy}
