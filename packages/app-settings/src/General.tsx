@@ -7,6 +7,7 @@ import { Option } from './types';
 
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
+import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
@@ -86,7 +87,7 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
           options={uiSettings.availableUIModes}
         />
       </div>
-      {WITH_LEDGER && (
+      {WITH_LEDGER && isLedgerCapable() && (
         <div className='ui--row'>
           <Dropdown
             defaultValue={ledgerConn}
