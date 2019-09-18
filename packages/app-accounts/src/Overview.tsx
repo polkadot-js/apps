@@ -23,6 +23,19 @@ interface Props extends ComponentProps, I18nProps {
   accounts?: SubjectInfo[];
 }
 
+// query the ledger for the address, adding it to the keyring
+async function queryLedger (): Promise<void> {
+  const ledger = getLedger();
+
+  try {
+    const { address } = await ledger.getAddress();
+
+    keyring.addHardware(address, 'ledger', { name: 'ledger' });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElement<Props> {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
@@ -32,17 +45,6 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
   const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
   const _toggleQr = (): void => setIsQrOpen(!isQrOpen);
-  const _triggerHw = async (): Promise<void> => {
-    const ledger = getLedger();
-
-    try {
-      const { address } = await ledger.getAddress();
-
-      keyring.addHardware(address, 'ledger', { name: 'ledger' });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <CardGrid
@@ -72,7 +74,7 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
               <Button
                 isPrimary
                 label={t('Query Ledger')}
-                onClick={_triggerHw}
+                onClick={queryLedger}
               />
             </>
           )}
