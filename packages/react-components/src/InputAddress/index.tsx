@@ -2,20 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
 import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
+import { BareProps } from '../types';
+import { Option } from './types';
 
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import createItem from '@polkadot/ui-keyring/options/item';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
+import createKeyringItem from '@polkadot/ui-keyring/options/item';
 import { withMulti, withObservable } from '@polkadot/react-api';
 
-import { classes, getAddressName } from './util';
-import addressToAddress from './util/toAddress';
-import Dropdown from './Dropdown';
+import { classes, getAddressName } from '../util';
+import addressToAddress from '../util/toAddress';
+import Dropdown from '../Dropdown';
+import createHeader from './createHeader';
+import createItem from './createItem';
 
 interface Props extends BareProps {
   defaultValue?: string | null;
@@ -29,8 +32,8 @@ interface Props extends BareProps {
   labelExtra?: React.ReactNode;
   onChange?: (value: string | null) => void;
   onChangeMulti?: (value: string[]) => void;
-  options?: KeyringSectionOption[];
-  optionsAll?: KeyringOptions;
+  options?: Option[];
+  optionsAll?: Record<string, Option[]>;
   placeholder?: string;
   type?: KeyringOption$Type;
   value?: string | Uint8Array | string[];
@@ -85,7 +88,7 @@ const createOption = (address: string): KeyringSectionOption => {
     }
   }
 
-  return createItem(address, name, !isRecent);
+  return createItem(createKeyringItem(address, name), !isRecent);
 };
 
 class InputAddress extends React.PureComponent<Props, State> {
@@ -310,5 +313,17 @@ export default withMulti(
       max-width: 0;
     }
   `,
-  withObservable(keyringOption.optionsSubject, { propName: 'optionsAll' })
+  withObservable(keyringOption.optionsSubject, {
+    propName: 'optionsAll',
+    transform: (optionsAll: KeyringOptions): Record<string, Option[]> =>
+      Object.entries(optionsAll).reduce((result: Record<string, Option[]>, [type, options]): Record<string, Option[]> => {
+        result[type] = options.map((option): Option =>
+          option.value === null
+            ? createHeader(option)
+            : createItem(option)
+        );
+
+        return result;
+      }, {})
+  })
 );

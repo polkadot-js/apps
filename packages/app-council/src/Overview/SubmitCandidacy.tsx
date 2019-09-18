@@ -41,6 +41,7 @@ class SubmitCandidacy extends TxModal<Props, State> {
 
     return (
       <Button
+        isPrimary
         label={t('Submit candidacy')}
         labelIcon='add'
         onClick={this.showModal}

@@ -33,7 +33,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
     const account = keyring.getAccount(address);
 
     setGenesisHash((account && account.meta.genesisHash) || null);
-    setIsEditable((account && !(account.meta.isInjected)) || false);
+    setIsEditable((account && !(account.meta.isInjected || account.meta.isHardware)) || false);
     setIsExternal((account && account.meta.isExternal) || false);
   }, [address]);
 

@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 
@@ -26,42 +26,32 @@ interface Props extends BareProps {
   trigger: string;
 }
 
-export default class Tooltip extends React.PureComponent<Props> {
-  private tooltipContainer: HTMLElement;
+export default function Tooltip ({ className, effect = 'solid', offset, place = 'bottom', text, trigger }: Props): React.ReactElement<Props> | null {
+  const [tooltipContainer] = useState(document.createElement('div'));
 
-  public constructor (props: Props) {
-    super(props);
-
-    this.tooltipContainer = document.createElement('div');
-  }
-
-  public componentDidMount (): void {
+  useEffect((): () => void => {
     if (rootElement !== null) {
-      rootElement.appendChild(this.tooltipContainer);
+      rootElement.appendChild(tooltipContainer);
     }
-  }
 
-  public componentWillUnmount (): void {
-    if (rootElement !== null) {
-      rootElement.removeChild(this.tooltipContainer);
-    }
-  }
+    return (): void => {
+      if (rootElement !== null) {
+        rootElement.removeChild(tooltipContainer);
+      }
+    };
+  }, []);
 
-  public render (): React.ReactNode {
-    const { className, effect = 'solid', offset, place = 'bottom', text, trigger } = this.props;
-
-    return ReactDOM.createPortal(
-      <ReactTooltip
-        id={trigger}
-        delayShow={250}
-        effect={effect}
-        offset={offset}
-        place={place}
-        className={classes('ui--Tooltip', className)}
-      >
-        {text}
-      </ReactTooltip>,
-      this.tooltipContainer
-    );
-  }
+  return ReactDOM.createPortal(
+    <ReactTooltip
+      id={trigger}
+      delayShow={250}
+      effect={effect}
+      offset={offset}
+      place={place}
+      className={classes('ui--Tooltip', className)}
+    >
+      {text}
+    </ReactTooltip>,
+    tooltipContainer
+  );
 }
