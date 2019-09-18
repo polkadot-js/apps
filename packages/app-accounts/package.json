@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-accounts",
-  "version": "0.36.0-beta.12",
+  "version": "0.36.0-beta.13",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.6.0",
-    "@polkadot/react-components": "^0.36.0-beta.12",
+    "@polkadot/react-components": "^0.36.0-beta.13",
     "@polkadot/react-qr": "^0.45.0-beta.12",
     "@types/file-saver": "^2.0.0",
     "@types/yargs": "^13.0.2",
