@@ -36,12 +36,13 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const prev = uiSettings.get();
     const hasChanges = Object.entries(settings).some(([key, value]): boolean => (prev as any)[key] !== value);
+    const needsReload = prev.apiUrl !== settings.apiUrl || prev.prefix !== settings.prefix;
 
-    if (hasChanges) {
-      setChanged(prev.apiUrl !== settings.apiUrl);
-    } else {
-      setChanged(null);
-    }
+    setChanged(
+      hasChanges
+        ? needsReload
+        : null
+    );
   }, [settings]);
 
   const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
