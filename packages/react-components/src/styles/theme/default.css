@@ -24,14 +24,14 @@ $primary: #2e86ab;
   .ui.button,
   .ui.buttons .button {
     background-color: $default;
-    color: #f2f2f2;
+    color: #f9f9f9;
 
     &.active,
     &:active,
     &:focus,
     &:hover {
       background-color: $default;
-      color: #f2f2f2;
+      color: #f9f9f9;
     }
 
     &:hover {
