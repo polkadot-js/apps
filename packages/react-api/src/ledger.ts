@@ -5,10 +5,24 @@
 import { Ledger } from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
+import { api } from './Api';
+
+const ALLOWED_CHAINS = [
+  '0x3fd7b9eb6a00376e5be61f01abb429ffb0b104be05eaff4d458da48fcd425baf' // Kusama CC1
+];
+
 let ledger: Ledger | null = null;
 
+export function isLedgerCapable (): boolean {
+  try {
+    return !!api && ALLOWED_CHAINS.includes(api.genesisHash.toHex());
+  } catch (error) {
+    return false;
+  }
+}
+
 export function isLedger (): boolean {
-  return uiSettings.ledgerConn !== 'none';
+  return isLedgerCapable() && uiSettings.ledgerConn !== 'none';
 }
 
 export function clearLedger (): void {
