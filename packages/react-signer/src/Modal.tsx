@@ -23,6 +23,7 @@ import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
+import ledgerSigner from './LedgerSigner';
 import PasswordCheck from './PasswordCheck';
 import Transaction from './Transaction';
 import Qr from './Qr';
@@ -141,7 +142,7 @@ class Signer extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const isExternal = this.isExternal(currentItem.accountId);
+    const { isExternal, isHardware, hardwareType } = this.isExternal(currentItem.accountId);
 
     return (
       <Modal.Actions>
@@ -174,9 +175,11 @@ class Signer extends React.PureComponent<Props, State> {
                     ? t('Scan Signature Qr')
                     : currentItem.isUnsigned
                       ? t('Submit (no signature)')
-                      : isExternal
-                        ? t('Sign via Qr')
-                        : t('Sign and Submit')
+                      : isHardware
+                        ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
+                        : isExternal
+                          ? t('Sign via Qr')
+                          : t('Sign and Submit')
                 }
               />
             </>
@@ -262,9 +265,9 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private isExternal (accountId?: string | null): boolean {
+  private isExternal (accountId?: string | null): { isExternal: boolean; isHardware: boolean; hardwareType?: string } {
     if (!accountId) {
-      return false;
+      return { isExternal: false, isHardware: false };
     }
 
     let publicKey;
@@ -274,12 +277,16 @@ class Signer extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error(error);
 
-      return false;
+      return { isExternal: false, isHardware: false };
     }
 
     const pair = keyring.getPair(publicKey);
 
-    return !!pair.meta.isExternal;
+    return {
+      isExternal: !!pair.meta.isExternal,
+      isHardware: !!pair.meta.isHardware,
+      hardwareType: pair.meta.hardwareType
+    };
   }
 
   private unlockAccount (accountId: string, password?: string): string | null {
@@ -368,8 +375,6 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private signQrPayload = (payload: SignerPayloadJSON): Promise<SignerResult> => {
-    console.error('signQrPayload', payload);
-
     return new Promise((resolve, reject): void => {
       this.setState({
         isQrVisible: true,
@@ -482,12 +487,15 @@ class Signer extends React.PureComponent<Props, State> {
     const params = [];
 
     if (pair) {
-      const { address, meta: { isExternal, isInjected, source } } = pair;
+      const { address, meta: { isExternal, isHardware, isInjected, source } } = pair;
 
       queueSetTxStatus(id, 'signing');
 
       // set the signer
-      if (isExternal) {
+      if (isHardware) {
+        api.setSigner(ledgerSigner);
+        params.push(address);
+      } else if (isExternal) {
         queueSetTxStatus(id, 'qr');
         api.setSigner({ signPayload: this.signQrPayload });
         params.push(address);

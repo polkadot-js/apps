@@ -5,6 +5,7 @@
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Option } from './types';
 
+import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -18,7 +19,9 @@ interface Props extends AppProps, I18nProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-const WITH_LEDGER = false;
+// check for a ledger=... string, acivate
+const urlOptions = queryString.parse(location.href.split('?')[1]);
+const WITH_LEDGER = !!urlOptions.ledger;
 
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
 const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
