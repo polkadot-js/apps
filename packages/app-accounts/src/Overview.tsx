@@ -39,7 +39,6 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
       const { address } = await ledger.getAddress();
 
       keyring.addHardware(address, 'ledger', { name: 'ledger' });
-
     } catch (error) {
       console.error(error);
     }
