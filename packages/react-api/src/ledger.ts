@@ -22,7 +22,7 @@ export function isLedgerCapable (): boolean {
 }
 
 export function isLedger (): boolean {
-  return isLedgerCapable(api) && uiSettings.ledgerConn !== 'none';
+  return isLedgerCapable() && uiSettings.ledgerConn !== 'none';
 }
 
 export function clearLedger (): void {

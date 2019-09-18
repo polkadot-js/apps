@@ -24,12 +24,9 @@ const hidden = uiSettings.uiMode === 'full'
 function App (props: Props): React.ReactElement<Props> {
   const _renderDeveloper = (): React.ReactNode => {
     return (
-      <Developer
-        onStatusChange={props.onStatusChange}
-        {...props}
-      />
+      <Developer {...props} />
     );
-  }
+  };
   const { basePath, t } = props;
 
   return (
