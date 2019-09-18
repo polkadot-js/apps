@@ -32,6 +32,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
     context,
     devtool,
     entry: [
+      '@babel/polyfill',
       `./src/${name}.tsx`,
       isProd
         ? null

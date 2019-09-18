@@ -64,7 +64,6 @@ export default class Bytes extends React.PureComponent<Props, State> {
     return (
       <Button
         icon='file'
-        isPrimary
         onClick={this.toggleFile}
       />
     );

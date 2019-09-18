@@ -9,7 +9,7 @@ import { GeneratorOptions } from './types';
 import yargs from 'yargs';
 import chalk from 'chalk';
 import { u8aToHex } from '@polkadot/util';
-import { cryptoWaitReady, setAddressPrefix } from '@polkadot/util-crypto';
+import { cryptoWaitReady, setSS58Format } from '@polkadot/util-crypto';
 
 import generator from '.';
 import matchRegex from './regex';
@@ -76,15 +76,15 @@ tests.forEach((test): void => {
 
 switch (network) {
   case 'kusama':
-    setAddressPrefix(2);
+    setSS58Format(2);
     break;
 
   case 'polkadot':
-    setAddressPrefix(0);
+    setSS58Format(0);
     break;
 
   default:
-    setAddressPrefix(42);
+    setSS58Format(42);
     break;
 }
 

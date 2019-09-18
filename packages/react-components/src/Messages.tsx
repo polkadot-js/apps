@@ -21,6 +21,8 @@ export interface Props extends I18nProps {
   onSelect?: (callAddress?: string, callMethod?: string) => void;
 }
 
+const NOOP = (): void => {};
+
 function onSelect (props: Props, index: number): () => void {
   return function (): void {
     const { address: callAddress, contractAbi, contractAbi: { abi: { contract: { messages } } }, onSelect } = props;
@@ -89,12 +91,10 @@ function renderMessage (props: Props, index: number): React.ReactNode {
 }
 
 function Messages (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi: { abi: { contract: { messages } } }, isLabelled, isRemovable, onRemove = (): void => { /* . */ }, onSelect, t } = props;
+  const { className, contractAbi: { abi: { contract: { messages } } }, isLabelled, isRemovable, onRemove = NOOP, onSelect, t } = props;
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled', onSelect && 'select')}>
-      {messages.map((_, index): React.ReactNode => {
-        return renderMessage(props, index);
-      })}
+      {messages.map((_, index): React.ReactNode => renderMessage(props, index))}
       {isRemovable && (
         <Button
           className='iconButton'
