@@ -30,6 +30,7 @@ export { default as Event } from './Event';
 export { default as Extrinsic } from './Extrinsic';
 export { default as FilterOverlay } from './FilterOverlay';
 export { default as Forget } from './Forget';
+export { default as GlobalStyle } from './GlobalStyle';
 export { default as HelpOverlay } from './HelpOverlay';
 export { default as Icon } from './Icon';
 export { default as IdentityIcon } from './IdentityIcon';
