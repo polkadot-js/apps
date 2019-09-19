@@ -19,23 +19,24 @@ interface Props extends I18nProps {
 }
 
 const ZERO = new BN(0);
+const EMPTY_INFO = { extrinsics: null, health: null, peers: null };
 
-function Summary ({ info = {}, nextRefresh, t }: Props): React.ReactElement<Props> {
+function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefresh, t }: Props): React.ReactElement<Props> {
   const [peerBest, setPeerBest] = useState(ZERO);
 
   useEffect((): void => {
-    if (!info.peers) {
+    if (!peers) {
       return;
     }
 
-    const bestPeer = info.peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
+    const bestPeer = peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
 
-    return setPeerBest(
+    setPeerBest(
       bestPeer
         ? bestPeer.bestNumber
         : new BN(0)
     );
-  }, [info]);
+  }, [peers]);
 
   return (
     <SummaryBox>
@@ -48,8 +49,8 @@ function Summary ({ info = {}, nextRefresh, t }: Props): React.ReactElement<Prop
           label={t('total peers')}
         >
           {
-            info.health
-              ? `${info.health.peers.toNumber()}`
+            health
+              ? `${health.peers.toNumber()}`
               : '-'
           }
         </CardSummary>
@@ -58,9 +59,9 @@ function Summary ({ info = {}, nextRefresh, t }: Props): React.ReactElement<Prop
           label={t('syncing')}
         >
           {
-            info.health
+            health
               ? (
-                info.health.isSyncing.valueOf()
+                health.isSyncing.valueOf()
                   ? t('yes')
                   : t('no')
               )
@@ -71,8 +72,8 @@ function Summary ({ info = {}, nextRefresh, t }: Props): React.ReactElement<Prop
       <section className='ui--media-large'>
         <CardSummary label={t('queued tx')}>
           {
-            info.extrinsics
-              ? `${info.extrinsics.length}`
+            extrinsics
+              ? `${extrinsics.length}`
               : '-'
           }
         </CardSummary>
