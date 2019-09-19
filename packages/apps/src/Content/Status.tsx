@@ -39,35 +39,35 @@ function Status ({ optionsAll, queueAction, stqueue, system_events = [], t, txqu
 
     const addresses = optionsAll.account.map((account): string | null => account.value);
     const statusses = system_events
-    .map(({ event: { data, method, section } }): ActionStatus | null => {
-      if (section === 'balances' && method === 'Transfer') {
-        const account = data[1].toString();
+      .map(({ event: { data, method, section } }): ActionStatus | null => {
+        if (section === 'balances' && method === 'Transfer') {
+          const account = data[1].toString();
 
-        if (addresses.includes(account)) {
+          if (addresses.includes(account)) {
+            return {
+              account,
+              action: `${section}.${method}`,
+              status: 'event',
+              message: t('transfer received')
+            };
+          }
+        } else if (section === 'democracy') {
+          const index = data[0].toString();
+
           return {
-            account,
             action: `${section}.${method}`,
             status: 'event',
-            message: t('transfer received')
+            message: t('update on #{{index}}', {
+              replace: {
+                index
+              }
+            })
           };
         }
-      } else if (section === 'democracy') {
-        const index = data[0].toString();
 
-        return {
-          action: `${section}.${method}`,
-          status: 'event',
-          message: t('update on #{{index}}', {
-            replace: {
-              index
-            }
-          })
-        };
-      }
-
-      return null;
-    })
-    .filter((item): boolean => !!item) as ActionStatus[];
+        return null;
+      })
+      .filter((item): boolean => !!item) as ActionStatus[];
 
     statusses.length && queueAction(statusses);
   }, [system_events]);
