@@ -97,7 +97,7 @@ export type QueueTxPayloadAdd = (payload: SignerPayloadJSON, signerCb: SignerCal
 
 export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result?: any, error?: Error) => void;
 
-export type QueueAction$Add = (status: ActionStatus) => number;
+export type QueueAction$Add = (status: ActionStatus | ActionStatus[]) => number;
 
 export interface QueueProps {
   stqueue: QueueStatus[];
