@@ -27,42 +27,37 @@ const renderPeer = (peer: PeerInfo): React.ReactNode => {
   );
 };
 
-const renderPeers = ({ peers, t }: Props): React.ReactNode => {
-  if (!peers || !peers.length) {
-    return (
-      <div className='ui disabled'>
-        {t('no peers connected')}
-      </div>
-    );
-  }
-
-  return (
-    <article>
-      <table>
-        <thead>
-          <tr>
-            <th className='roles'>{t('role')}</th>
-            <th className='peerid ui--media-medium'>{t('peer id')}</th>
-            <th className='number'>{t('best #')}</th>
-            <th className='hash'>{t('best hash')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {peers
-            .sort((a, b): number => b.bestNumber.cmp(a.bestNumber))
-            .map(renderPeer)
-          }
-        </tbody>
-      </table>
-    </article>
-  );
-};
-
-function Peers (props: Props): React.ReactElement<Props> {
+function Peers ({ peers, t }: Props): React.ReactElement<Props> {
   return (
     <section className='status--Peers'>
-      <h1>{props.t('connected peers')}</h1>
-      {renderPeers(props)}
+      <h1>{t('connected peers')}</h1>
+      {peers && peers.length
+        ? (
+          <article>
+            <table>
+              <thead>
+                <tr>
+                  <th className='roles'>{t('role')}</th>
+                  <th className='peerid ui--media-medium'>{t('peer id')}</th>
+                  <th className='number'>{t('best #')}</th>
+                  <th className='hash'>{t('best hash')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {peers
+                  .sort((a, b): number => b.bestNumber.cmp(a.bestNumber))
+                  .map(renderPeer)
+                }
+              </tbody>
+            </table>
+          </article>
+        )
+        : (
+          <div className='ui disabled'>
+            {t('no peers connected')}
+          </div>
+        )
+      }
     </section>
   );
 }
