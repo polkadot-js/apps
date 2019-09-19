@@ -200,7 +200,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { currentItem, isQrScanning, isQrVisible, isSendable, qrAddress, qrPayload } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isSendable, qrAddress, qrPayload, tip } = this.state;
 
     if (!currentItem) {
       return null;
@@ -210,6 +210,7 @@ class Signer extends React.PureComponent<Props, State> {
       <Transaction
         hideDetails={isQrVisible}
         isSendable={isSendable}
+        tip={tip}
         value={currentItem}
       >
         {
@@ -254,7 +255,11 @@ class Signer extends React.PureComponent<Props, State> {
   private renderUnlock (): React.ReactNode {
     const { currentItem, isSendable, password, unlockError } = this.state;
 
-    if (!isSendable || !currentItem || currentItem.isUnsigned || this.isExternal(currentItem.accountId)) {
+    const { isExternal } = currentItem
+      ? this.isExternal(currentItem.accountId)
+      : { isExternal: false };
+
+    if (!isSendable || !currentItem || currentItem.isUnsigned || isExternal) {
       return null;
     }
 

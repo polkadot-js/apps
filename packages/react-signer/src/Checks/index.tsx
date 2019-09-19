@@ -44,17 +44,22 @@ interface Props extends ApiProps, I18nProps {
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
   system_accountNonce?: BN;
+  tip?: BN;
 }
 
-const LENGTH_PUBLICKEY = 32 + 1; // publicKey + prefix
-const LENGTH_SIGNATURE = 64;
-const LENGTH_ERA = 1;
-export const SIGNATURE_SIZE = LENGTH_PUBLICKEY + LENGTH_SIGNATURE + LENGTH_ERA;
+const LENGTH_ADDRESS = 32 + 1; // publicKey + prefix
+const LENGTH_ERA = 2; // assuming mortals
+const LENGTH_SIGNATURE = 64; // assuming ed25519 or sr25519
+const LENGTH_VERSION = 1; // 0x80 & version
 
-export const calcSignatureLength = (extrinsic?: IExtrinsic | null, accountNonce?: BN): BN => {
+export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN): BN => {
   return new BN(
-    SIGNATURE_SIZE +
-    (accountNonce ? compactToU8a(accountNonce).length : 0) +
+    LENGTH_VERSION +
+    LENGTH_ADDRESS +
+    LENGTH_SIGNATURE +
+    LENGTH_ERA +
+    compactToU8a(nonce || 0).length +
+    compactToU8a(tip || 0).length +
     (extrinsic ? extrinsic.encodedLength : 0)
   );
 };
@@ -73,7 +78,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     overLimit: false
   };
 
-  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, api, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0) }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, api, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0), tip }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
@@ -81,7 +86,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const fn = api.findCall(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
-    const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+    const txLength = calcTxLength(extrinsic, system_accountNonce, tip);
 
     const isSameExtrinsic = prevState.extMethod === extMethod && prevState.extSection === extSection;
     const extraAmount = isSameExtrinsic
@@ -195,11 +200,12 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
             fees: formatBalance(allFees)
           }
         })}</div>
-        <div><Icon name='arrow right' />{t('{{total}} total transaction amount (fees + value)', {
+        <div><Icon name='arrow right' />{t('{{total}} estimated total amount (fees + value)', {
           replace: {
             total: formatBalance(allTotal)
           }
         })}</div>
+        <div><Icon name='dot circle outline' />{t('Estimation does not account for the transaction weight')}</div>
       </article>
     );
   }
