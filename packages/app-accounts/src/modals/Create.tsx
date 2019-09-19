@@ -35,20 +35,23 @@ interface SeedOption {
   value: SeedType;
 }
 
-interface State {
+interface AddressState {
   address: string;
   deriveError: string | null;
   derivePath: string;
-  isNameValid: boolean;
   isSeedValid: boolean;
+  pairType: KeypairType;
+  seed: string;
+  seedType: SeedType;
+}
+
+interface State extends AddressState {
+  isNameValid: boolean;
   isPassValid: boolean;
   isValid: boolean;
   name: string;
-  pairType: KeypairType;
   password: string;
-  seed: string;
   seedOptions: SeedOption[];
-  seedType: SeedType;
   showWarning: boolean;
   tags: string[];
 }
@@ -88,7 +91,7 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
     .address;
 }
 
-function generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): Partial<State> & { address: string; deriveError: string | null; derivePath: string; isSeedValid: boolean; seed: string } {
+function generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
   const seed = ((): string => {
     switch (seedType) {
       case 'bip':
@@ -106,6 +109,8 @@ function generateSeed (_seed: string | null, derivePath: string, seedType: SeedT
     deriveError: null,
     derivePath,
     isSeedValid: true,
+    pairType,
+    seedType,
     seed
   };
 }
@@ -136,9 +141,7 @@ class Create extends React.PureComponent<Props, State> {
       isValid: false,
       name: 'new account',
       password: '',
-      pairType,
       seedOptions,
-      seedType,
       showWarning: false,
       tags: []
     };
