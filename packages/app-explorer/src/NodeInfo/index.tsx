@@ -40,7 +40,7 @@ function NodeInfo ({ t }: Props): React.ReactElement<Props> {
 
   useEffect((): () => void => {
     const _getStatus = (): void => {
-      retrieveInfo(api).then(setInfo).catch((): void => {});
+      retrieveInfo(api).then(setInfo);
     };
 
     _getStatus();
