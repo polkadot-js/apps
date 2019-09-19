@@ -6,6 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
 import React from 'react';
+import { HeaderExtended } from '@polkadot/api-derive';
 import { Columar, Column } from '@polkadot/react-components';
 
 import BlockHeaders from './BlockHeaders';
@@ -16,16 +17,17 @@ import translate from './translate';
 
 interface Props extends I18nProps {
   events: KeyedEvent[];
+  headers: HeaderExtended[];
 }
 
-function Main ({ events, t }: Props): React.ReactElement<Props> {
+function Main ({ events, headers, t }: Props): React.ReactElement<Props> {
   return (
     <>
       <Query />
       <Summary />
       <Columar>
         <Column headerText={t('recent blocks')}>
-          <BlockHeaders />
+          <BlockHeaders headers={headers} />
         </Column>
         <Column headerText={t('recent events')}>
           <Events events={events} />
