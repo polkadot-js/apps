@@ -66,6 +66,7 @@ class NewStake extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -73,6 +74,7 @@ class NewStake extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Bond')}
+              labelIcon='sign-in'
               onClick={onClose}
               extrinsic={extrinsic}
               ref={this.button}

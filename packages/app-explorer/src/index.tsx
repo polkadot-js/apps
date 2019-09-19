@@ -1,132 +1,137 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/react-api/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyedEvent } from './types';
 
 import './index.css';
 
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
-import Tabs, { TabItem } from '@polkadot/react-components/Tabs';
+import { HeaderExtended } from '@polkadot/api-derive';
+import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
+import Tabs from '@polkadot/react-components/Tabs';
 import uiSettings from '@polkadot/ui-settings';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import { MAX_ITEMS } from './BlockHeaders';
 import BlockInfo from './BlockInfo';
 import Forks from './Forks';
 import Main from './Main';
 import NodeInfo from './NodeInfo';
 import translate from './translate';
 
-interface Props extends AppProps, BareProps, I18nProps {
-  system_events?: EventRecord[];
+interface Props extends ApiProps, AppProps, BareProps, I18nProps {
+  newHeader?: HeaderExtended;
+  newEvents?: KeyedEvent[];
 }
 
-interface State {
-  items: TabItem[];
-  prevEventHash: string;
-  recentEvents: KeyedEvent[];
-}
+const MAX_ITEMS = 15;
 
-class ExplorerApp extends React.Component<Props, State> {
-  public constructor (props: Props) {
-    super(props);
+function ExplorerApp ({ basePath, className, newEvents, newHeader, t }: Props): React.ReactElement<Props> {
+  const [headers, setHeaders] = useState<HeaderExtended[]>([]);
+  const [{ prevEventHash, events }, setEvents] = useState<{ prevEventHash: string; events: KeyedEvent[] }>({ prevEventHash: '', events: [] });
+  const { api } = useContext(ApiContext);
 
-    const { t } = this.props;
+  useEffect((): void => {
+    const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
-    this.state = {
-      items: [
-        {
-          isRoot: true,
-          name: 'chain',
-          text: t('Chain info')
-        },
-        {
-          hasParams: true,
-          name: 'query',
-          text: t('Block details')
-        },
-        {
-          name: 'node',
-          text: t('Node info')
-        }
-      ],
-      prevEventHash: '',
-      recentEvents: []
-    };
-  }
-
-  // assign the events on the index - this way we keep a record of these, even when swapping
-  // tabs withing this app, all the events as received will be shown
-  public static getDerivedStateFromProps ({ system_events = [] }: Props, prevState: State): State | null {
-    const prevEventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));
-
-    if (prevEventHash === prevState.prevEventHash) {
-      return null;
+    if (newEventHash === prevEventHash || !newEvents) {
+      return;
     }
 
-    const recentEvents = system_events
-      .filter(({ event }): boolean => event.section !== 'system')
-      .map((record, index): { key: string; record: EventRecord } => ({ key: `${Date.now()}-${index}`, record }))
-      .concat(prevState.recentEvents)
-      .filter((_, index): boolean => index < MAX_ITEMS);
+    setEvents({
+      prevEventHash: newEventHash,
+      events: newEvents.concat(events).filter((_, index): boolean => index < MAX_ITEMS)
+    });
+  }, [newEvents]);
 
-    return {
-      items: prevState.items,
-      prevEventHash,
-      recentEvents
-    };
-  }
+  useEffect((): void => {
+    if (!newHeader) {
+      return;
+    }
 
-  public render (): React.ReactNode {
-    const { basePath, className } = this.props;
-    const { items } = this.state;
-    const hidden = uiSettings.uiMode === 'full'
-      ? []
-      : ['node'];
+    setHeaders(
+      headers
+        .filter((old, index): boolean => index < MAX_ITEMS && old.number.unwrap().lt(newHeader.number.unwrap()))
+        .reduce((next, header): HeaderExtended[] => {
+          next.push(header);
 
-    return (
-      <main className={className}>
-        <header>
-          <Tabs
-            basePath={basePath}
-            hidden={hidden}
-            items={items}
-          />
-        </header>
-        <Switch>
-          <Route path={`${basePath}/forks`} component={Forks} />
-          <Route path={`${basePath}/query/:value`} component={BlockInfo} />
-          <Route path={`${basePath}/query`} component={BlockInfo} />
-          <Route path={`${basePath}/node`} component={NodeInfo} />
-          <Route component={this.renderMain} />
-        </Switch>
-      </main>
+          return next;
+        }, [newHeader])
+        .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()))
     );
-  }
+  }, [newHeader]);
 
-  private renderMain = (): JSX.Element => {
-    const { recentEvents } = this.state;
-
-    return (
-      <Main events={recentEvents} />
-    );
-  }
+  return (
+    <main className={className}>
+      <header>
+        <Tabs
+          basePath={basePath}
+          hidden={
+            uiSettings.uiMode === 'full'
+              ? api.query.babe ? [] : ['forks']
+              : ['node', 'forks']
+          }
+          items={[
+            {
+              isRoot: true,
+              name: 'chain',
+              text: t('Chain info')
+            },
+            {
+              hasParams: true,
+              name: 'query',
+              text: t('Block details')
+            },
+            {
+              name: 'forks',
+              text: t('Forks')
+            },
+            {
+              name: 'node',
+              text: t('Node info')
+            }
+          ]}
+        />
+      </header>
+      <Switch>
+        <Route path={`${basePath}/forks`} component={Forks} />
+        <Route path={`${basePath}/query/:value`} component={BlockInfo} />
+        <Route path={`${basePath}/query`} component={BlockInfo} />
+        <Route path={`${basePath}/node`} component={NodeInfo} />
+        <Route
+          render={(): React.ReactElement<{}> =>
+            <Main
+              events={events}
+              headers={headers}
+            />
+          }
+        />
+      </Switch>
+    </main>
+  );
 }
 
 export default withMulti(
-  styled(ExplorerApp as React.ComponentClass<Props>)`
+  styled(ExplorerApp)`
     .rx--updated {
       background: transparent !important;
     }
   `,
   translate,
-  withCalls<Props>('query.system.events')
+  withCalls<Props>(
+    ['query.system.events', {
+      propName: 'newEvents',
+      transform: (records: EventRecord[]): KeyedEvent[] =>
+        records
+          .filter(({ event }): boolean => event.section !== 'system')
+          .map((record, index): KeyedEvent => ({ key: `${Date.now()}-${index}`, record }))
+    }],
+    ['derive.chain.subscribeNewHeads', { propName: 'newHeader' }]
+  )
 );

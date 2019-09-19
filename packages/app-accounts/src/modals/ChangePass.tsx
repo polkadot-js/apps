@@ -57,6 +57,7 @@ class ChangePass extends TxComponent<Props, State> {
           <Button
             isNegative
             label={t('Cancel')}
+            labelIcon='cancel'
             onClick={onClose}
           />
           <Button.Or />
@@ -64,6 +65,7 @@ class ChangePass extends TxComponent<Props, State> {
             isDisabled={!isNewValid || !isOldValid}
             isPrimary
             label={t('Change')}
+            labelIcon='sign-in'
             onClick={this.doChange}
             ref={this.button}
           />

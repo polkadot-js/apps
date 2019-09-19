@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { Info } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 import { BestNumber, Elapsed } from '@polkadot/react-query';
@@ -18,82 +18,76 @@ interface Props extends I18nProps {
   info: Info;
 }
 
-interface State {
-  peerBest?: BN;
-}
+const ZERO = new BN(0);
+const EMPTY_INFO = { extrinsics: null, health: null, peers: null };
 
-class Summary extends React.PureComponent<Props, State> {
-  public state: State = {};
+function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefresh, t }: Props): React.ReactElement<Props> {
+  const [peerBest, setPeerBest] = useState(ZERO);
 
-  public static getDerivedStateFromProps ({ info = {} }: Props): State | null {
-    if (!info.peers) {
-      return null;
+  useEffect((): void => {
+    if (!peers) {
+      return;
     }
 
-    const bestPeer = info.peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
+    const bestPeer = peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
 
-    return {
-      peerBest: bestPeer
+    setPeerBest(
+      bestPeer
         ? bestPeer.bestNumber
         : new BN(0)
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { info = {}, nextRefresh, t } = this.props;
-    const { peerBest } = this.state;
-
-    return (
-      <SummaryBox>
-        <section>
-          <CardSummary label={t('refresh in')}>
-            <Elapsed value={nextRefresh} />
-          </CardSummary>
-          <CardSummary
-            className='ui--media-small'
-            label={t('total peers')}
-          >
-            {
-              info.health
-                ? `${info.health.peers.toNumber()}`
-                : '-'
-            }
-          </CardSummary>
-          <CardSummary
-            className='ui--media-small'
-            label={t('syncing')}
-          >
-            {
-              info.health
-                ? (
-                  info.health.isSyncing.valueOf()
-                    ? t('yes')
-                    : t('no')
-                )
-                : '-'
-            }
-          </CardSummary>
-        </section>
-        <section className='ui--media-large'>
-          <CardSummary label={t('queued tx')}>
-            {
-              info.extrinsics
-                ? `${info.extrinsics.length}`
-                : '-'
-            }
-          </CardSummary>
-        </section>
-        <section>
-          <CardSummary label={t('peer best')}>
-            {formatNumber(peerBest)}
-          </CardSummary>
-          <CardSummary label={t('our best')}>
-            <BestNumber />
-          </CardSummary>
-        </section>
-      </SummaryBox>
     );
-  }
+  }, [peers]);
+
+  return (
+    <SummaryBox>
+      <section>
+        <CardSummary label={t('refresh in')}>
+          <Elapsed value={nextRefresh} />
+        </CardSummary>
+        <CardSummary
+          className='ui--media-small'
+          label={t('total peers')}
+        >
+          {
+            health
+              ? `${health.peers.toNumber()}`
+              : '-'
+          }
+        </CardSummary>
+        <CardSummary
+          className='ui--media-small'
+          label={t('syncing')}
+        >
+          {
+            health
+              ? (
+                health.isSyncing.valueOf()
+                  ? t('yes')
+                  : t('no')
+              )
+              : '-'
+          }
+        </CardSummary>
+      </section>
+      <section className='ui--media-large'>
+        <CardSummary label={t('queued tx')}>
+          {
+            extrinsics
+              ? `${extrinsics.length}`
+              : '-'
+          }
+        </CardSummary>
+      </section>
+      <section>
+        <CardSummary label={t('peer best')}>
+          {formatNumber(peerBest)}
+        </CardSummary>
+        <CardSummary label={t('our best')}>
+          <BestNumber />
+        </CardSummary>
+      </section>
+    </SummaryBox>
+  );
 }
 
 export default translate(Summary);

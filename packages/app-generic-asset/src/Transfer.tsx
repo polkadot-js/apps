@@ -98,6 +98,7 @@ class Transfer extends React.PureComponent<Props> {
           isDisabled={!hasAvailable}
           isPrimary
           label={t('Make Transfer')}
+          labelIcon='send'
           onStart={onClose}
           withSpinner={false}
         />

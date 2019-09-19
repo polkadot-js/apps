@@ -45,6 +45,7 @@ class Seconding extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             label={t('Second proposal')}
+            labelIcon='toggle off'
             onClick={this.toggleSeconding}
           />
         </div>
@@ -84,6 +85,7 @@ class Seconding extends React.PureComponent<Props, State> {
               isNegative
               onClick={this.toggleSeconding}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -91,6 +93,7 @@ class Seconding extends React.PureComponent<Props, State> {
               isDisabled={!accountId || isDepositor}
               isPrimary
               label={t('Second')}
+              labelIcon='sign-in'
               onClick={this.toggleSeconding}
               params={[proposalId]}
               tx='democracy.second'

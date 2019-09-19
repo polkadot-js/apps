@@ -114,12 +114,14 @@ function Forget (props: Props): React.ReactElement<Props> {
             isNegative
             onClick={onClose}
             label={t('Cancel')}
+            labelIcon='cancel'
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={onForget}
             label={t('Forget')}
+            labelIcon='trash'
           />
         </Button.Group>
       </Modal.Actions>

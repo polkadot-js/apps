@@ -172,6 +172,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
           isNegative
           onClick={this.onClose}
           label={t('Cancel')}
+          labelIcon='cancel'
         />
         <Button.Or />
       </>

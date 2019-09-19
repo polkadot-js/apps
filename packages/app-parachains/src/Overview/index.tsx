@@ -8,15 +8,15 @@ import { Columar } from '@polkadot/react-components';
 import Parachains from './Parachains';
 import Summary from './Summary';
 
-export default class Overview extends React.PureComponent<{}> {
-  public render (): React.ReactNode {
-    return (
-      <>
-        <Summary />
-        <Columar>
-          <Parachains />
-        </Columar>
-      </>
-    );
-  }
+type Props = {};
+
+export default function Overview (): React.ReactElement<Props> {
+  return (
+    <>
+      <Summary />
+      <Columar>
+        <Parachains />
+      </Columar>
+    </>
+  );
 }
