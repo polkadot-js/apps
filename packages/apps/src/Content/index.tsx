@@ -19,27 +19,6 @@ import NotFound from './NotFound';
 
 interface Props extends I18nProps, ApiProps, RouteComponentProps {}
 
-const Wrapper = styled.div`
-  background: #fafafa;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 100%;
-  padding: 0 2rem;
-
-  @media(max-width: 768px) {
-    padding: 0 0.5rem;
-  }
-`;
-
-const Connecting = styled.div`
-  padding: 1rem 0;
-`;
-
 const unknown = {
   display: {
     needsApi: undefined
@@ -48,48 +27,63 @@ const unknown = {
   name: ''
 };
 
-class Content extends React.Component<Props> {
-  public render (): React.ReactNode {
-    const { isApiConnected, isApiReady, location, t } = this.props;
-    const app = location.pathname.slice(1) || '';
-    const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
-      !!(route && app.startsWith(route.name))
-    ) || unknown;
+function Content ({ isApiConnected, isApiReady, className, location, t }: Props): React.ReactElement<Props> {
+  const app = location.pathname.slice(1) || '';
+  const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
+    !!(route && app.startsWith(route.name))
+  ) || unknown;
 
-    if (needsApi && (!isApiReady || !isApiConnected)) {
-      return (
-        <Wrapper>
-          <Connecting>{t('Waiting for API to be connected and ready.')}</Connecting>
-        </Wrapper>
-      );
-    }
-
-    return (
-      <Wrapper>
-        <QueueConsumer>
-          {({ queueAction, stqueue, txqueue }: QueueProps): React.ReactNode => (
-            <>
-              <Component
-                basePath={`/${name}`}
-                location={location}
-                onStatusChange={queueAction}
-              />
-              <Status
-                queueAction={queueAction}
-                stqueue={stqueue}
-                txqueue={txqueue}
-              />
-            </>
-          )}
-        </QueueConsumer>
-      </Wrapper>
-    );
-  }
+  return (
+    <div className={className}>
+      {needsApi && (!isApiReady || !isApiConnected)
+        ? <div className='connecting'>{t('Waiting for API to be connected and ready.')}</div>
+        : (
+          <QueueConsumer>
+            {({ queueAction, stqueue, txqueue }: QueueProps): React.ReactNode => (
+              <>
+                <Component
+                  basePath={`/${name}`}
+                  location={location}
+                  onStatusChange={queueAction}
+                />
+                <Status
+                  queueAction={queueAction}
+                  stqueue={stqueue}
+                  txqueue={txqueue}
+                />
+              </>
+            )}
+          </QueueConsumer>
+        )
+      }
+    </div>
+  );
 }
 
 // React-router needs to be first, otherwise we have blocked updates
 export default withMulti(
-  withRouter(Content),
+  withRouter(
+    styled(Content)`
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      height: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+      padding: 0 2rem;
+
+      @media(max-width: 768px) {
+        padding: 0 0.5rem;
+      }
+
+      .connecting {
+        padding: 1rem 0;
+      }
+    `
+  ),
   translate,
   // These API queries are used in a number of places, warm them up
   // to avoid constant un-/re-subscribe on these

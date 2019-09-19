@@ -21,6 +21,7 @@ import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import translate from '../translate';
+import CreateConfirmation from './CreateConfirmation';
 
 interface Props extends ModalProps, ApiProps, I18nProps {
   seed?: string;
@@ -34,20 +35,23 @@ interface SeedOption {
   value: SeedType;
 }
 
-interface State {
+interface AddressState {
   address: string;
   deriveError: string | null;
   derivePath: string;
-  isNameValid: boolean;
   isSeedValid: boolean;
+  pairType: KeypairType;
+  seed: string;
+  seedType: SeedType;
+}
+
+interface State extends AddressState {
+  isNameValid: boolean;
   isPassValid: boolean;
   isValid: boolean;
   name: string;
-  pairType: KeypairType;
   password: string;
-  seed: string;
   seedOptions: SeedOption[];
-  seedType: SeedType;
   showWarning: boolean;
   tags: string[];
 }
@@ -87,6 +91,30 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
     .address;
 }
 
+function generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
+  const seed = ((): string => {
+    switch (seedType) {
+      case 'bip':
+        return mnemonicGenerate();
+      case 'dev':
+        return DEV_PHRASE;
+      default:
+        return _seed || u8aToHex(randomAsU8a());
+    }
+  })();
+  const address = addressFromSeed(seed, derivePath, pairType);
+
+  return {
+    address,
+    deriveError: null,
+    derivePath,
+    isSeedValid: true,
+    pairType,
+    seedType,
+    seed
+  };
+}
+
 class Create extends React.PureComponent<Props, State> {
   public state: State;
 
@@ -103,14 +131,25 @@ class Create extends React.PureComponent<Props, State> {
       seedOptions.push({ value: 'dev', text: t('Development') });
     }
 
+    const pairType = type || DEFAULT_TYPE;
+    const seedType = seed ? 'raw' : 'bip';
+
     this.state = {
-      ...(this.emptyState(seed || null, '', type || DEFAULT_TYPE) as State),
-      seedOptions
+      ...generateSeed(seed || null, '', seedType, pairType),
+      isNameValid: true,
+      isPassValid: false,
+      isValid: false,
+      name: 'new account',
+      password: '',
+      seedOptions,
+      showWarning: false,
+      tags: []
     };
   }
 
   public render (): React.ReactNode {
     const { className, t } = this.props;
+    const { address, isValid, showWarning } = this.state;
 
     return (
       <Modal
@@ -119,36 +158,31 @@ class Create extends React.PureComponent<Props, State> {
         open
       >
         <Modal.Header>{t('Add an account via seed')}</Modal.Header>
-        {this.renderModal()}
+        {showWarning && (
+          <CreateConfirmation
+            address={address}
+            name={name}
+            onCommit={this.onCommit}
+            onHideWarning={this.onHideWarning}
+          />
+        )}
         {this.renderInput()}
-        {this.renderButtons()}
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              label={t('Cancel')}
+              onClick={this.onDiscard}
+            />
+            <Button.Or />
+            <Button
+              isDisabled={!isValid}
+              isPrimary
+              label={t('Save')}
+              onClick={this.onShowWarning}
+            />
+          </Button.Group>
+        </Modal.Actions>
       </Modal>
-    );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { isValid } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            labelIcon='cancel'
-            onClick={this.onDiscard}
-          />
-          <Button.Or />
-          <Button
-            isDisabled={!isValid}
-            isPrimary
-            label={t('Save')}
-            labelIcon='save'
-            onClick={this.onShowWarning}
-          />
-        </Button.Group>
-      </Modal.Actions>
     );
   }
 
@@ -231,99 +265,13 @@ class Create extends React.PureComponent<Props, State> {
               onEnter={this.onCommit}
               value={derivePath}
             />
-            {
-              deriveError
-                ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
-                : null
-            }
+            {deriveError && (
+              <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+            )}
           </details>
         </AddressRow>
       </Modal.Content>
     );
-  }
-
-  private renderModal (): React.ReactNode {
-    const { t } = this.props;
-    const { address, name, showWarning } = this.state;
-
-    return (
-      <Modal
-        dimmer='inverted'
-        open={showWarning}
-      >
-        <Modal.Header>
-          {t('Important notice')}
-        </Modal.Header>
-        <Modal.Content>
-          <AddressRow
-            defaultName={name}
-            isInline
-            value={address}
-          >
-            <p>{t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
-            <p>{t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
-          </AddressRow>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              label={t('Cancel')}
-              labelIcon='cancel'
-              onClick={this.onHideWarning}
-            />
-            <Button.Or />
-            <Button
-              isPrimary
-              label={t('Create and backup account')}
-              labelIcon='sign-in'
-              onClick={this.onCommit}
-            />
-          </Button.Group>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): Partial<State> {
-    const seed = ((): string => {
-      switch (seedType) {
-        case 'bip':
-          return mnemonicGenerate();
-        case 'dev':
-          return DEV_PHRASE;
-        default:
-          return _seed || u8aToHex(randomAsU8a());
-      }
-    })();
-    const address = addressFromSeed(seed, derivePath, pairType);
-
-    return {
-      address,
-      deriveError: null,
-      derivePath,
-      isSeedValid: true,
-      seed
-    };
-  }
-
-  private emptyState (seed: string | null, derivePath: string, pairType: KeypairType): Partial<State> {
-    const seedType = seed
-      ? 'raw'
-      : this.state ? this.state.seedType : 'bip';
-
-    return {
-      ...this.generateSeed(seed, derivePath, seedType, pairType),
-      isNameValid: true,
-      isPassValid: false,
-      isValid: false,
-      name: 'new account',
-      password: '',
-      pairType,
-      seedType,
-      showWarning: false,
-      tags: []
-    };
   }
 
   private nextState (newState: Partial<State>): void {
@@ -439,7 +387,7 @@ class Create extends React.PureComponent<Props, State> {
     }
 
     this.setState(({ derivePath, pairType }: State): State => ({
-      ...(this.generateSeed(null, derivePath, seedType, pairType) as State),
+      ...(generateSeed(null, derivePath, seedType, pairType) as State),
       seedType
     }));
   }

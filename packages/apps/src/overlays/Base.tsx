@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
 
@@ -12,47 +12,34 @@ interface Props {
   icon: string;
 }
 
-interface State {
-  isHidden: boolean;
-}
+function BaseOverlay ({ children, className, icon }: Props): React.ReactElement<Props> | null {
+  const [isHidden, setIsHidden] = useState(false);
 
-class BaseOverlay extends React.PureComponent<Props, State> {
-  public state: State = {
-    isHidden: false
-  };
+  if (isHidden) {
+    return null;
+  }
 
-  public render (): React.ReactNode {
-    const { children, className, icon } = this.props;
-    const { isHidden } = this.state;
+  const _onClose = (): void => setIsHidden(true);
 
-    if (isHidden) {
-      return null;
-    }
-
-    return (
-      <div className={className}>
-        <div className='content'>
-          <Icon
-            className='contentIcon'
-            name={icon as any}
-            size='big'
-          />
-          <div className='contentItem'>
-            {children}
-          </div>
-          <Icon
-            className='closeIcon'
-            name='close'
-            onClick={this.onClose}
-          />
+  return (
+    <div className={className}>
+      <div className='content'>
+        <Icon
+          className='contentIcon'
+          name={icon as any}
+          size='big'
+        />
+        <div className='contentItem'>
+          {children}
         </div>
+        <Icon
+          className='closeIcon'
+          name='close'
+          onClick={_onClose}
+        />
       </div>
-    );
-  }
-
-  private onClose = (): void => {
-    this.setState({ isHidden: true });
-  }
+    </div>
+  );
 }
 
 export default styled(BaseOverlay)`
