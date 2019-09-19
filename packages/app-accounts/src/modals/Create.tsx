@@ -134,6 +134,7 @@ class Create extends React.PureComponent<Props, State> {
       <Modal.Actions>
         <Button.Group>
           <Button
+            isNegative
             label={t('Cancel')}
             labelIcon='cancel'
             onClick={this.onDiscard}

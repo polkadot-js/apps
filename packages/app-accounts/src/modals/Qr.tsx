@@ -86,6 +86,7 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
       <Modal.Actions>
         <Button.Group>
           <Button
+            isNegative
             label={t('Cancel')}
             labelIcon='cancel'
             onClick={onClose}
