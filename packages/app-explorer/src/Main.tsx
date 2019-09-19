@@ -22,7 +22,7 @@ interface Props extends I18nProps {
 
 function Main ({ events, headers, t }: Props): React.ReactElement<Props> {
   return (
-    <div>
+    <>
       <Query />
       <Summary />
       <Columar>
@@ -33,7 +33,7 @@ function Main ({ events, headers, t }: Props): React.ReactElement<Props> {
           <Events events={events} />
         </Column>
       </Columar>
-    </div>
+    </>
   );
 }
 
