@@ -48,6 +48,7 @@ class Import extends TxComponent<Props, State> {
         <Modal.Actions>
           <Button.Group>
             <Button
+              isNegative
               label={t('Cancel')}
               labelIcon='cancel'
               onClick={onClose}
