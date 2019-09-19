@@ -76,6 +76,7 @@ class Upload extends ContractModal<Props, State> {
           isDisabled={!isValid}
           isPrimary
           label={t('Upload')}
+          labelIcon='upload'
           onClick={this.toggleBusy(true)}
           onSuccess={this.onSuccess}
           onFailed={this.toggleBusy(false)}

@@ -79,6 +79,7 @@ class Selection extends TxComponent<Props, State> {
             isDisabled={!isValidUnsigned}
             isUnsigned
             label={t('Submit Unsigned')}
+            labelIcon='sign-in'
             extrinsic={extrinsic}
           />
           <Button.Or />
@@ -87,6 +88,7 @@ class Selection extends TxComponent<Props, State> {
             isDisabled={!isValid}
             isPrimary
             label={t('Submit Transaction')}
+            labelIcon='sign-in'
             extrinsic={extrinsic}
             ref={this.button}
           />

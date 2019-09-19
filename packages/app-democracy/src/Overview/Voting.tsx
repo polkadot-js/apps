@@ -58,6 +58,7 @@ class Voting extends React.PureComponent<Props, State> {
           <Button
             isPrimary
             label={t('Vote')}
+            labelIcon='check'
             onClick={this.toggleVoting}
           />
         </div>
@@ -102,6 +103,7 @@ class Voting extends React.PureComponent<Props, State> {
               isNegative
               onClick={this.toggleVoting}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -109,6 +111,7 @@ class Voting extends React.PureComponent<Props, State> {
               isDisabled={!accountId}
               isPrimary
               label={t('Vote')}
+              labelIcon='check'
               onClick={this.toggleVoting}
               params={[referendumId, voteValue]}
               tx='democracy.vote'

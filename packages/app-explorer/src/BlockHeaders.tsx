@@ -2,61 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CallProps } from '@polkadot/react-api/types';
-
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { withCalls } from '@polkadot/react-api';
 
 import BlockHeader from './BlockHeader';
 
-export const MAX_ITEMS = 15;
-
-let blockHeaders: HeaderExtended[] = [];
-
-const transform = (header: HeaderExtended): HeaderExtended[] => {
-  if (!header) {
-    return blockHeaders;
-  }
-
-  blockHeaders = blockHeaders
-    .filter((old, index): boolean =>
-      index < MAX_ITEMS && old.number.unwrap().lt(header.number.unwrap())
-    )
-    .reduce((next, header): HeaderExtended[] => {
-      next.push(header);
-
-      return next;
-    }, [header])
-    .sort((a, b): number =>
-      b.number.unwrap().cmp(a.number.unwrap())
-    );
-
-  return blockHeaders;
-};
-
-interface Props extends CallProps {
-  headers?: HeaderExtended[];
+interface Props {
+  headers: HeaderExtended[];
 }
 
-function BlockHeaders ({ headers = [] }: Props): React.ReactElement<Props> {
+export default function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   return (
     <>
-      {
-        headers.map((header, index): React.ReactNode => (
-          <BlockHeader
-            isSummary={!!index}
-            key={header.number.toString()}
-            value={header}
-            withLink={!header.number.isEmpty}
-          />
-        ))
-      }
+      {headers.map((header, index): React.ReactNode => (
+        <BlockHeader
+          isSummary={!!index}
+          key={header.number.toString()}
+          value={header}
+          withLink={!header.number.isEmpty}
+        />
+      ))}
     </>
   );
 }
-
-export default withCalls<Props>(['derive.chain.subscribeNewHeads', {
-  propName: 'headers',
-  transform
-}])(BlockHeaders);

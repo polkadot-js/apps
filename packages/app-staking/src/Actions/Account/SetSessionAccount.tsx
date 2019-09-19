@@ -66,6 +66,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -73,6 +74,7 @@ class SetSessionKey extends React.PureComponent<Props, State> {
               isDisabled={hasError}
               isPrimary
               label={t('Set Session Key')}
+              labelIcon='sign-in'
               onClick={onClose}
               params={
                 isSubstrateV2

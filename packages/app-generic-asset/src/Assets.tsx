@@ -39,6 +39,7 @@ class Assets extends React.PureComponent<Props, State> {
             <Button
               isPrimary
               label={t('Register Asset')}
+              labelIcon='registered'
               onClick={this.toggleCreate}
             />
           </Button.Group>

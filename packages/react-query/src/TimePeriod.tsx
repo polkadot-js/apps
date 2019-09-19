@@ -37,7 +37,7 @@ export function TimePeriod ({ babe_expectedBlockTime, children, className, label
 // NOTE we are not combining this into one with a fallback, it becomes slightly tricky.
 // There must be a cleaner way with this logic, but as of now it works on Alex & Kusama
 //  - babe bas the exact value in miliseconds
-//  - non-babe on  2.x has the value in miliseconds (not catered for here)
+//  - non-babe on 2.x has the value in miliseconds (not catered for here)
 //  - anything non-babe, i.e. Aura, needs to be multiplied by 2
 export default withCalls<Props>(
   // substrate 2.x: consts.babe.expectedBlockTime

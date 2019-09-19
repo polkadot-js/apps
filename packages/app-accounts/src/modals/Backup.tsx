@@ -54,6 +54,7 @@ class Backup extends TxComponent<Props, State> {
           <Button
             isNegative
             label={t('Cancel')}
+            labelIcon='cancel'
             onClick={onClose}
           />
           <Button.Or />
@@ -61,6 +62,7 @@ class Backup extends TxComponent<Props, State> {
             isDisabled={!isPassValid}
             isPrimary
             label={t('Download')}
+            labelIcon='download'
             onClick={this.doBackup}
             ref={this.button}
           />

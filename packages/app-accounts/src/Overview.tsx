@@ -54,18 +54,21 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
           <Button
             isPrimary
             label={t('Add account')}
+            labelIcon='add'
             onClick={_toggleCreate}
           />
           <Button.Or />
           <Button
             isPrimary
             label={t('Restore JSON')}
+            labelIcon='sync'
             onClick={_toggleImport}
           />
           <Button.Or />
           <Button
             isPrimary
             label={t('Add via Qr')}
+            labelIcon='qrcode'
             onClick={_toggleQr}
           />
           {isLedger() && (
@@ -74,6 +77,7 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
               <Button
                 isPrimary
                 label={t('Query Ledger')}
+                labelIcon='question'
                 onClick={queryLedger}
               />
             </>

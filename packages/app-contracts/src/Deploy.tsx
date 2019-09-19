@@ -205,6 +205,7 @@ class Deploy extends ContractModal<Props, State> {
           isDisabled={!isValid}
           isPrimary
           label={t('Deploy')}
+          labelIcon='cloud upload'
           onClick={this.toggleBusy(true)}
           onFailed={this.toggleBusy(false)}
           onSuccess={this.onSuccess}

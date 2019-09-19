@@ -121,6 +121,7 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
               ? t('Save & Reload')
               : t('Save')
           }
+          labelIcon='save'
         />
       </Button.Group>
     </div>

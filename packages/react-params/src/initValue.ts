@@ -46,6 +46,13 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'PropIndex':
     case 'ProposalIndex':
     case 'ReferendumIndex':
+    case 'i8':
+    case 'i16':
+    case 'i32':
+    case 'i64':
+    case 'i128':
+    case 'u8':
+    case 'u16':
     case 'u32':
     case 'u64':
     case 'u128':
@@ -74,6 +81,12 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'CodeHash':
     case 'Hash':
       return createType('Hash');
+
+    case 'H256':
+      return createType('H256');
+
+    case 'H512':
+      return createType('H512');
 
     case 'Data':
     case 'Keys':

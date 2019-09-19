@@ -57,6 +57,7 @@ class Create extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.onDiscard}
             label={t('Cancel')}
+            labelIcon='cancel'
           />
           <Button.Or />
           <Button
@@ -64,6 +65,7 @@ class Create extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.onCommit}
             label={t('Register')}
+            labelIcon='registered'
           />
         </Button.Group>
       </Modal.Actions>
