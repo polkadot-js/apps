@@ -18,7 +18,6 @@ interface Props extends BareProps, CallProps {
 }
 
 export function TimePeriod ({ babe_expectedBlockTime, children, className, label = '', style, timestamp_minimumPeriod }: Props): React.ReactElement<Props> {
-
   return (
     <div
       className={className}
