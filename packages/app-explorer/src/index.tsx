@@ -38,14 +38,14 @@ function ExplorerApp ({ basePath, className, newEvents, newHeader, t }: Props): 
   const { api } = useContext(ApiContext);
 
   useEffect((): void => {
-    const thisEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
+    const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
-    if (thisEventHash === prevEventHash || !newEvents) {
+    if (newEventHash === prevEventHash || !newEvents) {
       return;
     }
 
     setEvents({
-      prevEventHash: thisEventHash,
+      prevEventHash: newEventHash,
       events: newEvents.concat(events).filter((_, index): boolean => index < MAX_ITEMS)
     });
   }, [newEvents]);
