@@ -11,7 +11,7 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { GlobalStyle } from '@polkadot/react-components';
+import GlobalStyle from '@polkadot/react-components/styles';
 import Signer from '@polkadot/react-signer';
 
 import ConnectingOverlay from './overlays/Connecting';
