@@ -54,6 +54,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -61,6 +62,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Set controller')}
+              labelIcon='sign-in'
               onClick={onClose}
               params={[controllerId]}
               tx='staking.setController'

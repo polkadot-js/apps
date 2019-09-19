@@ -87,6 +87,7 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
         <Button.Group>
           <Button
             label={t('Cancel')}
+            labelIcon='cancel'
             onClick={onClose}
           />
           <Button.Or />
@@ -95,6 +96,7 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
             isPrimary
             onClick={_onSave}
             label={t('Create')}
+            labelIcon='sign-in'
           />
         </Button.Group>
       </Modal.Actions>

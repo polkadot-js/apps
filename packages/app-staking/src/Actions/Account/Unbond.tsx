@@ -73,6 +73,7 @@ class Unbond extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -80,6 +81,7 @@ class Unbond extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Unbond')}
+              labelIcon='sign-out'
               onClick={onClose}
               params={[maxUnbond]}
               tx='staking.unbond'
