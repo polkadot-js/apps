@@ -3,14 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CallFunction } from '@polkadot/types/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 
-import React from 'react';
-import { withApi, withMulti } from '@polkadot/react-api';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { ApiContext } from '@polkadot/react-api';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -19,7 +18,7 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends I18nProps {
   defaultValue: CallFunction;
   help?: React.ReactNode;
   isDisabled?: boolean;
@@ -30,96 +29,69 @@ interface Props extends ApiProps, I18nProps {
   withLabel?: boolean;
 }
 
-interface State {
-  optionsMethod?: DropdownOptions;
-  optionsSection?: DropdownOptions;
-  value: CallFunction;
+interface Options {
+  method?: DropdownOptions;
+  section?: DropdownOptions;
 }
 
-class InputExtrinsic extends React.PureComponent<Props, State> {
-  public state: State;
+function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+  const { api } = useContext(ApiContext);
+  const [options, setOptions] = useState<Options>({});
+  const valueRef = useRef<CallFunction>(defaultValue);
 
-  public constructor (props: Props) {
-    super(props);
+  useEffect((): void => {
+    setOptions({
+      method: methodOptions(api, valueRef.current.section),
+      section: sectionOptions(api)
+    });
+  }, [valueRef.current]);
 
-    this.state = {
-      value: this.props.defaultValue
-    };
-  }
-
-  public static getDerivedStateFromProps ({ api }: Props, { value }: State): Pick<State, never> {
-    return {
-      optionsMethod: methodOptions(api, value.section),
-      optionsSection: sectionOptions(api)
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { api, className, help, label, style, withLabel } = this.props;
-    const { optionsMethod, optionsSection, value } = this.state;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        <Labelled
-          help={help}
-          label={label}
-          withLabel={withLabel}
-        >
-          <div className=' ui--DropdownLinked ui--row'>
-            <SelectSection
-              className='small'
-              onChange={this.onSectionChange}
-              options={optionsSection || []}
-              value={value}
-            />
-            <SelectMethod
-              api={api}
-              className='large'
-              onChange={this.onKeyChange}
-              options={optionsMethod || []}
-              value={value}
-            />
-          </div>
-        </Labelled>
-      </div>
-    );
-  }
-
-  private onKeyChange = (newValue: CallFunction): void => {
-    const { onChange } = this.props;
-    const { value } = this.state;
-
-    if (value.section === newValue.section && value.method === newValue.method) {
+  const _onKeyChange = (newValue: CallFunction): void => {
+    if (valueRef.current.section === newValue.section && valueRef.current.method === newValue.method) {
       return;
     }
 
-    this.setState({ value: newValue }, (): void =>
-      onChange(newValue)
-    );
-  }
-
-  private onSectionChange = (newSection: string): void => {
-    const { api } = this.props;
-    const { value } = this.state;
-
-    if (newSection === value.section) {
+    valueRef.current = newValue;
+    onChange(newValue);
+  };
+  const _onSectionChange = (newSection: string): void => {
+    if (newSection === valueRef.current.section) {
       return;
     }
 
     const optionsMethod = methodOptions(api, newSection);
-    const fn = api.tx[newSection][optionsMethod[0].value];
 
-    this.setState({ optionsMethod }, (): void =>
-      this.onKeyChange(fn)
-    );
-  }
+    _onKeyChange(api.tx[newSection][optionsMethod[0].value]);
+  };
+
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      <Labelled
+        help={help}
+        label={label}
+        withLabel={withLabel}
+      >
+        <div className=' ui--DropdownLinked ui--row'>
+          <SelectSection
+            className='small'
+            onChange={_onSectionChange}
+            options={options.section || []}
+            value={valueRef.current}
+          />
+          <SelectMethod
+            api={api}
+            className='large'
+            onChange={_onKeyChange}
+            options={options.method || []}
+            value={valueRef.current}
+          />
+        </div>
+      </Labelled>
+    </div>
+  );
 }
 
-export default withMulti(
-  InputExtrinsic,
-  translate,
-  withApi
-);
+export default translate(InputExtrinsic);
