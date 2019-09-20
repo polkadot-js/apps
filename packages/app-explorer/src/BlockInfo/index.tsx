@@ -6,7 +6,8 @@
 import { BlockNumber } from '@polkadot/types/interfaces';
 import { BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { isHex } from '@polkadot/util';
 
@@ -23,54 +24,37 @@ interface Props extends BareProps {
   };
 }
 
-interface State {
-  value?: string;
-}
+function Entry ({ chain_bestNumber, match: { params: { value } } }: Props): React.ReactElement<Props> | null {
+  const [stateValue, setStateValue] = useState<string>(value);
 
-class Entry extends React.Component<Props, State> {
-  public state: State = {
-    value: undefined
-  };
-
-  public static getDerivedStateFromProps ({ chain_bestNumber, match: { params } }: Props): State {
-    let { value } = params;
-    if ((!value || !value.length) && chain_bestNumber) {
-      value = chain_bestNumber.toString();
+  useEffect((): void => {
+    if (value && value !== stateValue) {
+      setStateValue(value);
+    } else if (!stateValue && chain_bestNumber) {
+      setStateValue(chain_bestNumber.toString());
     }
+  }, [chain_bestNumber, value]);
 
-    return {
-      value
-    };
+  if (!stateValue) {
+    return null;
   }
 
-  public shouldComponentUpdate (nextProps: Props): boolean {
-    return this.props.match !== nextProps.match || !this.state.value;
-  }
+  const Component = isHex(stateValue)
+    ? BlockByHash
+    : BlockByNumber;
 
-  public render (): React.ReactNode {
-    const { value } = this.state;
-
-    if (!value) {
-      return null;
-    }
-
-    const Component = isHex(value)
-      ? BlockByHash
-      : BlockByNumber;
-
-    return (
-      <>
-        <Query />
-        <Component
-          key={value}
-          value={value}
-        />
-      </>
-    );
-  }
+  return (
+    <>
+      <Query />
+      <Component
+        key={stateValue}
+        value={stateValue}
+      />
+    </>
+  );
 }
 
 export default withMulti(
-  Entry,
+  withRouter(Entry),
   withCalls<Props>('derive.chain.bestNumber')
 );

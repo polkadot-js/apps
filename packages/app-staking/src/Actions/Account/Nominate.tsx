@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import translate from '../../translate';
@@ -19,40 +19,47 @@ interface Props extends I18nProps {
   stashOptions: KeyringSectionOption[];
 }
 
-interface State {
-  nominees: string[] | undefined;
-}
+function Nominate ({ controllerId, isOpen, onClose, stashId, stashOptions, t }: Props): React.ReactElement<Props> | null {
+  const [nominees, setNominees] = useState<string[] | undefined>();
 
-class Nominate extends React.PureComponent<Props, State> {
-  public state: State = {
-    nominees: this.props.nominees
-  };
-
-  public render (): React.ReactNode {
-    const { isOpen } = this.props;
-
-    if (!isOpen) {
-      return null;
-    }
-
-    return (
-      <Modal
-        className='staking--Nominating'
-        dimmer='inverted'
-        open
-        size='small'
-      >
-        {this.renderContent()}
-        {this.renderButtons()}
-      </Modal>
-    );
+  if (!isOpen) {
+    return null;
   }
 
-  public renderButtons (): React.ReactNode {
-    const { controllerId, onClose, t } = this.props;
-    const { nominees } = this.state;
-
-    return (
+  return (
+    <Modal
+      className='staking--Nominating'
+      dimmer='inverted'
+      open
+      size='small'
+    >
+      <Modal.Header>
+        {t('Nominate Validators')}
+      </Modal.Header>
+      <Modal.Content className='ui--signer-Signer-Content'>
+        <InputAddress
+          className='medium'
+          defaultValue={controllerId}
+          isDisabled
+          label={t('controller account')}
+        />
+        <InputAddress
+          className='medium'
+          defaultValue={stashId}
+          isDisabled
+          label={t('stash account')}
+        />
+        <InputAddress
+          className='medium'
+          isMultiple
+          help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
+          label={t('nominate the following addresses')}
+          onChangeMulti={setNominees}
+          options={stashOptions}
+          placeholder={t('select accounts(s) nominate')}
+          type='account'
+        />
+      </Modal.Content>
       <Modal.Actions>
         <Button.Group>
           <Button
@@ -74,48 +81,8 @@ class Nominate extends React.PureComponent<Props, State> {
           />
         </Button.Group>
       </Modal.Actions>
-    );
-  }
-
-  public renderContent (): React.ReactNode {
-    const { controllerId, stashId, stashOptions, t } = this.props;
-
-    return (
-      <>
-        <Modal.Header>
-          {t('Nominate Validators')}
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            defaultValue={controllerId}
-            isDisabled
-            label={t('controller account')}
-          />
-          <InputAddress
-            className='medium'
-            defaultValue={stashId}
-            isDisabled
-            label={t('stash account')}
-          />
-          <InputAddress
-            className='medium'
-            isMultiple
-            help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
-            label={t('nominate the following addresses')}
-            onChangeMulti={this.onChangeNominees}
-            options={stashOptions}
-            placeholder={t('select accounts(s) nominate')}
-            type='account'
-          />
-        </Modal.Content>
-      </>
-    );
-  }
-
-  private onChangeNominees = (nominees: string[]): void => {
-    this.setState({ nominees });
-  }
+    </Modal>
+  );
 }
 
 export default translate(Nominate);

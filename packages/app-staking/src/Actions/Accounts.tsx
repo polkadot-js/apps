@@ -5,12 +5,13 @@
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from '../types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { withCalls, withMulti } from '@polkadot/react-api/with';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, CardGrid, Icon } from '@polkadot/react-components';
+import { Button, CardGrid } from '@polkadot/react-components';
 import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddressName } from '@polkadot/react-components/util';
 
@@ -22,44 +23,52 @@ interface Props extends I18nProps, ComponentProps, ApiProps {
   myControllers?: string[];
 }
 
-interface State {
-  isNewStakeOpen: boolean;
+function getMyStashes (myControllers?: string[], allAccounts?: SubjectInfo): string[] | null {
+  const result: string[] = [];
+
+  if (!myControllers) {
+    return null;
+  }
+
+  myControllers.forEach((value, index): void => {
+    if (value.toString() !== '') {
+      allAccounts && result.push(Object.keys(allAccounts)[index]);
+    }
+  });
+
+  return result;
 }
 
-class Accounts extends React.PureComponent<Props, State> {
-  public state: State = {
-    isNewStakeOpen: false
-  };
+function Accounts ({ allAccounts, allStashes, className, myControllers, recentlyOnline, t }: Props): React.ReactElement<Props> {
+  const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
+  const myStashes = getMyStashes(myControllers, allAccounts);
+  const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
+    createOption(stashId, getAddressName(stashId, 'account'))
+  );
+  const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 
-  public render (): React.ReactNode {
-    const { allStashes, className, recentlyOnline, t } = this.props;
-    const { isNewStakeOpen } = this.state;
-    const stashOptions = this.getStashOptions();
-    const myStashes = this.getMyStashes();
-    const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
+  const _toggleNewStake = (): void => setIsNewStateOpen(!isNewStakeOpen);
 
-    return (
-      <CardGrid
-        buttons={
-          <Button
-            isPrimary
-            key='new-stake'
-            label={
-              <>
-                <Icon name='add'/>
-                {t('New stake')}
-              </>
-            }
-            onClick={this.toggleNewStake}
-          />
-        }
-        className={className}
-        emptyText={t('No funds staked yet.')}
-        isEmpty={isEmpty}
-      >
-        {this.renderNewStake()}
-        {myStashes && myStashes.map((address, index): React.ReactNode => (
-          address &&
+  return (
+    <CardGrid
+      buttons={
+        <Button
+          isPrimary
+          key='new-stake'
+          label={t('New stake')}
+          labelIcon='add'
+          onClick={_toggleNewStake}
+        />
+      }
+      className={className}
+      emptyText={t('No funds staked yet.')}
+      isEmpty={isEmpty}
+    >
+      {isNewStakeOpen && (
+        <StartStaking onClose={_toggleNewStake} />
+      )}
+      {myStashes && myStashes.map((address, index): React.ReactNode => (
+        address && (
           <Account
             allStashes={allStashes}
             accountId={address}
@@ -67,59 +76,14 @@ class Accounts extends React.PureComponent<Props, State> {
             recentlyOnline={recentlyOnline}
             stashOptions={stashOptions}
           />
-        ))}
-      </CardGrid>
-    );
-  }
-
-  private getMyStashes (): string[] | null {
-    const { myControllers, allAccounts } = this.props;
-    const result: string[] = [];
-
-    if (!myControllers) {
-      return null;
-    }
-
-    myControllers.forEach((value, index): void => {
-      if (value.toString() !== '') {
-        allAccounts && result.push(Object.keys(allAccounts)[index]);
-      }
-    });
-
-    return result;
-  }
-
-  private getStashOptions (): KeyringSectionOption[] {
-    const { allStashes } = this.props;
-
-    return allStashes.map((stashId): KeyringSectionOption =>
-      createOption(stashId, getAddressName(stashId, 'account'))
-    );
-  }
-
-  private renderNewStake (): React.ReactNode {
-    const { isNewStakeOpen } = this.state;
-
-    if (!isNewStakeOpen) {
-      return null;
-    }
-
-    return (
-      <StartStaking
-        onClose={this.toggleNewStake}
-      />
-    );
-  }
-
-  private toggleNewStake = (): void => {
-    this.setState(({ isNewStakeOpen }): Pick<State, never> => ({
-      isNewStakeOpen: !isNewStakeOpen
-    }));
-  }
+        )
+      ))}
+    </CardGrid>
+  );
 }
 
 export default withMulti(
-  styled(Accounts as React.ComponentClass<Props, State>)`
+  styled(Accounts)`
     .ui--CardGrid-buttons {
       text-align: right;
     }

@@ -27,16 +27,19 @@ interface State {
 }
 
 class Create extends React.PureComponent<Props, State> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    this.state = this.emptyState();
-  }
+  public state: State = {
+    address: '',
+    isAddressExisting: false,
+    isAddressValid: false,
+    isNameValid: true,
+    isValid: false,
+    name: 'new address',
+    tags: []
+  };
 
   public render (): React.ReactNode {
     const { t } = this.props;
+    const { address, isAddressValid, isNameValid, isValid, name } = this.state;
 
     return (
       <Modal
@@ -44,82 +47,52 @@ class Create extends React.PureComponent<Props, State> {
         open
       >
         <Modal.Header>{t('Add an address')}</Modal.Header>
-        {this.renderContent()}
-        {this.renderButtons()}
+        <Modal.Content>
+          <AddressRow
+            defaultName={name}
+            value={address}
+          >
+            <Input
+              autoFocus
+              className='full'
+              help={t('Paste here the address of the contact you want to add to your address book.')}
+              isError={!isAddressValid}
+              label={t('address')}
+              onChange={this.onChangeAddress}
+              onEnter={this.onCommit}
+              value={address}
+            />
+            <Input
+              className='full'
+              help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
+              isError={!isNameValid}
+              label={t('name')}
+              onChange={this.onChangeName}
+              onEnter={this.onCommit}
+              value={name}
+            />
+          </AddressRow>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={this.onDiscard}
+              label={t('Cancel')}
+              labelIcon='cancel'
+            />
+            <Button.Or />
+            <Button
+              isDisabled={!isValid}
+              isPrimary
+              onClick={this.onCommit}
+              label={t('Save')}
+              labelIcon='save'
+            />
+          </Button.Group>
+        </Modal.Actions>
       </Modal>
     );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { isValid } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.onDiscard}
-            label={t('Cancel')}
-            labelIcon='cancel'
-          />
-          <Button.Or />
-          <Button
-            isDisabled={!isValid}
-            isPrimary
-            onClick={this.onCommit}
-            label={t('Save')}
-            labelIcon='save'
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { t } = this.props;
-    const { address, isAddressValid, isNameValid, name } = this.state;
-
-    return (
-      <Modal.Content>
-        <AddressRow
-          defaultName={name}
-          value={address}
-        >
-          <Input
-            autoFocus
-            className='full'
-            help={t('Paste here the address of the contact you want to add to your address book.')}
-            isError={!isAddressValid}
-            label={t('address')}
-            onChange={this.onChangeAddress}
-            onEnter={this.onCommit}
-            value={address}
-          />
-          <Input
-            className='full'
-            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
-            isError={!isNameValid}
-            label={t('name')}
-            onChange={this.onChangeName}
-            onEnter={this.onCommit}
-            value={name}
-          />
-        </AddressRow>
-      </Modal.Content>
-    );
-  }
-
-  private emptyState (): State {
-    return {
-      address: '',
-      isAddressExisting: false,
-      isAddressValid: false,
-      isNameValid: true,
-      isValid: false,
-      name: 'new address',
-      tags: []
-    };
   }
 
   private nextState (newState: Partial<State>, allowEdit = false): void {
