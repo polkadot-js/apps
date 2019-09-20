@@ -5,7 +5,7 @@
 import { Route } from '@polkadot/apps-routing/types';
 import { AppProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
 
@@ -16,52 +16,40 @@ interface Props extends AppProps {
   className?: string;
 }
 
-interface State {
-  routes: Route[];
+function renderEntry (route: Route): React.ReactNode {
+  return (
+    <Entry
+      key={route.name}
+      route={route}
+    />
+  );
 }
 
-class App extends React.PureComponent<Props, State> {
-  // FIXME Atm we are not applying all the logic around should this be hidden or not, i.e.
-  // is the api available, are there accounts, etc. (That logic should also be extracted so
-  // it can be used in a proper way here)
-  public state: State = {
-    routes: routing.routes.filter((route): boolean =>
+// NOTE: This _looks_ weird and it looks weird, because it is weird. Basically we want all
+// the entries of an equal width. So here we add a non-content spacers at the end that just
+// ensures flex has enough items to render something usable to the user. Since we don't
+// quite know how many items per row, we just render a bunch, n === routes.length
+function renderSpacer (route: Route, index: number): React.ReactNode {
+  return (
+    <Spacer key={index} />
+  );
+}
+
+function App ({ className }: Props): React.ReactElement<Props> {
+  const [routes] = useState(
+    routing.routes.filter((route): boolean =>
       !!route && !route.display.isHidden && route.name !== 'dashboard'
     ) as Route[]
-  };
+  );
 
-  public render (): React.ReactNode {
-    const { className } = this.props;
-    const { routes } = this.state;
-
-    return (
-      <main className={className}>
-        <div className='routes'>
-          {routes.map(this.renderEntry)}
-          {routes.map(this.renderSpacer)}
-        </div>
-      </main>
-    );
-  }
-
-  private renderEntry = (route: Route): React.ReactNode => {
-    return (
-      <Entry
-        key={route.name}
-        route={route}
-      />
-    );
-  }
-
-  // NOTE: This _looks_ weird and it looks weird, because it is weird. Basically we want all
-  // the entries of an equal width. So here we add a non-content spacers at the end that just
-  // ensures flex has enough items to render something usable to the user. Since we don't
-  // quite know how many items per row, we just render a bunch, n === routes.length
-  private renderSpacer = (route: Route, index: number): React.ReactNode => {
-    return (
-      <Spacer key={index} />
-    );
-  }
+  return (
+    <main className={className}>
+      <div className='routes'>
+        {routes.map(renderEntry)}
+        {routes.map(renderSpacer)}
+      </div>
+    </main>
+  );
 }
 
 export default styled(App)`

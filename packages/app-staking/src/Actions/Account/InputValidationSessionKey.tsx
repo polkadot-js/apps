@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 
 import translate from '../../translate';
@@ -16,46 +16,31 @@ interface Props extends I18nProps {
   stashId: string;
 }
 
-interface State {
-  error: string | null;
-}
+function ValidateSessionEd25519 ({ onError, sessionId, stashId, t }: Props): React.ReactElement<Props> | null {
+  const [error, setError] = useState<string | null>(null);
 
-class ValidateSessionEd25519 extends React.PureComponent<Props, State> {
-  public state: State = {
-    error: null
-  };
-
-  public static getDerivedStateFromProps ({ onError, sessionId, stashId, t }: Props, prevState: State): State | null {
-    let error = null;
+  useEffect((): void => {
+    let newError = null;
 
     if (sessionId === stashId) {
-      error = t('For fund security, your session key should not match your stash key.');
-    } else {
-      error = null;
+      newError = t('For fund security, your session key should not match your stash key.');
     }
 
-    if (error === prevState.error) {
-      return null;
+    if (error !== newError) {
+      onError(newError);
+      setError(newError);
     }
+  }, [sessionId, stashId]);
 
-    onError(error);
-
-    return { error };
+  if (!error) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { error } = this.state;
-
-    if (!error) {
-      return null;
-    }
-
-    return (
-      <article className='warning'>
-        <div><Icon name='warning sign' />{error}</div>
-      </article>
-    );
-  }
+  return (
+    <article className='warning'>
+      <div><Icon name='warning sign' />{error}</div>
+    </article>
+  );
 }
 
 export default translate(ValidateSessionEd25519);

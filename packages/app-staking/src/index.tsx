@@ -14,7 +14,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import { createType, Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
-import Tabs, { TabItem } from '@polkadot/react-components/Tabs';
+import Tabs from '@polkadot/react-components/Tabs';
 import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
@@ -38,35 +38,15 @@ interface State {
   allStashes: string[];
   currentValidatorsControllersV1OrStashesV2: string[];
   recentlyOnline: Record<string, BlockNumber>;
-  tabs: TabItem[];
 }
 
 class App extends React.PureComponent<Props, State> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    const { t } = props;
-
-    this.state = {
-      allControllers: [],
-      allStashes: [],
-      currentValidatorsControllersV1OrStashesV2: [],
-      recentlyOnline: {},
-      tabs: [
-        {
-          isRoot: true,
-          name: 'overview',
-          text: t('Staking overview')
-        },
-        {
-          name: 'actions',
-          text: t('Account actions')
-        }
-      ]
-    };
-  }
+  public state: State = {
+    allControllers: [],
+    allStashes: [],
+    currentValidatorsControllersV1OrStashesV2: [],
+    recentlyOnline: {}
+  };
 
   public static getDerivedStateFromProps (props: Props, state: State): Pick<State, never> {
     const { allStashesAndControllers = [[], []], chain_bestNumber, currentValidatorsControllersV1OrStashesV2 = [] } = props;
@@ -95,11 +75,7 @@ class App extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { allAccounts, basePath } = this.props;
-    const { tabs } = this.state;
-    const hidden = !allAccounts || Object.keys(allAccounts).length === 0
-      ? ['actions']
-      : [];
+    const { allAccounts, basePath, t } = this.props;
 
     return (
       <main className='staking--App'>
@@ -107,8 +83,22 @@ class App extends React.PureComponent<Props, State> {
         <header>
           <Tabs
             basePath={basePath}
-            hidden={hidden}
-            items={tabs}
+            hidden={
+              !allAccounts || Object.keys(allAccounts).length === 0
+                ? ['actions']
+                : []
+            }
+            items={[
+              {
+                isRoot: true,
+                name: 'overview',
+                text: t('Staking overview')
+              },
+              {
+                name: 'actions',
+                text: t('Account actions')
+              }
+            ]}
           />
         </header>
         <Switch>
