@@ -51,6 +51,7 @@ const LENGTH_ADDRESS = 32 + 1; // publicKey + prefix
 const LENGTH_ERA = 2; // assuming mortals
 const LENGTH_SIGNATURE = 64; // assuming ed25519 or sr25519
 const LENGTH_VERSION = 1; // 0x80 & version
+const ZERO = new BN(0);
 
 export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN): BN => {
   return new BN(
@@ -66,11 +67,11 @@ export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN
 
 export class FeeDisplay extends React.PureComponent<Props, State> {
   public state: State = {
-    allFees: new BN(0),
-    allTotal: new BN(0),
+    allFees: ZERO,
+    allTotal: ZERO,
     allWarn: false,
-    extraAmount: new BN(0),
-    extraFees: new BN(0),
+    extraAmount: ZERO,
+    extraFees: ZERO,
     extraWarn: false,
     hasAvailable: false,
     isRemovable: false,
@@ -78,7 +79,7 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     overLimit: false
   };
 
-  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, api, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = new BN(0), tip }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accountId, balances_all = ZERO_BALANCE, api, extrinsic, balances_fees = ZERO_FEES_BALANCES, system_accountNonce = ZERO, tip }: Props, prevState: State): State | null {
     if (!accountId || !extrinsic) {
       return null;
     }
@@ -91,10 +92,10 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
     const isSameExtrinsic = prevState.extMethod === extMethod && prevState.extSection === extSection;
     const extraAmount = isSameExtrinsic
       ? prevState.extraAmount
-      : new BN(0);
+      : ZERO;
     const extraFees = isSameExtrinsic
       ? prevState.extraFees
-      : new BN(0);
+      : ZERO;
     const extraWarn = isSameExtrinsic
       ? prevState.extraWarn
       : false;
@@ -142,11 +143,9 @@ export class FeeDisplay extends React.PureComponent<Props, State> {
 
     const feeClass = !hasAvailable || overLimit || isRemovable
       ? 'error'
-      : (
-        allWarn
-          ? 'warning'
-          : 'normal'
-      );
+      : allWarn
+        ? 'warning'
+        : 'normal';
 
     // display all the errors, warning and information messages (in that order)
     return (
