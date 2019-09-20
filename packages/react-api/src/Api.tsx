@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ChainProperties } from '@polkadot/types/interfaces';
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
@@ -17,7 +16,7 @@ import { InputNumber } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
-import { Text, u32 as U32 } from '@polkadot/types';
+import { u32 as U32 } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
@@ -122,10 +121,11 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   private async loadOnReady (api: ApiPromise): Promise<void> {
-    const [properties, _systemChain, systemName, injectedAccounts] = await Promise.all([
-      api.rpc.system.properties<ChainProperties>(),
-      api.rpc.system.chain<Text>(),
-      api.rpc.system.name<Text>(),
+    const [properties, _systemChain, _systemName, _systemVersion, injectedAccounts] = await Promise.all([
+      api.rpc.system.properties(),
+      api.rpc.system.chain(),
+      api.rpc.system.name(),
+      api.rpc.system.version(),
       web3Accounts().then((accounts): InjectedAccountExt[] =>
         accounts.map(({ address, meta }): InjectedAccountExt => ({
           address,
@@ -182,12 +182,13 @@ export default class Api extends React.PureComponent<Props, State> {
       isDevelopment,
       isSubstrateV2,
       systemChain,
-      systemName: systemName.toString()
+      systemName: _systemName.toString(),
+      systemVersion: _systemVersion.toString()
     });
   }
 
   public render (): React.ReactNode {
-    const { api, apiDefaultTx, apiDefaultTxSudo, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl, systemChain, systemName } = this.state;
+    const { api, apiDefaultTx, apiDefaultTxSudo, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl, systemChain, systemName, systemVersion } = this.state;
 
     return (
       <ApiContext.Provider
@@ -202,7 +203,8 @@ export default class Api extends React.PureComponent<Props, State> {
           isWaitingInjected,
           setApiUrl,
           systemChain,
-          systemName
+          systemName,
+          systemVersion
         }}
       >
         {this.props.children}

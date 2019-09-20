@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, RuntimeVersion } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -20,12 +20,10 @@ interface Props extends BareProps, I18nProps {
   chain_bestNumberLag?: BN;
   session_validators?: AccountId[];
   staking_intentions?: AccountId[];
-  state_getRuntimeVersion?: RuntimeVersion;
-  system_version?: string;
 }
 
-function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_intentions = [], session_validators = [], state_getRuntimeVersion, system_version }: Props): React.ReactElement<Props> {
-  const { systemChain, systemName } = useContext(ApiContext);
+function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_intentions = [], session_validators = [] }: Props): React.ReactElement<Props> {
+  const { api, systemChain, systemName, systemVersion } = useContext(ApiContext);
   const [nextUp, setNextUp] = useState<AccountId[]>([]);
 
   useEffect((): void => {
@@ -42,15 +40,14 @@ function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumbe
     <summary>
       <div>
         <Bubble icon='tty' label='node'>
-          {systemName} v{system_version}
+          {systemName} v{systemVersion}
         </Bubble>
         <Bubble icon='chain' label='chain'>
           {systemChain}
         </Bubble>
-        <Bubble icon='code' label='runtime'>{
-          state_getRuntimeVersion &&
-            `${state_getRuntimeVersion.implName} v${state_getRuntimeVersion.implVersion}`
-        }</Bubble>
+        <Bubble icon='code' label='runtime'>
+          {api.runtimeVersion.implName} v{api.runtimeVersion.implVersion}
+        </Bubble>
         <Bubble icon='bullseye' label='best #'>
           {formatNumber(chain_bestNumber)} ({formatNumber(chain_bestNumberLag)} lag)
         </Bubble>
@@ -78,8 +75,6 @@ export default translate(
     'derive.chain.bestNumber',
     'derive.chain.bestNumberLag',
     'query.balances.totalIssuance',
-    'query.session.validators',
-    'rpc.state.getRuntimeVersion',
-    'rpc.system.version'
+    'query.session.validators'
   )(SummaryBar)
 );

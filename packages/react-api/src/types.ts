@@ -27,6 +27,7 @@ export interface ApiProps {
   setApiUrl: (url?: string) => void;
   systemChain: string;
   systemName: string;
+  systemVersion: string;
 }
 
 export interface OnChangeCbObs {
