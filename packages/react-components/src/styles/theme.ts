@@ -1,11 +1,107 @@
-/* Copyright 2017-2019 @polkadot/react-components authors & contributors
-/* This software may be modified and distributed under the terms
-/* of the Apache-2.0 license. See the LICENSE file for details. */
+// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import theme from 'styled-theming';
+import { css } from 'styled-components';
 
-export const primaryColor = theme('theme', {
-  substrate: '#DB2828',
-  polkadot: '#E6007A',
-  default: 'darkorange'
-});
+/* default buttons, dark gray */
+const colorBtnDefault = '#666';
+
+/* highlighted buttons, orange */
+const colorBtnHighlight = '#f19135';
+
+/* primary buttons, blue */
+const colorBtnPrimary = '#2e86ab';
+
+/* button text color */
+const colorBtnText = '#f9f9f9';
+
+export default css`
+  .theme--default {
+    a {
+      color: ${colorBtnPrimary};
+
+      &:hover,
+      a:visited {
+        color: ${colorBtnPrimary};
+      }
+    }
+
+    .ui.button,
+    .ui.buttons .button {
+      background-color: ${colorBtnDefault};
+      color: ${colorBtnText};
+
+      &.active,
+      &:active,
+      &:focus,
+      &:hover {
+        background-color: ${colorBtnDefault};
+        color: ${colorBtnText};
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .ui.basic.negative.button {
+      box-shadow: 0 0 0 1px ${colorBtnHighlight} inset !important;
+      color: ${colorBtnHighlight} !important;
+    }
+
+    .ui.negative.button,
+    .ui.buttons .negative.button {
+      background-color: ${colorBtnHighlight};
+
+      &.active,
+      &:active,
+      &:focus,
+      &:hover {
+        background-color: ${colorBtnHighlight};
+      }
+    }
+
+    .ui.primary.button,
+    .ui.buttons .primary.button
+    /*, .ui.primary.buttons .button (for dropdowns) */ {
+      background-color: ${colorBtnPrimary};
+
+      &.active,
+      &:active,
+      &:focus,
+      &:hover {
+        background-color: ${colorBtnPrimary};
+      }
+    }
+
+    .ui.blue.progress .bar {
+      background-color: ${colorBtnHighlight};
+    }
+
+    .ui.modal > .header:not(.ui) {
+      border-bottom-color: ${colorBtnHighlight};
+    }
+
+    .ui.menu.tabular .item.active {
+      border-bottom-color: ${colorBtnHighlight};
+    }
+
+    /* this is for dropdown buttons */
+    .ui.buttons .ui.button.selection.visible.dropdown {
+      &:hover {
+        /* reset opacity, this is now open */
+        opacity: 1;
+      }
+
+      > .text:not(.default) {
+        color: ${colorBtnText};
+      }
+    }
+
+    .ui.toggle.checkbox input:checked~.box:before,
+    .ui.toggle.checkbox input:checked~label:before {
+      background-color: ${colorBtnHighlight} !important;
+    }
+  }
+`;

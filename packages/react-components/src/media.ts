@@ -12,7 +12,7 @@ type MediaCss = {
 
 const media = Object
   .keys(ScreenSizes)
-  .reduce((acc, label: any): MediaCss => {
+  .reduce((acc: MediaCss, label: any): MediaCss => {
     const size: number = ScreenSizes[label] as any;
 
     acc[label] = (values: TemplateStringsArray): unknown =>
