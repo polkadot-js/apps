@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { GenericCall } from '@polkadot/types';
 import { Call, InputAddress, Modal } from '@polkadot/react-components';
@@ -16,10 +17,11 @@ interface Props extends I18nProps {
   children?: React.ReactNode;
   hideDetails?: boolean;
   isSendable: boolean;
+  tip?: BN;
   value: QueueTx;
 }
 
-function Transaction ({ children, hideDetails, isSendable, value: { accountId, extrinsic, isUnsigned }, t }: Props): React.ReactElement<Props> | null {
+function Transaction ({ children, hideDetails, isSendable, value: { accountId, extrinsic, isUnsigned }, t, tip }: Props): React.ReactElement<Props> | null {
   if (!extrinsic) {
     return null;
   }
@@ -55,6 +57,7 @@ function Transaction ({ children, hideDetails, isSendable, value: { accountId, e
                 accountId={accountId}
                 extrinsic={extrinsic}
                 isSendable={isSendable}
+                tip={tip}
               />
             )}
           </>

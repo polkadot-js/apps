@@ -19,13 +19,15 @@ export interface ApiProps {
   api: ApiPromise;
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
-  currentChain: string;
   isApiConnected: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
   isSubstrateV2: boolean;
   isWaitingInjected: boolean;
   setApiUrl: (url?: string) => void;
+  systemChain: string;
+  systemName: string;
+  systemVersion: string;
 }
 
 export interface OnChangeCbObs {

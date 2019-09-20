@@ -9,14 +9,11 @@ import store from 'store';
 import styled from 'styled-components';
 import { getTypeRegistry } from '@polkadot/types';
 import { Button, Editor, InputFile } from '@polkadot/react-components';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
 
-interface Props extends AppProps, I18nProps {
-  onStatusChange: (status: ActionStatus) => void;
-}
+interface Props extends AppProps, I18nProps {}
 
 interface State {
   code: string;
@@ -81,6 +78,7 @@ class Developer extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.clearTypes}
             label={t('Reset')}
+            labelIcon='sync'
           />
           <Button.Or />
           <Button
@@ -88,6 +86,7 @@ class Developer extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.saveDeveloper}
             label={t('Save')}
+            labelIcon='save'
           />
         </Button.Group>
       </div>
@@ -182,10 +181,12 @@ class Developer extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(styled(Developer)`
-  .editor {
-    height: 21rem;
-    margin-left: 2rem;
-    position: relative;
-  }
-`);
+export default translate(
+  styled(Developer)`
+    .editor {
+      height: 21rem;
+      margin-left: 2rem;
+      position: relative;
+    }
+  `
+);

@@ -28,6 +28,9 @@ interface State {
   isTransferOpen: boolean;
 }
 
+const WITH_BALANCE = { available: true, free: true, total: true };
+const WITH_EXTENDED = { nonce: true };
+
 class Address extends React.PureComponent<Props, State> {
   public state: State;
 
@@ -47,12 +50,43 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { address, className } = this.props;
-    const { isEditable } = this.state;
+    const { address, className, t } = this.props;
+    const { current, genesisHash, isEditable, isForgetOpen, isTransferOpen } = this.state;
 
     return (
       <AddressCard
-        buttons={this.renderButtons()}
+        buttons={
+          <div className='addresses--Address-buttons buttons'>
+            <div className='actions'>
+              {isEditable && (
+                <Button
+                  isNegative
+                  onClick={this.toggleForget}
+                  icon='trash'
+                  key='forget'
+                  size='small'
+                  tooltip={t('Forget this address')}
+                />
+              )}
+              <Button
+                isPrimary
+                key='deposit'
+                label={<><Icon name='paper plane' /> {t('deposit')}</>}
+                onClick={this.toggleTransfer}
+                size='small'
+                tooltip={t('Send funds to this address')}
+              />
+            </div>
+            {isEditable && (
+              <div className='others'>
+                <ChainLock
+                  genesisHash={genesisHash}
+                  onChange={this.onGenesisChange}
+                />
+              </div>
+            )}
+          </div>
+        }
         className={className}
         isEditable={isEditable}
         type='address'
@@ -61,49 +95,33 @@ class Address extends React.PureComponent<Props, State> {
         withIndex
         withTags
       >
-        {this.renderModals()}
+        {address && current && (
+          <>
+            {isForgetOpen && (
+              <Forget
+                address={current.address}
+                onForget={this.onForget}
+                key='modal-forget-account'
+                mode='address'
+                onClose={this.toggleForget}
+              />
+            )}
+            {isTransferOpen && (
+              <Transfer
+                key='modal-transfer'
+                onClose={this.toggleTransfer}
+                recipientId={address}
+              />
+            )}
+          </>
+        )}
         <AddressInfo
           address={address}
-          withBalance={{ available: true, free: true, total: true }}
-          withExtended={{ nonce: true }}
+          withBalance={WITH_BALANCE}
+          withExtended={WITH_EXTENDED}
         />
       </AddressCard>
     );
-  }
-
-  private renderModals (): React.ReactNode {
-    const { address } = this.props;
-    const { isForgetOpen, isTransferOpen, current } = this.state;
-
-    if (!address || !current) {
-      return null;
-    }
-
-    const modals = [];
-
-    if (isForgetOpen) {
-      modals.push(
-        <Forget
-          address={current.address}
-          onForget={this.onForget}
-          key='modal-forget-account'
-          mode='address'
-          onClose={this.toggleForget}
-        />
-      );
-    }
-
-    if (isTransferOpen) {
-      modals.push(
-        <Transfer
-          key='modal-transfer'
-          onClose={this.toggleTransfer}
-          recipientId={address}
-        />
-      );
-    }
-
-    return modals;
   }
 
   private toggleForget = (): void => {
@@ -149,46 +167,6 @@ class Address extends React.PureComponent<Props, State> {
       account && keyring.saveAddress(address, { ...account.meta, genesisHash });
     });
   }
-
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { genesisHash, isEditable } = this.state;
-
-    return (
-      <div className='addresses--Address-buttons buttons'>
-        <div className='actions'>
-          {isEditable && (
-            <>
-              <Button
-                isNegative
-                onClick={this.toggleForget}
-                icon='trash'
-                key='forget'
-                size='small'
-                tooltip={t('Forget this address')}
-              />
-            </>
-          )}
-          <Button
-            isPrimary
-            key='deposit'
-            label={<><Icon name='paper plane' /> {t('deposit')}</>}
-            onClick={this.toggleTransfer}
-            size='small'
-            tooltip={t('Send funds to this address')}
-          />
-        </div>
-        {isEditable && (
-          <div className='others'>
-            <ChainLock
-              genesisHash={genesisHash}
-              onChange={this.onGenesisChange}
-            />
-          </div>
-        )}
-      </div>
-    );
-  }
 }
 
 export default translate(
@@ -200,5 +178,6 @@ export default translate(
         margin-right: 0.125rem;
         margin-top: 0.25rem;
       }
-    }`
+    }
+  `
 );

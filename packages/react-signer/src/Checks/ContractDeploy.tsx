@@ -6,7 +6,7 @@ import { DerivedContractFees } from '@polkadot/api-derive/types';
 import { ExtraFees as State } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Compact, UInt } from '@polkadot/types';
 
 interface Props {
@@ -15,14 +15,14 @@ interface Props {
   onChange: (fees: State) => void;
 }
 
-export default class ContractDeploy extends React.PureComponent<Props, State> {
-  public state: State = {
+export default function ContractDeploy ({ endowment, fees, onChange }: Props): React.ReactElement<Props> | null {
+  const [state, setState] = useState<State>({
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false
-  };
+  });
 
-  public static getDerivedStateFromProps ({ endowment, fees, onChange }: Props, state: State): State {
+  useEffect((): void => {
     const extraFees = new BN(fees.createBaseFee).add(fees.contractFee);
     const extraAmount = endowment instanceof Compact
       ? endowment.toBn()
@@ -38,10 +38,8 @@ export default class ContractDeploy extends React.PureComponent<Props, State> {
       onChange(update);
     }
 
-    return update;
-  }
+    setState(update);
+  }, [endowment, fees]);
 
-  public render (): React.ReactNode {
-    return null;
-  }
+  return null;
 }

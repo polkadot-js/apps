@@ -4,7 +4,7 @@
 
 import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import { Button, Input } from '@polkadot/react-components';
@@ -22,135 +22,114 @@ interface Props extends BareProps, I18nProps {
   stopJs: () => void;
 }
 
-interface State {
-  isOpen: boolean;
-  shareText: string;
-  snippetName: string;
-}
+function ActionButtons ({ className, generateLink, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs, t }: Props): React.ReactElement<Props> {
+  const [isOpen, setIsOpen] = useState(false);
+  const [shareText, setShareText] = useState(t('Generate link to share code example'));
+  const [snippetName, setSnippetName] = useState('');
 
-class ActionButtons extends React.PureComponent<Props, State> {
-  public state: State = {
-    isOpen: false,
-    shareText: this.props.t('Generate link to share code example'),
-    snippetName: ''
+  const _generateLink = (): void => {
+    setShareText(t('Copied to clipboard'));
+    generateLink();
+  };
+  const _onShareClose = (): void => {
+    setShareText(t('Generate link to share code example'));
+  };
+  const _onChangeName = (snippetName: string): void => {
+    setSnippetName(snippetName);
+  };
+  const _onPopupOpen = (): void => {
+    setIsOpen(true);
+  };
+  const _onPopupClose = (): void => {
+    setSnippetName('');
+    setIsOpen(false);
+  };
+  const _saveSnippet = (): void => {
+    saveSnippet(snippetName);
+    _onPopupClose();
   };
 
-  public render (): React.ReactNode {
-    const { className, isCustomExample, isRunning, removeSnippet, runJs, stopJs, t } = this.props;
-    const { isOpen, shareText, snippetName } = this.state;
-
-    return (
-      <div className={`${className} action-button`}>
+  return (
+    <div className={`${className} action-button`}>
+      <Popup
+        content={shareText}
+        on='hover'
+        onClose={_onShareClose}
+        trigger={
+          <SUIB
+            circular
+            icon='share alternate'
+            onClick={_generateLink}
+          />
+        }
+        wide='very'
+      />
+      {
+      // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
+      // <Button /> component. That's why the original Semantic UI component is being used here.
+      }
+      {isCustomExample && (
         <Popup
-          content={shareText}
+          content={t('Delete this custom example')}
           on='hover'
-          onClose={this.onShareClose}
           trigger={
             <SUIB
               circular
-              icon='share alternate'
-              onClick={this.generateLink}
+              icon='trash alternate outline'
+              negative
+              onClick={removeSnippet}
             />
           }
-          wide='very'
         />
-        {
-        // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
-        // <Button /> component. That's why the original Semantic UI component is being used here.
-        }
-        {isCustomExample && (
-          <Popup
-            content={t('Delete this custom example')}
-            on='hover'
-            trigger={
-              <SUIB
-                circular
-                icon='trash alternate outline'
-                negative
-                onClick={removeSnippet}
-              />
-            }
+      )}
+      {!(isCustomExample) && (
+        <Popup
+          className='popup-local'
+          on='click'
+          onClose={_onPopupClose}
+          open={isOpen}
+          trigger={
+            <SUIB
+              circular
+              icon='save'
+              onClick={_onPopupOpen}
+            />
+          }
+        >
+          <Input
+            autoFocus
+            onChange={_onChangeName}
+            onEnter={_saveSnippet}
+            maxLength={50}
+            min={1}
+            placeholder={t('Name your example')}
+            value={snippetName}
+            withLabel={false}
           />
-        )}
-        {!(isCustomExample) && (
-          <Popup
-            className='popup-local'
-            on='click'
-            onClose={this.onPopupClose}
-            open={isOpen}
-            trigger={
-              <SUIB
-                circular
-                icon='save'
-                onClick={this.onPopupOpen}
-              />
-            }
-          >
-            <Input
-              autoFocus
-              onChange={this.onChangeName}
-              onEnter={this.saveSnippet}
-              maxLength={50}
-              min={1}
-              placeholder={t('Name your example')}
-              value={snippetName}
-              withLabel={false}
-            />
-            <Button
-              isDisabled={!snippetName.length}
-              isPrimary
-              label={t('Save snippet to local storage')}
-              onClick={this.saveSnippet}
-            />
-          </Popup>
-        )}
-        <Button
-          className='play-button'
-          icon='play'
-          isCircular
-          isPrimary
-          onClick={runJs}
-        />
-        <Button
-          icon='close'
-          isCircular
-          isDisabled={!isRunning}
-          isNegative
-          onClick={stopJs}
-        />
-      </div>
-    );
-  }
-
-  private generateLink = (): void => {
-    const { generateLink, t } = this.props;
-
-    this.setState({ shareText: t('Copied to clipboard') });
-    generateLink();
-  }
-
-  private onShareClose = (): void => {
-    this.setState({ shareText: this.props.t('Generate link to share code example') });
-  }
-
-  private onChangeName = (snippetName: string): void => {
-    this.setState({ snippetName });
-  }
-
-  private saveSnippet = (): void => {
-    const { state: { snippetName }, props: { saveSnippet } } = this;
-
-    saveSnippet(snippetName);
-    this.setState({ snippetName: '', isOpen: false });
-  }
-
-  private onPopupOpen = (): void => {
-    this.setState({ isOpen: true, snippetName: this.props.snippetName || '' });
-  }
-
-  private onPopupClose = (): void => {
-    this.setState({ snippetName: '', isOpen: false });
-  }
+          <Button
+            isDisabled={!snippetName.length}
+            isPrimary
+            label={t('Save snippet to local storage')}
+            onClick={_saveSnippet}
+          />
+        </Popup>
+      )}
+      <Button
+        className='play-button'
+        icon='play'
+        isCircular
+        isPrimary
+        onClick={runJs}
+      />
+      <Button
+        icon='close'
+        isCircular
+        isDisabled={!isRunning}
+        isNegative
+        onClick={stopJs}
+      />
+    </div>
+  );
 }
 
 export default translate(

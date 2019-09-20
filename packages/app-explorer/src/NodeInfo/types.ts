@@ -8,7 +8,7 @@ import { Vec } from '@polkadot/types';
 
 export interface Info {
   blockNumber?: BlockNumber;
+  extrinsics?: Vec<Extrinsic> | null;
   health?: Health | null;
   peers?: PeerInfo[] | null;
-  extrinsics?: Vec<Extrinsic> | null;
 }

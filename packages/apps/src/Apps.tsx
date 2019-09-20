@@ -11,7 +11,7 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { media } from '@polkadot/react-components';
+import GlobalStyle from '@polkadot/react-components/styles';
 import Signer from '@polkadot/react-signer';
 
 import ConnectingOverlay from './overlays/Connecting';
@@ -59,21 +59,24 @@ class Apps extends React.Component<Props, State> {
     const { isCollapsed, isMenu, menuOpen } = this.state;
 
     return (
-      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--default ${className}`}>
-        {this.renderMenuBg()}
-        <SideBar
-          collapse={this.collapse}
-          handleResize={this.handleResize}
-          menuOpen={menuOpen}
-          isCollapsed={isCollapsed}
-          toggleMenu={this.toggleMenu}
-        />
-        <Signer>
-          <Content />
-        </Signer>
-        <ConnectingOverlay />
-        <AccountsOverlay />
-      </div>
+      <>
+        <GlobalStyle />
+        <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--default ${className}`}>
+          {this.renderMenuBg()}
+          <SideBar
+            collapse={this.collapse}
+            handleResize={this.handleResize}
+            menuOpen={menuOpen}
+            isCollapsed={isCollapsed}
+            toggleMenu={this.toggleMenu}
+          />
+          <Signer>
+            <Content />
+          </Signer>
+          <ConnectingOverlay />
+          <AccountsOverlay />
+        </div>
+      </>
     );
   }
 
@@ -179,13 +182,4 @@ export default styled(Apps)`
   box-sizing: border-box;
   display: flex;
   min-height: 100vh;
-
-  header {
-    margin-bottom: 1.4rem;
-    text-align: center;
-
-    ${media.TABLET`
-      margin-bottom: 2rem;
-   `}
-  }
 `;

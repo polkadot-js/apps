@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
@@ -27,65 +27,59 @@ interface State extends ExtraFees {
   isBelowMinimum: boolean;
 }
 
-export class Proposal extends React.PureComponent<Props, State> {
-  public state: State = {
-    extraFees: new BN(0),
-    extraAmount: new BN(0),
+const ZERO = new BN(0);
+
+export function Proposal ({ deposit, democracy_minimumDeposit = ZERO, onChange, t }: Props): React.ReactElement<Props> {
+  const [{ extraAmount, isBelowMinimum }, setState] = useState<State>({
+    extraFees: ZERO,
+    extraAmount: ZERO,
     extraWarn: false,
     isBelowMinimum: false
-  };
+  });
 
-  public static getDerivedStateFromProps ({
-    deposit,
-    democracy_minimumDeposit = new BN(0),
-    onChange
-  }: Props): State {
+  useEffect((): void => {
     const extraAmount = deposit instanceof Compact
       ? deposit.toBn()
       : deposit;
     const isBelowMinimum = extraAmount.lt(democracy_minimumDeposit);
-
     const update = {
       extraAmount,
-      extraFees: new BN(0),
+      extraFees: ZERO,
       extraWarn: isBelowMinimum
     };
 
     onChange(update);
 
-    return {
+    setState({
       ...update,
       isBelowMinimum
-    };
-  }
+    });
+  }, [democracy_minimumDeposit]);
 
-  public render (): React.ReactNode {
-    const { democracy_minimumDeposit = new BN(0), t } = this.props;
-    const { extraAmount, isBelowMinimum } = this.state;
-
-    return (
-      <>
-        {
-          isBelowMinimum
-            ? <div><Icon name='warning sign' />{t('The deposit is below the {{minimum}} minimum required for the proposal to be evaluated', {
-              replace: {
-                minimum: formatBalance(democracy_minimumDeposit)
-              }
-            })}</div>
-            : undefined
-        }
-        {
-          extraAmount.isZero()
-            ? undefined
-            : <div><Icon name='arrow right' />{t('The deposit of {{deposit}} will be reserved until the proposal is completed', {
-              replace: {
-                deposit: formatBalance(extraAmount)
-              }
-            })}</div>
-        }
-      </>
-    );
-  }
+  return (
+    <>
+      {isBelowMinimum && (
+        <div>
+          <Icon name='warning sign' />
+          {t('The deposit is below the {{minimum}} minimum required for the proposal to be evaluated', {
+            replace: {
+              minimum: formatBalance(democracy_minimumDeposit)
+            }
+          })}
+        </div>
+      )}
+      {!extraAmount.isZero() && (
+        <div>
+          <Icon name='arrow right' />
+          {t('The deposit of {{deposit}} will be reserved until the proposal is completed', {
+            replace: {
+              deposit: formatBalance(extraAmount)
+            }
+          })}
+        </div>
+      )}
+    </>
+  );
 }
 
 export default withMulti(

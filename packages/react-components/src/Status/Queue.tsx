@@ -70,24 +70,28 @@ export default class Queue extends React.Component<Props, State> {
     };
   }
 
-  public queueAction = (status: ActionStatus): number => {
-    const id = ++nextId;
-    const removeItem = this.clearAction(id);
+  public queueAction = (status: ActionStatus | ActionStatus[]): number => {
+    const todos = (Array.isArray(status) ? status : [status]).map((item: ActionStatus) => {
+      const id = ++nextId;
+      const removeItem = this.clearAction(id);
+
+      setTimeout(removeItem, REMOVE_TIMEOUT);
+
+      return {
+        ...item,
+        id,
+        isCompleted: false,
+        removeItem
+      };
+    });
 
     this.setState(
       (prevState: State): Pick<State, never> => ({
-        stqueue: prevState.stqueue.concat({
-          ...status,
-          id,
-          isCompleted: false,
-          removeItem
-        })
+        stqueue: prevState.stqueue.concat(...todos)
       })
     );
 
-    setTimeout(removeItem, REMOVE_TIMEOUT);
-
-    return id;
+    return todos[0].id;
   }
 
   private clearStatus (id: number): () => void {

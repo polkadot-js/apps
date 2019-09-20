@@ -5,10 +5,10 @@
 
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyringOptions } from '@polkadot/ui-keyring/options/types';
-import { QueueStatus, QueueTx, QueueAction$Add } from '@polkadot/react-components/Status/types';
+import { ActionStatus, QueueStatus, QueueTx, QueueAction$Add } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import keyringOption from '@polkadot/ui-keyring/options';
 import { Status as StatusDisplay } from '@polkadot/react-components';
 import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
@@ -27,9 +27,9 @@ interface Props extends I18nProps {
 
 let prevEventHash: string;
 
-class Status extends React.PureComponent<Props> {
-  public componentDidUpdate ({ optionsAll, queueAction, system_events, t }: Props): void {
-    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events || [])));
+function Status ({ optionsAll, queueAction, stqueue, system_events = [], t, txqueue }: Props): React.ReactElement<Props> {
+  useEffect((): void => {
+    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));
 
     if (!optionsAll || eventHash === prevEventHash) {
       return;
@@ -38,45 +38,46 @@ class Status extends React.PureComponent<Props> {
     prevEventHash = eventHash;
 
     const addresses = optionsAll.account.map((account): string | null => account.value);
+    const statusses = system_events
+      .map(({ event: { data, method, section } }): ActionStatus | null => {
+        if (section === 'balances' && method === 'Transfer') {
+          const account = data[1].toString();
 
-    (system_events || []).forEach(({ event: { data, method, section } }): void => {
-      if (section === 'balances' && method === 'Transfer') {
-        const account = data[1].toString();
+          if (addresses.includes(account)) {
+            return {
+              account,
+              action: `${section}.${method}`,
+              status: 'event',
+              message: t('transfer received')
+            };
+          }
+        } else if (section === 'democracy') {
+          const index = data[0].toString();
 
-        if (addresses.includes(account)) {
-          queueAction({
-            account,
+          return {
             action: `${section}.${method}`,
             status: 'event',
-            message: t('transfer received')
-          });
+            message: t('update on #{{index}}', {
+              replace: {
+                index
+              }
+            })
+          };
         }
-      } else if (section === 'democracy') {
-        const index = data[0].toString();
 
-        queueAction({
-          action: `${section}.${method}`,
-          status: 'event',
-          message: t('update on #{{index}}', {
-            replace: {
-              index
-            }
-          })
-        });
-      }
-    });
-  }
+        return null;
+      })
+      .filter((item): boolean => !!item) as ActionStatus[];
 
-  public render (): React.ReactNode {
-    const { stqueue, txqueue } = this.props;
+    statusses.length && queueAction(statusses);
+  }, [system_events]);
 
-    return (
-      <StatusDisplay
-        stqueue={stqueue}
-        txqueue={txqueue}
-      />
-    );
-  }
+  return (
+    <StatusDisplay
+      stqueue={stqueue}
+      txqueue={txqueue}
+    />
+  );
 }
 
 export default withMulti(

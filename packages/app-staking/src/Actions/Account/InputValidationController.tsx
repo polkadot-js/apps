@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/react-api';
@@ -23,19 +23,13 @@ interface Props extends ApiProps, I18nProps {
   stashId?: string | null;
 }
 
-interface State {
-  error: string | null;
-}
-
 const DISTINCT = 'Distinct stash and controller accounts are recommended to ensure fund security.';
 
-class ValidateController extends React.PureComponent<Props, State> {
-  public state: State = {
-    error: null
-  };
+function ValidateController ({ accountId, bondedId, controllerId, defaultController, isUnsafeChain, onError, stashId, t }: Props): React.ReactElement<Props> | null {
+  const [error, setError] = useState<string | null>(null);
 
-  public static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, isUnsafeChain, onError, stashId, t }: Props, prevState: State): State {
-    const error = ((): string | null => {
+  useEffect((): void => {
+    const newError = ((): string | null => {
       if (defaultController === controllerId) {
         // don't show an error if the selected controller is the default
         // this applies when changing controller
@@ -53,29 +47,21 @@ class ValidateController extends React.PureComponent<Props, State> {
       return null;
     })();
 
-    if (prevState.error !== error) {
-      onError(error);
+    if (error !== newError) {
+      onError(newError);
+      setError(newError);
     }
+  }, [accountId, controllerId, defaultController]);
 
-    return {
-      error
-    };
+  if (!error || !accountId) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { accountId } = this.props;
-    const { error } = this.state;
-
-    if (!error || !accountId) {
-      return null;
-    }
-
-    return (
-      <article className='warning'>
-        <div><Icon name='warning sign' />{error}</div>
-      </article>
-    );
-  }
+  return (
+    <article className='warning'>
+      <div><Icon name='warning sign' />{error}</div>
+    </article>
+  );
 }
 
 export default translate(

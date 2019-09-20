@@ -37,26 +37,21 @@ function NodeInfo ({ t }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
   const [info, setInfo] = useState<Partial<Info>>({});
   const [nextRefresh, setNextRefresh] = useState(Date.now());
-  const [timerId, setTimerId] = useState(0);
-
-  const executeStatus = (isFirstRun = false): void => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    getStatus(isFirstRun).catch((): void => {});
-  };
-  const getStatus = async (isFirstRun: boolean): Promise<void> => {
-    if (isFirstRun || timerId) {
-      setInfo(await retrieveInfo(api));
-      setNextRefresh(Date.now() + POLL_TIMEOUT);
-      setTimerId(window.setTimeout(executeStatus, POLL_TIMEOUT));
-    }
-  };
 
   useEffect((): () => void => {
-    executeStatus(true);
+    const _getStatus = (): void => {
+      retrieveInfo(api).then(setInfo);
+    };
+
+    _getStatus();
+
+    const timerId = window.setInterval((): void => {
+      setNextRefresh(Date.now() + POLL_TIMEOUT);
+      _getStatus();
+    }, POLL_TIMEOUT);
 
     return (): void => {
-      window.clearTimeout(timerId);
-      setTimerId(0);
+      window.clearInterval(timerId);
     };
   }, []);
 

@@ -5,8 +5,8 @@
 // import first, get the load done
 import settings from '@polkadot/ui-settings';
 
+import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
-import '@polkadot/react-components/styles';
 
 import queryString from 'query-string';
 import React, { Suspense } from 'react';

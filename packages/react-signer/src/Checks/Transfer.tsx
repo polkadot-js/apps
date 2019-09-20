@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Compact, UInt } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
@@ -30,16 +30,16 @@ interface State extends ExtraFees {
   isNoEffect: boolean;
 }
 
-export class Transfer extends React.PureComponent<Props, State> {
-  public state: State = {
+export function Transfer ({ amount, balances_all = ZERO_BALANCE, fees, onChange, t }: Props): React.ReactElement<Props> {
+  const [{ isCreation, isNoEffect }, setState] = useState<State>({
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false,
     isCreation: false,
     isNoEffect: false
-  };
+  });
 
-  public static getDerivedStateFromProps ({ amount, balances_all = ZERO_BALANCE, fees, onChange }: Props): State {
+  useEffect((): void => {
     let extraFees = new BN(fees.transferFee);
 
     if (balances_all.votingBalance.isZero()) {
@@ -58,47 +58,37 @@ export class Transfer extends React.PureComponent<Props, State> {
 
     onChange(update);
 
-    return {
+    setState({
       ...update,
       isCreation,
       isNoEffect
-    };
-  }
+    });
+  }, [balances_all, fees]);
 
-  public render (): React.ReactNode {
-    const { fees, t } = this.props;
-    const { isCreation, isNoEffect } = this.state;
-
-    return (
-      <>
-        {
-          isNoEffect
-            ? (
-              <div>
-                <Icon name='warning sign' />
-                {t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected',
-                  {
-                    replace: {
-                      existentialDeposit: formatBalance(fees.existentialDeposit)
-                    }
-                  }
-                )}
-              </div>
-            )
-            : undefined
-        }
-        {
-          isCreation
-            ? <div><Icon name='warning sign' />{t('A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist', {
-              replace: {
-                creationFee: formatBalance(fees.creationFee)
-              }
-            })}</div>
-            : undefined
-        }
-      </>
-    );
-  }
+  return (
+    <>
+      {isNoEffect && (
+        <div>
+          <Icon name='warning sign' />
+          {t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected', {
+            replace: {
+              existentialDeposit: formatBalance(fees.existentialDeposit)
+            }
+          })}
+        </div>
+      )}
+      {isCreation && (
+        <div>
+          <Icon name='warning sign' />
+          {t('A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist', {
+            replace: {
+              creationFee: formatBalance(fees.creationFee)
+            }
+          })}
+        </div>
+      )}
+    </>
+  );
 }
 
 export default withMulti(

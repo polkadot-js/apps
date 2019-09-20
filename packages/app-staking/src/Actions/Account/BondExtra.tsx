@@ -10,7 +10,7 @@ import { CalculateBalanceProps } from '../../types';
 import BN from 'bn.js';
 import React from 'react';
 import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { calcSignatureLength } from '@polkadot/react-signer/Checks';
+import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
@@ -22,7 +22,6 @@ import detectUnsafe from '../../unsafeChains';
 interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
   controllerId: string;
   isOpen: boolean;
-  isUnsafeChain: boolean;
   onClose: () => void;
   stashId: string;
 }
@@ -76,6 +75,7 @@ class BondExtra extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              labelIcon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -83,6 +83,7 @@ class BondExtra extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Bond more')}
+              labelIcon='sign-in'
               onClick={onClose}
               extrinsic={extrinsic}
               ref={this.button}
@@ -94,9 +95,10 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { isUnsafeChain, stashId, t } = this.props;
+    const { stashId, systemChain, t } = this.props;
     const { maxBalance } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
+    const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
       <>
@@ -159,7 +161,7 @@ class BondExtra extends TxComponent<Props, State> {
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
-      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+      const txLength = calcTxLength(extrinsic, system_accountNonce);
       const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
       maxBalance = bnMax(availableBalance.sub(fees), ZERO);
@@ -184,10 +186,6 @@ export default withMulti(
   withCalls<Props>(
     'derive.balances.fees',
     ['derive.balances.all', { paramName: 'stashId' }],
-    ['query.system.accountNonce', { paramName: 'stashId' }],
-    ['rpc.system.chain', {
-      propName: 'isUnsafeChain',
-      transform: detectUnsafe
-    }]
+    ['query.system.accountNonce', { paramName: 'stashId' }]
   )
 );

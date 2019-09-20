@@ -29,49 +29,47 @@ function Events ({ emptyLabel, eventClassName, events, withoutIndex, t }: Props)
 
   return (
     <>
-      {
-        events.map(
-          ({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => {
-            const extIndex = !withoutIndex && phase.isApplyExtrinsic
-              ? phase.asApplyExtrinsic
-              : -1;
+      {events.map(
+        ({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => {
+          const extIndex = !withoutIndex && phase.isApplyExtrinsic
+            ? phase.asApplyExtrinsic
+            : -1;
 
-            if (!event.method || !event.section) {
-              return null;
-            }
-
-            return (
-              <article
-                className={`explorer--Container ${eventClassName}`}
-                key={key}
-              >
-                <div className='header'>
-                  <h3>
-                    {event.section}.{event.method}&nbsp;{
-                      extIndex !== -1
-                        ? `(#${formatNumber(extIndex)})`
-                        : ''
-                    }
-                  </h3>
-                </div>
-                <details>
-                  <summary>
-                    {
-                      event.meta && event.meta.documentation
-                        ? event.meta.documentation.join(' ')
-                        : 'Details'
-                    }
-                  </summary>
-                  <EventDisplay
-                    className='details'
-                    value={event}
-                  />
-                </details>
-              </article>
-            );
+          if (!event.method || !event.section) {
+            return null;
           }
-        )
-      }
+
+          return (
+            <article
+              className={`explorer--Container ${eventClassName}`}
+              key={key}
+            >
+              <div className='header'>
+                <h3>
+                  {event.section}.{event.method}&nbsp;{
+                    extIndex !== -1
+                      ? `(#${formatNumber(extIndex)})`
+                      : ''
+                  }
+                </h3>
+              </div>
+              <details>
+                <summary>
+                  {
+                    event.meta && event.meta.documentation
+                      ? event.meta.documentation.join(' ')
+                      : 'Details'
+                  }
+                </summary>
+                <EventDisplay
+                  className='details'
+                  value={event}
+                />
+              </details>
+            </article>
+          );
+        }
+      )}
     </>
   );
 }
