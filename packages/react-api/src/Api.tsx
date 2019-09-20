@@ -122,9 +122,10 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   private async loadOnReady (api: ApiPromise): Promise<void> {
-    const [properties, value, injectedAccounts] = await Promise.all([
+    const [properties, _systemChain, systemName, injectedAccounts] = await Promise.all([
       api.rpc.system.properties<ChainProperties>(),
       api.rpc.system.chain<Text>(),
+      api.rpc.system.name<Text>(),
       web3Accounts().then((accounts): InjectedAccountExt[] =>
         accounts.map(({ address, meta }): InjectedAccountExt => ({
           address,
@@ -142,12 +143,12 @@ export default class Api extends React.PureComponent<Props, State> {
     ) as Prefix;
     const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
     const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-    const chain = value
-      ? value.toString()
-      : null;
-    const isDevelopment = isTestChain(chain);
+    const systemChain = _systemChain
+      ? _systemChain.toString()
+      : '<unknown>';
+    const isDevelopment = isTestChain(systemChain);
 
-    console.log('api: found chain', chain, JSON.stringify(properties));
+    console.log('api: found chain', systemChain, JSON.stringify(properties));
 
     // first setup the UI helpers
     formatBalance.setDefaults({
@@ -177,15 +178,16 @@ export default class Api extends React.PureComponent<Props, State> {
     this.setState({
       apiDefaultTx,
       apiDefaultTxSudo,
-      chain,
       isApiReady: true,
       isDevelopment,
-      isSubstrateV2
+      isSubstrateV2,
+      systemChain,
+      systemName: systemName.toString()
     });
   }
 
   public render (): React.ReactNode {
-    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl } = this.state;
+    const { api, apiDefaultTx, apiDefaultTxSudo, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl, systemChain, systemName } = this.state;
 
     return (
       <ApiContext.Provider
@@ -193,13 +195,14 @@ export default class Api extends React.PureComponent<Props, State> {
           api,
           apiDefaultTx,
           apiDefaultTxSudo,
-          currentChain: chain || '<unknown>',
           isApiConnected,
-          isApiReady: isApiReady && !!chain,
+          isApiReady: isApiReady && !!systemChain,
           isDevelopment,
           isSubstrateV2,
           isWaitingInjected,
-          setApiUrl
+          setApiUrl,
+          systemChain,
+          systemName
         }}
       >
         {this.props.children}

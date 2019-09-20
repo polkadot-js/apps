@@ -7,8 +7,8 @@ import { AccountId, RuntimeVersion } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useState, useEffect } from 'react';
-import { withCalls } from '@polkadot/react-api/with';
+import React, { useContext, useState, useEffect } from 'react';
+import { ApiContext, withCalls } from '@polkadot/react-api';
 import { Bubble, IdentityIcon } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
@@ -21,12 +21,11 @@ interface Props extends BareProps, I18nProps {
   session_validators?: AccountId[];
   staking_intentions?: AccountId[];
   state_getRuntimeVersion?: RuntimeVersion;
-  system_chain?: string;
-  system_name?: string;
   system_version?: string;
 }
 
-function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_intentions = [], session_validators = [], state_getRuntimeVersion, system_chain, system_name, system_version }: Props): React.ReactElement<Props> {
+function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_intentions = [], session_validators = [], state_getRuntimeVersion, system_version }: Props): React.ReactElement<Props> {
+  const { systemChain, systemName } = useContext(ApiContext);
   const [nextUp, setNextUp] = useState<AccountId[]>([]);
 
   useEffect((): void => {
@@ -43,10 +42,10 @@ function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumbe
     <summary>
       <div>
         <Bubble icon='tty' label='node'>
-          {system_name} v{system_version}
+          {systemName} v{system_version}
         </Bubble>
         <Bubble icon='chain' label='chain'>
-          {system_chain}
+          {systemChain}
         </Bubble>
         <Bubble icon='code' label='runtime'>{
           state_getRuntimeVersion &&
@@ -81,8 +80,6 @@ export default translate(
     'query.balances.totalIssuance',
     'query.session.validators',
     'rpc.state.getRuntimeVersion',
-    'rpc.system.chain',
-    'rpc.system.name',
     'rpc.system.version'
   )(SummaryBar)
 );

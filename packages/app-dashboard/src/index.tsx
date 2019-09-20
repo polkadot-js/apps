@@ -25,8 +25,8 @@ function renderEntry (route: Route): React.ReactNode {
   );
 }
 
-// NOTE: This _looks_ weird and it looks weird, because it is weird. Basically we want all
-// the entries of an equal width. So here we add a non-content spacers at the end that just
+// NOTE: This _looks_ weird, because it is weird. Basically we want all the entries
+// of an equal width. So here we add a non-content spacers at the end that just
 // ensures flex has enough items to render something usable to the user. Since we don't
 // quite know how many items per row, we just render a bunch, n === routes.length
 function renderSpacer (route: Route, index: number): React.ReactNode {

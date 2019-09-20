@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
@@ -21,58 +21,34 @@ interface Props extends I18nProps {
   value?: string | null;
 }
 
-interface State {
-  isError: boolean;
-  isInjected?: boolean;
-  isLocked: boolean;
-  pair?: KeyringPair;
+function getPair (address?: string | null): KeyringPair | null {
+  try {
+    return keyring.getPair(address as string);
+  } catch (error) {
+    return null;
+  }
 }
 
-class Unlock extends React.PureComponent<Props, State> {
-  public state: State = {
-    isError: false,
-    isLocked: false
-  };
+function Unlock ({ autoFocus, error, onChange, onEnter, password, t, tabIndex, value }: Props): React.ReactElement<Props> | null {
+  const [pair] = useState<KeyringPair | null>(getPair(value));
 
-  public static getDerivedStateFromProps ({ error, value }: Props): State | null {
-    const pair = keyring.getPair(value as string);
-
-    if (!pair) {
-      return null;
-    }
-
-    const { isLocked, meta: { isInjected = false } } = pair;
-
-    return {
-      isError: !!error,
-      isInjected,
-      isLocked,
-      pair
-    };
+  if (!pair || !(pair.isLocked) || pair.meta.isInjected) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { autoFocus, onChange, onEnter, password, t, tabIndex } = this.props;
-    const { isError, isInjected, isLocked } = this.state;
-
-    if (isInjected || !isLocked) {
-      return null;
-    }
-
-    return (
-      <div className='ui--signer-Signer-Unlock'>
-        <Password
-          autoFocus={autoFocus}
-          isError={isError}
-          label={t('unlock account with password')}
-          onChange={onChange}
-          onEnter={onEnter}
-          tabIndex={tabIndex}
-          value={password}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className='ui--signer-Signer-Unlock'>
+      <Password
+        autoFocus={autoFocus}
+        isError={!!error}
+        label={t('unlock account with password')}
+        onChange={onChange}
+        onEnter={onEnter}
+        tabIndex={tabIndex}
+        value={password}
+      />
+    </div>
+  );
 }
 
 export default translate(Unlock);
