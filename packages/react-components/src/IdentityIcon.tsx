@@ -5,33 +5,21 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { IdentityProps } from '@polkadot/react-identicon/types';
-import { QueueAction$Add } from './Status/types';
 import { I18nProps } from './types';
 
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/react-api/with';
+import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
 import BaseIdentityIcon from '@polkadot/react-identicon';
-import uiSettings, { ICON_DEFAULT_HOST } from '@polkadot/ui-settings';
+import uiSettings from '@polkadot/ui-settings';
 
-import { QueueConsumer } from './Status/Context';
+import StatusContext from './Status/Context';
 import translate from './translate';
 
-interface CopyProps extends IdentityProps, I18nProps {
-  queueAction?: QueueAction$Add;
-}
-
-interface IconProps extends IdentityProps {
+interface Props extends IdentityProps, I18nProps {
   session_validators?: AccountId[];
   staking_bonded?: string | null;
   system_name?: string;
-}
-
-interface Props extends IconProps, IdentityProps {}
-
-interface State {
-  isValidator: boolean;
-  theme: string;
 }
 
 // overrides based on the actual software node type
@@ -49,83 +37,63 @@ const NULL_TOSTRING = {
   toString: (): null => null
 };
 
-class CopyIcon extends React.PureComponent<CopyProps> {
-  public render (): React.ReactNode {
-    return (
-      <BaseIdentityIcon
-        {...this.props}
-        onCopy={this.onCopy}
-      />
-    );
-  }
-
-  private onCopy = (account: string): void => {
-    const { onCopy, queueAction, t } = this.props;
-
-    if (onCopy) {
-      onCopy(account);
-    }
-
-    if (queueAction) {
-      queueAction({
-        account,
-        action: t('clipboard'),
-        status: 'queued',
-        message: t('address copied')
-      });
-    }
-  }
+export function getIdentityTheme (systemName: string): 'empty' {
+  return ((uiSettings.icon === 'default' && NODES[systemName]) || uiSettings.icon) as 'empty';
 }
 
-const CopyIconI18N = translate(CopyIcon);
+function IdentityIcon ({ className, onCopy, prefix, session_validators, size, staking_bonded, style, t, theme, value }: Props): React.ReactElement<Props> {
+  const { systemName } = useContext(ApiContext);
+  const { queueAction } = useContext(StatusContext);
+  const [isValidator, setIsValidator] = useState(false);
+  const thisTheme = theme || getIdentityTheme(systemName);
 
-class IdentityIcon extends React.PureComponent<Props, State> {
-  public state: State = {
-    isValidator: false,
-    theme: ICON_DEFAULT_HOST
-  };
-
-  public static getDerivedStateFromProps ({ session_validators = [], staking_bonded, system_name, value }: Props): State {
+  useEffect((): void => {
     const address = value
       ? value.toString()
       : null;
-    const isValidator = !!session_validators.find((validator): boolean =>
-      [address, staking_bonded].includes(validator.toString())
+
+    setIsValidator(
+      session_validators
+        ? session_validators.some((validator): boolean =>
+          [address, staking_bonded].includes(validator.toString())
+        )
+        : false
     );
+  }, [session_validators, value]);
 
-    return {
-      isValidator,
-      theme: (system_name && uiSettings.icon === 'default' && NODES[system_name]) || uiSettings.icon
-    };
-  }
+  const _onCopy = (account: string): void => {
+    onCopy && onCopy(account);
+    queueAction && queueAction({
+      account,
+      action: t('clipboard'),
+      status: 'queued',
+      message: t('address copied')
+    });
+  };
 
-  public render (): React.ReactNode {
-    const { isValidator, theme } = this.state;
-
-    return (
-      <QueueConsumer>
-        {({ queueAction }): React.ReactNode =>
-          <CopyIconI18N
-            isHighlight={isValidator}
-            theme={theme as 'substrate'}
-            {...this.props}
-            queueAction={queueAction}
-          />
-        }
-      </QueueConsumer>
-    );
-  }
+  return (
+    <BaseIdentityIcon
+      className={className}
+      isHighlight={isValidator}
+      onCopy={_onCopy}
+      prefix={prefix}
+      size={size}
+      style={style}
+      theme={thisTheme as 'substrate'}
+      value={value}
+    />
+  );
 }
 
-export default withCalls<Props>(
-  'query.session.validators',
-  ['query.staking.bonded', {
-    paramName: 'value',
-    transform: (bonded: Option<AccountId>): string | null =>
-      bonded.unwrapOr(NULL_TOSTRING).toString()
-  }],
-  ['rpc.system.name', {
-    transform: (node: Text): string =>
-      node.toString()
-  }]
-)(IdentityIcon);
+export default withMulti(
+  IdentityIcon,
+  translate,
+  withCalls<Props>(
+    'query.session.validators',
+    ['query.staking.bonded', {
+      paramName: 'value',
+      transform: (bonded: Option<AccountId>): string | null =>
+        bonded.unwrapOr(NULL_TOSTRING).toString()
+    }]
+  )
+);

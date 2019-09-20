@@ -14,7 +14,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import { BestNumber, Chain } from '@polkadot/react-query';
@@ -29,7 +29,6 @@ interface Props extends ApiProps, I18nProps {
   handleResize: () => void;
   isCollapsed: boolean;
   menuOpen: boolean;
-  system_chain?: string;
   toggleMenu: () => void;
 }
 
@@ -257,7 +256,5 @@ export default withMulti(
     }
   `,
   translate,
-  withCalls<Props>(
-    'rpc.system.chain'
-  )
+  withApi
 );

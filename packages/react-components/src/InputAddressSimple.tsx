@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import addressToAddress from './util/toAddress';
@@ -17,46 +17,32 @@ interface Props extends BareProps {
   onChange?: (address: string | null) => void;
 }
 
-interface State {
-  address: string | null;
-  isError: boolean;
-}
+function InputAddressSimple ({ className, help, label, onChange }: Props): React.ReactElement<Props> {
+  const [address, setAddress] = useState<string | null>(null);
 
-class InputAddressSimple extends React.PureComponent<Props, State> {
-  public state: State = {
-    address: null,
-    isError: true
-  };
-
-  public render (): React.ReactNode {
-    const { className, help, label } = this.props;
-    const { address, isError } = this.state;
-
-    return (
-      <div className={className}>
-        <Input
-          help={help}
-          isError={isError}
-          label={label}
-          onChange={this.onChange}
-        />
-        <IdentityIcon
-          className='ui--InputAddressSimpleIcon'
-          size={32}
-          value={address}
-        />
-      </div>
-    );
-  }
-
-  private onChange = (_address: string): void => {
-    const { onChange } = this.props;
+  const _onChange = (_address: string): void => {
     const address = addressToAddress(_address) || null;
 
-    this.setState({ address, isError: !address }, (): void => {
-      onChange && onChange(address);
-    });
-  }
+    setAddress(address);
+
+    onChange && onChange(address);
+  };
+
+  return (
+    <div className={className}>
+      <Input
+        help={help}
+        isError={!address}
+        label={label}
+        onChange={_onChange}
+      />
+      <IdentityIcon
+        className='ui--InputAddressSimpleIcon'
+        size={32}
+        value={address}
+      />
+    </div>
+  );
 }
 
 export default styled(InputAddressSimple)`

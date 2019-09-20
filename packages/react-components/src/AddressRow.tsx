@@ -3,8 +3,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -16,7 +17,7 @@ import keyring from '@polkadot/ui-keyring';
 import AddressInfo, { BalanceActiveType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
-import IdentityIcon from './IdentityIcon';
+import IdentityIcon, { getIdentityTheme } from './IdentityIcon';
 import Row, { RowProps, RowState as State, styles } from './Row';
 import translate from './translate';
 
@@ -34,10 +35,10 @@ export interface Props extends I18nProps, RowProps {
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
 
-class AddressRow extends Row<Props, State> {
+class AddressRow extends Row<ApiProps & Props, State> {
   public state: State;
 
-  public constructor (props: Props) {
+  public constructor (props: ApiProps & Props) {
     super(props);
 
     this.state = this.createState();
@@ -177,7 +178,7 @@ class AddressRow extends Row<Props, State> {
   }
 
   private renderIcon (): React.ReactNode {
-    const { accounts_idAndIndex = [], iconInfo, withIcon = true } = this.props;
+    const { accounts_idAndIndex = [], iconInfo, systemName, withIcon = true } = this.props;
     const { address } = this.state;
     const [accountId] = accounts_idAndIndex;
 
@@ -190,11 +191,13 @@ class AddressRow extends Row<Props, State> {
     const Component = accountId
       ? IdentityIcon
       : BaseIdentityIcon;
+    const theme = getIdentityTheme(systemName);
 
     return (
       <div className='ui--Row-icon'>
         <Component
           size={ICON_SIZE}
+          theme={theme}
           value={address}
         />
         {iconInfo && (
@@ -267,7 +270,7 @@ export {
 };
 
 export default withMulti(
-  styled(AddressRow as React.ComponentClass<Props, State>)`
+  styled(AddressRow as React.ComponentClass<Props & ApiProps, State>)`
     ${styles}
   `,
   translate,

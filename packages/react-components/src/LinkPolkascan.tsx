@@ -34,8 +34,8 @@ const TYPES: Record<string, string> = {
 };
 
 function LinkPolkascan ({ className, data, t, type }: Props): React.ReactElement<Props> | null {
-  const { currentChain } = useContext(ApiContext);
-  const extChain = CHAINS[currentChain];
+  const { systemChain } = useContext(ApiContext);
+  const extChain = CHAINS[systemChain];
   const extType = TYPES[type];
 
   if (!extChain || !extType) {

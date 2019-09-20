@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 import detectUnsafe from '../unsafeChains';
@@ -18,7 +18,6 @@ import InputValidationController from './Account/InputValidationController';
 import { rewardDestinationOptions } from './constants';
 
 interface Props extends ApiProps, I18nProps, CalculateBalanceProps {
-  isUnsafeChain?: boolean;
   onClose: () => void;
 }
 
@@ -47,9 +46,10 @@ class NewStake extends TxComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { isUnsafeChain, onClose, t } = this.props;
-    const { bondValue, controllerError, controllerId, extrinsic, stashId } = this.state;
+    const { onClose, systemChain, t } = this.props;
+    const { bondValue, controllerError, controllerId, destination, extrinsic, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
+    const isUnsafeChain = detectUnsafe(systemChain);
     const canSubmit = (hasValue && (isUnsafeChain || (!controllerError && !!controllerId)));
 
     return (
@@ -59,39 +59,6 @@ class NewStake extends TxComponent<Props, State> {
         open
         size='small'
       >
-        {this.renderContent()}
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              labelIcon='cancel'
-            />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Bond')}
-              labelIcon='sign-in'
-              onClick={onClose}
-              extrinsic={extrinsic}
-              ref={this.button}
-            />
-          </Button.Group>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { isUnsafeChain, t } = this.props;
-    const { controllerId, controllerError, bondValue, destination, stashId } = this.state;
-    const hasValue = !!bondValue && bondValue.gtn(0);
-
-    return (
-      <>
         <Modal.Header>
           {t('Bonding Preferences')}
         </Modal.Header>
@@ -142,7 +109,28 @@ class NewStake extends TxComponent<Props, State> {
             value={destination}
           />
         </Modal.Content>
-      </>
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={onClose}
+              label={t('Cancel')}
+              labelIcon='cancel'
+            />
+            <Button.Or />
+            <TxButton
+              accountId={stashId}
+              isDisabled={!canSubmit}
+              isPrimary
+              label={t('Bond')}
+              labelIcon='sign-in'
+              onClick={onClose}
+              extrinsic={extrinsic}
+              ref={this.button}
+            />
+          </Button.Group>
+        </Modal.Actions>
+      </Modal>
     );
   }
 
@@ -189,10 +177,5 @@ class NewStake extends TxComponent<Props, State> {
 export default withMulti(
   NewStake,
   translate,
-  withCalls<Props>(
-    ['rpc.system.chain', {
-      propName: 'isUnsafeChain',
-      transform: detectUnsafe
-    }]
-  )
+  withApi
 );

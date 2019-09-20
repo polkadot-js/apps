@@ -4,19 +4,15 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
-export default class Null extends React.PureComponent<Props> {
-  public componentDidMount (): void {
-    const { onChange } = this.props;
-
+export default function Null ({ onChange }: Props): React.ReactElement<Props> | null {
+  useEffect((): void => {
     onChange && onChange({
       isValid: true,
       value: null
     });
-  }
+  }, []);
 
-  public render (): React.ReactNode {
-    return null;
-  }
+  return null;
 }

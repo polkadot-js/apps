@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
-import { Text } from '@polkadot/types';
+import { ApiContext } from '@polkadot/react-api';
 
 // the imports here as a bit all-over, non-aphabetical - since we expect this to grow,
 // rather organise based on type, grouping chains and nodes as opposed to location
@@ -51,14 +49,13 @@ const LOGOS: Record<string, any> = {
 
 interface Props {
   className?: string;
-  injectedLogoChain?: any;
-  injectedLogoNode?: any;
   logo?: keyof typeof LOGOS;
   onClick?: () => any;
 }
 
-function ChainImg ({ className, injectedLogoChain, injectedLogoNode, logo = '', onClick }: Props): React.ReactElement<Props> {
-  const img = LOGOS[logo] || injectedLogoChain || injectedLogoNode || EMPTY;
+function ChainImg ({ className, logo = '', onClick }: Props): React.ReactElement<Props> {
+  const { systemChain, systemName } = useContext(ApiContext);
+  const img = LOGOS[logo] || CHAINS[systemChain] || NODES[systemName] || EMPTY;
 
   return (
     <img
@@ -70,19 +67,7 @@ function ChainImg ({ className, injectedLogoChain, injectedLogoNode, logo = '', 
   );
 }
 
-export default withMulti(
-  styled(ChainImg)`
-    border-radius: 50%;
-    box-sizing: border-box;
-  `,
-  withCalls<Props>(
-    ['rpc.system.chain', {
-      propName: 'injectedLogoChain',
-      transform: (chain: Text): any | null => CHAINS[chain.toString()]
-    }],
-    ['rpc.system.name', {
-      propName: 'injectedLogoNode',
-      transform: (node: Text): any | null => NODES[node.toString()]
-    }]
-  )
-);
+export default styled(ChainImg)`
+  border-radius: 50%;
+  box-sizing: border-box;
+`;

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -22,77 +22,57 @@ export interface InsetProps extends RouteComponentProps {
   withBottomMargin?: boolean;
 }
 
-interface State {
-  isCollapsed: boolean;
-}
+function Inset ({ children, className, header, history, href, isCollapsible, isError, isSuccess, withBottomMargin, withTopMargin }: InsetProps): React.ReactElement<InsetProps> | null {
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
-class Inset extends React.PureComponent<InsetProps, State> {
-  public state: State = {
-    isCollapsed: true
-  };
-
-  public render (): React.ReactNode {
-    const { children, className, isCollapsible, isError, isSuccess, header, href, withBottomMargin, withTopMargin } = this.props;
-    const { isCollapsed } = this.state;
-
-    if (!children) {
-      return null;
-    }
-
-    return (
-      <div
-        className={
-          classes(
-            'ui--Inset',
-            href && 'as-link',
-            isCollapsible && 'collapsible',
-            (isError && !isSuccess) && 'error',
-            (!isError && isSuccess) && 'success',
-            withBottomMargin && 'bottom-margin',
-            withTopMargin && 'top-margin',
-            className
-          )
-        }
-      >
-        {isCollapsible && (
-          <div
-            className='header'
-            onClick={this.toggleCollapsed}
-          >
-            <h3>{header}</h3>
-            <Icon
-              className={classes(isCollapsed && 'collapsed')}
-              name='angle up'
-            />
-          </div>
-        )}
-        <div
-          className={classes('children', (isCollapsible && isCollapsed) && 'collapsed')}
-          onClick={href ? this.onClick : undefined}
-        >
-          {children}
-        </div>
-      </div>
-    );
+  if (!children) {
+    return null;
   }
 
-  private onClick = (): void => {
-    const { history, href } = this.props;
-
+  const _onClick = (): void => {
     href && history.push(href);
-  }
+  };
+  const _toggleCollapsed = (): void => setIsCollapsed(!isCollapsed);
 
-  private toggleCollapsed = (): void => {
-    this.setState(({ isCollapsed }: State): Pick<State, never> => {
-      return {
-        isCollapsed: !isCollapsed
-      };
-    });
-  }
+  return (
+    <div
+      className={
+        classes(
+          'ui--Inset',
+          href && 'as-link',
+          isCollapsible && 'collapsible',
+          (isError && !isSuccess) && 'error',
+          (!isError && isSuccess) && 'success',
+          withBottomMargin && 'bottom-margin',
+          withTopMargin && 'top-margin',
+          className
+        )
+      }
+    >
+      {isCollapsible && (
+        <div
+          className='header'
+          onClick={_toggleCollapsed}
+        >
+          <h3>{header}</h3>
+          <Icon
+            className={classes(isCollapsed && 'collapsed')}
+            name='angle up'
+          />
+        </div>
+      )}
+      <div
+        className={classes('children', (isCollapsible && isCollapsed) && 'collapsed')}
+        onClick={_onClick}
+      >
+        {children}
+      </div>
+    </div>
+  );
 }
 
 export default withRouter(
-  styled(Inset as React.ComponentClass<InsetProps, State>)`
+  styled(Inset)`
     & {
       box-shadow: 0 3px 3px rgba(0,0,0,.2);
       position: relative;

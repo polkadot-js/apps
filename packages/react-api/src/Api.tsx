@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ChainProperties } from '@polkadot/types/interfaces';
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
@@ -17,7 +16,7 @@ import { InputNumber } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
-import { Text, u32 as U32 } from '@polkadot/types';
+import { u32 as U32 } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
@@ -122,9 +121,11 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   private async loadOnReady (api: ApiPromise): Promise<void> {
-    const [properties, value, injectedAccounts] = await Promise.all([
-      api.rpc.system.properties<ChainProperties>(),
-      api.rpc.system.chain<Text>(),
+    const [properties, _systemChain, _systemName, _systemVersion, injectedAccounts] = await Promise.all([
+      api.rpc.system.properties(),
+      api.rpc.system.chain(),
+      api.rpc.system.name(),
+      api.rpc.system.version(),
       web3Accounts().then((accounts): InjectedAccountExt[] =>
         accounts.map(({ address, meta }): InjectedAccountExt => ({
           address,
@@ -142,12 +143,12 @@ export default class Api extends React.PureComponent<Props, State> {
     ) as Prefix;
     const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
     const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-    const chain = value
-      ? value.toString()
-      : null;
-    const isDevelopment = isTestChain(chain);
+    const systemChain = _systemChain
+      ? _systemChain.toString()
+      : '<unknown>';
+    const isDevelopment = isTestChain(systemChain);
 
-    console.log('api: found chain', chain, JSON.stringify(properties));
+    console.log('api: found chain', systemChain, JSON.stringify(properties));
 
     // first setup the UI helpers
     formatBalance.setDefaults({
@@ -177,15 +178,17 @@ export default class Api extends React.PureComponent<Props, State> {
     this.setState({
       apiDefaultTx,
       apiDefaultTxSudo,
-      chain,
       isApiReady: true,
       isDevelopment,
-      isSubstrateV2
+      isSubstrateV2,
+      systemChain,
+      systemName: _systemName.toString(),
+      systemVersion: _systemVersion.toString()
     });
   }
 
   public render (): React.ReactNode {
-    const { api, apiDefaultTx, apiDefaultTxSudo, chain, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl } = this.state;
+    const { api, apiDefaultTx, apiDefaultTxSudo, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl, systemChain, systemName, systemVersion } = this.state;
 
     return (
       <ApiContext.Provider
@@ -193,13 +196,15 @@ export default class Api extends React.PureComponent<Props, State> {
           api,
           apiDefaultTx,
           apiDefaultTxSudo,
-          currentChain: chain || '<unknown>',
           isApiConnected,
-          isApiReady: isApiReady && !!chain,
+          isApiReady: isApiReady && !!systemChain,
           isDevelopment,
           isSubstrateV2,
           isWaitingInjected,
-          setApiUrl
+          setApiUrl,
+          systemChain,
+          systemName,
+          systemVersion
         }}
       >
         {this.props.children}
