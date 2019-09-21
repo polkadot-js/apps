@@ -210,7 +210,7 @@ class Deploy extends ContractModal<Props, State> {
           onFailed={this.toggleBusy(false)}
           onSuccess={this.onSuccess}
           params={this.constructCall}
-          tx={api.tx.contracts ? 'contracts.create' : 'contract.create'}
+          tx={api.tx.contracts ? (api.tx.contracts.instantiate ? 'contracts.instantiate' : 'contracts.create') : 'contract.create'}
           ref={this.button}
         />
       </Button.Group>
