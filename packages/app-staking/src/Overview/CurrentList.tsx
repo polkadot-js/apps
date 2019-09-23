@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber } from '@polkadot/types/interfaces';
-import { DerivedBalancesMap } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
@@ -14,7 +13,6 @@ import translate from '../translate';
 import Address from './Address';
 
 interface Props extends I18nProps {
-  balances?: DerivedBalancesMap;
   currentValidatorsControllersV1OrStashesV2: string[];
   lastAuthor?: string;
   lastBlock: string;
@@ -80,13 +78,12 @@ class CurrentList extends React.PureComponent<Props, State> {
   }
 
   private renderColumn (addresses: string[], defaultName: string): React.ReactNode {
-    const { balances, lastAuthor, lastBlock, recentlyOnline } = this.props;
+    const { lastAuthor, lastBlock, recentlyOnline } = this.props;
     const { filter } = this.state;
 
     return addresses.map((address): React.ReactNode => (
       <Address
         address={address}
-        balances={balances}
         defaultName={defaultName}
         key={address}
         filter={filter}
