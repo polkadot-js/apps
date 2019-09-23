@@ -213,26 +213,29 @@
   }
 }
 
-a.apps--SideBar-Item-NavLink {
-  color: #eee;
-  display: block;
-  padding: 0.75em 0.75em;
-  white-space: nowrap;
-
-  &:hover {
-    background: #5f5f5f;
-    border-radius: 0.28571429rem 0 0 0.28571429rem;
+/* This is horrible ... will disappear once this stuff is actually where it belongs and not in a stylesheet */
+.theme--default {
+  a.apps--SideBar-Item-NavLink {
     color: #eee;
+    display: block;
+    padding: 0.75em 0.75em;
+    white-space: nowrap;
+
+    &:hover {
+      background: #5f5f5f;
+      border-radius: 0.28571429rem 0 0 0.28571429rem;
+      color: #eee;
+    }
   }
-}
 
-a.apps--SideBar-Item-NavLink-active {
-  background: #fafafa;
-  border-radius: 0.28571429rem 0 0 0.28571429rem;
-  color: #3f3f3f;
-
-  &:hover {
+  a.apps--SideBar-Item-NavLink-active {
     background: #fafafa;
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
     color: #3f3f3f;
+
+    &:hover {
+      background: #fafafa;
+      color: #3f3f3f;
+    }
   }
 }
