@@ -11,9 +11,9 @@ import { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import map from '@polkadot/jsonrpc';
-import { withApi } from '@polkadot/react-api';
+import { ApiContext } from '@polkadot/react-api';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -31,77 +31,22 @@ interface Props extends ApiProps, I18nProps {
   withLabel?: boolean;
 }
 
-interface State {
-  optionsMethod: DropdownOptions;
-  optionsSection: DropdownOptions;
-  value: RpcMethod;
-}
+function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+  const { api } = useContext(ApiContext);
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
+  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
+  const [value, setValue] = useState<RpcMethod>((): RpcMethod => defaultValue);
 
-class InputRpc extends React.PureComponent<Props, State> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    const { section } = this.props.defaultValue;
-
-    this.state = {
-      optionsMethod: methodOptions(props.api, section),
-      optionsSection: sectionOptions(props.api),
-      value: this.props.defaultValue
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { className, help, label, style, withLabel } = this.props;
-    const { optionsMethod, optionsSection, value } = this.state;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        <Labelled
-          help={help}
-          label={label}
-          withLabel={withLabel}
-        >
-          <div className=' ui--DropdownLinked ui--row'>
-            <SelectSection
-              className='small'
-              onChange={this.onSectionChange}
-              options={optionsSection}
-              value={value}
-            />
-            <SelectMethod
-              className='large'
-              onChange={this.onMethodChange}
-              options={optionsMethod}
-              value={value}
-            />
-          </div>
-        </Labelled>
-      </div>
-    );
-  }
-
-  private onMethodChange = (newValue: RpcMethod): void => {
-    const { onChange } = this.props;
-    const { value } = this.state;
-
+  const _onMethodChange = (newValue: RpcMethod): void => {
     if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
-    this.setState({ value: newValue }, (): void =>
-      onChange && onChange(newValue)
-    );
-  }
-
-  private onSectionChange = (newSection: string): void => {
-    const { api } = this.props;
-    const { value } = this.state;
-
+    // set via callback since the method is a function itself
+    setValue((): RpcMethod => newValue);
+    onChange && onChange(newValue);
+  };
+  const _onSectionChange = (newSection: string): void => {
     if (newSection === value.section) {
       return;
     }
@@ -109,10 +54,37 @@ class InputRpc extends React.PureComponent<Props, State> {
     const optionsMethod = methodOptions(api, newSection);
     const newValue = map[newSection].methods[optionsMethod[0].value];
 
-    this.setState({ optionsMethod }, (): void =>
-      this.onMethodChange(newValue)
-    );
-  }
+    setOptionsMethod(optionsMethod);
+    _onMethodChange(newValue);
+  };
+
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      <Labelled
+        help={help}
+        label={label}
+        withLabel={withLabel}
+      >
+        <div className=' ui--DropdownLinked ui--row'>
+          <SelectSection
+            className='small'
+            onChange={_onSectionChange}
+            options={optionsSection}
+            value={value}
+          />
+          <SelectMethod
+            className='large'
+            onChange={_onMethodChange}
+            options={optionsMethod}
+            value={value}
+          />
+        </div>
+      </Labelled>
+    </div>
+  );
 }
 
-export default translate(withApi(InputRpc));
+export default translate(InputRpc);

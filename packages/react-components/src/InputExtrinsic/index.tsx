@@ -8,7 +8,7 @@ import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ApiContext } from '@polkadot/react-api';
 
 import Labelled from '../Labelled';
@@ -29,38 +29,29 @@ interface Props extends I18nProps {
   withLabel?: boolean;
 }
 
-interface Options {
-  method?: DropdownOptions;
-  section?: DropdownOptions;
-}
-
 function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
-  const [options, setOptions] = useState<Options>({});
-  const valueRef = useRef<CallFunction>(defaultValue);
-
-  useEffect((): void => {
-    setOptions({
-      method: methodOptions(api, valueRef.current.section),
-      section: sectionOptions(api)
-    });
-  }, [valueRef.current]);
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
+  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
+  const [value, setValue] = useState<CallFunction>((): CallFunction => defaultValue);
 
   const _onKeyChange = (newValue: CallFunction): void => {
-    if (valueRef.current.section === newValue.section && valueRef.current.method === newValue.method) {
+    if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
-    valueRef.current = newValue;
+    // set this via callback, since the we are setting a function (aletrnatively... we have issues)
+    setValue((): CallFunction => newValue);
     onChange(newValue);
   };
   const _onSectionChange = (newSection: string): void => {
-    if (newSection === valueRef.current.section) {
+    if (newSection === value.section) {
       return;
     }
 
     const optionsMethod = methodOptions(api, newSection);
 
+    setOptionsMethod(optionsMethod);
     _onKeyChange(api.tx[newSection][optionsMethod[0].value]);
   };
 
@@ -78,15 +69,15 @@ function InputExtrinsic ({ className, defaultValue, help, label, onChange, style
           <SelectSection
             className='small'
             onChange={_onSectionChange}
-            options={options.section || []}
-            value={valueRef.current}
+            options={optionsSection}
+            value={value}
           />
           <SelectMethod
             api={api}
             className='large'
             onChange={_onKeyChange}
-            options={options.method || []}
-            value={valueRef.current}
+            options={optionsMethod}
+            value={value}
           />
         </div>
       </Labelled>
