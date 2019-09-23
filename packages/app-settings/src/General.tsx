@@ -2,22 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { Option } from './types';
 
 import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
 import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
 
-interface Props extends AppProps, I18nProps {
-  onStatusChange: (status: ActionStatus) => void;
+interface Props extends I18nProps{
+  isModalContent?: boolean;
+  onClose?: () => void;
 }
 
 // check for a ledger=... string, acivate
@@ -28,7 +28,7 @@ const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOpti
 const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
 const ledgerConnOptions = uiSettings.availableLedgerConn;
 
-function General ({ className, t }: Props): React.ReactElement<Props> {
+function General ({ className, isModalContent, onClose, t }: Props): React.ReactElement<Props> {
   // tri-state: null = nothing  changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState(uiSettings.get());
@@ -61,53 +61,68 @@ function General ({ className, t }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <SelectUrl onChange={_onChangeApiUrl} />
-      <div className='ui--row'>
-        <Dropdown
-          defaultValue={prefix}
-          help={t('Override the default ss58 prefix for address generation')}
-          label={t('address prefix')}
-          onChange={_onChangePrefix}
-          options={prefixOptions}
-        />
-      </div>
-      <div className='ui--row'>
-        <Dropdown
-          defaultValue={icon}
-          help={t('Override the default identity icon display with a specific theme')}
-          label={t('default icon theme')}
-          onChange={_onChangeIcon}
-          options={iconOptions}
-        />
-      </div>
-      <div className='ui--row'>
-        <Dropdown
-          defaultValue={uiMode}
-          help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
-          label={t('interface operation mode')}
-          onChange={_onChangeUiMode}
-          options={uiSettings.availableUIModes}
-        />
-      </div>
-      {WITH_LEDGER && isLedgerCapable() && (
-        <div className='ui--row'>
-          <Dropdown
-            defaultValue={ledgerConn}
-            help={t('Manage your connection to Ledger S')}
-            label={t('manage hardware connections')}
-            onChange={_onChangeLedgerConn}
-            options={ledgerConnOptions}
-          />
-        </div>
+      {!isModalContent && (
+        <>
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={prefix}
+              help={t('Override the default ss58 prefix for address generation')}
+              label={t('address prefix')}
+              onChange={_onChangePrefix}
+              options={prefixOptions}
+            />
+          </div>
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={icon}
+              help={t('Override the default identity icon display with a specific theme')}
+              label={t('default icon theme')}
+              onChange={_onChangeIcon}
+              options={iconOptions}
+            />
+          </div>
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={uiMode}
+              help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
+              label={t('interface operation mode')}
+              onChange={_onChangeUiMode}
+              options={uiSettings.availableUIModes}
+            />
+          </div>
+          {WITH_LEDGER && isLedgerCapable() && (
+            <div className='ui--row'>
+              <Dropdown
+                defaultValue={ledgerConn}
+                help={t('Manage your connection to Ledger S')}
+                label={t('manage hardware connections')}
+                onChange={_onChangeLedgerConn}
+                options={ledgerConnOptions}
+              />
+            </div>
+          )}
+          <div className='ui--row'>
+            <Dropdown
+              defaultValue={i18nLang}
+              isDisabled
+              label={t('default interface language')}
+              options={uiSettings.availableLanguages}
+            />
+          </div>
+        </>
       )}
-      <div className='ui--row'>
-        <Dropdown
-          defaultValue={i18nLang}
-          isDisabled
-          label={t('default interface language')}
-          options={uiSettings.availableLanguages}
-        />
-      </div>
       <Button.Group>
+        {isModalContent && (
+          <>
+            <Button
+              isNegative
+              label={t('Cancel')}
+              labelIcon='cancel'
+              onClick={onClose}
+            />
+            <Button.Or />
+          </>
+        )}
         <Button
           isDisabled={changed === null}
           isPrimary
