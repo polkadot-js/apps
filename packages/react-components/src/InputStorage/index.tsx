@@ -4,7 +4,6 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
@@ -21,7 +20,7 @@ import SelectSection from './SelectSection';
 import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends I18nProps {
   defaultValue: StorageEntryPromise;
   help?: React.ReactNode;
   isError?: boolean;

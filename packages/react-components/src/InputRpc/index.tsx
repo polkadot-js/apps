@@ -5,7 +5,6 @@
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 
@@ -22,7 +21,7 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends I18nProps {
   defaultValue: RpcMethod;
   help?: React.ReactNode;
   isError?: boolean;
