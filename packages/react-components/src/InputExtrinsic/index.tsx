@@ -3,14 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CallFunction } from '@polkadot/types/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 
-import React from 'react';
-import { withApi, withMulti } from '@polkadot/react-api';
+import React, { useContext, useState } from 'react';
+import { ApiContext } from '@polkadot/react-api';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -19,7 +18,7 @@ import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends I18nProps {
   defaultValue: CallFunction;
   help?: React.ReactNode;
   isDisabled?: boolean;
@@ -30,96 +29,60 @@ interface Props extends ApiProps, I18nProps {
   withLabel?: boolean;
 }
 
-interface State {
-  optionsMethod?: DropdownOptions;
-  optionsSection?: DropdownOptions;
-  value: CallFunction;
-}
+function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+  const { api } = useContext(ApiContext);
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
+  const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
+  const [value, setValue] = useState<CallFunction>((): CallFunction => defaultValue);
 
-class InputExtrinsic extends React.PureComponent<Props, State> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      value: this.props.defaultValue
-    };
-  }
-
-  public static getDerivedStateFromProps ({ api }: Props, { value }: State): Pick<State, never> {
-    return {
-      optionsMethod: methodOptions(api, value.section),
-      optionsSection: sectionOptions(api)
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { api, className, help, label, style, withLabel } = this.props;
-    const { optionsMethod, optionsSection, value } = this.state;
-
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        <Labelled
-          help={help}
-          label={label}
-          withLabel={withLabel}
-        >
-          <div className=' ui--DropdownLinked ui--row'>
-            <SelectSection
-              className='small'
-              onChange={this.onSectionChange}
-              options={optionsSection || []}
-              value={value}
-            />
-            <SelectMethod
-              api={api}
-              className='large'
-              onChange={this.onKeyChange}
-              options={optionsMethod || []}
-              value={value}
-            />
-          </div>
-        </Labelled>
-      </div>
-    );
-  }
-
-  private onKeyChange = (newValue: CallFunction): void => {
-    const { onChange } = this.props;
-    const { value } = this.state;
-
+  const _onKeyChange = (newValue: CallFunction): void => {
     if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
-    this.setState({ value: newValue }, (): void =>
-      onChange(newValue)
-    );
-  }
-
-  private onSectionChange = (newSection: string): void => {
-    const { api } = this.props;
-    const { value } = this.state;
-
-    if (newSection === value.section) {
+    // set this via callback, since the we are setting a function (aletrnatively... we have issues)
+    setValue((): CallFunction => newValue);
+    onChange(newValue);
+  };
+  const _onSectionChange = (section: string): void => {
+    if (section === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(api, newSection);
-    const fn = api.tx[newSection][optionsMethod[0].value];
+    const optionsMethod = methodOptions(api, section);
 
-    this.setState({ optionsMethod }, (): void =>
-      this.onKeyChange(fn)
-    );
-  }
+    setOptionsMethod(optionsMethod);
+    _onKeyChange(api.tx[section][optionsMethod[0].value]);
+  };
+
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      <Labelled
+        help={help}
+        label={label}
+        withLabel={withLabel}
+      >
+        <div className=' ui--DropdownLinked ui--row'>
+          <SelectSection
+            className='small'
+            onChange={_onSectionChange}
+            options={optionsSection}
+            value={value}
+          />
+          <SelectMethod
+            api={api}
+            className='large'
+            onChange={_onKeyChange}
+            options={optionsMethod}
+            value={value}
+          />
+        </div>
+      </Labelled>
+    </div>
+  );
 }
 
-export default withMulti(
-  InputExtrinsic,
-  translate,
-  withApi
-);
+export default translate(InputExtrinsic);

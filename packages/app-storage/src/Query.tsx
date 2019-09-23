@@ -37,98 +37,98 @@ interface CacheInstance {
 
 const cache: CacheInstance[] = [];
 
+function keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | ConstValue): string {
+  if (isConst) {
+    const key = _key as ConstValue;
+
+    return `const ${key.section}.${key.method}`;
+  }
+
+  const key = _key as Uint8Array | StorageEntryPromise;
+
+  if (isU8a(key)) {
+    const u8a = Compact.stripLengthPrefix(key);
+
+    // If the string starts with `:`, handle it as a pure string
+    return u8a[0] === 0x3a
+      ? u8aToString(u8a)
+      : u8aToHex(u8a);
+  }
+
+  return `${key.creator.section}.${key.creator.method}`;
+}
+
+function typeToString (key: StorageEntryPromise): string {
+  const type = key.creator.meta.type.isDoubleMap
+    ? key.creator.meta.type.asDoubleMap.value.toString()
+    : key.creator.meta.type.toString();
+
+  return key.creator.meta.modifier.isOptional
+    ? `Option<${type}>`
+    : type;
+}
+
+function createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
+  return {
+    Component,
+    // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
+    render: (createComponent: RenderFn): React.ComponentType<any> => {
+      return renderHelper(createComponent, defaultProps);
+    },
+    // In order to modify the parameters which are used to render the default component, we can use this method
+    refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> => {
+      return renderHelper(
+        (value: any): React.ReactNode => valueToText(type, value, swallowErrors, contentShorten),
+        defaultProps
+      );
+    }
+  };
+}
+
+function getCachedComponent (query: QueryTypes): CacheInstance {
+  const { id, isConst, key, params = [] } = query as StorageModuleQuery;
+
+  if (!cache[id]) {
+    let renderHelper;
+    let type: string;
+
+    if (isConst) {
+      const { meta, method, section } = key as unknown as ConstValue;
+
+      renderHelper = withCallDiv(`consts.${section}.${method}`);
+      type = meta.type.toString();
+    } else {
+      const values: any[] = params.map(({ value }): any => value);
+
+      // render function to create an element for the query results which is plugged to the api
+      renderHelper = withCallDiv('subscribe', {
+        paramName: 'params',
+        paramValid: true,
+        params: [key, ...values]
+      });
+      type = key.creator && key.creator.meta
+        ? typeToString(key)
+        : 'Data';
+    }
+
+    const defaultProps = { className: 'ui--output' };
+    const Component = renderHelper(
+      // By default we render a simple div node component with the query results in it
+      (value: any): React.ReactNode => valueToText(type, value, true, true),
+      defaultProps
+    );
+
+    cache[query.id] = createComponent(type, Component, defaultProps, renderHelper);
+  }
+
+  return cache[id];
+}
+
 class Query extends React.PureComponent<Props, State> {
   public state: State = { spread: {} };
 
-  private static keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | ConstValue): string {
-    if (isConst) {
-      const key = _key as ConstValue;
-
-      return `const ${key.section}.${key.method}`;
-    }
-
-    const key = _key as Uint8Array | StorageEntryPromise;
-
-    if (isU8a(key)) {
-      const u8a = Compact.stripLengthPrefix(key);
-
-      // If the string starts with `:`, handle it as a pure string
-      return u8a[0] === 0x3a
-        ? u8aToString(u8a)
-        : u8aToHex(u8a);
-    }
-
-    return `${key.creator.section}.${key.creator.method}`;
-  }
-
-  private static typeToString (key: StorageEntryPromise): string {
-    const type = key.creator.meta.type.isDoubleMap
-      ? key.creator.meta.type.asDoubleMap.value.toString()
-      : key.creator.meta.type.toString();
-
-    return key.creator.meta.modifier.isOptional
-      ? `Option<${type}>`
-      : type;
-  }
-
-  public static getCachedComponent (query: QueryTypes): CacheInstance {
-    const { id, isConst, key, params = [] } = query as StorageModuleQuery;
-
-    if (!cache[id]) {
-      let renderHelper;
-      let type: string;
-
-      if (isConst) {
-        const { meta, method, section } = key as unknown as ConstValue;
-
-        renderHelper = withCallDiv(`consts.${section}.${method}`);
-        type = meta.type.toString();
-      } else {
-        const values: any[] = params.map(({ value }): any => value);
-
-        // render function to create an element for the query results which is plugged to the api
-        renderHelper = withCallDiv('subscribe', {
-          paramName: 'params',
-          paramValid: true,
-          params: [key, ...values]
-        });
-        type = key.creator.meta
-          ? Query.typeToString(key)
-          : 'Data';
-      }
-
-      const defaultProps = { className: 'ui--output' };
-      const Component = renderHelper(
-        // By default we render a simple div node component with the query results in it
-        (value: any): React.ReactNode => valueToText(type, value, true, true),
-        defaultProps
-      );
-
-      cache[query.id] = Query.createComponent(type, Component, defaultProps, renderHelper);
-    }
-
-    return cache[id];
-  }
-
-  public static createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
-    return {
-      Component,
-      // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
-      render: (createComponent: RenderFn): React.ComponentType<any> => {
-        return renderHelper(createComponent, defaultProps);
-      },
-      // In order to modify the parameters which are used to render the default component, we can use this method
-      refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> => {
-        return renderHelper(
-          (value: any): React.ReactNode => valueToText(type, value, swallowErrors, contentShorten),
-          defaultProps
-        );
-      }
-    };
-  }
-
   public static getDerivedStateFromProps ({ value }: Props): Pick<State, never> {
-    const Component = Query.getCachedComponent(value).Component;
+    const Component = getCachedComponent(value).Component;
     const inputs: React.ReactNode[] = isU8a(value.key)
       ? []
       // FIXME We need to render the actual key params
@@ -149,12 +149,12 @@ class Query extends React.PureComponent<Props, State> {
   public render (): React.ReactNode {
     const { className, value } = this.props;
     const { Component } = this.state;
-    const { isConst, key } = value;
+    const { id, isConst, key } = value;
     const type = isConst
       ? (key as unknown as ConstValue).meta.type.toString()
       : isU8a(key)
         ? 'Data'
-        : Query.typeToString(key as StorageEntryPromise);
+        : typeToString(key as StorageEntryPromise);
 
     if (!Component) {
       return null;
@@ -166,7 +166,7 @@ class Query extends React.PureComponent<Props, State> {
           <Labelled
             label={
               <div className='ui--Param-text'>
-                {Query.keyToName(isConst, key)}: {type}
+                {keyToName(isConst, key)}: {type}
               </div>
             }
           >
@@ -175,43 +175,23 @@ class Query extends React.PureComponent<Props, State> {
         </div>
         <div className='storage--actionrow-buttons'>
           <div className='container'>
-            {this.renderButtons()}
+            {(key as StorageEntryPromise).creator && (key as StorageEntryPromise).creator.meta && ['Bytes', 'Data'].includes((key as StorageEntryPromise).creator.meta.type.toString()) && (
+              <Button
+                icon='ellipsis horizontal'
+                key='spread'
+                onClick={this.spreadHandler(id)}
+              />
+            )}
+            <Button
+              icon='close'
+              isNegative
+              key='close'
+              onClick={this.onRemove}
+            />
           </div>
         </div>
       </div>
     );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { id, key } = this.props.value as StorageModuleQuery;
-
-    const buttons = [
-      <Button
-        icon='close'
-        isNegative
-        key='close'
-        onClick={this.onRemove}
-      />
-    ];
-
-    if (key.creator && key.creator.meta && ['Bytes', 'Data'].includes(key.creator.meta.type.toString())) {
-      // TODO We are currently not performing a copy
-      // buttons.unshift(
-      //   <Button
-      //     icon='copy'
-      //     onClick={this.copyHandler(id)}
-      //   />
-      // );
-      buttons.unshift(
-        <Button
-          icon='ellipsis horizontal'
-          key='spread'
-          onClick={this.spreadHandler(id)}
-        />
-      );
-    }
-
-    return buttons;
   }
 
   private spreadHandler (id: number): () => void {
@@ -238,20 +218,22 @@ class Query extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(styled(Query as React.ComponentClass<Props>)`
-  margin-bottom: 0.25em;
+export default translate(
+  styled(Query as React.ComponentClass<Props>)`
+    margin-bottom: 0.25em;
 
-  label {
-    text-transform: none !important;
-  }
+    label {
+      text-transform: none !important;
+    }
 
-  .ui.disabled.dropdown.selection {
-    color: #aaa;
-    opacity: 1;
-  }
+    .ui.disabled.dropdown.selection {
+      color: #aaa;
+      opacity: 1;
+    }
 
-  .ui--IdentityIcon {
-    margin: -10px 0;
-    vertical-align: middle;
-  }
-`);
+    .ui--IdentityIcon {
+      margin: -10px 0;
+      vertical-align: middle;
+    }
+  `
+);
