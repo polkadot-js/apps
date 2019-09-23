@@ -13,25 +13,15 @@ import Propose from './Propose';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-interface State {
-  isProposeOpen: boolean;
-}
-
-export default class Overview extends React.PureComponent<Props, State> {
-  public state: State = {
-    isProposeOpen: false
-  };
-
-  public render (): React.ReactNode {
-    return (
-      <>
-        <Summary />
-        <Propose />
-        <Columar>
-          <Proposals />
-          <Approvals />
-        </Columar>
-      </>
-    );
-  }
+export default function Overview (): React.ReactElement<Props> {
+  return (
+    <>
+      <Summary />
+      <Propose />
+      <Columar>
+        <Proposals />
+        <Approvals />
+      </Columar>
+    </>
+  );
 }
