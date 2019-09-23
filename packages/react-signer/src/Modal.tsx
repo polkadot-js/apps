@@ -156,7 +156,7 @@ class Signer extends React.PureComponent<Props, State> {
             }
             tabIndex={3}
             label={t('Cancel')}
-            labelIcon='cancel'
+            icon='cancel'
           />
           {(!isQrVisible || !isQrScanning) && (
             <>
@@ -182,7 +182,7 @@ class Signer extends React.PureComponent<Props, State> {
                           ? t('Sign via Qr')
                           : t('Sign and Submit')
                 }
-                labelIcon={
+                icon={
                   isQrVisible
                     ? 'qrcode'
                     : currentItem.isUnsigned

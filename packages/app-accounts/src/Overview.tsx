@@ -52,32 +52,32 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
       buttons={
         <Button.Group>
           <Button
+            icon='add'
             isPrimary
             label={t('Add account')}
-            labelIcon='add'
             onClick={_toggleCreate}
           />
           <Button.Or />
           <Button
+            icon='sync'
             isPrimary
             label={t('Restore JSON')}
-            labelIcon='sync'
             onClick={_toggleImport}
           />
           <Button.Or />
           <Button
+            icon='qrcode'
             isPrimary
             label={t('Add via Qr')}
-            labelIcon='qrcode'
             onClick={_toggleQr}
           />
           {isLedger() && (
             <>
               <Button.Or />
               <Button
+                icon='question'
                 isPrimary
                 label={t('Query Ledger')}
-                labelIcon='question'
                 onClick={queryLedger}
               />
             </>

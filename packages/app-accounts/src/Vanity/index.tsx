@@ -95,6 +95,11 @@ class VanityApp extends TxComponent<Props, State> {
     return (
       <Button.Group>
         <Button
+          icon={
+            isRunning
+              ? 'stop'
+              : 'sign-in'
+          }
           isDisabled={!isMatchValid}
           isPrimary={!isRunning}
           onClick={this.toggleStart}
@@ -102,11 +107,6 @@ class VanityApp extends TxComponent<Props, State> {
             isRunning
               ? t('Stop generation')
               : t('Start generation')
-          }
-          labelIcon={
-            isRunning
-              ? 'stop'
-              : 'sign-in'
           }
           ref={this.button}
         />

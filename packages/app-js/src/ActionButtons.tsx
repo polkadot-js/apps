@@ -107,6 +107,7 @@ function ActionButtons ({ className, generateLink, isCustomExample, isRunning, r
             withLabel={false}
           />
           <Button
+            icon='save'
             isDisabled={!snippetName.length}
             isPrimary
             label={t('Save snippet to local storage')}

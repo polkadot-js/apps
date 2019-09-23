@@ -102,7 +102,7 @@ class Sign extends React.PureComponent<Props, State> {
               isPrimary
               onClick={this.toggleUnlock}
               label={t('Unlock account')}
-              labelIcon='unlock'
+              icon='unlock'
             />
           </Button.Group>
         </div>

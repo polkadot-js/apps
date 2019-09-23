@@ -53,10 +53,72 @@ class Transfer extends React.PureComponent<Props> {
   }
 
   public render (): React.ReactNode {
+    const { assets, className, onClose, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
+    const { extrinsic, hasAvailable, recipientId, senderId, assetId } = this.state;
+    const available = <span className='label'>{t('available ')}</span>;
+    const options = assets
+      ? Object.entries(assets)
+        .map(([id, name]): { value: string; text: string } => ({
+          value: id,
+          text: `${name} (${id})`
+        }))
+      : [];
+
     return (
       <div>
-        {this.renderContent()}
-        {this.renderButtons()}
+        <div className={className}>
+          <InputAddress
+            defaultValue={propSenderId}
+            help={t('The account you will send funds from.')}
+            isDisabled={!!propSenderId}
+            label={t('send from account')}
+            labelExtra={<Available label={available} params={senderId} />}
+            onChange={this.onChangeFrom}
+            type='account'
+          />
+          <InputAddress
+            defaultValue={propRecipientId}
+            help={t('Select a contact or paste the address you want to send funds to.')}
+            isDisabled={!!propRecipientId}
+            label={t('send to address')}
+            labelExtra={<Available label={available} params={recipientId} />}
+            onChange={this.onChangeTo}
+            type='allPlus'
+          />
+          <Dropdown
+            allowAdd
+            help={t('Enter the Asset ID of the token you want to transfer.')}
+            label={t('asset id')}
+            onChange={this.onChangeAssetId}
+            options={options}
+            onAdd={this.onAddAssetId}
+            value={assetId}
+          />
+          <InputBalance
+            help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
+            isError={!hasAvailable}
+            label={t('amount')}
+            onChange={this.onChangeAmount}
+          />
+          <Checks
+            accountId={senderId}
+            extrinsic={extrinsic}
+            isSendable
+            onChange={this.onChangeFees}
+          />
+        </div>
+        <Button.Group>
+          <TxButton
+            accountId={senderId}
+            extrinsic={extrinsic}
+            isDisabled={!hasAvailable}
+            isPrimary
+            label={t('Make Transfer')}
+            icon='send'
+            onStart={onClose}
+            withSpinner={false}
+          />
+        </Button.Group>
       </div>
     );
   }
@@ -84,84 +146,6 @@ class Transfer extends React.PureComponent<Props> {
         senderId
       };
     });
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { extrinsic, hasAvailable, senderId } = this.state;
-
-    return (
-      <Button.Group>
-        <TxButton
-          accountId={senderId}
-          extrinsic={extrinsic}
-          isDisabled={!hasAvailable}
-          isPrimary
-          label={t('Make Transfer')}
-          labelIcon='send'
-          onStart={onClose}
-          withSpinner={false}
-        />
-      </Button.Group>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { assets, className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
-    const { extrinsic, hasAvailable, recipientId, senderId, assetId } = this.state;
-    const available = <span className='label'>{t('available ')}</span>;
-
-    const options = assets
-      ? Object.entries(assets)
-        .map(([id, name]): { value: string; text: string } => ({
-          value: id,
-          text: `${name} (${id})`
-        }))
-      : [];
-
-    return (
-      <div className={className}>
-        <InputAddress
-          defaultValue={propSenderId}
-          help={t('The account you will send funds from.')}
-          isDisabled={!!propSenderId}
-          label={t('send from account')}
-          labelExtra={<Available label={available} params={senderId} />}
-          onChange={this.onChangeFrom}
-          type='account'
-        />
-        <InputAddress
-          defaultValue={propRecipientId}
-          help={t('Select a contact or paste the address you want to send funds to.')}
-          isDisabled={!!propRecipientId}
-          label={t('send to address')}
-          labelExtra={<Available label={available} params={recipientId} />}
-          onChange={this.onChangeTo}
-          type='allPlus'
-        />
-        <Dropdown
-          allowAdd
-          help={t('Enter the Asset ID of the token you want to transfer.')}
-          label={t('asset id')}
-          onChange={this.onChangeAssetId}
-          options={options}
-          onAdd={this.onAddAssetId}
-          value={assetId}
-        />
-        <InputBalance
-          help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
-          isError={!hasAvailable}
-          label={t('amount')}
-          onChange={this.onChangeAmount}
-        />
-        <Checks
-          accountId={senderId}
-          extrinsic={extrinsic}
-          isSendable
-          onChange={this.onChangeFees}
-        />
-      </div>
-    );
   }
 
   private onChangeAmount = (amount: BN = new BN(0)): void => {

@@ -202,15 +202,21 @@ class Deploy extends ContractModal<Props, State> {
         {this.renderCancelButton()}
         <TxButton
           accountId={accountId}
+          icon='cloud upload'
           isDisabled={!isValid}
           isPrimary
           label={t('Deploy')}
-          labelIcon='cloud upload'
           onClick={this.toggleBusy(true)}
           onFailed={this.toggleBusy(false)}
           onSuccess={this.onSuccess}
           params={this.constructCall}
-          tx={api.tx.contracts ? (api.tx.contracts.instantiate ? 'contracts.instantiate' : 'contracts.create') : 'contract.create'}
+          tx={
+            api.tx.contracts
+              ? api.tx.contracts.instantiate
+                ? 'contracts.instantiate' // V2 (new)
+                : 'contracts.create' // V2 (old)
+              : 'contract.create' // V1
+          }
           ref={this.button}
         />
       </Button.Group>

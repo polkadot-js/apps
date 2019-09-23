@@ -4,7 +4,7 @@
 
 import { ButtonProps } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { isUndefined } from '@polkadot/util';
 
@@ -13,59 +13,50 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-export default class Button extends React.PureComponent<ButtonProps> {
-  private id = `button-${++idCounter}`;
+export default function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+  const [triggerId] = useState(`button-${++idCounter}`);
+  const props = {
+    basic: isBasic,
+    circular: isCircular,
+    className,
+    'data-tip': !!tooltip,
+    'data-for': triggerId,
+    disabled: isDisabled,
+    floated,
+    labelPosition,
+    loading: isLoading,
+    negative: isNegative,
+    onClick,
+    positive: isPositive,
+    primary: isPrimary,
+    size,
+    secondary: !isBasic && !(isPositive || isPrimary || isNegative),
+    style,
+    tabIndex
+  };
 
-  public render (): React.ReactNode {
-    const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelIcon, labelPosition, onClick, size, style, tabIndex, tooltip } = this.props;
-
-    const props = {
-      basic: isBasic,
-      circular: isCircular,
-      className,
-      'data-tip': !!tooltip,
-      'data-for': this.id,
-      disabled: isDisabled,
-      floated,
-      icon,
-      labelPosition,
-      loading: isLoading,
-      negative: isNegative,
-      onClick,
-      positive: isPositive,
-      primary: isPrimary,
-      size,
-      secondary: !isBasic && !(isPositive || isPrimary || isNegative),
-      style,
-      tabIndex
-    };
-
-    return (
-      <>
-        {
-          isUndefined(label) && isUndefined(children)
-            ? <SUIButton {...props} />
-            : (
-              <SUIButton {...props}>
-                {!!labelIcon && (
-                  <>
-                    <Icon className={labelIcon} />
-                    {'  '}
-                  </>
-                )}
-                {label}
-                {children}
-              </SUIButton>
-            )
-        }
-        {tooltip && (
-          <Tooltip
-            place='top'
-            text={tooltip}
-            trigger={this.id}
-          />
-        )}
-      </>
-    );
-  }
+  return (
+    <>
+      {
+        isUndefined(label) && isUndefined(children)
+          ? <SUIButton {...props} icon={icon} />
+          : (
+            <SUIButton {...props}>
+              {icon && (
+                <><Icon className={icon} />{'  '}</>
+              )}
+              {label}
+              {children}
+            </SUIButton>
+          )
+      }
+      {tooltip && (
+        <Tooltip
+          place='top'
+          text={tooltip}
+          trigger={triggerId}
+        />
+      )}
+    </>
+  );
 }

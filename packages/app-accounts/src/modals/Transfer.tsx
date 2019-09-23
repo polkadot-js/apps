@@ -121,19 +121,19 @@ class Transfer extends React.PureComponent<Props, State> {
         <Modal.Actions>
           <Button.Group>
             <Button
+              icon='cancel'
               isNegative
               label={t('Cancel')}
-              labelIcon='cancel'
               onClick={onClose}
             />
             <Button.Or />
             <TxButton
               accountId={senderId}
               extrinsic={extrinsic}
+              icon='send'
               isDisabled={!hasAvailable}
               isPrimary
               label={t('Make Transfer')}
-              labelIcon='send'
               onStart={onClose}
               withSpinner={false}
             />

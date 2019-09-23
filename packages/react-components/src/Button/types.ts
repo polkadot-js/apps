@@ -9,7 +9,7 @@ export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big
 export interface ButtonProps extends BareProps {
   children?: React.ReactNode;
   floated?: 'left' | 'right';
-  icon?: string;
+  icon: string;
   isBasic?: boolean;
   isCircular?: boolean;
   isDisabled?: boolean;
@@ -18,7 +18,6 @@ export interface ButtonProps extends BareProps {
   isPositive?: boolean;
   isPrimary?: boolean;
   label?: React.ReactNode;
-  labelIcon?: string;
   labelPosition?: 'left' | 'right';
   onClick?: () => void | Promise<void>;
   ref?: any;

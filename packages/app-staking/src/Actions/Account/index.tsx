@@ -365,7 +365,7 @@ class Account extends React.PureComponent<Props, State> {
               ? t('Stop Nominating')
               : t('Stop Validating')
           }
-          labelIcon='stop'
+          icon='stop'
           key='stop'
           tx='staking.chill'
         />
@@ -378,7 +378,7 @@ class Account extends React.PureComponent<Props, State> {
             key='set'
             onClick={this.toggleSetSessionAccount}
             label={t('Set Session Key')}
-            labelIcon='sign-in'
+            icon='sign-in'
           />
         );
       } else {
@@ -388,7 +388,7 @@ class Account extends React.PureComponent<Props, State> {
             key='validate'
             onClick={this.toggleValidate}
             label={t('Validate')}
-            labelIcon='check circle outline'
+            icon='check circle outline'
           />
         );
       }
@@ -400,7 +400,7 @@ class Account extends React.PureComponent<Props, State> {
           key='nominate'
           onClick={this.toggleNominate}
           label={t('Nominate')}
-          labelIcon='hand paper outline'
+          icon='hand paper outline'
         />
       );
     }
