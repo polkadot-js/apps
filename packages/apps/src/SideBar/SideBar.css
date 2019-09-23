@@ -228,7 +228,7 @@ a.apps--SideBar-Item-NavLink {
 }
 
 a.apps--SideBar-Item-NavLink-active {
-  background: #fafafa !important;
+  background: #fafafa;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
   color: inherit;
 
