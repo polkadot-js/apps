@@ -23,7 +23,10 @@ function NetworkModal ({ className, onClose, t }: Props): React.ReactElement<Pro
     >
       <Modal.Header>{t('Select Network')}</Modal.Header>
       <Modal.Content>
-        <General isModalContent={true} onClose={onClose} />
+        <General
+          isModalContent
+          onClose={onClose}
+        />
       </Modal.Content>
     </Modal>
   );

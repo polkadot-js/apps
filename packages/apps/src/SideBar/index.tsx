@@ -69,7 +69,7 @@ class SideBar extends React.PureComponent<Props, State> {
         />
         {this.renderModals()}
         {this.state.modals.network && (
-          <NetworkModal onClose={this.closeModal('network')}/>
+          <NetworkModal onClose={this.toggleNetworkModal}/>
         )}
         <div className='apps--SideBar'>
           <Menu
@@ -124,7 +124,10 @@ class SideBar extends React.PureComponent<Props, State> {
     const { api, isApiReady } = this.props;
 
     return (
-      <div className='apps--SideBar-logo' onClick={this.openModal('network')}>
+      <div
+        className='apps--SideBar-logo'
+        onClick={this.toggleNetworkModal}
+      >
         <ChainImg />
         <div className='info'>
           <Chain className='chain' />
@@ -231,6 +234,17 @@ class SideBar extends React.PureComponent<Props, State> {
         };
       });
     };
+  }
+
+  private toggleNetworkModal = (): void => {
+    this.setState(({ modals }): State => {
+      return {
+        modals: {
+          ...modals,
+          network: !modals.network
+        }
+      };
+    });
   }
 }
 
