@@ -45,16 +45,15 @@ function InputStorage ({ className, defaultValue, help, label, onChange, style, 
     setValue((): StorageEntryPromise => newValue);
     onChange && onChange(newValue);
   };
-  const _onSectionChange = (newSection: string): void => {
-    if (newSection === value.creator.section) {
+  const _onSectionChange = (section: string): void => {
+    if (section === value.creator.section) {
       return;
     }
 
-    const optionsMethod = keyOptions(api, newSection);
-    const newValue = api.query[newSection][optionsMethod[0].value];
+    const optionsMethod = keyOptions(api, section);
 
     setOptionsMethod(optionsMethod);
-    _onKeyChange(newValue);
+    _onKeyChange(api.query[section][optionsMethod[0].value]);
   };
 
   return (

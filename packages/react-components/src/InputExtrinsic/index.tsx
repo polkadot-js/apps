@@ -44,15 +44,15 @@ function InputExtrinsic ({ className, defaultValue, help, label, onChange, style
     setValue((): CallFunction => newValue);
     onChange(newValue);
   };
-  const _onSectionChange = (newSection: string): void => {
-    if (newSection === value.section) {
+  const _onSectionChange = (section: string): void => {
+    if (section === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(api, newSection);
+    const optionsMethod = methodOptions(api, section);
 
     setOptionsMethod(optionsMethod);
-    _onKeyChange(api.tx[newSection][optionsMethod[0].value]);
+    _onKeyChange(api.tx[section][optionsMethod[0].value]);
   };
 
   return (

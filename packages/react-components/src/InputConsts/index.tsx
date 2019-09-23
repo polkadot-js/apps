@@ -60,16 +60,15 @@ function InputConsts ({ className, defaultValue, help, label, onChange, style, w
     setValue(updated);
     onChange && onChange(updated);
   };
-  const _onSectionChange = (newSection: string): void => {
-    if (newSection === value.section) {
+  const _onSectionChange = (section: string): void => {
+    if (section === value.section) {
       return;
     }
 
-    const optionsMethod = keyOptions(api, newSection);
-    const newValue = { method: optionsMethod[0].value, section: newSection };
+    const optionsMethod = keyOptions(api, section);
 
-    setOptionsMethod(keyOptions(api, newSection));
-    _onKeyChange(newValue);
+    setOptionsMethod(optionsMethod);
+    _onKeyChange({ method: optionsMethod[0].value, section });
   };
 
   return (

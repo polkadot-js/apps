@@ -46,16 +46,15 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
     setValue((): RpcMethod => newValue);
     onChange && onChange(newValue);
   };
-  const _onSectionChange = (newSection: string): void => {
-    if (newSection === value.section) {
+  const _onSectionChange = (section: string): void => {
+    if (section === value.section) {
       return;
     }
 
-    const optionsMethod = methodOptions(api, newSection);
-    const newValue = map[newSection].methods[optionsMethod[0].value];
+    const optionsMethod = methodOptions(api, section);
 
     setOptionsMethod(optionsMethod);
-    _onMethodChange(newValue);
+    _onMethodChange(map[section].methods[optionsMethod[0].value]);
   };
 
   return (
