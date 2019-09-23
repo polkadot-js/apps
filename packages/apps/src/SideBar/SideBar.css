@@ -214,7 +214,7 @@
 }
 
 /* This is horrible ... will disappear once this stuff is actually where it belongs and not in a stylesheet */
-.theme--default
+.theme--default {
   a.apps--SideBar-Item-NavLink {
     color: #eee;
     display: block;
