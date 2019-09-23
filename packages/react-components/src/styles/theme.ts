@@ -4,6 +4,9 @@
 
 import { css } from 'styled-components';
 
+/* background color of the main Content container */
+const colorContentBg = '#fafafa';
+
 /* default buttons, dark gray */
 const colorBtnDefault = '#666';
 
@@ -102,6 +105,15 @@ export default css`
     .ui.toggle.checkbox input:checked~.box:before,
     .ui.toggle.checkbox input:checked~label:before {
       background-color: ${colorBtnHighlight} !important;
+    }
+
+    a.apps--SideBar-Item-NavLink {
+      color: ${colorBtnText};
+    }
+    a.apps--SideBar-Item-NavLink-active,
+    a.apps--SideBar-Item-NavLink-active:hover {
+      color: ${colorBtnPrimary};
+      background: ${colorContentBg};
     }
   }
 `;
