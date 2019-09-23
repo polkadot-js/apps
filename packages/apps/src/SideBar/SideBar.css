@@ -217,7 +217,6 @@ a.apps--SideBar-Item-NavLink {
   color: #eee;
   display: block;
   padding: 0.75em 0.75em;
-  transition: background 0.15s;
   white-space: nowrap;
 
   &:hover {
@@ -230,9 +229,10 @@ a.apps--SideBar-Item-NavLink {
 a.apps--SideBar-Item-NavLink-active {
   background: #fafafa;
   border-radius: 0.28571429rem 0 0 0.28571429rem;
-  color: inherit;
+  color: #3f3f3f;
 
   &:hover {
-    color: inherit;
+    background: #fafafa;
+    color: #3f3f3f;
   }
 }
