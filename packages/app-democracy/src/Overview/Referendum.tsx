@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ActionItem, Chart, Static, Voting } from '@polkadot/react-components';
 import { formatBalance, formatNumber } from '@polkadot/util';
@@ -37,91 +37,90 @@ interface State {
   votedTotal: BN;
 }
 
-class Referendum extends React.PureComponent<Props, State> {
-  public state: State = {
+function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, democracy_referendumVotesFor, t, value }: Props): React.ReactElement<Props> | null {
+  const [{ voteCount, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal }, setState] = useState<State>({
     voteCount: 0,
     voteCountAye: 0,
     voteCountNay: 0,
     votedAye: new BN(0),
     votedNay: new BN(0),
     votedTotal: new BN(0)
-  };
+  });
 
-  public static getDerivedStateFromProps ({ democracy_referendumVotesFor }: Props, prevState: State): State | null {
-    if (!democracy_referendumVotesFor) {
-      return null;
-    }
+  useEffect((): void => {
+    if (democracy_referendumVotesFor) {
+      const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }): State => {
+        if (vote.isAye) {
+          state.voteCountAye++;
+          state.votedAye = state.votedAye.add(balance);
+        } else {
+          state.voteCountNay++;
+          state.votedNay = state.votedNay.add(balance);
+        }
 
-    const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }): State => {
-      if (vote.isAye) {
-        state.voteCountAye++;
-        state.votedAye = state.votedAye.add(balance);
-      } else {
-        state.voteCountNay++;
-        state.votedNay = state.votedNay.add(balance);
+        state.voteCount++;
+        state.votedTotal = state.votedTotal.add(balance);
+
+        return state;
+      }, {
+        voteCount: 0,
+        voteCountAye: 0,
+        voteCountNay: 0,
+        votedAye: new BN(0),
+        votedNay: new BN(0),
+        votedTotal: new BN(0)
+      });
+
+      if (newState.votedAye.eq(votedNay) && newState.votedNay.eq(votedNay)) {
+        return;
       }
 
-      state.voteCount++;
-      state.votedTotal = state.votedTotal.add(balance);
-
-      return state;
-    }, {
-      voteCount: 0,
-      voteCountAye: 0,
-      voteCountNay: 0,
-      votedAye: new BN(0),
-      votedNay: new BN(0),
-      votedTotal: new BN(0)
-    });
-
-    if (newState.votedAye.eq(prevState.votedNay) && newState.votedNay.eq(prevState.votedNay)) {
-      return null;
+      setState(newState);
     }
+  }, [democracy_referendumVotesFor]);
 
-    return newState;
+  if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { chain_bestNumber, className, value } = this.props;
+  const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(value.end);
 
-    if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
-      return null;
-    }
-
-    return (
-      <ActionItem
-        className={className}
-        idNumber={value.index}
-        proposal={value.proposal}
-        accessory={
-          <Voting
-            idNumber={value.index}
-            proposal={value.proposal}
-          />
-        }
-      >
-        {this.renderInfo()}
-      </ActionItem>
-    );
-  }
-
-  private renderInfo (): React.ReactNode {
-    const { chain_bestNumber, democracy_enactmentPeriod, t, value: { end, threshold } } = this.props;
-
-    if (!chain_bestNumber) {
-      return null;
-    }
-
-    const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(end);
-
-    return (
+  return (
+    <ActionItem
+      className={className}
+      idNumber={value.index}
+      proposal={value.proposal}
+      accessory={
+        <Voting
+          idNumber={value.index}
+          proposal={value.proposal}
+        />
+      }
+    >
       <div>
-        {this.renderResults()}
+        {voteCount !== 0 && votedTotal.gtn(0) && (
+          <div className='democracy--Referendum-results chart'>
+            <Chart.HorizBar
+              values={[
+                {
+                  colors: COLORS_AYE,
+                  label: `Aye, ${formatBalance(votedAye)} (${formatNumber(voteCountAye)})`,
+                  value: votedAye.muln(10000).div(votedTotal).toNumber() / 100
+                },
+                {
+                  colors: COLORS_NAY,
+                  label: `Nay, ${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
+                  value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
+                }
+              ]}
+            />
+          </div>
+        )}
         <Static label={t('ending at')}>
           {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
             replace: {
-              blockNumber: formatNumber(end),
-              remaining: formatNumber(end.sub(chain_bestNumber).subn(1))
+              blockNumber: formatNumber(value.end),
+              remaining: formatNumber(value.end.sub(chain_bestNumber).subn(1))
             }
           })}
         </Static>
@@ -135,7 +134,7 @@ class Referendum extends React.PureComponent<Props, State> {
         <VoteThreshold
           isDisabled
           isOptional={false}
-          defaultValue={{ isValid: true, value: threshold }}
+          defaultValue={{ isValid: true, value: value.threshold }}
           label={t('vote threshold')}
           name='voteThreshold'
           type={{
@@ -144,39 +143,12 @@ class Referendum extends React.PureComponent<Props, State> {
           }}
         />
       </div>
-    );
-  }
-
-  private renderResults (): React.ReactNode {
-    const { voteCount, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } = this.state;
-
-    if (voteCount === 0 || votedTotal.eqn(0)) {
-      return null;
-    }
-
-    return (
-      <div className='democracy--Referendum-results chart'>
-        <Chart.HorizBar
-          values={[
-            {
-              colors: COLORS_AYE,
-              label: `Aye, ${formatBalance(votedAye)} (${formatNumber(voteCountAye)})`,
-              value: votedAye.muln(10000).div(votedTotal).toNumber() / 100
-            },
-            {
-              colors: COLORS_NAY,
-              label: `Nay, ${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
-              value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
-            }
-          ]}
-        />
-      </div>
-    );
-  }
+    </ActionItem>
+  );
 }
 
 export default withMulti(
-  styled(Referendum as React.ComponentClass<Props>)`
+  styled(Referendum)`
     .democracy--Referendum-results {
       margin-bottom: 1em;
 

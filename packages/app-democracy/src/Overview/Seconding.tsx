@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withMulti, withObservable } from '@polkadot/react-api';
@@ -20,99 +20,69 @@ interface Props extends I18nProps {
   proposalId: BN | number;
 }
 
-interface State {
-  accountId?: string;
-  isSecondingOpen: boolean;
-}
+function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.ReactElement<Props> | null {
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const [isSecondingOpen, setIsSecondingOpen] = useState(false);
+  const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
-class Seconding extends React.PureComponent<Props, State> {
-  public state: State = {
-    isSecondingOpen: false
-  };
-
-  public render (): React.ReactNode {
-    const { allAccounts, t } = this.props;
-    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
-
-    if (!hasAccounts) {
-      return null;
-    }
-
-    return (
-      <>
-        {this.renderModal()}
-        <div className='ui--Row-buttons'>
-          <Button
-            isPrimary
-            label={t('Second proposal')}
-            labelIcon='toggle off'
-            onClick={this.toggleSeconding}
-          />
-        </div>
-      </>
-    );
+  if (!hasAccounts) {
+    return null;
   }
 
-  private renderModal (): React.ReactNode {
-    const { depositors, proposalId, t } = this.props;
-    const { accountId, isSecondingOpen } = this.state;
+  const isDepositor = depositors.some((depositor): boolean => depositor.eq(accountId));
+  const _toggleSeconding = (): void => setIsSecondingOpen(!isSecondingOpen);
 
-    if (!isSecondingOpen) {
-      return null;
-    }
-
-    const isDepositor = !!depositors.find((depositor): boolean => depositor.eq(accountId));
-
-    return (
-      <Modal
-        dimmer='inverted'
-        open
-        size='small'
-      >
-        <Modal.Header>{t('Second proposal')}</Modal.Header>
-        <Modal.Content>
-          <InputAddress
-            help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
-            label={t('second with account')}
-            onChange={this.onChangeAccount}
-            type='account'
-            withLabel
-          />
-        </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={this.toggleSeconding}
-              label={t('Cancel')}
-              labelIcon='cancel'
+  return (
+    <>
+      {isSecondingOpen && (
+        <Modal
+          dimmer='inverted'
+          open
+          size='small'
+        >
+          <Modal.Header>{t('Second proposal')}</Modal.Header>
+          <Modal.Content>
+            <InputAddress
+              help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
+              label={t('second with account')}
+              onChange={setAccountId}
+              type='account'
+              withLabel
             />
-            <Button.Or />
-            <TxButton
-              accountId={accountId}
-              isDisabled={!accountId || isDepositor}
-              isPrimary
-              label={t('Second')}
-              labelIcon='sign-in'
-              onClick={this.toggleSeconding}
-              params={[proposalId]}
-              tx='democracy.second'
-            />
-          </Button.Group>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private onChangeAccount = (accountId?: string): void => {
-    this.setState({ accountId });
-  }
-
-  private toggleSeconding = (): void => {
-    this.setState(({ isSecondingOpen }): State => ({
-      isSecondingOpen: !isSecondingOpen
-    }));
-  }
+          </Modal.Content>
+          <Modal.Actions>
+            <Button.Group>
+              <Button
+                isNegative
+                onClick={_toggleSeconding}
+                label={t('Cancel')}
+                labelIcon='cancel'
+              />
+              <Button.Or />
+              <TxButton
+                accountId={accountId}
+                isDisabled={!accountId || isDepositor}
+                isPrimary
+                label={t('Second')}
+                labelIcon='sign-in'
+                onClick={_toggleSeconding}
+                params={[proposalId]}
+                tx='democracy.second'
+              />
+            </Button.Group>
+          </Modal.Actions>
+        </Modal>
+      )}
+      <div className='ui--Row-buttons'>
+        <Button
+          isPrimary
+          label={t('Second proposal')}
+          labelIcon='toggle off'
+          onClick={_toggleSeconding}
+        />
+      </div>
+    </>
+  );
 }
 
 export default withMulti(
