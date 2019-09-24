@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryPromise } from '@polkadot/api/types';
 import { TypeDef } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { RawParams } from '@polkadot/react-params/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { ComponentProps } from '../types';
+import { ComponentProps, StorageEntryPromise } from '../types';
 
 import React from 'react';
 import { getTypeDef } from '@polkadot/types';
