@@ -12,7 +12,7 @@ import translate from '@polkadot/react-components/translate';
 import { isUndefined } from '@polkadot/util';
 
 import getInitValue from '../initValue';
-import Bare from './Bare';
+import Base from './Base';
 import findComponent from './findComponent';
 
 interface Props extends BareProps, WithTranslation {}
@@ -53,7 +53,7 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, onEnter, style, type, withLabel } = this.props;
+    const { className, isDisabled, label, onEnter, style, type, withLabel } = this.props;
     const { Component, values } = this.state;
     const subType = type.sub as TypeDef;
 
@@ -62,9 +62,11 @@ class Vector extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Bare
+      <Base
         className={className}
+        label={label}
         style={style}
+        withLabel={withLabel}
       >
         {values.map((value, index): React.ReactNode => (
           this.isParamHidden(index)
@@ -84,7 +86,7 @@ class Vector extends React.PureComponent<Props, State> {
             )
         ))}
         {this.renderButtons()}
-      </Bare>
+      </Base>
     );
   }
 

@@ -28,7 +28,14 @@ export default class StructParam extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const defs = getTypeDef(createType(type as any).toRawType()).sub as TypeDef[];
+    const rawType = createType(type as any).toRawType();
+    const typeDef = getTypeDef(rawType);
+
+    // HACK This is a quick hack to allow `Option<struct>` ... this is certainly not the right
+    // place for this, so we need to move it (even the detection just sucks)... also see enum
+    const defs = typeDef.type.startsWith('Option<')
+      ? (typeDef.sub as TypeDef).sub as TypeDef[]
+      : typeDef.sub as TypeDef[];
 
     return {
       defs,
@@ -44,7 +51,9 @@ export default class StructParam extends React.PureComponent<Props, State> {
     }
 
     const { defs } = this.state;
-    const params = defs.map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
+    const params = (defs || []).map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
+
+    console.error(label, params);
 
     return (
       <div>
@@ -53,9 +62,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
           label={label}
           style={style}
           withLabel={withLabel}
-        >
-          &nbsp;
-        </Base>
+        />
         <Params
           onChange={this.onChangeParams}
           params={params}

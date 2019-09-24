@@ -63,7 +63,7 @@ export function Transfer ({ amount, balances_all = ZERO_BALANCE, fees, onChange,
       isCreation,
       isNoEffect
     });
-  }, [balances_all, fees]);
+  }, [amount, balances_all, fees]);
 
   return (
     <>

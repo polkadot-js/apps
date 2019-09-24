@@ -13,12 +13,13 @@ import { classes } from './util';
 interface Props extends BareProps {
   help?: React.ReactNode;
   isHidden?: boolean;
+  isOuter?: boolean;
   isSmall?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
   children: React.ReactNode;
-  withLabel?: boolean;
   withEllipsis?: boolean;
+  withLabel?: boolean;
 }
 
 const defaultLabel: React.ReactNode = (
@@ -48,17 +49,19 @@ const Wrapper = styled.div`
   &:not(.label-small) {
     padding-left: 2rem;
 
-    > label,
-    .labelExtra {
-      position: absolute;
-      text-align: left;
-      top: 0.5rem;
-      z-index: 1;
-    }
+    &:not(.label-outer) {
+      > label,
+      .labelExtra {
+        position: absolute;
+        text-align: left;
+        top: 0.5rem;
+        z-index: 1;
+      }
 
-    > label {
-      left: 3.55rem;
-      text-align: left;
+      > label {
+        left: 3.55rem;
+        text-align: left;
+      }
     }
 
     .labelExtra {
@@ -116,7 +119,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Labelled ({ className, children, help, isSmall, isHidden, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+export default function Labelled ({ className, children, help, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
@@ -127,7 +130,7 @@ export default function Labelled ({ className, children, help, isSmall, isHidden
 
   return (
     <Wrapper
-      className={classes('ui--Labelled', isSmall ? 'label-small' : '', className)}
+      className={classes('ui--Labelled', isSmall && 'label-small', isOuter && 'label-outer', className)}
       style={style}
     >
       <label>
