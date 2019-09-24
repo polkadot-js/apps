@@ -117,7 +117,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
             <Button
               isNegative
               label={t('Cancel')}
-              labelIcon='cancel'
+              icon='cancel'
               onClick={onClose}
             />
             <Button.Or />
@@ -136,7 +136,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
               ? t('Save & Reload')
               : t('Save')
           }
-          labelIcon='save'
+          icon='save'
         />
       </Button.Group>
     </div>

@@ -63,7 +63,7 @@ class Approve extends TxModal<Props, State> {
           <Button
             isPrimary
             label={t('Respond')}
-            labelIcon='reply'
+            icon='reply'
             onClick={this.showModal}
           />
         </Button.Group>

@@ -38,16 +38,16 @@ function CreateConfirmation ({ address, name, onCommit, onHideWarning, t }: Prop
       <Modal.Actions>
         <Button.Group>
           <Button
+            icon='cancel'
             isNegative
             label={t('Cancel')}
-            labelIcon='cancel'
             onClick={onHideWarning}
           />
           <Button.Or />
           <Button
+            icon='plus'
             isPrimary
             label={t('Create and backup account')}
-            labelIcon='plus'
             onClick={onCommit}
           />
         </Button.Group>

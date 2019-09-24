@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, ChainLock, Forget, Icon } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -101,8 +101,9 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
               </>
             )}
             <Button
+              icon='paper plane'
               isPrimary
-              label={<><Icon name='paper plane' /> {t('send')}</>}
+              label={t('send')}
               onClick={_toggleTransfer}
               size='small'
               tooltip={t('Send funds from this account')}

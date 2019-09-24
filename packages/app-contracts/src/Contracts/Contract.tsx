@@ -128,16 +128,16 @@ class Contract extends React.PureComponent<Props, State> {
     return (
       <div className='contracts--Contract-buttons'>
         <Button
+          icon='trash'
           isNegative
           onClick={this.toggleForget}
-          icon='trash'
           size='small'
           tooltip={t('Forget this contract')}
         />
         <Button
+          icon='play'
           isPrimary
           label={t('execute')}
-          labelIcon='play'
           onClick={(): void => onCall(address)}
           size='small'
           tooltip={t('Call a method on this contract')}

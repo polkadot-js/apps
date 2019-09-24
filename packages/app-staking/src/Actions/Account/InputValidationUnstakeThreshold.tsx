@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 
 import translate from '../../translate';
@@ -15,50 +15,35 @@ interface Props extends I18nProps {
   onError: (error: string | null) => void;
 }
 
-interface State {
-  error: string | null;
-}
+function InputValidationUnstakeThreshold ({ onError, t, unstakeThreshold }: Props): React.ReactElement<Props> | null {
+  const [error, setError] = useState<string | null>(null);
 
-class InputValidationUnstakeThreshold extends React.PureComponent<Props, State> {
-  public state: State = {
-    error: null
-  };
+  useEffect((): void => {
+    if (unstakeThreshold) {
+      let newError = null;
 
-  public static getDerivedStateFromProps ({ onError, t, unstakeThreshold }: Props, prevState: State): State | null {
-    let error = null;
+      if (unstakeThreshold.ltn(0)) {
+        newError = t('The Threshold must be a positive number');
+      } else if (unstakeThreshold.gtn(10)) {
+        newError = t('The Threshold must lower than 11');
+      }
 
-    if (!unstakeThreshold) {
-      return null;
+      if (newError !== error) {
+        onError(newError);
+        setError(newError);
+      }
     }
+  }, [unstakeThreshold]);
 
-    if (unstakeThreshold.ltn(0)) {
-      error = t('The Threshold must be a positive number');
-    } else if (unstakeThreshold.gtn(10)) {
-      error = t('The Threshold must lower than 11');
-    }
-
-    if (error === prevState.error || !unstakeThreshold) {
-      return null;
-    }
-
-    onError(error);
-
-    return { error };
+  if (!error) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { error } = this.state;
-
-    if (!error) {
-      return null;
-    }
-
-    return (
-      <article className='warning'>
-        <div><Icon name='warning sign' />{error}</div>
-      </article>
-    );
-  }
+  return (
+    <article className='warning'>
+      <div><Icon name='warning sign' />{error}</div>
+    </article>
+  );
 }
 
 export default translate(InputValidationUnstakeThreshold);

@@ -65,10 +65,10 @@ class Add extends ContractModal<Props, State> {
       <Button.Group>
         {this.renderCancelButton()}
         <Button
+          icon='save'
           isDisabled={!isValid}
           isPrimary
           label={t('Save')}
-          labelIcon='save'
           onClick={this.onSave}
           ref={this.button}
         />

@@ -66,7 +66,7 @@ function Nominate ({ controllerId, isOpen, onClose, stashId, stashOptions, t }: 
             isNegative
             onClick={onClose}
             label={t('Cancel')}
-            labelIcon='cancel'
+            icon='cancel'
           />
           <Button.Or />
           <TxButton
@@ -76,7 +76,7 @@ function Nominate ({ controllerId, isOpen, onClose, stashId, stashOptions, t }: 
             onClick={onClose}
             params={[nominees]}
             label={t('Nominate')}
-            labelIcon='hand paper outline'
+            icon='hand paper outline'
             tx='staking.nominate'
           />
         </Button.Group>

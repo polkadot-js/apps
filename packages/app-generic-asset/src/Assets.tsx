@@ -34,7 +34,7 @@ function Assets ({ assets, t }: Props): React.ReactElement<Props> {
           <Button
             isPrimary
             label={t('Register Asset')}
-            labelIcon='registered'
+            icon='registered'
             onClick={_toggleCreate}
           />
         </Button.Group>

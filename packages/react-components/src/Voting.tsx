@@ -115,7 +115,7 @@ class Voting extends TxModal<Props, State> {
         <Button
           isPrimary
           label={t('Vote')}
-          labelIcon='check'
+          icon='check'
           onClick={this.showModal}
         />
       </div>

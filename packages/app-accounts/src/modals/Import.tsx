@@ -48,18 +48,18 @@ class Import extends TxComponent<Props, State> {
         <Modal.Actions>
           <Button.Group>
             <Button
+              icon='cancel'
               isNegative
               label={t('Cancel')}
-              labelIcon='cancel'
               onClick={onClose}
             />
             <Button.Or />
             <Button
+              icon='sync'
               isDisabled={!isFileValid || !isPassValid}
               isPrimary
               onClick={this.onSave}
               label={t('Restore')}
-              labelIcon='sync'
               ref={this.button}
             />
           </Button.Group>

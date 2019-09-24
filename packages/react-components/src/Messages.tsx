@@ -52,7 +52,7 @@ function renderMessage (props: Props, index: number): React.ReactNode {
       isDisabled={!onSelectProp}
       onClick={onSelect(props, index)}
       isPrimary={!!onSelectProp}
-      labelIcon='info'
+      icon='info'
     >
       {name}
       (

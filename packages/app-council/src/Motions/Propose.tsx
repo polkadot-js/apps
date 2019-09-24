@@ -76,7 +76,7 @@ class Propose extends TxModal<Props, State> {
         <Button
           isPrimary
           label={t('Propose a council motion')}
-          labelIcon='add'
+          icon='add'
           onClick={this.showModal}
         />
       </Button.Group>

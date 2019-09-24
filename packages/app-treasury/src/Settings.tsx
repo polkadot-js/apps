@@ -117,7 +117,7 @@ class Settings extends TxComponent<Props, State> {
               <TxButton
                 accountId={accountId}
                 label={t('Submit')}
-                labelIcon='sign-in'
+                icon='sign-in'
                 tx='treasury.configure'
                 params={[
                   proposalBond.toString(),
@@ -145,7 +145,7 @@ class Settings extends TxComponent<Props, State> {
               <TxButton
                 accountId={accountId}
                 label={t('Submit')}
-                labelIcon='sign-in'
+                icon='sign-in'
                 tx='treasury.setPot'
                 params={[pot]}
               />

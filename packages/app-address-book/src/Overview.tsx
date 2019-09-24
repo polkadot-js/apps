@@ -30,9 +30,9 @@ function Overview ({ addresses, onStatusChange, t }: Props): React.ReactElement<
       buttons={
         <Button.Group>
           <Button
+            icon='add'
             isPrimary
             label={t('Add contact')}
-            labelIcon='add'
             onClick={_toggleCreate}
           />
         </Button.Group>

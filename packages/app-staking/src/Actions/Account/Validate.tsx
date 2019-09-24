@@ -94,7 +94,7 @@ class Validate extends TxComponent<Props, State> {
           <Button
             isNegative
             label={t('Cancel')}
-            labelIcon='cancel'
+            icon='cancel'
             onClick={onClose}
           />
           <Button.Or />
@@ -103,7 +103,7 @@ class Validate extends TxComponent<Props, State> {
             isDisabled={!!unstakeThresholdError}
             isPrimary
             label={t('Validate')}
-            labelIcon='check circle outline'
+            icon='check circle outline'
             onClick={onClose}
             params={[
               isSubstrateV2

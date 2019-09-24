@@ -49,7 +49,7 @@ class Propose extends TxModal<Props, State> {
         <Button
           isPrimary
           label={t('Submit a spend proposal')}
-          labelIcon='add'
+          icon='add'
           onClick={this.showModal}
         />
       </Button.Group>

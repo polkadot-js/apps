@@ -76,18 +76,18 @@ class Create extends React.PureComponent<Props, State> {
         <Modal.Actions>
           <Button.Group>
             <Button
+              icon='cancel'
               isNegative
               onClick={this.onDiscard}
               label={t('Cancel')}
-              labelIcon='cancel'
             />
             <Button.Or />
             <Button
+              icon='save'
               isDisabled={!isValid}
               isPrimary
               onClick={this.onCommit}
               label={t('Save')}
-              labelIcon='save'
             />
           </Button.Group>
         </Modal.Actions>

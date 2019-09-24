@@ -61,18 +61,18 @@ function Voting ({ allAccounts, referendumId, t }: Props): React.ReactElement<Pr
           <Modal.Actions>
             <Button.Group>
               <Button
+                icon='cancel'
                 isNegative
-                onClick={_toggleVoting}
                 label={t('Cancel')}
-                labelIcon='cancel'
+                onClick={_toggleVoting}
               />
               <Button.Or />
               <TxButton
                 accountId={accountId}
+                icon='check'
                 isDisabled={!accountId}
                 isPrimary
                 label={t('Vote')}
-                labelIcon='check'
                 onClick={_toggleVoting}
                 params={[referendumId, voteValue]}
                 tx='democracy.vote'
@@ -83,9 +83,9 @@ function Voting ({ allAccounts, referendumId, t }: Props): React.ReactElement<Pr
       )}
       <div className='ui--Row-buttons'>
         <Button
+          icon='check'
           isPrimary
           label={t('Vote')}
-          labelIcon='check'
           onClick={_toggleVoting}
         />
       </div>

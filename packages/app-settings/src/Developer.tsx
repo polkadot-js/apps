@@ -78,7 +78,7 @@ class Developer extends React.PureComponent<Props, State> {
             isNegative
             onClick={this.clearTypes}
             label={t('Reset')}
-            labelIcon='sync'
+            icon='sync'
           />
           <Button.Or />
           <Button
@@ -86,7 +86,7 @@ class Developer extends React.PureComponent<Props, State> {
             isPrimary
             onClick={this.saveDeveloper}
             label={t('Save')}
-            labelIcon='save'
+            icon='save'
           />
         </Button.Group>
       </div>

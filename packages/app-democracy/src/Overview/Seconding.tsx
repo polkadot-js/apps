@@ -56,7 +56,7 @@ function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.Re
                 isNegative
                 onClick={_toggleSeconding}
                 label={t('Cancel')}
-                labelIcon='cancel'
+                icon='cancel'
               />
               <Button.Or />
               <TxButton
@@ -64,7 +64,7 @@ function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.Re
                 isDisabled={!accountId || isDepositor}
                 isPrimary
                 label={t('Second')}
-                labelIcon='sign-in'
+                icon='sign-in'
                 onClick={_toggleSeconding}
                 params={[proposalId]}
                 tx='democracy.second'
@@ -77,7 +77,7 @@ function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.Re
         <Button
           isPrimary
           label={t('Second proposal')}
-          labelIcon='toggle off'
+          icon='toggle off'
           onClick={_toggleSeconding}
         />
       </div>

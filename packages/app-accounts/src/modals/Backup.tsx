@@ -52,17 +52,16 @@ class Backup extends TxComponent<Props, State> {
       <Modal.Actions>
         <Button.Group>
           <Button
+            icon='cancel'
             isNegative
             label={t('Cancel')}
-            labelIcon='cancel'
             onClick={onClose}
           />
           <Button.Or />
           <Button
+            icon='download'
             isDisabled={!isPassValid}
-            isPrimary
             label={t('Download')}
-            labelIcon='download'
             onClick={this.doBackup}
             ref={this.button}
           />

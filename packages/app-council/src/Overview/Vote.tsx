@@ -161,7 +161,7 @@ class Vote extends TxModal<Props, State> {
         isDisabled={candidates.length === 0}
         isPrimary
         label={t('Vote')}
-        labelIcon='check'
+        icon='check'
         onClick={this.showModal}
       />
     );
@@ -185,7 +185,7 @@ class Vote extends TxModal<Props, State> {
                   accountId={accountId}
                   isNegative
                   label={t('Retract vote')}
-                  labelIcon='delete'
+                  icon='delete'
                   onSuccess={this.onRetractVote}
                   params={[voterPositions[accountId].globalIndex]}
                   tx='elections.retractVoter'

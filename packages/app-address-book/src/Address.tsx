@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, ChainLock, Forget, Icon } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -69,9 +69,10 @@ class Address extends React.PureComponent<Props, State> {
                 />
               )}
               <Button
+                icon='paper plane'
                 isPrimary
                 key='deposit'
-                label={<><Icon name='paper plane' /> {t('deposit')}</>}
+                label={t('deposit')}
                 onClick={this.toggleTransfer}
                 size='small'
                 tooltip={t('Send funds to this address')}

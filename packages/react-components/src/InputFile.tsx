@@ -5,7 +5,7 @@
 import { WithTranslation } from 'react-i18next';
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
@@ -29,11 +29,9 @@ interface Props extends BareProps, WithTranslation {
   withLabel?: boolean;
 }
 
-interface State {
-  file?: {
-    name: string;
-    size: number;
-  };
+interface FileState {
+  name: string;
+  size: number;
 }
 
 interface LoadEvent {
@@ -42,70 +40,16 @@ interface LoadEvent {
   };
 }
 
-class InputFile extends React.PureComponent<Props, State> {
-  private dropZone: any;
+function InputFile ({ accept, className, clearContent, help, isDisabled, isError = false, label, onChange, placeholder, t, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+  const dropRef = useRef<Dropzone | null>(null);
+  const [file, setFile] = useState<FileState | undefined>();
 
-  public state: State = {};
-
-  public constructor (props: Props) {
-    super(props);
-
-    this.dropZone = React.createRef();
-  }
-
-  public render (): React.ReactNode {
-    const { accept, className, clearContent, help, isDisabled, isError = false, label, placeholder, t, withEllipsis, withLabel } = this.props;
-    const { file } = this.state;
-
-    const dropZone = (
-      <Dropzone
-        accept={accept}
-        className={classes('ui--InputFile', isError ? 'error' : '', className)}
-        disabled={isDisabled}
-        multiple={false}
-        ref={this.dropZone}
-        onDrop={this.onDrop}
-      >
-        <em className='label'>
-          {
-            !file || clearContent
-              ? placeholder || t('click to select or drag and drop the file here')
-              : placeholder || t('{{name}} ({{size}} bytes)', {
-                replace: {
-                  name: file.name,
-                  size: formatNumber(file.size)
-                }
-              })
-          }
-        </em>
-      </Dropzone>
-    );
-
-    return label ? (
-      <Labelled
-        help={help}
-        label={label}
-        withEllipsis={withEllipsis}
-        withLabel={withLabel}
-      >
-        {dropZone}
-      </Labelled>
-    ) : dropZone;
-  }
-
-  private onDrop = (files: File[]): void => {
-    const { onChange } = this.props;
-
+  const _onDrop = (files: File[]): void => {
     files.forEach((file): void => {
       const reader = new FileReader();
 
-      reader.onabort = (): void => {
-        // ignore
-      };
-
-      reader.onerror = (): void => {
-        // ignore
-      };
+      reader.onabort = (): void => {};
+      reader.onerror = (): void => {};
 
       // ummm... events are not properly specified here?
       (reader as any).onload = ({ target: { result } }: LoadEvent): void => {
@@ -114,41 +58,78 @@ class InputFile extends React.PureComponent<Props, State> {
 
         onChange && onChange(data, name);
 
-        if (this.dropZone && this.dropZone.current) {
-          this.setState({
-            file: {
-              name,
-              size: data.length
-            }
+        if (dropRef && dropRef.current) {
+          setFile({
+            name,
+            size: data.length
           });
         }
       };
 
       reader.readAsArrayBuffer(file);
     });
-  }
+  };
+
+  const dropZone = (
+    <Dropzone
+      accept={accept}
+      className={classes('ui--InputFile', isError ? 'error' : '', className)}
+      disabled={isDisabled}
+      multiple={false}
+      ref={dropRef}
+      onDrop={_onDrop}
+    >
+      <em className='label'>
+        {
+          !file || clearContent
+            ? placeholder || t('click to select or drag and drop the file here')
+            : placeholder || t('{{name}} ({{size}} bytes)', {
+              replace: {
+                name: file.name,
+                size: formatNumber(file.size)
+              }
+            })
+        }
+      </em>
+    </Dropzone>
+  );
+
+  return label
+    ? (
+      <Labelled
+        help={help}
+        label={label}
+        withEllipsis={withEllipsis}
+        withLabel={withLabel}
+      >
+        {dropZone}
+      </Labelled>
+    )
+    : dropZone;
 }
 
-export default translate(styled(InputFile)`
-  background: #fff;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  border-radius: 0.28571429rem;
-  font-size: 1rem;
-  margin: 0.25rem 0;
-  padding: 1rem;
-  width: 100% !important;
+export default translate(
+  styled(InputFile)`
+    background: #fff;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    border-radius: 0.28571429rem;
+    font-size: 1rem;
+    margin: 0.25rem 0;
+    padding: 1rem;
+    width: 100% !important;
 
-  &.error {
-    background: #fff6f6;
-    border-color: #e0b4b4;
-  }
+    &.error {
+      background: #fff6f6;
+      border-color: #e0b4b4;
+    }
 
-  &:hover {
-    background: #fefefe;
-    cursor: pointer;
-  }
+    &:hover {
+      background: #fefefe;
+      cursor: pointer;
+    }
 
-  .label {
-    color: rgba(0, 0, 0, .6);
-  }
-`);
+    .label {
+      color: rgba(0, 0, 0, .6);
+    }
+  `
+);
