@@ -313,14 +313,16 @@ class VanityApp extends TxComponent<Props, State> {
   }
 }
 
-export default translate(styled(VanityApp)`
-  .vanity--App-matches {
-    padding: 1em 0;
-  }
+export default translate(
+  styled(VanityApp)`
+    .vanity--App-matches {
+      padding: 1em 0;
+    }
 
-  .vanity--App-stats {
-    padding: 1em 0 0 0;
-    opacity: 0.45;
-    text-align: center;
-  }
-`);
+    .vanity--App-stats {
+      padding: 1em 0 0 0;
+      opacity: 0.45;
+      text-align: center;
+    }
+  `
+);

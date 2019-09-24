@@ -14,23 +14,18 @@ interface Props extends BareProps {
   [index: string]: any;
 }
 
-export default class Modal extends React.PureComponent<Props> {
-  public static Actions = SUIModal.Actions;
-
-  public static Content = SUIModal.Content;
-
-  public static Header = SUIModal.Header;
-
-  public static Description = SUIModal.Description;
-
-  public render (): React.ReactNode {
-    const { className } = this.props;
-
-    return (
-      <SUIModal
-        {...this.props}
-        className={classes('theme--default', 'ui--Modal', className)}
-      />
-    );
-  }
+function Modal (props: Props): React.ReactElement<Props> {
+  return (
+    <SUIModal
+      {...props}
+      className={classes('theme--default', 'ui--Modal', props.className)}
+    />
+  );
 }
+
+Modal.Actions = SUIModal.Actions;
+Modal.Content = SUIModal.Content;
+Modal.Header = SUIModal.Header;
+Modal.Description = SUIModal.Description;
+
+export default Modal;

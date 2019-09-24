@@ -34,7 +34,7 @@ interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
 
 interface State extends TxModalState {
   didCopy: boolean;
-  ethereumAddress?: EthereumAddress | null;
+  ethereumAddress: EthereumAddress | null;
   claim?: Balance | null;
   signature?: EcdsaSignature | null;
   step: Step;

@@ -157,7 +157,7 @@ class Developer extends React.PureComponent<Props, State> {
   }
 
   private saveDeveloper = (): void => {
-    const { t } = this.props;
+    const { onStatusChange, t } = this.props;
     const { types } = this.state;
 
     try {
@@ -166,16 +166,18 @@ class Developer extends React.PureComponent<Props, State> {
       store.set('types', types);
 
       this.setState({ isTypesValid: true });
-      this.props.onStatusChange({
+
+      onStatusChange({
         status: 'success',
         action: t('Your custom types have been added')
       });
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       this.setState({ isTypesValid: false });
-      this.props.onStatusChange({
+
+      onStatusChange({
         status: 'error',
-        action: t(`Error saving your custom types. ${e}`)
+        action: t(`Error saving your custom types. ${error.message}`)
       });
     }
   }

@@ -112,7 +112,7 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
     const allWarn = extraWarn;
     const overLimit = txLength.gten(MAX_SIZE_BYTES);
 
-    (hasAvailable !== state.hasAvailable) && onChange && onChange(hasAvailable);
+    onChange && onChange(hasAvailable);
 
     setExtra({
       extraAmount,
@@ -149,7 +149,7 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
       className={[className, feeClass, 'padded'].join(' ')}
       key='txinfo'
     >
-      {isSendable && (
+      {!isSendable && (
         <div>
           <Icon name='ban' />
           {t('The selected account does not exist on your keyring')}
