@@ -149,7 +149,18 @@ class Create extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, t } = this.props;
-    const { address, isValid, showWarning } = this.state;
+    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, isValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
+    const isDevSeed = seedType === 'dev';
+    const seedLabel = ((): string => {
+      switch (seedType) {
+        case 'bip':
+          return t('mnemonic seed');
+        case 'dev':
+          return t('development seed');
+        default:
+          return t('seed (hex or string)');
+      }
+    })();
 
     return (
       <Modal
@@ -166,7 +177,75 @@ class Create extends React.PureComponent<Props, State> {
             onHideWarning={this.onHideWarning}
           />
         )}
-        {this.renderInput()}
+        <Modal.Content>
+          <AddressRow
+            defaultName={name}
+            value={isSeedValid ? address : ''}
+          >
+            <Input
+              autoFocus
+              className='full'
+              help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              isError={!isNameValid}
+              label={t('name')}
+              onChange={this.onChangeName}
+              onEnter={this.onCommit}
+              value={name}
+            />
+            <Input
+              className='full'
+              help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+              isAction
+              isError={!isSeedValid}
+              isReadOnly={isDevSeed}
+              label={seedLabel}
+              onChange={this.onChangeSeed}
+              onEnter={this.onCommit}
+              value={seed}
+            >
+              <Dropdown
+                isButton
+                defaultValue={seedType}
+                onChange={this.selectSeedType}
+                options={seedOptions}
+              />
+            </Input>
+            <Password
+              className='full'
+              help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
+              isError={!isPassValid}
+              label={t('password')}
+              onChange={this.onChangePass}
+              onEnter={this.onCommit}
+              value={password}
+            />
+            <details
+              className='accounts--Creator-advanced'
+              open
+            >
+              <summary>{t('Advanced creation options')}</summary>
+              <Dropdown
+                defaultValue={pairType}
+                help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                label={t('keypair crypto type')}
+                onChange={this.onChangePairType}
+                options={uiSettings.availableCryptos}
+              />
+              <Input
+                className='full'
+                help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
+                isError={!!deriveError}
+                label={t('secret derivation path')}
+                onChange={this.onChangeDerive}
+                onEnter={this.onCommit}
+                value={derivePath}
+              />
+              {deriveError && (
+                <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+              )}
+            </details>
+          </AddressRow>
+        </Modal.Content>
         <Modal.Actions>
           <Button.Group>
             <Button
@@ -186,94 +265,6 @@ class Create extends React.PureComponent<Props, State> {
           </Button.Group>
         </Modal.Actions>
       </Modal>
-    );
-  }
-
-  private renderInput (): React.ReactNode {
-    const { t } = this.props;
-    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType } = this.state;
-    const isDevSeed = seedType === 'dev';
-    const seedLabel = ((): string => {
-      switch (seedType) {
-        case 'bip':
-          return t('mnemonic seed');
-        case 'dev':
-          return t('development seed');
-        default:
-          return t('seed (hex or string)');
-      }
-    })();
-
-    return (
-      <Modal.Content>
-        <AddressRow
-          defaultName={name}
-          value={isSeedValid ? address : ''}
-        >
-          <Input
-            autoFocus
-            className='full'
-            help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-            isError={!isNameValid}
-            label={t('name')}
-            onChange={this.onChangeName}
-            onEnter={this.onCommit}
-            value={name}
-          />
-          <Input
-            className='full'
-            help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-            isAction
-            isError={!isSeedValid}
-            isReadOnly={isDevSeed}
-            label={seedLabel}
-            onChange={this.onChangeSeed}
-            onEnter={this.onCommit}
-            value={seed}
-          >
-            <Dropdown
-              isButton
-              defaultValue={seedType}
-              onChange={this.selectSeedType}
-              options={seedOptions}
-            />
-          </Input>
-          <Password
-            className='full'
-            help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-            isError={!isPassValid}
-            label={t('password')}
-            onChange={this.onChangePass}
-            onEnter={this.onCommit}
-            value={password}
-          />
-          <details
-            className='accounts--Creator-advanced'
-            open
-          >
-            <summary>{t('Advanced creation options')}</summary>
-            <Dropdown
-              defaultValue={pairType}
-              help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-              label={t('keypair crypto type')}
-              onChange={this.onChangePairType}
-              options={uiSettings.availableCryptos}
-            />
-            <Input
-              className='full'
-              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
-              isError={!!deriveError}
-              label={t('secret derivation path')}
-              onChange={this.onChangeDerive}
-              onEnter={this.onCommit}
-              value={derivePath}
-            />
-            {deriveError && (
-              <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
-            )}
-          </details>
-        </AddressRow>
-      </Modal.Content>
     );
   }
 
@@ -389,10 +380,9 @@ class Create extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState(({ derivePath, pairType }: State): State => ({
-      ...(generateSeed(null, derivePath, seedType, pairType) as State),
-      seedType
-    }));
+    this.setState(({ derivePath, pairType }: State): State =>
+      (generateSeed(null, derivePath, seedType, pairType) as State)
+    );
   }
 }
 
