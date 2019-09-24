@@ -37,18 +37,17 @@ export default function Button ({ children, className, floated, icon, isBasic = 
 
   return (
     <>
-      {
-        isUndefined(label) && isUndefined(children)
-          ? <SUIButton {...props} icon={icon} />
-          : (
-            <SUIButton {...props}>
-              {icon && (
-                <><Icon className={icon} />{'  '}</>
-              )}
-              {label}
-              {children}
-            </SUIButton>
-          )
+      {isUndefined(label) && isUndefined(children)
+        ? <SUIButton {...props} icon={icon} />
+        : (
+          <SUIButton {...props}>
+            {icon && (
+              <><Icon className={icon} />{'  '}</>
+            )}
+            {label}
+            {children}
+          </SUIButton>
+        )
       }
       {tooltip && (
         <Tooltip
