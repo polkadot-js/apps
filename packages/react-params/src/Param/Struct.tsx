@@ -51,7 +51,7 @@ export default class StructParam extends React.PureComponent<Props, State> {
     }
 
     const { defs } = this.state;
-    const params = (defs || []).map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
+    const params = defs.map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
 
     return (
       <div>
