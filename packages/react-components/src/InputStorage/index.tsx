@@ -4,9 +4,9 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
+import { StorageEntryPromise } from './types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
