@@ -38,16 +38,21 @@ export default class EnumParam extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const sub = getTypeDef(createType(type as any).toRawType()).sub as TypeDef[];
-    const options = sub.map(({ name }): Option => ({
-      text: name,
-      value: name
-    }));
-    const def = prevState.def || sub[0];
+    const rawType = createType(type as any).toRawType();
+    const typeDef = getTypeDef(rawType);
+
+    // HACK This is a quick hack to allow `Option<struct>` ... this is certainly not the right
+    // place for this, so we need to move it (even the detection just sucks)... also see struct
+    const sub = typeDef.type.startsWith('Option<')
+      ? (typeDef.sub as TypeDef).sub as TypeDef[]
+      : typeDef.sub as TypeDef[];
 
     return {
-      def,
-      options,
+      def: prevState.def || sub[0],
+      options: sub.map(({ name }): Option => ({
+        text: name,
+        value: name
+      })),
       sub,
       type
     };

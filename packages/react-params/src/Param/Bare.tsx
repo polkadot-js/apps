@@ -5,13 +5,14 @@
 import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { classes } from '@polkadot/react-components/util';
 
 interface Props extends BareProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-export default function Bare ({ children, className, style }: Props): React.ReactElement<Props> {
+function Bare ({ children, className, style }: Props): React.ReactElement<Props> {
   return (
     <div
       className={classes('ui--row', className)}
@@ -21,3 +22,7 @@ export default function Bare ({ children, className, style }: Props): React.Reac
     </div>
   );
 }
+
+export default styled(Bare)`
+  position: relative;
+`;
