@@ -24,7 +24,7 @@ interface Props extends BareProps {
 interface State {
   chartData?: ChartJs.ChartData;
   chartOptions?: ChartJs.ChartOptions;
-  valuesStr?: string;
+  jsonValues?: string;
 }
 
 interface Config {
@@ -39,7 +39,7 @@ interface Config {
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
-function calculateOptions (aspectRatio: number, values: Value[], valuesStr: string): State {
+function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string): State {
   const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }): Config => {
     const dataset = data.datasets[0];
 
@@ -76,18 +76,18 @@ function calculateOptions (aspectRatio: number, values: Value[], valuesStr: stri
         }]
       }
     },
-    valuesStr
+    jsonValues
   };
 }
 
-export function ChartHorizBar ({ aspectRatio = 4, className, style, values }: Props): React.ReactElement<Props> | null {
-  const [{ chartData, chartOptions, valuesStr }, setState] = useState<State>({});
+export default function ChartHorizBar ({ aspectRatio = 4, className, style, values }: Props): React.ReactElement<Props> | null {
+  const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
-    const newValuesStr = JSON.stringify(values);
+    const newJsonValues = JSON.stringify(values);
 
-    if (newValuesStr !== valuesStr) {
-      setState(calculateOptions(aspectRatio, values, newValuesStr));
+    if (newJsonValues !== jsonValues) {
+      setState(calculateOptions(aspectRatio, values, newJsonValues));
     }
   }, [values]);
 
