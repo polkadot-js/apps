@@ -6,7 +6,7 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 import { createType } from '@polkadot/types';
 
@@ -30,19 +30,30 @@ const STATUS_COMPLETE: QueueTxStatus[] = [
 ];
 
 export default function Queue ({ children }: Props): React.ReactElement<Props> {
-  const [stqueue, setStQueue] = useState<QueueStatus[]>([]);
-  const [txqueue, setTxQueue] = useState<QueueTx[]>([]);
+  const [_stqueue, _setStQueue] = useState<QueueStatus[]>([]);
+  const [_txqueue, _setTxQueue] = useState<QueueTx[]>([]);
+  const stRef = useRef(_stqueue);
+  const txRef = useRef(_txqueue);
 
-  const addToTxQueue = (setTxQueue: (items: QueueTx[]) => void, value: QueueTxExtrinsic | QueueTxRpc | QueueTx): void => {
+  const setStQueue = (st: QueueStatus[]): void => {
+    stRef.current = st;
+    _setStQueue(st);
+  };
+  const setTxQueue = (tx: QueueTx[]): void => {
+    txRef.current = tx;
+    _setTxQueue(tx);
+  };
+
+  const addToTxQueue = (value: QueueTxExtrinsic | QueueTxRpc | QueueTx): void => {
     const id = ++nextId;
     const removeItem = (): void =>
-      setTxQueue([...txqueue.map((item): QueueTx =>
+      setTxQueue([...txRef.current.map((item): QueueTx =>
         item.id === id
           ? { ...item, status: 'completed' }
           : item
       )]);
 
-    setTxQueue([...txqueue, {
+    setTxQueue([...txRef.current, {
       ...value,
       id,
       removeItem,
@@ -55,10 +66,10 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
     const _status = Array.isArray(status) ? status : [status];
 
     if (_status.length) {
-      setStQueue([...stqueue, ...(_status.map((item): QueueStatus => {
+      setStQueue([...stRef.current, ...(_status.map((item): QueueStatus => {
         const id = ++nextId;
         const removeItem = (): void =>
-          setStQueue([...stqueue.filter((item): boolean => item.id !== id)]);
+          setStQueue([...stRef.current.filter((item): boolean => item.id !== id)]);
 
         setTimeout(removeItem, REMOVE_TIMEOUT);
 
@@ -72,7 +83,7 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
     }
   };
   const queueExtrinsic = ({ accountId, extrinsic, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): void =>
-    addToTxQueue(setTxQueue, {
+    addToTxQueue({
       accountId,
       extrinsic,
       isUnsigned,
@@ -82,7 +93,7 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
       txUpdateCb
     });
   const queuePayload = (payload: SignerPayloadJSON, signerCb: SignerCallback): void =>
-    addToTxQueue(setTxQueue, {
+    addToTxQueue({
       accountId: payload.address,
       // this is not great, but the Extrinsic we don't need a submittable
       extrinsic: createType('Extrinsic',
@@ -93,13 +104,13 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
       signerCb
     });
   const queueRpc = ({ accountId, rpc, values }: PartialQueueTxRpc): void =>
-    addToTxQueue(setTxQueue, {
+    addToTxQueue({
       accountId,
       rpc,
       values
     });
   const queueSetTxStatus = (id: number, status: QueueTxStatus, result?: SubmittableResult, error?: Error): void => {
-    setTxQueue([...txqueue.map((item): QueueTx =>
+    setTxQueue([...txRef.current.map((item): QueueTx =>
       item.id === id
         ? {
           ...item,
@@ -132,7 +143,7 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
 
     if (STATUS_COMPLETE.includes(status)) {
       setTimeout((): void => {
-        const item = txqueue.find((item): boolean => item.id === id);
+        const item = txRef.current.find((item): boolean => item.id === id);
 
         item && item.removeItem();
       }, REMOVE_TIMEOUT);
@@ -146,8 +157,8 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
       queuePayload,
       queueRpc,
       queueSetTxStatus,
-      stqueue,
-      txqueue
+      stqueue: _stqueue,
+      txqueue: _txqueue
     }}>
       {children}
     </QueueProvider>
