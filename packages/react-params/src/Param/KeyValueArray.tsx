@@ -14,7 +14,7 @@ import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';
-import KeyValue from './KeyValue';
+import { createParam } from './KeyValue';
 
 interface Props extends BaseProps, WithTranslation {}
 
@@ -135,8 +135,8 @@ class KeyValueArray extends React.PureComponent<Props, State> {
 
       assert(isHex(key) && isHex(value), `Non-hex key/value pair found in ${key.toString()} => ${value.toString()}`);
 
-      const encKey = KeyValue.createParam(key);
-      const encValue = KeyValue.createParam(value);
+      const encKey = createParam(key);
+      const encValue = createParam(value);
 
       isValid = isValid && encKey.isValid && encValue.isValid;
 
