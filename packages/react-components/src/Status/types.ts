@@ -89,15 +89,15 @@ export interface PartialQueueTxRpc extends PartialAccountInfo {
   values: any[];
 }
 
-export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => number;
+export type QueueTxRpcAdd = (value: PartialQueueTxRpc) => void;
 
-export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => number;
+export type QueueTxExtrinsicAdd = (value: PartialQueueTxExtrinsic) => void;
 
-export type QueueTxPayloadAdd = (payload: SignerPayloadJSON, signerCb: SignerCallback) => number;
+export type QueueTxPayloadAdd = (payload: SignerPayloadJSON, signerCb: SignerCallback) => void;
 
 export type QueueTxMessageSetStatus = (id: number, status: QueueTxStatus, result?: any, error?: Error) => void;
 
-export type QueueAction$Add = (status: ActionStatus | ActionStatus[]) => number;
+export type QueueAction$Add = (status: ActionStatus | ActionStatus[]) => void;
 
 export interface QueueProps {
   stqueue: QueueStatus[];
