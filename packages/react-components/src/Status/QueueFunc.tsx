@@ -6,7 +6,7 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import jsonrpc from '@polkadot/jsonrpc';
 import { createType } from '@polkadot/types';
 
@@ -29,125 +29,134 @@ const STATUS_COMPLETE: QueueTxStatus[] = [
   'cancelled', 'error', 'sent'
 ];
 
-// FIXME We really need to memo these things - this is not really optimal
 export default function Queue ({ children }: Props): React.ReactElement<Props> {
   const [stqueue, setStQueue] = useState<QueueStatus[]>([]);
   const [txqueue, setTxQueue] = useState<QueueTx[]>([]);
 
-  const _clearStatus = (id: number): () => void =>
-    (): void => setTxQueue([...txqueue.map((item): QueueTx =>
-      item.id === id
-        ? { ...item, status: 'completed' }
-        : item
-    )]);
-  const _queueActions = (status: ActionStatus[]): QueueStatus[] =>
-    status.map((item: ActionStatus) => {
+  const _clearTxStatus = useRef(
+    (id: number): () => void =>
+      (): void => setTxQueue([...txqueue.map((item): QueueTx =>
+        item.id === id
+          ? { ...item, status: 'completed' }
+          : item
+      )])
+  );
+  const _addToTxQueue = useRef(
+    (value: QueueTxExtrinsic | QueueTxRpc | QueueTx): number => {
       const id = ++nextId;
-      const removeItem = (): void => setStQueue([...stqueue.filter((item): boolean => item.id !== id)]);
 
-      setTimeout(removeItem, REMOVE_TIMEOUT);
-
-      return {
-        ...item,
+      setTxQueue([...txqueue, {
+        ...value,
         id,
-        isCompleted: false,
-        removeItem
-      };
-    });
-  const queueAction = (status: ActionStatus | ActionStatus[]): number => {
-    const todos = _queueActions(Array.isArray(status) ? status : [status]);
+        removeItem: _clearTxStatus.current(id),
+        rpc: (value as QueueTxRpc).rpc || SUBMIT_RPC,
+        status: 'queued'
+      }]);
 
-    setStQueue([...stqueue, ...todos]);
-
-    return todos[0].id;
-  };
-  const queueAdd = (value: QueueTxExtrinsic | QueueTxRpc | QueueTx): number => {
-    const id = ++nextId;
-
-    setTxQueue([...txqueue, {
-      ...value,
-      id,
-      removeItem: _clearStatus(id),
-      rpc: (value as QueueTxRpc).rpc || SUBMIT_RPC,
-      status: 'queued'
-    }]);
-
-    return id;
-  };
-  const _addResultEvents = ({ events = [] }: Partial<SubmittableResult> = {}): void => {
-    queueAction(
-      events
-        // filter events handled globally, or those we are not interested in, these are
-        // handled by the global overview, so don't add them here
-        .filter((record): boolean => !!record.event && record.event.section !== 'democracy')
-        .map(({ event: { method, section } }): ActionStatus => ({
-          action: `${section}.${method}`,
-          status: section === 'system' && method === 'ExtrinsicFailed'
-            ? 'error'
-            : 'event',
-          message: 'extrinsic event'
-        }))
-    );
-  };
-  const queueSetTxStatus = (id: number, status: QueueTxStatus, result?: SubmittableResult, error?: Error): void => {
-    setTxQueue([...txqueue.map((item): QueueTx =>
-      item.id === id
-        ? {
-          ...item,
-          error: error === undefined
-            ? item.error
-            : error,
-          result: result === undefined
-            ? item.result
-            : result,
-          status: item.status === 'completed'
-            ? item.status
-            : status
-        }
-        : item
-    )]);
-
-    _addResultEvents(result);
-
-    if (STATUS_COMPLETE.includes(status)) {
-      setTimeout(_clearStatus(id), REMOVE_TIMEOUT);
+      return id;
     }
-  };
-  const queueExtrinsic = ({ accountId, extrinsic, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): number =>
-    queueAdd({
-      accountId,
-      extrinsic,
-      isUnsigned,
-      txFailedCb,
-      txSuccessCb,
-      txStartCb,
-      txUpdateCb
-    });
-  const queuePayload = (payload: SignerPayloadJSON, signerCb: SignerCallback): number =>
-    queueAdd({
-      accountId: payload.address,
-      // this is not great, but the Extrinsic we don't need a submittable
-      extrinsic: createType('Extrinsic',
-        { method: createType('Call', payload.method) },
-        { version: payload.version }
-      ) as unknown as SubmittableExtrinsic,
-      payload,
-      signerCb
-    });
-  const queueRpc = ({ accountId, rpc, values }: PartialQueueTxRpc): number =>
-    queueAdd({
-      accountId,
-      rpc,
-      values
-    });
+  );
+  const queueAction = useRef(
+    (status: ActionStatus | ActionStatus[]): number => {
+      const todos = (Array.isArray(status) ? status : [status]).map((item: ActionStatus) => {
+        const id = ++nextId;
+        const removeItem = (): void =>
+          setStQueue([...stqueue.filter((item): boolean => item.id !== id)]);
+
+        setTimeout(removeItem, REMOVE_TIMEOUT);
+
+        return {
+          ...item,
+          id,
+          isCompleted: false,
+          removeItem
+        };
+      });
+
+      setStQueue([...stqueue, ...todos]);
+
+      return todos[0].id;
+    }
+  );
+  const queueExtrinsic = useRef(
+    ({ accountId, extrinsic, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): number =>
+      _addToTxQueue.current({
+        accountId,
+        extrinsic,
+        isUnsigned,
+        txFailedCb,
+        txSuccessCb,
+        txStartCb,
+        txUpdateCb
+      })
+  );
+  const queuePayload = useRef(
+    (payload: SignerPayloadJSON, signerCb: SignerCallback): number =>
+      _addToTxQueue.current({
+        accountId: payload.address,
+        // this is not great, but the Extrinsic we don't need a submittable
+        extrinsic: createType('Extrinsic',
+          { method: createType('Call', payload.method) },
+          { version: payload.version }
+        ) as unknown as SubmittableExtrinsic,
+        payload,
+        signerCb
+      })
+  );
+  const queueRpc = useRef(
+    ({ accountId, rpc, values }: PartialQueueTxRpc): number =>
+      _addToTxQueue.current({
+        accountId,
+        rpc,
+        values
+      })
+  );
+  const queueSetTxStatus = useRef(
+    (id: number, status: QueueTxStatus, result?: SubmittableResult, error?: Error): void => {
+      setTxQueue([...txqueue.map((item): QueueTx =>
+        item.id === id
+          ? {
+            ...item,
+            error: error === undefined
+              ? item.error
+              : error,
+            result: result === undefined
+              ? item.result
+              : result,
+            status: item.status === 'completed'
+              ? item.status
+              : status
+          }
+          : item
+      )]);
+
+      queueAction.current(
+        ((result && result.events) || [])
+          // filter events handled globally, or those we are not interested in, these are
+          // handled by the global overview, so don't add them here
+          .filter((record): boolean => !!record.event && record.event.section !== 'democracy')
+          .map(({ event: { method, section } }): ActionStatus => ({
+            action: `${section}.${method}`,
+            status: section === 'system' && method === 'ExtrinsicFailed'
+              ? 'error'
+              : 'event',
+            message: 'extrinsic event'
+          }))
+      );
+
+      if (STATUS_COMPLETE.includes(status)) {
+        setTimeout(_clearTxStatus.current(id), REMOVE_TIMEOUT);
+      }
+    }
+  );
 
   return (
     <QueueProvider value={{
-      queueAction,
-      queueExtrinsic,
-      queuePayload,
-      queueRpc,
-      queueSetTxStatus,
+      queueAction: queueAction.current,
+      queueExtrinsic: queueExtrinsic.current,
+      queuePayload: queuePayload.current,
+      queueRpc: queueRpc.current,
+      queueSetTxStatus: queueSetTxStatus.current,
       stqueue,
       txqueue
     }}>
