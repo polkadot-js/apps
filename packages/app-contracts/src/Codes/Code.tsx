@@ -19,34 +19,39 @@ import translate from '../translate';
 
 interface Props extends I18nProps, RouteComponentProps<{}> {
   code: CodeStored;
-  showDeploy: (codeHash?: string) => () => void;
+  showDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
 }
 
 interface State {
+  isAbiOpen: boolean;
   isForgetOpen: boolean;
   isRemoveABIOpen: boolean;
 }
 
 const CodeCard = styled(Card)`
   && {
-    min-height: 13rem;
+    max-width: 100%;
+    min-width: 100%;
   }
 `;
 
-class Contract extends React.PureComponent<Props, State> {
+class Code extends React.PureComponent<Props, State> {
   public state: State = {
+    isAbiOpen: false,
     isForgetOpen: false,
     isRemoveABIOpen: false
   };
 
   public render (): React.ReactNode {
     const { code, code: { contractAbi }, t } = this.props;
+    const { isAbiOpen } = this.state;
 
     const abi = (
       <ABI
         contractAbi={contractAbi}
         onChange={this.onChangeABI}
         onRemove={this.toggleRemoveABI}
+        onSelectConstructor={this.onDeployConstructor}
       />
     );
 
@@ -61,7 +66,10 @@ class Contract extends React.PureComponent<Props, State> {
         >
           {contractAbi
             ? (
-              <details>
+              <details
+                onClick={this.toggleAbi}
+                open={isAbiOpen}
+              >
                 <summary>{t('ABI')}</summary>
                 {abi}
               </details>
@@ -133,6 +141,17 @@ class Contract extends React.PureComponent<Props, State> {
     return modals;
   }
 
+  private toggleAbi = (event: React.MouseEvent): () => void => {
+    return (): void => {
+      event.preventDefault();
+      const { isAbiOpen } = this.state;
+
+      this.setState({
+        isAbiOpen: !isAbiOpen
+      });
+    };
+  }
+
   private toggleForget = (): void => {
     const { isForgetOpen } = this.state;
 
@@ -147,6 +166,12 @@ class Contract extends React.PureComponent<Props, State> {
     this.setState({
       isRemoveABIOpen: !isRemoveABIOpen
     });
+  }
+
+  private onDeployConstructor = (constructorIndex = 0): void => {
+    const { code: { json: { codeHash } }, showDeploy } = this.props;
+
+    codeHash && showDeploy && showDeploy(codeHash, constructorIndex)();
   }
 
   private onForget = (): void => {
@@ -165,14 +190,19 @@ class Contract extends React.PureComponent<Props, State> {
     }
   }
 
-  private onChangeABI = async (abi: string | null = null): Promise<void> => {
+  private onChangeABI = (abi: string | null = null): void => {
     const { code: { json: { codeHash } } } = this.props;
 
-    await contracts.saveCode(
-      codeHash,
-      { abi }
+    this.setState(
+      { isAbiOpen: true },
+      (): void => {
+        contracts.saveCode(
+          codeHash,
+          { abi }
+        );
+      }
     );
   }
 }
 
-export default translate(withRouter(Contract));
+export default translate(withRouter(Code));

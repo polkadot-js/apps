@@ -8,7 +8,6 @@ import { RawParams } from '@polkadot/react-params/types';
 
 import React from 'react';
 import UIParams from '@polkadot/react-params';
-import { getTypeDef } from '@polkadot/types';
 
 interface Props {
   isDisabled?: boolean;
@@ -34,12 +33,7 @@ export default class Params extends React.PureComponent<Props, State> {
       return { params: [] };
     }
 
-    return {
-      params: params.map(({ name, type }): ParamDef => ({
-        name,
-        type: getTypeDef(type, name)
-      }))
-    };
+    return { params };
   }
 
   public render (): React.ReactNode {

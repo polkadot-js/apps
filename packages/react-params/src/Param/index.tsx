@@ -8,6 +8,7 @@ import { BaseProps, Props as CProps, ComponentMap } from '../types';
 import React, { useRef } from 'react';
 import { classes } from '@polkadot/react-components/util';
 import translate from '@polkadot/react-components/translate';
+import { typeDefToString } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 import findComponent from './findComponent';
@@ -34,7 +35,7 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
       label={
         isUndefined(name)
           ? type.type
-          : `${name}: ${type.type}`
+          : `${name}: ${typeDefToString(type)}`
       }
       name={name}
       onChange={onChange}

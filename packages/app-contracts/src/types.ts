@@ -12,7 +12,8 @@ export interface ComponentProps extends AppProps {
   accounts: SubjectInfo[];
   contracts: SubjectInfo[];
   hasCode: boolean;
-  showDeploy: (codeHash?: string) => () => void;
+  showDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
+  updated: number;
 }
 
 export interface CodeJson {

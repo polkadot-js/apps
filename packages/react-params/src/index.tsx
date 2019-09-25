@@ -125,7 +125,7 @@ class Params extends React.PureComponent<Props, State> {
   private renderComponent = ({ isOptional = false, name, type }: ParamDef, index: number): React.ReactNode => {
     const { isDisabled, onEnter, overrides } = this.props;
     const { handlersChange = [], handlersOption = [], optional = [], values = this.props.values } = this.state;
-    const key = `${name}:${type}:${index}`;
+    const key = `${name}:${type.type}:${index}`;
 
     if (!values || values.length === 0) {
       return null;
