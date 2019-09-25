@@ -35,6 +35,8 @@ interface State {
   values?: RawParams;
 }
 
+const DISABLED_OPTIONAL = { isValid: true, value: undefined };
+
 class Params extends React.PureComponent<Props, State> {
   public state: State;
 
@@ -104,7 +106,8 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, params, style } = this.props;
+    const { className, isDisabled, onEnter, overrides, params, style } = this.props;
+    const { handlersChange = [], handlersOption = [], optional = [], values = this.props.values } = this.state;
 
     if (!params || params.length === 0) {
       return null;
@@ -116,59 +119,50 @@ class Params extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--Params-Content'>
-          {params.map(this.renderComponent)}
+          {params.map(({ isOptional = false, name, type }: ParamDef, index: number): React.ReactNode => {
+            if (!values || values.length === 0) {
+              return null;
+            }
+
+            const isDisabledOptional = isOptional && !optional[index];
+            const key = `${name}:${type}:${index}`;
+
+            return (
+              <div
+                className='ui--Param-composite'
+                key={key}
+              >
+                <Param
+                  defaultValue={
+                    isDisabledOptional
+                      ? DISABLED_OPTIONAL
+                      : values[index]
+                  }
+                  isDisabled={isDisabled || isDisabledOptional}
+                  isOptional={isOptional}
+                  key={`input:${key}`}
+                  name={name}
+                  onChange={handlersChange[index]}
+                  onEnter={onEnter}
+                  overrides={overrides}
+                  type={type}
+                />
+                {isOptional && (
+                  <Toggle
+                    className='ui--Param-overlay'
+                    key={`option:${key}`}
+                    label={
+                      optional[index]
+                        ? 'include option'
+                        : 'exclude option'
+                    }
+                    onChange={handlersOption[index]}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
-      </div>
-    );
-  }
-
-  private renderComponent = ({ isOptional = false, name, type }: ParamDef, index: number): React.ReactNode => {
-    const { isDisabled, onEnter, overrides } = this.props;
-    const { handlersChange = [], handlersOption = [], optional = [], values = this.props.values } = this.state;
-    const key = `${name}:${type}:${index}`;
-
-    if (!values || values.length === 0) {
-      return null;
-    }
-
-    const isDisabledOptional = isOptional && !optional[index];
-
-    return (
-      <div
-        className='ui--Param-composite'
-        key={key}
-      >
-        <Param
-          defaultValue={
-            isDisabledOptional
-              ? { isValid: true, value: undefined }
-              : values[index]
-          }
-          isDisabled={isDisabled || isDisabledOptional}
-          isOptional={isOptional}
-          key={`input:${key}`}
-          name={name}
-          onChange={handlersChange[index]}
-          onEnter={onEnter}
-          overrides={overrides}
-          type={type}
-        />
-        {
-          isOptional
-            ? (
-              <Toggle
-                className='ui--Param-overlay'
-                key={`option:${key}`}
-                label={
-                  optional[index]
-                    ? 'include option'
-                    : 'exclude option'
-                }
-                onChange={handlersOption[index]}
-              />
-            )
-            : null
-        }
       </div>
     );
   }

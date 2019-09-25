@@ -53,7 +53,7 @@ class Vector extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, label, onEnter, style, type, withLabel } = this.props;
+    const { className, isDisabled, label, onEnter, style, t, type, withLabel } = this.props;
     const { Component, values } = this.state;
     const subType = type.sub as TypeDef;
 
@@ -85,46 +85,32 @@ class Vector extends React.PureComponent<Props, State> {
               />
             )
         ))}
-        {this.renderButtons()}
+        {!isDisabled && (
+          <div className='ui--Param-Vector-buttons'>
+            <Button
+              isPrimary
+              onClick={this.rowAdd}
+              label={t('Add item')}
+              icon='add'
+            />
+            <Button
+              isDisabled={values.length === 1}
+              isNegative
+              onClick={this.rowRemove}
+              label={t('Remove item')}
+              icon='minus'
+            />
+          </div>
+        )}
       </Base>
     );
   }
 
-  private renderButtons (): React.ReactNode {
-    const { isDisabled, t } = this.props;
-    const { values } = this.state;
-
-    if (isDisabled) {
-      return null;
-    }
-
-    return (
-      <div className='ui--Param-Vector-buttons'>
-        <Button
-          isPrimary
-          onClick={this.rowAdd}
-          label={t('Add item')}
-          icon='add'
-        />
-        <Button
-          isDisabled={values.length === 1}
-          isNegative
-          onClick={this.rowRemove}
-          label={t('Remove item')}
-          icon='minus'
-        />
-      </div>
-    );
-  }
-
   private isParamHidden = (index: number): boolean => {
-    const { isDisabled, type } = this.props;
+    const { isDisabled = false, type } = this.props;
     const { values } = this.state;
 
-    if (type.type === 'Vec<bool>' && isDisabled && values[index].value === false) {
-      return true;
-    }
-    return false;
+    return type.type === 'Vec<bool>' && isDisabled && values[index].value === false;
   }
 
   private onChange = (index: number): (value: RawParam) => void => {
