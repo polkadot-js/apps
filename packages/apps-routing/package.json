@@ -10,6 +10,6 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.6.0"
+    "@babel/runtime": "^7.6.2"
   }
 }
