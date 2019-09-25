@@ -56,7 +56,7 @@ function Accounts ({ allAccounts, allStashes, className, myControllers, recently
           isPrimary
           key='new-stake'
           label={t('New stake')}
-          labelIcon='add'
+          icon='add'
           onClick={_toggleNewStake}
         />
       }

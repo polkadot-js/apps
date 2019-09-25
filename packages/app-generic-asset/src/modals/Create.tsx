@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import React from 'react';
-
 import { I18nProps } from '@polkadot/react-components/types';
+
+import BN from 'bn.js';
+import React, { useState } from 'react';
 import { InputNumber, Button, Input, Modal } from '@polkadot/react-components';
 
 import translate from '../translate';
@@ -15,74 +15,30 @@ export interface ModalProps {
   onRegister: (id: BN, name: string) => void;
 }
 
-type Props = ModalProps & I18nProps;
+interface Props extends ModalProps, I18nProps {}
 
-interface State {
-  assetId: BN;
-  name: string;
-}
+function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
+  const [assetId, setAssetId] = useState(new BN(0));
+  const [name, setName] = useState('new asset');
 
-class Create extends React.PureComponent<Props, State> {
-  public state: State;
+  const _onChangeAssetId = (assetId: BN | undefined): void => setAssetId(assetId || new BN(0));
+  const _onCommit = (): void => {
+    onRegister(assetId, name);
+    onClose();
+  };
 
-  public constructor (props: Props) {
-    super(props);
-
-    this.state = this.emptyState();
-  }
-
-  public render (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <Modal
-        dimmer='inverted'
-        open
-      >
-        <Modal.Header>{t('Register an Asset')}</Modal.Header>
-        {this.renderContent()}
-        {this.renderButtons()}
-      </Modal>
-    );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { name } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.onDiscard}
-            label={t('Cancel')}
-            labelIcon='cancel'
-          />
-          <Button.Or />
-          <Button
-            isDisabled={!name}
-            isPrimary
-            onClick={this.onCommit}
-            label={t('Register')}
-            labelIcon='registered'
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { t } = this.props;
-    const { assetId, name } = this.state;
-
-    return (
+  return (
+    <Modal
+      dimmer='inverted'
+      open
+    >
+      <Modal.Header>{t('Register an Asset')}</Modal.Header>
       <Modal.Content>
         <InputNumber
           help={t('Enter the Asset ID of the token you want to manage.')}
           label={t('asset id')}
-          onChange={this.onChangeNewAssetId}
-          onEnter={this.onCommit}
+          onChange={_onChangeAssetId}
+          onEnter={_onCommit}
           value={assetId}
         />
         <Input
@@ -90,42 +46,31 @@ class Create extends React.PureComponent<Props, State> {
           help={t('Type the name of this Asset. This name will be used across all the apps. It can be edited later on.')}
           isError={!name}
           label={t('name')}
-          onChange={this.onChangeName}
-          onEnter={this.onCommit}
+          onChange={setName}
+          onEnter={_onCommit}
           value={name}
         />
       </Modal.Content>
-    );
-  }
-
-  private emptyState (): State {
-    return {
-      assetId: new BN(0),
-      name: 'new asset'
-    };
-  }
-
-  private onChangeNewAssetId = (assetId: BN | undefined): void => {
-    this.setState({ assetId: assetId || new BN(0) });
-  }
-
-  private onChangeName = (name: string): void => {
-    this.setState({ name });
-  }
-
-  private onCommit = (): void => {
-    const { onClose, onRegister } = this.props;
-    const { assetId, name } = this.state;
-
-    onRegister(assetId, name);
-    onClose();
-  }
-
-  private onDiscard = (): void => {
-    const { onClose } = this.props;
-
-    onClose();
-  }
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+            icon='cancel'
+          />
+          <Button.Or />
+          <Button
+            isDisabled={!name}
+            isPrimary
+            onClick={onClose}
+            label={t('Register')}
+            icon='registered'
+          />
+        </Button.Group>
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
 export default translate(Create);

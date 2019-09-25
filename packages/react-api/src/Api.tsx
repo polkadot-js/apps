@@ -4,7 +4,6 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
-import { Prefix } from '@polkadot/util-crypto/address/types';
 import { ApiProps } from './types';
 
 import React from 'react';
@@ -136,11 +135,9 @@ export default class Api extends React.PureComponent<Props, State> {
         }))
       )
     ]);
-    const ss58Format = (
-      uiSettings.prefix === -1
-        ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
-        : uiSettings.prefix
-    ) as Prefix;
+    const ss58Format = uiSettings.prefix === -1
+      ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
+      : uiSettings.prefix;
     const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
     const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
     const systemChain = _systemChain

@@ -5,7 +5,7 @@
 import { BareProps } from '../types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ChartJs from 'chart.js';
 import { HorizontalBar } from 'react-chartjs-2';
 import { bnToBn } from '@polkadot/util';
@@ -24,7 +24,7 @@ interface Props extends BareProps {
 interface State {
   chartData?: ChartJs.ChartData;
   chartOptions?: ChartJs.ChartOptions;
-  valuesStr?: string;
+  jsonValues?: string;
 }
 
 interface Config {
@@ -39,74 +39,71 @@ interface Config {
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
-export default class ChartHorizBar extends React.PureComponent<Props, State> {
-  public state: State = {};
+function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string): State {
+  const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }): Config => {
+    const dataset = data.datasets[0];
 
-  public static getDerivedStateFromProps ({ aspectRatio = 4, values }: Props, prevState: State): State | null {
-    const valuesStr = JSON.stringify(values);
+    dataset.backgroundColor.push(alphaColor(normalColor));
+    dataset.hoverBackgroundColor.push(alphaColor(hoverColor || normalColor));
+    dataset.data.push(bnToBn(value).toNumber());
+    data.labels.push(label);
 
-    if (valuesStr === prevState.valuesStr) {
-      return null;
-    }
+    return data;
+  }, {
+    labels: [] as string[],
+    datasets: [{
+      data: [] as number[],
+      backgroundColor: [] as string[],
+      hoverBackgroundColor: [] as string[]
+    }]
+  });
 
-    const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }): Config => {
-      const dataset = data.datasets[0];
-
-      dataset.backgroundColor.push(alphaColor(normalColor));
-      dataset.hoverBackgroundColor.push(alphaColor(hoverColor || normalColor));
-      dataset.data.push(bnToBn(value).toNumber());
-      data.labels.push(label);
-
-      return data;
-    }, {
-      labels: [] as string[],
-      datasets: [{
-        data: [] as number[],
-        backgroundColor: [] as string[],
-        hoverBackgroundColor: [] as string[]
-      }]
-    });
-
-    return {
-      chartData,
-      chartOptions: {
-        // width/height by default this is "1", i.e. a square box
-        aspectRatio,
-        // no need for the legend, expect the labels contain everything
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            ticks: {
-              beginAtZero: true,
-              max: 100
-            }
-          }]
-        }
+  return {
+    chartData,
+    chartOptions: {
+      // width/height by default this is "1", i.e. a square box
+      aspectRatio,
+      // no need for the legend, expect the labels contain everything
+      legend: {
+        display: false
       },
-      valuesStr
-    };
-  }
+      scales: {
+        xAxes: [{
+          ticks: {
+            beginAtZero: true,
+            max: 100
+          }
+        }]
+      }
+    },
+    jsonValues
+  };
+}
 
-  public render (): React.ReactNode {
-    const { className, style } = this.props;
-    const { chartData, chartOptions } = this.state;
+export default function ChartHorizBar ({ aspectRatio = 4, className, style, values }: Props): React.ReactElement<Props> | null {
+  const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
-    if (!chartData) {
-      return null;
+  useEffect((): void => {
+    const newJsonValues = JSON.stringify(values);
+
+    if (newJsonValues !== jsonValues) {
+      setState(calculateOptions(aspectRatio, values, newJsonValues));
     }
+  }, [values]);
 
-    return (
-      <div
-        className={className}
-        style={style}
-      >
-        <HorizontalBar
-          data={chartData}
-          options={chartOptions}
-        />
-      </div>
-    );
+  if (!chartData) {
+    return null;
   }
+
+  return (
+    <div
+      className={className}
+      style={style}
+    >
+      <HorizontalBar
+        data={chartData}
+        options={chartOptions}
+      />
+    </div>
+  );
 }

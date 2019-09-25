@@ -49,7 +49,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
-              labelIcon='cancel'
+              icon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -57,7 +57,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Set reward destination')}
-              labelIcon='sign-in'
+              icon='sign-in'
               onClick={onClose}
               params={[destination]}
               tx={'staking.setPayee'}

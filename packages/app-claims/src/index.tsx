@@ -34,7 +34,7 @@ interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
 
 interface State extends TxModalState {
   didCopy: boolean;
-  ethereumAddress?: EthereumAddress | null;
+  ethereumAddress: EthereumAddress | null;
   claim?: Balance | null;
   signature?: EcdsaSignature | null;
   step: Step;
@@ -132,10 +132,10 @@ class App extends TxModal<Props, State> {
               {(step === Step.Account) && (
                 <Button.Group>
                   <Button
+                    icon='sign-in'
                     isPrimary
                     onClick={this.setStep(Step.Sign)}
                     label={t('Continue')}
-                    labelIcon='sign-in'
                   />
                 </Button.Group>
               )}
@@ -171,11 +171,11 @@ class App extends TxModal<Props, State> {
                 {(step === Step.Sign) && (
                   <Button.Group>
                     <Button
+                      icon='sign-in'
                       isDisabled={!accountId || !signature}
                       isPrimary
                       onClick={this.setStep(Step.Claim)}
                       label={t('Confirm claim')}
-                      labelIcon='sign-in'
                     />
                   </Button.Group>
                 )}

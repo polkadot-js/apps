@@ -66,14 +66,14 @@ class Unlock extends TxComponent<Props, State> {
             isNegative
             onClick={this.onCancel}
             label={t('Cancel')}
-            labelIcon='cancel'
+            icon='cancel'
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={this.onUnlock}
             label={t('Unlock')}
-            labelIcon='unlock'
+            icon='unlock'
             ref={this.button}
           />
         </Button.Group>

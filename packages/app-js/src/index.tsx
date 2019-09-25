@@ -7,7 +7,6 @@ import { AppProps, BareProps } from '@polkadot/react-components/types';
 import React from 'react';
 import { Route, Switch } from 'react-router';
 
-import './index.css';
 import Playground from './Playground';
 
 interface Props extends AppProps, BareProps {}

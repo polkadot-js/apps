@@ -11,7 +11,7 @@ import { Labelled } from '@polkadot/react-components';
 import Bare from './Bare';
 
 interface Props extends BareProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isDisabled?: boolean;
   label?: React.ReactNode;
   size?: Size;
@@ -26,6 +26,7 @@ export default function Base ({ children, className, label, size = 'full', style
     >
       <Labelled
         className={size}
+        isOuter
         label={label}
         withEllipsis
         withLabel={withLabel}

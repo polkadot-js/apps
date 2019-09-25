@@ -22,6 +22,7 @@ import { BestNumber, Chain } from '@polkadot/react-query';
 import translate from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
+import NetworkModal from '../modals/Network';
 
 interface Props extends ApiProps, I18nProps {
   className?: string;
@@ -50,7 +51,7 @@ class SideBar extends React.PureComponent<Props, State> {
         }
 
         return result;
-      }, {} as unknown as Record<string, boolean>)
+      }, { network: false } as unknown as Record<string, boolean>)
     };
   }
 
@@ -67,6 +68,9 @@ class SideBar extends React.PureComponent<Props, State> {
           onClick={toggleMenu}
         />
         {this.renderModals()}
+        {this.state.modals.network && (
+          <NetworkModal onClose={this.toggleNetworkModal}/>
+        )}
         <div className='apps--SideBar'>
           <Menu
             secondary
@@ -120,7 +124,10 @@ class SideBar extends React.PureComponent<Props, State> {
     const { api, isApiReady } = this.props;
 
     return (
-      <div className='apps--SideBar-logo'>
+      <div
+        className='apps--SideBar-logo'
+        onClick={this.toggleNetworkModal}
+      >
         <ChainImg />
         <div className='info'>
           <Chain className='chain' />
@@ -218,13 +225,26 @@ class SideBar extends React.PureComponent<Props, State> {
 
   private openModal = (name: string): () => void => {
     return (): void => {
-      this.setState(({ modals }): State => ({
+      this.setState(({ modals }): State => {
+        return {
+          modals: {
+            ...modals,
+            [name]: true
+          }
+        };
+      });
+    };
+  }
+
+  private toggleNetworkModal = (): void => {
+    this.setState(({ modals }): State => {
+      return {
         modals: {
           ...modals,
-          [name]: true
+          network: !modals.network
         }
-      }));
-    };
+      };
+    });
   }
 }
 

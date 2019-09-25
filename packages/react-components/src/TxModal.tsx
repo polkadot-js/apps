@@ -157,7 +157,7 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         isDisabled={this.isDisabled()}
         isPrimary
         label={this.submitLabel()}
-        labelIcon='sign-in'
+        icon='sign-in'
         onClick={this.onSubmit}
         onFailed={this.onFailed}
         onSuccess={this.onSuccess}
@@ -177,7 +177,7 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
           isNegative
           onClick={this.hideModal}
           label={t('Cancel')}
-          labelIcon='cancel'
+          icon='cancel'
         />
         <Button.Or />
       </>

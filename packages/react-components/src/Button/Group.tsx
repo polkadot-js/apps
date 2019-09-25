@@ -11,26 +11,22 @@ import styled from 'styled-components';
 import { classes } from '../util';
 import Divider from './Divider';
 
-class ButtonGroup extends React.PureComponent<GroupProps> {
-  public render (): React.ReactNode {
-    const { children, className, isBasic = false, isCentered = false, style } = this.props;
-
-    return (
-      <div
-        className={classes('ui--Button-Group', isCentered ? 'centered' : '', className)}
-        style={style}
-      >
-        <SUIButton.Group basic={isBasic}>
-          {
-            isBasic
-              ? null
-              : <Divider style={{ padding: '0em' }} />
-          }
-          {children}
-        </SUIButton.Group>
-      </div>
-    );
-  }
+function ButtonGroup ({ children, className, isBasic = false, isCentered = false, style }: GroupProps): React.ReactElement<GroupProps> {
+  return (
+    <div
+      className={classes('ui--Button-Group', isCentered ? 'centered' : '', className)}
+      style={style}
+    >
+      <SUIButton.Group basic={isBasic}>
+        {
+          isBasic
+            ? null
+            : <Divider style={{ padding: '0em' }} />
+        }
+        {children}
+      </SUIButton.Group>
+    </div>
+  );
 }
 
 (ButtonGroup as GroupType).Divider = Divider;

@@ -39,15 +39,15 @@ class Codes extends React.PureComponent<Props, State> {
           buttons={
             <Button.Group>
               <Button
+                icon='upload'
                 isPrimary
                 label={t('Upload WASM')}
-                labelIcon='upload'
                 onClick={this.showUpload}
               />
               <Button.Or />
               <Button
+                icon='add'
                 label={t('Add an existing code hash')}
-                labelIcon='add'
                 onClick={this.showAdd}
               />
             </Button.Group>

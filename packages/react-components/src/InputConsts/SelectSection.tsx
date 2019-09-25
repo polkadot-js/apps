@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryPromise } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
-import { ConstValueBase } from './types';
+import { ConstValueBase, StorageEntryPromise } from './types';
 
 import React from 'react';
 
