@@ -123,30 +123,20 @@ function renderItem (props: Props, { args, docs = [], mutates, name, returnType 
         <div className="accessory">
           <Button
             className="execute"
+            icon="play"
             onClick={onSelect(props, index)}
             tooltip={props.t('Call this message')}
-          >
-            <Icon
-              className="button"
-              name="play"
-              style={{ margin: '0 !important' }}
-            />
-          </Button>
+          />
         </div>
       )}
       {asConstructor && props.onSelectConstructor && (
         <div className="accessory">
           <Button
             className="execute"
+            icon="cloud upload"
             onClick={onSelectConstructor(props, index)}
             tooltip={props.t('Deploy with this constructor')}
-          >
-            <Icon
-              className="button"
-              name="cloud upload"
-              style={{ margin: '0 !important' }}
-            />
-          </Button>
+          />
         </div>
       )}
     </div>
