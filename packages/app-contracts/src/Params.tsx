@@ -6,7 +6,7 @@ import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UIParams from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
 
@@ -22,47 +22,34 @@ interface ParamDef {
   type: TypeDef;
 }
 
-interface State {
-  params: ParamDef[];
-}
+export default function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
+  const [params, setParams] = useState<ParamDef[]>([]);
 
-export default class Params extends React.PureComponent<Props, State> {
-  public state: State = { params: [] };
-
-  public static getDerivedStateFromProps ({ params }: Props): State | null {
-    if (!params) {
-      return { params: [] };
+  useEffect((): void => {
+    if (propParams) {
+      setParams(
+        propParams.map(({ name, type }): ParamDef => ({
+          name,
+          type: getTypeDef(type, name)
+        }))
+      );
     }
+  }, [propParams]);
 
-    return {
-      params: params.map(({ name, type }): ParamDef => ({
-        name,
-        type: getTypeDef(type, name)
-      }))
-    };
+  if (!params.length) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { isDisabled, onEnter } = this.props;
-    const { params } = this.state;
-
-    if (!params.length) {
-      return null;
-    }
-
-    return (
-      <UIParams
-        isDisabled={isDisabled}
-        onChange={this.onChange}
-        onEnter={onEnter}
-        params={params}
-      />
-    );
-  }
-
-  private onChange = (values: RawParams): void => {
-    const { onChange } = this.props;
-
+  const _onChange = (values: RawParams): void => {
     onChange(values.map(({ value }): any => value));
-  }
+  };
+
+  return (
+    <UIParams
+      isDisabled={isDisabled}
+      onChange={_onChange}
+      onEnter={onEnter}
+      params={params}
+    />
+  );
 }
