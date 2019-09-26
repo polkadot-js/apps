@@ -82,8 +82,8 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { address, className, defaultName, filter } = this.props;
-    const { controllerId, stakers, stashId } = this.state;
+    const { address, className, defaultName, filter, isSubstrateV2, lastAuthor, lastBlock, t } = this.props;
+    const { controllerId, onlineStatus, sessionId, stakers, stashId } = this.state;
     const bonded = stakers && !stakers.own.isEmpty
       ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
       : true;
@@ -96,51 +96,63 @@ class Address extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const isAuthor = !!lastBlock && !!lastAuthor && [address, controllerId, stashId].includes(lastAuthor);
+    const nominators = this.getNominators();
+
     return (
       <AddressCard
-        buttons={this.renderKeys()}
+        buttons={
+          <div className='staking--Address-info'>
+            {isAuthor && (
+              <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
+            )}
+            {controllerId && (
+              <div>
+                <label className={classes('staking--label', isSubstrateV2 && !isAuthor && 'controllerSpacer')}>{t('controller')}</label>
+                <AddressMini value={controllerId} />
+              </div>
+            )}
+            {!isSubstrateV2 && sessionId && (
+              <div>
+                <label className='staking--label'>{t('session')}</label>
+                <AddressMini value={sessionId} />
+              </div>
+            )}
+          </div>
+        }
         className={className}
         defaultName={defaultName}
-        iconInfo={this.renderOnlineStatus()}
+        iconInfo={controllerId && onlineStatus && (
+          <OnlineStatus
+            accountId={controllerId}
+            value={onlineStatus}
+            tooltip
+          />
+        )}
         key={stashId || controllerId || undefined}
         value={stashId || address}
         withBalance={{ bonded }}
       >
-        {this.renderNominators()}
+        {nominators.length && (
+          <details>
+            <summary>
+              {t('Nominators ({{count}})', {
+                replace: {
+                  count: nominators.length
+                }
+              })}
+            </summary>
+            {nominators.map(([who, bonded]): React.ReactNode =>
+              <AddressMini
+                bonded={bonded}
+                key={who.toString()}
+                value={who}
+                withBonded
+              />
+            )}
+          </details>
+        )}
       </AddressCard>
-    );
-  }
-
-  private renderKeys (): React.ReactNode {
-    const { address, isSubstrateV2, lastAuthor, lastBlock, t } = this.props;
-    const { controllerId, sessionId, stashId } = this.state;
-    const isAuthor = !!lastBlock && !!lastAuthor && [address, controllerId, stashId].includes(lastAuthor);
-
-    return (
-      <div className='staking--Address-info'>
-        {isAuthor
-          ? <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
-          : null
-        }
-        {controllerId
-          ? (
-            <div>
-              <label className={classes('staking--label', isSubstrateV2 && !isAuthor && 'controllerSpacer')}>{t('controller')}</label>
-              <AddressMini value={controllerId} />
-            </div>
-          )
-          : null
-        }
-        {!isSubstrateV2 && sessionId
-          ? (
-            <div>
-              <label className='staking--label'>{t('session')}</label>
-              <AddressMini value={sessionId} />
-            </div>
-          )
-          : null
-        }
-      </div>
     );
   }
 
@@ -175,50 +187,6 @@ class Address extends React.PureComponent<Props, State> {
     }
 
     return true;
-  }
-
-  private renderNominators (): React.ReactNode {
-    const { t } = this.props;
-    const nominators = this.getNominators();
-
-    if (!nominators.length) {
-      return null;
-    }
-
-    return (
-      <details>
-        <summary>
-          {t('Nominators ({{count}})', {
-            replace: {
-              count: nominators.length
-            }
-          })}
-        </summary>
-        {nominators.map(([who, bonded]): React.ReactNode =>
-          <AddressMini
-            bonded={bonded}
-            key={who.toString()}
-            value={who}
-            withBonded
-          />
-        )}
-      </details>
-    );
-  }
-
-  private renderOnlineStatus (): React.ReactNode {
-    const { controllerId, onlineStatus } = this.state;
-    if (!controllerId || !onlineStatus) {
-      return null;
-    }
-
-    return (
-      <OnlineStatus
-        accountId={controllerId}
-        value={onlineStatus}
-        tooltip
-      />
-    );
   }
 }
 

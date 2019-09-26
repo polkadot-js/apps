@@ -6,7 +6,7 @@ import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interf
 import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { ActionItem, Icon, TreasuryProposal } from '@polkadot/react-components';
@@ -30,83 +30,51 @@ interface Props extends I18nProps {
   onRespond: () => void;
 }
 
-interface State {
-  isApproveOpen: boolean;
-}
+function ProposalDisplay ({ allAccounts, isApproved, onPopulate, onRespond, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
+  useEffect((): void => {
+    onPopulate();
+  }, [proposal]);
 
-class ProposalDisplay extends React.PureComponent<Props, State> {
-  public constructor (props: Props) {
-    super(props);
-
-    const { proposal, onPopulate } = props;
-    if (proposal) {
-      onPopulate();
-    }
+  if (!proposal) {
+    return null;
   }
 
-  public componentDidUpdate ({ proposal }: Props): void {
-    const { onPopulate } = this.props;
+  const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
-    if (this.props.proposal && !proposal) {
-      onPopulate();
-    }
-  }
-
-  public state: State = {
-    isApproveOpen: false
-  };
-
-  public render (): React.ReactNode {
-    const { proposal, proposalId } = this.props;
-
-    if (!proposal) {
-      return null;
-    }
-
-    return (
-      <ActionItem
-        accessory={this.renderAccessory()}
-        idNumber={proposalId}
-      >
-        <TreasuryProposal proposal={proposal} />
-      </ActionItem>
-    );
-  }
-
-  private renderAccessory (): React.ReactNode {
-    const { allAccounts, isApproved, onRespond, proposal, proposalId, t } = this.props;
-
-    if (isApproved) {
-      return (
-        <Approved>
-          <Icon name='check' />
-          {'  '}
-          {t('Approved')}
-        </Approved>
-      );
-    }
-
-    const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
-    if (!hasAccounts) {
-      return null;
-    }
-
-    return (
-      <Approve
-        proposalInfo={
-          <>
-            <h3>Proposal #{proposalId}</h3>
-            <details>
-              <TreasuryProposal proposal={proposal} />
-            </details>
-            <br />
-          </>
-        }
-        proposalId={proposalId}
-        onSuccess={onRespond}
-      />
-    );
-  }
+  return (
+    <ActionItem
+      accessory={
+        isApproved
+          ? (
+            <Approved>
+              <Icon name='check' />
+              {'  '}
+              {t('Approved')}
+            </Approved>
+          )
+          : hasAccounts
+            ? (
+              <Approve
+                proposalInfo={
+                  <>
+                    <h3>Proposal #{proposalId}</h3>
+                    <details>
+                      <TreasuryProposal proposal={proposal} />
+                    </details>
+                    <br />
+                  </>
+                }
+                proposalId={proposalId}
+                onSuccess={onRespond}
+              />
+            )
+            : null
+      }
+      idNumber={proposalId}
+    >
+      <TreasuryProposal proposal={proposal} />
+    </ActionItem>
+  );
 }
 
 export default withMulti(
