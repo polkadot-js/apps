@@ -22,7 +22,7 @@ interface Props extends I18nProps, RouteComponentProps<{}> {
   treasury_proposalCount?: BN;
 }
 
-function ProposalsBase ({ history, isApprovals = false, treasury_approvals = [] as BN[], treasury_proposalCount = new BN(0), t }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ history, isApprovals = false, treasury_approvals, treasury_proposalCount, t }: Props): React.ReactElement<Props> {
   const [isEmpty, setIsEmpty] = useState(true);
   const [proposalIndices, setProposalIndices] = useState<BN[]>([]);
 
@@ -30,8 +30,8 @@ function ProposalsBase ({ history, isApprovals = false, treasury_approvals = [] 
     let proposalIndices: BN[] = [];
 
     if (isApprovals) {
-      proposalIndices = treasury_approvals;
-    } else {
+      proposalIndices = treasury_approvals || [];
+    } else if (treasury_proposalCount && treasury_approvals) {
       for (let i = 0; i < treasury_proposalCount.toNumber(); i++) {
         if (!treasury_approvals.find((index): boolean => index.eqn(i))) {
           proposalIndices.push(new BN(i));

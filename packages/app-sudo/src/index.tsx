@@ -23,12 +23,12 @@ interface Props extends AppProps, I18nProps {
   sudoKey?: string;
 }
 
-function App ({ allAccounts = {}, basePath, sudoKey = '', t }: Props): React.ReactElement<Props> {
+function App ({ allAccounts, basePath, sudoKey, t }: Props): React.ReactElement<Props> {
   const [isMine, setIsMine] = useState(false);
 
   useEffect((): void => {
     setIsMine(
-      !!sudoKey && Object.keys(allAccounts).some((key): boolean => key === sudoKey)
+      !!sudoKey && !!allAccounts && Object.keys(allAccounts).some((key): boolean => key === sudoKey)
     );
   }, [allAccounts, sudoKey]);
 

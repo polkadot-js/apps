@@ -33,7 +33,7 @@ function logDisabled (route: string, message: string): void {
   }
 }
 
-function Item ({ allAccounts = {}, route: { Modal, display: { isHidden, needsAccounts, needsApi, needsSudo }, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
+function Item ({ allAccounts, route: { Modal, display: { isHidden, needsAccounts, needsApi, needsSudo }, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
   const { api, isApiConnected, isApiReady } = useContext(ApiContext);
 
   const _hasApi = (endpoint: string): boolean => {
@@ -46,8 +46,8 @@ function Item ({ allAccounts = {}, route: { Modal, display: { isHidden, needsAcc
     }
   };
   const _isVisible = (): boolean => {
-    const hasAccounts = Object.keys(allAccounts).length !== 0;
-    const hasSudo = !!Object.keys(allAccounts).find((address): boolean => address === sudoKey);
+    const hasAccounts = !!allAccounts && Object.keys(allAccounts).length !== 0;
+    const hasSudo = !!allAccounts && Object.keys(allAccounts).some((address): boolean => address === sudoKey);
 
     if (isHidden) {
       return false;
