@@ -23,8 +23,7 @@ interface Props extends I18nProps {
 function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
-  const [isEditable, setIsEditable] = useState(false);
-  const [isExternal, setIsExternal] = useState(false);
+  const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
@@ -32,9 +31,14 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const account = keyring.getAccount(address);
 
+    console.log(account);
+
     setGenesisHash((account && account.meta.genesisHash) || null);
-    setIsEditable((account && !(account.meta.isInjected || account.meta.isHardware)) || false);
-    setIsExternal((account && account.meta.isExternal) || false);
+    setFlags({
+      isDevelopment: (account && account.meta.isTesting) || false,
+      isEditable: (account && !(account.meta.isInjected || account.meta.isHardware)) || false,
+      isExternal: (account && account.meta.isExternal) || false
+    });
   }, [address]);
 
   const _toggleBackup = (): void => setIsBackupOpen(!isBackupOpen);
@@ -73,7 +77,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       buttons={
         <div className='accounts--Account-buttons buttons'>
           <div className='actions'>
-            {isEditable && (
+            {isEditable && !isDevelopment && (
               <Button
                 isNegative
                 onClick={_toggleForget}
@@ -82,7 +86,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
                 tooltip={t('Forget this account')}
               />
             )}
-            {isEditable && !isExternal && (
+            {isEditable && !isExternal && !isDevelopment && (
               <>
                 <Button
                   icon='cloud download'
