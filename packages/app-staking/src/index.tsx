@@ -37,40 +37,45 @@ interface State {
   allControllers: string[];
   allStashes: string[];
   currentValidators: string[];
-  recentlyOnline: Record<string, BlockNumber>;
 }
 
-function App ({ allAccounts, allStashesAndControllers = [[], []], bestNumber, className, currentValidatorsControllersV1OrStashesV2 = [], basePath, recentlyOnline: propsRecentlyOnline, t }: Props): React.ReactElement<Props> {
-  const [{ allControllers, allStashes, currentValidators, recentlyOnline }, setState] = useState<State>({
+function App ({ allAccounts, allStashesAndControllers, bestNumber, className, currentValidatorsControllersV1OrStashesV2, basePath, recentlyOnline: propsRecentlyOnline, t }: Props): React.ReactElement<Props> {
+  const [{ allControllers, allStashes, currentValidators }, setState] = useState<State>({
     allControllers: [],
     allStashes: [],
-    currentValidators: [],
-    recentlyOnline: {}
+    currentValidators: []
   });
+  const [recentlyOnline, setRecentlyOnline] = useState<Record<string, BlockNumber>>({});
 
   useEffect((): void => {
+    const [_stashes, _controllers] = (allStashesAndControllers || [[], []]);
+    const _validators = currentValidatorsControllersV1OrStashesV2 || [];
+
     setState({
-      allControllers: allStashesAndControllers[1]
+      allControllers: _controllers
         .filter((optId): boolean => optId.isSome)
         .map((accountId): string => accountId.unwrap().toString()),
-      allStashes: allStashesAndControllers[0]
+      allStashes: _stashes
         .filter((): boolean => true)
         .map((accountId): string => accountId.toString()),
-      currentValidators: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
+      currentValidators: _validators.map((authorityId): string =>
         authorityId.toString()
-      ),
-      recentlyOnline: {
-        ...(recentlyOnline || {}),
-        ...(propsRecentlyOnline || []).reduce(
-          (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
-            ...result,
-            [authorityId.toString()]: bestNumber || createType('BlockNumber', new BN(0))
-          }),
-          {}
-        )
-      }
+      )
     });
-  }, [allStashesAndControllers, bestNumber, currentValidatorsControllersV1OrStashesV2]);
+  }, [allStashesAndControllers, currentValidatorsControllersV1OrStashesV2]);
+
+  useEffect((): void => {
+    setRecentlyOnline({
+      ...(recentlyOnline || {}),
+      ...(propsRecentlyOnline || []).reduce(
+        (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
+          ...result,
+          [authorityId.toString()]: bestNumber || createType('BlockNumber', new BN(0))
+        }),
+        {}
+      )
+    });
+  }, [bestNumber, propsRecentlyOnline]);
 
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
