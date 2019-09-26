@@ -17,7 +17,7 @@ import translate from '../translate';
 interface Props extends I18nProps {
   allControllers: string[];
   className?: string;
-  currentValidatorsControllersV1OrStashesV2: string[];
+  currentValidators: string[];
   lastAuthor?: string;
   lastBlock: string;
   staking_validatorCount?: BN;
@@ -25,7 +25,7 @@ interface Props extends I18nProps {
 }
 
 function Summary (props: Props): React.ReactElement<Props> {
-  const { className, currentValidatorsControllersV1OrStashesV2, lastAuthor, lastBlock, next, style, staking_validatorCount, t } = props;
+  const { className, currentValidators, lastAuthor, lastBlock, next, style, staking_validatorCount, t } = props;
 
   return (
     <SummaryBox
@@ -34,7 +34,7 @@ function Summary (props: Props): React.ReactElement<Props> {
     >
       <section>
         <CardSummary label={t('validators')}>
-          {currentValidatorsControllersV1OrStashesV2.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
+          {currentValidators.length}/{staking_validatorCount ? staking_validatorCount.toString() : '-'}
         </CardSummary>
         <CardSummary label={t('waiting')}>
           {next.length}

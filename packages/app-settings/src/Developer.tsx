@@ -4,7 +4,7 @@
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import { getTypeRegistry } from '@polkadot/types';
@@ -15,96 +15,45 @@ import translate from './translate';
 
 interface Props extends AppProps, I18nProps {}
 
-interface State {
-  code: string;
-  isJsonValid: boolean;
-  isTypesValid: boolean;
-  types: Record<string, any> | {};
-  typesPlaceholder?: string;
-}
+const EMPTY_CODE = '{\n\n}';
+const EMPTY_TYPES = {};
 
-class Developer extends React.PureComponent<Props, State> {
-  private defaultCode = '{\n\n}';
+function Developer ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const [code, setCode] = useState(EMPTY_CODE);
+  const [isJsonValid, setIsJsonValid] = useState(true);
+  const [isTypesValid, setIsTypesValid] = useState(true);
+  const [types, setTypes] = useState<Record<string, any>>(EMPTY_TYPES);
+  const [typesPlaceholder, setTypesPlaceholder] = useState<string | null>(null);
 
-  public constructor (props: Props) {
-    super(props);
-
+  useEffect((): void => {
     const types = store.get('types') || {};
-    const names = Object.keys(types);
 
-    this.state = {
-      code: Object.keys(types).length ? JSON.stringify(types, null, 2) : this.defaultCode,
-      isJsonValid: true,
-      isTypesValid: true,
-      types: names.length ? types : {},
-      typesPlaceholder: names.length
-        ? names.join(', ')
-        : undefined
-    };
-  }
+    if (Object.keys(types).length) {
+      setCode(JSON.stringify(types, null, 2));
+      setTypes({});
+      setTypesPlaceholder(Object.keys(types).join(', '));
+    }
+  }, []);
 
-  public render (): React.ReactNode {
-    const { className, t } = this.props;
-    const { code, isJsonValid, isTypesValid, types, typesPlaceholder } = this.state;
-    const typesHasNoEntries = Object.keys(types).length === 0;
-
-    return (
-      <div className={className}>
-        <div className='ui--row'>
-          <div className='full'>
-            <InputFile
-              clearContent={typesHasNoEntries && isTypesValid}
-              help={t('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
-              isError={!isTypesValid}
-              label={t('Additional types as a JSON file (or edit below)')}
-              onChange={this.onChangeTypes}
-              placeholder={typesPlaceholder}
-            />
-          </div>
-        </div>
-        <div className='ui--row'>
-          <div className='full'>
-            <Editor
-              className='editor'
-              code={code}
-              isValid={isJsonValid}
-              onEdit={this.onEditTypes}
-            />
-          </div>
-        </div>
-        <Button.Group>
-          <Button
-            isDisabled={typesHasNoEntries}
-            isNegative
-            onClick={this.clearTypes}
-            label={t('Reset')}
-            icon='sync'
-          />
-          <Button.Or />
-          <Button
-            isDisabled={!isTypesValid || !isJsonValid || typesHasNoEntries}
-            isPrimary
-            onClick={this.saveDeveloper}
-            label={t('Save')}
-            icon='save'
-          />
-        </Button.Group>
-      </div>
-    );
-  }
-
-  private clearTypes = (): void => {
+  const _setState = ({ code, isJsonValid, isTypesValid, types, typesPlaceholder }: { code: string; isJsonValid: boolean; isTypesValid: boolean; types: Record<string, any>; typesPlaceholder: string | null }): void => {
+    setCode(code);
+    setIsJsonValid(isJsonValid);
+    setIsTypesValid(isTypesValid);
+    setTypes(types);
+    setTypesPlaceholder(typesPlaceholder);
+  };
+  const _clearTypes = (): void => {
     store.remove('types');
-    this.setState({
-      code: this.defaultCode,
+
+    _setState({
+      code: EMPTY_CODE,
       isJsonValid: true,
       isTypesValid: true,
-      types: {},
-      typesPlaceholder: undefined
+      types: EMPTY_TYPES,
+      typesPlaceholder: null
     });
-  }
-
-  private onChangeTypes = (data: Uint8Array): void => {
+  };
+  const _onChangeTypes = (data: Uint8Array): void => {
     const code = u8aToString(data);
 
     try {
@@ -113,7 +62,7 @@ class Developer extends React.PureComponent<Props, State> {
 
       console.log('Detected types:', typesPlaceholder);
 
-      this.setState({
+      _setState({
         code,
         isJsonValid: true,
         isTypesValid: true,
@@ -123,7 +72,7 @@ class Developer extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error('Error registering types:', error);
 
-      this.setState({
+      _setState({
         code,
         isJsonValid: false,
         isTypesValid: false,
@@ -131,56 +80,84 @@ class Developer extends React.PureComponent<Props, State> {
         typesPlaceholder: error.message
       });
     }
-  }
-
-  private onEditTypes = (code: string): void => {
+  };
+  const _onEditTypes = (code: string): void => {
     try {
       if (!isJsonObject(code)) {
-        throw Error(this.props.t('This is not a valid JSON object.'));
+        throw Error(t('This is not a valid JSON object.'));
       }
 
-      this.setState((prevState: State): Pick<State, never> => ({
-        ...prevState,
-        code,
-        isJsonValid: true
-      }));
-
-      this.onChangeTypes(stringToU8a(code));
+      _onChangeTypes(stringToU8a(code));
     } catch (e) {
-      this.setState((prevState: State): Pick<State, never> => ({
-        ...prevState,
-        code,
-        isJsonValid: false,
-        typesPlaceholder: e.message
-      }));
+      setCode(code);
+      setIsJsonValid(false);
+      setTypesPlaceholder(e.message);
     }
-  }
-
-  private saveDeveloper = (): void => {
-    const { onStatusChange, t } = this.props;
-    const { types } = this.state;
-
+  };
+  const _saveDeveloper = (): void => {
     try {
       getTypeRegistry().register(types);
-
       store.set('types', types);
-
-      this.setState({ isTypesValid: true });
-
+      setIsTypesValid(true);
       onStatusChange({
         status: 'success',
         action: t('Your custom types have been added')
       });
     } catch (error) {
       console.error(error);
-      this.setState({ isTypesValid: false });
-
+      setIsTypesValid(false);
       onStatusChange({
         status: 'error',
         action: t(`Error saving your custom types. ${error.message}`)
       });
     }
-  }
+  };
+
+  const typesHasNoEntries = Object.keys(types).length === 0;
+
+  return (
+    <div className={className}>
+      <div className='ui--row'>
+        <div className='full'>
+          <InputFile
+            clearContent={typesHasNoEntries && isTypesValid}
+            help={t('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
+            isError={!isTypesValid}
+            label={t('Additional types as a JSON file (or edit below)')}
+            onChange={_onChangeTypes}
+            placeholder={typesPlaceholder}
+          />
+        </div>
+      </div>
+      <div className='ui--row'>
+        <div className='full'>
+          <Editor
+            className='editor'
+            code={code}
+            isValid={isJsonValid}
+            onEdit={_onEditTypes}
+          />
+        </div>
+      </div>
+      <Button.Group>
+        <Button
+          isDisabled={typesHasNoEntries}
+          isNegative
+          onClick={_clearTypes}
+          label={t('Reset')}
+          icon='sync'
+        />
+        <Button.Or />
+        <Button
+          isDisabled={!isTypesValid || !isJsonValid || typesHasNoEntries}
+          isPrimary
+          onClick={_saveDeveloper}
+          label={t('Save')}
+          icon='save'
+        />
+      </Button.Group>
+    </div>
+  );
 }
 
 export default translate(

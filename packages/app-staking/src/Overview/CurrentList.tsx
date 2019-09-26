@@ -6,81 +6,24 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Address from './Address';
 
 interface Props extends I18nProps {
-  currentValidatorsControllersV1OrStashesV2: string[];
+  currentValidators: string[];
   lastAuthor?: string;
   lastBlock: string;
   next: string[];
   recentlyOnline: Record<string, BlockNumber>;
 }
 
-interface State {
-  filter: ValidatorFilter;
-  filterOptions: { text: React.ReactNode; value: ValidatorFilter }[];
-}
+function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
+  const [filter, setFilter] = useState<ValidatorFilter>('all');
 
-class CurrentList extends React.PureComponent<Props, State> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    const { t } = props;
-
-    this.state = {
-      filter: 'all',
-      filterOptions: [
-        { text: t('Show all validators and intentions'), value: 'all' },
-        { text: t('Show only my nominations'), value: 'iNominated' },
-        { text: t('Show only with nominators'), value: 'hasNominators' },
-        { text: t('Show only without nominators'), value: 'noNominators' },
-        { text: t('Show only with warnings'), value: 'hasWarnings' },
-        { text: t('Show only without warnings'), value: 'noWarnings' }
-      ]
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { currentValidatorsControllersV1OrStashesV2, next, t } = this.props;
-    const { filter, filterOptions } = this.state;
-    return (
-      <div>
-        <FilterOverlay>
-          <Dropdown
-            onChange={this.onChangeFilter}
-            options={filterOptions}
-            value={filter}
-            withLabel={false}
-          />
-        </FilterOverlay>
-        <Columar className='validator--ValidatorsList'>
-          <Column
-            emptyText={t('No addresses found')}
-            headerText={t('validators')}
-          >
-            {this.renderColumn(currentValidatorsControllersV1OrStashesV2, t('validator'))}
-          </Column>
-          <Column
-            emptyText={t('No addresses found')}
-            headerText={t('next up')}
-          >
-            {this.renderColumn(next, t('intention'))}
-          </Column>
-        </Columar>
-      </div>
-    );
-  }
-
-  private renderColumn (addresses: string[], defaultName: string): React.ReactNode {
-    const { lastAuthor, lastBlock, recentlyOnline } = this.props;
-    const { filter } = this.state;
-
+  const _renderColumn = (addresses: string[], defaultName: string): React.ReactNode => {
     return addresses.map((address): React.ReactNode => (
       <Address
         address={address}
@@ -92,11 +35,41 @@ class CurrentList extends React.PureComponent<Props, State> {
         recentlyOnline={recentlyOnline}
       />
     ));
-  }
+  };
 
-  private onChangeFilter = (filter: ValidatorFilter): void => {
-    this.setState({ filter });
-  }
+  return (
+    <div>
+      <FilterOverlay>
+        <Dropdown
+          onChange={setFilter}
+          options={[
+            { text: t('Show all validators and intentions'), value: 'all' },
+            { text: t('Show only my nominations'), value: 'iNominated' },
+            { text: t('Show only with nominators'), value: 'hasNominators' },
+            { text: t('Show only without nominators'), value: 'noNominators' },
+            { text: t('Show only with warnings'), value: 'hasWarnings' },
+            { text: t('Show only without warnings'), value: 'noWarnings' }
+          ]}
+          value={filter}
+          withLabel={false}
+        />
+      </FilterOverlay>
+      <Columar className='validator--ValidatorsList'>
+        <Column
+          emptyText={t('No addresses found')}
+          headerText={t('validators')}
+        >
+          {_renderColumn(currentValidators, t('validator'))}
+        </Column>
+        <Column
+          emptyText={t('No addresses found')}
+          headerText={t('next up')}
+        >
+          {_renderColumn(next, t('intention'))}
+        </Column>
+      </Columar>
+    </div>
+  );
 }
 
 export default translate(CurrentList);

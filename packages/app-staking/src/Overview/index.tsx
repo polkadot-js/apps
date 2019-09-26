@@ -22,18 +22,18 @@ interface Props extends BareProps, ComponentProps {
 // TODO: Switch to useState
 function Overview (props: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
-  const { chain_subscribeNewHeads, allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, recentlyOnline } = props;
+  const { chain_subscribeNewHeads, allControllers, allStashes, currentValidators, recentlyOnline } = props;
   let nextSorted: string[];
 
   if (isSubstrateV2) {
-    // this is a V2 node currentValidatorsControllersV1OrStashesV2 is a list of stashes
+    // this is a V2 node currentValidators is a list of stashes
     nextSorted = allStashes.filter((address): boolean =>
-      !currentValidatorsControllersV1OrStashesV2.includes(address)
+      !currentValidators.includes(address)
     );
   } else {
-    // this is a V1 node currentValidatorsControllersV1OrStashesV2 is a list of controllers
+    // this is a V1 node currentValidators is a list of controllers
     nextSorted = allControllers.filter((address): boolean =>
-      !currentValidatorsControllersV1OrStashesV2.includes(address)
+      !currentValidators.includes(address)
     );
   }
 
@@ -49,13 +49,13 @@ function Overview (props: Props): React.ReactElement<Props> {
     <div className='staking--Overview'>
       <Summary
         allControllers={allControllers}
-        currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
+        currentValidators={currentValidators}
         lastBlock={lastBlock}
         lastAuthor={lastAuthor}
         next={nextSorted}
       />
       <CurrentList
-        currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
+        currentValidators={currentValidators}
         lastBlock={lastBlock}
         lastAuthor={lastAuthor}
         next={nextSorted}
