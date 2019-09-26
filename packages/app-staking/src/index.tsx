@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -10,8 +9,9 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
+import styled from 'styled-components';
 import { createType, Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
@@ -28,7 +28,7 @@ import translate from './translate';
 interface Props extends AppProps, ApiProps, I18nProps {
   allAccounts?: SubjectInfo;
   allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
-  chain_bestNumber?: BlockNumber;
+  bestNumber?: BlockNumber;
   currentValidatorsControllersV1OrStashesV2?: AccountId[];
   recentlyOnline?: AuthorityId[];
 }
@@ -36,84 +36,45 @@ interface Props extends AppProps, ApiProps, I18nProps {
 interface State {
   allControllers: string[];
   allStashes: string[];
-  currentValidatorsControllersV1OrStashesV2: string[];
+  currentValidators: string[];
   recentlyOnline: Record<string, BlockNumber>;
 }
 
-class App extends React.PureComponent<Props, State> {
-  public state: State = {
+function App ({ allAccounts, allStashesAndControllers = [[], []], bestNumber, className, currentValidatorsControllersV1OrStashesV2 = [], basePath, recentlyOnline: propsRecentlyOnline, t }: Props): React.ReactElement<Props> {
+  const [{ allControllers, allStashes, currentValidators, recentlyOnline }, setState] = useState<State>({
     allControllers: [],
     allStashes: [],
-    currentValidatorsControllersV1OrStashesV2: [],
+    currentValidators: [],
     recentlyOnline: {}
-  };
+  });
 
-  public static getDerivedStateFromProps (props: Props, state: State): Pick<State, never> {
-    const { allStashesAndControllers = [[], []], chain_bestNumber, currentValidatorsControllersV1OrStashesV2 = [] } = props;
-
-    const recentlyOnline: Record<string, BlockNumber> = {
-      ...(state.recentlyOnline || {}),
-      ...(props.recentlyOnline || []).reduce(
-        (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
-          ...result,
-          [authorityId.toString()]: chain_bestNumber || createType('BlockNumber', new BN(0))
-        }),
-        {}
-      )
-    };
-
-    return {
-      allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
-        accountId.unwrap().toString()
-      ),
-      allStashes: allStashesAndControllers[0].filter((): boolean => true).map((accountId): string => accountId.toString()),
-      currentValidatorsControllersV1OrStashesV2: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
+  useEffect((): void => {
+    setState({
+      allControllers: allStashesAndControllers[1]
+        .filter((optId): boolean => optId.isSome)
+        .map((accountId): string => accountId.unwrap().toString()),
+      allStashes: allStashesAndControllers[0]
+        .filter((): boolean => true)
+        .map((accountId): string => accountId.toString()),
+      currentValidators: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
         authorityId.toString()
       ),
-      recentlyOnline
-    };
-  }
+      recentlyOnline: {
+        ...(recentlyOnline || {}),
+        ...(propsRecentlyOnline || []).reduce(
+          (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
+            ...result,
+            [authorityId.toString()]: bestNumber || createType('BlockNumber', new BN(0))
+          }),
+          {}
+        )
+      }
+    });
+  }, [allStashesAndControllers, bestNumber, currentValidatorsControllersV1OrStashesV2]);
 
-  public render (): React.ReactNode {
-    const { allAccounts, basePath, t } = this.props;
-
-    return (
-      <main className='staking--App'>
-        <HelpOverlay md={basicMd} />
-        <header>
-          <Tabs
-            basePath={basePath}
-            hidden={
-              !allAccounts || Object.keys(allAccounts).length === 0
-                ? ['actions']
-                : []
-            }
-            items={[
-              {
-                isRoot: true,
-                name: 'overview',
-                text: t('Staking overview')
-              },
-              {
-                name: 'actions',
-                text: t('Account actions')
-              }
-            ]}
-          />
-        </header>
-        <Switch>
-          <Route path={`${basePath}/actions`} render={this.renderComponent(Accounts)} />
-          <Route render={this.renderComponent(Overview)} />
-        </Switch>
-      </main>
-    );
-  }
-
-  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
+  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
+    // eslint-disable-next-line react/display-name
     return (): React.ReactNode => {
-      const { allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, recentlyOnline } = this.state;
-      const { allAccounts } = this.props;
-
       if (!allAccounts) {
         return null;
       }
@@ -123,35 +84,67 @@ class App extends React.PureComponent<Props, State> {
           allAccounts={allAccounts}
           allControllers={allControllers}
           allStashes={allStashes}
-          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
+          currentValidators={currentValidators}
           recentlyOnline={recentlyOnline}
         />
       );
     };
-  }
+  };
+
+  return (
+    <main className={`staking--App ${className}`}>
+      <HelpOverlay md={basicMd} />
+      <header>
+        <Tabs
+          basePath={basePath}
+          hidden={
+            !allAccounts || Object.keys(allAccounts).length === 0
+              ? ['actions']
+              : []
+          }
+          items={[
+            {
+              isRoot: true,
+              name: 'overview',
+              text: t('Staking overview')
+            },
+            {
+              name: 'actions',
+              text: t('Account actions')
+            }
+          ]}
+        />
+      </header>
+      <Switch>
+        <Route path={`${basePath}/actions`} render={_renderComponent(Accounts)} />
+        <Route render={_renderComponent(Overview)} />
+      </Switch>
+    </main>
+  );
 }
 
 export default withMulti(
-  App,
+  styled(App)`
+    .rx--updated {
+      background: transparent !important;
+    }
+  `,
   translate,
   withCalls<Props>(
-    'derive.chain.bestNumber',
+    ['derive.chain.bestNumber', { propName: 'bestNumber' }],
     ['derive.staking.controllers', { propName: 'allStashesAndControllers' }],
     ['query.session.validators', { propName: 'currentValidatorsControllersV1OrStashesV2' }],
-    [
-      'query.system.events',
-      {
-        propName: 'recentlyOnline',
-        transform: (value?: EventRecord[]): AuthorityId[] =>
-          (value || [])
-            .filter(({ event: { method, section } }): boolean =>
-              section === 'imOnline' && method === 'HeartbeatReceived'
-            )
-            .map(
-              ({ event: { data: [authorityId] } }): AuthorityId => authorityId as AuthorityId
-            )
-      }
-    ]
+    ['query.system.events', {
+      propName: 'recentlyOnline',
+      transform: (value?: EventRecord[]): AuthorityId[] =>
+        (value || [])
+          .filter(({ event: { method, section } }): boolean =>
+            section === 'imOnline' && method === 'HeartbeatReceived'
+          )
+          .map(({ event: { data: [authorityId] } }): AuthorityId =>
+            authorityId as AuthorityId
+          )
+    }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

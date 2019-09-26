@@ -14,7 +14,7 @@ export interface ComponentProps {
   allAccounts?: SubjectInfo;
   allControllers: string[];
   allStashes: string[];
-  currentValidatorsControllersV1OrStashesV2: string[];
+  currentValidators: string[];
   recentlyOnline: Record<string, BlockNumber>;
 }
 
