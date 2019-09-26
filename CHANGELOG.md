@@ -1,3 +1,11 @@
+# 0.36.0-beta.x
+
+- Support for Kusama CC2
+- Experimental Ledger support
+- UI theme update
+- Migrate all buttons to have icons (via bounty)
+- Make the network selection clickable on network name (via bounty)
+
 # 0.35.1
 
 - Api 0.91.1, Util 1.2.1, Extension 0.10.1
