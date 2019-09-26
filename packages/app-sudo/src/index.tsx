@@ -63,19 +63,22 @@ function App ({ allAccounts = {}, basePath, sudoKey = '', t }: Props): React.Rea
           ]}
         />
       </header>
-      {isMine ? (
-        <Switch>
-          <Route path={`${basePath}/key`} render={_renderComponent(SetKey)} />
-          <Route render={_renderComponent(Sudo)} />
-        </Switch>
-      ) : (
-        <article className='error padded'>
-          <div>
-            <Icon name='ban' />
-            {t('You do not have access to the current sudo key')}
-          </div>
-        </article>
-      )}
+      {isMine
+        ? (
+          <Switch>
+            <Route path={`${basePath}/key`} render={_renderComponent(SetKey)} />
+            <Route render={_renderComponent(Sudo)} />
+          </Switch>
+        )
+        : (
+          <article className='error padded'>
+            <div>
+              <Icon name='ban' />
+              {t('You do not have access to the current sudo key')}
+            </div>
+          </article>
+        )
+      }
     </main>
   );
 }
