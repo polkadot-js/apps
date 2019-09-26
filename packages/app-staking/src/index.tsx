@@ -18,8 +18,6 @@ import Tabs from '@polkadot/react-components/Tabs';
 import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
-import './index.css';
-
 import Accounts from './Actions/Accounts';
 import basicMd from './md/basic.md';
 import Overview from './Overview';
