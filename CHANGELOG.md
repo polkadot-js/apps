@@ -1,3 +1,17 @@
+# 0.36.0-beta.x
+
+- Support for Kusama CC2
+- Support for Edgeware mainnet
+- Experimental Ledger support
+- Display forks on explorer (limited to Babe)
+- Change settings to have Save as well as Save & Reload (depending on hanges made)
+- Updates to struct & enum rendering (as per extrinsic app)
+- Bakc, Password change & Delete don't show for built-in dev accounts
+- UI theme update
+- Migrate all buttons to have icons (via bounty)
+- Make the network selection clickable on network name (via bounty)
+- A large number of components refactored for React functional components
+
 # 0.35.1
 
 - Api 0.91.1, Util 1.2.1, Extension 0.10.1
