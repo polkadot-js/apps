@@ -63,11 +63,21 @@ class Verify extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { t } = this.props;
-    const { cryptoOptions, cryptoType, data, isHexData } = this.state;
+    const { cryptoOptions, cryptoType, data, defaultPublicKey, isHexData, isValid, isValidAddress, isValidSignature, signature } = this.state;
 
     return (
       <div className='toolbox--Verify'>
-        {this.renderAddress()}
+        <div className='ui--row'>
+          <InputAddress
+            className='full'
+            defaultValue={defaultPublicKey}
+            help={t('The account that signed the input')}
+            isError={!isValidAddress}
+            isInput
+            label={t('verify using address')}
+            onChange={this.onChangeAddress}
+          />
+        </div>
         <div className='ui--row'>
           <Input
             autoFocus
@@ -78,7 +88,23 @@ class Verify extends React.PureComponent<Props, State> {
             value={data}
           />
         </div>
-        {this.renderSignature()}
+        <div className='ui--row'>
+          <Input
+            className='full'
+            icon={
+              <Icon
+                color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
+                name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
+                size='big'
+              />
+            }
+            isError={!isValidSignature}
+            help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
+            label={t('the supplied signature')}
+            onChange={this.onChangeSignature}
+            value={signature}
+          />
+        </div>
         <div className='ui--row'>
           <Dropdown
             defaultValue={cryptoType}
@@ -98,50 +124,6 @@ class Verify extends React.PureComponent<Props, State> {
             }
           />
         </div>
-      </div>
-    );
-  }
-
-  private renderAddress (): React.ReactNode {
-    const { t } = this.props;
-    const { defaultPublicKey, isValidAddress } = this.state;
-
-    return (
-      <div className='ui--row'>
-        <InputAddress
-          className='full'
-          defaultValue={defaultPublicKey}
-          help={t('The account that signed the input')}
-          isError={!isValidAddress}
-          isInput
-          label={t('verify using address')}
-          onChange={this.onChangeAddress}
-        />
-      </div>
-    );
-  }
-
-  private renderSignature (): React.ReactNode {
-    const { t } = this.props;
-    const { isValid, isValidSignature, signature } = this.state;
-
-    return (
-      <div className='ui--row'>
-        <Input
-          className='full'
-          icon={
-            <Icon
-              color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
-              name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
-              size='big'
-            />
-          }
-          isError={!isValidSignature}
-          help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
-          label={t('the supplied signature')}
-          onChange={this.onChangeSignature}
-          value={signature}
-        />
       </div>
     );
   }
