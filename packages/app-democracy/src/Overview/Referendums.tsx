@@ -18,23 +18,22 @@ interface Props extends I18nProps {
   democracy_referendums?: Option<ReferendumInfoExtended>[];
 }
 
-function Referendums ({ democracy_referendums = [], t }: Props): React.ReactElement<Props> {
+function Referendums ({ democracy_referendums, t }: Props): React.ReactElement<Props> {
   return (
     <Column
       emptyText={t('No available referendums')}
       headerText={t('referendum')}
     >
-      {
-        democracy_referendums
-          .filter((opt): boolean => opt.isSome)
-          .map((opt): ReferendumInfoExtended => opt.unwrap())
-          .map((referendum): React.ReactNode => (
-            <Referendum
-              idNumber={referendum.index}
-              key={referendum.index.toString()}
-              value={referendum}
-            />
-          ))
+      {democracy_referendums && democracy_referendums
+        .filter((opt): boolean => opt.isSome)
+        .map((opt): ReferendumInfoExtended => opt.unwrap())
+        .map((referendum): React.ReactNode => (
+          <Referendum
+            idNumber={referendum.index}
+            key={referendum.index.toString()}
+            value={referendum}
+          />
+        ))
       }
     </Column>
   );

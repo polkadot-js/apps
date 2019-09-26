@@ -18,7 +18,7 @@ interface Props extends I18nProps {
   council_proposals?: Hash[];
 }
 
-function Proposals ({ council_proposals = [], t }: Props): React.ReactElement<Props> {
+function Proposals ({ council_proposals, t }: Props): React.ReactElement<Props> {
   return (
     <CardGrid
       emptyText={t('No council motions')}
@@ -27,7 +27,7 @@ function Proposals ({ council_proposals = [], t }: Props): React.ReactElement<Pr
         <Propose />
       }
     >
-      {council_proposals.map((hash: Hash): React.ReactNode => (
+      {council_proposals && council_proposals.map((hash: Hash): React.ReactNode => (
         <Motion
           hash={hash.toHex()}
           key={hash.toHex()}

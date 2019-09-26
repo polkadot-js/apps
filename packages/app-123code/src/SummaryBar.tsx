@@ -22,7 +22,7 @@ interface Props extends BareProps, I18nProps {
   staking_intentions?: AccountId[];
 }
 
-function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_intentions = [], session_validators = [] }: Props): React.ReactElement<Props> {
+function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_intentions, session_validators }: Props): React.ReactElement<Props> {
   const { api, systemChain, systemName, systemVersion } = useContext(ApiContext);
   const [nextUp, setNextUp] = useState<AccountId[]>([]);
 
@@ -52,7 +52,7 @@ function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumbe
           {formatNumber(chain_bestNumber)} ({formatNumber(chain_bestNumberLag)} lag)
         </Bubble>
         <Bubble icon='chess queen' label='validators'>{
-          session_validators.map((accountId, index): React.ReactNode => (
+          (session_validators || []).map((accountId, index): React.ReactNode => (
             <IdentityIcon key={index} value={accountId} size={20} />
           ))
         }</Bubble>

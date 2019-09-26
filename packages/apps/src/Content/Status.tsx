@@ -27,7 +27,7 @@ interface Props extends I18nProps {
 
 let prevEventHash: string;
 
-function Status ({ optionsAll, queueAction, stqueue, system_events = [], t, txqueue }: Props): React.ReactElement<Props> {
+function Status ({ optionsAll, queueAction, stqueue, system_events, t, txqueue }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));
 
@@ -38,7 +38,7 @@ function Status ({ optionsAll, queueAction, stqueue, system_events = [], t, txqu
     prevEventHash = eventHash;
 
     const addresses = optionsAll.account.map((account): string | null => account.value);
-    const statusses = system_events
+    const statusses = system_events && system_events
       .map(({ event: { data, method, section } }): ActionStatus | null => {
         if (section === 'balances' && method === 'Transfer') {
           const account = data[1].toString();
@@ -69,7 +69,7 @@ function Status ({ optionsAll, queueAction, stqueue, system_events = [], t, txqu
       })
       .filter((item): boolean => !!item) as ActionStatus[];
 
-    statusses.length && queueAction(statusses);
+    statusses && statusses.length && queueAction(statusses);
   }, [system_events]);
 
   return (
