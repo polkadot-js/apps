@@ -12,11 +12,11 @@ import translate from '../translate';
 interface Props extends I18nProps {
   address: string;
   name: string;
+  onClose: () => void;
   onCommit: () => void;
-  onHideWarning: () => void;
 }
 
-function CreateConfirmation ({ address, name, onCommit, onHideWarning, t }: Props): React.ReactElement<Props> | null {
+function CreateConfirmation ({ address, name, onClose, onCommit, t }: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       dimmer='inverted'
@@ -41,7 +41,7 @@ function CreateConfirmation ({ address, name, onCommit, onHideWarning, t }: Prop
             icon='cancel'
             isNegative
             label={t('Cancel')}
-            onClick={onHideWarning}
+            onClick={onClose}
           />
           <Button.Or />
           <Button
