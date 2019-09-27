@@ -31,8 +31,6 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     const account = keyring.getAccount(address);
 
-    console.log(account);
-
     setGenesisHash((account && account.meta.genesisHash) || null);
     setFlags({
       isDevelopment: (account && account.meta.isTesting) || false,

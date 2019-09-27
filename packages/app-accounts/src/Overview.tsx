@@ -36,11 +36,11 @@ async function queryLedger (): Promise<void> {
   }
 }
 
-function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElement<Props> {
+function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<Props> {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
-  const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && (Object.keys(accounts).length === 0);
+  const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && accounts && (Object.keys(accounts).length === 0);
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
   const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
@@ -105,7 +105,7 @@ function Overview ({ accounts = [], onStatusChange, t }: Props): React.ReactElem
           onStatusChange={onStatusChange}
         />
       )}
-      {Object.keys(accounts).map((address): React.ReactNode => (
+      {accounts && Object.keys(accounts).map((address): React.ReactNode => (
         <Account
           address={address}
           key={address}
