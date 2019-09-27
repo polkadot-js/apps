@@ -48,7 +48,7 @@ interface State {
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
-const transformToAddress = (value: string | Uint8Array): string | null => {
+function transformToAddress (value: string | Uint8Array): string | null {
   try {
     return addressToAddress(value) || null;
   } catch (error) {
@@ -56,9 +56,9 @@ const transformToAddress = (value: string | Uint8Array): string | null => {
   }
 
   return null;
-};
+}
 
-const transformToAccountId = (value: string): string | null => {
+function transformToAccountId (value: string): string | null {
   if (!value) {
     return null;
   }
@@ -68,9 +68,9 @@ const transformToAccountId = (value: string): string | null => {
   return !accountId
     ? null
     : accountId;
-};
+}
 
-const createOption = (address: string): KeyringSectionOption => {
+function createOption (address: string): KeyringSectionOption {
   let isRecent: boolean | undefined;
   const pair = keyring.getAccount(address);
   let name: string | undefined;
@@ -89,7 +89,7 @@ const createOption = (address: string): KeyringSectionOption => {
   }
 
   return createItem(createKeyringItem(address, name), !isRecent);
-};
+}
 
 class InputAddress extends React.PureComponent<Props, State> {
   public state: State = {};
@@ -151,15 +151,9 @@ class InputAddress extends React.PureComponent<Props, State> {
           ? optionsAll[type]
           : []
     );
-    let _defaultValue;
-
-    if (value !== undefined) {
-      _defaultValue = undefined;
-    } else if (isMultiple) {
-      _defaultValue = undefined;
-    } else {
-      _defaultValue = actualValue;
-    }
+    const _defaultValue = (isMultiple || value !== undefined)
+      ? undefined
+      : actualValue;
 
     return (
       <Dropdown
@@ -287,7 +281,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
 export { InputAddress };
 
-export default withMulti(
+const InputAddressExported = withMulti(
   styled(InputAddress)`
     .ui.dropdown .text {
       width: 100%;
@@ -327,3 +321,7 @@ export default withMulti(
       }, {})
   })
 );
+
+(InputAddressExported as any).createOption = createItem;
+
+export default InputAddressExported;
