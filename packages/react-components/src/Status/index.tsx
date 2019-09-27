@@ -10,9 +10,11 @@ import styled from 'styled-components';
 import { GenericCall } from '@polkadot/types';
 
 import AddressMini from '../AddressMini';
+import Button from '../Button';
 import Icon from '../Icon';
-import { classes } from '../util';
 import translate from '../translate';
+import { classes } from '../util';
+import { STATUS_COMPLETE } from './constants';
 
 interface Props extends I18nProps {
   stqueue?: QueueStatus[];
@@ -69,11 +71,17 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
   return (
     <div
       className={classes('item', status)}
-      onClick={removeItem}
       key={id}
     >
       <div className='wrapper'>
         <div className='container'>
+          <Icon
+            name='close'
+            onClick={removeItem}
+          />
+          <div className='short'>
+            <Icon name={iconName(status)} />
+          </div>
           <div className='desc'>
             <div className='header'>
               {action}
@@ -82,9 +90,6 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
             <div className='status'>
               {message}
             </div>
-          </div>
-          <div className='short'>
-            <Icon name={iconName(status)} />
           </div>
         </div>
       </div>
@@ -109,11 +114,22 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
   return (
     <div
       className={classes('item', status)}
-      onClick={removeItem}
       key={id}
     >
       <div className='wrapper'>
         <div className='container'>
+          {STATUS_COMPLETE.includes(status) && (
+            <Icon
+              name='close'
+              onClick={removeItem}
+            />
+          )}
+          <div className='short'>
+            <Icon
+              loading={icon === 'spinner'}
+              name={icon}
+            />
+          </div>
           <div className='desc'>
             <div className='header'>
               {section}.{method}
@@ -122,30 +138,42 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
               {error ? error.message : status}
             </div>
           </div>
-          <div className='short'>
-            <Icon
-              loading={icon === 'spinner'}
-              name={icon}
-            />
-          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function Status ({ className, stqueue = [], txqueue = [] }: Props): React.ReactElement<Props> | null {
+function Status ({ className, stqueue = [], txqueue = [], t }: Props): React.ReactElement<Props> | null {
   const allst: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
   const alltx: QueueTx[] = txqueue.filter(({ status }): boolean =>
     !['completed', 'incomplete'].includes(status)
   );
+  const completedTx = alltx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status));
 
   if (!allst.length && !alltx.length) {
     return null;
   }
 
+  const _onDismiss = (): void => {
+    allst.map((s): void => s.removeItem());
+    completedTx.map((t): void => t.removeItem());
+  };
+
   return (
     <div className={`ui--Status ${className}`}>
+      {(allst.length + completedTx.length) > 1 && (
+        <div className='dismiss'>
+          <Button
+            isFluid
+            isNegative
+            onClick={_onDismiss}
+            label={t('Dismiss all notifications')}
+            icon='cancel'
+          />
+        </div>
+      )}
+
       {alltx.map(renderItem)}
       {allst.map(renderStatus)}
     </div>
@@ -160,24 +188,26 @@ export default translate(
     top: 0.25rem;
     width: 20rem;
     z-index: 1001;
+    
+    .dismiss {
+      margin-bottom: 0.25rem;
+    }
 
     .item {
       display: block;
-      text-align: right;
 
       > .wrapper > .container {
         align-items: center;
         background: #00688b;
         border-radius: $small-corner;
         color: white;
-        cursor: pointer;
         display: flex;
         justify-content: space-between;
         margin-bottom: 0.25rem;
         padding: 0 0.5rem;
-        text-align: center;
         opacity: 0.95;
         vertical-align: middle;
+        position: relative;
 
         .desc {
           flex: 1;
@@ -196,6 +226,17 @@ export default translate(
           i.icon {
             line-height: 1;
           }
+        }
+        
+        .padded {
+          padding: 0.25rem 0 0 0 !important;
+        }
+        
+        i.close {
+          position: absolute;
+          top: 0.25rem;
+          right: 0rem;
+          cursor: pointer;
         }
       }
 
