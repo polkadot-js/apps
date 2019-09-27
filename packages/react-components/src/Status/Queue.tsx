@@ -13,6 +13,7 @@ import { createType } from '@polkadot/types';
 import { QueueProvider } from './Context';
 import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { STATUS_COMPLETE } from './constants';
 
 export interface Props extends BareProps {
   children: React.ReactNode;
@@ -22,12 +23,6 @@ let nextId = 0;
 
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
-const STATUS_COMPLETE: QueueTxStatus[] = [
-  // status from subscription
-  'finalized', 'usurped', 'dropped', 'invalid',
-  // normal completion
-  'cancelled', 'error', 'sent'
-];
 
 export default function Queue ({ children }: Props): React.ReactElement<Props> {
   const [_stqueue, _setStQueue] = useState<QueueStatus[]>([]);

@@ -14,18 +14,12 @@ import Button from '../Button';
 import Icon from '../Icon';
 import translate from '../translate';
 import { classes } from '../util';
+import { STATUS_COMPLETE } from './constants';
 
 interface Props extends I18nProps {
   stqueue?: QueueStatus[];
   txqueue?: QueueTx[];
 }
-
-const STATUS_COMPLETE: QueueTxStatus[] = [
-  // status from subscription
-  'finalized', 'usurped', 'dropped', 'invalid',
-  // normal completion
-  'cancelled', 'error', 'sent'
-];
 
 function iconName (status: string): any {
   switch (status) {
@@ -171,7 +165,7 @@ function Status ({ className, stqueue = [], txqueue = [], t }: Props): React.Rea
       {(allst.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
-            fluid
+            isFluid
             isNegative
             onClick={_onDismiss}
             label={t('Dismiss all notifications')}
