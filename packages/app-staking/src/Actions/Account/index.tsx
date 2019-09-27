@@ -608,14 +608,22 @@ export default withMulti(
       width: 0px;
     }
 
-    .staking--Account-detail.actions{
-      display: inline-block;
-      vertical-align: top;
-      margin-top: .5rem;
-      margin-bottom: 1.5rem;
+    .staking--Account-detail {
+      text-align: right;
 
-      &:last-child {
-        margin: 0;
+      &.actions{
+        display: inline-block;
+        vertical-align: top;
+        margin-top: .5rem;
+        margin-bottom: 1.5rem;
+
+        &:last-child {
+          margin: 0;
+        }
+      }
+
+      .staking--label {
+        margin: 0 1.75rem -0.75rem 0;
       }
     }
 
