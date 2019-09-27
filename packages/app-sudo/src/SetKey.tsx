@@ -14,7 +14,7 @@ import translate from './translate';
 interface Props extends I18nProps, ComponentProps {}
 
 function SetKey ({ allAccounts, className, isMine, sudoKey, t }: Props): React.ReactElement<Props> {
-  const [selected, setSelected] = useState<string | undefined>();
+  const [selected, setSelected] = useState<string | null>(null);
 
   useEffect((): void => {
     if (sudoKey && !selected) {

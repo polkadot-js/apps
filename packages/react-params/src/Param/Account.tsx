@@ -10,8 +10,8 @@ import keyring from '@polkadot/ui-keyring';
 
 import Bare from './Bare';
 
-function onChange ({ onChange }: Props): (_?: string) => void {
-  return function (value?: string): void {
+function onChange ({ onChange }: Props): (_?: string | null) => void {
+  return (value?: string | null): void => {
     let isValid = false;
 
     if (value) {

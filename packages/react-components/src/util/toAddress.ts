@@ -5,7 +5,7 @@
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex } from '@polkadot/util';
 
-export default function toAddress (value?: string | Uint8Array): string | undefined {
+export default function toAddress (value?: string | Uint8Array | null): string | undefined {
   if (!value) {
     return;
   }

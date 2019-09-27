@@ -9,11 +9,11 @@ import { AccountIndex, Balance, Nonce } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
-  onChange: (accountId?: string) => void;
+  onChange: (accountId: string | null) => void;
 }
 
 function AccountSelector ({ className, onChange }: Props): React.ReactElement<Props> {
-  const [accountId, setAccountId] = useState<string | undefined>();
+  const [accountId, setAccountId] = useState<string | null>(null);
 
   useEffect((): void => onChange(accountId), [accountId]);
 

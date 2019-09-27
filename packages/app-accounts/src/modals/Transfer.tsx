@@ -166,11 +166,11 @@ class Transfer extends React.PureComponent<Props, State> {
     this.nextState({ amount });
   }
 
-  private onChangeFrom = (senderId: string): void => {
+  private onChangeFrom = (senderId: string | null): void => {
     this.nextState({ senderId });
   }
 
-  private onChangeTo = (recipientId: string): void => {
+  private onChangeTo = (recipientId: string | null): void => {
     this.nextState({ recipientId });
   }
 

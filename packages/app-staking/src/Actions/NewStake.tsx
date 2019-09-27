@@ -153,7 +153,7 @@ class NewStake extends TxComponent<Props, State> {
     });
   }
 
-  private onChangeController = (controllerId: string): void => {
+  private onChangeController = (controllerId: string | null): void => {
     this.nextState({ controllerId });
   }
 
@@ -161,7 +161,7 @@ class NewStake extends TxComponent<Props, State> {
     this.nextState({ destination });
   }
 
-  private onChangeStash = (stashId: string): void => {
+  private onChangeStash = (stashId: string | null): void => {
     this.nextState({ stashId });
   }
 

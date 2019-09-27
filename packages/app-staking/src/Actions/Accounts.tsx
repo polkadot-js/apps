@@ -11,7 +11,7 @@ import { withCalls, withMulti } from '@polkadot/react-api/with';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, CardGrid, InputAddress } from '@polkadot/react-components';
+import { Button, CardGrid } from '@polkadot/react-components';
 import createOption from '@polkadot/ui-keyring/options/item';
 import { getAddressName } from '@polkadot/react-components/util';
 
@@ -43,8 +43,7 @@ function Accounts ({ allAccounts, allStashes, className, myControllers, recently
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const myStashes = getMyStashes(myControllers, allAccounts);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
-    // FIXME The static setting here just does screwy
-    (InputAddress as any).createOption(createOption(stashId, getAddressName(stashId, 'account')))
+    createOption(stashId, getAddressName(stashId, 'account'))
   );
   const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 

@@ -21,7 +21,7 @@ interface Props extends I18nProps, ApiProps, RouteComponentProps {
 }
 
 interface State {
-  accountId?: string;
+  accountId?: string | null;
   method: Call | null;
   value: BN;
   isValid: boolean;
@@ -97,7 +97,7 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (accountId: string): void => {
+  private onChangeAccount = (accountId: string | null): void => {
     this.nextState({ accountId });
   }
 

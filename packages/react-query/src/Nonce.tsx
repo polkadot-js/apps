@@ -15,7 +15,7 @@ interface Props extends BareProps, CallProps {
   callOnResult?: (accountNonce: BN) => void;
   children?: React.ReactNode;
   label?: React.ReactNode;
-  params?: string;
+  params?: string | null;
 }
 
 export function Nonce ({ accountNonce, children, className, label = '' }: Props): React.ReactElement<Props> {
