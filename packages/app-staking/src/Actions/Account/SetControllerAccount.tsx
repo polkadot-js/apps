@@ -110,7 +110,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeController = (controllerId: string): void => {
+  private onChangeController = (controllerId: string | null): void => {
     this.setState({ controllerId });
   }
 

@@ -22,7 +22,7 @@ function Account ({ className, defaultValue, isError, onChange, t }: Props): Rea
   const [accountId, setAccountId] = useState<string | null | undefined>(defaultValue);
   const [accountNonce, setAccountNonce] = useState(new BN(0));
 
-  const _onChangeAccountId = (accountId: string): void => {
+  const _onChangeAccountId = (accountId: string | null): void => {
     setAccountId(accountId);
     onChange(accountId, accountNonce);
   };

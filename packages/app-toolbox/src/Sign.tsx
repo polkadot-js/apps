@@ -80,8 +80,8 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
 
   const _toggleUnlock = (): void =>
     _nextState({ isUnlockVisible: !state.isUnlockVisible });
-  const _onChangeAccount = (accountId: string): void =>
-    _nextState({ currentPair: keyring.getPair(accountId) });
+  const _onChangeAccount = (accountId: string | null): void =>
+    _nextState({ currentPair: keyring.getPair(accountId || '') });
   const _onChangeData = (data: string): void =>
     _nextState({ data, isHexData: isHex(data) });
 

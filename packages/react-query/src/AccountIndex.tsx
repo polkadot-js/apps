@@ -12,12 +12,12 @@ import { withCalls } from '@polkadot/react-api';
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
-  params?: string;
+  params?: string | null;
   accounts_idAndIndex?: [AccountId?, AccountIndex?];
 }
 
-export function AccountIndexDisplay ({ children, className, label = '', style, accounts_idAndIndex = [] }: Props): React.ReactElement<Props> {
-  const [, accountIndex] = accounts_idAndIndex;
+export function AccountIndexDisplay ({ children, className, label = '', style, accounts_idAndIndex }: Props): React.ReactElement<Props> {
+  const [, accountIndex] = accounts_idAndIndex || [];
 
   return (
     <div

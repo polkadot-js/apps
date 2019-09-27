@@ -8,8 +8,7 @@ import { ModalProps } from '../types';
 
 import React from 'react';
 
-import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
-import { InputAddress } from '@polkadot/react-components/InputAddress';
+import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';

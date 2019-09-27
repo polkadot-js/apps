@@ -256,7 +256,7 @@ class Call extends TxComponent<Props, State> {
     this.setState({ accountId });
   }
 
-  private onChangeAddress = (address: string): void => {
+  private onChangeAddress = (address: string | null): void => {
     const contractAbi = getContractAbi(address);
 
     this.setState({ address, contractAbi, isAddressValid: !!contractAbi });

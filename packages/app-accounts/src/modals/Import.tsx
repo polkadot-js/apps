@@ -8,8 +8,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
 import React from 'react';
-import { AddressRow, Button, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
-import { InputAddress } from '@polkadot/react-components/InputAddress';
+import { AddressRow, Button, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
