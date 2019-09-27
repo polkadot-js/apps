@@ -24,7 +24,7 @@ const CHAINS: Record<string, string> = {
   Alexander: 'alexander',
   Kusama: 'kusama', // old name via W3F nodes
   'Kusama CC1': 'kusama',
-  'Kusama CC2': 'kusama'
+  'Kusama CC2': 'kusama-cc2'
 };
 
 const TYPES: Record<string, string> = {
