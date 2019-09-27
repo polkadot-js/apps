@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Abi } from '@polkadot/api-contract';
-import { Button, Input, InputAddress, InputNumber, Modal, TxComponent } from '@polkadot/ui-app';
+import { Button, Input, InputAddress, InputNumber, Modal, TxComponent } from '@polkadot/react-components';
 
 import ABI from './ABI';
 
@@ -33,7 +33,6 @@ export interface ContractModalState {
 
 class ContractModal<P extends ContractModalProps, S extends ContractModalState> extends TxComponent<P, S> {
   // horrible :(
-  // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
   protected defaultState: S = {
     accountId: null,
     gasLimit: new BN(0),
@@ -48,13 +47,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
   public state: S = this.defaultState;
 
   protected isContract?: boolean;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public componentWillReceiveProps ({ isOpen }: P, prevState: S): void {
-    if (isOpen && !this.props.isOpen && !this.state.isBusy) {
-      this.reset();
-    }
-  }
 
   public render (): React.ReactNode {
     const { isOpen, t } = this.props;
@@ -79,7 +71,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     );
   }
 
-  protected headerText: string = '';
+  protected headerText = '';
 
   protected renderContent: () => React.ReactNode | null = (): React.ReactNode => null;
 
@@ -177,6 +169,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     return (
       <>
         <Button
+          icon='cancel'
           isNegative
           onClick={this.onClose}
           label={t('Cancel')}
@@ -203,11 +196,15 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
   protected onClose = (): void => {
     const { onClose } = this.props;
+    const { isBusy } = this.state;
 
     onClose && onClose();
+    if (!isBusy) {
+      this.reset();
+    }
   }
 
-  protected onAddAbi = (abi: string | null | undefined, contractAbi: Abi | null = null, isAbiSupplied: boolean = false): void => {
+  protected onAddAbi = (abi: string | null | undefined, contractAbi: Abi | null = null, isAbiSupplied = false): void => {
     this.setState({ abi, contractAbi, isAbiSupplied, isAbiValid: !!abi });
   }
 

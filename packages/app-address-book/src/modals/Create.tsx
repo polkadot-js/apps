@@ -2,19 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
 import React from 'react';
 
-import { AddressRow, Button, Input, Modal } from '@polkadot/ui-app';
-import { InputAddress } from '@polkadot/ui-app/InputAddress';
+import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-type Props = ModalProps & I18nProps;
+interface Props extends ModalProps, I18nProps {}
 
 interface State {
   address: string;
@@ -27,16 +26,19 @@ interface State {
 }
 
 class Create extends React.PureComponent<Props, State> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    this.state = this.emptyState();
-  }
+  public state: State = {
+    address: '',
+    isAddressExisting: false,
+    isAddressValid: false,
+    isNameValid: true,
+    isValid: false,
+    name: 'new address',
+    tags: []
+  };
 
   public render (): React.ReactNode {
     const { t } = this.props;
+    const { address, isAddressValid, isNameValid, isValid, name } = this.state;
 
     return (
       <Modal
@@ -44,83 +46,55 @@ class Create extends React.PureComponent<Props, State> {
         open
       >
         <Modal.Header>{t('Add an address')}</Modal.Header>
-        {this.renderContent()}
-        {this.renderButtons()}
+        <Modal.Content>
+          <AddressRow
+            defaultName={name}
+            value={address}
+          >
+            <Input
+              autoFocus
+              className='full'
+              help={t('Paste here the address of the contact you want to add to your address book.')}
+              isError={!isAddressValid}
+              label={t('address')}
+              onChange={this.onChangeAddress}
+              onEnter={this.onCommit}
+              value={address}
+            />
+            <Input
+              className='full'
+              help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
+              isError={!isNameValid}
+              label={t('name')}
+              onChange={this.onChangeName}
+              onEnter={this.onCommit}
+              value={name}
+            />
+          </AddressRow>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              icon='cancel'
+              isNegative
+              onClick={this.onDiscard}
+              label={t('Cancel')}
+            />
+            <Button.Or />
+            <Button
+              icon='save'
+              isDisabled={!isValid}
+              isPrimary
+              onClick={this.onCommit}
+              label={t('Save')}
+            />
+          </Button.Group>
+        </Modal.Actions>
       </Modal>
     );
   }
 
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { isValid } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={this.onDiscard}
-            label={t('Cancel')}
-          />
-          <Button.Or />
-          <Button
-            isDisabled={!isValid}
-            isPrimary
-            onClick={this.onCommit}
-            label={t('Save')}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { t } = this.props;
-    const { address, isAddressValid, isNameValid, name } = this.state;
-
-    return (
-      <Modal.Content>
-        <AddressRow
-          defaultName={name}
-          value={address}
-        >
-          <Input
-            autoFocus
-            className='full'
-            help={t('Paste here the address of the contact you want to add to your address book.')}
-            isError={!isAddressValid}
-            label={t('address')}
-            onChange={this.onChangeAddress}
-            onEnter={this.onCommit}
-            value={address}
-          />
-          <Input
-            className='full'
-            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
-            isError={!isNameValid}
-            label={t('name')}
-            onChange={this.onChangeName}
-            onEnter={this.onCommit}
-            value={name}
-          />
-        </AddressRow>
-      </Modal.Content>
-    );
-  }
-
-  private emptyState (): State {
-    return {
-      address: '',
-      isAddressExisting: false,
-      isAddressValid: false,
-      isNameValid: true,
-      isValid: false,
-      name: 'new address',
-      tags: []
-    };
-  }
-
-  private nextState (newState: Partial<State>, allowEdit: boolean = false): void {
+  private nextState (newState: Partial<State>, allowEdit = false): void {
     this.setState(
       (prevState: State): State => {
         let { address = prevState.address, name = prevState.name, tags = prevState.tags } = newState;
@@ -183,7 +157,7 @@ class Create extends React.PureComponent<Props, State> {
     }
 
     try {
-      keyring.saveAddress(address, { name, tags });
+      keyring.saveAddress(address, { name, genesisHash: keyring.genesisHash, tags });
 
       status.account = address;
       status.status = address ? 'success' : 'error';

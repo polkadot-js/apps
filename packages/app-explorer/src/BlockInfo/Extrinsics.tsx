@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { GenericCall } from '@polkadot/types';
-import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/ui-app';
+import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -19,30 +19,28 @@ interface Props extends I18nProps {
   value?: Extrinsic[] | null;
 }
 
-class Extrinsics extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className, label, t } = this.props;
-
-    return (
-      <Column
-        className={className}
-        emptyText={t('No pending extrinsics are in the queue')}
-        headerText={label || t('extrinsics')}
-      >
-        {this.renderContent()}
-      </Column>
-    );
+function renderSigner ({ t }: Props, extrinsic: Extrinsic): React.ReactNode {
+  if (!extrinsic.isSigned) {
+    return null;
   }
 
-  private renderContent (): React.ReactNode {
-    const { value = [] } = this.props;
+  return (
+    <div className='explorer--BlockByHash-header'>
+      <div>
+        <AddressMini value={extrinsic.signer} />
+      </div>
+      <div className='explorer--BlockByHash-nonce'>
+        {t('index')} {formatNumber(extrinsic.nonce)}
+      </div>
+    </div>
+  );
+}
 
-    return (value || []).map(this.renderExtrinsic);
-  }
+// FIXME This is _very_ similar to what we have in democracy/Item
+function renderExtrinsic (props: Props): (_: Extrinsic, __: number) => React.ReactNode {
+  const { blockNumber, t } = props;
 
-  // FIXME This is _very_ similar to what we have in democracy/Item
-  private renderExtrinsic = (extrinsic: Extrinsic, index: number): React.ReactNode => {
-    const { blockNumber, t } = this.props;
+  return function ExplorerExtrinsic (extrinsic: Extrinsic, index: number): React.ReactNode {
     const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
     const isMortal = extrinsic.era.isMortalEra;
     let eraEnd;
@@ -61,7 +59,7 @@ class Extrinsics extends React.PureComponent<Props> {
           <h3>
             {section}.{method}&nbsp;(#{formatNumber(index)})
           </h3>
-          {this.renderSigner(extrinsic)}
+          {renderSigner(props, extrinsic)}
         </div>
         <details>
           <summary>{
@@ -95,26 +93,27 @@ class Extrinsics extends React.PureComponent<Props> {
         }
       </article>
     );
-  }
+  };
+}
 
-  private renderSigner (extrinsic: Extrinsic): React.ReactNode {
-    const { t } = this.props;
+function renderContent (props: Props): React.ReactNode {
+  const { value = [] } = props;
 
-    if (!extrinsic.isSigned) {
-      return null;
-    }
+  return (value || []).map(renderExtrinsic(props));
+}
 
-    return (
-      <div className='explorer--BlockByHash-header'>
-        <div>
-          <AddressMini value={extrinsic.signer} />
-        </div>
-        <div className='explorer--BlockByHash-nonce'>
-          {t('index')} {formatNumber(extrinsic.nonce)}
-        </div>
-      </div>
-    );
-  }
+function Extrinsics (props: Props): React.ReactElement<Props> {
+  const { className, label, t } = props;
+
+  return (
+    <Column
+      className={className}
+      emptyText={t('No pending extrinsics are in the queue')}
+      headerText={label || t('extrinsics')}
+    >
+      {renderContent(props)}
+    </Column>
+  );
 }
 
 export default translate(styled(Extrinsics)`
@@ -125,9 +124,9 @@ export default translate(styled(Extrinsics)`
   }
 
   .explorer--BlockByHash-nonce {
-    font-size: .75rem;
+    font-size: 0.75rem;
     margin-right: 2.25rem;
-    margin-top: -1rem;
+    margin-top: -0.625rem;
     opacity: 0.45;
     text-align: right;
   }

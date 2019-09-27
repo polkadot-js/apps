@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../types';
 
@@ -12,20 +12,20 @@ import FileSaver from 'file-saver';
 import React from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { withApi, withMulti } from '@polkadot/ui-api';
-import { AddressRow, Button, Dropdown, Input, Labelled, Modal, Password } from '@polkadot/ui-app';
-import { InputAddress } from '@polkadot/ui-app/InputAddress';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { AddressRow, Button, Dropdown, Input, InputAddress, Labelled, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
-import { keyExtractPath, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
 import translate from '../translate';
+import CreateConfirmation from './CreateConfirmation';
 
-type Props = ModalProps & ApiProps & I18nProps & {
+interface Props extends ModalProps, ApiProps, I18nProps {
   seed?: string;
   type?: KeypairType;
-};
+}
 
 type SeedType = 'bip' | 'raw' | 'dev';
 
@@ -34,29 +34,32 @@ interface SeedOption {
   value: SeedType;
 }
 
-interface State {
+interface AddressState {
   address: string;
   deriveError: string | null;
   derivePath: string;
-  isNameValid: boolean;
   isSeedValid: boolean;
+  pairType: KeypairType;
+  seed: string;
+  seedType: SeedType;
+}
+
+interface State extends AddressState {
+  isNameValid: boolean;
   isPassValid: boolean;
   isValid: boolean;
   name: string;
-  pairType: KeypairType;
   password: string;
-  seed: string;
   seedOptions: SeedOption[];
-  seedType: SeedType;
   showWarning: boolean;
   tags: string[];
 }
 
 const DEFAULT_TYPE = 'sr25519';
 
-function deriveValidate (derivePath: string, pairType: KeypairType): string | null {
+function deriveValidate (seed: string, derivePath: string, pairType: KeypairType): string | null {
   try {
-    const { path } = keyExtractPath(derivePath);
+    const { path } = keyExtractSuri(`${seed}${derivePath}`);
 
     // we don't allow soft for ed25519
     if (pairType === 'ed25519') {
@@ -87,6 +90,30 @@ function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairT
     .address;
 }
 
+function generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
+  const seed = ((): string => {
+    switch (seedType) {
+      case 'bip':
+        return mnemonicGenerate();
+      case 'dev':
+        return DEV_PHRASE;
+      default:
+        return _seed || u8aToHex(randomAsU8a());
+    }
+  })();
+  const address = addressFromSeed(seed, derivePath, pairType);
+
+  return {
+    address,
+    deriveError: null,
+    derivePath,
+    isSeedValid: true,
+    pairType,
+    seedType,
+    seed
+  };
+}
+
 class Create extends React.PureComponent<Props, State> {
   public state: State;
 
@@ -103,55 +130,25 @@ class Create extends React.PureComponent<Props, State> {
       seedOptions.push({ value: 'dev', text: t('Development') });
     }
 
+    const pairType = type || DEFAULT_TYPE;
+    const seedType = seed ? 'raw' : 'bip';
+
     this.state = {
-      ...(this.emptyState(seed || null, '', type || DEFAULT_TYPE) as State),
-      seedOptions
+      ...generateSeed(seed || null, '', seedType, pairType),
+      isNameValid: true,
+      isPassValid: false,
+      isValid: false,
+      name: 'new account',
+      password: '',
+      seedOptions,
+      showWarning: false,
+      tags: []
     };
   }
 
   public render (): React.ReactNode {
     const { className, t } = this.props;
-
-    return (
-      <Modal
-        className={className}
-        dimmer='inverted'
-        open
-      >
-        <Modal.Header>{t('Add an account via seed')}</Modal.Header>
-        {this.renderModal()}
-        {this.renderInput()}
-        {this.renderButtons()}
-      </Modal>
-    );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { isValid } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            label={t('Cancel')}
-            onClick={this.onDiscard}
-          />
-          <Button.Or />
-          <Button
-            isDisabled={!isValid}
-            isPrimary
-            label={t('Save')}
-            onClick={this.onShowWarning}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderInput (): React.ReactNode {
-    const { t } = this.props;
-    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, name, pairType, password, seed, seedOptions, seedType } = this.state;
+    const { address, deriveError, derivePath, isNameValid, isPassValid, isSeedValid, isValid, name, pairType, password, seed, seedOptions, seedType, showWarning } = this.state;
     const isDevSeed = seedType === 'dev';
     const seedLabel = ((): string => {
       switch (seedType) {
@@ -165,114 +162,104 @@ class Create extends React.PureComponent<Props, State> {
     })();
 
     return (
-      <Modal.Content>
-        <AddressRow
-          defaultName={name}
-          value={isSeedValid ? address : ''}
-        >
-          <Input
-            autoFocus
-            className='full'
-            help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-            isError={!isNameValid}
-            label={t('name')}
-            onChange={this.onChangeName}
-            onEnter={this.onCommit}
-            value={name}
-          />
-          <Input
-            className='full'
-            help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-            isAction
-            isError={!isSeedValid}
-            isReadOnly={isDevSeed}
-            label={seedLabel}
-            onChange={this.onChangeSeed}
-            onEnter={this.onCommit}
-            value={seed}
-          >
-            <Dropdown
-              isButton
-              defaultValue={seedType}
-              onChange={this.selectSeedType}
-              options={seedOptions}
-            />
-          </Input>
-          <Password
-            className='full'
-            help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-            isError={!isPassValid}
-            label={t('password')}
-            onChange={this.onChangePass}
-            onEnter={this.onCommit}
-            value={password}
-          />
-          <details
-            className='accounts--Creator-advanced'
-            open
-          >
-            <summary>{t('Advanced creation options')}</summary>
-            <Dropdown
-              defaultValue={pairType}
-              help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-              label={t('keypair crypto type')}
-              onChange={this.onChangePairType}
-              options={uiSettings.availableCryptos}
-            />
-            <Input
-              className='full'
-              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
-              isError={!!deriveError}
-              label={t('secret derivation path')}
-              onChange={this.onChangeDerive}
-              onEnter={this.onCommit}
-              value={derivePath}
-            />
-            {
-              deriveError
-                ? <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
-                : null
-            }
-          </details>
-        </AddressRow>
-      </Modal.Content>
-    );
-  }
-
-  private renderModal (): React.ReactNode {
-    const { t } = this.props;
-    const { address, name, showWarning } = this.state;
-
-    return (
       <Modal
+        className={className}
         dimmer='inverted'
-        open={showWarning}
+        open
       >
-        <Modal.Header>
-          {t('Important notice')}
-        </Modal.Header>
+        <Modal.Header>{t('Add an account via seed')}</Modal.Header>
+        {showWarning && (
+          <CreateConfirmation
+            address={address}
+            name={name}
+            onCommit={this.onCommit}
+            onHideWarning={this.onHideWarning}
+          />
+        )}
         <Modal.Content>
           <AddressRow
             defaultName={name}
-            isInline
-            value={address}
+            value={isSeedValid ? address : ''}
           >
-            <p>{t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
-            <p>{t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
+            <Input
+              autoFocus
+              className='full'
+              help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              isError={!isNameValid}
+              label={t('name')}
+              onChange={this.onChangeName}
+              onEnter={this.onCommit}
+              value={name}
+            />
+            <Input
+              className='full'
+              help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+              isAction
+              isError={!isSeedValid}
+              isReadOnly={isDevSeed}
+              label={seedLabel}
+              onChange={this.onChangeSeed}
+              onEnter={this.onCommit}
+              value={seed}
+            >
+              <Dropdown
+                isButton
+                defaultValue={seedType}
+                onChange={this.selectSeedType}
+                options={seedOptions}
+              />
+            </Input>
+            <Password
+              className='full'
+              help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
+              isError={!isPassValid}
+              label={t('password')}
+              onChange={this.onChangePass}
+              onEnter={this.onCommit}
+              value={password}
+            />
+            <details
+              className='accounts--Creator-advanced'
+              open
+            >
+              <summary>{t('Advanced creation options')}</summary>
+              <Dropdown
+                defaultValue={pairType}
+                help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                label={t('keypair crypto type')}
+                onChange={this.onChangePairType}
+                options={uiSettings.availableCryptos}
+              />
+              <Input
+                className='full'
+                help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
+                isError={!!deriveError}
+                label={t('secret derivation path')}
+                onChange={this.onChangeDerive}
+                onEnter={this.onCommit}
+                value={derivePath}
+              />
+              {deriveError && (
+                <Labelled label=''><article className='error'>{deriveError}</article></Labelled>
+              )}
+            </details>
           </AddressRow>
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
             <Button
+              icon='cancel'
               isNegative
               label={t('Cancel')}
-              onClick={this.onHideWarning}
+              onClick={this.onDiscard}
             />
             <Button.Or />
             <Button
+              icon='plus'
+              isDisabled={!isValid}
               isPrimary
-              label={t('Create and backup account')}
-              onClick={this.onCommit}
+              label={t('Save')}
+              onClick={this.onShowWarning}
             />
           </Button.Group>
         </Modal.Actions>
@@ -280,53 +267,12 @@ class Create extends React.PureComponent<Props, State> {
     );
   }
 
-  private generateSeed (_seed: string | null, derivePath: string, seedType: SeedType, pairType: KeypairType): Partial<State> {
-    const seed = ((): string => {
-      switch (seedType) {
-        case 'bip':
-          return mnemonicGenerate();
-        case 'dev':
-          return DEV_PHRASE;
-        default:
-          return _seed || u8aToHex(randomAsU8a());
-      }
-    })();
-    const address = addressFromSeed(seed, derivePath, pairType);
-
-    return {
-      address,
-      deriveError: null,
-      derivePath,
-      seed
-    };
-  }
-
-  private emptyState (seed: string | null, derivePath: string, pairType: KeypairType): Partial<State> {
-    const seedType = seed
-      ? 'raw'
-      : this.state ? this.state.seedType : 'bip';
-
-    return {
-      ...this.generateSeed(seed, derivePath, seedType, pairType),
-      isNameValid: true,
-      isPassValid: false,
-      isSeedValid: true,
-      isValid: false,
-      name: 'new account',
-      password: '',
-      pairType,
-      seedType,
-      showWarning: false,
-      tags: []
-    };
-  }
-
   private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
         const { derivePath = prevState.derivePath, name = prevState.name, pairType = prevState.pairType, password = prevState.password, seed = prevState.seed, seedOptions = prevState.seedOptions, seedType = prevState.seedType, showWarning = prevState.showWarning, tags = prevState.tags } = newState;
         let address = prevState.address;
-        const deriveError = deriveValidate(derivePath, pairType);
+        const deriveError = deriveValidate(seed, derivePath, pairType);
         const isNameValid = !!name;
         const isPassValid = keyring.isPassValid(password);
         let isSeedValid = seedType === 'raw'
@@ -367,7 +313,7 @@ class Create extends React.PureComponent<Props, State> {
   }
 
   private onChangeName = (name: string): void => {
-    this.nextState({ name });
+    this.nextState({ name: name.trim() });
   }
 
   private onChangePairType = (pairType: KeypairType): void => {
@@ -433,10 +379,9 @@ class Create extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setState(({ derivePath, pairType }: State): State => ({
-      ...(this.generateSeed(null, derivePath, seedType, pairType) as State),
-      seedType
-    }));
+    this.setState(({ derivePath, pairType }: State): State =>
+      (generateSeed(null, derivePath, seedType, pairType) as State)
+    );
   }
 }
 

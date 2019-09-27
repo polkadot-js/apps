@@ -2,123 +2,117 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
+import keyring from '@polkadot/ui-keyring';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/ui-api';
-import { Button, CardGrid } from '@polkadot/ui-app';
+import { getLedger, isLedger, withMulti, withObservable } from '@polkadot/react-api';
+import { Button, CardGrid } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
+import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps & {
+interface Props extends ComponentProps, I18nProps {
   accounts?: SubjectInfo[];
-};
-
-interface State {
-  isCreateOpen: boolean;
-  isImportOpen: boolean;
 }
 
-class Overview extends React.PureComponent<Props, State> {
-  public constructor (props: Props) {
-    super(props);
+// query the ledger for the address, adding it to the keyring
+async function queryLedger (): Promise<void> {
+  const ledger = getLedger();
 
-    const { state: { isCreateOpen = false } = {} } = this.props.location;
+  try {
+    const { address } = await ledger.getAddress();
 
-    this.state = {
-      isCreateOpen,
-      isImportOpen: false
-    };
+    keyring.addHardware(address, 'ledger', { name: 'ledger' });
+  } catch (error) {
+    console.error(error);
   }
+}
 
-  public render (): React.ReactNode {
-    const { accounts, t } = this.props;
-    const { isCreateOpen, isImportOpen } = this.state;
-    const emptyScreen = !isCreateOpen && !isImportOpen && (!accounts || Object.keys(accounts).length === 0);
+function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isQrOpen, setIsQrOpen] = useState(false);
+  const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && accounts && (Object.keys(accounts).length === 0);
 
-    return (
-      <CardGrid
-        banner={<Banner />}
-        buttons={
-          <Button.Group>
-            <Button
-              isPrimary
-              label={t('Add account')}
-              onClick={this.toggleCreate}
-            />
-            <Button.Or />
-            <Button
-              isPrimary
-              label={t('Restore JSON')}
-              onClick={this.toggleImport}
-            />
-          </Button.Group>
-        }
-        isEmpty={emptyScreen}
-        emptyText={t('No account yet?')}
-      >
-        {this.renderCreate()}
-        {this.renderImport()}
-        {accounts && Object.keys(accounts).map((address): React.ReactNode => (
-          <Account
-            address={address}
-            key={address}
+  const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
+  const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
+  const _toggleQr = (): void => setIsQrOpen(!isQrOpen);
+
+  return (
+    <CardGrid
+      banner={<Banner />}
+      buttons={
+        <Button.Group>
+          <Button
+            icon='add'
+            isPrimary
+            label={t('Add account')}
+            onClick={_toggleCreate}
           />
-        ))}
-      </CardGrid>
-    );
-  }
-
-  private renderCreate (): React.ReactNode {
-    const { isCreateOpen } = this.state;
-    const { onStatusChange } = this.props;
-
-    if (!isCreateOpen) {
-      return null;
-    }
-
-    return (
-      <CreateModal
-        onClose={this.toggleCreate}
-        onStatusChange={onStatusChange}
-      />
-    );
-  }
-
-  private renderImport (): React.ReactNode {
-    const { isImportOpen } = this.state;
-    const { onStatusChange } = this.props;
-
-    if (!isImportOpen) {
-      return null;
-    }
-
-    return (
-      <ImportModal
-        onClose={this.toggleImport}
-        onStatusChange={onStatusChange}
-      />
-    );
-  }
-
-  private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }): Pick<State, never> => ({
-      isCreateOpen: !isCreateOpen
-    }));
-  }
-
-  private toggleImport = (): void => {
-    this.setState(({ isImportOpen }): Pick<State, never> => ({
-      isImportOpen: !isImportOpen
-    }));
-  }
+          <Button.Or />
+          <Button
+            icon='sync'
+            isPrimary
+            label={t('Restore JSON')}
+            onClick={_toggleImport}
+          />
+          <Button.Or />
+          <Button
+            icon='qrcode'
+            isPrimary
+            label={t('Add via Qr')}
+            onClick={_toggleQr}
+          />
+          {isLedger() && (
+            <>
+              <Button.Or />
+              <Button
+                icon='question'
+                isPrimary
+                label={t('Query Ledger')}
+                onClick={queryLedger}
+              />
+            </>
+          )}
+        </Button.Group>
+      }
+      isEmpty={emptyScreen}
+      emptyText={t('No account yet?')}
+    >
+      {isCreateOpen && (
+        <CreateModal
+          onClose={_toggleCreate}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {isImportOpen && (
+        <ImportModal
+          onClose={_toggleImport}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {isQrOpen && (
+        <QrModal
+          onClose={_toggleQr}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {accounts && Object.keys(accounts).map((address): React.ReactNode => (
+        <Account
+          address={address}
+          key={address}
+        />
+      ))}
+    </CardGrid>
+  );
 }
 
 export default withMulti(

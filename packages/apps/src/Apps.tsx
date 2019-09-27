@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps as Props } from '@polkadot/react-components/types';
 
 // this is disabled, Chrome + WASM memory leak makes it slow & laggy. If enabled
 // we also need to export the default as hot(Apps) (last line)
@@ -11,17 +11,14 @@ import { BareProps } from '@polkadot/ui-app/types';
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { media } from '@polkadot/ui-app';
-import Signer from '@polkadot/ui-signer';
-import settings from '@polkadot/ui-settings';
+import GlobalStyle from '@polkadot/react-components/styles';
+import Signer from '@polkadot/react-signer';
 
 import ConnectingOverlay from './overlays/Connecting';
 import AccountsOverlay from './overlays/Accounts';
 import { SideBarTransition, SIDEBAR_TRANSITION_DURATION, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
-
-type Props = BareProps;
 
 interface State {
   isCollapsed: boolean;
@@ -62,21 +59,24 @@ class Apps extends React.Component<Props, State> {
     const { isCollapsed, isMenu, menuOpen } = this.state;
 
     return (
-      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--${settings.uiTheme} ${className}`}>
-        {this.renderMenuBg()}
-        <SideBar
-          collapse={this.collapse}
-          handleResize={this.handleResize}
-          menuOpen={menuOpen}
-          isCollapsed={isCollapsed}
-          toggleMenu={this.toggleMenu}
-        />
-        <Signer>
-          <Content />
-        </Signer>
-        <ConnectingOverlay />
-        <AccountsOverlay />
-      </div>
+      <>
+        <GlobalStyle />
+        <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--default ${className}`}>
+          {this.renderMenuBg()}
+          <SideBar
+            collapse={this.collapse}
+            handleResize={this.handleResize}
+            menuOpen={menuOpen}
+            isCollapsed={isCollapsed}
+            toggleMenu={this.toggleMenu}
+          />
+          <Signer>
+            <Content />
+          </Signer>
+          <ConnectingOverlay />
+          <AccountsOverlay />
+        </div>
+      </>
     );
   }
 
@@ -182,13 +182,4 @@ export default styled(Apps)`
   box-sizing: border-box;
   display: flex;
   min-height: 100vh;
-
-  header {
-    margin-bottom: 1.4rem;
-    text-align: center;
-
-    ${media.TABLET`
-      margin-bottom: 2rem;
-   `}
-  }
 `;

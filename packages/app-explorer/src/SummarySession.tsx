@@ -4,11 +4,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedSessionInfo } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { CardSummary } from '@polkadot/ui-app';
-import { withCalls } from '@polkadot/ui-api';
+import { CardSummary } from '@polkadot/react-components';
+import { withCalls } from '@polkadot/react-api';
 
 import translate from './translate';
 import { formatNumber } from '@polkadot/util';
@@ -19,71 +19,63 @@ interface Props extends I18nProps {
   withSession?: boolean;
 }
 
-class SummarySession extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    return (
-      <>
-        {this.renderSession()}
-        {this.renderEra()}
-      </>
+function renderSession ({ session_info, t, withSession = true }: Props): React.ReactNode {
+  if (!withSession || !session_info) {
+    return null;
+  }
+
+  const label = session_info.isEpoch && session_info.sessionLength.gtn(1)
+    ? t('epoch')
+    : t('session');
+
+  return session_info.sessionLength.gtn(0)
+    ? (
+      <CardSummary
+        label={label}
+        progress={{
+          total: session_info.sessionLength,
+          value: session_info.sessionProgress
+        }}
+      />
+    )
+    : (
+      <CardSummary label={label}>
+        {formatNumber(session_info.currentIndex)}
+      </CardSummary>
     );
+}
+
+function renderEra ({ session_info, t, withEra = true }: Props): React.ReactNode {
+  if (!withEra || !session_info) {
+    return null;
   }
 
-  private renderEra (): React.ReactNode {
-    const { session_info, t, withEra = true } = this.props;
+  const label = t('era');
 
-    if (!withEra || !session_info) {
-      return null;
-    }
+  return session_info.sessionLength.gtn(0)
+    ? (
+      <CardSummary
+        label={label}
+        progress={{
+          total: session_info && session_info.eraLength,
+          value: session_info && session_info.eraProgress
+        }}
+      />
+    )
+    : (
+      <CardSummary label={label}>
+        {formatNumber(session_info.currentEra)}
+      </CardSummary>
+    );
+}
 
-    const label = session_info.isEpoch
-      ? t('era slots')
-      : t('era');
-
-    return session_info.sessionLength.gtn(0)
-      ? (
-        <CardSummary
-          label={label}
-          progress={{
-            total: session_info && session_info.eraLength,
-            value: session_info && session_info.eraProgress
-          }}
-        />
-      )
-      : (
-        <CardSummary label={label}>
-          {formatNumber(session_info.currentEra)}
-        </CardSummary>
-      );
-  }
-
-  private renderSession (): React.ReactNode {
-    const { session_info, t, withSession = true } = this.props;
-
-    if (!withSession || !session_info) {
-      return null;
-    }
-
-    const label = session_info.isEpoch
-      ? t('epoch slots')
-      : t('session');
-
-    return session_info.sessionLength.gtn(0)
-      ? (
-        <CardSummary
-          label={label}
-          progress={{
-            total: session_info.sessionLength,
-            value: session_info.sessionProgress
-          }}
-        />
-      )
-      : (
-        <CardSummary label={label}>
-          {formatNumber(session_info.currentIndex)}
-        </CardSummary>
-      );
-  }
+function SummarySession (props: Props): React.ReactElement<Props> {
+  return (
+    <>
+      {renderSession(props)}
+      {renderEra(props)}
+    </>
+  );
 }
 
 export default translate(

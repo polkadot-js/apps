@@ -3,19 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair$Json } from '@polkadot/keyring/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
 import React from 'react';
-import { AddressRow, Button, InputFile, Modal, Password, TxComponent } from '@polkadot/ui-app';
-import { InputAddress } from '@polkadot/ui-app/InputAddress';
+import { AddressRow, Button, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-type Props = ModalProps & I18nProps;
+interface Props extends ModalProps, I18nProps {}
 
 interface State {
   address: string | null;
@@ -48,11 +47,14 @@ class Import extends TxComponent<Props, State> {
         <Modal.Actions>
           <Button.Group>
             <Button
+              icon='cancel'
+              isNegative
               label={t('Cancel')}
               onClick={onClose}
             />
             <Button.Or />
             <Button
+              icon='sync'
               isDisabled={!isFileValid || !isPassValid}
               isPrimary
               onClick={this.onSave}

@@ -3,12 +3,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/ui-app';
-import { withCalls } from '@polkadot/ui-api';
+import { SummaryBox, CardSummary } from '@polkadot/react-components';
+import { withCalls } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -18,27 +18,23 @@ interface Props extends I18nProps {
   parachains_parachains?: BN[];
 }
 
-class Summary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { parachains_nextFreeId, parachains_parachains = [], t } = this.props;
-
-    return (
-      <SummaryBox>
+function Summary ({ parachains_nextFreeId, parachains_parachains = [], t }: Props): React.ReactElement<Props> {
+  return (
+    <SummaryBox>
+      <section>
+        <CardSummary label={t('parachains')}>
+          {formatNumber(parachains_parachains.length)}
+        </CardSummary>
+      </section>
+      {parachains_nextFreeId && (
         <section>
-          <CardSummary label={t('parachains')}>
-            {formatNumber(parachains_parachains.length)}
+          <CardSummary label={t('next id')}>
+            {formatNumber(parachains_nextFreeId)}
           </CardSummary>
         </section>
-        {parachains_nextFreeId && (
-          <section>
-            <CardSummary label={t('next id')}>
-              {formatNumber(parachains_nextFreeId)}
-            </CardSummary>
-          </section>
-        )}
-      </SummaryBox>
-    );
-  }
+      )}
+    </SummaryBox>
+  );
 }
 
 export default translate(

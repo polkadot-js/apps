@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Column } from '@polkadot/ui-app';
+import { Column } from '@polkadot/react-components';
 
 import EventsDisplay from '../Events';
 import translate from '../translate';
@@ -15,27 +15,23 @@ interface Props extends I18nProps {
   value?: EventRecord[];
 }
 
-class Events extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { t, value } = this.props;
-
-    if (!value || !value.length) {
-      return null;
-    }
-
-    const events = value.map((record, index): { key: string; record: EventRecord } => ({
-      key: `${index}`, record
-    }));
-
-    return (
-      <Column headerText={t('events')}>
-        <EventsDisplay
-          eventClassName='explorer--BlockByHash-block'
-          events={events}
-        />
-      </Column>
-    );
+function Events ({ value, t }: Props): React.ReactElement<Props> | null {
+  if (!value || !value.length) {
+    return null;
   }
+
+  return (
+    <Column headerText={t('events')}>
+      <EventsDisplay
+        eventClassName='explorer--BlockByHash-block'
+        events={
+          value.map((record, index): { key: string; record: EventRecord } => ({
+            key: `${index}`, record
+          }))
+        }
+      />
+    </Column>
+  );
 }
 
 export default translate(Events);

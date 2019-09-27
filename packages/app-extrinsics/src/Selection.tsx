@@ -3,30 +3,30 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { QueueTxExtrinsicAdd } from '@polkadot/ui-app/Status/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
-import { Nonce } from '@polkadot/ui-reactive';
+import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/react-components';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { Nonce } from '@polkadot/react-query';
 
 import Balance from './Balance';
 import translate from './translate';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   queueExtrinsic: QueueTxExtrinsicAdd;
-};
+}
 
 interface State {
   isValid: boolean;
   isValidUnsigned: boolean;
   method: Call | null;
   accountNonce?: BN;
-  accountId?: string;
+  accountId?: string | null;
 }
 
 class Selection extends TxComponent<Props, State> {
@@ -78,7 +78,8 @@ class Selection extends TxComponent<Props, State> {
             isBasic
             isDisabled={!isValidUnsigned}
             isUnsigned
-            label={t('Submit Inherent')}
+            label={t('Submit Unsigned')}
+            icon='sign-in'
             extrinsic={extrinsic}
           />
           <Button.Or />
@@ -87,6 +88,7 @@ class Selection extends TxComponent<Props, State> {
             isDisabled={!isValid}
             isPrimary
             label={t('Submit Transaction')}
+            icon='sign-in'
             extrinsic={extrinsic}
             ref={this.button}
           />
@@ -124,7 +126,7 @@ class Selection extends TxComponent<Props, State> {
     this.nextState({ accountNonce });
   }
 
-  private onChangeSender = (accountId: string): void => {
+  private onChangeSender = (accountId: string | null): void => {
     this.nextState({ accountId, accountNonce: new BN(0) });
   }
 

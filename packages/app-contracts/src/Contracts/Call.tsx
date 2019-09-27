@@ -2,26 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
-import { BareProps, I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Abi } from '@polkadot/api-contract';
-import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { getContractAbi } from '@polkadot/ui-app/util';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { getContractAbi } from '@polkadot/react-components/util';
+import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 import Params from '../Params';
 
-type Props = BareProps & I18nProps & ApiProps & {
+interface Props extends BareProps, I18nProps, ApiProps, RouteComponentProps<{}> {
   address: string | null;
   isOpen: boolean;
   method: string | null;
   onClose: () => void;
-};
+}
 
 interface State {
   accountId: string | null;
@@ -188,6 +189,7 @@ class Call extends TxComponent<Props, State> {
     return (
       <Button.Group>
         <Button
+          icon='cancel'
           isNegative
           onClick={this.onClose}
           label={t('Cancel')}
@@ -195,6 +197,7 @@ class Call extends TxComponent<Props, State> {
         <Button.Or />
         <TxButton
           accountId={accountId}
+          icon='sign-in'
           isDisabled={!isValid}
           isPrimary
           label={t('Call')}
@@ -253,7 +256,7 @@ class Call extends TxComponent<Props, State> {
     this.setState({ accountId });
   }
 
-  private onChangeAddress = (address: string): void => {
+  private onChangeAddress = (address: string | null): void => {
     const contractAbi = getContractAbi(address);
 
     this.setState({ address, contractAbi, isAddressValid: !!contractAbi });
@@ -303,8 +306,6 @@ class Call extends TxComponent<Props, State> {
 }
 
 export default withMulti(
-  Call,
-  translate,
-  withRouter,
+  translate(withRouter(Call)),
   withApi
 );

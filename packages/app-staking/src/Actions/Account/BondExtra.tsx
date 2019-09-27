@@ -3,26 +3,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { calcSignatureLength } from '@polkadot/ui-signer/Checks';
+import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
-import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
+import { withCalls, withApi, withMulti } from '@polkadot/react-api';
+import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
+import { bnMax } from '@polkadot/util';
 
 import translate from '../../translate';
+import detectUnsafe from '../../unsafeChains';
 
-type Props = I18nProps & ApiProps & CalculateBalanceProps & {
+interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
   controllerId: string;
   isOpen: boolean;
   onClose: () => void;
   stashId: string;
-};
+}
 
 interface State {
   extrinsic: SubmittableExtrinsic | null;
@@ -73,6 +75,7 @@ class BondExtra extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              icon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -80,6 +83,7 @@ class BondExtra extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Bond more')}
+              icon='sign-in'
               onClick={onClose}
               extrinsic={extrinsic}
               ref={this.button}
@@ -91,9 +95,10 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { stashId, t } = this.props;
+    const { stashId, systemChain, t } = this.props;
     const { maxBalance } = this.state;
     const available = <span className='label'>{t('available ')}</span>;
+    const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
       <>
@@ -116,7 +121,7 @@ class BondExtra extends TxComponent<Props, State> {
             maxValue={maxBalance}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
-            withMax
+            withMax={!isUnsafeChain}
           />
         </Modal.Content>
       </>
@@ -152,17 +157,14 @@ class BondExtra extends TxComponent<Props, State> {
 
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
-
       extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
-      const txLength = calcSignatureLength(extrinsic, system_accountNonce);
+      const txLength = calcTxLength(extrinsic, system_accountNonce);
+      const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
-      const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength));
-
-      maxBalance = availableBalance.sub(fees);
+      maxBalance = bnMax(availableBalance.sub(fees), ZERO);
     }
 
     this.nextState({

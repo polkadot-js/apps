@@ -18,10 +18,7 @@ if (compiled) {
     extensions: ['.js', '.ts'],
     plugins: [
       ['module-resolver', {
-        alias: {
-          '^@polkadot/client-(chains|db-chain|db|p2p-messages|p2p|rpc-handlers|rpc|runtime|telemetry|wasm)(.*)': './packages/client-\\1/src\\2',
-          '^@polkadot/client(.*)': './packages/client/src\\1'
-        }
+        alias: {}
       }]
     ]
   });

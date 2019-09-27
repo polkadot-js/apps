@@ -2,72 +2,58 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React from 'react';
-import { Button, CardGrid } from '@polkadot/ui-app';
+import React, { useState } from 'react';
+import { Button, CardGrid } from '@polkadot/react-components';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { withMulti, withObservable } from '@polkadot/react-api';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps & {
+interface Props extends ComponentProps, I18nProps {
   addresses?: SubjectInfo[];
-};
-
-interface State {
-  isCreateOpen: boolean;
 }
 
-class Overview extends React.PureComponent<Props, State> {
-  public state: State = {
-    isCreateOpen: false
-  };
+function Overview ({ addresses, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const emptyScreen = !isCreateOpen && (!addresses || Object.keys(addresses).length === 0);
 
-  public render (): React.ReactNode {
-    const { addresses, onStatusChange, t } = this.props;
-    const { isCreateOpen } = this.state;
-    const emptyScreen = !isCreateOpen && (!addresses || Object.keys(addresses).length === 0);
+  const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
 
-    return (
-      <CardGrid
-        buttons={
-          <Button.Group>
-            <Button
-              isPrimary
-              label={t('Add contact')}
-              onClick={this.toggleCreate}
-            />
-          </Button.Group>
-        }
-        isEmpty={emptyScreen}
-        emptyText={t('No contact found.')}
-      >
-        {isCreateOpen && (
-          <CreateModal
-            onClose={this.toggleCreate}
-            onStatusChange={onStatusChange}
+  return (
+    <CardGrid
+      buttons={
+        <Button.Group>
+          <Button
+            icon='add'
+            isPrimary
+            label={t('Add contact')}
+            onClick={_toggleCreate}
           />
-        )}
-        {addresses && Object.keys(addresses).map((address): React.ReactNode => (
-          <Address
-            address={address}
-            key={address}
-          />
-        ))}
-      </CardGrid>
-    );
-  }
-
-  private toggleCreate = (): void => {
-    this.setState(({ isCreateOpen }): State => ({
-      isCreateOpen: !isCreateOpen
-    }));
-  }
+        </Button.Group>
+      }
+      isEmpty={emptyScreen}
+      emptyText={t('No contacts found.')}
+    >
+      {isCreateOpen && (
+        <CreateModal
+          onClose={_toggleCreate}
+          onStatusChange={onStatusChange}
+        />
+      )}
+      {addresses && Object.keys(addresses).map((address): React.ReactNode => (
+        <Address
+          address={address}
+          key={address}
+        />
+      ))}
+    </CardGrid>
+  );
 }
 
 export default withMulti(

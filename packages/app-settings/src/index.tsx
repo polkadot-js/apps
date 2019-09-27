@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { TabItem } from '@polkadot/ui-app/Tabs';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { HelpOverlay, Tabs } from '@polkadot/ui-app';
+
+import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
 import md from './md/basics.md';
@@ -15,66 +15,46 @@ import translate from './translate';
 import Developer from './Developer';
 import General from './General';
 
-type Props = AppProps & I18nProps;
+interface Props extends AppProps, I18nProps {}
 
-interface State {
-  tabs: TabItem[];
-}
+const hidden = uiSettings.uiMode === 'full'
+  ? []
+  : ['developer'];
 
-class App extends React.PureComponent<Props, State> {
-  public constructor (props: Props) {
-    super(props);
-
-    const { t } = props;
-
-    this.state = {
-      tabs: [
-        {
-          isRoot: true,
-          name: 'general',
-          text: t('General')
-        },
-        {
-          name: 'developer',
-          text: t('Developer')
-        }
-      ]
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { basePath } = this.props;
-    const { tabs } = this.state;
-    const hidden = uiSettings.uiMode === 'full'
-      ? []
-      : ['developer'];
-
+function App (props: Props): React.ReactElement<Props> {
+  const _renderDeveloper = (): React.ReactNode => {
     return (
-      <main className='settings--App'>
-        <HelpOverlay md={md} />
-        <header>
-          <Tabs
-            basePath={basePath}
-            hidden={hidden}
-            items={tabs}
-          />
-        </header>
-        <Switch>
-          <Route path={`${basePath}/developer`} render={this.DeveloperWithStatus} />
-          <Route component={General} />
-        </Switch>
-      </main>
+      <Developer {...props} />
     );
-  }
+  };
+  const { basePath, t } = props;
 
-  private DeveloperWithStatus = (): React.ReactNode => {
-    return (
-      <Developer
-        onStatusChange={this.props.onStatusChange}
-        {...this.props}
-      />
-    );
-  }
+  return (
+    <main className='settings--App'>
+      <HelpOverlay md={md} />
+      <header>
+        <Tabs
+          basePath={basePath}
+          hidden={hidden}
+          items={[
+            {
+              isRoot: true,
+              name: 'general',
+              text: t('General')
+            },
+            {
+              name: 'developer',
+              text: t('Developer')
+            }
+          ]}
+        />
+      </header>
+      <Switch>
+        <Route path={`${basePath}/developer`} render={_renderDeveloper} />
+        <Route component={General} />
+      </Switch>
+    </main>
+  );
 }
 
 export default translate(App);

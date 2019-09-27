@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
-import { AddressCard, AddressInfo, Button, Forget, Icon } from '@polkadot/ui-app';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -16,153 +17,135 @@ import translate from './translate';
 
 interface Props extends I18nProps {
   address: string;
+  className?: string;
 }
 
-interface State {
-  current?: KeyringAddress;
-  isEditable: boolean;
-  isForgetOpen: boolean;
-  isTransferOpen: boolean;
-}
+const WITH_BALANCE = { available: true, free: true, total: true };
+const WITH_EXTENDED = { nonce: true };
 
-class Address extends React.PureComponent<Props, State> {
-  public state: State;
+const isEditable = true;
 
-  public constructor (props: Props) {
-    super(props);
+function Address ({ address, className, t }: Props): React.ReactElement<Props> {
+  const [current, setCurrent] = useState<KeyringAddress | null>(null);
+  const [genesisHash, setGenesisHash] = useState<string | null>(null);
+  const [isForgetOpen, setIsForgetOpen] = useState(false);
+  const [isTransferOpen, setIsTransferOpen] = useState(false);
 
-    const { address } = this.props;
+  useEffect((): void => {
+    const current = keyring.getAddress(address);
 
-    this.state = {
-      current: keyring.getAddress(address),
-      isEditable: true,
-      isForgetOpen: false,
-      isTransferOpen: false
-    };
-  }
+    setCurrent(current || null);
+    setGenesisHash((current && current.meta.genesisHash) || null);
+  }, []);
 
-  public render (): React.ReactNode {
-    const { address } = this.props;
-    const { isEditable } = this.state;
+  const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
+  const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
+  const _onForget = (): void => {
+    if (address) {
+      const status: Partial<ActionStatus> = {
+        account: address,
+        action: 'forget'
+      };
 
-    return (
-      <AddressCard
-        buttons={this.renderButtons()}
-        isEditable={isEditable}
-        type='address'
-        value={address}
-        withExplorer
-        withIndex
-        withTags
-      >
-        {this.renderModals()}
-        <AddressInfo
-          address={address}
-          withBalance={{ available: true, free: true, total: true }}
-          withExtended={{ nonce: true }}
-        />
-      </AddressCard>
-    );
-  }
-
-  private renderModals (): React.ReactNode {
-    const { address } = this.props;
-    const { isForgetOpen, isTransferOpen, current } = this.state;
-
-    if (!address || !current) {
-      return null;
+      try {
+        keyring.forgetAddress(address);
+        status.status = 'success';
+        status.message = t('address forgotten');
+      } catch (error) {
+        status.status = 'error';
+        status.message = error.message;
+      }
     }
+  };
+  const _onGenesisChange = (genesisHash: string | null): void => {
+    setGenesisHash(genesisHash);
 
-    const modals = [];
+    const account = keyring.getAddress(address);
 
-    if (isForgetOpen) {
-      modals.push(
-        <Forget
-          address={current.address}
-          onForget={this.onForget}
-          key='modal-forget-account'
-          mode='address'
-          onClose={this.toggleForget}
-        />
-      );
-    }
+    account && keyring.saveAddress(address, { ...account.meta, genesisHash });
+  };
 
-    if (isTransferOpen) {
-      modals.push(
-        <Transfer
-          key='modal-transfer'
-          onClose={this.toggleTransfer}
-          recipientId={address}
-        />
-      );
-    }
-
-    return modals;
-  }
-
-  private toggleForget = (): void => {
-    this.setState(({ isForgetOpen }): Pick<State, never> => ({
-      isForgetOpen: !isForgetOpen
-    }));
-  }
-
-  private toggleTransfer = (): void => {
-    this.setState(({ isTransferOpen }): Pick<State, never> => ({
-      isTransferOpen: !isTransferOpen
-    }));
-  }
-
-  private onForget = (): void => {
-    const { address, t } = this.props;
-
-    if (!address) {
-      return;
-    }
-
-    const status: Partial<ActionStatus> = {
-      account: address,
-      action: 'forget'
-    };
-
-    try {
-      keyring.forgetAddress(address);
-      status.status = 'success';
-      status.message = t('address forgotten');
-    } catch (error) {
-      status.status = 'error';
-      status.message = error.message;
-    }
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { isEditable } = this.state;
-
-    return (
-      <div className='accounts--Account-buttons buttons'>
-        {isEditable && (
-          <>
+  return (
+    <AddressCard
+      buttons={
+        <div className='addresses--Address-buttons buttons'>
+          <div className='actions'>
+            {isEditable && (
+              <Button
+                isNegative
+                onClick={_toggleForget}
+                icon='trash'
+                key='forget'
+                size='small'
+                tooltip={t('Forget this address')}
+              />
+            )}
             <Button
-              isNegative
-              onClick={this.toggleForget}
-              icon='trash'
-              key='forget'
+              icon='paper plane'
+              isPrimary
+              key='deposit'
+              label={t('deposit')}
+              onClick={_toggleTransfer}
               size='small'
-              tooltip={t('Forget this address')}
+              tooltip={t('Send funds to this address')}
             />
-          </>
-        )}
-        <Button
-          isPrimary
-          key='deposit'
-          label={<><Icon name='paper plane' /> {t('deposit')}</>}
-          onClick={this.toggleTransfer}
-          size='small'
-          tooltip={t('Send funds to this address')}
-        />
-      </div>
-    );
-  }
+          </div>
+          {isEditable && (
+            <div className='others'>
+              <ChainLock
+                genesisHash={genesisHash}
+                onChange={_onGenesisChange}
+              />
+            </div>
+          )}
+        </div>
+      }
+      className={className}
+      isEditable={isEditable}
+      type='address'
+      value={address}
+      withExplorer
+      withIndex
+      withTags
+    >
+      {address && current && (
+        <>
+          {isForgetOpen && (
+            <Forget
+              address={current.address}
+              onForget={_onForget}
+              key='modal-forget-account'
+              mode='address'
+              onClose={_toggleForget}
+            />
+          )}
+          {isTransferOpen && (
+            <Transfer
+              key='modal-transfer'
+              onClose={_toggleTransfer}
+              recipientId={address}
+            />
+          )}
+        </>
+      )}
+      <AddressInfo
+        address={address}
+        withBalance={WITH_BALANCE}
+        withExtended={WITH_EXTENDED}
+      />
+    </AddressCard>
+  );
 }
 
-export default translate(Address);
+export default translate(
+  styled(Address)`
+    .addresses--Address-buttons {
+      text-align: right;
+
+      .others {
+        margin-right: 0.125rem;
+        margin-top: 0.25rem;
+      }
+    }
+  `
+);

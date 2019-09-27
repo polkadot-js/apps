@@ -3,18 +3,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RecentlyOfflineMap } from '../../types';
-import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { DerivedBalances, DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, BlockNumber, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, RecentlyOffline, TxButton } from '@polkadot/ui-app';
-import { withCalls, withMulti } from '@polkadot/ui-api';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, OnlineStatus, TxButton } from '@polkadot/react-components';
+import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';
 import Nominate from './Nominate';
@@ -24,20 +23,24 @@ import SetSessionAccount from './SetSessionAccount';
 import translate from '../../translate';
 import Unbond from './Unbond';
 import Validate from './Validate';
+import { u8aToHex, u8aConcat } from '@polkadot/util';
 
-type Props = ApiProps & I18nProps & {
+import { updateOnlineStatus } from '../../util';
+
+interface Props extends ApiProps, I18nProps {
   accountId: string;
   allStashes?: string[];
   balances_all?: DerivedBalances;
   className?: string;
-  recentlyOffline: RecentlyOfflineMap;
+  recentlyOnline: Record<string, BlockNumber>;
   staking_info?: DerivedStaking;
   stashOptions: KeyringSectionOption[];
-};
+}
 
 interface State {
   controllerId: string | null;
   destination: number;
+  hexSessionId: string | null;
   isBondExtraOpen: boolean;
   isNominateOpen: boolean;
   isSetControllerAccountOpen: boolean;
@@ -49,7 +52,8 @@ interface State {
   isUnbondOpen: boolean;
   isValidateOpen: boolean;
   nominees?: string[];
-  sessionId: string | null;
+  onlineStatus: DerivedStakingOnlineStatus;
+  sessionIds: string[];
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId: string | null;
@@ -66,6 +70,7 @@ class Account extends React.PureComponent<Props, State> {
   public state: State = {
     controllerId: null,
     destination: 0,
+    hexSessionId: null,
     isBondExtraOpen: false,
     isNominateOpen: false,
     isSetControllerAccountOpen: false,
@@ -76,16 +81,17 @@ class Account extends React.PureComponent<Props, State> {
     isStashValidating: false,
     isUnbondOpen: false,
     isValidateOpen: false,
-    sessionId: null,
+    onlineStatus: {},
+    sessionIds: [],
     stashId: null
   };
 
-  public static getDerivedStateFromProps ({ allStashes, staking_info }: Props): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ allStashes, recentlyOnline, staking_info }: Props): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
 
-    const { controllerId, nextSessionId, nominators, rewardDestination, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionIds, nominators, online, offline, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isStashNominating = nominators && nominators.length !== 0;
     const _stashId = toIdString(stashId);
     const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
@@ -93,10 +99,20 @@ class Account extends React.PureComponent<Props, State> {
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
+      hexSessionId: u8aToHex(u8aConcat(...(
+        nextSessionIds.length
+          ? nextSessionIds
+          : sessionIds
+      ).map((id): Uint8Array => id.toU8a())), 48),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
-      sessionId: toIdString(nextSessionId),
+      onlineStatus: updateOnlineStatus(recentlyOnline)(sessionIds || null, { online, offline }),
+      sessionIds: (
+        nextSessionIds.length
+          ? nextSessionIds
+          : sessionIds
+      ).map(toIdString),
       stakers,
       stakingLedger,
       stashId: _stashId,
@@ -105,7 +121,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, t } = this.props;
+    const { className, isSubstrateV2, t } = this.props;
     const { stashId } = this.state;
 
     if (!stashId) {
@@ -119,7 +135,7 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <AddressCard
         buttons={this.renderButtons()}
-        iconInfo={this.renderOffline(stashId)}
+        iconInfo={this.renderOnlineStatus()}
         label={t('stash')}
         type='account'
         value={stashId}
@@ -143,7 +159,7 @@ class Account extends React.PureComponent<Props, State> {
         <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
-            {this.renderSessionAccount()}
+            {!isSubstrateV2 && this.renderSessionAccount()}
           </div>
           <div className='staking--Infos'>
             <div className='staking--balances'>
@@ -183,7 +199,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderInfos (): React.ReactNode {
-    const { stashId } = this.state;
+    const { isSubstrateV2 } = this.props;
+    const { hexSessionId, isStashValidating, stashId } = this.state;
 
     return (
       <AddressInfo
@@ -196,7 +213,8 @@ class Account extends React.PureComponent<Props, State> {
           unlocking: true
         }}
         withRewardDestination
-        withValidatorPrefs
+        withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
+        withValidatorPrefs={isStashValidating}
       />
     );
   }
@@ -215,7 +233,6 @@ class Account extends React.PureComponent<Props, State> {
         {nominees.map((nomineeId, index): React.ReactNode => (
           <AddressMini
             key={index}
-            iconInfo={this.renderOffline(nomineeId)}
             value={nomineeId}
             withBalance={false}
             withBonded
@@ -225,13 +242,17 @@ class Account extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderOffline (address: AccountId | string): React.ReactNode {
-    const { recentlyOffline } = this.props;
+  private renderOnlineStatus (): React.ReactNode {
+    const { onlineStatus, controllerId } = this.state;
+
+    if (!controllerId || !onlineStatus) {
+      return null;
+    }
 
     return (
-      <RecentlyOffline
-        accountId={address}
-        offline={recentlyOffline[address.toString()]}
+      <OnlineStatus
+        accountId={controllerId}
+        value={onlineStatus}
         tooltip
       />
     );
@@ -248,7 +269,6 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <div className='staking--Account-detail actions'>
         <AddressRow
-          iconInfo={this.renderOffline(controllerId)}
           label={t('controller')}
           value={controllerId}
           withAddressOrName
@@ -267,9 +287,9 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderSessionAccount (): React.ReactNode {
     const { t } = this.props;
-    const { sessionId } = this.state;
+    const { sessionIds } = this.state;
 
-    if (!sessionId) {
+    if (!sessionIds.length) {
       return null;
     }
 
@@ -277,7 +297,7 @@ class Account extends React.PureComponent<Props, State> {
       <div className='staking--Account-detail actions'>
         <AddressRow
           label={t('session')}
-          value={sessionId}
+          value={sessionIds[0]}
           withAddressOrName
           withBalance={{
             available: true,
@@ -330,8 +350,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { controllerId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionId } = this.state;
+    const { isSubstrateV2, t } = this.props;
+    const { controllerId, hexSessionId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
     const buttons = [];
 
     // if we are validating/nominating show stop
@@ -345,18 +365,20 @@ class Account extends React.PureComponent<Props, State> {
               ? t('Stop Nominating')
               : t('Stop Validating')
           }
+          icon='stop'
           key='stop'
           tx='staking.chill'
         />
       );
     } else {
-      if (!sessionId) {
+      if (!sessionIds.length || (isSubstrateV2 && hexSessionId === '0x')) {
         buttons.push(
           <Button
             isPrimary
             key='set'
             onClick={this.toggleSetSessionAccount}
             label={t('Set Session Key')}
+            icon='sign-in'
           />
         );
       } else {
@@ -366,6 +388,7 @@ class Account extends React.PureComponent<Props, State> {
             key='validate'
             onClick={this.toggleValidate}
             label={t('Validate')}
+            icon='check circle outline'
           />
         );
       }
@@ -377,6 +400,7 @@ class Account extends React.PureComponent<Props, State> {
           key='nominate'
           onClick={this.toggleNominate}
           label={t('Nominate')}
+          icon='hand paper outline'
         />
       );
     }
@@ -409,8 +433,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderPopupMenu (): React.ReactNode {
-    const { balances_all, t } = this.props;
-    const { isStashNominating, isStashValidating, sessionId } = this.state;
+    const { balances_all, isSubstrateV2, t } = this.props;
+    const { hexSessionId, isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
@@ -441,9 +465,9 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {sessionId &&
+        {(!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
-            {t('Change session account')}
+            {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
           </Menu.Item>
         }
         {isStashNominating &&
@@ -507,7 +531,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderSetSessionAccount (): React.ReactNode {
-    const { controllerId, isSetSessionAccountOpen, stashId, sessionId } = this.state;
+    const { controllerId, isSetSessionAccountOpen, stashId, sessionIds } = this.state;
 
     if (!controllerId || !stashId) {
       return null;
@@ -518,7 +542,7 @@ class Account extends React.PureComponent<Props, State> {
         controllerId={controllerId}
         isOpen={isSetSessionAccountOpen}
         onClose={this.toggleSetSessionAccount}
-        sessionId={sessionId}
+        sessionIds={sessionIds}
         stashId={stashId}
       />
     );
@@ -578,9 +602,10 @@ export default withMulti(
     display: flex;
 
     .staking--Accounts {
-      flex: 1;
+      flex: 3;
       display: flex;
-      flex-direction: column
+      flex-direction: column;
+      width: 0px;
     }
 
     .staking--Account-detail.actions{

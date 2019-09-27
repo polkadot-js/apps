@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/ui-app/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React from 'react';
-import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/ui-app';
+import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
@@ -51,7 +51,7 @@ class Verify extends React.PureComponent<Props, State> {
       cryptoOptions: [{ value: 'unknown', text: t('Crypto not detected') }].concat(uiSettings.availableCryptos as any[]),
       cryptoType: 'unknown',
       currentPublicKey,
-      defaultPublicKey: currentPublicKey || void 0,
+      defaultPublicKey: currentPublicKey || undefined,
       data: '',
       isHexData: false,
       isValidAddress: !!currentPair,
@@ -131,7 +131,7 @@ class Verify extends React.PureComponent<Props, State> {
           className='full'
           icon={
             <Icon
-              color={isValid ? 'green' : (isValidSignature ? 'red' : void 0)}
+              color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
               name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
               size='big'
             />
@@ -209,11 +209,11 @@ class Verify extends React.PureComponent<Props, State> {
     this.nextState({ signature, isValidSignature });
   }
 
-  private onChangeAddress = (accountId: string): void => {
+  private onChangeAddress = (accountId: string | null): void => {
     let currentPublicKey;
 
     try {
-      currentPublicKey = keyring.decodeAddress(accountId);
+      currentPublicKey = keyring.decodeAddress(accountId || '');
     } catch (err) {
       console.error(err);
     }

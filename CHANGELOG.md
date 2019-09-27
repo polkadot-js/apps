@@ -1,3 +1,39 @@
+# 0.36.0-beta.x
+
+- Support for Kusama CC2
+- Support for Edgeware mainnet
+- Experimental Ledger support
+- Display forks on explorer (limited to Babe)
+- Change settings to have Save as well as Save & Reload (depending on hanges made)
+- Updates to struct & enum rendering (as per extrinsic app)
+- Bakc, Password change & Delete don't show for built-in dev accounts
+- UI theme update
+- Migrate all buttons to have icons (via bounty)
+- Make the network selection clickable on network name (via bounty)
+- A large number of components refactored for React functional components
+
+# 0.35.1
+
+- Api 0.91.1, Util 1.2.1, Extension 0.10.1
+- Support for accouns added via Qr (for instance, the Parity Signer)
+- Support for accounts tied to specific chains (instead of just available to all)
+- GenericAsset app transfers
+- Support for Edgeware with default types
+- Display received heartbeats for validators
+- Allow optional params (really as optional) in RPC toolbox
+- Add Polkascan for Kusama
+- Fix account derivation with `///password`
+- Lots of component & maintainability cleanups
+
+# 0.34.1
+
+- Kusama support
+- Full support for Substrate 2.x & Polkadot 0.5.0 networks
+- Lots of UI updated to support both Substrate 1.x & 2.x chains
+- Add of claims app for Kusama (and Polkadot)
+- Basic Council, Parachains & Treasury apps
+- Moved ui-* packages to react-*
+
 # 0.33.1
 
 - Allow for externally injected accounts (i.e. via extension, polkadot-js & SingleSource)

@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withMulti } from '@polkadot/ui-api';
-import { Button, Input, InputAddress, Output, Static } from '@polkadot/ui-app';
+import { withMulti } from '@polkadot/react-api';
+import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
@@ -102,6 +102,7 @@ class Sign extends React.PureComponent<Props, State> {
               isPrimary
               onClick={this.toggleUnlock}
               label={t('Unlock account')}
+              icon='unlock'
             />
           </Button.Group>
         </div>
@@ -212,8 +213,8 @@ class Sign extends React.PureComponent<Props, State> {
     });
   }
 
-  private onChangeAccount = (accountId: string): void => {
-    const currentPair = keyring.getPair(accountId);
+  private onChangeAccount = (accountId: string | null): void => {
+    const currentPair = keyring.getPair(accountId || '');
 
     this.nextState({ currentPair });
   }

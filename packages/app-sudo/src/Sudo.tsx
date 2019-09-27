@@ -3,20 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-components';
+import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & ComponentProps & {
+interface Props extends I18nProps, ApiProps, ComponentProps {
   onChange: (accountId?: string) => void;
-};
+}
 
 interface State {
   method: Call | null;
@@ -46,7 +46,8 @@ class Propose extends TxComponent<Props, State> {
           <Button.Group>
             <TxButton
               accountId={sudoKey}
-              label={t('Submit')}
+              label={t('Submit Sudo')}
+              icon='sign-in'
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
               params={method ? [createType('Proposal', method)] : []}

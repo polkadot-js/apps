@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call, Proposal } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Extrinsic, InputNumber } from '@polkadot/ui-app';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
-import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
+import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
+import { withApi, withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
@@ -76,7 +76,7 @@ class Propose extends TxModal<Props, State> {
         <Button
           isPrimary
           label={t('Propose a council motion')}
-          labelIcon='add'
+          icon='add'
           onClick={this.showModal}
         />
       </Button.Group>

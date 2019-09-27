@@ -1,20 +1,21 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { AccountId, AuthorityId, BlockNumber, EventRecord } from '@polkadot/types/interfaces';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { ComponentProps, RecentlyOffline, RecentlyOfflineMap } from './types';
+import { ComponentProps } from './types';
 
-import React from 'react';
+import BN from 'bn.js';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
-import { Option } from '@polkadot/types';
-import { HelpOverlay } from '@polkadot/ui-app';
-import Tabs, { TabItem } from '@polkadot/ui-app/Tabs';
-import { withCalls, withMulti, withObservable } from '@polkadot/ui-api';
+import styled from 'styled-components';
+import { createType, Option } from '@polkadot/types';
+import { HelpOverlay } from '@polkadot/react-components';
+import Tabs from '@polkadot/react-components/Tabs';
+import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import './index.css';
@@ -24,105 +25,61 @@ import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';
 
-type Props = AppProps & ApiProps & I18nProps & {
+interface Props extends AppProps, ApiProps, I18nProps {
   allAccounts?: SubjectInfo;
   allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
+  bestNumber?: BlockNumber;
   currentValidatorsControllersV1OrStashesV2?: AccountId[];
-  staking_recentlyOffline?: RecentlyOffline;
-};
+  recentlyOnline?: AuthorityId[];
+}
 
 interface State {
   allControllers: string[];
   allStashes: string[];
-  currentValidatorsControllersV1OrStashesV2: string[];
-  recentlyOffline: RecentlyOfflineMap;
-  tabs: TabItem[];
+  currentValidators: string[];
 }
 
-class App extends React.PureComponent<Props, State> {
-  public state: State;
+function App ({ allAccounts, allStashesAndControllers, bestNumber, className, currentValidatorsControllersV1OrStashesV2, basePath, recentlyOnline: propsRecentlyOnline, t }: Props): React.ReactElement<Props> {
+  const [{ allControllers, allStashes, currentValidators }, setState] = useState<State>({
+    allControllers: [],
+    allStashes: [],
+    currentValidators: []
+  });
+  const [recentlyOnline, setRecentlyOnline] = useState<Record<string, BlockNumber>>({});
 
-  public constructor (props: Props) {
-    super(props);
+  useEffect((): void => {
+    const [_stashes, _controllers] = (allStashesAndControllers || [[], []]);
+    const _validators = currentValidatorsControllersV1OrStashesV2 || [];
 
-    const { t } = props;
-
-    this.state = {
-      allControllers: [],
-      allStashes: [],
-      currentValidatorsControllersV1OrStashesV2: [],
-      recentlyOffline: {},
-      tabs: [
-        {
-          isRoot: true,
-          name: 'overview',
-          text: t('Staking overview')
-        },
-        {
-          name: 'actions',
-          text: t('Account actions')
-        }
-      ]
-    };
-  }
-
-  public static getDerivedStateFromProps ({ allStashesAndControllers = [[], []], currentValidatorsControllersV1OrStashesV2 = [], staking_recentlyOffline = [] }: Props): Pick<State, never> {
-    return {
-      allControllers: allStashesAndControllers[1].filter((optId): boolean => optId.isSome).map((accountId): string =>
-        accountId.unwrap().toString()
-      ),
-      allStashes: allStashesAndControllers[0].map((accountId): string => accountId.toString()),
-      currentValidatorsControllersV1OrStashesV2: currentValidatorsControllersV1OrStashesV2.map((authorityId): string =>
+    setState({
+      allControllers: _controllers
+        .filter((optId): boolean => optId.isSome)
+        .map((accountId): string => accountId.unwrap().toString()),
+      allStashes: _stashes
+        .filter((): boolean => true)
+        .map((accountId): string => accountId.toString()),
+      currentValidators: _validators.map((authorityId): string =>
         authorityId.toString()
-      ),
-      recentlyOffline: staking_recentlyOffline.reduce(
-        (result, [accountId, blockNumber, count]): RecentlyOfflineMap => {
-          const account = accountId.toString();
+      )
+    });
+  }, [allStashesAndControllers, currentValidatorsControllersV1OrStashesV2]);
 
-          if (!result[account]) {
-            result[account] = [];
-          }
+  useEffect((): void => {
+    setRecentlyOnline({
+      ...(recentlyOnline || {}),
+      ...(propsRecentlyOnline || []).reduce(
+        (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
+          ...result,
+          [authorityId.toString()]: bestNumber || createType('BlockNumber', new BN(0))
+        }),
+        {}
+      )
+    });
+  }, [bestNumber, propsRecentlyOnline]);
 
-          result[account].push({
-            blockNumber,
-            count
-          });
-
-          return result;
-        }, {} as unknown as RecentlyOfflineMap)
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { allAccounts, basePath } = this.props;
-    const { tabs } = this.state;
-    const hidden = !allAccounts || Object.keys(allAccounts).length === 0
-      ? ['actions']
-      : [];
-
-    return (
-      <main className='staking--App'>
-        <HelpOverlay md={basicMd} />
-        <header>
-          <Tabs
-            basePath={basePath}
-            hidden={hidden}
-            items={tabs}
-          />
-        </header>
-        <Switch>
-          <Route path={`${basePath}/actions`} render={this.renderComponent(Accounts)} />
-          <Route render={this.renderComponent(Overview)} />
-        </Switch>
-      </main>
-    );
-  }
-
-  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
+  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
+    // eslint-disable-next-line react/display-name
     return (): React.ReactNode => {
-      const { allControllers, allStashes, currentValidatorsControllersV1OrStashesV2, recentlyOffline } = this.state;
-      const { allAccounts } = this.props;
-
       if (!allAccounts) {
         return null;
       }
@@ -132,21 +89,67 @@ class App extends React.PureComponent<Props, State> {
           allAccounts={allAccounts}
           allControllers={allControllers}
           allStashes={allStashes}
-          currentValidatorsControllersV1OrStashesV2={currentValidatorsControllersV1OrStashesV2}
-          recentlyOffline={recentlyOffline}
+          currentValidators={currentValidators}
+          recentlyOnline={recentlyOnline}
         />
       );
     };
-  }
+  };
+
+  return (
+    <main className={`staking--App ${className}`}>
+      <HelpOverlay md={basicMd} />
+      <header>
+        <Tabs
+          basePath={basePath}
+          hidden={
+            !allAccounts || Object.keys(allAccounts).length === 0
+              ? ['actions']
+              : []
+          }
+          items={[
+            {
+              isRoot: true,
+              name: 'overview',
+              text: t('Staking overview')
+            },
+            {
+              name: 'actions',
+              text: t('Account actions')
+            }
+          ]}
+        />
+      </header>
+      <Switch>
+        <Route path={`${basePath}/actions`} render={_renderComponent(Accounts)} />
+        <Route render={_renderComponent(Overview)} />
+      </Switch>
+    </main>
+  );
 }
 
 export default withMulti(
-  App,
+  styled(App)`
+    .rx--updated {
+      background: transparent !important;
+    }
+  `,
   translate,
   withCalls<Props>(
+    ['derive.chain.bestNumber', { propName: 'bestNumber' }],
     ['derive.staking.controllers', { propName: 'allStashesAndControllers' }],
     ['query.session.validators', { propName: 'currentValidatorsControllersV1OrStashesV2' }],
-    'query.staking.recentlyOffline'
+    ['query.system.events', {
+      propName: 'recentlyOnline',
+      transform: (value?: EventRecord[]): AuthorityId[] =>
+        (value || [])
+          .filter(({ event: { method, section } }): boolean =>
+            section === 'imOnline' && method === 'HeartbeatReceived'
+          )
+          .map(({ event: { data: [authorityId] } }): AuthorityId =>
+            authorityId as AuthorityId
+          )
+    }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );

@@ -2,83 +2,106 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { SettingsStruct } from '@polkadot/ui-settings/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { Option } from './types';
 
-import React from 'react';
-import styled from 'styled-components';
-import { Button, Dropdown, Input, Toggle } from '@polkadot/ui-app';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import queryString from 'query-string';
+import React, { useEffect, useState } from 'react';
+import { isLedgerCapable } from '@polkadot/react-api';
+import { Button, Dropdown } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
 import translate from './translate';
+import { createIdenticon, createOption, save, saveAndReload } from './util';
+import SelectUrl from './SelectUrl';
 
-type Props = AppProps & I18nProps & {
-  onStatusChange: (status: ActionStatus) => void;
-};
-
-interface State {
-  isCustomNode: boolean;
-  isUrlValid: boolean;
-  settings: SettingsStruct;
+interface Props extends I18nProps{
+  isModalContent?: boolean;
+  onClose?: () => void;
 }
 
-class General extends React.PureComponent<Props, State> {
-  public constructor (props: Props) {
-    super(props);
+// check for a ledger=... string, acivate
+const urlOptions = queryString.parse(location.href.split('?')[1]);
+const WITH_LEDGER = !!urlOptions.ledger;
 
-    const settings = uiSettings.get();
-    const isCustomNode = uiSettings.availableNodes.reduce((isCustomNode, { value }): boolean => {
-      return isCustomNode && value !== settings.apiUrl;
-    }, true);
+const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
+const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
+const ledgerConnOptions = uiSettings.availableLedgerConn;
 
-    this.state = {
-      isCustomNode,
-      isUrlValid: this.isValidUrl(settings.apiUrl),
-      settings
-    };
-  }
+function General ({ className, isModalContent, onClose, t }: Props): React.ReactElement<Props> {
+  // tri-state: null = nothing  changed, false = no reload, true = reload required
+  const [changed, setChanged] = useState<boolean | null>(null);
+  const [settings, setSettings] = useState(uiSettings.get());
 
-  public render (): React.ReactNode {
-    const { className, t } = this.props;
-    const { isUrlValid, settings: { i18nLang, prefix, uiMode, uiTheme } } = this.state;
+  useEffect((): void => {
+    const prev = uiSettings.get();
+    const hasChanges = Object.entries(settings).some(([key, value]): boolean => (prev as any)[key] !== value);
+    const needsReload = prev.apiUrl !== settings.apiUrl || prev.prefix !== settings.prefix;
 
-    return (
-      <div className={className}>
-        {this.renderEndpoint()}
-        <div className='ui--row'>
-          <div className='ui--medium'>
+    setChanged(
+      hasChanges
+        ? needsReload
+        : null
+    );
+  }, [settings]);
+
+  const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
+  const _onChangeIcon = (icon: string): void => setSettings({ ...settings, icon });
+  const _onChangeLedgerConn = (ledgerConn: string): void => setSettings({ ...settings, ledgerConn });
+  const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
+  const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
+  const _saveAndReload = (): void => saveAndReload(settings);
+  const _save = (): void => {
+    save(settings);
+    setChanged(null);
+  };
+
+  const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
+
+  return (
+    <div className={className}>
+      <SelectUrl onChange={_onChangeApiUrl} />
+      {!isModalContent && (
+        <>
+          <div className='ui--row'>
             <Dropdown
               defaultValue={prefix}
-              help={t('Override the default network prefix for address generation')}
-              label={t('address network prefix')}
-              onChange={this.onChangePrefix}
-              options={uiSettings.availablePrefixes}
+              help={t('Override the default ss58 prefix for address generation')}
+              label={t('address prefix')}
+              onChange={_onChangePrefix}
+              options={prefixOptions}
             />
           </div>
-        </div>
-        <div className='ui--row'>
-          <div className='medium'>
+          <div className='ui--row'>
             <Dropdown
-              defaultValue={uiTheme}
-              help={t('The logo and colors for the app along with the identity icon theme.')}
-              label={t('default interface theme')}
-              onChange={this.onChangeUiTheme}
-              options={uiSettings.availableUIThemes}
+              defaultValue={icon}
+              help={t('Override the default identity icon display with a specific theme')}
+              label={t('default icon theme')}
+              onChange={_onChangeIcon}
+              options={iconOptions}
             />
           </div>
-          <div className='medium'>
+          <div className='ui--row'>
             <Dropdown
               defaultValue={uiMode}
               help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
               label={t('interface operation mode')}
-              onChange={this.onChangeUiMode}
+              onChange={_onChangeUiMode}
               options={uiSettings.availableUIModes}
             />
           </div>
-        </div>
-        <div className='ui--row'>
-          <div className='full'>
+          {WITH_LEDGER && isLedgerCapable() && (
+            <div className='ui--row'>
+              <Dropdown
+                defaultValue={ledgerConn}
+                help={t('Manage your connection to Ledger S')}
+                label={t('manage hardware connections')}
+                onChange={_onChangeLedgerConn}
+                options={ledgerConnOptions}
+              />
+            </div>
+          )}
+          <div className='ui--row'>
             <Dropdown
               defaultValue={i18nLang}
               isDisabled
@@ -86,144 +109,38 @@ class General extends React.PureComponent<Props, State> {
               options={uiSettings.availableLanguages}
             />
           </div>
-        </div>
-        <Button.Group>
-          <Button
-            isDisabled={!isUrlValid}
-            isPrimary
-            onClick={this.saveAndReload}
-            label={t('Save & Reload')}
-          />
-        </Button.Group>
-      </div>
-    );
-  }
-
-  private renderEndpoint = (): React.ReactNode => {
-    const { t } = this.props;
-    const { isCustomNode, isUrlValid, settings: { apiUrl } } = this.state;
-
-    return (
-      <>
-        <Toggle
-          asSwitch
-          className='settings--cutomToggle'
-          defaultValue={isCustomNode}
-          label={t('custom endpoint')}
-          onChange={this.onChangeCustom}
-        />
-        <div className='ui--row'>
-          {
-            isCustomNode
-              ? (
-                <Input
-                  defaultValue={apiUrl}
-                  isError={!isUrlValid}
-                  label={t('remote node/endpoint to connect to')}
-                  onChange={this.onChangeApiUrl}
-                />
-              )
-              : (
-                <Dropdown
-                  defaultValue={apiUrl}
-                  label={t('remote node/endpoint to connect to')}
-                  onChange={this.onChangeApiUrl}
-                  options={uiSettings.availableNodes}
-                />
-              )
+        </>
+      )}
+      <Button.Group>
+        {isModalContent && (
+          <>
+            <Button
+              isNegative
+              label={t('Cancel')}
+              icon='cancel'
+              onClick={onClose}
+            />
+            <Button.Or />
+          </>
+        )}
+        <Button
+          isDisabled={changed === null}
+          isPrimary
+          onClick={
+            changed
+              ? _saveAndReload
+              : _save
           }
-        </div>
-      </>
-    );
-  }
-
-  private onChangeApiUrl = (apiUrl: string): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      isUrlValid: this.isValidUrl(apiUrl),
-      settings: {
-        ...settings,
-        apiUrl
-      }
-    }));
-  }
-
-  private onChangePrefix = (prefix: number): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      settings: {
-        ...settings,
-        prefix
-      }
-    }));
-  }
-
-  private onChangeUiMode = (uiMode: string): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      settings: {
-        ...settings,
-        uiMode
-      }
-    }));
-  }
-
-  private onChangeUiTheme = (uiTheme: string): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      settings: {
-        ...settings,
-        uiTheme
-      }
-    }));
-  }
-
-  private onChangeCustom = (isCustomNode: boolean): void => {
-    this.setState(({ settings }: State): Pick<State, never> => ({
-      isCustomNode,
-      isUrlValid: true,
-      settings: {
-        ...settings,
-        apiUrl: isCustomNode
-          ? settings.apiUrl
-          : uiSettings.availableNodes[0].value
-      }
-    }));
-  }
-
-  private isValidUrl (apiUrl: string): boolean {
-    return (
-      // some random length... we probably want to parse via some lib
-      (apiUrl.length >= 7) &&
-      // check that it starts with a valid ws identifier
-      (apiUrl.startsWith('ws://') || apiUrl.startsWith('wss://'))
-    );
-  }
-
-  private saveAndReload = (): void => {
-    const { settings } = this.state;
-
-    uiSettings.set(settings);
-
-    // HACK This is terribe, but since the API needs to re-connect, but since
-    // the API does not yet handle re-connections properly, it is what it is
-    window.location.reload();
-  }
+          label={
+            changed
+              ? t('Save & Reload')
+              : t('Save')
+          }
+          icon='save'
+        />
+      </Button.Group>
+    </div>
+  );
 }
 
-export default translate(styled(General)`
-  .settings--cutomToggle {
-    text-align: right;
-  }
-
-  .ui.menu {
-    justify-content: flex-end;
-    margin-bottom: 0;
-
-    .active.item {
-      font-weight: bold;
-    }
-  }
-
-  .sub-label {
-    cursor: pointer;
-    padding: 0rem .5833rem;
-    text-align: right;
-  }
-`);
+export default translate(General);

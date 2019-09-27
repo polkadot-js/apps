@@ -4,25 +4,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
-import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withCalls, withApi, withMulti } from '@polkadot/ui-api';
+import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { withCalls, withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../../translate';
 
-type Props = I18nProps & ApiProps & {
+interface Props extends I18nProps, ApiProps {
   controllerId?: AccountId | null;
   isOpen: boolean;
   onClose: () => void;
   stashId: string;
   staking_ledger?: Option<StakingLedger>;
-};
+}
 
 interface State {
   maxBalance?: BN;
@@ -73,6 +73,7 @@ class Unbond extends TxComponent<Props, State> {
               isNegative
               onClick={onClose}
               label={t('Cancel')}
+              icon='cancel'
             />
             <Button.Or />
             <TxButton
@@ -80,6 +81,7 @@ class Unbond extends TxComponent<Props, State> {
               isDisabled={!canSubmit}
               isPrimary
               label={t('Unbond')}
+              icon='sign-out'
               onClick={onClose}
               params={[maxUnbond]}
               tx='staking.unbond'

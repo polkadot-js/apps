@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
-import { InputFile, Labelled, Messages } from '@polkadot/ui-app';
+import { InputFile, Labelled, Messages } from '@polkadot/react-components';
 import { u8aToString } from '@polkadot/util';
 
 import translate from './translate';
@@ -55,20 +55,15 @@ class ABI extends React.PureComponent<Props, State> {
     };
   }
 
-  public componentWillReceiveProps ({ contractAbi, isError, isRequired }: Props): void {
+  public static getDerivedStateFromProps ({ contractAbi }: Props): Pick<State, never> | null {
     if (contractAbi) {
-      this.setState({
+      return {
         contractAbi,
         isAbiValid: true,
         isError: false
-      });
-    } else if (this.props.contractAbi) {
-      this.setState({
-        contractAbi: null,
-        isAbiValid: false,
-        isError: isError || isRequired || false
-      });
+      };
     }
+    return null;
   }
 
   public render (): React.ReactNode {
@@ -173,6 +168,6 @@ class ABI extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(styled(ABI)`
+export default translate(styled(ABI as React.ComponentClass<Props, State>)`
   min-height: 4rem;
 `);

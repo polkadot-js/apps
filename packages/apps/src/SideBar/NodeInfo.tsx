@@ -2,17 +2,36 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
-import { BareProps } from '@polkadot/ui-app/types';
+import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { withApi } from '@polkadot/ui-api/with';
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
+import { ApiContext } from '@polkadot/react-api';
+import { NodeName, NodeVersion } from '@polkadot/react-query';
 
-type Props = ApiProps & BareProps & {};
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pkgJson = require('../../package.json');
 
-const Wrapper = styled.div`
+const uiInfo = `apps v${pkgJson.version}`;
+
+function NodeInfo ({ className }: Props): React.ReactElement<Props> {
+  const { api, isApiReady } = useContext(ApiContext);
+
+  return (
+    <div className={className}>
+      {isApiReady && (
+        <div>
+          <NodeName />&nbsp;
+          <NodeVersion label='v' />
+        </div>
+      )}
+      <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
+      <div>{uiInfo}</div>
+    </div>
+  );
+}
+
+export default styled(NodeInfo)`
   background: transparent;
   color: white;
   font-size: 0.75rem;
@@ -35,45 +54,3 @@ const Wrapper = styled.div`
     background: inherit !important;
   }
 `;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkgJson = require('../../package.json');
-
-class NodeInfo extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { api } = this.props;
-    const uiInfo = `apps v${pkgJson.version}`;
-
-    return (
-      <Wrapper>
-        {this.renderNode()}
-        <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
-        <div>{uiInfo}</div>
-      </Wrapper>
-    );
-  }
-
-  private renderNode (): React.ReactNode {
-    const { isApiReady } = this.props;
-
-    if (!isApiReady) {
-      return null;
-    }
-
-    return (
-      <>
-        <div>
-          <Chain />&nbsp;
-          <BestNumber label='#' />
-        </div>
-        <div>
-          <NodeName />&nbsp;
-          <NodeVersion label='v' />
-        </div>
-        <div className='spacer' />
-      </>
-    );
-  }
-}
-
-export default withApi(NodeInfo);

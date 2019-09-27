@@ -2,9 +2,6 @@
 /* This software may be modified and distributed under the terms
 /* of the Apache-2.0 license. See the LICENSE file for details. */
 
-@import '../../../ui-app/src/styles/theme/_colors-polkadot.css';
-@import '../../../ui-app/src/styles/theme/_colors-substrate.css';
-
 .apps-Wrapper {
   display: flex;
   flex-direction: row;
@@ -91,9 +88,35 @@
     }
 
     .apps--SideBar-logo {
-      margin: 0.5rem 1.5rem 1.5rem 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5rem 1rem 1.5rem 0;
       padding-top: 0.75em;
-      width: 9rem;
+      width: 10rem;
+
+      img {
+        height: 2.75rem;
+        width: 2.75rem;
+      }
+
+      > div.info {
+        color: white;
+        opacity: 0.75;
+        text-align: right;
+        vertical-align: middle;
+
+        > div.chain {
+          font-size: 0.9rem;
+          line-height: 1rem;
+        }
+
+        > div.runtimeVersion {
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
+      }
     }
 
     .apps--SideBar-collapse {
@@ -157,6 +180,14 @@
       margin: 0.875rem auto;
       padding: 0;
       width: 3rem;
+
+      img {
+        margin: 0 0.25rem 0 0;
+      }
+
+      > div.info {
+        display: none;
+      }
     }
 
     .apps--SideBar-collapse .ui.basic.secondary.button {
@@ -182,25 +213,29 @@
   }
 }
 
-a.apps--SideBar-Item-NavLink {
-  color: #eee;
-  display: block;
-  padding: 0.75em 0.75em;
-  transition: background 0.15s;
-  white-space: nowrap;
+/* This is horrible ... will disappear once this stuff is actually where it belongs and not in a stylesheet */
+.theme--default {
+  a.apps--SideBar-Item-NavLink {
+    color: #eee;
+    display: block;
+    padding: 0.75em 0.75em;
+    white-space: nowrap;
 
-  &:hover {
-    background: rgba(0,0,0,0.15);
-    border-radius: 0.28571429rem 0 0 0.28571429rem;
+    &:hover {
+      background: #5f5f5f;
+      border-radius: 0.28571429rem 0 0 0.28571429rem;
+      color: #eee;
+    }
   }
-}
 
-a.apps--SideBar-Item-NavLink-active {
-  background: #fafafa !important;
-  border-radius: 0.28571429rem 0 0 0.28571429rem;
-  color: inherit;
+  a.apps--SideBar-Item-NavLink-active {
+    background: #fafafa;
+    border-radius: 0.28571429rem 0 0 0.28571429rem;
+    color: #3f3f3f;
 
-  &:hover {
-    color: inherit;
+    &:hover {
+      background: #fafafa;
+      color: #3f3f3f;
+    }
   }
 }

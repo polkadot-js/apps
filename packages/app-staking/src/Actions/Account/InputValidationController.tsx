@@ -2,42 +2,42 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
 
-import React from 'react';
-import { Icon } from '@polkadot/ui-app';
+import React, { useEffect, useState } from 'react';
+import { Icon } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
+import { withCalls } from '@polkadot/react-api';
 
 import translate from '../../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   accountId: string | null;
   bondedId?: string | null;
   controllerId: string | null;
   defaultController?: string;
+  isUnsafeChain?: boolean;
   onError: (error: string | null) => void;
   stashId?: string | null;
 }
 
-interface State {
-  error: string | null;
-}
+const DISTINCT = 'Distinct stash and controller accounts are recommended to ensure fund security.';
 
-class ValidateController extends React.PureComponent<Props, State> {
-  public state: State = {
-    error: null
-  };
+function ValidateController ({ accountId, bondedId, controllerId, defaultController, isUnsafeChain, onError, stashId, t }: Props): React.ReactElement<Props> | null {
+  const [error, setError] = useState<string | null>(null);
 
-  public static getDerivedStateFromProps ({ accountId, bondedId, controllerId, defaultController, onError, stashId, t }: Props, prevState: State): State {
-    const error = ((): string | null => {
+  useEffect((): void => {
+    const newError = ((): string | null => {
       if (defaultController === controllerId) {
         // don't show an error if the selected controller is the default
         // this applies when changing controller
         return null;
       } else if (controllerId === accountId) {
-        return t('Please select distinct stash and controller accounts');
+        return isUnsafeChain
+          ? t(`${DISTINCT} You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.`)
+          : t(DISTINCT);
       } else if (bondedId) {
         return t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
@@ -47,29 +47,21 @@ class ValidateController extends React.PureComponent<Props, State> {
       return null;
     })();
 
-    if (prevState.error !== error) {
-      onError(error);
+    if (error !== newError) {
+      onError(newError);
+      setError(newError);
     }
+  }, [accountId, controllerId, defaultController]);
 
-    return {
-      error
-    };
+  if (!error || !accountId) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { accountId } = this.props;
-    const { error } = this.state;
-
-    if (!error || !accountId) {
-      return null;
-    }
-
-    return (
-      <article className='warning'>
-        <div><Icon name='warning sign' />{error}</div>
-      </article>
-    );
-  }
+  return (
+    <article className='warning'>
+      <div><Icon name='warning sign' />{error}</div>
+    </article>
+  );
 }
 
 export default translate(

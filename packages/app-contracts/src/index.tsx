@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/ui-app/types';
-import { TabItem } from '@polkadot/ui-app/Tabs';
-import { ComponentProps, LocationProps } from './types';
+import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { TabItem } from '@polkadot/react-components/Tabs';
+import { ComponentProps } from './types';
 
 import React from 'react';
-import { Route, RouteComponentProps, Switch } from 'react-router';
+import { Route, Switch, RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { HelpOverlay, Tabs } from '@polkadot/ui-app';
-import { withMulti, withObservable } from '@polkadot/ui-api';
+import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { withMulti, withObservable } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
@@ -21,10 +21,10 @@ import Contracts from './Contracts';
 import Codes from './Codes';
 import Deploy from './Deploy';
 
-type Props = AppProps & I18nProps & RouteComponentProps & {
+interface Props extends AppProps, I18nProps, RouteComponentProps {
   accounts: SubjectInfo[];
   contracts: SubjectInfo[];
-};
+}
 
 interface State {
   codeHash?: string;
@@ -100,9 +100,9 @@ class App extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>): (p: LocationProps) => React.ReactNode {
-    return ({ match }: LocationProps): React.ReactNode => {
-      const { accounts, basePath, contracts, location, onStatusChange } = this.props;
+  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
+    return (): React.ReactNode => {
+      const { accounts, basePath, contracts, onStatusChange } = this.props;
 
       if (!contracts) {
         return null;
@@ -114,8 +114,6 @@ class App extends React.PureComponent<Props, State> {
           basePath={basePath}
           contracts={contracts}
           hasCode={store.hasCode}
-          location={location}
-          match={match}
           onStatusChange={onStatusChange}
           showDeploy={this.showDeploy}
         />
@@ -141,9 +139,8 @@ class App extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  App,
+  withRouter(App),
   translate,
   withObservable(keyring.accounts.subject, { propName: 'accounts' }),
-  withObservable(keyring.contracts.subject, { propName: 'contracts' }),
-  withRouter
+  withObservable(keyring.contracts.subject, { propName: 'contracts' })
 );

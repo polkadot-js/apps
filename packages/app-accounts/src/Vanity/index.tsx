@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '../vanitygen/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Input, TxComponent } from '@polkadot/ui-app';
+import { Button, Dropdown, Input, TxComponent } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
 import CreateModal from '../modals/Create';
@@ -19,7 +19,7 @@ import generatorSort from '../vanitygen/sort';
 import Match from './Match';
 import translate from './translate';
 
-type Props = ComponentProps & I18nProps;
+interface Props extends ComponentProps, I18nProps {}
 
 interface State {
   createSeed: string | null;
@@ -60,7 +60,7 @@ class VanityApp extends TxComponent<Props, State> {
     withHex: true
   };
 
-  private _isActive: boolean = false;
+  private _isActive = false;
 
   public componentWillUnmount (): void {
     this._isActive = false;
@@ -95,6 +95,11 @@ class VanityApp extends TxComponent<Props, State> {
     return (
       <Button.Group>
         <Button
+          icon={
+            isRunning
+              ? 'stop'
+              : 'sign-in'
+          }
           isDisabled={!isMatchValid}
           isPrimary={!isRunning}
           onClick={this.toggleStart}
@@ -308,14 +313,16 @@ class VanityApp extends TxComponent<Props, State> {
   }
 }
 
-export default translate(styled(VanityApp)`
-  .vanity--App-matches {
-    padding: 1em 0;
-  }
+export default translate(
+  styled(VanityApp)`
+    .vanity--App-matches {
+      padding: 1em 0;
+    }
 
-  .vanity--App-stats {
-    padding: 1em 0 0 0;
-    opacity: 0.45;
-    text-align: center;
-  }
-`);
+    .vanity--App-stats {
+      padding: 1em 0 0 0;
+      opacity: 0.45;
+      text-align: center;
+    }
+  `
+);

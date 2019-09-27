@@ -5,29 +5,30 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Index } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { DerivedFees } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/ui-app';
-import { Available } from '@polkadot/ui-reactive';
-import Checks, { calcSignatureLength } from '@polkadot/ui-signer/Checks';
-import { withApi, withCalls, withMulti } from '@polkadot/ui-api';
-import { ZERO_FEES } from '@polkadot/ui-signer/Checks/constants';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Available } from '@polkadot/react-query';
+import Checks, { calcTxLength } from '@polkadot/react-signer/Checks';
+import { withApi, withCalls, withMulti } from '@polkadot/react-api';
+import { ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
+import { bnMax } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   balances_fees?: DerivedFees;
   className?: string;
   onClose: () => void;
   recipientId?: string;
   senderId?: string;
   system_accountNonce?: BN;
-};
+}
 
 interface State {
   amount: BN;
@@ -40,7 +41,7 @@ interface State {
 
 const ZERO = new BN(0);
 
-class Transfer extends React.PureComponent<Props> {
+class Transfer extends React.PureComponent<Props, State> {
   public state: State;
 
   public constructor (props: Props) {
@@ -65,12 +66,14 @@ class Transfer extends React.PureComponent<Props> {
       (balances_fees !== prevProps.balances_fees) || (prevState.senderId !== senderId) ||
       hasLengthChanged
     ) {
-      this.setMaxBalance().catch(console.error);
+      this.setMaxBalance().catch((error: Error): void => console.error(error));
     }
   }
 
   public render (): React.ReactNode {
-    const { t } = this.props;
+    const { className, onClose, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
+    const { extrinsic, hasAvailable, maxBalance, recipientId, senderId } = this.state;
+    const available = <span className='label'>{t('available ')}</span>;
 
     return (
       <Modal
@@ -79,8 +82,63 @@ class Transfer extends React.PureComponent<Props> {
         open
       >
         <Modal.Header>{t('Send funds')}</Modal.Header>
-        {this.renderContent()}
-        {this.renderButtons()}
+        <Modal.Content>
+          <div className={className}>
+            <InputAddress
+              defaultValue={propSenderId}
+              help={t('The account you will send funds from.')}
+              isDisabled={!!propSenderId}
+              label={t('send from account')}
+              labelExtra={<Available label={available} params={senderId} />}
+              onChange={this.onChangeFrom}
+              type='account'
+            />
+            <InputAddress
+              defaultValue={propRecipientId}
+              help={t('Select a contact or paste the address you want to send funds to.')}
+              isDisabled={!!propRecipientId}
+              label={t('send to address')}
+              labelExtra={<Available label={available} params={recipientId} />}
+              onChange={this.onChangeTo}
+              type='allPlus'
+            />
+            <InputBalance
+              help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
+              isError={!hasAvailable}
+              label={t('amount')}
+              maxValue={maxBalance}
+              onChange={this.onChangeAmount}
+              withMax
+            />
+            <Checks
+              accountId={senderId}
+              extrinsic={extrinsic}
+              isSendable
+              onChange={this.onChangeFees}
+            />
+          </div>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              icon='cancel'
+              isNegative
+              label={t('Cancel')}
+              onClick={onClose}
+            />
+            <Button.Or />
+            <TxButton
+              accountId={senderId}
+              extrinsic={extrinsic}
+              icon='send'
+              isDisabled={!hasAvailable}
+              isPrimary
+              label={t('Make Transfer')}
+              onStart={onClose}
+              withSpinner={false}
+            />
+          </Button.Group>
+        </Modal.Actions>
       </Modal>
     );
   }
@@ -104,87 +162,15 @@ class Transfer extends React.PureComponent<Props> {
     });
   }
 
-  private renderButtons (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { extrinsic, hasAvailable, senderId } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={senderId}
-            extrinsic={extrinsic}
-            isDisabled={!hasAvailable}
-            isPrimary
-            label={t('Make Transfer')}
-            onStart={onClose}
-            withSpinner={false}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { className, recipientId: propRecipientId, senderId: propSenderId, t } = this.props;
-    const { extrinsic, hasAvailable, maxBalance, recipientId, senderId } = this.state;
-    const available = <span className='label'>{t('available ')}</span>;
-
-    return (
-      <Modal.Content>
-        <div className={className}>
-          <InputAddress
-            defaultValue={propSenderId}
-            help={t('The account you will send funds from.')}
-            isDisabled={!!propSenderId}
-            label={t('send from account')}
-            labelExtra={<Available label={available} params={senderId} />}
-            onChange={this.onChangeFrom}
-            type='account'
-          />
-          <InputAddress
-            defaultValue={propRecipientId}
-            help={t('Select a contact or paste the address you want to send funds to.')}
-            isDisabled={!!propRecipientId}
-            label={t('send to address')}
-            labelExtra={<Available label={available} params={recipientId} />}
-            onChange={this.onChangeTo}
-            type='allPlus'
-          />
-          <InputBalance
-            help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
-            isError={!hasAvailable}
-            label={t('amount')}
-            maxValue={maxBalance}
-            onChange={this.onChangeAmount}
-            withMax
-          />
-          <Checks
-            accountId={senderId}
-            extrinsic={extrinsic}
-            isSendable
-            onChange={this.onChangeFees}
-          />
-        </div>
-      </Modal.Content>
-    );
-  }
-
   private onChangeAmount = (amount: BN = new BN(0)): void => {
     this.nextState({ amount });
   }
 
-  private onChangeFrom = (senderId: string): void => {
+  private onChangeFrom = (senderId: string | null): void => {
     this.nextState({ senderId });
   }
 
-  private onChangeTo = (recipientId: string): void => {
+  private onChangeTo = (recipientId: string | null): void => {
     this.nextState({ recipientId });
   }
 
@@ -213,13 +199,13 @@ class Transfer extends React.PureComponent<Props> {
       prevMax = maxBalance;
       extrinsic = api.tx.balances.transfer(recipientId, prevMax);
 
-      const txLength = calcSignatureLength(extrinsic, accountNonce);
+      const txLength = calcTxLength(extrinsic, accountNonce);
       const fees = transactionBaseFee
-        .add(transactionByteFee.muln(txLength))
+        .add(transactionByteFee.mul(txLength))
         .add(transferFee)
         .add(recipientBalance.isZero() ? creationFee : ZERO);
 
-      maxBalance = senderBalance.sub(fees);
+      maxBalance = bnMax(senderBalance.sub(fees), ZERO);
     }
 
     this.nextState({

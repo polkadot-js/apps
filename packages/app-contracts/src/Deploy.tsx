@@ -4,20 +4,20 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { TypeDef } from '@polkadot/types/types';
-import { ApiProps } from '@polkadot/ui-api/types';
-import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
-import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/ui-app';
+import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import { getTypeDef } from '@polkadot/types';
-import createValues from '@polkadot/ui-params/values';
+import createValues from '@polkadot/react-params/values';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
@@ -26,9 +26,9 @@ import translate from './translate';
 
 type ConstructOptions = { key: string; text: string; value: string }[];
 
-type Props = ContractModalProps & ApiProps & I18nProps & RouteComponentProps & {
+interface Props extends ContractModalProps, ApiProps, I18nProps, RouteComponentProps {
   codeHash?: string;
-};
+}
 
 interface State extends ContractModalState {
   codeHash?: string;
@@ -52,19 +52,69 @@ class Deploy extends ContractModal<Props, State> {
       endowment: new BN(0),
       isHashValid: false,
       params: [],
-      ...this.getCodeState(props.codeHash)
+      ...Deploy.getCodeState(props.codeHash)
     };
     this.state = this.defaultState;
   }
 
-  public componentWillReceiveProps (nextProps: Props, nextState: State): void {
-    super.componentWillReceiveProps(nextProps, nextState);
-
-    if (nextProps.codeHash && nextProps.codeHash !== this.props.codeHash) {
-      this.setState(
-        this.getCodeState(nextProps.codeHash)
-      );
+  public static getDerivedStateFromProps (props: Props, state: State): Pick<State, never> {
+    if (props.codeHash && (!state.codeHash || state.codeHash !== props.codeHash)) {
+      return Deploy.getCodeState(props.codeHash);
     }
+    return {};
+  }
+
+  private static getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): Partial<State> => {
+    if (contractAbi) {
+      const args = contractAbi.deploy.args.map(({ name, type }): string => `${name}: ${type}`);
+      const text = `deploy(${args.join(', ')})`;
+
+      return {
+        abi,
+        constructOptions: [{
+          key: 'deploy',
+          text,
+          value: 'deploy'
+        }],
+        contractAbi,
+        isAbiValid: !!contractAbi,
+        params: createValues(
+          contractAbi.deploy.args.map(({ name, type }): { type: TypeDef } => ({
+            type: getTypeDef(type, name)
+          }))
+        )
+      };
+    } else {
+      return {
+        constructOptions: [] as ConstructOptions,
+        abi: null,
+        contractAbi: null,
+        isAbiSupplied: false,
+        isAbiValid: false,
+        params: [] as unknown[]
+      };
+    }
+  }
+
+  private static getCodeState = (codeHash: string | null = null): Pick<State, never> => {
+    if (codeHash) {
+      const code = store.getCode(codeHash);
+
+      if (code) {
+        const { contractAbi, json } = code;
+
+        return {
+          codeHash,
+          isAbiSupplied: !!contractAbi,
+          name: `${json.name} (instance)`,
+          isHashValid: true,
+          isNameValid: true,
+          ...Deploy.getContractAbiState(json.abi, contractAbi)
+        };
+      }
+    }
+
+    return {};
   }
 
   protected renderContent = (): React.ReactNode => {
@@ -152,6 +202,7 @@ class Deploy extends ContractModal<Props, State> {
         {this.renderCancelButton()}
         <TxButton
           accountId={accountId}
+          icon='cloud upload'
           isDisabled={!isValid}
           isPrimary
           label={t('Deploy')}
@@ -159,64 +210,17 @@ class Deploy extends ContractModal<Props, State> {
           onFailed={this.toggleBusy(false)}
           onSuccess={this.onSuccess}
           params={this.constructCall}
-          tx={api.tx.contracts ? 'contracts.create' : 'contract.create'}
+          tx={
+            api.tx.contracts
+              ? api.tx.contracts.instantiate
+                ? 'contracts.instantiate' // V2 (new)
+                : 'contracts.create' // V2 (old)
+              : 'contract.create' // V1
+          }
           ref={this.button}
         />
       </Button.Group>
     );
-  }
-
-  private getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): Partial<State> => {
-    if (contractAbi) {
-      const args = contractAbi.deploy.args.map(({ name, type }): string => `${name}: ${type}`);
-      const text = `deploy(${args.join(', ')})`;
-
-      return {
-        abi,
-        constructOptions: [{
-          key: 'deploy',
-          text,
-          value: 'deploy'
-        }],
-        contractAbi,
-        isAbiValid: !!contractAbi,
-        params: createValues(
-          contractAbi.deploy.args.map(({ name, type }): { type: TypeDef } => ({
-            type: getTypeDef(type, name)
-          }))
-        )
-      };
-    } else {
-      return {
-        constructOptions: [] as ConstructOptions,
-        abi: null,
-        contractAbi: null,
-        isAbiSupplied: false,
-        isAbiValid: false,
-        params: [] as unknown[]
-      };
-    }
-  }
-
-  private getCodeState = (codeHash: string | null = null): Pick<State, never> => {
-    if (codeHash) {
-      const code = store.getCode(codeHash);
-
-      if (code) {
-        const { contractAbi, json } = code;
-
-        return {
-          codeHash,
-          isAbiSupplied: !!contractAbi,
-          name: `${json.name} (instance)`,
-          isHashValid: true,
-          isNameValid: true,
-          ...this.getContractAbiState(json.abi, contractAbi)
-        };
-      }
-    }
-
-    return {};
   }
 
   private constructCall = (): any[] => {
@@ -231,13 +235,13 @@ class Deploy extends ContractModal<Props, State> {
 
   protected onAddAbi = (abi: string | null | undefined, contractAbi?: Abi | null): void => {
     this.setState({
-      ...(this.getContractAbiState(abi, contractAbi) as State)
+      ...(Deploy.getContractAbiState(abi, contractAbi) as State)
     });
   }
 
   private onChangeCode = (codeHash: string): void => {
     this.setState(
-      this.getCodeState(codeHash)
+      Deploy.getCodeState(codeHash)
     );
   }
 
@@ -249,7 +253,7 @@ class Deploy extends ContractModal<Props, State> {
     this.setState({ params });
   }
 
-  private onSuccess = async (result: SubmittableResult): Promise<void> => {
+  private onSuccess = (result: SubmittableResult): void => {
     const { api, history } = this.props;
 
     const section = api.tx.contracts ? 'contracts' : 'contract';
@@ -283,8 +287,7 @@ class Deploy extends ContractModal<Props, State> {
 }
 
 export default withMulti(
-  Deploy,
+  withRouter(Deploy),
   translate,
-  withRouter,
   withApi
 );

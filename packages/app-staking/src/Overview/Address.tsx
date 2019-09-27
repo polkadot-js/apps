@@ -3,34 +3,37 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, Exposure } from '@polkadot/types/interfaces';
-import { DerivedBalancesMap, DerivedStaking } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ValidatorFilter, RecentlyOfflineMap } from '../types';
+import { AccountId, Balance, BlockNumber, Exposure } from '@polkadot/types/interfaces';
+import { DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ValidatorFilter } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/ui-api/with';
-import { AddressCard, AddressMini, RecentlyOffline } from '@polkadot/ui-app';
+import { withCalls, withMulti } from '@polkadot/react-api/with';
+import { AddressCard, AddressMini, OnlineStatus } from '@polkadot/react-components';
+import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance } from '@polkadot/util';
+import { updateOnlineStatus } from '../util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
   address: string;
-  balances: DerivedBalancesMap;
   className?: string;
   defaultName: string;
+  filter: ValidatorFilter;
   lastAuthor: string;
   lastBlock: string;
-  recentlyOffline: RecentlyOfflineMap;
-  filter: ValidatorFilter;
+  recentlyOnline?: Record<string, BlockNumber>;
   staking_info?: DerivedStaking;
 }
 
 interface State {
   controllerId: string | null;
+  onlineStatus: DerivedStakingOnlineStatus;
   stashActive: string | null;
   stashTotal: string | null;
   sessionId: string | null;
@@ -47,6 +50,7 @@ class Address extends React.PureComponent<Props, State> {
 
     this.state = {
       controllerId: null,
+      onlineStatus: {},
       sessionId: null,
       stashActive: null,
       stashId: null,
@@ -55,15 +59,16 @@ class Address extends React.PureComponent<Props, State> {
     };
   }
 
-  public static getDerivedStateFromProps ({ staking_info }: Props, prevState: State): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ recentlyOnline = {}, staking_info }: Props, prevState: State): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
 
-    const { controllerId, nextSessionId, stakers, stashId, stakingLedger } = staking_info;
+    const { controllerId, nextSessionId, online, offline, stakers, stakingLedger, stashId } = staking_info;
 
     return {
       controllerId: controllerId && controllerId.toString(),
+      onlineStatus: updateOnlineStatus(recentlyOnline)(staking_info.sessionIds || null, { offline, online }),
       sessionId: nextSessionId && nextSessionId.toString(),
       stashActive: stakingLedger
         ? formatBalance(stakingLedger.active)
@@ -77,8 +82,8 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, defaultName, filter } = this.props;
-    const { controllerId, stakers, stashId } = this.state;
+    const { address, className, defaultName, filter, isSubstrateV2, lastAuthor, lastBlock, t } = this.props;
+    const { controllerId, onlineStatus, sessionId, stakers, stashId } = this.state;
     const bonded = stakers && !stakers.own.isEmpty
       ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
       : true;
@@ -91,56 +96,63 @@ class Address extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const isAuthor = !!lastBlock && !!lastAuthor && [address, controllerId, stashId].includes(lastAuthor);
+    const nominators = this.getNominators();
+
     return (
       <AddressCard
-        buttons={this.renderKeys()}
+        buttons={
+          <div className='staking--Address-info'>
+            {isAuthor && (
+              <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
+            )}
+            {controllerId && (
+              <div>
+                <label className={classes('staking--label', isSubstrateV2 && !isAuthor && 'controllerSpacer')}>{t('controller')}</label>
+                <AddressMini value={controllerId} />
+              </div>
+            )}
+            {!isSubstrateV2 && sessionId && (
+              <div>
+                <label className='staking--label'>{t('session')}</label>
+                <AddressMini value={sessionId} />
+              </div>
+            )}
+          </div>
+        }
         className={className}
         defaultName={defaultName}
-        iconInfo={this.renderOffline()}
+        iconInfo={controllerId && onlineStatus && (
+          <OnlineStatus
+            accountId={controllerId}
+            value={onlineStatus}
+            tooltip
+          />
+        )}
         key={stashId || controllerId || undefined}
-        value={stashId}
+        value={stashId || address}
         withBalance={{ bonded }}
       >
-        {this.renderNominators()}
+        {nominators.length && (
+          <details>
+            <summary>
+              {t('Nominators ({{count}})', {
+                replace: {
+                  count: nominators.length
+                }
+              })}
+            </summary>
+            {nominators.map(([who, bonded]): React.ReactNode =>
+              <AddressMini
+                bonded={bonded}
+                key={who.toString()}
+                value={who}
+                withBonded
+              />
+            )}
+          </details>
+        )}
       </AddressCard>
-    );
-  }
-
-  private renderKeys (): React.ReactNode {
-    const { address, lastAuthor, lastBlock, t } = this.props;
-    const { controllerId, sessionId, stashId } = this.state;
-    const isSame = controllerId === sessionId;
-    const isAuthor = [address, controllerId, stashId].includes(lastAuthor);
-
-    return (
-      <div className='staking--Address-info'>
-        {isAuthor && stashId
-          ? <div className='blockNumber'>#{lastBlock}</div>
-          : null
-        }
-        {controllerId
-          ? (
-            <div>
-              <label className='staking--label'>{
-                isSame
-                  ? t('controller/session')
-                  : t('controller')
-              }</label>
-              <AddressMini value={controllerId} />
-            </div>
-          )
-          : null
-        }
-        {!isSame && sessionId
-          ? (
-            <div>
-              <label className='staking--label'>{t('session')}</label>
-              <AddressMini value={sessionId} />
-            </div>
-          )
-          : null
-        }
-      </div>
     );
   }
 
@@ -168,81 +180,46 @@ class Address extends React.PureComponent<Props, State> {
   }
 
   private hasWarnings (): boolean {
-    const { recentlyOffline } = this.props;
-    const { stashId } = this.state;
+    const { stashId, onlineStatus } = this.state;
 
-    if (!stashId || !recentlyOffline[stashId]) {
+    if (!stashId || !onlineStatus.offline || !onlineStatus.offline.length) {
       return false;
     }
 
     return true;
   }
-
-  private renderNominators (): React.ReactNode {
-    const { t } = this.props;
-    const nominators = this.getNominators();
-
-    if (!nominators.length) {
-      return null;
-    }
-
-    return (
-      <details>
-        <summary>
-          {t('Nominators ({{count}})', {
-            replace: {
-              count: nominators.length
-            }
-          })}
-        </summary>
-        {nominators.map(([who, bonded]): React.ReactNode =>
-          <AddressMini
-            bonded={bonded}
-            key={who.toString()}
-            value={who}
-            withBonded
-          />
-        )}
-      </details>
-    );
-  }
-
-  private renderOffline (): React.ReactNode {
-    const { recentlyOffline } = this.props;
-    const { stashId } = this.state;
-
-    if (!stashId || !recentlyOffline[stashId]) {
-      return null;
-    }
-
-    const offline = recentlyOffline[stashId];
-
-    return (
-      <RecentlyOffline
-        accountId={stashId}
-        offline={offline}
-        tooltip
-      />
-    );
-  }
 }
 
 export default withMulti(
   styled(Address as React.ComponentClass<Props>)`
-    .blockNumber {
+    .blockNumberV1,
+    .blockNumberV2 {
       background: #3f3f3f;
       border-radius: 0.25rem;
-      top: 0rem;
       box-shadow: 0 3px 3px rgba(0,0,0,.2);
       color: #eee;
       font-size: 1.5rem;
       font-weight: 100;
       line-height: 1.5rem;
-      padding: 0.25rem 0.5rem;
-      position: absolute;
-      right: -0.75rem;
       vertical-align: middle;
       z-index: 1;
+    }
+
+    .blockNumberV2 {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      margin-right: -0.25rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .blockNumberV1 {
+      padding: 0.25rem 0.5rem;
+      position: absolute;
+      right: 0;
+    }
+
+    .staking--label.controllerSpacer {
+      margin-top: 2.75rem;
     }
   `,
   translate,

@@ -3,25 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { createType } from '@polkadot/types';
-import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/react-components';
+import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from './translate';
 
-type Props = I18nProps & ApiProps & RouteComponentProps & {
+interface Props extends I18nProps, ApiProps, RouteComponentProps {
   basePath: string;
-};
+}
 
 interface State {
-  accountId?: string;
+  accountId?: string | null;
   method: Call | null;
   value: BN;
   isValid: boolean;
@@ -65,7 +65,8 @@ class Propose extends TxComponent<Props, State> {
         <Button.Group>
           <TxButton
             accountId={accountId}
-            label={t('Submit')}
+            label={t('Submit Proposal')}
+            icon='sign-in'
             tx='democracy.propose'
             isDisabled={!isValid}
             params={[
@@ -96,7 +97,7 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (accountId: string): void => {
+  private onChangeAccount = (accountId: string | null): void => {
     this.nextState({ accountId });
   }
 
@@ -120,8 +121,7 @@ class Propose extends TxComponent<Props, State> {
 }
 
 export default withMulti(
-  Propose,
+  withRouter(Propose),
   translate,
-  withRouter,
   withApi
 );

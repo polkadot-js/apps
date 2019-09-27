@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, CardGrid } from '@polkadot/ui-app';
+import { Button, CardGrid } from '@polkadot/react-components';
 
 import contracts from '../store';
 import translate from '../translate';
@@ -15,14 +15,14 @@ import Code from './Code';
 import Upload from './Upload';
 import Add from './Add';
 
-type Props = ComponentProps & I18nProps;
+interface Props extends ComponentProps, I18nProps {}
 
 interface State {
   isAddOpen: boolean;
   isUploadOpen: boolean;
 }
 
-class Codes extends React.PureComponent<Props> {
+class Codes extends React.PureComponent<Props, State> {
   public state: State = {
     isAddOpen: false,
     isUploadOpen: false
@@ -39,15 +39,15 @@ class Codes extends React.PureComponent<Props> {
           buttons={
             <Button.Group>
               <Button
+                icon='upload'
                 isPrimary
                 label={t('Upload WASM')}
-                labelIcon='upload'
                 onClick={this.showUpload}
               />
               <Button.Or />
               <Button
+                icon='add'
                 label={t('Add an existing code hash')}
-                labelIcon='add'
                 onClick={this.showAdd}
               />
             </Button.Group>

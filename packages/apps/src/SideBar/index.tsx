@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Route } from '@polkadot/apps-routing/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
@@ -12,16 +14,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
-import { Button, Icon, Menu, media } from '@polkadot/ui-app';
-import { classes } from '@polkadot/ui-app/util';
-import { logoBackground, logoPadding } from '@polkadot/ui-app/styles/theme';
+import { withApi, withMulti } from '@polkadot/react-api';
+import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
+import { classes } from '@polkadot/react-components/util';
+import { BestNumber, Chain } from '@polkadot/react-query';
 
 import translate from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
-import getLogo from './logos';
+import NetworkModal from '../modals/Network';
 
-interface Props extends I18nProps {
+interface Props extends ApiProps, I18nProps {
+  className?: string;
   collapse: () => void;
   handleResize: () => void;
   isCollapsed: boolean;
@@ -32,32 +36,6 @@ interface Props extends I18nProps {
 interface State {
   modals: Record<string, boolean>;
 }
-
-const Toggle = styled.img`
-  background: ${logoBackground};
-  padding: ${logoPadding};
-  border-radius: 50%;
-  cursor: pointer;
-  left: 0.9rem;
-  opacity: 0;
-  position: absolute;
-  top: 0px;
-  transition: opacity 0.2s ease-in, top 0.2s ease-in;
-  width: 2.8rem;
-
-  &.delayed {
-    transition-delay: 0.4s;
-  }
-  &.open {
-    opacity: 1;
-    top: 0.9rem;
-  }
-
-  ${media.DESKTOP`
-    opacity: 0 !important;
-    top: -2.9rem !important;
-  `}
-`;
 
 class SideBar extends React.PureComponent<Props, State> {
   public state: State;
@@ -73,26 +51,26 @@ class SideBar extends React.PureComponent<Props, State> {
         }
 
         return result;
-      }, {} as unknown as Record<string, boolean>)
+      }, { network: false } as unknown as Record<string, boolean>)
     };
   }
 
   public render (): React.ReactNode {
-    const { handleResize, isCollapsed, toggleMenu, menuOpen } = this.props;
-    const logo = getLogo(true);
+    const { className, handleResize, isCollapsed, toggleMenu, menuOpen } = this.props;
 
     return (
       <Responsive
         onUpdate={handleResize}
-        className={classes('apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+        className={classes(className, 'apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
       >
-        <Toggle
-          alt='logo'
-          className={menuOpen ? 'closed' : 'open delayed'}
+        <ChainImg
+          className={`toggleImg ${menuOpen ? 'closed' : 'open delayed'}`}
           onClick={toggleMenu}
-          src={logo}
         />
         {this.renderModals()}
+        {this.state.modals.network && (
+          <NetworkModal onClose={this.toggleNetworkModal}/>
+        )}
         <div className='apps--SideBar'>
           <Menu
             secondary
@@ -143,15 +121,22 @@ class SideBar extends React.PureComponent<Props, State> {
   }
 
   private renderLogo (): React.ReactNode {
-    const { isCollapsed } = this.props;
-    const logo = getLogo(isCollapsed);
+    const { api, isApiReady } = this.props;
 
     return (
-      <img
-        alt='polkadot'
+      <div
         className='apps--SideBar-logo'
-        src={logo}
-      />
+        onClick={this.toggleNetworkModal}
+      >
+        <ChainImg />
+        <div className='info'>
+          <Chain className='chain' />
+          {isApiReady &&
+            <div className='runtimeVersion'>version {api.runtimeVersion.specVersion.toNumber()}</div>
+          }
+          <BestNumber label='#' />
+        </div>
+      </div>
     );
   }
 
@@ -240,14 +225,56 @@ class SideBar extends React.PureComponent<Props, State> {
 
   private openModal = (name: string): () => void => {
     return (): void => {
-      this.setState(({ modals }): State => ({
+      this.setState(({ modals }): State => {
+        return {
+          modals: {
+            ...modals,
+            [name]: true
+          }
+        };
+      });
+    };
+  }
+
+  private toggleNetworkModal = (): void => {
+    this.setState(({ modals }): State => {
+      return {
         modals: {
           ...modals,
-          [name]: true
+          network: !modals.network
         }
-      }));
-    };
+      };
+    });
   }
 }
 
-export default translate(SideBar);
+export default withMulti(
+  styled(SideBar)`
+    .toggleImg {
+      cursor: pointer;
+      height: 2.75rem;
+      left: 0.9rem;
+      opacity: 0;
+      position: absolute;
+      top: 0px;
+      transition: opacity 0.2s ease-in, top 0.2s ease-in;
+      width: 2.75rem;
+
+      &.delayed {
+        transition-delay: 0.4s;
+      }
+
+      &.open {
+        opacity: 1;
+        top: 0.9rem;
+      }
+
+      ${media.DESKTOP`
+        opacity: 0 !important;
+        top: -2.9rem !important;
+      `}
+    }
+  `,
+  translate,
+  withApi
+);

@@ -2,23 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { CalculateBalanceProps } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/ui-app';
-import { withApi, withMulti } from '@polkadot/ui-api';
+import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
-import { rewardDestinationOptions } from './constants';
+import detectUnsafe from '../unsafeChains';
 import InputValidationController from './Account/InputValidationController';
+import { rewardDestinationOptions } from './constants';
 
-type Props = I18nProps & ApiProps & CalculateBalanceProps & {
+interface Props extends ApiProps, I18nProps, CalculateBalanceProps {
   onClose: () => void;
-};
+}
 
 interface State {
   bondValue?: BN;
@@ -45,10 +46,11 @@ class NewStake extends TxComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { bondValue, controllerError, controllerId, extrinsic, stashId } = this.state;
+    const { onClose, systemChain, t } = this.props;
+    const { bondValue, controllerError, controllerId, destination, extrinsic, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
-    const canSubmit = hasValue && !controllerError && !!controllerId;
+    const isUnsafeChain = detectUnsafe(systemChain);
+    const canSubmit = (hasValue && (isUnsafeChain || (!controllerError && !!controllerId)));
 
     return (
       <Modal
@@ -57,37 +59,6 @@ class NewStake extends TxComponent<Props, State> {
         open
         size='small'
       >
-        {this.renderContent()}
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-            />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Bond')}
-              onClick={onClose}
-              extrinsic={extrinsic}
-              ref={this.button}
-            />
-          </Button.Group>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { t } = this.props;
-    const { controllerId, controllerError, bondValue, destination, stashId } = this.state;
-    const hasValue = !!bondValue && bondValue.gtn(0);
-
-    return (
-      <>
         <Modal.Header>
           {t('Bonding Preferences')}
         </Modal.Header>
@@ -102,7 +73,7 @@ class NewStake extends TxComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            isError={!!controllerError}
+            isError={!isUnsafeChain && !!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
             type='account'
@@ -111,6 +82,7 @@ class NewStake extends TxComponent<Props, State> {
           <InputValidationController
             accountId={stashId}
             controllerId={controllerId}
+            isUnsafeChain={isUnsafeChain}
             onError={this.onControllerError}
           />
           <InputBalanceBonded
@@ -125,7 +97,7 @@ class NewStake extends TxComponent<Props, State> {
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
             stashId={stashId}
-            withMax
+            withMax={!isUnsafeChain}
           />
           <Dropdown
             className='medium'
@@ -137,7 +109,28 @@ class NewStake extends TxComponent<Props, State> {
             value={destination}
           />
         </Modal.Content>
-      </>
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={onClose}
+              label={t('Cancel')}
+              icon='cancel'
+            />
+            <Button.Or />
+            <TxButton
+              accountId={stashId}
+              isDisabled={!canSubmit}
+              isPrimary
+              label={t('Bond')}
+              icon='sign-in'
+              onClick={onClose}
+              extrinsic={extrinsic}
+              ref={this.button}
+            />
+          </Button.Group>
+        </Modal.Actions>
+      </Modal>
     );
   }
 
@@ -160,7 +153,7 @@ class NewStake extends TxComponent<Props, State> {
     });
   }
 
-  private onChangeController = (controllerId: string): void => {
+  private onChangeController = (controllerId: string | null): void => {
     this.nextState({ controllerId });
   }
 
@@ -168,7 +161,7 @@ class NewStake extends TxComponent<Props, State> {
     this.nextState({ destination });
   }
 
-  private onChangeStash = (stashId: string): void => {
+  private onChangeStash = (stashId: string | null): void => {
     this.nextState({ stashId });
   }
 

@@ -4,11 +4,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/ui-api';
-import { CardGrid } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/react-api';
+import { CardGrid } from '@polkadot/react-components';
 
 import Motion from './Motion';
 import Propose from './Propose';
@@ -18,33 +18,23 @@ interface Props extends I18nProps {
   council_proposals?: Hash[];
 }
 
-class Proposals extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <CardGrid
-        emptyText={t('No council motions')}
-        headerText={t('Motions')}
-        buttons={
-          <Propose />
-        }
-      >
-        {this.renderProposals()}
-      </CardGrid>
-    );
-  }
-
-  private renderProposals (): React.ReactNode {
-    const { council_proposals = [] } = this.props;
-
-    return council_proposals.map((hash: Hash): React.ReactNode => (
-      <Motion
-        hash={hash.toHex()}
-        key={hash.toHex()}
-      />
-    ));
-  }
+function Proposals ({ council_proposals, t }: Props): React.ReactElement<Props> {
+  return (
+    <CardGrid
+      emptyText={t('No council motions')}
+      headerText={t('Motions')}
+      buttons={
+        <Propose />
+      }
+    >
+      {council_proposals && council_proposals.map((hash: Hash): React.ReactNode => (
+        <Motion
+          hash={hash.toHex()}
+          key={hash.toHex()}
+        />
+      ))}
+    </CardGrid>
+  );
 }
 
 export default translate(

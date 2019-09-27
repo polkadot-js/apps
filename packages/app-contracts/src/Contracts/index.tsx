@@ -2,21 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Button, CardGrid } from '@polkadot/ui-app';
-import { withMulti } from '@polkadot/ui-api';
+import { Button, CardGrid } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Add from './Add';
 import Contract from './Contract';
 import Call from './Call';
 
-type Props = ComponentProps & I18nProps & RouteComponentProps;
+interface Props extends ComponentProps, I18nProps, RouteComponentProps {}
 
 interface State {
   isAddOpen: boolean;
@@ -46,17 +45,18 @@ class Contracts extends React.PureComponent<Props, State> {
               {hasCode && (
                 <>
                   <Button
+                    icon='cloud upload'
                     isPrimary
                     label={t('Deploy a code hash')}
-                    labelIcon='cloud upload'
                     onClick={showDeploy()}
                   />
                   <Button.Or />
                 </>
               )}
               <Button
+                icon='add'
+                isPrimary
                 label={t('Add an existing contract')}
-                labelIcon='add'
                 onClick={this.showAdd}
               />
             </Button.Group>
@@ -117,8 +117,4 @@ class Contracts extends React.PureComponent<Props, State> {
   }
 }
 
-export default withMulti(
-  Contracts,
-  translate,
-  withRouter
-);
+export default translate(withRouter(Contracts));

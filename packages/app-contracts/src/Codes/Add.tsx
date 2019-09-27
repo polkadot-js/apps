@@ -4,14 +4,12 @@
 
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Input } from '@polkadot/ui-app';
+import { Button, Input } from '@polkadot/react-components';
 
-import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
+import ContractModal, { ContractModalProps as Props, ContractModalState } from '../Modal';
 import ValidateCode from './ValidateCode';
 import store from '../store';
 import translate from '../translate';
-
-type Props = ContractModalProps;
 
 interface State extends ContractModalState {
   codeHash: string;
@@ -67,6 +65,7 @@ class Add extends ContractModal<Props, State> {
       <Button.Group>
         {this.renderCancelButton()}
         <Button
+          icon='save'
           isDisabled={!isValid}
           isPrimary
           label={t('Save')}

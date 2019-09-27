@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { BlockNumber } from '@polkadot/types/interfaces';
 import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
@@ -14,23 +14,14 @@ export interface ComponentProps {
   allAccounts?: SubjectInfo;
   allControllers: string[];
   allStashes: string[];
-  currentValidatorsControllersV1OrStashesV2: string[];
-  recentlyOffline: RecentlyOfflineMap;
+  currentValidators: string[];
+  recentlyOnline: Record<string, BlockNumber>;
 }
 
 export interface CalculateBalanceProps {
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
   system_accountNonce?: BN;
-}
-
-export type RecentlyOffline = [AccountId, BlockNumber, BN][];
-
-export type RecentlyOfflineMap = Record<string, OfflineStatus[]>;
-
-export interface OfflineStatus {
-  blockNumber: BlockNumber;
-  count: BN;
 }
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';

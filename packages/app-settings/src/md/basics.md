@@ -47,7 +47,7 @@ Be aware that the types are registered in the order they appear here. Since `Tra
       "Two": "u64",
       "Three": null
     }
-  }.
+  },
   "MyNumber": "u32",
   "Thing": {
     "count_enum": "SimpleEnum",

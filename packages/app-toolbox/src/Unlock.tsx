@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
 
 import translate from './translate';
 
@@ -66,12 +66,14 @@ class Unlock extends TxComponent<Props, State> {
             isNegative
             onClick={this.onCancel}
             label={t('Cancel')}
+            icon='cancel'
           />
           <Button.Or />
           <Button
             isPrimary
             onClick={this.onUnlock}
             label={t('Unlock')}
+            icon='unlock'
             ref={this.button}
           />
         </Button.Group>

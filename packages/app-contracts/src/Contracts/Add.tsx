@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/ui-api/types';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
-import { withApi } from '@polkadot/ui-api';
-import { AddressRow, Button, Input } from '@polkadot/ui-app';
+import { withApi } from '@polkadot/react-api';
+import { AddressRow, Button, Input } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
@@ -16,7 +16,7 @@ import ValidateAddr from './ValidateAddr';
 
 import translate from '../translate';
 
-type Props = ContractModalProps & ApiProps & I18nProps;
+interface Props extends ContractModalProps, ApiProps, I18nProps {}
 
 interface State extends ContractModalState {
   address?: string | null;
@@ -78,6 +78,7 @@ class Add extends ContractModal<Props, State> {
       <Button.Group>
         {this.renderCancelButton()}
         <Button
+          icon='save'
           isDisabled={!isValid}
           isPrimary
           label={t('Save')}
@@ -96,7 +97,7 @@ class Add extends ContractModal<Props, State> {
     this.setState({ isAddressValid });
   }
 
-  private onAdd = async (): Promise<void> => {
+  private onAdd = (): void => {
     const { api } = this.props;
     const status: Partial<ActionStatus> = { action: 'create' };
     const { address, abi, name, tags } = this.state;

@@ -2,24 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ActionStatus } from '@polkadot/ui-app/Status/types';
-import { I18nProps } from '@polkadot/ui-app/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
-import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/ui-app';
-import { getContractAbi } from '@polkadot/ui-app/util';
-import { withMulti } from '@polkadot/ui-api';
+import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/react-components';
+import { getContractAbi } from '@polkadot/react-components/util';
 
 import translate from '../translate';
 
-type Props = I18nProps & RouteComponentProps & {
+interface Props extends I18nProps, RouteComponentProps {
   basePath: string;
   address: string;
   onCall: (callAddress?: string, callMethod?: string) => void;
-};
+}
 
 interface State {
   isBackupOpen: boolean;
@@ -27,17 +26,12 @@ interface State {
   isPasswordOpen: boolean;
 }
 
-class Contract extends React.PureComponent<Props> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-    this.state = {
-      isBackupOpen: false,
-      isForgetOpen: false,
-      isPasswordOpen: false
-    };
-  }
+class Contract extends React.PureComponent<Props, State> {
+  public state: State = {
+    isBackupOpen: false,
+    isForgetOpen: false,
+    isPasswordOpen: false
+  };
 
   public render (): React.ReactNode {
     const { address, onCall } = this.props;
@@ -134,16 +128,16 @@ class Contract extends React.PureComponent<Props> {
     return (
       <div className='contracts--Contract-buttons'>
         <Button
+          icon='trash'
           isNegative
           onClick={this.toggleForget}
-          icon='trash'
           size='small'
           tooltip={t('Forget this contract')}
         />
         <Button
+          icon='play'
           isPrimary
           label={t('execute')}
-          labelIcon='play'
           onClick={(): void => onCall(address)}
           size='small'
           tooltip={t('Call a method on this contract')}
@@ -153,8 +147,4 @@ class Contract extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  Contract,
-  translate,
-  withRouter
-);
+export default translate(withRouter(Contract));

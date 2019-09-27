@@ -6,29 +6,25 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/ui-reactive';
+import { BestNumber, Chain, NodeName, NodeVersion } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
 }
 
-class TopBar extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { className } = this.props;
-
-    return (
-      <div className={className}>
-        <div>
-          <NodeName />&nbsp;
-          <NodeVersion label='v' />
-        </div>
-        <div>
-          <Chain />&nbsp;
-          <BestNumber label='#' />
-        </div>
+function TopBar ({ className }: Props): React.ReactElement<Props> {
+  return (
+    <div className={className}>
+      <div>
+        <NodeName />&nbsp;
+        <NodeVersion label='v' />
       </div>
-    );
-  }
+      <div>
+        <Chain />&nbsp;
+        <BestNumber label='#' />
+      </div>
+    </div>
+  );
 }
 
 export default styled(TopBar)`

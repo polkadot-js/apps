@@ -4,22 +4,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { PrefabWasmModule } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/ui-app/types';
-import { ApiProps } from '@polkadot/ui-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/ui-api';
-import { InfoForInput } from '@polkadot/ui-app';
+import { withCalls } from '@polkadot/react-api';
+import { InfoForInput } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
 import translate from '../translate';
 
-type Props = ApiProps & I18nProps & {
+interface Props extends ApiProps, I18nProps {
   codeHash?: string | null;
   contracts_codeStorage?: Option<PrefabWasmModule>;
   onChange: (isValid: boolean) => void;
-};
+}
 
 interface State {
   isStored: boolean;
@@ -27,7 +27,7 @@ interface State {
   isValid: boolean;
 }
 
-class ValidateCode extends React.PureComponent<Props> {
+class ValidateCode extends React.PureComponent<Props, State> {
   public state: State = {
     isStored: false,
     isValidHex: false,

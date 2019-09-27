@@ -3,9 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
-import { AppProps, BareProps } from '@polkadot/ui-app/types';
+import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-export type RouteProps = AppProps & BareProps;
+export interface RouteProps extends AppProps, BareProps {
+  location: any;
+}
 
 export interface Route {
   Component: React.ComponentType<RouteProps>;

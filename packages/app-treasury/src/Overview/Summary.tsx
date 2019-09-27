@@ -3,12 +3,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/ui-app';
-import { withCalls } from '@polkadot/ui-api';
+import { SummaryBox, CardSummary } from '@polkadot/react-components';
+import { withCalls } from '@polkadot/react-api';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -19,35 +19,30 @@ interface Props extends I18nProps {
   treasury_pot?: BN;
 }
 
-class Summary extends React.PureComponent<Props> {
-  public render (): React.ReactNode {
-    const { treasury_proposalCount = new BN(0), treasury_approvals = [] as BN[], treasury_pot = new BN(0), t } = this.props;
-    const value = treasury_pot
-      ? treasury_pot.toString()
-      : null;
+function Summary ({ treasury_proposalCount, treasury_approvals, treasury_pot, t }: Props): React.ReactElement<Props> {
+  const value = treasury_pot && treasury_pot.gtn(0)
+    ? treasury_pot.toString()
+    : null;
 
-    return (
-      <SummaryBox>
-        <section>
-          <CardSummary label={t('proposals')}>
-            {formatNumber(treasury_proposalCount)}
-          </CardSummary>
-          <CardSummary label={t('approved')}>
-            {treasury_approvals ? treasury_approvals.length : '0'}
-          </CardSummary>
-        </section>
-        <section>
+  return (
+    <SummaryBox>
+      <section>
+        <CardSummary label={t('proposals')}>
+          {formatNumber(treasury_proposalCount)}
+        </CardSummary>
+        <CardSummary label={t('approved')}>
+          {treasury_approvals ? treasury_approvals.length : '0'}
+        </CardSummary>
+      </section>
+      <section>
+        {value && (
           <CardSummary label={t('pot')}>
-            {
-              value
-                ? `${formatBalance(value, false)}${treasury_pot.gtn(0) ? formatBalance.calcSi(value).value : ''}`
-                : '-'
-            }
+            {formatBalance(value, false)}{formatBalance.calcSi(value).value}
           </CardSummary>
-        </section>
-      </SummaryBox>
-    );
-  }
+        )}
+      </section>
+    </SummaryBox>
+  );
 }
 
 export default translate(

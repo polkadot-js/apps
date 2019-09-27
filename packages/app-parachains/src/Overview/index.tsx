@@ -3,20 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { Columar } from '@polkadot/ui-app';
+import { Columar } from '@polkadot/react-components';
 
 import Parachains from './Parachains';
 import Summary from './Summary';
 
-export default class Overview extends React.PureComponent<{}> {
-  public render (): React.ReactNode {
-    return (
-      <>
-        <Summary />
-        <Columar>
-          <Parachains />
-        </Columar>
-      </>
-    );
-  }
+type Props = {};
+
+export default function Overview (): React.ReactElement<Props> {
+  return (
+    <>
+      <Summary />
+      <Columar>
+        <Parachains />
+      </Columar>
+    </>
+  );
 }

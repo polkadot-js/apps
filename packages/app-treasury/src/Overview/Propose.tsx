@@ -5,15 +5,13 @@
 import BN from 'bn.js';
 import React from 'react';
 
-import { Button, InputAddress, InputBalance } from '@polkadot/ui-app';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/ui-app/TxModal';
+import { Button, InputAddress, InputBalance } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps as Props } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 
-type Props = TxModalProps;
-
 interface State extends TxModalState {
-  beneficiary?: string;
+  beneficiary?: string | null;
   value: BN;
 }
 
@@ -27,12 +25,10 @@ class Propose extends TxModal<Props, State> {
 
   protected txMethod = (): string => 'treasury.proposeSpend';
 
-  protected txParams = (): (string | BN | undefined)[] => {
+  protected txParams = (): [BN, string | null | undefined] => {
     const { beneficiary, value } = this.state;
 
-    return [
-      value, beneficiary
-    ];
+    return [value, beneficiary];
   }
 
   protected isDisabled = (): boolean => {
@@ -51,7 +47,7 @@ class Propose extends TxModal<Props, State> {
         <Button
           isPrimary
           label={t('Submit a spend proposal')}
-          labelIcon='add'
+          icon='add'
           onClick={this.showModal}
         />
       </Button.Group>
@@ -98,7 +94,7 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  private onChangeBeneficiary = (beneficiary: string): void => {
+  private onChangeBeneficiary = (beneficiary: string | null): void => {
     this.nextState({ beneficiary });
   }
 

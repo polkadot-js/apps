@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/ui-app/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { CodeStored } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Button, Card, CodeRow, Forget } from '@polkadot/ui-app';
-import { withMulti } from '@polkadot/ui-api';
+import { Button, Card, CodeRow, Forget } from '@polkadot/react-components';
 
 import ABI from '../ABI';
 import RemoveABI from '../RemoveABI';
@@ -18,11 +17,10 @@ import RemoveABI from '../RemoveABI';
 import contracts from '../store';
 import translate from '../translate';
 
-type Props = I18nProps & RouteComponentProps & {
-  basePath: string;
+interface Props extends I18nProps, RouteComponentProps<{}> {
   code: CodeStored;
   showDeploy: (codeHash?: string) => () => void;
-};
+}
 
 interface State {
   isForgetOpen: boolean;
@@ -35,7 +33,7 @@ const CodeCard = styled(Card)`
   }
 `;
 
-class Contract extends React.PureComponent<Props> {
+class Contract extends React.PureComponent<Props, State> {
   public state: State = {
     isForgetOpen: false,
     isRemoveABIOpen: false
@@ -76,9 +74,9 @@ class Contract extends React.PureComponent<Props> {
           tooltip={t('Forget this code hash')}
         />
         <Button
+          icon='cloud upload'
           isPrimary
           label={t('deploy')}
-          labelIcon='cloud upload'
           onClick={showDeploy(codeHash)}
           size='small'
           tooltip={t('Deploy this code hash as a smart contract')}
@@ -165,8 +163,4 @@ class Contract extends React.PureComponent<Props> {
   }
 }
 
-export default withMulti(
-  Contract,
-  translate,
-  withRouter
-);
+export default translate(withRouter(Contract));
