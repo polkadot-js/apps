@@ -73,22 +73,21 @@ function InputFile ({ accept, className, clearContent, help, isDisabled, isError
   const dropZone = (
     <Dropzone
       accept={accept}
-      className={classes('ui--InputFile', isError ? 'error' : '', className)}
+      className={classes('ui--InputFile', isError && 'error', className)}
       disabled={isDisabled}
       multiple={false}
       ref={dropRef}
       onDrop={_onDrop}
     >
       <em className='label'>
-        {
-          !file || clearContent
-            ? placeholder || t('click to select or drag and drop the file here')
-            : placeholder || t('{{name}} ({{size}} bytes)', {
-              replace: {
-                name: file.name,
-                size: formatNumber(file.size)
-              }
-            })
+        {!file || clearContent
+          ? placeholder || t('click to select or drag and drop the file here')
+          : placeholder || t('{{name}} ({{size}} bytes)', {
+            replace: {
+              name: file.name,
+              size: formatNumber(file.size)
+            }
+          })
         }
       </em>
     </Dropzone>
