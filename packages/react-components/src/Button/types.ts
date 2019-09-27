@@ -9,6 +9,7 @@ export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big
 export interface ButtonProps extends BareProps {
   children?: React.ReactNode;
   floated?: 'left' | 'right';
+  fluid?: boolean;
   icon: string;
   isBasic?: boolean;
   isCircular?: boolean;
