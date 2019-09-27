@@ -9,11 +9,11 @@ import { Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polk
 import Summary from './Summary';
 
 interface Props {
-  accountId?: string;
+  accountId?: string | null;
 }
 interface State {
   amount?: BN;
-  recipientId?: string;
+  recipientId?: string | null;
 }
 
 export default class Transfer extends TxComponent<Props, State> {
@@ -31,7 +31,6 @@ export default class Transfer extends TxComponent<Props, State> {
             <InputAddress
               label='recipient address for this transfer'
               onChange={this.onChangeRecipient}
-              onEnter={this.sendTx}
               type='all'
             />
             <InputBalance
@@ -60,7 +59,7 @@ export default class Transfer extends TxComponent<Props, State> {
     this.setState({ amount });
   }
 
-  private onChangeRecipient = (recipientId?: string): void => {
+  private onChangeRecipient = (recipientId?: string | null): void => {
     this.setState({ recipientId });
   }
 }

@@ -209,11 +209,11 @@ class Verify extends React.PureComponent<Props, State> {
     this.nextState({ signature, isValidSignature });
   }
 
-  private onChangeAddress = (accountId: string): void => {
+  private onChangeAddress = (accountId: string | null): void => {
     let currentPublicKey;
 
     try {
-      currentPublicKey = keyring.decodeAddress(accountId);
+      currentPublicKey = keyring.decodeAddress(accountId || '');
     } catch (err) {
       console.error(err);
     }

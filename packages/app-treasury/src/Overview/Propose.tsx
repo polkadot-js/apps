@@ -11,7 +11,7 @@ import TxModal, { TxModalState, TxModalProps as Props } from '@polkadot/react-co
 import translate from '../translate';
 
 interface State extends TxModalState {
-  beneficiary?: string;
+  beneficiary?: string | null;
   value: BN;
 }
 
@@ -25,12 +25,10 @@ class Propose extends TxModal<Props, State> {
 
   protected txMethod = (): string => 'treasury.proposeSpend';
 
-  protected txParams = (): (string | BN | undefined)[] => {
+  protected txParams = (): [BN, string | null | undefined] => {
     const { beneficiary, value } = this.state;
 
-    return [
-      value, beneficiary
-    ];
+    return [value, beneficiary];
   }
 
   protected isDisabled = (): boolean => {
@@ -96,7 +94,7 @@ class Propose extends TxModal<Props, State> {
     );
   }
 
-  private onChangeBeneficiary = (beneficiary: string): void => {
+  private onChangeBeneficiary = (beneficiary: string | null): void => {
     this.nextState({ beneficiary });
   }
 

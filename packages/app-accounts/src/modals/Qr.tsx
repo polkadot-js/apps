@@ -7,8 +7,7 @@ import { ModalProps } from '../types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
-import { InputAddress } from '@polkadot/react-components/InputAddress';
+import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { QrScanAddress } from '@polkadot/react-qr';
 import keyring from '@polkadot/ui-keyring';
 
