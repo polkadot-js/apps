@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../types';
@@ -22,7 +21,7 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 import translate from '../translate';
 import CreateConfirmation from './CreateConfirmation';
 
-interface Props extends ModalProps, ApiProps, I18nProps {
+interface Props extends ModalProps, I18nProps {
   seed?: string;
   type?: KeypairType;
 }
