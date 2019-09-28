@@ -286,10 +286,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 }
 
-(InputAddress as unknown as ExportedType).createOption = createItem;
-(InputAddress as unknown as ExportedType).setLastValue = setLastValue;
-
-export default withMulti(
+const ExportedComponent = withMulti(
   styled(InputAddress)`
     .ui.dropdown .text {
       width: 100%;
@@ -329,3 +326,8 @@ export default withMulti(
       }, {})
   })
 ) as ExportedType;
+
+ExportedComponent.createOption = createItem;
+ExportedComponent.setLastValue = setLastValue;
+
+export default ExportedComponent;
