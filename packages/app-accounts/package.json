@@ -12,7 +12,7 @@
   "dependencies": {
     "@babel/runtime": "^7.6.2",
     "@polkadot/react-components": "^0.36.0-beta.44",
-    "@polkadot/react-qr": "^0.45.0-beta.15",
+    "@polkadot/react-qr": "^0.45.1",
     "@types/file-saver": "^2.0.0",
     "@types/yargs": "^13.0.2",
     "babel-plugin-module-resolver": "^3.1.1",
