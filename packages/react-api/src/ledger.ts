@@ -8,7 +8,8 @@ import uiSettings from '@polkadot/ui-settings';
 import { api } from './Api';
 
 const ALLOWED_CHAINS = [
-  '0x3fd7b9eb6a00376e5be61f01abb429ffb0b104be05eaff4d458da48fcd425baf' // Kusama CC1
+  '0x3fd7b9eb6a00376e5be61f01abb429ffb0b104be05eaff4d458da48fcd425baf', // Kusama CC1
+  '0xe3777fa922cafbff200cadeaea1a76bd7898ad5b89f7848999058b50e715f636' // Kusama CC2
 ];
 
 let ledger: Ledger | null = null;
