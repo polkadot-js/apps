@@ -5,7 +5,6 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { Option } from './types';
 
-import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
@@ -19,10 +18,6 @@ interface Props extends I18nProps{
   isModalContent?: boolean;
   onClose?: () => void;
 }
-
-// check for a ledger=... string, acivate
-const urlOptions = queryString.parse(location.href.split('?')[1]);
-const WITH_LEDGER = !!urlOptions.ledger;
 
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
 const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
@@ -90,7 +85,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
               options={uiSettings.availableUIModes}
             />
           </div>
-          {WITH_LEDGER && isLedgerCapable() && (
+          {isLedgerCapable() && (
             <div className='ui--row'>
               <Dropdown
                 defaultValue={ledgerConn}
