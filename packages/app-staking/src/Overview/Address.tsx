@@ -218,6 +218,16 @@ export default withMulti(
       right: 0;
     }
 
+    .staking--Address-info {
+      /* Small additional margin to take care of validator highlights */
+      margin-right: 0.25rem;
+      text-align: right;
+
+      .staking--label {
+        margin: 0 2.25rem -0.75rem 0;
+      }
+    }
+
     .staking--label.controllerSpacer {
       margin-top: 2.75rem;
     }
