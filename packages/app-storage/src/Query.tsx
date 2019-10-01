@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Compact } from '@polkadot/types';
 import { Button, Labelled } from '@polkadot/react-components';
@@ -20,12 +20,6 @@ import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 interface Props extends I18nProps {
   onRemove: (id: number) => void;
   value: QueryTypes;
-}
-
-interface State {
-  inputs?: React.ReactNode[];
-  Component?: React.ComponentType<{}>;
-  spread: Record<number, boolean>;
 }
 
 interface CacheInstance {
@@ -123,102 +117,95 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
   return cache[id];
 }
 
-class Query extends React.PureComponent<Props, State> {
-  public state: State = { spread: {} };
+function Query ({ className, onRemove, value }: Props): React.ReactElement<Props> | null {
+  // const [inputs, setInputs] = useState<React.ReactNode[]>([]);
+  const [{ Component }, setComponent] = useState<Partial<CacheInstance>>({});
+  const [isSpreadable, setIsSpreadable] = useState(false);
+  const [spread, setSpread] = useState<Record<number, boolean>>({});
 
-  public static getDerivedStateFromProps ({ value }: Props): Pick<State, never> {
-    const Component = getCachedComponent(value).Component;
-    const inputs: React.ReactNode[] = isU8a(value.key)
-      ? []
-      // FIXME We need to render the actual key params
-      // const { key, params } = value;
-      // const inputs = key.params.map(({ name, type }, index) => (
-      //   <span key={`param_${name}_${index}`}>
-      //     {name}={valueToText(type, params[index].value)}
-      //   </span>
-      // ));
-      : [];
-
-    return {
-      Component,
-      inputs
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { className, value } = this.props;
-    const { Component } = this.state;
-    const { id, isConst, key } = value;
-    const type = isConst
-      ? (key as unknown as ConstValue).meta.type.toString()
-      : isU8a(key)
-        ? 'Data'
-        : typeToString(key as StorageEntryPromise);
-
-    if (!Component) {
-      return null;
-    }
-
-    return (
-      <div className={`storage--Query storage--actionrow ${className}`}>
-        <div className='storage--actionrow-value'>
-          <Labelled
-            label={
-              <div className='ui--Param-text'>
-                {keyToName(isConst, key)}: {type}
-              </div>
-            }
-          >
-            <Component />
-          </Labelled>
-        </div>
-        <div className='storage--actionrow-buttons'>
-          <div className='container'>
-            {(key as StorageEntryPromise).creator && (key as StorageEntryPromise).creator.meta && ['Bytes', 'Data'].includes((key as StorageEntryPromise).creator.meta.type.toString()) && (
-              <Button
-                icon='ellipsis horizontal'
-                key='spread'
-                onClick={this.spreadHandler(id)}
-              />
-            )}
-            <Button
-              icon='close'
-              isNegative
-              key='close'
-              onClick={this.onRemove}
-            />
-          </div>
-        </div>
-      </div>
+  useEffect((): void => {
+    setComponent(getCachedComponent(value));
+    // setInputs(
+    //   isU8a(value.key)
+    //     ? []
+    //     // FIXME We need to render the actual key params
+    //     // const { key, params } = value;
+    //     // const inputs = key.params.map(({ name, type }, index) => (
+    //     //   <span key={`param_${name}_${index}`}>
+    //     //     {name}={valueToText(type, params[index].value)}
+    //     //   </span>
+    //     // ));
+    //     : []
+    // );
+    setIsSpreadable(
+      (value.key as StorageEntryPromise).creator &&
+      (value.key as StorageEntryPromise).creator.meta &&
+      ['Bytes', 'Data'].includes((value.key as StorageEntryPromise).creator.meta.type.toString())
     );
+  }, [value]);
+
+  const { id, isConst, key } = value;
+  const type = isConst
+    ? (key as unknown as ConstValue).meta.type.toString()
+    : isU8a(key)
+      ? 'Data'
+      : typeToString(key as StorageEntryPromise);
+
+  if (!Component) {
+    return null;
   }
 
-  private spreadHandler (id: number): () => void {
+  const _spreadHandler = (id: number): () => void => {
     return (): void => {
-      const { spread } = this.state;
-
       cache[id].Component = cache[id].refresh(true, !!spread[id]);
       spread[id] = !spread[id];
 
-      this.setState({
-        ...this.state,
-        ...spread,
-        Component: cache[id].Component
-      });
+      setComponent(cache[id]);
+      setSpread({ ...spread });
     };
-  }
+  };
+  const _onRemove = (): void => {
+    delete cache[value.id];
 
-  private onRemove = (): void => {
-    const { onRemove, value: { id } } = this.props;
+    onRemove(value.id);
+  };
 
-    delete cache[id];
-
-    onRemove(id);
-  }
+  return (
+    <div className={`storage--Query storage--actionrow ${className}`}>
+      <div className='storage--actionrow-value'>
+        <Labelled
+          label={
+            <div className='ui--Param-text'>
+              {keyToName(isConst, key)}: {type}
+            </div>
+          }
+        >
+          <Component />
+        </Labelled>
+      </div>
+      <div className='storage--actionrow-buttons'>
+        <div className='container'>
+          {isSpreadable && (
+            <Button
+              icon='ellipsis horizontal'
+              key='spread'
+              onClick={_spreadHandler(id)}
+            />
+          )}
+          <Button
+            icon='close'
+            isNegative
+            key='close'
+            onClick={_onRemove}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default translate(
-  styled(Query as React.ComponentClass<Props>)`
+  styled(Query)`
     margin-bottom: 0.25em;
 
     label {
