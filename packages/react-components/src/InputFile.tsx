@@ -5,8 +5,8 @@
 import { WithTranslation } from 'react-i18next';
 import { BareProps } from './types';
 
-import React, { useRef, useState } from 'react';
-import Dropzone from 'react-dropzone';
+import React, { useState, createRef } from 'react';
+import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
 
@@ -41,15 +41,15 @@ interface LoadEvent {
 }
 
 function InputFile ({ accept, className, clearContent, help, isDisabled, isError = false, label, onChange, placeholder, t, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
-  const dropRef = useRef<Dropzone | null>(null);
+  const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
 
   const _onDrop = (files: File[]): void => {
     files.forEach((file): void => {
       const reader = new FileReader();
 
-      reader.onabort = (): void => {};
-      reader.onerror = (): void => {};
+      reader.onabort = (): void => { };
+      reader.onerror = (): void => { };
 
       // ummm... events are not properly specified here?
       (reader as any).onload = ({ target: { result } }: LoadEvent): void => {
@@ -58,7 +58,7 @@ function InputFile ({ accept, className, clearContent, help, isDisabled, isError
 
         onChange && onChange(data, name);
 
-        if (dropRef && dropRef.current) {
+        if (dropRef) {
           setFile({
             name,
             size: data.length
@@ -73,23 +73,28 @@ function InputFile ({ accept, className, clearContent, help, isDisabled, isError
   const dropZone = (
     <Dropzone
       accept={accept}
-      className={classes('ui--InputFile', isError && 'error', className)}
       disabled={isDisabled}
       multiple={false}
       ref={dropRef}
       onDrop={_onDrop}
     >
-      <em className='label'>
-        {!file || clearContent
-          ? placeholder || t('click to select or drag and drop the file here')
-          : placeholder || t('{{name}} ({{size}} bytes)', {
-            replace: {
-              name: file.name,
-              size: formatNumber(file.size)
+      {({ getRootProps, getInputProps }): JSX.Element => (
+        <div {...getRootProps({ className: classes('ui--InputFile', isError ? 'error' : '', className) })} >
+          <input {...getInputProps()} />
+          <em className='label' >
+            {
+              !file || clearContent
+                ? placeholder || t('click to select or drag and drop the file here')
+                : placeholder || t('{{name}} ({{size}} bytes)', {
+                  replace: {
+                    name: file.name,
+                    size: formatNumber(file.size)
+                  }
+                })
             }
-          })
-        }
-      </em>
+          </em>
+        </div>
+      )}
     </Dropzone>
   );
 
