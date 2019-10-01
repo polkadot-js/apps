@@ -6,6 +6,7 @@ import { PeerInfo } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
@@ -27,9 +28,9 @@ const renderPeer = (peer: PeerInfo): React.ReactNode => {
   );
 };
 
-function Peers ({ peers, t }: Props): React.ReactElement<Props> {
+function Peers ({ className, peers, t }: Props): React.ReactElement<Props> {
   return (
-    <section className='status--Peers'>
+    <section className={`status--Peers ${className}`}>
       <h1>{t('connected peers')}</h1>
       {peers && peers.length
         ? (
@@ -62,4 +63,47 @@ function Peers ({ peers, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(Peers);
+export default translate(
+  styled(Peers)`
+    table {
+      width: 100%;
+
+      td, th {
+        padding: 0.25rem 0.5rem;
+        text-align: left;
+        white-space: nowrap;
+
+        &.hash {
+          font-family: monospace;
+          max-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
+
+        &.number {
+          text-align: right;
+        }
+
+        &.peerid {
+          font-style: italic;
+          text-align: left;
+        }
+
+        &.roles {
+          text-align: center;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        width: 100%;
+
+        &:nth-child(odd) {
+          background-color: #f2f2f2;
+        }
+      }
+    }
+  `
+);
