@@ -45,7 +45,6 @@ function InputFile ({ accept, className, clearContent, help, isDisabled, isError
   const [file, setFile] = useState<FileState | undefined>();
 
   const _onDrop = (files: File[]): void => {
-    console.log(files,'files')
     files.forEach((file): void => {
       const reader = new FileReader();
 
