@@ -40,7 +40,7 @@ interface LoadEvent {
   };
 }
 
-function InputFile({ accept, className, clearContent, help, isDisabled, isError = false, label, onChange, placeholder, t, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function InputFile ({ accept, className, clearContent, help, isDisabled, isError = false, label, onChange, placeholder, t, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
 
@@ -78,8 +78,8 @@ function InputFile({ accept, className, clearContent, help, isDisabled, isError 
       ref={dropRef}
       onDrop={_onDrop}
     >
-      {({ getRootProps, getInputProps }) => (
-        <div {...getRootProps({ className: classes('ui--InputFile', isError ? 'error' : '', className)})} >
+      {({ getRootProps, getInputProps }): JSX.Element => (
+        <div {...getRootProps({ className: classes('ui--InputFile', isError ? 'error' : '', className) })} >
           <input {...getInputProps()} />
           <em className='label' >
             {
