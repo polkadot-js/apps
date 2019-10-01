@@ -4,14 +4,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
-import { withApi, withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import SetKey from './SetKey';
@@ -19,70 +18,23 @@ import Sudo from './Sudo';
 
 import translate from './translate';
 
-interface Props extends AppProps, ApiProps, I18nProps {
+interface Props extends AppProps, I18nProps {
   allAccounts: SubjectInfo;
-  sudo_key?: string;
+  sudoKey?: string;
 }
 
-interface State {
-  isMine: boolean;
-}
+function App ({ allAccounts, basePath, sudoKey, t }: Props): React.ReactElement<Props> {
+  const [isMine, setIsMine] = useState(false);
 
-class App extends React.PureComponent<Props, State> {
-  public state: State = {
-    isMine: false
-  };
-
-  public static getDerivedStateFromProps ({ allAccounts = {}, sudo_key }: Props): State | null {
-    return {
-      isMine: !!sudo_key && !!Object.keys(allAccounts).find((key): boolean => key === sudo_key.toString())
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { basePath, t } = this.props;
-    const { isMine } = this.state;
-
-    return (
-      <main>
-        <header>
-          <Tabs
-            basePath={basePath}
-            items={[
-              {
-                isRoot: true,
-                name: 'index',
-                text: t('Sudo access')
-              },
-              {
-                name: 'key',
-                text: t('Set sudo key')
-              }
-            ]}
-          />
-        </header>
-        {isMine ? (
-          <Switch>
-            <Route path={`${basePath}/key`} render={this.renderComponent(SetKey)} />
-            <Route render={this.renderComponent(Sudo)} />
-          </Switch>
-        ) : (
-          <article className='error padded'>
-            <div>
-              <Icon name='ban' />
-              {t('You do not have access to the current sudo key')}
-            </div>
-          </article>
-        )}
-      </main>
+  useEffect((): void => {
+    setIsMine(
+      !!sudoKey && !!allAccounts && Object.keys(allAccounts).some((key): boolean => key === sudoKey)
     );
-  }
+  }, [allAccounts, sudoKey]);
 
-  private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
+  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
+    // eslint-disable-next-line react/display-name
     return (): React.ReactNode => {
-      const { allAccounts = {}, sudo_key: sudoKey = '' } = this.props;
-      const { isMine } = this.state;
-
       return (
         <Component
           allAccounts={allAccounts}
@@ -91,15 +43,52 @@ class App extends React.PureComponent<Props, State> {
         />
       );
     };
-  }
+  };
+
+  return (
+    <main>
+      <header>
+        <Tabs
+          basePath={basePath}
+          items={[
+            {
+              isRoot: true,
+              name: 'index',
+              text: t('Sudo access')
+            },
+            {
+              name: 'key',
+              text: t('Set sudo key')
+            }
+          ]}
+        />
+      </header>
+      {isMine
+        ? (
+          <Switch>
+            <Route path={`${basePath}/key`} render={_renderComponent(SetKey)} />
+            <Route render={_renderComponent(Sudo)} />
+          </Switch>
+        )
+        : (
+          <article className='error padded'>
+            <div>
+              <Icon name='ban' />
+              {t('You do not have access to the current sudo key')}
+            </div>
+          </article>
+        )
+      }
+    </main>
+  );
 }
 
 export default withMulti(
   App,
   translate,
-  withApi,
   withCalls<Props>(
     ['query.sudo.key', {
+      propName: 'sudoKey',
       transform: (key): string =>
         key.toString()
     }]
