@@ -56,6 +56,41 @@ interface State {
 
 let qrId = 0;
 
+function extractExternal (accountId?: string | null): { isExternal: boolean; isHardware: boolean; hardwareType?: string } {
+  if (!accountId) {
+    return { isExternal: false, isHardware: false };
+  }
+
+  let publicKey;
+
+  try {
+    publicKey = keyring.decodeAddress(accountId);
+  } catch (error) {
+    console.error(error);
+
+    return { isExternal: false, isHardware: false };
+  }
+
+  const pair = keyring.getPair(publicKey);
+
+  return {
+    isExternal: !!pair.meta.isExternal,
+    isHardware: !!pair.meta.isHardware,
+    hardwareType: pair.meta.hardwareType
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/require-await
+async function makeExtrinsicSignature (payload: SignerPayloadJSON, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
+  console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
+
+  const result = createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
+
+  if (isFunction(signerCb)) {
+    signerCb(id, { id, ...result });
+  }
+}
+
 class Signer extends React.PureComponent<Props, State> {
   public state: State = {
     isSendable: false,
@@ -142,7 +177,7 @@ class Signer extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { isExternal, isHardware, hardwareType } = this.isExternal(currentItem.accountId);
+    const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
 
     return (
       <Modal.Actions>
@@ -256,7 +291,7 @@ class Signer extends React.PureComponent<Props, State> {
     const { currentItem, isSendable, password, unlockError } = this.state;
 
     const { isExternal } = currentItem
-      ? this.isExternal(currentItem.accountId)
+      ? extractExternal(currentItem.accountId)
       : { isExternal: false };
 
     if (!isSendable || !currentItem || currentItem.isUnsigned || isExternal) {
@@ -278,30 +313,6 @@ class Signer extends React.PureComponent<Props, State> {
         />
       </>
     );
-  }
-
-  private isExternal (accountId?: string | null): { isExternal: boolean; isHardware: boolean; hardwareType?: string } {
-    if (!accountId) {
-      return { isExternal: false, isHardware: false };
-    }
-
-    let publicKey;
-
-    try {
-      publicKey = keyring.decodeAddress(accountId);
-    } catch (error) {
-      console.error(error);
-
-      return { isExternal: false, isHardware: false };
-    }
-
-    const pair = keyring.getPair(publicKey);
-
-    return {
-      isExternal: !!pair.meta.isExternal,
-      isHardware: !!pair.meta.isHardware,
-      hardwareType: pair.meta.hardwareType
-    };
   }
 
   private unlockAccount (accountId: string, password?: string): string | null {
@@ -450,7 +461,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     if (payload) {
-      return this.makeExtrinsicSignature(
+      return makeExtrinsicSignature(
         {
           ...payload,
           ...((isV2 && tip && !payload.tip) ? { tip: tip.toString() } : {})
@@ -575,17 +586,6 @@ class Signer extends React.PureComponent<Props, State> {
       if (isFunction(txFailedCb)) {
         txFailedCb(null);
       }
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  private async makeExtrinsicSignature (payload: SignerPayloadJSON, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
-    console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
-
-    const result = createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
-
-    if (isFunction(signerCb)) {
-      signerCb(id, { id, ...result });
     }
   }
 }

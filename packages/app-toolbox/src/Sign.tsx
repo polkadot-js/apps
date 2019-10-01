@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { withMulti } from '@polkadot/react-api';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
@@ -28,16 +28,21 @@ interface State {
   signature: string;
 }
 
-class Sign extends React.PureComponent<Props, State> {
-  public state: State;
+function Sign ({ className, t }: Props): React.ReactElement<Props> {
+  const [state, setState] = useState<State>({
+    currentPair: null,
+    data: '',
+    isHexData: false,
+    isLocked: false,
+    isUnlockVisible: false,
+    signature: ''
+  });
 
-  public constructor (props: Props) {
-    super(props);
-
+  useEffect((): void => {
     const pairs = keyring.getPairs();
     const currentPair = pairs[0] || null;
 
-    this.state = {
+    setState({
       currentPair,
       data: '',
       isHexData: false,
@@ -46,83 +51,62 @@ class Sign extends React.PureComponent<Props, State> {
         : false,
       isUnlockVisible: false,
       signature: ''
-    };
-  }
+    });
+  }, []);
 
-  public render (): React.ReactNode {
-    const { className } = this.props;
-    const { isLocked } = this.state;
+  const _nextState = ({ currentPair = state.currentPair, data = state.data, isHexData = state.isHexData, isUnlockVisible = state.isUnlockVisible }: Partial<State>): void => {
+    const isLocked = !currentPair || currentPair.isLocked;
+    let signature = '';
 
-    return (
-      <div className='toolbox--Sign'>
-        {this.renderAccount()}
-        <div className={className}>
-          {this.renderInput()}
-          {this.renderSignature()}
-          <div className='unlock-overlay' hidden={!isLocked}>
-            {this.renderUnlockWarning()}
-          </div>
-          {this.renderUnlock()}
-        </div>
-      </div>
-    );
-  }
+    if (!isLocked && currentPair) {
+      signature = u8aToHex(
+        currentPair.sign(
+          isHexData
+            ? hexToU8a(data)
+            : stringToU8a(data)
+        )
+      );
+    }
 
-  public renderAccount (): React.ReactNode {
-    const { t } = this.props;
+    setState({
+      currentPair,
+      data,
+      isHexData,
+      isLocked,
+      isUnlockVisible,
+      signature
+    });
+  };
 
-    return (
+  const _toggleUnlock = (): void =>
+    _nextState({ isUnlockVisible: !state.isUnlockVisible });
+  const _onChangeAccount = (accountId: string | null): void =>
+    _nextState({ currentPair: keyring.getPair(accountId || '') });
+  const _onChangeData = (data: string): void =>
+    _nextState({ data, isHexData: isHex(data) });
+
+  const { currentPair, data, isHexData, isLocked, isUnlockVisible, signature } = state;
+
+  return (
+    <div className={`toolbox--Sign ${className}`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
           help={t('select the account you wish to sign data with')}
           isInput={false}
           label={t('account')}
-          onChange={this.onChangeAccount}
+          onChange={_onChangeAccount}
           type='account'
         />
       </div>
-    );
-  }
-
-  public renderUnlockWarning (): React.ReactNode {
-    const { t } = this.props;
-    const { isLocked } = this.state;
-
-    if (!isLocked) {
-      return null;
-    }
-
-    return (
-      <div className='unlock-overlay-warning'>
-        <div className='unlock-overlay-content'>
-          {t('You need to unlock this account to be able to sign data.')}<br/>
-          <Button.Group>
-            <Button
-              isPrimary
-              onClick={this.toggleUnlock}
-              label={t('Unlock account')}
-              icon='unlock'
-            />
-          </Button.Group>
-        </div>
-      </div>
-    );
-  }
-
-  public renderInput (): React.ReactNode {
-    const { t } = this.props;
-    const { data, isHexData } = this.state;
-
-    return (
-      <>
+      <div className='toolbox--Sign-input'>
         <div className='ui--row'>
           <Input
             autoFocus
             className='full'
             help={t('The input data to sign. This can be either specified as a hex value (0x-prefix) or as a string.')}
             label={t('sign the following data')}
-            onChange={this.onChangeData}
+            onChange={_onChangeData}
             value={data}
           />
         </div>
@@ -138,122 +122,78 @@ class Sign extends React.PureComponent<Props, State> {
             }
           />
         </div>
-      </>
-    );
-  }
-
-  public renderSignature (): React.ReactNode {
-    const { t } = this.props;
-    const { signature } = this.state;
-
-    return (
-      <div className='ui--row'>
-        <Output
-          className='full'
-          help={t('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
-          isHidden={signature.length === 0}
-          isMonospace
-          label={t('signature of supplied data')}
-          value={signature}
-          withCopy
-        />
+        <div className='ui--row'>
+          <Output
+            className='full'
+            help={t('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
+            isHidden={signature.length === 0}
+            isMonospace
+            label={t('signature of supplied data')}
+            value={signature}
+            withCopy
+          />
+        </div>
+        <div
+          className='unlock-overlay'
+          hidden={!isLocked}
+        >
+          {isLocked && (
+            <div className='unlock-overlay-warning'>
+              <div className='unlock-overlay-content'>
+                {t('You need to unlock this account to be able to sign data.')}<br/>
+                <Button.Group>
+                  <Button
+                    isPrimary
+                    onClick={_toggleUnlock}
+                    label={t('Unlock account')}
+                    icon='unlock'
+                  />
+                </Button.Group>
+              </div>
+            </div>
+          )}
+        </div>
+        {isUnlockVisible && (
+          <Unlock
+            onClose={_toggleUnlock}
+            pair={currentPair}
+          />
+        )}
       </div>
-    );
-  }
-
-  public renderUnlock (): React.ReactNode {
-    const { currentPair, isUnlockVisible } = this.state;
-
-    if (!isUnlockVisible) {
-      return null;
-    }
-
-    return (
-      <Unlock
-        onClose={this.toggleUnlock}
-        pair={currentPair}
-      />
-    );
-  }
-
-  private nextState = (newState: Partial<State>): void => {
-    this.setState(
-      (prevState: State): State => {
-        const { currentPair = prevState.currentPair, data = prevState.data, isHexData = prevState.isHexData, isUnlockVisible = prevState.isUnlockVisible } = newState;
-        const isLocked = !currentPair || currentPair.isLocked;
-        let signature = '';
-
-        if (!isLocked && currentPair) {
-          signature = u8aToHex(
-            currentPair.sign(
-              isHexData
-                ? hexToU8a(data)
-                : stringToU8a(data)
-            )
-          );
-        }
-
-        return {
-          currentPair,
-          data,
-          isHexData,
-          isLocked,
-          isUnlockVisible,
-          signature
-        };
-      }
-    );
-  }
-
-  private toggleUnlock = (): void => {
-    const { isUnlockVisible } = this.state;
-
-    this.nextState({
-      isUnlockVisible: !isUnlockVisible
-    });
-  }
-
-  private onChangeAccount = (accountId: string | null): void => {
-    const currentPair = keyring.getPair(accountId || '');
-
-    this.nextState({ currentPair });
-  }
-
-  private onChangeData = (data: string): void => {
-    const isHexData = isHex(data);
-
-    this.nextState({ data, isHexData });
-  }
+    </div>
+  );
 }
 
 export default withMulti(
   styled(Sign)`
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    .unlock-overlay {
-      position: absolute;
+    .toolbox--Sign-input {
+      position: relative;
       width: 100%;
       height: 100%;
-      top:0;
-      left:0;
-      background-color: #0f0e0e7a;
-    }
 
-    .unlock-overlay-warning {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height:100%;
-    }
+      .unlock-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top:0;
+        left:0;
+        background-color: #0f0e0e7a;
+      }
 
-    .unlock-overlay-content {
-      color:#fff;
-      text-align:center;
+      .unlock-overlay-warning {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height:100%;
+      }
 
-      .ui--Button-Group {
-        text-align: center;
+      .unlock-overlay-content {
+        color:#fff;
+        text-align:center;
+
+        .ui--Button-Group {
+          text-align: center;
+        }
       }
     }
   `,

@@ -122,7 +122,7 @@ class Account extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, isSubstrateV2, t } = this.props;
-    const { stashId } = this.state;
+    const { controllerId, hexSessionId, isBondExtraOpen, isStashValidating, isUnbondOpen, nominees, sessionIds, stashId } = this.state;
 
     if (!stashId) {
       return null;
@@ -148,97 +148,76 @@ class Account extends React.PureComponent<Props, State> {
           unlocking: false
         }}
       >
-        {this.renderBondExtra()}
+        <BondExtra
+          controllerId={controllerId}
+          isOpen={isBondExtraOpen}
+          onClose={this.toggleBondExtra}
+          stashId={stashId}
+        />
+        <Unbond
+          controllerId={controllerId}
+          isOpen={isUnbondOpen}
+          onClose={this.toggleUnbond}
+          stashId={stashId}
+        />
         {this.renderSetValidatorPrefs()}
         {this.renderNominate()}
         {this.renderSetControllerAccount()}
         {this.renderSetRewardDestination()}
         {this.renderSetSessionAccount()}
-        {this.renderUnbond()}
         {this.renderValidate()}
         <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
-            {!isSubstrateV2 && this.renderSessionAccount()}
+            {!isSubstrateV2 && sessionIds.length && (
+              <div className='staking--Account-detail actions'>
+                <AddressRow
+                  label={t('session')}
+                  value={sessionIds[0]}
+                  withAddressOrName
+                  withBalance={{
+                    available: true,
+                    bonded: false,
+                    free: false,
+                    redeemable: false,
+                    unlocking: false
+                  }}
+                />
+              </div>
+            )}
           </div>
           <div className='staking--Infos'>
             <div className='staking--balances'>
-              {this.renderInfos()}
+              <AddressInfo
+                address={stashId}
+                withBalance={{
+                  available: false,
+                  bonded: true,
+                  free: false,
+                  redeemable: true,
+                  unlocking: true
+                }}
+                withRewardDestination
+                withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
+                withValidatorPrefs={isStashValidating}
+              />
             </div>
-            {this.renderNominee()}
+            {nominees && nominees.length && (
+              <div className='staking--Account-Nominee'>
+                <label className='staking--label'>{t('nominating')}</label>
+                {nominees.map((nomineeId, index): React.ReactNode => (
+                  <AddressMini
+                    key={index}
+                    value={nomineeId}
+                    withBalance={false}
+                    withBonded
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </AddressCard>
-    );
-  }
-
-  private renderBondExtra (): React.ReactNode {
-    const { controllerId, isBondExtraOpen, stashId } = this.state;
-
-    return (
-      <BondExtra
-        controllerId={controllerId}
-        isOpen={isBondExtraOpen}
-        onClose={this.toggleBondExtra}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private renderUnbond (): React.ReactNode {
-    const { controllerId, isUnbondOpen, stashId } = this.state;
-
-    return (
-      <Unbond
-        controllerId={controllerId}
-        isOpen={isUnbondOpen}
-        onClose={this.toggleUnbond}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private renderInfos (): React.ReactNode {
-    const { isSubstrateV2 } = this.props;
-    const { hexSessionId, isStashValidating, stashId } = this.state;
-
-    return (
-      <AddressInfo
-        address={stashId}
-        withBalance={{
-          available: false,
-          bonded: true,
-          free: false,
-          redeemable: true,
-          unlocking: true
-        }}
-        withRewardDestination
-        withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
-        withValidatorPrefs={isStashValidating}
-      />
-    );
-  }
-
-  private renderNominee (): React.ReactNode {
-    const { t } = this.props;
-    const { nominees } = this.state;
-
-    if (!nominees || !nominees.length) {
-      return null;
-    }
-
-    return (
-      <div className='staking--Account-Nominee'>
-        <label className='staking--label'>{t('nominating')}</label>
-        {nominees.map((nomineeId, index): React.ReactNode => (
-          <AddressMini
-            key={index}
-            value={nomineeId}
-            withBalance={false}
-            withBonded
-          />
-        ))}
-      </div>
     );
   }
 
@@ -282,32 +261,6 @@ class Account extends React.PureComponent<Props, State> {
         />
       </div>
 
-    );
-  }
-
-  private renderSessionAccount (): React.ReactNode {
-    const { t } = this.props;
-    const { sessionIds } = this.state;
-
-    if (!sessionIds.length) {
-      return null;
-    }
-
-    return (
-      <div className='staking--Account-detail actions'>
-        <AddressRow
-          label={t('session')}
-          value={sessionIds[0]}
-          withAddressOrName
-          withBalance={{
-            available: true,
-            bonded: false,
-            free: false,
-            redeemable: false,
-            unlocking: false
-          }}
-        />
-      </div>
     );
   }
 

@@ -7,7 +7,7 @@ import { ProposalIndex } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { withCalls, withMulti } from '@polkadot/react-api';
@@ -22,98 +22,68 @@ interface Props extends I18nProps, RouteComponentProps<{}> {
   treasury_proposalCount?: BN;
 }
 
-interface State {
-  isEmpty: boolean;
-  isProposeOpen: boolean;
-  proposalIndices: BN[];
-}
+function ProposalsBase ({ history, isApprovals = false, treasury_approvals, treasury_proposalCount, t }: Props): React.ReactElement<Props> {
+  const [isEmpty, setIsEmpty] = useState(true);
+  const [proposalIndices, setProposalIndices] = useState<BN[]>([]);
 
-class ProposalsBase extends React.PureComponent<Props, State> {
-  public state: State = {
-    isEmpty: true,
-    isProposeOpen: false,
-    proposalIndices: [] as BN[]
-  };
-
-  public static getDerivedStateFromProps ({ isApprovals = false, treasury_approvals = [] as BN[], treasury_proposalCount = new BN(0) }: Props): Pick<State, never> {
+  useEffect((): void => {
     let proposalIndices: BN[] = [];
 
     if (isApprovals) {
-      proposalIndices = treasury_approvals;
-    } else {
+      proposalIndices = treasury_approvals || [];
+    } else if (treasury_proposalCount && treasury_approvals) {
       for (let i = 0; i < treasury_proposalCount.toNumber(); i++) {
         if (!treasury_approvals.find((index): boolean => index.eqn(i))) {
           proposalIndices.push(new BN(i));
         }
       }
     }
-    return { proposalIndices };
-  }
 
-  public render (): React.ReactNode {
-    const { isApprovals, t } = this.props;
-    const { isEmpty } = this.state;
+    setProposalIndices(proposalIndices);
+  }, [isApprovals, treasury_approvals, treasury_approvals]);
 
-    return (
-      <>
-        <Column
-          emptyText={t(isApprovals ? 'No approved proposals' : 'No pending proposals')}
-          headerText={t(isApprovals ? 'Approved' : 'Proposals')}
-          isEmpty={isEmpty}
-        >
-          {this.renderProposals()}
-        </Column>
-      </>
-    );
-  }
-
-  private renderProposals (): React.ReactNode {
-    const { isApprovals } = this.props;
-    const { proposalIndices } = this.state;
-
-    return proposalIndices.map((proposalId): React.ReactNode => (
-      <Proposal
-        isApproved={isApprovals}
-        onPopulate={this.onPopulateProposal}
-        onRespond={this.onRespond}
-        proposalId={proposalId.toString()}
-        key={proposalId.toString()}
-      />
-    ));
-  }
-
-  protected onRespond = (): void => {
-    const { history } = this.props;
-
+  const _onRespond = (): void => {
     history.push('/council/motions');
-  }
+  };
+  const _onPopulateProposal = (): void => {
+    isEmpty && setIsEmpty(false);
+  };
 
-  private onPopulateProposal = (): void => {
-    this.setState(({ isEmpty }: State): Pick<State, never> | null => {
-      if (isEmpty) {
-        return { isEmpty: false };
-      }
-
-      return null;
-    });
-  }
+  return (
+    <>
+      <Column
+        emptyText={isApprovals ? t('No approved proposals') : t('No pending proposals')}
+        headerText={isApprovals ? t('Approved') : t('Proposals')}
+        isEmpty={isEmpty}
+      >
+        {proposalIndices.map((proposalId): React.ReactNode => (
+          <Proposal
+            isApproved={isApprovals}
+            onPopulate={_onPopulateProposal}
+            onRespond={_onRespond}
+            proposalId={proposalId.toString()}
+            key={proposalId.toString()}
+          />
+        ))}
+      </Column>
+    </>
+  );
 }
 
 const Proposals = withMulti(
   withRouter(ProposalsBase),
   translate,
   withCalls<Props>(
-    [
-      'query.treasury.approvals',
-      {
-        transform: (value: ProposalIndex[]): BN[] =>
-          value.map((proposalId): BN => new BN(proposalId))
-      }
-    ],
+    ['query.treasury.approvals', {
+      transform: (value: ProposalIndex[]): BN[] =>
+        value.map((proposalId): BN => new BN(proposalId))
+    }],
     'query.treasury.proposalCount'
   )
 );
 
 export default Proposals;
 
-export const Approvals = (): JSX.Element => <Proposals isApprovals />;
+export function Approvals (): React.ReactElement<{}> {
+  return <Proposals isApprovals />;
+}
