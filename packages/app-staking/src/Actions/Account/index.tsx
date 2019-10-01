@@ -16,6 +16,7 @@ import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, Online
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';
+import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
@@ -42,6 +43,7 @@ interface State {
   destination: number;
   hexSessionId: string | null;
   isBondExtraOpen: boolean;
+  isInjectOpen: boolean;
   isNominateOpen: boolean;
   isSetControllerAccountOpen: boolean;
   isSetRewardDestinationOpen: boolean;
@@ -72,6 +74,7 @@ class Account extends React.PureComponent<Props, State> {
     destination: 0,
     hexSessionId: null,
     isBondExtraOpen: false,
+    isInjectOpen: false,
     isNominateOpen: false,
     isSetControllerAccountOpen: false,
     isSettingPopupOpen: false,
@@ -122,7 +125,7 @@ class Account extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, isSubstrateV2, t } = this.props;
-    const { stashId } = this.state;
+    const { isInjectOpen, stashId } = this.state;
 
     if (!stashId) {
       return null;
@@ -149,6 +152,9 @@ class Account extends React.PureComponent<Props, State> {
         }}
       >
         {this.renderBondExtra()}
+        {isInjectOpen && (
+          <InjectKeys onClose={this.toggleInject} />
+        )}
         {this.renderSetValidatorPrefs()}
         {this.renderNominate()}
         {this.renderSetControllerAccount()}
@@ -465,14 +471,19 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {(!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
+        {!isStashNominating && (!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
-            {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
+            {isSubstrateV2 ? t('Rotate session keys') : t('Change session account')}
           </Menu.Item>
         }
         {isStashNominating &&
           <Menu.Item onClick={this.toggleNominate}>
             {t('Change nominee(s)')}
+          </Menu.Item>
+        }
+        {!isStashNominating && isSubstrateV2 &&
+          <Menu.Item onClick={this.toggleInject}>
+            {t('Inject session keys (advanced)')}
           </Menu.Item>
         }
       </Menu>
@@ -551,6 +562,12 @@ class Account extends React.PureComponent<Props, State> {
   private toggleBondExtra = (): void => {
     this.setState(({ isBondExtraOpen }): Pick<State, never> => ({
       isBondExtraOpen: !isBondExtraOpen
+    }));
+  }
+
+  private toggleInject = (): void => {
+    this.setState(({ isInjectOpen }): Pick<State, never> => ({
+      isInjectOpen: !isInjectOpen
     }));
   }
 
