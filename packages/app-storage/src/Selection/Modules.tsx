@@ -52,8 +52,6 @@ class Modules extends TxComponent<Props, State> {
     const { t } = this.props;
     const { isValid, key: { creator: { method, section, meta } }, defaultValues, params } = this.state;
 
-    console.error(meta.type);
-
     return (
       <section className='storage--actionrow'>
         <div className='storage--actionrow-value'>
