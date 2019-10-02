@@ -7,7 +7,7 @@ import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Compact } from '@polkadot/types';
+import { Compact, Data, Option } from '@polkadot/types';
 import { Button, Labelled } from '@polkadot/react-components';
 import { withCallDiv } from '@polkadot/react-api';
 import valueToText from '@polkadot/react-params/valueToText';
@@ -91,12 +91,23 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
     } else {
       const values: any[] = params.map(({ value }): any => value);
 
-      // render function to create an element for the query results which is plugged to the api
-      renderHelper = withCallDiv('subscribe', {
-        paramName: 'params',
-        paramValid: true,
-        params: [key, ...values]
-      });
+      if (isU8a(key)) {
+        // subscribe to the raw key here
+        renderHelper = withCallDiv('rpc.state.subscribeStorage', {
+          paramName: 'params',
+          paramValid: true,
+          params: [[key]],
+          transform: ([data]: Option<Data>[]): Option<Data> => data
+        });
+      } else {
+        // render function to create an element for the query results which is plugged to the api
+        renderHelper = withCallDiv('subscribe', {
+          paramName: 'params',
+          paramValid: true,
+          params: [key, ...values]
+        });
+      }
+
       type = key.creator && key.creator.meta
         ? typeToString(key)
         : 'Data';
