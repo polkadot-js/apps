@@ -8,9 +8,9 @@ import { Props as BareProps, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import { Button } from '@polkadot/react-components';
-import translate from '@polkadot/react-components/translate';
 import { isUndefined } from '@polkadot/util';
 
+import translate from '../translate';
 import getInitValue from '../initValue';
 import Base from './Base';
 import findComponent from './findComponent';
@@ -86,7 +86,6 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
             <Component
               defaultValue={value}
               isDisabled={isDisabled}
-              isOptional={false}
               key={index}
               label={`${index}: ${subType.type}`}
               onChange={

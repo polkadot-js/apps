@@ -29,7 +29,6 @@ export type RawParams = RawParam[];
 
 export interface BaseProps extends BareProps {
   defaultValue: RawParam;
-  isOptional: boolean;
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
