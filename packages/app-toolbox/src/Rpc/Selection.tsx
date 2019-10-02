@@ -42,7 +42,7 @@ class Selection extends TxComponent<Props, State> {
     const params = rpc.params.map(({ isOptional, name, type }): ParamDef => ({
       isOptional,
       name,
-      type: getTypeDef(type)
+      type: getTypeDef(isOptional ? `Option<${type}>` : type)
     }));
 
     return (
