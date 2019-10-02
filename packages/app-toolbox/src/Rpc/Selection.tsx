@@ -41,7 +41,6 @@ class Selection extends TxComponent<Props, State> {
     const { t } = this.props;
     const { isValid, rpc } = this.state;
     const params = rpc.params.map(({ isOptional, name, type }): ParamDef => ({
-      isOptional,
       name,
       type: getTypeDef(isOptional ? `Option<${type}>` : type)
     }));

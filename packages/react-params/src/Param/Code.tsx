@@ -9,13 +9,12 @@ import React from 'react';
 import Bytes from './Bytes';
 import BytesFile from './File';
 
-function renderDisabled ({ className, defaultValue, isError, isOptional, label, onEnter, style, type, withLabel }: Props): React.ReactNode {
+function renderDisabled ({ className, defaultValue, isError, label, onEnter, style, type, withLabel }: Props): React.ReactNode {
   return (
     <Bytes
       className={className}
       defaultValue={defaultValue}
       isError={isError}
-      isOptional={isOptional}
       label={label}
       onEnter={onEnter}
       style={style}

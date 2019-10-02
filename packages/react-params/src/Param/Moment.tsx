@@ -49,7 +49,6 @@ export default function Code (props: Props): React.ReactNode {
       className={className}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
-      isOptional={false}
       isError={isError}
       label={label}
       onChange={onChange(props)}
