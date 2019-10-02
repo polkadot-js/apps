@@ -133,7 +133,6 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
         </Static>
         <VoteThreshold
           isDisabled
-          isOptional={false}
           defaultValue={{ isValid: true, value: value.threshold }}
           label={t('vote threshold')}
           name='voteThreshold'
