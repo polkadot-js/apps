@@ -9,9 +9,10 @@ import { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
 
 import React from 'react';
 import rpc from '@polkadot/jsonrpc';
-import { getTypeDef } from '@polkadot/types';
 import { Button, InputRpc, TxComponent } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
+import { getTypeDef } from '@polkadot/types';
+import { isNull } from '@polkadot/util';
 
 import translate from './translate';
 
@@ -40,7 +41,6 @@ class Selection extends TxComponent<Props, State> {
     const { t } = this.props;
     const { isValid, rpc } = this.state;
     const params = rpc.params.map(({ isOptional, name, type }): ParamDef => ({
-      isOptional,
       name,
       type: getTypeDef(isOptional ? `Option<${type}>` : type)
     }));
@@ -64,7 +64,6 @@ class Selection extends TxComponent<Props, State> {
             isDisabled={!isValid}
             isPrimary
             onClick={this.onSubmit}
-
             label={t('Submit RPC call')}
             icon='sign-in'
             ref={this.button}
@@ -111,7 +110,9 @@ class Selection extends TxComponent<Props, State> {
     queueRpc({
       accountId,
       rpc,
-      values: values.map(({ value }): any => value)
+      values: values
+        .filter(({ value }): boolean => !isNull(value))
+        .map(({ value }): any => value)
     });
   }
 }

@@ -22,6 +22,7 @@ import Proposal from './Proposal';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import Null from './Null';
+import Option from './Option';
 import Struct from './Struct';
 import Text from './Text';
 import Tuple from './Tuple';
@@ -49,6 +50,7 @@ const components: ComponentMap = ([
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
   { c: Null, t: ['Null'] },
+  { c: Option, t: ['Option'] },
   { c: Proposal, t: ['Proposal'] },
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
@@ -71,8 +73,10 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   const type = (({ info, sub, type }: TypeDef): string => {
     switch (info) {
       case TypeDefInfo.Compact:
-      case TypeDefInfo.Option:
         return (sub as TypeDef).type;
+
+      case TypeDefInfo.Option:
+        return 'Option';
 
       case TypeDefInfo.Enum:
         return 'Enum';

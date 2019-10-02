@@ -13,13 +13,14 @@ import { getTypeDef } from '@polkadot/types';
 import { Button, InputStorage, TxComponent } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { isUndefined } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 
 interface Props extends ComponentProps, ApiProps, I18nProps {}
 
 interface State {
+  isLinked: boolean;
   isValid: boolean;
   key: StorageEntryPromise;
   defaultValues?: RawParams | null;
@@ -39,6 +40,7 @@ class Modules extends TxComponent<Props, State> {
 
     this.defaultValue = api.query.timestamp.now;
     this.state = {
+      isLinked: false,
       isValid: true,
       key: this.defaultValue,
       values: [],
@@ -112,15 +114,23 @@ class Modules extends TxComponent<Props, State> {
           };
         }
 
-        const hasParam = key.creator.meta.type.isMap;
-        const isValid = values.length === (hasParam ? 1 : 0) && areParamsValid();
+        const isMap = key.creator.meta.type.isMap;
+        const isLinked = isMap && key.creator.meta.type.asMap.linked.isTrue;
+        const isValid = values.length === (isMap ? 1 : 0) && areParamsValid();
 
         return {
           defaultValues: null,
+          isLinked,
           isValid,
           key,
-          params: hasParam
-            ? [{ type: getTypeDef(key.creator.meta.type.asMap.key.toString()) }]
+          params: isMap
+            ? [{
+              type: getTypeDef(
+                isLinked
+                  ? `Option<${key.creator.meta.type.asMap.key.toString()}>`
+                  : key.creator.meta.type.asMap.key.toString()
+              )
+            }]
             : [],
           values
         };
@@ -145,12 +155,12 @@ class Modules extends TxComponent<Props, State> {
 
   private onAdd = (): void => {
     const { onAdd } = this.props;
-    const { key, values } = this.state;
+    const { isLinked, key, values } = this.state;
 
     onAdd({
       isConst: false,
       key,
-      params: values
+      params: values.filter(({ value }): boolean => !isLinked || !isNull(value))
     });
   }
 

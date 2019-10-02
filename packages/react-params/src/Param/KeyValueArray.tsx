@@ -8,9 +8,9 @@ import { Props as BaseProps, RawParam } from '../types';
 import React, { useState } from 'react';
 import { WithTranslation } from 'react-i18next';
 import { Vec } from '@polkadot/types';
-import translate from '@polkadot/react-components/translate';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
+import translate from '../translate';
 import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';
@@ -76,7 +76,6 @@ function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, o
               <Bytes
                 defaultValue={{ value } as unknown as RawParam}
                 isDisabled
-                isOptional={false}
                 key={keyHex}
                 label={keyHex}
                 name={keyHex}

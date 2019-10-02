@@ -7,8 +7,8 @@ import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
 import { Static } from '@polkadot/react-components';
-import translate from '@polkadot/react-components/translate';
 
+import translate from '../translate';
 import Bare from './Bare';
 
 interface Props extends BareProps, WithTranslation {
@@ -28,7 +28,7 @@ function StaticParam ({ asHex, className, defaultValue, label, style, t }: Props
       <Static
         className='full'
         label={label}
-        value={value || t('empty')}
+        value={value || t('<empty>')}
       />
     </Bare>
   );
