@@ -27,7 +27,6 @@ const defaultValidate = (): boolean =>
 function convertInput (value: string): [boolean, Uint8Array] {
   // try hex conversion
   try {
-    console.log('1');
     return [true, hexToU8a(value)];
   } catch (error) {
     // we continue...
@@ -35,24 +34,17 @@ function convertInput (value: string): [boolean, Uint8Array] {
 
   // maybe it is an ss58?
   try {
-    console.log('2');
     return [true, decodeAddress(value)];
   } catch (error) {
     // we continue
   }
-
-  console.log('3');
 
   return [false, new Uint8Array([])];
 }
 
 function onChange ({ asHex, length = -1, onChange, validate = defaultValidate, withLength }: Props): (_: string) => void {
   return function (hex: string): void {
-    console.error('hex', hex);
-
     let [isValid, value] = convertInput(hex);
-
-    console.error('result', isValid, hex);
 
     isValid = isValid && validate(value) && (
       length !== -1
