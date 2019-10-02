@@ -16,7 +16,7 @@ import Param from './index';
 interface Props extends CProps, I18nProps {}
 
 function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter, t, type: { sub } }: Props): React.ReactElement<Props> {
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
   useEffect((): void => {
     !isActive && onChange && onChange({
