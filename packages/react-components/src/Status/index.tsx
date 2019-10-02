@@ -14,7 +14,10 @@ import Button from '../Button';
 import Icon from '../Icon';
 import translate from '../translate';
 import { classes } from '../util';
+import QueueContext from './Context';
 import { STATUS_COMPLETE } from './constants';
+
+export { QueueContext };
 
 interface Props extends I18nProps {
   stqueue?: QueueStatus[];
@@ -188,7 +191,7 @@ export default translate(
     top: 0.25rem;
     width: 20rem;
     z-index: 1001;
-    
+
     .dismiss {
       margin-bottom: 0.25rem;
     }
@@ -227,11 +230,11 @@ export default translate(
             line-height: 1;
           }
         }
-        
+
         .padded {
           padding: 0.25rem 0 0 0 !important;
         }
-        
+
         i.close {
           position: absolute;
           top: 0.25rem;

@@ -486,6 +486,8 @@ class Signer extends React.PureComponent<Props, State> {
     const { api } = this.props;
 
     try {
+      assert(isFunction((api.rpc as any)[section] && (api.rpc as any)[section][method]), `api.rpc.${section}.${method} does not exist`);
+
       const result = await (api.rpc as any)[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
