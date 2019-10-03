@@ -4,32 +4,34 @@ on: [push]
 
 jobs:
   setup:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x]
-
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Dependencies
+    - name: yarn install
       run: yarn install
-lint:
-  needs: setup
-  steps:
+  lint:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
     - name: yarn lint
       run: yarn run lint
-test:
-  needs: setup
+  test:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
     - name: yarn test
       run: yarn run test
-build:
-  needs: setup
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
     - name: yarn build
       run: yarn run build
       env:
