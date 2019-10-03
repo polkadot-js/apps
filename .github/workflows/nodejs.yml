@@ -3,7 +3,7 @@ name: Node CI
 on: [push]
 
 jobs:
-  setup:
+  lint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -14,25 +14,41 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: yarn install
-      run: yarn install
-  lint:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-    - name: yarn lint
-      run: yarn run lint
+    - name: lint
+      run: |
+        yarn install
+        yarn lint
+        
   test:
     runs-on: ubuntu-latest
-    needs: setup
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
-    - name: yarn test
-      run: yarn run test
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: test
+      run: |
+        yarn install
+        yarn test
+        
   build:
     runs-on: ubuntu-latest
-    needs: setup
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
-    - name: yarn build
-      run: yarn run build
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: build
+      run: |
+        yarn install
+        yarn build
       env:
         CI: true
