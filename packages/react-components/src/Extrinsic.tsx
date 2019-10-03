@@ -35,6 +35,13 @@ interface State {
   values: RawParam[];
 }
 
+function getParams ({ meta }: CallFunction): { name: string; type: TypeDef }[] {
+  return GenericCall.filterOrigin(meta).map((arg): { name: string; type: TypeDef } => ({
+    name: arg.name.toString(),
+    type: getTypeDef(arg.type.toString())
+  }));
+}
+
 class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   public state: State;
 
@@ -43,7 +50,7 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
 
     this.state = {
       methodfn: props.defaultValue,
-      params: this.getParams(props.defaultValue),
+      params: getParams(props.defaultValue),
       values: []
     };
   }
@@ -106,20 +113,13 @@ class ExtrinsicDisplay extends React.PureComponent<Props, State> {
   private onChangeMethod = (methodfn: CallFunction): void => {
     this.nextState({
       methodfn,
-      params: this.getParams(methodfn),
+      params: getParams(methodfn),
       values: []
     });
   }
 
   private onChangeValues = (values: RawParam[]): void => {
     this.nextState({ values });
-  }
-
-  private getParams (methodfn: CallFunction): { name: string; type: TypeDef }[] {
-    return GenericCall.filterOrigin(methodfn.meta).map((arg): { name: string; type: TypeDef } => ({
-      name: arg.name.toString(),
-      type: getTypeDef(arg.type.toString())
-    }));
   }
 }
 
