@@ -45,12 +45,8 @@ function deriveValidate (seed: string, derivePath: string, pairType: KeypairType
     const { path } = keyExtractSuri(`${seed}${derivePath}`);
 
     // we don't allow soft for ed25519
-    if (pairType === 'ed25519') {
-      const firstSoft = path.find(({ isSoft }): boolean => isSoft);
-
-      if (firstSoft) {
-        return 'Soft derivation paths are not allowed on ed25519';
-      }
+    if (pairType === 'ed25519' && path.some(({ isSoft }): boolean => isSoft)) {
+      return 'Soft derivation paths are not allowed on ed25519';
     }
   } catch (error) {
     return error.message;
