@@ -37,10 +37,10 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
         if (old) {
           const newName = old.meta.name || name;
 
-          setName({ isNameValid: !!newName, name: newName });
-
           isAddressExisting = true;
           isAddressValid = true;
+
+          setName({ isNameValid: !!newName, name: newName });
         }
       }
     } catch (error) {
@@ -51,7 +51,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
   };
   const _onChangeName = (name: string): void => setName({ isNameValid: !!name, name });
   const _onCommit = (): void => {
-    const status: Partial<ActionStatus> = { action: 'create' };
+    const status = { action: 'create' } as ActionStatus;
 
     if (!isValid) {
       return;
@@ -72,7 +72,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
       status.message = error.message;
     }
 
-    onStatusChange(status as ActionStatus);
+    onStatusChange(status);
     onClose();
   };
 
