@@ -3,7 +3,7 @@ name: Node CI
 on: [push]
 
 jobs:
-  build:
+  setup:
 
     runs-on: ubuntu-latest
 
@@ -19,11 +19,18 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Dependencies
       run: yarn install
-    - name: Lint
+lint:
+  needs: setup
+  steps:
+    - name: yarn lint
       run: yarn run lint
-    - name: Test
+test:
+  needs: setup
+    - name: yarn test
       run: yarn run test
-    - name: Build
+build:
+  needs: setup
+    - name: yarn build
       run: yarn run build
       env:
         CI: true
