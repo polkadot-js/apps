@@ -2,20 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/with/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Compact } from '@polkadot/types';
 import { Button, Labelled } from '@polkadot/react-components';
 import { withCallDiv } from '@polkadot/react-api';
 import valueToText from '@polkadot/react-params/valueToText';
+import { Compact, Data, Option } from '@polkadot/types';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
-import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/with/types';
-import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 
 interface Props extends I18nProps {
   onRemove: (id: number) => void;
@@ -65,16 +65,14 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
   return {
     Component,
     // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
-    render: (createComponent: RenderFn): React.ComponentType<any> => {
-      return renderHelper(createComponent, defaultProps);
-    },
+    render: (createComponent: RenderFn): React.ComponentType<any> =>
+      renderHelper(createComponent, defaultProps),
     // In order to modify the parameters which are used to render the default component, we can use this method
-    refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> => {
-      return renderHelper(
+    refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> =>
+      renderHelper(
         (value: any): React.ReactNode => valueToText(type, value, swallowErrors, contentShorten),
         defaultProps
-      );
-    }
+      )
   };
 }
 
@@ -93,12 +91,23 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
     } else {
       const values: any[] = params.map(({ value }): any => value);
 
-      // render function to create an element for the query results which is plugged to the api
-      renderHelper = withCallDiv('subscribe', {
-        paramName: 'params',
-        paramValid: true,
-        params: [key, ...values]
-      });
+      if (isU8a(key)) {
+        // subscribe to the raw key here
+        renderHelper = withCallDiv('rpc.state.subscribeStorage', {
+          paramName: 'params',
+          paramValid: true,
+          params: [[key]],
+          transform: ([data]: Option<Data>[]): Option<Data> => data
+        });
+      } else {
+        // render function to create an element for the query results which is plugged to the api
+        renderHelper = withCallDiv('subscribe', {
+          paramName: 'params',
+          paramValid: true,
+          params: [key, ...values]
+        });
+      }
+
       type = key.creator && key.creator.meta
         ? typeToString(key)
         : 'Data';
