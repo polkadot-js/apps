@@ -8,14 +8,13 @@ import React from 'react';
 
 import BaseBytes from './BaseBytes';
 
-export default function Hash ({ className, defaultValue, isDisabled, isError, isOptional, label, name, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
+export default function Hash ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
   return (
     <BaseBytes
       className={className}
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isError={isError}
-      isOptional={isOptional}
       label={label}
       length={32}
       name={name}

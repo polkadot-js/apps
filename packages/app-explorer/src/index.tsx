@@ -7,8 +7,6 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyedEvent } from './types';
 
-import './index.css';
-
 import React, { useContext, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
@@ -40,31 +38,27 @@ function ExplorerApp ({ basePath, className, newEvents, newHeader, t }: Props): 
   useEffect((): void => {
     const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
-    if (newEventHash === prevEventHash || !newEvents) {
-      return;
+    if (newEventHash !== prevEventHash && newEvents) {
+      setEvents({
+        prevEventHash: newEventHash,
+        events: newEvents.concat(events).filter((_, index): boolean => index < MAX_ITEMS)
+      });
     }
-
-    setEvents({
-      prevEventHash: newEventHash,
-      events: newEvents.concat(events).filter((_, index): boolean => index < MAX_ITEMS)
-    });
   }, [newEvents]);
 
   useEffect((): void => {
-    if (!newHeader) {
-      return;
+    if (newHeader) {
+      setHeaders(
+        headers
+          .filter((old, index): boolean => index < MAX_ITEMS && old.number.unwrap().lt(newHeader.number.unwrap()))
+          .reduce((next, header): HeaderExtended[] => {
+            next.push(header);
+
+            return next;
+          }, [newHeader])
+          .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()))
+      );
     }
-
-    setHeaders(
-      headers
-        .filter((old, index): boolean => index < MAX_ITEMS && old.number.unwrap().lt(newHeader.number.unwrap()))
-        .reduce((next, header): HeaderExtended[] => {
-          next.push(header);
-
-          return next;
-        }, [newHeader])
-        .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()))
-    );
   }, [newHeader]);
 
   return (
@@ -104,14 +98,12 @@ function ExplorerApp ({ basePath, className, newEvents, newHeader, t }: Props): 
         <Route path={`${basePath}/query/:value`} component={BlockInfo} />
         <Route path={`${basePath}/query`} component={BlockInfo} />
         <Route path={`${basePath}/node`} component={NodeInfo} />
-        <Route
-          render={(): React.ReactElement<{}> =>
-            <Main
-              events={events}
-              headers={headers}
-            />
-          }
-        />
+        <Route render={(): React.ReactElement<{}> => (
+          <Main
+            events={events}
+            headers={headers}
+          />
+        )} />
       </Switch>
     </main>
   );

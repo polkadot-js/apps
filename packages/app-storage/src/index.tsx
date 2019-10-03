@@ -18,7 +18,7 @@ interface Props extends AppProps, I18nProps {}
 function StorageApp ({ basePath }: Props): React.ReactElement<Props> {
   const [queue, setQueue] = useState<QueryTypes[]>([]);
 
-  const _onAdd = (query: QueryTypes): void => setQueue([query].concat(queue));
+  const _onAdd = (query: QueryTypes): void => setQueue([query, ...queue]);
   const _onRemove = (id: number): void => setQueue(queue.filter((item): boolean => item.id !== id));
 
   return (

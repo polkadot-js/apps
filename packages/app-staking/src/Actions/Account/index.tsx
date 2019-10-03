@@ -16,6 +16,7 @@ import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, Online
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';
+import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
@@ -42,6 +43,7 @@ interface State {
   destination: number;
   hexSessionId: string | null;
   isBondExtraOpen: boolean;
+  isInjectOpen: boolean;
   isNominateOpen: boolean;
   isSetControllerAccountOpen: boolean;
   isSetRewardDestinationOpen: boolean;
@@ -72,6 +74,7 @@ class Account extends React.PureComponent<Props, State> {
     destination: 0,
     hexSessionId: null,
     isBondExtraOpen: false,
+    isInjectOpen: false,
     isNominateOpen: false,
     isSetControllerAccountOpen: false,
     isSettingPopupOpen: false,
@@ -122,7 +125,7 @@ class Account extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, isSubstrateV2, t } = this.props;
-    const { stashId } = this.state;
+    const { controllerId, hexSessionId, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, sessionIds, stashId } = this.state;
 
     if (!stashId) {
       return null;
@@ -148,97 +151,79 @@ class Account extends React.PureComponent<Props, State> {
           unlocking: false
         }}
       >
-        {this.renderBondExtra()}
+        <BondExtra
+          controllerId={controllerId}
+          isOpen={isBondExtraOpen}
+          onClose={this.toggleBondExtra}
+          stashId={stashId}
+        />
+        <Unbond
+          controllerId={controllerId}
+          isOpen={isUnbondOpen}
+          onClose={this.toggleUnbond}
+          stashId={stashId}
+        />
+        {isInjectOpen && (
+          <InjectKeys onClose={this.toggleInject} />
+        )}
         {this.renderSetValidatorPrefs()}
         {this.renderNominate()}
         {this.renderSetControllerAccount()}
         {this.renderSetRewardDestination()}
         {this.renderSetSessionAccount()}
-        {this.renderUnbond()}
         {this.renderValidate()}
         <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
-            {!isSubstrateV2 && this.renderSessionAccount()}
+            {!isSubstrateV2 && sessionIds.length && (
+              <div className='staking--Account-detail actions'>
+                <AddressRow
+                  label={t('session')}
+                  value={sessionIds[0]}
+                  withAddressOrName
+                  withBalance={{
+                    available: true,
+                    bonded: false,
+                    free: false,
+                    redeemable: false,
+                    unlocking: false
+                  }}
+                />
+              </div>
+            )}
           </div>
           <div className='staking--Infos'>
             <div className='staking--balances'>
-              {this.renderInfos()}
+              <AddressInfo
+                address={stashId}
+                withBalance={{
+                  available: false,
+                  bonded: true,
+                  free: false,
+                  redeemable: true,
+                  unlocking: true
+                }}
+                withRewardDestination
+                withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
+                withValidatorPrefs={isStashValidating}
+              />
             </div>
-            {this.renderNominee()}
+            {nominees && nominees.length && (
+              <div className='staking--Account-Nominee'>
+                <label className='staking--label'>{t('nominating')}</label>
+                {nominees.map((nomineeId, index): React.ReactNode => (
+                  <AddressMini
+                    key={index}
+                    value={nomineeId}
+                    withBalance={false}
+                    withBonded
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </AddressCard>
-    );
-  }
-
-  private renderBondExtra (): React.ReactNode {
-    const { controllerId, isBondExtraOpen, stashId } = this.state;
-
-    return (
-      <BondExtra
-        controllerId={controllerId}
-        isOpen={isBondExtraOpen}
-        onClose={this.toggleBondExtra}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private renderUnbond (): React.ReactNode {
-    const { controllerId, isUnbondOpen, stashId } = this.state;
-
-    return (
-      <Unbond
-        controllerId={controllerId}
-        isOpen={isUnbondOpen}
-        onClose={this.toggleUnbond}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private renderInfos (): React.ReactNode {
-    const { isSubstrateV2 } = this.props;
-    const { hexSessionId, isStashValidating, stashId } = this.state;
-
-    return (
-      <AddressInfo
-        address={stashId}
-        withBalance={{
-          available: false,
-          bonded: true,
-          free: false,
-          redeemable: true,
-          unlocking: true
-        }}
-        withRewardDestination
-        withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
-        withValidatorPrefs={isStashValidating}
-      />
-    );
-  }
-
-  private renderNominee (): React.ReactNode {
-    const { t } = this.props;
-    const { nominees } = this.state;
-
-    if (!nominees || !nominees.length) {
-      return null;
-    }
-
-    return (
-      <div className='staking--Account-Nominee'>
-        <label className='staking--label'>{t('nominating')}</label>
-        {nominees.map((nomineeId, index): React.ReactNode => (
-          <AddressMini
-            key={index}
-            value={nomineeId}
-            withBalance={false}
-            withBonded
-          />
-        ))}
-      </div>
     );
   }
 
@@ -282,32 +267,6 @@ class Account extends React.PureComponent<Props, State> {
         />
       </div>
 
-    );
-  }
-
-  private renderSessionAccount (): React.ReactNode {
-    const { t } = this.props;
-    const { sessionIds } = this.state;
-
-    if (!sessionIds.length) {
-      return null;
-    }
-
-    return (
-      <div className='staking--Account-detail actions'>
-        <AddressRow
-          label={t('session')}
-          value={sessionIds[0]}
-          withAddressOrName
-          withBalance={{
-            available: true,
-            bonded: false,
-            free: false,
-            redeemable: false,
-            unlocking: false
-          }}
-        />
-      </div>
     );
   }
 
@@ -465,14 +424,19 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {(!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
+        {!isStashNominating && (!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
-            {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
+            {isSubstrateV2 ? t('Rotate session keys') : t('Change session account')}
           </Menu.Item>
         }
         {isStashNominating &&
           <Menu.Item onClick={this.toggleNominate}>
             {t('Change nominee(s)')}
+          </Menu.Item>
+        }
+        {!isStashNominating && isSubstrateV2 &&
+          <Menu.Item onClick={this.toggleInject}>
+            {t('Inject session keys (advanced)')}
           </Menu.Item>
         }
       </Menu>
@@ -554,6 +518,12 @@ class Account extends React.PureComponent<Props, State> {
     }));
   }
 
+  private toggleInject = (): void => {
+    this.setState(({ isInjectOpen }): Pick<State, never> => ({
+      isInjectOpen: !isInjectOpen
+    }));
+  }
+
   private toggleNominate = (): void => {
     this.setState(({ isNominateOpen }): Pick<State, never> => ({
       isNominateOpen: !isNominateOpen
@@ -608,14 +578,22 @@ export default withMulti(
       width: 0px;
     }
 
-    .staking--Account-detail.actions{
-      display: inline-block;
-      vertical-align: top;
-      margin-top: .5rem;
-      margin-bottom: 1.5rem;
+    .staking--Account-detail {
+      text-align: right;
 
-      &:last-child {
-        margin: 0;
+      &.actions{
+        display: inline-block;
+        vertical-align: top;
+        margin-top: .5rem;
+        margin-bottom: 1.5rem;
+
+        &:last-child {
+          margin: 0;
+        }
+      }
+
+      .staking--label {
+        margin: 0 1.75rem -0.75rem 0;
       }
     }
 

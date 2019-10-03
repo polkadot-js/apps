@@ -4,10 +4,9 @@
 
 import { BareProps } from '@polkadot/react-components/types';
 
-import './BlockHeader.css';
-
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { AddressMini, LinkPolkascan } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
@@ -44,7 +43,7 @@ const renderDetails = ({ number: blockNumber, extrinsicsRoot, parentHash, stateR
   );
 };
 
-export default function BlockHeader ({ isSummary, value, withExplorer, withLink }: Props): React.ReactElement<Props> | null {
+function BlockHeader ({ className, isSummary, value, withExplorer, withLink }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -53,7 +52,7 @@ export default function BlockHeader ({ isSummary, value, withExplorer, withLink 
   const textNumber = formatNumber(value.number);
 
   return (
-    <article className='explorer--BlockHeader'>
+    <article className={`explorer--BlockHeader ${className}`}>
       <div className='header-outer'>
         <div className='header'>
           <div className='number'>{
@@ -82,3 +81,85 @@ export default function BlockHeader ({ isSummary, value, withExplorer, withLink 
     </article>
   );
 }
+
+export default styled(BlockHeader)`
+  .author {
+    font-size: 1rem;
+    text-align: right;
+    vertical-align: middle;
+
+    > .ui--AddressMini.padded {
+      padding: 0;
+    }
+  }
+
+  .header {
+    color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    > div {
+      display: inline-block;
+      font-weight: 100;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    > .number {
+      font-size: 2.25rem;
+    }
+
+    .hash {
+      font-size: 1.5rem;
+      font-family: sans-serif;
+    }
+  }
+
+  .hash {
+    font-family: monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .number {
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .contains {
+    border: 0;
+    margin-top: 0.5rem;
+    text-align: center;
+
+    > .info {
+      margin-bottom: 0.125em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      .ui--Labelled {
+        text-align: center;
+      }
+
+      > label {
+        display: inline-block;
+      }
+
+      > span,
+      > label {
+        vertical-align: middle;
+      }
+
+      label {
+        margin-right: 0.5rem;
+        min-width: 10rem;
+        text-align: right;
+      }
+    }
+  }
+`;
