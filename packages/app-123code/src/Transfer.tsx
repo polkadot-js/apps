@@ -3,63 +3,45 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import React from 'react';
-import { Button, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/react-components';
+import React, { useState } from 'react';
+import { Button, InputAddress, InputBalance, TxButton } from '@polkadot/react-components';
 
 import Summary from './Summary';
 
 interface Props {
   accountId?: string | null;
 }
-interface State {
-  amount?: BN;
-  recipientId?: string | null;
-}
 
-export default class Transfer extends TxComponent<Props, State> {
-  public state: State = {};
+export default function Transfer ({ accountId }: Props): React.ReactElement<Props> {
+  const [amount, setAmount] = useState<BN | undefined | null>(null);
+  const [recipientId, setRecipientId] = useState<string | null>(null);
 
-  public render (): React.ReactNode {
-    const { accountId } = this.props;
-    const { amount, recipientId } = this.state;
-
-    return (
-      <section>
-        <h1>transfer</h1>
-        <div className='ui--row'>
-          <div className='large'>
-            <InputAddress
-              label='recipient address for this transfer'
-              onChange={this.onChangeRecipient}
-              type='all'
+  return (
+    <section>
+      <h1>transfer</h1>
+      <div className='ui--row'>
+        <div className='large'>
+          <InputAddress
+            label='recipient address for this transfer'
+            onChange={setRecipientId}
+            type='all'
+          />
+          <InputBalance
+            label='amount to transfer'
+            onChange={setAmount}
+          />
+          <Button.Group>
+            <TxButton
+              accountId={accountId}
+              icon='send'
+              label='make transfer'
+              params={[recipientId, amount]}
+              tx='balances.transfer'
             />
-            <InputBalance
-              label='amount to transfer'
-              onChange={this.onChangeAmount}
-              onEnter={this.sendTx}
-            />
-            <Button.Group>
-              <TxButton
-                accountId={accountId}
-                icon='send'
-                label='make transfer'
-                params={[recipientId, amount]}
-                tx='balances.transfer'
-                ref={this.button}
-              />
-            </Button.Group>
-          </div>
-          <Summary className='small'>Make a transfer from any account you control to another account. Transfer fees and per-transaction fees apply and will be calculated upon submission.</Summary>
+          </Button.Group>
         </div>
-      </section>
-    );
-  }
-
-  private onChangeAmount = (amount?: BN): void => {
-    this.setState({ amount });
-  }
-
-  private onChangeRecipient = (recipientId?: string | null): void => {
-    this.setState({ recipientId });
-  }
+        <Summary className='small'>Make a transfer from any account you control to another account. Transfer fees and per-transaction fees apply and will be calculated upon submission.</Summary>
+      </div>
+    </section>
+  );
 }
