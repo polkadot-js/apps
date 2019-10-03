@@ -12,7 +12,7 @@ import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { ApiContext } from '@polkadot/react-api';
-import { AddressRow, Button, Dropdown, Input, InputAddress, Labelled, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -127,13 +127,11 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
 
 function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type: propsType }: Props): React.ReactElement<Props> {
   const { isDevelopment } = useContext(ApiContext);
-  const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(
-    generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType)
-  );
+  const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: true, name: 'new account' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
-  const isValid = !!address && !!deriveError && isNameValid && isPassValid && isSeedValid;
+  const isValid = !!address && !deriveError && isNameValid && isPassValid && isSeedValid;
 
   const _onChangePass = (password: string): void =>
     setPassword({ isPassValid: keyring.isPassValid(password), password });
@@ -142,7 +140,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
   const _onChangeSeed = (newSeed: string): void =>
     setAddress(updateAddress(newSeed, derivePath, seedType, pairType));
   const _onChangePairType = (newPairType: KeypairType): void =>
-    setAddress(generateSeed(seed, derivePath, seedType, newPairType));
+    setAddress(updateAddress(seed, derivePath, seedType, newPairType));
   const _selectSeedType = (newSeedType: SeedType): void => {
     if (newSeedType !== seedType) {
       setAddress(generateSeed(null, derivePath, newSeedType, pairType));
@@ -279,9 +277,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
               value={derivePath}
             />
             {deriveError && (
-              <Labelled label=''>
-                <article className='error'>{deriveError}</article>
-              </Labelled>
+              <article className='error'>{deriveError}</article>
             )}
           </details>
         </AddressRow>
