@@ -16,7 +16,7 @@ import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
-import { typeDefToString } from '@polkadot/types';
+import { displayType } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
@@ -125,7 +125,7 @@ class Deploy extends ContractModal<Props, State> {
     const constructOptions: ConstructOptions = constructors.map(
       (constr) => {
         const { name, args } = constr;
-        const textArgs = args.map(({ name, type }): string => `${name}: ${typeDefToString(type)}`);
+        const textArgs = args.map(({ name, type }): string => `${name}: ${displayType(type)}`);
 
         return {
           key: `${constructorIndex}`,

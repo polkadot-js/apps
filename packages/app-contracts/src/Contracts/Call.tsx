@@ -13,7 +13,7 @@ import { Abi } from '@polkadot/api-contract';
 import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { getContractAbi } from '@polkadot/react-components/util';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { typeDefToString } from '@polkadot/types';
+import { displayType } from '@polkadot/types';
 
 import translate from '../translate';
 import Params from '../Params';
@@ -117,8 +117,8 @@ class Call extends TxComponent<Props, State> {
     const methodOptions = contractAbi
       ? Object.keys(contractAbi.messages).map((key): { key: string; text: string; value: string } => {
         const fn = contractAbi.messages[key];
-        const type = fn.type ? `: ${typeDefToString(fn.type)}` : '';
-        const args = fn.args.map(({ name, type }): string => `${name}: ${typeDefToString(type)}`);
+        const type = fn.type ? `: ${displayType(fn.type)}` : '';
+        const args = fn.args.map(({ name, type }): string => `${name}: ${displayType(type)}`);
         const text = `${key}(${args.join(', ')})${type}`;
 
         return {

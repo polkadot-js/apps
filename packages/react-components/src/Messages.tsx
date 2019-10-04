@@ -9,7 +9,7 @@ import { Button } from '@polkadot/react-components';
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
-import { typeDefToString } from '@polkadot/types';
+import { displayType } from '@polkadot/types';
 
 import Icon from './Icon';
 import Tooltip from './Tooltip';
@@ -73,7 +73,7 @@ function renderItem (props: Props, { args, docs = [], mutates, name, returnType 
                 {name}:
                 {' '}
                 <span className='type'>
-                  {typeDefToString(type)}
+                  {displayType(type)}
                 </span>
                 {index < args.length - 1 && ', '}
               </>
@@ -85,7 +85,7 @@ function renderItem (props: Props, { args, docs = [], mutates, name, returnType 
               :
               {' '}
               <span className="return-type">
-                {typeDefToString(returnType)}
+                {displayType(returnType)}
               </span>
             </>
           )}
