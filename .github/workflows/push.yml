@@ -1,9 +1,9 @@
-name: Node CI
-
-on: [push]
+name: CI
+on: push
 
 jobs:
   lint:
+    name: Linting
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,10 +16,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: lint
       run: |
-        yarn install
+        yarn install --frozen-lockfile
         yarn lint
-        
+
   test:
+    name: Testing
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,10 +33,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: test
       run: |
-        yarn install
+        yarn install --frozen-lockfile
         yarn test
-        
-  build:
+
+  build_code:
+    name: Build Code
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -48,7 +50,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: build
       run: |
-        yarn install
+        yarn install --frozen-lockfile
         yarn build
-      env:
-        CI: true
