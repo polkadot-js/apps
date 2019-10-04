@@ -22,7 +22,7 @@ import translate from './translate';
 interface Props extends AppProps, I18nProps {}
 
 function App ({ className }: Props): React.ReactElement<Props> {
-  const [accountId, setAccountId] = useState<string | undefined>();
+  const [accountId, setAccountId] = useState<string | null>(null);
 
   return (
     // in all apps, the main wrapper is setup to allow the padding

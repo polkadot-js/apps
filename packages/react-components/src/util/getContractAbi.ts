@@ -6,7 +6,11 @@ import { Abi } from '@polkadot/api-contract';
 
 import getAddressMeta from './getAddressMeta';
 
-export default function getContractAbi (address: string): Abi | null {
+export default function getContractAbi (address: string | null): Abi | null {
+  if (!address) {
+    return null;
+  }
+
   let abi: Abi | undefined;
   const meta = getAddressMeta(address, 'contract');
 

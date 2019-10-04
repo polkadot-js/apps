@@ -26,7 +26,7 @@ interface State {
   isValidUnsigned: boolean;
   method: Call | null;
   accountNonce?: BN;
-  accountId?: string;
+  accountId?: string | null;
 }
 
 class Selection extends TxComponent<Props, State> {
@@ -126,7 +126,7 @@ class Selection extends TxComponent<Props, State> {
     this.nextState({ accountNonce });
   }
 
-  private onChangeSender = (accountId: string): void => {
+  private onChangeSender = (accountId: string | null): void => {
     this.nextState({ accountId, accountNonce: new BN(0) });
   }
 

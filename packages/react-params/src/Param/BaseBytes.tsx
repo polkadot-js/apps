@@ -8,6 +8,7 @@ import React from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import Bare from './Bare';
 
@@ -23,17 +24,27 @@ interface Props extends BaseProps {
 const defaultValidate = (): boolean =>
   true;
 
+function convertInput (value: string): [boolean, Uint8Array] {
+  // try hex conversion
+  try {
+    return [true, hexToU8a(value)];
+  } catch (error) {
+    // we continue...
+  }
+
+  // maybe it is an ss58?
+  try {
+    return [true, decodeAddress(value)];
+  } catch (error) {
+    // we continue
+  }
+
+  return [false, new Uint8Array([])];
+}
+
 function onChange ({ asHex, length = -1, onChange, validate = defaultValidate, withLength }: Props): (_: string) => void {
   return function (hex: string): void {
-    let value: Uint8Array;
-    let isValid = true;
-
-    try {
-      value = hexToU8a(hex);
-    } catch (error) {
-      value = new Uint8Array([]);
-      isValid = false;
-    }
+    let [isValid, value] = convertInput(hex);
 
     isValid = isValid && validate(value) && (
       length !== -1

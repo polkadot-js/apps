@@ -267,7 +267,9 @@ class Vote extends TxModal<Props, State> {
       return;
     }
 
-    api.derive.elections.approvalsOfAt(accountId, voteCount)
+    // FIXME This any is a mismatch in api-derive
+    api.derive.elections
+      .approvalsOfAt(accountId as any, voteCount)
       .then((approvals: boolean[]): void => {
         if ((voterPositions && voterPositions[accountId.toString()]) && approvals && approvals.length && approvals !== this.state.approvals) {
           this.setState({

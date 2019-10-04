@@ -7,6 +7,7 @@ import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { withCalls } from '@polkadot/react-api';
 import { Columar } from '@polkadot/react-components';
@@ -24,15 +25,16 @@ interface Props extends I18nProps {
   value: string;
 }
 
-function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<Props> | null {
+function BlockByHash ({ className, system_events, chain_getBlock, chain_getHeader }: Props): React.ReactElement<Props> | null {
   if (!chain_getBlock || chain_getBlock.isEmpty || !chain_getHeader || chain_getHeader.isEmpty) {
     return null;
   }
 
   return (
-    <>
+    <div className={className}>
       <header>
         <BlockHeader
+          className='exporer--BlockByHash-BlockHeader'
           value={chain_getHeader}
           withExplorer
         />
@@ -45,7 +47,7 @@ function BlockByHash ({ system_events, chain_getBlock, chain_getHeader }: Props)
         <Events value={system_events} />
         <Logs value={chain_getHeader.digest.logs} />
       </Columar>
-    </>
+    </div>
   );
 }
 
@@ -54,5 +56,10 @@ export default translate(
     ['rpc.chain.getBlock', { paramName: 'value' }],
     ['derive.chain.getHeader', { paramName: 'value' }],
     ['query.system.events', { atProp: 'value' }]
-  )(BlockByHash)
+  )(styled(BlockByHash)`
+    .exporer--BlockByHash-BlockHeader {
+      border: none;
+      box-shadow: none;
+    }
+  `)
 );

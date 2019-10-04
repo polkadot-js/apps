@@ -22,9 +22,9 @@ const BASE = 'https://polkascan.io/pre/';
 
 const CHAINS: Record<string, string> = {
   Alexander: 'alexander',
-  Kusama: 'kusama', // old name via W3F nodes
-  'Kusama CC1': 'kusama',
-  'Kusama CC2': 'kusama'
+  Kusama: 'kusama-cc1', // old name via W3F nodes
+  'Kusama CC1': 'kusama-cc1',
+  'Kusama CC2': 'kusama-cc2'
 };
 
 const TYPES: Record<string, string> = {

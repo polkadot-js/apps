@@ -5,84 +5,54 @@
 import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from '../types';
 
-import React from 'react';
-import { Button, InputConsts, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import React, { useContext, useState } from 'react';
+import { ApiContext } from '@polkadot/react-api';
+import { Button, InputConsts } from '@polkadot/react-components';
 
 import translate from '../translate';
 
-interface Props extends ComponentProps, ApiProps, I18nProps {}
+interface Props extends ComponentProps, I18nProps {}
 
-interface State {
-  value: ConstValue;
-}
-
-class Consts extends TxComponent<Props, State> {
-  private defaultValue: ConstValue;
-
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    const { api } = this.props;
+function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
+  const { api } = useContext(ApiContext);
+  const [defaultValue] = useState<ConstValue>((): ConstValue => {
     const section = Object.keys(api.consts)[0];
     const method = Object.keys(api.consts[section])[0];
 
-    this.defaultValue = {
+    return {
       meta: (api.consts[section][method] as ConstantCodec).meta,
       method,
       section
     };
-    this.state = {
-      value: this.defaultValue
-    };
-  }
+  });
+  const [value, setValue] = useState(defaultValue);
 
-  public render (): React.ReactNode {
-    const { api, t } = this.props;
-    const { value: { method, section } } = this.state;
-    const meta = (api.consts[section][method] as ConstantCodec).meta;
+  const _onAdd = (): void => onAdd({ isConst: true, key: value });
 
-    return (
-      <section className='storage--actionrow'>
-        <div className='storage--actionrow-value'>
-          <InputConsts
-            defaultValue={this.defaultValue}
-            label={t('selected constant query')}
-            onChange={this.onChangeConst}
-            help={meta && meta.documentation && meta.documentation.join(' ')}
-          />
-        </div>
-        <div className='storage--actionrow-buttons'>
-          <Button
-            icon='plus'
-            isPrimary
-            onClick={this.onAdd}
-            ref={this.button}
-          />
-        </div>
-      </section>
-    );
-  }
+  const { method, section } = value;
+  const meta = (api.consts[section][method] as ConstantCodec).meta;
 
-  private onAdd = (): void => {
-    const { onAdd } = this.props;
-    const { value } = this.state;
-
-    onAdd({ isConst: true, key: value });
-  }
-
-  private onChangeConst = (value: ConstValue): void => {
-    this.setState({ value });
-  }
+  return (
+    <section className='storage--actionrow'>
+      <div className='storage--actionrow-value'>
+        <InputConsts
+          defaultValue={defaultValue}
+          label={t('selected constant query')}
+          onChange={setValue}
+          help={meta && meta.documentation && meta.documentation.join(' ')}
+        />
+      </div>
+      <div className='storage--actionrow-buttons'>
+        <Button
+          icon='plus'
+          isPrimary
+          onClick={_onAdd}
+        />
+      </div>
+    </section>
+  );
 }
 
-export default withMulti(
-  Consts,
-  translate,
-  withApi
-);
+export default translate(Consts);

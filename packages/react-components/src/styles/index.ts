@@ -60,6 +60,11 @@ export default createGlobalStyle`
       padding: 0;
     }
 
+    &.error,
+    &.warning {
+      margin-left: 2.25rem;
+    }
+
     &.error {
       background: #fff6f6;
       border-color: #e0b4b4;

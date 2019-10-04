@@ -4,7 +4,7 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { hexToU8a, u8aConcat } from '@polkadot/util';
@@ -16,98 +16,67 @@ interface StateParam {
   u8a: Uint8Array;
 }
 
-interface State {
-  key: StateParam;
-  value: StateParam;
+export function createParam (hex: string, length = -1): StateParam {
+  let u8a;
+
+  try {
+    u8a = hexToU8a(hex);
+  } catch (error) {
+    u8a = new Uint8Array([]);
+  }
+
+  const isValid = length !== -1
+    ? u8a.length === length
+    : u8a.length !== 0;
+
+  return {
+    isValid,
+    u8a: Compact.addLengthPrefix(u8a)
+  };
 }
 
-export default class KeyValue extends React.PureComponent<Props, State> {
-  public state: State = {
-    key: {
-      isValid: false,
-      u8a: new Uint8Array([])
-    },
-    value: {
-      isValid: false,
-      u8a: new Uint8Array([])
-    }
-  };
+export default function KeyValue ({ className, isDisabled, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+  const [key, setKey] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
+  const [value, setValue] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
 
-  public render (): React.ReactNode {
-    const { className, isDisabled, label, onEnter, style, withLabel } = this.props;
-    const { key, value } = this.state;
+  useEffect((): void => {
+    onChange && onChange({
+      isValid: key.isValid && value.isValid,
+      value: u8aConcat(
+        key.u8a,
+        value.u8a
+      )
+    });
+  }, [key, value]);
 
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <Input
-          className='medium'
-          isDisabled={isDisabled}
-          isError={!key.isValid}
-          label={label}
-          onChange={this.onChangeKey}
-          placeholder='0x...'
-          type='text'
-          withLabel={withLabel}
-        />
-        <Input
-          className='medium'
-          isDisabled={isDisabled}
-          isError={!value.isValid}
-          onChange={this.onChangeValue}
-          onEnter={onEnter}
-          placeholder='0x...'
-          type='text'
-          withLabel={withLabel}
-        />
-      </Bare>
-    );
-  }
+  const _onChangeKey = (key: string): void => setKey(createParam(key));
+  const _onChangeValue = (value: string): void => setValue(createParam(value));
 
-  public static createParam (hex: string, length = -1): StateParam {
-    let u8a;
-
-    try {
-      u8a = hexToU8a(hex);
-    } catch (error) {
-      u8a = new Uint8Array([]);
-    }
-
-    const isValid = length !== -1
-      ? u8a.length === length
-      : u8a.length !== 0;
-
-    return {
-      isValid,
-      u8a: Compact.addLengthPrefix(u8a)
-    };
-  }
-
-  private nextState (newState: Partial<State>): void {
-    this.setState(
-      (prevState: State, { onChange }: Props): State => {
-        const { key = prevState.key, value = prevState.value } = newState;
-
-        onChange && onChange({
-          isValid: key.isValid && value.isValid,
-          value: u8aConcat(
-            key.u8a,
-            value.u8a
-          )
-        });
-
-        return newState as State;
-      }
-    );
-  }
-
-  private onChangeKey = (key: string): void => {
-    this.nextState({ key: KeyValue.createParam(key) });
-  }
-
-  private onChangeValue = (value: string): void => {
-    this.nextState({ value: KeyValue.createParam(value) });
-  }
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <Input
+        className='medium'
+        isDisabled={isDisabled}
+        isError={!key.isValid}
+        label={label}
+        onChange={_onChangeKey}
+        placeholder='0x...'
+        type='text'
+        withLabel={withLabel}
+      />
+      <Input
+        className='medium'
+        isDisabled={isDisabled}
+        isError={!value.isValid}
+        onChange={_onChangeValue}
+        onEnter={onEnter}
+        placeholder='0x...'
+        type='text'
+        withLabel={withLabel}
+      />
+    </Bare>
+  );
 }

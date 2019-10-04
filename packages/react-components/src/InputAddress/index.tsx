@@ -21,25 +21,30 @@ import createHeader from './createHeader';
 import createItem from './createItem';
 
 interface Props extends BareProps {
-  defaultValue?: string | null;
+  defaultValue?: Uint8Array | string | null;
   help?: React.ReactNode;
   hideAddress?: boolean;
   isDisabled?: boolean;
   isError?: boolean;
   isInput?: boolean;
   isMultiple?: boolean;
-  label?: string;
+  label?: React.ReactNode;
   labelExtra?: React.ReactNode;
   onChange?: (value: string | null) => void;
   onChangeMulti?: (value: string[]) => void;
-  options?: Option[];
+  options?: KeyringSectionOption[];
   optionsAll?: Record<string, Option[]>;
   placeholder?: string;
   type?: KeyringOption$Type;
-  value?: string | Uint8Array | string[];
+  value?: string | Uint8Array | string[] | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
 }
+
+type ExportedType = React.ComponentType<Props> & {
+  createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option;
+  setLastValue: (type: KeyringOption$Type, value: string) => void;
+};
 
 interface State {
   value?: string;
@@ -48,7 +53,7 @@ interface State {
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 
-const transformToAddress = (value: string | Uint8Array): string | null => {
+function transformToAddress (value: string | Uint8Array): string | null {
   try {
     return addressToAddress(value) || null;
   } catch (error) {
@@ -56,9 +61,9 @@ const transformToAddress = (value: string | Uint8Array): string | null => {
   }
 
   return null;
-};
+}
 
-const transformToAccountId = (value: string): string | null => {
+function transformToAccountId (value: string): string | null {
   if (!value) {
     return null;
   }
@@ -68,9 +73,9 @@ const transformToAccountId = (value: string): string | null => {
   return !accountId
     ? null
     : accountId;
-};
+}
 
-const createOption = (address: string): KeyringSectionOption => {
+function createOption (address: string): Option {
   let isRecent: boolean | undefined;
   const pair = keyring.getAccount(address);
   let name: string | undefined;
@@ -89,7 +94,24 @@ const createOption = (address: string): KeyringSectionOption => {
   }
 
   return createItem(createKeyringItem(address, name), !isRecent);
-};
+}
+
+function readOptions (): Record<string, any> {
+  return store.get(STORAGE_KEY) || { defaults: {} };
+}
+
+function getLastValue (type: KeyringOption$Type = DEFAULT_TYPE): any {
+  const options = readOptions();
+
+  return options.defaults[type];
+}
+
+function setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): void {
+  const options = readOptions();
+
+  options.defaults[type] = value;
+  store.set(STORAGE_KEY, options);
+}
 
 class InputAddress extends React.PureComponent<Props, State> {
   public state: State = {};
@@ -107,23 +129,6 @@ class InputAddress extends React.PureComponent<Props, State> {
     }
   }
 
-  public static readOptions (): Record<string, any> {
-    return store.get(STORAGE_KEY) || { defaults: {} };
-  }
-
-  public static getLastValue (type: KeyringOption$Type = DEFAULT_TYPE): any {
-    const options = InputAddress.readOptions();
-
-    return options.defaults[type];
-  }
-
-  public static setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): void {
-    const options = InputAddress.readOptions();
-
-    options.defaults[type] = value;
-    store.set(STORAGE_KEY, options);
-  }
-
   public render (): React.ReactNode {
     const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
@@ -133,7 +138,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const lastValue = InputAddress.getLastValue(type);
+    const lastValue = getLastValue(type);
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))
@@ -144,22 +149,18 @@ class InputAddress extends React.PureComponent<Props, State> {
             : (lastOption && lastOption.value)
         )
     );
-    const actualOptions = options || (
-      isDisabled && actualValue
-        ? [createOption(actualValue)]
-        : optionsAll
-          ? optionsAll[type]
-          : []
-    );
-    let _defaultValue;
-
-    if (value !== undefined) {
-      _defaultValue = undefined;
-    } else if (isMultiple) {
-      _defaultValue = undefined;
-    } else {
-      _defaultValue = actualValue;
-    }
+    const actualOptions: Option[] = options
+      ? options.map((o): Option => createItem(o))
+      : (
+        isDisabled && actualValue
+          ? [createOption(actualValue)]
+          : optionsAll
+            ? optionsAll[type]
+            : []
+      );
+    const _defaultValue = (isMultiple || value !== undefined)
+      ? undefined
+      : actualValue;
 
     return (
       <Dropdown
@@ -218,7 +219,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       : undefined;
   }
 
-  private hasValue (test?: string): boolean {
+  private hasValue (test?: Uint8Array | string): boolean {
     const { optionsAll, type = DEFAULT_TYPE } = this.props;
 
     if (!optionsAll) {
@@ -231,7 +232,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   private onChange = (address: string): void => {
     const { onChange, type } = this.props;
 
-    InputAddress.setLastValue(type, address);
+    setLastValue(type, address);
 
     onChange && onChange(transformToAccountId(address));
   }
@@ -285,9 +286,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 }
 
-export { InputAddress };
-
-export default withMulti(
+const ExportedComponent = withMulti(
   styled(InputAddress)`
     .ui.dropdown .text {
       width: 100%;
@@ -326,4 +325,9 @@ export default withMulti(
         return result;
       }, {})
   })
-);
+) as ExportedType;
+
+ExportedComponent.createOption = createItem;
+ExportedComponent.setLastValue = setLastValue;
+
+export default ExportedComponent;

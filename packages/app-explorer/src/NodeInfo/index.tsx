@@ -9,8 +9,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { ApiContext } from '@polkadot/react-api';
 
-import './index.css';
-
 import Extrinsics from '../BlockInfo/Extrinsics';
 import Peers from './Peers';
 import Summary from './Summary';

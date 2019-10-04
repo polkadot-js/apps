@@ -19,9 +19,8 @@ interface Props extends I18nProps {
   treasury_pot?: BN;
 }
 
-function Summary (props: Props): React.ReactElement<Props> {
-  const { treasury_proposalCount = new BN(0), treasury_approvals = [] as BN[], treasury_pot = new BN(0), t } = props;
-  const value = treasury_pot
+function Summary ({ treasury_proposalCount, treasury_approvals, treasury_pot, t }: Props): React.ReactElement<Props> {
+  const value = treasury_pot && treasury_pot.gtn(0)
     ? treasury_pot.toString()
     : null;
 
@@ -36,13 +35,11 @@ function Summary (props: Props): React.ReactElement<Props> {
         </CardSummary>
       </section>
       <section>
-        <CardSummary label={t('pot')}>
-          {
-            value
-              ? `${formatBalance(value, false)}${treasury_pot.gtn(0) ? formatBalance.calcSi(value).value : ''}`
-              : '-'
-          }
-        </CardSummary>
+        {value && (
+          <CardSummary label={t('pot')}>
+            {formatBalance(value, false)}{formatBalance.calcSi(value).value}
+          </CardSummary>
+        )}
       </section>
     </SummaryBox>
   );

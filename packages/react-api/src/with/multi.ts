@@ -11,7 +11,7 @@ export default function withMulti<T> (Component: React.ComponentType<T>, ...hocs
   // after something can use the value of the preceding version
   return hocs
     .reverse()
-    .reduce((Component, hoc): React.ComponentType<any> => {
-      return hoc(Component);
-    }, Component);
+    .reduce((Component, hoc): React.ComponentType<any> =>
+      hoc(Component), Component
+    );
 }

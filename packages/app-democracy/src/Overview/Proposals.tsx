@@ -18,21 +18,19 @@ interface Props extends I18nProps {
   democracy_publicProps?: [BN, Proposal][];
 }
 
-function Proposals ({ democracy_publicProps = [], t }: Props): React.ReactElement<Props> {
+function Proposals ({ democracy_publicProps, t }: Props): React.ReactElement<Props> {
   return (
     <Column
       emptyText={t('No available proposals')}
       headerText={t('proposals')}
     >
-      {
-        democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
-          <ProposalDisplay
-            idNumber={idNumber}
-            key={idNumber.toString()}
-            value={proposal}
-          />
-        ))
-      }
+      {democracy_publicProps && democracy_publicProps.map(([idNumber, proposal]): React.ReactNode => (
+        <ProposalDisplay
+          idNumber={idNumber}
+          key={idNumber.toString()}
+          value={proposal}
+        />
+      ))}
     </Column>
   );
 }
