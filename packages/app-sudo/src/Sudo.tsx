@@ -80,7 +80,7 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeExtrinsic = (method: Call): void => {
+  private onChangeExtrinsic = (method?: Call): void => {
     if (!method) {
       return;
     }

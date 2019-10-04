@@ -101,7 +101,7 @@ class Propose extends TxComponent<Props, State> {
     this.nextState({ accountId });
   }
 
-  private onChangeExtrinsic = (method: Call): void => {
+  private onChangeExtrinsic = (method?: Call): void => {
     if (!method) {
       return;
     }

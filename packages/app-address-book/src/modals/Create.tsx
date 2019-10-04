@@ -47,7 +47,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
       isAddressValid = false;
     }
 
-    setAddress({ address, isAddressExisting, isAddressValid });
+    setAddress({ address: address || input, isAddressExisting, isAddressValid });
   };
   const _onChangeName = (name: string): void => setName({ isNameValid: !!name, name });
   const _onCommit = (): void => {

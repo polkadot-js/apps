@@ -22,7 +22,7 @@ interface Props extends BareProps {
   isPrivate?: boolean;
   label?: React.ReactNode;
   onChange: (method?: Call) => void;
-  onEnter: () => void;
+  onEnter?: () => void;
   withLabel?: boolean;
 }
 
