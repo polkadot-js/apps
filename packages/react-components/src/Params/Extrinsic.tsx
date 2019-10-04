@@ -22,8 +22,8 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function onChange ({ onChange }: Props): (_: Call) => void {
-  return function (method: Call): void {
+function onChange ({ onChange }: Props): (method?: Call) => void {
+  return (method?: Call): void => {
     onChange && onChange({
       isValid: !!method,
       value: method
