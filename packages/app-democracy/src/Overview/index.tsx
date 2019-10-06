@@ -8,11 +8,13 @@ import { Columar } from '@polkadot/react-components';
 import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
+import Propose from './Propose';
 
 export default function Overview (): React.ReactElement {
   return (
     <>
       <Summary />
+      <Propose />
       <Columar>
         <Referendums />
         <Proposals />
