@@ -32,7 +32,7 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
               isRoot: true,
               name: 'overview',
               text: t('Democracy overview')
-            },
+            }
           ]}
         />
       </header>

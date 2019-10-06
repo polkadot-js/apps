@@ -26,7 +26,7 @@ interface State extends TxModalState {
 class Propose extends TxModal<Props, State> {
   public state: State = {
     ...this.defaultState,
-    value: new BN(0),
+    value: new BN(0)
   };
 
   protected headerText = (): string => this.props.t('Submit proposal');
@@ -42,7 +42,7 @@ class Propose extends TxModal<Props, State> {
   protected isDisabled = (): boolean => {
     const { accountId, value, method } = this.state;
     const hasValue = !!value && value.gtn(0);
-    const hasMethod = !!method
+    const hasMethod = !!method;
 
     return !accountId || !hasValue || !hasMethod;
   }
@@ -125,5 +125,5 @@ class Propose extends TxModal<Props, State> {
 
 export default withMulti(
   withApi(Propose),
-  translate,
+  translate
 );
