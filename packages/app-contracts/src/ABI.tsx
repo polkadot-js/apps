@@ -145,10 +145,15 @@ class ABI extends React.PureComponent<Props, State> {
   }
 
   private onChange = (u8a: Uint8Array): void => {
-    const { onChange } = this.props;
+    const { onChange, t } = this.props;
     const json = u8aToString(u8a);
     try {
       const abi = JSON.parse(json);
+
+      if (abi.deploy || abi.messages) {
+        throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
+      }
+
       const contractAbi = new Abi(abi);
 
       this.setState({
