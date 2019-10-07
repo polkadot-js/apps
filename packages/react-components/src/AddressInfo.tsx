@@ -154,10 +154,9 @@ function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: 
     return null;
   }
 
-  // start with a spacer
   return (
     <>
-      <div className='spacer'></div>
+      <div />
       {validatorPrefsDisplay.unstakeThreshold && (staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
         <>
           <Label label={t('unstake threshold')} />
@@ -168,7 +167,7 @@ function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: 
       )}
       {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
         <>
-          <Label label={t('commision')} />
+          <Label label={t('commission')} />
           <div className='result'>{
             formatBalance(staking_info.validatorPrefs.validatorPayment)
           }</div>
@@ -302,10 +301,6 @@ export default withMulti(
         button.ui.icon.primary.button.iconButton {
           background: white !important;
         }
-      }
-
-      .spacer {
-        margin-top: 1rem;
       }
     }
   `,
