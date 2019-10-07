@@ -11,6 +11,7 @@ import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
+import styled from 'styled-components';
 
 import translate from './translate';
 
@@ -89,15 +90,16 @@ class Verify extends React.PureComponent<Props, State> {
           />
         </div>
         <div className='ui--row'>
+          <div className="ui--AlignedIconContainer" style={{ position: 'absolute', zIndex: 1 }}>
+            <AlignedIcon
+              className="ui--AlignedIcon"
+              color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
+              name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
+              size="big"
+            />
+          </div>
           <Input
             className='full'
-            icon={
-              <Icon
-                color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
-                name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
-                size='big'
-              />
-            }
             isError={!isValidSignature}
             help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
             label={t('the supplied signature')}
@@ -205,5 +207,18 @@ class Verify extends React.PureComponent<Props, State> {
     this.nextState({ currentPublicKey, isValidAddress });
   }
 }
+
+const AlignedIcon = styled(Icon)`
+      &&&.ui--AlignedIcon::before {
+        position: relative;
+        left: 0.88rem;
+        top: 1rem; 
+        width: 32px;
+        height: 32px;
+        font-size: 24pt;
+        background: white !important;
+        border-radius: 50%;
+      }
+    `;
 
 export default translate(Verify);
