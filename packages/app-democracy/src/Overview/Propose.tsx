@@ -8,11 +8,11 @@ import { ApiProps } from '@polkadot/react-api/types';
 import BN from 'bn.js';
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Extrinsic, InputAddress, InputBalance } from '@polkadot/react-components';
+import { Button, Extrinsic, InputBalance } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 interface Props extends TxModalProps, ApiProps {}
 
@@ -69,13 +69,6 @@ class Propose extends TxModal<Props, State> {
 
     return (
       <section>
-        <InputAddress
-          className='medium'
-          label={t('account')}
-          help={t('The account used to make the new proposal')}
-          type='account'
-          onChange={this.onChangeAccount}
-        />
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
           label={t('propose')}
