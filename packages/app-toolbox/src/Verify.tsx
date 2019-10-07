@@ -36,7 +36,7 @@ interface State {
 }
 
 const AlignedIcon = styled(Icon)`
-  &&&.ui--AlignedIcon::before {
+  &&&::before {
     position: relative;
     left: 0.88rem;
     top: 1rem; 
@@ -45,6 +45,10 @@ const AlignedIcon = styled(Icon)`
     font-size: 32px;
     background: white !important;
     border-radius: 50%;
+  }
+  
+  &&&.big.icon {
+    font-size: 32px;
   }
 `;
 
@@ -105,7 +109,6 @@ class Verify extends React.PureComponent<Props, State> {
         <div className='ui--row'>
           <div className="ui--AlignedIconContainer" style={{ position: 'absolute', zIndex: 1 }}>
             <AlignedIcon
-              className="ui--AlignedIcon"
               color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
               name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
               size="big"
