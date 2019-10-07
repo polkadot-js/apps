@@ -208,7 +208,7 @@ class Account extends React.PureComponent<Props, State> {
                 withValidatorPrefs={isStashValidating}
               />
             </div>
-            {nominees && nominees.length && (
+            {nominees && nominees.length !== 0 && (
               <div className='staking--Account-Nominee'>
                 <label className='staking--label'>{t('nominating')}</label>
                 {nominees.map((nomineeId, index): React.ReactNode => (
