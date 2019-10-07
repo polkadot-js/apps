@@ -35,6 +35,19 @@ interface State {
   signature: string;
 }
 
+const AlignedIcon = styled(Icon)`
+  &&&.ui--AlignedIcon::before {
+    position: relative;
+    left: 0.88rem;
+    top: 1rem; 
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    background: white !important;
+    border-radius: 50%;
+  }
+`;
+
 class Verify extends React.PureComponent<Props, State> {
   public state: State;
 
@@ -207,18 +220,5 @@ class Verify extends React.PureComponent<Props, State> {
     this.nextState({ currentPublicKey, isValidAddress });
   }
 }
-
-const AlignedIcon = styled(Icon)`
-      &&&.ui--AlignedIcon::before {
-        position: relative;
-        left: 0.88rem;
-        top: 1rem; 
-        width: 32px;
-        height: 32px;
-        font-size: 24pt;
-        background: white !important;
-        border-radius: 50%;
-      }
-    `;
 
 export default translate(Verify);
