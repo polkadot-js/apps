@@ -231,7 +231,7 @@ function renderBalances (props: Props): React.ReactNode {
           </div>
         </>
       )}
-  </>
+    </>
   );
 }
 

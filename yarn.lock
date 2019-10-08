@@ -1989,7 +1989,7 @@
     once "^1.4.0"
     universal-user-agent "^4.0.0"
 
-"@polkadot/api-contract@^0.95.0-beta.1":
+"@polkadot/api-contract@^0.95.0-beta.2":
   version "0.95.0-beta.2"
   resolved "https://registry.yarnpkg.com/@polkadot/api-contract/-/api-contract-0.95.0-beta.2.tgz#90fc2efba1d252d01da769aa97147270195d4bd7"
   integrity sha512-lLl/+CtV3JztEPqoq0f3GYTwwHTVC3ACjLs0wBHQgfmv0gEmkiKaK96EZ6sDaI5LrjBgdFzbuMuksJp1CzL9pw==
@@ -2016,7 +2016,7 @@
     "@polkadot/util" "^1.5.1"
     "@polkadot/util-crypto" "^1.5.1"
 
-"@polkadot/api@^0.95.0-beta.1", "@polkadot/api@^0.95.0-beta.2":
+"@polkadot/api@^0.95.0-beta.2":
   version "0.95.0-beta.2"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-0.95.0-beta.2.tgz#cb3b53d79475f865cf37c1658bdceef01a1b0e57"
   integrity sha512-UfY/R9WaTf9vmqCyoKvoGInlCNRbfKKcjQKlFYXuZ9Ma2fadznmVR+cTrsTklSerhs8yEIi2PLdISvxp6dVzmg==
@@ -2200,7 +2200,7 @@
   dependencies:
     "@types/chrome" "^0.0.89"
 
-"@polkadot/types@^0.95.0-beta.1", "@polkadot/types@^0.95.0-beta.2":
+"@polkadot/types@^0.95.0-beta.2":
   version "0.95.0-beta.2"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.95.0-beta.2.tgz#618d6d6afacf9c05571e4756a91e23e6fc532f5d"
   integrity sha512-JTioNKdfX6AmUy918U8kJYmg0VxnC3Smej8YOmvZe1nhqw2jDk3DVS7SradXO6s2KLW5yiL6oaMhQV0QEsS6JQ==
