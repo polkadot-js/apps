@@ -14,7 +14,7 @@ import { withCalls, withMulti } from '@polkadot/react-api';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import keyring from '@polkadot/ui-keyring';
 
-import AddressInfo, { BalanceActiveType } from './AddressInfo';
+import AddressInfo, { BalanceActiveType, ValidatorPrefsType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import IdentityIcon, { getIdentityTheme } from './IdentityIcon';
@@ -30,6 +30,7 @@ export interface Props extends I18nProps, RowProps {
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;
   withIndex?: boolean;
+  withValidatorPrefs?: boolean | ValidatorPrefsType;
 }
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
@@ -160,10 +161,10 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderBalances (): React.ReactNode {
-    const { accounts_idAndIndex = [], withBalance } = this.props;
+    const { accounts_idAndIndex = [], withBalance, withValidatorPrefs } = this.props;
     const [accountId] = accounts_idAndIndex;
 
-    if (!withBalance || !accountId) {
+    if (!(withBalance || withValidatorPrefs) || !accountId) {
       return null;
     }
 
@@ -172,6 +173,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
         <AddressInfo
           address={accountId}
           withBalance={withBalance}
+          withValidatorPrefs={withValidatorPrefs}
         />
       </div>
     );

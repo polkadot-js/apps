@@ -1,5 +1,5 @@
-name: CI
-on: push
+name: PR
+on: [pull_request]
 
 jobs:
   lint:

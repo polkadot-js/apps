@@ -11,3 +11,9 @@ Current bounties are tracked by the [!bounty](https://github.com/polkadot-js/app
 ## Process
 
 Once listed, the normal [Gitcoin](https://gitcoin.co/) process kicks in. This means application, work and payment is managed by this tool. The values for bounties are determined by the size estimation done by the team.
+
+## Some small requests
+
+Please don't start work on an issue until you have been approved via the gitcoin interface. We generally love enthusiasm and code in the repo, however short-cutting the process does create some issues for the management of the bounties. We certainly don't want to be playing favorites if 2 PRs for the same issue are created at the same time. And in cases where somebody else has been approved and an unapproved PR comes in... well, it gets really murky.
+
+When making changes, please do not force push in your PRs, especially not after a review has been started. We will clone your repo and work from that, doing a simple `pull` on a force-pushed branch ends up being, well, less than simple. We squash merge all PRs, so you do not clutter up the history by using stock-standard pushes to your branch.

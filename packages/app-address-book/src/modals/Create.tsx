@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
@@ -15,149 +15,50 @@ import translate from '../translate';
 
 interface Props extends ModalProps, I18nProps {}
 
-interface State {
-  address: string;
-  isAddressExisting: boolean;
-  isAddressValid: boolean;
-  isNameValid: boolean;
-  isValid: boolean;
-  name: string;
-  tags: string[];
-}
+function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const [{ isNameValid, name }, setName] = useState<{ isNameValid: boolean; name: string }>({ isNameValid: true, name: 'new address' });
+  const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<{ address: string; isAddressExisting: boolean; isAddressValid: boolean }>({ address: '', isAddressExisting: false, isAddressValid: false });
+  const isValid = isAddressValid && isNameValid;
 
-class Create extends React.PureComponent<Props, State> {
-  public state: State = {
-    address: '',
-    isAddressExisting: false,
-    isAddressValid: false,
-    isNameValid: true,
-    isValid: false,
-    name: 'new address',
-    tags: []
-  };
+  const _onChangeAddress = (input: string): void => {
+    let address = '';
+    let isAddressValid = true;
+    let isAddressExisting = false;
 
-  public render (): React.ReactNode {
-    const { t } = this.props;
-    const { address, isAddressValid, isNameValid, isValid, name } = this.state;
+    try {
+      address = keyring.encodeAddress(
+        keyring.decodeAddress(input)
+      );
+      isAddressValid = keyring.isAvailable(address);
 
-    return (
-      <Modal
-        dimmer='inverted'
-        open
-      >
-        <Modal.Header>{t('Add an address')}</Modal.Header>
-        <Modal.Content>
-          <AddressRow
-            defaultName={name}
-            value={address}
-          >
-            <Input
-              autoFocus
-              className='full'
-              help={t('Paste here the address of the contact you want to add to your address book.')}
-              isError={!isAddressValid}
-              label={t('address')}
-              onChange={this.onChangeAddress}
-              onEnter={this.onCommit}
-              value={address}
-            />
-            <Input
-              className='full'
-              help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
-              isError={!isNameValid}
-              label={t('name')}
-              onChange={this.onChangeName}
-              onEnter={this.onCommit}
-              value={name}
-            />
-          </AddressRow>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              icon='cancel'
-              isNegative
-              onClick={this.onDiscard}
-              label={t('Cancel')}
-            />
-            <Button.Or />
-            <Button
-              icon='save'
-              isDisabled={!isValid}
-              isPrimary
-              onClick={this.onCommit}
-              label={t('Save')}
-            />
-          </Button.Group>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
+      if (!isAddressValid) {
+        const old = keyring.getAddress(address);
 
-  private nextState (newState: Partial<State>, allowEdit = false): void {
-    this.setState(
-      (prevState: State): State => {
-        let { address = prevState.address, name = prevState.name, tags = prevState.tags } = newState;
-        let isAddressValid = true;
-        let isAddressExisting = false;
-        let newAddress = address;
+        if (old) {
+          const newName = old.meta.name || name;
 
-        try {
-          newAddress = keyring.encodeAddress(
-            keyring.decodeAddress(address)
-          );
-          isAddressValid = keyring.isAvailable(newAddress);
+          isAddressExisting = true;
+          isAddressValid = true;
 
-          if (!isAddressValid) {
-            const old = keyring.getAddress(newAddress);
-
-            if (old) {
-              if (!allowEdit) {
-                name = old.meta.name || name;
-              }
-
-              isAddressExisting = true;
-              isAddressValid = true;
-            }
-          }
-        } catch (error) {
-          isAddressValid = false;
+          setName({ isNameValid: !!newName, name: newName });
         }
-
-        const isNameValid = !!name;
-
-        return {
-          address: newAddress,
-          isAddressExisting,
-          isAddressValid,
-          isNameValid,
-          isValid: isAddressValid && isNameValid,
-          name,
-          tags
-        };
       }
-    );
-  }
+    } catch (error) {
+      isAddressValid = false;
+    }
 
-  private onChangeAddress = (address: string): void => {
-    this.nextState({ address });
-  }
-
-  private onChangeName = (name: string): void => {
-    this.nextState({ name }, true);
-  }
-
-  private onCommit = (): void => {
-    const { onClose, onStatusChange, t } = this.props;
-    const { address, isAddressExisting, isValid, name, tags } = this.state;
-    const status: Partial<ActionStatus> = { action: 'create' };
+    setAddress({ address: address || input, isAddressExisting, isAddressValid });
+  };
+  const _onChangeName = (name: string): void => setName({ isNameValid: !!name, name });
+  const _onCommit = (): void => {
+    const status = { action: 'create' } as ActionStatus;
 
     if (!isValid) {
       return;
     }
 
     try {
-      keyring.saveAddress(address, { name, genesisHash: keyring.genesisHash, tags });
+      keyring.saveAddress(address, { name, genesisHash: keyring.genesisHash, tags: [] });
 
       status.account = address;
       status.status = address ? 'success' : 'error';
@@ -171,15 +72,62 @@ class Create extends React.PureComponent<Props, State> {
       status.message = error.message;
     }
 
-    onStatusChange(status as ActionStatus);
+    onStatusChange(status);
     onClose();
-  }
+  };
 
-  private onDiscard = (): void => {
-    const { onClose } = this.props;
-
-    onClose();
-  }
+  return (
+    <Modal
+      dimmer='inverted'
+      open
+    >
+      <Modal.Header>{t('Add an address')}</Modal.Header>
+      <Modal.Content>
+        <AddressRow
+          defaultName={name}
+          value={address}
+        >
+          <Input
+            autoFocus
+            className='full'
+            help={t('Paste here the address of the contact you want to add to your address book.')}
+            isError={!isAddressValid}
+            label={t('address')}
+            onChange={_onChangeAddress}
+            onEnter={_onCommit}
+            value={address}
+          />
+          <Input
+            className='full'
+            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
+            isError={!isNameValid}
+            label={t('name')}
+            onChange={_onChangeName}
+            onEnter={_onCommit}
+            value={name}
+          />
+        </AddressRow>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          <Button
+            icon='save'
+            isDisabled={!isValid}
+            isPrimary
+            onClick={_onCommit}
+            label={t('Save')}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
 export default translate(Create);

@@ -124,7 +124,7 @@ class Propose extends TxModal<Props, State> {
     this.setState({ threshold });
   }
 
-  private onChangeExtrinsic = (method: Call): void => {
+  private onChangeExtrinsic = (method?: Call): void => {
     if (!method) {
       return;
     }

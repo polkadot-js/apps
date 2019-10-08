@@ -132,8 +132,9 @@ class Address extends React.PureComponent<Props, State> {
         key={stashId || controllerId || undefined}
         value={stashId || address}
         withBalance={{ bonded }}
+        withValidatorPrefs={{ validatorPayment: true }}
       >
-        {nominators.length && (
+        {nominators.length !== 0 && (
           <details>
             <summary>
               {t('Nominators ({{count}})', {

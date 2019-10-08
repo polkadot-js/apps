@@ -28,15 +28,15 @@ const rootElement = document.getElementById(rootId);
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
 const urlOptions = queryString.parse(location.href.split('?')[1]);
-const wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl;
+const _wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl;
 
-if (Array.isArray(wsEndpoint)) {
+if (Array.isArray(_wsEndpoint)) {
   throw new Error('Invalid WS endpoint specified');
 }
 
-if (!rootElement) {
-  throw new Error(`Unable to find element with id '${rootId}'`);
-}
+// on some combo of browsers/os, this https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
+// turns into ws://127.0.0.1:9944#/explorer (split these)
+const wsEndpoint = _wsEndpoint.split('#')[0];
 
 console.log('WS endpoint=', wsEndpoint);
 
@@ -55,6 +55,10 @@ try {
 const theme = {
   theme: settings.uiTheme
 };
+
+if (!rootElement) {
+  throw new Error(`Unable to find element with id '${rootId}'`);
+}
 
 ReactDOM.render(
   <Suspense fallback='...'>
