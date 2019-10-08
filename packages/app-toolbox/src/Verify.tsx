@@ -11,6 +11,7 @@ import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
+import styled from 'styled-components';
 
 import translate from './translate';
 
@@ -33,6 +34,23 @@ interface State {
   isValid: boolean;
   signature: string;
 }
+
+const AlignedIcon = styled(Icon)`
+  &&&::before {
+    position: relative;
+    left: 0.88rem;
+    top: 1rem; 
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    background: white !important;
+    border-radius: 50%;
+  }
+  
+  &&&.big.icon {
+    font-size: 32px;
+  }
+`;
 
 class Verify extends React.PureComponent<Props, State> {
   public state: State;
@@ -89,15 +107,15 @@ class Verify extends React.PureComponent<Props, State> {
           />
         </div>
         <div className='ui--row'>
+          <div className="ui--AlignedIconContainer" style={{ position: 'absolute', zIndex: 1 }}>
+            <AlignedIcon
+              color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
+              name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
+              size="big"
+            />
+          </div>
           <Input
             className='full'
-            icon={
-              <Icon
-                color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
-                name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
-                size='big'
-              />
-            }
             isError={!isValidSignature}
             help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
             label={t('the supplied signature')}
