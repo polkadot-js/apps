@@ -33,10 +33,9 @@ class Propose extends TxModal<Props, State> {
 
   protected txMethod = (): string => 'democracy.propose';
 
-  protected txParams = (): [BN, Call] => {
+  protected txParams = (): [Call, BN] => {
     const { value, method } = this.state;
-
-    return [value, createType('Proposal', method)];
+    return [createType('Proposal', method), value];
   }
 
   protected isDisabled = (): boolean => {
