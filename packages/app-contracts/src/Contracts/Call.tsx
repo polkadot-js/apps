@@ -17,6 +17,7 @@ import { displayType } from '@polkadot/types';
 
 import translate from '../translate';
 import Params from '../Params';
+import { GAS_LIMIT } from '../constants';
 
 interface Props extends BareProps, I18nProps, ApiProps, RouteComponentProps<{}> {
   address: string | null;
@@ -42,7 +43,7 @@ class Call extends TxComponent<Props, State> {
     address: null,
     accountId: null,
     endowment: new BN(0),
-    gasLimit: new BN(0),
+    gasLimit: new BN(GAS_LIMIT),
     method: null,
     isAddressValid: false,
     isBusy: false,
@@ -108,7 +109,7 @@ class Call extends TxComponent<Props, State> {
 
     const [address, contractAbi, method] = this.getCallProps();
     const isEndowValid = true;
-    const isGasValid = !gasLimit.isZero();
+    const isGasValid = gasLimit.gtn(0);
 
     if (!address || !contractAbi) {
       return null;
@@ -170,10 +171,12 @@ class Call extends TxComponent<Props, State> {
           onChange={this.onChangeEndowment}
         />
         <InputNumber
+          defaultValue={gasLimit}
           help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           isError={!isGasValid}
           label={t('maximum gas allowed')}
           onChange={this.onChangeGas}
+          value={gasLimit}
           onEnter={this.sendTx}
         />
       </div>
@@ -268,7 +271,7 @@ class Call extends TxComponent<Props, State> {
   }
 
   private onChangeGas = (gasLimit: BN | undefined): void => {
-    this.setState({ gasLimit: gasLimit || new BN(0) });
+    this.setState({ gasLimit: gasLimit || new BN(GAS_LIMIT) });
   }
 
   private onChangeMethod = (method: string | null): void => {
