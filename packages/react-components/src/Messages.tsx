@@ -69,14 +69,14 @@ function renderItem (props: Props, { args, docs = [], mutates, name, returnType 
           (
           {args.map(({ name, type }, index): React.ReactNode => {
             return (
-              <>
+              <React.Fragment key={`${name}-args-${index}`}>
                 {name}:
                 {' '}
                 <span className='type'>
                   {displayType(type)}
                 </span>
                 {index < args.length - 1 && ', '}
-              </>
+              </React.Fragment>
             );
           })}
           )
@@ -109,11 +109,11 @@ function renderItem (props: Props, { args, docs = [], mutates, name, returnType 
             {
               docs
                 .filter((line) => line !== '')
-                .map((line) => ((
-                  <>
+                .map((line, index) => ((
+                  <React.Fragment key={`${name}-docs-${index}`}>
                     <span>{line}</span>
                     <br />
-                  </>
+                  </React.Fragment>
                 )))
             }
           </summary>
