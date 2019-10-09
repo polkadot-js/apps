@@ -3,51 +3,71 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
 import { createType } from '@polkadot/types';
-import { Button, Extrinsic, InputAddress, InputBalance, TxButton, TxComponent } from '@polkadot/react-components';
+import { Button, Extrinsic, InputBalance } from '@polkadot/react-components';
+import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { withApi, withMulti } from '@polkadot/react-api';
 
-import translate from './translate';
+import translate from '../translate';
 
-interface Props extends I18nProps, ApiProps, RouteComponentProps {
-  basePath: string;
-}
+interface Props extends TxModalProps, ApiProps {}
 
-interface State {
+interface State extends TxModalState {
   accountId?: string | null;
   method: Call | null;
   value: BN;
   isValid: boolean;
 }
 
-class Propose extends TxComponent<Props, State> {
+class Propose extends TxModal<Props, State> {
   public state: State = {
-    method: null,
-    value: new BN(0),
-    isValid: false
+    ...this.defaultState,
+    value: new BN(0)
   };
 
-  public render (): React.ReactNode {
+  protected headerText = (): string => this.props.t('Submit proposal');
+
+  protected txMethod = (): string => 'democracy.propose';
+
+  protected txParams = (): [Call, BN] => {
+    const { value, method } = this.state;
+    return [createType('Proposal', method), value];
+  }
+
+  protected isDisabled = (): boolean => {
+    const { accountId, value, method } = this.state;
+    const hasValue = !!value && value.gtn(0);
+    const hasMethod = !!method;
+
+    return !accountId || !hasValue || !hasMethod;
+  }
+
+  protected renderTrigger = (): React.ReactNode => {
+    const { t } = this.props;
+
+    return (
+      <Button.Group>
+        <Button
+          isPrimary
+          label={t('Submit proposal')}
+          icon='add'
+          onClick={this.showModal}
+        />
+      </Button.Group>
+    );
+  }
+
+  protected renderContent = (): React.ReactNode => {
     const { apiDefaultTxSudo, t } = this.props;
-    const { isValid, accountId, method, value } = this.state;
+    const { value } = this.state;
     const hasValue = !!value && value.gtn(0);
 
     return (
       <section>
-        <InputAddress
-          className='medium'
-          label={t('account')}
-          help={t('The account used to make the new proposal')}
-          type='account'
-          onChange={this.onChangeAccount}
-        />
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
           label={t('propose')}
@@ -62,28 +82,13 @@ class Propose extends TxComponent<Props, State> {
           onChange={this.onChangeValue}
           onEnter={this.sendTx}
         />
-        <Button.Group>
-          <TxButton
-            accountId={accountId}
-            label={t('Submit Proposal')}
-            icon='sign-in'
-            tx='democracy.propose'
-            isDisabled={!isValid}
-            params={[
-              ...(method ? [createType('Proposal', method)] : []),
-              ...(hasValue ? [value] : [])
-            ]}
-            onSuccess={this.onSubmitProposal}
-            ref={this.button}
-          />
-        </Button.Group>
       </section>
     );
   }
 
   private nextState (newState: Partial<State>): void {
     this.setState(
-      (prevState: State): State => {
+      (prevState: State): Pick<State, never> => {
         const { accountId = prevState.accountId, method = prevState.method, value = prevState.value } = newState;
         const isValid = !!method && !!value && value.gt(new BN(0)) && !!accountId && accountId.length > 0;
 
@@ -97,10 +102,6 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeAccount = (accountId: string | null): void => {
-    this.nextState({ accountId });
-  }
-
   private onChangeExtrinsic = (method?: Call): void => {
     if (!method) {
       return;
@@ -112,16 +113,9 @@ class Propose extends TxComponent<Props, State> {
   private onChangeValue = (value?: BN): void => {
     this.nextState({ value });
   }
-
-  private onSubmitProposal = (): void => {
-    const { history, basePath } = this.props;
-
-    history.push(basePath);
-  }
 }
 
 export default withMulti(
-  withRouter(Propose),
-  translate,
-  withApi
+  withApi(Propose),
+  translate
 );

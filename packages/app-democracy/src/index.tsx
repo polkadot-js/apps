@@ -11,7 +11,6 @@ import uiSettings from '@polkadot/ui-settings';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
-import Propose from './Propose';
 import translate from './translate';
 
 interface Props extends AppProps, BareProps, I18nProps {}
@@ -33,19 +32,11 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
               isRoot: true,
               name: 'overview',
               text: t('Democracy overview')
-            },
-            {
-              name: 'propose',
-              text: t('Submit proposal')
             }
           ]}
         />
       </header>
       <Switch>
-        <Route
-          path={`${basePath}/propose`}
-          render={(): React.ReactNode => <Propose basePath={basePath} />}
-        />
         <Route component={Overview} />
       </Switch>
     </main>
