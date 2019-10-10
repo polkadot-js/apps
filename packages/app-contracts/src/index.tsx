@@ -28,6 +28,7 @@ interface Props extends AppProps, I18nProps, RouteComponentProps {
 
 interface State {
   codeHash?: string;
+  constructorIndex: number;
   hasContracts: boolean;
   isDeployOpen: boolean;
   updated: number;
@@ -35,6 +36,7 @@ interface State {
 
 class App extends React.PureComponent<Props, State> {
   public state: State = {
+    constructorIndex: 0,
     hasContracts: false,
     isDeployOpen: false,
     updated: 0
@@ -62,7 +64,7 @@ class App extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { basePath, t } = this.props;
-    const { codeHash, isDeployOpen } = this.state;
+    const { codeHash, constructorIndex, isDeployOpen } = this.state;
     const hidden: string[] = [];
 
     return (
@@ -93,6 +95,7 @@ class App extends React.PureComponent<Props, State> {
         <Deploy
           basePath={basePath}
           codeHash={codeHash}
+          constructorIndex={constructorIndex}
           isOpen={isDeployOpen}
           onClose={this.hideDeploy}
         />
@@ -103,6 +106,7 @@ class App extends React.PureComponent<Props, State> {
   private renderComponent (Component: React.ComponentType<ComponentProps>): () => React.ReactNode {
     return (): React.ReactNode => {
       const { accounts, basePath, contracts, onStatusChange } = this.props;
+      const { updated } = this.state;
 
       if (!contracts) {
         return null;
@@ -116,15 +120,17 @@ class App extends React.PureComponent<Props, State> {
           hasCode={store.hasCode}
           onStatusChange={onStatusChange}
           showDeploy={this.showDeploy}
+          updated={updated}
         />
       );
     };
   }
 
-  private showDeploy = (codeHash?: string): () => void =>
+  private showDeploy = (codeHash?: string, constructorIndex = 0): () => void =>
     (): void => {
       this.setState({
         codeHash: codeHash || undefined,
+        constructorIndex,
         isDeployOpen: true
       });
     }

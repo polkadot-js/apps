@@ -9,6 +9,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Button, CardGrid } from '@polkadot/react-components';
+import { stringCamelCase } from '@polkadot/util';
 
 import translate from '../translate';
 import Add from './Add';
@@ -104,7 +105,7 @@ class Contracts extends React.PureComponent<Props, State> {
     this.setState({
       isCallOpen: true,
       callAddress: callAddress || null,
-      callMethod: callMethod || null
+      callMethod: callMethod ? stringCamelCase(callMethod) : null
     });
   }
 

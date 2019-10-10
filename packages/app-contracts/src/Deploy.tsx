@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { TypeDef } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
@@ -16,22 +15,25 @@ import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
-import { getTypeDef } from '@polkadot/types';
 import createValues from '@polkadot/react-params/values';
+import { displayType } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';
 import translate from './translate';
+import { GAS_LIMIT, ENDOWMENT } from './constants';
 
 type ConstructOptions = { key: string; text: string; value: string }[];
 
 interface Props extends ContractModalProps, ApiProps, I18nProps, RouteComponentProps {
   codeHash?: string;
+  constructorIndex?: number;
 }
 
 interface State extends ContractModalState {
   codeHash?: string;
+  constructorIndex: number;
   constructOptions: ConstructOptions;
   endowment: BN;
   isHashValid: boolean;
@@ -48,8 +50,10 @@ class Deploy extends ContractModal<Props, State> {
 
     this.defaultState = {
       ...this.defaultState,
+      constructorIndex: -1,
       constructOptions: [],
-      endowment: new BN(0),
+      endowment: new BN(ENDOWMENT),
+      gasLimit: new BN(GAS_LIMIT),
       isHashValid: false,
       params: [],
       ...Deploy.getCodeState(props.codeHash)
@@ -59,44 +63,35 @@ class Deploy extends ContractModal<Props, State> {
 
   public static getDerivedStateFromProps (props: Props, state: State): Pick<State, never> {
     if (props.codeHash && (!state.codeHash || state.codeHash !== props.codeHash)) {
-      return Deploy.getCodeState(props.codeHash);
+      return Deploy.getCodeState(props.codeHash, Math.max(props.constructorIndex || 0));
     }
+
     return {};
   }
 
-  private static getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null): Partial<State> => {
+  private static getContractAbiState = (abi: string | null | undefined, contractAbi: Abi | null = null, constructorIndex = 0): Partial<State> => {
     if (contractAbi) {
-      const args = contractAbi.deploy.args.map(({ name, type }): string => `${name}: ${type}`);
-      const text = `deploy(${args.join(', ')})`;
-
       return {
         abi,
-        constructOptions: [{
-          key: 'deploy',
-          text,
-          value: 'deploy'
-        }],
+        constructorIndex,
         contractAbi,
         isAbiValid: !!contractAbi,
-        params: createValues(
-          contractAbi.deploy.args.map(({ name, type }): { type: TypeDef } => ({
-            type: getTypeDef(type, name)
-          }))
-        )
+        ...Deploy.getConstructorState(contractAbi, Math.max(constructorIndex, 0))
       };
     } else {
       return {
+        constructorIndex: -1,
         constructOptions: [] as ConstructOptions,
         abi: null,
         contractAbi: null,
         isAbiSupplied: false,
         isAbiValid: false,
-        params: [] as unknown[]
+        ...Deploy.getConstructorState()
       };
     }
   }
 
-  private static getCodeState = (codeHash: string | null = null): Pick<State, never> => {
+  private static getCodeState = (codeHash: string | null = null, constructorIndex = 0): Pick<State, never> => {
     if (codeHash) {
       const code = store.getCode(codeHash);
 
@@ -109,7 +104,7 @@ class Deploy extends ContractModal<Props, State> {
           name: `${json.name} (instance)`,
           isHashValid: true,
           isNameValid: true,
-          ...Deploy.getContractAbiState(json.abi, contractAbi)
+          ...Deploy.getContractAbiState(json.abi, contractAbi, Math.max(constructorIndex, 0))
         };
       }
     }
@@ -117,9 +112,40 @@ class Deploy extends ContractModal<Props, State> {
     return {};
   }
 
+  private static getConstructorState = (contractAbi: Abi | null = null, ci = 0): Pick<State, never> => {
+    const constructorIndex = Math.max(ci, 0);
+    if (!contractAbi || constructorIndex < 0 || constructorIndex >= contractAbi.constructors.length) {
+      return {
+        constructorIndex: -1,
+        constructOptions: [],
+        params: []
+      };
+    }
+
+    const { abi: { contract: { constructors } } } = contractAbi;
+    const constructor = constructors[constructorIndex];
+    const constructOptions: ConstructOptions = constructors.map(
+      (constr) => {
+        const { name, args } = constr;
+        const textArgs = args.map(({ name, type }): string => `${name}: ${displayType(type)}`);
+
+        return {
+          key: `${constructorIndex}`,
+          text: `${name}(${textArgs.join(', ')})`,
+          value: `${constructorIndex}`
+        };
+      });
+
+    return {
+      constructorIndex,
+      constructOptions,
+      params: createValues(constructor.args)
+    };
+  }
+
   protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
-    const { codeHash, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
+    const { codeHash, constructorIndex, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
     const isEndowValid = !endowment.isZero();
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }): { text: string; value: string } => ({
@@ -154,13 +180,14 @@ class Deploy extends ContractModal<Props, State> {
           contractAbi
             ? (
               <Dropdown
-                defaultValue='deploy'
+                defaultValue={`${constructorIndex}`}
                 help={t('The deployment constructor information for this contract, as provided by the ABI.')}
-                isDisabled
+                isDisabled={contractAbi.abi.contract.constructors.length <= 1}
                 label={t('constructor')}
+                onChange={this.onChangeConstructorIndex}
                 options={constructOptions}
                 style={{ fontFamily: 'monospace' }}
-                value='deploy'
+                value={`${constructorIndex}`}
               />
             )
             : null
@@ -170,8 +197,8 @@ class Deploy extends ContractModal<Props, State> {
           onChange={this.onChangeParams}
           onEnter={this.sendTx}
           params={
-            contractAbi
-              ? contractAbi.deploy.args
+            contractAbi && constructorIndex >= 0
+              ? contractAbi.abi.contract.constructors[constructorIndex].args
               : []
           }
         />
@@ -224,13 +251,13 @@ class Deploy extends ContractModal<Props, State> {
   }
 
   private constructCall = (): any[] => {
-    const { codeHash, contractAbi, endowment, gasLimit, params } = this.state;
+    const { codeHash, constructorIndex, contractAbi, endowment, gasLimit, params } = this.state;
 
-    if (!contractAbi) {
+    if (!contractAbi || constructorIndex < 0) {
       return [];
     }
 
-    return [endowment, gasLimit, codeHash, contractAbi.deploy(...params)];
+    return [endowment, gasLimit, codeHash, contractAbi.constructors[constructorIndex](...params)];
   }
 
   protected onAddAbi = (abi: string | null | undefined, contractAbi?: Abi | null): void => {
@@ -244,6 +271,15 @@ class Deploy extends ContractModal<Props, State> {
       Deploy.getCodeState(codeHash)
     );
   }
+
+  private onChangeConstructorIndex = (constructorIndexString: string): void => {
+    const { contractAbi } = this.state;
+    const constructorIndex = Math.max(0, parseInt(constructorIndexString, 10) || 0);
+
+    this.setState(
+      Deploy.getConstructorState(contractAbi, constructorIndex)
+    );
+  };
 
   private onChangeEndowment = (endowment?: BN | null): void => {
     this.setState({ endowment: endowment || new BN(0) });

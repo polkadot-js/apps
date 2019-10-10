@@ -6,6 +6,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
@@ -26,6 +27,13 @@ interface State {
   isPasswordOpen: boolean;
 }
 
+const ContractCard = styled(Card)`
+  && {
+    min-width: 100%;
+    max-width: 100%;
+  }
+`;
+
 class Contract extends React.PureComponent<Props, State> {
   public state: State = {
     isBackupOpen: false,
@@ -34,7 +42,7 @@ class Contract extends React.PureComponent<Props, State> {
   };
 
   public render (): React.ReactNode {
-    const { address, onCall } = this.props;
+    const { address, onCall, t } = this.props;
 
     const contractAbi = getContractAbi(address);
 
@@ -43,7 +51,7 @@ class Contract extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Card>
+      <ContractCard>
         {this.renderModals()}
         <AddressRow
           buttons={this.renderButtons()}
@@ -55,14 +63,17 @@ class Contract extends React.PureComponent<Props, State> {
           withNonce={false}
           withTags
         >
-          <Messages
-            address={address}
-            contractAbi={contractAbi}
-            isRemovable={false}
-            onSelect={onCall}
-          />
+          <details>
+            <summary>{t('Messages')}</summary>
+            <Messages
+              address={address}
+              contractAbi={contractAbi}
+              isRemovable={false}
+              onSelect={onCall}
+            />
+          </details>
         </AddressRow>
-      </Card>
+      </ContractCard>
     );
   }
 
