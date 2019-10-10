@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['ui-params']);
+export default withTranslation(['react-params']);

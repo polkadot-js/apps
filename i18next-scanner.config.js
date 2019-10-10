@@ -10,7 +10,7 @@ module.exports = {
     '!packages/*/src/i18n/**',
     '!**/node_modules/**'
   ],
-  output: './',
+  output: './packages/apps/public/',
   options: {
     debug: true,
     func: {
@@ -22,7 +22,7 @@ module.exports = {
     },
     lngs: ['en'],
     ns: [
-      // 'app-123code',
+      'app-123code',
       'app-accounts',
       'app-address-book',
       'app-claims',
@@ -44,13 +44,20 @@ module.exports = {
       'app-treasury',
       'apps',
       'apps-routing',
-      // 'react-api',
+      'react-api',
       'react-components',
       'react-params',
       'react-query',
-      'react-signer'
+      'react-signer',
+      'ui'
     ],
-    defaultNs: 'apps',
+    defaultNS: 'ui',
+    resource: {
+      loadPath: 'locales/{{lng}}/{{ns}}.json',
+      savePath: 'locales/{{lng}}/{{ns}}.json',
+      jsonIndent: 2,
+      lineEnding: '\n'
+    },
     nsSeparator: false, // namespace separator
     keySeparator: false // key separator
   },
