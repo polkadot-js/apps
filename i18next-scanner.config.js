@@ -8,7 +8,7 @@ module.exports = {
     // Use ! to filter out files or directories
     '!packages/*/src/**/*.spec.{ts,tsx}',
     '!packages/*/src/i18n/**',
-    '!**/node_modules/**',
+    '!**/node_modules/**'
   ],
   output: './',
   options: {
@@ -18,7 +18,7 @@ module.exports = {
       extensions: ['.tsx']
     },
     trans: {
-      component: 'Trans',
+      component: 'Trans'
     },
     lngs: ['en'],
     ns: [
@@ -48,17 +48,17 @@ module.exports = {
       'react-components',
       'react-params',
       'react-query',
-      'react-signer',
+      'react-signer'
     ],
     defaultNs: 'apps',
     nsSeparator: false, // namespace separator
-    keySeparator: false, // key separator
+    keySeparator: false // key separator
   },
-  transform: function transform(file, enc, done) {
+  transform: function transform (file, enc, done) {
     const { ext } = path.parse(file.path);
 
     const namespaceHandler = (key, options) => {
-      options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1]
+      options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1];
       this.parser.set(key, options);
     };
 
@@ -67,12 +67,12 @@ module.exports = {
 
       const { outputText } = typescript.transpileModule(content, {
         compilerOptions: {
-          target: 'es2018',
+          target: 'es2018'
         },
-        fileName: path.basename(file.path),
+        fileName: path.basename(file.path)
       });
 
-      this.parser.parseFuncFromString(outputText, namespaceHandler)
+      this.parser.parseFuncFromString(outputText, namespaceHandler);
     }
 
     done();
