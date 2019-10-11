@@ -85,6 +85,9 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         return 'Struct';
 
       case TypeDefInfo.Tuple:
+        if (components[type] === Account) {
+          return type;
+        }
         return 'Tuple';
 
       case TypeDefInfo.Vec:

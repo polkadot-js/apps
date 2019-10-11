@@ -115,6 +115,10 @@ const Wrapper = styled.div`
         padding-left: 1.45rem;
         padding-top: 2rem;
       }
+
+      .ui--Messages {
+        padding-bottom: 2rem;
+      }
     }
   }
 `;

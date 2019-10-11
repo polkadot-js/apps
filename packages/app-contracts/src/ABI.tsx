@@ -15,6 +15,7 @@ import translate from './translate';
 interface Props extends I18nProps {
   className?: string;
   contractAbi?: Abi | null;
+  errorText?: string | null;
   help?: React.ReactNode;
   isError?: boolean;
   isDisabled?: boolean;
@@ -24,10 +25,12 @@ interface Props extends I18nProps {
   onRemove?: () => void;
   onRemoved?: () => void;
   onSelect?: () => void;
+  onSelectConstructor?: (constructorIndex?: number) => void;
 }
 
 interface State {
   contractAbi: Abi | null;
+  errorText: string | null;
   isAbiValid: boolean;
   isEmpty: boolean;
   isError: boolean;
@@ -36,6 +39,7 @@ interface State {
 class ABI extends React.PureComponent<Props, State> {
   public state: State = {
     contractAbi: null,
+    errorText: null,
     isAbiValid: false,
     isEmpty: true,
     isError: false
@@ -49,6 +53,7 @@ class ABI extends React.PureComponent<Props, State> {
 
     this.state = {
       contractAbi: contractAbi || null,
+      errorText: null,
       isAbiValid,
       isEmpty: !isAbiValid,
       isError: isError || (isRequired && !isAbiValid) || false
@@ -83,7 +88,7 @@ class ABI extends React.PureComponent<Props, State> {
 
   private renderInputFile (): React.ReactNode {
     const { className, help, isDisabled, isRequired, label, t } = this.props;
-    const { isAbiValid, isEmpty, isError } = this.state;
+    const { isAbiValid, isEmpty, isError, errorText } = this.state;
 
     return (
       <div className={className}>
@@ -95,7 +100,17 @@ class ABI extends React.PureComponent<Props, State> {
           onChange={this.onChange}
           placeholder={
             !isEmpty && !isAbiValid
-              ? t('invalid ABI file selected')
+              ? (
+                <>
+                  {t('invalid ABI file selected')}
+                  {!!errorText && (
+                    <>
+                      {' — '}
+                      {t(errorText)}
+                    </>
+                  )}
+                </>
+              )
               : t('click to select or drag and drop a JSON ABI file')
           }
         />
@@ -104,7 +119,7 @@ class ABI extends React.PureComponent<Props, State> {
   }
 
   private renderMessages (): React.ReactNode {
-    const { help, isDisabled, label, onRemove } = this.props;
+    const { help, isDisabled, label, onRemove, onSelectConstructor } = this.props;
     const { contractAbi } = this.state;
 
     if (!contractAbi) {
@@ -122,17 +137,24 @@ class ABI extends React.PureComponent<Props, State> {
           onRemove={onRemove || this.onRemove}
           isLabelled={!!label}
           isRemovable={!isDisabled}
+          onSelectConstructor={onSelectConstructor}
+          withConstructors
         />
       </Labelled>
     );
   }
 
   private onChange = (u8a: Uint8Array): void => {
-    const { onChange } = this.props;
+    const { onChange, t } = this.props;
     const json = u8aToString(u8a);
-
     try {
-      const contractAbi = new Abi(JSON.parse(json));
+      const abi = JSON.parse(json);
+
+      if (abi.deploy || abi.messages) {
+        throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
+      }
+
+      const contractAbi = new Abi(abi);
 
       this.setState({
         contractAbi,
@@ -146,7 +168,8 @@ class ABI extends React.PureComponent<Props, State> {
       this.setState({
         isAbiValid: false,
         isEmpty: false,
-        isError: true
+        isError: true,
+        errorText: error
       }, (): void => onChange(null, null));
     }
   }

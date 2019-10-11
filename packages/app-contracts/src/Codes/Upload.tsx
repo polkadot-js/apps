@@ -15,6 +15,7 @@ import { compactAddLength } from '@polkadot/util';
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
 import store from '../store';
 import translate from '../translate';
+import { GAS_LIMIT } from '../constants';
 
 interface Props extends ContractModalProps, ApiProps {}
 
@@ -30,6 +31,7 @@ class Upload extends ContractModal<Props, State> {
 
     this.defaultState = {
       ...this.defaultState,
+      gasLimit: new BN(GAS_LIMIT),
       isWasmValid: false,
       wasm: null
     };

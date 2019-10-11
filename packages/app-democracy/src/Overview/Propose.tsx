@@ -35,7 +35,8 @@ class Propose extends TxModal<Props, State> {
 
   protected txParams = (): [Call, BN] => {
     const { value, method } = this.state;
-    return [createType('Proposal', method), value];
+
+    return [createType('Proposal', method || undefined), value];
   }
 
   protected isDisabled = (): boolean => {
@@ -104,7 +105,7 @@ class Propose extends TxModal<Props, State> {
 
   private onChangeExtrinsic = (method?: Call): void => {
     if (!method) {
-      return;
+      return this.nextState({ method: null });
     }
 
     this.nextState({ method });

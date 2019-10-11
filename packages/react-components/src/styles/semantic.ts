@@ -59,7 +59,7 @@ export default css`
       opacity: 1;
 
       input {
-        background: #fefefe;
+        background: transparent;
         border-color: #eee;
         border-style: dashed;
       }

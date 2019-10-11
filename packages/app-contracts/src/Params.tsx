@@ -8,7 +8,6 @@ import { RawParams } from '@polkadot/react-params/types';
 
 import React, { useEffect, useState } from 'react';
 import UIParams from '@polkadot/react-params';
-import { getTypeDef } from '@polkadot/types';
 
 interface Props {
   isDisabled?: boolean;
@@ -27,12 +26,7 @@ export default function Params ({ isDisabled, onChange, onEnter, params: propPar
 
   useEffect((): void => {
     if (propParams) {
-      setParams(
-        propParams.map(({ name, type }): ParamDef => ({
-          name,
-          type: getTypeDef(type, name)
-        }))
-      );
+      setParams(propParams);
     }
   }, [propParams]);
 

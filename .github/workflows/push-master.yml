@@ -1,0 +1,30 @@
+name: Master
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  merge:
+    name: Merge
+    if: "! contains(github.event.head_commit.message, '[CI Skip]')"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: build
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        GH_PAT: ${{ secrets.GH_PAT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        yarn install --frozen-lockfile
+        yarn polkadot-dev-ghact-build
+        yarn polkadot-dev-ghact-deploy

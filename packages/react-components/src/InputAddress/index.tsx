@@ -47,7 +47,7 @@ type ExportedType = React.ComponentType<Props> & {
 };
 
 interface State {
-  value?: string;
+  value?: string | string[];
 }
 
 const STORAGE_KEY = 'options:InputAddress';
@@ -187,8 +187,8 @@ class InputAddress extends React.PureComponent<Props, State> {
         }
         style={style}
         value={
-          isMultiple
-            ? undefined
+          isMultiple && !value
+            ? []
             : value
         }
         withEllipsis={withEllipsis}
