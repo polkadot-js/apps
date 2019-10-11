@@ -19,12 +19,23 @@ interface Props extends I18nProps {
   stashOptions: KeyringSectionOption[];
 }
 
+// We only allow a maximum of 16 nominees, negative to slice
+const MAX_NOMINEES = -16;
+
 function Nominate ({ controllerId, isOpen, onClose, stashId, stashOptions, t }: Props): React.ReactElement<Props> | null {
-  const [nominees, setNominees] = useState<string[] | undefined>();
+  const [nominees, setNominees] = useState<string[]>([]);
 
   if (!isOpen) {
     return null;
   }
+
+  const _onChangeNominees = (_nominees: string[]): void => {
+    const newNominees = _nominees.slice(MAX_NOMINEES);
+
+    if (JSON.stringify(newNominees) !== JSON.stringify(nominees)) {
+      setNominees(newNominees);
+    }
+  };
 
   return (
     <Modal
@@ -51,14 +62,15 @@ function Nominate ({ controllerId, isOpen, onClose, stashId, stashOptions, t }: 
         />
         <InputAddress
           className='medium'
+          help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators. Only 16 nominees will be taken into account.')}
           isInput={false}
           isMultiple
-          help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
           label={t('nominate the following addresses')}
-          onChangeMulti={setNominees}
+          onChangeMulti={_onChangeNominees}
           options={stashOptions}
           placeholder={t('select accounts(s) nominate')}
           type='account'
+          value={nominees}
         />
       </Modal.Content>
       <Modal.Actions>
@@ -72,7 +84,7 @@ function Nominate ({ controllerId, isOpen, onClose, stashId, stashOptions, t }: 
           <Button.Or />
           <TxButton
             accountId={controllerId}
-            isDisabled={!nominees || nominees.length === 0}
+            isDisabled={nominees.length === 0}
             isPrimary
             onClick={onClose}
             params={[nominees]}
