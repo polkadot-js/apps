@@ -37,7 +37,7 @@ function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<P
           isInline
         >
           <p>{t('You are about to remove this code\'s ABI. Once completed, should you need to access it again, you will have to manually re-upload it.')}</p>
-          <p>{t('This operaion does not impact the associated on-chain code or any of its contracts.')}</p>
+          <p>{t('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
         </CodeRow>
       </Modal.Content>
       <Modal.Actions>
