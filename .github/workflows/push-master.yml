@@ -26,5 +26,5 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn install --frozen-lockfile
-        ./packages/dev/scripts/polkadot-dev-ghact-build.sh
-        ./packages/dev/scripts/polkadot-dev-ghact-deploy.sh
+        yarn polkadot-dev-ghact-build
+        yarn polkadot-dev-ghact-deploy
