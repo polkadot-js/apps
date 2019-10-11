@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['react-signer', 'ui']);
+export default withTranslation(['react-signer']);

@@ -10,7 +10,7 @@ module.exports = {
     '!packages/*/src/i18n/**',
     '!**/node_modules/**'
   ],
-  output: './packages/apps/public/',
+  output: './',
   options: {
     debug: true,
     func: {
@@ -21,6 +21,7 @@ module.exports = {
       component: 'Trans'
     },
     lngs: ['en'],
+    defaultLng: 'en',
     ns: [
       'app-123code',
       'app-accounts',
@@ -51,10 +52,10 @@ module.exports = {
       'react-signer',
       'ui'
     ],
-    defaultNS: 'ui',
+    defaultNs: 'ui',
     resource: {
-      loadPath: 'locales/{{lng}}/{{ns}}.json',
-      savePath: 'locales/{{lng}}/{{ns}}.json',
+      loadPath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
+      savePath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
       jsonIndent: 2,
       lineEnding: '\n'
     },
@@ -63,11 +64,6 @@ module.exports = {
   },
   transform: function transform (file, enc, done) {
     const { ext } = path.parse(file.path);
-
-    const namespaceHandler = (key, options) => {
-      options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1];
-      this.parser.set(key, options);
-    };
 
     if (ext === '.tsx') {
       const content = fs.readFileSync(file.path, enc);
@@ -79,7 +75,13 @@ module.exports = {
         fileName: path.basename(file.path)
       });
 
-      this.parser.parseFuncFromString(outputText, namespaceHandler);
+      const parserHandler = (key, options) => {
+        options.defaultValue = key;
+        options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1];
+        this.parser.set(key, options);
+      };
+
+      this.parser.parseFuncFromString(outputText, parserHandler);
     }
 
     done();

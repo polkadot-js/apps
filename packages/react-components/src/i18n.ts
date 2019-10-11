@@ -49,9 +49,10 @@ i18n
       'react-components',
       'react-params',
       'react-query',
-      'react-signer',
-      'ui'
+      'react-signer'
     ],
+    keySeparator: false,
+    nsSeparator: false,
     react: {
       wait: true
     }

@@ -27,7 +27,7 @@ const unknown = {
   name: ''
 };
 
-function Content ({ isApiConnected, isApiReady, className, location, t }: Props): React.ReactElement<Props> {
+function Content ({ isApiConnected, isApiReady, className, location, t, i18n }: Props): React.ReactElement<Props> {
   const app = location.pathname.slice(1) || '';
   const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
     !!(route && app.startsWith(route.name))
