@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['contracts', 'ui']);
+export default withTranslation(['app-contracts']);

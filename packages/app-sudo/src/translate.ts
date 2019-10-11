@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['sudo', 'ui']);
+export default withTranslation(['app-sudo']);

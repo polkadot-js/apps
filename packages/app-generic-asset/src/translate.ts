@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['generic-asset', 'ui']);
+export default withTranslation(['app-generic-asset']);

@@ -4,17 +4,17 @@
 
 import i18n from 'i18next';
 // import LanguageDetector from 'i18next-browser-languagedetector';
-// import Backend from 'i18next-xhr-backend';
+import Backend from 'i18next-xhr-backend';
 import { initReactI18next } from 'react-i18next';
 
 i18n
-  // .use(Backend)
+  .use(Backend)
   // .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    // backend: {
-    //   loadPath: 'locales/{{lng}}/{{ns}}.json'
-    // },
+    backend: {
+      loadPath: 'locales/{{lng}}/{{ns}}.json'
+    },
     debug: false,
     defaultNS: 'ui',
     fallbackLng: false,
@@ -22,7 +22,37 @@ i18n
       escapeValue: false
     },
     lng: 'en',
-    ns: ['ui'],
+    ns: [
+      'app-123code',
+      'app-accounts',
+      'app-address-book',
+      'app-claims',
+      'app-contracts',
+      'app-council',
+      'app-dashboard',
+      'app-democracy',
+      'app-explorer',
+      'app-extrinsics',
+      'app-generic-asset',
+      'app-js',
+      'app-parachains',
+      'app-settings',
+      'app-staking',
+      'app-storage',
+      'app-sudo',
+      'app-toolbox',
+      'app-transfer',
+      'app-treasury',
+      'apps',
+      'apps-routing',
+      'react-api',
+      'react-components',
+      'react-params',
+      'react-query',
+      'react-signer'
+    ],
+    keySeparator: false,
+    nsSeparator: false,
     react: {
       wait: true
     }

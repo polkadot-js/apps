@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['vanitygen', 'ui']);
+export default withTranslation(['app-accounts']);

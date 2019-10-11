@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['staking', 'ui']);
+export default withTranslation(['app-staking']);

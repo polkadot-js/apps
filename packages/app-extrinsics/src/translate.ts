@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['extrinsics', 'ui']);
+export default withTranslation(['app-extrinsics']);

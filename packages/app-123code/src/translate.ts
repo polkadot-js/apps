@@ -4,4 +4,4 @@
 
 import { withTranslation } from 'react-i18next';
 
-export default withTranslation(['123code', 'ui']);
+export default withTranslation(['app-123code']);
