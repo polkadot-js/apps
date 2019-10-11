@@ -51,6 +51,7 @@ function Nominate ({ controllerId, isOpen, onClose, stashId, stashOptions, t }: 
         />
         <InputAddress
           className='medium'
+          isInput={false}
           isMultiple
           help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators')}
           label={t('nominate the following addresses')}
