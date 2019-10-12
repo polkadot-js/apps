@@ -44,7 +44,7 @@
   "The Threshold must lower than 11": "The Threshold must lower than 11",
   "Nominate Validators": "Nominate Validators",
   "controller account": "controller account",
-  "Stash accounts that are to be nominated. Block rewards are split between validators and nominators": "Stash accounts that are to be nominated. Block rewards are split between validators and nominators",
+  "Stash accounts that are to be nominated. Block rewards are split between validators and nominators. Only 16 nominees will be taken into account.": "Stash accounts that are to be nominated. Block rewards are split between validators and nominators. Only 16 nominees will be taken into account.",
   "nominate the following addresses": "nominate the following addresses",
   "select accounts(s) nominate": "select accounts(s) nominate",
   "Warning - Changing the controller while validating will modify the associated session account. It is advised to stop validating before changing the controller account.": "Warning - Changing the controller while validating will modify the associated session account. It is advised to stop validating before changing the controller account.",

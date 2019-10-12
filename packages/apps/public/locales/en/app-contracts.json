@@ -1,10 +1,12 @@
 {
+  "You are using an ABI with an outdated format. Please generate a new one.": "You are using an ABI with an outdated format. Please generate a new one.",
   "invalid ABI file selected": "invalid ABI file selected",
   "click to select or drag and drop a JSON ABI file": "click to select or drag and drop a JSON ABI file",
   "The code hash for the on-chain deployed code.": "The code hash for the on-chain deployed code.",
   "code hash": "code hash",
   "Save": "Save",
   "Add an existing code hash": "Add an existing code hash",
+  "ABI": "ABI",
   "Forget this code hash": "Forget this code hash",
   "deploy": "deploy",
   "Deploy this code hash as a smart contract": "Deploy this code hash as a smart contract",
@@ -33,6 +35,7 @@
   "Cancel": "Cancel",
   "Call": "Call",
   "address forgotten": "address forgotten",
+  "Messages": "Messages",
   "Forget this contract": "Forget this contract",
   "execute": "execute",
   "Call a method on this contract": "Call a method on this contract",
@@ -50,6 +53,6 @@
   "deployment account": "deployment account",
   "Confirm ABI removal": "Confirm ABI removal",
   "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.": "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.",
-  "This operaion does not impact the associated on-chain code or any of its contracts.": "This operaion does not impact the associated on-chain code or any of its contracts.",
+  "This operation does not impact the associated on-chain code or any of its contracts.": "This operation does not impact the associated on-chain code or any of its contracts.",
   "Remove": "Remove"
 }
