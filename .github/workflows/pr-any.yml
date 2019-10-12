@@ -51,7 +51,7 @@ jobs:
     - name: build
       run: |
         yarn install --frozen-lockfile
-        yarn build:split:code
+        yarn build:code
 
   build_i18n:
     name: Build i18n
@@ -68,4 +68,4 @@ jobs:
     - name: build
       run: |
         yarn install --frozen-lockfile
-        yarn build:split:i18n
+        yarn build:i18n
