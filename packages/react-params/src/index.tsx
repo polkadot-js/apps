@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { classes } from '@polkadot/react-components/util';
 
-import Param from './Param';
+import ParamComp from './ParamComp';
 import translate from './translate';
 import { createValue } from './values';
 
@@ -28,22 +28,32 @@ function Params ({ className, isDisabled, onChange, onEnter, overrides, params, 
   const [values, setValues] = useState<RawParams>([]);
 
   useEffect((): void => {
-    setValues(
-      params.map((param, index): RawParam =>
-        propValues && propValues[index]
-          ? propValues[index]
-          : createValue(param)
-      )
-    );
+    setValues(params.map((param, index): RawParam =>
+      propValues && propValues[index]
+        ? propValues[index]
+        : createValue(param)
+    ));
   }, [params, propValues]);
 
   useEffect((): void => {
     onChange && onChange(values);
   }, [values]);
 
-  if (!params || params.length === 0) {
+  if (values.length === 0) {
     return null;
   }
+
+  const _onChange = (index: number, { isValid = false, value }: RawParamOnChangeValue): void => {
+    const newValue = { isValid, value };
+
+    if (JSON.stringify(values[index]) !== JSON.stringify(newValue)) {
+      setValues(values.map((prev, prevIndex): RawParam =>
+        index !== prevIndex
+          ? prev
+          : newValue
+      ));
+    }
+  };
 
   return (
     <div
@@ -51,46 +61,19 @@ function Params ({ className, isDisabled, onChange, onEnter, overrides, params, 
       style={style}
     >
       <div className='ui--Params-Content'>
-        {params.map(({ name, type }: ParamDef, index: number): React.ReactNode => {
-          if (!values || values.length === 0) {
-            return null;
-          }
-
-          const key = `${name}:${type}:${index}`;
-          const _onChange = ({ isValid = false, value }: RawParamOnChangeValue): void => {
-            const newValue = { isValid, value };
-
-            if (JSON.stringify(values[index]) !== JSON.stringify(newValue)) {
-              setValues(values.map((prev, prevIndex): RawParam =>
-                index !== prevIndex
-                  ? prev
-                  : newValue
-              ));
-            }
-          };
-
-          return (
-            <div
-              className='ui--Param-composite'
-              key={key}
-            >
-              <Param
-                defaultValue={values[index]}
-                isDisabled={isDisabled}
-                key={`param:${key}`}
-                name={name}
-                onChange={
-                  isDisabled
-                    ? undefined
-                    : _onChange
-                }
-                onEnter={onEnter}
-                overrides={overrides}
-                type={type}
-              />
-            </div>
-          );
-        })}
+        {params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
+          <ParamComp
+            defaultValue={values[index]}
+            index={index}
+            isDisabled={isDisabled}
+            key={`${name}:${type}:${index}`}
+            name={name}
+            onChange={_onChange}
+            onEnter={onEnter}
+            overrides={overrides}
+            type={type}
+          />
+        ))}
       </div>
     </div>
   );

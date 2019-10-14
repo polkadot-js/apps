@@ -19,6 +19,7 @@ interface Param {
 
 export default function StructParam (props: Props): React.ReactElement<Props> {
   const [{ defs, params }, setParams] = useState<{ defs: TypeDef[]; params: Param[] }>({ defs: [], params: [] });
+  const [prev, setPrev] = useState('');
   const { className, isDisabled, label, onChange, style, type, withLabel } = props;
 
   useEffect((): void => {
@@ -33,15 +34,22 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
     return <Static {...props} />;
   }
 
-  const _onChangeParams = (values: RawParam[]): void =>
-    onChange && onChange({
+  const _onChangeParams = (values: RawParam[]): void => {
+    const newValue = {
       isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
       value: defs.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
         value[name as string] = values[index] && values[index].value;
 
         return value;
       }, {})
-    });
+    };
+    const newJson = JSON.stringify(newValue);
+
+    if (newJson !== prev) {
+      setPrev(newJson);
+      onChange && onChange(newValue);
+    }
+  };
 
   return (
     <div className='ui--Params-Struct'>
