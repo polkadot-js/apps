@@ -7,7 +7,7 @@ import { BareProps, I18nProps } from './types';
 import React, { useContext } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import QueueContext from './Status/Context';
+import StatusContext from './Status/Context';
 import Button from './Button';
 import translate from './translate';
 import styled from 'styled-components';
@@ -20,7 +20,7 @@ interface Props extends BareProps, I18nProps {
 }
 
 function CopyButton ({ children, className, icon = 'copy', isAddress = false, t, value }: Props): React.ReactElement<Props> {
-  const { queueAction } = useContext(QueueContext);
+  const { queueAction } = useContext(StatusContext);
 
   const _onCopy = (): void => {
     isAddress && queueAction && queueAction({
