@@ -28,12 +28,16 @@ function Params ({ className, isDisabled, onChange, onEnter, overrides, params, 
   const [values, setValues] = useState<RawParams>([]);
 
   useEffect((): void => {
-    setValues(params.map((param, index): RawParam =>
+    const newValues = params.map((param, index): RawParam =>
       propValues && propValues[index]
         ? propValues[index]
         : createValue(param)
-    ));
-  }, [params, propValues]);
+    );
+
+    if (JSON.stringify(newValues) !== JSON.stringify(values)) {
+      setValues(newValues);
+    }
+  }, [params, propValues, values]);
 
   useEffect((): void => {
     onChange && onChange(values);
