@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ClassOf } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { bnToBn, formatNumber } from '@polkadot/util';
@@ -13,7 +13,7 @@ import { bnToBn, formatNumber } from '@polkadot/util';
 import Bare from './Bare';
 
 function onChange ({ onChange }: Props): (_: string) => void {
-  return function (value: string): void {
+  return (value: string): void => {
     onChange && onChange({
       isValid: true,
       value: new BN(value || 0)
@@ -21,15 +21,29 @@ function onChange ({ onChange }: Props): (_: string) => void {
   };
 }
 
-export default function Amount (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
-  const defaultValue = isDisabled
+function getDisplayValue (defaultValue: RawParam | null, isDisabled?: boolean): string {
+  return isDisabled && defaultValue
     ? (
-      value instanceof ClassOf('AccountIndex')
-        ? value.toString()
-        : formatNumber(value)
+      defaultValue.value instanceof ClassOf('AccountIndex')
+        ? defaultValue.value.toString()
+        : formatNumber(defaultValue.value)
     )
-    : bnToBn((value as number) || 0).toString();
+    : defaultValue
+      ? bnToBn((defaultValue.value as number) || 0).toString()
+      : '0';
+}
+
+export default function Amount (props: Props): React.ReactElement<Props> {
+  const [displayValue, setDisplayValue] = useState(getDisplayValue(props.defaultValue, props.isDisabled));
+  const { className, defaultValue, isDisabled, isError, label, onEnter, style, withLabel } = props;
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue, isDisabled);
+
+    if (displayValue !== newValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue, isDisabled]);
 
   return (
     <Bare
@@ -38,7 +52,7 @@ export default function Amount (props: Props): React.ReactElement<Props> {
     >
       <Input
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}

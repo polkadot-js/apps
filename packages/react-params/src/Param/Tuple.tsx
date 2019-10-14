@@ -12,7 +12,7 @@ import Bare from './Bare';
 import findComponent from './findComponent';
 
 export default function Tuple ({ className, defaultValue, isDisabled, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
-  const [values, setValues] = useState<RawParam[]>([]);
+  const [displayValues, setDisplayValues] = useState<RawParam[]>([]);
   const [{ Components, subDefs }, setComponents] = useState<{ Components: React.ComponentType<Props>[]; subDefs: TypeDef[] }>({ Components: [], subDefs: [] });
 
   useEffect((): void => {
@@ -20,8 +20,8 @@ export default function Tuple ({ className, defaultValue, isDisabled, onChange, 
       ? type.sub
       : [];
 
-    setValues(
-      (defaultValue.value as any[]).map((value): { isValid: boolean; value: Codec } =>
+    setDisplayValues(
+      (((defaultValue && defaultValue.value) || []) as any[]).map((value): { isValid: boolean; value: Codec } =>
         isUndefined(value) || isUndefined(value.isValid)
           ? { isValid: !isUndefined(value), value }
           : value
@@ -35,17 +35,17 @@ export default function Tuple ({ className, defaultValue, isDisabled, onChange, 
 
   const _onChange = (index: number): (value: RawParam) => void => {
     return (value: RawParam): void => {
-      const newValues = values.map((prevValue, valIndex): RawParam =>
+      const newValues = displayValues.map((prevValue, valIndex): RawParam =>
         (valIndex === index)
           ? value
           : prevValue
       );
 
-      setValues(newValues);
+      setDisplayValues(newValues);
 
       onChange && onChange({
         isValid: newValues.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
-        value: values.map(({ value }): any => value)
+        value: displayValues.map(({ value }): any => value)
       });
     };
   };
@@ -57,7 +57,7 @@ export default function Tuple ({ className, defaultValue, isDisabled, onChange, 
     >
       {Components.map((Component, index): React.ReactNode => (
         <Component
-          defaultValue={values[index] || {}}
+          defaultValue={displayValues[index] || null}
           isDisabled={isDisabled}
           key={index}
           label={subDefs[index] && subDefs[index].type}

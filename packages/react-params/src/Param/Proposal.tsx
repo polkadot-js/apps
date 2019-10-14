@@ -14,7 +14,7 @@ import Bare from './Bare';
 import Unknown from './Unknown';
 
 export default function Proposal (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = props;
+  const { className, defaultValue, isDisabled, label, style, withLabel } = props;
 
   if (!isDisabled) {
     return (
@@ -22,8 +22,8 @@ export default function Proposal (props: Props): React.ReactElement<Props> {
     );
   }
 
-  const proposal = value as Extrinsic;
-  const { method, section } = GenericCall.findFunction(proposal.callIndex);
+  const proposal = defaultValue && defaultValue.value as Extrinsic;
+  const { method, section } = GenericCall.findFunction(proposal ? proposal.callIndex : new Uint8Array([0, 0]));
 
   return (
     <Bare>
@@ -35,7 +35,7 @@ export default function Proposal (props: Props): React.ReactElement<Props> {
       >
         {section}.{method}
       </Static>
-      <Call value={proposal} />
+      {proposal && <Call value={proposal} />}
     </Bare>
   );
 }

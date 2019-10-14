@@ -10,7 +10,7 @@ import BaseBytes from './BaseBytes';
 import Static from './Static';
 
 interface Props extends BareProps {
-  defaultValue: RawParam;
+  defaultValue: RawParam | null;
   withLabel?: boolean;
 }
 

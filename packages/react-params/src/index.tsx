@@ -33,12 +33,13 @@ function Params ({ className, isDisabled, onChange, onEnter, overrides, params, 
         propValues && propValues[index]
           ? propValues[index]
           : createValue(param)
-    ));
+      )
+    );
   }, [params, propValues]);
 
   useEffect((): void => {
-    !isDisabled && onChange && onChange(values);
-  }, [isDisabled, values]);
+    onChange && onChange(values);
+  }, [values]);
 
   if (!params || params.length === 0) {
     return null;
@@ -56,6 +57,17 @@ function Params ({ className, isDisabled, onChange, onEnter, overrides, params, 
           }
 
           const key = `${name}:${type}:${index}`;
+          const _onChange = ({ isValid = false, value }: RawParamOnChangeValue): void => {
+            const newValue = { isValid, value };
+
+            if (JSON.stringify(values[index]) !== JSON.stringify(newValue)) {
+              setValues(values.map((prev, prevIndex): RawParam =>
+                index !== prevIndex
+                  ? prev
+                  : newValue
+              ));
+            }
+          };
 
           return (
             <div
@@ -68,14 +80,9 @@ function Params ({ className, isDisabled, onChange, onEnter, overrides, params, 
                 key={`param:${key}`}
                 name={name}
                 onChange={
-                  ({ isValid = false, value }: RawParamOnChangeValue): any =>
-                    !isDisabled && setValues(
-                      values.map((prev, prevIndex): RawParam =>
-                        index !== prevIndex
-                          ? prev
-                          : { isValid, value }
-                      )
-                    )
+                  isDisabled
+                    ? undefined
+                    : _onChange
                 }
                 onEnter={onEnter}
                 overrides={overrides}

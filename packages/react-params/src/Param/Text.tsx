@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
@@ -20,9 +20,21 @@ function onChange ({ onChange }: Props): (_: string) => void {
   };
 }
 
+function getDisplayValue (defaultValue: RawParam | null): string {
+  return ((defaultValue && defaultValue.value) || '').toString();
+}
+
 export default function Text (props: Props): React.ReactNode {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
-  const defaultValue = (value || '').toString();
+  const [displayValue, setDisplayValue] = useState(getDisplayValue(props.defaultValue));
+  const { className, defaultValue, isDisabled, isError, label, onEnter, style, withLabel } = props;
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (newValue !== displayValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue]);
 
   return (
     <Bare
@@ -31,7 +43,7 @@ export default function Text (props: Props): React.ReactNode {
     >
       <Input
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dropdown } from '@polkadot/react-components';
 
 import Bare from './Bare';
@@ -23,11 +23,25 @@ function onChange ({ onChange }: Props): (_: boolean) => void {
   };
 }
 
+function getDisplayValue (defaultValue: RawParam | null): boolean {
+  return defaultValue
+    ? defaultValue.value instanceof Boolean
+      ? defaultValue.value.valueOf()
+      : (defaultValue.value as boolean) || false
+    : false;
+}
+
 export default function BoolParam (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
-  const defaultValue = value instanceof Boolean
-    ? value.valueOf()
-    : value as boolean;
+  const [displayValue, setDisplayValue] = useState(getDisplayValue(props.defaultValue));
+  const { className, defaultValue, isDisabled, isError, label, style, withLabel } = props;
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (newValue !== displayValue) {
+      setDisplayValue(newValue);
+    }
+  }, [displayValue, defaultValue]);
 
   return (
     <Bare

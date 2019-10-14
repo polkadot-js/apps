@@ -4,7 +4,7 @@
 
 import { TypeDef } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { Props as CProps } from '../types';
+import { Props as CProps, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -15,8 +15,19 @@ import Param from './index';
 
 interface Props extends CProps, I18nProps {}
 
-function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter, t, type: { sub } }: Props): React.ReactElement<Props> {
+function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter, t, type }: Props): React.ReactElement<Props> {
+  const [displayValue, setDisplayValue] = useState<RawParam | null>(null);
   const [isActive, setIsActive] = useState(false);
+
+  useEffect((): void => {
+    const newValue = isActive
+      ? defaultValue
+      : null;
+
+    if (displayValue !== newValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue, isActive]);
 
   useEffect((): void => {
     !isActive && onChange && onChange({
@@ -28,13 +39,13 @@ function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter,
   return (
     <div className={className}>
       <Param
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled || !isActive}
         isOptional={!isActive}
         name={name}
         onChange={onChange}
         onEnter={onEnter}
-        type={sub as TypeDef}
+        type={type.sub as TypeDef}
       />
       {!isDisabled && (
         <Toggle

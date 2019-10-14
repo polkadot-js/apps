@@ -5,7 +5,7 @@
 import { WithTranslation } from 'react-i18next';
 import { Props as BareProps, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Static } from '@polkadot/react-components';
 
 import translate from '../translate';
@@ -13,12 +13,26 @@ import Bare from './Bare';
 
 interface Props extends BareProps, WithTranslation {
   asHex?: boolean;
-  defaultValue: RawParam;
+  defaultValue: RawParam | null;
   withLabel?: boolean;
 }
 
+function getDisplayValue (defaultValue: RawParam | null, asHex?: boolean): string | null {
+  return defaultValue && defaultValue.value
+    ? defaultValue.value[asHex ? 'toHex' : 'toString']()
+    : null;
+}
+
 function StaticParam ({ asHex, className, defaultValue, label, style, t }: Props): React.ReactElement<Props> {
-  const value = defaultValue && defaultValue.value && defaultValue.value[asHex ? 'toHex' : 'toString']();
+  const [displayValue, setDisplayValue] = useState<string | null>(getDisplayValue(defaultValue, asHex));
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue, asHex);
+
+    if (newValue !== displayValue) {
+      setDisplayValue(newValue);
+    }
+  }, [asHex, defaultValue, displayValue]);
 
   return (
     <Bare
@@ -28,7 +42,7 @@ function StaticParam ({ asHex, className, defaultValue, label, style, t }: Props
       <Static
         className='full'
         label={label}
-        value={value || t('<empty>')}
+        value={displayValue || t('<empty>')}
       />
     </Bare>
   );

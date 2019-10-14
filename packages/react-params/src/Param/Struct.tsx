@@ -12,34 +12,36 @@ import Params from '../';
 import Base from './Base';
 import Static from './Static';
 
+interface Param {
+  name?: string;
+  type: TypeDef;
+}
+
 export default function StructParam (props: Props): React.ReactElement<Props> {
-  const [defs, setDefs] = useState<TypeDef[]>([]);
+  const [{ defs, params }, setParams] = useState<{ defs: TypeDef[]; params: Param[] }>({ defs: [], params: [] });
   const { className, isDisabled, label, onChange, style, type, withLabel } = props;
 
   useEffect((): void => {
-    setDefs(
-      getTypeDef(
-        createType(type.type as any).toRawType()
-      ).sub as TypeDef[]
-    );
+    const defs = getTypeDef(
+      createType(type.type as any).toRawType()
+    ).sub as TypeDef[];
+
+    setParams({ defs, params: defs.map((type): Param => ({ name: type.name, type })) });
   }, [type]);
 
   if (isDisabled) {
     return <Static {...props} />;
   }
 
-  const _onChangeParams = (values: RawParam[]): void => {
+  const _onChangeParams = (values: RawParam[]): void =>
     onChange && onChange({
       isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
       value: defs.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
-        value[name as string] = values[index].value;
+        value[name as string] = values[index] && values[index].value;
 
         return value;
       }, {})
     });
-  };
-
-  const params = defs.map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
 
   return (
     <div className='ui--Params-Struct'>

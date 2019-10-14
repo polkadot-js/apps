@@ -57,7 +57,7 @@ function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, o
   const [placeholder, setPlaceholder] = useState(t(EMPTY_PLACEHOLDER));
 
   if (isDisabled) {
-    const pairs = defaultValue.value as Vec<Pair>;
+    const pairs = ((defaultValue && defaultValue.value) || []) as Vec<Pair>;
 
     return (
       <>

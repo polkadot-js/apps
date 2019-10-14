@@ -46,8 +46,16 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
         isDisabled={isDisabled}
         label={label}
         name={name}
-        onChange={onChange}
-        onEnter={onEnter}
+        onChange={
+          isDisabled
+            ? undefined
+            : onChange
+        }
+        onEnter={
+          isDisabled
+            ? undefined
+            : onEnter
+        }
         style={style}
         type={type}
       />

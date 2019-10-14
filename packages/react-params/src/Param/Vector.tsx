@@ -23,7 +23,7 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
   const [values, setValues] = useState<RawParam[]>([]);
 
   useEffect((): void => {
-    const value = defaultValue.value || [];
+    const value = (defaultValue && defaultValue.value) || [];
 
     if (stateType === type.type) {
       return;

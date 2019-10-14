@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GenericVote } from '@polkadot/types';
 import { Dropdown } from '@polkadot/react-components';
 
@@ -25,13 +25,27 @@ function onChange ({ onChange }: Props): (_: number) => void {
   };
 }
 
+function getDisplayValue (defaultValue: RawParam | null): number {
+  return defaultValue && defaultValue.value
+    ? defaultValue.value instanceof BN
+      ? defaultValue.value.toNumber()
+      : defaultValue.value instanceof GenericVote
+        ? (defaultValue.value.isAye ? -1 : 0)
+        : defaultValue.value as number
+    : 0;
+}
+
 export default function Vote (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
-  const defaultValue = value instanceof BN
-    ? value.toNumber()
-    : value instanceof GenericVote
-      ? (value.isAye ? -1 : 0)
-      : value as number;
+  const [displayValue, setDisplayValue] = useState(getDisplayValue(props.defaultValue));
+  const { className, defaultValue, isDisabled, isError, label, style, withLabel } = props;
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (newValue !== displayValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue]);
 
   return (
     <Bare
@@ -40,7 +54,7 @@ export default function Vote (props: Props): React.ReactElement<Props> {
     >
       <Dropdown
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}

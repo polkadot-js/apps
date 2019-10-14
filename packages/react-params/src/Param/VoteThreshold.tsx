@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ClassOf } from '@polkadot/types';
 import { Dropdown } from '@polkadot/react-components';
 import { bnToBn } from '@polkadot/util';
@@ -26,7 +26,7 @@ export const textMap = options.reduce((textMap, { text, value }): TextMap => {
 }, {} as unknown as TextMap);
 
 function onChange ({ onChange }: Props): (_: number) => void {
-  return function (value: number): void {
+  return (value: number): void => {
     onChange && onChange({
       isValid: true,
       value
@@ -34,11 +34,25 @@ function onChange ({ onChange }: Props): (_: number) => void {
   };
 }
 
+function getDisplayValue (defaultValue: RawParam | null): number {
+  return defaultValue
+    ? defaultValue.value instanceof ClassOf('VoteThreshold')
+      ? defaultValue.value.toNumber()
+      : bnToBn(defaultValue.value as number).toNumber()
+    : 0;
+}
+
 export default function VoteThresholdParam (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
-  const defaultValue = value instanceof ClassOf('VoteThreshold')
-    ? value.toNumber()
-    : bnToBn(value as number).toNumber();
+  const [displayValue, setDisplayValue] = useState(getDisplayValue(props.defaultValue));
+  const { className, defaultValue, isDisabled, isError, label, style, withLabel } = props;
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (newValue !== displayValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue]);
 
   return (
     <Bare
@@ -47,7 +61,7 @@ export default function VoteThresholdParam (props: Props): React.ReactElement<Pr
     >
       <Dropdown
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}

@@ -2,21 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputBalance } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-export default function Balance ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
-  const defaultValue = new BN((value as BN || '0').toString()).toString(10);
-  const _onChange = (value?: BN): void =>
+function getDisplayValue (defaultValue: RawParam | null): string {
+  return defaultValue && defaultValue.value
+    ? new BN((defaultValue.value as BN || '0').toString()).toString(10)
+    : '0';
+}
+
+export default function Balance ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+  const [displayValue, setDisplayValue] = useState(getDisplayValue(defaultValue));
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (displayValue !== newValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue]);
+
+  const _onChange = (value?: BN): void => {
     onChange && onChange({
       isValid: !isError && !!value,
       value
     });
+  };
 
   return (
     <Bare
@@ -25,7 +41,7 @@ export default function Balance ({ className, defaultValue: { value }, isDisable
     >
       <InputBalance
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputAddress } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
@@ -31,9 +31,23 @@ function onChange ({ onChange }: Props): (_?: string | null) => void {
   };
 }
 
+function getDisplayValue (defaultValue: RawParam | null): string | null {
+  return defaultValue && defaultValue.value
+    ? defaultValue.value.toString()
+    : null;
+}
+
 export default function Account (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
-  const defaultValue = value && value.toString();
+  const [displayValue, setDisplayValue] = useState<string | null>(getDisplayValue(props.defaultValue));
+  const { className, defaultValue, isDisabled, isError, label, style, withLabel } = props;
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (displayValue !== newValue) {
+      setDisplayValue(newValue || null);
+    }
+  }, [defaultValue, displayValue]);
 
   return (
     <Bare
@@ -42,7 +56,7 @@ export default function Account (props: Props): React.ReactElement<Props> {
     >
       <InputAddress
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled}
         isError={isError}
         isInput

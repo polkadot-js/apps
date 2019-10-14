@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props } from '../types';
+import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
 function onChange ({ onChange }: Props): (_: string) => void {
-  return function (value: string): void {
+  return (value: string): void => {
     const isValid = value.length !== 0;
 
     onChange && onChange({
@@ -20,11 +20,25 @@ function onChange ({ onChange }: Props): (_: string) => void {
   };
 }
 
-export default function Data (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
-  const defaultValue = value
-    ? (value.toHex ? value.toHex() : value)
+function getDisplayValue (defaultValue: RawParam | null): string {
+  return defaultValue && defaultValue.value
+    ? defaultValue.value.toHex
+      ? defaultValue.value.toHex()
+      : defaultValue.value
     : '';
+}
+
+export default function Data (props: Props): React.ReactElement<Props> {
+  const [displayValue, setDisplayValue] = useState(getDisplayValue(props.defaultValue));
+  const { className, defaultValue, isDisabled, isError, label, onEnter, style, withLabel } = props;
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (newValue !== displayValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue]);
 
   return (
     <Bare
@@ -33,7 +47,7 @@ export default function Data (props: Props): React.ReactElement<Props> {
     >
       <Input
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isDisabled={isDisabled}
         isError={isError}
         label={label}

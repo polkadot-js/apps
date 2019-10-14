@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props as BaseProps, Size } from '../types';
+import { Props as BaseProps, Size, RawParam } from '../types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
@@ -42,15 +42,27 @@ function convertInput (value: string): [boolean, Uint8Array] {
   return [value === '0x', new Uint8Array([])];
 }
 
-export default function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
-  const [isValid, setIsValid] = useState(false);
-  const defaultValue = value
+function getDisplayValue (defaultValue: RawParam | null, isDisabled?: boolean): string {
+  return defaultValue && defaultValue.value
     ? (
-      isHex(value)
-        ? value
-        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      isHex(defaultValue.value)
+        ? defaultValue.value.toString()
+        : u8aToHex(defaultValue.value as Uint8Array, isDisabled ? 256 : -1)
     )
-    : undefined;
+    : '0x';
+}
+
+export default function BaseBytes ({ asHex, children, className, defaultValue, isDisabled, isError, label, length = -1, onChange, onEnter, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+  const [displayValue, setDisplayValue] = useState<string>(getDisplayValue(defaultValue, isDisabled));
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue, isDisabled);
+
+    if (displayValue !== newValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue, isDisabled]);
 
   const _onChange = (hex: string): void => {
     let [isValid, value] = convertInput(hex);
@@ -82,7 +94,7 @@ export default function BaseBytes ({ asHex, children, className, defaultValue: {
     >
       <Input
         className={size}
-        defaultValue={defaultValue}
+        defaultValue={displayValue}
         isAction={!!children}
         isDisabled={isDisabled}
         isError={isError || !isValid}

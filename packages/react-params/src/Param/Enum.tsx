@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/types';
-import { Props, RawParam } from '../types';
+import { Props, ParamDef, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import { Enum, createType, getTypeDef } from '@polkadot/types';
@@ -18,8 +18,17 @@ interface Option {
   value?: string;
 }
 
+function getDisplayValue (defaultValue: RawParam | null): string | null {
+  return defaultValue && defaultValue.value
+    ? defaultValue.value instanceof Enum
+      ? defaultValue.value.type
+      : Object.keys(defaultValue.value)[0]
+    : null;
+}
+
 export default function EnumParam (props: Props): React.ReactElement<Props> {
-  const [current, setCurrent] = useState<TypeDef | null>(null);
+  const [currentParams, setCurrentParams] = useState<ParamDef[] | null>(null);
+  const [displayValue, setDisplayValue] = useState<any>(null);
   const [{ options, subDefs }, setOptions] = useState<{ options: Option[]; subDefs: TypeDef[] }>({ options: [], subDefs: [] });
   const { className, defaultValue, isDisabled, isError, label, onChange, style, type, withLabel } = props;
 
@@ -32,22 +41,41 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
       options: subDefs.map(({ name }): Option => ({ text: name, value: name })),
       subDefs
     });
-    setCurrent(subDefs[0]);
+    setCurrentParams(
+      subDefs[0]
+        ? [{ name: subDefs[0].name, type: subDefs[0] }]
+        : null
+    );
   }, [type]);
+
+  useEffect((): void => {
+    const newValue = getDisplayValue(defaultValue);
+
+    if (displayValue !== defaultValue) {
+      setDisplayValue(newValue);
+    }
+  }, [defaultValue, displayValue]);
 
   if (isDisabled) {
     return <Static {...props} />;
   }
 
-  const _onChange = (value: string): void =>
-    setCurrent(subDefs.find(({ name }): boolean => name === value) || null);
+  const _onChange = (value: string): void => {
+    const item = subDefs.find(({ name }): boolean => name === value) || null;
 
-  const _onChangeParam = ([{ isValid, value }]: RawParam[]): void => {
-    current && onChange && onChange({
-      isValid,
-      value: { [current.name as string]: value }
+    setCurrentParams(
+      item
+        ? [{ name: item.name, type: item }]
+        : null
+    );
+  };
+
+  const _onChangeParam = ([first]: RawParam[]): void => {
+    first && currentParams && onChange && onChange({
+      isValid: first.isValid,
+      value: { [currentParams[0].name as string]: first.value }
     });
-  }
+  };
 
   return (
     <Bare
@@ -56,13 +84,7 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
     >
       <Dropdown
         className='full'
-        defaultValue={
-          defaultValue && defaultValue.value
-            ? defaultValue.value instanceof Enum
-              ? defaultValue.value.type
-              : Object.keys(defaultValue.value)[0]
-            : defaultValue
-        }
+        defaultValue={displayValue || undefined}
         isDisabled={isDisabled}
         isError={isError}
         label={label}
@@ -71,10 +93,10 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
         withEllipsis
         withLabel={withLabel}
       />
-      {current && (
+      {currentParams && (
         <Params
           onChange={_onChangeParam}
-          params={[{ name: current.name, type: current }]}
+          params={currentParams}
         />
       )}
     </Bare>
