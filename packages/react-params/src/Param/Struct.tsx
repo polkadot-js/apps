@@ -17,15 +17,10 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
   const { className, isDisabled, label, onChange, style, type, withLabel } = props;
 
   useEffect((): void => {
-    const rawType = createType(type as any).toRawType();
-    const typeDef = getTypeDef(rawType);
-
-    // HACK This is a quick hack to allow `Option<struct>` ... this is certainly not the right
-    // place for this, so we need to move it (even the detection just sucks)... also see enum
     setDefs(
-      typeDef.type.startsWith('Option<')
-        ? (typeDef.sub as TypeDef).sub as TypeDef[]
-        : typeDef.sub as TypeDef[]
+      getTypeDef(
+        createType(type.type as any).toRawType()
+      ).sub as TypeDef[]
     );
   }, [type]);
 
@@ -36,11 +31,11 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
   const _onChangeParams = (values: RawParam[]): void => {
     onChange && onChange({
       isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
-      value: defs.reduce((value, { name }, index): Record<string, any> => {
+      value: defs.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
         value[name as string] = values[index].value;
 
         return value;
-      }, {} as unknown as Record<string, any>)
+      }, {})
     });
   };
 

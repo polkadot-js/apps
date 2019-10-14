@@ -60,7 +60,7 @@ export default function Tuple ({ className, defaultValue, isDisabled, onChange, 
           defaultValue={values[index] || {}}
           isDisabled={isDisabled}
           key={index}
-          label={subDefs[index].type}
+          label={subDefs[index] && subDefs[index].type}
           onChange={_onChange(index)}
           onEnter={onEnter}
           type={subDefs[index]}
