@@ -46,7 +46,7 @@
   "The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.": "The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.",
   "code for this contract": "code for this contract",
   "The deployment constructor information for this contract, as provided by the ABI.": "The deployment constructor information for this contract, as provided by the ABI.",
-  "The allotted endownment for this contract, i.e. the amount transferred to the contract upon instantiation.": "The allotted endownment for this contract, i.e. the amount transferred to the contract upon instantiation.",
+  "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.": "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.",
   "endowment": "endowment",
   "Deploy": "Deploy",
   "Specify the user account to use for this deployment. And fees will be deducted from this account.": "Specify the user account to use for this deployment. And fees will be deducted from this account.",
