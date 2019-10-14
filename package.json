@@ -22,7 +22,7 @@
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
-    "build": "yarn run build:code && build:i18n",
+    "build": "yarn run build:code && yarn run build:i18n",
     "build:code": "NODE_ENV=production polkadot-dev-build-ts",
     "build:i18n": "i18next-scanner --config i18next-scanner.config.js",
     "docs": "echo \"skipping docs\"",
