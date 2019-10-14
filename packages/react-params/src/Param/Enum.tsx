@@ -5,7 +5,7 @@
 import { TypeDef } from '@polkadot/types/types';
 import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Enum, createType, getTypeDef } from '@polkadot/types';
 import { Dropdown } from '@polkadot/react-components';
 
@@ -18,103 +18,75 @@ interface Option {
   value?: string;
 }
 
-interface State {
-  def: TypeDef | null;
-  options: Option[];
-  sub: TypeDef[];
-  type: string | null;
-}
+export default function EnumParam (props: Props): React.ReactElement<Props> {
+  const [current, setCurrent] = useState<TypeDef | null>(null);
+  const [{ options, subDefs }, setOptions] = useState<{ options: Option[]; subDefs: TypeDef[] }>({ options: [], subDefs: [] });
+  const { className, defaultValue, isDisabled, isError, label, onChange, style, type, withLabel } = props;
 
-export default class EnumParam extends React.PureComponent<Props, State> {
-  public state: State = {
-    def: null,
-    options: [],
-    sub: [],
-    type: null
-  };
-
-  public static getDerivedStateFromProps ({ type: { type } }: Props, prevState: State): State | null {
-    if (prevState.type === type) {
-      return null;
-    }
-
-    const rawType = createType(type as any).toRawType();
+  useEffect((): void => {
+    const rawType = createType(type.type as any).toRawType();
     const typeDef = getTypeDef(rawType);
 
     // HACK This is a quick hack to allow `Option<struct>` ... this is certainly not the right
     // place for this, so we need to move it (even the detection just sucks)... also see struct
-    const sub = typeDef.type.startsWith('Option<')
+    const subDefs = typeDef.type.startsWith('Option<')
       ? (typeDef.sub as TypeDef).sub as TypeDef[]
       : typeDef.sub as TypeDef[];
 
-    return {
-      def: prevState.def || sub[0],
-      options: sub.map(({ name }): Option => ({
+    setOptions({
+      options: subDefs.map(({ name }): Option => ({
         text: name,
         value: name
       })),
-      sub,
-      type
-    };
+      subDefs
+    });
+    setCurrent(subDefs[0]);
+  }, [type]);
+
+  if (isDisabled) {
+    return <Static {...props} />;
   }
 
-  public render (): React.ReactNode {
-    const { className, defaultValue, isDisabled, isError, label, style, withLabel } = this.props;
+  const _onChange = (value: string): void =>
+    setCurrent(subDefs.find(({ name }): boolean => name === value) || null);
 
-    if (isDisabled) {
-      return <Static {...this.props} />;
-    }
-
-    const { def, options } = this.state;
-    const initialValue = defaultValue && defaultValue.value
-      ? defaultValue.value instanceof Enum
-        ? defaultValue.value.type
-        : Object.keys(defaultValue.value)[0]
-      : defaultValue;
-
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        <Dropdown
-          className='full'
-          defaultValue={initialValue}
-          isDisabled={isDisabled}
-          isError={isError}
-          label={label}
-          options={options}
-          onChange={this.onChange}
-          withEllipsis
-          withLabel={withLabel}
-        />
-        {def && (
-          <Params
-            onChange={this.onChangeParam}
-            params={[{ name: def.name, type: def }]}
-          />
-        )}
-      </Bare>
-    );
+  const _onChangeParam = ([{ isValid, value }]: RawParam[]): void => {
+    current && onChange && onChange({
+      isValid,
+      value: {
+        [current.name as string]: value
+      }
+    });
   }
 
-  private onChange = (value: string): void => {
-    this.setState(({ sub }): Pick<State, never> => ({
-      def: sub.find(({ name }): boolean => name === value) || null
-    }));
-  }
-
-  private onChangeParam = ([{ isValid, value }]: RawParam[]): void => {
-    const { onChange } = this.props;
-    const { def } = this.state;
-
-    if (def) {
-      onChange && onChange({
-        isValid,
-        value: {
-          [def.name as string]: value
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      <Dropdown
+        className='full'
+        defaultValue={
+          defaultValue && defaultValue.value
+            ? defaultValue.value instanceof Enum
+              ? defaultValue.value.type
+              : Object.keys(defaultValue.value)[0]
+            : defaultValue
         }
-      });
-    }
-  }
+        isDisabled={isDisabled}
+        isError={isError}
+        label={label}
+        options={options}
+        onChange={_onChange}
+        withEllipsis
+        withLabel={withLabel}
+      />
+      {current && (
+        <Params
+          onChange={_onChangeParam}
+          params={[{ name: current.name, type: current }]}
+        />
+      )}
+    </Bare>
+  );
 }

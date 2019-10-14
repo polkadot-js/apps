@@ -5,84 +5,59 @@
 import { TypeDef } from '@polkadot/types/types';
 import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createType, getTypeDef } from '@polkadot/types';
 
 import Params from '../';
 import Base from './Base';
 import Static from './Static';
 
-interface State {
-  defs: TypeDef[];
-  type: string | null;
-}
+export default function StructParam (props: Props): React.ReactElement<Props> {
+  const [defs, setDefs] = useState<TypeDef[]>([]);
+  const { className, isDisabled, label, onChange, style, type, withLabel } = props;
 
-export default class StructParam extends React.PureComponent<Props, State> {
-  public state: State = {
-    defs: [],
-    type: null
-  };
-
-  public static getDerivedStateFromProps ({ type: { type } }: Props, prevState: State): State | null {
-    if (prevState.type === type) {
-      return null;
-    }
-
+  useEffect((): void => {
     const rawType = createType(type as any).toRawType();
     const typeDef = getTypeDef(rawType);
 
     // HACK This is a quick hack to allow `Option<struct>` ... this is certainly not the right
     // place for this, so we need to move it (even the detection just sucks)... also see enum
-    const defs = typeDef.type.startsWith('Option<')
-      ? (typeDef.sub as TypeDef).sub as TypeDef[]
-      : typeDef.sub as TypeDef[];
-
-    return {
-      defs,
-      type
-    } as unknown as State;
-  }
-
-  public render (): React.ReactNode {
-    const { className, isDisabled, label, style, withLabel } = this.props;
-
-    if (isDisabled) {
-      return <Static {...this.props} />;
-    }
-
-    const { defs } = this.state;
-    const params = defs.map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
-
-    return (
-      <div className='ui--Params-Struct'>
-        <Base
-          className={className}
-          label={label}
-          style={style}
-          withLabel={withLabel}
-        />
-        <Params
-          onChange={this.onChangeParams}
-          params={params}
-        />
-      </div>
+    setDefs(
+      typeDef.type.startsWith('Option<')
+        ? (typeDef.sub as TypeDef).sub as TypeDef[]
+        : typeDef.sub as TypeDef[]
     );
+  }, [type]);
+
+  if (isDisabled) {
+    return <Static {...props} />;
   }
 
-  private onChangeParams = (values: RawParam[]): void => {
-    const { onChange } = this.props;
+  const _onChangeParams = (values: RawParam[]): void => {
+    onChange && onChange({
+      isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
+      value: defs.reduce((value, { name }, index): Record<string, any> => {
+        value[name as string] = values[index].value;
 
-    if (onChange) {
-      const { defs } = this.state;
+        return value;
+      }, {} as unknown as Record<string, any>)
+    });
+  };
 
-      onChange({
-        isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
-        value: defs.reduce((value, { name }, index): Record<string, any> => {
-          value[name as string] = values[index].value;
+  const params = defs.map((type): { name?: string; type: TypeDef } => ({ name: type.name, type }));
 
-          return value;
-        }, {} as unknown as Record<string, any>)
-      });
-    }
-  }
+  return (
+    <div className='ui--Params-Struct'>
+      <Base
+        className={className}
+        label={label}
+        style={style}
+        withLabel={withLabel}
+      />
+      <Params
+        onChange={_onChangeParams}
+        params={params}
+      />
+    </div>
+  );
 }
