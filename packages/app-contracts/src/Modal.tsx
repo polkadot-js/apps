@@ -106,7 +106,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <InputAddress
-        defaultValue={accountId}
         help={t('Specify the user account to use for this deployment. And fees will be deducted from this account.')}
         isDisabled={isBusy}
         isInput={false}
@@ -124,7 +123,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <Input
-        defaultValue={name}
         help={t(
           this.isContract
             ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
@@ -151,7 +149,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <InputNumber
-        defaultValue={gasLimit}
         help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
         isDisabled={isBusy}
         isError={!isGasValid}
