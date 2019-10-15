@@ -146,7 +146,6 @@ class Call extends TxComponent<Props, State> {
           value={address}
         />
         <Dropdown
-          defaultValue={method}
           help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
           isError={!method}
           label={t('message to send')}
@@ -171,7 +170,6 @@ class Call extends TxComponent<Props, State> {
           onChange={this.onChangeEndowment}
         />
         <InputNumber
-          defaultValue={gasLimit}
           help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
           isError={!isGasValid}
           label={t('maximum gas allowed')}

@@ -180,7 +180,6 @@ class Deploy extends ContractModal<Props, State> {
           contractAbi
             ? (
               <Dropdown
-                defaultValue={`${constructorIndex}`}
                 help={t('The deployment constructor information for this contract, as provided by the ABI.')}
                 isDisabled={contractAbi.abi.contract.constructors.length <= 1}
                 label={t('constructor')}
@@ -203,7 +202,6 @@ class Deploy extends ContractModal<Props, State> {
           }
         />
         <InputBalance
-          defaultValue={endowment}
           help={t('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
           isDisabled={isBusy}
           isError={!isEndowValid}
