@@ -25,7 +25,7 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
   const [{ options, subTypes }, setOptions] = useState<{ options: Option[]; subTypes: TypeDef[] }>({ options: [], subTypes: [] });
 
   useEffect((): void => {
-    const rawType = createType(type as any).toRawType();
+    const rawType = createType(type.type as any).toRawType();
     const typeDef = getTypeDef(rawType);
     const subTypes = typeDef.sub as TypeDef[];
 

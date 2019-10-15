@@ -17,7 +17,7 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
-    const rawType = createType(type as any).toRawType();
+    const rawType = createType(type.type as any).toRawType();
     const typeDef = getTypeDef(rawType);
 
     setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
