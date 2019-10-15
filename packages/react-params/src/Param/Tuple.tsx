@@ -11,7 +11,7 @@ import { isUndefined } from '@polkadot/util';
 import Bare from './Bare';
 import findComponent from './findComponent';
 
-export function Tuple ({ className, defaultValue, isDisabled, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
+export default function Tuple ({ className, defaultValue, isDisabled, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
   const [{ Components, subTypes }, setComponents] = useState<{ Components: React.ComponentType<Props>[]; subTypes: TypeDef[] }>({ Components: [], subTypes: [] });
   const [values, setValues] = useState<RawParam[]>([]);
 
