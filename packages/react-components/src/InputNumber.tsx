@@ -82,14 +82,14 @@ class InputNumber extends React.PureComponent<Props, State> {
     InputNumber.units = units;
   }
 
-  public static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue = '0' }: Props): Partial<State> | null {
-    if (!isDisabled || !isSi) {
+  public static getDerivedStateFromProps ({ isDisabled, isSi, defaultValue, value }: Props, state: State): Partial<State> | null {
+    if (!isDisabled || !isSi || (!defaultValue && !value)) {
       return null;
     }
 
     return {
-      value: formatBalance(defaultValue, false),
-      siUnit: formatBalance.calcSi(defaultValue.toString(), formatBalance.getDefaults().decimals).value
+      value: formatBalance(value || defaultValue, false),
+      siUnit: formatBalance.calcSi((value || defaultValue || '0').toString(), formatBalance.getDefaults().decimals).value
     };
   }
 
