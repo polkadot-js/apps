@@ -6,8 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Dropdown, Icon, Input, Modal } from '@polkadot/react-components';
-import { QueueContext } from '@polkadot/react-components/Status';
+import { Button, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
@@ -30,7 +29,7 @@ const CRYPTO_MAP: Record<string, KeypairType[]> = {
 const EMPTY_KEY = '0x';
 
 function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<Props> | null {
-  const { queueRpc } = useContext(QueueContext);
+  const { queueRpc } = useContext(StatusContext);
   // this needs to align with what is set as the first value in `type`
   const [crypto, setCrypto] = useState<KeypairType>('sr25519');
   const [publicKey, setPublicKey] = useState(EMPTY_KEY);

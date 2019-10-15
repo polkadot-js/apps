@@ -201,7 +201,7 @@ class Deploy extends ContractModal<Props, State> {
           }
         />
         <InputBalance
-          help={t('The allotted endownment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
+          help={t('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
           isDisabled={isBusy}
           isError={endowment.isZero()}
           label={t('endowment')}

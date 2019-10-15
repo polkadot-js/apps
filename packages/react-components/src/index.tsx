@@ -64,7 +64,7 @@ export { default as OnlineStatus } from './OnlineStatus';
 export { default as Row } from './Row';
 export { default as RpcModal } from './RpcModal';
 export { default as Static } from './Static';
-export { default as Status } from './Status';
+export { default as Status, StatusContext } from './Status';
 export { default as SummaryBox } from './SummaryBox';
 export { default as Tabs } from './Tabs';
 export { default as Toggle } from './Toggle';

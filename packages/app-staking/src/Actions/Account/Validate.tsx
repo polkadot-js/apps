@@ -168,7 +168,7 @@ class Validate extends TxComponent<Props, State> {
           <InputBalance
             className='medium'
             defaultValue={validatorPrefs && validatorPrefs.validatorPayment && validatorPrefs.validatorPayment.toBn()}
-            help={t('Amount taken up-front from the reward by the validator before spliting the remainder between themselves and the nominators')}
+            help={t('Amount taken up-front from the reward by the validator before splitting the remainder between themselves and the nominators')}
             label={t('reward commission')}
             onChange={this.onChangePayment}
             onEnter={this.sendTx}

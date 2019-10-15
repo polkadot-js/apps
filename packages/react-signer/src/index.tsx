@@ -7,7 +7,7 @@ import { BareProps } from '@polkadot/react-components/types';
 import './index.css';
 
 import React, { useContext } from 'react';
-import QueueContext from '@polkadot/react-components/Status/Context';
+import { StatusContext } from '@polkadot/react-components';
 
 import Modal from './Modal';
 
@@ -16,7 +16,7 @@ interface Props extends BareProps {
 }
 
 export default function Signer ({ children, className, style }: Props): React.ReactElement<Props> {
-  const { txqueue, queueSetTxStatus } = useContext(QueueContext);
+  const { txqueue, queueSetTxStatus } = useContext(StatusContext);
 
   return (
     <>

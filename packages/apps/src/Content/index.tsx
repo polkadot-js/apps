@@ -4,14 +4,13 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { QueueProps } from '@polkadot/react-components/Status/types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { QueueConsumer } from '@polkadot/react-components/Status/Context';
+import { StatusContext } from '@polkadot/react-components';
 
 import Status from './Status';
 import translate from '../translate';
@@ -27,7 +26,8 @@ const unknown = {
   name: ''
 };
 
-function Content ({ isApiConnected, isApiReady, className, location, t, i18n }: Props): React.ReactElement<Props> {
+function Content ({ isApiConnected, isApiReady, className, location, t }: Props): React.ReactElement<Props> {
+  const { queueAction, stqueue, txqueue } = useContext(StatusContext);
   const app = location.pathname.slice(1) || '';
   const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
     !!(route && app.startsWith(route.name))
@@ -38,22 +38,18 @@ function Content ({ isApiConnected, isApiReady, className, location, t, i18n }: 
       {needsApi && (!isApiReady || !isApiConnected)
         ? <div className='connecting'>{t('Waiting for API to be connected and ready.')}</div>
         : (
-          <QueueConsumer>
-            {({ queueAction, stqueue, txqueue }: QueueProps): React.ReactNode => (
-              <>
-                <Component
-                  basePath={`/${name}`}
-                  location={location}
-                  onStatusChange={queueAction}
-                />
-                <Status
-                  queueAction={queueAction}
-                  stqueue={stqueue}
-                  txqueue={txqueue}
-                />
-              </>
-            )}
-          </QueueConsumer>
+          <>
+            <Component
+              basePath={`/${name}`}
+              location={location}
+              onStatusChange={queueAction}
+            />
+            <Status
+              queueAction={queueAction}
+              stqueue={stqueue}
+              txqueue={txqueue}
+            />
+          </>
         )
       }
     </div>
