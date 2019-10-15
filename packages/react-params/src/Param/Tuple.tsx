@@ -13,10 +13,10 @@ import findComponent from './findComponent';
 
 export function Tuple ({ className, defaultValue, isDisabled, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
   const [{ Components, subTypes }, setComponents] = useState<{ Components: React.ComponentType<Props>[]; subTypes: TypeDef[] }>({ Components: [], subTypes: [] });
-  const  [values, setValues] = useState<RawParam[]>([]);
+  const [values, setValues] = useState<RawParam[]>([]);
 
   useEffect((): void => {
-    const subTypes:TypeDef[] = type.sub && Array.isArray(type.sub)
+    const subTypes: TypeDef[] = type.sub && Array.isArray(type.sub)
       ? type.sub
       : [];
 

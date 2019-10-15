@@ -61,7 +61,7 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
         ? [{ name: newType.name, type: newType }]
         : null
     );
-  }
+  };
 
   const _onChangeParam = ([{ isValid, value }]: RawParam[]): void => {
     current && onChange && onChange({

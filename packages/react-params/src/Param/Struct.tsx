@@ -36,7 +36,7 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
         return value;
       }, {})
     });
-  }
+  };
 
   return (
     <div className='ui--Params-Struct'>
