@@ -10,7 +10,7 @@ import React from 'react';
 import Param from './Param';
 
 interface Props {
-  defaultValue?: RawParam | null;
+  defaultValue: RawParam | null;
   index: number;
   isDisabled?: boolean;
   name?: string;
@@ -20,9 +20,11 @@ interface Props {
   type: TypeDef;
 }
 
-export default function ParamComp ({ defaultValue = null, index, isDisabled, name, onChange, onEnter, overrides, type }: Props): React.ReactElement<Props> {
-  const _onChange = (value: RawParamOnChangeValue): void =>
+export default function ParamComp ({ defaultValue, index, isDisabled, name, onChange, onEnter, overrides, type }: Props): React.ReactElement<Props> {
+  const _onChange = (value: RawParamOnChangeValue): void => {
+    console.error('ParamComp(onChange)', index, type.name, JSON.stringify(value));
     onChange(index, value);
+  };
 
   return (
     <div className='ui--Param-composite'>
@@ -30,16 +32,8 @@ export default function ParamComp ({ defaultValue = null, index, isDisabled, nam
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         name={name}
-        onChange={
-          isDisabled
-            ? undefined
-            : _onChange
-        }
-        onEnter={
-          isDisabled
-            ? undefined
-            : onEnter
-        }
+        onChange={_onChange}
+        onEnter={onEnter}
         overrides={overrides}
         type={type}
       />

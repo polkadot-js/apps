@@ -30,6 +30,11 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
     ? type.type
     : `${name}: ${type.type}`;
 
+  const _onChange = (value: any): void => {
+    console.log('Param(onChange)', type.name, JSON.stringify(value));
+    onChange && onChange(value);
+  };
+
   return isOptional
     ? (
       <Static
@@ -46,16 +51,8 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
         isDisabled={isDisabled}
         label={label}
         name={name}
-        onChange={
-          isDisabled
-            ? undefined
-            : onChange
-        }
-        onEnter={
-          isDisabled
-            ? undefined
-            : onEnter
-        }
+        onChange={_onChange}
+        onEnter={onEnter}
         style={style}
         type={type}
       />

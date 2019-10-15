@@ -17,6 +17,7 @@ interface Props extends CProps, I18nProps {}
 
 function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter, t, type }: Props): React.ReactElement<Props> {
   const [displayValue, setDisplayValue] = useState<RawParam | null>(null);
+  const [innerValue, setInnerValue] = useState<RawParam>({ isValid: true, value: null });
   const [isActive, setIsActive] = useState(false);
 
   useEffect((): void => {
@@ -30,11 +31,14 @@ function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter,
   }, [defaultValue, displayValue, isActive]);
 
   useEffect((): void => {
-    !isActive && onChange && onChange({
-      isValid: true,
-      value: null
-    });
-  }, [isActive]);
+    console.log('Option(onChange)', type.name, isActive, JSON.stringify(innerValue));
+
+    onChange && onChange(
+      isActive
+        ? innerValue
+        : { isValid: true, value: null }
+    );
+  }, [innerValue, isActive]);
 
   return (
     <div className={className}>
@@ -43,7 +47,7 @@ function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter,
         isDisabled={isDisabled || !isActive}
         isOptional={!isActive}
         name={name}
-        onChange={onChange}
+        onChange={setInnerValue}
         onEnter={onEnter}
         type={type.sub as TypeDef}
       />

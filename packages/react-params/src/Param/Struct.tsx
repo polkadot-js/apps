@@ -34,12 +34,14 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
   }
 
   const _onChangeParams = (values: RawParam[]): void => {
+    console.log('Struct(onChange)', JSON.stringify(values));
+
     onChange && onChange({
       isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
-      value: defs.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
-        value[name as string] = values[index] && values[index].value;
+      value: values.reduce((combo: Record<string, any>, { value }, index): Record<string, any> => {
+        combo[defs[index].name as string] = value;
 
-        return value;
+        return combo;
       }, {})
     });
   };
