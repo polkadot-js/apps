@@ -117,7 +117,7 @@ class BondExtra extends TxComponent<Props, State> {
             autoFocus
             className='medium'
             help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-            label={t('additionnal bonded funds')}
+            label={t('additional bonded funds')}
             maxValue={maxBalance}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}

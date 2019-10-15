@@ -95,7 +95,7 @@ class Transfer extends React.PureComponent<Props> {
             value={assetId}
           />
           <InputBalance
-            help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 mili is equivalent to sending 0.001.')}
+            help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
             isError={!hasAvailable}
             label={t('amount')}
             onChange={this.onChangeAmount}
