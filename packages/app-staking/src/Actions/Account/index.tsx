@@ -175,7 +175,7 @@ class Account extends React.PureComponent<Props, State> {
         <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
-            {!isSubstrateV2 && sessionIds.length && (
+            {!isSubstrateV2 && sessionIds.length !== 0 && (
               <div className='staking--Account-detail actions'>
                 <AddressRow
                   label={t('session')}
