@@ -20,7 +20,7 @@ import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
-import SetSessionAccount from './SetSessionAccount';
+import SetSessionKey from './SetSessionKey';
 import translate from '../../translate';
 import Unbond from './Unbond';
 import Validate from './Validate';
@@ -502,7 +502,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     return (
-      <SetSessionAccount
+      <SetSessionKey
         controllerId={controllerId}
         isOpen={isSetSessionAccountOpen}
         onClose={this.toggleSetSessionAccount}

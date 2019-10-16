@@ -23,9 +23,12 @@ const EMPTY_PROOF = new Uint8Array();
 
 function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
-  const [ed25519, setEd25519] = useState<string | null>(null);
-  const [ed25519Error, setEd25519Error] = useState<string | null>(sessionIds[0] || controllerId);
-  const [keys, setKeys] = useState<string | null>(null);
+  const [keysError, setKeysError] = useState<string | null>(null);
+  const [keys, setKeys] = useState<string | null>(
+    isSubstrateV2
+      ? null
+      : sessionIds[0] || controllerId
+  );
 
   if (!isOpen) {
     return null;
@@ -33,7 +36,7 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
 
   const hasError = isSubstrateV2
     ? !keys
-    : (!ed25519 || !!ed25519Error);
+    : (!keys || !!keysError);
 
   return (
     <Modal
@@ -67,14 +70,15 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
               <InputAddress
                 className='medium'
                 help={t('Changing the key only takes effect at the start of the next session. If validating, it must be an ed25519 key.')}
+                isError={!!keysError}
                 label={t('Session key (ed25519)')}
-                onChange={setEd25519}
-                value={ed25519}
+                onChange={setKeys}
+                value={keys}
               />
               <ValidationSessionKey
                 controllerId={controllerId}
-                onError={setEd25519Error}
-                sessionId={ed25519}
+                onError={setKeysError}
+                sessionId={keys}
                 stashId={stashId}
               />
             </>
@@ -100,7 +104,7 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
             params={
               isSubstrateV2
                 ? [keys, EMPTY_PROOF]
-                : [ed25519]
+                : [keys]
             }
             tx={
               isSubstrateV2
