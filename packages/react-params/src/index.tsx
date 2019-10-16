@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChange, RawParamOnChangeValue } from './types';
+import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChangeValue } from './types';
 
 import './Params.css';
 
@@ -11,7 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { classes } from '@polkadot/react-components/util';
 
-import Param from './Param';
+import ParamComp from './ParamComp';
 import translate from './translate';
 import { createValue } from './values';
 
@@ -25,22 +25,14 @@ interface Props extends I18nProps {
 }
 
 interface State {
-  handlersChange?: RawParamOnChange[];
-  onChangeParam: (at: number, next: RawParamOnChangeValue) => void;
-  params?: ParamDef[];
+  params?: ParamDef[] | null;
   values?: RawParams;
 }
 
 class Params extends React.PureComponent<Props, State> {
-  public state: State;
-
-  public constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      onChangeParam: this.onChangeParam
-    };
-  }
+  public state: State = {
+    params: null
+  };
 
   public static getDerivedStateFromProps ({ isDisabled, params, values }: Props, prevState: State): Pick<State, never> | null {
     const isSame = JSON.stringify(prevState.params) === JSON.stringify(params);
@@ -49,50 +41,41 @@ class Params extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const newValues = params.reduce(
-      (result: RawParams, param, index): RawParams => [
-        ...result,
-        values && values[index]
-          ? values[index]
-          : createValue(param)
-      ],
-      []
-    );
-
-    const handlersChange = newValues.map(
-      (_, index): RawParamOnChange =>
-        (value: RawParamOnChangeValue): void =>
-          prevState.onChangeParam(index, value)
-    );
-
     return {
-      handlersChange,
       params,
-      values: newValues
+      values: params.reduce(
+        (result: RawParams, param, index): RawParams => [
+          ...result,
+          values && values[index]
+            ? values[index]
+            : createValue(param)
+        ],
+        []
+      )
     };
   }
 
-  // Fire the intial onChange (we did update) when the component is loaded
+  // Fire the initial onChange (we did update) when the component is loaded
   public componentDidMount (): void {
-    this.componentDidUpdate({} as unknown as Props, {} as unknown as State);
+    this.componentDidUpdate(null, {});
   }
 
   // This is needed in the case where the item changes, i.e. the values get
-  // initialised and we need to alert the parent that we have new values
-  public componentDidUpdate (_: Props, prevState: State): void {
+  // initialized and we need to alert the parent that we have new values
+  public componentDidUpdate (_: Props | null, prevState: State): void {
     const { isDisabled } = this.props;
     const { values } = this.state;
 
-    if (!isDisabled && prevState.values !== values) {
+    if (!isDisabled && JSON.stringify(prevState.values) !== JSON.stringify(values)) {
       this.triggerUpdate();
     }
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, onEnter, overrides, params, style } = this.props;
-    const { handlersChange = [], values = this.props.values } = this.state;
+    const { className, isDisabled, overrides, params, style } = this.props;
+    const { values = this.props.values } = this.state;
 
-    if (!params || params.length === 0) {
+    if (!values || !values.length) {
       return null;
     }
 
@@ -102,48 +85,24 @@ class Params extends React.PureComponent<Props, State> {
         style={style}
       >
         <div className='ui--Params-Content'>
-          {params.map(({ name, type }: ParamDef, index: number): React.ReactNode => {
-            if (!values || values.length === 0) {
-              return null;
-            }
-
-            const key = `${name}:${type}:${index}`;
-
-            return (
-              <div
-                className='ui--Param-composite'
-                key={key}
-              >
-                <Param
-                  defaultValue={values[index]}
-                  isDisabled={isDisabled}
-                  key={`input:${key}`}
-                  name={name}
-                  onChange={handlersChange[index]}
-                  onEnter={onEnter}
-                  overrides={overrides}
-                  type={type}
-                />
-              </div>
-            );
-          })}
+          {values && params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
+            <ParamComp
+              defaultValue={values[index]}
+              index={index}
+              isDisabled={isDisabled}
+              key={`${name}:${type}:${index}`}
+              name={name}
+              onChange={this.onChangeParam}
+              overrides={overrides}
+              type={type}
+            />
+          ))}
         </div>
       </div>
     );
   }
 
-  private extractValues (): RawParam[] {
-    const { values } = this.state;
-    const { isDisabled } = this.props;
-
-    if (isDisabled || !values) {
-      return [];
-    }
-
-    return values;
-  }
-
-  private onChangeParam = (at: number, newValue: RawParamOnChangeValue): void => {
+  private onChangeParam = (index: number, newValue: RawParamOnChangeValue): void => {
     const { isDisabled } = this.props;
 
     if (isDisabled) {
@@ -154,8 +113,8 @@ class Params extends React.PureComponent<Props, State> {
 
     this.setState(
       (prevState: State): Pick<State, never> => ({
-        values: (prevState.values || []).map((prev, index): RawParam =>
-          index !== at
+        values: (prevState.values || []).map((prev, prevIndex): RawParam =>
+          prevIndex !== index
             ? prev
             : { isValid, value }
         )
@@ -165,14 +124,14 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   private triggerUpdate = (): void => {
-    const { values } = this.state;
     const { onChange, isDisabled } = this.props;
+    const { values } = this.state;
 
     if (isDisabled || !values) {
       return;
     }
 
-    onChange && onChange(this.extractValues());
+    onChange && onChange(values);
   }
 }
 
