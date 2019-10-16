@@ -95,7 +95,7 @@ class Account extends React.PureComponent<Props, State> {
     }
 
     const { controllerId, nextSessionIds, nominators, online, offline, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
-    const isStashNominating = nominators && nominators.length !== 0;
+    const isStashNominating = nominators && !!nominators.length;
     const _stashId = toIdString(stashId);
     const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
 
@@ -175,7 +175,7 @@ class Account extends React.PureComponent<Props, State> {
         <div className={className}>
           <div className='staking--Accounts'>
             {this.renderControllerAccount()}
-            {!isSubstrateV2 && sessionIds.length !== 0 && (
+            {!isSubstrateV2 && !!sessionIds.length && (
               <div className='staking--Account-detail actions'>
                 <AddressRow
                   label={t('session')}
@@ -208,7 +208,7 @@ class Account extends React.PureComponent<Props, State> {
                 withValidatorPrefs={isStashValidating}
               />
             </div>
-            {nominees && nominees.length !== 0 && (
+            {nominees && !!nominees.length && (
               <div className='staking--Account-Nominee'>
                 <label className='staking--label'>{t('nominating')}</label>
                 {nominees.map((nomineeId, index): React.ReactNode => (
