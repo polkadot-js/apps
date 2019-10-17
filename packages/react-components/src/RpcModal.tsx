@@ -11,8 +11,6 @@ import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import { isUndefined } from '@polkadot/util';
 
 export interface ControlsProps {
-  accountId: StringOrNull;
-  onChangeAccountId: (accountId: StringOrNull) => void;
   queueRpc: QueueTxRpcAdd;
 }
 
@@ -21,61 +19,29 @@ export interface ResultProps {
   result?: QueueTx;
 }
 
-export interface TriggerProps {
-  onShow: () => void;
-}
-
 export interface Props {
+  accountId: StringOrNull;
   controls: React.ComponentType<ControlsProps>;
+  isOpen: boolean;
   method: string;
   result: React.ComponentType<ResultProps>;
   section: string;
   title: React.ReactNode;
-  trigger?: React.ComponentType<TriggerProps>;
-  onChangeAccountId?: (accountId: StringOrNull) => void;
   onSubmit?: () => void;
-  onHide?: () => void;
-  onShow?: () => void;
+  onClose?: () => void;
+  onOpen?: () => void;
   onSuccess?: () => void;
   onFailed?: () => void;
-  queue: QueueTx[];
 }
 
 export interface State {
   accountId?: StringOrNull;
   isBusy: boolean;
-  isOpen: boolean;
 }
 
-function onChangeAccountId ({ onChangeAccountId }: Props, setAccountId: React.Dispatch<React.SetStateAction<StringOrNull>>): (accountId: StringOrNull) => void {
-  return (accountId: StringOrNull): void => {
-    setAccountId(accountId);
-
-    onChangeAccountId && onChangeAccountId(accountId);
-  };
-}
-
-function onHide ({ onHide }: Props, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>): () => void {
-  return (): void => {
-    setIsOpen(false);
-
-    onHide && onHide();
-  };
-}
-
-function onShow ({ onShow }: Props, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>): () => void {
-  return (): void => {
-    setIsOpen(true);
-
-    onShow && onShow();
-  };
-}
-
-function renderControls (props: Props, accountId: StringOrNull, setAccountId: React.Dispatch<React.SetStateAction<StringOrNull>>, queueRpc: QueueTxRpcAdd): React.ReactNode {
+function renderControls ({ controls: Controls }: Props, queueRpc: QueueTxRpcAdd): React.ReactNode {
   return (
-    <props.controls
-      accountId={accountId}
-      onChangeAccountId={onChangeAccountId(props, setAccountId)}
+    <Controls
       queueRpc={queueRpc}
     />
   );
@@ -96,16 +62,6 @@ function renderResults ({ result: Result }: Props, results: QueueTx[]): React.Re
   );
 }
 
-function renderTrigger (props: Props, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>): React.ReactNode {
-  if (!props.trigger) {
-    return null;
-  }
-
-  return (
-    <props.trigger onShow={onShow(props, setIsOpen)} />
-  );
-}
-
 function filterQueue ({ section, method }: Props, queue: QueueTx[]): QueueTx[] {
   return queue
     .filter(({ error, result, rpc }): boolean =>
@@ -116,9 +72,7 @@ function filterQueue ({ section, method }: Props, queue: QueueTx[]): QueueTx[] {
 }
 
 export default function RpcModal (props: Props): React.ReactElement<Props> {
-  const { trigger } = props;
-  const [accountId, setAccountId] = useState<StringOrNull>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, onClose } = props;
 
   return (
     <QueueConsumer>
@@ -126,18 +80,17 @@ export default function RpcModal (props: Props): React.ReactElement<Props> {
         const results = filterQueue(props, txqueue);
         return (
           <>
-            {trigger && renderTrigger(props, setIsOpen)}
             <Modal
               className='ui--Modal'
               dimmer='inverted'
-              onClose={onHide(props, setIsOpen)}
+              onClose={onClose}
               open={isOpen}
             >
               <Modal.Header>
                 {renderHeader(props)}
               </Modal.Header>
               <Modal.Content>
-                {renderControls(props, accountId, setAccountId, queueRpc)}
+                {renderControls(props, queueRpc)}
                 {renderResults(props, results)}
               </Modal.Content>
             </Modal>

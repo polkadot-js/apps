@@ -9,10 +9,9 @@ import { Button } from '@polkadot/react-components';
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
-import { displayType } from '@polkadot/types';
 
 import Icon from './Icon';
-import Tooltip from './Tooltip';
+import MessageSignature from './MessageSignature';
 import translate from './translate';
 import { classes } from './util';
 
@@ -22,24 +21,22 @@ export interface Props extends I18nProps {
   isLabelled?: boolean;
   isRemovable: boolean;
   onRemove?: () => void;
-  onSelect?: (callAddress?: string, callMethod?: string) => void;
-  onSelectConstructor?: (index: number) => void;
+  onSelect?: (messageIndex: number) => () => void;
+  onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
 }
 
 const NOOP = (): void => {};
 
-function onSelect (props: Props, index: number): () => void {
+function onSelect (props: Props, messageIndex: number): () => void {
   return function (): void {
     const { address: callAddress, contractAbi: { abi: { contract: { messages } } }, onSelect } = props;
 
-    if (!callAddress || !messages || !messages[index]) {
+    if (!callAddress || !messages || !messages[messageIndex]) {
       return;
     }
 
-    const { name } = messages[index];
-
-    onSelect && onSelect(callAddress, name);
+    onSelect && onSelect(messageIndex)();
   };
 }
 
@@ -50,60 +47,25 @@ function onSelectConstructor (props: Props, index: number): () => void {
     if (!constructors || !constructors[index]) {
       return;
     }
-    console.log(onSelectConstructor);
+
     onSelectConstructor && onSelectConstructor(index);
   };
 }
 
-function renderItem (props: Props, { args, docs = [], mutates, name, returnType }: ContractABIMethod, index: number, asConstructor = false): React.ReactNode {
+function renderItem (props: Props, message: ContractABIMethod, index: number, asConstructor = false): React.ReactNode {
+  const { docs = [], name } = message;
+
   return (
     <div
       key={name}
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
     >
       <div className="info">
-        <div className="signature">
-          <span className="name">
-            {name}
-          </span>
-          (
-          {args.map(({ name, type }, index): React.ReactNode => {
-            return (
-              <React.Fragment key={`${name}-args-${index}`}>
-                {name}:
-                {' '}
-                <span className='type'>
-                  {displayType(type)}
-                </span>
-                {index < args.length - 1 && ', '}
-              </React.Fragment>
-            );
-          })}
-          )
-          {(!asConstructor && returnType) && (
-            <>
-              :
-              {' '}
-              <span className="return-type">
-                {displayType(returnType)}
-              </span>
-            </>
-          )}
-          {mutates && (
-            <>
-              <Icon
-                data-tip
-                data-for={`mutates-${name}`}
-                name="database"
-                className="mutates"
-              />
-              <Tooltip
-                trigger={`mutates-${name}`}
-                text={props.t('Mutates contract state')}
-              />
-            </>
-          )}
-        </div>
+        <MessageSignature
+          asConstructor={asConstructor}
+          message={message}
+          withTooltip
+        />
         <details className="docs">
           <summary>
             {
@@ -229,33 +191,9 @@ export default translate(styled(Messages)`
     .info {
       flex: 1 1;
 
-      .signature {
-        font-family: monospace;
-        font-weight: normal;
-
-        .name {
-          color: #2f8ddb;
-          font-weight: bold;
-        }
-
-        .type {
-          color: #21a2b2;
-        }
-
-        .return-type {
-          color: #ff8600;
-        }
-      }
-
       .docs {
         font-size: 0.8rem;
         font-weight: normal;
-      }
-
-      .mutates {
-        color: #ff8600;
-        margin-left: 0.5rem;
-        opacity: 0.6;
       }
     }
 

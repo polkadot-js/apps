@@ -54,6 +54,7 @@ export { default as Labelled } from './Labelled';
 export { default as LinkPolkascan } from './LinkPolkascan';
 export { default as Menu } from './Menu';
 export { default as Messages } from './Messages';
+export { default as MessageSignature } from './MessageSignature';
 export { default as Modal } from './Modal';
 export { default as Nonce } from './Nonce';
 export { default as Output } from './Output';
