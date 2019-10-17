@@ -4,19 +4,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Index } from '@polkadot/types/interfaces';
 import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { Available } from '@polkadot/react-query';
-import Checks, { calcTxLength } from '@polkadot/react-signer/Checks';
+import Checks from '@polkadot/react-signer/Checks';
 import { ApiContext } from '@polkadot/react-api';
-import { bnMax } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -30,42 +27,42 @@ interface Props extends I18nProps {
 
 const ZERO = new BN(0);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function calcMax (api: ApiPromise, balances_fees: DerivedFees | undefined, senderId: string, recipientId: string): Promise<BN> {
-  let maxBalance = new BN(1);
+// TODO Re-enable when we have proper fee calculation (incl. weights)
+// async function calcMax (api: ApiPromise, balances_fees: DerivedFees | undefined, senderId: string, recipientId: string): Promise<BN> {
+//   let maxBalance = new BN(1);
 
-  if (!balances_fees) {
-    return maxBalance;
-  }
+//   if (!balances_fees) {
+//     return maxBalance;
+//   }
 
-  const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
+//   const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
 
-  const [senderNonce, senderBalances, recipientBalances] = await Promise.all([
-    api.query.system.accountNonce<Index>(senderId),
-    api.derive.balances.all(senderId),
-    api.derive.balances.all(recipientId)
-  ]);
+//   const [senderNonce, senderBalances, recipientBalances] = await Promise.all([
+//     api.query.system.accountNonce<Index>(senderId),
+//     api.derive.balances.all(senderId),
+//     api.derive.balances.all(recipientId)
+//   ]);
 
-  let prevMax = new BN(0);
+//   let prevMax = new BN(0);
 
-  // something goes screwy here when we move this out of the component :(
-  let extrinsic: any;
+//   // something goes screwy here when we move this out of the component :(
+//   let extrinsic: any;
 
-  while (!prevMax.eq(maxBalance)) {
-    prevMax = maxBalance;
-    extrinsic = api.tx.balances.transfer(senderNonce, prevMax);
+//   while (!prevMax.eq(maxBalance)) {
+//     prevMax = maxBalance;
+//     extrinsic = api.tx.balances.transfer(senderNonce, prevMax);
 
-    const txLength = calcTxLength(extrinsic, senderNonce);
-    const fees = transactionBaseFee
-      .add(transactionByteFee.mul(txLength))
-      .add(transferFee)
-      .add(recipientBalances.availableBalance.isZero() ? creationFee : ZERO);
+//     const txLength = calcTxLength(extrinsic, senderNonce);
+//     const fees = transactionBaseFee
+//       .add(transactionByteFee.mul(txLength))
+//       .add(transferFee)
+//       .add(recipientBalances.availableBalance.isZero() ? creationFee : ZERO);
 
-    maxBalance = bnMax(senderBalances.availableBalance.sub(fees), ZERO);
-  }
+//     maxBalance = bnMax(senderBalances.availableBalance.sub(fees), ZERO);
+//   }
 
-  return maxBalance;
-}
+//   return maxBalance;
+// }
 
 function Transfer ({ className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
