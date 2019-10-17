@@ -5,99 +5,69 @@
 import { Codec, TypeDef } from '@polkadot/types/types';
 import { Props, RawParam } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';
 import findComponent from './findComponent';
 
-interface State {
-  Components: React.ComponentType<Props>[];
-  sub: string[];
-  subTypes: TypeDef[];
-  type?: string;
-  values: RawParam[];
-}
+export default function Tuple ({ className, defaultValue, isDisabled, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
+  const [{ Components, subTypes }, setComponents] = useState<{ Components: React.ComponentType<Props>[]; subTypes: TypeDef[] }>({ Components: [], subTypes: [] });
+  const [values, setValues] = useState<RawParam[]>([]);
 
-export default class Tuple extends React.PureComponent<Props, State> {
-  public state: State = {
-    Components: [],
-    sub: [],
-    subTypes: [],
-    values: []
-  };
-
-  public static getDerivedStateFromProps ({ defaultValue: { value }, type: { sub, type } }: Props, prevState: State): Partial<State> | null {
-    if (type === prevState.type) {
-      return null;
-    }
-
-    const subTypes = sub && Array.isArray(sub)
-      ? sub
+  useEffect((): void => {
+    const subTypes: TypeDef[] = type.sub && Array.isArray(type.sub)
+      ? type.sub
       : [];
-    const values = (value as any[]).map((value): { isValid: boolean; value: Codec } =>
-      isUndefined(value) || isUndefined(value.isValid)
-        ? {
-          isValid: !isUndefined(value),
-          value
-        }
-        : value
-    );
 
-    return {
+    setComponents({
       Components: subTypes.map((type): React.ComponentType<Props> => findComponent(type)),
-      sub: subTypes.map(({ type }): string => type),
-      subTypes,
-      type,
-      values
-    };
-  }
+      subTypes
+    });
+  }, [type]);
 
-  public render (): React.ReactNode {
-    const { className, isDisabled, onEnter, style, withLabel } = this.props;
-    const { Components, sub, subTypes, values } = this.state;
-
-    return (
-      <Bare
-        className={className}
-        style={style}
-      >
-        {Components.map((Component, index): React.ReactNode => (
-          <Component
-            defaultValue={values[index] || {}}
-            isDisabled={isDisabled}
-            key={index}
-            label={sub[index]}
-            onChange={this.onChange(index)}
-            onEnter={onEnter}
-            type={subTypes[index]}
-            withLabel={withLabel}
-          />
-        ))}
-      </Bare>
+  useEffect((): void => {
+    setValues(
+      (((defaultValue && defaultValue.value) || []) as any[]).map((value): { isValid: boolean; value: Codec } =>
+        isUndefined(value) || isUndefined(value.isValid)
+          ? { isValid: !isUndefined(value), value }
+          : value
+      )
     );
-  }
+  }, [defaultValue]);
 
-  private onChange = (index: number): (value: RawParam) => void => {
-    return (value: RawParam): void => {
-      this.setState(
-        ({ values }: State): State => ({
-          values: values.map((svalue, sindex): RawParam =>
-            (sindex === index)
-              ? value
-              : svalue
-          )
-        } as unknown as State),
-        (): void => {
-          const { values } = this.state;
-          const { onChange } = this.props;
+  useEffect((): void => {
+    onChange && onChange({
+      isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
+      value: values.map(({ value }): any => value)
+    });
+  }, [values]);
 
-          onChange && onChange({
-            isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
-            value: values.map(({ value }): any => value)
-          });
-        }
-      );
-    };
-  }
+  const _onChange = (index: number): (value: RawParam) => void =>
+    (value: RawParam): void =>
+      setValues(values.map((prev, prevIndex): RawParam =>
+        (prevIndex === index)
+          ? value
+          : prev
+      ));
+
+  return (
+    <Bare
+      className={className}
+      style={style}
+    >
+      {Components.map((Component, index): React.ReactNode => (
+        <Component
+          defaultValue={values[index] || {}}
+          isDisabled={isDisabled}
+          key={index}
+          label={subTypes[index].type}
+          onChange={_onChange(index)}
+          onEnter={onEnter}
+          type={subTypes[index]}
+          withLabel={withLabel}
+        />
+      ))}
+    </Bare>
+  );
 }

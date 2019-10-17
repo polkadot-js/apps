@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
@@ -39,110 +39,76 @@ interface Props<Option> extends BareProps {
   withLabel?: boolean;
 }
 
-class Dropdown<Option> extends React.PureComponent<Props<Option>> {
-  // Trigger the update on mount - ensuring that the onChange (as described below)
-  // is trigerred.
-  public componentDidMount (): void {
-    this.componentDidUpdate({} as unknown as Props<Option>);
-  }
+function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
+  const [stateValue, setStateValue] = useState<any>();
 
-  // Here we update the component user with the initial value of the dropdown. In a number of
-  // these (e.g. Accounts) the list of available values are managed by the component itself,
-  // and there are defaults set (i.e. for accounts the last one used)
-  public componentDidUpdate (prevProps: Props<Option>): void {
-    const { defaultValue, value } = this.props;
-    const startValue = isUndefined(value)
-      ? defaultValue
-      : value;
-    const prevStart = isUndefined(prevProps.value)
-      ? prevProps.defaultValue
-      : prevProps.value;
-
-    if (startValue !== prevStart) {
-      this.onChange(null as any, {
-        value: startValue
-      });
-    }
-  }
-
-  public render (): React.ReactNode {
-    const { allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onSearch, options, placeholder, renderLabel, searchInput, style, withEllipsis, withLabel, value } = this.props;
-    const dropdown = (
-      <SUIDropdown
-        allowAdditions={allowAdd}
-        className={dropdownClassName}
-        button={isButton}
-        compact={isButton}
-        disabled={isDisabled}
-        error={isError}
-        floating={isButton}
-        multiple={isMultiple}
-        onAddItem={this.onAddItem}
-        onBlur={this.onBlur}
-        onChange={this.onChange}
-        onClose={this.onClose}
-        options={options}
-        placeholder={placeholder}
-        renderLabel={renderLabel}
-        search={onSearch || allowAdd}
-        searchInput={searchInput}
-        selection
-        value={
-          isUndefined(value)
-            ? defaultValue
-            : value
-        }
-      />
-    );
-
-    return isButton
-      ? (
-        <SUIButton.Group primary>
-          {dropdown}
-        </SUIButton.Group>
-      )
-      : (
-        <Labelled
-          className={classes('ui--Dropdown', className)}
-          help={help}
-          label={label}
-          labelExtra={labelExtra}
-          style={style}
-          withEllipsis={withEllipsis}
-          withLabel={withLabel}
-        >
-          {dropdown}
-        </Labelled>
-      );
-  }
-
-  private onAddItem = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
-    const { onAdd } = this.props;
-
+  const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
     onAdd && onAdd(value);
-  }
 
-  private onBlur = (): void => {
-    const { onBlur } = this.props;
-
-    onBlur && onBlur();
-  }
-
-  private onChange = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void => {
-    const { onChange, transform } = this.props;
+  const _onChange = (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void => {
+    setStateValue(value);
 
     onChange && onChange(
       transform
         ? transform(value)
         : value
     );
-  }
+  };
 
-  private onClose = (): void => {
-    const { onClose } = this.props;
+  useEffect((): void => {
+    const newValue = isUndefined(value)
+      ? defaultValue
+      : value;
 
-    onClose && onClose();
-  }
+    // only update parent if we have had something changed
+    if (JSON.stringify({ v: newValue }) !== JSON.stringify({ v: stateValue })) {
+      _onChange(null, { value: newValue });
+    }
+  }, [defaultValue, stateValue, value]);
+
+  const dropdown = (
+    <SUIDropdown
+      allowAdditions={allowAdd}
+      className={dropdownClassName}
+      button={isButton}
+      compact={isButton}
+      disabled={isDisabled}
+      error={isError}
+      floating={isButton}
+      multiple={isMultiple}
+      onAddItem={_onAdd}
+      onBlur={onBlur}
+      onChange={_onChange}
+      onClose={onClose}
+      options={options}
+      placeholder={placeholder}
+      renderLabel={renderLabel}
+      search={onSearch || allowAdd}
+      searchInput={searchInput}
+      selection
+      value={stateValue}
+    />
+  );
+
+  return isButton
+    ? (
+      <SUIButton.Group primary>
+        {dropdown}
+      </SUIButton.Group>
+    )
+    : (
+      <Labelled
+        className={classes('ui--Dropdown', className)}
+        help={help}
+        label={label}
+        labelExtra={labelExtra}
+        style={style}
+        withEllipsis={withEllipsis}
+        withLabel={withLabel}
+      >
+        {dropdown}
+      </Labelled>
+    );
 }
 
 export default styled(Dropdown)`
