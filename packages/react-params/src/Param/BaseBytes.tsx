@@ -4,7 +4,7 @@
 
 import { Props as BaseProps, Size } from '../types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
@@ -44,13 +44,18 @@ function convertInput (value: string): [boolean, Uint8Array] {
 
 export default function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
-  const defaultValue = value
-    ? (
-      isHex(value)
-        ? value
-        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
-    )
-    : undefined;
+
+  useEffect((): void => {
+    const [isValid, converted] = convertInput(value);
+
+    setIsValid(
+      isValid && validate(converted) && (
+        length !== -1
+          ? converted.length === length
+          : true
+      )
+    );
+  }, [length, value]);
 
   const _onChange = (hex: string): void => {
     let [isValid, value] = convertInput(hex);
@@ -74,6 +79,14 @@ export default function BaseBytes ({ asHex, children, className, defaultValue: {
 
     setIsValid(isValid);
   };
+
+  const defaultValue = value
+    ? (
+      isHex(value)
+        ? value
+        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+    )
+    : undefined;
 
   return (
     <Bare

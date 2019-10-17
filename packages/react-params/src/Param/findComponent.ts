@@ -16,7 +16,8 @@ import Bytes from './Bytes';
 import Code from './Code';
 import Data from './Data';
 import Enum from './Enum';
-import Hash from './Hash';
+import Hash256 from './Hash256';
+import Hash512 from './Hash512';
 import Moment from './Moment';
 import Proposal from './Proposal';
 import KeyValue from './KeyValue';
@@ -45,7 +46,8 @@ const components: ComponentMap = ([
   { c: Code, t: ['Code'] },
   { c: Data, t: ['Data', 'Keys'] },
   { c: Enum, t: ['Enum'] },
-  { c: Hash, t: ['CodeHash', 'Hash', 'H256', 'H512', 'SeedOf', 'Signature'] },
+  { c: Hash256, t: ['CodeHash', 'Hash', 'H256', 'SeedOf'] },
+  { c: Hash512, t: ['H512', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
