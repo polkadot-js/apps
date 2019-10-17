@@ -46,7 +46,7 @@ export function Transfer ({ amount, balances_all = ZERO_BALANCE, fees, onChange,
       extraFees = extraFees.add(fees.creationFee);
     }
 
-    const extraAmount = amount instanceof Compact ? amount.toBn() : new BN(amount);
+    const extraAmount = amount instanceof Compact ? amount.unwrap() : new BN(amount);
     const isCreation = balances_all.votingBalance.isZero() && fees.creationFee.gtn(0);
     const isNoEffect = extraAmount.add(balances_all.votingBalance).lt(fees.existentialDeposit);
     const extraWarn = isCreation || isNoEffect;
