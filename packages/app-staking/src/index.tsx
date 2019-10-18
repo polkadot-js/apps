@@ -63,7 +63,7 @@ function App ({ allAccounts, allStashesAndControllers, bestNumber, className, cu
 
   useEffect((): void => {
     if (propsRecentlyOnline && propsRecentlyOnline.length) {
-      setRecentlyOnline({
+      const newValue = {
         ...recentlyOnline,
         ...propsRecentlyOnline.reduce(
           (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
@@ -72,9 +72,13 @@ function App ({ allAccounts, allStashesAndControllers, bestNumber, className, cu
           }),
           {}
         )
-      });
+      };
+
+      if (JSON.stringify({ o: newValue }) !== JSON.stringify({ o: recentlyOnline })) {
+        setRecentlyOnline(newValue);
+      }
     }
-  }, [bestNumber, propsRecentlyOnline, recentlyOnline]);
+  }, [bestNumber, propsRecentlyOnline]);
 
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
