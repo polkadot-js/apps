@@ -26,6 +26,7 @@ export default function File ({ className, isDisabled, isError = false, label, o
       style={style}
     >
       <InputFile
+        convertHex
         isDisabled={isDisabled}
         isError={isError}
         label={label}
