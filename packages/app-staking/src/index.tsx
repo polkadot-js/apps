@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AuthorityId, BlockNumber, EventRecord } from '@polkadot/types/interfaces';
+import { AccountId, BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
-import { createType, Option } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
@@ -27,7 +27,7 @@ interface Props extends AppProps, ApiProps, I18nProps {
   allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
   bestNumber?: BlockNumber;
   currentValidatorsControllersV1OrStashesV2?: AccountId[];
-  recentlyOnline?: AuthorityId[];
+  recentlyOnline?: string[];
 }
 
 interface State {
@@ -36,13 +36,26 @@ interface State {
   currentValidators: string[];
 }
 
+function offlineReducer (prev: Record<string, BlockNumber>, { bestNumber, propsRecentlyOnline }: { bestNumber: BlockNumber; propsRecentlyOnline: string[] }): Record<string, BlockNumber> {
+  return {
+    ...prev,
+    ...propsRecentlyOnline.reduce(
+      (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
+        ...result,
+        [authorityId]: bestNumber
+      }),
+      {}
+    )
+  };
+}
+
 function App ({ allAccounts, allStashesAndControllers, bestNumber, className, currentValidatorsControllersV1OrStashesV2, basePath, recentlyOnline: propsRecentlyOnline, t }: Props): React.ReactElement<Props> {
   const [{ allControllers, allStashes, currentValidators }, setState] = useState<State>({
     allControllers: [],
     allStashes: [],
     currentValidators: []
   });
-  const [recentlyOnline, setRecentlyOnline] = useState<Record<string, BlockNumber>>({});
+  const [recentlyOnline, dispatchOffline] = useReducer(offlineReducer, {});
 
   useEffect((): void => {
     const [_stashes, _controllers] = (allStashesAndControllers || [[], []]);
@@ -62,21 +75,8 @@ function App ({ allAccounts, allStashesAndControllers, bestNumber, className, cu
   }, [allStashesAndControllers, currentValidatorsControllersV1OrStashesV2]);
 
   useEffect((): void => {
-    if (propsRecentlyOnline && propsRecentlyOnline.length) {
-      const newValue = {
-        ...recentlyOnline,
-        ...propsRecentlyOnline.reduce(
-          (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
-            ...result,
-            [authorityId.toString()]: bestNumber || createType('BlockNumber')
-          }),
-          {}
-        )
-      };
-
-      if (JSON.stringify({ o: newValue }) !== JSON.stringify({ o: recentlyOnline })) {
-        setRecentlyOnline(newValue);
-      }
+    if (bestNumber && propsRecentlyOnline && propsRecentlyOnline.length) {
+      dispatchOffline({ bestNumber, propsRecentlyOnline });
     }
   }, [bestNumber, propsRecentlyOnline]);
 
@@ -144,13 +144,13 @@ export default withMulti(
     ['query.session.validators', { propName: 'currentValidatorsControllersV1OrStashesV2' }],
     ['query.system.events', {
       propName: 'recentlyOnline',
-      transform: (value?: EventRecord[]): AuthorityId[] =>
+      transform: (value?: EventRecord[]): string[] =>
         (value || [])
           .filter(({ event: { method, section } }): boolean =>
             section === 'imOnline' && method === 'HeartbeatReceived'
           )
-          .map(({ event: { data: [authorityId] } }): AuthorityId =>
-            authorityId as AuthorityId
+          .map(({ event: { data: [authorityId] } }): string =>
+            authorityId.toString()
           )
     }]
   ),
