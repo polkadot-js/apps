@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
@@ -24,22 +24,16 @@ import translate from './translate';
 
 interface Props extends AppProps, ApiProps, I18nProps {
   allAccounts?: SubjectInfo;
-  allStashesAndControllers?: [AccountId[], Option<AccountId>[]];
+  allStashesAndControllers?: [string[], string[]];
   bestNumber?: BlockNumber;
-  currentValidatorsControllersV1OrStashesV2?: AccountId[];
+  currentValidators?: string[];
   recentlyOnline?: string[];
 }
 
-interface State {
-  allControllers: string[];
-  allStashes: string[];
-  currentValidators: string[];
-}
-
-function offlineReducer (prev: Record<string, BlockNumber>, { bestNumber, propsRecentlyOnline }: { bestNumber: BlockNumber; propsRecentlyOnline: string[] }): Record<string, BlockNumber> {
+function offlineReducer (prev: Record<string, BlockNumber>, { bestNumber, recentlyOnline }: { bestNumber: BlockNumber; recentlyOnline: string[] }): Record<string, BlockNumber> {
   return {
     ...prev,
-    ...propsRecentlyOnline.reduce(
+    ...recentlyOnline.reduce(
       (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
         ...result,
         [authorityId]: bestNumber
@@ -49,36 +43,15 @@ function offlineReducer (prev: Record<string, BlockNumber>, { bestNumber, propsR
   };
 }
 
-function App ({ allAccounts, allStashesAndControllers, bestNumber, className, currentValidatorsControllersV1OrStashesV2, basePath, recentlyOnline: propsRecentlyOnline, t }: Props): React.ReactElement<Props> {
-  const [{ allControllers, allStashes, currentValidators }, setState] = useState<State>({
-    allControllers: [],
-    allStashes: [],
-    currentValidators: []
-  });
-  const [recentlyOnline, dispatchOffline] = useReducer(offlineReducer, {});
+function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = [[], []], bestNumber, className, currentValidators = [], basePath, recentlyOnline, t }: Props): React.ReactElement<Props> {
+  const [online, dispatchOffline] = useReducer(offlineReducer, {});
 
+  // dispatch a combinator for the new recentlyOnline events
   useEffect((): void => {
-    const [_stashes, _controllers] = (allStashesAndControllers || [[], []]);
-    const _validators = currentValidatorsControllersV1OrStashesV2 || [];
-
-    setState({
-      allControllers: _controllers
-        .filter((optId): boolean => optId.isSome)
-        .map((accountId): string => accountId.unwrap().toString()),
-      allStashes: _stashes
-        .filter((): boolean => true)
-        .map((accountId): string => accountId.toString()),
-      currentValidators: _validators.map((authorityId): string =>
-        authorityId.toString()
-      )
-    });
-  }, [allStashesAndControllers, currentValidatorsControllersV1OrStashesV2]);
-
-  useEffect((): void => {
-    if (bestNumber && propsRecentlyOnline && propsRecentlyOnline.length) {
-      dispatchOffline({ bestNumber, propsRecentlyOnline });
+    if (bestNumber && recentlyOnline && recentlyOnline.length) {
+      dispatchOffline({ bestNumber, recentlyOnline });
     }
-  }, [bestNumber, propsRecentlyOnline]);
+  }, [bestNumber, recentlyOnline]);
 
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
@@ -93,7 +66,7 @@ function App ({ allAccounts, allStashesAndControllers, bestNumber, className, cu
           allControllers={allControllers}
           allStashes={allStashes}
           currentValidators={currentValidators}
-          recentlyOnline={recentlyOnline}
+          recentlyOnline={online}
         />
       );
     };
@@ -140,8 +113,20 @@ export default withMulti(
   translate,
   withCalls<Props>(
     ['derive.chain.bestNumber', { propName: 'bestNumber' }],
-    ['derive.staking.controllers', { propName: 'allStashesAndControllers' }],
-    ['query.session.validators', { propName: 'currentValidatorsControllersV1OrStashesV2' }],
+    ['derive.staking.controllers', {
+      propName: 'allStashesAndControllers',
+      transform: ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] => [
+        stashes.map((accountId): string => accountId.toString()),
+        controllers
+          .filter((optId): boolean => optId.isSome)
+          .map((accountId): string => accountId.unwrap().toString())
+      ]
+    }],
+    ['query.session.validators', {
+      propName: 'currentValidators',
+      transform: (validators: AccountId[]): string[] =>
+        validators.map((accountId): string => accountId.toString())
+    }],
     ['query.system.events', {
       propName: 'recentlyOnline',
       transform: (value?: EventRecord[]): string[] =>
