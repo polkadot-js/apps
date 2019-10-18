@@ -2,28 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Index } from '@polkadot/types/interfaces';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
+import { createType } from '@polkadot/types';
 
 const ZERO_BALANCE: DerivedBalances = {
-  accountId: new Uint8Array(32) as AccountId,
-  accountNonce: new BN(0) as Index,
-  availableBalance: new BN(0),
-  lockedBalance: new BN(0),
-  freeBalance: new BN(0),
-  reservedBalance: new BN(0),
-  vestedBalance: new BN(0),
-  votingBalance: new BN(0)
+  accountId: createType('AccountId'),
+  accountNonce: createType('Index'),
+  availableBalance: createType('Balance'),
+  lockedBalance: createType('Balance'),
+  freeBalance: createType('Balance'),
+  reservedBalance: createType('Balance'),
+  vestedBalance: createType('Balance'),
+  votingBalance: createType('Balance')
 };
 
 const ZERO_FEES_BALANCES: DerivedFees = {
-  transactionBaseFee: new BN(0),
-  transactionByteFee: new BN(0),
-  creationFee: new BN(0),
-  existentialDeposit: new BN(0),
-  transferFee: new BN(0)
+  creationFee: createType('Balance'),
+  existentialDeposit: createType('Balance'),
+  transactionBaseFee: createType('Balance'),
+  transactionByteFee: createType('Balance'),
+  transferFee: createType('Balance')
 };
 
 const ZERO_FEES = ZERO_FEES_BALANCES;

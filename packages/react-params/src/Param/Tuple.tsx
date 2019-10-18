@@ -2,72 +2,50 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, TypeDef } from '@polkadot/types/types';
-import { Props, RawParam } from '../types';
+import { TypeDef } from '@polkadot/types/types';
+import { ParamDef, Props, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import { isUndefined } from '@polkadot/util';
+import { createType, getTypeDef } from '@polkadot/types';
 
-import Bare from './Bare';
-import findComponent from './findComponent';
+import Params from '../';
+import Base from './Base';
+import Static from './Static';
 
-export default function Tuple ({ className, defaultValue, isDisabled, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
-  const [{ Components, subTypes }, setComponents] = useState<{ Components: React.ComponentType<Props>[]; subTypes: TypeDef[] }>({ Components: [], subTypes: [] });
-  const [values, setValues] = useState<RawParam[]>([]);
+export default function Tuple (props: Props): React.ReactElement<Props> {
+  const [params, setParams] = useState<ParamDef[]>([]);
+  const { className, isDisabled, label, onChange, style, type, withLabel } = props;
 
   useEffect((): void => {
-    const subTypes: TypeDef[] = type.sub && Array.isArray(type.sub)
-      ? type.sub
-      : [];
+    const rawType = createType(type.type as any).toRawType();
+    const typeDef = getTypeDef(rawType);
 
-    setComponents({
-      Components: subTypes.map((type): React.ComponentType<Props> => findComponent(type)),
-      subTypes
-    });
+    setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
   }, [type]);
 
-  useEffect((): void => {
-    setValues(
-      (((defaultValue && defaultValue.value) || []) as any[]).map((value): { isValid: boolean; value: Codec } =>
-        isUndefined(value) || isUndefined(value.isValid)
-          ? { isValid: !isUndefined(value), value }
-          : value
-      )
-    );
-  }, [defaultValue]);
+  if (isDisabled) {
+    return <Static {...props} />;
+  }
 
-  useEffect((): void => {
+  const _onChangeParams = (values: RawParam[]): void => {
     onChange && onChange({
-      isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
+      isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
       value: values.map(({ value }): any => value)
     });
-  }, [values]);
-
-  const _onChange = (index: number): (value: RawParam) => void =>
-    (value: RawParam): void =>
-      setValues(values.map((prev, prevIndex): RawParam =>
-        (prevIndex === index)
-          ? value
-          : prev
-      ));
+  };
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
-      {Components.map((Component, index): React.ReactNode => (
-        <Component
-          defaultValue={values[index] || {}}
-          isDisabled={isDisabled}
-          key={index}
-          label={subTypes[index].type}
-          onChange={_onChange(index)}
-          onEnter={onEnter}
-          type={subTypes[index]}
-          withLabel={withLabel}
-        />
-      ))}
-    </Bare>
+    <div className='ui--Params-Tuple'>
+      <Base
+        className={className}
+        label={label}
+        style={style}
+        withLabel={withLabel}
+      />
+      <Params
+        onChange={_onChangeParams}
+        params={params}
+      />
+    </div>
   );
 }
