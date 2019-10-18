@@ -8,7 +8,6 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
@@ -63,17 +62,19 @@ function App ({ allAccounts, allStashesAndControllers, bestNumber, className, cu
   }, [allStashesAndControllers, currentValidatorsControllersV1OrStashesV2]);
 
   useEffect((): void => {
-    setRecentlyOnline({
-      ...(recentlyOnline || {}),
-      ...(propsRecentlyOnline || []).reduce(
-        (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
-          ...result,
-          [authorityId.toString()]: bestNumber || createType('BlockNumber', new BN(0))
-        }),
-        {}
-      )
-    });
-  }, [bestNumber, propsRecentlyOnline]);
+    if (propsRecentlyOnline && propsRecentlyOnline.length) {
+      setRecentlyOnline({
+        ...recentlyOnline,
+        ...propsRecentlyOnline.reduce(
+          (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
+            ...result,
+            [authorityId.toString()]: bestNumber || createType('BlockNumber')
+          }),
+          {}
+        )
+      });
+    }
+  }, [bestNumber, propsRecentlyOnline, recentlyOnline]);
 
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
