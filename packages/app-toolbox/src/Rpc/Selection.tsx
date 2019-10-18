@@ -100,7 +100,6 @@ class Selection extends TxComponent<Props, State> {
   }
 
   private onChangeValues = (values: RawParam[]): void => {
-    console.log(values);
     this.nextState({ values });
   }
 

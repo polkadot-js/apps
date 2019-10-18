@@ -63,7 +63,6 @@ export { default as Progress } from './Progress';
 export { default as ProposedAction } from './ProposedAction';
 export { default as OnlineStatus } from './OnlineStatus';
 export { default as Row } from './Row';
-export { default as RpcModal } from './RpcModal';
 export { default as Static } from './Static';
 export { default as Status, StatusContext } from './Status';
 export { default as SummaryBox } from './SummaryBox';

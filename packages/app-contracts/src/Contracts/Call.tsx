@@ -2,28 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueProps, QueueTx, QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
-import { CallContract, StringOrNull } from '@polkadot/react-components/types';
-import { CallProps as Props } from './types';
-import { Codec } from '@polkadot/types/types';
-import { ContractCallRequest, ContractExecResult } from '@polkadot/types/interfaces/contracts';
+import { ApiProps } from '@polkadot/react-api/types';
+import { BareProps, CallContract, I18nProps, StringOrNull } from '@polkadot/react-components/types';
+import { QueueProps } from '@polkadot/react-components/Status/types';
+import { ContractExecResult } from '@polkadot/types/interfaces/contracts';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import rpc from '@polkadot/jsonrpc';
-import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, Output, TxButton } from '@polkadot/react-components';
 import { QueueConsumer } from '@polkadot/react-components/Status/Context';
-// import { getContractAbi } from '@polkadot/react-components/util';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { isNull, isUndefined, stringToHex, stringCamelCase } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
-// import { getCallProps, needsCallProps } from './util';
 import Params from '../Params';
 
 import translate from '../translate';
 import { GAS_LIMIT } from '../constants';
 import { findCallMethod, getContractForAddress, getCallMethodOptions, getContractMethodFn } from './util';
+
+interface Props extends BareProps, I18nProps, ApiProps {
+  callContract: CallContract | null;
+  callMethodIndex: number | null;
+  isOpen: boolean;
+  onChangeCallContract: (callContract: CallContract) => void;
+  onChangeCallMethodIndex: (callMethodIndex: number) => void;
+  onClose: () => void;
+}
 
 function Call (props: Props): React.ReactElement<Props> | null {
   const { isOpen, callContract, callMethodIndex, onChangeCallContract, onChangeCallMethodIndex, onClose, api, t } = props;
@@ -44,16 +49,18 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const [params, setParams] = useState<any[]>([]);
 
   const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
+
   const _onChangeCallAddress = (callAddress: StringOrNull): void => {
     const callContract = getContractForAddress(callAddress);
 
     onChangeCallContract && callContract.abi && onChangeCallContract(callContract);
   };
+
   const _onChangeCallMethodString = (callMethodString: string): void => {
     setParams([]);
-    console.log(callMethodString);
     onChangeCallMethodIndex && onChangeCallMethodIndex(parseInt(callMethodString, 10) || 0);
   };
+
   const _onChangeEndowment = (endowment?: BN): void => endowment && setEndowment(endowment);
   const _onChangeGasLimit = (gasLimit?: BN): void => gasLimit && setGasLimit(gasLimit);
 
@@ -76,8 +83,8 @@ function Call (props: Props): React.ReactElement<Props> | null {
     }
     return [
       {
-        origin: accountId, // stringToHex(accountId),
-        dest: callContract.address, // stringToHex(callContract.address),
+        origin: accountId,
+        dest: callContract.address,
         value: endowment,
         gasLimit,
         inputData: fn(...params)
@@ -85,7 +92,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
     ];
   };
 
-  const isEndowmentValid = true; // !endowment.isZero();
+  const isEndowmentValid = true;
   const isGasValid = !gasLimit.isZero();
   const isValid = !!accountId && isEndowmentValid && isGasValid && callContract && callContract.address && callContract.abi;
 
@@ -122,7 +129,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
             {callMethodIndex !== null && (
               <>
                 <Dropdown
-                  defaultValue={`${callMethodIndex}`}
                   help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
                   isDisabled={isBusy}
                   isError={callMethod === null}
@@ -175,12 +181,14 @@ function Call (props: Props): React.ReactElement<Props> | null {
                   });
                 }
               };
+
               const results = txqueue
-                .filter(({ error, result, rpc }): boolean =>
+                .filter(({ error, result, rpc, values }): boolean =>
                   ((!isUndefined(error) || !isUndefined(result)) &&
-                  rpc.section === 'contracts' && rpc.method === 'call')
+                  rpc.section === 'contracts' && rpc.method === 'call' && !!values && values[0].dest === callContract.address)
                 )
                 .reverse();
+
               return (
                 <>
                   <Button.Group>
@@ -217,7 +225,39 @@ function Call (props: Props): React.ReactElement<Props> | null {
                       )
                     }
                   </Button.Group>
-                  {JSON.stringify(results)}
+                  {results.length > 0 && (
+                    <>
+                      <h3>{t('Call results')}</h3>
+                      <div>
+                        {
+                          results.map(
+                            (tx, index): React.ReactNode => {
+                              let output: string;
+                              const contractExecResult = tx.result as ContractExecResult;
+                              if (contractExecResult.isSuccess) {
+                                const { data } = contractExecResult.asSuccess;
+                                output = data.toHex();
+                              } else {
+                                output = 'Error';
+                              }
+
+                              return (
+                                <Output
+                                  isError={contractExecResult.isError}
+                                  key={`result-${tx.id}`}
+                                  label={t(`#${results.length - 1 - index}`)}
+                                  style={{ fontFamily: 'monospace' }}
+                                  value={output}
+                                  withCopy
+                                  withLabel
+                                />
+                              );
+                            }
+                          )
+                        }
+                      </div>
+                    </>
+                  )}
                 </>
               );
             }
@@ -229,6 +269,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
 }
 
 export default withMulti(
-  translate(withRouter(Call)),
+  Call,
+  translate,
   withApi
 );

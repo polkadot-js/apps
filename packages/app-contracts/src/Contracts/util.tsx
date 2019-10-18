@@ -4,18 +4,12 @@
 
 import { ContractABIFn, ContractABIMethod } from '@polkadot/api-contract/types';
 import { CallContract, NullContract, StringOrNull } from '@polkadot/react-components/types';
-import { Contract, CallState } from './types';
 import { CONTRACT_NULL } from '../constants';
 
 import React from 'react';
 import { MessageSignature } from '@polkadot/react-components';
 import { getContractAbi } from '@polkadot/react-components/util';
-import { createType, displayType } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
-
-export function needsCallProps ({ contract, contractMethod }: Partial<CallState>): boolean {
-  return !contract || !contract.address || !contract.isValid || !contract.abi || !contractMethod;
-}
 
 export function findCallMethod (callContract: CallContract | null, callMethodIndex = 0): ContractABIMethod | null {
   const message = callContract && callContract.abi.abi.contract.messages[callMethodIndex];
@@ -47,8 +41,6 @@ export function getCallMethodOptions (callContract: CallContract | null): any[] 
   return callContract && callContract.abi
     ? callContract.abi.abi.contract.messages.map((message, messageIndex): { key: string; text: React.ReactNode; value: string } => {
       const key = message.name;
-      const type = message.returnType ? `: ${displayType(message.returnType)}` : '';
-      const args = message.args.map(({ name, type }): string => `${name}: ${displayType(type)}`);
 
       return {
         key,

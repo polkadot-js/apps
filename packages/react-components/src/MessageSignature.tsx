@@ -43,11 +43,6 @@ const ReturnType = styled.span`
   color: #ff8600;
 `;
 
-const Mutates = styled(Icon)`
-  & {
-  }
-`;
-
 function MessageSignature ({ message: { args, mutates, name, returnType }, asConstructor = false, withTooltip = false, t }: Props): React.ReactElement<Props> {
   return (
     <Signature>

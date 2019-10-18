@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { CallContract, I18nProps, StringOrNull } from '@polkadot/react-components/types';
+import { CallContract, I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -57,6 +57,7 @@ function Contract (props: Props): React.ReactElement<Props> | null {
     }
     _toggleForget();
   };
+
   const _onCallMessage = onCall(contract);
   const _onCall = _onCallMessage();
 

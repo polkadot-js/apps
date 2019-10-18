@@ -2,38 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIMethod } from '@polkadot/api-contract/types';
-import { ContractDeployed as CallContract, NullContract, I18nProps, StringOrNull } from '@polkadot/react-components/types';
+import { CallContract, NullContract, I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Button, CardGrid } from '@polkadot/react-components';
-import { stringCamelCase } from '@polkadot/util';
 
 import translate from '../translate';
 import Add from './Add';
 import Contract from './Contract';
 import Call from './Call';
-import { CONTRACT_NULL } from '../constants';
-import { findCallMethod, getContractForAddress } from './util';
+import { getContractForAddress } from './util';
 
 interface Props extends ComponentProps, I18nProps, RouteComponentProps {}
-
-// interface State {
-//   isAddOpen: boolean;
-//   isCallOpen: boolean;
-//   callContract: CallContract;
-//   callMethod: string | null;
-// }
-//
-// public state: State = {
-//   callContract: CONTRACT_NULL,
-//   callMethod: null,
-//   isAddOpen: false,
-//   isCallOpen: false
-// };
 
 function Contracts (props: Props): React.ReactElement<Props> {
   const { accounts, basePath, contracts, hasCode, showDeploy, t } = props;
@@ -47,9 +30,11 @@ function Contracts (props: Props): React.ReactElement<Props> {
   const _toggleAdd = (): void => setIsAddOpen(!isAddOpen);
   const _toggleCall = (): void => setIsCallOpen(!isCallOpen);
 
-  const _onChangeCallContract = (callContract: CallContract, callMethodIndex?: number): void => {
+  const _onChangeCallContract = (newCallContract: CallContract): void => {
+    if (callContract && newCallContract.address !== callContract.address) {
+      setCallMethodIndex(0);
+    }
     setCallContract(callContract);
-    setCallMethodIndex(callMethodIndex || 0);
   };
   const _onChangeCallMethodIndex = (callMethodIndex: number): void => {
     !!callContract && setCallMethodIndex(callMethodIndex);
