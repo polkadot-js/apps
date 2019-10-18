@@ -30,6 +30,9 @@ interface Props extends AppProps, ApiProps, I18nProps {
   recentlyOnline?: string[];
 }
 
+const EMPY_ACCOUNTS: string[] = [];
+const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
+
 function offlineReducer (prev: Record<string, BlockNumber>, { bestNumber, recentlyOnline }: { bestNumber: BlockNumber; recentlyOnline: string[] }): Record<string, BlockNumber> {
   return {
     ...prev,
@@ -43,7 +46,7 @@ function offlineReducer (prev: Record<string, BlockNumber>, { bestNumber, recent
   };
 }
 
-function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = [[], []], bestNumber, className, currentValidators = [], basePath, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, bestNumber, className, currentValidators = EMPY_ACCOUNTS, basePath, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const [online, dispatchOffline] = useReducer(offlineReducer, {});
 
   // dispatch a combinator for the new recentlyOnline events
