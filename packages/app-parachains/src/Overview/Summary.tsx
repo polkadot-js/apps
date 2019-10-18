@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-parachains authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -14,22 +13,22 @@ import { formatNumber } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  parachains_nextFreeId?: BN;
-  parachains_parachains?: BN[];
+  nextFreeId?: BN;
+  parachains?: BN[];
 }
 
-function Summary ({ parachains_nextFreeId, parachains_parachains = [], t }: Props): React.ReactElement<Props> {
+function Summary ({ nextFreeId, parachains = [], t }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>
         <CardSummary label={t('parachains')}>
-          {formatNumber(parachains_parachains.length)}
+          {formatNumber(parachains.length)}
         </CardSummary>
       </section>
-      {parachains_nextFreeId && (
+      {nextFreeId && (
         <section>
           <CardSummary label={t('next id')}>
-            {formatNumber(parachains_nextFreeId)}
+            {formatNumber(nextFreeId)}
           </CardSummary>
         </section>
       )}
@@ -39,7 +38,13 @@ function Summary ({ parachains_nextFreeId, parachains_parachains = [], t }: Prop
 
 export default translate(
   withCalls<Props>(
-    'query.parachains.nextFreeId',
-    'query.parachains.parachains'
+    ['query.registrar.nextFreeId', {
+      fallbacks: ['query.parachains.nextFreeId'],
+      propName: 'nextFreeId'
+    }],
+    ['query.registrar.parachains', {
+      fallbacks: ['query.parachains.parachains'],
+      propName: 'parachains'
+    }]
   )(Summary)
 );
