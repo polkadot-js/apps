@@ -4,7 +4,7 @@
 
 import { WithTranslation } from 'react-i18next';
 import { TypeDef } from '@polkadot/types/types';
-import { Props as BareProps, RawParam } from '../types';
+import { ParamDef, Props as BareProps, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import { Button } from '@polkadot/react-components';
@@ -12,28 +12,47 @@ import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
 import getInitValue from '../initValue';
+import Params from '../';
 import Base from './Base';
-import findComponent from './findComponent';
 
 interface Props extends BareProps, WithTranslation {}
 
-function Vector ({ className, defaultValue, isDisabled = false, label, onChange, onEnter, style, t, type, withLabel }: Props): React.ReactElement<Props> | null {
-  const [Component, setComponent] = useState<React.ComponentType<BareProps> | null>(null);
-  const [stateType, setStateType] = useState<string | null>(null);
+function Vector ({ className, defaultValue, isDisabled = false, label, onChange, style, t, type, withLabel }: Props): React.ReactElement<Props> | null {
+  const [count, setCount] = useState(1);
+  const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>([]);
 
+  //
   useEffect((): void => {
-    const value = defaultValue.value || [];
+    const subType = type.sub as TypeDef;
+    const params: ParamDef[] = [];
+    const param: ParamDef = { name: subType.name, type: subType };
 
-    if (stateType === type.type) {
-      return;
+    for (let i = 0; i < count; i++) {
+      params.push({ ...param })
     }
 
-    setStateType(type.type);
-    setComponent((): React.ComponentType<BareProps> => findComponent(type.sub as TypeDef));
-    setValues(
-      isDisabled || values.length === 0
-        ? value.map((value: any): RawParam => (
+    setParams(params);
+  }, [count, type]);
+
+  // set the values based on the count - assuming we are entering info
+  useEffect((): void => {
+    if (!isDisabled && values.length !== count) {
+      while (values.length < count) {
+        const value = getInitValue(type.sub as TypeDef);
+
+        values.push({ isValid: !isUndefined(value), value });
+      }
+
+      setValues(values.slice(0, count));
+    }
+  }, [count, isDisabled, type, values]);
+
+  // set the values based on the defaultValue input
+  useEffect((): void => {
+    if (isDisabled) {
+      setValues(
+        defaultValue.value || [].map((value: any): RawParam => (
           isUndefined(value) || isUndefined(value.isValid)
             ? {
               isValid: !isUndefined(value),
@@ -41,9 +60,9 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
             }
             : value
         ))
-        : values
-    );
-  }, [type]);
+      );
+    }
+  }, [defaultValue, isDisabled]);
 
   useEffect((): void => {
     onChange && onChange({
@@ -52,23 +71,8 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
     });
   }, [values]);
 
-  if (!Component) {
-    return null;
-  }
-
-  const subType = type.sub as TypeDef;
-
-  const _rowAdd = (): void => {
-    const value = getInitValue(subType);
-
-    setValues([...values, {
-      isValid: !isUndefined(value),
-      value
-    }]);
-  };
-  const _rowRemove = (): void => {
-    setValues(values.slice(0, values.length - 1));
-  };
+  const _rowAdd = (): void => setCount(count + 1);
+  const _rowRemove = (): void => setCount(count - 1);
 
   return (
     <Base
@@ -77,33 +81,6 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
       style={style}
       withLabel={withLabel}
     >
-      {values.map((value, index): React.ReactNode => (
-        // FIXME? This doesn't look quite right - this means that any bool would disappear
-        // when set to false? At the very least need an explanation here
-        type.type === 'Vec<bool>' && isDisabled && values[index].value === false
-          ? null
-          : (
-            <Component
-              defaultValue={value}
-              isDisabled={isDisabled}
-              key={index}
-              label={`${index}: ${subType.type}`}
-              onChange={
-                (value: RawParam): void =>
-                  setValues(
-                    values.map((svalue, sindex): RawParam =>
-                      (sindex === index)
-                        ? value
-                        : svalue
-                    )
-                  )
-              }
-              onEnter={onEnter}
-              type={subType}
-              withLabel={withLabel}
-            />
-          )
-      ))}
       {!isDisabled && (
         <div className='ui--Param-Vector-buttons'>
           <Button
@@ -121,6 +98,30 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
           />
         </div>
       )}
+      <Params
+        isDisabled={isDisabled}
+        onChange={setValues}
+        params={params}
+        values={values}
+      />
+      {/* {values.map((value, index): React.ReactNode => (
+        // FIXME? This doesn't look quite right - this means that any bool would disappear
+        // when set to false? At the very least need an explanation here
+        type.type === 'Vec<bool>' && isDisabled && values[index].value === false
+          ? null
+          : (
+            <Component
+              defaultValue={value}
+              isDisabled={isDisabled}
+              key={index}
+              label={`${index}: ${subType.type}`}
+              onChange={(value: RawParam): void => _onChange(index, value)}
+              onEnter={onEnter}
+              type={subType}
+              withLabel={withLabel}
+            />
+          )
+      ))} */}
     </Base>
   );
 }
