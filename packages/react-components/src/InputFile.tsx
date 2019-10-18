@@ -74,7 +74,7 @@ function InputFile ({ accept, className, clearContent, convertHex, help, isDisab
       // ummm... events are not properly specified here?
       (reader as any).onload = ({ target: { result } }: LoadEvent): void => {
         const name = file.name;
-        const data = convertResult(result);
+        const data = convertResult(result, convertHex);
 
         onChange && onChange(data, name);
         dropRef && setFile({
