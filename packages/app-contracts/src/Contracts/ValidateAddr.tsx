@@ -7,7 +7,7 @@ import { ContractInfo } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Option } from '@polkadot/types';
 import { withCalls } from '@polkadot/react-api';
 import { InfoForInput } from '@polkadot/react-components';
@@ -21,68 +21,47 @@ interface Props extends ApiProps, I18nProps {
   onChange: (isValid: boolean) => void;
 }
 
-interface State {
-  isStored: boolean;
-  isValidAddr: boolean;
-  isValid: boolean;
-}
+function ValidateAddr ({ address, contracts_contractInfoOf, onChange, t }: Props): React.ReactElement<Props> | null {
+  const [isAddress, setIsAddress] = useState(false);
+  const [isStored, setIsStored] = useState(false);
 
-class ValidateAddr extends React.PureComponent<Props, State> {
-  public state: State = {
-    isStored: false,
-    isValidAddr: false,
-    isValid: false
-  };
-
-  public static getDerivedStateFromProps ({ address, contracts_contractInfoOf, onChange }: Props): State {
-    let isValidAddr = false;
-
+  useEffect((): void => {
     try {
       keyring.decodeAddress(address || '');
-
-      isValidAddr = true;
+      setIsAddress(true);
     } catch (error) {
-      // ignore
+      setIsAddress(false);
     }
+  }, [address]);
 
-    const isStored = (
-      (!!contracts_contractInfoOf && contracts_contractInfoOf.isSome)
-      // (!!contract_codeHashOf && contract_codeHashOf.isSome)
-    );
-    const isValid = isValidAddr && isStored;
+  useEffect((): void => {
+    setIsStored(!!contracts_contractInfoOf && contracts_contractInfoOf.isSome);
+  }, [contracts_contractInfoOf]);
 
-    // FIXME Really not convinced this is the correct place to do this type of callback?
-    onChange(isValid);
+  useEffect((): void => {
+    onChange(isAddress && isStored);
+  }, [isAddress, isStored]);
 
-    return {
-      isStored,
-      isValidAddr,
-      isValid
-    };
+  if (isStored || !isAddress) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { t } = this.props;
-    const { isValid, isValidAddr } = this.state;
-
-    if (isValid || !isValidAddr) {
-      return null;
-    }
-
-    return (
-      <InfoForInput type='error'>
-        {
-          isValidAddr
-            ? t('Unable to find deployed contract code at the specified address')
-            : t('The value is not in a valid address format')
-        }
-      </InfoForInput>
-    );
-  }
+  return (
+    <InfoForInput type='error'>
+      {
+        isAddress
+          ? t('Unable to find deployed contract code at the specified address')
+          : t('The value is not in a valid address format')
+      }
+    </InfoForInput>
+  );
 }
 
 export default translate(
   withCalls<Props>(
-    ['query.contracts.contractInfoOf', { fallbacks: ['query.contract.contractInfoOf'], paramName: 'address' }]
+    ['query.contracts.contractInfoOf', {
+      fallbacks: ['query.contract.contractInfoOf'],
+      paramName: 'address'
+    }]
   )(ValidateAddr)
 );
