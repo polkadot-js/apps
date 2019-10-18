@@ -35,12 +35,6 @@ interface FileState {
   size: number;
 }
 
-interface LoadEvent {
-  target: {
-    result: ArrayBuffer;
-  };
-}
-
 const BYTE_STR_0 = '0'.charCodeAt(0);
 const BYTE_STR_X = 'x'.charCodeAt(0);
 const NOOP = (): void => {};
@@ -71,16 +65,17 @@ function InputFile ({ accept, className, clearContent, convertHex, help, isDisab
       reader.onabort = NOOP;
       reader.onerror = NOOP;
 
-      // ummm... events are not properly specified here?
-      (reader as any).onload = ({ target: { result } }: LoadEvent): void => {
-        const name = file.name;
-        const data = convertResult(result, convertHex);
+      reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
+        if (target && target.result) {
+          const name = file.name;
+          const data = convertResult(target.result as ArrayBuffer, convertHex);
 
-        onChange && onChange(data, name);
-        dropRef && setFile({
-          name,
-          size: data.length
-        });
+          onChange && onChange(data, name);
+          dropRef && setFile({
+            name,
+            size: data.length
+          });
+        }
       };
 
       reader.readAsArrayBuffer(file);
