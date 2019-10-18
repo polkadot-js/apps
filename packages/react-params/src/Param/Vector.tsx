@@ -17,53 +17,64 @@ import Base from './Base';
 
 interface Props extends BareProps, WithTranslation {}
 
+function generateParam (type: TypeDef, index: number): ParamDef {
+  return {
+    name: `${index}: ${type.type}`,
+    type
+  };
+}
+
 function Vector ({ className, defaultValue, isDisabled = false, label, onChange, style, t, type, withLabel }: Props): React.ReactElement<Props> | null {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>([]);
 
-  //
+  // when !isDisable, generating an input & params based on count
   useEffect((): void => {
-    const subType = type.sub as TypeDef;
-    const params: ParamDef[] = [];
-    const param: ParamDef = { name: subType.name, type: subType };
+    if (!isDisabled) {
+      const subType = type.sub as TypeDef;
+      const params: ParamDef[] = [];
 
-    for (let i = 0; i < count; i++) {
-      params.push({ ...param })
-    }
-
-    setParams(params);
-  }, [count, type]);
-
-  // set the values based on the count - assuming we are entering info
-  useEffect((): void => {
-    if (!isDisabled && values.length !== count) {
-      while (values.length < count) {
-        const value = getInitValue(type.sub as TypeDef);
-
-        values.push({ isValid: !isUndefined(value), value });
+      for (let index = 0; index < count; index++) {
+        params.push(generateParam(subType, index));
       }
 
-      setValues(values.slice(0, count));
+      setParams(params);
+
+      if (values.length !== count) {
+        while (values.length < count) {
+          const value = getInitValue(type.sub as TypeDef);
+
+          values.push({ isValid: !isUndefined(value), value });
+        }
+
+        setValues(values.slice(0, count));
+      }
     }
   }, [count, isDisabled, type, values]);
 
-  // set the values based on the defaultValue input
+  // when isDisabled, set the params & values based on the defaultValue input
   useEffect((): void => {
     if (isDisabled) {
-      setValues(
-        defaultValue.value || [].map((value: any): RawParam => (
-          isUndefined(value) || isUndefined(value.isValid)
-            ? {
-              isValid: !isUndefined(value),
-              value
-            }
-            : value
-        ))
-      );
-    }
-  }, [defaultValue, isDisabled]);
+      const subType = type.sub as TypeDef;
+      const params: ParamDef[] = [];
+      const values: RawParam[] = [];
 
+      (defaultValue.value || []).forEach((value: RawParam, index: number): void => {
+        values.push(
+          isUndefined(value) || isUndefined(value.isValid)
+            ? { isValid: !isUndefined(value), value }
+            : value
+        );
+        params.push(generateParam(subType, index));
+      });
+
+      setParams(params);
+      setValues(values);
+    }
+  }, [defaultValue, isDisabled, type]);
+
+  // when our values has changed, alert upstream
   useEffect((): void => {
     onChange && onChange({
       isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
@@ -77,6 +88,7 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
   return (
     <Base
       className={className}
+      isOuter
       label={label}
       style={style}
       withLabel={withLabel}
@@ -104,24 +116,6 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
         params={params}
         values={values}
       />
-      {/* {values.map((value, index): React.ReactNode => (
-        // FIXME? This doesn't look quite right - this means that any bool would disappear
-        // when set to false? At the very least need an explanation here
-        type.type === 'Vec<bool>' && isDisabled && values[index].value === false
-          ? null
-          : (
-            <Component
-              defaultValue={value}
-              isDisabled={isDisabled}
-              key={index}
-              label={`${index}: ${subType.type}`}
-              onChange={(value: RawParam): void => _onChange(index, value)}
-              onEnter={onEnter}
-              type={subType}
-              withLabel={withLabel}
-            />
-          )
-      ))} */}
     </Base>
   );
 }

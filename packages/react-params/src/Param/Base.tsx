@@ -13,12 +13,13 @@ import Bare from './Bare';
 interface Props extends BareProps {
   children?: React.ReactNode;
   isDisabled?: boolean;
+  isOuter?: boolean;
   label?: React.ReactNode;
   size?: Size;
   withLabel?: boolean;
 }
 
-export default function Base ({ children, className, label, size = 'full', style, withLabel }: Props): React.ReactElement<Props> {
+export default function Base ({ children, className, isOuter, label, size = 'full', style, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Bare
       className={className}
@@ -31,8 +32,9 @@ export default function Base ({ children, className, label, size = 'full', style
         withEllipsis
         withLabel={withLabel}
       >
-        {children}
+        {!isOuter && children}
       </Labelled>
+      {isOuter && children}
     </Bare>
   );
 }
