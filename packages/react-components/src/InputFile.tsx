@@ -8,17 +8,21 @@ import { BareProps } from './types';
 import React, { useState, createRef } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isHex, u8aToString, hexToU8a } from '@polkadot/util';
 
 import { classes } from './util';
 import Labelled from './Labelled';
 import translate from './translate';
+
+const BYTE_STR_0 = '0'.charCodeAt(0);
+const BYTE_STR_x = 'x'.charCodeAt(0);
 
 interface Props extends BareProps, WithTranslation {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string;
   clearContent?: boolean;
+  convertHex?: boolean;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
@@ -40,7 +44,7 @@ interface LoadEvent {
   };
 }
 
-function InputFile ({ accept, className, clearContent, help, isDisabled, isError = false, label, onChange, placeholder, t, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function InputFile ({ accept, className, clearContent, convertHex, help, isDisabled, isError = false, label, onChange, placeholder, t, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
 
@@ -53,8 +57,17 @@ function InputFile ({ accept, className, clearContent, help, isDisabled, isError
 
       // ummm... events are not properly specified here?
       (reader as any).onload = ({ target: { result } }: LoadEvent): void => {
-        const data = new Uint8Array(result);
         const name = file.name;
+        let data = new Uint8Array(result);
+
+        // this converts the input (if detected as hex), vai the hex conversion route
+        if (convertHex && data[0] === BYTE_STR_0 && data[1] === BYTE_STR_x) {
+          const hex = u8aToString(data);
+
+          if (isHex(hex)) {
+            data = hexToU8a(hex);
+          }
+        }
 
         onChange && onChange(data, name);
 
