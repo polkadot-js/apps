@@ -77,5 +77,7 @@
   "Search for": "Search for",
   "Should the search be case sensitive, e.g if you select \"no\" your search for \"Some\" may return addresses containing \"somE\" or \"sOme\"...": "Should the search be case sensitive, e.g if you select \"no\" your search for \"Some\" may return addresses containing \"somE\" or \"sOme\"...",
   "case sensitive": "case sensitive",
-  "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)": "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)"
+  "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)": "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)",
+  "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.": "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.",
+  "//hard/soft///password": "//hard/soft///password"
 }
