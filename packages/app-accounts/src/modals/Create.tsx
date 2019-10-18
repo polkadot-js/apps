@@ -265,11 +265,12 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             />
             <Input
               className='full'
-              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`.')}
+              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
               isError={!!deriveError}
               label={t('secret derivation path')}
               onChange={_onChangeDerive}
               onEnter={_onCommit}
+              placeholder={t('//hard/soft///password')}
               value={derivePath}
             />
             {deriveError && (
