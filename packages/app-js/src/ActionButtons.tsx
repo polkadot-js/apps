@@ -13,6 +13,7 @@ import translate from './translate';
 
 interface Props extends BareProps, I18nProps {
   isCustomExample: boolean;
+  isRunning: boolean;
   generateLink: () => void;
   removeSnippet: () => void;
   runJs: () => void;
@@ -21,8 +22,7 @@ interface Props extends BareProps, I18nProps {
   stopJs: () => void;
 }
 
-function ActionButtons ({ className, generateLink, isCustomExample, removeSnippet, runJs, saveSnippet, stopJs, t }: Props): React.ReactElement<Props> {
-  const [isRunning, setIsRunning] = useState(false);
+function ActionButtons ({ className, generateLink, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs, t }: Props): React.ReactElement<Props> {
   const [isOpen, setIsOpen] = useState(false);
   const [shareText, setShareText] = useState(t('Generate link to share code example'));
   const [snippetName, setSnippetName] = useState('');
@@ -47,14 +47,6 @@ function ActionButtons ({ className, generateLink, isCustomExample, removeSnippe
   const _saveSnippet = (): void => {
     saveSnippet(snippetName);
     _onPopupClose();
-  };
-  const _runJs = (): void => {
-    setIsRunning(true);
-    runJs();
-  };
-  const _stopJs = (): void => {
-    stopJs();
-    setIsRunning(false);
   };
 
   return (
@@ -129,7 +121,7 @@ function ActionButtons ({ className, generateLink, isCustomExample, removeSnippe
             icon='close'
             isCircular
             isNegative
-            onClick={_stopJs}
+            onClick={stopJs}
           />
         )
         : (
@@ -138,7 +130,7 @@ function ActionButtons ({ className, generateLink, isCustomExample, removeSnippe
             icon='play'
             isCircular
             isPrimary
-            onClick={_runJs}
+            onClick={runJs}
           />
         )
       }

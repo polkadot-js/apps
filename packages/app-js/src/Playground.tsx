@@ -55,6 +55,7 @@ interface Props extends AppProps, I18nProps, RouteComponentProps<{}> {
 }
 
 const snippets: Snippet[] = JSON.parse(JSON.stringify(allSnippets));
+let hasSnippetWrappers = false;
 
 function decodeBase64 (base64: string): Snippet {
   const sharedExample: Snippet = {
@@ -91,13 +92,52 @@ function decodeBase64 (base64: string): Snippet {
 function Playground ({ className, history, match: { params: { base64 } }, t }: Props): React.ReactElement<Props> {
   const { api, isDevelopment } = useContext(ApiContext);
   const injectedRef = useRef<Injected | null>(null);
+  const [code, setCode] = useState('');
   const [isAnimated, setIsAnimated] = useState(true);
   const [isCustomExample, setIsCustomExample] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
   const [customExamples, setCustomExamples] = useState<Snippet[]>([]);
   const [logs, setLogs] = useState<Log[]>([]);
   const [options, setOptions] = useState<Snippet[]>([]);
   const [selected, setSelected] = useState(snippets[0]);
   const [sharedExample, setSharedExample] = useState<Snippet | undefined>();
+
+  // add snippet wrappers
+  useEffect((): void => {
+    if (!hasSnippetWrappers) {
+      snippets.forEach((snippet): void => {
+        snippet.code = `${makeWrapper(isDevelopment)}${snippet.code}`;
+      });
+
+      hasSnippetWrappers = true;
+    }
+  }, []);
+
+  // initialize all options
+  useEffect((): void => {
+    const sharedExample = base64 ? decodeBase64(base64) : undefined;
+    const localData = {
+      examples: localStorage.getItem(STORE_EXAMPLES),
+      selectedValue: localStorage.getItem(STORE_SELECTED)
+    };
+    const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
+
+    const options: Snippet[] = sharedExample
+      ? [sharedExample, ...customExamples, ...snippets]
+      : [...customExamples, ...snippets];
+
+    const selected = options.find((option): boolean => option.value === localData.selectedValue);
+
+    setCustomExamples(customExamples);
+    setIsCustomExample((selected && selected.type === 'custom') || false);
+    setOptions(options);
+    setSelected(sharedExample || selected || snippets[0]);
+    setSharedExample(sharedExample);
+  }, []);
+
+  useEffect((): void => {
+    setCode(selected.code);
+  }, [selected]);
 
   const _clearConsole = (): void => setLogs([]);
   const _hookConsole = (type: LogType, args: any[]): void => {
@@ -135,8 +175,11 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
       injectedRef.current.api.disconnect();
       injectedRef.current = null;
     }
+
+    setIsRunning(false);
   };
   const _runJs = async (): Promise<void> => {
+    setIsRunning(true);
     _stopJs();
     _clearConsole();
 
@@ -158,27 +201,30 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
 
     await injectedRef.current.api.isReady;
 
-    // squash into a single line so exceptions (with linenumbers) maps to the same line/origin
+    // squash into a single line so exceptions (with line numbers) maps to the same line/origin
     // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
-    const exec = `(async ({${Object.keys(injectedRef.current).join(',')}}) => { try { ${selected.code} \n } catch (error) { console.error(error); } })(injected);`;
+    const exec = `(async ({${Object.keys(injectedRef.current).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); } })(injected);`;
 
     // eslint-disable-next-line no-new-func
     new Function('injected', exec)(injectedRef.current);
   };
   const _selectExample = (value: string): void => {
+    _stopJs();
+
     if (value.length) {
       const option = options.find((option): boolean => option.value === value);
 
       if (option) {
         localStorage.setItem(STORE_SELECTED, value);
-        setLogs([]);
+
+        _clearConsole();
         setIsCustomExample(option.type === 'custom');
         setSelected(option);
       }
     }
   };
   const _generateLink = (): void => {
-    const u8a = util.stringToU8a(selected.code);
+    const u8a = util.stringToU8a(code);
     const compU8a = snappy.compress(u8a);
     const compStr = compU8a.reduce((str: string, ch: number): string => {
       return str + String.fromCharCode(ch);
@@ -197,12 +243,6 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
 
     _copyToClipboard(`${basePath}/#${path}`);
   };
-  const _onEdit = (code: string): void => {
-    if (code !== selected.code) {
-      setIsCustomExample(false);
-      setSelected({ ...selected, code });
-    }
-  };
   const _removeSnippet = (): void => {
     const filtered = customExamples.filter((value): boolean => value.value !== selected.value);
     const nextOptions = [...filtered, ...snippets];
@@ -218,7 +258,7 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
     // The <Dropdown> component doesn't take boolean custom props and no
     // camelCase keys, that's why 'custom' is passed as a string here
     const snapshot: Snippet = {
-      code: selected.code,
+      code,
       label: CUSTOM_LABEL,
       text: snippetName,
       type: 'custom',
@@ -240,31 +280,6 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
     setSharedExample(selected.type === 'shared' ? undefined : sharedExample);
   };
 
-  useEffect((): void => {
-    snippets.forEach((snippet): void => {
-      snippet.code = `${makeWrapper(isDevelopment)}${snippet.code}`;
-    });
-
-    const sharedExample = base64 ? decodeBase64(base64) : undefined;
-    const localData = {
-      examples: localStorage.getItem(STORE_EXAMPLES),
-      selectedValue: localStorage.getItem(STORE_SELECTED)
-    };
-    const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-
-    const options: Snippet[] = sharedExample
-      ? [sharedExample, ...customExamples, ...snippets]
-      : [...customExamples, ...snippets];
-
-    const selected = options.find((option): boolean => option.value === localData.selectedValue);
-
-    setCustomExamples(customExamples);
-    setIsCustomExample((selected && selected.type === 'custom') || false);
-    setOptions(options);
-    setSelected(sharedExample || selected || snippets[0]);
-    setSharedExample(sharedExample);
-  }, []);
-
   const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
   return (
@@ -272,10 +287,10 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
       <header className='container'>
         <Dropdown
           className='js--Dropdown'
-          defaultValue={selected.value}
           onChange={_selectExample}
-          options={options}
           label={t('Select example')}
+          options={options}
+          value={selected.value}
         />
       </header>
       <section className='js--Content'>
@@ -288,6 +303,7 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
             <ActionButtons
               generateLink={_generateLink}
               isCustomExample={isCustomExample}
+              isRunning={isRunning}
               removeSnippet={_removeSnippet}
               runJs={_runJs}
               saveSnippet={_saveSnippet}
@@ -295,8 +311,8 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
               stopJs={_stopJs}
             />
             <Editor
-              code={selected.code}
-              onEdit={_onEdit}
+              code={code}
+              onEdit={setCode}
             />
           </article>
         </Transition>
