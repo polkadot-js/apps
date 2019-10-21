@@ -114,11 +114,6 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
 
     onChange && onChange(hasAvailable);
 
-    setExtra({
-      extraAmount,
-      extraFees,
-      extraWarn
-    });
     setState({
       allFees,
       allTotal,
@@ -130,7 +125,7 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
       isReserved,
       overLimit
     });
-  }, [accountId, balances_all, extrinsic, balances_fees, system_accountNonce, tip]);
+  }, [accountId, balances_all, balances_fees, extra, extrinsic, system_accountNonce, tip]);
 
   if (!accountId) {
     return null;
