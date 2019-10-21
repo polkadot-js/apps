@@ -54,5 +54,8 @@
   "Confirm ABI removal": "Confirm ABI removal",
   "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.": "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.",
   "This operation does not impact the associated on-chain code or any of its contracts.": "This operation does not impact the associated on-chain code or any of its contracts.",
-  "Remove": "Remove"
+  "Remove": "Remove",
+  "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.": "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.",
+  "Call results": "Call results",
+  "constructor ": "constructor "
 }
