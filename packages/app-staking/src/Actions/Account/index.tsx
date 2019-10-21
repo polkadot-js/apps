@@ -62,12 +62,27 @@ interface State {
   validatorPrefs?: ValidatorPrefs;
 }
 
-const DEFAULT_BALANCES = {
+const BALANCES = {
   available: true,
   bonded: false,
   total: false,
   redeemable: false,
   unlocking: false
+};
+const BALANCES_CONTROLLER = {
+  available: true,
+  bonded: false,
+  redeemable: false,
+  total: false,
+  unlocking: false
+};
+const BALANCES_SESSION = BALANCES_CONTROLLER;
+const BALANCES_STASH = {
+  available: false,
+  bonded: true,
+  redeemable: true,
+  total: false,
+  unlocking: true
 };
 
 function toIdString (id?: AccountId | null): string | null {
@@ -132,26 +147,28 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isSubstrateV2, t } = this.props;
-    const { controllerId, hexSessionId, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, sessionIds, stashId } = this.state;
+    const { className, isSubstrateV2, stashOptions, t } = this.props;
+    const { controllerId, destination, hexSessionId, isBondExtraOpen, isInjectOpen, isNominateOpen, isSetControllerAccountOpen, isSetRewardDestinationOpen, isSetSessionAccountOpen, isStashValidating, isUnbondOpen, isValidateOpen, nominees, onlineStatus, sessionIds, stashId, validatorPrefs } = this.state;
 
     if (!stashId) {
       return null;
     }
 
-    // Each component is rendered and gets a `is[Component]Open` passed in a `isOpen` props.
-    // These components will be loaded and return null at the first load (because is[Component]Open === false).
-    // This is deliberate in order to display the Component modals in a performant matter later on
-    // because their state will already be loaded.
     return (
       <AddressCard
         buttons={this.renderButtons()}
-        iconInfo={this.renderOnlineStatus()}
+        iconInfo={controllerId && onlineStatus && (
+          <OnlineStatus
+            accountId={controllerId}
+            value={onlineStatus}
+            tooltip
+          />
+        )}
         label={t('stash')}
         type='account'
         value={stashId}
         withAddressOrName
-        withBalance={DEFAULT_BALANCES}
+        withBalance={BALANCES}
       >
         <BondExtra
           controllerId={controllerId}
@@ -168,28 +185,77 @@ class Account extends React.PureComponent<Props, State> {
         {isInjectOpen && (
           <InjectKeys onClose={this.toggleInject} />
         )}
-        {this.renderSetValidatorPrefs()}
-        {this.renderNominate()}
-        {this.renderSetControllerAccount()}
-        {this.renderSetRewardDestination()}
-        {this.renderSetSessionAccount()}
-        {this.renderValidate()}
+        {controllerId && validatorPrefs && (
+          <Validate
+            controllerId={controllerId}
+            isOpen={isValidateOpen}
+            onClose={this.toggleValidate}
+            stashId={stashId}
+            validatorPrefs={validatorPrefs}
+          />
+        )}
+        {controllerId && (
+          <Nominate
+            controllerId={controllerId}
+            isOpen={isNominateOpen}
+            nominees={nominees}
+            onClose={this.toggleNominate}
+            stashId={stashId}
+            stashOptions={stashOptions}
+          />
+        )}
+        {isSetControllerAccountOpen && (
+          <SetControllerAccount
+            defaultControllerId={controllerId}
+            isValidating={isStashValidating}
+            onClose={this.toggleSetControllerAccount}
+            stashId={stashId}
+          />
+        )}
+        {isSetRewardDestinationOpen && controllerId && (
+          <SetRewardDestination
+            controllerId={controllerId}
+            defaultDestination={destination}
+            onClose={this.toggleSetRewardDestination}
+          />
+        )}
+        {controllerId && (
+          <SetSessionKey
+            controllerId={controllerId}
+            isOpen={isSetSessionAccountOpen}
+            onClose={this.toggleSetSessionAccount}
+            sessionIds={sessionIds}
+            stashId={stashId}
+          />
+        )}
+        {controllerId && (
+          <Validate
+            controllerId={controllerId}
+            isOpen={isValidateOpen}
+            onClose={this.toggleValidate}
+            stashId={stashId}
+            validatorPrefs={validatorPrefs}
+          />
+        )}
         <div className={className}>
           <div className='staking--Accounts'>
-            {this.renderControllerAccount()}
+            {controllerId && (
+              <div className='staking--Account-detail actions'>
+                <AddressRow
+                  label={t('controller')}
+                  value={controllerId}
+                  withAddressOrName
+                  withBalance={BALANCES_CONTROLLER}
+                />
+              </div>
+            )}
             {!isSubstrateV2 && !!sessionIds.length && (
               <div className='staking--Account-detail actions'>
                 <AddressRow
                   label={t('session')}
                   value={sessionIds[0]}
                   withAddressOrName
-                  withBalance={{
-                    available: true,
-                    bonded: false,
-                    free: false,
-                    redeemable: false,
-                    unlocking: false
-                  }}
+                  withBalance={BALANCES_SESSION}
                 />
               </div>
             )}
@@ -198,13 +264,7 @@ class Account extends React.PureComponent<Props, State> {
             <div className='staking--balances'>
               <AddressInfo
                 address={stashId}
-                withBalance={{
-                  available: false,
-                  bonded: true,
-                  free: false,
-                  redeemable: true,
-                  unlocking: true
-                }}
+                withBalance={BALANCES_STASH}
                 withRewardDestination
                 withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
                 withValidatorPrefs={isStashValidating}
@@ -226,87 +286,6 @@ class Account extends React.PureComponent<Props, State> {
           </div>
         </div>
       </AddressCard>
-    );
-  }
-
-  private renderOnlineStatus (): React.ReactNode {
-    const { onlineStatus, controllerId } = this.state;
-
-    if (!controllerId || !onlineStatus) {
-      return null;
-    }
-
-    return (
-      <OnlineStatus
-        accountId={controllerId}
-        value={onlineStatus}
-        tooltip
-      />
-    );
-  }
-
-  private renderControllerAccount (): React.ReactNode {
-    const { t } = this.props;
-    const { controllerId } = this.state;
-
-    if (!controllerId) {
-      return null;
-    }
-
-    return (
-      <div className='staking--Account-detail actions'>
-        <AddressRow
-          label={t('controller')}
-          value={controllerId}
-          withAddressOrName
-          withBalance={{
-            available: true,
-            bonded: false,
-            free: false,
-            redeemable: false,
-            unlocking: false
-          }}
-        />
-      </div>
-
-    );
-  }
-
-  private renderNominate (): React.ReactNode {
-    const { stashOptions } = this.props;
-    const { controllerId, isNominateOpen, nominees, stashId } = this.state;
-
-    if (!stashId || !controllerId) {
-      return null;
-    }
-
-    return (
-      <Nominate
-        controllerId={controllerId}
-        isOpen={isNominateOpen}
-        nominees={nominees}
-        onClose={this.toggleNominate}
-        stashId={stashId}
-        stashOptions={stashOptions}
-      />
-    );
-  }
-
-  private renderValidate (): React.ReactNode {
-    const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
-
-    if (!stashId || !controllerId) {
-      return null;
-    }
-
-    return (
-      <Validate
-        controllerId={controllerId}
-        isOpen={isValidateOpen}
-        onClose={this.toggleValidate}
-        stashId={stashId}
-        validatorPrefs={validatorPrefs}
-      />
     );
   }
 
@@ -385,11 +364,9 @@ class Account extends React.PureComponent<Props, State> {
     );
 
     return (
-      <>
-        <Button.Group>
-          {buttons}
-        </Button.Group>
-      </>
+      <Button.Group>
+        {buttons}
+      </Button.Group>
     );
   }
 
@@ -397,17 +374,13 @@ class Account extends React.PureComponent<Props, State> {
     const { balances_all, isSubstrateV2, t } = this.props;
     const { hexSessionId, isStashNominating, isStashValidating, sessionIds } = this.state;
 
-    // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
-    // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
-    const canBondExtra = balances_all && balances_all.availableBalance.gtn(0);
-
     return (
       <Menu
         vertical
         text
         onClick={this.toggleSettingPopup}
       >
-        {canBondExtra &&
+        {balances_all && balances_all.availableBalance.gtn(0) &&
           <Menu.Item onClick={this.toggleBondExtra}>
             {t('Bond more funds')}
           </Menu.Item>
@@ -442,75 +415,6 @@ class Account extends React.PureComponent<Props, State> {
           </Menu.Item>
         }
       </Menu>
-    );
-  }
-
-  private renderSetValidatorPrefs (): React.ReactNode {
-    const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
-
-    if (!controllerId || !validatorPrefs || !stashId) {
-      return null;
-    }
-
-    return (
-      <Validate
-        controllerId={controllerId}
-        isOpen={isValidateOpen}
-        onClose={this.toggleValidate}
-        stashId={stashId}
-        validatorPrefs={validatorPrefs}
-      />
-    );
-  }
-
-  private renderSetControllerAccount (): React.ReactNode {
-    const { controllerId, isSetControllerAccountOpen, isStashValidating, stashId } = this.state;
-
-    if (!isSetControllerAccountOpen || !stashId) {
-      return null;
-    }
-
-    return (
-      <SetControllerAccount
-        defaultControllerId={controllerId}
-        isValidating={isStashValidating}
-        onClose={this.toggleSetControllerAccount}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private renderSetRewardDestination (): React.ReactNode {
-    const { controllerId, destination, isSetRewardDestinationOpen } = this.state;
-
-    if (!isSetRewardDestinationOpen || !controllerId) {
-      return null;
-    }
-
-    return (
-      <SetRewardDestination
-        controllerId={controllerId}
-        defaultDestination={destination}
-        onClose={this.toggleSetRewardDestination}
-      />
-    );
-  }
-
-  private renderSetSessionAccount (): React.ReactNode {
-    const { controllerId, isSetSessionAccountOpen, stashId, sessionIds } = this.state;
-
-    if (!controllerId || !stashId) {
-      return null;
-    }
-
-    return (
-      <SetSessionKey
-        controllerId={controllerId}
-        isOpen={isSetSessionAccountOpen}
-        onClose={this.toggleSetSessionAccount}
-        sessionIds={sessionIds}
-        stashId={stashId}
-      />
     );
   }
 
