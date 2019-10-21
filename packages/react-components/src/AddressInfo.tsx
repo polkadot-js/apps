@@ -198,7 +198,7 @@ function renderBalances (props: Props): React.ReactNode {
       {balanceDisplay.total && (
         <>
           <Label label={t('total')} />
-          <div className='result'>{formatBalance(ownBonded.add(balances_all.votingBalance))}</div>
+          <div className='result'>{formatBalance(balances_all.votingBalance)}</div>
         </>
       )}
       {balanceDisplay.available && (
