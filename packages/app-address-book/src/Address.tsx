@@ -20,7 +20,7 @@ interface Props extends I18nProps {
   className?: string;
 }
 
-const WITH_BALANCE = { available: true, free: true, total: true };
+const WITH_BALANCE = { available: true, bonded: true, free: true, total: true };
 const WITH_EXTENDED = { nonce: true };
 
 const isEditable = true;
