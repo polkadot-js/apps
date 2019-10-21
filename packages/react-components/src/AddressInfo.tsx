@@ -22,8 +22,8 @@ import translate from './translate';
 export interface BalanceActiveType {
   available?: boolean;
   bonded?: boolean | BN[];
-  free?: boolean;
   redeemable?: boolean;
+  total?: boolean;
   unlocking?: boolean;
 }
 
@@ -49,35 +49,43 @@ interface Props extends BareProps, I18nProps {
   withValidatorPrefs?: boolean | ValidatorPrefsType;
 }
 
-// either true (filtered above already) or [own, ...all extras bonded funds from nominators]
-function renderBonded ({ staking_info, t }: Props, bonded: true | BN[]): React.ReactNode {
-  let value;
+const DEFAULT_BALANCES = {
+  available: true,
+  bonded: true,
+  redeemable: true,
+  total: true,
+  unlocking: true
+};
+const DEFAULT_EXTENDED = {
+  crypto: true,
+  nonce: true
+};
+const DEFAULT_PREFS = {
+  unstakeThreshold: true,
+  validatorPayment: true
+};
+
+// calculates the bonded, first being the own, the second being nominated
+function calcBonded (staking_info?: DerivedStaking, bonded?: boolean | BN[]): [BN, BN[]] {
+  let other: BN[] = [];
+  let own = new BN(0);
 
   if (Array.isArray(bonded)) {
-    // Get the sum of funds bonded by any nominator (if available)
-    const extras = bonded.filter((_, index): boolean => index !== 0);
-    const extra = extras.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
-      ? `(+${extras.map((bonded): string => formatBalance(bonded)).join(', ')})`
-      : '';
+    other = bonded
+      .filter((_, index): boolean => index !== 0)
+      .filter((value): boolean => value.gtn(0));
 
-    value = `${formatBalance(bonded[0])} ${extra}`;
+    own = bonded[0];
   } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
-    value = formatBalance(staking_info.stakingLedger.active);
+    own = staking_info.stakingLedger.active.unwrap();
   }
 
-  return value
-    ? (
-      <>
-        <Label label={t('bonded')} />
-        <div className='result'>{value}</div>
-      </>
-    )
-    : undefined;
+  return [own, other];
 }
 
 function renderExtended ({ balances_all, t, address, withExtended }: Props): React.ReactNode {
   const extendedDisplay = withExtended === true
-    ? { crypto: true, nonce: true }
+    ? DEFAULT_EXTENDED
     : withExtended || undefined;
 
   if (!extendedDisplay || !balances_all) {
@@ -125,20 +133,16 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
         data-for='unlocking-trigger'
       />
       <Tooltip
-        text={
-          <>
-            {staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
-              <div key={index}>
-                {t('{{value}}, {{remaining}} blocks left', {
-                  replace: {
-                    remaining: formatNumber(remainingBlocks),
-                    value: formatBalance(value)
-                  }
-                })}
-              </div>
-            ))}
-          </>
-        }
+        text={staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
+          <div key={index}>
+            {t('{{value}}, {{remaining}} blocks left', {
+              replace: {
+                remaining: formatNumber(remainingBlocks),
+                value: formatBalance(value)
+              }
+            })}
+          </div>
+        ))}
         trigger='unlocking-trigger'
       />
     </div>
@@ -147,7 +151,7 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
 
 function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: Props): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
-    ? { unstakeThreshold: true, validatorPayment: true }
+    ? DEFAULT_PREFS
     : withValidatorPrefs;
 
   if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
@@ -180,19 +184,21 @@ function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: 
 function renderBalances (props: Props): React.ReactNode {
   const { balances_all, staking_info, t, withBalance = true } = props;
   const balanceDisplay = withBalance === true
-    ? { available: true, bonded: true, free: true, redeemable: true, unlocking: true }
+    ? DEFAULT_BALANCES
     : withBalance || undefined;
 
   if (!balanceDisplay || !balances_all) {
     return null;
   }
 
+  const [ownBonded, otherBonded] = calcBonded(staking_info, balanceDisplay.bonded);
+
   return (
     <>
-      {balanceDisplay.free && (
+      {balanceDisplay.total && (
         <>
           <Label label={t('total')} />
-          <div className='result'>{formatBalance(balances_all.freeBalance)}</div>
+          <div className='result'>{formatBalance(ownBonded.add(balances_all.votingBalance))}</div>
         </>
       )}
       {balanceDisplay.available && (
@@ -201,7 +207,14 @@ function renderBalances (props: Props): React.ReactNode {
           <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
         </>
       )}
-      {balanceDisplay.bonded && renderBonded(props, balanceDisplay.bonded)}
+      {balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && (
+        <>
+          <Label label={t('bonded')} />
+          <div className='result'>{formatBalance(ownBonded)}{otherBonded.length !== 0 && (
+            ` (+${otherBonded.map((bonded): string => formatBalance(bonded)).join(', ')})`
+          )}</div>
+        </>
+      )}
       {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
         <>
           <Label label={t('redeemable')} />

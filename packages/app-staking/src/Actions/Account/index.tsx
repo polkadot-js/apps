@@ -62,6 +62,14 @@ interface State {
   validatorPrefs?: ValidatorPrefs;
 }
 
+const DEFAULT_BALANCES = {
+  available: true,
+  bonded: false,
+  total: false,
+  redeemable: false,
+  unlocking: false
+};
+
 function toIdString (id?: AccountId | null): string | null {
   return id
     ? id.toString()
@@ -143,13 +151,7 @@ class Account extends React.PureComponent<Props, State> {
         type='account'
         value={stashId}
         withAddressOrName
-        withBalance={{
-          available: true,
-          bonded: false,
-          free: false,
-          redeemable: false,
-          unlocking: false
-        }}
+        withBalance={DEFAULT_BALANCES}
       >
         <BondExtra
           controllerId={controllerId}
