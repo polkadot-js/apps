@@ -14,17 +14,16 @@ import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
-import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
-import { displayType } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';
 import translate from './translate';
-import { GAS_LIMIT, ENDOWMENT } from './constants';
+import { GAS_LIMIT } from './constants';
 
-type ConstructOptions = { key: string; text: string; value: string }[];
+type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
 
 interface Props extends ContractModalProps, ApiProps, I18nProps, RouteComponentProps {
   codeHash?: string;
@@ -52,7 +51,7 @@ class Deploy extends ContractModal<Props, State> {
       ...this.defaultState,
       constructorIndex: -1,
       constructOptions: [],
-      endowment: new BN(ENDOWMENT),
+      endowment: new BN(0),
       gasLimit: new BN(GAS_LIMIT),
       isHashValid: false,
       params: [],
@@ -126,12 +125,14 @@ class Deploy extends ContractModal<Props, State> {
     const constructor = constructors[constructorIndex];
     const constructOptions: ConstructOptions = constructors.map(
       (constr) => {
-        const { name, args } = constr;
-        const textArgs = args.map(({ name, type }): string => `${name}: ${displayType(type)}`);
-
         return {
           key: `${constructorIndex}`,
-          text: `${name}(${textArgs.join(', ')})`,
+          text: (
+            <MessageSignature
+              asConstructor
+              message={constr}
+            />
+          ),
           value: `${constructorIndex}`
         };
       });
@@ -147,7 +148,6 @@ class Deploy extends ContractModal<Props, State> {
     const { t } = this.props;
     const { codeHash, constructorIndex, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
-    const isEndowValid = !endowment.isZero();
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }): { text: string; value: string } => ({
       text: `${name} (${codeHash})`,
       value: codeHash
@@ -182,11 +182,12 @@ class Deploy extends ContractModal<Props, State> {
               <Dropdown
                 help={t('The deployment constructor information for this contract, as provided by the ABI.')}
                 isDisabled={contractAbi.abi.contract.constructors.length <= 1}
-                label={t('constructor')}
+                label={t('constructor ')}
                 onChange={this.onChangeConstructorIndex}
                 options={constructOptions}
                 style={{ fontFamily: 'monospace' }}
                 value={`${constructorIndex}`}
+                withLabel
               />
             )
             : null
@@ -204,7 +205,7 @@ class Deploy extends ContractModal<Props, State> {
         <InputBalance
           help={t('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
           isDisabled={isBusy}
-          isError={!isEndowValid}
+          isError={endowment.isZero()}
           label={t('endowment')}
           onChange={this.onChangeEndowment}
           onEnter={this.sendTx}

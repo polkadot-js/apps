@@ -3,311 +3,273 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { BareProps, I18nProps } from '@polkadot/react-components/types';
+import { BareProps, CallContract, I18nProps, StringOrNull } from '@polkadot/react-components/types';
+import { QueueProps } from '@polkadot/react-components/Status/types';
+import { ContractExecResult } from '@polkadot/types/interfaces/contracts';
 
 import BN from 'bn.js';
-import React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
-import { Abi } from '@polkadot/api-contract';
-import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { getContractAbi } from '@polkadot/react-components/util';
+import React, { useState } from 'react';
+import rpc from '@polkadot/jsonrpc';
+import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, Output, TxButton } from '@polkadot/react-components';
+import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { displayType } from '@polkadot/types';
+import { isNull, isUndefined } from '@polkadot/util';
+
+import Params from '../Params';
 
 import translate from '../translate';
-import Params from '../Params';
 import { GAS_LIMIT } from '../constants';
+import { findCallMethod, getContractForAddress, getCallMethodOptions, getContractMethodFn } from './util';
 
-interface Props extends BareProps, I18nProps, ApiProps, RouteComponentProps<{}> {
-  address: string | null;
+interface Props extends BareProps, I18nProps, ApiProps {
+  callContract: CallContract | null;
+  callMethodIndex: number | null;
   isOpen: boolean;
-  method: string | null;
+  onChangeCallContract: (callContract: CallContract) => void;
+  onChangeCallMethodIndex: (callMethodIndex: number) => void;
   onClose: () => void;
 }
 
-interface State {
-  accountId: string | null;
-  address: string | null;
-  contractAbi?: Abi | null;
-  endowment: BN;
-  gasLimit: BN;
-  isAddressValid: boolean;
-  isBusy: boolean;
-  method: string | null;
-  params: any[];
-}
+function Call (props: Props): React.ReactElement<Props> | null {
+  const { isOpen, callContract, callMethodIndex, onChangeCallContract, onChangeCallMethodIndex, onClose, api, t } = props;
 
-class Call extends TxComponent<Props, State> {
-  public defaultState: State = {
-    address: null,
-    accountId: null,
-    endowment: new BN(0),
-    gasLimit: new BN(GAS_LIMIT),
-    method: null,
-    isAddressValid: false,
-    isBusy: false,
-    params: []
+  if (isNull(callContract) || isNull(callMethodIndex)) {
+    return null;
+  }
+
+  const hasRpc = api.rpc.contracts && api.rpc.contracts.call;
+  const callMethod = findCallMethod(callContract, callMethodIndex);
+  const useRpc = hasRpc && callMethod && !callMethod.mutates;
+  // const isRpc = false;
+
+  const [accountId, setAccountId] = useState<StringOrNull>(null);
+  const [endowment, setEndowment] = useState<BN>(new BN(0));
+  const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
+  const [isBusy, setIsBusy] = useState(false);
+  const [params, setParams] = useState<any[]>([]);
+
+  const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
+
+  const _onChangeCallAddress = (callAddress: StringOrNull): void => {
+    const callContract = getContractForAddress(callAddress);
+
+    onChangeCallContract && callContract.abi && onChangeCallContract(callContract);
   };
 
-  public state: State = this.defaultState;
+  const _onChangeCallMethodString = (callMethodString: string): void => {
+    setParams([]);
+    onChangeCallMethodIndex && onChangeCallMethodIndex(parseInt(callMethodString, 10) || 0);
+  };
 
-  public static getDerivedStateFromProps ({ address: propsAddress, method: propsMethod, isOpen }: Props, { address, method }: State): Pick<State, never> | null {
-    if (!isOpen) {
-      return {
-        address: null,
-        method: null,
-        contractAbi: null,
-        isAddressValid: false
-      };
-    }
+  const _onChangeEndowment = (endowment?: BN): void => endowment && setEndowment(endowment);
+  const _onChangeGasLimit = (gasLimit?: BN): void => gasLimit && setGasLimit(gasLimit);
 
-    return {
-      ...(
-        !address
-          ? {
-            address: propsAddress,
-            contractAbi: propsAddress ? getContractAbi(propsAddress) : null,
-            isAddressValid: !!propsAddress
-          }
-          : {}
-      ),
-      ...(
-        !method
-          ? { method: propsMethod }
-          : {}
-      )
-    };
-  }
+  const _onChangeParams = (params: any[]): void => setParams(params);
+  const _toggleBusy = (): void => setIsBusy(!isBusy);
 
-  public render (): React.ReactNode {
-    const { isOpen, t } = this.props;
-
-    return (
-      <Modal
-        className='app--contracts-Modal'
-        dimmer='inverted'
-        onClose={this.onClose}
-        open={isOpen}
-      >
-        <Modal.Header>
-          {t('Call a contract')}
-        </Modal.Header>
-        <Modal.Content>
-          {this.renderContent()}
-        </Modal.Content>
-        <Modal.Actions>
-          {this.renderButtons()}
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  public renderContent (): React.ReactNode {
-    const { t } = this.props;
-    const { gasLimit } = this.state;
-
-    const [address, contractAbi, method] = this.getCallProps();
-    const isEndowValid = true;
-    const isGasValid = gasLimit.gtn(0);
-
-    if (!address || !contractAbi) {
-      return null;
-    }
-
-    const methodOptions = contractAbi
-      ? Object.keys(contractAbi.messages).map((key): { key: string; text: string; value: string } => {
-        const fn = contractAbi.messages[key];
-        const type = fn.type ? `: ${displayType(fn.type)}` : '';
-        const args = fn.args.map(({ name, type }): string => `${name}: ${displayType(type)}`);
-        const text = `${key}(${args.join(', ')})${type}`;
-
-        return {
-          key,
-          text,
-          value: key
-        };
-      })
-      : [];
-
-    return (
-      <div className='contracts--Call'>
-        <InputAddress
-          help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
-          label={t('call from account')}
-          onChange={this.onChangeAccount}
-          type='account'
-        />
-        <InputAddress
-          help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
-          label={t('contract to use')}
-          onChange={this.onChangeAddress}
-          type='contract'
-          value={address}
-        />
-        <Dropdown
-          help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
-          isError={!method}
-          label={t('message to send')}
-          onChange={this.onChangeMethod}
-          options={methodOptions}
-          style={{ fontFamily: 'monospace' }}
-          value={method}
-        />
-        <Params
-          onChange={this.onChangeParams}
-          onEnter={this.sendTx}
-          params={
-            method && contractAbi && contractAbi.messages[method]
-              ? contractAbi.messages[method].args
-              : undefined
-          }
-        />
-        <InputBalance
-          help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
-          isError={!isEndowValid}
-          label={t('value')}
-          onChange={this.onChangeEndowment}
-        />
-        <InputNumber
-          help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
-          isError={!isGasValid}
-          label={t('maximum gas allowed')}
-          onChange={this.onChangeGas}
-          value={gasLimit}
-          onEnter={this.sendTx}
-        />
-      </div>
-    );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { api, t } = this.props;
-    const { accountId, gasLimit, isAddressValid } = this.state;
-    const isEndowValid = true; // !endowment.isZero();
-    const isGasValid = !gasLimit.isZero();
-    const isValid = !!accountId && isEndowValid && isGasValid && isAddressValid;
-
-    return (
-      <Button.Group>
-        <Button
-          icon='cancel'
-          isNegative
-          onClick={this.onClose}
-          label={t('Cancel')}
-        />
-        <Button.Or />
-        <TxButton
-          accountId={accountId}
-          icon='sign-in'
-          isDisabled={!isValid}
-          isPrimary
-          label={t('Call')}
-          onClick={this.toggleBusy}
-          onFailed={this.toggleBusy}
-          onSuccess={this.toggleBusy}
-          params={this.constructCall}
-          tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
-          ref={this.button}
-        />
-      </Button.Group>
-    );
-  }
-
-  private getCallProps = (): [string | null, Abi | null, string | null] => {
-    let address;
-    let contractAbi;
-    let method;
-
-    if (!this.state.address) {
-      return [null, null, null];
-    } else {
-      address = this.state.address;
-      contractAbi = this.state.contractAbi || getContractAbi(address);
-      method = contractAbi && this.state.method && contractAbi.messages[this.state.method]
-        ? this.state.method
-        : (
-          contractAbi
-            ? Object.keys(contractAbi.messages)[0]
-            : null
-        );
-    }
-
-    return [
-      address || null,
-      contractAbi || null,
-      method || null
-    ];
-  }
-
-  private constructCall = (): any[] => {
-    const {
-      endowment, gasLimit, params
-    } = this.state;
-
-    const [address, contractAbi, method] = this.getCallProps();
-
-    if (!contractAbi || !method) {
+  const _constructTx = (): any[] => {
+    const fn = getContractMethodFn(callContract, callMethod);
+    if (!fn || !callContract || !callContract.address) {
       return [];
     }
 
-    return [address, endowment, gasLimit, contractAbi.messages[method](...params)];
-  }
+    return [callContract.address, endowment, gasLimit, fn(...params)];
+  };
 
-  private onChangeAccount = (accountId: string | null): void => {
-    this.setState({ accountId });
-  }
-
-  private onChangeAddress = (address: string | null): void => {
-    const contractAbi = getContractAbi(address);
-
-    this.setState({ address, contractAbi, isAddressValid: !!contractAbi });
-  }
-
-  private onChangeEndowment = (endowment?: BN | null): void => {
-    this.setState({ endowment: endowment || new BN(0) });
-  }
-
-  private onChangeGas = (gasLimit: BN | undefined): void => {
-    this.setState({ gasLimit: gasLimit || new BN(GAS_LIMIT) });
-  }
-
-  private onChangeMethod = (method: string | null): void => {
-    this.setState({ method, params: [] });
-  }
-
-  private onChangeParams = (params: any[]): void => {
-    this.setState({ params });
-  }
-
-  private toggleBusy = (): void => {
-    this.setState(({ isBusy }): Pick<State, never> => ({
-      isBusy: !isBusy
-    }));
-  }
-
-  private reset = (): void => {
-    this.setState((state: State): Pick<State, never> => {
-      if (!state.isBusy) {
-        return {
-          ...state,
-          ...this.defaultState
-        };
+  const _constructRpc = (): [any] | null => {
+    const fn = getContractMethodFn(callContract, callMethod);
+    if (!fn || !accountId || !callContract || !callContract.address || !callContract.abi || !callMethod) {
+      return null;
+    }
+    return [
+      {
+        origin: accountId,
+        dest: callContract.address,
+        value: endowment,
+        gasLimit,
+        inputData: fn(...params)
       }
+    ];
+  };
 
-      return {};
-    });
-  }
+  const isEndowmentValid = true;
+  const isGasValid = !gasLimit.isZero();
+  const isValid = !!accountId && isEndowmentValid && isGasValid && callContract && callContract.address && callContract.abi;
 
-  private onClose = (): void => {
-    const { onClose } = this.props;
+  return (
+    <Modal
+      className='app--contracts-Modal'
+      dimmer='inverted'
+      onClose={onClose}
+      open={isOpen}
+    >
+      <Modal.Header>
+        {t('Call a contract')}
+      </Modal.Header>
+      <Modal.Content>
+        {callContract && (
+          <div className='contracts--CallControls'>
+            <InputAddress
+              defaultValue={accountId}
+              help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
+              isDisabled={isBusy}
+              label={t('call from account')}
+              onChange={_onChangeAccountId}
+              type='account'
+              value={accountId}
+            />
+            <InputAddress
+              help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
+              isDisabled={isBusy}
+              label={t('contract to use')}
+              onChange={_onChangeCallAddress}
+              type='contract'
+              value={callContract.address}
+            />
+            {callMethodIndex !== null && (
+              <>
+                <Dropdown
+                  help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
+                  isDisabled={isBusy}
+                  isError={callMethod === null}
+                  label={t('message to send')}
+                  onChange={_onChangeCallMethodString}
+                  options={getCallMethodOptions(callContract)}
+                  value={`${callMethodIndex}`}
+                />
+                <Params
+                  isDisabled={isBusy}
+                  onChange={_onChangeParams}
+                  params={
+                    callMethod
+                      ? callMethod.args
+                      : undefined
+                  }
+                />
+              </>
+            )}
+            <InputBalance
+              help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
+              isDisabled={isBusy}
+              isError={!isEndowmentValid}
+              label={t('value')}
+              onChange={_onChangeEndowment}
+              value={endowment}
+            />
+            <InputNumber
+              defaultValue={gasLimit}
+              help={t('The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.')}
+              isDisabled={isBusy}
+              isError={!isGasValid}
+              label={t('maximum gas allowed')}
+              onChange={_onChangeGasLimit}
+              value={gasLimit}
+            />
+          </div>
+        )}
+        <QueueConsumer>
+          {
+            ({ queueRpc, txqueue }: QueueProps): React.ReactNode => {
+              const _onSubmitRpc = (): void => {
+                const values = _constructRpc();
 
-    this.reset();
-    onClose && onClose();
-  }
+                if (values) {
+                  queueRpc({
+                    accountId,
+                    rpc: rpc.contracts.methods.call,
+                    values
+                  });
+                }
+              };
+
+              const results = txqueue
+                .filter(({ error, result, rpc, values }): boolean =>
+                  ((!isUndefined(error) || !isUndefined(result)) &&
+                  rpc.section === 'contracts' && rpc.method === 'call' && !!values && values[0].dest === callContract.address)
+                )
+                .reverse();
+
+              return (
+                <>
+                  <Button.Group>
+                    <Button
+                      icon='cancel'
+                      isNegative
+                      onClick={onClose}
+                      label={t('Cancel')}
+                    />
+                    <Button.Or />
+                    {useRpc
+                      ? (
+                        <Button
+                          icon='sign-in'
+                          isDisabled={!isValid}
+                          isPrimary
+                          label={t('Call')}
+                          onClick={_onSubmitRpc}
+                        />
+                      )
+                      : (
+                        <TxButton
+                          accountId={accountId}
+                          icon='sign-in'
+                          isDisabled={!isValid}
+                          isPrimary
+                          label={t('Call')}
+                          onClick={_toggleBusy}
+                          onFailed={_toggleBusy}
+                          onSuccess={_toggleBusy}
+                          params={_constructTx}
+                          tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
+                        />
+                      )
+                    }
+                  </Button.Group>
+                  {results.length > 0 && (
+                    <>
+                      <h3>{t('Call results')}</h3>
+                      <div>
+                        {
+                          results.map(
+                            (tx, index): React.ReactNode => {
+                              let output: string;
+                              const contractExecResult = tx.result as ContractExecResult;
+                              if (contractExecResult.isSuccess) {
+                                const { data } = contractExecResult.asSuccess;
+                                output = data.toHex();
+                              } else {
+                                output = 'Error';
+                              }
+
+                              return (
+                                <Output
+                                  isError={contractExecResult.isError}
+                                  key={`result-${tx.id}`}
+                                  label={t(`#${results.length - 1 - index}`)}
+                                  style={{ fontFamily: 'monospace' }}
+                                  value={output}
+                                  withCopy
+                                  withLabel
+                                />
+                              );
+                            }
+                          )
+                        }
+                      </div>
+                    </>
+                  )}
+                </>
+              );
+            }
+          }
+        </QueueConsumer>
+      </Modal.Content>
+    </Modal>
+  );
 }
 
 export default withMulti(
-  translate(withRouter(Call)),
+  Call,
+  translate,
   withApi
 );
