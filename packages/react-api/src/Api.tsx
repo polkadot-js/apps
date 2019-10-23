@@ -64,7 +64,7 @@ function createApi (provider: ProviderInterface, signer: ApiSigner): ApiPromise 
   });
 }
 
-async function loadOnReady (api: ApiPromise): Promise<ParitalProps> {
+async function loadOnReady (): Promise<ParitalProps> {
   const [properties, _systemChain, _systemName, _systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
@@ -130,17 +130,18 @@ async function loadOnReady (api: ApiPromise): Promise<ParitalProps> {
 export { api };
 
 export default function Api ({ children, queuePayload, queueSetTxStatus, url = defaults.WS_URL }: Props): React.ReactElement<Props> {
-  const [api] = useState(createApi(new WsProvider(url), new ApiSigner(queuePayload, queueSetTxStatus)));
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
-  const [{ apiDefaultTx, apiDefaultTxSudo, isApiReady, isDevelopment, isSubstrateV2, systemChain, systemName, systemVersion }, setProps] = useState<ParitalProps>({} as ParitalProps);
+  const [provided, setProvided] = useState<ParitalProps>({} as ParitalProps);
 
   useEffect((): void => {
+    api = createApi(new WsProvider(url), new ApiSigner(queuePayload, queueSetTxStatus));
+
     api.on('connected', (): void => setIsApiConnected(true));
     api.on('disconnected', (): void => setIsApiConnected(false));
     api.on('ready', (): void => {
-      loadOnReady(api)
-        .then(setProps)
+      loadOnReady()
+        .then(setProvided)
         .catch((error): void => console.error('Unable to load chain', error));
     });
 
@@ -152,17 +153,10 @@ export default function Api ({ children, queuePayload, queueSetTxStatus, url = d
   return (
     <ApiContext.Provider
       value={{
+        ...provided,
         api,
-        apiDefaultTx,
-        apiDefaultTxSudo,
         isApiConnected,
-        isApiReady,
-        isDevelopment,
-        isSubstrateV2,
-        isWaitingInjected,
-        systemChain,
-        systemName,
-        systemVersion
+        isWaitingInjected
       }}
     >
       {children}
