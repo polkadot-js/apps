@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useEffect, useState } from 'react';
@@ -54,15 +53,6 @@ const DEFAULT_SS58 = new U32(addressDefaults.prefix);
 
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
-
-function createApi (provider: ProviderInterface, signer: ApiSigner): ApiPromise {
-  return new ApiPromise({
-    provider,
-    signer,
-    typesChain,
-    typesSpec
-  });
-}
 
 async function loadOnReady (): Promise<ParitalProps> {
   const [properties, _systemChain, _systemName, _systemVersion, injectedAccounts] = await Promise.all([
@@ -135,7 +125,12 @@ export default function Api ({ children, queuePayload, queueSetTxStatus, url = d
   const [provided, setProvided] = useState<ParitalProps>({} as ParitalProps);
 
   useEffect((): void => {
-    api = createApi(new WsProvider(url), new ApiSigner(queuePayload, queueSetTxStatus));
+    api = new ApiPromise({
+      provider: new WsProvider(url),
+      signer: new ApiSigner(queuePayload, queueSetTxStatus),
+      typesChain,
+      typesSpec
+    });
 
     api.on('connected', (): void => setIsApiConnected(true));
     api.on('disconnected', (): void => setIsApiConnected(false));
