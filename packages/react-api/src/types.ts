@@ -24,7 +24,6 @@ export interface ApiProps {
   isDevelopment: boolean;
   isSubstrateV2: boolean;
   isWaitingInjected: boolean;
-  setApiUrl: (url?: string) => void;
   systemChain: string;
   systemName: string;
   systemVersion: string;
