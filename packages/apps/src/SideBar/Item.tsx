@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '@polkadot/apps-routing/types';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Icon, Menu, Tooltip } from '@polkadot/react-components';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
@@ -35,6 +35,16 @@ function logDisabled (route: string, message: string): void {
 
 function Item ({ allAccounts, route: { Modal, display: { isHidden, needsAccounts, needsApi, needsSudo }, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
   const { api, isApiConnected, isApiReady } = useContext(ApiContext);
+  const [hasAccounts, setHasAccounts] = useState(false);
+  const [hasSudo, setHasSudo] = useState(false);
+
+  useEffect((): void => {
+    setHasAccounts(!!allAccounts && Object.keys(allAccounts).length !== 0);
+  }, [allAccounts]);
+
+  useEffect((): void => {
+    setHasSudo(!!allAccounts && Object.keys(allAccounts).some((address): boolean => address === sudoKey));
+  }, [allAccounts, sudoKey]);
 
   const _hasApi = (endpoint: string): boolean => {
     const [area, section, method] = endpoint.split('.');
@@ -46,9 +56,6 @@ function Item ({ allAccounts, route: { Modal, display: { isHidden, needsAccounts
     }
   };
   const _isVisible = (): boolean => {
-    const hasAccounts = !!allAccounts && Object.keys(allAccounts).length !== 0;
-    const hasSudo = !!allAccounts && Object.keys(allAccounts).some((address): boolean => address === sudoKey);
-
     if (isHidden) {
       return false;
     } else if (needsAccounts && !hasAccounts) {
@@ -57,11 +64,9 @@ function Item ({ allAccounts, route: { Modal, display: { isHidden, needsAccounts
       return true;
     } else if (!isApiReady || !isApiConnected) {
       return false;
-    } else if (needsSudo) {
-      if (!hasSudo) {
-        logDisabled(name, 'Sudo key not available');
-        return false;
-      }
+    } else if (needsSudo && !hasSudo) {
+      logDisabled(name, 'Sudo key not available');
+      return false;
     }
 
     const notFound = needsApi.filter((endpoint: string | string[]): boolean => {
