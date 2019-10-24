@@ -47,7 +47,7 @@ function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
   }
 }
 
-function isVisible (name: string, { api, isApiReady, isApiConnected }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
+function checkVisible (name: string, { api, isApiReady, isApiConnected } : ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
   if (isHidden) {
     return false;
   } else if (needsAccounts && !hasAccounts) {
@@ -80,6 +80,7 @@ function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, is
   const apiProps = useContext(ApiContext);
   const [hasAccounts, setHasAccounts] = useState(false);
   const [hasSudo, setHasSudo] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect((): void => {
     setHasAccounts(Object.keys(allAccounts || {}).length !== 0);
@@ -89,8 +90,11 @@ function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, is
     setHasSudo(!!sudoKey && Object.keys(allAccounts || {}).some((address): boolean => sudoKey.eq(address)));
   }, [allAccounts, sudoKey]);
 
+  useEffect((): void => {
+    setIsVisible(checkVisible(name, apiProps, hasAccounts, hasSudo, display));
+  }, [apiProps, hasAccounts, hasSudo]);
 
-  if (!isVisible(name, apiProps, hasAccounts, hasSudo, display)) {
+  if (!isVisible) {
     return null;
   }
 
