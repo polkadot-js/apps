@@ -27,6 +27,7 @@ interface Props extends I18nProps {
 }
 
 const disabledLog: Map<string, string> = new Map();
+const TOOLTIP_OFFSET = { right: -4 };
 
 function logDisabled (route: string, message: string): void {
   if (!disabledLog.get(route)) {
@@ -98,7 +99,7 @@ function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, is
       <Icon name={icon} />
       <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
       <Tooltip
-        offset={{ right: -4 }}
+        offset={TOOLTIP_OFFSET}
         place='right'
         text={t(`sidebar.${name}`, i18n)}
         trigger={`nav-${name}`}
