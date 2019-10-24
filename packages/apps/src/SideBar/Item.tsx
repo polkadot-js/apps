@@ -39,11 +39,11 @@ function Item ({ allAccounts, route: { Modal, display: { isHidden, needsAccounts
   const [hasSudo, setHasSudo] = useState(false);
 
   useEffect((): void => {
-    setHasAccounts(!!allAccounts && Object.keys(allAccounts).length !== 0);
+    setHasAccounts(Object.keys(allAccounts || {}).length !== 0);
   }, [allAccounts]);
 
   useEffect((): void => {
-    setHasSudo(!!allAccounts && Object.keys(allAccounts).some((address): boolean => address === sudoKey));
+    setHasSudo(Object.keys(allAccounts || {}).some((address): boolean => address === sudoKey));
   }, [allAccounts, sudoKey]);
 
   const _hasApi = (endpoint: string): boolean => {
