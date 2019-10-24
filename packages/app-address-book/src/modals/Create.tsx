@@ -49,7 +49,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
 
     setAddress({ address: address || input, isAddressExisting, isAddressValid });
   };
-  const _onChangeName = (name: string): void => setName({ isNameValid: !!name, name });
+  const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
   const _onCommit = (): void => {
     const status = { action: 'create' } as ActionStatus;
 
@@ -58,7 +58,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
     }
 
     try {
-      keyring.saveAddress(address, { name, genesisHash: keyring.genesisHash, tags: [] });
+      keyring.saveAddress(address, { name: name.trim(), genesisHash: keyring.genesisHash, tags: [] });
 
       status.account = address;
       status.status = address ? 'success' : 'error';
