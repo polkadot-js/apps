@@ -5,32 +5,21 @@
 import { ApiProps, SubtractProps } from '../types';
 import { DefaultProps } from './types';
 
-import React from 'react';
-import { assert } from '@polkadot/util';
+import React, { useContext } from 'react';
 
-import { ApiConsumer } from '../ApiContext';
+import ApiContext from '../ApiContext';
 
-export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<any> {
-  return class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
-    private component: any = React.createRef();
+export default function withApi <P extends ApiProps, S = SubtractProps<P, ApiProps>> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<S> {
+  return function WithApi (props: S): React.ReactElement<S> {
+    // Something is weird with the inner assignment... when this is in, we have an issue
+    const apiProps = useContext(ApiContext) as any;
 
-    public render (): React.ReactNode {
-      return (
-        <ApiConsumer>
-          {(apiProps?: ApiProps): React.ReactNode => {
-            assert(apiProps && apiProps.api, 'Application root must be wrapped inside \'react-api/Api\' to provide API context');
-
-            return (
-              <Inner
-                {...defaultProps}
-                {...(apiProps as any)}
-                {...this.props}
-                ref={this.component}
-              />
-            );
-          }}
-        </ApiConsumer>
-      );
-    }
+    return (
+      <Inner
+        {...defaultProps}
+        {...apiProps}
+        {...props}
+      />
+    );
   };
 }

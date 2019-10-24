@@ -19,7 +19,7 @@ export interface ActionStatus {
 }
 
 export interface AccountInfo {
-  accountId?: string | null;
+  accountId?: AccountId | string | null;
 }
 
 export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'qr' | 'sending' | 'signing' | 'sent' | 'blocked';
@@ -70,7 +70,7 @@ export interface QueueTxRpc extends AccountInfo {
 }
 
 export interface PartialAccountInfo {
-  accountId?: string | null;
+  accountId?: AccountId | string | null;
 }
 
 export interface PartialQueueTxExtrinsic extends PartialAccountInfo {

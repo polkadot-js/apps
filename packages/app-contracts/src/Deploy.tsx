@@ -23,7 +23,11 @@ import store from './store';
 import translate from './translate';
 import { GAS_LIMIT } from './constants';
 
-type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
+type ConstructOptions = {
+  key: string;
+  text: React.ReactNode;
+  value: string;
+}[];
 
 interface Props extends ContractModalProps, ApiProps, I18nProps, RouteComponentProps {
   codeHash?: string;
@@ -171,26 +175,24 @@ class Deploy extends ContractModal<Props, State> {
           value={codeHash}
         />
         {this.renderInputName()}
-        {
-          isAbiSupplied
-            ? null
-            : this.renderInputAbi()
+        {isAbiSupplied
+          ? null
+          : this.renderInputAbi()
         }
-        {
-          contractAbi
-            ? (
-              <Dropdown
-                help={t('The deployment constructor information for this contract, as provided by the ABI.')}
-                isDisabled={contractAbi.abi.contract.constructors.length <= 1}
-                label={t('constructor ')}
-                onChange={this.onChangeConstructorIndex}
-                options={constructOptions}
-                style={{ fontFamily: 'monospace' }}
-                value={`${constructorIndex}`}
-                withLabel
-              />
-            )
-            : null
+        {contractAbi
+          ? (
+            <Dropdown
+              help={t('The deployment constructor information for this contract, as provided by the ABI.')}
+              isDisabled={contractAbi.abi.contract.constructors.length <= 1}
+              label={t('constructor ')}
+              onChange={this.onChangeConstructorIndex}
+              options={constructOptions}
+              style={{ fontFamily: 'monospace' }}
+              value={`${constructorIndex}`}
+              withLabel
+            />
+          )
+          : null
         }
         <Params
           isDisabled={isBusy}
@@ -243,7 +245,6 @@ class Deploy extends ContractModal<Props, State> {
                 : 'contracts.create' // V2 (old)
               : 'contract.create' // V1
           }
-          ref={this.button}
         />
       </Button.Group>
     );

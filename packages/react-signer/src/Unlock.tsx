@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 import { Password } from '@polkadot/react-components';
@@ -18,12 +19,12 @@ interface Props extends I18nProps {
   onEnter?: () => void;
   password: string;
   tabIndex?: number;
-  value?: string | null;
+  value?: AccountId | string | null;
 }
 
-function getPair (address?: string | null): KeyringPair | null {
+function getPair (address?: AccountId | string | null): KeyringPair | null {
   try {
-    return keyring.getPair(address as string);
+    return keyring.getPair((address || '').toString());
   } catch (error) {
     return null;
   }

@@ -115,6 +115,12 @@ function setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): 
   store.set(STORAGE_KEY, options);
 }
 
+function renderLabel ({ value }: KeyringSectionOption): string | undefined {
+  return !value
+    ? undefined
+    : getAddressName(value, null, true);
+}
+
 class InputAddress extends React.PureComponent<Props, State> {
   public state: State = {};
 
@@ -183,7 +189,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         placeholder={placeholder}
         renderLabel={
           isMultiple
-            ? this.renderLabel
+            ? renderLabel
             : undefined
         }
         style={style}
@@ -196,14 +202,6 @@ class InputAddress extends React.PureComponent<Props, State> {
         withLabel={withLabel}
       />
     );
-  }
-
-  private renderLabel = ({ value }: KeyringSectionOption): string | undefined => {
-    if (!value) {
-      return undefined;
-    }
-
-    return getAddressName(value, null, true);
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {

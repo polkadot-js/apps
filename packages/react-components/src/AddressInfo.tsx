@@ -222,7 +222,7 @@ function renderBalances (props: Props): React.ReactNode {
             {formatBalance(staking_info.redeemable)}
             {staking_info.controllerId && (
               <TxButton
-                accountId={staking_info.controllerId.toString()}
+                accountId={staking_info.controllerId}
                 className='iconButton'
                 icon='lock'
                 size='small'

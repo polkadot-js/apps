@@ -10,6 +10,7 @@ import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { AccountId } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -56,7 +57,7 @@ interface State {
 
 let qrId = 0;
 
-function extractExternal (accountId?: string | null): { isExternal: boolean; isHardware: boolean; hardwareType?: string } {
+function extractExternal (accountId?: AccountId | string | null): { isExternal: boolean; isHardware: boolean; hardwareType?: string } {
   if (!accountId) {
     return { isExternal: false, isHardware: false };
   }
@@ -127,7 +128,7 @@ class Signer extends React.PureComponent<Props, State> {
       try {
         const pair = keyring.getPair(nextItem.accountId);
 
-        isSendable = !!pair && !!allAccounts[nextItem.accountId];
+        isSendable = !!pair && !!allAccounts[(nextItem.accountId || '').toString()];
       } catch (error) {
         // swallow
       }

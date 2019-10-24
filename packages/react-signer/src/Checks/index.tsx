@@ -5,6 +5,7 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
+import { AccountId } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
@@ -38,7 +39,7 @@ interface Props extends I18nProps {
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
   contract_fees?: DerivedContractFees;
-  accountId?: string | null;
+  accountId?: AccountId | string | null;
   extrinsic?: IExtrinsic | null;
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
