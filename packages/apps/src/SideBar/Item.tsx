@@ -5,6 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '@polkadot/apps-routing/types';
+import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -20,7 +21,7 @@ interface Props extends I18nProps {
   onClick: () => void;
   allAccounts?: SubjectInfo;
   route: Route;
-  sudoKey: string;
+  sudoKey?: AccountId;
 }
 
 const disabledLog: Map<string, string> = new Map();
@@ -43,7 +44,7 @@ function Item ({ allAccounts, route: { Modal, display: { isHidden, needsAccounts
   }, [allAccounts]);
 
   useEffect((): void => {
-    setHasSudo(Object.keys(allAccounts || {}).some((address): boolean => address === sudoKey));
+    setHasSudo(!!sudoKey && Object.keys(allAccounts || {}).some((address): boolean => sudoKey.eq(address)));
   }, [allAccounts, sudoKey]);
 
   const _hasApi = (endpoint: string): boolean => {
@@ -137,11 +138,7 @@ export default withMulti(
   Item,
   translate,
   withCalls<Props>(
-    ['query.sudo.key', {
-      propName: 'sudoKey',
-      transform: (key): string =>
-        key.toString()
-    }]
+    ['query.sudo.key', { propName: 'sudoKey' }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
