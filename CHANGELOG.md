@@ -1,21 +1,29 @@
-# 0.36.0-beta.x
+# 0.36.1
 
+- Api 0.95.1, Util 1.6.1, Extension 0.13.1
+- Support latest contracts ABI (via API), incl. rework of contracts UI
 - Support for Kusama CC2
 - Support for Edgeware mainnet
 - Experimental Ledger support
 - Display forks on explorer (limited to Babe)
-- Change settings to have Save as well as Save & Reload (depending on hanges made)
+- Change settings to have Save as well as Save & Reload (depending on changes made)
 - Updates to struct & enum rendering (as per extrinsic app)
-- Bakc, Password change & Delete don't show for built-in dev accounts
+- Backup, Password change & Delete don't show for built-in dev accounts
+- Add commissions to the staking overview
 - UI theme update
-- Migrate all buttons to have icons (via bounty)
-- Make the network selection clickable on network name (via bounty)
 - A large number of components refactored for React functional components
+- Allow dismiss of all notifications (via bounty)
+- Migrate all buttons to have icons (via bounty)
+- Proposal submission via modal (via bounty)
+- i18n string extraction (via bounty)
+- adjust signature validity (via bounty)
+- Make the network selection clickable on network name (via bounty)
+- ... and a number of cleanups all around
 
 # 0.35.1
 
 - Api 0.91.1, Util 1.2.1, Extension 0.10.1
-- Support for accouns added via Qr (for instance, the Parity Signer)
+- Support for accounts added via Qr (for instance, the Parity Signer)
 - Support for accounts tied to specific chains (instead of just available to all)
 - GenericAsset app transfers
 - Support for Edgeware with default types
@@ -39,12 +47,12 @@
 - Allow for externally injected accounts (i.e. via extension, polkadot-js & SingleSource)
 - Links to extrnisics & addresses on Polkascan
 - Rework Account & Address layouts with cards
-- Transfer can happen from any popint (via Transfer modal)
+- Transfer can happen from any point (via Transfer modal)
 - Use new api.derive functions
 - Introduce multi support (most via api.derive.*)
 - Update all account and address modals
 - Add seconding of proposals
-- Staking updates, including unbonding & withdrawals
+- Staking updates, including un-bonding & withdrawals
 - Update explorer with global query on hash/blocks
 - Add filters on the staking page
 - Vanitygen now supports sr25519 as well
