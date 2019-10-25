@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-sudo",
-  "version": "0.36.0",
+  "version": "0.36.1",
   "description": "A basic app that shows the ropes on customisation",
   "main": "index.js",
   "scripts": {},
@@ -12,6 +12,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.6.3",
-    "@polkadot/react-components": "^0.36.0"
+    "@polkadot/react-components": "^0.36.1"
   }
 }
