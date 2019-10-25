@@ -47,7 +47,7 @@ function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
   }
 }
 
-function checkVisible (name: string, { api, isApiReady, isApiConnected } : ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
+function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
   if (isHidden) {
     return false;
   } else if (needsAccounts && !hasAccounts) {
