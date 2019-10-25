@@ -51,7 +51,7 @@ function ValidateController ({ accountId, bondedId, controllerId, defaultControl
       onError(newError);
       setError(newError);
     }
-  }, [accountId, controllerId, defaultController]);
+  }, [accountId, bondedId, controllerId, defaultController, stashId]);
 
   if (!error || !accountId) {
     return null;
