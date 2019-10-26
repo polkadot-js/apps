@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import { withApi } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
 import TxModal, { TxModalState as State, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 
-interface Props extends ComponentProps, TxModalProps {}
+interface Props extends ApiProps, ComponentProps, TxModalProps {}
 
 class SubmitCandidacy extends TxModal<Props, State> {
   protected headerText = (): string => this.props.t('Submit your council candidacy');
@@ -20,14 +22,17 @@ class SubmitCandidacy extends TxModal<Props, State> {
 
   protected accountHelp = (): string => this.props.t('This account will be nominated to fill the council slot you specify.');
 
-  protected txMethod = (): string => 'elections.submitCandidacy';
+  protected txMethod = (): string =>
+    this.props.api.tx.electionsPhragmen
+      ? 'electionsPhragmen.submitCandidacy'
+      : 'elections.submitCandidacy';
 
-  protected txParams = (): [BN] => {
-    const { electionsInfo: { candidateCount } } = this.props;
+  protected txParams = (): [BN] | [] => {
+    const { api, electionsInfo: { candidateCount } } = this.props;
 
-    return [
-      candidateCount
-    ];
+    return api.tx.electionsPhragmen
+      ? []
+      : [candidateCount];
   }
 
   protected isDisabled = (): boolean => {
@@ -50,4 +55,4 @@ class SubmitCandidacy extends TxModal<Props, State> {
   }
 }
 
-export default translate(SubmitCandidacy);
+export default translate(withApi(SubmitCandidacy));

@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { withApi, withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api';
 import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
@@ -314,7 +314,6 @@ class Vote extends TxModal<Props, State> {
 export default withMulti(
   Vote,
   translate,
-  withApi,
   withCalls<Props>(
     ['derive.elections.voterPositions', { propName: 'voterPositions' }]
   )
