@@ -125,7 +125,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
   const { isDevelopment } = useContext(ApiContext);
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [{ isNameValid, name }, setName] = useState({ isNameValid: true, name: 'new account' });
+  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isSeedValid;
 
@@ -142,7 +142,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
       setAddress(generateSeed(null, derivePath, newSeedType, pairType));
     }
   };
-  const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+  const _onChangeName = (name: string): void => setName({ isNameValid: name.trim().length !== 0, name });
   const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
 
   const _onCommit = (): void => {
@@ -203,6 +203,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             label={t('name')}
             onChange={_onChangeName}
             onEnter={_onCommit}
+            placeholder={t('new account')}
             value={name}
           />
           <Input

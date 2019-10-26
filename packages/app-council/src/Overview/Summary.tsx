@@ -25,12 +25,13 @@ function Summary ({ electionsInfo: { members, candidateCount, desiredSeats, term
           {formatNumber(candidateCount)}
         </CardSummary>
       </section>
-      <section>
-        <CardSummary label={t('voting round')}>
-          #{formatNumber(voteCount)}
-        </CardSummary>
-      </section>
-
+      {voteCount && (
+        <section>
+          <CardSummary label={t('voting round')}>
+            #{formatNumber(voteCount)}
+          </CardSummary>
+        </section>
+      )}
       <section>
         <CardSummary label={t('term duration')}>
           {formatNumber(termDuration)}

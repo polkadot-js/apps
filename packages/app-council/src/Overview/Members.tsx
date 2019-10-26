@@ -22,16 +22,15 @@ function Members ({ electionsInfo: { candidates, members }, t }: Props): React.R
         emptyText={t('No members found')}
         headerText={t('members')}
       >
-        {Object.entries(members).map(([address, block]): React.ReactNode => (
+        {members.map((address): React.ReactNode => (
           <Member
             address={address}
-            block={block}
-            key={address}
+            key={address.toString()}
           />
         ))}
       </Column>
       <Column
-        emptyText={t('No members found')}
+        emptyText={t('No candidates found')}
         headerText={t('candidates')}
       >
         {candidates.map((address): React.ReactNode => (

@@ -16,14 +16,11 @@ import Summary from './Summary';
 import Vote from './Vote';
 
 const NULL_INFO: DerivedElectionsInfo = {
-  members: {},
   candidates: [],
   candidateCount: createType('u32'),
   desiredSeats: createType('u32'),
-  nextVoterSet: createType('SetIndex'),
-  termDuration: createType('BlockNumber'),
-  voteCount: createType('VoteIndex'),
-  voterCount: createType('SetIndex')
+  members: [],
+  termDuration: createType('BlockNumber')
 };
 
 function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<Props> {
@@ -41,10 +38,7 @@ function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<Pro
 }
 
 export default withCalls<Props>(
-  [
-    'derive.elections.info',
-    {
-      propName: 'electionsInfo'
-    }
-  ]
+  ['derive.elections.info', {
+    propName: 'electionsInfo'
+  }]
 )(Overview);

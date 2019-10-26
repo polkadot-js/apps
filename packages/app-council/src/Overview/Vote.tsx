@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, VoteIndex } from '@polkadot/types/interfaces';
 import { DerivedVoterPositions } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
@@ -11,8 +11,8 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { withApi, withCalls, withMulti } from '@polkadot/react-api';
-import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/react-components';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import { AddressRow, Button, Icon, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
@@ -24,6 +24,7 @@ interface Props extends ApiProps, ComponentProps, TxModalProps {
 interface State extends TxModalState {
   approvals: boolean[] | null;
   oldApprovals: boolean[] | null;
+  voteValue: BN;
   // voterPositions: DerivedVoterPositions;
 }
 
@@ -78,26 +79,14 @@ class Vote extends TxModal<Props, State> {
     return [...new Array(length).keys()].map((): boolean => false);
   }
 
-  public static getDerivedStateFromProps ({ electionsInfo: { candidateCount } }: Props, { approvals }: State): Partial<State> {
-    const state: Partial<State> = {};
-    // if (voterPositions) {
-    //   state.voters = Object.keys(voterSets).reduce(
-    //     (result: Record<string, VoterPosition>, accountId, globalIndex): Record<string, VoterPosition> => {
-    //       result[accountId] = {
-    //         setIndex: voterSets[accountId],
-    //         globalIndex: new BN(globalIndex)
-    //       };
-    //       return result;
-    //     },
-    //     {}
-    //   );
-    // }
-
-    if (candidateCount && !approvals) {
-      state.approvals = state.oldApprovals || Vote.emptyApprovals(candidateCount.toNumber());
+  public static getDerivedStateFromProps ({ electionsInfo: { candidateCount } }: Props, { approvals }: State): Partial<State> | null {
+    if (candidateCount && (!approvals || !candidateCount.eq(approvals.length))) {
+      return {
+        approvals: Vote.emptyApprovals(candidateCount.toNumber())
+      };
     }
 
-    return state;
+    return null;
   }
 
   public constructor (props: Props) {
@@ -106,7 +95,8 @@ class Vote extends TxModal<Props, State> {
     this.defaultState = {
       ...this.defaultState,
       approvals: null,
-      oldApprovals: null
+      oldApprovals: null,
+      voteValue: new BN(0)
     };
 
     this.state = {
@@ -132,25 +122,40 @@ class Vote extends TxModal<Props, State> {
 
   protected accountHelp = (): string => this.props.t('This account will be use to approve or disapprove each candidate.');
 
-  protected txMethod = (): string => 'elections.setApprovals';
+  protected txMethod = (): string =>
+    this.props.api.tx.electionsPhragmen
+      ? 'electionsPhragmen.vote'
+      : 'elections.setApprovals';
 
-  protected txParams = (): [boolean[] | null, VoteIndex, BN | null] => {
-    const { electionsInfo: { nextVoterSet, voteCount }, voterPositions } = this.props;
-    const { accountId, approvals } = this.state;
+  protected txParams = (): [boolean[] | null, VoteIndex, BN | null] | [AccountId[], BN] => {
+    const { api, electionsInfo: { candidates, nextVoterSet, voteCount }, voterPositions } = this.props;
+    const { accountId, approvals, voteValue } = this.state;
+
+    if (api.tx.electionsPhragmen) {
+      return [
+        candidates.filter((candidate, index): boolean => !!approvals && approvals[index] === true),
+        voteValue
+      ];
+    }
 
     return [
-      approvals ? approvals.slice(0, 1 + approvals.lastIndexOf(true)) : [],
+      approvals
+        ? approvals.slice(0, 1 + approvals.lastIndexOf(true))
+        : [],
       createType('VoteIndex', voteCount),
       voterPositions && accountId && voterPositions[accountId]
         ? voterPositions[accountId].setIndex
-        : nextVoterSet
+        : nextVoterSet || null
     ];
   }
 
   protected isDisabled = (): boolean => {
-    const { accountId, oldApprovals } = this.state;
+    const { accountId, approvals, oldApprovals } = this.state;
 
-    return !accountId || !!oldApprovals;
+    return !accountId ||
+      !!oldApprovals ||
+      !approvals ||
+      !approvals.some((val): boolean => val === true);
   }
 
   protected renderTrigger = (): React.ReactNode => {
@@ -168,89 +173,70 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderContent = (): React.ReactNode => {
-    const { electionsInfo: { candidates }, voterPositions, t } = this.props;
+    const { api, electionsInfo: { candidates }, voterPositions, t } = this.props;
     const { accountId, approvals, oldApprovals } = this.state;
 
     return (
       <>
-        {
-          (oldApprovals && accountId && voterPositions && voterPositions[accountId]) && (
-            <AlreadyVoted className='warning padded'>
-              <div>
-                <Icon name='warning sign' />
-                {t('You have already voted in this round')}
-              </div>
-              <Button.Group>
-                <TxButton
-                  accountId={accountId}
-                  isNegative
-                  label={t('Retract vote')}
-                  icon='delete'
-                  onSuccess={this.onRetractVote}
-                  params={[voterPositions[accountId].globalIndex]}
-                  tx='elections.retractVoter'
-                />
-              </Button.Group>
-            </AlreadyVoted>
-          )
-        }
+        {api.tx.electionsPhragmen && (
+          <InputBalance
+            label={t('value')}
+            onChange={this.setVoteValue}
+          />
+        )}
+        {(oldApprovals && accountId && voterPositions && voterPositions[accountId]) && (
+          <AlreadyVoted className='warning padded'>
+            <div>
+              <Icon name='warning sign' />
+              {t('You have already voted in this round')}
+            </div>
+            <Button.Group>
+              <TxButton
+                accountId={accountId}
+                isNegative
+                label={t('Retract vote')}
+                icon='delete'
+                onSuccess={this.onRetractVote}
+                params={[voterPositions[accountId].globalIndex]}
+                tx='elections.retractVoter'
+              />
+            </Button.Group>
+          </AlreadyVoted>
+        )}
         <Candidates>
-          {
-            candidates.map((accountId, index): React.ReactNode => {
-              if (!approvals) {
-                return null;
-              }
-              const { [index]: isAye } = approvals;
-              return (
-                <Candidate
-                  className={isAye ? 'aye' : 'nay'}
-                  key={accountId.toString()}
-                  {...(
-                    !oldApprovals
-                      ? { onClick: (): void => this.onChangeVote(index)() }
-                      : {}
-                  )}
+          {approvals && candidates.map((accountId, index): React.ReactNode => {
+            const { [index]: isAye } = approvals;
+
+            return (
+              <Candidate
+                className={isAye ? 'aye' : 'nay'}
+                key={accountId.toString()}
+              >
+                <AddressRow
+                  isInline
+                  value={accountId}
                 >
-                  <AddressRow
-                    isInline
-                    value={accountId}
-                  >
-                    {this.renderToggle(index)}
-                  </AddressRow>
-                </Candidate>
-              );
-            })
-          }
+                  <Toggle
+                    isDisabled={!!oldApprovals}
+                    label={
+                      isAye
+                        ? t('Aye')
+                        : t('Nay')
+                    }
+                    onChange={this.onChangeVote(index)}
+                    value={isAye}
+                  />
+                </AddressRow>
+              </Candidate>
+            );
+          })}
         </Candidates>
       </>
     );
   }
 
-  private renderToggle = (index: number): React.ReactNode => {
-    const { t } = this.props;
-    const { approvals, oldApprovals } = this.state;
-
-    if (!approvals) {
-      return null;
-    }
-
-    const { [index]: bool } = approvals;
-
-    return (
-      <Toggle
-        isDisabled={!!oldApprovals}
-        label={
-          bool
-            ? (
-              <b>{t('Aye')}</b>
-            )
-            : (
-              <b>{t('No vote')}</b>
-            )
-        }
-        value={bool}
-      />
-    );
+  private setVoteValue = (voteValue?: BN): void => {
+    this.setState({ voteValue: voteValue || new BN(0) });
   }
 
   private emptyApprovals = (): boolean[] => {
@@ -263,7 +249,7 @@ class Vote extends TxModal<Props, State> {
     const { api, electionsInfo: { voteCount }, voterPositions } = this.props;
     const { accountId } = this.state;
 
-    if (!accountId) {
+    if (!accountId || !voteCount) {
       return;
     }
 
@@ -291,16 +277,13 @@ class Vote extends TxModal<Props, State> {
     });
   }
 
-  private onChangeVote = (index: number): (isChecked?: boolean) => void =>
-    (isChecked?: boolean): void => {
-      this.setState(({ approvals }: State): Pick<State, never> => {
-        if (!approvals) {
-          return {};
-        }
-        return {
-          approvals: approvals.map((b, i): boolean => i === index ? isChecked || !approvals[index] : b)
-        };
-      });
+  private onChangeVote = (index: number): (isChecked: boolean) => void =>
+    (isChecked: boolean): void => {
+      this.setState(({ approvals }: State): Pick<State, never> =>
+        approvals
+          ? { approvals: approvals.map((b, i): boolean => i === index ? isChecked : (b || false)) }
+          : {}
+      );
     }
 
   private onRetractVote = (): void => {
@@ -314,7 +297,6 @@ class Vote extends TxModal<Props, State> {
 export default withMulti(
   Vote,
   translate,
-  withApi,
   withCalls<Props>(
     ['derive.elections.voterPositions', { propName: 'voterPositions' }]
   )
