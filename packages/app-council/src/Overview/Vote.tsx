@@ -12,7 +12,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { AddressRow, Button, Icon, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressRow, Button, Icon, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
@@ -24,6 +24,7 @@ interface Props extends ApiProps, ComponentProps, TxModalProps {
 interface State extends TxModalState {
   approvals: boolean[] | null;
   oldApprovals: boolean[] | null;
+  voteValue: BN;
   // voterPositions: DerivedVoterPositions;
 }
 
@@ -94,7 +95,8 @@ class Vote extends TxModal<Props, State> {
     this.defaultState = {
       ...this.defaultState,
       approvals: null,
-      oldApprovals: null
+      oldApprovals: null,
+      voteValue: new BN(0)
     };
 
     this.state = {
@@ -125,14 +127,14 @@ class Vote extends TxModal<Props, State> {
       ? 'electionsPhragmen.vote'
       : 'elections.setApprovals';
 
-  protected txParams = (): [boolean[] | null, VoteIndex, BN | null] | [AccountId[], number] => {
+  protected txParams = (): [boolean[] | null, VoteIndex, BN | null] | [AccountId[], BN] => {
     const { api, electionsInfo: { candidates, nextVoterSet, voteCount }, voterPositions } = this.props;
-    const { accountId, approvals } = this.state;
+    const { accountId, approvals, voteValue } = this.state;
 
     if (api.tx.electionsPhragmen) {
       return [
         candidates.filter((candidate, index): boolean => !!approvals && approvals[index] === true),
-        0
+        voteValue
       ];
     }
 
@@ -171,11 +173,17 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderContent = (): React.ReactNode => {
-    const { electionsInfo: { candidates }, voterPositions, t } = this.props;
+    const { api, electionsInfo: { candidates }, voterPositions, t } = this.props;
     const { accountId, approvals, oldApprovals } = this.state;
 
     return (
       <>
+        {api.tx.electionsPhragmen && (
+          <InputBalance
+            label={t('value')}
+            onChange={this.setVoteValue}
+          />
+        )}
         {(oldApprovals && accountId && voterPositions && voterPositions[accountId]) && (
           <AlreadyVoted className='warning padded'>
             <div>
@@ -225,6 +233,10 @@ class Vote extends TxModal<Props, State> {
         </Candidates>
       </>
     );
+  }
+
+  private setVoteValue = (voteValue?: BN): void => {
+    this.setState({ voteValue: voteValue || new BN(0) });
   }
 
   private emptyApprovals = (): boolean[] => {
