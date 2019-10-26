@@ -30,5 +30,7 @@
   "Vote": "Vote",
   "You have already voted in this round": "You have already voted in this round",
   "Retract vote": "Retract vote",
-  "No vote": "No vote"
+  "No vote": "No vote",
+  "No candidates found": "No candidates found",
+  "value": "value"
 }
