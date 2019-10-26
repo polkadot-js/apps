@@ -38,10 +38,7 @@ function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<Pro
 }
 
 export default withCalls<Props>(
-  [
-    'derive.elections.info',
-    {
-      propName: 'electionsInfo'
-    }
-  ]
+  ['derive.elections.info', {
+    propName: 'electionsInfo'
+  }]
 )(Overview);
