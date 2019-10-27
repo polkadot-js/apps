@@ -20,7 +20,7 @@ interface Props extends I18nProps {
   className?: string;
 }
 
-const WITH_BALANCE = { available: true, bonded: true, free: true, total: true };
+const WITH_BALANCE = { available: true, bonded: true, free: true, reserved: true, total: true };
 const WITH_EXTENDED = { nonce: true };
 
 const isEditable = true;
@@ -63,6 +63,8 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
     const account = keyring.getAddress(address);
 
     account && keyring.saveAddress(address, { ...account.meta, genesisHash });
+
+    setGenesisHash(genesisHash);
   };
 
   return (

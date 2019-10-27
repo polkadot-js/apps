@@ -102,7 +102,7 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
             icon='add'
           />
           <Button
-            isDisabled={values.length === 1}
+            isDisabled={values.length === 0}
             isNegative
             onClick={_rowRemove}
             label={t('Remove item')}

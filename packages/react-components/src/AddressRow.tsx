@@ -5,14 +5,17 @@
 
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import BaseIdentityIcon from '@polkadot/react-identicon';
+import { Bytes, Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
+import { u8aToString } from '@polkadot/util';
 
 import AddressInfo, { BalanceActiveType, ValidatorPrefsType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
@@ -26,6 +29,7 @@ export interface Props extends I18nProps, RowProps {
   isContract?: boolean;
   isValid?: boolean;
   label?: string;
+  nicks_nameOf?: Option<[Bytes, Balance] & Codec>;
   value: AccountId | AccountIndex | Address | string | null;
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;
@@ -45,13 +49,16 @@ class AddressRow extends Row<ApiProps & Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, type, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, nicks_nameOf, type, value }: Props, prevState: State): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddressName(address, type, false, defaultName || '<unknown>') || '';
+    const nickName = nicks_nameOf && nicks_nameOf.isSome
+      ? u8aToString(nicks_nameOf.unwrap()[0])
+      : undefined;
+    const name = nickName || getAddressName(address, type, false, defaultName || '<unknown>') || '';
     const tags = getAddressTags(address, type);
     const state: Partial<State> = { tags };
     let hasChanged = false;
@@ -146,7 +153,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderAccountIndex (): React.ReactNode {
-    const { accounts_idAndIndex = [], withIndex } = this.props;
+    const { accounts_idAndIndex = [], withIndex = true } = this.props;
     const [, accountIndex] = accounts_idAndIndex;
 
     if (!accountIndex || !withIndex) {
@@ -273,10 +280,14 @@ export {
 
 export default withMulti(
   styled(AddressRow as React.ComponentClass<Props & ApiProps, State>)`
-    ${styles}
+    ${styles},
+    .ui--Row-accountId+.ui--Row-accountIndex {
+      margin-top: -0.25rem;
+    }
   `,
   translate,
   withCalls<Props>(
-    ['derive.accounts.idAndIndex', { paramName: 'value' }]
+    ['derive.accounts.idAndIndex', { paramName: 'value' }],
+    ['query.nicks.nameOf', { paramName: 'value' }]
   )
 );

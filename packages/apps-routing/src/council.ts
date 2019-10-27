@@ -11,7 +11,10 @@ export default ([
     Component: Council,
     display: {
       needsApi: [
-        'query.elections.candidates'
+        [
+          'query.electionsPhragmen.candidates',
+          'query.elections.candidates'
+        ]
       ]
     },
     i18n: {

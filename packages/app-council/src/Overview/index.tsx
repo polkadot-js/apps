@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
-import { ComponentProps as Props } from './types';
+import { BlockNumber } from '@polkadot/types/interfaces';
+import { ComponentProps } from './types';
 
 import React from 'react';
 import { withCalls } from '@polkadot/react-api';
@@ -15,21 +16,25 @@ import SubmitCandidacy from './SubmitCandidacy';
 import Summary from './Summary';
 import Vote from './Vote';
 
+interface Props extends ComponentProps {
+  bestNumber?: BlockNumber;
+}
+
 const NULL_INFO: DerivedElectionsInfo = {
-  members: {},
   candidates: [],
   candidateCount: createType('u32'),
   desiredSeats: createType('u32'),
-  nextVoterSet: createType('SetIndex'),
-  termDuration: createType('BlockNumber'),
-  voteCount: createType('VoteIndex'),
-  voterCount: createType('SetIndex')
+  members: [],
+  termDuration: createType('BlockNumber')
 };
 
-function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<Props> {
+function Overview ({ bestNumber, electionsInfo = NULL_INFO }: Props): React.ReactElement<Props> {
   return (
     <>
-      <Summary electionsInfo={electionsInfo} />
+      <Summary
+        bestNumber={bestNumber}
+        electionsInfo={electionsInfo}
+      />
       <Button.Group>
         <SubmitCandidacy electionsInfo={electionsInfo} />
         <Button.Or />
@@ -41,10 +46,10 @@ function Overview ({ electionsInfo = NULL_INFO }: Props): React.ReactElement<Pro
 }
 
 export default withCalls<Props>(
-  [
-    'derive.elections.info',
-    {
-      propName: 'electionsInfo'
-    }
-  ]
+  ['derive.elections.info', {
+    propName: 'electionsInfo'
+  }],
+  ['derive.chain.bestNumber', {
+    propName: 'bestNumber'
+  }]
 )(Overview);
