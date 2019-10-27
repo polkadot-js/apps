@@ -63,6 +63,8 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
     const account = keyring.getAddress(address);
 
     account && keyring.saveAddress(address, { ...account.meta, genesisHash });
+
+    setGenesisHash(genesisHash);
   };
 
   return (
