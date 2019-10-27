@@ -147,11 +147,14 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { electionsInfo: { candidates }, t } = this.props;
+    const { api, electionsInfo: { candidates, members }, t } = this.props;
+    const available = api.tx.electionsPhragmen
+      ? members.concat(candidates)
+      : candidates;
 
     return (
       <Button
-        isDisabled={candidates.length === 0}
+        isDisabled={available.length === 0}
         isPrimary
         label={t('Vote')}
         icon='check'
