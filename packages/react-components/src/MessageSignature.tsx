@@ -16,6 +16,7 @@ import translate from './translate';
 export interface Props extends I18nProps {
   asConstructor?: boolean;
   message: ContractABIMethod;
+  params?: any[];
   withTooltip?: boolean;
 }
 
@@ -43,7 +44,7 @@ const ReturnType = styled.span`
   color: #ff8600;
 `;
 
-function MessageSignature ({ message: { args, mutates, name, returnType }, asConstructor = false, withTooltip = false, t }: Props): React.ReactElement<Props> {
+function MessageSignature ({ message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false, t }: Props): React.ReactElement<Props> {
   return (
     <Signature>
       <Name>
@@ -56,7 +57,13 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, asCon
             {name}:
             {' '}
             <Type>
-              {displayType(type)}
+              {params && params[index]
+                ? (
+                  <b>
+                    {params[index].toString()}
+                  </b>
+                )
+                : displayType(type)}
             </Type>
             {index < args.length - 1 && ', '}
           </React.Fragment>

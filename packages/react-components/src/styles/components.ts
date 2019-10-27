@@ -44,8 +44,11 @@ export default css`
     margin: 0;
   }
 
-  button.ui.icon.iconButton {
-    padding: 0em 0em .3em .3em !important;
+  button.ui.icon.icon-button {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0.3em;
+    padding-left: 0.3em;
     color: #2e86ab  !important;
     background: none  !important;
   }
