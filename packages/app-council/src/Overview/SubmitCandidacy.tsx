@@ -5,7 +5,6 @@
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { withApi } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
@@ -27,13 +26,7 @@ class SubmitCandidacy extends TxModal<Props, State> {
       ? 'electionsPhragmen.submitCandidacy'
       : 'elections.submitCandidacy';
 
-  protected txParams = (): [BN] | [] => {
-    const { api, electionsInfo: { candidateCount } } = this.props;
-
-    return api.tx.electionsPhragmen
-      ? []
-      : [candidateCount];
-  }
+  protected txParams = (): [] => [];
 
   protected isDisabled = (): boolean => {
     const { accountId } = this.state;
