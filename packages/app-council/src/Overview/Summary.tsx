@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
+import { BlockNumber } from '@polkadot/types/interfaces';
 import { ComponentProps } from './types';
 
 import React from 'react';
@@ -12,9 +13,11 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps, ComponentProps {}
+interface Props extends I18nProps, ComponentProps {
+  bestNumber?: BlockNumber;
+}
 
-function Summary ({ electionsInfo: { members, candidateCount, desiredSeats, termDuration, voteCount }, t }: Props): React.ReactElement<Props> {
+function Summary ({ bestNumber, electionsInfo: { members, candidateCount, desiredSeats, termDuration, voteCount }, t }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>
@@ -32,11 +35,17 @@ function Summary ({ electionsInfo: { members, candidateCount, desiredSeats, term
           </CardSummary>
         </section>
       )}
-      <section>
-        <CardSummary label={t('term duration')}>
-          {formatNumber(termDuration)}
-        </CardSummary>
-      </section>
+      {bestNumber && termDuration && termDuration.gtn(0) && (
+        <section>
+          <CardSummary
+            label={t('term progress')}
+            progress={{
+              total: termDuration,
+              value: bestNumber.mod(termDuration)
+            }}
+          />
+        </section>
+      )}
     </SummaryBox>
   );
 }
