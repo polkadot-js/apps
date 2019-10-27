@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { VoteIndex } from '@polkadot/types/interfaces';
+import { AccountId, VoteIndex } from '@polkadot/types/interfaces';
 import { DerivedVoterPositions } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
@@ -12,7 +12,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { AddressRow, Button, InputBalance, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressRow, Button, InputBalance, Toggle } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
@@ -52,8 +52,8 @@ const Candidate = styled.div`
   min-width: calc(50% - 1rem);
   border-radius: 0.5rem;
   border: 1px solid #eee;
-  padding: 0.5rem;
-  margin: 0.5rem;
+  padding: 0.25rem;
+  margin: 0.25rem;
   transition: all 0.2s;
 
   b {
@@ -166,9 +166,10 @@ class Vote extends TxModal<Props, State> {
   protected renderContent = (): React.ReactNode => {
     const { api, electionsInfo: { candidates, members }, t } = this.props;
     const { votes } = this.state;
+    const _candidates = candidates.map((accountId): [AccountId, boolean] => [accountId, false]);
     const available = api.tx.electionsPhragmen
-      ? members.concat(candidates)
-      : candidates;
+      ? members.map((accountId): [AccountId, boolean] => [accountId, true]).concat(_candidates)
+      : _candidates;
 
     return (
       <>
@@ -198,7 +199,7 @@ class Vote extends TxModal<Props, State> {
           </AlreadyVoted>
         )} */}
         <Candidates>
-          {available.map((accountId): React.ReactNode => {
+          {available.map(([accountId, isMember]): React.ReactNode => {
             const key = accountId.toString();
             const isAye = votes[key] || false;
 
@@ -208,6 +209,7 @@ class Vote extends TxModal<Props, State> {
                 key={key}
               >
                 <AddressRow
+                  defaultName={isMember ? t('member') : t('candidate')}
                   isInline
                   value={accountId}
                 >
