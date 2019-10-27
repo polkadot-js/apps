@@ -19,7 +19,7 @@ function Summary ({ electionsInfo: { members, candidateCount, desiredSeats, term
     <SummaryBox>
       <section>
         <CardSummary label={t('seats')}>
-          {formatNumber(Object.keys(members).length)}/{formatNumber(desiredSeats)}
+          {formatNumber(members.length)}/{formatNumber(desiredSeats)}
         </CardSummary>
         <CardSummary label={t('candidates')}>
           {formatNumber(candidateCount)}
