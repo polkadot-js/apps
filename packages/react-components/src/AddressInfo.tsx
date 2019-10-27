@@ -209,7 +209,7 @@ function renderBalances (props: Props): React.ReactNode {
           <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
         </>
       )}
-      {balanceDisplay.reserved && (
+      {balanceDisplay.reserved && balances_all.reservedBalance && balances_all.reservedBalance.gtn(0) && (
         <>
           <Label label={t('reserved')} />
           <div className='result'>{formatBalance(balances_all.reservedBalance)}</div>
