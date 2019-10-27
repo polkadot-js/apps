@@ -66,6 +66,8 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
     const account = keyring.getPair(address);
 
     account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
+
+    setGenesisHash(genesisHash);
   };
 
   // FIXME It is a bit heavy-handled switching of being editable here completely
