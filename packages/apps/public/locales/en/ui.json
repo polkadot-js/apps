@@ -581,5 +581,6 @@
   "member": "",
   "term progress": "",
   "reserved": "",
-  "locked": ""
+  "locked": "",
+  "Voters ({{count}})": ""
 }
