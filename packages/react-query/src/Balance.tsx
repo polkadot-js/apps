@@ -25,7 +25,7 @@ export function BalanceDisplay ({ children, className, label = '', balances_all 
       {label}{
         balances_all
           ? formatBalance(balances_all.freeBalance)
-          : '0'
+          : '-'
       }{children}
     </div>
   );

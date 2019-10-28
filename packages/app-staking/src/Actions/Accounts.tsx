@@ -12,8 +12,8 @@ import { withCalls, withMulti } from '@polkadot/react-api/with';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, CardGrid } from '@polkadot/react-components';
+import { AccountName } from '@polkadot/react-query';
 import createOption from '@polkadot/ui-keyring/options/item';
-import { getAddressName } from '@polkadot/react-components/util';
 
 import Account from './Account';
 import StartStaking from './NewStake';
@@ -43,7 +43,7 @@ function Accounts ({ allAccounts, allStashes, className, myControllers, recently
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const myStashes = getMyStashes(myControllers, allAccounts);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
-    createOption(stashId, getAddressName(stashId, 'account') as string)
+    createOption(stashId, (<AccountName params={stashId} />) as any)
   );
   const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 

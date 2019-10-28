@@ -165,8 +165,6 @@ class Vote extends TxModal<Props, State> {
       ? members.map((accountId): [AccountId, boolean] => [accountId, true]).concat(_candidates)
       : _candidates;
 
-    console.log('content', votes);
-
     return (
       <>
         {api.tx.electionsPhragmen && (
