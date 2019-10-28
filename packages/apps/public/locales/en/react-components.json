@@ -62,5 +62,6 @@
   "Vote": "Vote",
   "Aye, I approve": "Aye, I approve",
   "Nay, I do not approve": "Nay, I do not approve",
-  "reserved": "reserved"
+  "reserved": "reserved",
+  "locked": "locked"
 }
