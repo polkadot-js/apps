@@ -43,7 +43,7 @@ function Accounts ({ allAccounts, allStashes, className, myControllers, recently
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const myStashes = getMyStashes(myControllers, allAccounts);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
-    createOption(stashId, getAddressName(stashId, 'account'))
+    createOption(stashId, getAddressName(stashId, 'account') as string)
   );
   const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
 

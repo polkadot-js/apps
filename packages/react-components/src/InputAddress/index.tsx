@@ -198,7 +198,7 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderLabel = ({ value }: KeyringSectionOption): string | undefined => {
+  private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode => {
     if (!value) {
       return undefined;
     }

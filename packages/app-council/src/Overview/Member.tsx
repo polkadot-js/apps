@@ -21,8 +21,11 @@ function Member ({ address, t, voters }: Props): React.ReactElement<Props> {
     <AddressCard
       defaultName={t('council member')}
       value={address}
+      withIndexOrAddress
     >
-      <Voters voters={voters} />
+      {voters && voters.length !== 0 && (
+        <Voters voters={voters} />
+      )}
     </AddressCard>
   );
 }

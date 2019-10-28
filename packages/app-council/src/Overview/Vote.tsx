@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, VoteIndex } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 import { DerivedVoterPositions } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
@@ -52,7 +53,7 @@ const Candidate = styled.div`
   min-width: calc(50% - 1rem);
   border-radius: 0.5rem;
   border: 1px solid #eee;
-  padding: 0.25rem;
+  padding: 0.75rem 0.5rem 0.25rem;
   margin: 0.25rem;
   transition: all 0.2s;
 
@@ -70,6 +71,11 @@ const Candidate = styled.div`
 
   &.nay {
     background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .ui--Row-children {
+    text-align: right;
+    width: 100%;
   }
 `;
 
@@ -90,18 +96,6 @@ class Vote extends TxModal<Props, State> {
     this.state = {
       ...this.defaultState
     };
-  }
-
-  public componentDidMount (): void {
-    this.fetchApprovals();
-  }
-
-  public componentDidUpdate (_: Props, prevState: State): void {
-    const { accountId } = this.state;
-
-    if (accountId !== prevState.accountId) {
-      this.fetchApprovals();
-    }
   }
 
   protected headerText = (): string => this.props.t('Vote for current candidates');
@@ -171,6 +165,8 @@ class Vote extends TxModal<Props, State> {
       ? members.map((accountId): [AccountId, boolean] => [accountId, true]).concat(_candidates)
       : _candidates;
 
+    console.log('content', votes);
+
     return (
       <>
         {api.tx.electionsPhragmen && (
@@ -212,6 +208,7 @@ class Vote extends TxModal<Props, State> {
                   defaultName={isMember ? t('member') : t('candidate')}
                   isInline
                   value={accountId}
+                  withIndexOrAddress
                 >
                   <Toggle
                     label={
@@ -235,9 +232,8 @@ class Vote extends TxModal<Props, State> {
     this.setState({ voteValue: voteValue || new BN(0) });
   }
 
-  private fetchApprovals = (): void => {
+  private fetchApprovals = (accountId: string | null): void => {
     const { api, electionsInfo: { candidates, voteCount } } = this.props;
-    const { accountId } = this.state;
 
     if (!accountId || !voteCount) {
       return;
@@ -256,8 +252,30 @@ class Vote extends TxModal<Props, State> {
       });
   }
 
+  private fetchVotes = (accountId: string | null): void => {
+    const { api } = this.props;
+
+    if (!accountId || !api.tx.electionsPhragmen) {
+      return;
+    }
+
+    api.query.electionsPhragmen
+      .votesOf<[AccountId[]] & Codec>(accountId)
+      .then(([existingVotes]): void => {
+        existingVotes.forEach((accountId): void => {
+          this.onChangeVote(accountId.toString())(true);
+        });
+      });
+  }
+
   protected onChangeAccount = (accountId: string | null): void => {
+    const { api } = this.props;
+
     this.setState({ accountId });
+
+    api.tx.electionsPhragmen
+      ? this.fetchVotes(accountId)
+      : this.fetchApprovals(accountId);
   }
 
   private onChangeVote = (accountId: string): (isChecked: boolean) => void =>

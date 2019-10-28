@@ -108,7 +108,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
       type='address'
       value={address}
       withExplorer
-      withIndex
+      withIndexOrAddress={false}
       withTags
     >
       {address && current && (

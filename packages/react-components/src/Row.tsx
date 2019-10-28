@@ -275,7 +275,7 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
     const { address, isEditingName, name } = this.state;
     const withName = name !== defaultName;
 
-    // can't be both editable and copiable
+    // can't be both editable and copyable
     return isEditingName
       ? (
         <Input

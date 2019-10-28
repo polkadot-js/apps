@@ -76,6 +76,7 @@ class Import extends TxComponent<Props, State> {
       <Modal.Content>
         <AddressRow
           defaultName={isFileValid && json ? json.meta.name : null}
+          noDefaultNameOpacity
           value={isFileValid && address ? address : null}
         >
           <InputFile

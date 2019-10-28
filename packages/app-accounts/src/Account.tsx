@@ -129,7 +129,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       type='account'
       value={address}
       withExplorer
-      withIndex
+      withIndexOrAddress={false}
       withTags
     >
       {address && (
