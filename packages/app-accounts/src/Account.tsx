@@ -125,6 +125,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       }
       className={className}
       isEditable={isEditable}
+      noDefaultNameOpacity
       type='account'
       value={address}
       withExplorer
