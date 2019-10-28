@@ -11,14 +11,10 @@ import { AddressMini } from '@polkadot/react-components';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  voters?: AccountId[];
+  voters: AccountId[];
 }
 
 function Voters ({ voters, t }: Props): React.ReactElement<Props> | null {
-  if (!voters || !voters.length) {
-    return null;
-  }
-
   return (
     <details>
       <summary>

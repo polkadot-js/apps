@@ -21,8 +21,11 @@ function Candidate ({ address, t, voters }: Props): React.ReactElement<Props> {
     <AddressCard
       defaultName={t('candidate')}
       value={address}
+      withIndexOrAddress
     >
-      <Voters voters={voters} />
+      {voters && voters.length !== 0 && (
+        <Voters voters={voters} />
+      )}
     </AddressCard>
   );
 }

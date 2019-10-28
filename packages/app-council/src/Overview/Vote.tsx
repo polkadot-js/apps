@@ -52,7 +52,7 @@ const Candidate = styled.div`
   min-width: calc(50% - 1rem);
   border-radius: 0.5rem;
   border: 1px solid #eee;
-  padding: 0.25rem;
+  padding: 0.75rem 0.5rem 0.25rem;
   margin: 0.25rem;
   transition: all 0.2s;
 
@@ -70,6 +70,11 @@ const Candidate = styled.div`
 
   &.nay {
     background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .ui--Row-children {
+    text-align: right;
+    width: 100%;
   }
 `;
 
@@ -212,6 +217,7 @@ class Vote extends TxModal<Props, State> {
                   defaultName={isMember ? t('member') : t('candidate')}
                   isInline
                   value={accountId}
+                  withIndexOrAddress
                 >
                   <Toggle
                     label={
