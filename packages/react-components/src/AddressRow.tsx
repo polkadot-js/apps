@@ -30,6 +30,7 @@ export interface Props extends I18nProps, RowProps {
   isValid?: boolean;
   label?: string;
   nicks_nameOf?: Option<[Bytes, Balance] & Codec>;
+  noDefaultNameOpacity?: boolean;
   value: AccountId | AccountIndex | Address | string | null;
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;
@@ -50,7 +51,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, nicks_nameOf, type, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, nicks_nameOf, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
@@ -59,7 +60,8 @@ class AddressRow extends Row<ApiProps & Props, State> {
     const nickName = nicks_nameOf && nicks_nameOf.isSome
       ? u8aToString(nicks_nameOf.unwrap()[0])
       : undefined;
-    const name = nickName || getAddressName(address, type, false, <span className='ui--Row-placeholder'>{defaultName || '<unknown>'}</span>) || '';
+    const nameHolder = defaultName || '<unknown>';
+    const name = nickName || getAddressName(address, type, false, noDefaultNameOpacity ? nameHolder : <span className='ui--Row-placeholder'>{nameHolder}</span>) || '';
     const tags = getAddressTags(address, type);
     const state: Partial<State> = { tags };
     let hasChanged = false;
@@ -70,7 +72,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
     }
 
     if (!prevState.isEditingName && name !== prevState.name) {
-      state.name = name;
+      state.name = name as string;
       hasChanged = true;
     }
 
@@ -118,7 +120,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
     return {
       ...this.state,
       address,
-      name,
+      name: name as string,
       tags
     };
   }
@@ -254,9 +256,9 @@ class AddressRow extends Row<ApiProps & Props, State> {
       } catch (error) {
         keyring.saveAddress(address, meta);
       }
-
-      this.setState({ isEditingName: false });
     }
+
+    this.setState({ isEditingName: false });
   }
 
   protected saveTags = (): void => {

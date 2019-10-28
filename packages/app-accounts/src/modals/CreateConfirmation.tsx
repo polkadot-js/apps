@@ -29,6 +29,7 @@ function CreateConfirmation ({ address, name, onClose, onCommit, t }: Props): Re
         <AddressRow
           defaultName={name}
           isInline
+          noDefaultNameOpacity
           value={address}
         >
           <p>{t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
