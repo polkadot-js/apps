@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, VoteIndex } from '@polkadot/types/interfaces';
+import { Codec } from '@polkadot/types/types';
 import { DerivedVoterPositions } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
@@ -97,18 +98,6 @@ class Vote extends TxModal<Props, State> {
     };
   }
 
-  public componentDidMount (): void {
-    this.fetchApprovals();
-  }
-
-  public componentDidUpdate (_: Props, prevState: State): void {
-    const { accountId } = this.state;
-
-    if (accountId !== prevState.accountId) {
-      this.fetchApprovals();
-    }
-  }
-
   protected headerText = (): string => this.props.t('Vote for current candidates');
 
   protected accountLabel = (): string => this.props.t('Voting account');
@@ -176,6 +165,8 @@ class Vote extends TxModal<Props, State> {
       ? members.map((accountId): [AccountId, boolean] => [accountId, true]).concat(_candidates)
       : _candidates;
 
+    console.log('content', votes);
+
     return (
       <>
         {api.tx.electionsPhragmen && (
@@ -241,9 +232,8 @@ class Vote extends TxModal<Props, State> {
     this.setState({ voteValue: voteValue || new BN(0) });
   }
 
-  private fetchApprovals = (): void => {
+  private fetchApprovals = (accountId: string | null): void => {
     const { api, electionsInfo: { candidates, voteCount } } = this.props;
-    const { accountId } = this.state;
 
     if (!accountId || !voteCount) {
       return;
@@ -262,8 +252,30 @@ class Vote extends TxModal<Props, State> {
       });
   }
 
+  private fetchVotes = (accountId: string | null): void => {
+    const { api } = this.props;
+
+    if (!accountId || !api.tx.electionsPhragmen) {
+      return;
+    }
+
+    api.query.electionsPhragmen
+      .votesOf<[AccountId[]] & Codec>(accountId)
+      .then(([existingVotes]): void => {
+        existingVotes.forEach((accountId): void => {
+          this.onChangeVote(accountId.toString())(true);
+        });
+      });
+  }
+
   protected onChangeAccount = (accountId: string | null): void => {
+    const { api } = this.props;
+
     this.setState({ accountId });
+
+    api.tx.electionsPhragmen
+      ? this.fetchVotes(accountId)
+      : this.fetchApprovals(accountId);
   }
 
   private onChangeVote = (accountId: string): (isChecked: boolean) => void =>
