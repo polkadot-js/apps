@@ -104,7 +104,6 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
       }
       className={className}
       isEditable={isEditable}
-      noDefaultNameOpacity
       type='address'
       value={address}
       withExplorer
