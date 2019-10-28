@@ -226,7 +226,7 @@ class Vote extends TxModal<Props, State> {
     this.setState({ voteValue: voteValue || new BN(0) });
   }
 
-  private fetchApprovals = (accountId: string  | null): void => {
+  private fetchApprovals = (accountId: string | null): void => {
     const { api, electionsInfo: { candidates, voteCount } } = this.props;
 
     if (!accountId || !voteCount) {
@@ -246,7 +246,7 @@ class Vote extends TxModal<Props, State> {
       });
   }
 
-  private fetchVotes = (accountId: string  | null): void => {
+  private fetchVotes = (accountId: string | null): void => {
     const { api } = this.props;
 
     if (!accountId || !api.tx.electionsPhragmen) {
