@@ -34,5 +34,6 @@
   "No candidates found": "No candidates found",
   "value": "value",
   "member": "member",
-  "term progress": "term progress"
+  "term progress": "term progress",
+  "Voters ({{count}})": "Voters ({{count}})"
 }
