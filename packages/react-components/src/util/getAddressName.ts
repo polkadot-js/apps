@@ -12,8 +12,8 @@ export default function getAddressName (address: string, type: KeyringItemType |
   const meta = getAddressMeta(address, type);
 
   return meta.name
-    ? [false, false, meta.name]
+    ? [false, false, meta.name.toUpperCase()]
     : defaultName
-      ? [false, true, defaultName]
+      ? [false, true, defaultName.toUpperCase()]
       : [true, false, toShortAddress(address)];
 }
