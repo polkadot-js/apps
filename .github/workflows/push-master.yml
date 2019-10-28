@@ -14,6 +14,8 @@ jobs:
         node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
+      with:
+        token: ${{ secrets.GH_PAT }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -23,7 +25,6 @@ jobs:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         GH_PAGES_SRC: packages/apps/build
         GH_PAT: ${{ secrets.GH_PAT }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn install --frozen-lockfile
