@@ -120,7 +120,7 @@ export default styled(AddressMini)`
     &.withName {
       font-family: monospace;
       max-width: 9rem;
-      min-width: 4em;
+      min-width: 9em;
       overflow: hidden;
       text-align: right;
       text-overflow: ellipsis;
