@@ -56,7 +56,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
       ? accountId.toString()
       : DEFAULT_ADDR;
     const [, isDefault, nameInner] = accounts_info && accounts_info.nickname
-      ? [true, false, accounts_info.nickname]
+      ? [true, false, accounts_info.nickname.toUpperCase()]
       : getAddressName(address, type, defaultName || '<unknown>');
     const name = isDefault && !noDefaultNameOpacity && !isEditable
       ? <div className='ui--Row-placeholder'>{nameInner}</div>

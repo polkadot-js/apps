@@ -12,7 +12,7 @@ import { getAddressName, toShortAddress } from '@polkadot/react-components/util'
 
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
-  defaultName?: React.ReactNode;
+  defaultName?: string;
   idAndIndex?: [AccountId?, AccountIndex?];
   info?: DeriveAccountInfo;
   label?: React.ReactNode;
@@ -20,8 +20,8 @@ interface Props extends BareProps, CallProps {
   withShort?: boolean;
 }
 
-export function AccountName ({ children, className, defaultName, idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
-  const [name, setName] = useState<React.ReactNode>(defaultName || '');
+export function AccountName ({ children, className, defaultName = '', idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
+  const [name, setName] = useState<React.ReactNode>(defaultName.toUpperCase());
 
   useEffect((): void => {
     const [accountId, accountIndex] = idAndIndex || [];
@@ -34,10 +34,10 @@ export function AccountName ({ children, className, defaultName, idAndIndex, inf
       setName(
         isAddress
           ? (accountIndex && accountIndex.toString()) || extracted
-          : extracted.toUpperCase()
+          : extracted
       );
     } else {
-      setName(defaultName || toShortAddress(params));
+      setName(defaultName.toUpperCase() || toShortAddress(params));
     }
   }, [idAndIndex, info]);
 
