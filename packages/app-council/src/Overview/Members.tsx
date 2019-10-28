@@ -3,19 +3,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
+import { withCalls } from '@polkadot/react-api';
 import { Columar, Column } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Candidate from './Candidate';
 import Member from './Member';
 
-interface Props extends I18nProps, ComponentProps {}
+interface Props extends I18nProps, ComponentProps {
+  allVotes?: Record<string, AccountId[]>;
+}
 
-function Members ({ electionsInfo: { candidates, members }, t }: Props): React.ReactElement<Props> {
+function Members ({ allVotes = {}, electionsInfo: { candidates, members }, t }: Props): React.ReactElement<Props> {
   return (
     <Columar>
       <Column
@@ -26,6 +30,7 @@ function Members ({ electionsInfo: { candidates, members }, t }: Props): React.R
           <Member
             address={address}
             key={address.toString()}
+            voters={allVotes[address.toString()]}
           />
         ))}
       </Column>
@@ -37,6 +42,7 @@ function Members ({ electionsInfo: { candidates, members }, t }: Props): React.R
           <Candidate
             address={address}
             key={address.toString()}
+            voters={allVotes[address.toString()]}
           />
         ))}
       </Column>
@@ -44,4 +50,24 @@ function Members ({ electionsInfo: { candidates, members }, t }: Props): React.R
   );
 }
 
-export default translate(Members);
+export default translate(
+  withCalls<Props>(
+    ['query.electionsPhragmen.votesOf', {
+      propName: 'allVotes',
+      transform: ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> =>
+        voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
+          casted[index].forEach((candidate): void => {
+            const address = candidate.toString();
+
+            if (!result[address]) {
+              result[address] = [];
+            }
+
+            result[address].push(voter);
+          });
+
+          return result;
+        }, {})
+    }]
+  )(Members)
+);

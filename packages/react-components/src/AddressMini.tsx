@@ -14,6 +14,7 @@ import { classes, getAddressName, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
+import LockedVote from './LockedVote';
 
 interface Props extends BareProps {
   balance?: BN | BN[];
@@ -27,6 +28,7 @@ interface Props extends BareProps {
   withAddress?: boolean;
   withBalance?: boolean;
   withBonded?: boolean;
+  withLockedVote?: boolean;
 }
 
 function renderAddressOrName ({ isShort = true, withAddress = true, type }: Props, address: string): React.ReactNode {
@@ -47,35 +49,8 @@ function renderAddressOrName ({ isShort = true, withAddress = true, type }: Prop
   );
 }
 
-function renderBalance ({ balance, value, withBalance = false }: Props): React.ReactNode {
-  if (!withBalance || !value) {
-    return null;
-  }
-
-  return (
-    <BalanceDisplay
-      balance={balance}
-      params={value}
-    />
-  );
-}
-
-function renderBonded ({ bonded, value, withBonded = false }: Props): React.ReactNode {
-  if (!withBonded || !value) {
-    return null;
-  }
-
-  return (
-    <BondedDisplay
-      bonded={bonded}
-      label=''
-      params={value}
-    />
-  );
-}
-
 function AddressMini (props: Props): React.ReactElement<Props> | null {
-  const { children, className, iconInfo, isPadded = true, style, value } = props;
+  const { balance, bonded, children, className, iconInfo, isPadded = true, style, value, withBalance = false, withBonded = false, withLockedVote = false } = props;
 
   if (!value) {
     return null;
@@ -104,8 +79,22 @@ function AddressMini (props: Props): React.ReactElement<Props> | null {
         )}
       </div>
       <div className='ui--AddressMini-balances'>
-        {renderBalance(props)}
-        {renderBonded(props)}
+        {withBalance && (
+          <BalanceDisplay
+            balance={balance}
+            params={value}
+          />
+        )}
+        {withBonded && (
+          <BondedDisplay
+            bonded={bonded}
+            label=''
+            params={value}
+          />
+        )}
+        {withLockedVote && (
+          <LockedVote params={value} />
+        )}
       </div>
     </div>
   );
@@ -131,7 +120,7 @@ export default styled(AddressMini)`
     &.withName {
       font-family: monospace;
       max-width: 9rem;
-      min-width: 4em;
+      min-width: 9em;
       overflow: hidden;
       text-align: right;
       text-overflow: ellipsis;
@@ -145,7 +134,8 @@ export default styled(AddressMini)`
   .ui--AddressMini-balances {
     display: grid;
 
-    .ui--Bonded {
+    .ui--Bonded,
+    .ui--LockedVote {
       font-size: 0.75rem;
       margin-right: 2.25rem;
       margin-top: -0.5rem;
