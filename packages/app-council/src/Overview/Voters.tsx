@@ -32,6 +32,7 @@ function Voters ({ voters, t }: Props): React.ReactElement<Props> | null {
         <AddressMini
           key={who.toString()}
           value={who}
+          withLockedVote
         />
       )}
     </details>
