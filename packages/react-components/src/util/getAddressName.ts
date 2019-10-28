@@ -4,16 +4,16 @@
 
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import React from 'react';
-
 import getAddressMeta from './getAddressMeta';
 import toShortAddress from './toShortAddress';
 
-export default function getAddressName (address: string, type: KeyringItemType | null = null, withShort?: boolean, defaultName?: React.ReactNode): React.ReactNode | string | undefined {
+// isName, isDefault, name
+export default function getAddressName (address: string, type: KeyringItemType | null = null, defaultName?: string): [boolean, boolean, string] {
   const meta = getAddressMeta(address, type);
-  const name = meta.name || defaultName;
 
-  return !name && withShort
-    ? toShortAddress(address)
-    : name;
+  return meta.name
+    ? [false, false, meta.name]
+    : defaultName
+      ? [false, true, defaultName]
+      : [true, false, toShortAddress(address)];
 }

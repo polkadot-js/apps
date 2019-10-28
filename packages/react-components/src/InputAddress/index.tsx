@@ -10,12 +10,13 @@ import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import { withMulti, withObservable } from '@polkadot/react-api';
+import { AccountName } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
 import { isUndefined } from '@polkadot/util';
 
-import { classes, getAddressName } from '../util';
+import { classes } from '../util';
 import addressToAddress from '../util/toAddress';
 import Dropdown from '../Dropdown';
 import createHeader from './createHeader';
@@ -198,13 +199,8 @@ class InputAddress extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode => {
-    if (!value) {
-      return undefined;
-    }
-
-    return getAddressName(value, null, true);
-  }
+  private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode =>
+    <AccountName params={value} />;
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
     const { optionsAll, type = DEFAULT_TYPE } = this.props;

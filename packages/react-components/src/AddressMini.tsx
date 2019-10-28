@@ -8,9 +8,10 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+import { AccountName } from '@polkadot/react-query';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { classes, getAddressName, toShortAddress } from './util';
+import { classes } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
@@ -31,26 +32,8 @@ interface Props extends BareProps {
   withLockedVote?: boolean;
 }
 
-function renderAddressOrName ({ isShort = true, withAddress = true, type }: Props, address: string): React.ReactNode {
-  if (!withAddress) {
-    return null;
-  }
-
-  const name = getAddressName(address, type);
-
-  return (
-    <div className={`ui--AddressMini-address ${name ? 'withName' : 'withAddr'}`}>{
-      name || (
-        isShort
-          ? toShortAddress(address)
-          : address
-      )
-    }</div>
-  );
-}
-
 function AddressMini (props: Props): React.ReactElement<Props> | null {
-  const { balance, bonded, children, className, iconInfo, isPadded = true, style, value, withBalance = false, withBonded = false, withLockedVote = false } = props;
+  const { balance, bonded, children, className, iconInfo, isPadded = true, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false } = props;
 
   if (!value) {
     return null;
@@ -64,7 +47,11 @@ function AddressMini (props: Props): React.ReactElement<Props> | null {
       style={style}
     >
       <div className='ui--AddressMini-info'>
-        {renderAddressOrName(props, address)}
+        {withAddress && (
+          <div className='ui--AddressMini-address'>
+            <AccountName params={address} />
+          </div>
+        )}
         {children}
       </div>
       <div className='ui--AddressMini-icon'>
@@ -116,19 +103,12 @@ export default styled(AddressMini)`
   }
 
   .ui--AddressMini-address {
-    &.withAddr,
-    &.withName {
-      font-family: monospace;
-      max-width: 9rem;
-      min-width: 9em;
-      overflow: hidden;
-      text-align: right;
-      text-overflow: ellipsis;
-    }
-
-    &.withName {
-      text-transform: uppercase;
-    }
+    font-family: monospace;
+    max-width: 9rem;
+    min-width: 9em;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
   }
 
   .ui--AddressMini-balances {

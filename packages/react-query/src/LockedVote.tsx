@@ -24,7 +24,7 @@ export function LockedVote ({ children, className, electionsPhragmen_stakeOf, la
       {label}{
         electionsPhragmen_stakeOf
           ? formatBalance(electionsPhragmen_stakeOf)
-          : '0'
+          : '-'
       }{children}
     </div>
   );

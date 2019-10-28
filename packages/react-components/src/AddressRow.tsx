@@ -3,19 +3,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { AccountId, AccountIndex, Address, Balance } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import BaseIdentityIcon from '@polkadot/react-identicon';
-import { Bytes, Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
-import { u8aToString } from '@polkadot/util';
 
 import AddressInfo, { BalanceActiveType, ValidatorPrefsType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
@@ -29,7 +27,7 @@ export interface Props extends I18nProps, RowProps {
   isContract?: boolean;
   isValid?: boolean;
   label?: string;
-  nicks_nameOf?: Option<[Bytes, Balance] & Codec>;
+  accounts_info?: DeriveAccountInfo;
   noDefaultNameOpacity?: boolean;
   value: AccountId | AccountIndex | Address | string | null;
   withAddressOrName?: boolean;
@@ -51,17 +49,18 @@ class AddressRow extends Row<ApiProps & Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], defaultName, nicks_nameOf, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], accounts_info, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
     const [_accountId] = accounts_idAndIndex;
     const accountId = _accountId || value;
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const nickName = nicks_nameOf && nicks_nameOf.isSome
-      ? u8aToString(nicks_nameOf.unwrap()[0])
-      : undefined;
-    const nameHolder = defaultName || '<unknown>';
-    const name = nickName || getAddressName(address, type, false, noDefaultNameOpacity ? nameHolder : <span className='ui--Row-placeholder'>{nameHolder}</span>) || '';
+    const [, isDefault, nameInner] = accounts_info && accounts_info.nickname
+      ? [true, false, accounts_info.nickname]
+      : getAddressName(address, type, defaultName || '<unknown>');
+    const name = isDefault && !noDefaultNameOpacity && !isEditable
+      ? <div className='ui--Row-placeholder'>{nameInner}</div>
+      : nameInner;
     const tags = getAddressTags(address, type);
     const state: Partial<State> = { tags };
     let hasChanged = false;
@@ -114,13 +113,13 @@ class AddressRow extends Row<ApiProps & Props, State> {
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const name = getAddressName(address, type, false, defaultName || '<unknown>') || '';
+    const [, , name] = getAddressName(address, type, defaultName || '<unknown>');
     const tags = getAddressTags(address, type);
 
     return {
       ...this.state,
       address,
-      name: name as string,
+      name,
       tags
     };
   }
@@ -297,6 +296,6 @@ export default withMulti(
   translate,
   withCalls<Props>(
     ['derive.accounts.idAndIndex', { paramName: 'value' }],
-    ['query.nicks.nameOf', { paramName: 'value' }]
+    ['derive.accounts.info', { paramName: 'value' }]
   )
 );
