@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
@@ -17,7 +17,7 @@ interface Props extends I18nProps {
   lastAuthor?: string;
   lastBlock: string;
   next: string[];
-  recentlyOnline: Record<string, BlockNumber>;
+  recentlyOnline?: DerivedHeartbeats;
 }
 
 function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
