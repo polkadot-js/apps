@@ -9,7 +9,7 @@ import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React, { useEffect, useReducer } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
