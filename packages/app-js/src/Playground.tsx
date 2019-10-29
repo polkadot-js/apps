@@ -180,7 +180,6 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
   };
   const _runJs = async (): Promise<void> => {
     setIsRunning(true);
-    _stopJs();
     _clearConsole();
 
     injectedRef.current = {
@@ -207,6 +206,8 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
 
     // eslint-disable-next-line no-new-func
     new Function('injected', exec)(injectedRef.current);
+
+    setIsRunning(false);
   };
   const _selectExample = (value: string): void => {
     _stopJs();
