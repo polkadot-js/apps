@@ -67,12 +67,9 @@ function OnlineStatus ({ accountId, className, value, tooltip = false, t }: Prop
       break;
 
     case 'online':
-      blockNumber = value.online ? value.online.blockNumber : null;
-
       classNames.push('online');
-      contents = (
-        <Icon name='check' />
-      );
+      blockNumber = value.online ? value.online.blockNumber : null;
+      contents = <Icon name='check' />;
       text = blockNumber
         ? t('Reported online at #{{blockNumber}}', {
           replace: {

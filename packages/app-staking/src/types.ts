@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '@polkadot/types/interfaces';
-import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalances, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
@@ -15,7 +14,7 @@ export interface ComponentProps {
   allControllers: string[];
   allStashes: string[];
   currentValidators: string[];
-  recentlyOnline: Record<string, BlockNumber>;
+  recentlyOnline?: DerivedHeartbeats;
 }
 
 export interface CalculateBalanceProps {
