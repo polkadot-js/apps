@@ -68,7 +68,7 @@ function signerIconName (status: QueueTxStatus): any {
 
 function renderStatus ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode {
   const addressRendered = account
-    ? <AddressMini value={account} />
+    ? <AddressMini value={account} withName={false} />
     : undefined;
 
   return (
