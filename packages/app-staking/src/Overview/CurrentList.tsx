@@ -4,6 +4,7 @@
 
 import { DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { EraPoints } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
 import React, { useState } from 'react';
@@ -15,25 +16,31 @@ import Address from './Address';
 interface Props extends I18nProps {
   authorsMap: Record<string, string>;
   currentValidators: string[];
+  eraPoints?: EraPoints;
   lastAuthor?: string;
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function CurrentList ({ authorsMap, currentValidators, lastAuthor, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function CurrentList ({ authorsMap, currentValidators, eraPoints, lastAuthor, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const [filter, setFilter] = useState<ValidatorFilter>('all');
 
-  const _renderColumn = (addresses: string[], defaultName: string, withNominations: boolean): React.ReactNode => {
-    return addresses.map((address): React.ReactNode => (
+  const _renderColumn = (addresses: string[], defaultName: string, withExpanded: boolean): React.ReactNode => {
+    return addresses.map((address, index): React.ReactNode => (
       <Address
         address={address}
         authorsMap={authorsMap}
         defaultName={defaultName}
-        key={address}
         filter={filter}
         lastAuthor={lastAuthor}
+        key={address}
+        points={
+          withExpanded && eraPoints
+            ? [eraPoints.individual[index], eraPoints.total]
+            : undefined
+        }
         recentlyOnline={recentlyOnline}
-        withNominations={withNominations}
+        withNominations={withExpanded}
       />
     ));
   };

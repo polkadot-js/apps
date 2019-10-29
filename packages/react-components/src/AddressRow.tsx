@@ -24,7 +24,9 @@ import translate from './translate';
 
 export interface Props extends I18nProps, RowProps {
   bonded?: BN | BN[];
+  extraInfo?: [React.ReactNode, React.ReactNode][];
   isContract?: boolean;
+  isDisabled?: boolean;
   isValid?: boolean;
   label?: string;
   accounts_info?: DeriveAccountInfo;
@@ -81,13 +83,13 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { accounts_idAndIndex = [], className, isContract, isInline, style } = this.props;
+    const { accounts_idAndIndex = [], className, isContract, isDisabled, isInline, style } = this.props;
     const [accountId, accountIndex] = accounts_idAndIndex;
     const isValid = this.props.isValid || accountId || accountIndex;
 
     return (
       <div
-        className={classes('ui--Row', !isValid && 'invalid', isInline && 'inline', className)}
+        className={classes('ui--Row', isDisabled && 'disabled', !isValid && 'invalid', isInline && 'inline', className)}
         style={style}
       >
         <div className='ui--Row-base'>
@@ -176,7 +178,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderBalances (): React.ReactNode {
-    const { accounts_idAndIndex = [], withBalance, withValidatorPrefs } = this.props;
+    const { accounts_idAndIndex = [], extraInfo, withBalance, withValidatorPrefs } = this.props;
     const [accountId] = accounts_idAndIndex;
 
     if (!(withBalance || withValidatorPrefs) || !accountId) {
@@ -187,6 +189,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
       <div className='ui--Row-balances'>
         <AddressInfo
           address={accountId}
+          extraInfo={extraInfo}
           withBalance={withBalance}
           withValidatorPrefs={withValidatorPrefs}
         />
@@ -289,6 +292,7 @@ export {
 export default withMulti(
   styled(AddressRow as React.ComponentClass<Props & ApiProps, State>)`
     ${styles}
+
     .ui--Row-placeholder {
       opacity: 0.5;
     }
