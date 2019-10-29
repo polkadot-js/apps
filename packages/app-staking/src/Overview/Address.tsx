@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { AccountId, Balance, Points } from '@polkadot/types/interfaces';
 import { DerivedStaking, DerivedStakingOnlineStatus, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
@@ -14,7 +14,7 @@ import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
 import { AddressCard, AddressMini, OnlineStatus } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
 import { updateOnlineStatus } from '../util';
 
 import translate from '../translate';
@@ -26,6 +26,7 @@ interface Props extends I18nProps {
   defaultName: string;
   filter: ValidatorFilter;
   lastAuthor?: string;
+  points?: [Points, Points];
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
   withNominations?: boolean;
@@ -49,7 +50,7 @@ interface OnlineState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ authorsMap, className, defaultName, filter, lastAuthor, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ authorsMap, className, defaultName, filter, lastAuthor, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [isNominatorMe, seIsNominatorMe] = useState(false);
   const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
@@ -123,6 +124,8 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, rece
 
   const lastBlockNumber = authorsMap[stashId];
 
+  points && console.error(points);
+
   return (
     <AddressCard
       buttons={
@@ -146,6 +149,11 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, rece
       }
       className={className}
       defaultName={defaultName}
+      extraInfo={
+        points
+          ? [[t('era points'), formatNumber(points[0])]]
+          : undefined
+      }
       iconInfo={controllerId && onlineStatus && (
         <OnlineStatus
           accountId={controllerId}
@@ -153,6 +161,7 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, rece
           tooltip
         />
       )}
+      isDisabled={!!points && points[0].isEmpty}
       key={stashId}
       value={stashId}
       withBalance={balanceOpts}

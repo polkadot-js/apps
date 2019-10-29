@@ -22,6 +22,7 @@ import translate from './translate';
 export interface BalanceActiveType {
   available?: boolean;
   bonded?: boolean | BN[];
+  extraInfo?: [React.ReactNode, React.ReactNode][];
   locked?: boolean;
   redeemable?: boolean;
   reserved?: boolean;
@@ -43,6 +44,7 @@ interface Props extends BareProps, I18nProps {
   address: string;
   balances_all?: DerivedBalances;
   children?: React.ReactNode;
+  extraInfo?: [string, string][];
   staking_info?: DerivedStaking;
   withBalance?: boolean | BalanceActiveType;
   withExtended?: boolean | CryptoActiveType;
@@ -265,7 +267,7 @@ function renderBalances (props: Props): React.ReactNode {
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
-  const { className, children, staking_info, t, withHexSessionId, withRewardDestination } = props;
+  const { className, children, extraInfo, staking_info, t, withHexSessionId, withRewardDestination } = props;
 
   return (
     <div className={className}>
@@ -278,6 +280,19 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
           </>
         )}
         {renderValidatorPrefs(props)}
+        {extraInfo && (
+          <>
+            <div />
+            {extraInfo.map(([label, value], index): React.ReactNode => (
+              <React.Fragment key={`label:${index}`}>
+                <Label label={label} />
+                <div className='result'>
+                  {value}
+                </div>
+              </React.Fragment>
+            ))}
+          </>
+        )}
         {withRewardDestination && staking_info && staking_info.rewardDestination && (
           <>
             <Label label={t('reward destination')} />

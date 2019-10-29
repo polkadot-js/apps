@@ -17,6 +17,11 @@ import InputTags from './InputTags';
 export const styles = `
   text-align: left;
 
+  &.disabled {
+    filter: grayscale(100%);
+    opacity: 0.75;
+  }
+
   &.inline {
     display: flex;
 
