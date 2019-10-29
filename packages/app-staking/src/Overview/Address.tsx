@@ -63,6 +63,8 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
     stashActive: null,
     stashTotal: null
   });
+  const [myLastBlock, setMyLastBlock] = useState('');
+  const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect((): void => {
     if (stakingInfo) {
@@ -108,6 +110,13 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
     }
   }, [recentlyOnline, stakingInfo]);
 
+  useEffect((): void => {
+    const isAuthor = !!lastAuthor && !!lastBlock && stashId === lastAuthor;
+
+    setIsAuthor(isAuthor);
+    isAuthor && setMyLastBlock(lastBlock);
+  }, [lastAuthor, lastBlock, address, controllerId, stashId]);
+
   if (!stashId || (filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
     (filter === 'hasWarnings' && !hasOfflineWarnings) ||
@@ -115,19 +124,16 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
     (filter === 'iNominated' && !isNominatorMe)) {
     return null;
   }
-
-  const isAuthor = !!lastBlock && !!lastAuthor && [address, controllerId, stashId].includes(lastAuthor);
-
   return (
     <AddressCard
       buttons={
         <div className='staking--Address-info'>
-          {isAuthor && (
-            <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
+          {myLastBlock && (
+            <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{myLastBlock}</div>
           )}
           {controllerId && (
             <div>
-              <label className={classes('staking--label', isSubstrateV2 && !isAuthor && 'controllerSpacer')}>{t('controller')}</label>
+              <label className={classes('staking--label', isSubstrateV2 && !myLastBlock && 'controllerSpacer')}>{t('controller')}</label>
               <AddressMini value={controllerId} />
             </div>
           )}
@@ -180,22 +186,31 @@ export default withMulti(
   styled(Address)`
     .blockNumberV1,
     .blockNumberV2 {
-      background: #3f3f3f;
       border-radius: 0.25rem;
-      box-shadow: 0 3px 3px rgba(0,0,0,.2);
-      color: #eee;
       font-size: 1.5rem;
       font-weight: 100;
       line-height: 1.5rem;
+      opacity: 0.5;
       vertical-align: middle;
       z-index: 1;
+
+      &.isCurrent {
+        background: #3f3f3f;
+        box-shadow: 0 3px 3px rgba(0,0,0,.2);
+        color: #eee;
+        opacity: 1;
+      }
     }
 
     .blockNumberV2 {
       display: inline-block;
       margin-bottom: 0.75rem;
-      margin-right: -0.25rem;
-      padding: 0.25rem 0.75rem;
+      padding: 0.25rem 0;
+
+      &.isCurrent {
+        margin-right: -0.25rem;
+        padding: 0.25rem 0.75rem;
+      }
     }
 
     .blockNumberV1 {
