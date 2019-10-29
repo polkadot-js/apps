@@ -10,9 +10,9 @@ import { KeyedEvent } from './types';
 import React, { useContext, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
-import { HeaderExtended } from '@polkadot/api-derive';
 import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
 import Tabs from '@polkadot/react-components/Tabs';
+import { BlockAuthorsContext } from '@polkadot/react-query';
 import uiSettings from '@polkadot/ui-settings';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
@@ -24,16 +24,15 @@ import NodeInfo from './NodeInfo';
 import translate from './translate';
 
 interface Props extends ApiProps, AppProps, BareProps, I18nProps {
-  newHeader?: HeaderExtended;
   newEvents?: KeyedEvent[];
 }
 
 const MAX_ITEMS = 15;
 
-function ExplorerApp ({ basePath, className, newEvents, newHeader, t }: Props): React.ReactElement<Props> {
-  const [headers, setHeaders] = useState<HeaderExtended[]>([]);
-  const [{ prevEventHash, events }, setEvents] = useState<{ prevEventHash: string; events: KeyedEvent[] }>({ prevEventHash: '', events: [] });
+function ExplorerApp ({ basePath, className, newEvents, t }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
+  const { lastHeaders } = useContext(BlockAuthorsContext);
+  const [{ prevEventHash, events }, setEvents] = useState<{ prevEventHash: string; events: KeyedEvent[] }>({ prevEventHash: '', events: [] });
 
   useEffect((): void => {
     const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
@@ -45,21 +44,6 @@ function ExplorerApp ({ basePath, className, newEvents, newHeader, t }: Props): 
       });
     }
   }, [newEvents]);
-
-  useEffect((): void => {
-    if (newHeader) {
-      setHeaders(
-        headers
-          .filter((old, index): boolean => index < MAX_ITEMS && old.number.unwrap().lt(newHeader.number.unwrap()))
-          .reduce((next, header): HeaderExtended[] => {
-            next.push(header);
-
-            return next;
-          }, [newHeader])
-          .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()))
-      );
-    }
-  }, [newHeader]);
 
   return (
     <main className={className}>
@@ -101,7 +85,7 @@ function ExplorerApp ({ basePath, className, newEvents, newHeader, t }: Props): 
         <Route render={(): React.ReactElement<{}> => (
           <Main
             events={events}
-            headers={headers}
+            headers={lastHeaders}
           />
         )} />
       </Switch>
@@ -123,7 +107,6 @@ export default withMulti(
         records
           .filter(({ event }): boolean => event.section !== 'system')
           .map((record, index): KeyedEvent => ({ key: `${Date.now()}-${index}`, record }))
-    }],
-    ['derive.chain.subscribeNewHeads', { propName: 'newHeader' }]
+    }]
   )
 );
