@@ -21,11 +21,11 @@ import translate from '../translate';
 
 interface Props extends I18nProps {
   address: string;
+  authorsMap: Record<string, string>;
   className?: string;
   defaultName: string;
   filter: ValidatorFilter;
-  lastAuthor: string;
-  lastBlock: string;
+  lastAuthor?: string;
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
   withNominations?: boolean;
@@ -49,7 +49,7 @@ interface OnlineState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, className, defaultName, filter, lastAuthor, lastBlock, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ authorsMap, className, defaultName, filter, lastAuthor, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [isNominatorMe, seIsNominatorMe] = useState(false);
   const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
@@ -63,7 +63,6 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
     stashActive: null,
     stashTotal: null
   });
-  const [myLastBlock, setMyLastBlock] = useState('');
   const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect((): void => {
@@ -111,11 +110,8 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
   }, [recentlyOnline, stakingInfo]);
 
   useEffect((): void => {
-    const isAuthor = !!lastAuthor && !!lastBlock && stashId === lastAuthor;
-
-    setIsAuthor(isAuthor);
-    isAuthor && setMyLastBlock(lastBlock);
-  }, [lastAuthor, lastBlock, address, controllerId, stashId]);
+    setIsAuthor(lastAuthor === stashId);
+  }, [lastAuthor, stashId]);
 
   if (!stashId || (filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
@@ -124,16 +120,19 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
     (filter === 'iNominated' && !isNominatorMe)) {
     return null;
   }
+
+  const lastBlockNumber = authorsMap[stashId];
+
   return (
     <AddressCard
       buttons={
         <div className='staking--Address-info'>
-          {myLastBlock && (
-            <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{myLastBlock}</div>
+          {lastBlockNumber && (
+            <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{lastBlockNumber}</div>
           )}
           {controllerId && (
             <div>
-              <label className={classes('staking--label', isSubstrateV2 && !myLastBlock && 'controllerSpacer')}>{t('controller')}</label>
+              <label className={classes('staking--label', isSubstrateV2 && !lastBlockNumber && 'controllerSpacer')}>{t('controller')}</label>
               <AddressMini value={controllerId} />
             </div>
           )}
