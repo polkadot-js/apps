@@ -582,5 +582,6 @@
   "term progress": "",
   "reserved": "",
   "locked": "",
-  "Voters ({{count}})": ""
+  "Voters ({{count}})": "",
+  "era points": ""
 }
