@@ -7,27 +7,23 @@ import { HeaderExtended } from '@polkadot/api-derive';
 import { ApiContext } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
-interface BlockInfo {
+interface Authors {
+  byAuthor: Record<string, string>;
   lastBlockAuthor?: string;
   lastBlockNumber?: string;
   lastHeader?: HeaderExtended;
 }
 
-interface Authors extends BlockInfo {
-  byAuthor: Record<string, string>;
-}
-
 interface Props {
   children: React.ReactNode;
-  lastHeader?: HeaderExtended;
 }
 
 const byAuthor: Record<string, string> = {};
 const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor });
 
-function BlockAuthors ({ children, lastHeader }: Props): React.ReactElement<Props> {
+function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
-  const [{ lastBlockAuthor, lastBlockNumber }, setState] = useState<BlockInfo>({});
+  const [state, setState] = useState<Authors>({ byAuthor });
 
   useEffect((): void => {
     // TODO We should really unsub - but since this should just be used once,
@@ -42,14 +38,14 @@ function BlockAuthors ({ children, lastHeader }: Props): React.ReactElement<Prop
             byAuthor[lastBlockAuthor] = lastBlockNumber;
           }
 
-          setState({ lastBlockAuthor, lastBlockNumber });
+          setState({ byAuthor, lastBlockAuthor, lastBlockNumber, lastHeader });
         }
       });
     });
   }, []);
 
   return (
-    <BlockAuthorsContext.Provider value={{ byAuthor, lastBlockAuthor, lastBlockNumber, lastHeader }}>
+    <BlockAuthorsContext.Provider value={state}>
       {children}
     </BlockAuthorsContext.Provider>
   );
