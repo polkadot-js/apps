@@ -18,6 +18,7 @@ import { getTypeRegistry } from '@polkadot/types';
 import { Api } from '@polkadot/react-api';
 import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Queue from '@polkadot/react-components/Status/Queue';
+import { BlockAuthors } from '@polkadot/react-query';
 
 import Apps from './Apps';
 
@@ -70,11 +71,13 @@ ReactDOM.render(
             queueSetTxStatus={queueSetTxStatus}
             url={wsEndpoint}
           >
-            <HashRouter>
-              <ThemeProvider theme={theme}>
-                <Apps />
-              </ThemeProvider>
-            </HashRouter>
+            <BlockAuthors>
+              <HashRouter>
+                <ThemeProvider theme={theme}>
+                  <Apps />
+                </ThemeProvider>
+              </HashRouter>
+            </BlockAuthors>
           </Api>
         )}
       </QueueConsumer>

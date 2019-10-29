@@ -193,6 +193,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
       <Modal.Content>
         <AddressRow
           defaultName={name}
+          noDefaultNameOpacity
           value={isSeedValid ? address : ''}
         >
           <Input

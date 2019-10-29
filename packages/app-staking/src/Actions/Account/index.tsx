@@ -3,10 +3,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStaking, DerivedStakingOnlineStatus, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { AccountId, BlockNumber, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import { Popup } from 'semantic-ui-react';
@@ -33,7 +33,7 @@ interface Props extends ApiProps, I18nProps {
   allStashes?: string[];
   balances_all?: DerivedBalances;
   className?: string;
-  recentlyOnline: Record<string, BlockNumber>;
+  recentlyOnline?: DerivedHeartbeats;
   staking_info?: DerivedStaking;
   stashOptions: KeyringSectionOption[];
 }

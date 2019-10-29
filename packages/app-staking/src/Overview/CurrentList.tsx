@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
@@ -13,26 +13,27 @@ import translate from '../translate';
 import Address from './Address';
 
 interface Props extends I18nProps {
+  authorsMap: Record<string, string>;
   currentValidators: string[];
   lastAuthor?: string;
-  lastBlock: string;
   next: string[];
-  recentlyOnline: Record<string, BlockNumber>;
+  recentlyOnline?: DerivedHeartbeats;
 }
 
-function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function CurrentList ({ authorsMap, currentValidators, lastAuthor, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const [filter, setFilter] = useState<ValidatorFilter>('all');
 
-  const _renderColumn = (addresses: string[], defaultName: string): React.ReactNode => {
+  const _renderColumn = (addresses: string[], defaultName: string, withNominations: boolean): React.ReactNode => {
     return addresses.map((address): React.ReactNode => (
       <Address
         address={address}
+        authorsMap={authorsMap}
         defaultName={defaultName}
         key={address}
         filter={filter}
         lastAuthor={lastAuthor}
-        lastBlock={lastBlock}
         recentlyOnline={recentlyOnline}
+        withNominations={withNominations}
       />
     ));
   };
@@ -59,13 +60,13 @@ function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recently
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {_renderColumn(currentValidators, t('validator'))}
+          {_renderColumn(currentValidators, t('validator'), true)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
           headerText={t('next up')}
         >
-          {_renderColumn(next, t('intention'))}
+          {_renderColumn(next, t('intention'), false)}
         </Column>
       </Columar>
     </div>

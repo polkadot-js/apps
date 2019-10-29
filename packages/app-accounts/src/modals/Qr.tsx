@@ -61,6 +61,7 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
               <>
                 <AddressRow
                   defaultName={name}
+                  noDefaultNameOpacity
                   value={scanned.address}
                 />
                 <Input

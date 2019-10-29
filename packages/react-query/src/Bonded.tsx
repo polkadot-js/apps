@@ -24,7 +24,7 @@ export function BondedDisplay ({ children, className, label = '', staking_ledger
       {label}{
         staking_ledger
           ? formatBalance(staking_ledger.active)
-          : '0'
+          : '-'
       }{children}
     </div>
   );

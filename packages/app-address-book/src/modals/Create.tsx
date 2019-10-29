@@ -85,6 +85,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
       <Modal.Content>
         <AddressRow
           defaultName={name}
+          noDefaultNameOpacity
           value={address}
         >
           <Input

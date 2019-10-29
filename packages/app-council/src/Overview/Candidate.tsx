@@ -9,17 +9,24 @@ import React from 'react';
 import { AddressCard } from '@polkadot/react-components';
 
 import translate from '../translate';
+import Voters from './Voters';
 
 interface Props extends I18nProps {
   address: AccountId;
+  voters?: AccountId[];
 }
 
-function Candidate ({ address, t }: Props): React.ReactElement<Props> {
+function Candidate ({ address, t, voters }: Props): React.ReactElement<Props> {
   return (
     <AddressCard
       defaultName={t('candidate')}
       value={address}
-    />
+      withIndexOrAddress
+    >
+      {voters && voters.length !== 0 && (
+        <Voters voters={voters} />
+      )}
+    </AddressCard>
   );
 }
 

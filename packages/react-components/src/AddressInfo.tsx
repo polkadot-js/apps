@@ -22,6 +22,7 @@ import translate from './translate';
 export interface BalanceActiveType {
   available?: boolean;
   bonded?: boolean | BN[];
+  locked?: boolean;
   redeemable?: boolean;
   reserved?: boolean;
   total?: boolean;
@@ -53,6 +54,7 @@ interface Props extends BareProps, I18nProps {
 const DEFAULT_BALANCES: BalanceActiveType = {
   available: true,
   bonded: true,
+  locked: true,
   redeemable: true,
   reserved: true,
   total: true,
@@ -207,6 +209,12 @@ function renderBalances (props: Props): React.ReactNode {
         <>
           <Label label={t('available')} />
           <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
+        </>
+      )}
+      {balanceDisplay.locked && balances_all.lockedBalance && balances_all.lockedBalance.gtn(0) && (
+        <>
+          <Label label={t('locked')} />
+          <div className='result'>{formatBalance(balances_all.lockedBalance)}</div>
         </>
       )}
       {balanceDisplay.reserved && balances_all.reservedBalance && balances_all.reservedBalance.gtn(0) && (

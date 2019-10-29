@@ -4,6 +4,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { AccountName } from '@polkadot/react-query';
 
 import IdentityIcon from '../IdentityIcon';
 
@@ -15,7 +16,7 @@ interface Props {
   style?: Record<string, string>;
 }
 
-function KeyPair ({ address, className, isUppercase, name, style }: Props): React.ReactElement<Props> {
+function KeyPair ({ address, className, style }: Props): React.ReactElement<Props> {
   return (
     <div
       className={['ui--KeyPair', className].join(' ')}
@@ -26,8 +27,8 @@ function KeyPair ({ address, className, isUppercase, name, style }: Props): Reac
         size={32}
         value={address}
       />
-      <div className={`name ${isUppercase ? 'uppercase' : 'normalcase'}`}>
-        {name}
+      <div className='name'>
+        <AccountName params={address} />
       </div>
       <div className='address'>
         {address}

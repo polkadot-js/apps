@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber, EventRecord } from '@polkadot/types/interfaces';
+import { DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React, { useEffect, useReducer } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
@@ -27,35 +28,13 @@ interface Props extends AppProps, ApiProps, I18nProps {
   allStashesAndControllers?: [string[], string[]];
   bestNumber?: BlockNumber;
   currentValidators?: string[];
-  recentlyOnline?: string[];
+  recentlyOnline?: DerivedHeartbeats;
 }
 
 const EMPY_ACCOUNTS: string[] = [];
 const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
-function offlineReducer (prev: Record<string, BlockNumber>, { bestNumber, recentlyOnline }: { bestNumber: BlockNumber; recentlyOnline: string[] }): Record<string, BlockNumber> {
-  return {
-    ...prev,
-    ...recentlyOnline.reduce(
-      (result: Record<string, BlockNumber>, authorityId): Record<string, BlockNumber> => ({
-        ...result,
-        [authorityId]: bestNumber
-      }),
-      {}
-    )
-  };
-}
-
-function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, bestNumber, className, currentValidators = EMPY_ACCOUNTS, basePath, recentlyOnline, t }: Props): React.ReactElement<Props> {
-  const [online, dispatchOffline] = useReducer(offlineReducer, {});
-
-  // dispatch a combinator for the new recentlyOnline events
-  useEffect((): void => {
-    if (bestNumber && recentlyOnline && recentlyOnline.length) {
-      dispatchOffline({ bestNumber, recentlyOnline });
-    }
-  }, [bestNumber, recentlyOnline]);
-
+function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, className, currentValidators = EMPY_ACCOUNTS, basePath, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
     return (): React.ReactNode => {
@@ -69,7 +48,7 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
           allControllers={allControllers}
           allStashes={allStashes}
           currentValidators={currentValidators}
-          recentlyOnline={online}
+          recentlyOnline={recentlyOnline}
         />
       );
     };
@@ -115,7 +94,7 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.chain.bestNumber', { propName: 'bestNumber' }],
+    ['derive.imOnline.receivedHeartbeats', { propName: 'recentlyOnline' }],
     ['derive.staking.controllers', {
       propName: 'allStashesAndControllers',
       transform: ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] => [
@@ -129,17 +108,6 @@ export default withMulti(
       propName: 'currentValidators',
       transform: (validators: AccountId[]): string[] =>
         validators.map((accountId): string => accountId.toString())
-    }],
-    ['query.system.events', {
-      propName: 'recentlyOnline',
-      transform: (value?: EventRecord[]): string[] =>
-        (value || [])
-          .filter(({ event: { method, section } }): boolean =>
-            section === 'imOnline' && method === 'HeartbeatReceived'
-          )
-          .map(({ event: { data: [authorityId] } }): string =>
-            authorityId.toString()
-          )
     }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
