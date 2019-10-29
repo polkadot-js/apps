@@ -8,7 +8,7 @@ import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 
 import React, { useState, useEffect } from 'react';
 import { withCalls } from '@polkadot/react-api';
-import { getAddressName, toShortAddress } from '@polkadot/react-components/util';
+import { getAddressName } from '@polkadot/react-components/util';
 
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
@@ -20,10 +20,18 @@ interface Props extends BareProps, CallProps {
   withShort?: boolean;
 }
 
+const nameCache: Map<string, string> = new Map();
+
 function defaultOrAddr (defaultName = '', address?: string | null): string {
-  return defaultName
-    ? defaultName.toUpperCase()
-    : toShortAddress(address);
+  const cached = nameCache.get(address || '');
+
+  if (cached) {
+    return cached;
+  }
+
+  const [, , extracted] = getAddressName(address || '', null, defaultName);
+
+  return extracted;
 }
 
 export function AccountName ({ children, className, defaultName, idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
@@ -33,15 +41,17 @@ export function AccountName ({ children, className, defaultName, idAndIndex, inf
     const [accountId, accountIndex] = idAndIndex || [];
 
     if (info && info.nickname) {
-      setName(info.nickname.toUpperCase());
-    } else if (accountId) {
-      const [isAddress, , extracted] = getAddressName(accountId.toString());
+      const nickUpper = info.nickname.toUpperCase();
 
-      setName(
-        isAddress
-          ? (accountIndex && accountIndex.toString()) || extracted
-          : extracted
-      );
+      nameCache.set(params || '', nickUpper);
+      setName(nickUpper);
+    } else if (accountId) {
+      const address = accountId.toString();
+      const [isAddress, , extracted] = getAddressName(address, null, defaultName);
+      const calculated = (isAddress && accountIndex && accountIndex.toString()) || extracted;
+
+      nameCache.set(address, calculated);
+      setName(calculated);
     } else {
       setName(defaultOrAddr(defaultName, params));
     }
