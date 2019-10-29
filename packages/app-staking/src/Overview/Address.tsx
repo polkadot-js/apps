@@ -108,7 +108,7 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
     }
   }, [recentlyOnline, stakingInfo]);
 
-  if ((filter === 'hasNominators' && !hasNominators) ||
+  if (!stashId || (filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
     (filter === 'hasWarnings' && !hasOfflineWarnings) ||
     (filter === 'noWarnings' && hasOfflineWarnings) ||
@@ -148,8 +148,8 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
           tooltip
         />
       )}
-      key={stashId || controllerId || undefined}
-      value={stashId || address}
+      key={stashId}
+      value={stashId}
       withBalance={balanceOpts}
       withValidatorPrefs={WITH_VALIDATOR_PREFS}
     >
