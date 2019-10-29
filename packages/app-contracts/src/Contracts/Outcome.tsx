@@ -47,7 +47,7 @@ function Outcome (props: Props): React.ReactElement<Props> | null {
       <Output
         isError={!success}
         className='output'
-        value={output}
+        value={output || '()'}
         withCopy
         withLabel={false}
       />

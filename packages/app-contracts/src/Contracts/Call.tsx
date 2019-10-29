@@ -21,46 +21,46 @@ import Outcome from './Outcome';
 
 import translate from '../translate';
 import { GAS_LIMIT } from '../constants';
-import { findCallMethod, getCallMethodOptions, getContractMethodFn } from './util';
+import { getCallMessageOptions } from './util';
 
 interface Props extends BareProps, I18nProps, ApiProps {
   callContract: ApiContract | null;
-  callMethodIndex: number | null;
+  callMessageIndex: number | null;
   callResults: ContractExecResult[];
   isOpen: boolean;
   onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
-  onChangeCallMethodIndex: (callMethodIndex: number) => void;
+  onChangeCallMessageIndex: (callMessageIndex: number) => void;
   onClose: () => void;
 }
 
 function Call (props: Props): React.ReactElement<Props> | null {
-  const { className, isOpen, callContract, callMethodIndex, onChangeCallContractAddress, onChangeCallMethodIndex, onClose, api, t } = props;
+  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, api, t } = props;
 
-  if (isNull(callContract) || isNull(callMethodIndex)) {
+  if (isNull(callContract) || isNull(callMessageIndex)) {
     return null;
   }
 
   const hasRpc = api.rpc.contracts && api.rpc.contracts.call;
-  let callMethod = findCallMethod(callContract, callMethodIndex);
+  let callMessage = callContract.getMessage(callMessageIndex);
 
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
   const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
   const [isBusy, setIsBusy] = useState(false);
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
-  const [params, setParams] = useState<any[]>(callMethod ? callMethod.args.map(({ type }): any => createValue({ type })) : []);
-  const [useRpc, setUseRpc] = useState(callMethod && !callMethod.mutates);
+  const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
+  const [useRpc, setUseRpc] = useState(callMessage && !callMessage.def.mutates);
 
   useEffect((): void => {
-    callMethod = findCallMethod(callContract, callMethodIndex);
+    callMessage = callContract.getMessage(callMessageIndex);
 
-    setParams(callMethod ? callMethod.args.map(({ type }): any => createValue({ type })) : []);
-    if (!callMethod || callMethod.mutates) {
+    setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
+    if (!callMessage || callMessage.def.mutates) {
       setUseRpc(false);
     } else {
       setUseRpc(true);
     }
-  }, [callContract, callMethodIndex])
+  }, [callContract, callMessageIndex])
 
   useEffect((): void => {
     setOutcomes([]);
@@ -68,8 +68,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
   const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
 
-  const _onChangeCallMethodString = (callMethodString: string): void => {
-    onChangeCallMethodIndex && onChangeCallMethodIndex(parseInt(callMethodString, 10) || 0);
+  const _onChangeCallMessageIndexString = (callMessageIndexString: string): void => {
+    onChangeCallMessageIndex && onChangeCallMessageIndex(
+      parseInt(callMessageIndexString, 10) || 0
+    );
   };
 
   const _onChangeEndowment = (endowment?: BN): void => endowment && setEndowment(endowment);
@@ -79,17 +81,16 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const _toggleBusy = (): void => setIsBusy(!isBusy);
 
   const _constructTx = (): any[] => {
-    const fn = getContractMethodFn(callContract, callMethodIndex);
-    if (!fn || !callContract || !callContract.address) {
+    if (!callMessage || !callMessage.fn || !callContract || !callContract.address) {
       return [];
     }
 
-    return [callContract.address.toString(), endowment, gasLimit, fn(...params)];
+    return [callContract.address.toString(), endowment, gasLimit, callMessage.fn(...params)];
   };
 
   const _onSubmitRpc = (): void => {
     callContract
-      .call('rpc', callMethodIndex, endowment, gasLimit, ...params)
+      .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
       .send(accountId)
       .then(
         (outcome: ContractCallOutcome): void => {
@@ -137,24 +138,24 @@ function Call (props: Props): React.ReactElement<Props> | null {
               type='contract'
               value={callContract.address.toString()}
             />
-            {callMethodIndex !== null && (
+            {callMessageIndex !== null && (
               <>
                 <Dropdown
-                  defaultValue={`${callMethodIndex}`}
+                  defaultValue={`${callMessage.index}`}
                   help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
                   isDisabled={isBusy}
-                  isError={callMethod === null}
+                  isError={callMessage === null}
                   label={t('message to send')}
-                  onChange={_onChangeCallMethodString}
-                  options={getCallMethodOptions(callContract)}
-                  value={`${callMethodIndex}`}
+                  onChange={_onChangeCallMessageIndexString}
+                  options={getCallMessageOptions(callContract)}
+                  value={`${callMessage.index}`}
                 />
                 <Params
                   isDisabled={isBusy}
                   onChange={_onChangeParams}
                   params={
-                    callMethod
-                      ? callMethod.args
+                    callMessage
+                      ? callMessage.def.args
                       : undefined
                   }
                 />
@@ -182,7 +183,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
           {hasRpc && (
             <Toggle
               className='rpc-toggle'
-              isDisabled={!!callMethod && callMethod.mutates}
+              isDisabled={!!callMessage && callMessage.def.mutates}
               label={
                 useRpc
                   ? t('send as RPC call')

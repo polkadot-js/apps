@@ -27,11 +27,11 @@ function filterContracts ({ api, accounts, contracts: keyringContracts }: Props)
 
 function Contracts (props: Props): React.ReactElement<Props> {
   const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy, t } = props;
-  // const { callAddress, callMethod, isAddOpen, isCallOpen } = this.state;
+  // const { callAddress, callMessage, isAddOpen, isCallOpen } = this.state;
 
   const [contracts, setContracts] = useState<ApiContract[]>(filterContracts(props));
   const [callContractIndex, setCallContractIndex] = useState<number>(0);
-  const [callMethodIndex, setCallMethodIndex] = useState<number>(0);
+  const [callMessageIndex, setCallMessageIndex] = useState<number>(0);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isCallOpen, setIsCallOpen] = useState(false);
 
@@ -52,20 +52,20 @@ function Contracts (props: Props): React.ReactElement<Props> {
     const index = contracts.findIndex(({ address }: ApiContract): boolean => newCallContractAddress === address.toString());
 
     if (index > -1) {
-      index !== callContractIndex && setCallMethodIndex(0);
+      index !== callContractIndex && setCallMessageIndex(0);
       setCallContractIndex(index);
     }
   };
 
-  const _onChangeCallMethodIndex = (callMethodIndex: number): void => {
-    !!callContract && setCallMethodIndex(callMethodIndex);
+  const _onChangeCallMessageIndex = (callMessageIndex: number): void => {
+    !!callContract && setCallMessageIndex(callMessageIndex);
   };
 
   const _onCall = (callContractIndex: number): (_?: number) => () => void => {
-    return function (callMethodIndex?: number): () => void {
+    return function (callMessageIndex?: number): () => void {
       return function (): void {
         setCallContractIndex(callContractIndex);
-        setCallMethodIndex(callMethodIndex || 0);
+        setCallMessageIndex(callMessageIndex || 0);
         setIsCallOpen(true);
       };
     };
@@ -116,10 +116,10 @@ function Contracts (props: Props): React.ReactElement<Props> {
       />
       <Call
         callContract={callContract}
-        callMethodIndex={callMethodIndex}
+        callMessageIndex={callMessageIndex}
         isOpen={isCallOpen}
         onChangeCallContractAddress={_onChangeCallContractAddress}
-        onChangeCallMethodIndex={_onChangeCallMethodIndex}
+        onChangeCallMessageIndex={_onChangeCallMessageIndex}
         onClose={_toggleCall}
       />
     </>

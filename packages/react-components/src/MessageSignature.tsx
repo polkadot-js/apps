@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIMethod } from '@polkadot/api-contract/types';
+import { ContractABIMessage } from '@polkadot/api-contract/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -15,7 +15,7 @@ import translate from './translate';
 
 export interface Props extends I18nProps {
   asConstructor?: boolean;
-  message: ContractABIMethod;
+  message: ContractABIMessage;
   params?: any[];
   withTooltip?: boolean;
 }

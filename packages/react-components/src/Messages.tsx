@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIMethod } from '@polkadot/api-contract/types';
+import { ContractABIMessage } from '@polkadot/api-contract/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { Button } from '@polkadot/react-components';
 
@@ -52,7 +52,7 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMethod, index: number, asConstructor = false): React.ReactNode {
+function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor = false): React.ReactNode {
   const { docs = [], name } = message;
 
   return (
