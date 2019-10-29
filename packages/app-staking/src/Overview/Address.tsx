@@ -67,12 +67,14 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
   });
 
   useEffect((): void => {
-    points && setExtraInfo(
-      points.eq(0)
-        ? undefined
-        : [[t('era points'), formatNumber(points)]]
-    );
-  }, [points]);
+    if (points) {
+      const formatted = formatNumber(points);
+
+      if (!extraInfo || extraInfo[0][1] !== formatted) {
+        setExtraInfo([[t('era points'), formatted]]);
+      }
+    }
+  }, [extraInfo, points]);
 
   useEffect((): void => {
     if (stakingInfo) {
