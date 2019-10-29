@@ -20,30 +20,41 @@ interface Props extends BareProps, CallProps {
   withShort?: boolean;
 }
 
-function defaultOrAddr (defaultName = '', address?: string | null): string {
-  const [,, extracted] = getAddressName(address || '', null, defaultName);
+const nameCache: Map<string, string> = new Map();
+
+function defaultOrAddr (defaultName = '', _address?: AccountId | string | null, _accountIndex?: AccountIndex): string {
+  const accountId = (_address || '').toString();
+  const cached = nameCache.get(accountId);
+
+  if (cached) {
+    return cached;
+  }
+
+  const accountIndex = (_accountIndex || '').toString();
+  const [isAddress,, extracted] = getAddressName(accountId, null, defaultName);
+
+  if (isAddress && accountIndex) {
+    nameCache.set(accountId, accountIndex);
+
+    return accountIndex;
+  }
 
   return extracted;
 }
 
 export function AccountName ({ children, className, defaultName, idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
-  const [name, setName] = useState<React.ReactNode>(defaultOrAddr(defaultName, params));
+  const [name, setName] = useState(defaultOrAddr(defaultName, params));
 
   useEffect((): void => {
     const [accountId, accountIndex] = idAndIndex || [];
 
     if (info && info.nickname) {
-      setName(info.nickname.toUpperCase());
-    } else if (accountId) {
-      const [isAddress, , extracted] = getAddressName(accountId.toString());
+      const name = info.nickname.toUpperCase();
 
-      setName(
-        isAddress
-          ? (accountIndex && accountIndex.toString()) || extracted
-          : extracted
-      );
+      nameCache.set(params || '', name);
+      setName(name);
     } else {
-      setName(defaultOrAddr(defaultName, params));
+      setName(defaultOrAddr(defaultName, accountId || params, accountIndex));
     }
   }, [idAndIndex, info]);
 
