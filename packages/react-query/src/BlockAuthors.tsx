@@ -48,10 +48,6 @@ function BlockAuthors ({ children, lastHeader }: Props): React.ReactElement<Prop
     });
   }, []);
 
-  useEffect((): void => {
-
-  }, [lastHeader]);
-
   return (
     <BlockAuthorsContext.Provider value={{ byAuthor, lastBlockAuthor, lastBlockNumber, lastHeader }}>
       {children}
