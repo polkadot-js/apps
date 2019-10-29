@@ -22,28 +22,29 @@ interface Props extends I18nProps {
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function CurrentList ({ authorsMap, currentValidators, eraPoints, lastAuthor, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
-  const [filter, setFilter] = useState<ValidatorFilter>('all');
+function renderColumn (addresses: string[], defaultName: string, withExpanded: boolean, filter: string, { authorsMap, eraPoints, lastAuthor, recentlyOnline }: Props): React.ReactNode {
+  return addresses.map((address, index): React.ReactNode => (
+    <Address
+      address={address}
+      authorsMap={authorsMap}
+      defaultName={defaultName}
+      filter={filter}
+      lastAuthor={lastAuthor}
+      key={address}
+      points={
+        withExpanded && eraPoints
+          ? eraPoints.individual[index]
+          : undefined
+      }
+      recentlyOnline={recentlyOnline}
+      withNominations={withExpanded}
+    />
+  ));
+}
 
-  const _renderColumn = (addresses: string[], defaultName: string, withExpanded: boolean): React.ReactNode => {
-    return addresses.map((address, index): React.ReactNode => (
-      <Address
-        address={address}
-        authorsMap={authorsMap}
-        defaultName={defaultName}
-        filter={filter}
-        lastAuthor={lastAuthor}
-        key={address}
-        points={
-          withExpanded && eraPoints
-            ? [eraPoints.individual[index], eraPoints.total]
-            : undefined
-        }
-        recentlyOnline={recentlyOnline}
-        withNominations={withExpanded}
-      />
-    ));
-  };
+function CurrentList (props: Props): React.ReactElement<Props> {
+  const [filter, setFilter] = useState<ValidatorFilter>('all');
+  const { currentValidators, next, t } = props;
 
   return (
     <div>
@@ -67,13 +68,13 @@ function CurrentList ({ authorsMap, currentValidators, eraPoints, lastAuthor, ne
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {_renderColumn(currentValidators, t('validator'), true)}
+          {renderColumn(currentValidators, t('validator'), true, filter, props)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
           headerText={t('next up')}
         >
-          {_renderColumn(next, t('intention'), false)}
+          {renderColumn(next, t('intention'), false, filter, props)}
         </Column>
       </Columar>
     </div>

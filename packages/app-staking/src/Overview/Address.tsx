@@ -26,7 +26,7 @@ interface Props extends I18nProps {
   defaultName: string;
   filter: ValidatorFilter;
   lastAuthor?: string;
-  points?: [Points, Points];
+  points?: Points;
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
   withNominations?: boolean;
@@ -52,6 +52,7 @@ const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
 function Address ({ authorsMap, className, defaultName, filter, lastAuthor, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
+  const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [isNominatorMe, seIsNominatorMe] = useState(false);
   const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
     hasOfflineWarnings: false,
@@ -64,7 +65,16 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
     stashActive: null,
     stashTotal: null
   });
-  const [isAuthor, setIsAuthor] = useState(false);
+
+  useEffect((): void => {
+    if (points) {
+      const formatted = formatNumber(points);
+
+      if (!extraInfo || extraInfo[0][1] !== formatted) {
+        setExtraInfo([[t('era points'), formatted]]);
+      }
+    }
+  }, [extraInfo, points]);
 
   useEffect((): void => {
     if (stakingInfo) {
@@ -110,10 +120,6 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
     }
   }, [recentlyOnline, stakingInfo]);
 
-  useEffect((): void => {
-    setIsAuthor(lastAuthor === stashId);
-  }, [lastAuthor, stashId]);
-
   if (!stashId || (filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
     (filter === 'hasWarnings' && !hasOfflineWarnings) ||
@@ -123,8 +129,7 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
   }
 
   const lastBlockNumber = authorsMap[stashId];
-
-  points && console.error(points);
+  const isAuthor = lastAuthor === stashId;
 
   return (
     <AddressCard
@@ -149,11 +154,7 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
       }
       className={className}
       defaultName={defaultName}
-      extraInfo={
-        points
-          ? [[t('era points'), formatNumber(points[0])]]
-          : undefined
-      }
+      extraInfo={extraInfo}
       iconInfo={controllerId && onlineStatus && (
         <OnlineStatus
           accountId={controllerId}
@@ -161,7 +162,7 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
           tooltip
         />
       )}
-      isDisabled={!!points && points[0].isEmpty}
+      isDisabled={!!points && points.isEmpty}
       key={stashId}
       value={stashId}
       withBalance={balanceOpts}
