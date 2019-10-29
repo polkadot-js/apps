@@ -23,7 +23,7 @@ interface Props extends I18nProps {
 function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const [filter, setFilter] = useState<ValidatorFilter>('all');
 
-  const _renderColumn = (addresses: string[], defaultName: string): React.ReactNode => {
+  const _renderColumn = (addresses: string[], defaultName: string, withNominations: boolean): React.ReactNode => {
     return addresses.map((address): React.ReactNode => (
       <Address
         address={address}
@@ -33,6 +33,7 @@ function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recently
         lastAuthor={lastAuthor}
         lastBlock={lastBlock}
         recentlyOnline={recentlyOnline}
+        withNominations={withNominations}
       />
     ));
   };
@@ -59,13 +60,13 @@ function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recently
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {_renderColumn(currentValidators, t('validator'))}
+          {_renderColumn(currentValidators, t('validator'), true)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
           headerText={t('next up')}
         >
-          {_renderColumn(next, t('intention'))}
+          {_renderColumn(next, t('intention'), false)}
         </Column>
       </Columar>
     </div>

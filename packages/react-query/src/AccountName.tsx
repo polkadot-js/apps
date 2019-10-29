@@ -20,8 +20,14 @@ interface Props extends BareProps, CallProps {
   withShort?: boolean;
 }
 
-export function AccountName ({ children, className, defaultName = '', idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
-  const [name, setName] = useState<React.ReactNode>(defaultName.toUpperCase());
+function defaultOrAddr (defaultName = '', address?: string | null): string {
+  return defaultName
+    ? defaultName.toUpperCase()
+    : toShortAddress(address);
+}
+
+export function AccountName ({ children, className, defaultName, idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
+  const [name, setName] = useState<React.ReactNode>(defaultOrAddr(defaultName, params));
 
   useEffect((): void => {
     const [accountId, accountIndex] = idAndIndex || [];
@@ -37,7 +43,7 @@ export function AccountName ({ children, className, defaultName = '', idAndIndex
           : extracted
       );
     } else {
-      setName(defaultName.toUpperCase() || toShortAddress(params));
+      setName(defaultOrAddr(defaultName, params));
     }
   }, [idAndIndex, info]);
 
