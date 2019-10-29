@@ -205,8 +205,12 @@ export default withMulti(
     .blockNumberV2 {
       display: inline-block;
       margin-bottom: 0.75rem;
-      margin-right: -0.25rem;
-      padding: 0.25rem 0.75rem;
+      padding: 0.25rem 0;
+
+      &.isCurrent {
+        margin-right: -0.25rem;
+        padding: 0.25rem 0.75rem;
+      }
     }
 
     .blockNumberV1 {
