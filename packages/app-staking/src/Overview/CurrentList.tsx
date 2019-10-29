@@ -13,25 +13,25 @@ import translate from '../translate';
 import Address from './Address';
 
 interface Props extends I18nProps {
+  authorsMap: Record<string, string>;
   currentValidators: string[];
   lastAuthor?: string;
-  lastBlock: string;
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function CurrentList ({ currentValidators, lastAuthor, lastBlock, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function CurrentList ({ authorsMap, currentValidators, lastAuthor, next, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const [filter, setFilter] = useState<ValidatorFilter>('all');
 
   const _renderColumn = (addresses: string[], defaultName: string, withNominations: boolean): React.ReactNode => {
     return addresses.map((address): React.ReactNode => (
       <Address
         address={address}
+        authorsMap={authorsMap}
         defaultName={defaultName}
         key={address}
         filter={filter}
         lastAuthor={lastAuthor}
-        lastBlock={lastBlock}
         recentlyOnline={recentlyOnline}
         withNominations={withNominations}
       />

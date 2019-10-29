@@ -7,30 +7,20 @@ import { BareProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { HeaderExtended } from '@polkadot/api-derive';
 import { ApiContext } from '@polkadot/react-api';
-import { withCalls, withMulti } from '@polkadot/react-api/with';
-import { formatNumber } from '@polkadot/util';
+import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import CurrentList from './CurrentList';
 import Summary from './Summary';
 
 interface Props extends BareProps, ComponentProps {
-  chain_subscribeNewHeads?: HeaderExtended;
 }
 
-function Overview (props: Props): React.ReactElement<Props> {
+export default function Overview (props: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
-  const [{ lastAuthor, lastBlock }, setLast] = useState({ lastAuthor: '', lastBlock: '' });
+  const { byAuthor, lastBlockAuthor, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [nextSorted, setNextSorted] = useState<string[]>([]);
-  const { chain_subscribeNewHeads, allControllers, allStashes, currentValidators, recentlyOnline } = props;
-
-  useEffect((): void => {
-    chain_subscribeNewHeads && setLast({
-      lastAuthor: (chain_subscribeNewHeads.author || '').toString(),
-      lastBlock: formatNumber(chain_subscribeNewHeads.number)
-    });
-  }, [chain_subscribeNewHeads]);
+  const { allControllers, allStashes, currentValidators, recentlyOnline } = props;
 
   useEffect((): void => {
     setNextSorted(
@@ -47,24 +37,17 @@ function Overview (props: Props): React.ReactElement<Props> {
       <Summary
         allControllers={allControllers}
         currentValidators={currentValidators}
-        lastBlock={lastBlock}
-        lastAuthor={lastAuthor}
+        lastBlock={lastBlockNumber}
+        lastAuthor={lastBlockAuthor}
         next={nextSorted}
       />
       <CurrentList
+        authorsMap={byAuthor}
         currentValidators={currentValidators}
-        lastBlock={lastBlock}
-        lastAuthor={lastAuthor}
+        lastAuthor={lastBlockAuthor}
         next={nextSorted}
         recentlyOnline={recentlyOnline}
       />
     </div>
   );
 }
-
-export default withMulti(
-  Overview,
-  withCalls<Props>(
-    'derive.chain.subscribeNewHeads'
-  )
-);
