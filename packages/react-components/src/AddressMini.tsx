@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { AccountName } from '@polkadot/react-query';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { classes } from './util';
+import { classes, toShortAddress } from './util';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
@@ -30,10 +30,11 @@ interface Props extends BareProps {
   withBalance?: boolean;
   withBonded?: boolean;
   withLockedVote?: boolean;
+  withName?: boolean;
 }
 
 function AddressMini (props: Props): React.ReactElement<Props> | null {
-  const { balance, bonded, children, className, iconInfo, isPadded = true, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false } = props;
+  const { balance, bonded, children, className, iconInfo, isPadded = true, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true } = props;
 
   if (!value) {
     return null;
@@ -49,7 +50,10 @@ function AddressMini (props: Props): React.ReactElement<Props> | null {
       <div className='ui--AddressMini-info'>
         {withAddress && (
           <div className='ui--AddressMini-address'>
-            <AccountName params={address} />
+            {withName
+              ? <AccountName params={address} />
+              : toShortAddress(address)
+            }
           </div>
         )}
         {children}
