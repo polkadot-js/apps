@@ -130,6 +130,7 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
 
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthor === stashId;
+  // isDisabled={!!points && points.isEmpty}
 
   return (
     <AddressCard
@@ -162,7 +163,6 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
           tooltip
         />
       )}
-      isDisabled={!!points && points.isEmpty}
       key={stashId}
       value={stashId}
       withBalance={balanceOpts}
