@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
-import { DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
+import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { DerivedStaking, DerivedStakingOnlineStatus, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
@@ -26,7 +26,7 @@ interface Props extends I18nProps {
   filter: ValidatorFilter;
   lastAuthor: string;
   lastBlock: string;
-  recentlyOnline?: Record<string, BlockNumber>;
+  recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
   withNominations?: boolean;
 }
@@ -99,7 +99,7 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
   useEffect((): void => {
     if (stakingInfo) {
       const { online, offline, sessionIds, stashId } = stakingInfo;
-      const onlineStatus = updateOnlineStatus(recentlyOnline || {})(sessionIds, { offline, online });
+      const onlineStatus = updateOnlineStatus(recentlyOnline)(sessionIds, { offline, online });
 
       setOnlineStatus({
         hasOfflineWarnings: !!(stashId && onlineStatus.offline && onlineStatus.offline.length),
