@@ -8,7 +8,7 @@ import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
 
 import React, { useState, useEffect } from 'react';
 import { withCalls } from '@polkadot/react-api';
-import { getAddressName, toShortAddress } from '@polkadot/react-components/util';
+import { getAddressName } from '@polkadot/react-components/util';
 
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
@@ -21,9 +21,9 @@ interface Props extends BareProps, CallProps {
 }
 
 function defaultOrAddr (defaultName = '', address?: string | null): string {
-  return defaultName
-    ? defaultName.toUpperCase()
-    : toShortAddress(address);
+  const [,, extracted] = getAddressName(address || '', null, defaultName);
+
+  return extracted;
 }
 
 export function AccountName ({ children, className, defaultName, idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
