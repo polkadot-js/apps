@@ -111,7 +111,7 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
   }, [recentlyOnline, stakingInfo]);
 
   useEffect((): void => {
-    const isAuthor = !!lastAuthor && !!lastBlock && [address, controllerId, stashId].includes(lastAuthor);
+    const isAuthor = !!lastAuthor && !!lastBlock && stashId === lastAuthor;
 
     setIsAuthor(isAuthor);
     isAuthor && setMyLastBlock(lastBlock);
@@ -129,7 +129,7 @@ function Address ({ address, className, defaultName, filter, lastAuthor, lastBlo
       buttons={
         <div className='staking--Address-info'>
           {myLastBlock && (
-            <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${!isAuthor && 'isCurrent'}`}>#{lastBlock}</div>
+            <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{myLastBlock}</div>
           )}
           {controllerId && (
             <div>
@@ -186,18 +186,18 @@ export default withMulti(
   styled(Address)`
     .blockNumberV1,
     .blockNumberV2 {
-      background: #3f3f3f;
       border-radius: 0.25rem;
-      box-shadow: 0 3px 3px rgba(0,0,0,.2);
-      color: #eee;
       font-size: 1.5rem;
       font-weight: 100;
       line-height: 1.5rem;
-      opacity: 0.25;
+      opacity: 0.5;
       vertical-align: middle;
       z-index: 1;
 
       &.isCurrent {
+        background: #3f3f3f;
+        box-shadow: 0 3px 3px rgba(0,0,0,.2);
+        color: #eee;
         opacity: 1;
       }
     }
