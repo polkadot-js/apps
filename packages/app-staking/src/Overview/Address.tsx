@@ -52,7 +52,7 @@ interface OnlineState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ authorsMap, className, currentElected, defaultName, filter, lastAuthor, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthor, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [isNominatorMe, seIsNominatorMe] = useState(false);
@@ -140,7 +140,7 @@ function Address ({ authorsMap, className, currentElected, defaultName, filter, 
         className={className}
         defaultName={defaultName}
         isDisabled
-        value=''
+        value={address}
         withBalance={false}
       />
     );
