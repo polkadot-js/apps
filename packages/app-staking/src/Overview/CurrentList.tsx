@@ -23,8 +23,8 @@ interface Props extends I18nProps {
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function renderColumn (addresses: string[], defaultName: string, withExpanded: boolean, filter: string, { authorsMap, currentElected, eraPoints, lastAuthor, recentlyOnline }: Props): React.ReactNode {
-  return addresses.map((address, index): React.ReactNode => (
+function renderColumn (addresses: string[], defaultName: string, withExpanded: boolean, filter: string, without: string[], { authorsMap, currentElected, eraPoints, lastAuthor, recentlyOnline }: Props): React.ReactNode {
+  return addresses.filter((address): boolean => !without.includes(address)).map((address, index): React.ReactNode => (
     <Address
       address={address}
       authorsMap={authorsMap}
@@ -46,7 +46,7 @@ function renderColumn (addresses: string[], defaultName: string, withExpanded: b
 
 function CurrentList (props: Props): React.ReactElement<Props> {
   const [filter, setFilter] = useState<ValidatorFilter>('all');
-  const { currentValidators, next, t } = props;
+  const { currentElected, currentValidators, next, t } = props;
 
   return (
     <div>
@@ -71,13 +71,14 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {renderColumn(currentValidators, t('validator'), true, filter, props)}
+          {renderColumn(currentValidators, t('validator'), true, filter, [], props)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
           headerText={t('next up')}
         >
-          {renderColumn(next, t('intention'), false, filter, props)}
+          {renderColumn(currentElected, t('intention'), false, filter, currentValidators, props)}
+          {renderColumn(next, t('intention'), false, filter, currentElected || [], props)}
         </Column>
       </Columar>
     </div>
