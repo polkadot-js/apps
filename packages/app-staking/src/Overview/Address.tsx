@@ -83,7 +83,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
   useEffect((): void => {
     if (stakingInfo) {
       const { controllerId, nextSessionId, stakers, stashId } = stakingInfo;
-      const nominators = stakers
+      const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
       const myAccounts = keyring.getAccounts().map(({ address }): string => address);
