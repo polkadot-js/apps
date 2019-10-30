@@ -142,7 +142,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
       setAddress(generateSeed(null, derivePath, newSeedType, pairType));
     }
   };
-  const _onChangeName = (name: string): void => setName({ isNameValid: name.trim().length !== 0, name });
+  const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
   const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
 
   const _onCommit = (): void => {

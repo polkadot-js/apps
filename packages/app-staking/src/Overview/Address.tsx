@@ -11,10 +11,10 @@ import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
-import { AddressCard, AddressMini, OnlineStatus } from '@polkadot/react-components';
+import { AddressCard, AddressMini, Badge, Icon, OnlineStatus } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 import { updateOnlineStatus } from '../util';
 
 import translate from '../translate';
@@ -23,6 +23,7 @@ interface Props extends I18nProps {
   address: string;
   authorsMap: Record<string, string>;
   className?: string;
+  currentElected: string[];
   defaultName: string;
   filter: ValidatorFilter;
   lastAuthor?: string;
@@ -36,9 +37,11 @@ interface StakingState {
   balanceOpts: { bonded: boolean | BN[] };
   controllerId?: string;
   hasNominators: boolean;
+  isNominatorMe: boolean;
+  isSelected: boolean;
   nominators: [AccountId, Balance][];
-  stashActive: string | null;
-  stashTotal: string | null;
+  // stashActive: string | null;
+  // stashTotal: string | null;
   sessionId?: string;
   stashId?: string;
 }
@@ -50,20 +53,21 @@ interface OnlineState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ authorsMap, className, defaultName, filter, lastAuthor, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthor, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
-  const [isNominatorMe, seIsNominatorMe] = useState(false);
   const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
     hasOfflineWarnings: false,
     onlineStatus: {}
   });
-  const [{ balanceOpts, controllerId, hasNominators, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
+  const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, isSelected, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
-    nominators: [],
-    stashActive: null,
-    stashTotal: null
+    isNominatorMe: false,
+    isSelected: false,
+    nominators: []
+    // stashActive: null,
+    // stashTotal: null
   });
 
   useEffect((): void => {
@@ -78,15 +82,13 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
 
   useEffect((): void => {
     if (stakingInfo) {
-      const { controllerId, nextSessionId, stakers, stakingLedger, stashId } = stakingInfo;
+      const { controllerId, nextSessionId, stakers, stashId } = stakingInfo;
       const nominators = stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
       const myAccounts = keyring.getAccounts().map(({ address }): string => address);
+      const _stashId = stashId && stashId.toString();
 
-      seIsNominatorMe(nominators.some(([who]): boolean =>
-        myAccounts.includes(who.toString())
-      ));
       setStakingState({
         balanceOpts: {
           bonded: stakers && !stakers.own.isEmpty
@@ -95,18 +97,22 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
         },
         controllerId: controllerId && controllerId.toString(),
         hasNominators: nominators.length !== 0,
+        isNominatorMe: nominators.some(([who]): boolean =>
+          myAccounts.includes(who.toString())
+        ),
+        isSelected: !!(_stashId && currentElected && currentElected.includes(_stashId)),
         nominators,
         sessionId: nextSessionId && nextSessionId.toString(),
-        stashActive: stakingLedger
-          ? formatBalance(stakingLedger.active)
-          : null,
-        stashId: stashId && stashId.toString(),
-        stashTotal: stakingLedger
-          ? formatBalance(stakingLedger.total)
-          : null
+        // stashActive: stakingLedger
+        //   ? formatBalance(stakingLedger.active)
+        //   : null,
+        // stashTotal: stakingLedger
+        //   ? formatBalance(stakingLedger.total)
+        //   : null,
+        stashId: _stashId
       });
     }
-  }, [stakingInfo]);
+  }, [currentElected, stakingInfo]);
 
   useEffect((): void => {
     if (stakingInfo) {
@@ -120,12 +126,25 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
     }
   }, [recentlyOnline, stakingInfo]);
 
-  if (!stashId || (filter === 'hasNominators' && !hasNominators) ||
+  if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
     (filter === 'hasWarnings' && !hasOfflineWarnings) ||
     (filter === 'noWarnings' && hasOfflineWarnings) ||
-    (filter === 'iNominated' && !isNominatorMe)) {
+    (filter === 'iNominated' && !isNominatorMe) ||
+    (filter === 'nextSet' && !isSelected)) {
     return null;
+  }
+
+  if (!stashId) {
+    return (
+      <AddressCard
+        className={className}
+        defaultName={defaultName}
+        isDisabled
+        value={address}
+        withBalance={false}
+      />
+    );
   }
 
   const lastBlockNumber = authorsMap[stashId];
@@ -156,14 +175,24 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
       className={className}
       defaultName={defaultName}
       extraInfo={extraInfo}
-      iconInfo={controllerId && onlineStatus && (
-        <OnlineStatus
-          accountId={controllerId}
-          value={onlineStatus}
-          tooltip
-        />
-      )}
-      key={stashId}
+      iconInfo={
+        <>
+          {controllerId && onlineStatus && (
+            <OnlineStatus
+              value={onlineStatus}
+              isTooltip
+            />
+          )}
+          {isSelected && (
+            <Badge
+              hover={t('Selected for the next session')}
+              info={<Icon name='check' />}
+              isTooltip
+              type='next'
+            />
+          )}
+        </>
+      }
       value={stashId}
       withBalance={balanceOpts}
       withValidatorPrefs={WITH_VALIDATOR_PREFS}

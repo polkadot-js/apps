@@ -70,6 +70,14 @@ const DEFAULT_BALANCES = {
   unlocking: false
 };
 
+const CONTROLLER_BALANCES = {
+  available: true,
+  bonded: false,
+  free: false,
+  redeemable: false,
+  unlocking: false
+};
+
 function toIdString (id?: AccountId | null): string | null {
   return id
     ? id.toString()
@@ -133,7 +141,7 @@ class Account extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, isSubstrateV2, t } = this.props;
-    const { controllerId, hexSessionId, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, sessionIds, stashId } = this.state;
+    const { controllerId, hexSessionId, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, onlineStatus, sessionIds, stashId } = this.state;
 
     if (!stashId) {
       return null;
@@ -146,7 +154,12 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <AddressCard
         buttons={this.renderButtons()}
-        iconInfo={this.renderOnlineStatus()}
+        iconInfo={onlineStatus && (
+          <OnlineStatus
+            isTooltip
+            value={onlineStatus}
+          />
+        )}
         label={t('stash')}
         type='account'
         value={stashId}
@@ -176,7 +189,16 @@ class Account extends React.PureComponent<Props, State> {
         {this.renderValidate()}
         <div className={className}>
           <div className='staking--Accounts'>
-            {this.renderControllerAccount()}
+            {controllerId && (
+              <div className='staking--Account-detail actions'>
+                <AddressRow
+                  label={t('controller')}
+                  value={controllerId}
+                  withAddressOrName
+                  withBalance={CONTROLLER_BALANCES}
+                />
+              </div>
+            )}
             {!isSubstrateV2 && !!sessionIds.length && (
               <div className='staking--Account-detail actions'>
                 <AddressRow
@@ -226,49 +248,6 @@ class Account extends React.PureComponent<Props, State> {
           </div>
         </div>
       </AddressCard>
-    );
-  }
-
-  private renderOnlineStatus (): React.ReactNode {
-    const { onlineStatus, controllerId } = this.state;
-
-    if (!controllerId || !onlineStatus) {
-      return null;
-    }
-
-    return (
-      <OnlineStatus
-        accountId={controllerId}
-        value={onlineStatus}
-        tooltip
-      />
-    );
-  }
-
-  private renderControllerAccount (): React.ReactNode {
-    const { t } = this.props;
-    const { controllerId } = this.state;
-
-    if (!controllerId) {
-      return null;
-    }
-
-    return (
-      <div className='staking--Account-detail actions'>
-        <AddressRow
-          label={t('controller')}
-          value={controllerId}
-          withAddressOrName
-          withBalance={{
-            available: true,
-            bonded: false,
-            free: false,
-            redeemable: false,
-            unlocking: false
-          }}
-        />
-      </div>
-
     );
   }
 

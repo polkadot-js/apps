@@ -14,6 +14,7 @@ export interface ComponentProps {
   allAccounts?: SubjectInfo;
   allControllers: string[];
   allStashes: string[];
+  currentElected: string[];
   currentValidators: string[];
   eraPoints?: EraPoints;
   recentlyOnline?: DerivedHeartbeats;
@@ -27,4 +28,4 @@ export interface CalculateBalanceProps {
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';
 
-export type ValidatorFilter = 'all' | 'hasNominators' | 'noNominators' | 'hasWarnings' | 'noWarnings' | 'iNominated';
+export type ValidatorFilter = 'all' | 'hasNominators' | 'noNominators' | 'hasWarnings' | 'noWarnings' | 'iNominated' | 'nextSet';
