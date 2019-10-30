@@ -81,7 +81,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const _toggleBusy = (): void => setIsBusy(!isBusy);
 
   const _constructTx = (): any[] => {
-    if (!callMessage || !callMessage.fn || !callContract || !callContract.address) {
+    if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
       return [];
     }
 
@@ -89,6 +89,8 @@ function Call (props: Props): React.ReactElement<Props> | null {
   };
 
   const _onSubmitRpc = (): void => {
+    if (!accountId) return;
+
     callContract
       .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
       .send(accountId)
