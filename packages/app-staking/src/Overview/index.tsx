@@ -18,14 +18,13 @@ interface Props extends BareProps, ComponentProps {
   eraPoints?: EraPoints;
 }
 
-export default function Overview (props: Props): React.ReactElement<Props> {
+export default function Overview ({ allControllers, allStashes, currentElected, currentValidators, eraPoints, recentlyOnline }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
   const { byAuthor, lastBlockAuthor, lastBlockNumber } = useContext(BlockAuthorsContext);
-  const [nextSorted, setNextSorted] = useState<string[]>([]);
-  const { allControllers, allStashes, currentValidators, eraPoints, recentlyOnline } = props;
+  const [next, setNext] = useState<string[]>([]);
 
   useEffect((): void => {
-    setNextSorted(
+    setNext(
       isSubstrateV2
         // this is a V2 node currentValidators is a list of stashes
         ? allStashes.filter((address): boolean => !currentValidators.includes(address))
@@ -38,17 +37,19 @@ export default function Overview (props: Props): React.ReactElement<Props> {
     <div className='staking--Overview'>
       <Summary
         allControllers={allControllers}
+        currentElected={currentElected}
         currentValidators={currentValidators}
         lastBlock={lastBlockNumber}
         lastAuthor={lastBlockAuthor}
-        next={nextSorted}
+        next={next}
       />
       <CurrentList
         authorsMap={byAuthor}
+        currentElected={currentElected}
         currentValidators={currentValidators}
         eraPoints={eraPoints}
         lastAuthor={lastBlockAuthor}
-        next={nextSorted}
+        next={next}
         recentlyOnline={recentlyOnline}
       />
     </div>

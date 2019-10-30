@@ -14,6 +14,7 @@ export interface ComponentProps {
   allAccounts?: SubjectInfo;
   allControllers: string[];
   allStashes: string[];
+  currentElected: string[];
   currentValidators: string[];
   eraPoints?: EraPoints;
   recentlyOnline?: DerivedHeartbeats;

@@ -23,6 +23,7 @@ interface Props extends I18nProps {
   address: string;
   authorsMap: Record<string, string>;
   className?: string;
+  currentElected: string[];
   defaultName: string;
   filter: ValidatorFilter;
   lastAuthor?: string;
@@ -120,12 +121,24 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
     }
   }, [recentlyOnline, stakingInfo]);
 
-  if (!stashId || (filter === 'hasNominators' && !hasNominators) ||
+  if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
     (filter === 'hasWarnings' && !hasOfflineWarnings) ||
     (filter === 'noWarnings' && hasOfflineWarnings) ||
     (filter === 'iNominated' && !isNominatorMe)) {
     return null;
+  }
+
+  if (!stashId) {
+    return (
+      <AddressCard
+        className={className}
+        defaultName={defaultName}
+        isDisabled
+        value=''
+        withBalance={false}
+      />
+    );
   }
 
   const lastBlockNumber = authorsMap[stashId];
@@ -163,7 +176,6 @@ function Address ({ authorsMap, className, defaultName, filter, lastAuthor, poin
           tooltip
         />
       )}
-      key={stashId}
       value={stashId}
       withBalance={balanceOpts}
       withValidatorPrefs={WITH_VALIDATOR_PREFS}

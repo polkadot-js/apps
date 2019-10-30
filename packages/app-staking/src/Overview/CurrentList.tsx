@@ -15,6 +15,7 @@ import Address from './Address';
 
 interface Props extends I18nProps {
   authorsMap: Record<string, string>;
+  currentElected: string[];
   currentValidators: string[];
   eraPoints?: EraPoints;
   lastAuthor?: string;
@@ -22,11 +23,12 @@ interface Props extends I18nProps {
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function renderColumn (addresses: string[], defaultName: string, withExpanded: boolean, filter: string, { authorsMap, eraPoints, lastAuthor, recentlyOnline }: Props): React.ReactNode {
+function renderColumn (addresses: string[], defaultName: string, withExpanded: boolean, filter: string, { authorsMap, currentElected, eraPoints, lastAuthor, recentlyOnline }: Props): React.ReactNode {
   return addresses.map((address, index): React.ReactNode => (
     <Address
       address={address}
       authorsMap={authorsMap}
+      currentElected={currentElected}
       defaultName={defaultName}
       filter={filter}
       lastAuthor={lastAuthor}
