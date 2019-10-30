@@ -88,5 +88,7 @@
   "intention": "intention",
   "waiting": "waiting",
   "last block": "last block",
-  "era points": "era points"
+  "era points": "era points",
+  "Selected for the next session": "Selected for the next session",
+  "Show only elected for next session": "Show only elected for next session"
 }

@@ -583,5 +583,7 @@
   "reserved": "",
   "locked": "",
   "Voters ({{count}})": "",
-  "era points": ""
+  "era points": "",
+  "Selected for the next session": "",
+  "Show only elected for next session": ""
 }
