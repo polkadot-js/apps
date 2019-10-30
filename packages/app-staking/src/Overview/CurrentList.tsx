@@ -77,7 +77,7 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('next up')}
         >
-          {renderColumn(currentElected, t('intention'), true, false, filter, currentValidators, props)}
+          {renderColumn(currentElected, t('intention'), false, false, filter, currentValidators, props)}
           {renderColumn(next, t('intention'), false, false, filter, currentElected || [], props)}
         </Column>
       </Columar>
