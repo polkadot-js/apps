@@ -40,7 +40,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
           isAddressExisting = true;
           isAddressValid = true;
 
-          setName({ isNameValid: (newName || '').trim().length !== 0, name: newName });
+          setName({ isNameValid: !!(newName || '').trim(), name: newName });
         }
       }
     } catch (error) {

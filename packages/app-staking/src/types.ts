@@ -28,4 +28,4 @@ export interface CalculateBalanceProps {
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';
 
-export type ValidatorFilter = 'all' | 'hasNominators' | 'noNominators' | 'hasWarnings' | 'noWarnings' | 'iNominated';
+export type ValidatorFilter = 'all' | 'hasNominators' | 'noNominators' | 'hasWarnings' | 'noWarnings' | 'iNominated' | 'nextSet';

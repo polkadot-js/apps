@@ -18,7 +18,7 @@ interface Props {
 let badgeId = 0;
 
 function Badge ({ className, hover, info, isTooltip, type }: Props): React.ReactElement<Props> | null {
-  const [key] = useState(`${Date.now}-${badgeId++}`);
+  const [key] = useState(`${Date.now()}-${badgeId++}`);
   const [isOpen, setIsOpen] = useState(false);
 
   const _toggleOpen = (): void => setIsOpen(!isOpen);
@@ -58,12 +58,13 @@ export default styled(Badge)`
   font-size: 12px;
   height: 22px;
   justify-content: center;
+  margin-bottom: 0.25rem;
   padding: 0 4px;
   text-align: center;
   width: 22px;
 
   &.next {
-    background: blue;
+    background: steelblue;
   }
 
   &.offline {

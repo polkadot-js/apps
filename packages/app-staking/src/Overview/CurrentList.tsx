@@ -59,7 +59,8 @@ function CurrentList (props: Props): React.ReactElement<Props> {
             { text: t('Show only with nominators'), value: 'hasNominators' },
             { text: t('Show only without nominators'), value: 'noNominators' },
             { text: t('Show only with warnings'), value: 'hasWarnings' },
-            { text: t('Show only without warnings'), value: 'noWarnings' }
+            { text: t('Show only without warnings'), value: 'noWarnings' },
+            { text: t('Show only elected for next session'), value: 'nextSet' }
           ]}
           value={filter}
           withLabel={false}
