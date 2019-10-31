@@ -18,12 +18,12 @@ interface Props extends I18nProps {
   currentElected: string[];
   currentValidators: string[];
   eraPoints?: EraPoints;
-  lastAuthor?: string;
+  lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function renderColumn (addresses: string[], defaultName: string, withNominations: boolean, withPoints: boolean, filter: string, without: string[], { authorsMap, currentElected, eraPoints, lastAuthor, recentlyOnline }: Props): React.ReactNode {
+function renderColumn (addresses: string[], defaultName: string, withNominations: boolean, withPoints: boolean, filter: string, without: string[], { authorsMap, currentElected, eraPoints, lastAuthors, recentlyOnline }: Props): React.ReactNode {
   return addresses.filter((address): boolean => !without.includes(address)).map((address, index): React.ReactNode => (
     <Address
       address={address}
@@ -31,7 +31,7 @@ function renderColumn (addresses: string[], defaultName: string, withNominations
       currentElected={currentElected}
       defaultName={defaultName}
       filter={filter}
-      lastAuthor={lastAuthor}
+      lastAuthors={lastAuthors}
       key={address}
       points={
         withPoints && eraPoints

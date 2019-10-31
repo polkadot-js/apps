@@ -20,7 +20,7 @@ interface Props extends BareProps, ComponentProps {
 
 export default function Overview ({ allControllers, allStashes, currentElected, currentValidators, eraPoints, recentlyOnline }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
-  const { byAuthor, lastBlockAuthor, lastBlockNumber } = useContext(BlockAuthorsContext);
+  const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [next, setNext] = useState<string[]>([]);
 
   useEffect((): void => {
@@ -40,7 +40,7 @@ export default function Overview ({ allControllers, allStashes, currentElected, 
         currentElected={currentElected}
         currentValidators={currentValidators}
         lastBlock={lastBlockNumber}
-        lastAuthor={lastBlockAuthor}
+        lastAuthors={lastBlockAuthors}
         next={next}
       />
       <CurrentList
@@ -48,7 +48,7 @@ export default function Overview ({ allControllers, allStashes, currentElected, 
         currentElected={currentElected}
         currentValidators={currentValidators}
         eraPoints={eraPoints}
-        lastAuthor={lastBlockAuthor}
+        lastAuthors={lastBlockAuthors}
         next={next}
         recentlyOnline={recentlyOnline}
       />
