@@ -7,7 +7,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { EraPoints } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ApiContext } from '@polkadot/react-api';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
 
 import translate from '../translate';
@@ -49,6 +50,7 @@ function filterAccounts (list: string[] = [], without: string[]): string[] {
 }
 
 function CurrentList (props: Props): React.ReactElement<Props> {
+  const { isSubstrateV2 } = useContext(ApiContext);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [{ electedFiltered, nextFiltered }, setFiltered] = useState<{ electedFiltered: string[]; nextFiltered: string[] }>({ electedFiltered: [], nextFiltered: [] });
   const { currentElected, currentValidators, next, t } = props;
@@ -56,7 +58,7 @@ function CurrentList (props: Props): React.ReactElement<Props> {
   useEffect((): void => {
     if (currentElected && currentValidators) {
       setFiltered({
-        electedFiltered: filterAccounts(currentElected, currentValidators),
+        electedFiltered: isSubstrateV2 ? filterAccounts(currentElected, currentValidators) : [],
         nextFiltered: filterAccounts(next, currentElected)
       });
     }
