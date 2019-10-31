@@ -60,6 +60,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
     hasOfflineWarnings: false,
     onlineStatus: {}
   });
+  const [isNominationsOpen, setIsNominationsOpen] = useState(false);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, isSelected, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
@@ -145,9 +146,15 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
     );
   }
 
+  const _toggleNominations = (event: React.SyntheticEvent): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setIsNominationsOpen(!isNominationsOpen);
+  };
+
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
-  // isDisabled={!!points && points.isEmpty}
 
   return (
     <AddressCard
@@ -197,15 +204,15 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
       withValidatorPrefs={WITH_VALIDATOR_PREFS}
     >
       {withNominations && hasNominators && (
-        <details>
-          <summary>
+        <details open={isNominationsOpen}>
+          <summary onClick={_toggleNominations}>
             {t('Nominators ({{count}})', {
               replace: {
                 count: nominators.length
               }
             })}
           </summary>
-          {nominators.map(([who, bonded]): React.ReactNode =>
+          {isNominationsOpen && nominators.map(([who, bonded]): React.ReactNode =>
             <AddressMini
               bonded={bonded}
               key={who.toString()}
