@@ -51,13 +51,12 @@ class AddressRow extends Row<ApiProps & Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_idAndIndex = [], accounts_info, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+  public static getDerivedStateFromProps ({ accounts_info = {}, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
+    const accountId = accounts_info.accountId || value;
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
-    const [, isDefault, nameInner] = accounts_info && accounts_info.nickname
+    const [, isDefault, nameInner] = accounts_info.nickname
       ? [true, false, accounts_info.nickname.toUpperCase()]
       : getAddressName(address, type, defaultName || '<unknown>');
     const name = isDefault && !noDefaultNameOpacity && !isEditable
@@ -83,8 +82,8 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { accounts_idAndIndex = [], className, isContract, isDisabled, isInline, style } = this.props;
-    const [accountId, accountIndex] = accounts_idAndIndex;
+    const { accounts_info = {}, className, isContract, isDisabled, isInline, label, style } = this.props;
+    const { accountId, accountIndex } = accounts_info;
     const isValid = this.props.isValid || accountId || accountIndex;
 
     return (
@@ -95,7 +94,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
         <div className='ui--Row-base'>
           {this.renderIcon()}
           <div className='ui--Row-details'>
-            {this.renderLabel()}
+            {label && <label className='account-label'>{label}</label>}
             {this.renderAddressAndName()}
             {this.renderAccountIndex()}
             {!isContract && this.renderBalances()}
@@ -109,9 +108,8 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private createState (): State {
-    const { accounts_idAndIndex = [], defaultName, type, value } = this.props;
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId || value;
+    const { accounts_info = {}, defaultName, type, value } = this.props;
+    const accountId = accounts_info.accountId || value;
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
@@ -142,9 +140,9 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderAddress (): React.ReactNode {
-    const { accounts_idAndIndex = [], withIndexOrAddress = true } = this.props;
+    const { accounts_info = {}, withIndexOrAddress = true } = this.props;
     const { address } = this.state;
-    const [, accountIndex] = accounts_idAndIndex;
+    const { accountIndex } = accounts_info;
 
     if (accountIndex && withIndexOrAddress) {
       return null;
@@ -163,8 +161,8 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderAccountIndex (): React.ReactNode {
-    const { accounts_idAndIndex = [], withIndex = true, withIndexOrAddress = true } = this.props;
-    const [, accountIndex] = accounts_idAndIndex;
+    const { accounts_info = {}, withIndex = true, withIndexOrAddress = true } = this.props;
+    const { accountIndex } = accounts_info;
 
     if (!accountIndex || !(withIndex || withIndexOrAddress)) {
       return null;
@@ -178,8 +176,8 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderBalances (): React.ReactNode {
-    const { accounts_idAndIndex = [], extraInfo, withBalance, withValidatorPrefs } = this.props;
-    const [accountId] = accounts_idAndIndex;
+    const { accounts_info = {}, extraInfo, withBalance, withValidatorPrefs } = this.props;
+    const { accountId } = accounts_info;
 
     if (!(withBalance || withValidatorPrefs) || !accountId) {
       return null;
@@ -198,9 +196,9 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderIcon (): React.ReactNode {
-    const { accounts_idAndIndex = [], iconInfo, systemName, withIcon = true } = this.props;
+    const { accounts_info = {}, iconInfo, systemName, withIcon = true } = this.props;
     const { address } = this.state;
-    const [accountId] = accounts_idAndIndex;
+    const { accountId } = accounts_info;
 
     if (!withIcon) {
       return null;
@@ -226,18 +224,6 @@ class AddressRow extends Row<ApiProps & Props, State> {
           </div>
         )}
       </div>
-    );
-  }
-
-  private renderLabel (): React.ReactNode {
-    const { label } = this.props;
-
-    if (!label) {
-      return null;
-    }
-
-    return (
-      <label className='account-label'>{label}</label>
     );
   }
 
@@ -299,7 +285,6 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.accounts.idAndIndex', { paramName: 'value' }],
     ['derive.accounts.info', { paramName: 'value' }]
   )
 );
