@@ -13,7 +13,6 @@ import { getAddressName } from '@polkadot/react-components/util';
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   defaultName?: string;
-  idAndIndex?: [AccountId?, AccountIndex?];
   info?: DeriveAccountInfo;
   label?: React.ReactNode;
   params?: string | null;
@@ -42,21 +41,21 @@ function defaultOrAddr (defaultName = '', _address?: AccountId | string | null, 
   return extracted;
 }
 
-export function AccountName ({ children, className, defaultName, idAndIndex, info, label = '', params, style }: Props): React.ReactElement<Props> {
+export function AccountName ({ children, className, defaultName, info, label = '', params, style }: Props): React.ReactElement<Props> {
   const [name, setName] = useState(defaultOrAddr(defaultName, params));
 
   useEffect((): void => {
-    const [accountId, accountIndex] = idAndIndex || [];
+    const { accountId, accountIndex, nickname } = info || {};
 
-    if (info && info.nickname) {
-      const name = info.nickname.toUpperCase();
+    if (nickname) {
+      const name = nickname.toUpperCase();
 
       nameCache.set(params || '', name);
       setName(name);
     } else {
       setName(defaultOrAddr(defaultName, accountId || params, accountIndex));
     }
-  }, [idAndIndex, info]);
+  }, [info]);
 
   return (
     <div
@@ -69,6 +68,5 @@ export function AccountName ({ children, className, defaultName, idAndIndex, inf
 }
 
 export default withCalls<Props>(
-  ['derive.accounts.idAndIndex', { paramName: 'params', propName: 'idAndIndex' }],
   ['derive.accounts.info', { paramName: 'params', propName: 'info' }]
 )(AccountName);
