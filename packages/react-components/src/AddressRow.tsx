@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { DeriveAccountInfo, DerivedStaking } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -31,6 +31,7 @@ export interface Props extends I18nProps, RowProps {
   label?: string;
   accounts_info?: DeriveAccountInfo;
   noDefaultNameOpacity?: boolean;
+  stakingInfo?: DerivedStaking;
   value: AccountId | AccountIndex | Address | string | null;
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;
@@ -176,7 +177,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderBalances (): React.ReactNode {
-    const { accounts_info = {}, extraInfo, withBalance, withValidatorPrefs } = this.props;
+    const { accounts_info = {}, extraInfo, stakingInfo, withBalance, withValidatorPrefs } = this.props;
     const { accountId } = accounts_info;
 
     if (!(withBalance || withValidatorPrefs) || !accountId) {
@@ -188,6 +189,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
         <AddressInfo
           address={accountId}
           extraInfo={extraInfo}
+          stakingInfo={stakingInfo}
           withBalance={withBalance}
           withValidatorPrefs={withValidatorPrefs}
         />

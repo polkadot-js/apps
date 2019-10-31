@@ -90,11 +90,9 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
       const _stashId = stashId && stashId.toString();
 
       setStakingState({
-        balanceOpts: {
-          bonded: stakers && !stakers.own.isEmpty
-            ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
-            : true
-        },
+        balanceOpts: stakers && !stakers.own.isEmpty
+          ? { bonded: [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())] }
+          : { bonded: true },
         controllerId: controllerId && controllerId.toString(),
         hasNominators: nominators.length !== 0,
         isNominatorMe: nominators.some(([who]): boolean =>
@@ -193,6 +191,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
           )}
         </>
       }
+      stakingInfo={stakingInfo}
       value={stashId}
       withBalance={balanceOpts}
       withValidatorPrefs={WITH_VALIDATOR_PREFS}

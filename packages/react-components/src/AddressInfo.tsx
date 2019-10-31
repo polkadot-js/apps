@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -10,7 +9,7 @@ import { BareProps, I18nProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { formatBalance, formatNumber, isObject } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
@@ -42,10 +41,10 @@ export interface ValidatorPrefsType {
 
 interface Props extends BareProps, I18nProps {
   address: string;
-  balances_all?: DerivedBalances;
+  balancesAll?: DerivedBalances;
   children?: React.ReactNode;
   extraInfo?: [string, string][];
-  staking_info?: DerivedStaking;
+  stakingInfo?: DerivedStaking;
   withBalance?: boolean | BalanceActiveType;
   withExtended?: boolean | CryptoActiveType;
   withHexSessionId: string | null;
@@ -71,8 +70,42 @@ const DEFAULT_PREFS = {
   validatorPayment: true
 };
 
+// skip balances retrieval of none of this matches
+function skipBalancesIf ({ withBalance = true, withExtended = false }: Props): boolean {
+  if (withBalance === true || withExtended === true) {
+    return false;
+  } else if (isObject(withBalance)) {
+    // these all pull from the all balances
+    if (withBalance.available || withBalance.locked || withBalance.reserved || withBalance.total) {
+      return false;
+    }
+  } else if (isObject(withExtended)) {
+    if (withExtended.nonce) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function skipStakingIf ({ stakingInfo, withBalance = true, withRewardDestination = false, withValidatorPrefs = false }: Props): boolean {
+  if (stakingInfo) {
+    return true;
+  } else if (withBalance === true || withValidatorPrefs || withRewardDestination) {
+    return false;
+  } else if (isObject(withBalance)) {
+    if (withBalance.unlocking || withBalance.redeemable) {
+      return false;
+    } else if (withBalance.bonded) {
+      return Array.isArray(withBalance.bonded);
+    }
+  }
+
+  return true;
+}
+
 // calculates the bonded, first being the own, the second being nominated
-function calcBonded (staking_info?: DerivedStaking, bonded?: boolean | BN[]): [BN, BN[]] {
+function calcBonded (stakingInfo?: DerivedStaking, bonded?: boolean | BN[]): [BN, BN[]] {
   let other: BN[] = [];
   let own = new BN(0);
 
@@ -82,28 +115,28 @@ function calcBonded (staking_info?: DerivedStaking, bonded?: boolean | BN[]): [B
       .filter((value): boolean => value.gtn(0));
 
     own = bonded[0];
-  } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
-    own = staking_info.stakingLedger.active.unwrap();
+  } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.accountId.eq(stakingInfo.stashId)) {
+    own = stakingInfo.stakingLedger.active.unwrap();
   }
 
   return [own, other];
 }
 
-function renderExtended ({ balances_all, t, address, withExtended }: Props): React.ReactNode {
+function renderExtended ({ balancesAll, t, address, withExtended }: Props): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
 
-  if (!extendedDisplay || !balances_all) {
+  if (!extendedDisplay) {
     return null;
   }
 
   return (
     <div className='column'>
-      {extendedDisplay.nonce && (
+      {balancesAll && extendedDisplay.nonce && (
         <>
           <Label label={t('transactions')} />
-          <div className='result'>{formatNumber(balances_all.accountNonce)}</div>
+          <div className='result'>{formatNumber(balancesAll.accountNonce)}</div>
         </>
       )}
       {extendedDisplay.crypto && (
@@ -119,12 +152,12 @@ function renderExtended ({ balances_all, t, address, withExtended }: Props): Rea
   );
 }
 
-function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
-  if (!staking_info || !staking_info.unlocking || !staking_info.unlocking.length) {
+function renderUnlocking ({ stakingInfo, t }: Props): React.ReactNode {
+  if (!stakingInfo || !stakingInfo.unlocking || !stakingInfo.unlocking.length) {
     return null;
   }
 
-  const total = staking_info.unlocking.reduce((total, { value }): BN => total.add(value), new BN(0));
+  const total = stakingInfo.unlocking.reduce((total, { value }): BN => total.add(value), new BN(0));
 
   if (total.eqn(0)) {
     return null;
@@ -139,7 +172,7 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
         data-for='unlocking-trigger'
       />
       <Tooltip
-        text={staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
+        text={stakingInfo.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
           <div key={index}>
             {t('{{value}}, {{remaining}} blocks left', {
               replace: {
@@ -155,31 +188,31 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
   );
 }
 
-function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: Props): React.ReactNode {
+function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: Props): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
 
-  if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
+  if (!validatorPrefsDisplay || !stakingInfo || !stakingInfo.validatorPrefs) {
     return null;
   }
 
   return (
     <>
       <div />
-      {validatorPrefsDisplay.unstakeThreshold && (staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
+      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
         <>
           <Label label={t('unstake threshold')} />
           <div className='result'>
-            {(staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
+            {(stakingInfo.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
           </div>
         </>
       )}
-      {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
+      {validatorPrefsDisplay.validatorPayment && stakingInfo.validatorPrefs.validatorPayment && (
         <>
           <Label label={t('commission')} />
           <div className='result'>{
-            formatBalance(staking_info.validatorPrefs.validatorPayment)
+            formatBalance(stakingInfo.validatorPrefs.validatorPayment)
           }</div>
         </>
       )}
@@ -188,41 +221,41 @@ function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: 
 }
 
 function renderBalances (props: Props): React.ReactNode {
-  const { balances_all, staking_info, t, withBalance = true } = props;
+  const { balancesAll, stakingInfo, t, withBalance = true } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
-    : withBalance || undefined;
+    : withBalance || false;
 
-  if (!balanceDisplay || !balances_all) {
+  if (!balanceDisplay) {
     return null;
   }
 
-  const [ownBonded, otherBonded] = calcBonded(staking_info, balanceDisplay.bonded);
+  const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
 
   return (
     <>
-      {balanceDisplay.total && (
+      {balancesAll && balanceDisplay.total && (
         <>
           <Label label={t('total')} />
-          <div className='result'>{formatBalance(balances_all.votingBalance)}</div>
+          <div className='result'>{formatBalance(balancesAll.votingBalance)}</div>
         </>
       )}
-      {balanceDisplay.available && (
+      {balancesAll && balanceDisplay.available && (
         <>
           <Label label={t('available')} />
-          <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
+          <div className='result'>{formatBalance(balancesAll.availableBalance)}</div>
         </>
       )}
-      {balanceDisplay.locked && balances_all.lockedBalance && balances_all.lockedBalance.gtn(0) && (
+      {balancesAll && balanceDisplay.locked && balancesAll.lockedBalance && balancesAll.lockedBalance.gtn(0) && (
         <>
           <Label label={t('locked')} />
-          <div className='result'>{formatBalance(balances_all.lockedBalance)}</div>
+          <div className='result'>{formatBalance(balancesAll.lockedBalance)}</div>
         </>
       )}
-      {balanceDisplay.reserved && balances_all.reservedBalance && balances_all.reservedBalance.gtn(0) && (
+      {balancesAll && balanceDisplay.reserved && balancesAll.reservedBalance && balancesAll.reservedBalance.gtn(0) && (
         <>
           <Label label={t('reserved')} />
-          <div className='result'>{formatBalance(balances_all.reservedBalance)}</div>
+          <div className='result'>{formatBalance(balancesAll.reservedBalance)}</div>
         </>
       )}
       {balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && (
@@ -233,14 +266,14 @@ function renderBalances (props: Props): React.ReactNode {
           )}</div>
         </>
       )}
-      {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
+      {balanceDisplay.redeemable && stakingInfo && stakingInfo.redeemable && stakingInfo.redeemable.gtn(0) && (
         <>
           <Label label={t('redeemable')} />
           <div className='result'>
-            {formatBalance(staking_info.redeemable)}
-            {staking_info.controllerId && (
+            {formatBalance(stakingInfo.redeemable)}
+            {stakingInfo.controllerId && (
               <TxButton
-                accountId={staking_info.controllerId.toString()}
+                accountId={stakingInfo.controllerId.toString()}
                 className='iconButton'
                 icon='lock'
                 size='small'
@@ -254,7 +287,7 @@ function renderBalances (props: Props): React.ReactNode {
           </div>
         </>
       )}
-      {balanceDisplay.unlocking && staking_info && staking_info.unlocking && (
+      {balanceDisplay.unlocking && stakingInfo && stakingInfo.unlocking && (
         <>
           <Label label={t('unbonding')} />
           <div className='result'>
@@ -267,7 +300,7 @@ function renderBalances (props: Props): React.ReactNode {
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
-  const { className, children, extraInfo, staking_info, t, withHexSessionId, withRewardDestination } = props;
+  const { className, children, extraInfo, stakingInfo, t, withHexSessionId, withRewardDestination } = props;
 
   return (
     <div className={className}>
@@ -293,10 +326,10 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
             ))}
           </>
         )}
-        {withRewardDestination && staking_info && staking_info.rewardDestination && (
+        {withRewardDestination && stakingInfo && stakingInfo.rewardDestination && (
           <>
             <Label label={t('reward destination')} />
-            <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
+            <div className='result'>{stakingInfo.rewardDestination.toString().toLowerCase()}</div>
           </>
         )}
       </div>
@@ -350,7 +383,15 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.balances.all', { paramName: 'address' }],
-    ['derive.staking.info', { paramName: 'address' }]
+    ['derive.balances.all', {
+      paramName: 'address',
+      propName: 'balancesAll',
+      skipIf: skipBalancesIf
+    }],
+    ['derive.staking.info', {
+      paramName: 'address',
+      propName: 'stakingInfo',
+      skipIf: skipStakingIf
+    }]
   )
 );

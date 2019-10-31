@@ -98,16 +98,16 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.imOnline.receivedHeartbeats', { propName: 'recentlyOnline' }],
-    ['derive.staking.controllers', {
-      propName: 'allStashesAndControllers',
-      transform: ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] => [
-        stashes.map((accountId): string => accountId.toString()),
-        controllers
-          .filter((optId): boolean => optId.isSome)
-          .map((accountId): string => accountId.unwrap().toString())
-      ]
-    }],
+    // ['derive.imOnline.receivedHeartbeats', { propName: 'recentlyOnline' }],
+    // ['derive.staking.controllers', {
+    //   propName: 'allStashesAndControllers',
+    //   transform: ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] => [
+    //     stashes.map((accountId): string => accountId.toString()),
+    //     controllers
+    //       .filter((optId): boolean => optId.isSome)
+    //       .map((accountId): string => accountId.unwrap().toString())
+    //   ]
+    // }],
     ['query.session.validators', {
       propName: 'currentValidators',
       transform: (validators: AccountId[]): string[] =>
@@ -118,8 +118,8 @@ export default withMulti(
       transform: (elected: AccountId[]): string[] =>
         elected.map((accountId): string => accountId.toString())
     }],
-    ['query.staking.currentEra', { propName: 'currentEra' }],
-    ['query.staking.currentEraPointsEarned', { paramName: 'currentEra', propName: 'eraPoints' }]
+    // ['query.staking.currentEra', { propName: 'currentEra' }],
+    // ['query.staking.currentEraPointsEarned', { paramName: 'currentEra', propName: 'eraPoints' }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
