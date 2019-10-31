@@ -101,6 +101,7 @@ function isValidNumber (bn: BN, { bitLength = DEFAULT_BITLENGTH, isZeroable, max
 function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean] {
   const [siPower, basePower, siUnitPower] = getSiPowers(si);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
   const isDecimalValue = input.match(/^(\d+)\.(\d+)$/);
 
   let result;
@@ -159,7 +160,7 @@ function getValuesFromString (value: string, si: SiDef | null, props: Props): [B
     valueBn,
     value,
     isValid
-  ]
+  ];
 }
 
 function getValuesFromBn (valueBn: BN, si: SiDef | null): [BN, string, boolean] {
@@ -180,7 +181,7 @@ function getValues (value: BN | string, si: SiDef | null, props: Props): [BN, st
     : getValuesFromString(value, si, props);
 }
 
-function isNewPropsValue (propsValue: BN | string, value: string, valueBn: BN) {
+function isNewPropsValue (propsValue: BN | string, value: string, valueBn: BN): boolean {
   return BN.isBN(propsValue) ? !propsValue.eq(valueBn) : propsValue !== value;
 }
 
@@ -192,7 +193,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
 
   const [initValueBn, initValue, initIsValid] = getValues(propsValue || defaultValue, si, props);
   const [valueBn, setValueBn] = useState<BN>(initValueBn);
-  const [value, setValue] = useState(initValue)
+  const [value, setValue] = useState(initValue);
   const [isValid, setIsValid] = useState(!isUndefined(initIsValid));
 
   useEffect((): void => {
@@ -202,21 +203,21 @@ function InputNumber (props: Props): React.ReactElement<Props> {
       setValue(newValue);
       setIsValid(newIsValid);
     }
-  }, [propsValue])
+  }, [propsValue]);
 
   useEffect((): void => {
     const [newValueBn, , newIsValid] = getValues(value, si, props);
     setValueBn(newValueBn);
     setIsValid(newIsValid)
-  }, [value, si, bitLength, maxValue])
+  }, [value, si, bitLength, maxValue]);
 
   useEffect((): void => {
     onChange && isValid && onChange(valueBn);
-  }, [isValid, valueBn])
+  }, [isValid, valueBn]);
 
-  const _onChange = (input: string) => {
+  const _onChange = (input: string): void => {
     setValue(input);
-  }
+  };
 
   const _onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     if (KEYS_PRE.includes(event.key)) {
@@ -233,13 +234,13 @@ function InputNumber (props: Props): React.ReactElement<Props> {
         event.preventDefault();
       }
     }
-  }
+  };
 
   const _onKeyUp = (event: React.KeyboardEvent<Element>): void => {
     if (KEYS_PRE.includes(event.key)) {
       setIsPreKeyDown(false);
     }
-  }
+  };
 
   const _onPaste = (event: React.ClipboardEvent<Element>): void => {
     const { value: newValue } = event.target as HTMLInputElement;
@@ -247,11 +248,11 @@ function InputNumber (props: Props): React.ReactElement<Props> {
     if (!getRegex(isDecimal || !!si).test(newValue)) {
       event.preventDefault();
     }
-  }
+  };
 
   const _onSelectSiUnit = (siUnit: string): void => {
     setSi(formatBalance.findSi(siUnit));
-  }
+  };
 
   const _onClickMaxButton = (): void => {
     !!maxValue && setValue(bnToInput(maxValue, si));
@@ -279,13 +280,13 @@ function InputNumber (props: Props): React.ReactElement<Props> {
       value={value}
     >
       {(ALLOW_MAX && withMax && !!maxValue && valueBn.lt(maxValue)) && (
-          <Button
-            className='ui--MaxButton'
-            icon=''
-            onClick={_onClickMaxButton}
-          >
-            {t('Max')}
-          </Button>
+        <Button
+          className='ui--MaxButton'
+          icon=''
+          onClick={_onClickMaxButton}
+        >
+          {t('Max')}
+        </Button>
       )}
       {!!si && (
         <Dropdown
