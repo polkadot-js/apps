@@ -24,6 +24,7 @@ export interface Options {
   paramPick?: (props: any) => any;
   paramValid?: boolean;
   propName?: string;
+  skipIf?: (props: any) => boolean;
   transform?: Transform;
 }
 

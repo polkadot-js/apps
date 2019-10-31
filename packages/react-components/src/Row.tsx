@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { Label } from 'semantic-ui-react';
@@ -16,6 +16,11 @@ import InputTags from './InputTags';
 
 export const styles = `
   text-align: left;
+
+  &.disabled {
+    filter: grayscale(100%);
+    opacity: 0.75;
+  }
 
   &.inline {
     display: flex;
@@ -185,7 +190,7 @@ export const styles = `
 `;
 
 export interface RowProps {
-  accounts_idAndIndex?: [AccountId?, AccountIndex?];
+  accounts_info?: DeriveAccountInfo;
   buttons?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
