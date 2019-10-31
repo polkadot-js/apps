@@ -2,52 +2,47 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIFn, ContractABIMethod } from '@polkadot/api-contract/types';
-import { CallContract, NullContract, StringOrNull } from '@polkadot/react-components/types';
-import { CONTRACT_NULL } from '../constants';
+import { ContractABIFn, ContractABIMessage } from '@polkadot/api-contract/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 
 import React from 'react';
+import { ApiPromise } from '@polkadot/api';
+import { PromiseContract as Contract } from '@polkadot/api-contract';
 import { MessageSignature } from '@polkadot/react-components';
 import { getContractAbi } from '@polkadot/react-components/util';
-import { stringCamelCase } from '@polkadot/util';
 
-export function findCallMethod (callContract: CallContract | null, callMethodIndex = 0): ContractABIMethod | null {
+export function findCallMethod (callContract: Contract | null, callMethodIndex = 0): ContractABIMessage | null {
   const message = callContract && callContract.abi.abi.contract.messages[callMethodIndex];
 
   return message || null;
 }
 
-export function getContractMethodFn (callContract: CallContract | null, callMethod: ContractABIMethod | null): ContractABIFn | null {
-  const fn = callContract && callContract.abi && callMethod && callContract.abi.messages[stringCamelCase(callMethod.name)];
+export function getContractMethodFn (callContract: Contract | null, callMethodIndex: number | null): ContractABIFn | null {
+  const fn = callContract && callContract.abi && callMethodIndex !== null && callContract.abi.messages[callMethodIndex];
 
   return fn || null;
 }
 
-export function getContractForAddress (address: StringOrNull): CallContract | NullContract {
+export function getContractForAddress (api: ApiPromise, address: StringOrNull): Contract | null {
   if (!address) {
-    return CONTRACT_NULL;
+    return null;
   } else {
     const abi = getContractAbi(address);
     return abi
-      ? {
-        address,
-        abi
-      }
-      : CONTRACT_NULL;
+      ? new Contract(api, abi, address)
+      : null;
   }
 }
 
-export function getCallMethodOptions (callContract: CallContract | null): any[] {
-  return callContract && callContract.abi
-    ? callContract.abi.abi.contract.messages.map((message, messageIndex): { key: string; text: React.ReactNode; value: string } => {
-      const key = message.name;
-
+export function getCallMessageOptions (callContract: Contract | null): any[] {
+  return callContract
+    ? callContract.messages.map(({ def: message, def: { name }, index }): { key: string; text: React.ReactNode; value: string } => {
       return {
-        key,
+        key: name,
         text: (
           <MessageSignature message={message} />
         ),
-        value: `${messageIndex}`
+        value: `${index}`
       };
     })
     : [];

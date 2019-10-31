@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABIMethod } from '@polkadot/api-contract/types';
+import { ContractABIMessage } from '@polkadot/api-contract/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { Button } from '@polkadot/react-components';
 
@@ -10,7 +10,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
 
-import Icon from './Icon';
+import IconLink from './IconLink';
 import MessageSignature from './MessageSignature';
 import translate from './translate';
 import { classes } from './util';
@@ -52,7 +52,7 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMethod, index: number, asConstructor = false): React.ReactNode {
+function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor = false): React.ReactNode {
   const { docs = [], name } = message;
 
   return (
@@ -124,19 +124,18 @@ function renderMessage (props: Props, index: number): React.ReactNode {
 }
 
 function Messages (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+  const { className, contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors, t } = props;
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
       {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index))}
       {messages.map((_, index): React.ReactNode => renderMessage(props, index))}
       {isRemovable && (
-        <a
+        <IconLink
+          label={t('Remove ABI')}
+          icon='remove'
           className='remove-abi'
           onClick={onRemove}
-        >
-          <Icon name='remove' />
-          Remove ABI
-        </a>
+        />
       )}
     </div>
   );
@@ -150,7 +149,7 @@ export default translate(styled(Messages)`
   .remove-abi {
     float: right;
 
-    &:hover {
+    &:hover, &:hover :not(i) {
       text-decoration: underline;
     }
   }
