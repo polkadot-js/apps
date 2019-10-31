@@ -30,7 +30,7 @@ export function getContractForAddress (api: ApiPromise, address: StringOrNull): 
     const abi = getContractAbi(address);
     return abi
       ? new Contract(api, abi, address)
-      : null
+      : null;
   }
 }
 

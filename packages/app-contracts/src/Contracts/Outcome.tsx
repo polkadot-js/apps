@@ -15,7 +15,7 @@ interface Props {
 }
 
 function Outcome (props: Props): React.ReactElement<Props> | null {
-  const { className, onClear, outcome: { message, origin, output, params, success, time} } = props;
+  const { className, onClear, outcome: { message, origin, output, params, success, time } } = props;
   const dateTime = new Date(time);
 
   return (
@@ -100,4 +100,4 @@ export default styled(Outcome)`
       }
     }
   }
-`
+`;

@@ -37,4 +37,4 @@ export default styled(IconLink)`
       text-decoration: none;
     }
   }
-`
+`;

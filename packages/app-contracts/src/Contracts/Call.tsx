@@ -60,11 +60,11 @@ function Call (props: Props): React.ReactElement<Props> | null {
     } else {
       setUseRpc(true);
     }
-  }, [callContract, callMessageIndex])
+  }, [callContract, callMessageIndex]);
 
   useEffect((): void => {
     setOutcomes([]);
-  }, [callContract])
+  }, [callContract]);
 
   const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
 
@@ -96,15 +96,15 @@ function Call (props: Props): React.ReactElement<Props> | null {
       .send(accountId)
       .then(
         (outcome: ContractCallOutcome): void => {
-          setOutcomes([ outcome, ...outcomes ]);
+          setOutcomes([outcome, ...outcomes]);
         }
-      )
-  }
+      );
+  };
 
   const _onClearOutcomes = (): void => setOutcomes([]);
   const _onClearOutcome = (outcomeIndex: number) => (): void => {
     setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1)));
-  }
+  };
 
   const isEndowmentValid = true;
   const isGasValid = !gasLimit.isZero();
@@ -182,81 +182,81 @@ function Call (props: Props): React.ReactElement<Props> | null {
             />
           </div>
         )}
-          {hasRpc && (
-            <Toggle
-              className='rpc-toggle'
-              isDisabled={!!callMessage && callMessage.def.mutates}
-              label={
-                useRpc
-                  ? t('send as RPC call')
-                  : t('send as transaction')
-              }
-              onChange={setUseRpc}
-              value={useRpc || false}
-            />
-          )}
-          <Button.Group>
-            <Button
-              icon='cancel'
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-            />
-            <Button.Or />
-            {useRpc
-              ? (
-                <Button
-                  icon='sign-in'
-                  isDisabled={!isValid}
-                  isPrimary
-                  label={t('Call')}
-                  onClick={_onSubmitRpc}
-                />
-              )
-              : (
-                <TxButton
-                  accountId={accountId}
-                  icon='sign-in'
-                  isDisabled={!isValid}
-                  isPrimary
-                  label={t('Call')}
-                  onClick={_toggleBusy}
-                  onFailed={_toggleBusy}
-                  onSuccess={_toggleBusy}
-                  params={_constructTx}
-                  tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
-                />
-              )
+        {hasRpc && (
+          <Toggle
+            className='rpc-toggle'
+            isDisabled={!!callMessage && callMessage.def.mutates}
+            label={
+              useRpc
+                ? t('send as RPC call')
+                : t('send as transaction')
             }
-          </Button.Group>
-          {outcomes.length > 0 && (
-            <>
-              <h3>
-                {t('Call results')}
-                <IconLink
-                  className='clear-all'
-                  icon='close'
-                  label={t('Clear all')}
-                  onClick={_onClearOutcomes}
-                />
-              </h3>
-              <div>
-                {
-                  outcomes.map(
-                    (outcome, index): React.ReactNode => {
-                      return (
-                        <Outcome
-                          key={`outcome-${index}`}
-                          onClear={_onClearOutcome(index)}
-                          outcome={outcome}
-                        />
-                      );
-                    }
-                  )
-                }
-              </div>
-            </>
-          )}
+            onChange={setUseRpc}
+            value={useRpc || false}
+          />
+        )}
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          {useRpc
+            ? (
+              <Button
+                icon='sign-in'
+                isDisabled={!isValid}
+                isPrimary
+                label={t('Call')}
+                onClick={_onSubmitRpc}
+              />
+            )
+            : (
+              <TxButton
+                accountId={accountId}
+                icon='sign-in'
+                isDisabled={!isValid}
+                isPrimary
+                label={t('Call')}
+                onClick={_toggleBusy}
+                onFailed={_toggleBusy}
+                onSuccess={_toggleBusy}
+                params={_constructTx}
+                tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
+              />
+            )
+          }
+        </Button.Group>
+        {outcomes.length > 0 && (
+          <>
+            <h3>
+              {t('Call results')}
+              <IconLink
+                className='clear-all'
+                icon='close'
+                label={t('Clear all')}
+                onClick={_onClearOutcomes}
+              />
+            </h3>
+            <div>
+              {
+                outcomes.map(
+                  (outcome, index): React.ReactNode => {
+                    return (
+                      <Outcome
+                        key={`outcome-${index}`}
+                        onClear={_onClearOutcome(index)}
+                        outcome={outcome}
+                      />
+                    );
+                  }
+                )
+              }
+            </div>
+          </>
+        )}
       </Modal.Content>
     </Modal>
   );

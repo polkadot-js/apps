@@ -8,16 +8,16 @@ import { ComponentProps } from '../types';
 
 import React, { useState, useEffect } from 'react';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api';
 import { Button, CardGrid } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Add from './Add';
-import { default as ContractCard } from './Contract';
+import ContractCard from './Contract';
 import Call from './Call';
 import { getContractForAddress } from './util';
 
-interface Props extends ComponentProps, ApiProps, I18nProps {}
+interface Props extends ComponentProps, I18nProps, ApiProps {}
 
 function filterContracts ({ api, accounts, contracts: keyringContracts }: Props): ApiContract[] {
   return accounts && keyringContracts && Object.keys(keyringContracts)
@@ -37,7 +37,7 @@ function Contracts (props: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     setContracts(filterContracts(props));
-  }, [accounts, keyringContracts])
+  }, [accounts, keyringContracts]);
 
   let callContract = contracts[callContractIndex] || null;
 
@@ -126,4 +126,8 @@ function Contracts (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(withApi(Contracts));
+export default withMulti(
+  Contracts,
+  translate,
+  withApi
+);
