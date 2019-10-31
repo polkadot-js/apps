@@ -26,7 +26,7 @@ interface Props extends I18nProps {
   currentElected: string[];
   defaultName: string;
   filter: ValidatorFilter;
-  lastAuthor?: string;
+  lastAuthors?: string[];
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
@@ -53,7 +53,7 @@ interface OnlineState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthor, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
@@ -83,7 +83,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
   useEffect((): void => {
     if (stakingInfo) {
       const { controllerId, nextSessionId, stakers, stashId } = stakingInfo;
-      const nominators = stakers
+      const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
       const myAccounts = keyring.getAccounts().map(({ address }): string => address);
@@ -148,7 +148,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
   }
 
   const lastBlockNumber = authorsMap[stashId];
-  const isAuthor = lastAuthor === stashId;
+  const isAuthor = lastAuthors && lastAuthors.includes(stashId);
   // isDisabled={!!points && points.isEmpty}
 
   return (

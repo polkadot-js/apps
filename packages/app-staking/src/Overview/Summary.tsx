@@ -18,13 +18,13 @@ interface Props extends I18nProps {
   allControllers: string[];
   className?: string;
   currentValidators: string[];
-  lastAuthor?: string;
+  lastAuthors?: string[];
   lastBlock: string;
   staking_validatorCount?: BN;
   next: string[];
 }
 
-function Summary ({ className, currentValidators, lastAuthor, lastBlock, next, style, staking_validatorCount, t }: Props): React.ReactElement<Props> {
+function Summary ({ className, currentValidators, lastAuthors, lastBlock, next, style, staking_validatorCount, t }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox
       className={className}
@@ -39,14 +39,18 @@ function Summary ({ className, currentValidators, lastAuthor, lastBlock, next, s
         </CardSummary>
       </section>
       <section>
-        <CardSummary label={t('last block')}>
-          {lastAuthor && (
+        <CardSummary
+          className='validator--Summary-authors'
+          label={t('last block')}
+        >
+          {lastAuthors && lastAuthors.map((author): React.ReactNode => (
             <IdentityIcon
               className='validator--Account-block-icon'
+              key={author}
               size={24}
-              value={lastAuthor}
+              value={author}
             />
-          )}
+          ))}
           {lastBlock}
         </CardSummary>
       </section>
@@ -63,6 +67,12 @@ export default withMulti(
       margin-right: 0.75rem;
       margin-top: -0.25rem;
       vertical-align: middle;
+    }
+
+    .validator--Summary-authors {
+      .validator--Account-block-icon+.validator--Account-block-icon {
+        margin-left: -1.5rem;
+      }
     }
   `,
   translate,

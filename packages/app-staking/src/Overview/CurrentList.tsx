@@ -18,12 +18,12 @@ interface Props extends I18nProps {
   currentElected: string[];
   currentValidators: string[];
   eraPoints?: EraPoints;
-  lastAuthor?: string;
+  lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function renderColumn (addresses: string[], defaultName: string, withExpanded: boolean, filter: string, without: string[], { authorsMap, currentElected, eraPoints, lastAuthor, recentlyOnline }: Props): React.ReactNode {
+function renderColumn (addresses: string[], defaultName: string, withNominations: boolean, withPoints: boolean, filter: string, without: string[], { authorsMap, currentElected, eraPoints, lastAuthors, recentlyOnline }: Props): React.ReactNode {
   return addresses.filter((address): boolean => !without.includes(address)).map((address, index): React.ReactNode => (
     <Address
       address={address}
@@ -31,15 +31,15 @@ function renderColumn (addresses: string[], defaultName: string, withExpanded: b
       currentElected={currentElected}
       defaultName={defaultName}
       filter={filter}
-      lastAuthor={lastAuthor}
+      lastAuthors={lastAuthors}
       key={address}
       points={
-        withExpanded && eraPoints
+        withPoints && eraPoints
           ? eraPoints.individual[index]
           : undefined
       }
       recentlyOnline={recentlyOnline}
-      withNominations={withExpanded}
+      withNominations={withNominations}
     />
   ));
 }
@@ -71,14 +71,14 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {renderColumn(currentValidators, t('validator'), true, filter, [], props)}
+          {renderColumn(currentValidators, t('validator'), true, true, filter, [], props)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
           headerText={t('next up')}
         >
-          {renderColumn(currentElected, t('intention'), false, filter, currentValidators, props)}
-          {renderColumn(next, t('intention'), false, filter, currentElected || [], props)}
+          {renderColumn(currentElected, t('intention'), false, false, filter, currentValidators, props)}
+          {renderColumn(next, t('intention'), false, false, filter, currentElected || [], props)}
         </Column>
       </Columar>
     </div>

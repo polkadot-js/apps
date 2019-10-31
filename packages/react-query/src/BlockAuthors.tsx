@@ -9,7 +9,7 @@ import { formatNumber } from '@polkadot/util';
 
 interface Authors {
   byAuthor: Record<string, string>;
-  lastBlockAuthor?: string;
+  lastBlockAuthors?: string[];
   lastBlockNumber?: string;
   lastHeader?: HeaderExtended;
   lastHeaders: HeaderExtended[];
@@ -33,15 +33,24 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
     // atm I'm rather typing this than doing it the way it is supposed to be
     api.isReady.then((): void => {
       let lastHeaders: HeaderExtended[] = [];
+      let lastBlockAuthors: string[] = [];
+      let lastBlockNumber = '';
 
       api.derive.chain.subscribeNewHeads((lastHeader): void => {
         if (lastHeader && lastHeader.number) {
           const blockNumber = lastHeader.number.unwrap();
-          const lastBlockAuthor = lastHeader.author ? lastHeader.author.toString() : undefined;
-          const lastBlockNumber = formatNumber(blockNumber);
+          const thisBlockAuthor = lastHeader.author ? lastHeader.author.toString() : undefined;
+          const thisBlockNumber = formatNumber(blockNumber);
 
-          if (lastBlockAuthor) {
-            byAuthor[lastBlockAuthor] = lastBlockNumber;
+          if (thisBlockAuthor) {
+            byAuthor[thisBlockAuthor] = thisBlockNumber;
+
+            if (thisBlockNumber !== lastBlockNumber) {
+              lastBlockNumber = thisBlockNumber;
+              lastBlockAuthors = [thisBlockAuthor];
+            } else {
+              lastBlockAuthors.push(thisBlockAuthor);
+            }
           }
 
           lastHeaders = lastHeaders
@@ -53,7 +62,7 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
             }, [lastHeader])
             .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()));
 
-          setState({ byAuthor, lastBlockAuthor, lastBlockNumber, lastHeader, lastHeaders });
+          setState({ byAuthor, lastBlockAuthors: lastBlockAuthors.slice(), lastBlockNumber, lastHeader, lastHeaders });
         }
       });
     });
