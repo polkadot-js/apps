@@ -24,7 +24,7 @@ interface Props extends I18nProps {
   recentlyOnline?: DerivedHeartbeats;
 }
 
-function renderColumn (addresses: string[], defaultName: string, withPoints: boolean, filter: string, { authorsMap, currentElected, eraPoints, lastAuthors, recentlyOnline }: Props): React.ReactNode {
+function renderColumn (addresses: string[], defaultName: string, withOnline: boolean, withPoints: boolean, filter: string, { authorsMap, currentElected, eraPoints, lastAuthors, recentlyOnline }: Props): React.ReactNode {
   return addresses.map((address, index): React.ReactNode => (
     <Address
       address={address}
@@ -39,7 +39,11 @@ function renderColumn (addresses: string[], defaultName: string, withPoints: boo
           ? eraPoints.individual[index]
           : undefined
       }
-      recentlyOnline={recentlyOnline}
+      recentlyOnline={
+        withOnline
+          ? recentlyOnline
+          : undefined
+      }
     />
   ));
 }
@@ -86,7 +90,7 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {renderColumn(currentValidators, t('validator'), true, filter, props)}
+          {renderColumn(currentValidators, t('validator'), true, true, filter, props)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
@@ -94,8 +98,8 @@ function CurrentList (props: Props): React.ReactElement<Props> {
         >
           {(electedFiltered.length !== 0 || nextFiltered.length !== 0) && (
             <>
-              {renderColumn(electedFiltered, t('intention'), false, filter, props)}
-              {renderColumn(nextFiltered, t('intention'), false, filter, props)}
+              {renderColumn(electedFiltered, t('intention'), false, false, filter, props)}
+              {renderColumn(nextFiltered, t('intention'), false, false, filter, props)}
             </>
           )}
         </Column>
