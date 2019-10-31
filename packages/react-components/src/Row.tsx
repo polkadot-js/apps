@@ -264,7 +264,7 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
     return (
       <span className='editSpan'>
         <Button
-          className='iconButton'
+          className='icon-button'
           icon='edit'
           size='mini'
           isPrimary

@@ -41,7 +41,7 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, t,
           {children}
           <span className='copySpan'>
             <Button
-              className='iconButton'
+              className='icon-button'
               icon={icon}
               size='mini'
               isPrimary
@@ -57,7 +57,7 @@ export default translate(
   styled(CopyButton)`
     cursor: copy;
 
-    button.ui.mini.icon.primary.button.iconButton {
+    button.ui.mini.icon.primary.button.icon-button {
       cursor: copy;
     }
 
