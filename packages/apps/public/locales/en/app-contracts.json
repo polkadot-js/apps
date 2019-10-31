@@ -57,5 +57,8 @@
   "Remove": "Remove",
   "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.": "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.",
   "Call results": "Call results",
-  "constructor ": "constructor "
+  "constructor ": "constructor ",
+  "send as RPC call": "send as RPC call",
+  "send as transaction": "send as transaction",
+  "Clear all": "Clear all"
 }

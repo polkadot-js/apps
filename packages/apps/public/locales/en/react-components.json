@@ -63,5 +63,6 @@
   "Aye, I approve": "Aye, I approve",
   "Nay, I do not approve": "Nay, I do not approve",
   "reserved": "reserved",
-  "locked": "locked"
+  "locked": "locked",
+  "Remove ABI": "Remove ABI"
 }
