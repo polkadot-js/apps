@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { withApi, withMulti } from '@polkadot/react-api';
 import { Button, Card, Columar, Column, InputAddress, Tooltip } from '@polkadot/react-components';
-import { InputNumber } from '@polkadot/react-components/InputNumber';
+import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
@@ -112,7 +112,7 @@ class App extends TxModal<Props, State> {
       <main>
         <header />
         <h1>
-          <Trans>claim your <em>{InputNumber.units}</em> tokens</Trans>
+          <Trans>claim your <em>{TokenUnit.abbr}</em> tokens</Trans>
         </h1>
         <Columar>
           <Column>

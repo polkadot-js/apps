@@ -15,6 +15,7 @@ interface Props extends BareProps {
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
+  isZeroable?: boolean;
   label?: any;
   maxValue?: BN;
   onChange?: (value?: BN) => void;
@@ -28,7 +29,7 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-export default function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, label, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+export default function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   return (
     <InputNumber
       autoFocus={autoFocus}
@@ -38,6 +39,7 @@ export default function InputBalance ({ autoFocus, className, defaultValue, help
       help={help}
       isDisabled={isDisabled}
       isError={isError}
+      isZeroable={isZeroable}
       isSi
       label={label}
       maxValue={maxValue}
