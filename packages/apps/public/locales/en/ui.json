@@ -585,5 +585,10 @@
   "Voters ({{count}})": "",
   "era points": "",
   "Selected for the next session": "",
-  "Show only elected for next session": ""
+  "Show only elected for next session": "",
+  "send as RPC call": "",
+  "send as transaction": "",
+  "Clear all": "",
+  "Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message": "",
+  "Remove ABI": ""
 }
