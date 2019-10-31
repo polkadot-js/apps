@@ -2,63 +2,76 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ContractCallOutcome } from '@polkadot/api-contract/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { BareProps, CallContract, I18nProps, StringOrNull } from '@polkadot/react-components/types';
-import { QueueProps } from '@polkadot/react-components/Status/types';
+import { BareProps, I18nProps, StringOrNull } from '@polkadot/react-components/types';
 import { ContractExecResult } from '@polkadot/types/interfaces/contracts';
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
-import rpc from '@polkadot/jsonrpc';
-import { Button, Dropdown, InputAddress, InputBalance, InputNumber, Modal, Output, TxButton } from '@polkadot/react-components';
-import { QueueConsumer } from '@polkadot/react-components/Status/Context';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { isNull, isUndefined } from '@polkadot/util';
+import { createValue } from '@polkadot/react-params/values';
+import { isNull } from '@polkadot/util';
 
 import Params from '../Params';
+import Outcome from './Outcome';
 
 import translate from '../translate';
 import { GAS_LIMIT } from '../constants';
-import { findCallMethod, getContractForAddress, getCallMethodOptions, getContractMethodFn } from './util';
+import { getCallMessageOptions } from './util';
 
 interface Props extends BareProps, I18nProps, ApiProps {
-  callContract: CallContract | null;
-  callMethodIndex: number | null;
+  callContract: ApiContract | null;
+  callMessageIndex: number | null;
+  callResults: ContractExecResult[];
   isOpen: boolean;
-  onChangeCallContract: (callContract: CallContract) => void;
-  onChangeCallMethodIndex: (callMethodIndex: number) => void;
+  onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
+  onChangeCallMessageIndex: (callMessageIndex: number) => void;
   onClose: () => void;
 }
 
 function Call (props: Props): React.ReactElement<Props> | null {
-  const { isOpen, callContract, callMethodIndex, onChangeCallContract, onChangeCallMethodIndex, onClose, api, t } = props;
+  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, api, t } = props;
 
-  if (isNull(callContract) || isNull(callMethodIndex)) {
+  if (isNull(callContract) || isNull(callMessageIndex)) {
     return null;
   }
 
   const hasRpc = api.rpc.contracts && api.rpc.contracts.call;
-  const callMethod = findCallMethod(callContract, callMethodIndex);
-  const useRpc = hasRpc && callMethod && !callMethod.mutates;
-  // const isRpc = false;
+  let callMessage = callContract.getMessage(callMessageIndex);
 
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
   const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
   const [isBusy, setIsBusy] = useState(false);
-  const [params, setParams] = useState<any[]>([]);
+  const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
+  const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
+  const [useRpc, setUseRpc] = useState(callMessage && !callMessage.def.mutates);
+
+  useEffect((): void => {
+    callMessage = callContract.getMessage(callMessageIndex);
+
+    setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
+    if (!callMessage || callMessage.def.mutates) {
+      setUseRpc(false);
+    } else {
+      setUseRpc(true);
+    }
+  }, [callContract, callMessageIndex]);
+
+  useEffect((): void => {
+    setOutcomes([]);
+  }, [callContract]);
 
   const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
 
-  const _onChangeCallAddress = (callAddress: StringOrNull): void => {
-    const callContract = getContractForAddress(callAddress);
-
-    onChangeCallContract && callContract.abi && onChangeCallContract(callContract);
-  };
-
-  const _onChangeCallMethodString = (callMethodString: string): void => {
-    setParams([]);
-    onChangeCallMethodIndex && onChangeCallMethodIndex(parseInt(callMethodString, 10) || 0);
+  const _onChangeCallMessageIndexString = (callMessageIndexString: string): void => {
+    onChangeCallMessageIndex && onChangeCallMessageIndex(
+      parseInt(callMessageIndexString, 10) || 0
+    );
   };
 
   const _onChangeEndowment = (endowment?: BN): void => endowment && setEndowment(endowment);
@@ -68,28 +81,29 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const _toggleBusy = (): void => setIsBusy(!isBusy);
 
   const _constructTx = (): any[] => {
-    const fn = getContractMethodFn(callContract, callMethod);
-    if (!fn || !callContract || !callContract.address) {
+    if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
       return [];
     }
 
-    return [callContract.address, endowment, gasLimit, fn(...params)];
+    return [callContract.address.toString(), endowment, gasLimit, callMessage.fn(...params)];
   };
 
-  const _constructRpc = (): [any] | null => {
-    const fn = getContractMethodFn(callContract, callMethod);
-    if (!fn || !accountId || !callContract || !callContract.address || !callContract.abi || !callMethod) {
-      return null;
-    }
-    return [
-      {
-        origin: accountId,
-        dest: callContract.address,
-        value: endowment,
-        gasLimit,
-        inputData: fn(...params)
-      }
-    ];
+  const _onSubmitRpc = (): void => {
+    if (!accountId) return;
+
+    callContract
+      .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
+      .send(accountId)
+      .then(
+        (outcome: ContractCallOutcome): void => {
+          setOutcomes([outcome, ...outcomes]);
+        }
+      );
+  };
+
+  const _onClearOutcomes = (): void => setOutcomes([]);
+  const _onClearOutcome = (outcomeIndex: number) => (): void => {
+    setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1)));
   };
 
   const isEndowmentValid = true;
@@ -98,7 +112,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
   return (
     <Modal
-      className='app--contracts-Modal'
+      className={[className || '', 'app--contracts-Modal'].join(' ')}
       dimmer='inverted'
       onClose={onClose}
       open={isOpen}
@@ -122,27 +136,28 @@ function Call (props: Props): React.ReactElement<Props> | null {
               help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
               isDisabled={isBusy}
               label={t('contract to use')}
-              onChange={_onChangeCallAddress}
+              onChange={onChangeCallContractAddress}
               type='contract'
-              value={callContract.address}
+              value={callContract.address.toString()}
             />
-            {callMethodIndex !== null && (
+            {callMessageIndex !== null && (
               <>
                 <Dropdown
+                  defaultValue={`${callMessage.index}`}
                   help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
                   isDisabled={isBusy}
-                  isError={callMethod === null}
+                  isError={callMessage === null}
                   label={t('message to send')}
-                  onChange={_onChangeCallMethodString}
-                  options={getCallMethodOptions(callContract)}
-                  value={`${callMethodIndex}`}
+                  onChange={_onChangeCallMessageIndexString}
+                  options={getCallMessageOptions(callContract)}
+                  value={`${callMessage.index}`}
                 />
                 <Params
                   isDisabled={isBusy}
                   onChange={_onChangeParams}
                   params={
-                    callMethod
-                      ? callMethod.args
+                    callMessage
+                      ? callMessage.def.args
                       : undefined
                   }
                 />
@@ -167,109 +182,98 @@ function Call (props: Props): React.ReactElement<Props> | null {
             />
           </div>
         )}
-        <QueueConsumer>
-          {
-            ({ queueRpc, txqueue }: QueueProps): React.ReactNode => {
-              const _onSubmitRpc = (): void => {
-                const values = _constructRpc();
-
-                if (values) {
-                  queueRpc({
-                    accountId,
-                    rpc: rpc.contracts.methods.call,
-                    values
-                  });
-                }
-              };
-
-              const results = txqueue
-                .filter(({ error, result, rpc, values }): boolean =>
-                  ((!isUndefined(error) || !isUndefined(result)) &&
-                  rpc.section === 'contracts' && rpc.method === 'call' && !!values && values[0].dest === callContract.address)
-                )
-                .reverse();
-
-              return (
-                <>
-                  <Button.Group>
-                    <Button
-                      icon='cancel'
-                      isNegative
-                      onClick={onClose}
-                      label={t('Cancel')}
-                    />
-                    <Button.Or />
-                    {useRpc
-                      ? (
-                        <Button
-                          icon='sign-in'
-                          isDisabled={!isValid}
-                          isPrimary
-                          label={t('Call')}
-                          onClick={_onSubmitRpc}
-                        />
-                      )
-                      : (
-                        <TxButton
-                          accountId={accountId}
-                          icon='sign-in'
-                          isDisabled={!isValid}
-                          isPrimary
-                          label={t('Call')}
-                          onClick={_toggleBusy}
-                          onFailed={_toggleBusy}
-                          onSuccess={_toggleBusy}
-                          params={_constructTx}
-                          tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
-                        />
-                      )
-                    }
-                  </Button.Group>
-                  {results.length > 0 && (
-                    <>
-                      <h3>{t('Call results')}</h3>
-                      <div>
-                        {
-                          results.map(
-                            (tx, index): React.ReactNode => {
-                              let output: string;
-                              const contractExecResult = tx.result as ContractExecResult;
-                              if (contractExecResult.isSuccess) {
-                                const { data } = contractExecResult.asSuccess;
-                                output = data.toHex();
-                              } else {
-                                output = 'Error';
-                              }
-
-                              return (
-                                <Output
-                                  isError={contractExecResult.isError}
-                                  key={`result-${tx.id}`}
-                                  label={t(`#${results.length - 1 - index}`)}
-                                  style={{ fontFamily: 'monospace' }}
-                                  value={output}
-                                  withCopy
-                                  withLabel
-                                />
-                              );
-                            }
-                          )
-                        }
-                      </div>
-                    </>
-                  )}
-                </>
-              );
+        {hasRpc && (
+          <Toggle
+            className='rpc-toggle'
+            isDisabled={!!callMessage && callMessage.def.mutates}
+            label={
+              useRpc
+                ? t('send as RPC call')
+                : t('send as transaction')
             }
+            onChange={setUseRpc}
+            value={useRpc || false}
+          />
+        )}
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          {useRpc
+            ? (
+              <Button
+                icon='sign-in'
+                isDisabled={!isValid}
+                isPrimary
+                label={t('Call')}
+                onClick={_onSubmitRpc}
+              />
+            )
+            : (
+              <TxButton
+                accountId={accountId}
+                icon='sign-in'
+                isDisabled={!isValid}
+                isPrimary
+                label={t('Call')}
+                onClick={_toggleBusy}
+                onFailed={_toggleBusy}
+                onSuccess={_toggleBusy}
+                params={_constructTx}
+                tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
+              />
+            )
           }
-        </QueueConsumer>
+        </Button.Group>
+        {outcomes.length > 0 && (
+          <>
+            <h3>
+              {t('Call results')}
+              <IconLink
+                className='clear-all'
+                icon='close'
+                label={t('Clear all')}
+                onClick={_onClearOutcomes}
+              />
+            </h3>
+            <div>
+              {
+                outcomes.map(
+                  (outcome, index): React.ReactNode => {
+                    return (
+                      <Outcome
+                        key={`outcome-${index}`}
+                        onClear={_onClearOutcome(index)}
+                        outcome={outcome}
+                      />
+                    );
+                  }
+                )
+              }
+            </div>
+          </>
+        )}
       </Modal.Content>
     </Modal>
   );
 }
 
 export default withMulti(
-  Call,
+  styled(Call)`
+    .rpc-toggle {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .clear-all {
+      float: right;
+    }
+  `,
   translate,
   withApi
 );

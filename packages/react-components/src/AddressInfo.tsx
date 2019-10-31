@@ -274,7 +274,7 @@ function renderBalances (props: Props): React.ReactNode {
             {stakingInfo.controllerId && (
               <TxButton
                 accountId={stakingInfo.controllerId.toString()}
-                className='iconButton'
+                className='icon-button'
                 icon='lock'
                 size='small'
                 isPrimary
@@ -375,7 +375,7 @@ export default withMulti(
           padding-right: 0 !important;
         }
 
-        button.ui.icon.primary.button.iconButton {
+        button.ui.icon.primary.button.icon-button {
           background: white !important;
         }
       }

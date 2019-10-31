@@ -33,6 +33,7 @@ export { default as FilterOverlay } from './FilterOverlay';
 export { default as Forget } from './Forget';
 export { default as HelpOverlay } from './HelpOverlay';
 export { default as Icon } from './Icon';
+export { default as IconLink } from './IconLink';
 export { default as IdentityIcon } from './IdentityIcon';
 export { default as InfoForInput } from './InfoForInput';
 export { default as Input } from './Input';
