@@ -4,6 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/react-components/types';
+import { EraPoints } from '@polkadot/types/interfaces';
 import { ComponentProps } from '../types';
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -14,16 +15,16 @@ import CurrentList from './CurrentList';
 import Summary from './Summary';
 
 interface Props extends BareProps, ComponentProps {
+  eraPoints?: EraPoints;
 }
 
-export default function Overview (props: Props): React.ReactElement<Props> {
+export default function Overview ({ allControllers, allStashes, currentElected, currentValidators, eraPoints, recentlyOnline }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
-  const { byAuthor, lastBlockAuthor, lastBlockNumber } = useContext(BlockAuthorsContext);
-  const [nextSorted, setNextSorted] = useState<string[]>([]);
-  const { allControllers, allStashes, currentValidators, recentlyOnline } = props;
+  const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
+  const [next, setNext] = useState<string[]>([]);
 
   useEffect((): void => {
-    setNextSorted(
+    setNext(
       isSubstrateV2
         // this is a V2 node currentValidators is a list of stashes
         ? allStashes.filter((address): boolean => !currentValidators.includes(address))
@@ -36,16 +37,19 @@ export default function Overview (props: Props): React.ReactElement<Props> {
     <div className='staking--Overview'>
       <Summary
         allControllers={allControllers}
+        currentElected={currentElected}
         currentValidators={currentValidators}
         lastBlock={lastBlockNumber}
-        lastAuthor={lastBlockAuthor}
-        next={nextSorted}
+        lastAuthors={lastBlockAuthors}
+        next={next}
       />
       <CurrentList
         authorsMap={byAuthor}
+        currentElected={currentElected}
         currentValidators={currentValidators}
-        lastAuthor={lastBlockAuthor}
-        next={nextSorted}
+        eraPoints={eraPoints}
+        lastAuthors={lastBlockAuthors}
+        next={next}
         recentlyOnline={recentlyOnline}
       />
     </div>

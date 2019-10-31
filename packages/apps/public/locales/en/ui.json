@@ -582,5 +582,8 @@
   "term progress": "",
   "reserved": "",
   "locked": "",
-  "Voters ({{count}})": ""
+  "Voters ({{count}})": "",
+  "era points": "",
+  "Selected for the next session": "",
+  "Show only elected for next session": ""
 }

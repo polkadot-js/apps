@@ -26,11 +26,11 @@ function Members ({ allVotes = {}, electionsInfo: { candidates, members }, t }: 
         emptyText={t('No members found')}
         headerText={t('members')}
       >
-        {members.map((address): React.ReactNode => (
+        {members.map(([accountId]): React.ReactNode => (
           <Member
-            address={address}
-            key={address.toString()}
-            voters={allVotes[address.toString()]}
+            address={accountId}
+            key={accountId.toString()}
+            voters={allVotes[accountId.toString()]}
           />
         ))}
       </Column>
@@ -38,11 +38,11 @@ function Members ({ allVotes = {}, electionsInfo: { candidates, members }, t }: 
         emptyText={t('No candidates found')}
         headerText={t('candidates')}
       >
-        {candidates.map((address): React.ReactNode => (
+        {candidates.map((accountId): React.ReactNode => (
           <Candidate
-            address={address}
-            key={address.toString()}
-            voters={allVotes[address.toString()]}
+            address={accountId}
+            key={accountId.toString()}
+            voters={allVotes[accountId.toString()]}
           />
         ))}
       </Column>

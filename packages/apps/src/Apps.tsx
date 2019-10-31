@@ -11,6 +11,7 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 import React, { useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
+import { withCalls } from '@polkadot/react-api';
 import GlobalStyle from '@polkadot/react-components/styles';
 import Signer from '@polkadot/react-signer';
 
@@ -26,6 +27,24 @@ interface SidebarState {
   menuOpen: boolean;
   transition: SideBarTransition;
 }
+
+function Placeholder (): React.ReactElement {
+  return (
+    <div className='api-warm' />
+  );
+}
+
+const WarmUp = withCalls<{}>(
+  'derive.accounts.indexes',
+  'derive.balances.fees',
+  'query.session.validators'
+  // This are very ineffective queries that
+  //   (a) adds load to the RPC node when activated globally
+  //   (b) is used in additional information (next-up)
+  // 'derive.staking.all'
+  // 'derive.staking.controllers'
+  // 'query.staking.nominators'
+)(Placeholder);
 
 function Apps ({ className }: Props): React.ReactElement<Props> {
   const [sidebar, setSidebar] = useState<SidebarState>({
@@ -77,6 +96,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         <ConnectingOverlay />
         <AccountsOverlay />
       </div>
+      <WarmUp />
     </>
   );
 }
