@@ -4,7 +4,7 @@
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { BareProps, CallProps } from '@polkadot/react-api/types';
-import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useState, useEffect } from 'react';
 import { withCalls } from '@polkadot/react-api';
@@ -15,13 +15,13 @@ interface Props extends BareProps, CallProps {
   defaultName?: string;
   info?: DeriveAccountInfo;
   label?: React.ReactNode;
-  params?: string | null;
+  params?: AccountId | AccountIndex | Address | string | null;
   withShort?: boolean;
 }
 
 const nameCache: Map<string, string> = new Map();
 
-function defaultOrAddr (defaultName = '', _address?: AccountId | string | null, _accountIndex?: AccountIndex): string {
+function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | Address | string | null, _accountIndex?: AccountIndex): string {
   const accountId = (_address || '').toString();
   const cached = nameCache.get(accountId);
 
@@ -50,7 +50,7 @@ export function AccountName ({ children, className, defaultName, info, label = '
     if (nickname) {
       const name = nickname.toUpperCase();
 
-      nameCache.set(params || '', name);
+      nameCache.set((params || '').toString(), name);
       setName(name);
     } else {
       setName(defaultOrAddr(defaultName, accountId || params, accountIndex));

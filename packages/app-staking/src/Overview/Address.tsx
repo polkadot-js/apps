@@ -53,13 +53,14 @@ interface OnlineState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
     hasOfflineWarnings: false,
     onlineStatus: {}
   });
+  const [isNominationsOpen, setIsNominationsOpen] = useState(false);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, isSelected, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
@@ -90,11 +91,9 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
       const _stashId = stashId && stashId.toString();
 
       setStakingState({
-        balanceOpts: {
-          bonded: stakers && !stakers.own.isEmpty
-            ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
-            : true
-        },
+        balanceOpts: stakers && !stakers.own.isEmpty
+          ? { bonded: [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())] }
+          : { bonded: true },
         controllerId: controllerId && controllerId.toString(),
         hasNominators: nominators.length !== 0,
         isNominatorMe: nominators.some(([who]): boolean =>
@@ -147,9 +146,15 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
     );
   }
 
+  const _toggleNominations = (event: React.SyntheticEvent): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setIsNominationsOpen(!isNominationsOpen);
+  };
+
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
-  // isDisabled={!!points && points.isEmpty}
 
   return (
     <AddressCard
@@ -193,20 +198,21 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
           )}
         </>
       }
+      stakingInfo={stakingInfo}
       value={stashId}
       withBalance={balanceOpts}
       withValidatorPrefs={WITH_VALIDATOR_PREFS}
     >
       {withNominations && hasNominators && (
-        <details>
-          <summary>
+        <details open={isNominationsOpen}>
+          <summary onClick={_toggleNominations}>
             {t('Nominators ({{count}})', {
               replace: {
                 count: nominators.length
               }
             })}
           </summary>
-          {nominators.map(([who, bonded]): React.ReactNode =>
+          {isNominationsOpen && nominators.map(([who, bonded]): React.ReactNode =>
             <AddressMini
               bonded={bonded}
               key={who.toString()}

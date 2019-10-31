@@ -26,24 +26,25 @@ const NOOP = (): void => {
   // ignore
 };
 
+const NO_SKIP = (): boolean => false;
+
 // a mapping of actual error messages that has already been shown
 const errorred: Record<string, boolean> = {};
 
-export default function withCall<P extends ApiProps> (
-  endpoint: string,
-  {
-    at,
-    atProp,
-    callOnResult,
-    fallbacks,
-    isMulti = false,
-    params = [],
-    paramName,
-    paramPick,
-    paramValid = false,
-    propName,
-    transform = echoTransform
-  }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (endpoint: string, {
+  at,
+  atProp,
+  callOnResult,
+  fallbacks,
+  isMulti = false,
+  params = [],
+  paramName,
+  paramPick,
+  paramValid = false,
+  propName,
+  skipIf = NO_SKIP,
+  transform = echoTransform
+}: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       public state: State = {
@@ -199,7 +200,7 @@ export default function withCall<P extends ApiProps> (
       }
 
       private async subscribe ([isValid, newParams]: [boolean, any[]]): Promise<void> {
-        if (!isValid) {
+        if (!isValid || skipIf(this.props)) {
           return;
         }
 
@@ -284,9 +285,12 @@ export default function withCall<P extends ApiProps> (
         const _props = {
           ...this.props,
           callUpdated,
-          callUpdatedAt,
-          [propName || this.propName]: callResult
+          callUpdatedAt
         };
+
+        if (!isUndefined(callResult)) {
+          (_props as any)[propName || this.propName] = callResult;
+        }
 
         return (
           <Inner {..._props} />
