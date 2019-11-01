@@ -80,5 +80,6 @@
   "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)": "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)",
   "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.": "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.",
   "//hard/soft///password": "//hard/soft///password",
-  "new account": "new account"
+  "new account": "new account",
+  "transferrable ": "transferrable "
 }

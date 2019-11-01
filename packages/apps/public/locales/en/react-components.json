@@ -64,5 +64,6 @@
   "Nay, I do not approve": "Nay, I do not approve",
   "reserved": "reserved",
   "locked": "locked",
-  "Remove ABI": "Remove ABI"
+  "Remove ABI": "Remove ABI",
+  "transferrable": "transferrable"
 }
