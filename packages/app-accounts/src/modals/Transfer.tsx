@@ -84,7 +84,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
     }
   }, [amount, recipientId, senderId]);
 
-  const available = <span className='label'>{t('available ')}</span>;
+  const transferrable = <span className='label'>{t('transferrable ')}</span>;
 
   return (
     <Modal
@@ -100,7 +100,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('The account you will send funds from.')}
             isDisabled={!!propSenderId}
             label={t('send from account')}
-            labelExtra={<Available label={available} params={senderId} />}
+            labelExtra={<Available label={transferrable} params={senderId} />}
             onChange={setSenderId}
             type='account'
           />
@@ -109,7 +109,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('Select a contact or paste the address you want to send funds to.')}
             isDisabled={!!propRecipientId}
             label={t('send to address')}
-            labelExtra={<Available label={available} params={recipientId} />}
+            labelExtra={<Available label={transferrable} params={recipientId} />}
             onChange={setRecipientId}
             type='allPlus'
           />

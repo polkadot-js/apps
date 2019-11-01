@@ -13,8 +13,10 @@ const ZERO_BALANCE: DerivedBalances = {
   availableBalance: createType('Balance'),
   freeBalance: createType('Balance'),
   lockedBalance: createType('Balance'),
+  lockedBreakdown: [],
   reservedBalance: createType('Balance'),
   vestedBalance: createType('Balance'),
+  vestingTotal: createType('Balance'),
   votingBalance: createType('Balance')
 };
 
