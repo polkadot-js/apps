@@ -42,7 +42,6 @@ interface Props extends I18nProps {
   extrinsic?: IExtrinsic | null;
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
-  system_accountNonce?: BN;
   tip?: BN;
 }
 
@@ -64,7 +63,7 @@ export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN
   );
 };
 
-export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, system_accountNonce = ZERO, t, tip }: Props): React.ReactElement<Props> | null {
+export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, t, tip }: Props): React.ReactElement<Props> | null {
   const { api } = useContext(ApiContext);
   const [state, setState] = useState<State>({
     allFees: ZERO,
@@ -89,7 +88,7 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
     const fn = api.findCall(extrinsic.callIndex);
     const extMethod = fn.method;
     const extSection = fn.section;
-    const txLength = calcTxLength(extrinsic, system_accountNonce, tip);
+    const txLength = calcTxLength(extrinsic, balances_all.accountNonce, tip);
 
     const isSameExtrinsic = state.extMethod === extMethod && state.extSection === extSection;
     const extraAmount = isSameExtrinsic
@@ -125,7 +124,7 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
       isReserved,
       overLimit
     });
-  }, [accountId, balances_all, balances_fees, extra, extrinsic, system_accountNonce, tip]);
+  }, [accountId, balances_all, balances_fees, extra, extrinsic, balances_all.accountNonce, tip]);
 
   if (!accountId) {
     return null;
@@ -249,7 +248,6 @@ export default translate(
   withCalls<Props>(
     'derive.balances.fees',
     ['derive.balances.all', { paramName: 'accountId' }],
-    'derive.contracts.fees',
-    ['query.system.accountNonce', { paramName: 'accountId' }]
+    'derive.contracts.fees'
   )(FeeDisplay)
 );

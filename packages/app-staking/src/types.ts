@@ -6,8 +6,6 @@ import { DerivedFees, DerivedBalances, DerivedHeartbeats } from '@polkadot/api-d
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { EraPoints } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-
 export type Nominators = Record<string, string[]>;
 
 export interface ComponentProps {
@@ -23,7 +21,6 @@ export interface ComponentProps {
 export interface CalculateBalanceProps {
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
-  system_accountNonce?: BN;
 }
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';

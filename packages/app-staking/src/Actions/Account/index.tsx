@@ -375,7 +375,7 @@ class Account extends React.PureComponent<Props, State> {
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
-    const canBondExtra = balances_all && balances_all.availableBalance.gtn(0);
+    const canBondExtra = balances_all && balances_all.freeBalance.gtn(0);
 
     return (
       <Menu
