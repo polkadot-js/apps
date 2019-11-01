@@ -54,7 +54,7 @@ class BondExtra extends TxComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { balances_all = ZERO_BALANCE, isOpen, onClose, stashId, t } = this.props;
-    const { extrinsic, maxAdditional, maxBalance = balances_all.availableBalance } = this.state;
+    const { extrinsic, maxAdditional, maxBalance = balances_all.freeBalance } = this.state;
     const canSubmit = !!maxAdditional && maxAdditional.gtn(0) && maxAdditional.lte(maxBalance);
 
     if (!isOpen) {
@@ -145,11 +145,11 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   private setMaxBalance = (): void => {
-    const { api, system_accountNonce = ZERO, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE } = this.props;
+    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE } = this.props;
     const { maxAdditional } = this.state;
 
     const { transactionBaseFee, transactionByteFee } = balances_fees;
-    const { availableBalance } = balances_all;
+    const { accountNonce, freeBalance } = balances_all;
 
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
@@ -161,10 +161,10 @@ class BondExtra extends TxComponent<Props, State> {
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
-      const txLength = calcTxLength(extrinsic, system_accountNonce);
+      const txLength = calcTxLength(extrinsic, accountNonce);
       const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
-      maxBalance = bnMax(availableBalance.sub(fees), ZERO);
+      maxBalance = bnMax(freeBalance.sub(fees), ZERO);
     }
 
     this.nextState({
@@ -185,7 +185,6 @@ export default withMulti(
   withApi,
   withCalls<Props>(
     'derive.balances.fees',
-    ['derive.balances.all', { paramName: 'stashId' }],
-    ['query.system.accountNonce', { paramName: 'stashId' }]
+    ['derive.balances.all', { paramName: 'stashId' }]
   )
 );
