@@ -19,7 +19,7 @@ export const styles = `
 
   &.disabled {
     filter: grayscale(100%);
-    opacity: 0.75;
+    opacity: 0.6;
   }
 
   &.inline {
