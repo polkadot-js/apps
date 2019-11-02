@@ -11,12 +11,12 @@ import { formatBalance, isUndefined } from '@polkadot/util';
 
 import { classes } from './util';
 import { BitLengthOption } from './constants';
-import Button from './Button';
+// import Button from './Button';
 import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import translate from './translate';
 
-const ALLOW_MAX = false;
+// const ALLOW_MAX = false;
 
 interface Props extends BareProps, I18nProps {
   autoFocus?: boolean;
@@ -129,29 +129,29 @@ function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean
   ];
 }
 
-function bnToInput (bn: BN, si: SiDef | null): string {
-  const [siPower] = getSiPowers(si);
-
-  const base = TEN.pow(siPower);
-  const div = bn.div(base);
-  const mod = bn.mod(base);
-
-  return `${
-    div.gt(ZERO) ? div.toString() : '0'
-  }${
-    mod.gt(ZERO)
-      ? ((): string => {
-        const padding = Math.max(
-          mod.toString().length,
-          base.toString().length - div.toString().length,
-          bn.toString().length - div.toString().length
-        );
-
-        return `.${mod.toString(10, padding).replace(/0*$/, '')}`;
-      })()
-      : ''
-  }`;
-}
+// function bnToInput (bn: BN, si: SiDef | null): string {
+//   const [siPower] = getSiPowers(si);
+//
+//   const base = TEN.pow(siPower);
+//   const div = bn.div(base);
+//   const mod = bn.mod(base);
+//
+//   return `${
+//     div.gt(ZERO) ? div.toString() : '0'
+//   }${
+//     mod.gt(ZERO)
+//       ? ((): string => {
+//         const padding = Math.max(
+//           mod.toString().length,
+//           base.toString().length - div.toString().length,
+//           bn.toString().length - div.toString().length
+//         );
+//
+//         return `.${mod.toString(10, padding).replace(/0*$/, '')}`;
+//       })()
+//       : ''
+//   }`;
+// }
 
 function getValuesFromString (value: string, si: SiDef | null, props: Props): [BN, string, boolean] {
   const [valueBn, isValid] = inputToBn(value, si, props);
@@ -186,7 +186,7 @@ function isNewPropsValue (propsValue: BN | string, value: string, valueBn: BN): 
 }
 
 function InputNumber (props: Props): React.ReactElement<Props> {
-  const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = ZERO, help, isDecimal, isSi, isDisabled, isError = false, maxLength, maxValue, onChange, onEnter, placeholder, style, value: propsValue, withMax, t } = props;
+  const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = ZERO, help, isDecimal, isSi, isDisabled, isError = false, maxLength, maxValue, onChange, onEnter, placeholder, style, value: propsValue, t } = props;
 
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
@@ -254,9 +254,9 @@ function InputNumber (props: Props): React.ReactElement<Props> {
     setSi(formatBalance.findSi(siUnit));
   };
 
-  const _onClickMaxButton = (): void => {
-    !!maxValue && setValue(bnToInput(maxValue, si));
-  };
+  // const _onClickMaxButton = (): void => {
+  //   !!maxValue && setValue(bnToInput(maxValue, si));
+  // };
 
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length - 1;
 
@@ -279,7 +279,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
       type='text'
       value={value}
     >
-      {(ALLOW_MAX && withMax && !!maxValue && valueBn.lt(maxValue)) && (
+      {/*(ALLOW_MAX && withMax && !!maxValue && valueBn.lt(maxValue)) && (
         <Button
           className='ui--MaxButton'
           icon=''
@@ -287,7 +287,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
         >
           {t('Max')}
         </Button>
-      )}
+      )*/}
       {!!si && (
         <Dropdown
           dropdownClassName='ui--SiDropdown'
