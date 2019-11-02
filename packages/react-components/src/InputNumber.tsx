@@ -153,24 +153,24 @@ function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean
 //   }`;
 // }
 
-function getValuesFromString (value: string, si: SiDef | null, props: Props): [BN, string, boolean] {
+function getValuesFromString (value: string, si: SiDef | null, props: Props): [string, BN, boolean] {
   const [valueBn, isValid] = inputToBn(value, si, props);
 
   return [
-    valueBn,
     value,
+    valueBn,
     isValid
   ];
 }
 
-function getValuesFromBn (valueBn: BN, si: SiDef | null): [BN, string, boolean] {
+function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] {
   const value = si
     ? valueBn.div(TEN.pow(new BN(si.power))).toString()
     : valueBn.toString();
 
   return [
-    valueBn,
     value,
+    valueBn,
     true
   ];
 }
@@ -191,24 +191,18 @@ function InputNumber (props: Props): React.ReactElement<Props> {
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
 
-  const [initValueBn, initValue, initIsValid] = getValues(propsValue || defaultValue, si, props);
-  const [valueBn, setValueBn] = useState<BN>(initValueBn);
-  const [value, setValue] = useState(initValue);
-  const [isValid, setIsValid] = useState(!isUndefined(initIsValid));
+  const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(
+    getValues(propsValue || defaultValue, si, props)
+  );
 
   useEffect((): void => {
     if (!!propsValue && isNewPropsValue(propsValue, value, valueBn)) {
-      const [newValueBn, newValue, newIsValid] = getValues(propsValue, si, props);
-      setValueBn(newValueBn);
-      setValue(newValue);
-      setIsValid(newIsValid);
+      setValues(getValues(propsValue, si, props));
     }
   }, [propsValue]);
 
   useEffect((): void => {
-    const [newValueBn, , newIsValid] = getValues(value, si, props);
-    setValueBn(newValueBn);
-    setIsValid(newIsValid);
+    setValues(getValues(value, si, props));
   }, [value, si, bitLength, maxValue]);
 
   useEffect((): void => {
@@ -216,7 +210,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
   }, [isValid, valueBn]);
 
   const _onChange = (input: string): void => {
-    setValue(input);
+    setValues(getValuesFromString(input, si, props))
   };
 
   const _onKeyDown = (event: React.KeyboardEvent<Element>): void => {
