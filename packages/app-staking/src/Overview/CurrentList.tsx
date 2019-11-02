@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { AccountId } from '@polkadot/types/interfaces';
+import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { EraPoints } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -16,27 +16,25 @@ import Address from './Address';
 
 interface Props extends I18nProps {
   authorsMap: Record<string, string>;
-  currentElected: string[];
-  currentValidators: string[];
-  eraPoints?: EraPoints;
   lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
+  stakingOverview?: DerivedStakingOverview;
 }
 
-function renderColumn (addresses: string[], defaultName: string, withOnline: boolean, withPoints: boolean, filter: string, { authorsMap, currentElected, eraPoints, lastAuthors, recentlyOnline }: Props): React.ReactNode {
-  return addresses.map((address, index): React.ReactNode => (
+function renderColumn (addresses: AccountId[] | string[], defaultName: string, withOnline: boolean, withPoints: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props): React.ReactNode {
+  return (addresses as AccountId[]).map((address, index): React.ReactNode => (
     <Address
       address={address}
       authorsMap={authorsMap}
-      currentElected={currentElected}
+      currentElected={stakingOverview && stakingOverview.currentElected}
       defaultName={defaultName}
       filter={filter}
       lastAuthors={lastAuthors}
-      key={address}
+      key={address.toString()}
       points={
-        withPoints && eraPoints
-          ? eraPoints.individual[index]
+        withPoints && stakingOverview
+          ? stakingOverview.eraPoints.individual[index]
           : undefined
       }
       recentlyOnline={
@@ -48,24 +46,26 @@ function renderColumn (addresses: string[], defaultName: string, withOnline: boo
   ));
 }
 
-function filterAccounts (list: string[] = [], without: string[]): string[] {
-  return list.filter((accountId): boolean => !without.includes(accountId));
+function filterAccounts (list: string[] = [], without: AccountId[] | string[]): string[] {
+  return list.filter((accountId): boolean => !without.includes(accountId as any));
 }
 
 function CurrentList (props: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [{ electedFiltered, nextFiltered }, setFiltered] = useState<{ electedFiltered: string[]; nextFiltered: string[] }>({ electedFiltered: [], nextFiltered: [] });
-  const { currentElected, currentValidators, next, t } = props;
+  const { next, stakingOverview, t } = props;
 
   useEffect((): void => {
-    if (currentElected && currentValidators) {
+    if (stakingOverview) {
+      const elected = stakingOverview.currentElected.map((accountId): string => accountId.toString());
+
       setFiltered({
-        electedFiltered: isSubstrateV2 ? filterAccounts(currentElected, currentValidators) : [],
-        nextFiltered: filterAccounts(next, currentElected)
+        electedFiltered: isSubstrateV2 ? filterAccounts(elected, stakingOverview.validators) : [],
+        nextFiltered: filterAccounts(next, elected)
       });
     }
-  }, [currentElected, currentValidators, next]);
+  }, [next, stakingOverview]);
 
   return (
     <div>
@@ -90,7 +90,7 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {renderColumn(currentValidators, t('validator'), true, true, filter, props)}
+          {stakingOverview && renderColumn(stakingOverview.validators, t('validator'), true, true, filter, props)}
         </Column>
         <Column
           emptyText={t('No addresses found')}

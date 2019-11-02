@@ -97,14 +97,16 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
           paramName: 'params',
           paramValid: true,
           params: [[key]],
-          transform: ([data]: Option<Data>[]): Option<Data> => data
+          transform: ([data]: Option<Data>[]): Option<Data> => data,
+          withIndicator: true
         });
       } else {
         // render function to create an element for the query results which is plugged to the api
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',
           paramValid: true,
-          params: [key, ...values]
+          params: [key, ...values],
+          withIndicator: true
         });
       }
 
