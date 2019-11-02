@@ -17,7 +17,7 @@ import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, InputBalance, Modal } from '@polkadot/react-components';
+import { Button, InputBalance, Modal, Toggle } from '@polkadot/react-components';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
@@ -50,6 +50,7 @@ interface State {
   qrPayload: Uint8Array;
   qrResolve?: (result: SignerResult) => void;
   qrReject?: (error: Error) => void;
+  showTip: boolean;
   tip?: BN;
   unlockError?: string | null;
 }
@@ -99,6 +100,7 @@ class Signer extends React.PureComponent<Props, State> {
     password: '',
     qrAddress: '',
     qrPayload: new Uint8Array(),
+    showTip: false,
     unlockError: null
   };
 
@@ -271,20 +273,37 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderTip (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, isSendable, isV2 } = this.state;
+    const { currentItem, isSendable, isV2, showTip } = this.state;
 
     if (!isV2 || !isSendable || !currentItem || currentItem.isUnsigned) {
       return null;
     }
 
     return (
-      <InputBalance
-        defaultValue={new BN(0)}
-        help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
-        onChange={this.onChangeTip}
-        label={t('Tip (optional)')}
-      />
+      <>
+        <Toggle
+          label={
+            showTip
+              ? t('Include an optional tip for faster processing')
+              : t('Do not include a tip for the block author')
+          }
+          onChange={this.onShowTip}
+          value={showTip}
+        />
+        {showTip && (
+          <InputBalance
+            defaultValue={new BN(0)}
+            help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
+            onChange={this.onChangeTip}
+            label={t('Tip (optional)')}
+          />
+        )}
+      </>
     );
+  }
+
+  private onShowTip = (showTip: boolean): void => {
+    this.setState({ showTip });
   }
 
   private renderUnlock (): React.ReactNode {
@@ -445,7 +464,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
-    const { isV2, tip } = this.state;
+    const { isV2, showTip, tip } = this.state;
 
     const { accountId, extrinsic, payload, isUnsigned } = queueTx;
 
@@ -464,7 +483,7 @@ class Signer extends React.PureComponent<Props, State> {
       return makeExtrinsicSignature(
         {
           ...payload,
-          ...((isV2 && tip && !payload.tip) ? { tip: tip.toString() } : {})
+          ...((isV2 && showTip && tip && !payload.tip) ? { tip: tip.toString() } : {})
         },
         queueTx,
         keyring.getPair(accountId as string)
@@ -508,7 +527,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
-    const { isV2, tip } = this.state;
+    const { isV2, showTip, tip } = this.state;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
 
@@ -539,7 +558,7 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
-    if (isV2 && tip) {
+    if (showTip && isV2 && tip) {
       params.push({ tip } as Partial<SignerOptions>);
     }
 
