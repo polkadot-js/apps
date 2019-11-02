@@ -19,7 +19,7 @@ import { formatNumber } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  address: string;
+  address: AccountId | string;
   authorsMap: Record<string, string>;
   className?: string;
   currentElected: string[];

@@ -37,7 +37,7 @@ function Placeholder (): React.ReactElement {
 const WarmUp = withCalls<{}>(
   'derive.accounts.indexes',
   'derive.balances.fees',
-  'query.session.validators'
+  'derive.staking.overview'
   // This are very ineffective queries that
   //   (a) adds load to the RPC node when activated globally
   //   (b) is used in additional information (next-up)
