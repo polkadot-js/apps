@@ -592,5 +592,7 @@
   "Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message": "",
   "Remove ABI": "",
   "transferrable ": "",
-  "transferrable": ""
+  "transferrable": "",
+  "Include an optional tip for faster processing": "",
+  "Do not include a tip for the block author": ""
 }
