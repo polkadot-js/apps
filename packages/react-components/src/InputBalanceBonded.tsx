@@ -34,7 +34,6 @@ interface Props extends BareProps, ApiProps {
   onEnter?: () => void;
   placeholder?: string;
   stashId: string;
-  system_accountNonce?: BN;
   value?: BN | string;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -106,7 +105,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
   }
 
   private setMaxBalance = (): void => {
-    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, extrinsicProp, system_accountNonce = ZERO } = this.props;
+    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, extrinsicProp } = this.props;
     const { transactionBaseFee, transactionByteFee } = balances_fees;
     const { freeBalance } = balances_all;
     let prevMax = new BN(0);
@@ -126,7 +125,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
         extrinsic = api.tx.staking.bonExtra(prevMax);
       }
 
-      const txLength = calcTxLength(extrinsic, system_accountNonce);
+      const txLength = calcTxLength(extrinsic, balances_all.accountNonce);
       const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
       maxBalance = bnMax(freeBalance.sub(fees), ZERO);
@@ -159,7 +158,6 @@ export default withMulti(
   withApi,
   withCalls<Props>(
     'derive.balances.fees',
-    ['derive.balances.all', { paramName: 'stashId' }],
-    ['query.system.accountNonce', { paramName: 'stashId' }]
+    ['derive.balances.all', { paramName: 'stashId' }]
   )
 );

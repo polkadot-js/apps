@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, Points } from '@polkadot/types/interfaces';
-import { DerivedStaking, DerivedStakingOnlineStatus, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedStaking, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
@@ -11,11 +11,10 @@ import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
-import { AddressCard, AddressMini, Badge, Icon, OnlineStatus } from '@polkadot/react-components';
+import { AddressCard, AddressMini, Badge, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
-import { updateOnlineStatus } from '../util';
 
 import translate from '../translate';
 
@@ -40,15 +39,8 @@ interface StakingState {
   isNominatorMe: boolean;
   isSelected: boolean;
   nominators: [AccountId, Balance][];
-  // stashActive: string | null;
-  // stashTotal: string | null;
   sessionId?: string;
   stashId?: string;
-}
-
-interface OnlineState {
-  hasOfflineWarnings: boolean;
-  onlineStatus: DerivedStakingOnlineStatus;
 }
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
@@ -56,10 +48,6 @@ const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
-  const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
-    hasOfflineWarnings: false,
-    onlineStatus: {}
-  });
   const [isNominationsOpen, setIsNominationsOpen] = useState(false);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, isSelected, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
@@ -67,8 +55,6 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
     isNominatorMe: false,
     isSelected: false,
     nominators: []
-    // stashActive: null,
-    // stashTotal: null
   });
 
   useEffect((): void => {
@@ -102,33 +88,19 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
         isSelected: !!(_stashId && currentElected && currentElected.includes(_stashId)),
         nominators,
         sessionId: nextSessionId && nextSessionId.toString(),
-        // stashActive: stakingLedger
-        //   ? formatBalance(stakingLedger.active)
-        //   : null,
-        // stashTotal: stakingLedger
-        //   ? formatBalance(stakingLedger.total)
-        //   : null,
         stashId: _stashId
       });
     }
   }, [currentElected, stakingInfo]);
 
-  useEffect((): void => {
-    if (stakingInfo) {
-      const { online, offline, sessionIds, stashId } = stakingInfo;
-      const onlineStatus = updateOnlineStatus(recentlyOnline)(sessionIds, { offline, online });
-
-      setOnlineStatus({
-        hasOfflineWarnings: !!(stashId && onlineStatus.offline && onlineStatus.offline.length),
-        onlineStatus
-      });
-    }
-  }, [recentlyOnline, stakingInfo]);
+  const hasActivity = recentlyOnline
+    ? (recentlyOnline[stashId || ''] && recentlyOnline[stashId || ''].isOnline) || false
+    : true;
 
   if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
-    (filter === 'hasWarnings' && !hasOfflineWarnings) ||
-    (filter === 'noWarnings' && hasOfflineWarnings) ||
+    (filter === 'hasWarnings' && !hasActivity) ||
+    (filter === 'noWarnings' && hasActivity) ||
     (filter === 'iNominated' && !isNominatorMe) ||
     (filter === 'nextSet' && !isSelected)) {
     return null;
@@ -182,22 +154,30 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
       extraInfo={extraInfo}
       iconInfo={
         <>
-          {controllerId && onlineStatus && (
-            <OnlineStatus
-              value={onlineStatus}
-              isTooltip
-            />
-          )}
           {isSelected && (
             <Badge
               hover={t('Selected for the next session')}
-              info={<Icon name='check' />}
+              info={<Icon name='chevron right' />}
               isTooltip
               type='next'
             />
           )}
+          {recentlyOnline && hasActivity && (
+            <Badge
+              hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
+                replace: {
+                  blocks: formatNumber(recentlyOnline[stashId].blockCount),
+                  hasMessage: recentlyOnline[stashId].hasMessage ? ' and a' : ', no'
+                }
+              })}
+              info={<Icon name='check' />}
+              isTooltip
+              type='online'
+            />
+          )}
         </>
       }
+      isDisabled={!hasActivity}
       stakingInfo={stakingInfo}
       value={stashId}
       withBalance={balanceOpts}

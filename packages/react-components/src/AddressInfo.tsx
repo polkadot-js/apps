@@ -242,7 +242,7 @@ function renderBalances (props: Props): React.ReactNode {
       )}
       {balancesAll && balanceDisplay.available && (
         <>
-          <Label label={t('available')} />
+          <Label label={t('transferrable')} />
           <div className='result'>{formatBalance(balancesAll.availableBalance)}</div>
         </>
       )}

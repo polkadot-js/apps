@@ -26,8 +26,6 @@ import Unbond from './Unbond';
 import Validate from './Validate';
 import { u8aToHex, u8aConcat } from '@polkadot/util';
 
-import { updateOnlineStatus } from '../../util';
-
 interface Props extends ApiProps, I18nProps {
   accountId: string;
   allStashes?: string[];
@@ -105,12 +103,12 @@ class Account extends React.PureComponent<Props, State> {
     stashId: null
   };
 
-  public static getDerivedStateFromProps ({ allStashes, recentlyOnline, staking_info }: Props): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ allStashes, staking_info }: Props): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
 
-    const { controllerId, nextSessionIds, nominators, online, offline, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
     const isStashNominating = nominators && !!nominators.length;
     const _stashId = toIdString(stashId);
     const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
@@ -126,7 +124,6 @@ class Account extends React.PureComponent<Props, State> {
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
-      onlineStatus: updateOnlineStatus(recentlyOnline)(sessionIds || null, { online, offline }),
       sessionIds: (
         nextSessionIds.length
           ? nextSessionIds
@@ -378,7 +375,7 @@ class Account extends React.PureComponent<Props, State> {
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
-    const canBondExtra = balances_all && balances_all.availableBalance.gtn(0);
+    const canBondExtra = balances_all && balances_all.freeBalance.gtn(0);
 
     return (
       <Menu
