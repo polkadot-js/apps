@@ -279,7 +279,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
       type='text'
       value={value}
     >
-      {/*(ALLOW_MAX && withMax && !!maxValue && valueBn.lt(maxValue)) && (
+      {/* (ALLOW_MAX && withMax && !!maxValue && valueBn.lt(maxValue)) && (
         <Button
           className='ui--MaxButton'
           icon=''
@@ -287,7 +287,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
         >
           {t('Max')}
         </Button>
-      )*/}
+      ) */}
       {!!si && (
         <Dropdown
           dropdownClassName='ui--SiDropdown'
