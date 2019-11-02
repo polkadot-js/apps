@@ -69,7 +69,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
 
   useEffect((): void => {
     if (stakingInfo) {
-      const { controllerId, nextSessionId, stakers, stashId } = stakingInfo;
+      const { controllerId, nextSessionIds, stakers, stashId } = stakingInfo;
       const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
@@ -87,7 +87,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
         ),
         isSelected: !!(_stashId && currentElected && currentElected.includes(_stashId)),
         nominators,
-        sessionId: nextSessionId && nextSessionId.toString(),
+        sessionId: nextSessionIds && nextSessionIds[0] && nextSessionIds[0].toString(),
         stashId: _stashId
       });
     }

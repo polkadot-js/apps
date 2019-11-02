@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -14,57 +13,57 @@ import translate from './translate';
 import { formatNumber } from '@polkadot/util';
 
 interface Props extends I18nProps {
-  session_info?: DerivedSessionInfo;
+  sessionInfo?: DerivedSessionInfo;
   withEra?: boolean;
   withSession?: boolean;
 }
 
-function renderSession ({ session_info, t, withSession = true }: Props): React.ReactNode {
-  if (!withSession || !session_info) {
+function renderSession ({ sessionInfo, t, withSession = true }: Props): React.ReactNode {
+  if (!withSession || !sessionInfo) {
     return null;
   }
 
-  const label = session_info.isEpoch && session_info.sessionLength.gtn(1)
+  const label = sessionInfo.isEpoch && sessionInfo.sessionLength.gtn(1)
     ? t('epoch')
     : t('session');
 
-  return session_info.sessionLength.gtn(0)
+  return sessionInfo.sessionLength.gtn(0)
     ? (
       <CardSummary
         label={label}
         progress={{
-          total: session_info.sessionLength,
-          value: session_info.sessionProgress
+          total: sessionInfo.sessionLength,
+          value: sessionInfo.sessionProgress
         }}
       />
     )
     : (
       <CardSummary label={label}>
-        {formatNumber(session_info.currentIndex)}
+        {formatNumber(sessionInfo.currentIndex)}
       </CardSummary>
     );
 }
 
-function renderEra ({ session_info, t, withEra = true }: Props): React.ReactNode {
-  if (!withEra || !session_info) {
+function renderEra ({ sessionInfo, t, withEra = true }: Props): React.ReactNode {
+  if (!withEra || !sessionInfo) {
     return null;
   }
 
   const label = t('era');
 
-  return session_info.sessionLength.gtn(0)
+  return sessionInfo.sessionLength.gtn(0)
     ? (
       <CardSummary
         label={label}
         progress={{
-          total: session_info && session_info.eraLength,
-          value: session_info && session_info.eraProgress
+          total: sessionInfo.eraLength,
+          value: sessionInfo.eraProgress
         }}
       />
     )
     : (
       <CardSummary label={label}>
-        {formatNumber(session_info.currentEra)}
+        {formatNumber(sessionInfo.currentEra)}
       </CardSummary>
     );
 }
@@ -80,6 +79,6 @@ function SummarySession (props: Props): React.ReactElement<Props> {
 
 export default translate(
   withCalls<Props>(
-    'derive.session.info'
+    ['derive.session.info', { propName: 'sessionInfo' }]
   )(SummarySession)
 );

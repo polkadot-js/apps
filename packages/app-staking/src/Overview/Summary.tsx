@@ -34,9 +34,11 @@ function Summary ({ className, lastAuthors, lastBlock, next, stakingOverview, st
             {stakingOverview.validators.length}{`/${stakingOverview.validatorCount.toString()}`}
           </CardSummary>
         )}
-        <CardSummary label={t('waiting')}>
-          {next.length}
-        </CardSummary>
+        {next && (
+          <CardSummary label={t('waiting')}>
+            {next.length}
+          </CardSummary>
+        )}
       </section>
       <section>
         <CardSummary

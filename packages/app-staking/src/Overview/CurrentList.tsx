@@ -22,8 +22,8 @@ interface Props extends I18nProps {
   stakingOverview?: DerivedStakingOverview;
 }
 
-function renderColumn (addresses: AccountId | string[], defaultName: string, withOnline: boolean, withPoints: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props): React.ReactNode {
-  return addresses.map((address, index): React.ReactNode => (
+function renderColumn (addresses: AccountId[] | string[], defaultName: string, withOnline: boolean, withPoints: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props): React.ReactNode {
+  return (addresses as AccountId[]).map((address, index): React.ReactNode => (
     <Address
       address={address}
       authorsMap={authorsMap}

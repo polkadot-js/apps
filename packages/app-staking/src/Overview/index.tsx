@@ -19,16 +19,17 @@ export default function Overview ({ allControllers, allStashes, recentlyOnline, 
   const { isSubstrateV2 } = useContext(ApiContext);
   const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [next, setNext] = useState<string[]>([]);
+  const validators = stakingOverview && stakingOverview.validators;
 
   useEffect((): void => {
-    stakingOverview && setNext(
+    validators && setNext(
       isSubstrateV2
         // this is a V2 node currentValidators is a list of stashes
-        ? allStashes.filter((address): boolean => !stakingOverview.validators.includes(address as any))
+        ? allStashes.filter((address): boolean => !validators.includes(address as any))
         // this is a V1 node currentValidators is a list of controllers
-        : allControllers.filter((address): boolean => !stakingOverview.validators.includes(address as any))
+        : allControllers.filter((address): boolean => !validators.includes(address as any))
     );
-  }, [allControllers, allStashes, stakingOverview]);
+  }, [allControllers, allStashes, validators]);
 
   return (
     <div className='staking--Overview'>
