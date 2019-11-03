@@ -43,7 +43,8 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
   paramValid = false,
   propName,
   skipIf = NO_SKIP,
-  transform = echoTransform
+  transform = echoTransform,
+  withIndicator = false
 }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
@@ -83,14 +84,17 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
 
       public componentDidMount (): void {
         this.isActive = true;
-        this.timerId = window.setInterval((): void => {
-          const elapsed = Date.now() - (this.state.callUpdatedAt || 0);
-          const callUpdated = elapsed <= 1500;
 
-          if (callUpdated !== this.state.callUpdated) {
-            this.nextState({ callUpdated });
-          }
-        }, 500);
+        if (withIndicator) {
+          this.timerId = window.setInterval((): void => {
+            const elapsed = Date.now() - (this.state.callUpdatedAt || 0);
+            const callUpdated = elapsed <= 1500;
+
+            if (callUpdated !== this.state.callUpdated) {
+              this.nextState({ callUpdated });
+            }
+          }, 500);
+        }
 
         // The attachment takes time when a lot is available, set a timeout
         // to first handle the current queue before subscribing

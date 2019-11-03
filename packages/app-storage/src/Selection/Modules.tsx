@@ -58,11 +58,8 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
     const isLinked = isMap && key.creator.meta.type.asMap.linked.isTrue;
 
     setKey({
-      defaultValues: key.creator.section === 'session'
-        ? [{
-          isValid: true,
-          value: api.consts.session.dedupKeyPrefix.toHex()
-        }]
+      defaultValues: key.creator.section === 'session' && key.creator.meta.type.isDoubleMap
+        ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
         : null,
       isLinked,
       key,

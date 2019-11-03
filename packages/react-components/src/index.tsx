@@ -28,6 +28,7 @@ export { default as CryptoType } from './CryptoType';
 export { default as Dropdown } from './Dropdown';
 export { default as Editor } from './Editor';
 export { default as Event } from './Event';
+export { default as Expander } from './Expander';
 export { default as Extrinsic } from './Extrinsic';
 export { default as FilterOverlay } from './FilterOverlay';
 export { default as Forget } from './Forget';

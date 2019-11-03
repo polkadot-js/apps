@@ -1,5 +1,5 @@
 {
-  "version": "0.37.0-beta.32",
+  "version": "0.37.0-beta.38",
   "private": true,
   "engines": {
     "node": ">=10.13.0",
@@ -10,10 +10,10 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.96.0-beta.21",
-    "@polkadot/api-contract": "^0.96.0-beta.21",
+    "@polkadot/api": "^0.96.0-beta.25",
+    "@polkadot/api-contract": "^0.96.0-beta.25",
     "@polkadot/keyring": "^1.7.0-beta.1",
-    "@polkadot/types": "^0.96.0-beta.21",
+    "@polkadot/types": "^0.96.0-beta.25",
     "@polkadot/util": "^1.7.0-beta.1",
     "@polkadot/util-crypto": "^1.7.0-beta.1",
     "babel-core": "^7.0.0-bridge.0",

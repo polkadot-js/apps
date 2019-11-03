@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { AccountId, BlockNumber, EraPoints } from '@polkadot/types/interfaces';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
@@ -27,16 +27,14 @@ interface Props extends AppProps, ApiProps, I18nProps {
   allAccounts?: SubjectInfo;
   allStashesAndControllers?: [string[], string[]];
   bestNumber?: BlockNumber;
-  currentElected?: string[];
-  currentValidators?: string[];
-  eraPoints?: EraPoints;
   recentlyOnline?: DerivedHeartbeats;
+  stakingOverview?: DerivedStakingOverview;
 }
 
 const EMPY_ACCOUNTS: string[] = [];
 const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
-function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, className, currentElected, currentValidators, basePath, eraPoints, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
     return (): React.ReactNode => {
@@ -49,10 +47,8 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
           allAccounts={allAccounts}
           allControllers={allControllers}
           allStashes={allStashes}
-          currentElected={currentElected || EMPY_ACCOUNTS}
-          currentValidators={currentValidators || EMPY_ACCOUNTS}
-          eraPoints={eraPoints}
           recentlyOnline={recentlyOnline}
+          stakingOverview={stakingOverview}
         />
       );
     };
@@ -108,18 +104,7 @@ export default withMulti(
           .map((accountId): string => accountId.unwrap().toString())
       ]
     }],
-    ['query.session.validators', {
-      propName: 'currentValidators',
-      transform: (validators: AccountId[]): string[] =>
-        validators.map((accountId): string => accountId.toString())
-    }],
-    ['query.staking.currentElected', {
-      propName: 'currentElected',
-      transform: (elected: AccountId[]): string[] =>
-        elected.map((accountId): string => accountId.toString())
-    }],
-    ['query.staking.currentEra', { propName: 'currentEra' }],
-    ['query.staking.currentEraPointsEarned', { paramName: 'currentEra', propName: 'eraPoints' }]
+    ['derive.staking.overview', { propName: 'stakingOverview' }]
   ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
