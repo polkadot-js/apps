@@ -15,7 +15,8 @@ import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
-import createValues from '@polkadot/react-params/values';
+import createValues from '@polkadot/react-params/values'
+import { createType } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
@@ -124,16 +125,16 @@ class Deploy extends ContractModal<Props, State> {
     const { abi: { contract: { constructors } } } = contractAbi;
     const constructor = constructors[constructorIndex];
     const constructOptions: ConstructOptions = constructors.map(
-      (constr) => {
+      (constr, index) => {
         return {
-          key: `${constructorIndex}`,
+          key: `${index}`,
           text: (
             <MessageSignature
               asConstructor
               message={constr}
             />
           ),
-          value: `${constructorIndex}`
+          value: `${index}`
         };
       });
 
@@ -256,6 +257,9 @@ class Deploy extends ContractModal<Props, State> {
       return [];
     }
 
+    const data = contractAbi.constructors[constructorIndex](...params);
+    console.log(data);
+    console.log(createType('u32', data));
     return [endowment, gasLimit, codeHash, contractAbi.constructors[constructorIndex](...params)];
   }
 
