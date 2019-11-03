@@ -3,6 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveStakingValidators } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { IdentityProps } from '@polkadot/react-identicon/types';
 import { I18nProps } from './types';
@@ -89,7 +90,10 @@ export default withMulti(
   IdentityIcon,
   translate,
   withCalls<Props>(
-    ['derive.staking.validators', { propName: 'validators' }],
+    ['derive.staking.validators', {
+      propName: 'validators',
+      transform: ({ validators }): DeriveStakingValidators => validators
+    }],
     ['query.staking.bonded', {
       paramName: 'value',
       transform: (bonded: Option<AccountId>): string | null =>
