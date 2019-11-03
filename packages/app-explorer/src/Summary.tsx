@@ -32,7 +32,7 @@ function Summary ({ t }: Props): React.ReactElement<Props> {
         </CardSummary>
       </section>
       <section className='ui--media-large'>
-        <SummarySession />
+        <SummarySession withEra={false} />
       </section>
       <section>
         <CardSummary label={t('finalized')}>
