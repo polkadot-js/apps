@@ -10,6 +10,7 @@ import { ValidatorFilter } from '../types';
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from '@polkadot/react-api';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
+import { createType } from '@polkadot/types';
 
 import translate from '../translate';
 import Address from './Address';
@@ -21,6 +22,8 @@ interface Props extends I18nProps {
   recentlyOnline?: DerivedHeartbeats;
   stakingOverview?: DerivedStakingOverview;
 }
+
+const EMPTY_POINTS = createType('Points');
 
 function renderColumn (addresses: AccountId[] | string[], defaultName: string, withOnline: boolean, withPoints: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props): React.ReactNode {
   return (addresses as AccountId[]).map((address, index): React.ReactNode => (
@@ -34,7 +37,7 @@ function renderColumn (addresses: AccountId[] | string[], defaultName: string, w
       key={address.toString()}
       points={
         withPoints && stakingOverview
-          ? stakingOverview.eraPoints.individual[index]
+          ? stakingOverview.eraPoints.individual[index] || EMPTY_POINTS
           : undefined
       }
       recentlyOnline={
