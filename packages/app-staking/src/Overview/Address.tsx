@@ -95,8 +95,8 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
 
   if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
-    (filter === 'hasWarnings' && !hasActivity) ||
-    (filter === 'noWarnings' && hasActivity) ||
+    (filter === 'hasWarnings' && hasActivity) ||
+    (filter === 'noWarnings' && !hasActivity) ||
     (filter === 'iNominated' && !isNominatorMe) ||
     (filter === 'nextSet' && !isElected)) {
     return null;
