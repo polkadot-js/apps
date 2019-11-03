@@ -22,9 +22,9 @@ interface Props extends I18nProps {
   address: AccountId | string;
   authorsMap: Record<string, string>;
   className?: string;
-  currentElected: string[];
   defaultName: string;
   filter: ValidatorFilter;
+  isElected: boolean;
   lastAuthors?: string[];
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
@@ -37,7 +37,6 @@ interface StakingState {
   controllerId?: string;
   hasNominators: boolean;
   isNominatorMe: boolean;
-  isSelected: boolean;
   nominators: [AccountId, Balance][];
   sessionId?: string;
   stashId?: string;
@@ -45,14 +44,13 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, isElected, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
-  const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, isSelected, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
+  const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
     isNominatorMe: false,
-    isSelected: false,
     nominators: []
   });
 
@@ -84,13 +82,12 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
         isNominatorMe: nominators.some(([who]): boolean =>
           myAccounts.includes(who.toString())
         ),
-        isSelected: !!(_stashId && currentElected && currentElected.includes(_stashId)),
         nominators,
         sessionId: nextSessionIds && nextSessionIds[0] && nextSessionIds[0].toString(),
         stashId: _stashId
       });
     }
-  }, [currentElected, stakingInfo]);
+  }, [stakingInfo]);
 
   const hasActivity = recentlyOnline
     ? (recentlyOnline[stashId || ''] && recentlyOnline[stashId || ''].isOnline) || false
@@ -101,7 +98,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
     (filter === 'hasWarnings' && !hasActivity) ||
     (filter === 'noWarnings' && hasActivity) ||
     (filter === 'iNominated' && !isNominatorMe) ||
-    (filter === 'nextSet' && !isSelected)) {
+    (filter === 'nextSet' && !isElected)) {
     return null;
   }
 
@@ -146,7 +143,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
       extraInfo={extraInfo}
       iconInfo={
         <>
-          {isSelected && (
+          {isElected && (
             <Badge
               hover={t('Selected for the next session')}
               info={<Icon name='chevron right' />}
