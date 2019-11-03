@@ -177,7 +177,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
           )}
         </>
       }
-      isDisabled={!hasActivity}
+      isDisabled={isSubstrateV2 && !hasActivity}
       stakingInfo={stakingInfo}
       value={stashId}
       withBalance={balanceOpts}
