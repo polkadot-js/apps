@@ -7,7 +7,7 @@ import { BareProps, BitLength, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { formatBalance, isUndefined } from '@polkadot/util';
+import { formatBalance } from '@polkadot/util';
 
 import { classes } from './util';
 import { BitLengthOption } from './constants';
@@ -175,7 +175,7 @@ function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] 
   ];
 }
 
-function getValues (value: BN | string, si: SiDef | null, props: Props): [BN, string, boolean] {
+function getValues (value: BN | string, si: SiDef | null, props: Props): [string, BN, boolean] {
   return BN.isBN(value)
     ? getValuesFromBn(value, si)
     : getValuesFromString(value, si, props);
@@ -210,7 +210,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
   }, [isValid, valueBn]);
 
   const _onChange = (input: string): void => {
-    setValues(getValuesFromString(input, si, props))
+    setValues(getValuesFromString(input, si, props));
   };
 
   const _onKeyDown = (event: React.KeyboardEvent<Element>): void => {
