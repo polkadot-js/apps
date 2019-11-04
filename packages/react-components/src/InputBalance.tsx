@@ -6,6 +6,7 @@ import { BareProps, BitLength } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { InputNumber } from '@polkadot/react-components';
 
@@ -15,7 +16,8 @@ interface Props extends BareProps {
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
-  label?: any;
+  label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   maxValue?: BN;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
@@ -28,11 +30,11 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-export default function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, label, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, label, labelExtra, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   return (
     <InputNumber
       autoFocus={autoFocus}
-      className={className}
+      className={`ui--InputBalance ${className}`}
       bitLength={DEFAULT_BITLENGTH}
       defaultValue={defaultValue}
       help={help}
@@ -40,6 +42,7 @@ export default function InputBalance ({ autoFocus, className, defaultValue, help
       isError={isError}
       isSi
       label={label}
+      labelExtra={labelExtra}
       maxValue={maxValue}
       onChange={onChange}
       onEnter={onEnter}
@@ -52,3 +55,9 @@ export default function InputBalance ({ autoFocus, className, defaultValue, help
     />
   );
 }
+
+export default styled(InputBalance)`
+  &&:not(.label-small) .labelExtra {
+    right: 6.5rem;
+  }
+`;

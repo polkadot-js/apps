@@ -18,12 +18,12 @@ interface Props extends BareProps, CallProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-function AvailableDisplay ({ balances_all, children, className, label = '' }: Props): React.ReactElement<Props> {
+function BalanceVoting ({ balances_all, children, className, label = '' }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       {label}{
         balances_all
-          ? formatBalance(balances_all.availableBalance)
+          ? formatBalance(balances_all.votingBalance)
           : '0'
       }{children}
     </div>
@@ -32,4 +32,4 @@ function AvailableDisplay ({ balances_all, children, className, label = '' }: Pr
 
 export default withCalls<Props>(
   ['derive.balances.all', { paramName: 'params' }]
-)(AvailableDisplay);
+)(BalanceVoting);
