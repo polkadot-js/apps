@@ -20,7 +20,7 @@ interface Props extends I18nProps {
 
 const ZERO = new BN(0);
 
-export default function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props> {
+function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props> {
   const _setVoteValue = (value?: BN): void => {
     onChange(value || ZERO);
   };
