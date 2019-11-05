@@ -287,7 +287,6 @@ function InputNumber (props: Props): React.ReactElement<Props> {
         <Dropdown
           dropdownClassName='ui--SiDropdown'
           isButton
-          isDisabled
           defaultValue={si.value}
           onChange={_onSelectSiUnit}
           options={getSiOptions()}

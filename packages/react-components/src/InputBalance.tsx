@@ -38,7 +38,7 @@ function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, i
       autoFocus={autoFocus}
       className={`ui--InputBalance ${className}`}
       bitLength={DEFAULT_BITLENGTH}
-      defaultValue={defaultValue ? formatBalance(defaultValue, { forceUnit: '-' }) : undefined}
+      defaultValue={defaultValue ? formatBalance(defaultValue, { forceUnit: '-', withSi: false }) : undefined}
       help={help}
       isDisabled={isDisabled}
       isError={isError}
@@ -62,5 +62,10 @@ function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, i
 export default styled(InputBalance)`
   &&:not(.label-small) .labelExtra {
     right: 6.5rem;
+  }
+
+  .ui.action.input.ui--Input .ui.primary.buttons .ui.disabled.button.compact.floating.selection.dropdown.ui--SiDropdown {
+    border-style: solid;
+    opacity: 1 !important;
   }
 `;
