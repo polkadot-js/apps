@@ -11,9 +11,10 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ActionItem, Chart, Static, Voting } from '@polkadot/react-components';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 import VoteThreshold from '@polkadot/react-params/Param/VoteThreshold';
 import { withCalls, withMulti } from '@polkadot/react-api';
+import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -104,12 +105,12 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
               values={[
                 {
                   colors: COLORS_AYE,
-                  label: `Aye, ${formatBalance(votedAye)} (${formatNumber(voteCountAye)})`,
+                  label: `Aye, ${formatBalance(votedAye, { forceUnit: '-' })} (${formatNumber(voteCountAye)})`,
                   value: votedAye.muln(10000).div(votedTotal).toNumber() / 100
                 },
                 {
                   colors: COLORS_NAY,
-                  label: `Nay, ${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
+                  label: `Nay, ${formatBalance(votedNay, { forceUnit: '-' })} (${formatNumber(voteCountNay)})`,
                   value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
                 }
               ]}

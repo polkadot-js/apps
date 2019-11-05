@@ -63,7 +63,7 @@ export function Proposal ({ deposit, democracy_minimumDeposit = ZERO, onChange, 
           <Icon name='warning sign' />
           {t('The deposit is below the {{minimum}} minimum required for the proposal to be evaluated', {
             replace: {
-              minimum: formatBalance(democracy_minimumDeposit)
+              minimum: formatBalance(democracy_minimumDeposit, { forceUnit: '-' })
             }
           })}
         </div>
@@ -73,7 +73,7 @@ export function Proposal ({ deposit, democracy_minimumDeposit = ZERO, onChange, 
           <Icon name='arrow right' />
           {t('The deposit of {{deposit}} will be reserved until the proposal is completed', {
             replace: {
-              deposit: formatBalance(extraAmount)
+              deposit: formatBalance(extraAmount, { forceUnit: '-' })
             }
           })}
         </div>

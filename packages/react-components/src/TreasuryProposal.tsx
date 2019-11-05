@@ -9,7 +9,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { InputAddress, Labelled, Static } from '@polkadot/react-components';
 import { ApiContext } from '@polkadot/react-api';
 import { Option } from '@polkadot/types';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import Inset, { InsetProps } from './Inset';
 import translate from './translate';
@@ -65,10 +65,10 @@ function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, 
         />
       </Labelled>
       <Static label={t('value')}>
-        {formatBalance(value)}
+        <FormatBalance value={value} />
       </Static>
       <Static label={t('bond')}>
-        {formatBalance(bond)}
+        <FormatBalance value={bond} />
       </Static>
     </>
   );

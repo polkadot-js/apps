@@ -10,7 +10,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { GenericCall, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/react-params';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import Static from './Static';
 import { classes } from './util';
@@ -64,7 +64,7 @@ function Call ({ children, className, style, mortality, tip, value, withHash, t 
           className='tip'
           label={t('tip')}
         >
-          {formatBalance(tip)}
+          <FormatBalance value={tip} />
         </Static>
       )}
       <Params

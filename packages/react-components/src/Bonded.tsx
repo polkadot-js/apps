@@ -20,12 +20,12 @@ export interface Props extends BareProps {
 }
 
 function renderProvided ({ bonded, className, label, style }: Props): React.ReactNode {
-  let value = `${formatBalance(Array.isArray(bonded) ? bonded[0] : bonded)}`;
+  let value = `${formatBalance(Array.isArray(bonded) ? bonded[0] : bonded, { forceUnit: '-' })}`;
 
   if (Array.isArray(bonded)) {
     const totals = bonded.filter((_, index): boolean => index !== 0);
     const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
-      ? `(+${totals.map((bonded): string => formatBalance(bonded)).join(', ')})`
+      ? `(+${totals.map((bonded): string => formatBalance(bonded, { forceUnit: '-' })).join(', ')})`
       : '';
 
     value = `${value}  ${total}`;

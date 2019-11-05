@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { formatBalance, formatNumber, isObject } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
+import { FormatBalance } from '@polkadot/react-query';
 
 import CryptoType from './CryptoType';
 import Label from './Label';
@@ -165,7 +166,7 @@ function renderUnlocking ({ stakingInfo, t }: Props): React.ReactNode {
 
   return (
     <div>
-      {formatBalance(total)}
+      <FormatBalance value={total} />
       <Icon
         name='info circle'
         data-tip
@@ -177,7 +178,7 @@ function renderUnlocking ({ stakingInfo, t }: Props): React.ReactNode {
             {t('{{value}}, {{remaining}} blocks left', {
               replace: {
                 remaining: formatNumber(remainingBlocks),
-                value: formatBalance(value)
+                value: formatBalance(value, { forceUnit: '-' })
               }
             })}
           </div>
@@ -211,9 +212,10 @@ function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: P
       {validatorPrefsDisplay.validatorPayment && stakingInfo.validatorPrefs.validatorPayment && (
         <>
           <Label label={t('commission')} />
-          <div className='result'>{
-            formatBalance(stakingInfo.validatorPrefs.validatorPayment)
-          }</div>
+          <FormatBalance
+            className='result'
+            value={stakingInfo.validatorPrefs.validatorPayment}
+          />
         </>
       )}
     </>
@@ -237,40 +239,58 @@ function renderBalances (props: Props): React.ReactNode {
       {balancesAll && balanceDisplay.total && (
         <>
           <Label label={t('total')} />
-          <div className='result'>{formatBalance(balancesAll.votingBalance)}</div>
+          <FormatBalance
+            className='result'
+            value={balancesAll.votingBalance}
+          />
         </>
       )}
       {balancesAll && balanceDisplay.available && (
         <>
           <Label label={t('transferrable')} />
-          <div className='result'>{formatBalance(balancesAll.availableBalance)}</div>
+          <FormatBalance
+            className='result'
+            value={balancesAll.availableBalance}
+          />
         </>
       )}
       {balancesAll && balanceDisplay.locked && balancesAll.lockedBalance && balancesAll.lockedBalance.gtn(0) && (
         <>
           <Label label={t('locked')} />
-          <div className='result'>{formatBalance(balancesAll.lockedBalance)}</div>
+          <FormatBalance
+            className='result'
+            value={balancesAll.lockedBalance}
+          />
         </>
       )}
       {balancesAll && balanceDisplay.reserved && balancesAll.reservedBalance && balancesAll.reservedBalance.gtn(0) && (
         <>
           <Label label={t('reserved')} />
-          <div className='result'>{formatBalance(balancesAll.reservedBalance)}</div>
+          <FormatBalance
+            className='result'
+            value={balancesAll.reservedBalance}
+          />
         </>
       )}
       {balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && (
         <>
           <Label label={t('bonded')} />
-          <div className='result'>{formatBalance(ownBonded)}{otherBonded.length !== 0 && (
-            ` (+${otherBonded.map((bonded): string => formatBalance(bonded)).join(', ')})`
-          )}</div>
+          <FormatBalance
+            className='result'
+            value={ownBonded}
+          >
+            {otherBonded.length !== 0 && (
+            <span> (+{otherBonded.map((bonded, index): React.ReactNode => <FormatBalance key={index} value={bonded} />)})</span>)}
+          </FormatBalance>
         </>
       )}
       {balanceDisplay.redeemable && stakingInfo && stakingInfo.redeemable && stakingInfo.redeemable.gtn(0) && (
         <>
           <Label label={t('redeemable')} />
-          <div className='result'>
-            {formatBalance(stakingInfo.redeemable)}
+          <FormatBalance
+            className='result'
+            value={stakingInfo.redeemable}
+          >
             {stakingInfo.controllerId && (
               <TxButton
                 accountId={stakingInfo.controllerId.toString()}
@@ -284,7 +304,7 @@ function renderBalances (props: Props): React.ReactNode {
                 tx='staking.withdrawUnbonded'
               />
             )}
-          </div>
+          </FormatBalance>
         </>
       )}
       {balanceDisplay.unlocking && stakingInfo && stakingInfo.unlocking && (
