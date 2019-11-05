@@ -25,6 +25,7 @@ export interface Props extends I18nProps {
 const Signature = styled.div`
   font-family: monospace;
   font-weight: normal;
+  flex-grow: 1;
 
   .mutates {
     color: #ff8600;
@@ -46,7 +47,7 @@ const ReturnType = styled.span`
   color: #ff8600;
 `;
 
-function truncate (param: string) {
+function truncate (param: string): string {
   return param.length > MAX_PARAM_LENGTH
     ? `${param.substring(0, MAX_PARAM_LENGTH / 2)}…${param.substring(param.length - MAX_PARAM_LENGTH / 2)}`
     : param;

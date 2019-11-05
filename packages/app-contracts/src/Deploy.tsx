@@ -15,7 +15,7 @@ import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
-import createValues from '@polkadot/react-params/values'
+import createValues from '@polkadot/react-params/values';
 import { createType } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
