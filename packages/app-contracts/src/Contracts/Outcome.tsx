@@ -15,7 +15,7 @@ interface Props {
 }
 
 function Outcome (props: Props): React.ReactElement<Props> | null {
-  const { className, onClear, outcome: { message, origin, output, params, success, time } } = props;
+  const { className, onClear, outcome: { message, origin, output, params, isSuccess, time } } = props;
   const dateTime = new Date(time);
 
   return (
@@ -45,9 +45,9 @@ function Outcome (props: Props): React.ReactElement<Props> | null {
         />
       </div>
       <Output
-        isError={!success}
+        isError={!isSuccess}
         className='output'
-        value={output || '()'}
+        value={(output || '()').toString()}
         withCopy
         withLabel={false}
       />
@@ -69,11 +69,12 @@ export default styled(Outcome)`
     }
 
     .clear-btn {
-      display: none;
+      opacity: 0;
     }
 
     .date-time {
       color: #aaa;
+      white-space: nowrap;
     }
 
     .origin {
@@ -96,7 +97,7 @@ export default styled(Outcome)`
 
     &:hover {
       .clear-btn {
-        display: block;
+        opacity: 1;
       }
     }
   }
