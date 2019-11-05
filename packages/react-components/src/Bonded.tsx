@@ -29,7 +29,7 @@ export default function BondedDisplay (props: Props): React.ReactElement<Props> 
   return bonded
     ? (
       <>
-        {renderProvided(props)}
+        {renderProvided({ className, label, value: bonded })}
       </>
     )
     : (

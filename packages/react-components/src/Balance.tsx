@@ -11,6 +11,12 @@ import { Balance, FormatBalance } from '@polkadot/react-query';
 
 import { classes } from './util';
 
+export interface RenderProps extends BareProps {
+  className?: string;
+  label?: React.ReactNode;
+  value?: BN | BN[];
+}
+
 export interface Props extends BareProps {
   balance?: BN | BN[];
   label?: React.ReactNode;
@@ -18,11 +24,11 @@ export interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export function renderProvided ({ balance, className, label }: Props): React.ReactNode {
+export function renderProvided ({ className, label, value }: RenderProps): React.ReactNode {
   let others: undefined | React.ReactNode;
 
-  if (Array.isArray(balance)) {
-    const totals = balance.filter((_, index): boolean => index !== 0);
+  if (Array.isArray(value)) {
+    const totals = value.filter((_, index): boolean => index !== 0);
     const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0);
 
     if (total) {
@@ -36,7 +42,7 @@ export function renderProvided ({ balance, className, label }: Props): React.Rea
     <FormatBalance
       className={classes('ui--Balance', className)}
       label={label}
-      value={Array.isArray(balance) ? balance[0] : balance}
+      value={Array.isArray(value) ? value[0] : value}
     >
       {others && (
         <span>&nbsp;(+{others})</span>
@@ -55,7 +61,7 @@ export default function BalanceDisplay (props: Props): React.ReactElement<Props>
   return balance
     ? (
       <>
-        {renderProvided(props)}
+        {renderProvided({ className, label, value: balance })}
       </>
     )
     : (

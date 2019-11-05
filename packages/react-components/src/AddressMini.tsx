@@ -114,6 +114,7 @@ export default styled(AddressMini)`
   .ui--AddressMini-balances {
     display: grid;
 
+    .ui--Balance,
     .ui--Bonded,
     .ui--LockedVote {
       font-size: 0.75rem;
