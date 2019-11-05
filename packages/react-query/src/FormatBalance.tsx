@@ -21,7 +21,7 @@ function format (value: Compact<any> | BN | string, unit: string): React.ReactNo
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
 
   return (
-    <span className='value'><span className='prefix'>{prefix}</span><span className='postfix'>.{`000${postfix}`.slice(-3)}</span><span className='units'>&nbsp;{unit}</span></span>
+    <span className='value'><span className='prefix'>{prefix}</span><span className='postfix'>.{`000${postfix || ''}`.slice(-3)}</span><span className='units'>&nbsp;{unit}</span></span>
   )
 }
 
@@ -50,7 +50,7 @@ export default styled(FormatBalance)`
 
   .value {
     .postfix {
-      opacity: 0.5;
+      opacity: 0.6;
     }
   }
 `;

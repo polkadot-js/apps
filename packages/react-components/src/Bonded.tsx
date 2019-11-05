@@ -7,9 +7,9 @@ import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { formatBalance } from '@polkadot/util';
 import { Bonded } from '@polkadot/react-query';
 
+import { renderProvided } from './Balance';
 import { classes } from './util';
 
 export interface Props extends BareProps {
@@ -17,28 +17,6 @@ export interface Props extends BareProps {
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
   withLabel?: boolean;
-}
-
-function renderProvided ({ bonded, className, label, style }: Props): React.ReactNode {
-  let value = `${formatBalance(Array.isArray(bonded) ? bonded[0] : bonded, { forceUnit: '-' })}`;
-
-  if (Array.isArray(bonded)) {
-    const totals = bonded.filter((_, index): boolean => index !== 0);
-    const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0)
-      ? `(+${totals.map((bonded): string => formatBalance(bonded, { forceUnit: '-' })).join(', ')})`
-      : '';
-
-    value = `${value}  ${total}`;
-  }
-
-  return (
-    <div
-      className={classes('ui--Bonded', className)}
-      style={style}
-    >
-      {label}{value}
-    </div>
-  );
 }
 
 export default function BondedDisplay (props: Props): React.ReactElement<Props> | null {

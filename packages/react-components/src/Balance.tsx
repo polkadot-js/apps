@@ -18,7 +18,7 @@ export interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function renderProvided ({ balance, className, label }: Props): React.ReactNode {
+export function renderProvided ({ balance, className, label }: Props): React.ReactNode {
   let others: undefined | React.ReactNode;
 
   if (Array.isArray(balance)) {
@@ -39,7 +39,7 @@ function renderProvided ({ balance, className, label }: Props): React.ReactNode 
       value={Array.isArray(balance) ? balance[0] : balance}
     >
       {others && (
-        <span> (+{others})</span>
+        <span>&nbsp;(+{others})</span>
       )}
     </FormatBalance>
   );

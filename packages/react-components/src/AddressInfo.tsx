@@ -280,7 +280,7 @@ function renderBalances (props: Props): React.ReactNode {
             value={ownBonded}
           >
             {otherBonded.length !== 0 && (
-            <span> (+{otherBonded.map((bonded, index): React.ReactNode => <FormatBalance key={index} value={bonded} />)})</span>)}
+            <span>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode => <FormatBalance key={index} value={bonded} />)})</span>)}
           </FormatBalance>
         </>
       )}
