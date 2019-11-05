@@ -10,7 +10,6 @@ import { ValidatorFilter } from '../types';
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from '@polkadot/react-api';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
-import { createType } from '@polkadot/types';
 
 import translate from '../translate';
 import Address from './Address';
@@ -23,21 +22,19 @@ interface Props extends I18nProps {
   stakingOverview?: DerivedStakingOverview;
 }
 
-const EMPTY_POINTS = createType('Points');
-
-function renderColumn (addresses: AccountId[] | string[], defaultName: string, withOnline: boolean, withPoints: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props): React.ReactNode {
+function renderColumn (addresses: AccountId[] | string[], defaultName: string, withOnline: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props, pointIndexes?: number[]): React.ReactNode {
   return (addresses as AccountId[]).map((address, index): React.ReactNode => (
     <Address
       address={address}
       authorsMap={authorsMap}
-      currentElected={stakingOverview && stakingOverview.currentElected}
       defaultName={defaultName}
       filter={filter}
+      isElected={stakingOverview && stakingOverview.currentElected.some((accountId): boolean => accountId.eq(address))}
       lastAuthors={lastAuthors}
       key={address.toString()}
       points={
-        withPoints && stakingOverview
-          ? stakingOverview.eraPoints.individual[index] || EMPTY_POINTS
+        stakingOverview && pointIndexes && pointIndexes[index] !== -1
+          ? stakingOverview.eraPoints.individual[pointIndexes[index]]
           : undefined
       }
       recentlyOnline={
@@ -56,7 +53,7 @@ function filterAccounts (list: string[] = [], without: AccountId[] | string[]): 
 function CurrentList (props: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
-  const [{ electedFiltered, nextFiltered }, setFiltered] = useState<{ electedFiltered: string[]; nextFiltered: string[] }>({ electedFiltered: [], nextFiltered: [] });
+  const [{ electedFiltered, nextFiltered, pointIndexes }, setFiltered] = useState<{ electedFiltered: string[]; nextFiltered: string[]; pointIndexes: number[] }>({ electedFiltered: [], nextFiltered: [], pointIndexes: [] });
   const { next, stakingOverview, t } = props;
 
   useEffect((): void => {
@@ -65,7 +62,8 @@ function CurrentList (props: Props): React.ReactElement<Props> {
 
       setFiltered({
         electedFiltered: isSubstrateV2 ? filterAccounts(elected, stakingOverview.validators) : [],
-        nextFiltered: filterAccounts(next, elected)
+        nextFiltered: filterAccounts(next, elected),
+        pointIndexes: stakingOverview.validators.map((validator): number => elected.indexOf(validator.toString()))
       });
     }
   }, [next, stakingOverview]);
@@ -93,7 +91,7 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {stakingOverview && renderColumn(stakingOverview.validators, t('validator'), true, true, filter, props)}
+          {stakingOverview && renderColumn(stakingOverview.validators, t('validator'), true, filter, props, pointIndexes)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
@@ -101,8 +99,8 @@ function CurrentList (props: Props): React.ReactElement<Props> {
         >
           {(electedFiltered.length !== 0 || nextFiltered.length !== 0) && (
             <>
-              {renderColumn(electedFiltered, t('intention'), false, false, filter, props)}
-              {renderColumn(nextFiltered, t('intention'), false, false, filter, props)}
+              {renderColumn(electedFiltered, t('intention'), false, filter, props)}
+              {renderColumn(nextFiltered, t('intention'), false, filter, props)}
             </>
           )}
         </Column>
