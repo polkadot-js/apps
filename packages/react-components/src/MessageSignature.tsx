@@ -13,6 +13,8 @@ import Icon from './Icon';
 import Tooltip from './Tooltip';
 import translate from './translate';
 
+const MAX_PARAM_LENGTH = 20;
+
 export interface Props extends I18nProps {
   asConstructor?: boolean;
   message: ContractABIMessage;
@@ -23,6 +25,7 @@ export interface Props extends I18nProps {
 const Signature = styled.div`
   font-family: monospace;
   font-weight: normal;
+  flex-grow: 1;
 
   .mutates {
     color: #ff8600;
@@ -44,6 +47,12 @@ const ReturnType = styled.span`
   color: #ff8600;
 `;
 
+function truncate (param: string): string {
+  return param.length > MAX_PARAM_LENGTH
+    ? `${param.substring(0, MAX_PARAM_LENGTH / 2)}…${param.substring(param.length - MAX_PARAM_LENGTH / 2)}`
+    : param;
+}
+
 function MessageSignature ({ message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false, t }: Props): React.ReactElement<Props> {
   return (
     <Signature>
@@ -60,7 +69,7 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
               {params && params[index]
                 ? (
                   <b>
-                    {params[index].toString()}
+                    {truncate(params[index].toString())}
                   </b>
                 )
                 : displayType(type)}
