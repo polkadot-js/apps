@@ -18,6 +18,7 @@ import { bnMax } from '@polkadot/util';
 
 import translate from '../../translate';
 import detectUnsafe from '../../unsafeChains';
+import ValidateAmount from './InputValidateAmount';
 
 interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
   controllerId: string;
@@ -27,6 +28,7 @@ interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
 }
 
 interface State {
+  amountError: string | null;
   extrinsic: SubmittableExtrinsic | null;
   maxAdditional?: BN;
   maxBalance?: BN;
@@ -36,6 +38,7 @@ const ZERO = new BN(0);
 
 class BondExtra extends TxComponent<Props, State> {
   public state: State = {
+    amountError: null,
     extrinsic: null
   };
 
@@ -53,9 +56,9 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { balances_all = ZERO_BALANCE, isOpen, onClose, stashId, t } = this.props;
-    const { extrinsic, maxAdditional, maxBalance = balances_all.freeBalance } = this.state;
-    const canSubmit = !!maxAdditional && maxAdditional.gtn(0) && maxAdditional.lte(maxBalance);
+    const { isOpen, onClose, stashId, t } = this.props;
+    const { extrinsic, maxAdditional } = this.state;
+    const canSubmit = !!maxAdditional && maxAdditional.gtn(0);
 
     if (!isOpen) {
       return null;
@@ -96,7 +99,7 @@ class BondExtra extends TxComponent<Props, State> {
 
   private renderContent (): React.ReactNode {
     const { stashId, systemChain, t } = this.props;
-    const { maxBalance } = this.state;
+    const { amountError, maxAdditional, maxBalance } = this.state;
     const transferrable = <span className='label'>{t('transferrable ')}</span>;
     const isUnsafeChain = detectUnsafe(systemChain);
 
@@ -117,11 +120,17 @@ class BondExtra extends TxComponent<Props, State> {
             autoFocus
             className='medium'
             help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
+            isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
             label={t('additional bonded funds')}
             maxValue={maxBalance}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
             withMax={!isUnsafeChain}
+          />
+          <ValidateAmount
+            accountId={stashId}
+            onError={this.setAmountError}
+            value={maxAdditional}
           />
         </Modal.Content>
       </>
@@ -131,12 +140,13 @@ class BondExtra extends TxComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
       const { api } = this.props;
-      const { maxAdditional = prevState.maxAdditional, maxBalance = prevState.maxBalance } = newState;
+      const { amountError = prevState.amountError, maxAdditional = prevState.maxAdditional, maxBalance = prevState.maxBalance } = newState;
       const extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
       return {
+        amountError,
         extrinsic,
         maxAdditional,
         maxBalance
@@ -177,6 +187,10 @@ class BondExtra extends TxComponent<Props, State> {
   private onChangeValue = (maxAdditional?: BN): void => {
     this.nextState({ maxAdditional });
   }
+
+  private setAmountError = (amountError: string | null): void => {
+    this.setState({ amountError });
+  }
 }
 
 export default withMulti(
@@ -184,7 +198,6 @@ export default withMulti(
   translate,
   withApi,
   withCalls<Props>(
-    'derive.balances.fees',
-    ['derive.balances.all', { paramName: 'stashId' }]
+    'derive.balances.fees'
   )
 );

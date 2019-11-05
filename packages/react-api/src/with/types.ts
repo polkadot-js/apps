@@ -26,6 +26,7 @@ export interface Options {
   propName?: string;
   skipIf?: (props: any) => boolean;
   transform?: Transform;
+  withIndicator?: boolean;
 }
 
 export type RenderFn = (value?: any) => React.ReactNode;

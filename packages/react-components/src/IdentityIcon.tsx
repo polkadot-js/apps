@@ -3,6 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveStakingValidators } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { IdentityProps } from '@polkadot/react-identicon/types';
 import { I18nProps } from './types';
@@ -17,9 +18,9 @@ import StatusContext from './Status/Context';
 import translate from './translate';
 
 interface Props extends IdentityProps, I18nProps {
-  session_validators?: AccountId[];
   staking_bonded?: string | null;
   system_name?: string;
+  validators?: AccountId[];
 }
 
 // overrides based on the actual software node type
@@ -41,7 +42,7 @@ export function getIdentityTheme (systemName: string): 'empty' {
   return ((uiSettings.icon === 'default' && NODES[systemName]) || uiSettings.icon) as 'empty';
 }
 
-function IdentityIcon ({ className, onCopy, prefix, session_validators, size, staking_bonded, style, t, theme, value }: Props): React.ReactElement<Props> {
+function IdentityIcon ({ className, onCopy, prefix, size, staking_bonded, style, t, theme, validators, value }: Props): React.ReactElement<Props> {
   const { systemName } = useContext(ApiContext);
   const { queueAction } = useContext(StatusContext);
   const [isValidator, setIsValidator] = useState(false);
@@ -53,13 +54,13 @@ function IdentityIcon ({ className, onCopy, prefix, session_validators, size, st
       : null;
 
     setIsValidator(
-      session_validators
-        ? session_validators.some((validator): boolean =>
+      validators
+        ? validators.some((validator): boolean =>
           [address, staking_bonded].includes(validator.toString())
         )
         : false
     );
-  }, [session_validators, value]);
+  }, [validators, value]);
 
   const _onCopy = (account: string): void => {
     onCopy && onCopy(account);
@@ -89,7 +90,10 @@ export default withMulti(
   IdentityIcon,
   translate,
   withCalls<Props>(
-    'query.session.validators',
+    ['derive.staking.validators', {
+      propName: 'validators',
+      transform: ({ validators }): DeriveStakingValidators => validators
+    }],
     ['query.staking.bonded', {
       paramName: 'value',
       transform: (bonded: Option<AccountId>): string | null =>

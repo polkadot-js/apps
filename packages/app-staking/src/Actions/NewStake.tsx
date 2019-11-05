@@ -14,6 +14,7 @@ import { withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 import detectUnsafe from '../unsafeChains';
+import InputValidateAmount from './Account/InputValidateAmount';
 import InputValidationController from './Account/InputValidationController';
 import { rewardDestinationOptions } from './constants';
 
@@ -22,6 +23,7 @@ interface Props extends ApiProps, I18nProps, CalculateBalanceProps {
 }
 
 interface State {
+  amountError: string | null;
   bondValue?: BN;
   controllerError: string | null;
   controllerId: string | null;
@@ -37,6 +39,7 @@ class NewStake extends TxComponent<Props, State> {
     super(props);
 
     this.state = {
+      amountError: null,
       controllerError: null,
       controllerId: null,
       destination: 0,
@@ -47,7 +50,7 @@ class NewStake extends TxComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { onClose, systemChain, t } = this.props;
-    const { bondValue, controllerError, controllerId, destination, extrinsic, stashId } = this.state;
+    const { amountError, bondValue, controllerError, controllerId, destination, extrinsic, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
     const isUnsafeChain = detectUnsafe(systemChain);
     const canSubmit = (hasValue && (isUnsafeChain || (!controllerError && !!controllerId)));
@@ -92,12 +95,17 @@ class NewStake extends TxComponent<Props, State> {
             destination={destination}
             extrinsicProp={'staking.bond'}
             help={t('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
-            isError={!hasValue}
+            isError={!hasValue || !!amountError}
             label={t('value bonded')}
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
             stashId={stashId}
             withMax={!isUnsafeChain}
+          />
+          <InputValidateAmount
+            accountId={stashId}
+            onError={this.onAmountError}
+            value={bondValue}
           />
           <Dropdown
             className='medium'
@@ -137,12 +145,13 @@ class NewStake extends TxComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState((prevState: State): State => {
       const { api } = this.props;
-      const { bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, stashId = prevState.stashId } = newState;
+      const { amountError = prevState.amountError, bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, stashId = prevState.stashId } = newState;
       const extrinsic = (bondValue && controllerId)
         ? api.tx.staking.bond(controllerId, bondValue, destination)
         : null;
 
       return {
+        amountError,
         bondValue,
         controllerError,
         controllerId,
@@ -151,6 +160,10 @@ class NewStake extends TxComponent<Props, State> {
         stashId
       };
     });
+  }
+
+  private onAmountError = (amountError: string | null): void => {
+    this.nextState({ amountError });
   }
 
   private onChangeController = (controllerId: string | null): void => {

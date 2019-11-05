@@ -404,7 +404,7 @@ class Account extends React.PureComponent<Props, State> {
         }
         {!isStashNominating && (!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
-            {isSubstrateV2 ? t('Rotate session keys') : t('Change session account')}
+            {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
           </Menu.Item>
         }
         {isStashNominating &&

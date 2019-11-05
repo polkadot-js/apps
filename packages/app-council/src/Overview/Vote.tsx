@@ -13,10 +13,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { AddressRow, Button, InputBalance, Toggle } from '@polkadot/react-components';
+import { AddressRow, Button, Toggle } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
+import VoteValue from './VoteValue';
 
 interface Props extends ApiProps, ComponentProps, TxModalProps {
   voterPositions?: DerivedVoterPositions;
@@ -159,7 +160,7 @@ class Vote extends TxModal<Props, State> {
 
   protected renderContent = (): React.ReactNode => {
     const { api, electionsInfo: { candidates, members }, t } = this.props;
-    const { votes } = this.state;
+    const { accountId, votes } = this.state;
     const _candidates = candidates.map((accountId): [AccountId, boolean] => [accountId, false]);
     const available = api.tx.electionsPhragmen
       ? members.map(([accountId]): [AccountId, boolean] => [accountId, true]).concat(_candidates)
@@ -168,8 +169,8 @@ class Vote extends TxModal<Props, State> {
     return (
       <>
         {api.tx.electionsPhragmen && (
-          <InputBalance
-            label={t('value')}
+          <VoteValue
+            accountId={accountId}
             onChange={this.setVoteValue}
           />
         )}

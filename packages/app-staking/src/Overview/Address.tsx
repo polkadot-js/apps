@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
-import { AddressCard, AddressMini, Badge, Icon } from '@polkadot/react-components';
+import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
@@ -19,12 +19,12 @@ import { formatNumber } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  address: string;
+  address: AccountId | string;
   authorsMap: Record<string, string>;
   className?: string;
-  currentElected: string[];
   defaultName: string;
   filter: ValidatorFilter;
+  isElected: boolean;
   lastAuthors?: string[];
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
@@ -37,7 +37,6 @@ interface StakingState {
   controllerId?: string;
   hasNominators: boolean;
   isNominatorMe: boolean;
-  isSelected: boolean;
   nominators: [AccountId, Balance][];
   sessionId?: string;
   stashId?: string;
@@ -45,15 +44,13 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, currentElected, defaultName, filter, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, isElected, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
-  const [isNominationsOpen, setIsNominationsOpen] = useState(false);
-  const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, isSelected, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
+  const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
     isNominatorMe: false,
-    isSelected: false,
     nominators: []
   });
 
@@ -69,7 +66,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
 
   useEffect((): void => {
     if (stakingInfo) {
-      const { controllerId, nextSessionId, stakers, stashId } = stakingInfo;
+      const { controllerId, nextSessionIds, stakers, stashId } = stakingInfo;
       const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
@@ -85,13 +82,12 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
         isNominatorMe: nominators.some(([who]): boolean =>
           myAccounts.includes(who.toString())
         ),
-        isSelected: !!(_stashId && currentElected && currentElected.includes(_stashId)),
         nominators,
-        sessionId: nextSessionId && nextSessionId.toString(),
+        sessionId: nextSessionIds && nextSessionIds[0] && nextSessionIds[0].toString(),
         stashId: _stashId
       });
     }
-  }, [currentElected, stakingInfo]);
+  }, [stakingInfo]);
 
   const hasActivity = recentlyOnline
     ? (recentlyOnline[stashId || ''] && recentlyOnline[stashId || ''].isOnline) || false
@@ -99,10 +95,10 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
 
   if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
-    (filter === 'hasWarnings' && !hasActivity) ||
-    (filter === 'noWarnings' && hasActivity) ||
+    (filter === 'hasWarnings' && hasActivity) ||
+    (filter === 'noWarnings' && !hasActivity) ||
     (filter === 'iNominated' && !isNominatorMe) ||
-    (filter === 'nextSet' && !isSelected)) {
+    (filter === 'nextSet' && !isElected)) {
     return null;
   }
 
@@ -117,13 +113,6 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
       />
     );
   }
-
-  const _toggleNominations = (event: React.SyntheticEvent): void => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    setIsNominationsOpen(!isNominationsOpen);
-  };
 
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
@@ -154,7 +143,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
       extraInfo={extraInfo}
       iconInfo={
         <>
-          {isSelected && (
+          {isElected && (
             <Badge
               hover={t('Selected for the next session')}
               info={<Icon name='chevron right' />}
@@ -177,22 +166,21 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
           )}
         </>
       }
-      isDisabled={!hasActivity}
+      isDisabled={isSubstrateV2 && !hasActivity}
       stakingInfo={stakingInfo}
       value={stashId}
       withBalance={balanceOpts}
       withValidatorPrefs={WITH_VALIDATOR_PREFS}
     >
       {withNominations && hasNominators && (
-        <details open={isNominationsOpen}>
-          <summary onClick={_toggleNominations}>
-            {t('Nominators ({{count}})', {
-              replace: {
-                count: nominators.length
-              }
-            })}
-          </summary>
-          {isNominationsOpen && nominators.map(([who, bonded]): React.ReactNode =>
+        <Expander
+          summary={t('Nominators ({{count}})', {
+            replace: {
+              count: nominators.length
+            }
+          })}
+        >
+          {nominators.map(([who, bonded]): React.ReactNode =>
             <AddressMini
               bonded={bonded}
               key={who.toString()}
@@ -200,7 +188,7 @@ function Address ({ address, authorsMap, className, currentElected, defaultName,
               withBonded
             />
           )}
-        </details>
+        </Expander>
       )}
     </AddressCard>
   );
