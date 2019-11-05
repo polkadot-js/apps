@@ -241,19 +241,13 @@ function Call (props: Props): React.ReactElement<Props> | null {
               />
             </h3>
             <div>
-              {
-                outcomes.map(
-                  (outcome, index): React.ReactNode => {
-                    return (
-                      <Outcome
-                        key={`outcome-${index}`}
-                        onClear={_onClearOutcome(index)}
-                        outcome={outcome}
-                      />
-                    );
-                  }
-                )
-              }
+              {outcomes.map((outcome, index): React.ReactNode => (
+                <Outcome
+                  key={`outcome-${index}`}
+                  onClear={_onClearOutcome(index)}
+                  outcome={outcome}
+                />
+              ))}
             </div>
           </>
         )}
