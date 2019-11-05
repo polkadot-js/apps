@@ -257,9 +257,6 @@ class Deploy extends ContractModal<Props, State> {
       return [];
     }
 
-    const data = contractAbi.constructors[constructorIndex](...params);
-    console.log(data);
-    console.log(createType('u32', data));
     return [endowment, gasLimit, codeHash, contractAbi.constructors[constructorIndex](...params)];
   }
 
