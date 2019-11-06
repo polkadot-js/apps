@@ -105,6 +105,8 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
     } catch (error) {
       console.error(error);
     }
+
+    setIsLocked(source.isLocked);
   };
 
   const _onCommit = (): void => {
