@@ -6,7 +6,7 @@
 import { BareProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Compact } from '@polkadot/types';
 import { formatBalance } from '@polkadot/util';
@@ -22,11 +22,11 @@ function format (value: Compact<any> | BN | string, unit: string): React.ReactNo
 
   return (
     <span className='value'><span className='prefix'>{prefix}</span><span className='postfix'>.{`000${postfix || ''}`.slice(-3)}</span><span className='units'>&nbsp;{unit}</span></span>
-  )
+  );
 }
 
 export function FormatBalance ({ children, className, label = '', value }: Props): React.ReactElement<Props> {
-  const unit = formatBalance.getDefaults().unit;
+  const [unit] = useState(formatBalance.getDefaults().unit);
 
   return (
     <div className={className}>
