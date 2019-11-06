@@ -21,11 +21,12 @@ interface Props extends BareProps, CallProps {
 export function LockedVote ({ children, className, electionsPhragmen_stakeOf, label = '' }: Props): React.ReactElement<Props> {
   return (
     <FormatBalance
-      children={children}
       className={className}
       label={label}
       value={electionsPhragmen_stakeOf}
-    />
+    >
+      {children}
+    </FormatBalance>
   );
 }
 

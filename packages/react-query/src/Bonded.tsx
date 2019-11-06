@@ -22,11 +22,12 @@ interface Props extends BareProps, CallProps {
 export function BondedDisplay ({ children, className, label = '', staking_ledger }: Props): React.ReactElement<Props> {
   return (
     <FormatBalance
-      children={children}
       className={className}
       label={label}
       value={staking_ledger && staking_ledger.active}
-    />
+    >
+      {children}
+    </FormatBalance>
   );
 }
 

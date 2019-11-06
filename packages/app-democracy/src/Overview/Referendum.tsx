@@ -11,10 +11,9 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ActionItem, Chart, Static, Voting } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
 import VoteThreshold from '@polkadot/react-params/Param/VoteThreshold';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
 

@@ -22,11 +22,12 @@ interface Props extends BareProps, CallProps {
 function BalanceVoting ({ balances_all, children, className, label }: Props): React.ReactElement<Props> {
   return (
     <FormatBalance
-      children={children}
       className={className}
       label={label}
       value={balances_all && balances_all.votingBalance}
-    />
+    >
+      {children}
+    </FormatBalance>
   );
 }
 
