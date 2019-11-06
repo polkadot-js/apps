@@ -27,8 +27,8 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
   }
 
   const label = isUndefined(name)
-    ? type.type
-    : `${name}: ${type.type}`;
+    ? (type.displayName || type.type)
+    : `${name}: ${type.displayName || type.type}`;
 
   return isOptional
     ? (

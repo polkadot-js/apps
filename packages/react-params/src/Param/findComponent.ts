@@ -72,7 +72,11 @@ const components: ComponentMap = ([
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const findOne = (type: string): React.ComponentType<Props> | null =>
     overrides[type] || components[type];
-  const type = (({ info, sub, type }: TypeDef): string => {
+  const type = (({ displayName, info, sub, type }: TypeDef): string => {
+    if (displayName) {
+      return displayName;
+    }
+
     switch (info) {
       case TypeDefInfo.Compact:
         return (sub as TypeDef).type;
