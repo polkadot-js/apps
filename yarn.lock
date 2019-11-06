@@ -2163,14 +2163,14 @@
   dependencies:
     "@babel/runtime" "^7.6.3"
 
-"@polkadot/keyring@^1.7.0-beta.2", "@polkadot/keyring@^1.7.0-beta.3":
-  version "1.7.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-1.7.0-beta.3.tgz#9e396530bcac345bc22e60fa616c8bc1493baa8b"
-  integrity sha512-xQKN0CvouATBICXrbp7fJsHeGveytgG7gVFNg7OaTY0QX2HY96MKW7JJZXhNDkP+B0wXr8s5saG+MTl4xuNzhg==
+"@polkadot/keyring@^1.7.0-beta.2", "@polkadot/keyring@^1.7.0-beta.4":
+  version "1.7.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-1.7.0-beta.4.tgz#a1b77555b8c2723fa4087a13957fb9520f628f3f"
+  integrity sha512-BnrJ+rM/6LJuTDrsxkCLCTtlQoTSq7vOohM7gwi7d4vKTALyPuRW8cIDEaWMvr6edTnCIKtbFyDoWRhmr8eziA==
   dependencies:
     "@babel/runtime" "^7.6.3"
-    "@polkadot/util" "^1.7.0-beta.3"
-    "@polkadot/util-crypto" "^1.7.0-beta.3"
+    "@polkadot/util" "^1.7.0-beta.4"
+    "@polkadot/util-crypto" "^1.7.0-beta.4"
 
 "@polkadot/react-identicon@^0.47.0-beta.1":
   version "0.47.0-beta.1"
@@ -2285,13 +2285,13 @@
     "@types/color" "^3.0.0"
     color "^3.1.2"
 
-"@polkadot/util-crypto@^1.7.0-beta.2", "@polkadot/util-crypto@^1.7.0-beta.3":
-  version "1.7.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-1.7.0-beta.3.tgz#685f3d85ef63cc9f535eb00678970da8bc108fec"
-  integrity sha512-TIMXIIal3V5uMRdVNXodX5km5ET9cHxWG1NxL9dA0RMriqYabsRTJdmETea3kVvpYQ0psoUB99ENr3nUQbi3DQ==
+"@polkadot/util-crypto@^1.7.0-beta.2", "@polkadot/util-crypto@^1.7.0-beta.4":
+  version "1.7.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-1.7.0-beta.4.tgz#9745a58a86ef8590e72eff9593cb8b533131cc56"
+  integrity sha512-UazHr5k/8+5uCUdxmmwAs7XkKBHxOj3iPVYx/ZsoFijzMzBgRyI/c8CPFHIbLgClwd7bgrXCVwjo93NJRSqI7w==
   dependencies:
     "@babel/runtime" "^7.6.3"
-    "@polkadot/util" "^1.7.0-beta.3"
+    "@polkadot/util" "^1.7.0-beta.4"
     "@polkadot/wasm-crypto" "^0.14.1"
     "@types/bip39" "^2.4.2"
     "@types/bs58" "^4.0.0"
@@ -2307,10 +2307,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^1.7.0-beta.2", "@polkadot/util@^1.7.0-beta.3":
-  version "1.7.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-1.7.0-beta.3.tgz#2684e9bca180390d961e39e088c69fb31f943875"
-  integrity sha512-3YQmKlsJzKfCGVy2zc+DoMFiyuMhs382grRyOmvaocyiMMO1ZW359QAaQJu27O//y7k2NZiRq0MQjrr1+yLiRQ==
+"@polkadot/util@^1.7.0-beta.2", "@polkadot/util@^1.7.0-beta.4":
+  version "1.7.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-1.7.0-beta.4.tgz#e04b7f1a4b24619efd88ecce0b920c99896fdd01"
+  integrity sha512-aFRfhXkb8RzVCv45xfDacKL1lkqLkIHyyoANHbbrDClq6+yxq4nw7ykTMMPj9/ff0xLgCAZzLLpMAiirVnc3SQ==
   dependencies:
     "@babel/runtime" "^7.6.3"
     "@types/bn.js" "^4.11.5"

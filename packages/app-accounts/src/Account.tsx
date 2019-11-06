@@ -6,12 +6,14 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState, useEffect } from 'react';
+import { Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget, Menu } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
+import Derive from './modals/Derive';
 import Transfer from './modals/Transfer';
 import translate from './translate';
 
@@ -24,8 +26,10 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
+  const [isDeriveOpen, setIsDeriveOpen] = useState(false);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
 
   useEffect((): void => {
@@ -40,9 +44,11 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   }, [address]);
 
   const _toggleBackup = (): void => setIsBackupOpen(!isBackupOpen);
+  const _toggleDerive = (): void => setIsDeriveOpen(!isDeriveOpen);
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
   const _togglePass = (): void => setIsPasswordOpen(!isPasswordOpen);
   const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
+  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
   const _onForget = (): void => {
     if (!address) {
       return;
@@ -112,6 +118,33 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
               size='small'
               tooltip={t('Send funds from this account')}
             />
+            {isEditable && !isExternal && (
+              <Popup
+                onClose={_toggleSettingPopup}
+                open={isSettingPopupOpen}
+                position='bottom left'
+                trigger={
+                  <Button
+                    icon='setting'
+                    onClick={_toggleSettingPopup}
+                    size='small'
+                  />
+                }
+              >
+                <Menu
+                  vertical
+                  text
+                  onClick={_toggleSettingPopup}
+                >
+                  <Menu.Item onClick={_toggleDerive}>
+                    {t('Derive account from source')}
+                  </Menu.Item>
+                  <Menu.Item disabled>
+                    {t('Change on-chain nickname')}
+                  </Menu.Item>
+                </Menu>
+              </Popup>
+            )}
           </div>
           {isEditable && !isExternal && (
             <div className='others'>
@@ -135,9 +168,16 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
         <>
           {isBackupOpen && (
             <Backup
+              address={address}
               key='modal-backup-account'
               onClose={_toggleBackup}
-              address={address}
+            />
+          )}
+          {isDeriveOpen && (
+            <Derive
+              from={address}
+              key='modal-derive-account'
+              onClose={_toggleDerive}
             />
           )}
           {isForgetOpen && (
