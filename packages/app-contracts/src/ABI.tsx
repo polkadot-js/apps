@@ -45,7 +45,7 @@ class ABI extends React.PureComponent<Props, State> {
     isError: false
   };
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     const { contractAbi, isError, isRequired } = this.props;

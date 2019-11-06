@@ -35,7 +35,7 @@ interface State {
 class NewStake extends TxComponent<Props, State> {
   public state: State;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {

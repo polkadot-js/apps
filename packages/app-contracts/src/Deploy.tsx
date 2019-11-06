@@ -44,7 +44,7 @@ class Deploy extends ContractModal<Props, State> {
 
   public isContract = true;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {

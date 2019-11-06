@@ -75,7 +75,7 @@ const Signature = styled.textarea`
 `;
 
 class App extends TxModal<Props, State> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {

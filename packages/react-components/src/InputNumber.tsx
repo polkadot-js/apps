@@ -53,7 +53,7 @@ const ZERO = new BN(0);
 const TEN = new BN(10);
 
 class InputNumber extends React.PureComponent<Props, State> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     const { defaultValue, isSi, value } = this.props;

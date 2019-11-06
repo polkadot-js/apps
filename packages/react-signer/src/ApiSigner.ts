@@ -15,7 +15,7 @@ export default class ApiSigner implements Signer {
 
   private _queueSetTxStatus: QueueTxMessageSetStatus;
 
-  public constructor (queuePayload: QueueTxPayloadAdd, queueSetTxStatus: QueueTxMessageSetStatus) {
+  constructor (queuePayload: QueueTxPayloadAdd, queueSetTxStatus: QueueTxMessageSetStatus) {
     this._queuePayload = queuePayload;
     this._queueSetTxStatus = queueSetTxStatus;
   }

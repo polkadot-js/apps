@@ -85,7 +85,7 @@ class Vote extends TxModal<Props, State> {
     return [...new Array(length).keys()].map((): boolean => false);
   }
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {
