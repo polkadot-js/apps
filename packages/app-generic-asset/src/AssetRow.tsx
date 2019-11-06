@@ -16,7 +16,7 @@ type Props = I18nProps & RowProps & {
 }
 
 class AssetRow extends Row<Props, RowState> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state.name = this.props.defaultName || 'New Asset';

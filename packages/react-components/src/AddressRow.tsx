@@ -46,7 +46,7 @@ const ICON_SIZE = 48;
 class AddressRow extends Row<ApiProps & Props, State> {
   public state: State;
 
-  public constructor (props: ApiProps & Props) {
+  constructor (props: ApiProps & Props) {
     super(props);
 
     this.state = this.createState();

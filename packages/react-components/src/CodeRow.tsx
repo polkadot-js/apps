@@ -51,7 +51,7 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 class CodeRow extends Row<Props, State> {
   public state: State;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = this.createState();

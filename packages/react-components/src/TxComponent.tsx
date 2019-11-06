@@ -7,7 +7,7 @@ import React from 'react';
 export default class TxComponent<P, S> extends React.PureComponent<P, S> {
   protected button: any;
 
-  public constructor (props: P) {
+  constructor (props: P) {
     super(props);
 
     this.button = React.createRef();

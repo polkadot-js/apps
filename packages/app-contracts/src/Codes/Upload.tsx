@@ -26,7 +26,7 @@ interface State extends ContractModalState {
 }
 
 class Upload extends ContractModal<Props, State> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {
