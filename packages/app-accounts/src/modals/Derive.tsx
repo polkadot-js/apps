@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair, KeyringPair$Meta } from '@polkadot/keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { CreateResult } from '@polkadot/ui-keyring/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
 import translate from '../translate';
+import { downloadAccount } from './Create';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props extends I18nProps {
@@ -41,10 +42,26 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
   return null;
 }
 
-function createDerived (source: KeyringPair, suri: string, meta?: KeyringPair$Meta, password?: string): CreateResult {
-  const derived = source.derive(suri, meta);
+function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string): ActionStatus {
+  // we will fill in all the details below
+  const status = { action: 'create' } as ActionStatus;
 
-  return keyring.addPair(derived, password || '');
+  try {
+    const derived = source.derive(suri);
+    const result = keyring.addPair(derived, password || '');
+    const { address } = result.pair;
+
+    status.account = address;
+    status.status = 'success';
+    status.message = success;
+
+    downloadAccount(result);
+  } catch (error) {
+    status.status = 'error';
+    status.message = error.message;
+  }
+
+  return status;
 }
 
 function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
@@ -52,7 +69,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
   const [source] = useState(keyring.getPair(from));
   const [{ address, deriveError }, setDerived] = useState<DerivedAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [isLocked, setIsLocked] = useState(true);
+  const [isLocked, setIsLocked] = useState(source.isLocked);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [rootPass, setRootPass] = useState('');
@@ -70,9 +87,9 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
       const deriveError = deriveValidate(debouncedSuri, source.type);
 
       if (!deriveError) {
-        const result = createDerived(source, debouncedSuri);
+        const result = source.derive(suri);
 
-        address = result.pair.address;
+        address = result.address;
       }
 
       return { address, deriveError };
@@ -83,13 +100,23 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
   const _onChangePass = (password: string): void => setPassword({ isPassValid: keyring.isPassValid(password), password });
   const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
   const _onUnlock = (): void => {
-
+    try {
+      source.decodePkcs8(rootPass);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const _onCommit = (): void => {
-    // if (!isValid) {
-    //   return;
-    // }
+    if (!isValid) {
+      return;
+    }
+
+    const status = createAccount(source, suri, name, password, t('created account'));
+
+    _toggleConfirmation();
+    queueAction(status);
+    onClose();
   };
 
   const sourceStatic = (
@@ -178,7 +205,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
             ? (
               <Button
                 icon='lock'
-                isDisabled={!isValid}
+                isDisabled={!rootPass}
                 isPrimary
                 label={t('Unlock')}
                 onClick={_onUnlock}
