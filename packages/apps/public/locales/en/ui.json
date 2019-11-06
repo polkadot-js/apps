@@ -600,5 +600,13 @@
   "vote value": "",
   "voting balance ": "",
   "Change session keys": "",
-  "No documentation provided": ""
+  "No documentation provided": "",
+  "Derive account from source": "",
+  "Change on-chain nickname": "",
+  "The selected account to perform the derivation on.": "",
+  "derive root account": "",
+  "Derive account from pair": "",
+  "The password to unlock the selected account.": "",
+  "derivation path": "",
+  "//hard/soft": ""
 }
