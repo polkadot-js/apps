@@ -48,6 +48,9 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
 
   try {
     const derived = source.derive(suri);
+
+    derived.setMeta({ ...derived.meta, name, tags: [] });
+
     const result = keyring.addPair(derived, password || '');
     const { address } = result.pair;
 
