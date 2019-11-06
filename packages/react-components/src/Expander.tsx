@@ -11,7 +11,7 @@ export interface Props extends BareProps {
   summary: React.ReactNode;
 }
 
-export default function Expanded ({ children, className, style, summary }: Props): React.ReactElement<Props> {
+export default function Expanded ({ children, className, summary }: Props): React.ReactElement<Props> {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const _toggle = (event: React.SyntheticEvent): void => {

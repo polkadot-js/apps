@@ -6,6 +6,8 @@ export { default as AccountIndex } from './AccountIndex';
 export { default as AccountName } from './AccountName';
 export { default as Available } from './Available';
 export { default as Balance } from './Balance';
+export { default as FormatBalance } from './FormatBalance';
+export { default as BalanceVoting } from './BalanceVoting';
 export { BlockAuthors, BlockAuthorsContext } from './BlockAuthors';
 export { default as Bonded } from './Bonded';
 export { default as BestFinalized } from './BestFinalized';

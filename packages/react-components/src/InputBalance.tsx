@@ -6,8 +6,10 @@ import { BareProps, BitLength } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { InputNumber } from '@polkadot/react-components';
+import { formatBalance } from '@polkadot/util';
 
 interface Props extends BareProps {
   autoFocus?: boolean;
@@ -16,7 +18,8 @@ interface Props extends BareProps {
   isDisabled?: boolean;
   isError?: boolean;
   isZeroable?: boolean;
-  label?: any;
+  label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   maxValue?: BN;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
@@ -29,19 +32,20 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-export default function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, labelExtra, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   return (
     <InputNumber
       autoFocus={autoFocus}
-      className={className}
+      className={`ui--InputBalance ${className}`}
       bitLength={DEFAULT_BITLENGTH}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue ? formatBalance(defaultValue, { forceUnit: '-', withSi: false }) : undefined}
       help={help}
       isDisabled={isDisabled}
       isError={isError}
       isZeroable={isZeroable}
       isSi
       label={label}
+      labelExtra={labelExtra}
       maxValue={maxValue}
       onChange={onChange}
       onEnter={onEnter}
@@ -54,3 +58,14 @@ export default function InputBalance ({ autoFocus, className, defaultValue, help
     />
   );
 }
+
+export default styled(InputBalance)`
+  &&:not(.label-small) .labelExtra {
+    right: 6.5rem;
+  }
+
+  .ui.action.input.ui--Input .ui.primary.buttons .ui.disabled.button.compact.floating.selection.dropdown.ui--SiDropdown {
+    border-style: solid;
+    opacity: 1 !important;
+  }
+`;

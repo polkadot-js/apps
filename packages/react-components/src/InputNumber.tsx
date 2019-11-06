@@ -28,7 +28,8 @@ interface Props extends BareProps, I18nProps {
   isSi?: boolean;
   isDecimal?: boolean;
   isZeroable?: boolean;
-  label?: any;
+  label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   maxLength?: number;
   maxValue?: BN;
   onChange?: (value?: BN) => void;
