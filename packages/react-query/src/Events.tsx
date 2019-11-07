@@ -42,7 +42,7 @@ function Events ({ children }: Props): React.ReactElement<Props> {
         const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
         if (newEventHash !== prevEventHash) {
-          setState(newEvents.concat(...state).filter((_, index): boolean => index < MAX_EVENTS));
+          setState(newEvents.concat(...state).slice(0, MAX_EVENTS));
         }
       });
     });
