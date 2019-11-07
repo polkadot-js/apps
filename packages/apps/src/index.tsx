@@ -18,7 +18,7 @@ import { getTypeRegistry } from '@polkadot/types';
 import { Api } from '@polkadot/react-api';
 import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Queue from '@polkadot/react-components/Status/Queue';
-import { BlockAuthors } from '@polkadot/react-query';
+import { BlockAuthors, Events } from '@polkadot/react-query';
 
 import Apps from './Apps';
 
@@ -72,11 +72,13 @@ ReactDOM.render(
             url={wsEndpoint}
           >
             <BlockAuthors>
-              <HashRouter>
-                <ThemeProvider theme={theme}>
-                  <Apps />
-                </ThemeProvider>
-              </HashRouter>
+              <Events>
+                <HashRouter>
+                  <ThemeProvider theme={theme}>
+                    <Apps />
+                  </ThemeProvider>
+                </HashRouter>
+              </Events>
             </BlockAuthors>
           </Api>
         )}
