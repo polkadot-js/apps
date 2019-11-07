@@ -19,7 +19,7 @@ interface Props extends I18nProps, ComponentProps {
   allVotes?: Record<string, AccountId[]>;
 }
 
-function Members ({ allVotes = {}, electionsInfo: { candidates, members }, t }: Props): React.ReactElement<Props> {
+function Members ({ allVotes = {}, electionsInfo: { candidates, members, runnersUp }, t }: Props): React.ReactElement<Props> {
   return (
     <Columar>
       <Column
@@ -38,13 +38,25 @@ function Members ({ allVotes = {}, electionsInfo: { candidates, members }, t }: 
         emptyText={t('No candidates found')}
         headerText={t('candidates')}
       >
-        {candidates.map((accountId): React.ReactNode => (
-          <Candidate
-            address={accountId}
-            key={accountId.toString()}
-            voters={allVotes[accountId.toString()]}
-          />
-        ))}
+        {(!!candidates.length || !!runnersUp.length) && (
+          <>
+            {runnersUp.map(([accountId]): React.ReactNode => (
+              <Candidate
+                address={accountId}
+                isRunnerUp
+                key={accountId.toString()}
+                voters={allVotes[accountId.toString()]}
+              />
+            ))}
+            {candidates.map((accountId): React.ReactNode => (
+              <Candidate
+                address={accountId}
+                key={accountId.toString()}
+                voters={allVotes[accountId.toString()]}
+              />
+            ))}
+          </>
+        )}
       </Column>
     </Columar>
   );
