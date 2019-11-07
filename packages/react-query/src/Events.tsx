@@ -41,7 +41,7 @@ function Events ({ children }: Props): React.ReactElement<Props> {
           .map((record, index): KeyedEvent => ({ key: `${Date.now()}-${index}`, record }));
         const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
-        if (newEventHash !== prevEventHash && newEvents) {
+        if (newEventHash !== prevEventHash) {
           setState(newEvents.concat(...state).filter((_, index): boolean => index < MAX_EVENTS));
         }
       });
