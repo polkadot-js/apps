@@ -25,6 +25,7 @@ const NULL_INFO: DerivedElectionsInfo = {
   candidateCount: createType('u32'),
   desiredSeats: createType('u32'),
   members: [],
+  runnersUp: [],
   termDuration: createType('BlockNumber')
 };
 
