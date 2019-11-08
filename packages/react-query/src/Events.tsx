@@ -34,6 +34,7 @@ function Events ({ children }: Props): React.ReactElement<Props> {
     // atm I'm rather typing this than doing it the way it is supposed to be
     api.isReady.then((): void => {
       const prevEventHash = '';
+      let events: Events = [];
 
       api.query.system.events((records: EventRecord[] & Codec): void => {
         const newEvents = records
@@ -42,7 +43,8 @@ function Events ({ children }: Props): React.ReactElement<Props> {
         const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
         if (newEventHash !== prevEventHash) {
-          setState([...newEvents, ...state].slice(0, MAX_EVENTS));
+          events = [...newEvents, ...events].slice(0, MAX_EVENTS);
+          setState(events);
         }
       });
     });
