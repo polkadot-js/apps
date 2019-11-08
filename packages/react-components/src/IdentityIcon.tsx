@@ -9,7 +9,6 @@ import { IdentityProps } from '@polkadot/react-identicon/types';
 import { I18nProps } from './types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { Option } from '@polkadot/types';
 import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
@@ -18,8 +17,6 @@ import StatusContext from './Status/Context';
 import translate from './translate';
 
 interface Props extends IdentityProps, I18nProps {
-  staking_bonded?: string | null;
-  system_name?: string;
   validators?: AccountId[];
 }
 
@@ -33,31 +30,20 @@ const NODES: Record<string, string> = {
   'substrate-node': 'substrate'
 };
 
-// toString() => null
-const NULL_TOSTRING = {
-  toString: (): null => null
-};
-
 export function getIdentityTheme (systemName: string): 'empty' {
   return ((uiSettings.icon === 'default' && NODES[systemName]) || uiSettings.icon) as 'empty';
 }
 
-function IdentityIcon ({ className, onCopy, prefix, size, staking_bonded, style, t, theme, validators, value }: Props): React.ReactElement<Props> {
+function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, validators, value }: Props): React.ReactElement<Props> {
   const { systemName } = useContext(ApiContext);
   const { queueAction } = useContext(StatusContext);
   const [isValidator, setIsValidator] = useState(false);
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
-    const address = value
-      ? value.toString()
-      : null;
-
     setIsValidator(
       validators
-        ? validators.some((validator): boolean =>
-          [address, staking_bonded].includes(validator.toString())
-        )
+        ? validators.some((validator): boolean => validator.eq(value))
         : false
     );
   }, [validators, value]);
@@ -93,11 +79,6 @@ export default withMulti(
     ['derive.staking.validators', {
       propName: 'validators',
       transform: ({ validators }): DeriveStakingValidators => validators
-    }],
-    ['query.staking.bonded', {
-      paramName: 'value',
-      transform: (bonded: Option<AccountId>): string | null =>
-        bonded.unwrapOr(NULL_TOSTRING).toString()
     }]
   )
 );
