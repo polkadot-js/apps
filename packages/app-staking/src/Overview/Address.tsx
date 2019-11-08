@@ -90,7 +90,9 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
   }, [stakingInfo]);
 
   const hasActivity = recentlyOnline
-    ? (recentlyOnline[stashId || ''] && recentlyOnline[stashId || ''].isOnline) || false
+    ? recentlyOnline[stashId || '']
+      ? recentlyOnline[stashId || ''].isOnline
+      : true
     : true;
 
   if ((filter === 'hasNominators' && !hasNominators) ||
@@ -151,7 +153,7 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
               type='next'
             />
           )}
-          {recentlyOnline && hasActivity && (
+          {recentlyOnline && hasActivity && recentlyOnline[stashId] && (
             <Badge
               hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
                 replace: {
