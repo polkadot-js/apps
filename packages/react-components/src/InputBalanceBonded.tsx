@@ -51,7 +51,7 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 class InputBalanceBonded extends React.PureComponent<Props, State> {
   public state: State;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {

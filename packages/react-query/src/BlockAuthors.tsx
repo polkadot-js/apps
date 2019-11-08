@@ -37,9 +37,9 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
       let lastBlockNumber = '';
 
       api.derive.chain.subscribeNewHeads((lastHeader): void => {
-        if (lastHeader && lastHeader.number) {
+        if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
-          const thisBlockAuthor = lastHeader.author ? lastHeader.author.toString() : undefined;
+          const thisBlockAuthor = lastHeader.author?.toString();
           const thisBlockNumber = formatNumber(blockNumber);
 
           if (thisBlockAuthor) {

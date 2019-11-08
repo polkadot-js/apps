@@ -81,5 +81,14 @@
   "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.": "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.",
   "//hard/soft///password": "//hard/soft///password",
   "new account": "new account",
-  "transferrable ": "transferrable "
+  "transferrable ": "transferrable ",
+  "Derive account from source": "Derive account from source",
+  "Change on-chain nickname": "Change on-chain nickname",
+  "The selected account to perform the derivation on.": "The selected account to perform the derivation on.",
+  "derive root account": "derive root account",
+  "Derive account from pair": "Derive account from pair",
+  "The password to unlock the selected account.": "The password to unlock the selected account.",
+  "derivation path": "derivation path",
+  "//hard/soft": "//hard/soft",
+  "Unlock": "Unlock"
 }

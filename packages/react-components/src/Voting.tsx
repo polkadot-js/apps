@@ -60,7 +60,7 @@ class Voting extends TxModal<Props, State> {
       : [idNumber, voteValue];
   }
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     const { t } = props;

@@ -65,5 +65,6 @@
   "reserved": "reserved",
   "locked": "locked",
   "Remove ABI": "Remove ABI",
-  "transferrable": "transferrable"
+  "transferrable": "transferrable",
+  "No documentation provided": "No documentation provided"
 }

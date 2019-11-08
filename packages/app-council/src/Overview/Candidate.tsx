@@ -13,13 +13,14 @@ import Voters from './Voters';
 
 interface Props extends I18nProps {
   address: AccountId;
+  isRunnerUp?: boolean;
   voters?: AccountId[];
 }
 
-function Candidate ({ address, t, voters }: Props): React.ReactElement<Props> {
+function Candidate ({ address, isRunnerUp, t, voters }: Props): React.ReactElement<Props> {
   return (
     <AddressCard
-      defaultName={t('candidate')}
+      defaultName={isRunnerUp ? t('runner up') : t('candidate')}
       value={address}
       withIndexOrAddress
     >

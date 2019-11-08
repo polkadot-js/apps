@@ -599,5 +599,15 @@
   "The amount that is associated with this vote. This value is is locked for the duration of the vote.": "",
   "vote value": "",
   "voting balance ": "",
-  "Change session keys": ""
+  "Change session keys": "",
+  "No documentation provided": "",
+  "Derive account from source": "",
+  "Change on-chain nickname": "",
+  "The selected account to perform the derivation on.": "",
+  "derive root account": "",
+  "Derive account from pair": "",
+  "The password to unlock the selected account.": "",
+  "derivation path": "",
+  "//hard/soft": "",
+  "runner up": ""
 }

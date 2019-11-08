@@ -293,6 +293,10 @@ const ExportedComponent = withMulti(
       width: 100%;
     }
 
+    .ui.disabled.search {
+      pointer-events: all;
+    }
+
     .ui.search.selection.dropdown {
       > .text > .ui--KeyPair {
         .ui--IdentityIcon {

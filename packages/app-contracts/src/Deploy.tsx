@@ -44,7 +44,7 @@ class Deploy extends ContractModal<Props, State> {
 
   public isContract = true;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -124,16 +124,16 @@ class Deploy extends ContractModal<Props, State> {
     const { abi: { contract: { constructors } } } = contractAbi;
     const constructor = constructors[constructorIndex];
     const constructOptions: ConstructOptions = constructors.map(
-      (constr) => {
+      (constr, index) => {
         return {
-          key: `${constructorIndex}`,
+          key: `${index}`,
           text: (
             <MessageSignature
               asConstructor
               message={constr}
             />
           ),
-          value: `${constructorIndex}`
+          value: `${index}`
         };
       });
 

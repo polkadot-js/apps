@@ -62,7 +62,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
 
       private timerId = -1;
 
-      public constructor (props: P) {
+      constructor (props: P) {
         super(props);
 
         const [, section, method] = endpoint.split('.');

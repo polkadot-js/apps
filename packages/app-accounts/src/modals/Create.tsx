@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { CreateResult } from '@polkadot/ui-keyring/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../types';
 
@@ -121,6 +122,34 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
   };
 }
 
+export function downloadAccount ({ json, pair }: CreateResult): void {
+  const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+
+  FileSaver.saveAs(blob, `${pair.address}.json`);
+  InputAddress.setLastValue('account', pair.address);
+}
+
+function createAccount (suri: string, pairType: KeypairType, name: string, password: string, success: string): ActionStatus {
+  // we will fill in all the details below
+  const status = { action: 'create' } as ActionStatus;
+
+  try {
+    const result = keyring.addUri(suri, password, { name: name.trim(), tags: [] }, pairType);
+    const { address } = result.pair;
+
+    status.account = address;
+    status.status = 'success';
+    status.message = success;
+
+    downloadAccount(result);
+  } catch (error) {
+    status.status = 'error';
+    status.message = error.message;
+  }
+
+  return status;
+}
+
 function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type: propsType }: Props): React.ReactElement<Props> {
   const { isDevelopment } = useContext(ApiContext);
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
@@ -150,25 +179,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
       return;
     }
 
-    // we will fill in all the details below
-    const status = { action: 'create' } as ActionStatus;
-
-    try {
-      const { json, pair } = keyring.addUri(`${seed}${derivePath}`, password, { name: name.trim(), tags: [] }, pairType);
-      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
-      const { address } = pair;
-
-      FileSaver.saveAs(blob, `${address}.json`);
-
-      status.account = address;
-      status.status = pair ? 'success' : 'error';
-      status.message = t('created account');
-
-      InputAddress.setLastValue('account', address);
-    } catch (error) {
-      status.status = 'error';
-      status.message = error.message;
-    }
+    const status = createAccount(`${seed}${derivePath}`, pairType, name, password, t('created account'));
 
     _toggleConfirmation();
     onStatusChange(status);

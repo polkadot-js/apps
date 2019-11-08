@@ -53,7 +53,7 @@ export { api };
 export default class Api extends React.PureComponent<Props, State> {
   public state: State = {} as unknown as State;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     const { queuePayload, queueSetTxStatus, url } = props;

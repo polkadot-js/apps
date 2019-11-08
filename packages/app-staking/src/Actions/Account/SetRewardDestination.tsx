@@ -22,7 +22,7 @@ interface State {
 }
 
 class SetRewardDestination extends TxComponent<Props, State> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {

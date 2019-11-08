@@ -69,14 +69,20 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
         <details className="docs">
           <summary>
             {
-              docs
-                .filter((line) => line !== '')
-                .map((line, index) => ((
-                  <React.Fragment key={`${name}-docs-${index}`}>
-                    <span>{line}</span>
-                    <br />
-                  </React.Fragment>
-                )))
+              docs && docs.length > 0
+                ? docs
+                  .filter((line) => line !== '')
+                  .map((line, index) => ((
+                    <React.Fragment key={`${name}-docs-${index}`}>
+                      <span>{line}</span>
+                      <br />
+                    </React.Fragment>
+                  )))
+                : (
+                  <i>
+                    {props.t('No documentation provided')}
+                  </i>
+                )
             }
           </summary>
         </details>
