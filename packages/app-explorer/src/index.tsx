@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
@@ -20,7 +19,7 @@ import Main from './Main';
 import NodeInfo from './NodeInfo';
 import translate from './translate';
 
-interface Props extends ApiProps, AppProps, BareProps, I18nProps {
+interface Props extends AppProps, BareProps, I18nProps {
   newEvents?: KeyedEvent[];
 }
 
