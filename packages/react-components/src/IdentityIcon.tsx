@@ -35,18 +35,21 @@ export function getIdentityTheme (systemName: string): 'empty' {
 function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, validators, value }: Props): React.ReactElement<Props> {
   const { systemName } = useContext(ApiContext);
   const { queueAction } = useContext(StatusContext);
+  const [address, setAddress] = useState<string | undefined>();
   const [isValidator, setIsValidator] = useState(false);
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
-    const address = value?.toString();
+    setAddress(value?.toString());
+  }, [value]);
 
+  useEffect((): void => {
     setIsValidator(
       validators
         ? validators.some((validator): boolean => validator.toString() === address)
         : false
     );
-  }, [validators, value]);
+  }, [address, validators]);
 
   const _onCopy = (account: string): void => {
     onCopy && onCopy(account);
@@ -67,7 +70,7 @@ function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, valid
       size={size}
       style={style}
       theme={thisTheme as 'substrate'}
-      value={value}
+      value={address}
     />
   );
 }
