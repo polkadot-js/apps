@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakingValidators } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { IdentityProps } from '@polkadot/react-identicon/types';
 import { I18nProps } from './types';
@@ -41,9 +39,11 @@ function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, valid
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
+    const address = value?.toString();
+
     setIsValidator(
       validators
-        ? validators.some((validator): boolean => validator.eq(value))
+        ? validators.some((validator): boolean => validator.toString() === address)
         : false
     );
   }, [validators, value]);
@@ -78,7 +78,7 @@ export default withMulti(
   withCalls<Props>(
     ['derive.staking.validators', {
       propName: 'validators',
-      transform: ({ validators }): DeriveStakingValidators => validators
+      transform: ({ validators }): AccountId[] => validators
     }]
   )
 );
