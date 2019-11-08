@@ -142,9 +142,12 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { api, electionsInfo: { candidates, members }, t } = this.props;
+    const { api, electionsInfo: { candidates, members, runnersUp }, t } = this.props;
     const available = api.tx.electionsPhragmen
-      ? members.map(([accountId]): AccountId => accountId).concat(candidates)
+      ? members
+        .map(([accountId]): AccountId => accountId)
+        .concat(runnersUp.map(([accountId]): AccountId => accountId))
+        .concat(candidates)
       : candidates;
 
     return (
@@ -159,11 +162,14 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderContent = (): React.ReactNode => {
-    const { api, electionsInfo: { candidates, members }, t } = this.props;
+    const { api, electionsInfo: { candidates, members, runnersUp }, t } = this.props;
     const { accountId, votes } = this.state;
     const _candidates = candidates.map((accountId): [AccountId, boolean] => [accountId, false]);
     const available = api.tx.electionsPhragmen
-      ? members.map(([accountId]): [AccountId, boolean] => [accountId, true]).concat(_candidates)
+      ? members
+        .map(([accountId]): [AccountId, boolean] => [accountId, true])
+        .concat(runnersUp.map(([accountId]): [AccountId, boolean] => [accountId, false]))
+        .concat(_candidates)
       : _candidates;
 
     return (
