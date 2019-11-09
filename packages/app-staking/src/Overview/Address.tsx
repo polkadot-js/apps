@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
 import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
-import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -26,6 +25,7 @@ interface Props extends I18nProps {
   filter: ValidatorFilter;
   isElected: boolean;
   lastAuthors?: string[];
+  myAccounts: string[];
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
@@ -44,9 +44,10 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, defaultName, filter, isElected, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, isElected, lastAuthors, myAccounts, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
+  const [hasActivity, setHasActivity] = useState(true);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
@@ -70,30 +71,31 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
       const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
-      const myAccounts = keyring.getAccounts().map(({ address }): string => address);
-      const _stashId = stashId && stashId.toString();
+      const stakersOwn = stakers && !stakers.own.isEmpty && stakers.own.unwrap();
 
       setStakingState({
-        balanceOpts: stakers && !stakers.own.isEmpty
-          ? { bonded: [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())] }
+        balanceOpts: stakers && stakersOwn
+          ? { bonded: [stakersOwn, stakers.total.unwrap().sub(stakersOwn)] }
           : { bonded: true },
-        controllerId: controllerId && controllerId.toString(),
+        controllerId: controllerId?.toString(),
         hasNominators: nominators.length !== 0,
         isNominatorMe: nominators.some(([who]): boolean =>
           myAccounts.includes(who.toString())
         ),
         nominators,
-        sessionId: nextSessionIds && nextSessionIds[0] && nextSessionIds[0].toString(),
-        stashId: _stashId
+        sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
+        stashId: stashId?.toString()
       });
     }
   }, [stakingInfo]);
 
-  const hasActivity = recentlyOnline
-    ? recentlyOnline[stashId || '']
-      ? recentlyOnline[stashId || ''].isOnline
-      : true
-    : true;
+  useEffect((): void => {
+    setHasActivity(
+      recentlyOnline && recentlyOnline[stashId || '']
+        ? recentlyOnline[stashId || ''].isOnline
+        : true
+    );
+  }, [recentlyOnline, stashId]);
 
   if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||

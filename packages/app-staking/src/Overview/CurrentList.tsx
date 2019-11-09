@@ -10,6 +10,7 @@ import { ValidatorFilter } from '../types';
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from '@polkadot/react-api';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
+import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 import Address from './Address';
@@ -22,7 +23,7 @@ interface Props extends I18nProps {
   stakingOverview?: DerivedStakingOverview;
 }
 
-function renderColumn (addresses: AccountId[] | string[], defaultName: string, withOnline: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props, pointIndexes?: number[]): React.ReactNode {
+function renderColumn (myAccounts: string[], addresses: AccountId[] | string[], defaultName: string, withOnline: boolean, filter: string, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props, pointIndexes?: number[]): React.ReactNode {
   return (addresses as AccountId[]).map((address, index): React.ReactNode => (
     <Address
       address={address}
@@ -32,6 +33,7 @@ function renderColumn (addresses: AccountId[] | string[], defaultName: string, w
       isElected={stakingOverview && stakingOverview.currentElected.some((accountId): boolean => accountId.eq(address))}
       lastAuthors={lastAuthors}
       key={address.toString()}
+      myAccounts={myAccounts}
       points={
         stakingOverview && pointIndexes && pointIndexes[index] !== -1
           ? stakingOverview.eraPoints.individual[pointIndexes[index]]
@@ -53,6 +55,7 @@ function filterAccounts (list: string[] = [], without: AccountId[] | string[]): 
 function CurrentList (props: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
+  const [myAccounts] = useState(keyring.getAccounts().map(({ address }): string => address));
   const [{ electedFiltered, nextFiltered, pointIndexes }, setFiltered] = useState<{ electedFiltered: string[]; nextFiltered: string[]; pointIndexes: number[] }>({ electedFiltered: [], nextFiltered: [], pointIndexes: [] });
   const { next, stakingOverview, t } = props;
 
@@ -91,7 +94,7 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {stakingOverview && renderColumn(stakingOverview.validators, t('validator'), true, filter, props, pointIndexes)}
+          {stakingOverview && renderColumn(myAccounts, stakingOverview.validators, t('validator'), true, filter, props, pointIndexes)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
@@ -99,8 +102,8 @@ function CurrentList (props: Props): React.ReactElement<Props> {
         >
           {(electedFiltered.length !== 0 || nextFiltered.length !== 0) && (
             <>
-              {renderColumn(electedFiltered, t('intention'), false, filter, props)}
-              {renderColumn(nextFiltered, t('intention'), false, filter, props)}
+              {renderColumn(myAccounts, electedFiltered, t('intention'), false, filter, props)}
+              {renderColumn(myAccounts, nextFiltered, t('intention'), false, filter, props)}
             </>
           )}
         </Column>
