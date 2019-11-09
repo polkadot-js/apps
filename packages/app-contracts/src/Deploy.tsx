@@ -292,7 +292,7 @@ class Deploy extends ContractModal<Props, State> {
     const { api, history } = this.props;
 
     const section = api.tx.contracts ? 'contracts' : 'contract';
-    const record = result.findRecord(section, 'Instantiated');
+    const record = result.findRecord(section, 'Instantiated', true);
 
     if (record) {
       const address = record.event.data[1] as unknown as AccountId;
