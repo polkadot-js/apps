@@ -237,7 +237,7 @@ class VanityApp extends TxComponent<Props, State> {
       return;
     }
 
-    setTimeout((): void => {
+    setImmediate((): void => {
       if (this._isActive) {
         if (this.results.length === 25) {
           this.checkMatches();
@@ -257,7 +257,7 @@ class VanityApp extends TxComponent<Props, State> {
 
         this.executeGeneration();
       }
-    }, 0);
+    });
   }
 
   private onCreateToggle = (createSeed: string): void => {

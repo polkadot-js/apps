@@ -13,11 +13,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { AddressRow, Button, Toggle } from '@polkadot/react-components';
+import { AddressMini, Button, Toggle } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
 import VoteValue from './VoteValue';
+
+type VoteType = 'member' | 'runnerup' | 'candidate';
 
 interface Props extends ApiProps, ComponentProps, TxModalProps {
   voterPositions?: DerivedVoterPositions;
@@ -46,37 +48,47 @@ interface State extends TxModalState {
 const Candidates = styled.div`
   display: flex;
   flex-wrap: wrap;
-`;
+  justify-content: center;
 
-const Candidate = styled.div`
-  cursor: pointer;
-  width: 25rem;
-  min-width: calc(50% - 1rem);
-  border-radius: 0.5rem;
-  border: 1px solid #eee;
-  padding: 0.75rem 0.5rem 0.25rem;
-  margin: 0.25rem;
-  transition: all 0.2s;
+  .candidate {
+    border: 1px solid #eee;
+    border-radius: 0.25rem;
+    margin: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-right: 0.5rem;
+    position: relative;
 
-  b {
-    min-width: 5rem;
-  }
-
-  &.aye {
-    background-color: rgba(0, 255, 0, 0.05);
-
-    b {
-      color: green;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-color: transparent;
+      border-style: solid;
+      border-radius: 0.25em;
+      border-width: 0.25em;
     }
-  }
 
-  &.nay {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
+    &.isAye {
+      background: #fff;
+      border-color: #ccc;
+    }
 
-  .ui--Row-children {
-    text-align: right;
-    width: 100%;
+    &.member::after {
+      border-color: green;
+    }
+
+    &.runnerup::after {
+      border-color: steelblue;
+    }
+
+    .ui--AddressMini-icon {
+      z-index: 1;
+    }
+
+    .candidate-right {
+      text-align: right;
+    }
   }
 `;
 
@@ -164,11 +176,11 @@ class Vote extends TxModal<Props, State> {
   protected renderContent = (): React.ReactNode => {
     const { api, electionsInfo: { candidates, members, runnersUp }, t } = this.props;
     const { accountId, votes } = this.state;
-    const _candidates = candidates.map((accountId): [AccountId, boolean] => [accountId, false]);
+    const _candidates = candidates.map((accountId): [AccountId, VoteType] => [accountId, 'candidate']);
     const available = api.tx.electionsPhragmen
       ? members
-        .map(([accountId]): [AccountId, boolean] => [accountId, true])
-        .concat(runnersUp.map(([accountId]): [AccountId, boolean] => [accountId, false]))
+        .map(([accountId]): [AccountId, VoteType] => [accountId, 'member'])
+        .concat(runnersUp.map(([accountId]): [AccountId, VoteType] => [accountId, 'runnerup']))
         .concat(_candidates)
       : _candidates;
 
@@ -200,21 +212,17 @@ class Vote extends TxModal<Props, State> {
           </AlreadyVoted>
         )} */}
         <Candidates>
-          {available.map(([accountId, isMember]): React.ReactNode => {
+          {available.map(([accountId, type]): React.ReactNode => {
             const key = accountId.toString();
             const isAye = votes[key] || false;
 
             return (
-              <Candidate
-                className={isAye ? 'aye' : 'nay'}
+              <AddressMini
+                className={`candidate ${isAye ? 'isAye' : 'isNay'} ${type}`}
                 key={key}
+                value={key}
               >
-                <AddressRow
-                  defaultName={isMember ? t('member') : t('candidate')}
-                  isInline
-                  value={accountId}
-                  withIndexOrAddress
-                >
+                <div className='candidate-right'>
                   <Toggle
                     label={
                       isAye
@@ -224,8 +232,8 @@ class Vote extends TxModal<Props, State> {
                     onChange={this.onChangeVote(key)}
                     value={isAye}
                   />
-                </AddressRow>
-              </Candidate>
+                </div>
+              </AddressMini>
             );
           })}
         </Candidates>
