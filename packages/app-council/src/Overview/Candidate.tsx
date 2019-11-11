@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AddressCard } from '@polkadot/react-components';
+import { AddressCard, Badge, Icon } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Voters from './Voters';
@@ -21,6 +21,14 @@ function Candidate ({ address, isRunnerUp, t, voters }: Props): React.ReactEleme
   return (
     <AddressCard
       defaultName={isRunnerUp ? t('runner up') : t('candidate')}
+      iconInfo={isRunnerUp && (
+        <Badge
+          hover={t('Runner up')}
+          info={<Icon name='chevron down' />}
+          isTooltip
+          type='runnerup'
+        />
+      )}
       value={address}
       withIndexOrAddress
     >
