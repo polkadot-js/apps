@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.1",
-    "@polkadot/api-contract": "^0.97.0-beta.0",
+    "@polkadot/api-contract": "^0.97.0-beta.2",
     "@polkadot/react-components": "^0.37.0-beta.64"
   }
 }
