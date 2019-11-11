@@ -136,7 +136,7 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {stakingOverview && _renderColumn(validators, t('validator'), true)}
+          {validators.length !== 0 && _renderColumn(validators, t('validator'), true)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
