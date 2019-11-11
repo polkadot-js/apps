@@ -223,7 +223,7 @@ export default withMulti(
         margin-right: -0.25rem;
 
         &.isSelected {
-          color: goldenrod;
+          color: darkorange;
         }
       }
     }
@@ -273,7 +273,7 @@ export default withMulti(
     }
 
     .staking--label.controllerSpacer {
-      margin-top: 2.75rem;
+      margin-top: 0.5rem;
     }
   `,
   translate,
