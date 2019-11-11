@@ -39,5 +39,8 @@
   "The amount that is associated with this vote. This value is is locked for the duration of the vote.": "The amount that is associated with this vote. This value is is locked for the duration of the vote.",
   "vote value": "vote value",
   "voting balance ": "voting balance ",
-  "runner up": "runner up"
+  "runner up": "runner up",
+  "Runner up": "Runner up",
+  "Current member": "Current member",
+  "runners up": "runners up"
 }
