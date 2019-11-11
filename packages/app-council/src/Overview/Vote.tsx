@@ -31,6 +31,8 @@ interface State extends TxModalState {
   // voterPositions: DerivedVoterPositions;
 }
 
+// const MAX_VOTES = 16;
+
 // const AlreadyVoted = styled.article`
 //   display: flex;
 //   align-items: center;
