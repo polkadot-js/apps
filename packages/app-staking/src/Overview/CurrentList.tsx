@@ -24,37 +24,12 @@ interface Props extends I18nProps {
   stakingOverview?: DerivedStakingOverview;
 }
 
+type AccountExtend = [string, boolean, boolean, number];
+
 const STORE_FAVS = 'staking:favorites';
 
-function renderColumn (myAccounts: string[], favorites: string[], addresses: string[], defaultName: string, withOnline: boolean, filter: string, onFavorite: (accountId: string) => void, { authorsMap, lastAuthors, recentlyOnline, stakingOverview }: Props, pointIndexes?: number[]): React.ReactNode {
-  return addresses.map((address, index): React.ReactNode => (
-    <Address
-      address={address}
-      authorsMap={authorsMap}
-      defaultName={defaultName}
-      filter={filter}
-      isElected={stakingOverview && stakingOverview.currentElected.some((accountId): boolean => accountId.eq(address))}
-      isFavorite={favorites.includes(address)}
-      lastAuthors={lastAuthors}
-      key={address}
-      myAccounts={myAccounts}
-      onFavorite={onFavorite}
-      points={
-        stakingOverview && pointIndexes && pointIndexes[index] !== -1
-          ? stakingOverview.eraPoints.individual[pointIndexes[index]]
-          : undefined
-      }
-      recentlyOnline={
-        withOnline
-          ? recentlyOnline
-          : undefined
-      }
-    />
-  ));
-}
-
-function filterAccounts (list: string[] = [], without: string[], favorites: string[]): string[] {
-  return list
+function filterAccounts (accounts: string[] = [], elected: string[], favorites: string[], without: string[], noPoints = false): AccountExtend[] {
+  return accounts
     .filter((accountId): boolean => !without.includes(accountId as any))
     .sort((a, b): number => {
       const aIdx = favorites.includes(a);
@@ -65,43 +40,78 @@ function filterAccounts (list: string[] = [], without: string[], favorites: stri
         : aIdx
           ? -1
           : 1;
-    });
+    })
+    .map((accountId): AccountExtend => [
+      accountId,
+      elected.includes(accountId),
+      favorites.includes(accountId),
+      noPoints
+        ? -1
+        : elected.indexOf(accountId)
+    ]);
 }
 
 function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((accountId): string => accountId.toString());
 }
 
-function CurrentList (props: Props): React.ReactElement<Props> {
+function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [favorites, setFavorites] = useState<string[]>(store.get(STORE_FAVS, []));
   const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [myAccounts] = useState(keyring.getAccounts().map(({ address }): string => address));
-  const [{ elected, pointIndexes, validators, waiting }, setFiltered] = useState<{ elected: string[]; pointIndexes: number[]; validators: string[]; waiting: string[] }>({ elected: [], pointIndexes: [], validators: [], waiting: [] });
-  const { next, stakingOverview, t } = props;
+  const [{ elected, validators, waiting }, setFiltered] = useState<{ elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ elected: [], validators: [], waiting: [] });
 
   useEffect((): void => {
     if (stakingOverview) {
-      const validators = filterAccounts(accountsToString(stakingOverview.validators), [], favorites);
-      const elected = isSubstrateV2 ? filterAccounts(accountsToString(stakingOverview.currentElected), validators, favorites) : [];
+      const _elected = accountsToString(stakingOverview.currentElected);
+      const _validators = accountsToString(stakingOverview.validators);
+      const validators = filterAccounts(_validators, _elected, favorites, []);
+      const elected = isSubstrateV2 ? filterAccounts(_elected, _elected, favorites, _validators, true) : [];
 
       setFiltered({
         elected,
-        pointIndexes: validators.map((validator): number => stakingOverview.currentElected.indexOf(validator as any)),
         validators,
-        waiting: filterAccounts(next, elected, favorites)
+        waiting: filterAccounts(next, [], favorites, _elected, true)
       });
     }
   }, [favorites, next, stakingOverview]);
 
-  const _onFavorite = (accountId: string): void => {
-    const newFavs = favorites.includes(accountId)
-      ? favorites.filter((thisOne): boolean => thisOne !== accountId)
-      : [...favorites, accountId];
+  const _onFavorite = (accountId: string): void =>
+    setFavorites(
+      store.set(
+        STORE_FAVS,
+        favorites.includes(accountId)
+          ? favorites.filter((thisOne): boolean => thisOne !== accountId)
+          : [...favorites, accountId]
+      )
+    );
 
-    store.set(STORE_FAVS, newFavs);
-    setFavorites(newFavs);
-  };
+  const _renderColumn = (addresses: AccountExtend[], defaultName: string, withOnline: boolean): React.ReactNode =>
+    addresses.map(([address, isElected, isFavorite, pointIndex]): React.ReactNode => (
+      <Address
+        address={address}
+        authorsMap={authorsMap}
+        defaultName={defaultName}
+        filter={filter}
+        isElected={isElected}
+        isFavorite={isFavorite}
+        lastAuthors={lastAuthors}
+        key={address}
+        myAccounts={myAccounts}
+        onFavorite={_onFavorite}
+        points={
+          pointIndex !== -1
+            ? stakingOverview?.eraPoints.individual[pointIndex]
+            : undefined
+        }
+        recentlyOnline={
+          withOnline
+            ? recentlyOnline
+            : undefined
+        }
+      />
+    ));
 
   return (
     <div>
@@ -126,7 +136,7 @@ function CurrentList (props: Props): React.ReactElement<Props> {
           emptyText={t('No addresses found')}
           headerText={t('validators')}
         >
-          {stakingOverview && renderColumn(myAccounts, favorites, validators, t('validator'), true, filter, _onFavorite, props, pointIndexes)}
+          {validators.length !== 0 && _renderColumn(validators, t('validator'), true)}
         </Column>
         <Column
           emptyText={t('No addresses found')}
@@ -134,8 +144,8 @@ function CurrentList (props: Props): React.ReactElement<Props> {
         >
           {(elected.length !== 0 || waiting.length !== 0) && (
             <>
-              {renderColumn(myAccounts, favorites, elected, t('intention'), false, filter, _onFavorite, props)}
-              {renderColumn(myAccounts, favorites, waiting, t('intention'), false, filter, _onFavorite, props)}
+              {_renderColumn(elected, t('intention'), false)}
+              {_renderColumn(waiting, t('intention'), false)}
             </>
           )}
         </Column>
