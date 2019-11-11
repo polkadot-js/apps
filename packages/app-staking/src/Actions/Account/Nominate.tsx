@@ -62,7 +62,7 @@ function Nominate ({ className, controllerId, nominees, onClose, stashId, stashO
     setNext(
       (next || []).includes(nominee)
         ? (next || []).filter((accountId): boolean => accountId !== nominee)
-        : [nominee, ...(next || [])].slice(MAX_NOMINEES)
+        : [...(next || []), nominee].slice(MAX_NOMINEES)
     );
 
   return (
