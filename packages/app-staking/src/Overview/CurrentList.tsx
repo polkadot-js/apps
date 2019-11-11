@@ -4,7 +4,7 @@
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, EraPoints, Points } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-compon
 import store from 'store';
 import keyring from '@polkadot/ui-keyring';
 
+import { STORE_FAVS } from '../constants';
 import translate from '../translate';
 import Address from './Address';
 
@@ -24,31 +25,31 @@ interface Props extends I18nProps {
   stakingOverview?: DerivedStakingOverview;
 }
 
-type AccountExtend = [string, boolean, boolean, number];
+type AccountExtend = [string, boolean, boolean, Points?];
 
-const STORE_FAVS = 'staking:favorites';
-
-function filterAccounts (accounts: string[] = [], elected: string[], favorites: string[], without: string[], noPoints = false): AccountExtend[] {
+function filterAccounts (accounts: string[] = [], elected: string[], favorites: string[], without: string[], eraPoints?: EraPoints): AccountExtend[] {
   return accounts
     .filter((accountId): boolean => !without.includes(accountId as any))
     .sort((a, b): number => {
-      const aIdx = favorites.includes(a);
-      const bIdx = favorites.includes(b);
+      const isFavA = favorites.includes(a);
+      const isFavB = favorites.includes(b);
 
-      return aIdx === bIdx
+      return isFavA === isFavB
         ? 0
-        : aIdx
-          ? -1
-          : 1;
+        : (isFavA ? -1 : 1);
     })
-    .map((accountId): AccountExtend => [
-      accountId,
-      elected.includes(accountId),
-      favorites.includes(accountId),
-      noPoints
-        ? -1
-        : elected.indexOf(accountId)
-    ]);
+    .map((accountId): AccountExtend => {
+      const electedIdx = elected.indexOf(accountId);
+
+      return [
+        accountId,
+        elected.includes(accountId),
+        favorites.includes(accountId),
+        electedIdx !== -1
+          ? eraPoints?.individual[electedIdx]
+          : undefined
+      ];
+    });
 }
 
 function accountsToString (accounts: AccountId[]): string[] {
@@ -66,13 +67,13 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
     if (stakingOverview) {
       const _elected = accountsToString(stakingOverview.currentElected);
       const _validators = accountsToString(stakingOverview.validators);
-      const validators = filterAccounts(_validators, _elected, favorites, []);
-      const elected = isSubstrateV2 ? filterAccounts(_elected, _elected, favorites, _validators, true) : [];
+      const validators = filterAccounts(_validators, _elected, favorites, [], stakingOverview.eraPoints);
+      const elected = isSubstrateV2 ? filterAccounts(_elected, _elected, favorites, _validators) : [];
 
       setFiltered({
         elected,
         validators,
-        waiting: filterAccounts(next, [], favorites, _elected, true)
+        waiting: filterAccounts(next, [], favorites, _elected)
       });
     }
   }, [favorites, next, stakingOverview]);
@@ -88,7 +89,7 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
     );
 
   const _renderColumn = (addresses: AccountExtend[], defaultName: string, withOnline: boolean): React.ReactNode =>
-    addresses.map(([address, isElected, isFavorite, pointIndex]): React.ReactNode => (
+    addresses.map(([address, isElected, isFavorite, points]): React.ReactNode => (
       <Address
         address={address}
         authorsMap={authorsMap}
@@ -100,11 +101,7 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
         key={address}
         myAccounts={myAccounts}
         onFavorite={_onFavorite}
-        points={
-          pointIndex !== -1
-            ? stakingOverview?.eraPoints.individual[pointIndex]
-            : undefined
-        }
+        points={points}
         recentlyOnline={
           withOnline
             ? recentlyOnline
