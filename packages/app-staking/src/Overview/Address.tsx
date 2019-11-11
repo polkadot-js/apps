@@ -24,8 +24,10 @@ interface Props extends I18nProps {
   defaultName: string;
   filter: ValidatorFilter;
   isElected: boolean;
+  isFavorite: boolean;
   lastAuthors?: string[];
   myAccounts: string[];
+  onFavorite: (accountId: string) => void;
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
@@ -44,7 +46,7 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, defaultName, filter, isElected, lastAuthors, myAccounts, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, onFavorite, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
@@ -120,13 +122,23 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
 
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
+  const _onFavorite = (): void => onFavorite(stashId);
 
   return (
     <AddressCard
       buttons={
         <div className='staking--Address-info'>
-          {lastBlockNumber && (
-            <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{lastBlockNumber}</div>
+          {isSubstrateV2 && (
+            <div className='extras'>
+              {lastBlockNumber && (
+                <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{lastBlockNumber}</div>
+              )}
+              <Icon
+                className={`favorite ${isFavorite && 'isSelected'}`}
+                name={isFavorite ? 'star' : 'star outline'}
+                onClick={_onFavorite}
+              />
+            </div>
           )}
           {controllerId && (
             <div>
@@ -200,6 +212,22 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
 
 export default withMulti(
   styled(Address)`
+    .extras {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+
+      .favorite {
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 0.5rem;
+        margin-right: -0.25rem;
+
+        &.isSelected {
+          color: goldenrod;
+        }
+      }
+    }
+
     .blockNumberV1,
     .blockNumberV2 {
       border-radius: 0.25rem;
@@ -220,7 +248,6 @@ export default withMulti(
 
     .blockNumberV2 {
       display: inline-block;
-      margin-bottom: 0.75rem;
       padding: 0.25rem 0;
 
       &.isCurrent {
