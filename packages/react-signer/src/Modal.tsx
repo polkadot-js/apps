@@ -471,7 +471,7 @@ class Signer extends React.PureComponent<Props, State> {
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
 
-      const unlockError = this.unlockAccount(accountId as string, password);
+      const unlockError = this.unlockAccount(accountId, password);
 
       if (unlockError) {
         this.setState({ unlockError });
