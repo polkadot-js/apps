@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-dashboard",
-  "version": "0.37.0-beta.64",
+  "version": "0.37.0-beta.65",
   "description": "Dashboard for all apps, allowing for an overview and quick navigation",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.1",
-    "@polkadot/apps-routing": "^0.37.0-beta.64",
-    "@polkadot/react-components": "^0.37.0-beta.64"
+    "@polkadot/apps-routing": "^0.37.0-beta.65",
+    "@polkadot/react-components": "^0.37.0-beta.65"
   }
 }
