@@ -280,7 +280,10 @@ function renderBalances (props: Props): React.ReactNode {
             value={ownBonded}
           >
             {otherBonded.length !== 0 && (
-              <span>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode => <FormatBalance key={index} value={bonded} />)})</span>)}
+              <>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode =>
+                <FormatBalance key={index} value={bonded} />
+              )})</>
+            )}
           </FormatBalance>
         </>
       )}
@@ -377,9 +380,10 @@ export default withMulti(
       opacity: 1;
 
       label {
-        grid-column:  1;
+        grid-column: 1;
         padding-right: 0.5rem;
         text-align: right;
+        vertical-align: middle;
 
         .help.circle.icon {
           display: none;
@@ -387,7 +391,7 @@ export default withMulti(
       }
 
       .result {
-        grid-column:  2;
+        grid-column: 2;
 
         .icon {
           margin-left: .3em;

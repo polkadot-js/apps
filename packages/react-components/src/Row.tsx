@@ -77,6 +77,7 @@ export const styles = `
       label,
       .result {
         display: inline-block;
+        vertical-align: middle;
       }
     }
 

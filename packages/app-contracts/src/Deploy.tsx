@@ -182,7 +182,7 @@ class Deploy extends ContractModal<Props, State> {
               <Dropdown
                 help={t('The deployment constructor information for this contract, as provided by the ABI.')}
                 isDisabled={contractAbi.abi.contract.constructors.length <= 1}
-                label={t('constructor ')}
+                label={t('constructor')}
                 onChange={this.onChangeConstructorIndex}
                 options={constructOptions}
                 style={{ fontFamily: 'monospace' }}

@@ -16,12 +16,10 @@ interface Props extends BareProps {
   value?: Compact<any> | BN | string | null;
 }
 
-function format (value: Compact<any> | BN | string, unit: string): React.ReactNode {
+function format (value: Compact<any> | BN | string): string {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
 
-  return (
-    <span className='value'><span className='prefix'>{prefix}</span><span className='postfix'>.{`000${postfix || ''}`.slice(-3)}</span><span className='units'>&nbsp;{unit}</span></span>
-  );
+  return `${prefix}.${`000${postfix || ''}`.slice(-3)}`;
 }
 
 export function FormatBalance ({ children, className, label = '', value }: Props): React.ReactElement<Props> {
@@ -31,30 +29,23 @@ export function FormatBalance ({ children, className, label = '', value }: Props
     <div className={className}>
       {label}{
         value
-          ? format(value, unit)
-          : <span><span className='postfix'>-</span><span className='units'>&nbsp;{unit}</span></span>
-      }{children}
+          ? format(value)
+          : '-'
+      }&nbsp;{unit}{children}
     </div>
   );
 }
 
 export default styled(FormatBalance)`
-  display: inline-block;
-  line-height: 1;
+  display: inline;
   vertical-align: middle;
 
-  label {
-    margin-right: 0.25rem;
-  }
-
   * {
-    display: inline-block;
     vertical-align: middle;
   }
 
-  .value {
-    .postfix {
-      opacity: 0.66;
-    }
+  > label,
+  > .label {
+    margin-right: 0.25rem;
   }
 `;
