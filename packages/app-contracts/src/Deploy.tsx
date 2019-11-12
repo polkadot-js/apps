@@ -292,10 +292,12 @@ class Deploy extends ContractModal<Props, State> {
     const { api, history } = this.props;
 
     const section = api.tx.contracts ? 'contracts' : 'contract';
-    const record = result.findRecord(section, 'Instantiated');
+    const records = result.filterRecords(section, 'Instantiated');
 
-    if (record) {
-      const address = record.event.data[1] as unknown as AccountId;
+    if (records.length) {
+      // find the last EventRecord (in the case of multiple contracts deployed - we should really be
+      // more clever here to find the exact contract deployed, this works for eg. Delegator)
+      const address = records[records.length - 1].event.data[1] as unknown as AccountId;
 
       this.setState(({ abi, name, tags }): Pick<State, never> | unknown => {
         if (!abi || !name) {

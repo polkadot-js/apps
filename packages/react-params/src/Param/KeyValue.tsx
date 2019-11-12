@@ -16,11 +16,12 @@ interface StateParam {
   u8a: Uint8Array;
 }
 
-export function createParam (hex: string, length = -1): StateParam {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function createParam (hex: string | String, length = -1): StateParam {
   let u8a;
 
   try {
-    u8a = hexToU8a(hex);
+    u8a = hexToU8a(hex.toString());
   } catch (error) {
     u8a = new Uint8Array([]);
   }

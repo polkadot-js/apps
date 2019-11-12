@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
 import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
-import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -25,7 +24,10 @@ interface Props extends I18nProps {
   defaultName: string;
   filter: ValidatorFilter;
   isElected: boolean;
+  isFavorite: boolean;
   lastAuthors?: string[];
+  myAccounts: string[];
+  onFavorite: (accountId: string) => void;
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
@@ -44,9 +46,10 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, defaultName, filter, isElected, lastAuthors, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, onFavorite, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
+  const [hasActivity, setHasActivity] = useState(true);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
@@ -70,30 +73,31 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
       const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
-      const myAccounts = keyring.getAccounts().map(({ address }): string => address);
-      const _stashId = stashId && stashId.toString();
+      const stakersOwn = stakers && !stakers.own.isEmpty && stakers.own.unwrap();
 
       setStakingState({
-        balanceOpts: stakers && !stakers.own.isEmpty
-          ? { bonded: [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())] }
+        balanceOpts: stakers && stakersOwn
+          ? { bonded: [stakersOwn, stakers.total.unwrap().sub(stakersOwn)] }
           : { bonded: true },
-        controllerId: controllerId && controllerId.toString(),
+        controllerId: controllerId?.toString(),
         hasNominators: nominators.length !== 0,
         isNominatorMe: nominators.some(([who]): boolean =>
           myAccounts.includes(who.toString())
         ),
         nominators,
-        sessionId: nextSessionIds && nextSessionIds[0] && nextSessionIds[0].toString(),
-        stashId: _stashId
+        sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
+        stashId: stashId?.toString()
       });
     }
   }, [stakingInfo]);
 
-  const hasActivity = recentlyOnline
-    ? recentlyOnline[stashId || '']
-      ? recentlyOnline[stashId || ''].isOnline
-      : true
-    : true;
+  useEffect((): void => {
+    setHasActivity(
+      recentlyOnline && recentlyOnline[stashId || '']
+        ? recentlyOnline[stashId || ''].isOnline
+        : true
+    );
+  }, [recentlyOnline, stashId]);
 
   if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
@@ -118,13 +122,23 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
 
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
+  const _onFavorite = (): void => onFavorite(stashId);
 
   return (
     <AddressCard
       buttons={
         <div className='staking--Address-info'>
-          {lastBlockNumber && (
-            <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{lastBlockNumber}</div>
+          {isSubstrateV2 && (
+            <div className='extras'>
+              {lastBlockNumber && (
+                <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{lastBlockNumber}</div>
+              )}
+              <Icon
+                className={`favorite ${isFavorite && 'isSelected'}`}
+                name={isFavorite ? 'star' : 'star outline'}
+                onClick={_onFavorite}
+              />
+            </div>
           )}
           {controllerId && (
             <div>
@@ -198,6 +212,22 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
 
 export default withMulti(
   styled(Address)`
+    .extras {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+
+      .favorite {
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 0.5rem;
+        margin-right: -0.25rem;
+
+        &.isSelected {
+          color: darkorange;
+        }
+      }
+    }
+
     .blockNumberV1,
     .blockNumberV2 {
       border-radius: 0.25rem;
@@ -218,7 +248,6 @@ export default withMulti(
 
     .blockNumberV2 {
       display: inline-block;
-      margin-bottom: 0.75rem;
       padding: 0.25rem 0;
 
       &.isCurrent {
@@ -244,7 +273,7 @@ export default withMulti(
     }
 
     .staking--label.controllerSpacer {
-      margin-top: 2.75rem;
+      margin-top: 0.5rem;
     }
   `,
   translate,

@@ -252,14 +252,13 @@ class Account extends React.PureComponent<Props, State> {
     const { stashOptions } = this.props;
     const { controllerId, isNominateOpen, nominees, stashId } = this.state;
 
-    if (!stashId || !controllerId) {
+    if (!isNominateOpen || !stashId || !controllerId) {
       return null;
     }
 
     return (
       <Nominate
         controllerId={controllerId}
-        isOpen={isNominateOpen}
         nominees={nominees}
         onClose={this.toggleNominate}
         stashId={stashId}

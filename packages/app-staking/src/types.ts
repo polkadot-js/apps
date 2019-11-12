@@ -4,16 +4,8 @@
 
 import { DerivedFees, DerivedBalances, DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { EraPoints } from '@polkadot/types/interfaces';
-import { u32 } from '@polkadot/types';
 
 export type Nominators = Record<string, string[]>;
-
-export interface DerivedStakingOverviewExt {
-  currentElected: string[];
-  eraPointsEarned: EraPoints;
-  validatorCount: u32;
-}
 
 export interface ComponentProps {
   allAccounts?: SubjectInfo;
