@@ -10,7 +10,8 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import React from 'react';
 
 import { withCalls } from '@polkadot/react-api';
-import { formatBalance } from '@polkadot/util';
+
+import FormatBalance from './FormatBalance';
 
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
@@ -19,15 +20,15 @@ interface Props extends BareProps, CallProps {
   balances_all?: DerivedBalances;
 }
 
-export function BalanceDisplay ({ children, className, label = '', balances_all }: Props): React.ReactElement<Props> {
+export function BalanceDisplay ({ children, className, label, balances_all }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
-      {label}{
-        balances_all
-          ? formatBalance(balances_all.freeBalance)
-          : '-'
-      }{children}
-    </div>
+    <FormatBalance
+      className={className}
+      label={label}
+      value={balances_all && balances_all.freeBalance}
+    >
+      {children}
+    </FormatBalance>
   );
 }
 

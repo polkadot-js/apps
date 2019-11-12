@@ -9,7 +9,8 @@ import { AccountId, AccountIndex, Address, StakingLedger } from '@polkadot/types
 import React from 'react';
 
 import { withCalls } from '@polkadot/react-api';
-import { formatBalance } from '@polkadot/util';
+
+import FormatBalance from './FormatBalance';
 
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
@@ -20,13 +21,13 @@ interface Props extends BareProps, CallProps {
 
 export function BondedDisplay ({ children, className, label = '', staking_ledger }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
-      {label}{
-        staking_ledger
-          ? formatBalance(staking_ledger.active)
-          : '-'
-      }{children}
-    </div>
+    <FormatBalance
+      className={className}
+      label={label}
+      value={staking_ledger && staking_ledger.active}
+    >
+      {children}
+    </FormatBalance>
   );
 }
 

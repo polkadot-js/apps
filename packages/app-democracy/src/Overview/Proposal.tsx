@@ -11,7 +11,7 @@ import React from 'react';
 import { Option, Tuple, Vec } from '@polkadot/types';
 import { ActionItem, InputAddress, Labelled, Static } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import translate from '../translate';
 import Seconding from './Seconding';
@@ -42,7 +42,7 @@ function renderProposal ({ democracy_depositOf, t }: Props): React.ReactNode {
         ))}
       </Labelled>
       <Static label={t('balance')}>
-        {formatBalance(balance)}
+        <FormatBalance value={balance} />
       </Static>
     </div>
   );

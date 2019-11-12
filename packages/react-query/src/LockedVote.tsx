@@ -7,9 +7,9 @@ import { BareProps, CallProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address, BalanceOf } from '@polkadot/types/interfaces';
 
 import React from 'react';
-
 import { withCalls } from '@polkadot/react-api';
-import { formatBalance } from '@polkadot/util';
+
+import FormatBalance from './FormatBalance';
 
 interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
@@ -20,13 +20,13 @@ interface Props extends BareProps, CallProps {
 
 export function LockedVote ({ children, className, electionsPhragmen_stakeOf, label = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
-      {label}{
-        electionsPhragmen_stakeOf
-          ? formatBalance(electionsPhragmen_stakeOf)
-          : '-'
-      }{children}
-    </div>
+    <FormatBalance
+      className={className}
+      label={label}
+      value={electionsPhragmen_stakeOf}
+    >
+      {children}
+    </FormatBalance>
   );
 }
 

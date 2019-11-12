@@ -100,7 +100,7 @@ class BondExtra extends TxComponent<Props, State> {
   private renderContent (): React.ReactNode {
     const { stashId, systemChain, t } = this.props;
     const { amountError, maxAdditional, maxBalance } = this.state;
-    const transferrable = <span className='label'>{t('transferrable ')}</span>;
+    const transferrable = <span className='label'>{t('transferrable')}</span>;
     const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
