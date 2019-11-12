@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { SessionIndex } from '@polkadot/types/interfaces';
+import { BlockNumber, Exposure, Hash, SessionIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
-import { Chart } from '@polkadot/react-components';
-import { withCalls } from '@polkadot/react-api';
-import { formatNumber } from '@polkadot/util';
+import React, { useContext, useEffect, useState } from 'react';
+import { Chart, Columar, Column } from '@polkadot/react-components';
+import { ApiContext, withCalls } from '@polkadot/react-api';
+import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -17,10 +17,13 @@ interface Props extends I18nProps {
   blockCounts?: BN[];
   className?: string;
   currentIndex: SessionIndex;
+  startNumber: BlockNumber;
   validatorId: string;
 }
 
-// assuming 4 hrs sessions, we we grab results for 10 days
+type LineData = (BN | number)[][];
+
+// assuming 4 hrs sessions, we grab results for 10 days
 const SESSIONS = 10 * (24 / 4);
 
 function getIndexRange (currentIndex: SessionIndex): BN[] {
@@ -36,12 +39,55 @@ function getIndexRange (currentIndex: SessionIndex): BN[] {
   return range.reverse();
 }
 
-function Validator ({ blockCounts, className, currentIndex, t }: Props): React.ReactElement<Props> {
-  const [labels, setLabels] = useState<string[]>([]);
-  const [{ avgSet, idxSet }, setValues] = useState<{ avgSet: number[]; idxSet: BN[] }>({ avgSet: [], idxSet: [] });
+function Validator ({ blockCounts, className, currentIndex, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
+  const { api } = useContext(ApiContext);
+  const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
+  const [blocksChart, setBlocksChart] = useState<LineData | undefined>();
+  const [stakeLabels, setStakeLabels] = useState<string[]>([]);
+  const [stakeChart, setStateChart] = useState<LineData | undefined>();
 
   useEffect((): void => {
-    setLabels(
+    const numbers: BN[] = [];
+    const checkLength = (api.consts.babe
+      ? api.consts.babe.epochDuration as BlockNumber
+      : new BN(500)).muln(2).divn(3);
+    const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
+
+    api.isReady.then((): void => {
+      let currentNumber: BN = startNumber;
+
+      // here we end up with more-or-less 6.66 days
+      while (startNumber.gtn(0) && numbers.length < SESSIONS) {
+        numbers.unshift(currentNumber);
+        currentNumber = currentNumber.sub(checkLength);
+      }
+
+      setStakeLabels(numbers.map((bn): string => formatNumber(bn)));
+
+      Promise
+        .all(numbers.map((at): Promise<Hash> =>
+          api.rpc.chain.getBlockHash(at as any)
+        ))
+        .then((hashes): Promise<Exposure[]> =>
+          Promise.all(hashes.map((hash): Promise<Exposure> =>
+            api.query.staking.stakers.at(hash, validatorId) as Promise<Exposure>
+          ))
+        )
+        .then((exposures): void => {
+          setStateChart([
+            exposures.map(({ total }): BN =>
+              total.unwrap().div(divisor))
+            // exposures.map(({ own }): BN =>
+            //   own.unwrap().div(divisor)),
+            // exposures.map(({ others }): BN =>
+            //   others.reduce((total, { value }): BN => total.add(value.unwrap()), new BN(0)).div(divisor))
+          ]);
+        });
+    });
+  }, []);
+
+  useEffect((): void => {
+    setBlocksLabels(
       getIndexRange(currentIndex).map((index): string => formatNumber(index))
     );
   }, [currentIndex]);
@@ -60,18 +106,38 @@ function Validator ({ blockCounts, className, currentIndex, t }: Props): React.R
         return total;
       }, new BN(0));
 
-      setValues({ avgSet, idxSet });
+      setBlocksChart([idxSet, avgSet]);
     }
-  }, [blockCounts, labels]);
+  }, [blockCounts, blocksLabels]);
 
   return (
-    <div className={className}>
-      <h1>{t('blocks per session')}</h1>
-      <Chart.Line
-        labels={labels}
-        legends={[t('blocks'), t('average')]}
-        values={[idxSet, avgSet]} />
-    </div>
+    <Columar className={className}>
+      <Column
+        emptyText={t('Loading data')}
+        headerText={t('blocks per session')}
+      >
+        {blocksChart && (
+          <Chart.Line
+            colors={[undefined, '#acacac']}
+            labels={blocksLabels}
+            legends={[t('blocks'), t('average')]}
+            values={blocksChart}
+          />
+        )}
+      </Column>
+      <Column
+        emptyText={t('Loading data')}
+        headerText={t('elected stake')}
+      >
+        {stakeChart && (
+          <Chart.Line
+            labels={stakeLabels}
+            legends={[t('total'), t('own'), t('other')]}
+            values={stakeChart}
+          />
+        )}
+      </Column>
+    </Columar>
   );
 }
 

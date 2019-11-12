@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedFees, DerivedBalances, DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
+import { BlockNumber } from '@polkadot/types/interfaces';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type Nominators = Record<string, string[]>;
@@ -11,6 +12,7 @@ export interface ComponentProps {
   allAccounts?: SubjectInfo;
   allControllers: string[];
   allStashes: string[];
+  bestNumber?: BlockNumber;
   className?: string;
   recentlyOnline?: DerivedHeartbeats;
   stakingOverview?: DerivedStakingOverview;

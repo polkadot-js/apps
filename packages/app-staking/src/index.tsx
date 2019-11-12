@@ -36,7 +36,7 @@ interface Props extends AppProps, ApiProps, I18nProps {
 const EMPY_ACCOUNTS: string[] = [];
 const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
-function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
+function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, bestNumber, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
   const routeMatch = useRouteMatch({ path: basePath, strict: true });
   const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): () => React.ReactNode => {
@@ -51,6 +51,7 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
           allAccounts={allAccounts}
           allControllers={allControllers}
           allStashes={allStashes}
+          bestNumber={bestNumber}
           className={className}
           recentlyOnline={recentlyOnline}
           stakingOverview={stakingOverview}
@@ -112,6 +113,7 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
+    ['derive.chain.bestNumber', { propName: 'bestNumber' }],
     ['derive.imOnline.receivedHeartbeats', { propName: 'recentlyOnline' }],
     ['derive.staking.controllers', {
       propName: 'allStashesAndControllers',
