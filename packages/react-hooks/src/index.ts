@@ -3,3 +3,4 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as useDebounce } from './debounce';
+export { default as useFavorites } from './favorites';

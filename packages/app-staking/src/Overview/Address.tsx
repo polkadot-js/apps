@@ -27,10 +27,10 @@ interface Props extends I18nProps {
   isFavorite: boolean;
   lastAuthors?: string[];
   myAccounts: string[];
-  onFavorite: (accountId: string) => void;
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
   stakingInfo?: DerivedStaking;
+  toggleFavorite: (accountId: string) => void;
   withNominations?: boolean;
 }
 
@@ -46,7 +46,7 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, onFavorite, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, stakingInfo, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api, isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
@@ -122,7 +122,7 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
 
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
-  const _onFavorite = (): void => onFavorite(stashId);
+  const _onFavorite = (): void => toggleFavorite(stashId);
   const _onQueryStats = (): void => {
     window.location.hash = `/staking/query/${stashId}`;
   };

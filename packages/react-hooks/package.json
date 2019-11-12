@@ -1,0 +1,35 @@
+{
+  "name": "@polkadot/react-hooks",
+  "version": "0.37.0-beta.73",
+  "description": "A collection of React hooks the Polkadot JS Apps UI",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "React",
+    "RxJs"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/ui/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.7.1"
+  }
+}
