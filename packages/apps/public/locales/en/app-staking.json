@@ -96,5 +96,6 @@
   "The specified value is greater than your free balance. The node will bond the maximum amount available.": "The specified value is greater than your free balance. The node will bond the maximum amount available.",
   "Change session keys": "Change session keys",
   "Aye": "Aye",
-  "Nay": "Nay"
+  "Nay": "Nay",
+  "blocks per session": "blocks per session"
 }
