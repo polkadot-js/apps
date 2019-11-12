@@ -90,7 +90,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
 
     return (
       <div
-        className={classes('ui--Row', isDisabled && 'disabled', !isValid && 'invalid', isInline && 'inline', className)}
+        className={classes('ui--Row', isDisabled && 'isDisabled', !isValid && 'isInvalid', isInline && 'isInline', className)}
         style={style}
       >
         <div className='ui--Row-base'>

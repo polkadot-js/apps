@@ -17,12 +17,15 @@ import InputTags from './InputTags';
 export const styles = `
   text-align: left;
 
-  &.disabled {
-    filter: grayscale(100%);
+  &.isDisabled {
     opacity: 0.6;
+
+    .ui--IdentityIcon  {
+      filter: grayscale(100%);
+    }
   }
 
-  &.inline {
+  &.isInline {
     display: flex;
 
     .ui--Row-accountId {
@@ -30,7 +33,7 @@ export const styles = `
     }
   }
 
-  &.invalid {
+  &.isInvalid {
     .ui--Row-accountId,
     .ui--Row-icon {
       filter: grayscale(100);
