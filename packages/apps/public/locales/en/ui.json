@@ -615,5 +615,9 @@
   "runners up": "",
   "blocks per session": "",
   "voting balance": "",
-  "Max": ""
+  "Max": "",
+  "Validator stats": "",
+  "Display overview information for the selected validator, including blocks produced.": "",
+  "validator to query": "",
+  "average": ""
 }

@@ -98,5 +98,11 @@
   "Aye": "Aye",
   "Nay": "Nay",
   "blocks per session": "blocks per session",
-  "transferrable": "transferrable"
+  "transferrable": "transferrable",
+  "Validator stats": "Validator stats",
+  "block hash or number to query": "block hash or number to query",
+  "Display overview information for the selected validator, including blocks produced.": "Display overview information for the selected validator, including blocks produced.",
+  "validator to query": "validator to query",
+  "blocks": "blocks",
+  "average": "average"
 }
