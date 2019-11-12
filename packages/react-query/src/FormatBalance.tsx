@@ -40,7 +40,12 @@ export function FormatBalance ({ children, className, label = '', value }: Props
 
 export default styled(FormatBalance)`
   display: inline-block;
+  line-height: 1;
   vertical-align: middle;
+
+  label {
+    margin-right: 0.25rem;
+  }
 
   * {
     display: inline-block;
@@ -49,7 +54,7 @@ export default styled(FormatBalance)`
 
   .value {
     .postfix {
-      opacity: 0.75;
+      opacity: 0.66;
     }
   }
 `;

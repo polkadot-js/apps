@@ -29,7 +29,7 @@ function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props
     <InputBalance
       help={t('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       label={t('vote value')}
-      labelExtra={<BalanceVoting label={t('voting balance ')} params={accountId} />}
+      labelExtra={<BalanceVoting label={<label>{t('voting balance')}</label>} params={accountId} />}
       onChange={_setVoteValue}
     />
   );
