@@ -4,8 +4,10 @@
 
 import Doughnut from './Doughnut';
 import HorizBar from './HorizBar';
+import Line from './Line';
 
 export default {
   Doughnut,
-  HorizBar
+  HorizBar,
+  Line
 };

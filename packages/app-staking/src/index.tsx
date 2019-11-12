@@ -21,6 +21,7 @@ import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import Accounts from './Actions/Accounts';
 import basicMd from './md/basic.md';
 import Overview from './Overview';
+import Query from './Query';
 import translate from './translate';
 
 interface Props extends AppProps, ApiProps, I18nProps {
@@ -80,6 +81,7 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
       </header>
       <Switch>
         <Route path={`${basePath}/actions`} render={_renderComponent(Accounts)} />
+        <Route path={`${basePath}/query/:value`} render={_renderComponent(Query)} />
         <Route render={_renderComponent(Overview)} />
       </Switch>
     </main>
