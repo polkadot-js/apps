@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
+import { BlockNumber } from '@polkadot/types/interfaces';
 import { ComponentProps } from '../types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Button, InputAddressSimple } from '@polkadot/react-components';
 
@@ -46,8 +47,15 @@ interface Props extends I18nProps, ComponentProps, RouteComponentProps<{}> {
 //       />
 //     </Input>
 
-function Query ({ className, stakingOverview, match: { params: { value } }, t }: Props): React.ReactElement<Props> {
+function Query ({ bestNumber, className, stakingOverview, match: { params: { value } }, t }: Props): React.ReactElement<Props> {
+  const [startNumber, setStartNumber] = useState<BlockNumber | undefined>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
+
+  useEffect((): void => {
+    if (bestNumber && !startNumber) {
+      setStartNumber(bestNumber);
+    }
+  }, [bestNumber, startNumber]);
 
   const _onQuery = (): void => {
     if (validatorId) {
@@ -71,9 +79,10 @@ function Query ({ className, stakingOverview, match: { params: { value } }, t }:
           onClick={_onQuery}
         />
       </InputAddressSimple>
-      {value && stakingOverview && (
+      {value && startNumber && stakingOverview && (
         <Validator
           currentIndex={stakingOverview.currentIndex}
+          startNumber={startNumber}
           validatorId={value}
         />
       )}
