@@ -619,5 +619,9 @@
   "Validator stats": "",
   "Display overview information for the selected validator, including blocks produced.": "",
   "validator to query": "",
-  "average": ""
+  "average": "",
+  "Loading data": "",
+  "elected stake": "",
+  "own": "",
+  "other": ""
 }

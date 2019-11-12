@@ -104,5 +104,10 @@
   "Display overview information for the selected validator, including blocks produced.": "Display overview information for the selected validator, including blocks produced.",
   "validator to query": "validator to query",
   "blocks": "blocks",
-  "average": "average"
+  "average": "average",
+  "Loading data": "Loading data",
+  "elected stake": "elected stake",
+  "total": "total",
+  "own": "own",
+  "other": "other"
 }
