@@ -84,7 +84,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
     }
   }, [amount, recipientId, senderId]);
 
-  const transferrable = <span className='label'>{t('transferrable ')}</span>;
+  const transferrable = <span className='label'>{t('transferrable')}</span>;
 
   return (
     <Modal

@@ -10,7 +10,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ApiContext } from '@polkadot/react-api';
 import { Button, Card } from '@polkadot/react-components';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import translate from './translate';
 import { addrToChecksum } from './util';
@@ -63,7 +63,7 @@ function Claim ({ button, className, ethereumAddress, t }: Props): React.ReactEl
           ? (
             <>
               {t('has a valid claim for')}
-              <h2>{formatBalance(claimValue)}</h2>
+              <h2><FormatBalance value={claimValue} /></h2>
               <Button.Group>{button}</Button.Group>
             </>
           )

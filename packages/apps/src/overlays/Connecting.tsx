@@ -8,7 +8,7 @@ import { I18nProps as Props } from '@polkadot/react-components/types';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ApiContext } from '@polkadot/react-api';
-import settings from '@polkadot/ui-settings';
+import settings from '@plasm/ui-settings';
 
 import translate from '../translate';
 import BaseOverlay from './Base';

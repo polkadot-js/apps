@@ -8,8 +8,9 @@ import { DerivedBalances } from '@polkadot/api-derive/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { formatBalance } from '@polkadot/util';
 import { withCalls } from '@polkadot/react-api';
+
+import FormatBalance from './FormatBalance';
 
 interface Props extends BareProps, CallProps {
   balances_all?: DerivedBalances;
@@ -18,15 +19,15 @@ interface Props extends BareProps, CallProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-function AvailableDisplay ({ balances_all, children, className, label = '' }: Props): React.ReactElement<Props> {
+function AvailableDisplay ({ balances_all, children, className, label }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
-      {label}{
-        balances_all
-          ? formatBalance(balances_all.availableBalance)
-          : '0'
-      }{children}
-    </div>
+    <FormatBalance
+      className={className}
+      label={label}
+      value={balances_all && balances_all.availableBalance}
+    >
+      {children}
+    </FormatBalance>
   );
 }
 

@@ -28,6 +28,7 @@ interface Props extends BareProps, ApiProps {
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
+  isZeroable?: boolean;
   label?: any;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
@@ -60,7 +61,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
     const { maxBalance } = this.state;
 
     return (
@@ -73,6 +74,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
         isDisabled={isDisabled}
         isError={isError}
         isSi
+        isZeroable={isZeroable}
         label={label}
         maxValue={maxBalance}
         onChange={onChange}

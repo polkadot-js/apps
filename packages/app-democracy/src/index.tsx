@@ -7,7 +7,7 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';

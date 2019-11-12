@@ -15,7 +15,7 @@ import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { ApiContext } from '@polkadot/react-api';
 import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 

@@ -11,9 +11,9 @@ import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { InputNumber } from '@polkadot/react-components/InputNumber';
+import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
 import { u32 as U32 } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
@@ -152,7 +152,7 @@ export default class Api extends React.PureComponent<Props, State> {
       decimals: tokenDecimals,
       unit: tokenSymbol
     });
-    InputNumber.setUnit(tokenSymbol);
+    TokenUnit.setAbbr(tokenSymbol);
 
     // finally load the keyring
     keyring.loadAll({

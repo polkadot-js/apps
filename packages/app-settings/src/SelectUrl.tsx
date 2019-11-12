@@ -8,7 +8,7 @@ import { Option } from './types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Dropdown, Input, Toggle } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 
 import translate from './translate';
 import { createOption } from './util';

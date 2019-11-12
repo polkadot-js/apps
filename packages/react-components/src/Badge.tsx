@@ -12,7 +12,7 @@ interface Props {
   hover: React.ReactNode;
   info: React.ReactNode;
   isTooltip?: boolean;
-  type: 'online' | 'offline' | 'next';
+  type: 'online' | 'offline' | 'next' | 'runnerup' | 'selected';
 }
 
 let badgeId = 0;
@@ -71,7 +71,12 @@ export default styled(Badge)`
     background: red;
   }
 
-  &.online {
+  &.runnerup {
+    background: brown;
+  }
+
+  &.online,
+  &.selected {
     background: green;
   }
 

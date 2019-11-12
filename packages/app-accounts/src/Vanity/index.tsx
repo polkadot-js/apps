@@ -10,7 +10,7 @@ import { ComponentProps } from '../types';
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Input, TxComponent } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 
 import CreateModal from '../modals/Create';
 import generator from '../vanitygen';
@@ -237,7 +237,7 @@ class VanityApp extends TxComponent<Props, State> {
       return;
     }
 
-    setTimeout((): void => {
+    setImmediate((): void => {
       if (this._isActive) {
         if (this.results.length === 25) {
           this.checkMatches();
@@ -257,7 +257,7 @@ class VanityApp extends TxComponent<Props, State> {
 
         this.executeGeneration();
       }
-    }, 0);
+    });
   }
 
   private onCreateToggle = (createSeed: string): void => {

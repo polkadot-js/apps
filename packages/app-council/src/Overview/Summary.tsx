@@ -24,8 +24,11 @@ function Summary ({ bestNumber, electionsInfo: { members, candidateCount, desire
         <CardSummary label={t('seats')}>
           {formatNumber(members.length)}/{formatNumber(desiredSeats)}
         </CardSummary>
+        <CardSummary label={t('runners up')}>
+          {formatNumber(runnersUp.length)}
+        </CardSummary>
         <CardSummary label={t('candidates')}>
-          {formatNumber(candidateCount.addn(runnersUp.length))}
+          {formatNumber(candidateCount)}
         </CardSummary>
       </section>
       {voteCount && (

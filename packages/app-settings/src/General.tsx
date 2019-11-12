@@ -8,7 +8,7 @@ import { Option } from './types';
 import React, { useEffect, useState } from 'react';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 
 import translate from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';

@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { ApiContext } from '@polkadot/react-api';
 import Tabs from '@polkadot/react-components/Tabs';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 
 import BlockInfo from './BlockInfo';
 import Forks from './Forks';

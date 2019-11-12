@@ -63,7 +63,7 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
     }
   };
 
-  const transferrable = <span className='label'>{t('transferrable ')}</span>;
+  const transferrable = <span className='label'>{t('transferrable')}</span>;
 
   return (
     <div>

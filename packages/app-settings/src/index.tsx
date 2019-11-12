@@ -8,7 +8,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 
 import md from './md/basics.md';
 import translate from './translate';

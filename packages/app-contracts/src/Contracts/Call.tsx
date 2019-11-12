@@ -167,6 +167,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
               help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
               isDisabled={isBusy}
               isError={!isEndowmentValid}
+              isZeroable
               label={t('value')}
               onChange={_onChangeEndowment}
               value={endowment}

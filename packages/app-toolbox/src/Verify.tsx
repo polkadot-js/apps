@@ -8,7 +8,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import React, { useEffect, useState } from 'react';
 import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 import { isHex } from '@polkadot/util';
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
 import styled from 'styled-components';

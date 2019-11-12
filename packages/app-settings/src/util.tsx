@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SettingsStruct } from '@polkadot/ui-settings/types';
+import { SettingsStruct } from '@plasm/ui-settings/types';
 import { Option, SetOption } from './types';
 
 import React from 'react';
 import { ChainImg, IdentityIcon } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings from '@plasm/ui-settings';
 
 export function createOption ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
   return {

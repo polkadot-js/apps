@@ -90,5 +90,6 @@
   "The password to unlock the selected account.": "The password to unlock the selected account.",
   "derivation path": "derivation path",
   "//hard/soft": "//hard/soft",
-  "Unlock": "Unlock"
+  "Unlock": "Unlock",
+  "transferrable": "transferrable"
 }

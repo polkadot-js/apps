@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AddressCard } from '@polkadot/react-components';
+import { AddressCard, Badge, Icon } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Voters from './Voters';
@@ -20,6 +20,14 @@ function Member ({ address, t, voters }: Props): React.ReactElement<Props> {
   return (
     <AddressCard
       defaultName={t('council member')}
+      iconInfo={
+        <Badge
+          hover={t('Current member')}
+          info={<Icon name='check' />}
+          isTooltip
+          type='selected'
+        />
+      }
       value={address}
       withIndexOrAddress
     >

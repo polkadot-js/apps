@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // import first, get the load done
-import settings from '@polkadot/ui-settings';
+import settings from '@plasm/ui-settings';
 
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
