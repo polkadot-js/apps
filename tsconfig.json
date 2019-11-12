@@ -53,6 +53,8 @@
       "@polkadot/react-api/*": [ "packages/react-api/src/*" ],
       "@polkadot/react-components": [ "packages/react-components/src" ],
       "@polkadot/react-components/*": [ "packages/react-components/src/*" ],
+      "@polkadot/react-hooks": [ "packages/react-hooks/src" ],
+      "@polkadot/react-hooks/*": [ "packages/react-hooks/src/*" ],
       "@polkadot/react-params": [ "packages/react-params/src" ],
       "@polkadot/react-params/*": [ "packages/react-params/src/*" ],
       "@polkadot/react-query": [ "packages/react-query/src" ],

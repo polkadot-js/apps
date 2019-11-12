@@ -102,10 +102,6 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
 
 export default withMulti(
   styled(App)`
-    .rx--updated {
-      background: transparent !important;
-    }
-
     .staking--hidden {
       display: none;
     }

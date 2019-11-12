@@ -49,8 +49,4 @@ export default styled(NodeInfo)`
       margin-bottom: 0.5rem;
     }
   }
-
-  .rx--updated {
-    background: inherit !important;
-  }
 `;

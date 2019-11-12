@@ -77,9 +77,5 @@ function ExplorerApp ({ basePath, className, t }: Props): React.ReactElement<Pro
 }
 
 export default translate(
-  styled(ExplorerApp)`
-    .rx--updated {
-      background: transparent !important;
-    }
-  `
+  styled(ExplorerApp)``
 );
