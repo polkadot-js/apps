@@ -11,6 +11,7 @@ export interface ComponentProps {
   allAccounts?: SubjectInfo;
   allControllers: string[];
   allStashes: string[];
+  className?: string;
   recentlyOnline?: DerivedHeartbeats;
   stakingOverview?: DerivedStakingOverview;
 }

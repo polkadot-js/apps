@@ -8,16 +8,12 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import ChartJs from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { bnToBn } from '@polkadot/util';
-
-interface Value {
-  label: string;
-  value: number | BN;
-}
 
 interface Props extends BareProps {
   aspectRatio?: number;
-  values: Value[];
+  labels: string[];
+  legends: string[];
+  values: (number | BN)[][];
 }
 
 interface State {
@@ -26,37 +22,43 @@ interface State {
   jsonValues?: string;
 }
 
+interface Dataset {
+  data: number[];
+  fill: boolean;
+  label: string;
+  backgroundColor: string;
+  borderColor: string;
+  hoverBackgroundColor: string;
+}
+
 interface Config {
   labels: string[];
-  datasets: {
-    data: number[];
-    fill: boolean;
-    backgroundColor: string;
-    borderColor: string;
-    hoverBackgroundColor: string;
-  }[];
+  datasets: Dataset[];
 }
+
+const COLORS = ['#ff8c00', '#acacac'];
 
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
-function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string): State {
-  const chartData = values.reduce((data, { label, value }): Config => {
-    const dataset = data.datasets[0];
+function calculateOptions (aspectRatio: number, legends: string[], labels: string[], values: (number | BN)[][], jsonValues: string): State {
+  const chartData = values.reduce((config, values, index): Config => {
+    const color = alphaColor(COLORS[index]);
+    const data = values.map((value): number => BN.isBN(value) ? value.toNumber() : value);
 
-    dataset.data.push(bnToBn(value).toNumber());
-    data.labels.push(label);
-
-    return data;
-  }, {
-    labels: [] as string[],
-    datasets: [{
-      data: [] as number[],
+    config.datasets.push({
+      data,
       fill: false,
-      backgroundColor: alphaColor('#ff8c00'),
-      borderColor: alphaColor('#ff8c00'),
-      hoverBackgroundColor: alphaColor('#ff8c00')
-    }]
+      label: legends[index],
+      backgroundColor: color,
+      borderColor: color,
+      hoverBackgroundColor: color
+    });
+
+    return config;
+  }, {
+    labels,
+    datasets: [] as Dataset[]
   });
 
   return {
@@ -80,16 +82,16 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
   };
 }
 
-export default function LineChart ({ aspectRatio = 4, className, style, values }: Props): React.ReactElement<Props> | null {
+export default function LineChart ({ aspectRatio = 10, className, labels, legends, style, values }: Props): React.ReactElement<Props> | null {
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
     const newJsonValues = JSON.stringify(values);
 
     if (newJsonValues !== jsonValues) {
-      setState(calculateOptions(aspectRatio, values, newJsonValues));
+      setState(calculateOptions(aspectRatio, legends, labels, values, newJsonValues));
     }
-  }, [values]);
+  }, [labels, legends, values]);
 
   if (!chartData) {
     return null;

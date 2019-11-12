@@ -31,6 +31,7 @@ export interface Props extends I18nProps, RowProps {
   label?: string;
   accounts_info?: DeriveAccountInfo;
   noDefaultNameOpacity?: boolean;
+  overlay?: React.ReactNode;
   stakingInfo?: DerivedStaking;
   value: AccountId | AccountIndex | Address | string | null;
   withAddressOrName?: boolean;
@@ -83,7 +84,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { accounts_info = {}, className, isContract, isDisabled, isInline, label, style } = this.props;
+    const { accounts_info = {}, className, isContract, isDisabled, isInline, label, overlay, style } = this.props;
     const { accountId, accountIndex } = accounts_info;
     const isValid = this.props.isValid || accountId || accountIndex;
 
@@ -104,6 +105,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
           {this.renderButtons()}
         </div>
         {this.renderChildren()}
+        {overlay}
       </div>
     );
   }

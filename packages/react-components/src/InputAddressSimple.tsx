@@ -12,13 +12,16 @@ import IdentityIcon from './IdentityIcon';
 import Input from './Input';
 
 interface Props extends BareProps {
+  children?: React.ReactNode;
+  defaultValue?: string | null;
   help?: React.ReactNode;
   label?: React.ReactNode;
   onChange?: (address: string | null) => void;
+  onEnter?: () => void;
 }
 
-function InputAddressSimple ({ className, help, label, onChange }: Props): React.ReactElement<Props> {
-  const [address, setAddress] = useState<string | null>(null);
+function InputAddressSimple ({ children, className, defaultValue, help, label, onChange, onEnter }: Props): React.ReactElement<Props> {
+  const [address, setAddress] = useState<string | null>(defaultValue || null);
 
   const _onChange = (_address: string): void => {
     const address = addressToAddress(_address) || null;
@@ -31,11 +34,15 @@ function InputAddressSimple ({ className, help, label, onChange }: Props): React
   return (
     <div className={className}>
       <Input
+        defaultValue={defaultValue}
         help={help}
         isError={!address}
         label={label}
         onChange={_onChange}
-      />
+        onEnter={onEnter}
+      >
+        {children}
+      </Input>
       <IdentityIcon
         className='ui--InputAddressSimpleIcon'
         size={32}

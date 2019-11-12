@@ -14,7 +14,7 @@ import Summary from './Summary';
 
 interface Props extends BareProps, ComponentProps {}
 
-export default function Overview ({ allControllers, allStashes, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
+export default function Overview ({ allControllers, allStashes, className, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useContext(ApiContext);
   const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [next, setNext] = useState<string[]>([]);
@@ -31,7 +31,7 @@ export default function Overview ({ allControllers, allStashes, recentlyOnline, 
   }, [allControllers, allStashes, validators]);
 
   return (
-    <div className='staking--Overview'>
+    <div className={`staking--Overview ${className}`}>
       <Summary
         allControllers={allControllers}
         lastBlock={lastBlockNumber}
