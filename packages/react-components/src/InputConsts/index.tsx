@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
+import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 import { ConstValue, ConstValueBase } from './types';

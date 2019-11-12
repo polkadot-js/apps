@@ -20,16 +20,14 @@ interface Props extends I18nProps {
   validatorId: string;
 }
 
-interface Value {
-  label: string;
-  value: BN;
-}
+// assuming 4 hrs sessions, we we grab results for 10 days
+const SESSIONS = 10 * (24 / 4);
 
 function getIndexRange (currentIndex: SessionIndex): BN[] {
   const range: BN[] = [];
   let thisIndex: BN = currentIndex;
 
-  while (thisIndex.gtn(0) && range.length < 50) {
+  while (thisIndex.gtn(0) && range.length < SESSIONS) {
     range.push(thisIndex);
 
     thisIndex = thisIndex.subn(1);
@@ -40,7 +38,7 @@ function getIndexRange (currentIndex: SessionIndex): BN[] {
 
 function Validator ({ blockCounts, className, currentIndex, t }: Props): React.ReactElement<Props> {
   const [labels, setLabels] = useState<string[]>([]);
-  const [values, setValues] = useState<Value[]>([]);
+  const [{ avgSet, idxSet }, setValues] = useState<{ avgSet: number[]; idxSet: BN[] }>({ avgSet: [], idxSet: [] });
 
   useEffect((): void => {
     setLabels(
@@ -50,19 +48,29 @@ function Validator ({ blockCounts, className, currentIndex, t }: Props): React.R
 
   useEffect((): void => {
     if (blockCounts) {
-      setValues(
-        blockCounts.map((value, index): Value => ({
-          label: labels[index],
-          value
-        }))
-      );
+      const avgSet: number[] = [];
+      const idxSet: BN[] = [];
+
+      blockCounts.reduce((total: BN, value, index): BN => {
+        total = total.add(value);
+
+        avgSet.push(total.toNumber() / (index + 1));
+        idxSet.push(value);
+
+        return total;
+      }, new BN(0));
+
+      setValues({ avgSet, idxSet });
     }
   }, [blockCounts, labels]);
 
   return (
     <div className={className}>
       <h1>{t('blocks per session')}</h1>
-      <Chart.Line values={values} />
+      <Chart.Line
+        labels={labels}
+        legends={[t('blocks'), t('average')]}
+        values={[idxSet, avgSet]} />
     </div>
   );
 }

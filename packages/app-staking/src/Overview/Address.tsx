@@ -47,7 +47,7 @@ interface StakingState {
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
 function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, onFavorite, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
-  const { isSubstrateV2 } = useContext(ApiContext);
+  const { api, isSubstrateV2 } = useContext(ApiContext);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
@@ -123,6 +123,9 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
   const _onFavorite = (): void => onFavorite(stashId);
+  const _onQueryStats = (): void => {
+    window.location.hash = `/staking/query/${stashId}`;
+  };
 
   return (
     <AddressCard
@@ -183,6 +186,15 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
         </>
       }
       isDisabled={isSubstrateV2 && !hasActivity}
+      overlay={
+        api.query.imOnline?.authoredBlocks && (
+          <Icon
+            className='staking--stats'
+            name='line graph'
+            onClick={_onQueryStats}
+          />
+        )
+      }
       stakingInfo={stakingInfo}
       value={stashId}
       withBalance={balanceOpts}
@@ -274,6 +286,13 @@ export default withMulti(
 
     .staking--label.controllerSpacer {
       margin-top: 0.5rem;
+    }
+
+    .staking--stats {
+      bottom: 0.75rem;
+      cursor: pointer;
+      position: absolute;
+      right: 0.5rem;
     }
   `,
   translate,

@@ -86,7 +86,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
     if (isConst) {
       const { meta, method, section } = key as unknown as ConstValue;
 
-      renderHelper = withCallDiv(`consts.${section}.${method}`);
+      renderHelper = withCallDiv(`consts.${section}.${method}`, { withIndicator: true });
       type = meta.type.toString();
     } else {
       const values: any[] = params.map(({ value }): any => value);
