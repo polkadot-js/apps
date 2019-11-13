@@ -3,12 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { BlockNumber, Exposure, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { BlockNumber, Exposure, SessionIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import { Chart, Columar, Column } from '@polkadot/react-components';
 import { ApiContext, withCalls } from '@polkadot/react-api';
+import { getHistoric } from '@polkadot/react-api/util';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -47,42 +48,23 @@ function Validator ({ blockCounts, className, currentIndex, startNumber, t, vali
   const [stakeChart, setStateChart] = useState<LineData | undefined>();
 
   useEffect((): void => {
-    const numbers: BN[] = [];
-    const checkLength = (api.consts.babe
-      ? api.consts.babe.epochDuration as BlockNumber
-      : new BN(500)).muln(2).divn(3);
-    const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
+    api.isReady.then(async (): Promise<void> => {
+      const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
+      const values = await getHistoric<Exposure>(api, 'staking.stakers', [validatorId], {
+        interval: (api.consts.babe?.epochDuration as BlockNumber || new BN(500)).muln(2).divn(3),
+        max: SESSIONS,
+        startNumber
+      });
 
-    api.isReady.then((): void => {
-      let currentNumber: BN = startNumber;
-
-      // here we end up with more-or-less 6.66 days
-      while (startNumber.gtn(0) && numbers.length < SESSIONS) {
-        numbers.unshift(currentNumber);
-        currentNumber = currentNumber.sub(checkLength);
-      }
-
-      setStakeLabels(numbers.map((bn): string => formatNumber(bn)));
-
-      Promise
-        .all(numbers.map((at): Promise<Hash> =>
-          api.rpc.chain.getBlockHash(at as any)
-        ))
-        .then((hashes): Promise<Exposure[]> =>
-          Promise.all(hashes.map((hash): Promise<Exposure> =>
-            api.query.staking.stakers.at(hash, validatorId) as Promise<Exposure>
-          ))
-        )
-        .then((exposures): void => {
-          setStateChart([
-            exposures.map(({ total }): BN =>
-              total.unwrap().div(divisor))
-            // exposures.map(({ own }): BN =>
-            //   own.unwrap().div(divisor)),
-            // exposures.map(({ others }): BN =>
-            //   others.reduce((total, { value }): BN => total.add(value.unwrap()), new BN(0)).div(divisor))
-          ]);
-        });
+      setStakeLabels(values.map(([bn]): string => formatNumber(bn)));
+      setStateChart([
+        values.map(([,, { total }]): BN =>
+          total.unwrap().div(divisor))
+        // exposures.map(({ own }): BN =>
+        //   own.unwrap().div(divisor)),
+        // exposures.map(({ others }): BN =>
+        //   others.reduce((total, { value }): BN => total.add(value.unwrap()), new BN(0)).div(divisor))
+      ]);
     });
   }, []);
 
