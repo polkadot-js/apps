@@ -4,3 +4,4 @@
 
 export { default as useDebounce } from './debounce';
 export { default as useFavorites } from './favorites';
+export { default as useSessionSlashes } from './sessionSlashes';

@@ -4,6 +4,7 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { Balance, BlockNumber, Hash, Exposure, SessionIndex } from '@polkadot/types/interfaces';
+import { SessionRewards } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ interface Props extends I18nProps {
   blockCounts?: BN[];
   className?: string;
   currentIndex: SessionIndex;
+  stakingRewards: SessionRewards[];
   startNumber: BlockNumber;
   validatorId: string;
 }
@@ -87,16 +89,17 @@ function extractSplit (values: [BN, Hash, Exposure][], validatorId: string): Spl
     }));
 }
 
-function Validator ({ blockCounts, className, currentIndex, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
+function Validator ({ blockCounts, className, currentIndex, stakingRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
+  const [{ rewardsChart, rewardsLabels }, setRewardsInfo] = useState<{ rewardsChart: LineData | null; rewardsLabels: string[] }>({ rewardsChart: null, rewardsLabels: [] });
   const [splitChart, setSplitInfo] = useState<SplitData | null>(null);
   const [{ stakeChart, stakeLabels }, setStakeInfo] = useState<{ stakeChart: LineData | null; stakeLabels: string[]}>({ stakeChart: null, stakeLabels: [] });
+  const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
 
   useEffect((): void => {
     api.isReady.then(async (): Promise<void> => {
-      const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
       const values = await getHistoric<Exposure>(api, 'staking.stakers', [validatorId], {
         interval: (api.consts.babe?.epochDuration as BlockNumber || new BN(500)).muln(2).divn(3),
         max: SESSIONS,
@@ -109,6 +112,24 @@ function Validator ({ blockCounts, className, currentIndex, startNumber, t, vali
       setSplitInfo(splitChart);
     });
   }, []);
+
+  useEffect((): void => {
+    const rewardsLabels: string[] = [];
+    const rewardsChart: LineData = [[]];
+
+    stakingRewards.forEach(({ sessionIndex, slashes }): void => {
+      rewardsLabels.push(formatNumber(sessionIndex));
+      rewardsChart[0].push(
+        slashes.reduce((total: BN, { accountId, amount }): BN => {
+          return accountId.eq(validatorId)
+            ? total.sub(amount)
+            : total;
+        }, new BN(0)).muln(1000).div(divisor).toNumber() / 1000
+      );
+    });
+
+    setRewardsInfo({ rewardsChart, rewardsLabels });
+  }, [stakingRewards]);
 
   useEffect((): void => {
     setBlocksLabels(
@@ -137,16 +158,31 @@ function Validator ({ blockCounts, className, currentIndex, startNumber, t, vali
   return (
     <Columar className={className}>
       <Column emptyText={t('Loading block data')}>
-        {blocksChart && (
-          <div className='staking--Chart'>
-            <h1>{t('blocks per session')}</h1>
-            <Chart.Line
-              colors={COLORS_BLOCKS}
-              labels={blocksLabels}
-              legends={[t('blocks'), t('average')]}
-              values={blocksChart}
-            />
-          </div>
+        {(rewardsChart || blocksChart) && (
+          <>
+            {blocksChart && (
+              <div className='staking--Chart'>
+                <h1>{t('blocks per session')}</h1>
+                <Chart.Line
+                  colors={COLORS_BLOCKS}
+                  labels={blocksLabels}
+                  legends={[t('blocks'), t('average')]}
+                  values={blocksChart}
+                />
+              </div>
+            )}
+            {rewardsChart && (
+              <div className='staking--Chart'>
+                <h1>{t('slashed per session')}</h1>
+                <Chart.Line
+                  colors={COLORS_BLOCKS}
+                  labels={rewardsLabels}
+                  legends={[t('slashed'), t('rewarded')]}
+                  values={rewardsChart}
+                />
+              </div>
+            )}
+          </>
         )}
       </Column>
       <Column emptyText={t('Loading staker data')}>
