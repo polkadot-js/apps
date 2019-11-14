@@ -24,6 +24,7 @@ import Accounts from './Actions/Accounts';
 import basicMd from './md/basic.md';
 import Overview from './Overview';
 import Query from './Query';
+import { MAX_SESSIONS } from './constants';
 import translate from './translate';
 
 interface Props extends AppProps, ApiProps, I18nProps {
@@ -39,7 +40,7 @@ const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
 function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, bestNumber, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
-  const stakingRewards = useSessionSlashes();
+  const stakingRewards = useSessionSlashes(MAX_SESSIONS);
   const routeMatch = useRouteMatch({ path: basePath, strict: true });
   const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
