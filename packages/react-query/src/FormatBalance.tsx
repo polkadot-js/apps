@@ -16,29 +16,36 @@ interface Props extends BareProps {
   value?: Compact<any> | BN | string | null;
 }
 
-function format (value: Compact<any> | BN | string): string {
+// for million, 2 * 3-grouping + comma
+const M_LENGTH = 6 + 1;
+
+function format (value: Compact<any> | BN | string, currency: string): string {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
 
-  return `${prefix}.${`000${postfix || ''}`.slice(-3)}`;
+  if (prefix.length > M_LENGTH) {
+    return formatBalance(value);
+  }
+
+  return `${prefix}.${`000${postfix || ''}`.slice(-3)} ${currency}`;
 }
 
 export function FormatBalance ({ children, className, label = '', value }: Props): React.ReactElement<Props> {
-  const [unit] = useState(formatBalance.getDefaults().unit);
+  const [currency] = useState(formatBalance.getDefaults().unit);
 
   return (
     <div className={className}>
       {label}{
         value
-          ? format(value)
+          ? format(value, currency)
           : '-'
-      }&nbsp;{unit}{children}
+      }{children}
     </div>
   );
 }
 
 export default styled(FormatBalance)`
-  display: inline;
-  vertical-align: middle;
+  display: inline-block;
+  vertical-align: baseline;
 
   * {
     vertical-align: baseline;
@@ -46,7 +53,7 @@ export default styled(FormatBalance)`
 
   > label,
   > .label {
-    display: inline;
+    display: inline-block;
     margin-right: 0.25rem;
     vertical-align: baseline;
   }
