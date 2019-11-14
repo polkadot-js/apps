@@ -41,11 +41,13 @@ export default styled(FormatBalance)`
   vertical-align: middle;
 
   * {
-    vertical-align: middle;
+    vertical-align: baseline;
   }
 
   > label,
   > .label {
+    display: inline;
     margin-right: 0.25rem;
+    vertical-align: baseline;
   }
 `;
