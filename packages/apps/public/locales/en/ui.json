@@ -627,5 +627,6 @@
   "free balance": "",
   "Loading block data": "",
   "Loading staker data": "",
-  "staker percentages": ""
+  "staker percentages": "",
+  "vested": ""
 }

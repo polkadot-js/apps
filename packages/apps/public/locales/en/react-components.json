@@ -66,5 +66,6 @@
   "locked": "locked",
   "Remove ABI": "Remove ABI",
   "transferrable": "transferrable",
-  "No documentation provided": "No documentation provided"
+  "No documentation provided": "No documentation provided",
+  "vested": "vested"
 }
