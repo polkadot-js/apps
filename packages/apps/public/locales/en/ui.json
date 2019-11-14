@@ -624,5 +624,8 @@
   "elected stake": "",
   "own": "",
   "other": "",
-  "free balance": ""
+  "free balance": "",
+  "Loading block data": "",
+  "Loading staker data": "",
+  "staker percentages": ""
 }

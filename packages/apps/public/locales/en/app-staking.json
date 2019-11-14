@@ -109,5 +109,8 @@
   "elected stake": "elected stake",
   "total": "total",
   "own": "own",
-  "other": "other"
+  "other": "other",
+  "Loading block data": "Loading block data",
+  "Loading staker data": "Loading staker data",
+  "staker percentages": "staker percentages"
 }
