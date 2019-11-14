@@ -50,7 +50,7 @@ function VoteValue ({ accountId, allBalances, onChange, t }: Props): React.React
     }
   }, [accountId, selectedId, allBalances]);
 
-  // only do onChange to parent when  the BN value comes in, not our formatted version
+  // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
     isBn(value) && onChange(value);
   }, [value]);
