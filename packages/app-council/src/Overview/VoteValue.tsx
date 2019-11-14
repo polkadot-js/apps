@@ -28,22 +28,29 @@ interface ValueState {
 function VoteValue ({ accountId, allBalances, onChange, t }: Props): React.ReactElement<Props> | null {
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 
+  // TODO This may be useful elsewhere, so figure out a way to make this a utility
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
     if (accountId !== selectedId && allBalances?.accountId.eq(accountId)) {
+      // format, removing ',' separators
       const formatted = formatBalance(allBalances.lockedBalance, { forceUnit: '-', withSi: false }).replace(',', '');
+      // format the balance
+      //   - if > 0 just take the significant portion
+      //   - if == 0, just display 0
+      //   - if < 0, display the 3 decimal formatted value
       const value = allBalances.lockedBalance.gtn(0)
         ? formatted.split('.')[0]
+        // if =
         : allBalances.lockedBalance.eqn(0)
           ? '0'
           : formatted;
-      setValue({
-        selectedId: accountId,
-        value
-      });
+
+      // set both the selected id (for future checks) and the formatted value
+      setValue({ selectedId: accountId, value });
     }
   }, [accountId, selectedId, allBalances]);
 
+  // only do onChange to parent when  the BN value comes in, not our formatted version
   useEffect((): void => {
     isBn(value) && onChange(value);
   }, [value]);
