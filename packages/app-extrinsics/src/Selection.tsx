@@ -8,13 +8,11 @@ import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
-import BN from 'bn.js';
 import React from 'react';
-import { Button, Extrinsic, InputAddress, Labelled, TxButton, TxComponent } from '@polkadot/react-components';
+import { Button, Extrinsic, InputAddress, TxButton, TxComponent } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api';
-import { Nonce } from '@polkadot/react-query';
+import { BalanceFree } from '@polkadot/react-query';
 
-import Balance from './Balance';
 import translate from './translate';
 
 interface Props extends ApiProps, I18nProps {
@@ -25,7 +23,6 @@ interface State {
   isValid: boolean;
   isValidUnsigned: boolean;
   method: Call | null;
-  accountNonce?: BN;
   accountId?: string | null;
 }
 
@@ -45,34 +42,16 @@ class Selection extends TxComponent<Props, State> {
       <div className='extrinsics--Selection'>
         <InputAddress
           label={t('using the selected account')}
+          labelExtra={<BalanceFree label={<label>{t('free balance')}</label>} params={accountId} />}
           onChange={this.onChangeSender}
           type='account'
         />
-        <div className='ui--row'>
-          <Balance
-            className='medium'
-            label={t('with an account balance')}
-            params={accountId}
-          />
-          <Labelled
-            className='medium'
-            label={t('with a transaction nonce')}
-          >
-            <Nonce
-              className='ui disabled dropdown selection'
-              callOnResult={this.onChangeNonce}
-              params={accountId}
-            />
-          </Labelled>
-        </div>
-        <br></br>
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
           label={t('submit the following extrinsic')}
           onChange={this.onChangeExtrinsic}
           onEnter={this.sendTx}
         />
-        <br></br>
         <Button.Group>
           <TxButton
             isBasic
@@ -100,7 +79,7 @@ class Selection extends TxComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
-        const { method = prevState.method, accountNonce = prevState.accountNonce, accountId = prevState.accountId } = newState;
+        const { method = prevState.method, accountId = prevState.accountId } = newState;
         const isValid = !!(
           accountId &&
           accountId.length &&
@@ -111,7 +90,6 @@ class Selection extends TxComponent<Props, State> {
           method,
           isValid,
           isValidUnsigned: !!method,
-          accountNonce,
           accountId
         };
       }
@@ -122,12 +100,8 @@ class Selection extends TxComponent<Props, State> {
     this.nextState({ method });
   }
 
-  private onChangeNonce = (accountNonce: BN = new BN(0)): void => {
-    this.nextState({ accountNonce });
-  }
-
   private onChangeSender = (accountId: string | null): void => {
-    this.nextState({ accountId, accountNonce: new BN(0) });
+    this.nextState({ accountId });
   }
 
   private getExtrinsic (): SubmittableExtrinsic | null {
