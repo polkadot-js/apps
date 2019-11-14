@@ -12,6 +12,7 @@ const ZERO_BALANCE: DerivedBalances = {
   accountNonce: createType('Index'),
   availableBalance: createType('Balance'),
   freeBalance: createType('Balance'),
+  isVesting: false,
   lockedBalance: createType('Balance'),
   lockedBreakdown: [],
   reservedBalance: createType('Balance'),

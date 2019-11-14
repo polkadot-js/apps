@@ -28,6 +28,7 @@ export interface BalanceActiveType {
   reserved?: boolean;
   total?: boolean;
   unlocking?: boolean;
+  vested?: boolean;
 }
 
 export interface CryptoActiveType {
@@ -60,7 +61,8 @@ const DEFAULT_BALANCES: BalanceActiveType = {
   redeemable: true,
   reserved: true,
   total: true,
-  unlocking: true
+  unlocking: true,
+  vested: true
 };
 const DEFAULT_EXTENDED = {
   crypto: true,
@@ -77,7 +79,7 @@ function skipBalancesIf ({ withBalance = true, withExtended = false }: Props): b
     return false;
   } else if (isObject(withBalance)) {
     // these all pull from the all balances
-    if (withBalance.available || withBalance.locked || withBalance.reserved || withBalance.total) {
+    if (withBalance.available || withBalance.locked || withBalance.reserved || withBalance.total || withBalance.vested) {
       return false;
     }
   } else if (isObject(withExtended)) {
@@ -251,6 +253,15 @@ function renderBalances (props: Props): React.ReactNode {
           <FormatBalance
             className='result'
             value={balancesAll.availableBalance}
+          />
+        </>
+      )}
+      {balancesAll && balanceDisplay.vested && balancesAll.isVesting && (
+        <>
+          <Label label={t('vested')} />
+          <FormatBalance
+            className='result'
+            value={balancesAll.vestedBalance}
           />
         </>
       )}
