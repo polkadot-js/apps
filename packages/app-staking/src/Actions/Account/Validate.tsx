@@ -35,34 +35,35 @@ class Validate extends TxComponent<Props, State> {
     validatorPayment: new BN(0)
   };
 
+  // FIXME Borken with new InputBalance
   // inject the preferences returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
-  public static getDerivedStateFromProps ({ isSubstrateV2, validatorPrefs }: Props, state: State): Pick<State, never> | null {
-    if (state.unstakeThreshold && state.validatorPayment) {
-      return null;
-    }
+  // public static getDerivedStateFromProps ({ isSubstrateV2, validatorPrefs }: Props, state: State): Pick<State, never> | null {
+  //   if (state.unstakeThreshold && state.validatorPayment) {
+  //     return null;
+  //   }
 
-    if (validatorPrefs) {
-      // 1.x, it has both values
-      if (isSubstrateV2) {
-        const { validatorPayment } = validatorPrefs as ValidatorPrefs;
+  //   if (validatorPrefs) {
+  //     // 1.x, it has both values
+  //     if (isSubstrateV2) {
+  //       const { validatorPayment } = validatorPrefs as ValidatorPrefs;
 
-        return {
-          validatorPayment: validatorPayment.toBn()
-        };
-      } else {
-        const { unstakeThreshold, validatorPayment } = validatorPrefs as ValidatorPrefs0to145;
+  //       return {
+  //         validatorPayment: validatorPayment.toBn()
+  //       };
+  //     } else {
+  //       const { unstakeThreshold, validatorPayment } = validatorPrefs as ValidatorPrefs0to145;
 
-        return {
-          unstakeThreshold: unstakeThreshold.toBn(),
-          unstakeThresholdError: null,
-          validatorPayment: validatorPayment.toBn()
-        };
-      }
-    }
+  //       return {
+  //         unstakeThreshold: unstakeThreshold.toBn(),
+  //         unstakeThresholdError: null,
+  //         validatorPayment: validatorPayment.toBn()
+  //       };
+  //     }
+  //   }
 
-    return null;
-  }
+  //   return null;
+  // }
 
   public render (): React.ReactNode {
     const { isOpen } = this.props;
@@ -120,7 +121,7 @@ class Validate extends TxComponent<Props, State> {
 
   private renderContent (): React.ReactNode {
     const { controllerId, isSubstrateV2, stashId, t, validatorPrefs } = this.props;
-    const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
+    const { unstakeThreshold, unstakeThresholdError } = this.state;
     const defaultThreshold = validatorPrefs && (validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toBn();
 
     return (
@@ -153,11 +154,6 @@ class Validate extends TxComponent<Props, State> {
                 label={t('automatic unstake threshold')}
                 onChange={this.onChangeThreshold}
                 onEnter={this.sendTx}
-                value={
-                  unstakeThreshold
-                    ? unstakeThreshold.toString()
-                    : '3'
-                }
               />
               <InputValidationUnstakeThreshold
                 onError={this.onUnstakeThresholdError}
@@ -167,16 +163,11 @@ class Validate extends TxComponent<Props, State> {
           )}
           <InputBalance
             className='medium'
-            defaultValue={validatorPrefs && validatorPrefs.validatorPayment && validatorPrefs.validatorPayment.toBn()}
+            defaultValue={validatorPrefs?.validatorPayment?.toBn()}
             help={t('Amount taken up-front from the reward by the validator before splitting the remainder between themselves and the nominators')}
             label={t('reward commission')}
             onChange={this.onChangePayment}
             onEnter={this.sendTx}
-            value={
-              validatorPayment
-                ? validatorPayment.toString()
-                : '0'
-            }
           />
         </Modal.Content>
       </>
