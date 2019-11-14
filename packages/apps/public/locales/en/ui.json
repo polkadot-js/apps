@@ -628,5 +628,8 @@
   "Loading block data": "",
   "Loading staker data": "",
   "staker percentages": "",
-  "vested": ""
+  "vested": "",
+  "slashed per session": "",
+  "slashed": "",
+  "rewarded": ""
 }

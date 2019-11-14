@@ -112,5 +112,8 @@
   "other": "other",
   "Loading block data": "Loading block data",
   "Loading staker data": "Loading staker data",
-  "staker percentages": "staker percentages"
+  "staker percentages": "staker percentages",
+  "slashed per session": "slashed per session",
+  "slashed": "slashed",
+  "rewarded": "rewarded"
 }
