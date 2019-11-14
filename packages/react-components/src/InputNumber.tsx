@@ -87,10 +87,15 @@ function getSiPowers (si: SiDef | null): [BN, number, number] {
 
 function isValidNumber (bn: BN, { bitLength = DEFAULT_BITLENGTH, isZeroable, maxValue }: Props): boolean {
   if (
+    // cannot be negative
     bn.lt(ZERO) ||
+    // cannot be > than allowed max
     !bn.lt(getGlobalMaxValue(bitLength)) ||
+    // check if 0 and it should be a value
     (!isZeroable && bn.eq(ZERO)) ||
+    // check that the bitlengths fit
     bn.bitLength() > (bitLength || DEFAULT_BITLENGTH) ||
+    // cannot be > max (if specified)
     (maxValue && maxValue.gtn(0) && bn.gt(maxValue))
   ) {
     return false;
@@ -197,7 +202,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
   );
 
   useEffect((): void => {
-    if (!!propsValue && isNewPropsValue(propsValue, value, valueBn)) {
+    if (propsValue && isNewPropsValue(propsValue, value, valueBn)) {
       setValues(getValues(propsValue, si, props));
     }
   }, [propsValue]);
@@ -225,7 +230,6 @@ function InputNumber (props: Props): React.ReactElement<Props> {
       const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
 
       if (!getRegex(isDecimal || !!si).test(newValue)) {
-        console.log(newValue, getRegex(isDecimal || !!si));
         event.preventDefault();
       }
     }
