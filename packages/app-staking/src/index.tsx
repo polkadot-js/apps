@@ -110,6 +110,14 @@ export default withMulti(
     .staking--queryInput {
       margin-bottom: 1.5rem;
     }
+
+    .staking--Chart h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .staking--Chart+.staking--Chart {
+      margin-top: 1.5rem;
+    }
   `,
   translate,
   withCalls<Props>(
