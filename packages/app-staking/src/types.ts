@@ -4,6 +4,7 @@
 
 import { DerivedFees, DerivedBalances, DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
+import { SessionRewards } from '@polkadot/react-hooks/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 export type Nominators = Record<string, string[]>;
@@ -15,6 +16,7 @@ export interface ComponentProps {
   bestNumber?: BlockNumber;
   className?: string;
   recentlyOnline?: DerivedHeartbeats;
+  stakingRewards: SessionRewards[];
   stakingOverview?: DerivedStakingOverview;
 }
 
