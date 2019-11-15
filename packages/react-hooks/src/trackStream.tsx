@@ -52,14 +52,17 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any
   const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: dummySubscribe });
 
   const _subscribe = (params: Params): void => {
-    tracker.current.subscriber = fn
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore We tried to get the typings right, close but no cigar...
-      ? fn(...params, (value: any): T => setValue(transform(value)))
-      : dummySubscribe;
+    setImmediate((): void => {
+      tracker.current.subscriber = fn
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore We tried to get the typings right, close but no cigar...
+        ? fn(...params, (value: any): T => setValue(transform(value)))
+        : dummySubscribe;
+    });
   };
   const _unsubscribe = (): void => {
     tracker.current.subscriber.then((fn): void => fn());
+    tracker.current.subscriber = dummySubscribe;
   };
 
   // initial round, subscribe once
