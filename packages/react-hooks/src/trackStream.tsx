@@ -52,6 +52,8 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any
   const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: dummySubscribe });
 
   const _subscribe = (params: Params): void => {
+    _unsubscribe();
+
     setImmediate((): void => {
       tracker.current.subscriber = fn
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -84,7 +86,7 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any
 
     if (mappedParams && serialized !== tracker.current.serialized) {
       tracker.current.serialized = serialized;
-      _unsubscribe();
+
       _subscribe(mappedParams);
     }
   }, [params]);
