@@ -9,10 +9,9 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
-import { Popup } from 'semantic-ui-react';
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, OnlineStatus, TxButton } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, OnlineStatus, Popup, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';

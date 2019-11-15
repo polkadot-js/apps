@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -29,6 +29,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
+  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
 
   useEffect((): void => {
@@ -39,6 +40,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
   }, []);
 
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
+  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
   const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
   const _onForget = (): void => {
     if (address) {
@@ -72,16 +74,6 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
       buttons={
         <div className='addresses--Address-buttons buttons'>
           <div className='actions'>
-            {isEditable && (
-              <Button
-                isNegative
-                onClick={_toggleForget}
-                icon='trash'
-                key='forget'
-                size='small'
-                tooltip={t('Forget this address')}
-              />
-            )}
             <Button
               icon='paper plane'
               isPrimary
@@ -91,15 +83,41 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
               size='small'
               tooltip={t('Send funds to this address')}
             />
+            <Popup
+              className='theme--default'
+              onClose={_toggleSettingPopup}
+              open={isSettingPopupOpen}
+              position='bottom right'
+              trigger={
+                <Button
+                  icon='setting'
+                  onClick={_toggleSettingPopup}
+                  size='small'
+                />
+              }
+            >
+              <Menu
+                vertical
+                text
+                onClick={_toggleSettingPopup}
+              >
+                <Menu.Item
+                  disabled={!isEditable}
+                  onClick={_toggleForget}
+                >
+                  {t('Forget this address')}
+                </Menu.Item>
+                <Menu.Divider />
+                <ChainLock
+                  className='addresses--network-toggle'
+                  genesisHash={genesisHash}
+                  isDisabled={!isEditable}
+                  onChange={_onGenesisChange}
+                  preventDefault
+                />
+              </Menu>
+            </Popup>
           </div>
-          {isEditable && (
-            <div className='others'>
-              <ChainLock
-                genesisHash={genesisHash}
-                onChange={_onGenesisChange}
-              />
-            </div>
-          )}
         </div>
       }
       className={className}
@@ -143,11 +161,6 @@ export default translate(
   styled(Address)`
     .addresses--Address-buttons {
       text-align: right;
-
-      .others {
-        margin-right: 0.125rem;
-        margin-top: 0.25rem;
-      }
     }
   `
 );
