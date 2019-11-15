@@ -118,5 +118,11 @@
   "rewarded": "rewarded",
   "blocks produced": "blocks produced",
   "rewards & slashes": "rewards & slashes",
-  "rewards (est.)": "rewards (est.)"
+  "rewards (est.)": "rewards (est.)",
+  "{{currency}} slashed": "{{currency}} slashed",
+  "{{currency}} rewards (est.)": "{{currency}} rewards (est.)",
+  "{{currency}} average": "{{currency}} average",
+  "{{currency}} total": "{{currency}} total",
+  "{{currency}} own": "{{currency}} own",
+  "{{currency}} other": "{{currency}} other"
 }

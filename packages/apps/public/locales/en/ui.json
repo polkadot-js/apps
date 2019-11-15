@@ -634,5 +634,11 @@
   "rewarded": "",
   "blocks produced": "",
   "rewards & slashes": "",
-  "rewards (est.)": ""
+  "rewards (est.)": "",
+  "{{currency}} slashed": "",
+  "{{currency}} rewards (est.)": "",
+  "{{currency}} average": "",
+  "{{currency}} total": "",
+  "{{currency}} own": "",
+  "{{currency}} other": ""
 }
