@@ -27,8 +27,8 @@ interface SessionResultSer {
   slashes: SlashSer[];
 }
 
-// assuming 4 hrs sessions, we grab results for 10 days (+2 for at-start throw-away)
-const MAX_SESSIONS = 10 * (24 / 4) + 2;
+// assuming 4 hrs sessions, we grab results for 10 days
+const MAX_SESSIONS = 10 * (24 / 4);
 
 function getStorage (storageKey: string): SessionRewards[] {
   const sessions: SessionResultSer[] = store.get(storageKey, []);
@@ -46,7 +46,7 @@ function getStorage (storageKey: string): SessionRewards[] {
   }));
 }
 
-function setStorage (storageKey: string, sessions: SessionRewards[]): SessionResultSer[] {
+function setStorage (storageKey: string, sessions: SessionRewards[], maxSessions: number): SessionResultSer[] {
   return store.set(
     storageKey,
     sessions
@@ -61,7 +61,7 @@ function setStorage (storageKey: string, sessions: SessionRewards[]): SessionRes
           amount: amount.toHex()
         }))
       }))
-      .slice(0, MAX_SESSIONS + 1)
+      .slice(-maxSessions)
   );
 }
 
@@ -127,8 +127,9 @@ export default function useSessionSlashes (maxSessions = MAX_SESSIONS): SessionR
     let workQueue = results;
 
     api.isReady.then(async (): Promise<void> => {
+      const maxSessionsStore = maxSessions + 1; // assuming first is a bust
       const sessionLength = (api.consts.babe?.epochDuration as BlockNumber || new BN(500));
-      const count = sessionLength.muln(maxSessions).divn(10).toNumber();
+      const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 10000);
       const bestHeader = await api.rpc.chain.getHeader();
       let toHash = bestHeader.hash;
       let toNumber = bestHeader.number.unwrap().toBn();
@@ -145,10 +146,12 @@ export default function useSessionSlashes (maxSessions = MAX_SESSIONS): SessionR
         toNumber = fromNumber;
         fromNumber = bnMax(toNumber.subn(count), new BN(1));
 
-        setStorage(STORAGE_KEY, workQueue);
+        setStorage(STORAGE_KEY, workQueue, maxSessionsStore);
         setResults(workQueue);
 
-        if (fromNumber.eqn(1) || (workQueue.length > maxSessions)) {
+        const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
+
+        if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(lastNumber))) {
           break;
         }
       }
@@ -156,7 +159,7 @@ export default function useSessionSlashes (maxSessions = MAX_SESSIONS): SessionR
   }, []);
 
   useEffect((): void => {
-    setFiltered(results.filter(({ isEventsEmpty }): boolean => !isEventsEmpty));
+    setFiltered(results.slice(-maxSessions));
   }, [results]);
 
   return filtered;
