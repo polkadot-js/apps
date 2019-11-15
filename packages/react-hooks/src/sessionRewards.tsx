@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2019 @polkadot/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,6 +13,7 @@ import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
 import useApiContext from './apiContext';
+import useCacheKey from './cacheKey';
 
 interface SlashSer {
   accountId: string;
@@ -120,7 +121,7 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
 
 export default function useSessionRewards (maxSessions = MAX_SESSIONS): SessionRewards[] {
   const { api } = useApiContext();
-  const STORAGE_KEY = `hooks:sessionSlashes:${api.genesisHash}`;
+  const STORAGE_KEY = useCacheKey('hooks:sessionSlashes');
   const [results, setResults] = useState<SessionRewards[]>(getStorage(STORAGE_KEY));
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 
