@@ -44,14 +44,10 @@ function getMyStashes (allAccounts: string[], queryBonded?: Option<AccountId>[],
   return result;
 }
 
-function multiAccounts ([allAccounts]: [string[]]): [string][] {
-  return allAccounts.map((address): [string] => [address]);
-}
-
 function Accounts ({ allAccounts, allStashes, className, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const { api } = useApiContext();
-  const queryBonded = trackStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts], { paramMap: multiAccounts });
-  const queryLedger = trackStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts], { paramMap: multiAccounts });
+  const queryBonded = trackStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
+  const queryLedger = trackStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const foundStashes = getMyStashes(allAccounts, queryBonded, queryLedger);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
