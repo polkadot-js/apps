@@ -47,7 +47,7 @@ interface Props extends I18nProps, ComponentProps, RouteComponentProps<{}> {
 //       />
 //     </Input>
 
-function Query ({ bestNumber, className, stakingRewards, stakingOverview, match: { params: { value } }, t }: Props): React.ReactElement<Props> {
+function Query ({ bestNumber, className, sessionRewards, stakingOverview, match: { params: { value } }, t }: Props): React.ReactElement<Props> {
   const [startNumber, setStartNumber] = useState<BlockNumber | undefined>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
@@ -82,7 +82,7 @@ function Query ({ bestNumber, className, stakingRewards, stakingOverview, match:
       {value && startNumber && stakingOverview && (
         <Validator
           currentIndex={stakingOverview.currentIndex}
-          stakingRewards={stakingRewards}
+          sessionRewards={sessionRewards}
           startNumber={startNumber}
           validatorId={value}
         />

@@ -29,9 +29,6 @@ interface SessionResultSer {
   slashes: SlashSer[];
 }
 
-// assuming 4 hrs sessions, we grab results for 10 days
-const MAX_SESSIONS = 10 * (24 / 4);
-
 function getStorage (storageKey: string): SessionRewards[] {
   const sessions: SessionResultSer[] = store.get(storageKey, []);
 
@@ -92,7 +89,7 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
         .then((records): EventRecord[] =>
           records.filter(({ event: { section } }): boolean => section === 'staking')
         )
-        .catch((): EventRecord[] => []) // undecodable may throw
+        .catch((): EventRecord[] => []) // may throw, update metadata for old
     )
   );
   const slashes: Slash[][] = events.map((info): Slash[] =>
@@ -119,7 +116,7 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
   }));
 }
 
-export default function useSessionRewards (maxSessions = MAX_SESSIONS): SessionRewards[] {
+export default function useSessionRewards (maxSessions): SessionRewards[] {
   const { api } = useApiContext();
   const STORAGE_KEY = useCacheKey('hooks:sessionSlashes');
   const [results, setResults] = useState<SessionRewards[]>(getStorage(STORAGE_KEY));

@@ -22,7 +22,7 @@ interface Props extends I18nProps {
   blockCounts?: BN[];
   className?: string;
   currentIndex: SessionIndex;
-  stakingRewards: SessionRewards[];
+  sessionRewards: SessionRewards[];
   startNumber: BlockNumber;
   validatorId: string;
 }
@@ -96,7 +96,7 @@ function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
   }, new BN(0));
 }
 
-function Validator ({ blockCounts, className, currentIndex, stakingRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
+function Validator ({ blockCounts, className, currentIndex, sessionRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApiContext();
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
@@ -125,7 +125,7 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
     const rewardsLabels: string[] = [];
     const rewardsChart: LineData = [[]];
 
-    stakingRewards.forEach(({ sessionIndex, slashes }): void => {
+    sessionRewards.forEach(({ sessionIndex, slashes }): void => {
       // this shows the start of the new era, however rewards are for previous
       rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
 
@@ -136,7 +136,7 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
     });
 
     setRewardsInfo({ rewardsChart, rewardsLabels });
-  }, [stakingRewards, validatorId]);
+  }, [sessionRewards, validatorId]);
 
   useEffect((): void => {
     setBlocksLabels(

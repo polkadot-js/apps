@@ -40,7 +40,7 @@ const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
 function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, bestNumber, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const { api } = useApiContext();
-  const stakingRewards = useSessionRewards(MAX_SESSIONS);
+  const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const routeMatch = useRouteMatch({ path: basePath, strict: true });
   const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
@@ -57,7 +57,7 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
           bestNumber={bestNumber}
           className={className}
           recentlyOnline={recentlyOnline}
-          stakingRewards={stakingRewards}
+          sessionRewards={sessionRewards}
           stakingOverview={stakingOverview}
         />
       );

@@ -16,7 +16,7 @@ export interface ComponentProps {
   bestNumber?: BlockNumber;
   className?: string;
   recentlyOnline?: DerivedHeartbeats;
-  stakingRewards: SessionRewards[];
+  sessionRewards: SessionRewards[];
   stakingOverview?: DerivedStakingOverview;
 }
 
