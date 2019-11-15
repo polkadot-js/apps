@@ -91,6 +91,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
               tooltip={t('Send funds from this account')}
             />
             <Popup
+              className='theme--default'
               onClose={_toggleSettingPopup}
               open={isSettingPopupOpen}
               position='bottom left'
@@ -108,7 +109,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
                 onClick={_toggleSettingPopup}
               >
                 <Menu.Item
-                  disabled={isExternal || !isEditable}
+                  disabled={!isEditable || isExternal}
                   onClick={_toggleDerive}
                 >
                   {t('Derive account from source')}
@@ -117,13 +118,13 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
                   {t('Change on-chain nickname')}
                 </Menu.Item>
                 <Menu.Item
-                  disabled={!isEditable || isExternal || !isDevelopment}
+                  disabled={!isEditable || isExternal || isDevelopment}
                   onClick={_toggleBackup}
                 >
                   {t('Create a backup file for this account')}
                 </Menu.Item>
                 <Menu.Item
-                  disabled={!isEditable || isExternal || !isDevelopment}
+                  disabled={!isEditable || isExternal || isDevelopment}
                   onClick={_togglePass}
                 >
                   {t("Change this account's password")}
@@ -134,17 +135,17 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
                 >
                   {t('Forget this account')}
                 </Menu.Item>
+                <Menu.Divider />
+                <ChainLock
+                  className='accounts--network-toggle'
+                  genesisHash={genesisHash}
+                  isDisabled={!isEditable || isExternal}
+                  onChange={_onGenesisChange}
+                  preventDefault
+                />
               </Menu>
             </Popup>
           </div>
-          {isEditable && !isExternal && (
-            <div className='others'>
-              <ChainLock
-                genesisHash={genesisHash}
-                onChange={_onGenesisChange}
-              />
-            </div>
-          )}
         </div>
       }
       className={className}
@@ -208,11 +209,6 @@ export default translate(
   styled(Account)`
     .accounts--Account-buttons {
       text-align: right;
-
-      .others {
-        margin-right: 0.125rem;
-        margin-top: 0.25rem;
-      }
     }
   `
 );

@@ -84,6 +84,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
               tooltip={t('Send funds to this address')}
             />
             <Popup
+              className='theme--default'
               onClose={_toggleSettingPopup}
               open={isSettingPopupOpen}
               position='bottom left'
@@ -95,22 +96,28 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
                 />
               }
             >
-              <Menu.Item
-                disabled={!isEditable}
-                onClick={_toggleForget}
+              <Menu
+                vertical
+                text
+                onClick={_toggleSettingPopup}
               >
-                {t('Forget this address')}
-              </Menu.Item>
+                <Menu.Item
+                  disabled={!isEditable}
+                  onClick={_toggleForget}
+                >
+                  {t('Forget this address')}
+                </Menu.Item>
+                <Menu.Divider />
+                <ChainLock
+                  className='addresses--network-toggle'
+                  genesisHash={genesisHash}
+                  isDisabled={!isEditable}
+                  onChange={_onGenesisChange}
+                  preventDefault
+                />
+              </Menu>
             </Popup>
           </div>
-          {isEditable && (
-            <div className='others'>
-              <ChainLock
-                genesisHash={genesisHash}
-                onChange={_onGenesisChange}
-              />
-            </div>
-          )}
         </div>
       }
       className={className}
@@ -154,11 +161,6 @@ export default translate(
   styled(Address)`
     .addresses--Address-buttons {
       text-align: right;
-
-      .others {
-        margin-right: 0.125rem;
-        margin-top: 0.25rem;
-      }
     }
   `
 );
