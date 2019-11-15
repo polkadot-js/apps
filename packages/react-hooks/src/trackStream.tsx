@@ -8,6 +8,7 @@ import { isNull, isUndefined } from '@polkadot/util';
 type Params = [] | [any] | [any, any] | [any, any, any];
 
 interface Options <T> {
+  paramMap?: (params: any[]) => Params;
   transform?: (value: any) => T;
 }
 
@@ -25,19 +26,21 @@ interface TrackFn <T> {
 }
 
 const NOOP_SUBSCRIBE = Promise.resolve((): void => {});
-const IDENTITY_TRANSFORM = (value: any): any => value;
+const TRANSFORM_IDENTITY = (value: any): any => value;
 
-function checkParams (params: Params): [boolean, string] {
+function checkParams (params: Params, paramMap: (params: any[]) => Params): [string, Params | null] {
   return [
-    params.length === 0 || !params.some((param): boolean => isNull(param) || isUndefined(null)),
-    JSON.stringify({ a: params })
+    JSON.stringify({ a: params }),
+    params.length === 0 || !params.some((param): boolean => isNull(param) || isUndefined(null))
+      ? paramMap(params)
+      : null
   ];
 }
 
 // tracks a stream, typically an api.* call that
 //  - returns a promise with an unsubscription
 //  - has a callback to set the value
-export default function trackStream <T> (fn: TrackFn<T> | undefined, params: Params, { transform = IDENTITY_TRANSFORM }: Options<T> = {}): T | undefined {
+export default function trackStream <T> (fn: TrackFn<T> | undefined, params: Params, { paramMap = TRANSFORM_IDENTITY, transform = TRANSFORM_IDENTITY }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>();
   const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: NOOP_SUBSCRIBE });
 
@@ -54,12 +57,12 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: Par
 
   // initial round, subscribe once
   useEffect((): () => void => {
-    const [hasValues, serialized] = checkParams(params);
+    const [serialized, mappedParams] = checkParams(params, paramMap);
 
     tracker.current.serialized = serialized;
 
-    if (hasValues) {
-      _subscribe(params);
+    if (mappedParams) {
+      _subscribe(mappedParams);
     }
 
     return _unsubscribe;
@@ -67,12 +70,12 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: Par
 
   // on changes, re-subscribe
   useEffect((): void => {
-    const [hasValues, serialized] = checkParams(params);
+    const [serialized, mappedParams] = checkParams(params, paramMap);
 
-    if (hasValues && serialized !== tracker.current.serialized) {
+    if (mappedParams && serialized !== tracker.current.serialized) {
       tracker.current.serialized = serialized;
       _unsubscribe();
-      _subscribe(params);
+      _subscribe(mappedParams);
     }
   }, [params]);
 

@@ -10,10 +10,9 @@ import { ValidatorFilter } from '../types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
 import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
-import { useApiContext } from '@polkadot/react-hooks';
+import { trackStream, useApiContext } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -30,7 +29,6 @@ interface Props extends I18nProps {
   myAccounts: string[];
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
-  stakingInfo?: DerivedStaking;
   toggleFavorite: (accountId: string) => void;
   withNominations?: boolean;
 }
@@ -47,8 +45,9 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, stakingInfo, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api, isSubstrateV2 } = useApiContext();
+  const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info, [address]);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
@@ -223,7 +222,7 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Address)`
     .extras {
       display: inline-block;
@@ -295,12 +294,5 @@ export default withMulti(
       position: absolute;
       right: 0.5rem;
     }
-  `,
-  translate,
-  withCalls<Props>(
-    ['derive.staking.info', {
-      paramName: 'address',
-      propName: 'stakingInfo'
-    }]
-  )
+  `
 );
