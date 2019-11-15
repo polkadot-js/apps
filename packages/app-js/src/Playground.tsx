@@ -8,7 +8,7 @@ import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 import { Transition } from 'semantic-ui-react';
 import snappy from 'snappyjs';
 import styled from 'styled-components';
@@ -41,17 +41,7 @@ interface Injected {
   window: null;
 }
 
-interface Props extends AppProps, I18nProps, RouteComponentProps<{}> {
-  match: {
-    isExact: boolean;
-    params: {
-      base64?: string;
-    };
-    path: string;
-    url: string;
-  };
-  // FIXME wait for proper eslint integration in tslint, then hopefully remove this
-  history: any;
+interface Props extends AppProps, I18nProps {
 }
 
 const snippets: Snippet[] = JSON.parse(JSON.stringify(allSnippets));
@@ -89,8 +79,10 @@ function decodeBase64 (base64: string): Snippet {
 }
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
-function Playground ({ className, history, match: { params: { base64 } }, t }: Props): React.ReactElement<Props> {
+function Playground ({ className, t }: Props): React.ReactElement<Props> {
   const { api, isDevelopment } = useApiContext();
+  const history = useHistory();
+  const { base64 } = useParams();
   const injectedRef = useRef<Injected | null>(null);
   const [code, setCode] = useState('');
   const [isAnimated, setIsAnimated] = useState(true);
@@ -334,10 +326,8 @@ function Playground ({ className, history, match: { params: { base64 } }, t }: P
   );
 }
 
-const Routed = withRouter(Playground);
-
 export default translate(
-  styled(Routed)`
+  styled(Playground)`
     display: flex;
     flex-direction: column;
     height: 100vh;

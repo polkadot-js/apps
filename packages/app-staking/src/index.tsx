@@ -40,7 +40,7 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
 
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApiContext();
-  const { hasAccounts } = useAccounts();
+  const { allAccounts, hasAccounts } = useAccounts();
   const stakingControllers = trackStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
   const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
   const recentlyOnline = trackStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
@@ -50,24 +50,20 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
 
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
-  const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): () => React.ReactNode => {
-    // eslint-disable-next-line react/display-name
-    return (): React.ReactNode => {
-      return (
-        <Component
-          allControllers={allControllers}
-          allStashes={allStashes}
-          bestNumber={bestNumber}
-          className={className}
-          hasAccounts={hasAccounts}
-          hasQueries={hasQueries}
-          recentlyOnline={recentlyOnline}
-          sessionRewards={sessionRewards}
-          stakingOverview={stakingOverview}
-        />
-      );
-    };
-  };
+  const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): React.ReactNode => (
+    <Component
+      allAccounts={allAccounts}
+      allControllers={allControllers}
+      allStashes={allStashes}
+      bestNumber={bestNumber}
+      className={className}
+      hasAccounts={hasAccounts}
+      hasQueries={hasQueries}
+      recentlyOnline={recentlyOnline}
+      sessionRewards={sessionRewards}
+      stakingOverview={stakingOverview}
+    />
+  );
 
   return (
     <main className={`staking--App ${className}`}>
@@ -101,11 +97,11 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/actions`} render={_renderComponent(Accounts)} />
-        <Route path={`${basePath}/query/:value`} render={_renderComponent(Query)} />
-        <Route path={`${basePath}/query`} render={_renderComponent(Query)} />
+        <Route path={`${basePath}/actions`}>{_renderComponent(Accounts)}</Route>
+        <Route path={`${basePath}/query/:value`}>{_renderComponent(Query)}</Route>
+        <Route path={`${basePath}/query`}>{_renderComponent(Query)}</Route>
       </Switch>
-      {_renderComponent(Overview, routeMatch?.isExact ? '' : 'staking--hidden')()}
+      {_renderComponent(Overview, routeMatch?.isExact ? '' : 'staking--hidden')}
     </main>
   );
 }

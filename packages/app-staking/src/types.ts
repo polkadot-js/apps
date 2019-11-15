@@ -9,6 +9,7 @@ import { SessionRewards } from '@polkadot/react-hooks/types';
 export type Nominators = Record<string, string[]>;
 
 export interface ComponentProps {
+  allAccounts: string[];
   allControllers: string[];
   allStashes: string[];
   bestNumber?: BlockNumber;
