@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { Balance, BlockNumber, Hash, Exposure, SessionIndex } from '@polkadot/types/interfaces';
-import { SessionRewards } from '@polkadot/react-hooks/types';
+import { SessionRewards, Slash } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
@@ -89,6 +89,14 @@ function extractSplit (values: [BN, Hash, Exposure][], validatorId: string): Spl
     }));
 }
 
+function extractEraSlash (validatorId: string, slashes: Slash[]): number {
+  return slashes.reduce((total: BN, { accountId, amount }): BN => {
+    return accountId.eq(validatorId)
+      ? total.sub(amount)
+      : total;
+  }, new BN(0)).muln(1000).div(divisor).toNumber() / 1000;
+}
+
 function Validator ({ blockCounts, className, currentIndex, stakingRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
   const { api } = useContext(ApiContext);
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
@@ -118,14 +126,9 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
     const rewardsChart: LineData = [[]];
 
     stakingRewards.forEach(({ sessionIndex, slashes }): void => {
-      rewardsLabels.push(formatNumber(sessionIndex));
-      rewardsChart[0].push(
-        slashes.reduce((total: BN, { accountId, amount }): BN => {
-          return accountId.eq(validatorId)
-            ? total.sub(amount)
-            : total;
-        }, new BN(0)).muln(1000).div(divisor).toNumber() / 1000
-      );
+      // this shows the start of  the new era, however rewards are for previous
+      rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
+      rewardsChart[0].push(extractEraSlash(validatorId, slashes));
     });
 
     setRewardsInfo({ rewardsChart, rewardsLabels });
