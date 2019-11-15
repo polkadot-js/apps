@@ -14,6 +14,7 @@ import { ApiContext, withCalls } from '@polkadot/react-api';
 import { getHistoric } from '@polkadot/react-api/util';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
+import { MAX_SESSIONS } from '../constants';
 import translate from '../translate';
 
 interface Props extends I18nProps {
@@ -35,9 +36,6 @@ interface SplitEntry {
 
 type SplitData = SplitEntry[];
 
-// assuming 4 hrs sessions, we grab results for 10 days
-const SESSIONS = 10 * (24 / 4);
-
 const COLORS_MINE = ['#ff8c00'];
 const COLORS_OTHER = ['#acacac'];
 const COLORS_BLOCKS = [undefined, '#acacac'];
@@ -46,7 +44,7 @@ function getIndexRange (currentIndex: SessionIndex): BN[] {
   const range: BN[] = [];
   let thisIndex: BN = currentIndex;
 
-  while (thisIndex.gtn(0) && range.length < SESSIONS) {
+  while (thisIndex.gtn(0) && range.length < MAX_SESSIONS) {
     range.push(thisIndex);
 
     thisIndex = thisIndex.subn(1);
@@ -102,7 +100,7 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
     api.isReady.then(async (): Promise<void> => {
       const values = await getHistoric<Exposure>(api, 'staking.stakers', [validatorId], {
         interval: (api.consts.babe?.epochDuration as BlockNumber || new BN(500)).muln(2).divn(3),
-        max: SESSIONS,
+        max: MAX_SESSIONS,
         startNumber
       });
       const [stakeLabels, stakeChart] = extractStake(values, divisor);
