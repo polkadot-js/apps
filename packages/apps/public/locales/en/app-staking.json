@@ -115,5 +115,8 @@
   "staker percentages": "staker percentages",
   "slashed per session": "slashed per session",
   "slashed": "slashed",
-  "rewarded": "rewarded"
+  "rewarded": "rewarded",
+  "blocks produced": "blocks produced",
+  "rewards & slashes": "rewards & slashes",
+  "rewards (est.)": "rewards (est.)"
 }
