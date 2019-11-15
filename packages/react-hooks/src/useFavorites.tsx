@@ -5,19 +5,18 @@
 import { useState } from 'react';
 import store from 'store';
 
-import useCacheKey from './cacheKey';
+import useCacheKey from './useCacheKey';
 
 // hook for favorites with local storage
 export default function useFavorites (storageKeyBase: string): [string[], (address: string) => void] {
-  const STORAGE_KEY = useCacheKey(storageKeyBase);
+  const [getCache, setCache] = useCacheKey<string[]>(storageKeyBase);
 
   // retrieve from the new style first, if not available, fallback to old-style
-  const [favorites, setFavorites] = useState<string[]>(store.get(STORAGE_KEY) || store.get(storageKeyBase, []));
+  const [favorites, setFavorites] = useState<string[]>(getCache() || store.get(storageKeyBase, []));
 
   const _toggleFavorite = (address: string): void =>
     setFavorites(
-      store.set(
-        STORAGE_KEY,
+      setCache(
         favorites.includes(address)
           ? favorites.filter((accountId): boolean => address !== accountId)
           : [...favorites, address]

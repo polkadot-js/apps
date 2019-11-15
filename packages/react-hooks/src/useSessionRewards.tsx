@@ -7,31 +7,28 @@ import { Slash, SessionRewards } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
-import store from 'store';
 import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
-import useApiContext from './apiContext';
-import useCacheKey from './cacheKey';
+import useApiContext from './useApiContext';
+import useCacheKey from './useCacheKey';
 
-interface SlashSer {
+interface SerializedSlash {
   accountId: string;
   amount: string;
 }
 
-interface SessionResultSer {
+interface Serialized {
   blockHash: string;
   blockNumber: string;
   isEventsEmpty: boolean;
   reward: string;
   sessionIndex: string;
-  slashes: SlashSer[];
+  slashes: SerializedSlash[];
 }
 
-function getStorage (storageKey: string): SessionRewards[] {
-  const sessions: SessionResultSer[] = store.get(storageKey, []);
-
+function fromJSON (sessions: Serialized[]): SessionRewards[] {
   return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
     blockHash: createType('Hash', blockHash),
     blockNumber: createType('BlockNumber', blockNumber),
@@ -45,23 +42,18 @@ function getStorage (storageKey: string): SessionRewards[] {
   }));
 }
 
-function setStorage (storageKey: string, sessions: SessionRewards[], maxSessions: number): SessionResultSer[] {
-  return store.set(
-    storageKey,
-    sessions
-      .map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionResultSer => ({
-        blockHash: blockHash.toHex(),
-        blockNumber: blockNumber.toHex(),
-        isEventsEmpty,
-        reward: reward.toHex(),
-        sessionIndex: sessionIndex.toHex(),
-        slashes: slashes.map(({ accountId, amount }): SlashSer => ({
-          accountId: accountId.toString(),
-          amount: amount.toHex()
-        }))
-      }))
-      .slice(-maxSessions)
-  );
+function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
+  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): Serialized => ({
+    blockHash: blockHash.toHex(),
+    blockNumber: blockNumber.toHex(),
+    isEventsEmpty,
+    reward: reward.toHex(),
+    sessionIndex: sessionIndex.toHex(),
+    slashes: slashes.map(({ accountId, amount }): SerializedSlash => ({
+      accountId: accountId.toString(),
+      amount: amount.toHex()
+    }))
+  })).slice(-maxSessions);
 }
 
 function mergeResults (sessions: SessionRewards[], newSessions: SessionRewards[]): SessionRewards[] {
@@ -116,10 +108,10 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
   }));
 }
 
-export default function useSessionRewards (maxSessions): SessionRewards[] {
+export default function useSessionRewards (maxSessions: number): SessionRewards[] {
   const { api } = useApiContext();
-  const STORAGE_KEY = useCacheKey('hooks:sessionSlashes');
-  const [results, setResults] = useState<SessionRewards[]>(getStorage(STORAGE_KEY));
+  const [getCache, setCache] = useCacheKey<Serialized[]>('hooks:sessionSlashes');
+  const [results, setResults] = useState<SessionRewards[]>(fromJSON(getCache() || []));
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 
   useEffect((): void => {
@@ -145,7 +137,7 @@ export default function useSessionRewards (maxSessions): SessionRewards[] {
         toNumber = fromNumber;
         fromNumber = bnMax(toNumber.subn(count), new BN(1));
 
-        setStorage(STORAGE_KEY, workQueue, maxSessionsStore);
+        setCache(toJSON(workQueue, maxSessionsStore));
         setResults(workQueue);
 
         const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;

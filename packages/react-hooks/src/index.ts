@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export { default as useApiContext } from './apiContext';
-export { default as useDebounce } from './debounce';
-export { default as useFavorites } from './favorites';
-export { default as useSessionRewards } from './sessionRewards';
+export { default as useApiContext } from './useApiContext';
+export { default as useDebounce } from './useDebounce';
+export { default as useFavorites } from './useFavorites';
+export { default as useSessionRewards } from './useSessionRewards';
