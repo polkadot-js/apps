@@ -9,6 +9,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
 import { withMulti, withObservable } from '@polkadot/react-api';
