@@ -87,12 +87,12 @@ function extractSplit (values: [BN, Hash, Exposure][], validatorId: string): Spl
     }));
 }
 
-function extractEraSlash (validatorId: string, slashes: Slash[]): number {
+function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
   return slashes.reduce((total: BN, { accountId, amount }): BN => {
     return accountId.eq(validatorId)
       ? total.sub(amount)
       : total;
-  }, new BN(0)).muln(1000).div(divisor).toNumber() / 1000;
+  }, new BN(0));
 }
 
 function Validator ({ blockCounts, className, currentIndex, stakingRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
@@ -100,7 +100,7 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
   const [{ rewardsChart, rewardsLabels }, setRewardsInfo] = useState<{ rewardsChart: LineData | null; rewardsLabels: string[] }>({ rewardsChart: null, rewardsLabels: [] });
-  const [splitChart, setSplitInfo] = useState<SplitData | null>(null);
+  const [{ splitChart, splitMax }, setSplitInfo] = useState<{ splitChart: SplitData | null; splitMax: number }>({ splitChart: null, splitMax: 100 });
   const [{ stakeChart, stakeLabels }, setStakeInfo] = useState<{ stakeChart: LineData | null; stakeLabels: string[]}>({ stakeChart: null, stakeLabels: [] });
   const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
 
@@ -113,9 +113,10 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
       });
       const [stakeLabels, stakeChart] = extractStake(values, divisor);
       const splitChart = extractSplit(values, validatorId);
+      const splitMax = splitChart ? Math.min(Math.ceil(splitChart[0].value), 100) : 100;
 
       setStakeInfo({ stakeChart, stakeLabels });
-      setSplitInfo(splitChart);
+      setSplitInfo({ splitChart, splitMax });
     });
   }, []);
 
@@ -124,9 +125,13 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
     const rewardsChart: LineData = [[]];
 
     stakingRewards.forEach(({ sessionIndex, slashes }): void => {
-      // this shows the start of  the new era, however rewards are for previous
+      // this shows the start of the new era, however rewards are for previous
       rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
-      rewardsChart[0].push(extractEraSlash(validatorId, slashes));
+
+      // calculate and format to 3 decimals
+      rewardsChart[0].push(
+        extractEraSlash(validatorId, slashes).muln(1000).div(divisor).toNumber() / 1000
+      );
     });
 
     setRewardsInfo({ rewardsChart, rewardsLabels });
@@ -204,7 +209,7 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
                 <h1>{t('staker percentages')}</h1>
                 <Chart.HorizBar
                   aspectRatio={2}
-                  max={Math.min(Math.ceil(splitChart[0].value), 100)}
+                  max={splitMax}
                   values={splitChart}
                 />
               </div>
