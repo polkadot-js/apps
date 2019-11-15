@@ -51,6 +51,10 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any
   const [value, setValue] = useState<T | undefined>();
   const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: dummySubscribe });
 
+  const _unsubscribe = (): void => {
+    tracker.current.subscriber.then((fn): void => fn());
+    tracker.current.subscriber = dummySubscribe;
+  };
   const _subscribe = (params: Params): void => {
     _unsubscribe();
 
@@ -61,10 +65,6 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any
         ? fn(...params, (value: any): T => setValue(transform(value)))
         : dummySubscribe;
     });
-  };
-  const _unsubscribe = (): void => {
-    tracker.current.subscriber.then((fn): void => fn());
-    tracker.current.subscriber = dummySubscribe;
   };
 
   // initial round, subscribe once
