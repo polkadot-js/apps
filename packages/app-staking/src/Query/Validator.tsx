@@ -10,16 +10,15 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Chart, Columar, Column } from '@polkadot/react-components';
 import { toShortAddress } from '@polkadot/react-components/util';
-import { withCalls } from '@polkadot/react-api';
 import { getHistoric } from '@polkadot/react-api/util';
-import { useApiContext } from '@polkadot/react-hooks';
+import { trackStream, useApiContext } from '@polkadot/react-hooks';
+import { u32 } from '@polkadot/types';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { MAX_SESSIONS } from '../constants';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  blockCounts?: BN[];
   className?: string;
   currentIndex: SessionIndex;
   sessionRewards: SessionRewards[];
@@ -96,8 +95,13 @@ function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
   }, new BN(0));
 }
 
-function Validator ({ blockCounts, className, currentIndex, sessionRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
+function Validator ({ className, currentIndex, sessionRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApiContext();
+  // FIXME There is something seriously wrong in these two any horrors
+  const blockCounts = trackStream<u32[]>(api.query.imOnline?.authoredBlocks?.multi as any, [currentIndex, validatorId], {
+    paramMap: ([currentIndex, validatorId]: any[]): any =>
+      getIndexRange(currentIndex).map((index): [BN, string] => [index, validatorId])
+  });
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
   const [{ rewardsChart, rewardsLabels }, setRewardsInfo] = useState<{ rewardsChart: LineData | null; rewardsLabels: string[] }>({ rewardsChart: null, rewardsLabels: [] });
@@ -149,7 +153,7 @@ function Validator ({ blockCounts, className, currentIndex, sessionRewards, star
       const avgSet: number[] = [];
       const idxSet: BN[] = [];
 
-      blockCounts.reduce((total: BN, value, index): BN => {
+      blockCounts.reduce((total: BN, value: u32, index: number): BN => {
         total = total.add(value);
 
         avgSet.push(total.toNumber() / (index + 1));
@@ -222,13 +226,4 @@ function Validator ({ blockCounts, className, currentIndex, sessionRewards, star
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.imOnline.authoredBlocks', {
-      isMulti: true,
-      propName: 'blockCounts',
-      paramPick: ({ currentIndex, validatorId }: Props): [BN, string][] =>
-        getIndexRange(currentIndex).map((index): [BN, string] => [index, validatorId])
-    }]
-  )(Validator)
-);
+export default translate(Validator);

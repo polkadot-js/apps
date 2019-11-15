@@ -47,7 +47,8 @@ const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
 function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api, isSubstrateV2 } = useApiContext();
-  const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info, [address]);
+  // FIXME Any horrors, caused by trackStream
+  const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({

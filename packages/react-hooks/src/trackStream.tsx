@@ -19,16 +19,17 @@ interface TrackFnCallback <T> {
 type Unsub = () => void;
 
 interface TrackFn <T> {
-  (cb: TrackFnCallback<T>): Promise<Unsub>;
-  (a: any, cb: TrackFnCallback<T>): Promise<Unsub>;
-  (a: any, b: any, cb: TrackFnCallback<T>): Promise<Unsub>;
   (a: any, b: any, c: any, cb: TrackFnCallback<T>): Promise<Unsub>;
+  (a: any, b: any, cb: TrackFnCallback<T>): Promise<Unsub>;
+  (a: any, cb: TrackFnCallback<T>): Promise<Unsub>;
+  (cb: TrackFnCallback<T>): Promise<Unsub>;
 }
 
 const NOOP_SUBSCRIBE = Promise.resolve((): void => {});
 const TRANSFORM_IDENTITY = (value: any): any => value;
 
-function checkParams (params: Params, paramMap: (params: any[]) => Params): [string, Params | null] {
+// extract the serialized and mapped params, all ready for use in our call
+function extractParams (params: any[], paramMap: (params: any[]) => Params): [string, Params | null] {
   return [
     JSON.stringify({ a: params }),
     params.length === 0 || !params.some((param): boolean => isNull(param) || isUndefined(null))
@@ -40,7 +41,7 @@ function checkParams (params: Params, paramMap: (params: any[]) => Params): [str
 // tracks a stream, typically an api.* call that
 //  - returns a promise with an unsubscription
 //  - has a callback to set the value
-export default function trackStream <T> (fn: TrackFn<T> | undefined, params: Params, { paramMap = TRANSFORM_IDENTITY, transform = TRANSFORM_IDENTITY }: Options<T> = {}): T | undefined {
+export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any[], { paramMap = TRANSFORM_IDENTITY, transform = TRANSFORM_IDENTITY }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>();
   const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: NOOP_SUBSCRIBE });
 
@@ -57,7 +58,7 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: Par
 
   // initial round, subscribe once
   useEffect((): () => void => {
-    const [serialized, mappedParams] = checkParams(params, paramMap);
+    const [serialized, mappedParams] = extractParams(params, paramMap);
 
     tracker.current.serialized = serialized;
 
@@ -70,7 +71,7 @@ export default function trackStream <T> (fn: TrackFn<T> | undefined, params: Par
 
   // on changes, re-subscribe
   useEffect((): void => {
-    const [serialized, mappedParams] = checkParams(params, paramMap);
+    const [serialized, mappedParams] = extractParams(params, paramMap);
 
     if (mappedParams && serialized !== tracker.current.serialized) {
       tracker.current.serialized = serialized;
