@@ -135,7 +135,7 @@ function Validator ({ blockCounts, className, currentIndex, stakingRewards, star
     });
 
     setRewardsInfo({ rewardsChart, rewardsLabels });
-  }, [stakingRewards]);
+  }, [stakingRewards, validatorId]);
 
   useEffect((): void => {
     setBlocksLabels(
