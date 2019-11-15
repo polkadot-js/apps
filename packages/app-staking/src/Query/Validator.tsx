@@ -95,6 +95,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
   });
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
+  const [currency] = useState(formatBalance.getDefaults().unit);
   const [{ rewardsChart, rewardsLabels }, setRewardsInfo] = useState<{ rewardsChart: LineData | null; rewardsLabels: string[] }>({ rewardsChart: null, rewardsLabels: [] });
   const [{ splitChart, splitMax }, setSplitInfo] = useState<{ splitChart: SplitData | null; splitMax: number }>({ splitChart: null, splitMax: 100 });
   const [{ stakeChart, stakeLabels }, setStakeInfo] = useState<{ stakeChart: LineData | null; stakeLabels: string[]}>({ stakeChart: null, stakeLabels: [] });
@@ -156,7 +157,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
       const avgSet: number[] = [];
       const idxSet: BN[] = [];
 
-      blockCounts.reduce((total: BN, value: u32, index: number): BN => {
+      blockCounts.reduce((total: BN, value, index): BN => {
         total = total.add(value);
 
         avgSet.push(total.muln(100).divn(index + 1).toNumber() / 100);
@@ -191,7 +192,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
                 <Chart.Line
                   colors={COLORS_REWARD}
                   labels={rewardsLabels}
-                  legends={[t('slashed'), t('rewards (est.)'), t('average')]}
+                  legends={[t('{{currency}} slashed', { replace: { currency } }), t('{{currency}} rewards (est.)', { replace: { currency } }), t('{{currency}} average', { replace: { currency } })]}
                   values={rewardsChart}
                 />
               </div>
@@ -207,7 +208,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
                 <h1>{t('elected stake')}</h1>
                 <Chart.Line
                   labels={stakeLabels}
-                  legends={[t('total'), t('own'), t('other')]}
+                  legends={[t('{{currency}} total', { replace: { currency } }), t('{{currency}} own', { replace: { currency } }), t('{{currency}} other', { replace: { currency } })]}
                   values={stakeChart}
                 />
               </div>

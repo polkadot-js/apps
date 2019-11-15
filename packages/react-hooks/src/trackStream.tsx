@@ -47,7 +47,7 @@ function extractParams (params: any[], paramMap: (params: any[]) => any): [strin
 //  - returns a promise with an unsubscription
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
+export default function trackStream <T> (fn: TrackFn<any> | undefined, params: any, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>();
   const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: dummySubscribe });
 
