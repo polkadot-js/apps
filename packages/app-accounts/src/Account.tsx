@@ -94,7 +94,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
               className='theme--default'
               onClose={_toggleSettingPopup}
               open={isSettingPopupOpen}
-              position='bottom left'
+              position='bottom right'
               trigger={
                 <Button
                   icon='setting'
