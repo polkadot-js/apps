@@ -16,8 +16,8 @@ import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
-import { useApiContext, useSessionRewards } from '@polkadot/react-hooks';
+import { withMulti, withObservable } from '@polkadot/react-api';
+import { trackStream, useApiContext, useSessionRewards } from '@polkadot/react-hooks';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import Accounts from './Actions/Accounts';
@@ -29,19 +29,30 @@ import translate from './translate';
 
 interface Props extends AppProps, ApiProps, I18nProps {
   allAccounts?: SubjectInfo;
-  allStashesAndControllers?: [string[], string[]];
-  bestNumber?: BlockNumber;
-  recentlyOnline?: DerivedHeartbeats;
-  stakingOverview?: DerivedStakingOverview;
 }
 
 const EMPY_ACCOUNTS: string[] = [];
 const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
-function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, bestNumber, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
+function transformStakingControllers ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] {
+  return [
+    stashes.map((accountId): string => accountId.toString()),
+    controllers
+      .filter((optId): boolean => optId.isSome)
+      .map((accountId): string => accountId.unwrap().toString())
+  ];
+}
+
+function App ({ allAccounts, basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApiContext();
+  const stakingControllers = trackStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
+  const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
+  const recentlyOnline = trackStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
+  const stakingOverview = trackStream<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const routeMatch = useRouteMatch({ path: basePath, strict: true });
+
+  const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
   const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
     return (): React.ReactNode => {
@@ -124,19 +135,5 @@ export default withMulti(
     }
   `,
   translate,
-  withCalls<Props>(
-    ['derive.chain.bestNumber', { propName: 'bestNumber' }],
-    ['derive.imOnline.receivedHeartbeats', { propName: 'recentlyOnline' }],
-    ['derive.staking.controllers', {
-      propName: 'allStashesAndControllers',
-      transform: ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] => [
-        stashes.map((accountId): string => accountId.toString()),
-        controllers
-          .filter((optId): boolean => optId.isSome)
-          .map((accountId): string => accountId.unwrap().toString())
-      ]
-    }],
-    ['derive.staking.overview', { propName: 'stakingOverview' }]
-  ),
   withObservable(accountObservable.subject, { propName: 'allAccounts' })
 );
