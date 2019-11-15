@@ -103,7 +103,9 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
     blockNumber: headers[index].number.unwrap(),
     isEventsEmpty: events[index].length === 0,
     reward: rewards[index] || createType('Balance'),
-    sessionIndex: createType('SessionIndex', u8aToU8a(value.unwrap())),
+    sessionIndex: createType('SessionIndex', u8aToU8a(
+      value.isSome ? value.unwrap() : new Uint8Array([])
+    )),
     slashes: slashes[index]
   }));
 }
