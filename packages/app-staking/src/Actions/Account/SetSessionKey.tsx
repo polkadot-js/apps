@@ -4,9 +4,9 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, InputAddress, Input, Modal, TxButton } from '@polkadot/react-components';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import ValidationSessionKey from './InputValidationSessionKey';
 import translate from '../../translate';
@@ -22,7 +22,7 @@ interface Props extends I18nProps {
 const EMPTY_PROOF = new Uint8Array();
 
 function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t }: Props): React.ReactElement<Props> | null {
-  const { isSubstrateV2 } = useContext(ApiContext);
+  const { isSubstrateV2 } = useApiContext();
   const [keysError, setKeysError] = useState<string | null>(null);
   const [keys, setKeys] = useState<string | null>(
     isSubstrateV2

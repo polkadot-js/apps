@@ -7,11 +7,12 @@ import { Balance, BlockNumber, Hash, Exposure, SessionIndex } from '@polkadot/ty
 import { SessionRewards, Slash } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart, Columar, Column } from '@polkadot/react-components';
 import { toShortAddress } from '@polkadot/react-components/util';
-import { ApiContext, withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api';
 import { getHistoric } from '@polkadot/react-api/util';
+import { useApiContext } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { MAX_SESSIONS } from '../constants';
@@ -96,7 +97,7 @@ function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
 }
 
 function Validator ({ blockCounts, className, currentIndex, stakingRewards, startNumber, t, validatorId }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
   const [{ rewardsChart, rewardsLabels }, setRewardsInfo] = useState<{ rewardsChart: LineData | null; rewardsLabels: string[] }>({ rewardsChart: null, rewardsLabels: [] });

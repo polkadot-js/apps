@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 
 // the imports here as a bit all-over, non-aphabetical - since we expect this to grow,
 // rather organise based on type, grouping chains and nodes as opposed to location
@@ -54,7 +54,7 @@ interface Props {
 }
 
 function ChainImg ({ className, logo = '', onClick }: Props): React.ReactElement<Props> {
-  const { systemChain, systemName } = useContext(ApiContext);
+  const { systemChain, systemName } = useApiContext();
   const img = LOGOS[logo] || CHAINS[systemChain] || NODES[systemName] || EMPTY;
 
   return (

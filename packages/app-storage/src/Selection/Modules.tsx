@@ -7,11 +7,11 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { RawParams } from '@polkadot/react-params/types';
 import { ComponentProps, StorageEntryPromise } from '../types';
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { getTypeDef } from '@polkadot/types';
 import { Button, InputStorage } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
@@ -32,7 +32,7 @@ function areParamsValid (values: RawParams): boolean {
 }
 
 function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [{ defaultValues, isLinked, key, params }, setKey] = useState<{ defaultValues: RawParams | undefined | null; isLinked: boolean; key: StorageEntryPromise; params: ParamsType }>({ defaultValues: undefined, isLinked: false, key: api.query.timestamp.now, params: [] });
   const [{ isValid, values }, setValues] = useState<{ isValid: boolean; values: RawParams }>({ isValid: true, values: [] });
 

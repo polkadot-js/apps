@@ -5,8 +5,8 @@
 
 import { BareProps } from '@polkadot/react-api/types';
 
-import React, { useContext } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React from 'react';
+import { useApiContext } from '@polkadot/react-hooks';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -14,7 +14,7 @@ interface Props extends BareProps {
 }
 
 export default function NodeName ({ children, className, label = '', style }: Props): React.ReactElement<Props> {
-  const { systemName } = useContext(ApiContext);
+  const { systemName } = useApiContext();
 
   return (
     <div

@@ -7,9 +7,10 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useContext } from 'react';
-import { ApiContext, withCalls } from '@polkadot/react-api';
+import React from 'react';
+import { withCalls } from '@polkadot/react-api';
 import { Bubble, IdentityIcon } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
@@ -22,7 +23,7 @@ interface Props extends BareProps, I18nProps {
 }
 
 function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_validators }: Props): React.ReactElement<Props> {
-  const { api, systemChain, systemName, systemVersion } = useContext(ApiContext);
+  const { api, systemChain, systemName, systemVersion } = useApiContext();
 
   return (
     <summary>

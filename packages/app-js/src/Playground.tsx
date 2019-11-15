@@ -7,13 +7,13 @@ import { KeyringInstance } from '@polkadot/keyring/types';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
-import React, { useContext, useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Transition } from 'semantic-ui-react';
 import snappy from 'snappyjs';
 import styled from 'styled-components';
-import { ApiContext } from '@polkadot/react-api';
 import { Button, Dropdown, Editor } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as types from '@polkadot/types';
 import * as util from '@polkadot/util';
@@ -90,7 +90,7 @@ function decodeBase64 (base64: string): Snippet {
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
 function Playground ({ className, history, match: { params: { base64 } }, t }: Props): React.ReactElement<Props> {
-  const { api, isDevelopment } = useContext(ApiContext);
+  const { api, isDevelopment } = useApiContext();
   const injectedRef = useRef<Injected | null>(null);
   const [code, setCode] = useState('');
   const [isAnimated, setIsAnimated] = useState(true);

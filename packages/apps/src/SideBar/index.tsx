@@ -7,12 +7,12 @@ import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
-import { ApiContext } from '@polkadot/react-api';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
@@ -31,7 +31,7 @@ interface Props extends I18nProps {
 }
 
 function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, menuOpen }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useContext(ApiContext);
+  const { api, isApiReady } = useApiContext();
   const [modals, setModals] = useState<Record<string, boolean>>(
     routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {

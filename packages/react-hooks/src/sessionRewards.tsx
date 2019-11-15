@@ -6,12 +6,13 @@ import { Balance, BlockNumber, EventRecord, Hash, Header } from '@polkadot/types
 import { Slash, SessionRewards } from './types';
 
 import BN from 'bn.js';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import store from 'store';
 import { ApiPromise } from '@polkadot/api';
-import { ApiContext } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
+
+import useApiContext from './apiContext';
 
 interface SlashSer {
   accountId: string;
@@ -117,8 +118,8 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
   }));
 }
 
-export default function useSessionSlashes (maxSessions = MAX_SESSIONS): SessionRewards[] {
-  const { api } = useContext(ApiContext);
+export default function useSessionRewards (maxSessions = MAX_SESSIONS): SessionRewards[] {
+  const { api } = useApiContext();
   const STORAGE_KEY = `hooks:sessionSlashes:${api.genesisHash}`;
   const [results, setResults] = useState<SessionRewards[]>(getStorage(STORAGE_KEY));
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);

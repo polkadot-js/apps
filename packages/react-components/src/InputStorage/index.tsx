@@ -10,8 +10,8 @@ import { StorageEntryPromise } from './types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
-import React, { useContext, useState } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React, { useState } from 'react';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -30,7 +30,7 @@ interface Props extends I18nProps {
 }
 
 function InputStorage ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.creator.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<StorageEntryPromise>((): StorageEntryPromise => defaultValue);

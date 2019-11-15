@@ -5,9 +5,9 @@
 import { I18nProps as Props } from '@polkadot/react-components/types';
 import { Info } from './types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import Extrinsics from '../BlockInfo/Extrinsics';
 import Peers from './Peers';
@@ -32,7 +32,7 @@ async function retrieveInfo (api: ApiPromise): Promise<Partial<Info>> {
 }
 
 function NodeInfo ({ t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [info, setInfo] = useState<Partial<Info>>({});
   const [nextRefresh, setNextRefresh] = useState(Date.now());
 

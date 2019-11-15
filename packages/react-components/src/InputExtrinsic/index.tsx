@@ -8,8 +8,8 @@ import { DropdownOptions } from '../util/types';
 
 import './InputExtrinsic.css';
 
-import React, { useContext, useState } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React, { useState } from 'react';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -30,7 +30,7 @@ interface Props extends I18nProps {
 }
 
 function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<CallFunction>((): CallFunction => defaultValue);

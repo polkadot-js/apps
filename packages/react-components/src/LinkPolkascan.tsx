@@ -4,9 +4,9 @@
 
 import { I18nProps } from './types';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import translate from './translate';
 
@@ -34,7 +34,7 @@ const TYPES: Record<string, string> = {
 };
 
 function LinkPolkascan ({ className, data, t, type }: Props): React.ReactElement<Props> | null {
-  const { systemChain } = useContext(ApiContext);
+  const { systemChain } = useApiContext();
   const extChain = CHAINS[systemChain];
   const extType = TYPES[type];
 

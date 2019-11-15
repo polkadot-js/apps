@@ -4,8 +4,8 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React, { useContext } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React from 'react';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import translate from './translate';
 import Toggle from './Toggle';
@@ -17,7 +17,7 @@ interface Props extends I18nProps {
 }
 
 function ChainLock ({ genesisHash, onChange, t }: Props): React.ReactElement<Props> | null {
-  const { isDevelopment, api } = useContext(ApiContext);
+  const { isDevelopment, api } = useApiContext();
 
   if (isDevelopment) {
     return null;
