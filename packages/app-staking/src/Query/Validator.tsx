@@ -40,14 +40,21 @@ const COLORS_OTHER = ['#acacac'];
 const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 const COLORS_BLOCKS = [undefined, '#acacac'];
 
+function balanceToNumber (amount: BN, divisor: BN): number {
+  return amount.muln(1000).div(divisor).toNumber() / 1000;
+}
+
 function extractStake (values: [Hash, Exposure][], divisor: BN): LineData {
   return [
-    values.map(([, { total }]): BN =>
-      total.unwrap().div(divisor))
-    // exposures.map(({ own }): BN =>
-    //   own.unwrap().div(divisor)),
-    // exposures.map(({ others }): BN =>
-    //   others.reduce((total, { value }): BN => total.add(value.unwrap()), new BN(0)).div(divisor))
+    values.map(([, { total }]): number =>
+      balanceToNumber(total.unwrap(), divisor))
+    // exposures.map(({ own }): number =>
+    //   balanceToNumber(own.unwrap(), divisor)),
+    // exposures.map(({ others }): number =>
+    //   balanceToNumber(
+    //     others.reduce((total, { value }): number =>
+    //       total.add(value.unwrap()), new BN(0)
+    //     ), divisor))
   ];
 }
 
@@ -77,10 +84,6 @@ function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
       ? total.sub(amount)
       : total;
   }, new BN(0));
-}
-
-function balanceToNumber (amount: BN, divisor: BN): number {
-  return amount.muln(1000).div(divisor).toNumber() / 1000;
 }
 
 function Validator ({ className, sessionRewards, t, validatorId }: Props): React.ReactElement<Props> {
