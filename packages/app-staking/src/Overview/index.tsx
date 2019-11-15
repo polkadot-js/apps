@@ -14,7 +14,7 @@ import Summary from './Summary';
 
 interface Props extends BareProps, ComponentProps {}
 
-export default function Overview ({ allControllers, allStashes, className, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
+export default function Overview ({ allControllers, hasQueries, allStashes, className, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useApiContext();
   const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [next, setNext] = useState<string[]>([]);
@@ -41,6 +41,7 @@ export default function Overview ({ allControllers, allStashes, className, recen
       />
       <CurrentList
         authorsMap={byAuthor}
+        hasQueries={hasQueries}
         lastAuthors={lastBlockAuthors}
         next={next}
         recentlyOnline={recentlyOnline}

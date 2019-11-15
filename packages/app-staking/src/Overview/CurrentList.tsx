@@ -18,6 +18,7 @@ import Address from './Address';
 
 interface Props extends I18nProps {
   authorsMap: Record<string, string>;
+  hasQueries: boolean;
   lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
@@ -55,7 +56,7 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((accountId): string => accountId.toString());
 }
 
-function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
+function CurrentList ({ authorsMap, hasQueries, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useApiContext();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
@@ -84,6 +85,7 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
         authorsMap={authorsMap}
         defaultName={defaultName}
         filter={filter}
+        hasQueries={hasQueries}
         isElected={isElected}
         isFavorite={isFavorite}
         lastAuthors={lastAuthors}

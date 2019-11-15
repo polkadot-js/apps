@@ -52,6 +52,8 @@ function App ({ allAccounts, basePath, className, t }: Props): React.ReactElemen
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const routeMatch = useRouteMatch({ path: basePath, strict: true });
 
+  const hasAccounts = !!allAccounts && Object.keys(allAccounts).length !== 0;
+  const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
   const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
@@ -67,6 +69,8 @@ function App ({ allAccounts, basePath, className, t }: Props): React.ReactElemen
           allStashes={allStashes}
           bestNumber={bestNumber}
           className={className}
+          hasAccounts={hasAccounts}
+          hasQueries={hasQueries}
           recentlyOnline={recentlyOnline}
           sessionRewards={sessionRewards}
           stakingOverview={stakingOverview}
@@ -82,11 +86,11 @@ function App ({ allAccounts, basePath, className, t }: Props): React.ReactElemen
         <Tabs
           basePath={basePath}
           hidden={
-            !allAccounts || Object.keys(allAccounts).length === 0
-              ? ['actions', 'query']
-              : api.query.imOnline?.authoredBlocks
+            hasAccounts
+              ? hasQueries
                 ? []
                 : ['query']
+              : ['actions', 'query']
           }
           items={[
             {

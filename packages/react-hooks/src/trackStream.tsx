@@ -8,7 +8,7 @@ import { isNull, isUndefined } from '@polkadot/util';
 type Params = [] | [any] | [any, any] | [any, any, any];
 
 interface Options <T> {
-  paramMap?: (params: any[]) => Params;
+  paramMap?: (params: any) => any;
   transform?: (value: any) => T;
 }
 
@@ -25,11 +25,16 @@ interface TrackFn <T> {
   (cb: TrackFnCallback<T>): Promise<Unsub>;
 }
 
-const NOOP_SUBSCRIBE = Promise.resolve((): void => {});
-const TRANSFORM_IDENTITY = (value: any): any => value;
+const dummySubscribe = Promise.resolve((): void => {
+  // we do nothing, this is a noop
+});
+
+function transformIdentity (value: any): any {
+  return value;
+}
 
 // extract the serialized and mapped params, all ready for use in our call
-function extractParams (params: any[], paramMap: (params: any[]) => Params): [string, Params | null] {
+function extractParams (params: any[], paramMap: (params: any[]) => any): [string, Params | null] {
   return [
     JSON.stringify({ a: params }),
     params.length === 0 || !params.some((param): boolean => isNull(param) || isUndefined(null))
@@ -41,16 +46,17 @@ function extractParams (params: any[], paramMap: (params: any[]) => Params): [st
 // tracks a stream, typically an api.* call that
 //  - returns a promise with an unsubscription
 //  - has a callback to set the value
-export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any[], { paramMap = TRANSFORM_IDENTITY, transform = TRANSFORM_IDENTITY }: Options<T> = {}): T | undefined {
+// FIXME The typings here need some serious TLC
+export default function trackStream <T> (fn: TrackFn<T> | undefined, params: any, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>();
-  const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: NOOP_SUBSCRIBE });
+  const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: dummySubscribe });
 
   const _subscribe = (params: Params): void => {
     tracker.current.subscriber = fn
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore We tried to get the typings right, close but no cigar...
       ? fn(...params, (value: any): T => setValue(transform(value)))
-      : NOOP_SUBSCRIBE;
+      : dummySubscribe;
   };
   const _unsubscribe = (): void => {
     tracker.current.subscriber.then((fn): void => fn());

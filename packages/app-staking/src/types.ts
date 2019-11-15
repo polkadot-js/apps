@@ -15,6 +15,8 @@ export interface ComponentProps {
   allStashes: string[];
   bestNumber?: BlockNumber;
   className?: string;
+  hasAccounts: boolean;
+  hasQueries: boolean;
   recentlyOnline?: DerivedHeartbeats;
   sessionRewards: SessionRewards[];
   stakingOverview?: DerivedStakingOverview;

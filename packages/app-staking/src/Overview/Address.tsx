@@ -23,6 +23,7 @@ interface Props extends I18nProps {
   className?: string;
   defaultName: string;
   filter: ValidatorFilter;
+  hasQueries: boolean;
   isElected: boolean;
   isFavorite: boolean;
   lastAuthors?: string[];
@@ -45,7 +46,7 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, defaultName, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api, isSubstrateV2 } = useApiContext();
   // FIXME Any horrors, caused by trackStream
   const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
@@ -188,7 +189,7 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
       }
       isDisabled={isSubstrateV2 && !hasActivity}
       overlay={
-        api.query.imOnline?.authoredBlocks && (
+        hasQueries && api.query.imOnline?.authoredBlocks && (
           <Icon
             className='staking--stats'
             name='line graph'

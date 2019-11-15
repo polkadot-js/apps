@@ -5,21 +5,16 @@
 import { Hash } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 
-import BN from 'bn.js';
 import ApiPromise from '@polkadot/api/promise';
 
-import getHashes, { HashesOptions } from './hashes';
-
-export default async function getHistory <T extends Codec> (api: ApiPromise, endpoint: string, params: any[], options: HashesOptions): Promise<[BN, Hash, T][]> {
+export default async function getHistory <T extends Codec> (api: ApiPromise, endpoint: string, params: any[], hashes: Hash[]): Promise<[Hash, T][]> {
   const [mod, fn] = endpoint.split('.');
-  const numbers = await getHashes(api, options);
-  const results = await Promise.all(numbers.map(([, hash]): Promise<T> =>
+  const results = await Promise.all(hashes.map((hash): Promise<T> =>
     api.query[mod][fn].at(hash, ...params) as Promise<T>
   ));
 
-  return results.map((value, index): [BN, Hash, T] => [
-    numbers[index][0],
-    numbers[index][1],
+  return results.map((value, index): [Hash, T] => [
+    hashes[index],
     value
   ]);
 }
