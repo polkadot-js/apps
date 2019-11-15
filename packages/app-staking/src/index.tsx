@@ -9,15 +9,15 @@ import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { ApiContext, withCalls, withMulti, withObservable } from '@polkadot/react-api';
-import { useSessionSlashes } from '@polkadot/react-hooks';
+import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { useApiContext, useSessionRewards } from '@polkadot/react-hooks';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import Accounts from './Actions/Accounts';
@@ -39,8 +39,8 @@ const EMPY_ACCOUNTS: string[] = [];
 const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
 function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, bestNumber, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
-  const stakingRewards = useSessionSlashes(MAX_SESSIONS);
+  const { api } = useApiContext();
+  const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const routeMatch = useRouteMatch({ path: basePath, strict: true });
   const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name
@@ -57,7 +57,7 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
           bestNumber={bestNumber}
           className={className}
           recentlyOnline={recentlyOnline}
-          stakingRewards={stakingRewards}
+          sessionRewards={sessionRewards}
           stakingOverview={stakingOverview}
         />
       );

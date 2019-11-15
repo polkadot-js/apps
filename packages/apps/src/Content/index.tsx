@@ -8,8 +8,8 @@ import React, { useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
-import { ApiContext } from '@polkadot/react-api';
 import { StatusContext } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import Status from './Status';
 import translate from '../translate';
@@ -26,7 +26,7 @@ const unknown = {
 };
 
 function Content ({ className, location, t }: Props): React.ReactElement<Props> {
-  const { isApiConnected, isApiReady } = useContext(ApiContext);
+  const { isApiConnected, isApiReady } = useApiContext();
   const { queueAction, stqueue, txqueue } = useContext(StatusContext);
   const app = location.pathname.slice(1) || '';
   const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>

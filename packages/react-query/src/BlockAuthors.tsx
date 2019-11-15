@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 interface Authors {
@@ -25,7 +25,7 @@ const byAuthor: Record<string, string> = {};
 const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, lastHeaders: [] });
 
 function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [state, setState] = useState<Authors>({ byAuthor, lastHeaders: [] });
 
   useEffect((): void => {

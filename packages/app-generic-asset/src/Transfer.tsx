@@ -6,12 +6,13 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
-import { ApiContext, withMulti, withObservable } from '@polkadot/react-api';
+import { withMulti, withObservable } from '@polkadot/react-api';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import translate from './translate';
@@ -30,7 +31,7 @@ interface Option {
 }
 
 function Transfer ({ assets, className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [assetId, setAssetId] = useState('0');
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);

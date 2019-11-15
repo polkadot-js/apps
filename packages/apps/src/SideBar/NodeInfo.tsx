@@ -4,9 +4,9 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -15,7 +15,7 @@ const pkgJson = require('../../package.json');
 const uiInfo = `apps v${pkgJson.version}`;
 
 function NodeInfo ({ className }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useContext(ApiContext);
+  const { api, isApiReady } = useApiContext();
 
   return (
     <div className={className}>

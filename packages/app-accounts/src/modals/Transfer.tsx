@@ -8,12 +8,12 @@ import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
-import { ApiContext } from '@polkadot/react-api';
 
 import translate from '../translate';
 
@@ -65,7 +65,7 @@ const ZERO = new BN(0);
 // }
 
 function Transfer ({ className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
   const [hasAvailable, setHasAvailable] = useState(true);

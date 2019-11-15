@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2019 @polkadot/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,33 +6,29 @@ import { Balance, BlockNumber, EventRecord, Hash, Header } from '@polkadot/types
 import { Slash, SessionRewards } from './types';
 
 import BN from 'bn.js';
-import { useContext, useEffect, useState } from 'react';
-import store from 'store';
+import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { ApiContext } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
-interface SlashSer {
+import useApiContext from './useApiContext';
+import useCacheKey from './useCacheKey';
+
+interface SerializedSlash {
   accountId: string;
   amount: string;
 }
 
-interface SessionResultSer {
+interface Serialized {
   blockHash: string;
   blockNumber: string;
   isEventsEmpty: boolean;
   reward: string;
   sessionIndex: string;
-  slashes: SlashSer[];
+  slashes: SerializedSlash[];
 }
 
-// assuming 4 hrs sessions, we grab results for 10 days
-const MAX_SESSIONS = 10 * (24 / 4);
-
-function getStorage (storageKey: string): SessionRewards[] {
-  const sessions: SessionResultSer[] = store.get(storageKey, []);
-
+function fromJSON (sessions: Serialized[]): SessionRewards[] {
   return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
     blockHash: createType('Hash', blockHash),
     blockNumber: createType('BlockNumber', blockNumber),
@@ -46,23 +42,18 @@ function getStorage (storageKey: string): SessionRewards[] {
   }));
 }
 
-function setStorage (storageKey: string, sessions: SessionRewards[], maxSessions: number): SessionResultSer[] {
-  return store.set(
-    storageKey,
-    sessions
-      .map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionResultSer => ({
-        blockHash: blockHash.toHex(),
-        blockNumber: blockNumber.toHex(),
-        isEventsEmpty,
-        reward: reward.toHex(),
-        sessionIndex: sessionIndex.toHex(),
-        slashes: slashes.map(({ accountId, amount }): SlashSer => ({
-          accountId: accountId.toString(),
-          amount: amount.toHex()
-        }))
-      }))
-      .slice(-maxSessions)
-  );
+function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
+  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): Serialized => ({
+    blockHash: blockHash.toHex(),
+    blockNumber: blockNumber.toHex(),
+    isEventsEmpty,
+    reward: reward.toHex(),
+    sessionIndex: sessionIndex.toHex(),
+    slashes: slashes.map(({ accountId, amount }): SerializedSlash => ({
+      accountId: accountId.toString(),
+      amount: amount.toHex()
+    }))
+  })).slice(-maxSessions);
 }
 
 function mergeResults (sessions: SessionRewards[], newSessions: SessionRewards[]): SessionRewards[] {
@@ -90,7 +81,7 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
         .then((records): EventRecord[] =>
           records.filter(({ event: { section } }): boolean => section === 'staking')
         )
-        .catch((): EventRecord[] => []) // undecodable may throw
+        .catch((): EventRecord[] => []) // may throw, update metadata for old
     )
   );
   const slashes: Slash[][] = events.map((info): Slash[] =>
@@ -117,10 +108,10 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
   }));
 }
 
-export default function useSessionSlashes (maxSessions = MAX_SESSIONS): SessionRewards[] {
-  const { api } = useContext(ApiContext);
-  const STORAGE_KEY = `hooks:sessionSlashes:${api.genesisHash}`;
-  const [results, setResults] = useState<SessionRewards[]>(getStorage(STORAGE_KEY));
+export default function useSessionRewards (maxSessions: number): SessionRewards[] {
+  const { api } = useApiContext();
+  const [getCache, setCache] = useCacheKey<Serialized[]>('hooks:sessionSlashes');
+  const [results, setResults] = useState<SessionRewards[]>(fromJSON(getCache() || []));
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 
   useEffect((): void => {
@@ -146,7 +137,7 @@ export default function useSessionSlashes (maxSessions = MAX_SESSIONS): SessionR
         toNumber = fromNumber;
         fromNumber = bnMax(toNumber.subn(count), new BN(1));
 
-        setStorage(STORAGE_KEY, workQueue, maxSessionsStore);
+        setCache(toJSON(workQueue, maxSessionsStore));
         setResults(workQueue);
 
         const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;

@@ -5,10 +5,10 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router';
-import { ApiContext } from '@polkadot/react-api';
 import { Tabs } from '@polkadot/react-components';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import Consts from './Consts';
 import Modules from './Modules';
@@ -23,7 +23,7 @@ interface Props extends I18nProps {
 let id = -1;
 
 function Selection ({ basePath, onAdd, t }: Props): React.ReactElement<Props> {
-  const { isSubstrateV2 } = useContext(ApiContext);
+  const { isSubstrateV2 } = useApiContext();
   const _onAdd = (query: ParitalQueryTypes): void => onAdd({ ...query, id: ++id });
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode =>
     // eslint-disable-next-line react/display-name

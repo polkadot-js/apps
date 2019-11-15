@@ -6,9 +6,9 @@ import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 import { StorageEntryPromise } from './types';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { ApiContext } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
@@ -29,7 +29,7 @@ function transform (api: ApiPromise, { value }: Props): (method: string) => Stor
 }
 
 export default function SelectKey (props: Props): React.ReactElement<Props> | null {
-  const { api } = useContext(ApiContext);
+  const { api } = useApiContext();
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {

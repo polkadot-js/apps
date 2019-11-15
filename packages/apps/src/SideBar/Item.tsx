@@ -8,12 +8,13 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '@polkadot/apps-routing/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
 import { Icon, Menu, Tooltip } from '@polkadot/react-components';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { ApiContext, withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { useApiContext } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
@@ -77,7 +78,7 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
 }
 
 function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
-  const apiProps = useContext(ApiContext);
+  const apiProps = useApiContext();
   const [hasAccounts, setHasAccounts] = useState(false);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);

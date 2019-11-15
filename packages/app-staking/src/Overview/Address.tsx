@@ -8,11 +8,12 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api';
 import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
+import { useApiContext } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -47,7 +48,7 @@ interface StakingState {
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
 function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, stakingInfo, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
-  const { api, isSubstrateV2 } = useContext(ApiContext);
+  const { api, isSubstrateV2 } = useApiContext();
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
