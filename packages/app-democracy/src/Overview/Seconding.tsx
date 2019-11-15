@@ -4,26 +4,23 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  allAccounts?: SubjectInfo;
   depositors: AccountId[];
   proposalId: BN | number;
 }
 
-function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.ReactElement<Props> | null {
+function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Props> | null {
+  const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isSecondingOpen, setIsSecondingOpen] = useState(false);
-  const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
   if (!hasAccounts) {
     return null;
@@ -85,8 +82,4 @@ function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.Re
   );
 }
 
-export default withMulti(
-  Seconding,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(Seconding);

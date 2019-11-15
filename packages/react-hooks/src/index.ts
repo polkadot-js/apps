@@ -3,6 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as trackStream } from './trackStream';
+export { default as useAccounts } from './useAccounts';
+export { default as useAddresses } from './useAddresses';
 export { default as useApiContext } from './useApiContext';
 export { default as useDebounce } from './useDebounce';
 export { default as useFavorites } from './useFavorites';

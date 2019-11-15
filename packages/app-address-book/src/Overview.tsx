@@ -8,8 +8,7 @@ import { ComponentProps } from './types';
 
 import React, { useState } from 'react';
 import { Button, CardGrid } from '@polkadot/react-components';
-import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { useAddresses } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
@@ -20,6 +19,7 @@ interface Props extends ComponentProps, I18nProps {
 }
 
 function Overview ({ addresses, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const { allAddresses } = useAddresses();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const emptyScreen = !isCreateOpen && (!addresses || Object.keys(addresses).length === 0);
 
@@ -46,7 +46,7 @@ function Overview ({ addresses, onStatusChange, t }: Props): React.ReactElement<
           onStatusChange={onStatusChange}
         />
       )}
-      {addresses && Object.keys(addresses).map((address): React.ReactNode => (
+      {allAddresses.map((address): React.ReactNode => (
         <Address
           address={address}
           key={address}
@@ -56,8 +56,4 @@ function Overview ({ addresses, onStatusChange, t }: Props): React.ReactElement<
   );
 }
 
-export default withMulti(
-  Overview,
-  translate,
-  withObservable(addressObservable.subject, { propName: 'addresses' })
-);
+export default translate(Overview);

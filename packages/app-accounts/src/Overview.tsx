@@ -3,13 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React, { useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { getLedger, isLedger, withMulti, withObservable } from '@polkadot/react-api';
+import { getLedger, isLedger } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
 import { Button, CardGrid } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
@@ -20,7 +19,6 @@ import Banner from './Banner';
 import translate from './translate';
 
 interface Props extends ComponentProps, I18nProps {
-  accounts?: SubjectInfo[];
 }
 
 // query the ledger for the address, adding it to the keyring
@@ -36,11 +34,12 @@ async function queryLedger (): Promise<void> {
   }
 }
 
-function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<Props> {
+function Overview ({ onStatusChange, t }: Props): React.ReactElement<Props> {
+  const { allAccounts, hasAccounts } = useAccounts();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
-  const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && accounts && (Object.keys(accounts).length === 0);
+  const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && !hasAccounts;
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
   const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
@@ -105,7 +104,7 @@ function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<P
           onStatusChange={onStatusChange}
         />
       )}
-      {accounts && Object.keys(accounts).map((address): React.ReactNode => (
+      {allAccounts.map((address): React.ReactNode => (
         <Account
           address={address}
           key={address}
@@ -115,8 +114,4 @@ function Overview ({ accounts, onStatusChange, t }: Props): React.ReactElement<P
   );
 }
 
-export default withMulti(
-  Overview,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'accounts' })
-);
+export default translate(Overview);

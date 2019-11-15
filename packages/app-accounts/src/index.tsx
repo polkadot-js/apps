@@ -4,13 +4,11 @@
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps, LocationProps } from './types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { useAccounts } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { withMulti, withObservable } from '@polkadot/react-api';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
@@ -18,20 +16,20 @@ import translate from './translate';
 import Vanity from './Vanity';
 
 interface Props extends AppProps, I18nProps {
-  allAccounts?: SubjectInfo;
   location: any;
 }
 
-function AccountsApp ({ allAccounts = {}, basePath, location, onStatusChange, t }: Props): React.ReactElement<Props> {
+function AccountsApp ({ basePath, location, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const { hasAccounts } = useAccounts();
   const [hidden, setHidden] = useState<string[]>(['vanity']);
 
   useEffect((): void => {
     setHidden(
-      Object.keys(allAccounts).length !== 0
+      hasAccounts
         ? []
         : ['vanity']
     );
-  }, [allAccounts]);
+  }, [hasAccounts]);
 
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): (props: LocationProps) => React.ReactNode => {
     // eslint-disable-next-line react/display-name
@@ -75,8 +73,4 @@ function AccountsApp ({ allAccounts = {}, basePath, location, onStatusChange, t 
   );
 }
 
-export default withMulti(
-  AccountsApp,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(AccountsApp);

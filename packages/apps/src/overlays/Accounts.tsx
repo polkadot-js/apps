@@ -2,44 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { withApi, withMulti, withObservable } from '@polkadot/react-api';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { useAccounts, useApiContext } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import BaseOverlay from './Base';
 
-interface Props extends I18nProps, ApiProps {
-  allAccounts?: SubjectInfo;
-}
-
-function Accounts ({ allAccounts, isApiReady, className, t }: Props): React.ReactElement<Props> | null {
-  const [hasAccounts, setHasAccounts] = useState(false);
+function Accounts ({ className, t }: Props): React.ReactElement<Props> | null {
+  const { hasAccounts } = useAccounts();
+  const { isApiReady } = useApiContext();
   const [isHidden, setIsHidden] = useState(false);
-
-  useEffect((): void => {
-    if (!allAccounts) {
-      return;
-    }
-
-    const newHas = Object.keys(allAccounts).length !== 0;
-
-    if (newHas !== hasAccounts) {
-      setHasAccounts(newHas);
-    }
-  }, [allAccounts]);
-
-  const _onClose = (): void => setIsHidden(true);
 
   if (!isApiReady || hasAccounts || isHidden) {
     return null;
   }
+
+  const _onClose = (): void => setIsHidden(true);
 
   return (
     <BaseOverlay
@@ -59,13 +41,10 @@ function Accounts ({ allAccounts, isApiReady, className, t }: Props): React.Reac
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Accounts)`
     background: #fff6cb;
     border-color: #e7c000;
     color: #6b5900;
-  `,
-  translate,
-  withApi,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
+  `
 );
