@@ -12,7 +12,7 @@ import '../InputExtrinsic/InputExtrinsic.css';
 
 import React, { useState } from 'react';
 import map from '@polkadot/jsonrpc';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -31,7 +31,7 @@ interface Props extends I18nProps {
 }
 
 function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<RpcMethod>((): RpcMethod => defaultValue);

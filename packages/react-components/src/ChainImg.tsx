@@ -4,7 +4,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 // the imports here as a bit all-over, non-aphabetical - since we expect this to grow,
 // rather organise based on type, grouping chains and nodes as opposed to location
@@ -54,7 +54,7 @@ interface Props {
 }
 
 function ChainImg ({ className, logo = '', onClick }: Props): React.ReactElement<Props> {
-  const { systemChain, systemName } = useApiContext();
+  const { systemChain, systemName } = useApi();
   const img = LOGOS[logo] || CHAINS[systemChain] || NODES[systemName] || EMPTY;
 
   return (

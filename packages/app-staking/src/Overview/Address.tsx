@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
-import { trackStream, useApiContext } from '@polkadot/react-hooks';
+import { trackStream, useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -47,7 +47,7 @@ interface StakingState {
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
 function Address ({ address, authorsMap, className, defaultName, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
-  const { api, isSubstrateV2 } = useApiContext();
+  const { api, isSubstrateV2 } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
   const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();

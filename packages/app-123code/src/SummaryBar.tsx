@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { withCalls } from '@polkadot/react-api';
 import { Bubble, IdentityIcon } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
@@ -23,7 +23,7 @@ interface Props extends BareProps, I18nProps {
 }
 
 function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_validators }: Props): React.ReactElement<Props> {
-  const { api, systemChain, systemName, systemVersion } = useApiContext();
+  const { api, systemChain, systemName, systemVersion } = useApi();
 
   return (
     <summary>

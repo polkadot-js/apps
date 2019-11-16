@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
 import { StatusContext } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import Status from './Status';
 import translate from '../translate';
@@ -25,7 +25,7 @@ const unknown = {
 
 function Content ({ className, t }: Props): React.ReactElement<Props> {
   const location = useLocation();
-  const { isApiConnected, isApiReady } = useApiContext();
+  const { isApiConnected, isApiReady } = useApi();
   const { queueAction, stqueue, txqueue } = useContext(StatusContext);
   const app = location.pathname.slice(1) || '';
   const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>

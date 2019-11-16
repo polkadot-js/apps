@@ -10,7 +10,7 @@ import { Header } from '@polkadot/types/interfaces';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import translate from './translate';
@@ -204,7 +204,7 @@ function renderRows (rows: Row[]): React.ReactNode[] {
 }
 
 function Forks ({ className, t }: Props): React.ReactElement<Props> | null {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [tree, setTree] = useState<Link | null>(null);
   const childrenRef = useRef<Map<string, string[]>>(new Map([['root', []]]));
   const countRef = useRef({ numBlocks: 0, numForks: 0 });

@@ -13,7 +13,7 @@ import { Transition } from 'semantic-ui-react';
 import snappy from 'snappyjs';
 import styled from 'styled-components';
 import { Button, Dropdown, Editor } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as types from '@polkadot/types';
 import * as util from '@polkadot/util';
@@ -80,7 +80,7 @@ function decodeBase64 (base64: string): Snippet {
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
 function Playground ({ className, t }: Props): React.ReactElement<Props> {
-  const { api, isDevelopment } = useApiContext();
+  const { api, isDevelopment } = useApi();
   const history = useHistory();
   const { base64 } = useParams();
   const injectedRef = useRef<Injected | null>(null);

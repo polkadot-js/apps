@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import translate from './translate';
 import Toggle from './Toggle';
@@ -20,7 +20,7 @@ interface Props extends I18nProps {
 }
 
 function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefault, t }: Props): React.ReactElement<Props> | null {
-  const { isDevelopment, api } = useApiContext();
+  const { isDevelopment, api } = useApi();
 
   if (isDevelopment) {
     return null;

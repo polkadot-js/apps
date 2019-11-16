@@ -11,7 +11,7 @@ import { ApiPromise } from '@polkadot/api';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
-import useApiContext from './useApiContext';
+import useApi from './useApi';
 import useCacheKey from './useCacheKey';
 
 interface SerializedSlash {
@@ -111,7 +111,7 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
 }
 
 export default function useSessionRewards (maxSessions: number): SessionRewards[] {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [getCache, setCache] = useCacheKey<Serialized[]>('hooks:sessionSlashes');
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 

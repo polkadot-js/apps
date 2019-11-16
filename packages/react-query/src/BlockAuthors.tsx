@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 interface Authors {
@@ -19,13 +19,13 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MAX_HEADERS = 20;
+const MAX_HEADERS = 25;
 
 const byAuthor: Record<string, string> = {};
 const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, lastHeaders: [] });
 
 function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [state, setState] = useState<Authors>({ byAuthor, lastHeaders: [] });
 
   useEffect((): void => {

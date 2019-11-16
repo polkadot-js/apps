@@ -9,14 +9,14 @@ import { ComponentProps } from '../types';
 
 import React, { useState } from 'react';
 import { Button, InputConsts } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
 interface Props extends ComponentProps, I18nProps {}
 
 function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [defaultValue] = useState<ConstValue>((): ConstValue => {
     const section = Object.keys(api.consts)[0];
     const method = Object.keys(api.consts[section])[0];

@@ -7,14 +7,14 @@ import { I18nProps as Props } from '@polkadot/react-components/types';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useAccounts, useApiContext } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import BaseOverlay from './Base';
 
 function Accounts ({ className, t }: Props): React.ReactElement<Props> | null {
   const { hasAccounts } = useAccounts();
-  const { isApiReady } = useApiContext();
+  const { isApiReady } = useApi();
   const [isHidden, setIsHidden] = useState(false);
 
   if (!isApiReady || hasAccounts || isHidden) {

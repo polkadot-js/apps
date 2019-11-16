@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { Chart, Columar, Column } from '@polkadot/react-components';
 import { toShortAddress } from '@polkadot/react-components/util';
 import { getHistoric } from '@polkadot/react-api/util';
-import { trackStream, useApiContext } from '@polkadot/react-hooks';
+import { trackStream, useApi } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
@@ -91,7 +91,7 @@ function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
 }
 
 function Validator ({ className, sessionRewards, t, validatorId }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   // FIXME There is something seriously wrong in these two with "any" horrors
   const blockCounts = trackStream<u32[]>(api.query.imOnline?.authoredBlocks?.multi as any, [sessionRewards, validatorId], {
     paramMap: ([sessionRewards, validatorId]: [SessionRewards[], string]): any =>

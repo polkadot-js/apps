@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { trackStream, useAccounts, useApiContext, useSessionRewards } from '@polkadot/react-hooks';
+import { trackStream, useAccounts, useApi, useSessionRewards } from '@polkadot/react-hooks';
 
 import Accounts from './Actions/Accounts';
 import basicMd from './md/basic.md';
@@ -39,7 +39,7 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
 }
 
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const stakingControllers = trackStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
   const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
