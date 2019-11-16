@@ -1,38 +1,56 @@
-// Copyright 2017-2019 @polkadot/app-123code authors & contributors
+// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// some types, AppProps for the app and I18nProps to indicate
-// translatable strings. Generally the latter is quite "light",
-// `t` is inject into props (see the HOC export) and `t('any text')
-// does the translation
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { ComponentProps } from './types';
 
-// external imports (including those found in the packages/*
-// of this repo)
-import React, { useState } from 'react';
+import React from 'react';
+import { Route, Switch } from 'react-router';
+import { HelpOverlay } from '@polkadot/react-components';
+import Tabs from '@polkadot/react-components/Tabs';
 
-// local imports and components
-import AccountSelector from './AccountSelector';
-import SummaryBar from './SummaryBar';
-import Transfer from './Transfer';
+import basicMd from './md/basic.md';
+import Overview from './Overview';
 import translate from './translate';
 
-// define our internal types
-interface Props extends AppProps, I18nProps {}
+interface Props extends AppProps, I18nProps {
+  allAddresses?: SubjectInfo;
+  location: any;
+}
 
-function App ({ className }: Props): React.ReactElement<Props> {
-  const [accountId, setAccountId] = useState<string | null>(null);
+function AddressBookApp ({ basePath, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
+    // eslint-disable-next-line react/display-name
+    return (): React.ReactNode =>
+      <Component
+        basePath={basePath}
+        location={location}
+        onStatusChange={onStatusChange}
+      />;
+  };
 
   return (
-    // in all apps, the main wrapper is setup to allow the padding
-    // and margins inside the application. (Just from a consistent pov)
-    <main className={className}>
-      <SummaryBar />
-      <AccountSelector onChange={setAccountId} />
-      <Transfer accountId={accountId} />
+    <main className='address-book--App'>
+      <HelpOverlay md={basicMd} />
+      <header>
+        <Tabs
+          basePath={basePath}
+          items={[
+            {
+              isRoot: true,
+              name: 'overview',
+              text: t('My contacts')
+            }
+          ]}
+        />
+      </header>
+      <Switch>
+        <Route render={_renderComponent(Overview)} />
+      </Switch>
     </main>
   );
 }
 
-export default translate(App);
+export default translate(AddressBookApp);

@@ -13,7 +13,7 @@ export default ([
       isHidden: false,
       needsAccounts: true,
       needsApi: [
-        'tx.operator'
+        'tx.operator.instantiate'
       ]
     },
     i18n: {
