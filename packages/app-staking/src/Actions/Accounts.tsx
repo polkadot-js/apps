@@ -2,17 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 import { ComponentProps } from '../types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api/with';
 import { Button, CardGrid } from '@polkadot/react-components';
+import { trackStream, useApiContext } from '@polkadot/react-hooks';
 import { AccountName } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import createOption from '@polkadot/ui-keyring/options/item';
@@ -21,12 +19,10 @@ import Account from './Account';
 import StartStaking from './NewStake';
 import translate from '../translate';
 
-interface Props extends I18nProps, ComponentProps, ApiProps {
-  queryBonded?: Option<AccountId>[];
-  queryLedger?: Option<StakingLedger>[];
+interface Props extends I18nProps, ComponentProps {
 }
 
-function getMyStashes (queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[], allAccounts?: SubjectInfo): string[] | null {
+function getMyStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): string[] | null {
   const result: string[] = [];
 
   if (!queryBonded || !queryLedger) {
@@ -34,7 +30,7 @@ function getMyStashes (queryBonded?: Option<AccountId>[], queryLedger?: Option<S
   }
 
   queryBonded.forEach((value, index): void => {
-    value.isSome && allAccounts && result.push(Object.keys(allAccounts)[index]);
+    value.isSome && result.push(allAccounts[index]);
   });
 
   queryLedger.forEach((ledger): void => {
@@ -48,9 +44,12 @@ function getMyStashes (queryBonded?: Option<AccountId>[], queryLedger?: Option<S
   return result;
 }
 
-function Accounts ({ allAccounts, allStashes, className, queryBonded, queryLedger, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function Accounts ({ allAccounts, allStashes, className, recentlyOnline, t }: Props): React.ReactElement<Props> {
+  const { api } = useApiContext();
+  const queryBonded = trackStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
+  const queryLedger = trackStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
-  const foundStashes = getMyStashes(queryBonded, queryLedger, allAccounts);
+  const foundStashes = getMyStashes(allAccounts, queryBonded, queryLedger);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
     createOption(stashId, (<AccountName params={stashId} />) as any)
   );
@@ -91,25 +90,10 @@ function Accounts ({ allAccounts, allStashes, className, queryBonded, queryLedge
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Accounts)`
     .ui--CardGrid-buttons {
       text-align: right;
     }
-  `,
-  translate,
-  withCalls<Props>(
-    ['query.staking.bonded', {
-      isMulti: true,
-      propName: 'queryBonded',
-      paramPick: ({ allAccounts }: Props): undefined | string[] =>
-        allAccounts && Object.keys(allAccounts)
-    }],
-    ['query.staking.ledger', {
-      isMulti: true,
-      propName: 'queryLedger',
-      paramPick: ({ allAccounts }: Props): undefined | string[] =>
-        allAccounts && Object.keys(allAccounts)
-    }]
-  )
+  `
 );

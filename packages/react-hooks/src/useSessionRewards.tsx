@@ -113,47 +113,44 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
 export default function useSessionRewards (maxSessions: number): SessionRewards[] {
   const { api } = useApiContext();
   const [getCache, setCache] = useCacheKey<Serialized[]>('hooks:sessionSlashes');
-  const [results, setResults] = useState<SessionRewards[]>(fromJSON(getCache() || []));
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 
   useEffect((): void => {
-    let workQueue = results;
+    let workQueue = fromJSON(getCache() || []);
 
-    api.isReady.then(async (): Promise<void> => {
-      const maxSessionsStore = maxSessions + 1; // assuming first is a bust
-      const sessionLength = (api.consts.babe?.epochDuration as BlockNumber || new BN(500));
-      const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 10000);
-      const bestHeader = await api.rpc.chain.getHeader();
-      let toHash = bestHeader.hash;
-      let toNumber = bestHeader.number.unwrap().toBn();
-      let fromHash = api.genesisHash;
-      let fromNumber = bnMax(toNumber.subn(count), new BN(1));
+    setImmediate((): void => {
+      api.isReady.then(async (): Promise<void> => {
+        const maxSessionsStore = maxSessions + 1; // assuming first is a bust
+        const sessionLength = (api.consts.babe?.epochDuration as BlockNumber || new BN(500));
+        const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 10000);
+        const bestHeader = await api.rpc.chain.getHeader();
+        let toHash = bestHeader.hash;
+        let toNumber = bestHeader.number.unwrap().toBn();
+        let fromHash = api.genesisHash;
+        let fromNumber = bnMax(toNumber.subn(count), new BN(1));
 
-      while (true) {
-        fromHash = await api.rpc.chain.getBlockHash(fromNumber as any);
+        while (true) {
+          fromHash = await api.rpc.chain.getBlockHash(fromNumber as any);
 
-        const newQueue = await loadSome(api, fromHash, toHash);
+          const newQueue = await loadSome(api, fromHash, toHash);
 
-        workQueue = mergeResults(workQueue, newQueue);
-        toHash = fromHash;
-        toNumber = fromNumber;
-        fromNumber = bnMax(toNumber.subn(count), new BN(1));
+          workQueue = mergeResults(workQueue, newQueue);
+          toHash = fromHash;
+          toNumber = fromNumber;
+          fromNumber = bnMax(toNumber.subn(count), new BN(1));
 
-        setCache(toJSON(workQueue, maxSessionsStore));
-        setResults(workQueue);
+          setCache(toJSON(workQueue, maxSessionsStore));
+          setFiltered(workQueue.slice(-maxSessions));
 
-        const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
+          const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
 
-        if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(lastNumber))) {
-          break;
+          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(lastNumber))) {
+            break;
+          }
         }
-      }
+      });
     });
   }, []);
-
-  useEffect((): void => {
-    setFiltered(results.slice(-maxSessions));
-  }, [results]);
 
   return filtered;
 }

@@ -4,7 +4,6 @@
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import { ComponentProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -21,16 +20,6 @@ interface Props extends AppProps, I18nProps {
 }
 
 function AddressBookApp ({ basePath, onStatusChange, t }: Props): React.ReactElement<Props> {
-  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
-    // eslint-disable-next-line react/display-name
-    return (): React.ReactNode =>
-      <Component
-        basePath={basePath}
-        location={location}
-        onStatusChange={onStatusChange}
-      />;
-  };
-
   return (
     <main className='address-book--App'>
       <HelpOverlay md={basicMd} />
@@ -47,7 +36,13 @@ function AddressBookApp ({ basePath, onStatusChange, t }: Props): React.ReactEle
         />
       </header>
       <Switch>
-        <Route render={_renderComponent(Overview)} />
+        <Route>
+          <Overview
+            basePath={basePath}
+            location={location}
+            onStatusChange={onStatusChange}
+          />
+        </Route>
       </Switch>
     </main>
   );

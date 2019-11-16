@@ -6,21 +6,13 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Button, InputAddressSimple } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Validator from './Validator';
 
-interface Props extends I18nProps, ComponentProps, RouteComponentProps<{}> {
-  match: {
-    isExact: boolean;
-    params: {
-      value: string;
-    };
-    path: string;
-    url: string;
-  };
+interface Props extends I18nProps, ComponentProps {
 }
 
 // const _onQuery = (): void => {
@@ -46,7 +38,8 @@ interface Props extends I18nProps, ComponentProps, RouteComponentProps<{}> {
 //       />
 //     </Input>
 
-function Query ({ className, sessionRewards, match: { params: { value } }, t }: Props): React.ReactElement<Props> {
+function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
+  const { value } = useParams();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
   const _onQuery = (): void => {
@@ -81,4 +74,4 @@ function Query ({ className, sessionRewards, match: { params: { value } }, t }: 
   );
 }
 
-export default translate(withRouter(Query));
+export default translate(Query);

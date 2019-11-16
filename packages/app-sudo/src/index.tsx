@@ -4,14 +4,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
-import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { trackStream, useAccounts, useApiContext } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
 import Sudo from './Sudo';
@@ -19,17 +17,16 @@ import Sudo from './Sudo';
 import translate from './translate';
 
 interface Props extends AppProps, I18nProps {
-  allAccounts: SubjectInfo;
-  sudoKey?: string;
 }
 
-function App ({ allAccounts, basePath, sudoKey, t }: Props): React.ReactElement<Props> {
+function App ({ basePath, t }: Props): React.ReactElement<Props> {
+  const { api } = useApiContext();
+  const sudoKey = trackStream<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
+  const { allAccounts } = useAccounts();
   const [isMine, setIsMine] = useState(false);
 
   useEffect((): void => {
-    setIsMine(
-      !!sudoKey && !!allAccounts && Object.keys(allAccounts).some((key): boolean => key === sudoKey)
-    );
+    setIsMine(!!sudoKey && allAccounts.some((key): boolean => key === sudoKey));
   }, [allAccounts, sudoKey]);
 
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
@@ -83,15 +80,4 @@ function App ({ allAccounts, basePath, sudoKey, t }: Props): React.ReactElement<
   );
 }
 
-export default withMulti(
-  App,
-  translate,
-  withCalls<Props>(
-    ['query.sudo.key', {
-      propName: 'sudoKey',
-      transform: (key): string =>
-        key.toString()
-    }]
-  ),
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(App);
