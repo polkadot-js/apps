@@ -19,8 +19,8 @@ import { Api } from '@polkadot/react-api';
 import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
-
 import Apps from './Apps';
+import { types } from '@plasm/utils';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
@@ -70,6 +70,7 @@ ReactDOM.render(
             queuePayload={queuePayload}
             queueSetTxStatus={queueSetTxStatus}
             url={wsEndpoint}
+            types={types}
           >
             <BlockAuthors>
               <Events>

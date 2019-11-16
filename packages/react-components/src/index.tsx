@@ -42,6 +42,7 @@ export { default as InputAddress } from './InputAddress';
 export { default as InputAddressSimple } from './InputAddressSimple';
 export { default as InputBalance } from './InputBalance';
 export { default as InputBalanceBonded } from './InputBalanceBonded';
+export { default as InputParameters } from './InputParameters';
 export { default as InputConsts } from './InputConsts';
 export { default as InputError } from './InputError';
 export { default as InputExtrinsic } from './InputExtrinsic';

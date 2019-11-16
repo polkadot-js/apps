@@ -26,6 +26,7 @@ import sudo from './sudo';
 import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
+import operatedcontracts from './operatedcontracts';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
@@ -37,6 +38,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     transfer,
     genericAsset,
     null,
+    operatedcontracts,
     staking,
     democracy,
     council,
@@ -59,7 +61,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     treasury,
     parachains,
     null,
-    contracts,
+    operatedcontracts,
     storage,
     extrinsics,
     sudo,

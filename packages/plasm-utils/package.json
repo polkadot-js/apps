@@ -1,0 +1,22 @@
+{
+  "name": "@plasm/utils",
+  "version": "0.47.0-beta.5",
+  "description": "Plasm utils functions",
+  "main": "index.js",
+  "author": "Takumi Yamashita <takumi@stake.co.jp>",
+  "maintainers": [
+    "Takumu Yamashita <takumi@stake.co.jp>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.7.1",
+    "@types/store": "^2.0.2",
+    "store": "^2.0.12"
+  },
+  "devDependencies": {
+    "@polkadot/util": "^1.7.0-beta.5"
+  },
+  "peerDependencies": {
+    "@polkadot/util": "*"
+  }
+}

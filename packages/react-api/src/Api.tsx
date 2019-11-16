@@ -28,6 +28,7 @@ interface Props {
   queuePayload: QueueTxPayloadAdd;
   queueSetTxStatus: QueueTxMessageSetStatus;
   url?: string;
+  types?: any;
 }
 
 interface State extends ApiProps {
@@ -56,12 +57,12 @@ export default class Api extends React.PureComponent<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { queuePayload, queueSetTxStatus, url } = props;
+    const { queuePayload, queueSetTxStatus, url, types } = props;
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 
     const setApi = (provider: ProviderInterface): void => {
-      api = this.createApi(provider, signer);
+      api = this.createApi(provider, signer, types);
 
       this.setState({ api }, (): void => {
         this.subscribeEvents();
@@ -70,7 +71,7 @@ export default class Api extends React.PureComponent<Props, State> {
     const setApiUrl = (url: string = defaults.WS_URL): void =>
       setApi(new WsProvider(url));
 
-    api = this.createApi(provider, signer);
+    api = this.createApi(provider, signer, types);
 
     this.state = {
       api,
@@ -82,12 +83,13 @@ export default class Api extends React.PureComponent<Props, State> {
     } as unknown as State;
   }
 
-  private createApi (provider: ProviderInterface, signer: ApiSigner): ApiPromise {
+  private createApi (provider: ProviderInterface, signer: ApiSigner, types: any): ApiPromise {
     return new ApiPromise({
       provider,
       signer,
       typesChain,
-      typesSpec
+      typesSpec,
+      types
     });
   }
 

@@ -28,6 +28,7 @@ i18n
       'app-address-book',
       'app-claims',
       'app-contracts',
+      'app-operated-contracts',
       'app-council',
       'app-dashboard',
       'app-democracy',

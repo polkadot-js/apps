@@ -17,6 +17,8 @@
       "@polkadot/app-claims/*": [ "packages/app-claims/src/*" ],
       "@polkadot/app-contracts": [ "packages/app-contracts/src" ],
       "@polkadot/app-contracts/*": [ "packages/app-contracts/src/*" ],
+      "@polkadot/app-operated-contracts": [ "packages/app-operated-contracts/src" ],
+      "@polkadot/app-operated-contracts/*": [ "packages/app-operated-contracts/src/*" ],
       "@polkadot/app-council": [ "packages/app-council/src" ],
       "@polkadot/app-council/*": [ "packages/app-council/src/*" ],
       "@polkadot/app-dashboard": [ "packages/app-dashboard/src" ],
@@ -60,7 +62,8 @@
       "@polkadot/react-signer": [ "packages/react-signer/src" ],
       "@polkadot/react-signer/*": [ "packages/react-signer/src/*" ],
       "@plasm/ui-settings/*": [ "packages/ui-settings/src/*" ],
-      "@plasm/ui-assets/*": [ "packages/ui-assets/src/*" ]
+      "@plasm/ui-assets/*": [ "packages/ui-assets/src/*" ],
+      "@plasm/utils/*": [ "packages/utils/src/*" ]
     },
     "skipLibCheck": true,
     "typeRoots": [

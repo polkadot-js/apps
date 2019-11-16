@@ -1,0 +1,18 @@
+{
+  "name": "@polkadot/app-operated-contracts",
+  "version": "0.37.0-beta.72",
+  "description": "Deployment and management of substrate contracts with operated",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Takumi Yamashita <takumi@stake.co.jp>, Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Takumi Yamashita <takumi@stake.co.jp>",
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.7.1",
+    "@polkadot/api-contract": "^0.97.0-beta.2",
+    "@polkadot/react-components": "^0.37.0-beta.72"
+  }
+}
