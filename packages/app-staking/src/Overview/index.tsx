@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import CurrentList from './CurrentList';
@@ -15,7 +15,7 @@ import Summary from './Summary';
 interface Props extends BareProps, ComponentProps {}
 
 export default function Overview ({ allControllers, hasQueries, allStashes, className, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
-  const { isSubstrateV2 } = useApiContext();
+  const { isSubstrateV2 } = useApi();
   const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [next, setNext] = useState<string[]>([]);
   const validators = stakingOverview && stakingOverview.validators;

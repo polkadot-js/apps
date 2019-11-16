@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import store from 'store';
-import useApiContext from './useApiContext';
+import useApi from './useApi';
 
 // create a chain-specific key for the local cache
 export default function useCacheKey <T> (storageKeyBase: string): [(defaultValue?: T) => T | undefined, (value: T) => T] {
-  const { api, isDevelopment } = useApiContext();
+  const { api, isDevelopment } = useApi();
   const STORAGE_KEY = `${storageKeyBase}:${isDevelopment ? 'development' : api.genesisHash}`;
 
   return [

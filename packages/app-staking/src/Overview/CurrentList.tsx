@@ -9,7 +9,7 @@ import { ValidatorFilter } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
-import { useApiContext, useFavorites } from '@polkadot/react-hooks';
+import { useApi, useFavorites } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import { STORE_FAVS_BASE } from '../constants';
@@ -57,7 +57,7 @@ function accountsToString (accounts: AccountId[]): string[] {
 }
 
 function CurrentList ({ authorsMap, hasQueries, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
-  const { isSubstrateV2 } = useApiContext();
+  const { isSubstrateV2 } = useApi();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [myAccounts] = useState(keyring.getAccounts().map(({ address }): string => address));

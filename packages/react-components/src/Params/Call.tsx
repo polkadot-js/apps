@@ -6,12 +6,12 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { Props } from '@polkadot/react-params/types';
 
 import React from 'react';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import Extrinsic from './Extrinsic';
 
 export default function Call ({ className, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
-  const { api, apiDefaultTx } = useApiContext();
+  const { api, apiDefaultTx } = useApi();
 
   const defaultValue = ((): SubmittableExtrinsicFunction<'promise'> => {
     try {

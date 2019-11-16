@@ -5,7 +5,7 @@
 import { Codec } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { EventRecord } from '@polkadot/types/interfaces';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
@@ -21,12 +21,12 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MAX_EVENTS = 20;
+const MAX_EVENTS = 25;
 
 const EventsContext: React.Context<Events> = React.createContext<Events>([]);
 
 function Events ({ children }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [state, setState] = useState<Events>([]);
 
   useEffect((): void => {

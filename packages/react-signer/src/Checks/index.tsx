@@ -13,7 +13,7 @@ import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
 import { withCalls } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
@@ -65,7 +65,7 @@ export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN
 };
 
 export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, t, tip }: Props): React.ReactElement<Props> | null {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [state, setState] = useState<State>({
     allFees: ZERO,
     allTotal: ZERO,

@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
 import { withMulti, withObservable } from '@polkadot/react-api';
@@ -31,7 +31,7 @@ interface Option {
 }
 
 function Transfer ({ assets, className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [assetId, setAssetId] = useState('0');
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);

@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { InputAddress, Labelled, Static } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -26,7 +26,7 @@ interface Props extends I18nProps {
 
 function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
   const [stateProposal, setProposal] = useState<TreasuryProposalType | null>(null);
-  const { api } = useApiContext();
+  const { api } = useApi();
 
   useEffect((): void => {
     if (!proposal && proposalId) {

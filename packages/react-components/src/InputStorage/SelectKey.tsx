@@ -8,7 +8,7 @@ import { StorageEntryPromise } from './types';
 
 import React from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
@@ -29,7 +29,7 @@ function transform (api: ApiPromise, { value }: Props): (method: string) => Stor
 }
 
 export default function SelectKey (props: Props): React.ReactElement<Props> | null {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {

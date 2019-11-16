@@ -11,7 +11,7 @@ import '../InputExtrinsic/InputExtrinsic.css';
 
 import React, { useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -43,7 +43,7 @@ function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstV
 }
 
 function InputConsts ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<ConstValue>(getValue(api, defaultValue));

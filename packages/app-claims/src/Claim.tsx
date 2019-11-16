@@ -9,7 +9,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card } from '@polkadot/react-components';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import translate from './translate';
@@ -21,7 +21,7 @@ interface Props extends I18nProps {
 }
 
 function Claim ({ button, className, ethereumAddress, t }: Props): React.ReactElement<Props> | null {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
   const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);

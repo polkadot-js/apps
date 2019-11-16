@@ -6,7 +6,7 @@
 import { BareProps } from '@polkadot/react-api/types';
 
 import React from 'react';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -14,7 +14,7 @@ interface Props extends BareProps {
 }
 
 export default function Chain ({ children, className, label = '', style }: Props): React.ReactElement<Props> {
-  const { systemChain } = useApiContext();
+  const { systemChain } = useApi();
 
   return (
     <div

@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
 import uiSettings from '@polkadot/ui-settings';
 
@@ -24,7 +24,7 @@ interface Props extends AppProps, BareProps, I18nProps {
 }
 
 function ExplorerApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
-  const { api } = useApiContext();
+  const { api } = useApi();
   const { lastHeaders } = useContext(BlockAuthorsContext);
   const events = useContext(EventsContext);
 

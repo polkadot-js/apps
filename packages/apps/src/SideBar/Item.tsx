@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
 import { Icon, Menu, Tooltip } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
-import { useAccounts, useApiContext } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
@@ -76,7 +76,7 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
 
 function Item ({ route: { Modal, display, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
   const { allAccounts, hasAccounts } = useAccounts();
-  const apiProps = useApiContext();
+  const apiProps = useApi();
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 

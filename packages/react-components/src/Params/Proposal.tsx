@@ -6,7 +6,7 @@ import { Props, RawParam } from '@polkadot/react-params/types';
 
 import React from 'react';
 import { createType } from '@polkadot/types';
-import { useApiContext } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 
 import ExtrinsicDisplay from './Extrinsic';
 
@@ -26,7 +26,7 @@ function onChange ({ onChange }: Props): (_: RawParam) => void {
 }
 
 export default function ProposalDisplay (props: Props): React.ReactElement<Props> {
-  const { apiDefaultTxSudo } = useApiContext();
+  const { apiDefaultTxSudo } = useApi();
   const { className, isDisabled, isError, label, onEnter, style, withLabel } = props;
 
   return (
