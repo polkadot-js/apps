@@ -59,6 +59,10 @@ function extractStake (values: [Hash, Exposure][], divisor: BN): LineData {
 }
 
 function extractSplit (values: [Hash, Exposure][], validatorId: string): SplitData | null {
+  if (!values.length) {
+    return null;
+  }
+
   const last = values[values.length - 1][1];
   const total = last.total.unwrap();
 
@@ -129,7 +133,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
         rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
 
         const neg = extractEraSlash(validatorId, slashes);
-        const pos = index
+        const pos = index && blockCounts[index - 1]
           ? reward.mul(blockCounts[index - 1]).div(blockNumber.sub(sessionRewards[index - 1].blockNumber))
           : new BN(0);
 
@@ -203,7 +207,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
       <Column emptyText={t('Loading staker data')}>
         {(stakeChart || splitChart) && (
           <>
-            {stakeChart && (
+            {stakeChart && stakeChart[0].length !== 0 && (
               <div className='staking--Chart'>
                 <h1>{t('elected stake')}</h1>
                 <Chart.Line
