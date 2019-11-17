@@ -30,6 +30,7 @@ interface Props extends ApiProps, I18nProps {
   allStashes?: string[];
   balances_all?: DerivedBalances;
   className?: string;
+  ownStash: boolean;
   recentlyOnline?: DerivedHeartbeats;
   staking_info?: DerivedStaking;
   stashOptions: KeyringSectionOption[];
@@ -345,7 +346,7 @@ class Account extends React.PureComponent<Props, State> {
         key='settings'
         onClose={this.toggleSettingPopup}
         open={isSettingPopupOpen}
-        position='bottom left'
+        position='bottom right'
         trigger={
           <Button
             icon='setting'
@@ -368,7 +369,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderPopupMenu (): React.ReactNode {
-    const { balances_all, isSubstrateV2, t } = this.props;
+    const { balances_all, isSubstrateV2, ownStash, t } = this.props;
     const { hexSessionId, isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
@@ -382,14 +383,20 @@ class Account extends React.PureComponent<Props, State> {
         onClick={this.toggleSettingPopup}
       >
         {canBondExtra &&
-          <Menu.Item onClick={this.toggleBondExtra}>
+          <Menu.Item
+            disabled={!ownStash}
+            onClick={this.toggleBondExtra}
+          >
             {t('Bond more funds')}
           </Menu.Item>
         }
         <Menu.Item onClick={this.toggleUnbond}>
           {t('Unbond funds')}
         </Menu.Item>
-        <Menu.Item onClick={this.toggleSetControllerAccount}>
+        <Menu.Item
+          disabled={!ownStash}
+          onClick={this.toggleSetControllerAccount}
+        >
           {t('Change controller account')}
         </Menu.Item>
         <Menu.Item onClick={this.toggleSetRewardDestination}>
