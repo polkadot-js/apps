@@ -111,7 +111,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
       const stakeLabels = sessionRewards.map(({ sessionIndex }): string => formatNumber(sessionIndex));
 
       api.isReady.then(async (): Promise<void> => {
-        const values = await getHistoric<Exposure>(api, 'staking.stakers', [validatorId], hashes);
+        const values = await getHistoric<Exposure>(api.query.staking.stakers.at, [validatorId], hashes);
         const stakeChart = extractStake(values, divisor);
         const splitChart = extractSplit(values, validatorId);
         const splitMax = splitChart ? Math.min(Math.ceil(splitChart[0].value), 100) : 100;

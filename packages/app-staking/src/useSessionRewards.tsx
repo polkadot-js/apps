@@ -59,12 +59,9 @@ function mergeResults (sessions: SessionRewards[], newSessions: SessionRewards[]
     .concat(newSessions)
     .sort((a, b): number => a.blockNumber.cmp(b.blockNumber));
 
+  // for the first, always use it, otherwise ignore on same sessionIndex
   return tmp.filter(({ sessionIndex }, index): boolean =>
-    index === 0
-      // for the first, always use it
-      ? true
-      // if the prev has the same sessionIndex, ignore this one
-      : !tmp[index - 1].sessionIndex.eq(sessionIndex)
+    index === 0 || !tmp[index - 1].sessionIndex.eq(sessionIndex)
   );
 }
 
