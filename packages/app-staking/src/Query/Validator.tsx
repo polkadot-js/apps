@@ -128,6 +128,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
       const rewardsChart: LineData = [[], [], []];
       let total = new BN(0);
       let lastRewardIndex = 0;
+      let rewardCount = 0;
 
       // we only work from the second position, the first deemed incomplete
       sessionRewards.forEach(({ blockNumber, reward, sessionIndex, slashes }, index): void => {
@@ -157,6 +158,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
 
         // add this to the total
         total = total.add(neg).add(pos);
+        rewardCount++;
 
         // if we have a reward here, set the reward index for the next iteration
         if (reward.gtn(0)) {
@@ -169,7 +171,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
         // calculate and format to 3 decimals
         rewardsChart[0].push(balanceToNumber(neg, divisor));
         rewardsChart[1].push(balanceToNumber(pos, divisor));
-        rewardsChart[2].push(balanceToNumber(total.divn(index), divisor));
+        rewardsChart[2].push(balanceToNumber(total.divn(rewardCount), divisor));
       });
 
       setRewardsInfo({ rewardsChart, rewardsLabels });
