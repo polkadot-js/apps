@@ -22,22 +22,22 @@ import translate from '../translate';
 interface Props extends I18nProps, ComponentProps {
 }
 
-function getMyStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): string[] | null {
-  const result: string[] = [];
+function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): [string, boolean][] | null {
+  const result: [string, boolean][] = [];
 
   if (!queryBonded || !queryLedger) {
     return null;
   }
 
   queryBonded.forEach((value, index): void => {
-    value.isSome && result.push(allAccounts[index]);
+    value.isSome && result.push([allAccounts[index], true]);
   });
 
   queryLedger.forEach((ledger): void => {
     if (ledger.isSome) {
       const stashId = ledger.unwrap().stash.toString();
 
-      !result.includes(stashId) && result.push(stashId);
+      !result.some(([accountId]): boolean => accountId === stashId) && result.push([stashId, false]);
     }
   });
 
@@ -49,7 +49,7 @@ function Accounts ({ allAccounts, allStashes, className, recentlyOnline, t }: Pr
   const queryBonded = trackStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
   const queryLedger = trackStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
-  const foundStashes = getMyStashes(allAccounts, queryBonded, queryLedger);
+  const foundStashes = getStashes(allAccounts, queryBonded, queryLedger);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
     createOption(stashId, (<AccountName params={stashId} />) as any)
   );
@@ -75,12 +75,13 @@ function Accounts ({ allAccounts, allStashes, className, recentlyOnline, t }: Pr
       {isNewStakeOpen && (
         <StartStaking onClose={_toggleNewStake} />
       )}
-      {foundStashes && foundStashes.map((address, index): React.ReactNode => (
+      {foundStashes && foundStashes.map(([address, ownStash], index): React.ReactNode => (
         address && (
           <Account
             allStashes={allStashes}
             accountId={address}
             key={index}
+            ownStash={ownStash}
             recentlyOnline={recentlyOnline}
             stashOptions={stashOptions}
           />
