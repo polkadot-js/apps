@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, BlockNumber, EventRecord, Hash, Header } from '@polkadot/types/interfaces';
-import { Slash, SessionRewards } from '@polkadot/react-hooks/src/types';
+import { Slash, SessionRewards } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
