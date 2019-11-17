@@ -127,18 +127,44 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
       const rewardsLabels: string[] = [];
       const rewardsChart: LineData = [[], [], []];
       let total = new BN(0);
+      let lastRewardIndex = 0;
 
+      // we only work from the second position, the first deemed incomplete
       sessionRewards.forEach(({ blockNumber, reward, sessionIndex, slashes }, index): void => {
-        // this shows the start of the new era, however rewards are for previous
-        rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
+        // we are trying to find the first index where rewards are allocated, this is our start
+        // since we only want complete eras, this means we drop some at the start
+        if (lastRewardIndex === 0) {
+          if (index && reward.gtn(0)) {
+            lastRewardIndex = index;
+          }
 
+          return;
+        }
+
+        // slash is extracted from the available slashes
         const neg = extractEraSlash(validatorId, slashes);
-        const pos = index && blockCounts[index - 1]
-          ? reward.mul(blockCounts[index - 1]).div(blockNumber.sub(sessionRewards[index - 1].blockNumber))
-          : new BN(0);
+
+        // start of a new session, use the counts for the previous
+        const totalBlocks = blockCounts
+          .filter((count, countIndex): boolean =>
+            !!count && countIndex >= lastRewardIndex && countIndex < index)
+          .reduce((total, count): BN => total.add(count), new BN(0));
+
+        // calculate the rewards based on our total share
+        const pos = reward
+          .mul(totalBlocks)
+          .div(blockNumber.sub(sessionRewards[lastRewardIndex].blockNumber));
 
         // add this to the total
         total = total.add(neg).add(pos);
+
+        // if we have a reward here, set the reward index for the next iteration
+        if (reward.gtn(0)) {
+          lastRewardIndex = index;
+        }
+
+        // this shows the start of the new era, however rewards are for previous
+        rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
 
         // calculate and format to 3 decimals
         rewardsChart[0].push(balanceToNumber(neg, divisor));

@@ -7,6 +7,6 @@ export { default as trackStream } from './track/trackStream';
 export { default as useAccounts } from './useAccounts';
 export { default as useAddresses } from './useAddresses';
 export { default as useApi } from './useApi';
+export { default as useCacheKey } from './useCacheKey';
 export { default as useDebounce } from './useDebounce';
 export { default as useFavorites } from './useFavorites';
-export { default as useSessionRewards } from './useSessionRewards';
