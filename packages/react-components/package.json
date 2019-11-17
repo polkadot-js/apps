@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-components",
-  "version": "0.37.0-beta.96",
+  "version": "0.37.0-beta.97",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -12,9 +12,9 @@
   "dependencies": {
     "@babel/runtime": "^7.7.2",
     "@polkadot/keyring": "^1.7.0-beta.7",
-    "@polkadot/react-api": "^0.37.0-beta.96",
+    "@polkadot/react-api": "^0.37.0-beta.97",
     "@polkadot/react-identicon": "^0.47.0-beta.6",
-    "@polkadot/react-query": "^0.37.0-beta.96",
+    "@polkadot/react-query": "^0.37.0-beta.97",
     "@polkadot/ui-keyring": "^0.47.0-beta.6",
     "@polkadot/ui-settings": "^0.47.0-beta.6",
     "@types/chart.js": "^2.8.10",
