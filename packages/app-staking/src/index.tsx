@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { trackStream, useAccounts, useApi, useSessionRewards } from '@polkadot/react-hooks';
+import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
 
 import Accounts from './Actions/Accounts';
 import basicMd from './md/basic.md';
@@ -22,6 +22,7 @@ import Overview from './Overview';
 import Query from './Query';
 import { MAX_SESSIONS } from './constants';
 import translate from './translate';
+import useSessionRewards from './useSessionRewards';
 
 interface Props extends AppProps, I18nProps {
 }

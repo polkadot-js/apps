@@ -1,18 +1,16 @@
-// Copyright 2017-2019 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, BlockNumber, EventRecord, Hash, Header } from '@polkadot/types/interfaces';
-import { Slash, SessionRewards } from './types';
+import { Slash, SessionRewards } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
+import { useApi, useCacheKey } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
-
-import useApi from './useApi';
-import useCacheKey from './useCacheKey';
 
 interface SerializedSlash {
   accountId: string;
