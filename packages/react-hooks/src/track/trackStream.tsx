@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Options, Params } from './types';
+import { Arg, Options, Params } from './types';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -15,9 +15,9 @@ interface TrackFnCallback <T> {
 type Unsub = () => void;
 
 interface TrackFn <T> {
-  (a: any, b: any, c: any, cb: TrackFnCallback<T>): Promise<Unsub>;
-  (a: any, b: any, cb: TrackFnCallback<T>): Promise<Unsub>;
-  (a: any, cb: TrackFnCallback<T>): Promise<Unsub>;
+  (a: Arg, cb: TrackFnCallback<T>): Promise<Unsub>;
+  (a: Arg, b: Arg, cb: TrackFnCallback<T>): Promise<Unsub>;
+  (a: Arg, b: Arg, c: Arg, cb: TrackFnCallback<T>): Promise<Unsub>;
   (cb: TrackFnCallback<T>): Promise<Unsub>;
 }
 

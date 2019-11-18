@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Options, Params } from './types';
+import { Arg, Options, Params } from './types';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { extractParams, transformIdentity } from './util';
 
 interface TrackFn <T> {
-  (a: any, b: any, c: any): Promise<T>;
-  (a: any, b: any): Promise<T>;
-  (a: any): Promise<T>;
+  (a: Arg, b: Arg, c: Arg): Promise<T>;
+  (a: Arg, b: Arg): Promise<T>;
+  (a: Arg): Promise<T>;
   (): Promise<T>;
 }
 
