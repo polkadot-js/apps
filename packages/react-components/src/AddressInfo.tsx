@@ -49,7 +49,7 @@ interface Props extends BareProps, I18nProps {
   stakingInfo?: DerivedStaking;
   withBalance?: boolean | BalanceActiveType;
   withExtended?: boolean | CryptoActiveType;
-  withHexSessionId: string | null;
+  withHexSessionId?: [string | null][];
   withRewardDestination?: boolean;
   withValidatorPrefs?: boolean | ValidatorPrefsType;
 }
@@ -343,7 +343,13 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
         {withHexSessionId && (
           <>
             <Label label={t('session keys')} />
-            <div className='result'>{withHexSessionId}</div>
+            <div className='result'>{withHexSessionId[0]}</div>
+          </>
+        )}
+        {withHexSessionId && withHexSessionId[0] !== withHexSessionId[1] && (
+          <>
+            <Label label={t('session rotate')} />
+            <div className='result'>{withHexSessionId[1]}</div>
           </>
         )}
         {renderValidatorPrefs(props)}
