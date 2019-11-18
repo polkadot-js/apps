@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export type Params = [] | [any] | [any, any] | [any, any, any];
+export type Param = any;
+
+export type Params = [] | [Param] | [Param, Param] | [Param, Param, Param];
 
 export interface Options <T> {
-  paramMap?: (params: any) => any;
+  paramMap?: (params: any) => Param;
   transform?: (value: any) => T;
 }
