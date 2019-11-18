@@ -67,5 +67,6 @@
   "Remove ABI": "Remove ABI",
   "transferrable": "transferrable",
   "No documentation provided": "No documentation provided",
-  "vested": "vested"
+  "vested": "vested",
+  "session rotate": "session rotate"
 }
