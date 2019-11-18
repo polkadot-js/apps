@@ -39,7 +39,8 @@ interface Props extends ApiProps, I18nProps {
 interface State {
   controllerId: string | null;
   destination: number;
-  hexSessionId: string | null;
+  hexSessionIdNext: string | null;
+  hexSessionIdQueue: string | null;
   isBondExtraOpen: boolean;
   isInjectOpen: boolean;
   isNominateOpen: boolean;
@@ -86,7 +87,8 @@ class Account extends React.PureComponent<Props, State> {
   public state: State = {
     controllerId: null,
     destination: 0,
-    hexSessionId: null,
+    hexSessionIdNext: null,
+    hexSessionIdQueue: null,
     isBondExtraOpen: false,
     isInjectOpen: false,
     isNominateOpen: false,
@@ -116,11 +118,12 @@ class Account extends React.PureComponent<Props, State> {
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
-      hexSessionId: u8aToHex(u8aConcat(...(
+      hexSessionIdNext: u8aToHex(u8aConcat(...(
         nextSessionIds.length
           ? nextSessionIds
           : sessionIds
       ).map((id): Uint8Array => id.toU8a())), 48),
+      hexSessionIdQueue: u8aToHex(u8aConcat(...(sessionIds).map((id): Uint8Array => id.toU8a())), 48),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
@@ -138,7 +141,7 @@ class Account extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, isSubstrateV2, t } = this.props;
-    const { controllerId, hexSessionId, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, onlineStatus, sessionIds, stashId } = this.state;
+    const { controllerId, hexSessionIdNext, hexSessionIdQueue, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, onlineStatus, sessionIds, stashId } = this.state;
 
     if (!stashId) {
       return null;
@@ -225,7 +228,7 @@ class Account extends React.PureComponent<Props, State> {
                   unlocking: true
                 }}
                 withRewardDestination
-                withHexSessionId={ isSubstrateV2 && hexSessionId !== '0x' && hexSessionId}
+                withHexSessionId={ isSubstrateV2 && hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
                 withValidatorPrefs={isStashValidating}
               />
             </div>
@@ -287,7 +290,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { isSubstrateV2, t } = this.props;
-    const { controllerId, hexSessionId, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
+    const { controllerId, hexSessionIdNext, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
     const buttons = [];
 
     // if we are validating/nominating show stop
@@ -307,7 +310,7 @@ class Account extends React.PureComponent<Props, State> {
         />
       );
     } else {
-      if (!sessionIds.length || (isSubstrateV2 && hexSessionId === '0x')) {
+      if (!sessionIds.length || (isSubstrateV2 && hexSessionIdNext === '0x')) {
         buttons.push(
           <Button
             isPrimary
@@ -370,7 +373,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderPopupMenu (): React.ReactNode {
     const { balances_all, isSubstrateV2, ownStash, t } = this.props;
-    const { hexSessionId, isStashNominating, isStashValidating, sessionIds } = this.state;
+    const { hexSessionIdNext, isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
@@ -407,7 +410,7 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {!isStashNominating && (!!sessionIds.length || (isSubstrateV2 && hexSessionId !== '0x')) &&
+        {!isStashNominating && (!!sessionIds.length || (isSubstrateV2 && hexSessionIdNext !== '0x')) &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
             {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
           </Menu.Item>

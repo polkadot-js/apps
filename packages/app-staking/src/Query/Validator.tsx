@@ -99,11 +99,13 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
   });
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
-  const [currency] = useState(formatBalance.getDefaults().unit);
+  const [{ currency, divisor }] = useState<{ currency: string; divisor: BN }>({
+    currency: formatBalance.getDefaults().unit,
+    divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
+  });
   const [{ rewardsChart, rewardsLabels }, setRewardsInfo] = useState<{ rewardsChart: LineData | null; rewardsLabels: string[] }>({ rewardsChart: null, rewardsLabels: [] });
   const [{ splitChart, splitMax }, setSplitInfo] = useState<{ splitChart: SplitData | null; splitMax: number }>({ splitChart: null, splitMax: 100 });
   const [{ stakeChart, stakeLabels }, setStakeInfo] = useState<{ stakeChart: LineData | null; stakeLabels: string[]}>({ stakeChart: null, stakeLabels: [] });
-  const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
 
   useEffect((): void => {
     if (!splitChart) {
