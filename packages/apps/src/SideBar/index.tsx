@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RuntimeVersion } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
@@ -12,7 +13,7 @@ import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { trackStream, useApi } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
@@ -31,7 +32,8 @@ interface Props extends I18nProps {
 }
 
 function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, menuOpen }: Props): React.ReactElement<Props> {
-  const { api, isApiReady } = useApi();
+  const { api } = useApi();
+  const runtimeVersion = trackStream<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
   const [modals, setModals] = useState<Record<string, boolean>>(
     routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
@@ -82,8 +84,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, 
               <ChainImg />
               <div className='info'>
                 <Chain className='chain' />
-                {isApiReady && (
-                  <div className='runtimeVersion'>version {api.runtimeVersion.specVersion.toNumber()}</div>
+                {runtimeVersion && (
+                  <div className='runtimeVersion'>version {runtimeVersion.specVersion.toNumber()}</div>
                 )}
                 <BestNumber label='#' />
               </div>
