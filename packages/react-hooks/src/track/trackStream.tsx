@@ -2,32 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Arg, Options, Params } from './types';
+import { Codec } from '@polkadot/types/types';
+import { Options, Param, Params } from './types';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { dummyPromise, extractParams, transformIdentity } from './util';
 
-interface TrackFnCallback <T> {
-  (value: T): void;
+interface TrackFnCallback {
+  (value: Codec): void;
 }
 
-type Unsub = () => void;
+type TrackFnResult = Promise<() => void>;
 
-interface TrackFn <T> {
-  (a: Arg, cb: TrackFnCallback<T>): Promise<Unsub>;
-  (a: Arg, b: Arg, cb: TrackFnCallback<T>): Promise<Unsub>;
-  (a: Arg, b: Arg, c: Arg, cb: TrackFnCallback<T>): Promise<Unsub>;
-  (cb: TrackFnCallback<T>): Promise<Unsub>;
+interface TrackFn {
+  (a: Param, b: Param, c: Param, cb: TrackFnCallback): TrackFnResult;
+  (a: Param, b: Param, cb: TrackFnCallback): TrackFnResult;
+  (a: Param, cb: TrackFnCallback): TrackFnResult;
+  (cb: TrackFnCallback): TrackFnResult;
 }
 
-// tracks a stream, typically an api.* call that
-//  - returns a promise with an unsubscription
+// tracks a stream, typically an api.* call (derive, rpc, query) that
+//  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export default function trackStream <T> (fn: TrackFn<any> | undefined, params: any, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
+export default function trackStream <T> (fn: TrackFn | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>();
-  const tracker = useRef<{ serialized: string | null; subscriber: Promise<Unsub> }>({ serialized: null, subscriber: dummyPromise });
+  const tracker = useRef<{ serialized: string | null; subscriber: TrackFnResult }>({ serialized: null, subscriber: dummyPromise });
 
   const _unsubscribe = (): void => {
     tracker.current.subscriber.then((fn): void => fn());

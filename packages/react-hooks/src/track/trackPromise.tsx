@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Arg, Options, Params } from './types';
+import { Options, Param, Params } from './types';
 
 import { useEffect, useRef, useState } from 'react';
 
 import { extractParams, transformIdentity } from './util';
 
 interface TrackFn <T> {
-  (a: Arg, b: Arg, c: Arg): Promise<T>;
-  (a: Arg, b: Arg): Promise<T>;
-  (a: Arg): Promise<T>;
+  (a: Param, b: Param, c: Param): Promise<T>;
+  (a: Param, b: Param): Promise<T>;
+  (a: Param): Promise<T>;
   (): Promise<T>;
 }
 
-// tracks a promise, typically an api.* call that
+// tracks a promise, typically an api.* call (query, query.at, rpc) that
 //  - returns a promise with the value
 // FIXME The typings here need some serious TLC
-export default function trackPromise <T> (fn: TrackFn<T> | undefined, params: any, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
+export default function trackPromise <T> (fn: TrackFn<T> | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>();
   const tracker = useRef<{ serialized: string | null }>({ serialized: null });
 
