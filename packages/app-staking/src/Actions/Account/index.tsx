@@ -26,13 +26,13 @@ import Validate from './Validate';
 import { u8aToHex, u8aConcat } from '@polkadot/util';
 
 interface Props extends ApiProps, I18nProps {
-  accountId: string;
   allStashes?: string[];
   balances_all?: DerivedBalances;
   className?: string;
-  ownStash: boolean;
+  isOwnStash: boolean;
   recentlyOnline?: DerivedHeartbeats;
   staking_info?: DerivedStaking;
+  stashId: string;
   stashOptions: KeyringSectionOption[];
 }
 
@@ -57,7 +57,6 @@ interface State {
   sessionIds: string[];
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
-  stashId: string | null;
   validatorPrefs?: ValidatorPrefs;
 }
 
@@ -101,19 +100,17 @@ class Account extends React.PureComponent<Props, State> {
     isUnbondOpen: false,
     isValidateOpen: false,
     onlineStatus: {},
-    sessionIds: [],
-    stashId: null
+    sessionIds: []
   };
 
-  public static getDerivedStateFromProps ({ allStashes, staking_info }: Props): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ allStashes, staking_info, stashId }: Props): Pick<State, never> | null {
     if (!staking_info) {
       return null;
     }
 
-    const { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, stashId, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, validatorPrefs } = staking_info;
     const isStashNominating = nominators && !!nominators.length;
-    const _stashId = toIdString(stashId);
-    const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
+    const isStashValidating = !!allStashes && !!stashId && allStashes.includes(stashId);
 
     return {
       controllerId: toIdString(controllerId),
@@ -134,18 +131,13 @@ class Account extends React.PureComponent<Props, State> {
       ).map(toIdString),
       stakers,
       stakingLedger,
-      stashId: _stashId,
       validatorPrefs
     };
   }
 
   public render (): React.ReactNode {
-    const { className, isSubstrateV2, t } = this.props;
-    const { controllerId, hexSessionIdNext, hexSessionIdQueue, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, onlineStatus, sessionIds, stashId } = this.state;
-
-    if (!stashId) {
-      return null;
-    }
+    const { className, isSubstrateV2, stashId, t } = this.props;
+    const { controllerId, hexSessionIdNext, hexSessionIdQueue, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, onlineStatus, sessionIds } = this.state;
 
     // Each component is rendered and gets a `is[Component]Open` passed in a `isOpen` props.
     // These components will be loaded and return null at the first load (because is[Component]Open === false).
@@ -252,8 +244,8 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominate (): React.ReactNode {
-    const { stashOptions } = this.props;
-    const { controllerId, isNominateOpen, nominees, stashId } = this.state;
+    const { stashId, stashOptions } = this.props;
+    const { controllerId, isNominateOpen, nominees } = this.state;
 
     if (!isNominateOpen || !stashId || !controllerId) {
       return null;
@@ -271,9 +263,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderValidate (): React.ReactNode {
-    const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
+    const { stashId } = this.props;
+    const { controllerId, isValidateOpen, validatorPrefs } = this.state;
 
-    if (!stashId || !controllerId) {
+    if (!controllerId) {
       return null;
     }
 
@@ -372,7 +365,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderPopupMenu (): React.ReactNode {
-    const { balances_all, isSubstrateV2, ownStash, t } = this.props;
+    const { balances_all, isOwnStash, isSubstrateV2, t } = this.props;
     const { hexSessionIdNext, isStashNominating, isStashValidating, sessionIds } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
@@ -387,7 +380,7 @@ class Account extends React.PureComponent<Props, State> {
       >
         {canBondExtra &&
           <Menu.Item
-            disabled={!ownStash}
+            disabled={!isOwnStash}
             onClick={this.toggleBondExtra}
           >
             {t('Bond more funds')}
@@ -397,7 +390,7 @@ class Account extends React.PureComponent<Props, State> {
           {t('Unbond funds')}
         </Menu.Item>
         <Menu.Item
-          disabled={!ownStash}
+          disabled={!isOwnStash}
           onClick={this.toggleSetControllerAccount}
         >
           {t('Change controller account')}
@@ -430,9 +423,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderSetValidatorPrefs (): React.ReactNode {
-    const { controllerId, isValidateOpen, stashId, validatorPrefs } = this.state;
+    const { stashId } = this.props;
+    const { controllerId, isValidateOpen, validatorPrefs } = this.state;
 
-    if (!controllerId || !validatorPrefs || !stashId) {
+    if (!controllerId || !validatorPrefs) {
       return null;
     }
 
@@ -448,9 +442,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderSetControllerAccount (): React.ReactNode {
-    const { controllerId, isSetControllerAccountOpen, isStashValidating, stashId } = this.state;
+    const { stashId } = this.props;
+    const { controllerId, isSetControllerAccountOpen, isStashValidating } = this.state;
 
-    if (!isSetControllerAccountOpen || !stashId) {
+    if (!isSetControllerAccountOpen) {
       return null;
     }
 
@@ -481,9 +476,10 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderSetSessionAccount (): React.ReactNode {
-    const { controllerId, isSetSessionAccountOpen, stashId, sessionIds } = this.state;
+    const { stashId } = this.props;
+    const { controllerId, isSetSessionAccountOpen, sessionIds } = this.state;
 
-    if (!controllerId || !stashId) {
+    if (!controllerId) {
       return null;
     }
 
@@ -625,7 +621,7 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.staking.info', { paramName: 'accountId' }],
-    ['derive.balances.all', { paramName: 'accountId' }]
+    ['derive.staking.info', { paramName: 'stashId' }],
+    ['derive.balances.all', { paramName: 'stashId' }]
   )
 );
