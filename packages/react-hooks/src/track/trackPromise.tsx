@@ -15,7 +15,7 @@ interface TrackFn <T> {
   (): Promise<T>;
 }
 
-// tracks a promise, typically an api.* call that
+// tracks a promise, typically an api.* call (query, query.at, rpc) that
 //  - returns a promise with the value
 // FIXME The typings here need some serious TLC
 export default function trackPromise <T> (fn: TrackFn<T> | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {

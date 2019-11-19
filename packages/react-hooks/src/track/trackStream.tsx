@@ -22,8 +22,8 @@ interface TrackFn {
   (cb: TrackFnCallback): TrackFnResult;
 }
 
-// tracks a stream, typically an api.* call that
-//  - returns a promise with an unsubscription
+// tracks a stream, typically an api.* call (derive, rpc, query) that
+//  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
 export default function trackStream <T> (fn: TrackFn | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
