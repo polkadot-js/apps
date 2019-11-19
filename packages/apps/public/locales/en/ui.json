@@ -641,5 +641,6 @@
   "{{currency}} total": "",
   "{{currency}} own": "",
   "{{currency}} other": "",
-  "session rotate": ""
+  "session rotate": "",
+  "session next": ""
 }
