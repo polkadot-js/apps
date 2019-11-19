@@ -3,6 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 import { IExtrinsic } from '@polkadot/types/types';
@@ -40,7 +41,7 @@ interface Props extends I18nProps {
   balances_all?: DerivedBalances;
   contract_fees?: DerivedContractFees;
   accountId?: string | null;
-  extrinsic?: IExtrinsic | null;
+  extrinsic?: SubmittableExtrinsic | null;
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
   tip?: BN;
@@ -85,6 +86,12 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
     if (!accountId || !extrinsic) {
       return;
     }
+
+    // extrinsic
+    //   .paymentInfo(accountId, { tip })
+    //   .then((result): void => {
+    //     console.log(JSON.stringify(result));
+    //   });
 
     const fn = api.findCall(extrinsic.callIndex);
     const extMethod = fn.method;

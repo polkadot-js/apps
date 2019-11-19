@@ -1,18 +1,16 @@
-// Copyright 2017-2019 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, BlockNumber, EventRecord, Hash, Header } from '@polkadot/types/interfaces';
-import { Slash, SessionRewards } from './types';
+import { Balance, EventRecord, Hash, Header, StorageChangeSet } from '@polkadot/types/interfaces';
+import { Slash, SessionRewards } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
+import { useApi, useCacheKey } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
-
-import useApi from './useApi';
-import useCacheKey from './useCacheKey';
 
 interface SerializedSlash {
   accountId: string;
@@ -61,17 +59,17 @@ function mergeResults (sessions: SessionRewards[], newSessions: SessionRewards[]
     .concat(newSessions)
     .sort((a, b): number => a.blockNumber.cmp(b.blockNumber));
 
+  // for the first, always use it, otherwise ignore on same sessionIndex
   return tmp.filter(({ sessionIndex }, index): boolean =>
-    index === 0
-      // for the first, always use it
-      ? true
-      // if the prev has the same sessionIndex, ignore this one
-      : !tmp[index - 1].sessionIndex.eq(sessionIndex)
+    index === 0 || !tmp[index - 1].sessionIndex.eq(sessionIndex)
   );
 }
 
 async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise<SessionRewards[]> {
-  const results = await api.rpc.state.queryStorage([api.query.session.currentIndex.key()], fromHash, toHash);
+  // query a range of blocks - on non-archive nodes this will fail, so return an empty set
+  const results = await api.rpc.state
+    .queryStorage([api.query.session.currentIndex.key()], fromHash, toHash)
+    .catch((): StorageChangeSet[] => []);
   const headers = await Promise.all(
     results.map(({ block }): Promise<Header> => api.rpc.chain.getHeader(block))
   );
@@ -98,16 +96,20 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
     return rewards[0]?.event?.data[0] as Balance;
   });
 
-  return results.map(({ changes: [[, value]] }, index): SessionRewards => ({
-    blockHash: headers[index].hash,
-    blockNumber: headers[index].number.unwrap(),
-    isEventsEmpty: events[index].length === 0,
-    reward: rewards[index] || createType('Balance'),
-    sessionIndex: createType('SessionIndex', u8aToU8a(
-      value.isSome ? value.unwrap() : new Uint8Array([])
-    )),
-    slashes: slashes[index]
-  }));
+  // For old v1, the query results have empty spots (subsequently fixed in v2),
+  // filter these before trying to extract the results
+  return results
+    .filter(({ changes }): boolean => !!(changes && changes.length))
+    .map(({ changes: [[, value]] }, index): SessionRewards => ({
+      blockHash: headers[index].hash,
+      blockNumber: headers[index].number.unwrap(),
+      isEventsEmpty: events[index].length === 0,
+      reward: rewards[index] || createType('Balance'),
+      sessionIndex: createType('SessionIndex', u8aToU8a(
+        value.isSome ? value.unwrap() : new Uint8Array([])
+      )),
+      slashes: slashes[index]
+    }));
 }
 
 export default function useSessionRewards (maxSessions: number): SessionRewards[] {
@@ -121,7 +123,7 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
     setImmediate((): void => {
       api.isReady.then(async (): Promise<void> => {
         const maxSessionsStore = maxSessions + 1; // assuming first is a bust
-        const sessionLength = (api.consts.babe?.epochDuration as BlockNumber || new BN(500));
+        const sessionLength = api.consts.babe?.epochDuration || new BN(500);
         const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 10000);
         const bestHeader = await api.rpc.chain.getHeader();
         let toHash = bestHeader.hash;

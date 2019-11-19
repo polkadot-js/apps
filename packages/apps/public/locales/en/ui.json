@@ -640,5 +640,7 @@
   "{{currency}} average": "",
   "{{currency}} total": "",
   "{{currency}} own": "",
-  "{{currency}} other": ""
+  "{{currency}} other": "",
+  "session rotate": "",
+  "session next": ""
 }

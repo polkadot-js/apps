@@ -165,6 +165,7 @@ class Validate extends TxComponent<Props, State> {
             className='medium'
             defaultValue={validatorPrefs?.validatorPayment?.toBn()}
             help={t('Amount taken up-front from the reward by the validator before splitting the remainder between themselves and the nominators')}
+            isZeroable
             label={t('reward commission')}
             onChange={this.onChangePayment}
             onEnter={this.sendTx}

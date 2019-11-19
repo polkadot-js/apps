@@ -99,11 +99,13 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
   });
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
-  const [currency] = useState(formatBalance.getDefaults().unit);
+  const [{ currency, divisor }] = useState<{ currency: string; divisor: BN }>({
+    currency: formatBalance.getDefaults().unit,
+    divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
+  });
   const [{ rewardsChart, rewardsLabels }, setRewardsInfo] = useState<{ rewardsChart: LineData | null; rewardsLabels: string[] }>({ rewardsChart: null, rewardsLabels: [] });
   const [{ splitChart, splitMax }, setSplitInfo] = useState<{ splitChart: SplitData | null; splitMax: number }>({ splitChart: null, splitMax: 100 });
   const [{ stakeChart, stakeLabels }, setStakeInfo] = useState<{ stakeChart: LineData | null; stakeLabels: string[]}>({ stakeChart: null, stakeLabels: [] });
-  const divisor = new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'));
 
   useEffect((): void => {
     if (!splitChart) {
@@ -111,7 +113,7 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
       const stakeLabels = sessionRewards.map(({ sessionIndex }): string => formatNumber(sessionIndex));
 
       api.isReady.then(async (): Promise<void> => {
-        const values = await getHistoric<Exposure>(api, 'staking.stakers', [validatorId], hashes);
+        const values = await getHistoric<Exposure>(api.query.staking.stakers.at, [validatorId], hashes);
         const stakeChart = extractStake(values, divisor);
         const splitChart = extractSplit(values, validatorId);
         const splitMax = splitChart ? Math.min(Math.ceil(splitChart[0].value), 100) : 100;
@@ -127,23 +129,51 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
       const rewardsLabels: string[] = [];
       const rewardsChart: LineData = [[], [], []];
       let total = new BN(0);
+      let lastRewardIndex = 0;
+      let rewardCount = 0;
 
+      // we only work from the second position, the first deemed incomplete
       sessionRewards.forEach(({ blockNumber, reward, sessionIndex, slashes }, index): void => {
-        // this shows the start of the new era, however rewards are for previous
-        rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
+        // we are trying to find the first index where rewards are allocated, this is our start
+        // since we only want complete eras, this means we drop some at the start
+        if (lastRewardIndex === 0) {
+          if (index && reward.gtn(0)) {
+            lastRewardIndex = index;
+          }
 
+          return;
+        }
+
+        // slash is extracted from the available slashes
         const neg = extractEraSlash(validatorId, slashes);
-        const pos = index && blockCounts[index - 1]
-          ? reward.mul(blockCounts[index - 1]).div(blockNumber.sub(sessionRewards[index - 1].blockNumber))
-          : new BN(0);
+
+        // start of a new session, use the counts for the previous
+        const totalBlocks = blockCounts
+          .filter((count, countIndex): boolean =>
+            !!count && countIndex >= lastRewardIndex && countIndex < index)
+          .reduce((total, count): BN => total.add(count), new BN(0));
+
+        // calculate the rewards based on our total share
+        const pos = reward
+          .mul(totalBlocks)
+          .div(blockNumber.sub(sessionRewards[lastRewardIndex].blockNumber));
 
         // add this to the total
         total = total.add(neg).add(pos);
+        rewardCount++;
+
+        // if we have a reward here, set the reward index for the next iteration
+        if (reward.gtn(0)) {
+          lastRewardIndex = index;
+        }
+
+        // this shows the start of the new era, however rewards are for previous
+        rewardsLabels.push(formatNumber(sessionIndex.subn(1)));
 
         // calculate and format to 3 decimals
         rewardsChart[0].push(balanceToNumber(neg, divisor));
         rewardsChart[1].push(balanceToNumber(pos, divisor));
-        rewardsChart[2].push(balanceToNumber(total.divn(index), divisor));
+        rewardsChart[2].push(balanceToNumber(total.divn(rewardCount), divisor));
       });
 
       setRewardsInfo({ rewardsChart, rewardsLabels });
