@@ -44,7 +44,7 @@ function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], q
   return result;
 }
 
-function Accounts ({ allAccounts, allStashes, className, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function Actions ({ allAccounts, allStashes, className, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const queryBonded = trackStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
   const queryLedger = trackStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
@@ -75,14 +75,14 @@ function Accounts ({ allAccounts, allStashes, className, recentlyOnline, t }: Pr
       {isNewStakeOpen && (
         <StartStaking onClose={_toggleNewStake} />
       )}
-      {foundStashes && foundStashes.map(([address, ownStash], index): React.ReactNode => (
-        address && (
+      {foundStashes && foundStashes.map(([stashId, isOwnStash], index): React.ReactNode => (
+        stashId && (
           <Account
             allStashes={allStashes}
-            accountId={address}
+            isOwnStash={isOwnStash}
             key={index}
-            ownStash={ownStash}
             recentlyOnline={recentlyOnline}
+            stashId={stashId}
             stashOptions={stashOptions}
           />
         )
@@ -92,7 +92,7 @@ function Accounts ({ allAccounts, allStashes, className, recentlyOnline, t }: Pr
 }
 
 export default translate(
-  styled(Accounts)`
+  styled(Actions)`
     .ui--CardGrid-buttons {
       text-align: right;
     }

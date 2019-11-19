@@ -16,7 +16,7 @@ import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
 
-import Accounts from './Actions/Accounts';
+import Actions from './Actions';
 import basicMd from './md/basic.md';
 import Overview from './Overview';
 import Query from './Query';
@@ -98,7 +98,7 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/actions`}>{_renderComponent(Accounts)}</Route>
+        <Route path={`${basePath}/actions`}>{_renderComponent(Actions)}</Route>
         <Route path={`${basePath}/query/:value`}>{_renderComponent(Query)}</Route>
         <Route path={`${basePath}/query`}>{_renderComponent(Query)}</Route>
       </Switch>
