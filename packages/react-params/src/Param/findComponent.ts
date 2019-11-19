@@ -110,8 +110,6 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     }
   })(def);
 
-  console.log(type);
-
   let Component = findOne(type);
 
   if (!Component) {
