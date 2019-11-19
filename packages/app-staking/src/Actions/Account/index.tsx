@@ -114,16 +114,14 @@ class Account extends React.PureComponent<Props, State> {
     const isStashNominating = nominators && !!nominators.length;
     const _stashId = toIdString(stashId);
     const isStashValidating = !!allStashes && !!_stashId && allStashes.includes(_stashId);
+    const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
+    const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
 
     return {
       controllerId: toIdString(controllerId),
       destination: rewardDestination && rewardDestination.toNumber(),
-      hexSessionIdNext: u8aToHex(u8aConcat(...(
-        nextSessionIds.length
-          ? nextSessionIds
-          : sessionIds
-      ).map((id): Uint8Array => id.toU8a())), 48),
-      hexSessionIdQueue: u8aToHex(u8aConcat(...(sessionIds).map((id): Uint8Array => id.toU8a())), 48),
+      hexSessionIdNext: u8aToHex(nextConcat, 48),
+      hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
       isStashNominating,
       isStashValidating,
       nominees: nominators && nominators.map(toIdString),
