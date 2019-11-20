@@ -10,8 +10,9 @@ import { InputParameters } from '@polkadot/react-components';
 import translate from './translate';
 import { Parameters } from '@plasm/utils';
 import { bool } from '@polkadot/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
-interface Props {
+interface Props extends I18nProps {
   className?: string;
   onClose: () => void;
   accountId?: string | null;
@@ -19,7 +20,7 @@ interface Props {
 
 function UpdateParameters ({ className, onClose, accountId, t }: Props): React.ReactElement<Props> {
   const [operatorId, setOperatorId] = useState<string | null>(accountId || null);
-  const [contractId, setContractId] = useState<any[]>([]);
+  const [contractId, setContractId] = useState<string | null>(null);
   const [parameters, setParameters] = useState<any>(undefined);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;
@@ -55,13 +56,11 @@ function UpdateParameters ({ className, onClose, accountId, t }: Props): React.R
           />
           <InputAddress
             label='contract address'
-            onChange={setContractId}
-            type='all'
+            onChange={setContractId}      
+            type='contract'      
           />
           <InputParameters
-            label='operated contract new parameters'
-            onChange={setParameters}
-            type='all'
+            onChange={setParameters}            
           />
         </div>
       </Modal.Content>

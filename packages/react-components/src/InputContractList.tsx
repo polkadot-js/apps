@@ -2,19 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
 import Params from '@polkadot/react-params';
-import { RawParams } from '@polkadot/react-params/types';
 import { getTypeDef } from '@polkadot/types';
 import { ComponentMap } from '@polkadot/react-params/types';
+import { BareProps } from './types';
 
 interface Props extends BareProps {
   isDisabled?: boolean;
-  onChange?: (value: RawParams) => void;
-  isError?: boolean;
+  onChange: (values: any[]) => void;
   onEnter?: () => void;
   overrides?: ComponentMap;
 }
@@ -24,12 +21,11 @@ const CONTRACTS_PARAMS = [{
   type: getTypeDef("Vec<AccountId>")
 }];
 
-function InputContractList ({ isDisabled, onChange, isError, onEnter, overrides }: Props): React.ReactElement<Props> {
+function InputContractList ({ isDisabled, onChange, onEnter, overrides }: Props): React.ReactElement<Props> {
   return (
     <Params
       isDisabled={isDisabled}
       onChange={onChange}
-      isError={isError}
       onEnter={onEnter}
       overrides={overrides}
       params={CONTRACTS_PARAMS}

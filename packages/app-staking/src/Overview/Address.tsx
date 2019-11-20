@@ -28,7 +28,7 @@ interface Props extends I18nProps {
   isFavorite: boolean;
   lastAuthors?: string[];
   myAccounts: string[];
-  onFavorite: (accountId: string) => void;
+  onFavorite?: (accountId: string) => void;
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
   toggleFavorite: (accountId: string) => void;

@@ -1,6 +1,6 @@
 {
   "name": "@plasm/ui-assets",
-  "version": "0.47.0-beta.5",
+  "version": "0.47.0-beta.6",
   "description": "Static assets shared accross projects",
   "main": "index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>, Takumi Yamashita <takumi@stake.co.jp>",
@@ -10,6 +10,6 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.7.1"
+    "@babel/runtime": "^7.7.2"
   }
 }

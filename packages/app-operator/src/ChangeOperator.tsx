@@ -5,10 +5,11 @@
 import React, { useState } from 'react';
 import { Button, InputAddress, TxButton, Available, InputContractList, Modal } from '@polkadot/react-components';
 import styled from 'styled-components';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import translate from './translate';
 
-interface Props {
+interface Props extends I18nProps {
   className?: string;
   onClose: () => void;
   accountId?: string | null;
@@ -17,7 +18,7 @@ interface Props {
 function ChangeOperator ({ className, onClose, accountId, t }: Props): React.ReactElement<Props> {
   const [operatorId, setOperatorId] = useState<string | null>(accountId || null);
   const [contractList, setContractList] = useState<any[]>([]);
-  const [recipientId, setRecipientId] = useState(false);
+  const [recipientId, setRecipientId] = useState<string | null>(null);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;
 
@@ -40,9 +41,7 @@ function ChangeOperator ({ className, onClose, accountId, t }: Props): React.Rea
             type='account'
           />
           <InputContractList
-            label='contract address list'
             onChange={setContractList}
-            type='all'
           />
           <InputAddress
             help={t('Select a the operator address you want to change to.')}

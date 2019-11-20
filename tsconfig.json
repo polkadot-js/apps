@@ -65,9 +65,12 @@
       "@polkadot/react-query/*": [ "packages/react-query/src/*" ],
       "@polkadot/react-signer": [ "packages/react-signer/src" ],
       "@polkadot/react-signer/*": [ "packages/react-signer/src/*" ],
+      "@plasm/ui-settings": [ "packages/ui-settings/src" ],
       "@plasm/ui-settings/*": [ "packages/ui-settings/src/*" ],
+      "@plasm/ui-assets": [ "packages/ui-assets/src" ],
       "@plasm/ui-assets/*": [ "packages/ui-assets/src/*" ],
-      "@plasm/utils/*": [ "packages/utils/src/*" ]
+      "@plasm/utils": [ "packages/plasm-utils/src" ],
+      "@plasm/utils/*": [ "packages/plasm-utils/src/*" ]
     },
     "skipLibCheck": true,
     "typeRoots": [

@@ -134,18 +134,16 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
           )}
           {isChangeOperatorOpen && (
             <ChangeOperator
-              address={address}
+              accountId={current.address}
               key='modal-change-operator'
               onClose={_toggleChangeOperator}
-              mode='address'              
             />
           )}
           {isUpdateParametersOpen && (
             <UpdateParameters 
-              address={current.address}
+              accountId={current.address}
               key='modal-update-parameters'
               onClose={_toggleUpdateParameters}
-              mode='address'
             />
           )}
         </>

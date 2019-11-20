@@ -14,7 +14,6 @@ import { ComponentMap } from '@polkadot/react-params/types';
 interface Props extends BareProps {
   isDisabled?: boolean;
   onChange?: (value: RawParams) => void;
-  isError?: boolean;
   onEnter?: () => void;
   overrides?: ComponentMap;
 }
@@ -24,12 +23,11 @@ const PARAMETERS_PARAMS = [{
   type: getTypeDef("{\"canBeNominated\": \"bool\", \"optionExpired\" : \"u128\", \"optionP\" : \"u128\" }")
 }];
 
-function InputParameters ({ isDisabled, onChange, isError, onEnter, overrides }: Props): React.ReactElement<Props> {
+function InputParameters ({ isDisabled, onChange, onEnter, overrides }: Props): React.ReactElement<Props> {
   return (
     <Params
       isDisabled={isDisabled}
       onChange={onChange}
-      isError={isError}
       onEnter={onEnter}
       overrides={overrides}
       params={PARAMETERS_PARAMS}

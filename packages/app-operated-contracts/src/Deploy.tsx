@@ -220,7 +220,6 @@ class Deploy extends ContractModal<Props, State> {
         <InputParameters
           isDisabled={isBusy}
           onChange={this.onChangeOperateParameters}
-          isError={operateParameters.isError()}
           onEnter={this.sendTx}
         />
         {this.renderInputGas()}
@@ -300,7 +299,11 @@ class Deploy extends ContractModal<Props, State> {
     this.setState({ params });
   }
 
-  private onChangeOperateParameters = (operateParameters?: Parameters): void => {
+  private onChangeOperateParameters = (operateParameters?: any): void => {
+    if(!!!operateParameters) { 
+      this.setState({operateParameters: Parameters.default()}) 
+      return;
+   }
     const { canBeNominated, optionExpired, optionP } = operateParameters[0].value;
     const ops = new Parameters({
       canBeNominated: new bool(canBeNominated),

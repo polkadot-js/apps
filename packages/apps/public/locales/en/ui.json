@@ -644,5 +644,19 @@
   "{{currency}} own": "",
   "{{currency}} other": "",
   "session rotate": "",
-  "session next": ""
+  "session next": "",
+  "change": "",
+  "Change operator from this address": "",
+  "update": "",
+  "Update parameters of a contract from this address": "",
+  "Change operator": "",
+  "The opeartor account address you will change.": "",
+  "change from operator": "",
+  "Select a the operator address you want to change to.": "",
+  "new operator address": "",
+  "Make change operator": "",
+  "Update parameters": "",
+  "The opeartor account address": "",
+  "operator": "",
+  "Make update parameters": ""
 }

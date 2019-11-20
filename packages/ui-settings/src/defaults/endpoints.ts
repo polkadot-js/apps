@@ -35,9 +35,9 @@ const CHAIN_INFO: Record<ChainName, ChainData> = {
 const HOSTS: String[] = ['3.114.90.94:443', '3.114.81.104:443', '3.115.175.152:443', '54.64.145.3:443'];
 
 // the actual providers with all  the nodes they provide
-const PROVIDERS: Record<ProviderName, PoviderData> = ORDER_PROVIDERS.reduce((map, p, i) => {
+const PROVIDERS: Record<ProviderName, PoviderData> = ORDER_PROVIDERS.reduce((map: any, p, i) => {
   map[p] = {
-    providerDisplay: 'Stake technologies node' + i,
+    providerDisplay: 'Stake technologies node' + (i+1),
     nodes: {
       plasmTest: 'ws://' + HOSTS[i]
     }
