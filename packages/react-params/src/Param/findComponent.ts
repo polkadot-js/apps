@@ -100,7 +100,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         if (type === 'Vec<u8>') {
           return 'Bytes';
         }
-        
+
         return ['Vec<KeyValue>'].includes(type)
           ? 'Vec<KeyValue>'
           : 'Vec';
