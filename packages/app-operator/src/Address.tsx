@@ -123,7 +123,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
           {isChangeOperatorOpen && (
             <ChangeOperator
               address={address}
-              key='modal-transfer'
+              key='modal-change-operator'
               onClose={_toggleChangeOperator}
               mode='address'              
             />

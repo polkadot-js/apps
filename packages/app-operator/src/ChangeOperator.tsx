@@ -3,31 +3,38 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+
 import React, { useState } from 'react';
-import { Button, InputAddress, TxButton, Available, InputContractList } from '@polkadot/react-components';
+import { Button, InputAddress, TxButton, Available, InputContractList, Modal } from '@polkadot/react-components';
 import styled from 'styled-components';
 
 import Summary from './Summary';
 import translate from './translate';
+import AccountId from '@polkadot/types/primitive/Generic/AccountId';
+import { Vec } from '@polkadot/types';
 
 interface Props {
+  className?: string;
+  onClose: () => void;
   accountId?: string | null;
 }
 
- function ChangeOperator ({ accountId, t }: Props): React.ReactElement<Props> {
-    console.log('in change operator 1')
-    const [operatorId, setOperatorId] = useState<string | null>(accountId || null);
-    const [contractList, setContractList] = useState(false);
-    const [recipientId, setRecipientId] = useState(false);
-    console.log('in change operator 2')
+function ChangeOperator ({ className, onClose, accountId, t }: Props): React.ReactElement<Props> {
+  const [operatorId, setOperatorId] = useState<string | null>(accountId || null);
+  const [contractList, setContractList] = useState<any[]>([]);
+  const [recipientId, setRecipientId] = useState(false);
 
-    const transferrable = <span className='label'>{t('transferrable')}</span>;
+  const transferrable = <span className='label'>{t('transferrable')}</span>;
 
   return (
-    <section>
-      <h1>change operator</h1>
-      <div className='ui--row'>
-        <div className='large'>
+    <Modal
+      className='app--accounts-Modal'
+      dimmer='inverted'
+      open
+    >
+      <Modal.Header>{t('Change operator')}</Modal.Header>
+      <Modal.Content>
+        <div className={className}>
           <InputAddress
             defaultValue={accountId}
             help={t('The opeartor account address you will change.')}
@@ -43,28 +50,38 @@ interface Props {
             type='all'
           />
           <InputAddress
-            help={t('Select a the operatord address you want to change to.')}
-            label={t('operate to address')}
+            help={t('Select a the operator address you want to change to.')}
+            label={t('new operator address')}
             labelExtra={<Available label={transferrable} params={recipientId} />}
             onChange={setRecipientId}
-            type='allPlus'
+            type='account'
           />
-          <Button.Group>
-            <TxButton
-              accountId={operatorId}
-              icon='send'
-              label='make change operator'
-              params={[contractList, recipientId]}
-              tx='operator.changeOperator'
-            />
-          </Button.Group>
         </div>
-        <Summary className='small'>Make a change operator from any account you control to another account. ChangeOperator fees and per-transaction fees apply and will be calculated upon submission.</Summary>
-      </div>
-    </section>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            label={t('Cancel')}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <TxButton
+            accountId={operatorId}
+            icon='send'
+            isPrimary
+            label={t('Make change operator')}
+            onStart={onClose}
+            withSpinner={false}
+            params={[contractList[0]?contractList[0].value:[], recipientId]}
+            tx='operator.changeOperator'
+          />
+        </Button.Group>
+      </Modal.Actions>
+    </Modal>
   );
 }
-
 
 export default translate(
     styled(ChangeOperator)`
