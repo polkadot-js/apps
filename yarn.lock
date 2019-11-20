@@ -2243,7 +2243,7 @@
   dependencies:
     "@types/chrome" "^0.0.91"
 
-"@polkadot/types@^0.97.0-beta.16", "@polkadot/types@^0.97.0-beta.2":
+"@polkadot/types@^0.97.0-beta.16":
   version "0.97.0-beta.16"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.97.0-beta.16.tgz#3078347a026ab601bae87877e644a51c204ae70c"
   integrity sha512-uyouW6X9hAPDvfAS6+eSMdByv792csdeOyu7FaMqiQoacJ1gcrvcgPtE6kyv2PQitWxtC8aI2Z1qtFQgudScyg==

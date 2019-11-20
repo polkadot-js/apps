@@ -13,6 +13,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from './translate';
 import ChangeOperator from './ChangeOperator';
+import UpdateParameters from './UpdateParameters';
 
 interface Props extends I18nProps {
   address: string;
@@ -29,6 +30,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isChangeOperatorOpen, setIsChangeOperatorOpen] = useState(false);
+  const [isUpdateParametersOpen, setIsUpdateParametersOpen] = useState(false);
 
   useEffect((): void => {
     const current = keyring.getAddress(address);
@@ -39,6 +41,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
 
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
   const _toggleChangeOperator = (): void => setIsChangeOperatorOpen(!isChangeOperatorOpen);
+  const _toggleUpdateParameters = (): void => setIsUpdateParametersOpen(!isUpdateParametersOpen);
   const _onForget = (): void => {
     if (address) {
       const status: Partial<ActionStatus> = {
@@ -90,6 +93,15 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
               size='small'
               tooltip={t('Change operator from this address')}
             />
+            <Button
+              icon='paper plane'
+              isPrimary
+              key='update'
+              label={t('update')}
+              onClick={_toggleUpdateParameters}
+              size='small'
+              tooltip={t('Update parameters of a contract from this address')}
+            />          
           </div>
           {isEditable && (
             <div className='others'>
@@ -126,6 +138,14 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
               key='modal-change-operator'
               onClose={_toggleChangeOperator}
               mode='address'              
+            />
+          )}
+          {isUpdateParametersOpen && (
+            <UpdateParameters 
+              address={current.address}
+              key='modal-update-parameters'
+              onClose={_toggleUpdateParameters}
+              mode='address'
             />
           )}
         </>

@@ -3,10 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useState } from 'react';
-import { Button, InputAddress, TxButton, Available, InputContractList, Modal } from '@polkadot/react-components';
+import { Button, InputAddress, TxButton, Available, Modal } from '@polkadot/react-components';
 import styled from 'styled-components';
+import { InputParameters } from '@polkadot/react-components';
 
 import translate from './translate';
+import { Parameters } from '@plasm/utils';
+import { bool } from '@polkadot/types';
 
 interface Props {
   className?: string;
@@ -14,12 +17,23 @@ interface Props {
   accountId?: string | null;
 }
 
-function ChangeOperator ({ className, onClose, accountId, t }: Props): React.ReactElement<Props> {
+function UpdateParameters ({ className, onClose, accountId, t }: Props): React.ReactElement<Props> {
   const [operatorId, setOperatorId] = useState<string | null>(accountId || null);
-  const [contractList, setContractList] = useState<any[]>([]);
-  const [recipientId, setRecipientId] = useState(false);
+  const [contractId, setContractId] = useState<any[]>([]);
+  const [parameters, setParameters] = useState<any>(undefined);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;
+  const convertParameters = (operateParameters?: any): Parameters => {
+    if(!!!operateParameters) { return Parameters.default(); }
+    const { canBeNominated, optionExpired, optionP } = operateParameters[0].value;
+    const ops = new Parameters({
+      canBeNominated: new bool(canBeNominated),
+      optionExpired,
+      optionP
+    })
+    console.log(ops)
+    return ops
+  }
 
   return (
     <Modal
@@ -27,29 +41,27 @@ function ChangeOperator ({ className, onClose, accountId, t }: Props): React.Rea
       dimmer='inverted'
       open
     >
-      <Modal.Header>{t('Change operator')}</Modal.Header>
+      <Modal.Header>{t('Update parameters')}</Modal.Header>
       <Modal.Content>
         <div className={className}>
           <InputAddress
             defaultValue={accountId}
-            help={t('The opeartor account address you will change.')}
+            help={t('The opeartor account address')}
             isDisabled={!!accountId}
-            label={t('change from operator')}
+            label={t('operator')}
             labelExtra={<Available label={transferrable} params={accountId} />}
             onChange={setOperatorId}
             type='account'
           />
-          <InputContractList
-            label='contract address list'
-            onChange={setContractList}
+          <InputAddress
+            label='contract address'
+            onChange={setContractId}
             type='all'
           />
-          <InputAddress
-            help={t('Select a the operator address you want to change to.')}
-            label={t('new operator address')}
-            labelExtra={<Available label={transferrable} params={recipientId} />}
-            onChange={setRecipientId}
-            type='account'
+          <InputParameters
+            label='operated contract new parameters'
+            onChange={setParameters}
+            type='all'
           />
         </div>
       </Modal.Content>
@@ -66,11 +78,11 @@ function ChangeOperator ({ className, onClose, accountId, t }: Props): React.Rea
             accountId={operatorId}
             icon='send'
             isPrimary
-            label={t('Make change operator')}
+            label={t('Make update parameters')}
             onStart={onClose}
             withSpinner={false}
-            params={[contractList[0]?contractList[0].value:[], recipientId]}
-            tx='operator.changeOperator'
+            params={[contractId, convertParameters(parameters)]}
+            tx='operator.updateParameters'
           />
         </Button.Group>
       </Modal.Actions>
@@ -79,7 +91,7 @@ function ChangeOperator ({ className, onClose, accountId, t }: Props): React.Rea
 }
 
 export default translate(
-    styled(ChangeOperator)`
+    styled(UpdateParameters)`
       article.padded {
         box-shadow: none;
         margin-left: 2rem;

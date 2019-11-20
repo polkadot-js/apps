@@ -11,12 +11,16 @@ import Params from '../';
 import Base from './Base';
 import Static from './Static';
 
+import {createType, getTypeDef } from '@polkadot/types';
+
 export default function StructParam (props: Props): React.ReactElement<Props> {
   const { className, isDisabled, label, onChange, style, type, withLabel } = props;
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
-    setParams((type.sub as TypeDef[]).map((subType): ParamDef => ({ name: subType.name, type: subType })));
+    const rawType = createType(type.type as any).toRawType();
+    const typeDef = getTypeDef(rawType);
+    setParams((typeDef.sub as TypeDef[]).map((subType): ParamDef => ({ name: subType.name, type: subType })));
   }, [type]);
 
   if (isDisabled) {
