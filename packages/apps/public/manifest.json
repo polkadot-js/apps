@@ -1,6 +1,6 @@
 {
-  "short_name": "Polkadot Apps",
-  "name": "Apps for interacting with a Polkadot node",
+  "short_name": "Plasmchain Apps",
+  "name": "Apps for interacting with a Plasm node",
   "icons": [
     {
       "src": "favicon.ico",
