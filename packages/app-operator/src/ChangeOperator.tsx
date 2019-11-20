@@ -4,17 +4,24 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Button, InputAddress, InputBalance, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, TxButton, Available, InputContractList } from '@polkadot/react-components';
+import styled from 'styled-components';
 
 import Summary from './Summary';
+import translate from './translate';
 
 interface Props {
   accountId?: string | null;
 }
 
-export default function ChangeOperator ({ accountId }: Props): React.ReactElement<Props> {
-  const [amount, setAmount] = useState<BN | undefined | null>(null);
-  const [recipientId, setRecipientId] = useState<string | null>(null);
+ function ChangeOperator ({ accountId, t }: Props): React.ReactElement<Props> {
+    console.log('in change operator 1')
+    const [operatorId, setOperatorId] = useState<string | null>(accountId || null);
+    const [contractList, setContractList] = useState(false);
+    const [recipientId, setRecipientId] = useState(false);
+    console.log('in change operator 2')
+
+    const transferrable = <span className='label'>{t('transferrable')}</span>;
 
   return (
     <section>
@@ -22,40 +29,32 @@ export default function ChangeOperator ({ accountId }: Props): React.ReactElemen
       <div className='ui--row'>
         <div className='large'>
           <InputAddress
-            defaultValue={propSenderId}//TODO
-            help={t('The account you will send funds from.')}
-            isDisabled={!!propSenderId}
-            label={t('send from account')}
-            labelExtra={<Available label={transferrable} params={senderId} />}
-            onChange={setSenderId}
+            defaultValue={accountId}
+            help={t('The opeartor account address you will change.')}
+            isDisabled={!!accountId}
+            label={t('change from operator')}
+            labelExtra={<Available label={transferrable} params={accountId} />}
+            onChange={setOperatorId}
             type='account'
           />
+          <InputContractList
+            label='contract address list'
+            onChange={setContractList}
+            type='all'
+          />
           <InputAddress
-            defaultValue={propRecipientId}
-            help={t('Select a contact or paste the address you want to send funds to.')}
-            isDisabled={!!propRecipientId}
-            label={t('send to address')}
+            help={t('Select a the operatord address you want to change to.')}
+            label={t('operate to address')}
             labelExtra={<Available label={transferrable} params={recipientId} />}
             onChange={setRecipientId}
             type='allPlus'
           />
-
-
-          <InputAddress
-            label='recipient address for this change operator'
-            onChange={setRecipientId}
-            type='all'
-          />
-          <InputBalance
-            label='amount to change operator'
-            onChange={setAmount}
-          />
           <Button.Group>
             <TxButton
-              accountId={accountId}
+              accountId={operatorId}
               icon='send'
               label='make change operator'
-              params={[recipientId, amount]}
+              params={[contractList, recipientId]}
               tx='operator.changeOperator'
             />
           </Button.Group>
@@ -65,3 +64,18 @@ export default function ChangeOperator ({ accountId }: Props): React.ReactElemen
     </section>
   );
 }
+
+
+export default translate(
+    styled(ChangeOperator)`
+      article.padded {
+        box-shadow: none;
+        margin-left: 2rem;
+      }
+
+      label.with-help {
+        flex-basis: 10rem;
+      }
+    `
+  );
+  

@@ -11,9 +11,8 @@ import styled from 'styled-components';
 import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import Transfer from '@polkadot/app-accounts/modals/Transfer';
-
 import translate from './translate';
+import ChangeOperator from './ChangeOperator';
 
 interface Props extends I18nProps {
   address: string;
@@ -29,7 +28,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
-  const [isTransferOpen, setIsTransferOpen] = useState(false);
+  const [isChangeOperatorOpen, setIsChangeOperatorOpen] = useState(false);
 
   useEffect((): void => {
     const current = keyring.getAddress(address);
@@ -39,7 +38,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
   }, []);
 
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
-  const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
+  const _toggleChangeOperator = (): void => setIsChangeOperatorOpen(!isChangeOperatorOpen);
   const _onForget = (): void => {
     if (address) {
       const status: Partial<ActionStatus> = {
@@ -85,11 +84,11 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
             <Button
               icon='paper plane'
               isPrimary
-              key='deposit'
-              label={t('deposit')}
-              onClick={_toggleTransfer}
+              key='change'
+              label={t('change')}
+              onClick={_toggleChangeOperator}
               size='small'
-              tooltip={t('Send funds to this address')}
+              tooltip={t('Change operator from this address')}
             />
           </div>
           {isEditable && (
@@ -121,11 +120,12 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
               onClose={_toggleForget}
             />
           )}
-          {isTransferOpen && (
-            <Transfer
+          {isChangeOperatorOpen && (
+            <ChangeOperator
+              address={address}
               key='modal-transfer'
-              onClose={_toggleTransfer}
-              recipientId={address}
+              onClose={_toggleChangeOperator}
+              mode='address'              
             />
           )}
         </>
