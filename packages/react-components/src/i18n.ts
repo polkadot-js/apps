@@ -3,13 +3,26 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import i18n from 'i18next';
-// import LanguageDetector from 'i18next-browser-languagedetector';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-xhr-backend';
 import { initReactI18next } from 'react-i18next';
 
+import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
+
+const languageDetector = new LanguageDetector();
+languageDetector.addDetector({
+  name: 'i18nLangDetector',
+  lookup: () => {
+    const i18nLang = uiSettings.i18nLang;
+    return i18nLang === LANGUAGE_DEFAULT
+      ? undefined
+      : i18nLang;
+  }
+});
+
 i18n
   .use(Backend)
-  // .use(LanguageDetector)
+  .use(languageDetector)
   .use(initReactI18next)
   .init({
     backend: {
@@ -17,11 +30,14 @@ i18n
     },
     debug: false,
     defaultNS: 'ui',
+    detection: {
+      order: ['i18nLangDetector', 'navigator']
+    },
     fallbackLng: false,
     interpolation: {
       escapeValue: false
     },
-    lng: 'en',
+    load: 'languageOnly',
     ns: [
       'app-123code',
       'app-accounts',
@@ -60,5 +76,12 @@ i18n
   .catch((error: Error): void =>
     console.log('i18n: failure', error)
   );
+
+uiSettings.on('change', settings => {
+  const lang = settings.i18nLang === LANGUAGE_DEFAULT
+    ? i18n.services.languageDetector.detect()
+    : settings.i18nLang;
+  i18n.changeLanguage(lang);
+});
 
 export default i18n;
