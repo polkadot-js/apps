@@ -6,7 +6,7 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
 import BN from 'bn.js';
-import { createType, getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
+import { createType, getTypeDef } from '@polkadot/types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -73,7 +73,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   const findOne = (type: string): React.ComponentType<Props> | null =>
     overrides[type] || components[type];
   const type = (({ displayName, info, sub, type }: TypeDef): string => {
-    if (displayName && SPECIAL_TYPES.includes(displayName)) {
+    if (displayName) {
       return displayName;
     }
 
@@ -97,10 +97,6 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         return 'Tuple';
 
       case TypeDefInfo.Vec:
-        if (type === 'Vec<u8>') {
-          return 'Bytes';
-        }
-
         return ['Vec<KeyValue>'].includes(type)
           ? 'Vec<KeyValue>'
           : 'Vec';
