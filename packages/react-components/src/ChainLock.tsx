@@ -4,8 +4,9 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React, { useContext } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React from 'react';
+import styled from 'styled-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import translate from './translate';
 import Toggle from './Toggle';
@@ -13,11 +14,13 @@ import Toggle from './Toggle';
 interface Props extends I18nProps {
   className?: string;
   genesisHash: string | null;
+  isDisabled?: boolean;
   onChange: (genesisHash: string | null) => void;
+  preventDefault?: boolean;
 }
 
-function ChainLock ({ genesisHash, onChange, t }: Props): React.ReactElement<Props> | null {
-  const { isDevelopment, api } = useContext(ApiContext);
+function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefault, t }: Props): React.ReactElement<Props> | null {
+  const { isDevelopment, api } = useApi();
 
   if (isDevelopment) {
     return null;
@@ -33,15 +36,22 @@ function ChainLock ({ genesisHash, onChange, t }: Props): React.ReactElement<Pro
 
   return (
     <Toggle
+      className={className}
       defaultValue={isTiedToChain}
+      isDisabled={isDisabled}
       label={
         isTiedToChain
           ? t('only this network')
           : t('use on any network')
       }
       onChange={_onChange}
+      preventDefault={preventDefault}
     />
   );
 }
 
-export default translate(ChainLock);
+export default translate(
+  styled(ChainLock)`
+    text-align: right;
+  `
+);

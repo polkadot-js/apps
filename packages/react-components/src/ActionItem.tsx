@@ -6,15 +6,13 @@ import { Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Card from './Card';
 import ProposedAction, { styles as proposedActionStyles } from './ProposedAction';
 import { styles as rowStyles } from './Row';
 
-interface Props extends RouteComponentProps {
+interface Props {
   className?: string;
   children?: React.ReactNode;
   accessory?: React.ReactNode;
@@ -49,4 +47,4 @@ function ActionItem ({ className, children, accessory, idNumber, proposal, expan
   );
 }
 
-export default withRouter(styled(ActionItem)`${styles}`);
+export default styled(ActionItem)`${styles}`;

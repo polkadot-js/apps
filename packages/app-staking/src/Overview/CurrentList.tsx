@@ -7,18 +7,18 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, EraPoints, Points } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
-import React, { useContext, useEffect, useState } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React, { useEffect, useState } from 'react';
 import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
-import store from 'store';
+import { useApi, useFavorites } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import { STORE_FAVS } from '../constants';
+import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
 import Address from './Address';
 
 interface Props extends I18nProps {
   authorsMap: Record<string, string>;
+  hasQueries: boolean;
   lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
@@ -56,9 +56,9 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((accountId): string => accountId.toString());
 }
 
-function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
-  const { isSubstrateV2 } = useContext(ApiContext);
-  const [favorites, setFavorites] = useState<string[]>(store.get(STORE_FAVS, []));
+function CurrentList ({ authorsMap, hasQueries, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
+  const { isSubstrateV2 } = useApi();
+  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [myAccounts] = useState(keyring.getAccounts().map(({ address }): string => address));
   const [{ elected, validators, waiting }, setFiltered] = useState<{ elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ elected: [], validators: [], waiting: [] });
@@ -78,16 +78,6 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
     }
   }, [favorites, next, stakingOverview]);
 
-  const _onFavorite = (accountId: string): void =>
-    setFavorites(
-      store.set(
-        STORE_FAVS,
-        favorites.includes(accountId)
-          ? favorites.filter((thisOne): boolean => thisOne !== accountId)
-          : [...favorites, accountId]
-      )
-    );
-
   const _renderColumn = (addresses: AccountExtend[], defaultName: string, withOnline: boolean): React.ReactNode =>
     addresses.map(([address, isElected, isFavorite, points]): React.ReactNode => (
       <Address
@@ -95,18 +85,19 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
         authorsMap={authorsMap}
         defaultName={defaultName}
         filter={filter}
+        hasQueries={hasQueries}
         isElected={isElected}
         isFavorite={isFavorite}
         lastAuthors={lastAuthors}
         key={address}
         myAccounts={myAccounts}
-        onFavorite={_onFavorite}
         points={points}
         recentlyOnline={
           withOnline
             ? recentlyOnline
             : undefined
         }
+        toggleFavorite={toggleFavorite}
       />
     ));
 

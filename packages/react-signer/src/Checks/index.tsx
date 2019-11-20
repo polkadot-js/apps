@@ -3,16 +3,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
-import { ApiContext, withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
@@ -39,7 +41,7 @@ interface Props extends I18nProps {
   balances_all?: DerivedBalances;
   contract_fees?: DerivedContractFees;
   accountId?: string | null;
-  extrinsic?: IExtrinsic | null;
+  extrinsic?: SubmittableExtrinsic | null;
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
   tip?: BN;
@@ -64,7 +66,7 @@ export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN
 };
 
 export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, t, tip }: Props): React.ReactElement<Props> | null {
-  const { api } = useContext(ApiContext);
+  const { api } = useApi();
   const [state, setState] = useState<State>({
     allFees: ZERO,
     allTotal: ZERO,
@@ -84,6 +86,12 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
     if (!accountId || !extrinsic) {
       return;
     }
+
+    // extrinsic
+    //   .paymentInfo(accountId, { tip })
+    //   .then((result): void => {
+    //     console.log(JSON.stringify(result));
+    //   });
 
     const fn = api.findCall(extrinsic.callIndex);
     const extMethod = fn.method;

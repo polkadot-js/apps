@@ -24,7 +24,7 @@ function BalanceVoting ({ balances_all, children, className, label }: Props): Re
     <FormatBalance
       className={className}
       label={label}
-      value={balances_all && balances_all.votingBalance}
+      value={balances_all?.votingBalance}
     >
       {children}
     </FormatBalance>

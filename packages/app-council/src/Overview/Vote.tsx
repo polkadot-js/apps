@@ -243,8 +243,8 @@ class Vote extends TxModal<Props, State> {
     );
   }
 
-  private setVoteValue = (voteValue?: BN): void => {
-    this.setState({ voteValue: voteValue || new BN(0) });
+  private setVoteValue = (voteValue: BN): void => {
+    this.setState({ voteValue });
   }
 
   private fetchApprovals = (accountId: string | null): void => {

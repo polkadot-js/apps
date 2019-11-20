@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import CurrentList from './CurrentList';
@@ -14,8 +14,8 @@ import Summary from './Summary';
 
 interface Props extends BareProps, ComponentProps {}
 
-export default function Overview ({ allControllers, allStashes, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
-  const { isSubstrateV2 } = useContext(ApiContext);
+export default function Overview ({ allControllers, hasQueries, allStashes, className, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
+  const { isSubstrateV2 } = useApi();
   const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [next, setNext] = useState<string[]>([]);
   const validators = stakingOverview && stakingOverview.validators;
@@ -31,7 +31,7 @@ export default function Overview ({ allControllers, allStashes, recentlyOnline, 
   }, [allControllers, allStashes, validators]);
 
   return (
-    <div className='staking--Overview'>
+    <div className={`staking--Overview ${className}`}>
       <Summary
         allControllers={allControllers}
         lastBlock={lastBlockNumber}
@@ -41,6 +41,7 @@ export default function Overview ({ allControllers, allStashes, recentlyOnline, 
       />
       <CurrentList
         authorsMap={byAuthor}
+        hasQueries={hasQueries}
         lastAuthors={lastBlockAuthors}
         next={next}
         recentlyOnline={recentlyOnline}

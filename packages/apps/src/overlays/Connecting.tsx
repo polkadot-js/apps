@@ -5,10 +5,10 @@
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps as Props } from '@polkadot/react-components/types';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ApiContext } from '@polkadot/react-api';
-import settings from '@plasm/ui-settings';
+import { useApi } from '@polkadot/react-hooks';
+import settings from '@polkadot/ui-settings';
 
 import translate from '../translate';
 import BaseOverlay from './Base';
@@ -60,7 +60,7 @@ function ConnectOverlay ({ className, isApiConnected, t }: ApiProps & Props): Re
 }
 
 function Connecting (props: Props): React.ReactElement<Props> | null {
-  const api = useContext(ApiContext);
+  const api = useApi();
 
   return ExtensionOverlay({ ...props, ...api }) || ConnectOverlay({ ...props, ...api });
 }

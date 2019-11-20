@@ -10,7 +10,6 @@ import template from './123code';
 import accounts from './accounts';
 import addressbook from './addressbook';
 import claims from './claims';
-import contracts from './contracts';
 import council from './council';
 // import dashboard from './dashboard';
 import democracy from './democracy';
@@ -27,6 +26,7 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 import operatedcontracts from './operatedcontracts';
+import operator from './operator';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
@@ -39,6 +39,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     genericAsset,
     null,
     operatedcontracts,
+    operator,
     staking,
     democracy,
     council,
@@ -62,6 +63,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     parachains,
     null,
     operatedcontracts,
+    operator,
     storage,
     extrinsics,
     sudo,

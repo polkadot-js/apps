@@ -4,56 +4,67 @@
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
+import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
+import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
 
-import Accounts from './Actions/Accounts';
+import Actions from './Actions';
 import basicMd from './md/basic.md';
 import Overview from './Overview';
 import Query from './Query';
+import { MAX_SESSIONS } from './constants';
 import translate from './translate';
+import useSessionRewards from './useSessionRewards';
 
-interface Props extends AppProps, ApiProps, I18nProps {
-  allAccounts?: SubjectInfo;
-  allStashesAndControllers?: [string[], string[]];
-  bestNumber?: BlockNumber;
-  recentlyOnline?: DerivedHeartbeats;
-  stakingOverview?: DerivedStakingOverview;
+interface Props extends AppProps, I18nProps {
 }
 
 const EMPY_ACCOUNTS: string[] = [];
 const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
 
-function App ({ allAccounts, allStashesAndControllers: [allStashes, allControllers] = EMPTY_ALL, basePath, className, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
-  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
-    // eslint-disable-next-line react/display-name
-    return (): React.ReactNode => {
-      if (!allAccounts) {
-        return null;
-      }
+function transformStakingControllers ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] {
+  return [
+    stashes.map((accountId): string => accountId.toString()),
+    controllers
+      .filter((optId): boolean => optId.isSome)
+      .map((accountId): string => accountId.unwrap().toString())
+  ];
+}
 
-      return (
-        <Component
-          allAccounts={allAccounts}
-          allControllers={allControllers}
-          allStashes={allStashes}
-          recentlyOnline={recentlyOnline}
-          stakingOverview={stakingOverview}
-        />
-      );
-    };
-  };
+function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const { allAccounts, hasAccounts } = useAccounts();
+  const stakingControllers = trackStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
+  const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
+  const recentlyOnline = trackStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
+  const stakingOverview = trackStream<DerivedStakingOverview>(api.derive.staking.overview, []);
+  const sessionRewards = useSessionRewards(MAX_SESSIONS);
+  const routeMatch = useRouteMatch({ path: basePath, strict: true });
+
+  const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
+  const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
+  const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): React.ReactNode => (
+    <Component
+      allAccounts={allAccounts}
+      allControllers={allControllers}
+      allStashes={allStashes}
+      bestNumber={bestNumber}
+      className={className}
+      hasAccounts={hasAccounts}
+      hasQueries={hasQueries}
+      recentlyOnline={recentlyOnline}
+      sessionRewards={sessionRewards}
+      stakingOverview={stakingOverview}
+    />
+  );
 
   return (
     <main className={`staking--App ${className}`}>
@@ -62,9 +73,11 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
         <Tabs
           basePath={basePath}
           hidden={
-            !allAccounts || Object.keys(allAccounts).length === 0
-              ? ['actions']
-              : []
+            hasAccounts
+              ? hasQueries
+                ? []
+                : ['query']
+              : ['actions', 'query']
           }
           items={[
             {
@@ -75,38 +88,41 @@ function App ({ allAccounts, allStashesAndControllers: [allStashes, allControlle
             {
               name: 'actions',
               text: t('Account actions')
+            },
+            {
+              hasParams: true,
+              name: 'query',
+              text: t('Validator stats')
             }
           ]}
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/actions`} render={_renderComponent(Accounts)} />
-        <Route path={`${basePath}/query/:value`} render={_renderComponent(Query)} />
-        <Route render={_renderComponent(Overview)} />
+        <Route path={`${basePath}/actions`}>{_renderComponent(Actions)}</Route>
+        <Route path={`${basePath}/query/:value`}>{_renderComponent(Query)}</Route>
+        <Route path={`${basePath}/query`}>{_renderComponent(Query)}</Route>
       </Switch>
+      {_renderComponent(Overview, routeMatch?.isExact ? '' : 'staking--hidden')}
     </main>
   );
 }
 
-export default withMulti(
+export default translate(
   styled(App)`
-    .rx--updated {
-      background: transparent !important;
+    .staking--hidden {
+      display: none;
     }
-  `,
-  translate,
-  withCalls<Props>(
-    ['derive.imOnline.receivedHeartbeats', { propName: 'recentlyOnline' }],
-    ['derive.staking.controllers', {
-      propName: 'allStashesAndControllers',
-      transform: ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] => [
-        stashes.map((accountId): string => accountId.toString()),
-        controllers
-          .filter((optId): boolean => optId.isSome)
-          .map((accountId): string => accountId.unwrap().toString())
-      ]
-    }],
-    ['derive.staking.overview', { propName: 'stakingOverview' }]
-  ),
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
+
+    .staking--queryInput {
+      margin-bottom: 1.5rem;
+    }
+
+    .staking--Chart h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .staking--Chart+.staking--Chart {
+      margin-top: 1.5rem;
+    }
+  `
 );
