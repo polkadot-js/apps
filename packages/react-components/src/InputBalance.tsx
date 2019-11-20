@@ -32,7 +32,11 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, labelExtra, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isZeroable, label, labelExtra, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+  const defaultValue = inDefault
+    ? formatBalance(inDefault, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '')
+    : inDefault;
+
   return (
     <InputNumber
       autoFocus={autoFocus}

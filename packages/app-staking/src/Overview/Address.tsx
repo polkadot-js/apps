@@ -8,11 +8,11 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
 import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
+import { trackStream, useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -23,6 +23,7 @@ interface Props extends I18nProps {
   className?: string;
   defaultName: string;
   filter: ValidatorFilter;
+  hasQueries: boolean;
   isElected: boolean;
   isFavorite: boolean;
   lastAuthors?: string[];
@@ -30,7 +31,7 @@ interface Props extends I18nProps {
   onFavorite: (accountId: string) => void;
   points?: Points;
   recentlyOnline?: DerivedHeartbeats;
-  stakingInfo?: DerivedStaking;
+  toggleFavorite: (accountId: string) => void;
   withNominations?: boolean;
 }
 
@@ -46,8 +47,10 @@ interface StakingState {
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
 
-function Address ({ address, authorsMap, className, defaultName, filter, isElected, isFavorite, lastAuthors, myAccounts, onFavorite, points, recentlyOnline, stakingInfo, t, withNominations = true }: Props): React.ReactElement<Props> | null {
-  const { isSubstrateV2 } = useContext(ApiContext);
+function Address ({ address, authorsMap, className, defaultName, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+  const { api, isSubstrateV2 } = useApi();
+  // FIXME Any horrors, caused by derive type mismatches
+  const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
   const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
@@ -122,7 +125,10 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
 
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
-  const _onFavorite = (): void => onFavorite(stashId);
+  const _onFavorite = (): void => toggleFavorite(stashId);
+  const _onQueryStats = (): void => {
+    window.location.hash = `/staking/query/${stashId}`;
+  };
 
   return (
     <AddressCard
@@ -183,6 +189,15 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
         </>
       }
       isDisabled={isSubstrateV2 && !hasActivity}
+      overlay={
+        hasQueries && api.query.imOnline?.authoredBlocks && (
+          <Icon
+            className='staking--stats'
+            name='line graph'
+            onClick={_onQueryStats}
+          />
+        )
+      }
       stakingInfo={stakingInfo}
       value={stashId}
       withBalance={balanceOpts}
@@ -210,7 +225,7 @@ function Address ({ address, authorsMap, className, defaultName, filter, isElect
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Address)`
     .extras {
       display: inline-block;
@@ -275,12 +290,12 @@ export default withMulti(
     .staking--label.controllerSpacer {
       margin-top: 0.5rem;
     }
-  `,
-  translate,
-  withCalls<Props>(
-    ['derive.staking.info', {
-      paramName: 'address',
-      propName: 'stakingInfo'
-    }]
-  )
+
+    .staking--stats {
+      bottom: 0.75rem;
+      cursor: pointer;
+      position: absolute;
+      right: 0.5rem;
+    }
+  `
 );

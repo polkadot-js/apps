@@ -2,36 +2,76 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
-import React from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Button, InputAddressSimple } from '@polkadot/react-components';
 
+import translate from '../translate';
 import Validator from './Validator';
 
-interface Props extends BareProps, ComponentProps, RouteComponentProps<{}> {
-  match: {
-    isExact: boolean;
-    params: {
-      value: string;
-    };
-    path: string;
-    url: string;
-  };
+interface Props extends I18nProps, ComponentProps {
 }
 
-function Query ({ stakingOverview, match: { params: { value } } }: Props): React.ReactElement<Props> {
-  if (!stakingOverview) {
-    return <div>loading</div>;
-  }
+// const _onQuery = (): void => {
+//   if (isValid && value.length !== 0) {
+//     window.location.hash = `/explorer/query/${value}`;
+//   }
+// };
+
+// return (
+//   <FilterOverlay className={className}>
+//     <Input
+//       className='explorer--query'
+//       defaultValue={propsValue}
+//       isError={!isValid && value.length !== 0}
+//       placeholder={t('block hash or number to query')}
+//       onChange={_setHash}
+//       onEnter={_onQuery}
+//       withLabel={false}
+//     >
+//       <Button
+//         icon='play'
+//         onClick={_onQuery}
+//       />
+//     </Input>
+
+function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
+  const { value } = useParams();
+  const [validatorId, setValidatorId] = useState<string | null>(value || null);
+
+  const _onQuery = (): void => {
+    if (validatorId) {
+      window.location.hash = `/staking/query/${validatorId}`;
+    }
+  };
 
   return (
-    <Validator
-      currentIndex={stakingOverview.currentIndex}
-      validatorId={value}
-    />
+    <div className={className}>
+      <InputAddressSimple
+        className='staking--queryInput'
+        defaultValue={value}
+        help={t('Display overview information for the selected validator, including blocks produced.')}
+        label={t('validator to query')}
+        onChange={setValidatorId}
+        onEnter={_onQuery}
+      >
+        <Button
+          icon='play'
+          isDisabled={!validatorId}
+          onClick={_onQuery}
+        />
+      </InputAddressSimple>
+      {value && (
+        <Validator
+          sessionRewards={sessionRewards}
+          validatorId={value}
+        />
+      )}
+    </div>
   );
 }
 
-export default withRouter(Query);
+export default translate(Query);

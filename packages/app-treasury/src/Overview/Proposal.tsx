@@ -4,14 +4,13 @@
 
 import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { ActionItem, Icon, TreasuryProposal } from '@polkadot/react-components';
-import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
-import keyring from '@polkadot/ui-keyring';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import Approve from './Approve';
@@ -22,7 +21,6 @@ const Approved = styled.h3`
 `;
 
 interface Props extends I18nProps {
-  allAccounts?: SubjectInfo;
   isApproved: boolean;
   proposal?: TreasuryProposalType | null;
   proposalId: string;
@@ -30,7 +28,9 @@ interface Props extends I18nProps {
   onRespond: () => void;
 }
 
-function ProposalDisplay ({ allAccounts, isApproved, onPopulate, onRespond, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
+function ProposalDisplay ({ isApproved, onPopulate, onRespond, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
+  const { hasAccounts } = useAccounts();
+
   useEffect((): void => {
     onPopulate();
   }, [proposal]);
@@ -38,8 +38,6 @@ function ProposalDisplay ({ allAccounts, isApproved, onPopulate, onRespond, prop
   if (!proposal) {
     return null;
   }
-
-  const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
   return (
     <ActionItem
@@ -87,6 +85,5 @@ export default withMulti(
       transform: (value: Option<TreasuryProposalType>): TreasuryProposalType | null =>
         value.unwrapOr(null)
     }]
-  ),
-  withObservable(keyring.accounts.subject, { propName: 'allAccounts' })
+  )
 );

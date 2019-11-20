@@ -4,16 +4,15 @@
 
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '@polkadot/apps-routing/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
 import { Icon, Menu, Tooltip } from '@polkadot/react-components';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { ApiContext, withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
@@ -21,7 +20,6 @@ import translate from '../translate';
 interface Props extends I18nProps {
   isCollapsed: boolean;
   onClick: () => void;
-  allAccounts?: SubjectInfo;
   route: Route;
   sudoKey?: AccountId;
 }
@@ -76,18 +74,14 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
-  const apiProps = useContext(ApiContext);
-  const [hasAccounts, setHasAccounts] = useState(false);
+function Item ({ route: { Modal, display, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
+  const { allAccounts, hasAccounts } = useAccounts();
+  const apiProps = useApi();
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect((): void => {
-    setHasAccounts(Object.keys(allAccounts || {}).length !== 0);
-  }, [allAccounts]);
-
-  useEffect((): void => {
-    setHasSudo(!!sudoKey && Object.keys(allAccounts || {}).some((address): boolean => sudoKey.eq(address)));
+    setHasSudo(!!sudoKey && allAccounts.some((address): boolean => sudoKey.eq(address)));
   }, [allAccounts, sudoKey]);
 
   useEffect((): void => {
@@ -148,6 +142,5 @@ export default withMulti(
   translate,
   withCalls<Props>(
     ['query.sudo.key', { propName: 'sudoKey' }]
-  ),
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
+  )
 );

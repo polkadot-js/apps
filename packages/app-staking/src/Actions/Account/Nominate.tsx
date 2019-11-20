@@ -6,11 +6,11 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React, { useEffect, useState } from 'react';
-import store from 'store';
 import styled from 'styled-components';
 import { AddressMini, Button, InputAddress, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { useFavorites } from '@polkadot/react-hooks';
 
-import { STORE_FAVS } from '../../constants';
+import { STORE_FAVS_BASE } from '../../constants';
 import translate from '../../translate';
 
 interface Props extends I18nProps {
@@ -25,7 +25,7 @@ interface Props extends I18nProps {
 const MAX_NOMINEES = -16;
 
 function Nominate ({ className, controllerId, nominees, onClose, stashId, stashOptions, t }: Props): React.ReactElement<Props> | null {
-  const [favorites] = useState<string[]>(store.get(STORE_FAVS, []));
+  const [favorites] = useFavorites(STORE_FAVS_BASE);
   const [next, setNext] = useState<string[] | undefined>();
   const [{ options, shortlist }, setShortlist] = useState<{ options: KeyringSectionOption[]; shortlist: string[] }>({ options: [], shortlist: [] });
 

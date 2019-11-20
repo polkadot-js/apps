@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ConstantCodec } from '@polkadot/api-metadata/consts/types';
+import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { DropdownOptions } from '../util/types';
 import { I18nProps } from '../types';
 import { ConstValue, ConstValueBase } from './types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { ApiContext } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
 import translate from '../translate';
@@ -43,7 +43,7 @@ function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstV
 }
 
 function InputConsts ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<ConstValue>(getValue(api, defaultValue));

@@ -23,10 +23,9 @@ function SetKey ({ allAccounts, className, isMine, sudoKey, t }: Props): React.R
   }, [selected, sudoKey]);
 
   const willLose = isMine &&
-    !!Object.keys(allAccounts).length &&
     !!selected &&
     selected !== sudoKey &&
-    !Object.keys(allAccounts).find((s): boolean => s === selected);
+    allAccounts.some((s): boolean => s === selected);
 
   return (
     <section>

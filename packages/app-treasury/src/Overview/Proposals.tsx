@@ -8,21 +8,21 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { Column } from '@polkadot/react-components';
 
 import Proposal from './Proposal';
 import translate from '../translate';
 
-interface Props extends I18nProps, RouteComponentProps<{}> {
+interface Props extends I18nProps {
   isApprovals?: boolean;
   treasury_approvals?: BN[];
   treasury_proposalCount?: BN;
 }
 
-function ProposalsBase ({ history, isApprovals = false, treasury_approvals, treasury_proposalCount, t }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ isApprovals = false, treasury_approvals, treasury_proposalCount, t }: Props): React.ReactElement<Props> {
+  const history = useHistory();
   const [isEmpty, setIsEmpty] = useState(true);
   const [proposalIndices, setProposalIndices] = useState<BN[]>([]);
 
@@ -71,7 +71,7 @@ function ProposalsBase ({ history, isApprovals = false, treasury_approvals, trea
 }
 
 const Proposals = withMulti(
-  withRouter(ProposalsBase),
+  ProposalsBase,
   translate,
   withCalls<Props>(
     ['query.treasury.approvals', {

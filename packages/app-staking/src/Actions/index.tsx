@@ -2,50 +2,58 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
-import { ComponentProps } from '../types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { withCalls, withMulti } from '@polkadot/react-api/with';
+import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import { ComponentProps } from '../types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, CardGrid } from '@polkadot/react-components';
+import { trackStream, useApi } from '@polkadot/react-hooks';
 import { AccountName } from '@polkadot/react-query';
+import { Option } from '@polkadot/types';
 import createOption from '@polkadot/ui-keyring/options/item';
 
 import Account from './Account';
 import StartStaking from './NewStake';
 import translate from '../translate';
 
-interface Props extends I18nProps, ComponentProps, ApiProps {
-  myControllers?: string[];
+interface Props extends I18nProps, ComponentProps {
 }
 
-function getMyStashes (myControllers?: string[], allAccounts?: SubjectInfo): string[] | null {
-  const result: string[] = [];
+function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): [string, boolean][] | null {
+  const result: [string, boolean][] = [];
 
-  if (!myControllers) {
+  if (!queryBonded || !queryLedger) {
     return null;
   }
 
-  myControllers.forEach((value, index): void => {
-    if (value.toString() !== '') {
-      allAccounts && result.push(Object.keys(allAccounts)[index]);
+  queryBonded.forEach((value, index): void => {
+    value.isSome && result.push([allAccounts[index], true]);
+  });
+
+  queryLedger.forEach((ledger): void => {
+    if (ledger.isSome) {
+      const stashId = ledger.unwrap().stash.toString();
+
+      !result.some(([accountId]): boolean => accountId === stashId) && result.push([stashId, false]);
     }
   });
 
   return result;
 }
 
-function Accounts ({ allAccounts, allStashes, className, myControllers, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function Actions ({ allAccounts, allStashes, className, recentlyOnline, t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const queryBonded = trackStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
+  const queryLedger = trackStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
-  const myStashes = getMyStashes(myControllers, allAccounts);
+  const foundStashes = getStashes(allAccounts, queryBonded, queryLedger);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>
     createOption(stashId, (<AccountName params={stashId} />) as any)
   );
-  const isEmpty = !isNewStakeOpen && (!myStashes || myStashes.length === 0);
+  const isEmpty = !isNewStakeOpen && (!foundStashes || foundStashes.length === 0);
 
   const _toggleNewStake = (): void => setIsNewStateOpen(!isNewStakeOpen);
 
@@ -67,13 +75,14 @@ function Accounts ({ allAccounts, allStashes, className, myControllers, recently
       {isNewStakeOpen && (
         <StartStaking onClose={_toggleNewStake} />
       )}
-      {myStashes && myStashes.map((address, index): React.ReactNode => (
-        address && (
+      {foundStashes && foundStashes.map(([stashId, isOwnStash], index): React.ReactNode => (
+        stashId && (
           <Account
             allStashes={allStashes}
-            accountId={address}
+            isOwnStash={isOwnStash}
             key={index}
             recentlyOnline={recentlyOnline}
+            stashId={stashId}
             stashOptions={stashOptions}
           />
         )
@@ -82,20 +91,10 @@ function Accounts ({ allAccounts, allStashes, className, myControllers, recently
   );
 }
 
-export default withMulti(
-  styled(Accounts)`
+export default translate(
+  styled(Actions)`
     .ui--CardGrid-buttons {
       text-align: right;
     }
-  `,
-  translate,
-  withCalls<Props>(
-    ['query.staking.bonded', {
-      isMulti: true,
-      paramPick: ({ allAccounts }: Props): undefined | string[] => {
-        return allAccounts && Object.keys(allAccounts);
-      },
-      propName: 'myControllers'
-    }]
-  )
+  `
 );

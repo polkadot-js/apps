@@ -5,5 +5,6 @@
   "with a transaction nonce": "with a transaction nonce",
   "submit the following extrinsic": "submit the following extrinsic",
   "Submit Unsigned": "Submit Unsigned",
-  "Submit Transaction": "Submit Transaction"
+  "Submit Transaction": "Submit Transaction",
+  "free balance": "free balance"
 }

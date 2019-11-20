@@ -7,7 +7,8 @@ import { IdentityProps } from '@polkadot/react-identicon/types';
 import { I18nProps } from './types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@plasm/ui-settings';
 
@@ -34,7 +35,7 @@ export function getIdentityTheme (systemName: string): 'empty' {
 }
 
 function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, validators, value }: Props): React.ReactElement<Props> {
-  const { systemName } = useContext(ApiContext);
+  const { systemName } = useApi();
   const { queueAction } = useContext(StatusContext);
   const [address, setAddress] = useState<string | undefined>();
   const [isValidator, setIsValidator] = useState(false);

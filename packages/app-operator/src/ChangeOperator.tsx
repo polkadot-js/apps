@@ -72,10 +72,9 @@ export default translate(
         box-shadow: none;
         margin-left: 2rem;
       }
-
+  
       label.with-help {
         flex-basis: 10rem;
       }
     `
   );
-  
