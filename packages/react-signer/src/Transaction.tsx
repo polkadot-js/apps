@@ -7,7 +7,7 @@ import { QueueTx } from '@polkadot/react-components/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { GenericCall } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { Call, InputAddress, Modal } from '@polkadot/react-components';
 
 import Checks from './Checks';
@@ -26,7 +26,7 @@ function Transaction ({ children, hideDetails, isSendable, value: { accountId, e
     return null;
   }
 
-  const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
+  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
 
   return (
     <>

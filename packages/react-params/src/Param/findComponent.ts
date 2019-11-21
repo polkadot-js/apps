@@ -6,6 +6,7 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
 import BN from 'bn.js';
+import { registry } from '@polkadot/react-api';
 import { createType, getTypeDef } from '@polkadot/types';
 
 import Account from './Account';
@@ -110,7 +111,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
   if (!Component) {
     try {
-      const instance = createType(type as any);
+      const instance = createType(registry, type as any);
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(raw.type);
