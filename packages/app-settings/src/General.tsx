@@ -45,6 +45,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
   const _onChangeLedgerConn = (ledgerConn: string): void => setSettings({ ...settings, ledgerConn });
   const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
   const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
+  const _onChangeI18nLang = (i18nLang: string): void => setSettings({ ...settings, i18nLang });
   const _saveAndReload = (): void => saveAndReload(settings);
   const _save = (): void => {
     save(settings);
@@ -99,8 +100,8 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
           <div className='ui--row'>
             <Dropdown
               defaultValue={i18nLang}
-              isDisabled
               label={t('default interface language')}
+              onChange={_onChangeI18nLang}
               options={uiSettings.availableLanguages}
             />
           </div>
