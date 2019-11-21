@@ -7,7 +7,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls, registry } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
 import { createType } from '@polkadot/types';
 
@@ -22,11 +22,11 @@ interface Props extends ComponentProps {
 
 const NULL_INFO: DerivedElectionsInfo = {
   candidates: [],
-  candidateCount: createType('u32'),
-  desiredSeats: createType('u32'),
+  candidateCount: createType(registry, 'u32'),
+  desiredSeats: createType(registry, 'u32'),
   members: [],
   runnersUp: [],
-  termDuration: createType('BlockNumber')
+  termDuration: createType(registry, 'BlockNumber')
 };
 
 function Overview ({ bestNumber, electionsInfo = NULL_INFO }: Props): React.ReactElement<Props> {
