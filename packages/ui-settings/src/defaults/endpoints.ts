@@ -10,7 +10,7 @@ interface ChainData {
   type: string;
 }
 
-type ProviderName = 'stake_1' | 'stake_2' | 'stake_3' | 'stake_4';
+type ProviderName = 'stake';
 
 interface PoviderData {
   providerDisplay: string;
@@ -21,7 +21,7 @@ interface PoviderData {
 const ORDER_CHAINS: ChainName[] = ['plasmTest'];
 
 // we use this to order the providers inside the chains
-const ORDER_PROVIDERS: ProviderName[] = ['stake_1', 'stake_2', 'stake_3', 'stake_4'];
+const ORDER_PROVIDERS: ProviderName[] = ['stake'];
 
 // some suplementary info on a per-chain basis
 const CHAIN_INFO: Record<ChainName, ChainData> = {
@@ -32,22 +32,22 @@ const CHAIN_INFO: Record<ChainName, ChainData> = {
   }
 };
 
-const HOSTS: String[] = ['3.114.90.94:443', '3.114.81.104:443', '3.115.175.152:443', '54.64.145.3:443'];
+const HOSTS: String[] = ['testnet.plasmnet.io'];
 
 // the actual providers with all  the nodes they provide
 const PROVIDERS: Record<ProviderName, PoviderData> = ORDER_PROVIDERS.reduce((map: any, p, i) => {
   map[p] = {
-    providerDisplay: 'Stake technologies node' + (i+1),
+    providerDisplay: 'Stake technologies Host',
     nodes: {
-      plasmTest: 'ws://' + HOSTS[i]
+      plasmTest: 'wss://' + HOSTS[i]
     }
   };
   return map;
 }, {});
 
 export const ENDPOINT_DEFAULT = isPlasm
-  ? PROVIDERS.stake_1.nodes.plasmTest
-  : PROVIDERS.stake_2.nodes.plasmTest;
+  ? PROVIDERS.stake.nodes.plasmTest
+  : 'ws://127.0.0.1:9944/';
 
 export const ENDPOINTS: Option[] = ORDER_CHAINS.reduce((endpoints: Option[], chainName): Option[] => {
   const { chainDisplay, logo, type } = CHAIN_INFO[chainName];
