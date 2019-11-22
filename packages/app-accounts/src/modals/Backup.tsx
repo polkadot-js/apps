@@ -19,16 +19,22 @@ interface Props extends BareProps {
 export default function ({ address, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [password, setPassword] = useState('');
+  const [isPassTouched, setIsPassTouched] = useState(false);
   const [backupFailed, setBackupFailed] = useState(false);
   const isPassValid = useMemo(() =>
     keyring.isPassValid(password) && !backupFailed,
   [password, backupFailed]);
 
-  function doBackup (): void {
-    if (!address) {
-      return;
+  function onChangePass (value: string): void {
+    if (!isPassTouched) {
+      setIsPassTouched(true);
     }
+    setBackupFailed(false);
 
+    setPassword(value);
+  }
+
+  function doBackup (): void {
     try {
       const addressKeyring = address && keyring.getPair(address);
       const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
@@ -54,9 +60,10 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
       <Content
         address={address}
         doBackup={doBackup}
+        isPassTouched={isPassTouched}
         isPassValid={isPassValid}
         password={password}
-        onChangePass={setPassword}
+        onChangePass={onChangePass}
       />
       <Buttons
         doBackup={doBackup}
@@ -70,6 +77,7 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
 interface ContentProps {
   address: string;
   doBackup: () => void;
+  isPassTouched: boolean;
   isPassValid: boolean;
   password: string;
   onChangePass: (password: string) => void;
@@ -78,6 +86,7 @@ interface ContentProps {
 function Content ({
   address,
   doBackup,
+  isPassTouched,
   isPassValid,
   password,
   onChangePass
@@ -95,7 +104,7 @@ function Content ({
         <div>
           <Password
             help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
-            isError={!isPassValid}
+            isError={isPassTouched && !isPassValid}
             label={t('password')}
             onChange={onChangePass}
             onEnter={doBackup}
