@@ -7,7 +7,7 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { GenericCall } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 
 import AddressMini from '../AddressMini';
 import Button from '../Button';
@@ -104,7 +104,7 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
   let { method, section } = rpc;
 
   if (extrinsic) {
-    const found = GenericCall.findFunction(extrinsic.callIndex);
+    const found = registry.findMetaCall(extrinsic.callIndex);
 
     if (found.section !== 'unknown') {
       method = found.method;

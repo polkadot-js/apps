@@ -7,10 +7,10 @@ import { Call, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
-import { createType } from '@polkadot/types';
+import { withCalls, withMulti, registry } from '@polkadot/react-api';
 import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { createType } from '@polkadot/types';
 
 import translate from '../translate';
 
@@ -54,7 +54,7 @@ class Propose extends TxModal<Props, State> {
 
     return [
       threshold,
-      ...(method ? [createType('Proposal', method)] : [])
+      ...(method ? [createType(registry, 'Proposal', method)] : [])
     ];
   }
 

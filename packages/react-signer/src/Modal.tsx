@@ -18,7 +18,7 @@ import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
 import { Button, InputBalance, Modal, Toggle } from '@polkadot/react-components';
-import { withApi, withMulti, withObservable } from '@polkadot/react-api';
+import { registry, withApi, withMulti, withObservable } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
@@ -85,7 +85,7 @@ function extractExternal (accountId?: string | null): { isExternal: boolean; isH
 async function makeExtrinsicSignature (payload: SignerPayloadJSON, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
   console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
 
-  const result = createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
+  const result = createType(registry, 'ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
 
   if (isFunction(signerCb)) {
     signerCb(id, { id, ...result });
@@ -425,7 +425,7 @@ class Signer extends React.PureComponent<Props, State> {
       this.setState({
         isQrVisible: true,
         qrAddress: payload.address,
-        qrPayload: createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
+        qrPayload: createType(registry, 'ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
         qrResolve: resolve,
         qrReject: reject
       });

@@ -10,7 +10,7 @@ import React from 'react';
 import { createType } from '@polkadot/types';
 import { Button, Extrinsic, InputBalance } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { registry, withApi, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
@@ -36,7 +36,7 @@ class Propose extends TxModal<Props, State> {
   protected txParams = (): [Call, BN] => {
     const { value, method } = this.state;
 
-    return [createType('Proposal', method || undefined), value];
+    return [createType(registry, 'Proposal', method || undefined), value];
   }
 
   protected isDisabled = (): boolean => {

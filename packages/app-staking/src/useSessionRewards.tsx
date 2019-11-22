@@ -8,6 +8,7 @@ import { Slash, SessionRewards } from '@polkadot/react-hooks/types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
+import { registry } from '@polkadot/react-api';
 import { useApi, useCacheKey } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
@@ -28,14 +29,14 @@ interface Serialized {
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
   return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
-    blockHash: createType('Hash', blockHash),
-    blockNumber: createType('BlockNumber', blockNumber),
+    blockHash: createType(registry, 'Hash', blockHash),
+    blockNumber: createType(registry, 'BlockNumber', blockNumber),
     isEventsEmpty,
-    reward: createType('Balance', reward),
-    sessionIndex: createType('SessionIndex', sessionIndex),
+    reward: createType(registry, 'Balance', reward),
+    sessionIndex: createType(registry, 'SessionIndex', sessionIndex),
     slashes: slashes.map(({ accountId, amount }): Slash => ({
-      accountId: createType('AccountId', accountId),
-      amount: createType('Balance', amount)
+      accountId: createType(registry, 'AccountId', accountId),
+      amount: createType(registry, 'Balance', amount)
     }))
   }));
 }
@@ -104,8 +105,8 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
       blockHash: headers[index].hash,
       blockNumber: headers[index].number.unwrap(),
       isEventsEmpty: events[index].length === 0,
-      reward: rewards[index] || createType('Balance'),
-      sessionIndex: createType('SessionIndex', u8aToU8a(
+      reward: rewards[index] || createType(registry, 'Balance'),
+      sessionIndex: createType(registry, 'SessionIndex', u8aToU8a(
         value.isSome ? value.unwrap() : new Uint8Array([])
       )),
       slashes: slashes[index]
@@ -124,8 +125,10 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
       api.isReady.then(async (): Promise<void> => {
         const maxSessionsStore = maxSessions + 1; // assuming first is a bust
         const sessionLength = api.consts.babe?.epochDuration || new BN(500);
-        const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 10000);
+        const eraLength = api.consts.staking.sessionsPerEra.toNumber();
+        const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 7500);
         const bestHeader = await api.rpc.chain.getHeader();
+        let retrieved = 0;
         let toHash = bestHeader.hash;
         let toNumber = bestHeader.number.unwrap().toBn();
         let fromHash = api.genesisHash;
@@ -136,6 +139,7 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
 
           const newQueue = await loadSome(api, fromHash, toHash);
 
+          retrieved += newQueue.length;
           workQueue = mergeResults(workQueue, newQueue);
           toHash = fromHash;
           toNumber = fromNumber;
@@ -146,7 +150,8 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
 
           const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
 
-          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(lastNumber))) {
+          // we always want to retrieve at least 1 era worth of information, or we are at the start
+          if (!lastNumber || fromNumber.eqn(1) || (retrieved > eraLength && (workQueue.length >= maxSessionsStore) && fromNumber.lt(lastNumber))) {
             break;
           }
         }

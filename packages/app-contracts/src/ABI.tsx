@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
+import { registry } from '@polkadot/react-api';
 import { InputFile, Labelled, Messages } from '@polkadot/react-components';
 import { u8aToString } from '@polkadot/util';
 
@@ -154,7 +155,7 @@ class ABI extends React.PureComponent<Props, State> {
         throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
       }
 
-      const contractAbi = new Abi(abi);
+      const contractAbi = new Abi(registry, abi);
 
       this.setState({
         contractAbi,

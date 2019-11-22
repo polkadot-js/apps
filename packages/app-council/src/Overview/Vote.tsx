@@ -12,7 +12,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { registry, withCalls, withMulti } from '@polkadot/react-api';
 import { AddressMini, Button, Toggle } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
@@ -141,7 +141,7 @@ class Vote extends TxModal<Props, State> {
       approvals
         ? approvals.slice(0, 1 + approvals.lastIndexOf(true))
         : [],
-      createType('VoteIndex', voteCount),
+      createType(registry, 'VoteIndex', voteCount),
       voterPositions && accountId && voterPositions[accountId]
         ? voterPositions[accountId].setIndex
         : nextVoterSet || null

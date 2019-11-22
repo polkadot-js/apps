@@ -12,12 +12,12 @@ import { ExtraFees } from './types';
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
-import { withCalls } from '@polkadot/react-api';
+// import { withCalls } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
-import translate from '../translate';
+// import translate from '../translate';
 import ContractCall from './ContractCall';
 import ContractDeploy from './ContractDeploy';
 import Proposal from './Proposal';
@@ -252,10 +252,15 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    'derive.balances.fees',
-    ['derive.balances.all', { paramName: 'accountId' }],
-    'derive.contracts.fees'
-  )(FeeDisplay)
-);
+// export default translate(
+//   withCalls<Props>(
+//     'derive.balances.fees',
+//     ['derive.balances.all', { paramName: 'accountId' }],
+//     'derive.contracts.fees'
+//   )(FeeDisplay)
+// );
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Checks (props: any): null {
+  return null;
+}

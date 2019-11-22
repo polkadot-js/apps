@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { GenericCall } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
@@ -41,7 +41,7 @@ function renderExtrinsic (props: Props): (_: Extrinsic, __: number) => React.Rea
   const { blockNumber, t } = props;
 
   return function ExplorerExtrinsic (extrinsic: Extrinsic, index: number): React.ReactNode {
-    const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
+    const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
     const isMortal = extrinsic.era.isMortalEra;
     let eraEnd;
     let eraStart;
