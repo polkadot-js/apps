@@ -20,7 +20,7 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
   useEffect((): void => {
     let typeDef;
     try {
-      const rawType = createType(type.type as any).toRawType();
+      const rawType = createType(type.type as any, registry).toRawType();
       typeDef = getTypeDef(rawType);
     } catch (e) {
       typeDef = type;
