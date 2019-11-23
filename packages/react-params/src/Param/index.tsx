@@ -7,6 +7,7 @@ import { BaseProps, Props as CProps, ComponentMap } from '../types';
 
 import React, { useRef } from 'react';
 import { classes } from '@polkadot/react-components/util';
+import { displayType } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
@@ -27,8 +28,8 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
   }
 
   const label = isUndefined(name)
-    ? (type.displayName || type.type)
-    : `${name}: ${type.displayName || type.type}`;
+    ? displayType(type)
+    : `${name}: ${displayType(type)}`;
 
   return isOptional
     ? (
