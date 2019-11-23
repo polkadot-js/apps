@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { DropdownOptions, DropdownOption } from '../../util/types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
+import { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
   const section = api.query[sectionName];
@@ -29,7 +29,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
         input = type.asDoubleMap.key1.toString() + ', ' + type.asDoubleMap.key2.toString();
       }
 
-      let output = type.toString();
+      let output = unwrapStorageType(type);
 
       if (type.isDoubleMap) {
         output = type.asDoubleMap.value.toString();

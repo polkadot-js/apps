@@ -79,10 +79,9 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'Bytes':
       return new Bytes(registry);
 
+    case 'BlockHash':
     case 'CodeHash':
     case 'Hash':
-      return createType(registry, 'Hash');
-
     case 'H256':
       return createType(registry, 'H256');
 

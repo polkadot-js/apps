@@ -9,6 +9,7 @@ import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { Button, Labelled } from '@polkadot/react-components';
 import { withCallDiv } from '@polkadot/react-api';
 import valueToText from '@polkadot/react-params/valueToText';
@@ -51,14 +52,12 @@ function keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | C
   return `${key.creator.section}.${key.creator.method}`;
 }
 
-function typeToString (key: StorageEntryPromise): string {
-  const type = key.creator.meta.type.isDoubleMap
-    ? key.creator.meta.type.asDoubleMap.value.toString()
-    : key.creator.meta.type.toString();
+function typeToString ({ creator: { meta: { modifier, type } } }: StorageEntryPromise): string {
+  const _type = unwrapStorageType(type);
 
-  return key.creator.meta.modifier.isOptional
-    ? `Option<${type}>`
-    : type;
+  return modifier.isOptional
+    ? `Option<${_type}>`
+    : _type;
 }
 
 function createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
