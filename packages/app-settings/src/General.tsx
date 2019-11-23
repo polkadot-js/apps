@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { Option } from './types';
+import { Option, SetOption } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
@@ -22,6 +22,20 @@ interface Props extends I18nProps{
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
 const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
 const ledgerConnOptions = uiSettings.availableLedgerConn;
+const availableLanguages: SetOption[] = [
+  {
+    text: 'Default browser language (auto-detect)',
+    value: 'default'
+  },
+  {
+    text: 'English',
+    value: 'en'
+  },
+  {
+    text: '日本語',
+    value: 'ja'
+  }
+];
 
 function General ({ className, isModalContent, onClose, t }: Props): React.ReactElement<Props> {
   // tri-state: null = nothing  changed, false = no reload, true = reload required
@@ -48,6 +62,13 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
     save(settings);
     setChanged(null);
   };
+
+  const translatedAvailableLanguages = useMemo(() =>
+    availableLanguages.map(option => ({
+      ...option,
+      text: t(option.text)
+    }))
+  , [t]);
 
   const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
@@ -99,7 +120,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
               defaultValue={i18nLang}
               label={t('default interface language')}
               onChange={_handleChange('i18nLang')}
-              options={uiSettings.availableLanguages}
+              options={translatedAvailableLanguages}
             />
           </div>
         </>

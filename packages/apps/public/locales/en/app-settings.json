@@ -20,5 +20,6 @@
   "Developer": "Developer",
   "Select the remote endpoint, either from the dropdown on manual entered via the custom toggle": "Select the remote endpoint, either from the dropdown on manual entered via the custom toggle",
   "remote node/endpoint to connect to": "remote node/endpoint to connect to",
-  "custom endpoint": "custom endpoint"
+  "custom endpoint": "custom endpoint",
+  "Default browser language (auto-detect)": "Default browser language (auto-detect)"
 }
