@@ -79,48 +79,48 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
         <>
           <div className='ui--row'>
             <Dropdown
-              defaultValue={prefix}
               help={t('Override the default ss58 prefix for address generation')}
               label={t('address prefix')}
               onChange={_handleChange('prefix')}
               options={prefixOptions}
+              value={prefix}
             />
           </div>
           <div className='ui--row'>
             <Dropdown
-              defaultValue={icon}
               help={t('Override the default identity icon display with a specific theme')}
               label={t('default icon theme')}
               onChange={_handleChange('icon')}
               options={iconOptions}
+              value={icon}
             />
           </div>
           <div className='ui--row'>
             <Dropdown
-              defaultValue={uiMode}
               help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
               label={t('interface operation mode')}
               onChange={_handleChange('uiMode')}
               options={uiSettings.availableUIModes}
+              value={uiMode}
             />
           </div>
           {isLedgerCapable() && (
             <div className='ui--row'>
               <Dropdown
-                defaultValue={ledgerConn}
                 help={t('Manage your connection to Ledger S')}
                 label={t('manage hardware connections')}
                 onChange={_handleChange('ledgerConn')}
                 options={ledgerConnOptions}
+                value={ledgerConn}
               />
             </div>
           )}
           <div className='ui--row'>
             <Dropdown
-              defaultValue={i18nLang}
               label={t('default interface language')}
               onChange={_handleChange('i18nLang')}
               options={translatedAvailableLanguages}
+              value={i18nLang}
             />
           </div>
         </>

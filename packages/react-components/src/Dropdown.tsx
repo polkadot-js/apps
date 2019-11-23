@@ -4,11 +4,10 @@
 
 import { BareProps } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
-import { isUndefined } from '@polkadot/util';
 
 import { classes } from './util';
 import Labelled from './Labelled';
@@ -40,31 +39,16 @@ interface Props<Option> extends BareProps {
 }
 
 function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
-  const [stateValue, setStateValue] = useState<any>();
-
   const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
     onAdd && onAdd(value);
 
   const _onChange = (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void => {
-    setStateValue(value);
-
     onChange && onChange(
       transform
         ? transform(value)
         : value
     );
   };
-
-  useEffect((): void => {
-    const newValue = isUndefined(value)
-      ? defaultValue
-      : value;
-
-    // only update parent if we have had something changed
-    if (JSON.stringify({ v: newValue }) !== JSON.stringify({ v: stateValue })) {
-      _onChange(null, { value: newValue });
-    }
-  }, [defaultValue, stateValue, value]);
 
   const dropdown = (
     <SUIDropdown
@@ -86,7 +70,7 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
       search={onSearch || allowAdd}
       searchInput={searchInput}
       selection
-      value={stateValue}
+      value={value || defaultValue}
     />
   );
 
