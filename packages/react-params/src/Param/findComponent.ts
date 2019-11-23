@@ -47,7 +47,7 @@ const components: ComponentMap = ([
   { c: Code, t: ['Code'] },
   { c: Data, t: ['Data', 'Keys'] },
   { c: Enum, t: ['Enum'] },
-  { c: Hash256, t: ['CodeHash', 'Hash', 'H256', 'SeedOf'] },
+  { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
