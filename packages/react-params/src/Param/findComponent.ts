@@ -70,6 +70,8 @@ const components: ComponentMap = ([
   return components;
 }, {} as unknown as ComponentMap);
 
+const warnList: string[] = [];
+
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const findOne = (type: string): React.ComponentType<Props> | null =>
     overrides[type] || components[type];
@@ -127,7 +129,11 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       // console.error(error.message);
     }
 
-    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`);
+    // we only want to want once, not spam
+    if (!warnList.includes(type)) {
+      warnList.push(type);
+      console.warn(`Cannot find component for ${type}, defaulting to Unknown`);
+    }
   }
 
   return Component || Unknown;
