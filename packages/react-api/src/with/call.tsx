@@ -193,7 +193,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
         if (area === 'query' && meta && meta.type.isMap) {
           const arg = newParams[0];
 
-          assert((!isUndefined(arg) && !isNull(arg)) || meta.type.asMap.linked.isTrue, `${meta.name} expects one argument`);
+          assert((!isUndefined(arg) && !isNull(arg)) || meta.type.asMap.kind.isLinkedMap, `${meta.name} expects one argument`);
         }
 
         return [

@@ -55,7 +55,7 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
   };
   const _onChangeKey = (key: StorageEntryPromise): void => {
     const isMap = key.creator.meta.type.isMap;
-    const isLinked = isMap && key.creator.meta.type.asMap.linked.isTrue;
+    const isLinked = isMap && key.creator.meta.type.asMap.kind.isLinkedMap;
 
     setKey({
       defaultValues: key.creator.section === 'session' && key.creator.meta.type.isDoubleMap
