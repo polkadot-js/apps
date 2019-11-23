@@ -20,5 +20,6 @@
   "Developer": "ディベロッパー",
   "Select the remote endpoint, either from the dropdown on manual entered via the custom toggle": "ドロップダウンの中からリモートノードを選択するかカスタムエンドポイントをオンにして記入します",
   "remote node/endpoint to connect to": "リモートノード・エンドポイント",
-  "custom endpoint": "カスタムエンドポイント"
+  "custom endpoint": "カスタムエンドポイント",
+  "Default browser language (auto-detect)": "ブラウザー設定言語（自動反映）"
 }
