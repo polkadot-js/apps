@@ -40,9 +40,10 @@ interface Props<Option> extends BareProps {
 }
 
 function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
-  const newValue = useMemo(() => isUndefined(value)
-    ? defaultValue
-    : value, [defaultValue, value]);
+  const valueProp = useMemo(
+    () => isUndefined(value) ? defaultValue : value,
+    [defaultValue, value]
+  );
   const [stateValue, setStateValue] = useState<any>();
 
   const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
@@ -58,18 +59,18 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
   };
 
   const _onChange = (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void => {
-    if (JSON.stringify({ v: newValue }) === JSON.stringify({ v: value })) {
+    if (JSON.stringify({ v: valueProp }) === JSON.stringify({ v: value })) {
       return;
     }
     handleOnChange(value);
   };
 
   useEffect(() => {
-    if (newValue === stateValue) {
+    if (JSON.stringify({ v: valueProp }) === JSON.stringify({ v: stateValue })) {
       return;
     }
-    handleOnChange(newValue);
-  }, [newValue]);
+    handleOnChange(valueProp);
+  }, [valueProp]);
 
   const dropdown = (
     <SUIDropdown
