@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
@@ -44,13 +44,13 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
     () => isUndefined(value) ? defaultValue : value,
     [defaultValue, value]
   );
-  const [stateValue, setStateValue] = useState<any>();
+  const valueRef = useRef<any>();
 
   const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
     onAdd && onAdd(value);
 
   const handleOnChange = (value: any): void => {
-    setStateValue(value);
+    valueRef.current = value;
     onChange && onChange(
       transform
         ? transform(value)
@@ -66,7 +66,7 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
   };
 
   useEffect(() => {
-    if (JSON.stringify({ v: valueProp }) === JSON.stringify({ v: stateValue })) {
+    if (JSON.stringify({ v: valueProp }) === JSON.stringify({ v: valueRef.current })) {
       return;
     }
     handleOnChange(valueProp);
@@ -92,7 +92,7 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
       search={onSearch || allowAdd}
       searchInput={searchInput}
       selection
-      value={stateValue}
+      value={valueRef.current}
     />
   );
 
