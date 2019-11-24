@@ -7,6 +7,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
@@ -38,13 +39,18 @@ function getStateType (currentPair?: KeyringPair | null): StateType {
   const isExternal = currentPair?.meta.isExternal || false;
   const isHardware = currentPair?.meta.isHardware || false;
   const isInjected = currentPair?.meta.isInjected || false;
+  const isUsable = !(isExternal || isHardware);
 
   return {
     isExternal,
     isHardware,
     isInjected,
-    isLocked: currentPair?.isLocked || false,
-    isUsable: !(isExternal || isHardware)
+    isLocked: isUsable
+      ? isInjected
+        ? false
+        : (currentPair?.isLocked || false)
+      : true,
+    isUsable
   };
 }
 
@@ -76,27 +82,14 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     });
   }, []);
 
-  const _nextState = ({ currentPair = state.currentPair, data = state.data, isHexData = state.isHexData, isUnlockVisible = state.isUnlockVisible }: Partial<State>): void => {
-    const isLocked = !currentPair || currentPair.isLocked;
-    let signature = '';
-
-    if (!isLocked && currentPair) {
-      signature = u8aToHex(
-        currentPair.sign(
-          isHexData
-            ? hexToU8a(data)
-            : stringToU8a(data)
-        )
-      );
-    }
+  const _nextState = (partial: Partial<State>): void => {
+    const currentPair = partial.currentPair || state.currentPair;
 
     setState({
+      ...state,
+      ...partial,
       ...getStateType(currentPair),
-      currentPair,
-      data,
-      isHexData,
-      isUnlockVisible,
-      signature
+      currentPair
     });
   };
 
@@ -106,6 +99,21 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     _nextState({ currentPair: keyring.getPair(accountId || '') });
   const _onChangeData = (data: string): void =>
     _nextState({ data, isHexData: isHex(data) });
+  const _onSign = (): void => {
+    const { currentPair, data, isHexData, isLocked } = state;
+
+    if (!isLocked && currentPair) {
+      _nextState({
+        signature: u8aToHex(
+          currentPair.sign(
+            isHexData
+              ? hexToU8a(data)
+              : stringToU8a(data)
+          )
+        )
+      });
+    }
+  };
 
   const { currentPair, data, isHexData, isInjected, isLocked, isUnlockVisible, isUsable, signature } = state;
 
@@ -192,6 +200,15 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
           />
         )}
       </div>
+      <Button.Group>
+        <Button
+          icon='privacy'
+          isDisabled={isLocked}
+          isPrimary
+          label={t('Sign message')}
+          onClick={_onSign}
+        />
+      </Button.Group>
     </div>
   );
 }
