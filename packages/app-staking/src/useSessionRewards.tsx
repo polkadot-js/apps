@@ -27,7 +27,7 @@ interface Serialized {
   slashes: SerializedSlash[];
 }
 
-const MAX_BLOCKS = 5000;
+const MAX_BLOCKS = 2500;
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
   let hasSome = false;
