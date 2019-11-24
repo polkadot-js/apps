@@ -27,18 +27,35 @@ interface Serialized {
   slashes: SerializedSlash[];
 }
 
+const MAX_BLOCKS = 2500;
+
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
-  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
-    blockHash: createType(registry, 'Hash', blockHash),
-    blockNumber: createType(registry, 'BlockNumber', blockNumber),
-    isEventsEmpty,
-    reward: createType(registry, 'Balance', reward),
-    sessionIndex: createType(registry, 'SessionIndex', sessionIndex),
-    slashes: slashes.map(({ accountId, amount }): Slash => ({
-      accountId: createType(registry, 'AccountId', accountId),
-      amount: createType(registry, 'Balance', amount)
+  let hasSome = false;
+  let keepAll = true;
+
+  return sessions
+    .map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
+      blockHash: createType(registry, 'Hash', blockHash),
+      blockNumber: createType(registry, 'BlockNumber', blockNumber),
+      isEventsEmpty,
+      reward: createType(registry, 'Balance', reward),
+      sessionIndex: createType(registry, 'SessionIndex', sessionIndex),
+      slashes: slashes.map(({ accountId, amount }): Slash => ({
+        accountId: createType(registry, 'AccountId', accountId),
+        amount: createType(registry, 'Balance', amount)
+      }))
     }))
-  }));
+    .filter(({ isEventsEmpty }): boolean => {
+      if (!isEventsEmpty) {
+        // we first see if we have some data up to this point (we may not, i.e. non-archive)
+        hasSome = true;
+      } else if (hasSome) {
+        // if data is followed by empty, drop everything from here on
+        keepAll = false;
+      }
+
+      return keepAll;
+    });
 }
 
 function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
@@ -120,38 +137,35 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
 
   useEffect((): void => {
     let workQueue = fromJSON(getCache() || []);
+    const savedNumber = workQueue[workQueue.length - 1]
+      ? workQueue[workQueue.length - 1].blockNumber
+      : undefined;
 
     setImmediate((): void => {
       api.isReady.then(async (): Promise<void> => {
         const maxSessionsStore = maxSessions + 1; // assuming first is a bust
-        const sessionLength = api.consts.babe?.epochDuration || new BN(500);
-        const eraLength = api.consts.staking.sessionsPerEra.toNumber();
-        const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 7500);
         const bestHeader = await api.rpc.chain.getHeader();
-        let retrieved = 0;
         let toHash = bestHeader.hash;
         let toNumber = bestHeader.number.unwrap().toBn();
-        let fromHash = api.genesisHash;
-        let fromNumber = bnMax(toNumber.subn(count), new BN(1));
+        let fromNumber = bnMax(toNumber.subn(MAX_BLOCKS), new BN(1));
 
         while (true) {
-          fromHash = await api.rpc.chain.getBlockHash(fromNumber as any);
+          // console.log(`Updating rewards cache, #${fromNumber} -> #${toNumber}`);
 
+          const fromHash = await api.rpc.chain.getBlockHash(fromNumber as any);
           const newQueue = await loadSome(api, fromHash, toHash);
 
-          retrieved += newQueue.length;
           workQueue = mergeResults(workQueue, newQueue);
           toHash = fromHash;
           toNumber = fromNumber;
-          fromNumber = bnMax(toNumber.subn(count), new BN(1));
+          fromNumber = bnMax(toNumber.subn(MAX_BLOCKS), new BN(1));
 
           setCache(toJSON(workQueue, maxSessionsStore));
           setFiltered(workQueue.slice(-maxSessions));
 
           const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
 
-          // we always want to retrieve at least 1 era worth of information, or we are at the start
-          if (!lastNumber || fromNumber.eqn(1) || (retrieved > eraLength && (workQueue.length >= maxSessionsStore) && fromNumber.lt(lastNumber))) {
+          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
             break;
           }
         }
