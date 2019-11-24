@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { InjectedSigner } from '@polkadot/extension-inject/types';
+import { Signer } from '@polkadot/api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
@@ -36,7 +36,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     isInjected: false,
     isLocked: true
   });
-  const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: InjectedSigner | null }>({ isUsable: false, signer: null });
+  const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: Signer | null }>({ isUsable: false, signer: null });
   const [signature, setSignature] = useState('');
   const [isUnlockVisible, setIsUnlockVisible] = useState<boolean>(false);
 
@@ -80,7 +80,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
       return;
     }
 
-    if (signer) {
+    if (signer?.signRaw) {
       signer
         .signRaw({ address: currentPair.address, data, type: 'bytes' })
         .then(({ signature }): void => setSignature(signature));
