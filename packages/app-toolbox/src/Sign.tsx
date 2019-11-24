@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { InjectedSigner } from '@polkadot/extension-inject/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
@@ -10,7 +11,7 @@ import styled from 'styled-components';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
-import { assert, hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import translate from './translate';
 import Unlock from './Unlock';
@@ -19,124 +20,80 @@ interface Props extends I18nProps {
   className?: string;
 }
 
-interface StateType {
+interface AccountState {
   isExternal: boolean;
   isHardware: boolean;
   isInjected: boolean;
   isLocked: boolean;
-  isUsable: boolean;
-}
-
-interface State extends StateType {
-  currentPair: KeyringPair | null;
-  data: string;
-  isHexData: boolean;
-  isUnlockVisible: boolean;
-  signature: string;
-}
-
-function getStateType (currentPair?: KeyringPair | null): StateType {
-  const isExternal = currentPair?.meta.isExternal || false;
-  const isHardware = currentPair?.meta.isHardware || false;
-  const isInjected = currentPair?.meta.isInjected || false;
-  const isUsable = !(isExternal || isHardware);
-
-  return {
-    isExternal,
-    isHardware,
-    isInjected,
-    isLocked: isUsable
-      ? isInjected
-        ? false
-        : (currentPair?.isLocked || false)
-      : true,
-    isUsable
-  };
 }
 
 function Sign ({ className, t }: Props): React.ReactElement<Props> {
-  const [state, setState] = useState<State>({
-    currentPair: null,
-    data: '',
+  const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
+  const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
+  const [{ isInjected, isLocked }, setAccountState] = useState<AccountState>({
     isExternal: false,
     isHardware: false,
-    isHexData: false,
     isInjected: false,
-    isLocked: false,
-    isUnlockVisible: false,
-    isUsable: true,
-    signature: ''
+    isLocked: true
   });
+  const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: InjectedSigner | null }>({ isUsable: false, signer: null });
+  const [signature, setSignature] = useState('');
+  const [isUnlockVisible, setIsUnlockVisible] = useState<boolean>(false);
 
   useEffect((): void => {
-    const pairs = keyring.getPairs();
-    const currentPair = pairs[0] || null;
+    const isExternal = currentPair?.meta.isExternal || false;
+    const isHardware = currentPair?.meta.isHardware || false;
+    const isInjected = currentPair?.meta.isInjected || false;
+    const isUsable = !(isExternal || isHardware || isInjected);
 
-    setState({
-      ...getStateType(currentPair),
-      currentPair,
-      data: '',
-      isHexData: false,
-      isUnlockVisible: false,
-      signature: ''
+    setAccountState({
+      isExternal,
+      isHardware,
+      isInjected,
+      isLocked: isUsable
+        ? isInjected
+          ? false
+          : (currentPair?.isLocked || false)
+        : true
     });
-  }, []);
+    setSigner({ isUsable, signer: null });
 
-  const _nextState = (partial: Partial<State>): void => {
-    const currentPair = partial.currentPair || state.currentPair;
+    if (currentPair && isInjected) {
+      const { meta: { source } } = currentPair;
 
-    setState({
-      ...state,
-      ...partial,
-      ...getStateType(currentPair),
-      currentPair
-    });
-  };
+      web3FromSource(source)
+        .catch((): null => null)
+        .then((injected): void =>
+          setSigner({ isUsable: !!(injected?.signer?.signRaw), signer: injected?.signer || null })
+        );
+    }
+  }, [currentPair]);
 
   const _toggleUnlock = (): void =>
-    _nextState({ isUnlockVisible: !state.isUnlockVisible });
+    setIsUnlockVisible(!isUnlockVisible);
   const _onChangeAccount = (accountId: string | null): void =>
-    _nextState({ currentPair: keyring.getPair(accountId || '') });
+    setCurrentPair(keyring.getPair(accountId || ''));
   const _onChangeData = (data: string): void =>
-    _nextState({ data, isHexData: isHex(data) });
+    setData({ data, isHexData: isHex(data) });
   const _onSign = (): void => {
-    const { currentPair, data, isHexData, isLocked } = state;
-
-    if (isLocked || !currentPair) {
+    if (isLocked || !isUsable || !currentPair) {
       return;
     }
 
-    const { address, meta: { source } } = currentPair;
-
-    if (source) {
-      web3FromSource(source)
-        .then((injected): Promise<{ signature: string }> => {
-          // these needs to be raised and properly shows on the UI, not hidden as
-          // console logs like they are here
-          assert(injected, `Unable to find a signer for ${address}`);
-          assert(injected.signer.signRaw, `Unable to find raw signer for ${address}`);
-
-          return injected.signer.signRaw({
-            address,
-            data,
-            type: 'bytes'
-          });
-        })
-        .then(_nextState);
+    if (signer) {
+      signer
+        .signRaw({ address: currentPair.address, data, type: 'bytes' })
+        .then(({ signature }): void => setSignature(signature));
     } else {
-      const signature = u8aToHex(
+      setSignature(u8aToHex(
         currentPair.sign(
           isHexData
             ? hexToU8a(data)
             : stringToU8a(data)
         )
-      );
-
-      _nextState({ signature });
+      ));
     }
   };
-
-  const { currentPair, data, isHexData, isInjected, isLocked, isUnlockVisible, isUsable, signature } = state;
 
   return (
     <div className={`toolbox--Sign ${className}`}>
