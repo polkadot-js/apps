@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
@@ -40,14 +40,16 @@ interface Props<Option> extends BareProps {
 }
 
 function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
+  const newValue = useMemo(() => isUndefined(value)
+    ? defaultValue
+    : value, [defaultValue, value]);
   const [stateValue, setStateValue] = useState<any>();
 
   const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
     onAdd && onAdd(value);
 
-  const _onChange = (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void => {
+  const handleOnChange = (value: any): void => {
     setStateValue(value);
-
     onChange && onChange(
       transform
         ? transform(value)
@@ -55,16 +57,19 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
     );
   };
 
-  useEffect((): void => {
-    const newValue = isUndefined(value)
-      ? defaultValue
-      : value;
-
-    // only update parent if we have had something changed
-    if (JSON.stringify({ v: newValue }) !== JSON.stringify({ v: stateValue })) {
-      _onChange(null, { value: newValue });
+  const _onChange = (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void => {
+    if (JSON.stringify({ v: newValue }) === JSON.stringify({ v: value })) {
+      return;
     }
-  }, [defaultValue, stateValue, value]);
+    handleOnChange(value);
+  };
+
+  useEffect(() => {
+    if (newValue === stateValue) {
+      return;
+    }
+    handleOnChange(newValue);
+  }, [newValue]);
 
   const dropdown = (
     <SUIDropdown
