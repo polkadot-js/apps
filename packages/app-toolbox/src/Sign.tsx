@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
-import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isFunction, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import translate from './translate';
 import Unlock from './Unlock';
@@ -50,11 +50,9 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
       isExternal,
       isHardware,
       isInjected,
-      isLocked: isUsable
-        ? isInjected
-          ? false
-          : (currentPair?.isLocked || false)
-        : true
+      isLocked: isInjected
+        ? false
+        : currentPair?.isLocked || false
     });
     setSigner({ isUsable, signer: null });
 
@@ -64,10 +62,16 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
 
       web3FromSource(source)
         .catch((): null => null)
-        .then((injected): void => setSigner({
-          isUsable: !!(injected?.signer?.signRaw),
-          signer: injected?.signer || null
-        }));
+        .then((injected): void => {
+          console.log(injected, {
+            isUsable: isFunction(injected?.signer?.signRaw),
+            signer: injected?.signer || null
+          });
+          setSigner({
+            isUsable: isFunction(injected?.signer?.signRaw),
+            signer: injected?.signer || null
+          });
+        });
     }
   }, [currentPair]);
 
@@ -95,6 +99,8 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
       ));
     }
   };
+
+  console.log('isUsable', isUsable, isLocked);
 
   return (
     <div className={`toolbox--Sign ${className}`}>
@@ -182,7 +188,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='privacy'
-          isDisabled={isLocked || !isUsable}
+          isDisabled={!(isUsable && !isLocked)}
           isPrimary
           label={t('Sign message')}
           onClick={_onSign}
