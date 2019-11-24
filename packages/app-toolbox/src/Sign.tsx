@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
-import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import translate from './translate';
 import Unlock from './Unlock';
@@ -102,16 +102,37 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
   const _onSign = (): void => {
     const { currentPair, data, isHexData, isLocked } = state;
 
-    if (!isLocked && currentPair) {
-      _nextState({
-        signature: u8aToHex(
-          currentPair.sign(
-            isHexData
-              ? hexToU8a(data)
-              : stringToU8a(data)
-          )
+    if (isLocked || !currentPair) {
+      return;
+    }
+
+    const { address, meta: { source } } = currentPair;
+
+    if (source) {
+      web3FromSource(source)
+        .then((injected): Promise<{ signature: string }> => {
+          // these needs to be raised and properly shows on the UI, not hidden as
+          // console logs like they are here
+          assert(injected, `Unable to find a signer for ${address}`);
+          assert(injected.signer.signRaw, `Unable to find raw signer for ${address}`);
+
+          return injected.signer.signRaw({
+            address,
+            data,
+            type: 'bytes'
+          });
+        })
+        .then(_nextState);
+    } else {
+      const signature = u8aToHex(
+        currentPair.sign(
+          isHexData
+            ? hexToU8a(data)
+            : stringToU8a(data)
         )
-      });
+      );
+
+      _nextState({ signature });
     }
   };
 
