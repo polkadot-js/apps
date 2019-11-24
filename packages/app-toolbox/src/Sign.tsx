@@ -58,29 +58,30 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     });
     setSigner({ isUsable, signer: null });
 
+    // for injected, retrieve the signer
     if (currentPair && isInjected) {
       const { meta: { source } } = currentPair;
 
       web3FromSource(source)
         .catch((): null => null)
-        .then((injected): void =>
-          setSigner({ isUsable: !!(injected?.signer?.signRaw), signer: injected?.signer || null })
-        );
+        .then((injected): void => setSigner({
+          isUsable: !!(injected?.signer?.signRaw),
+          signer: injected?.signer || null
+        }));
     }
   }, [currentPair]);
 
-  const _toggleUnlock = (): void =>
-    setIsUnlockVisible(!isUnlockVisible);
-  const _onChangeAccount = (accountId: string | null): void =>
-    setCurrentPair(keyring.getPair(accountId || ''));
-  const _onChangeData = (data: string): void =>
-    setData({ data, isHexData: isHex(data) });
+  const _toggleUnlock = (): void => setIsUnlockVisible(!isUnlockVisible);
+  const _onChangeAccount = (accountId: string | null): void => setCurrentPair(keyring.getPair(accountId || ''));
+  const _onChangeData = (data: string): void => setData({ data, isHexData: isHex(data) });
   const _onSign = (): void => {
     if (isLocked || !isUsable || !currentPair) {
       return;
     }
 
     if (signer?.signRaw) {
+      setSignature('');
+
       signer
         .signRaw({ address: currentPair.address, data, type: 'bytes' })
         .then(({ signature }): void => setSignature(signature));
@@ -181,7 +182,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='privacy'
-          isDisabled={isLocked}
+          isDisabled={isLocked || !isUsable}
           isPrimary
           label={t('Sign message')}
           onClick={_onSign}
