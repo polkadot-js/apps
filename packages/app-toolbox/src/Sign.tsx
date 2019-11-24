@@ -7,7 +7,6 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { withMulti } from '@polkadot/react-api';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
@@ -19,22 +18,47 @@ interface Props extends I18nProps {
   className?: string;
 }
 
-interface State {
+interface StateType {
+  isExternal: boolean;
+  isHardware: boolean;
+  isInjected: boolean;
+  isLocked: boolean;
+  isUsable: boolean;
+}
+
+interface State extends StateType {
   currentPair: KeyringPair | null;
   data: string;
   isHexData: boolean;
-  isLocked: boolean;
   isUnlockVisible: boolean;
   signature: string;
+}
+
+function getStateType (currentPair?: KeyringPair | null): StateType {
+  const isExternal = currentPair?.meta.isExternal || false;
+  const isHardware = currentPair?.meta.isHardware || false;
+  const isInjected = currentPair?.meta.isInjected || false;
+
+  return {
+    isExternal,
+    isHardware,
+    isInjected,
+    isLocked: currentPair?.isLocked || false,
+    isUsable: !(isExternal || isHardware)
+  };
 }
 
 function Sign ({ className, t }: Props): React.ReactElement<Props> {
   const [state, setState] = useState<State>({
     currentPair: null,
     data: '',
+    isExternal: false,
+    isHardware: false,
     isHexData: false,
+    isInjected: false,
     isLocked: false,
     isUnlockVisible: false,
+    isUsable: true,
     signature: ''
   });
 
@@ -43,12 +67,10 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     const currentPair = pairs[0] || null;
 
     setState({
+      ...getStateType(currentPair),
       currentPair,
       data: '',
       isHexData: false,
-      isLocked: currentPair
-        ? currentPair.isLocked
-        : false,
       isUnlockVisible: false,
       signature: ''
     });
@@ -69,10 +91,10 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     }
 
     setState({
+      ...getStateType(currentPair),
       currentPair,
       data,
       isHexData,
-      isLocked,
       isUnlockVisible,
       signature
     });
@@ -85,7 +107,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
   const _onChangeData = (data: string): void =>
     _nextState({ data, isHexData: isHex(data) });
 
-  const { currentPair, data, isHexData, isLocked, isUnlockVisible, signature } = state;
+  const { currentPair, data, isHexData, isInjected, isLocked, isUnlockVisible, isUsable, signature } = state;
 
   return (
     <div className={`toolbox--Sign ${className}`}>
@@ -135,7 +157,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
         </div>
         <div
           className='unlock-overlay'
-          hidden={!isLocked}
+          hidden={!isUsable || !isLocked || isInjected}
         >
           {isLocked && (
             <div className='unlock-overlay-warning'>
@@ -153,6 +175,16 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
             </div>
           )}
         </div>
+        <div
+          className='unlock-overlay'
+          hidden={isUsable}
+        >
+          <div className='unlock-overlay-warning'>
+            <div className='unlock-overlay-content'>
+              {t('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
+            </div>
+          </div>
+        </div>
         {isUnlockVisible && (
           <Unlock
             onClose={_toggleUnlock}
@@ -164,7 +196,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Sign)`
     .toolbox--Sign-input {
       position: relative;
@@ -196,6 +228,5 @@ export default withMulti(
         }
       }
     }
-  `,
-  translate
+  `
 );
