@@ -46,7 +46,7 @@ export interface TxButtonInterface {
 
 export interface TxProps {
   extrinsic?: IExtrinsic | SubmittableExtrinsic | null;
-  method?: string;
+  tx?: string;
   params?: any[] | ConstructTxFn;
 }
 

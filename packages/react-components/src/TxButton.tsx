@@ -34,7 +34,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   public render (): React.ReactNode {
     const { accountId, className, icon, iconSize, innerRef, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
 
-    assert(!!this.props.extrinsic || (!!this.props.params && !!this.props.method), 'TxButton: Invalid extrinsic provided');
+    assert(!!this.props.extrinsic || (!!this.props.params && !!this.props.tx), 'TxButton: Invalid extrinsic provided');
 
     const { isSending } = this.state;
     const needsAccount = isUnsigned
@@ -64,13 +64,13 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   protected send = (): void => {
-    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, method: propsMethod = '', withSpinner = true } = this.props;
+    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = true } = this.props;
     let extrinsic: any;
 
     if (propsExtrinsic) {
       extrinsic = propsExtrinsic;
     } else {
-      const [section, method] = propsMethod.split('.');
+      const [section, method] = tx.split('.');
 
       assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 

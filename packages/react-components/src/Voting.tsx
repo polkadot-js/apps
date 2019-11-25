@@ -91,7 +91,7 @@ function Voting (props: Props): React.ReactElement<Props> {
           value={voteValue}
         />
       }
-      method={txMethod}
+      tx={txMethod}
       params={txParams}
     />
   );

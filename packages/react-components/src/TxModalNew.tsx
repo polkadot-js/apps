@@ -56,7 +56,7 @@ function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onCl
   );
 }
 
-function renderSubmitButton ({ t, extrinsic, submitButtonLabel = t('Submit'), submitButtonRef, isDisabled = false, isUnsigned = false, isSubmittable = true, method, params }: Props, accountId: string | null, onSubmit: () => void, onSuccess: () => void, onFailed: () => void, submitButtonProps = {}): React.ReactNode {
+function renderSubmitButton ({ t, extrinsic, submitButtonLabel = t('Submit'), submitButtonRef, isDisabled = false, isUnsigned = false, isSubmittable = true, tx, params }: Props, accountId: string | null, onSubmit: () => void, onSuccess: () => void, onFailed: () => void, submitButtonProps = {}): React.ReactNode {
   return (
     <TxButton
       {...(
@@ -74,7 +74,7 @@ function renderSubmitButton ({ t, extrinsic, submitButtonLabel = t('Submit'), su
       onSuccess={onSuccess}
       params={params}
       innerRef={submitButtonRef}
-      tx={method}
+      tx={tx}
       {...submitButtonProps}
     />
   );
