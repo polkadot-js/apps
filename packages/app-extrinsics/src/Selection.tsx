@@ -19,13 +19,6 @@ interface Props extends ApiProps, I18nProps, WithSubmittableButtonProps {
   queueExtrinsic: QueueTxExtrinsicAdd;
 }
 
-// interface State {
-//   isValid: boolean;
-//   isValidUnsigned: boolean;
-//   method: Call | null;
-//   accountId?: string | null;
-// }
-
 function getExtrinsic ({ api }: Props, method: Call | null): SubmittableExtrinsic | null {
   if (!method) {
     return null;
@@ -108,61 +101,6 @@ function Selection (props: Props): React.ReactElement<Props> {
     </div>
   );
 }
-
-// class Selection2 extends <Props, State> {
-//   public state: State = {
-//     isValid: false,
-//     isValidUnsigned: false,
-//     method: null
-//   };
-
-//   public render (): React.ReactNode {
-//     const { apiDefaultTxSudo, t } = this.props;
-//     const { isValid, isValidUnsigned, accountId } = this.state;
-
-//   }
-
-//   private nextState (newState: Partial<State>): void {
-//     this.setState(
-//       (prevState: State): State => {
-//         const { method = prevState.method, accountId = prevState.accountId } = newState;
-//         const isValid = !!(
-//           accountId &&
-//           accountId.length &&
-//           method
-//         );
-
-//         return {
-//           method,
-//           isValid,
-//           isValidUnsigned: !!method,
-//           accountId
-//         };
-//       }
-//     );
-//   }
-
-//   private onChangeExtrinsic = (method: Call | null = null): void => {
-//     this.nextState({ method });
-//   }
-
-//   private onChangeSender = (accountId: string | null): void => {
-//     this.nextState({ accountId });
-//   }
-
-//   private getExtrinsic (): SubmittableExtrinsic | null {
-//     const { api } = this.props;
-//     const { method } = this.state;
-
-//     if (!method) {
-//       return null;
-//     }
-
-//     const fn = api.findCall(method.callIndex);
-
-//     return api.tx[fn.section][fn.method](...method.args);
-//   }
-// }
 
 export default withMulti(
   Selection,

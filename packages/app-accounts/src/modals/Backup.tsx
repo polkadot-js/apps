@@ -19,7 +19,7 @@ interface Props extends I18nProps, WithSubmittableButtonProps {
 }
 
 function Backup (props: Props): React.ReactElement<Props> {
-  const { address, onClose, onTextEnterKey, submittableButton, t } = props;
+  const { address, onClose, onTextEnterKey, submitButtonRef, t } = props;
 
   const [
     [password, setPassword],
@@ -102,7 +102,7 @@ function Backup (props: Props): React.ReactElement<Props> {
             isDisabled={!isPasswordValid}
             label={t('Download')}
             onClick={_onSubmit}
-            ref={submittableButton}
+            ref={submitButtonRef}
           />
         </Button.Group>
       </Modal.Actions>

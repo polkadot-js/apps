@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ButtonProps } from './Button/types';
 import { WithSubmittableButtonProps } from './types';
-import React, { useRef } from 'react';
+
+import React from 'react';
 
 export default function withSubmittableButton<P extends WithSubmittableButtonProps> (Inner: React.ComponentType<P>): React.ComponentType<P> {
   return function WithSubmittableButton (props): React.ReactElement<P> {
-    const _button = React.createRef<HTMLButtonElement>();
+    const _button = React.createRef<React.Component<ButtonProps>>();
 
     const onTextEnterKey = (): void => {
-      if (_button && _button.current && _button.current.click) {
-        _button.current.click();
+      if (_button && _button.current && _button.current.props && _button.current.props.onClick) {
+        _button.current.props.onClick();
       }
     };
 
