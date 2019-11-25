@@ -2,106 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps, WithSubmittableButtonProps } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password, withSubmittableButton } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { usePassword } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends I18nProps, WithSubmittableButtonProps {
   onClose: () => void;
   address: string;
 }
 
-interface State {
-  isPassValid: boolean;
-  password: string;
-}
+function Backup (props: Props): React.ReactElement<Props> {
+  const { address, onClose, onTextEnterKey, submittableButton, t } = props;
 
-class Backup extends TxComponent<Props, State> {
-  public state: State = {
-    isPassValid: false,
-    password: ''
-  };
+  const [
+    [password, setPassword],
+    [isPasswordValid, setIsPasswordValid]
+  ] = usePassword();
 
-  public render (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <Modal
-        className='app--accounts-Modal'
-        dimmer='inverted'
-        open
-      >
-        <Modal.Header>{t('Backup account')}</Modal.Header>
-        {this.renderContent()}
-        {this.renderButtons()}
-      </Modal>
-    );
+  const _onChangePassword = (password: string): void => {
+    setPassword(password);
   }
 
-  private renderButtons (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { isPassValid } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <Button
-            icon='download'
-            isDisabled={!isPassValid}
-            label={t('Download')}
-            onClick={this.doBackup}
-            ref={this.button}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { address, t } = this.props;
-    const { isPassValid, password } = this.state;
-
-    return (
-      <Modal.Content>
-        <AddressRow
-          isInline
-          value={address}
-        >
-          <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
-          <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
-          <div>
-            <Password
-              help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
-              isError={!isPassValid}
-              label={t('password')}
-              onChange={this.onChangePass}
-              onEnter={this.submit}
-              tabIndex={0}
-              value={password}
-            />
-          </div>
-        </AddressRow>
-      </Modal.Content>
-    );
-  }
-
-  private doBackup = (): void => {
-    const { onClose, address, t } = this.props;
-    const { password } = this.state;
-
+  const _onSubmit = (): void => {
     if (!address) {
       return;
     }
@@ -121,7 +50,7 @@ class Backup extends TxComponent<Props, State> {
 
       FileSaver.saveAs(blob, `${address}.json`);
     } catch (error) {
-      this.setState({ isPassValid: false });
+      setIsPasswordValid(false);
       console.error(error);
 
       status.status = 'error';
@@ -132,12 +61,53 @@ class Backup extends TxComponent<Props, State> {
     onClose();
   }
 
-  private onChangePass = (password: string): void => {
-    this.setState({
-      isPassValid: keyring.isPassValid(password),
-      password
-    });
-  }
+  return (
+    <Modal
+      className='app--accounts-Modal'
+      dimmer='inverted'
+      open
+    >
+      <Modal.Header>{t('Backup account')}</Modal.Header>
+      <Modal.Content>
+        <AddressRow
+          isInline
+          value={address}
+        >
+          <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
+          <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
+          <div>
+            <Password
+              help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
+              isError={!isPasswordValid}
+              label={t('password')}
+              onChange={_onChangePassword}
+              onEnter={onTextEnterKey}
+              tabIndex={0}
+              value={password}
+            />
+          </div>
+        </AddressRow>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            label={t('Cancel')}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <Button
+            icon='download'
+            isDisabled={!isPasswordValid}
+            label={t('Download')}
+            onClick={_onSubmit}
+            ref={submittableButton}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-export default translate(Backup);
+export default withSubmittableButton(translate(Backup));

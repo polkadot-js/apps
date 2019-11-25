@@ -3,107 +3,33 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair$Json } from '@polkadot/keyring/types';
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps, StringOrNull, WithSubmittableButtonProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
-import React from 'react';
-import { AddressRow, Button, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
+import React, { useState } from 'react';
+import { AddressRow, Button, InputAddress, InputFile, Modal, Password, withSubmittableButton } from '@polkadot/react-components';
+import { usePassword } from '@polkadot/react-hooks';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-interface Props extends ModalProps, I18nProps {}
+interface Props extends ModalProps, I18nProps, WithSubmittableButtonProps {}
 
-interface State {
-  address: string | null;
-  isFileValid: boolean;
-  isPassValid: boolean;
-  json: KeyringPair$Json | null;
-  password: string;
-}
+const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
-class Import extends TxComponent<Props, State> {
-  public state: State = {
-    address: null,
-    isFileValid: false,
-    isPassValid: false,
-    json: null,
-    password: ''
-  };
+function Import (props: Props): React.ReactElement<Props> {
+  const { onClose, onStatusChange, onTextEnterKey, submitButtonRef, t } = props;
 
-  public render (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { isFileValid, isPassValid } = this.state;
+  const [[address, json, isFileValid], setImport] = useState<[StringOrNull, KeyringPair$Json | null, boolean]>([null, null, false]);
+  const [
+    [password, setPassword],
+    [isPasswordValid, setIsPasswordValid]
+  ] = usePassword();
+  // const { isFileValid, isPassValid } = this.state;
 
-    return (
-      <Modal
-        dimmer='inverted'
-        open
-      >
-        <Modal.Header>{t('Add via backup file')}</Modal.Header>
-        {this.renderInput()}
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              icon='cancel'
-              isNegative
-              label={t('Cancel')}
-              onClick={onClose}
-            />
-            <Button.Or />
-            <Button
-              icon='sync'
-              isDisabled={!isFileValid || !isPassValid}
-              isPrimary
-              onClick={this.onSave}
-              label={t('Restore')}
-              ref={this.button}
-            />
-          </Button.Group>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private renderInput (): React.ReactNode {
-    const { t } = this.props;
-    const { address, isFileValid, isPassValid, json, password } = this.state;
-    const acceptedFormats = ['application/json', 'text/plain'].join(', ');
-
-    return (
-      <Modal.Content>
-        <AddressRow
-          defaultName={isFileValid && json ? json.meta.name : null}
-          noDefaultNameOpacity
-          value={isFileValid && address ? address : null}
-        >
-          <InputFile
-            accept={acceptedFormats}
-            className='full'
-            help={t('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
-            isError={!isFileValid}
-            label={t('backup file')}
-            onChange={this.onChangeFile}
-            withLabel
-          />
-          <Password
-            autoFocus
-            className='full'
-            help={t('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
-            isError={!isPassValid}
-            label={t('password')}
-            onChange={this.onChangePass}
-            onEnter={this.submit}
-            value={password}
-          />
-        </AddressRow>
-      </Modal.Content>
-    );
-  }
-
-  private onChangeFile = (file: Uint8Array): void => {
+  const _onChangeFile = (file: Uint8Array): void => {
     try {
       const json = JSON.parse(u8aToString(file));
       const publicKey = keyring.decodeAddress(json.address, true);
@@ -114,32 +40,18 @@ class Import extends TxComponent<Props, State> {
           : json.encoding.content === 'pkcs8'
       );
 
-      this.setState({
-        address,
-        isFileValid,
-        json
-      });
+      setImport([address, json, isFileValid]);
     } catch (error) {
-      this.setState({
-        address: null,
-        isFileValid: false,
-        json: null
-      });
+      setImport([null, null, false])
       console.error(error);
     }
+  };
+
+  const _onChangePassword = (password: string): void => {
+    setPassword(password);
   }
 
-  private onChangePass = (password: string): void => {
-    this.setState({
-      isPassValid: keyring.isPassValid(password),
-      password
-    });
-  }
-
-  private onSave = (): void => {
-    const { onClose, onStatusChange, t } = this.props;
-    const { json, password } = this.state;
-
+  const _onSubmit = (): void => {
     if (!json) {
       return;
     }
@@ -156,7 +68,7 @@ class Import extends TxComponent<Props, State> {
 
       InputAddress.setLastValue('account', address);
     } catch (error) {
-      this.setState({ isPassValid: false });
+      setIsPasswordValid(false);
 
       status.status = 'error';
       status.message = error.message;
@@ -169,6 +81,61 @@ class Import extends TxComponent<Props, State> {
       onClose();
     }
   }
+
+  return (
+    <Modal
+      dimmer='inverted'
+      open
+    >
+      <Modal.Header>{t('Add via backup file')}</Modal.Header>
+      <Modal.Content>
+        <AddressRow
+          defaultName={isFileValid && json ? json.meta.name : null}
+          noDefaultNameOpacity
+          value={isFileValid && address ? address : null}
+        >
+          <InputFile
+            accept={acceptedFormats}
+            className='full'
+            help={t('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
+            isError={!isFileValid}
+            label={t('backup file')}
+            onChange={_onChangeFile}
+            withLabel
+          />
+          <Password
+            autoFocus
+            className='full'
+            help={t('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
+            isError={!isPasswordValid}
+            label={t('password')}
+            onChange={_onChangePassword}
+            onEnter={onTextEnterKey}
+            value={password}
+          />
+        </AddressRow>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            label={t('Cancel')}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <Button
+            icon='sync'
+            isDisabled={!isFileValid || !isPasswordValid}
+            isPrimary
+            onClick={_onSubmit}
+            label={t('Restore')}
+            ref={submitButtonRef}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-export default translate(Import);
+export default withSubmittableButton(translate(Import));

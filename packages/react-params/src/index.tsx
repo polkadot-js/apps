@@ -72,7 +72,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, overrides, params, style } = this.props;
+    const { className, isDisabled, onEnter, overrides, params, style } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -93,6 +93,7 @@ class Params extends React.PureComponent<Props, State> {
               key={`${name}:${type}:${index}`}
               name={name}
               onChange={this.onChangeParam}
+              onEnter={onEnter}
               overrides={overrides}
               type={type}
             />

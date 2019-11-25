@@ -10,3 +10,4 @@ export { default as useApi } from './useApi';
 export { default as useCacheKey } from './useCacheKey';
 export { default as useDebounce } from './useDebounce';
 export { default as useFavorites } from './useFavorites';
+export { default as usePassword } from './usePassword';

@@ -3,49 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
-import { Index } from '@polkadot/types/interfaces';
-import { IExtrinsic } from '@polkadot/types/types';
-import { QueueTx, QueueTxExtrinsicAdd, TxCallback, TxFailedCallback } from './Status/types';
+import { QueueTx, QueueTxExtrinsicAdd } from './Status/types';
+import { TxButtonProps as Props } from './types';
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { withApi } from '@polkadot/react-api';
 
 import Button from './Button';
-import { Button$Sizes } from './Button/types';
 import { QueueConsumer } from './Status/Context';
-
-type ConstructFn = () => any[];
 
 interface InjectedProps {
   queueExtrinsic: QueueTxExtrinsicAdd;
   txqueue: QueueTx[];
-}
-
-interface Props extends ApiProps {
-  accountId?: string;
-  accountNonce?: Index;
-  className?: string;
-  extrinsic?: IExtrinsic | SubmittableExtrinsic;
-  icon: string;
-  iconSize?: Button$Sizes;
-  isBasic?: boolean;
-  isDisabled?: boolean;
-  isNegative?: boolean;
-  isPrimary?: boolean;
-  isUnsigned?: boolean;
-  label: React.ReactNode;
-  onClick?: () => any;
-  onFailed?: TxFailedCallback;
-  onStart?: () => void;
-  onSuccess?: TxCallback;
-  onUpdate?: TxCallback;
-  params?: any[] | ConstructFn;
-  tooltip?: string;
-  tx?: string;
-  withSpinner?: boolean;
 }
 
 type InnerProps = Props & InjectedProps;
@@ -62,6 +33,9 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 
   public render (): React.ReactNode {
     const { accountId, className, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
+    
+    assert(!!this.props.extrinsic || (!!this.props.params && !!this.props.method), 'TxButton: Invalid extrinsic provided');
+
     const { isSending } = this.state;
     const needsAccount = isUnsigned
       ? false
@@ -89,13 +63,13 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   protected send = (): void => {
-    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = true } = this.props;
+    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, method: propsMethod = '', withSpinner = true } = this.props;
     let extrinsic: any;
 
     if (propsExtrinsic) {
       extrinsic = propsExtrinsic;
     } else {
-      const [section, method] = tx.split('.');
+      const [section, method] = propsMethod.split('.');
 
       assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
@@ -146,14 +120,15 @@ class TxButton extends React.PureComponent<Props, State> {
   protected button: any = React.createRef();
 
   public render (): React.ReactNode {
+    const { innerRef, ...props } = this.props;
     return (
       <QueueConsumer>
         {({ queueExtrinsic, txqueue }): React.ReactNode => (
           <TxButtonInner
-            {...this.props}
+            {...props}
             queueExtrinsic={queueExtrinsic}
             txqueue={txqueue}
-            ref={this.button}
+            innerRef={innerRef}
           />
         )}
       </QueueConsumer>

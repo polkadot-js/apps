@@ -13,14 +13,14 @@ interface Props extends BareProps {
   address: string;
   count: number;
   offset: number;
-  onCreateToggle: (seed: string) => void;
+  onToggleCreate: (seed: string) => void;
   onRemove: (address: string) => void;
   seed: Uint8Array;
 }
 
-function Match ({ address, className, count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
+function Match ({ address, className, count, offset, onToggleCreate, onRemove, seed }: Props): React.ReactElement<Props> {
   const [hexSeed, setHexSeed] = useState('');
-  const _onCreate = (): void => onCreateToggle(hexSeed);
+  const _onCreate = (): void => onToggleCreate(hexSeed);
   const _onRemove = (): void => onRemove(address);
 
   useEffect((): void => {
