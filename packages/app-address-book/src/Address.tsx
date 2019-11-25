@@ -9,6 +9,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressCard, AddressInfo, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -26,6 +27,7 @@ const WITH_EXTENDED = { nonce: true };
 const isEditable = true;
 
 function Address ({ address, className, t }: Props): React.ReactElement<Props> {
+  const api = useApi();
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
@@ -107,14 +109,18 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
                 >
                   {t('Forget this address')}
                 </Menu.Item>
-                <Menu.Divider />
-                <ChainLock
-                  className='addresses--network-toggle'
-                  genesisHash={genesisHash}
-                  isDisabled={!isEditable}
-                  onChange={_onGenesisChange}
-                  preventDefault
-                />
+                {!api.isDevelopment && (
+                  <>
+                    <Menu.Divider />
+                    <ChainLock
+                      className='addresses--network-toggle'
+                      genesisHash={genesisHash}
+                      isDisabled={!isEditable}
+                      onChange={_onGenesisChange}
+                      preventDefault
+                    />
+                  </>
+                )}
               </Menu>
             </Popup>
           </div>

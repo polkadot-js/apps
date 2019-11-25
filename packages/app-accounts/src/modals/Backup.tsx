@@ -16,6 +16,21 @@ interface Props extends BareProps {
   address: string;
 }
 
+interface ButtonsProps {
+  doBackup: () => void;
+  isPassValid: boolean;
+  onClose: () => void;
+}
+
+interface ContentProps {
+  address: string;
+  doBackup: () => void;
+  isPassTouched: boolean;
+  isPassValid: boolean;
+  onChangePass: (password: string) => void;
+  password: string;
+}
+
 export default function ({ address, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [password, setPassword] = useState('');
@@ -25,16 +40,15 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
     keyring.isPassValid(password) && !backupFailed,
   [password, backupFailed]);
 
-  function onChangePass (value: string): void {
+  const _onChangePass = (value: string): void => {
     if (!isPassTouched) {
       setIsPassTouched(true);
     }
+
     setBackupFailed(false);
-
     setPassword(value);
-  }
-
-  function doBackup (): void {
+  };
+  const _doBackup = (): void => {
     try {
       const addressKeyring = address && keyring.getPair(address);
       const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
@@ -48,7 +62,7 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
     }
 
     onClose();
-  }
+  };
 
   return (
     <Modal
@@ -59,14 +73,14 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
       <Modal.Header>{t('Backup account')}</Modal.Header>
       <Content
         address={address}
-        doBackup={doBackup}
+        doBackup={_doBackup}
         isPassTouched={isPassTouched}
         isPassValid={isPassValid}
         password={password}
-        onChangePass={onChangePass}
+        onChangePass={_onChangePass}
       />
       <Buttons
-        doBackup={doBackup}
+        doBackup={_doBackup}
         isPassValid={isPassValid}
         onClose={onClose}
       />
@@ -74,23 +88,7 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
   );
 }
 
-interface ContentProps {
-  address: string;
-  doBackup: () => void;
-  isPassTouched: boolean;
-  isPassValid: boolean;
-  password: string;
-  onChangePass: (password: string) => void;
-}
-
-function Content ({
-  address,
-  doBackup,
-  isPassTouched,
-  isPassValid,
-  password,
-  onChangePass
-}: ContentProps): React.ReactElement<ContentProps> {
+function Content ({ address, doBackup, isPassTouched, isPassValid, onChangePass, password }: ContentProps): React.ReactElement<ContentProps> {
   const { t } = useTranslation();
 
   return (
@@ -103,6 +101,7 @@ function Content ({
         <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
         <div>
           <Password
+            autoFocus
             help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
             isError={isPassTouched && !isPassValid}
             label={t('password')}
@@ -117,17 +116,7 @@ function Content ({
   );
 }
 
-interface ButtonsProps {
-  doBackup: () => void;
-  isPassValid: boolean;
-  onClose: () => void;
-}
-
-function Buttons ({
-  doBackup,
-  isPassValid,
-  onClose
-}: ButtonsProps): React.ReactElement<ButtonsProps> {
+function Buttons ({ doBackup, isPassValid, onClose }: ButtonsProps): React.ReactElement<ButtonsProps> {
   const { t } = useTranslation();
 
   return (
