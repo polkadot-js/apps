@@ -25,7 +25,7 @@ export default class Button extends React.PureComponent<Props, State> {
     };
   }
 
-  render () {
+  public render (): React.ReactElement<Props> {
     const { children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, size, style, tabIndex, tooltip } = this.props;
     const { triggerId } = this.state;
 
@@ -49,7 +49,7 @@ export default class Button extends React.PureComponent<Props, State> {
       style,
       tabIndex
     };
-  
+
     return (
       <>
         {isUndefined(label) && isUndefined(children)

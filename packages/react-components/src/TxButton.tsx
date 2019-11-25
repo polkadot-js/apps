@@ -33,7 +33,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 
   public render (): React.ReactNode {
     const { accountId, className, icon, iconSize, innerRef, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
-    
+
     assert(!!this.props.extrinsic || (!!this.props.params && !!this.props.method), 'TxButton: Invalid extrinsic provided');
 
     const { isSending } = this.state;

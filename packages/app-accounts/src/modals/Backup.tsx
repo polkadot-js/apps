@@ -28,7 +28,7 @@ function Backup (props: Props): React.ReactElement<Props> {
 
   const _onChangePassword = (password: string): void => {
     setPassword(password);
-  }
+  };
 
   const _onSubmit = (): void => {
     if (!address) {
@@ -59,7 +59,7 @@ function Backup (props: Props): React.ReactElement<Props> {
     }
 
     onClose();
-  }
+  };
 
   return (
     <Modal

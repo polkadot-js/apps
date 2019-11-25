@@ -27,7 +27,6 @@ function Import (props: Props): React.ReactElement<Props> {
     [password, setPassword],
     [isPasswordValid, setIsPasswordValid]
   ] = usePassword();
-  // const { isFileValid, isPassValid } = this.state;
 
   const _onChangeFile = (file: Uint8Array): void => {
     try {
@@ -42,14 +41,14 @@ function Import (props: Props): React.ReactElement<Props> {
 
       setImport([address, json, isFileValid]);
     } catch (error) {
-      setImport([null, null, false])
+      setImport([null, null, false]);
       console.error(error);
     }
   };
 
   const _onChangePassword = (password: string): void => {
     setPassword(password);
-  }
+  };
 
   const _onSubmit = (): void => {
     if (!json) {
@@ -80,7 +79,7 @@ function Import (props: Props): React.ReactElement<Props> {
     if (status.status !== 'error') {
       onClose();
     }
-  }
+  };
 
   return (
     <Modal

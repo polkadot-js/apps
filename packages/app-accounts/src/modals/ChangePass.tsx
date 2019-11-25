@@ -31,11 +31,11 @@ function ChangePass (props: Props): React.ReactElement<Props> {
 
   const _onChangeOldPassword = (oldPassword: string): void => {
     setOldPassword(oldPassword);
-  }
+  };
 
   const _onChangeNewPassword = (newPassword: string): void => {
     setNewPassword(newPassword);
-  }
+  };
 
   const _onSubmit = (): void => {
     const status: Partial<ActionStatus> = {
@@ -83,7 +83,7 @@ function ChangePass (props: Props): React.ReactElement<Props> {
     }
 
     onClose();
-  }
+  };
 
   return (
     <Modal

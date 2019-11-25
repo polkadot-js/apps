@@ -28,7 +28,7 @@ interface Props extends I18nProps, TxModalProps {
 function getTx ({ isCouncil, idNumber, hash }: Props, voteValue: boolean): [string, any[]] {
   return [
     isCouncil ? 'council.vote' : 'democracy.vote',
-    isCouncil 
+    isCouncil
       ? [hash, idNumber, voteValue]
       : [idNumber, voteValue]
   ];
@@ -36,7 +36,7 @@ function getTx ({ isCouncil, idNumber, hash }: Props, voteValue: boolean): [stri
 
 function Voting (props: Props): React.ReactElement<Props> {
   const { t, hash, idNumber, isCouncil, proposal } = props;
-  
+
   const [voteValue, setVoteValue] = useState(false);
   const [[txMethod, txParams], setTx] = useState(getTx(props, voteValue));
 
@@ -46,17 +46,17 @@ function Voting (props: Props): React.ReactElement<Props> {
   ];
 
   const _onChangeVote = (voteValue: boolean): void => {
-    setVoteValue(voteValue)
-  }
+    setVoteValue(voteValue);
+  };
 
   useEffect((): void => {
-    setTx(getTx(props, voteValue))
+    setTx(getTx(props, voteValue));
   }, [hash, idNumber, isCouncil, voteValue]);
-  
+
   return (
     <TxModalNew
       trigger={
-        ({ onOpen }: TxTriggerProps) => (
+        ({ onOpen }: TxTriggerProps): React.ReactElement => (
           <div className='ui--Row-buttons'>
             <Button
               isPrimary
@@ -97,96 +97,7 @@ function Voting (props: Props): React.ReactElement<Props> {
   );
 }
 
-// class Voting2 extends TxModal<Props, State> {
-//   public state: State;
-
-//   protected headerText = (): string => {
-//     const { isCouncil, t } = this.props;
-
-//     return isCouncil ? t('Vote on council proposal') : t('Vote on proposal');
-//   }
-
-//   protected accountLabel = (): string => this.props.t('Vote with account');
-
-//   protected accountHelp = (): string => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
-
-//   protected txMethod = (): string => {
-//     const { isCouncil } = this.props;
-
-//     return isCouncil ? 'council.vote' : 'democracy.vote';
-//   }
-
-//   protected txParams = (): any[] => {
-//     const { hash, idNumber, isCouncil } = this.props;
-//     const { voteValue } = this.state;
-
-//     return isCouncil
-//       ? [hash, idNumber, voteValue]
-//       : [idNumber, voteValue];
-//   }
-
-//   constructor (props: Props) {
-//     super(props);
-
-//     const { t } = props;
-
-//     this.state = {
-//       ...this.defaultState,
-//       voteOptions: [
-//         { text: t('Aye, I approve'), value: true },
-//         { text: t('Nay, I do not approve'), value: false }
-//       ],
-//       voteValue: true
-//     };
-//   }
-
-//   protected renderPreContent = (): React.ReactNode => {
-//     const { idNumber, proposal } = this.props;
-
-//     return (
-//       <>
-//         <ProposedAction
-//           expandNested={isTreasuryProposalVote(proposal)}
-//           idNumber={idNumber}
-//           isCollapsible
-//           proposal={proposal}
-//         />
-//         <br />
-//         <br />
-//       </>
-//     );
-//   }
-
-//   protected renderContent = (): React.ReactNode => {
-//     const { t } = this.props;
-//     const { voteOptions, voteValue } = this.state;
-
-//     return (
-//       <Dropdown
-//         help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
-//         label={t('record my vote as')}
-//         options={voteOptions}
-//         onChange={this.onChangeVote}
-//         value={voteValue}
-//       />
-//     );
-//   }
-
-//   protected renderTrigger = (): React.ReactNode => {
-//     const { t } = this.props;
-
-//     return (
-      
-//     );
-//   }
-
-//   private onChangeVote = (voteValue: boolean): void => {
-//     this.setState({ voteValue });
-//   }
-// }
-
 export default withMulti(
   Voting,
-  translate,
-  // withObservable(keyring.accounts.subject, { propName: 'allAccounts' })
+  translate
 );
