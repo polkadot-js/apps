@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Signer } from '@polkadot/api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { withMulti } from '@polkadot/react-api';
+import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
-import { hexToU8a, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isFunction, isHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
 import translate from './translate';
 import Unlock from './Unlock';
@@ -19,73 +20,85 @@ interface Props extends I18nProps {
   className?: string;
 }
 
-interface State {
-  currentPair: KeyringPair | null;
-  data: string;
-  isHexData: boolean;
-  isLocked: boolean;
-  isUnlockVisible: boolean;
-  signature: string;
+interface AccountState {
+  isExternal: boolean;
+  isHardware: boolean;
+  isInjected: boolean;
 }
 
 function Sign ({ className, t }: Props): React.ReactElement<Props> {
-  const [state, setState] = useState<State>({
-    currentPair: null,
-    data: '',
-    isHexData: false,
-    isLocked: false,
-    isUnlockVisible: false,
-    signature: ''
+  const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
+  const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
+  const [{ isInjected }, setAccountState] = useState<AccountState>({
+    isExternal: false,
+    isHardware: false,
+    isInjected: false
   });
+  const [isLocked, setIsLocked] = useState(false);
+  const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: Signer | null }>({ isUsable: true, signer: null });
+  const [signature, setSignature] = useState('');
+  const [isUnlockVisible, setIsUnlockVisible] = useState<boolean>(false);
 
   useEffect((): void => {
-    const pairs = keyring.getPairs();
-    const currentPair = pairs[0] || null;
+    const isExternal = currentPair?.meta.isExternal || false;
+    const isHardware = currentPair?.meta.isHardware || false;
+    const isInjected = currentPair?.meta.isInjected || false;
+    const isUsable = !(isExternal || isHardware || isInjected);
 
-    setState({
-      currentPair,
-      data: '',
-      isHexData: false,
-      isLocked: currentPair
-        ? currentPair.isLocked
-        : false,
-      isUnlockVisible: false,
-      signature: ''
+    setAccountState({
+      isExternal,
+      isHardware,
+      isInjected
     });
-  }, []);
+    setIsLocked(
+      isInjected
+        ? false
+        : currentPair?.isLocked || false
+    );
+    setSignature('');
+    setSigner({ isUsable, signer: null });
 
-  const _nextState = ({ currentPair = state.currentPair, data = state.data, isHexData = state.isHexData, isUnlockVisible = state.isUnlockVisible }: Partial<State>): void => {
-    const isLocked = !currentPair || currentPair.isLocked;
-    let signature = '';
+    // for injected, retrieve the signer
+    if (currentPair && isInjected) {
+      const { meta: { source } } = currentPair;
 
-    if (!isLocked && currentPair) {
-      signature = u8aToHex(
+      web3FromSource(source)
+        .catch((): null => null)
+        .then((injected): void => setSigner({
+          isUsable: isFunction(injected?.signer?.signRaw),
+          signer: injected?.signer || null
+        }));
+    }
+  }, [currentPair]);
+
+  const _toggleUnlock = (): void => setIsUnlockVisible(!isUnlockVisible);
+  const _onChangeAccount = (accountId: string | null): void => setCurrentPair(keyring.getPair(accountId || ''));
+  const _onChangeData = (data: string): void => setData({ data, isHexData: isHex(data) });
+  const _onSign = (): void => {
+    if (isLocked || !isUsable || !currentPair) {
+      return;
+    }
+
+    if (signer?.signRaw) {
+      setSignature('');
+
+      signer
+        .signRaw({ address: currentPair.address, data, type: 'bytes' })
+        .then(({ signature }): void => setSignature(signature));
+    } else {
+      setSignature(u8aToHex(
         currentPair.sign(
           isHexData
             ? hexToU8a(data)
             : stringToU8a(data)
         )
-      );
+      ));
     }
-
-    setState({
-      currentPair,
-      data,
-      isHexData,
-      isLocked,
-      isUnlockVisible,
-      signature
-    });
   };
-
-  const _toggleUnlock = (): void =>
-    _nextState({ isUnlockVisible: !state.isUnlockVisible });
-  const _onChangeAccount = (accountId: string | null): void =>
-    _nextState({ currentPair: keyring.getPair(accountId || '') });
-  const _onChangeData = (data: string): void =>
-    _nextState({ data, isHexData: isHex(data) });
-
-  const { currentPair, data, isHexData, isLocked, isUnlockVisible, signature } = state;
+  const _onUnlock = (): void => {
+    setIsLocked(false);
+    _toggleUnlock();
+  };
 
   return (
     <div className={`toolbox--Sign ${className}`}>
@@ -135,7 +148,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
         </div>
         <div
           className='unlock-overlay'
-          hidden={!isLocked}
+          hidden={!isUsable || !isLocked || isInjected}
         >
           {isLocked && (
             <div className='unlock-overlay-warning'>
@@ -153,18 +166,40 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
             </div>
           )}
         </div>
+        <div
+          className='unlock-overlay'
+          hidden={isUsable}
+        >
+          <div className='unlock-overlay-warning'>
+            <div className='unlock-overlay-content'>
+              {isInjected
+                ? t('This injected account cannot be used to sign data since the extension does not support raw signing.')
+                : t('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
+            </div>
+          </div>
+        </div>
         {isUnlockVisible && (
           <Unlock
             onClose={_toggleUnlock}
+            onUnlock={_onUnlock}
             pair={currentPair}
           />
         )}
       </div>
+      <Button.Group>
+        <Button
+          icon='privacy'
+          isDisabled={!(isUsable && !isLocked)}
+          isPrimary
+          label={t('Sign message')}
+          onClick={_onSign}
+        />
+      </Button.Group>
     </div>
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Sign)`
     .toolbox--Sign-input {
       position: relative;
@@ -189,6 +224,7 @@ export default withMulti(
 
       .unlock-overlay-content {
         color:#fff;
+        padding: 0 2.5rem;
         text-align:center;
 
         .ui--Button-Group {
@@ -196,6 +232,5 @@ export default withMulti(
         }
       }
     }
-  `,
-  translate
+  `
 );

@@ -37,5 +37,7 @@
   "The signature as by the account being checked, supplied as a hex-formatted string.": "The signature as by the account being checked, supplied as a hex-formatted string.",
   "the supplied signature": "the supplied signature",
   "Cryptography used to create this signature. It is auto-detected on valid signatures.": "Cryptography used to create this signature. It is auto-detected on valid signatures.",
-  "signature crypto type": "signature crypto type"
+  "signature crypto type": "signature crypto type",
+  "This injected account cannot be used to sign data since the extension does not support raw signing.": "This injected account cannot be used to sign data since the extension does not support raw signing.",
+  "This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.": "This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts."
 }
