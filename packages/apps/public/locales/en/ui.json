@@ -642,5 +642,7 @@
   "{{currency}} own": "",
   "{{currency}} other": "",
   "session rotate": "",
-  "session next": ""
+  "session next": "",
+  "This injected account cannot be used to sign data since the extension does not support raw signing.": "",
+  "This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.": ""
 }
