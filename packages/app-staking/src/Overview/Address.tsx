@@ -187,7 +187,6 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
           )}
         </>
       }
-      isDisabled={isSubstrateV2 && !hasActivity}
       overlay={
         hasQueries && api.query.imOnline?.authoredBlocks && (
           <Icon
