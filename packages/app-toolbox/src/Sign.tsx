@@ -172,7 +172,9 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
         >
           <div className='unlock-overlay-warning'>
             <div className='unlock-overlay-content'>
-              {t('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
+              {isInjected
+                ? t('This injected account cannot be used to sign data since the extension does not support raw signing.')
+                : t('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
             </div>
           </div>
         </div>
@@ -222,6 +224,7 @@ export default translate(
 
       .unlock-overlay-content {
         color:#fff;
+        padding: 0 2.5rem;
         text-align:center;
 
         .ui--Button-Group {
