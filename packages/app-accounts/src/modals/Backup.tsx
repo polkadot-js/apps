@@ -2,142 +2,151 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
-import React from 'react';
-import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
+import React, { useState, useMemo } from 'react';
+import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends BareProps {
   onClose: () => void;
   address: string;
 }
 
-interface State {
-  isPassValid: boolean;
-  password: string;
-}
+export default function ({ address, onClose }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [password, setPassword] = useState('');
+  const [isPassTouched, setIsPassTouched] = useState(false);
+  const [backupFailed, setBackupFailed] = useState(false);
+  const isPassValid = useMemo(() =>
+    keyring.isPassValid(password) && !backupFailed,
+  [password, backupFailed]);
 
-class Backup extends TxComponent<Props, State> {
-  public state: State = {
-    isPassValid: false,
-    password: ''
-  };
-
-  public render (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <Modal
-        className='app--accounts-Modal'
-        dimmer='inverted'
-        open
-      >
-        <Modal.Header>{t('Backup account')}</Modal.Header>
-        {this.renderContent()}
-        {this.renderButtons()}
-      </Modal>
-    );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { isPassValid } = this.state;
-
-    return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <Button
-            icon='download'
-            isDisabled={!isPassValid}
-            label={t('Download')}
-            onClick={this.doBackup}
-            ref={this.button}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { address, t } = this.props;
-    const { isPassValid, password } = this.state;
-
-    return (
-      <Modal.Content>
-        <AddressRow
-          isInline
-          value={address}
-        >
-          <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
-          <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
-          <div>
-            <Password
-              help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
-              isError={!isPassValid}
-              label={t('password')}
-              onChange={this.onChangePass}
-              onEnter={this.submit}
-              tabIndex={0}
-              value={password}
-            />
-          </div>
-        </AddressRow>
-      </Modal.Content>
-    );
-  }
-
-  private doBackup = (): void => {
-    const { onClose, address, t } = this.props;
-    const { password } = this.state;
-
-    if (!address) {
-      return;
+  function onChangePass (value: string): void {
+    if (!isPassTouched) {
+      setIsPassTouched(true);
     }
+    setBackupFailed(false);
 
-    const status: Partial<ActionStatus> = {
-      action: 'backup'
-    };
+    setPassword(value);
+  }
 
+  function doBackup (): void {
     try {
       const addressKeyring = address && keyring.getPair(address);
       const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
       const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
-      status.account = address;
-      status.status = blob ? 'success' : 'error';
-      status.message = t('account backed up');
-
       FileSaver.saveAs(blob, `${address}.json`);
     } catch (error) {
-      this.setState({ isPassValid: false });
+      setBackupFailed(true);
       console.error(error);
-
-      status.status = 'error';
-      status.message = error.message;
       return;
     }
 
     onClose();
   }
 
-  private onChangePass = (password: string): void => {
-    this.setState({
-      isPassValid: keyring.isPassValid(password),
-      password
-    });
-  }
+  return (
+    <Modal
+      className='app--accounts-Modal'
+      dimmer='inverted'
+      open
+    >
+      <Modal.Header>{t('Backup account')}</Modal.Header>
+      <Content
+        address={address}
+        doBackup={doBackup}
+        isPassTouched={isPassTouched}
+        isPassValid={isPassValid}
+        password={password}
+        onChangePass={onChangePass}
+      />
+      <Buttons
+        doBackup={doBackup}
+        isPassValid={isPassValid}
+        onClose={onClose}
+      />
+    </Modal>
+  );
 }
 
-export default translate(Backup);
+interface ContentProps {
+  address: string;
+  doBackup: () => void;
+  isPassTouched: boolean;
+  isPassValid: boolean;
+  password: string;
+  onChangePass: (password: string) => void;
+}
+
+function Content ({
+  address,
+  doBackup,
+  isPassTouched,
+  isPassValid,
+  password,
+  onChangePass
+}: ContentProps): React.ReactElement<ContentProps> {
+  const { t } = useTranslation();
+
+  return (
+    <Modal.Content>
+      <AddressRow
+        isInline
+        value={address}
+      >
+        <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
+        <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
+        <div>
+          <Password
+            help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
+            isError={isPassTouched && !isPassValid}
+            label={t('password')}
+            onChange={onChangePass}
+            onEnter={doBackup}
+            tabIndex={0}
+            value={password}
+          />
+        </div>
+      </AddressRow>
+    </Modal.Content>
+  );
+}
+
+interface ButtonsProps {
+  doBackup: () => void;
+  isPassValid: boolean;
+  onClose: () => void;
+}
+
+function Buttons ({
+  doBackup,
+  isPassValid,
+  onClose
+}: ButtonsProps): React.ReactElement<ButtonsProps> {
+  const { t } = useTranslation();
+
+  return (
+    <Modal.Actions>
+      <Button.Group>
+        <Button
+          icon='cancel'
+          isNegative
+          label={t('Cancel')}
+          onClick={onClose}
+        />
+        <Button.Or />
+        <Button
+          icon='download'
+          isDisabled={!isPassValid}
+          label={t('Download')}
+          onClick={doBackup}
+        />
+      </Button.Group>
+    </Modal.Actions>
+  );
+}
