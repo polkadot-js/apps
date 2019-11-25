@@ -24,19 +24,18 @@ interface AccountState {
   isExternal: boolean;
   isHardware: boolean;
   isInjected: boolean;
-  isLocked: boolean;
 }
 
 function Sign ({ className, t }: Props): React.ReactElement<Props> {
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
-  const [{ isInjected, isLocked }, setAccountState] = useState<AccountState>({
+  const [{ isInjected }, setAccountState] = useState<AccountState>({
     isExternal: false,
     isHardware: false,
-    isInjected: false,
-    isLocked: true
+    isInjected: false
   });
-  const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: Signer | null }>({ isUsable: false, signer: null });
+  const [isLocked, setIsLocked] = useState(false);
+  const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: Signer | null }>({ isUsable: true, signer: null });
   const [signature, setSignature] = useState('');
   const [isUnlockVisible, setIsUnlockVisible] = useState<boolean>(false);
 
@@ -49,11 +48,14 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     setAccountState({
       isExternal,
       isHardware,
-      isInjected,
-      isLocked: isInjected
+      isInjected
+    });
+    setIsLocked(
+      isInjected
         ? false
         : currentPair?.isLocked || false
-    });
+    );
+    setSignature('');
     setSigner({ isUsable, signer: null });
 
     // for injected, retrieve the signer
@@ -62,16 +64,10 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
 
       web3FromSource(source)
         .catch((): null => null)
-        .then((injected): void => {
-          console.log(injected, {
-            isUsable: isFunction(injected?.signer?.signRaw),
-            signer: injected?.signer || null
-          });
-          setSigner({
-            isUsable: isFunction(injected?.signer?.signRaw),
-            signer: injected?.signer || null
-          });
-        });
+        .then((injected): void => setSigner({
+          isUsable: isFunction(injected?.signer?.signRaw),
+          signer: injected?.signer || null
+        }));
     }
   }, [currentPair]);
 
@@ -99,8 +95,10 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
       ));
     }
   };
-
-  console.log('isUsable', isUsable, isLocked);
+  const _onUnlock = (): void => {
+    setIsLocked(false);
+    _toggleUnlock();
+  };
 
   return (
     <div className={`toolbox--Sign ${className}`}>
@@ -181,6 +179,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
         {isUnlockVisible && (
           <Unlock
             onClose={_toggleUnlock}
+            onUnlock={_onUnlock}
             pair={currentPair}
           />
         )}
