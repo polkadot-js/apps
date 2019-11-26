@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
+import { BareProps, FormProps$Refs, FormProps$Hooks } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
 import React, { useState, useMemo } from 'react';
 import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
+import { useForm, usePassword } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
@@ -18,16 +19,19 @@ interface Props extends BareProps {
 
 export default function ({ address, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [password, setPassword] = useState('');
-  const [isPassTouched, setIsPassTouched] = useState(false);
-  const [backupFailed, setBackupFailed] = useState(false);
-  const isPassValid = useMemo(() =>
-    keyring.isPassValid(password) && !backupFailed,
-  [password, backupFailed]);
+  const { password, setPassword, ...passwordState } = usePassword();
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
 
-  function onChangePass (value: string): void {
-    if (!isPassTouched) {
-      setIsPassTouched(true);
+  const [isPasswordTouched, setIsPasswordTouched] = useState(false);
+  const [backupFailed, setBackupFailed] = useState(false);
+  const isPasswordValid = useMemo(
+    () => passwordState.isPasswordValid && !backupFailed,
+    [passwordState.isPasswordValid, backupFailed]
+  );
+
+  function _onChangePassword (value: string): void {
+    if (!isPasswordTouched) {
+      setIsPasswordTouched(true);
     }
     setBackupFailed(false);
 
@@ -59,37 +63,40 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
       <Modal.Header>{t('Backup account')}</Modal.Header>
       <Content
         address={address}
-        doBackup={doBackup}
-        isPassTouched={isPassTouched}
-        isPassValid={isPassValid}
+        isPasswordTouched={isPasswordTouched}
+        isPasswordValid={isPasswordValid}
         password={password}
-        onChangePass={onChangePass}
+        onChangePassword={_onChangePassword}
+        onInputEnterKey={onInputEnterKey}
+        onInputEscapeKey={onInputEscapeKey}
       />
       <Buttons
         doBackup={doBackup}
-        isPassValid={isPassValid}
+        isPasswordValid={isPasswordValid}
         onClose={onClose}
+        cancelButtonRef={cancelButtonRef}
+        submitButtonRef={submitButtonRef}
       />
     </Modal>
   );
 }
 
-interface ContentProps {
+interface ContentProps extends FormProps$Hooks {
   address: string;
-  doBackup: () => void;
-  isPassTouched: boolean;
-  isPassValid: boolean;
+  isPasswordTouched: boolean;
+  isPasswordValid: boolean;
   password: string;
-  onChangePass: (password: string) => void;
+  onChangePassword: (password: string) => void;
 }
 
 function Content ({
   address,
-  doBackup,
-  isPassTouched,
-  isPassValid,
+  isPasswordTouched,
+  isPasswordValid,
   password,
-  onChangePass
+  onChangePassword,
+  onInputEnterKey,
+  onInputEscapeKey
 }: ContentProps): React.ReactElement<ContentProps> {
   const { t } = useTranslation();
 
@@ -104,10 +111,11 @@ function Content ({
         <div>
           <Password
             help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
-            isError={isPassTouched && !isPassValid}
+            isError={isPasswordTouched && !isPasswordValid}
             label={t('password')}
-            onChange={onChangePass}
-            onEnter={doBackup}
+            onChange={onChangePassword}
+            onEnter={onInputEnterKey}
+            onEscape={onInputEscapeKey}
             tabIndex={0}
             value={password}
           />
@@ -117,16 +125,18 @@ function Content ({
   );
 }
 
-interface ButtonsProps {
+interface ButtonsProps extends FormProps$Refs {
   doBackup: () => void;
-  isPassValid: boolean;
+  isPasswordValid: boolean;
   onClose: () => void;
 }
 
 function Buttons ({
   doBackup,
-  isPassValid,
-  onClose
+  isPasswordValid,
+  onClose,
+  submitButtonRef,
+  cancelButtonRef
 }: ButtonsProps): React.ReactElement<ButtonsProps> {
   const { t } = useTranslation();
 
@@ -138,13 +148,15 @@ function Buttons ({
           isNegative
           label={t('Cancel')}
           onClick={onClose}
+          ref={cancelButtonRef}
         />
         <Button.Or />
         <Button
           icon='download'
-          isDisabled={!isPassValid}
+          isDisabled={!isPasswordValid}
           label={t('Download')}
           onClick={doBackup}
+          ref={submitButtonRef}
         />
       </Button.Group>
     </Modal.Actions>

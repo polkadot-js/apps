@@ -22,14 +22,18 @@ function ChangePass (props: Props): React.ReactElement<Props> {
 
   const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
 
-  const [
-    [oldPassword, setOldPassword],
-    [isOldPasswordValid, setIsOldPasswordValid]
-  ] = usePassword();
-  const [
-    [newPassword, setNewPassword],
-    [isNewPasswordValid, setIsNewPasswordValid]
-  ] = usePassword();
+  const {
+    password: oldPassword,
+    setPassword: setOldPassword,
+    isPasswordValid: isOldPasswordValid,
+    setIsPasswordValid: setIsOldPasswordValid
+  } = usePassword();
+  const {
+    password: newPassword,
+    setPassword: setNewPassword,
+    isPasswordValid: isNewPasswordValid,
+    setIsPasswordValid: setIsNewPasswordValid
+  } = usePassword();
 
   const _onChangeOldPassword = (oldPassword: string): void => {
     setOldPassword(oldPassword);

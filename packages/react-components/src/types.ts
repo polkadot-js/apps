@@ -25,12 +25,12 @@ export interface AppProps {
 
 export type I18nProps = BareProps & WithTranslation;
 
-interface FormProps$Refs {
+export interface FormProps$Refs {
   cancelButtonRef?: React.RefObject<React.Component<ButtonProps>>;
   submitButtonRef?: React.RefObject<React.Component<ButtonProps>>;
 }
 
-interface FormProps$Hooks {
+export interface FormProps$Hooks {
   onInputEnterKey: () => void;
   onInputEscapeKey: () => void;
 }

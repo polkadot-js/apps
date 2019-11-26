@@ -24,10 +24,7 @@ function Import (props: Props): React.ReactElement<Props> {
 
   const [[address, json, isFileValid], setImport] = useState<[StringOrNull, KeyringPair$Json | null, boolean]>([null, null, false]);
   const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
-  const [
-    [password, setPassword],
-    [isPasswordValid, setIsPasswordValid]
-  ] = usePassword();
+  const { password, setPassword, isPasswordValid, setIsPasswordValid } = usePassword();
 
   const _onChangeFile = (file: Uint8Array): void => {
     try {
