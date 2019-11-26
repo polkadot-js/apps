@@ -17,6 +17,20 @@ interface Props extends BareProps {
   address: string;
 }
 
+interface ButtonsProps extends FormProps$Refs {
+  doBackup: () => void;
+  isPasswordValid: boolean;
+  onClose: () => void;
+}
+
+interface ContentProps extends FormProps$Hooks {
+  address: string;
+  isPasswordTouched: boolean;
+  isPasswordValid: boolean;
+  onChangePassword: (password: string) => void;
+  password: string;
+}
+
 export default function ({ address, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { password, setPassword, ...passwordState } = usePassword();
@@ -33,12 +47,11 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
     if (!isPasswordTouched) {
       setIsPasswordTouched(true);
     }
+
     setBackupFailed(false);
-
     setPassword(value);
-  }
-
-  function doBackup (): void {
+  };
+  const _doBackup = (): void => {
     try {
       const addressKeyring = address && keyring.getPair(address);
       const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
@@ -52,7 +65,7 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
     }
 
     onClose();
-  }
+  };
 
   return (
     <Modal
@@ -71,7 +84,7 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
         onInputEscapeKey={onInputEscapeKey}
       />
       <Buttons
-        doBackup={doBackup}
+        doBackup={_doBackup}
         isPasswordValid={isPasswordValid}
         onClose={onClose}
         cancelButtonRef={cancelButtonRef}
@@ -79,14 +92,6 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
       />
     </Modal>
   );
-}
-
-interface ContentProps extends FormProps$Hooks {
-  address: string;
-  isPasswordTouched: boolean;
-  isPasswordValid: boolean;
-  password: string;
-  onChangePassword: (password: string) => void;
 }
 
 function Content ({
@@ -110,6 +115,7 @@ function Content ({
         <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
         <div>
           <Password
+            autoFocus
             help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
             isError={isPasswordTouched && !isPasswordValid}
             label={t('password')}

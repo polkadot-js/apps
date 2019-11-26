@@ -8,6 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { AddressCard, AddressInfo, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -22,6 +23,7 @@ interface Props extends I18nProps {
 }
 
 function Account ({ address, className, t }: Props): React.ReactElement<Props> {
+  const api = useApi();
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
@@ -135,14 +137,18 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
                 >
                   {t('Forget this account')}
                 </Menu.Item>
-                <Menu.Divider />
-                <ChainLock
-                  className='accounts--network-toggle'
-                  genesisHash={genesisHash}
-                  isDisabled={!isEditable || isExternal}
-                  onChange={_onGenesisChange}
-                  preventDefault
-                />
+                {!api.isDevelopment && (
+                  <>
+                    <Menu.Divider />
+                    <ChainLock
+                      className='accounts--network-toggle'
+                      genesisHash={genesisHash}
+                      isDisabled={!isEditable || isExternal}
+                      onChange={_onGenesisChange}
+                      preventDefault
+                    />
+                  </>
+                )}
               </Menu>
             </Popup>
           </div>
