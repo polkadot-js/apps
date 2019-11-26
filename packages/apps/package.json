@@ -13,10 +13,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
-    "@babel/runtime": "^7.7.2",
+    "@babel/runtime": "^7.7.4",
     "@polkadot/react-components": "^0.37.0-beta.126",
     "@polkadot/react-signer": "^0.37.0-beta.126",
-    "@polkadot/ui-assets": "^0.47.0-beta.10",
+    "@polkadot/ui-assets": "^0.47.0-beta.11",
     "query-string": "^6.8.3"
   }
 }
