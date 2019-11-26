@@ -16,6 +16,7 @@ interface Props extends I18nProps {
   error?: string;
   onChange: (password: string) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
   password: string;
   tabIndex?: number;
   value?: string | null;
@@ -29,7 +30,7 @@ function getPair (address?: string | null): KeyringPair | null {
   }
 }
 
-function Unlock ({ autoFocus, error, onChange, onEnter, password, t, tabIndex, value }: Props): React.ReactElement<Props> | null {
+function Unlock ({ autoFocus, error, onChange, onEnter, onEscape, password, t, tabIndex, value }: Props): React.ReactElement<Props> | null {
   const [pair] = useState<KeyringPair | null>(getPair(value));
 
   if (!pair || !(pair.isLocked) || pair.meta.isInjected) {
@@ -44,6 +45,7 @@ function Unlock ({ autoFocus, error, onChange, onEnter, password, t, tabIndex, v
         label={t('unlock account with password')}
         onChange={onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         tabIndex={tabIndex}
         value={password}
       />

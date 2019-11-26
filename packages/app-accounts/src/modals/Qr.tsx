@@ -8,6 +8,7 @@ import { ModalProps } from '../types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 import { QrScanAddress } from '@polkadot/react-qr';
 import keyring from '@polkadot/ui-keyring';
 
@@ -23,6 +24,8 @@ interface Props extends I18nProps, ModalProps {
 }
 
 function QrModal ({ className, onClose, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
+
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [scanned, setScanned] = useState<Scanned | null>(null);
 
@@ -70,7 +73,8 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
                   isError={!isNameValid}
                   label={t('name')}
                   onChange={_onNameChange}
-                  onEnter={_onSave}
+                  onEnter={onInputEnterKey}
+                  onEscape={onInputEscapeKey}
                   value={name}
                 />
               </>
@@ -89,6 +93,7 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
             isNegative
             label={t('Cancel')}
             onClick={onClose}
+            ref={cancelButtonRef}
           />
           <Button.Or />
           <Button
@@ -97,6 +102,7 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
             isPrimary
             onClick={_onSave}
             label={t('Create')}
+            ref={submitButtonRef}
           />
         </Button.Group>
       </Modal.Actions>

@@ -3,19 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps, StringOrNull, WithSubmittableButtonProps } from '@polkadot/react-components/types';
+import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
 import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Extrinsic, InputAddress, TxButton, withSubmittableButton } from '@polkadot/react-components';
+import { Button, Extrinsic, InputAddress, TxButton } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api';
+import { useForm } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 
 import translate from './translate';
 
-interface Props extends ApiProps, I18nProps, WithSubmittableButtonProps {
+interface Props extends ApiProps, I18nProps {
   queueExtrinsic: QueueTxExtrinsicAdd;
 }
 
@@ -30,12 +31,14 @@ function getExtrinsic ({ api }: Props, method: Call | null): SubmittableExtrinsi
 }
 
 function Selection (props: Props): React.ReactElement<Props> {
-  const { apiDefaultTxSudo, onTextEnterKey, submitButtonRef, t } = props;
+  const { apiDefaultTxSudo, t } = props;
 
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [method, setMethod] = useState<Call | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(getExtrinsic(props, method));
   const [isValid, setIsValid] = useState(false);
+
+  const { submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
 
   const _onChangeAccountId = (accountId: StringOrNull): void => {
     setAccountId(accountId);
@@ -76,7 +79,8 @@ function Selection (props: Props): React.ReactElement<Props> {
         defaultValue={apiDefaultTxSudo}
         label={t('submit the following extrinsic')}
         onChange={_onChangeMethod}
-        onEnter={onTextEnterKey}
+        onEnter={onInputEnterKey}
+        onEscape={onInputEscapeKey}
       />
       <Button.Group>
         <TxButton
@@ -105,6 +109,5 @@ function Selection (props: Props): React.ReactElement<Props> {
 export default withMulti(
   Selection,
   translate,
-  withSubmittableButton,
   withApi
 );

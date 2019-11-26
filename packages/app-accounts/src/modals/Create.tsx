@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useForm } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -152,6 +152,8 @@ function createAccount (suri: string, pairType: KeypairType, name: string, passw
 
 function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type: propsType }: Props): React.ReactElement<Props> {
   const { isDevelopment } = useApi();
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
+
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
@@ -214,7 +216,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             isError={!isNameValid}
             label={t('name')}
             onChange={_onChangeName}
-            onEnter={_onCommit}
+            onEnter={onInputEnterKey}
+            onEscape={onInputEscapeKey}
             placeholder={t('new account')}
             value={name}
           />
@@ -232,7 +235,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
                   : t('seed (hex or string)')
             }
             onChange={_onChangeSeed}
-            onEnter={_onCommit}
+            onEnter={onInputEnterKey}
+            onEscape={onInputEscapeKey}
             value={seed}
           >
             <Dropdown
@@ -257,7 +261,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             isError={!isPassValid}
             label={t('password')}
             onChange={_onChangePass}
-            onEnter={_onCommit}
+            onEnter={onInputEnterKey}
+            onEscape={onInputEscapeKey}
             value={password}
           />
           <details
@@ -278,7 +283,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
               isError={!!deriveError}
               label={t('secret derivation path')}
               onChange={_onChangeDerive}
-              onEnter={_onCommit}
+              onEnter={onInputEnterKey}
+              onEscape={onInputEscapeKey}
               placeholder={t('//hard/soft///password')}
               value={derivePath}
             />
@@ -295,6 +301,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             isNegative
             label={t('Cancel')}
             onClick={onClose}
+            ref={cancelButtonRef}
           />
           <Button.Or />
           <Button
@@ -303,6 +310,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             isPrimary
             label={t('Save')}
             onClick={_toggleConfirmation}
+            ref={submitButtonRef}
           />
         </Button.Group>
       </Modal.Actions>

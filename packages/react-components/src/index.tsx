@@ -82,4 +82,3 @@ export { default as TxModalNew } from './TxModalNew';
 export { default as Voting } from './Voting';
 
 export { default as media } from './media';
-export { default as withSubmittableButton } from './withSubmittableButton';

@@ -7,6 +7,7 @@ import { ComponentProps } from '../types';
 
 import React, { useState } from 'react';
 import { Button, Input } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import { u8aToU8a } from '@polkadot/util';
@@ -15,6 +16,8 @@ import { Compact } from '@polkadot/types';
 interface Props extends ComponentProps, I18nProps {}
 
 function Raw ({ onAdd, t }: Props): React.ReactElement<Props> {
+  const { submitButtonRef, onInputEnterKey } = useForm();
+
   const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>({ isValid: false, key: new Uint8Array([]) });
 
   const _onAdd = (): void => {
@@ -37,7 +40,7 @@ function Raw ({ onAdd, t }: Props): React.ReactElement<Props> {
           autoFocus
           label={t('hex-encoded storage key')}
           onChange={_onChangeKey}
-          onEnter={_onAdd}
+          onEnter={onInputEnterKey}
         />
       </div>
       <div className='storage--actionrow-buttons'>
@@ -46,6 +49,7 @@ function Raw ({ onAdd, t }: Props): React.ReactElement<Props> {
           isDisabled={!isValid}
           isPrimary
           onClick={_onAdd}
+          ref={submitButtonRef}
         />
       </div>
     </section>

@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { InputNumber, Button, Input, Modal } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
@@ -18,6 +19,8 @@ export interface ModalProps {
 interface Props extends ModalProps, I18nProps {}
 
 function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
+
   const [assetId, setAssetId] = useState(new BN(0));
   const [name, setName] = useState('new asset');
 
@@ -38,7 +41,8 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
           help={t('Enter the Asset ID of the token you want to manage.')}
           label={t('asset id')}
           onChange={_onChangeAssetId}
-          onEnter={_onCommit}
+          onEnter={onInputEnterKey}
+          onEscape={onInputEscapeKey}
           value={assetId}
         />
         <Input
@@ -47,7 +51,8 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
           isError={!name}
           label={t('name')}
           onChange={setName}
-          onEnter={_onCommit}
+          onEnter={onInputEnterKey}
+          onEscape={onInputEscapeKey}
           value={name}
         />
       </Modal.Content>
@@ -58,14 +63,16 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
             onClick={onClose}
             label={t('Cancel')}
             icon='cancel'
+            ref={cancelButtonRef}
           />
           <Button.Or />
           <Button
             isDisabled={!name}
             isPrimary
-            onClick={onClose}
+            onClick={_onCommit}
             label={t('Register')}
             icon='registered'
+            ref={submitButtonRef}
           />
         </Button.Group>
       </Modal.Actions>

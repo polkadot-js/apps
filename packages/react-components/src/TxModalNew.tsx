@@ -42,7 +42,7 @@ function renderInputAccount ({ t, inputAddressLabel = t('using my account'), inp
   );
 }
 
-function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onClose: () => void): React.ReactNode {
+function renderCancelButton ({ t, cancelButtonLabel = t('Cancel'), cancelButtonRef }: Props, onClose: () => void): React.ReactNode {
   return (
     <>
       <Button
@@ -50,6 +50,7 @@ function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onCl
         onClick={onClose}
         label={cancelButtonLabel}
         icon='cancel'
+        ref={cancelButtonRef}
       />
       <Button.Or />
     </>

@@ -2,25 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps, WithSubmittableButtonProps } from '@polkadot/react-components/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import { AddressRow, Button, Modal, Password, withSubmittableButton } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { usePassword } from '@polkadot/react-hooks';
+import { useForm, usePassword } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-interface Props extends I18nProps, WithSubmittableButtonProps {
+interface Props extends I18nProps {
   onClose: () => void;
   address: string;
 }
 
 function Backup (props: Props): React.ReactElement<Props> {
-  const { address, onClose, onTextEnterKey, submitButtonRef, t } = props;
+  const { address, onClose, t } = props;
 
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
   const [
     [password, setPassword],
     [isPasswordValid, setIsPasswordValid]
@@ -81,7 +82,8 @@ function Backup (props: Props): React.ReactElement<Props> {
               isError={!isPasswordValid}
               label={t('password')}
               onChange={_onChangePassword}
-              onEnter={onTextEnterKey}
+              onEnter={onInputEnterKey}
+              onEscape={onInputEscapeKey}
               tabIndex={0}
               value={password}
             />
@@ -95,6 +97,7 @@ function Backup (props: Props): React.ReactElement<Props> {
             isNegative
             label={t('Cancel')}
             onClick={onClose}
+            ref={cancelButtonRef}
           />
           <Button.Or />
           <Button
@@ -110,4 +113,4 @@ function Backup (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default withSubmittableButton(translate(Backup));
+export default translate(Backup);

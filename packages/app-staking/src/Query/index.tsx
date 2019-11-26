@@ -8,6 +8,7 @@ import { ComponentProps } from '../types';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, InputAddressSimple } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import Validator from './Validator';
@@ -39,6 +40,7 @@ interface Props extends I18nProps, ComponentProps {
 //     </Input>
 
 function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
+  const { submitButtonRef, onInputEnterKey } = useForm();
   const { value } = useParams();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
@@ -56,12 +58,13 @@ function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Pro
         help={t('Display overview information for the selected validator, including blocks produced.')}
         label={t('validator to query')}
         onChange={setValidatorId}
-        onEnter={_onQuery}
+        onEnter={onInputEnterKey}
       >
         <Button
           icon='play'
           isDisabled={!validatorId}
           onClick={_onQuery}
+          ref={submitButtonRef}
         />
       </InputAddressSimple>
       {value && (

@@ -20,7 +20,7 @@ interface Props extends I18nProps, BaseProps {
   overrides?: ComponentMap;
 }
 
-function Param ({ className, defaultValue, isDisabled, isOptional, name, onChange, onEnter, overrides, style, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className, defaultValue, isDisabled, isOptional, name, onChange, onEnter, onEscape, overrides, style, type }: Props): React.ReactElement<Props> | null {
   const compRef = useRef<React.ComponentType<CProps> | null>(findComponent(type, overrides));
 
   if (!compRef.current) {
@@ -49,6 +49,7 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
         name={name}
         onChange={onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         style={style}
         type={type}
       />

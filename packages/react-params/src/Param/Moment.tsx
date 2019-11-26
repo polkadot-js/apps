@@ -34,7 +34,7 @@ function onChange ({ onChange }: Props): (_: RawParamOnChangeValue) => void {
 }
 
 export default function Code (props: Props): React.ReactNode {
-  const { className, defaultValue, isDisabled, isError, label, onEnter, style, type, withLabel } = props;
+  const { className, defaultValue, isDisabled, isError, label, onEnter, onEscape, style, type, withLabel } = props;
 
   if (isDisabled) {
     return (
@@ -53,6 +53,7 @@ export default function Code (props: Props): React.ReactNode {
       label={label}
       onChange={onChange(props)}
       onEnter={onEnter}
+      onEscape={onEscape}
       style={style}
       type={type}
       withLabel={withLabel}

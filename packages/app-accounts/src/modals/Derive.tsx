@@ -9,7 +9,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
-import { useDebounce } from '@polkadot/react-hooks';
+import { useDebounce, useForm } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
@@ -79,6 +79,8 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
   const isValid = !!address && !deriveError && isNameValid && isPassValid;
+
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
 
   useEffect((): void => {
     setIsLocked(source.isLocked);
@@ -157,6 +159,8 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
               help={t('The password to unlock the selected account.')}
               label={t('password')}
               onChange={setRootPass}
+              onEnter={onInputEnterKey}
+              onEscape={onInputEscapeKey}
               value={rootPass}
             />
           </>
@@ -173,6 +177,8 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
               help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
               label={t('derivation path')}
               onChange={setSuri}
+              onEnter={onInputEnterKey}
+              onEscape={onInputEscapeKey}
               placeholder={t('//hard/soft')}
             />
             <Input
@@ -181,7 +187,8 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
               isError={!isNameValid}
               label={t('name')}
               onChange={_onChangeName}
-              onEnter={_onCommit}
+              onEnter={onInputEnterKey}
+              onEscape={onInputEscapeKey}
               placeholder={t('new account')}
               value={name}
             />
@@ -191,7 +198,8 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
               isError={!isPassValid}
               label={t('password')}
               onChange={_onChangePass}
-              onEnter={_onCommit}
+              onEnter={onInputEnterKey}
+              onEscape={onInputEscapeKey}
               value={password}
             />
           </AddressRow>
@@ -204,6 +212,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
             isNegative
             label={t('Cancel')}
             onClick={onClose}
+            ref={cancelButtonRef}
           />
           <Button.Or />
           {isLocked
@@ -214,6 +223,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
                 isPrimary
                 label={t('Unlock')}
                 onClick={_onUnlock}
+                ref={submitButtonRef}
               />
             )
             : (
@@ -223,6 +233,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
                 isPrimary
                 label={t('Save')}
                 onClick={_toggleConfirmation}
+                ref={submitButtonRef}
               />
             )
           }

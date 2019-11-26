@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { getTypeDef } from '@polkadot/types';
 import { Button, InputStorage } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useForm } from '@polkadot/react-hooks';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
@@ -33,6 +33,8 @@ function areParamsValid (values: RawParams): boolean {
 
 function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
+  const { submitButtonRef, onInputEnterKey } = useForm();
+
   const [{ defaultValues, isLinked, key, params }, setKey] = useState<{ defaultValues: RawParams | undefined | null; isLinked: boolean; key: StorageEntryPromise; params: ParamsType }>({ defaultValues: undefined, isLinked: false, key: api.query.timestamp.now, params: [] });
   const [{ isValid, values }, setValues] = useState<{ isValid: boolean; values: RawParams }>({ isValid: true, values: [] });
 
@@ -96,7 +98,7 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
           onChange={_onChangeValues}
-          onEnter={_onAdd}
+          onEnter={onInputEnterKey}
           params={params}
           values={defaultValues}
         />
@@ -107,6 +109,7 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
           isDisabled={!isValid}
           isPrimary
           onClick={_onAdd}
+          ref={submitButtonRef}
         />
       </div>
     </section>

@@ -9,6 +9,7 @@ import { ModalProps } from '../types';
 import React, { useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
@@ -16,6 +17,8 @@ import translate from '../translate';
 interface Props extends ModalProps, I18nProps {}
 
 function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
+
   const [{ isNameValid, name }, setName] = useState<{ isNameValid: boolean; name: string }>({ isNameValid: false, name: '' });
   const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<{ address: string; isAddressExisting: boolean; isAddressValid: boolean }>({ address: '', isAddressExisting: false, isAddressValid: false });
   const isValid = isAddressValid && isNameValid;
@@ -95,7 +98,8 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
             isError={!isAddressValid}
             label={t('address')}
             onChange={_onChangeAddress}
-            onEnter={_onCommit}
+            onEnter={onInputEnterKey}
+            onEscape={onInputEscapeKey}
             placeholder={t('new address')}
             value={address}
           />
@@ -105,7 +109,8 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
             isError={!isNameValid}
             label={t('name')}
             onChange={_onChangeName}
-            onEnter={_onCommit}
+            onEnter={onInputEnterKey}
+            onEscape={onInputEscapeKey}
             value={name}
           />
         </AddressRow>
@@ -117,6 +122,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
             isNegative
             onClick={onClose}
             label={t('Cancel')}
+            ref={cancelButtonRef}
           />
           <Button.Or />
           <Button
@@ -125,6 +131,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
             isPrimary
             onClick={_onCommit}
             label={t('Save')}
+            ref={submitButtonRef}
           />
         </Button.Group>
       </Modal.Actions>

@@ -3,22 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps, WithSubmittableButtonProps } from '@polkadot/react-components/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
 import React, { useState } from 'react';
 import { createType } from '@polkadot/types';
-import { Button, Icon, Extrinsic, TxButton, withSubmittableButton } from '@polkadot/react-components';
+import { Button, Icon, Extrinsic, TxButton } from '@polkadot/react-components';
 import { registry, withApi, withMulti } from '@polkadot/react-api';
+import { useForm } from '@polkadot/react-hooks';
 
 import translate from './translate';
 
-interface Props extends I18nProps, ApiProps, ComponentProps, WithSubmittableButtonProps {
+interface Props extends I18nProps, ApiProps, ComponentProps {
   onChange: (accountId?: string) => void;
 }
 
-function Propose ({ apiDefaultTxSudo, isMine, onTextEnterKey, sudoKey, submitButtonRef, t }: Props): React.ReactElement<Props> {
+function Propose ({ apiDefaultTxSudo, isMine, sudoKey, t }: Props): React.ReactElement<Props> {
+  const { submitButtonRef, onInputEnterKey } = useForm();
+
   const [extrinsic, setExtrinsic] = useState<Call | null | undefined>(null);
 
   const _onChangeExtrinsic = (extrinsic?: Call | null): void => {
@@ -32,7 +35,7 @@ function Propose ({ apiDefaultTxSudo, isMine, onTextEnterKey, sudoKey, submitBut
           defaultValue={apiDefaultTxSudo}
           label={t('submit the following change')}
           onChange={_onChangeExtrinsic}
-          onEnter={onTextEnterKey}
+          onEnter={onInputEnterKey}
         />
         <br />
         <Button.Group>
@@ -40,7 +43,7 @@ function Propose ({ apiDefaultTxSudo, isMine, onTextEnterKey, sudoKey, submitBut
             accountId={sudoKey}
             label={t('Submit Sudo')}
             icon='sign-in'
-            method='sudo.sudo'
+            tx='sudo.sudo'
             isDisabled={!extrinsic}
             params={extrinsic ? [createType(registry, 'Proposal', extrinsic)] : []}
             innerRef={submitButtonRef}
@@ -61,6 +64,5 @@ function Propose ({ apiDefaultTxSudo, isMine, onTextEnterKey, sudoKey, submitBut
 export default withMulti(
   Propose,
   translate,
-  withSubmittableButton,
   withApi
 );

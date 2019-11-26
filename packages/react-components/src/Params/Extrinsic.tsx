@@ -4,7 +4,7 @@
 
 import { Call } from '@polkadot/types/interfaces';
 import { CallFunction } from '@polkadot/types/types';
-import { RawParamOnChange, RawParamOnEnter } from '@polkadot/react-params/types';
+import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
 import { BareProps } from '../types';
 
 import React from 'react';
@@ -19,6 +19,7 @@ interface Props extends BareProps {
   label: React.ReactNode;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
+  onEscape?: RawParamOnEscape;
   withLabel?: boolean;
 }
 
@@ -32,7 +33,7 @@ function onChange ({ onChange }: Props): (method?: Call) => void {
 }
 
 export default function ExtrinsicDisplay (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, style, withLabel } = props;
+  const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, onEscape, style, withLabel } = props;
 
   return (
     <BaseExtrinsic
@@ -44,6 +45,7 @@ export default function ExtrinsicDisplay (props: Props): React.ReactElement<Prop
       label={label}
       onChange={onChange(props)}
       onEnter={onEnter}
+      onEscape={onEscape}
       style={style}
       withLabel={withLabel}
     />

@@ -3,26 +3,27 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair$Json } from '@polkadot/keyring/types';
-import { I18nProps, StringOrNull, WithSubmittableButtonProps } from '@polkadot/react-components/types';
+import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
 import React, { useState } from 'react';
-import { AddressRow, Button, InputAddress, InputFile, Modal, Password, withSubmittableButton } from '@polkadot/react-components';
-import { usePassword } from '@polkadot/react-hooks';
+import { AddressRow, Button, InputAddress, InputFile, Modal, Password } from '@polkadot/react-components';
+import { useForm, usePassword } from '@polkadot/react-hooks';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-interface Props extends ModalProps, I18nProps, WithSubmittableButtonProps {}
+interface Props extends ModalProps, I18nProps {}
 
 const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
 function Import (props: Props): React.ReactElement<Props> {
-  const { onClose, onStatusChange, onTextEnterKey, submitButtonRef, t } = props;
+  const { onClose, onStatusChange, t } = props;
 
   const [[address, json, isFileValid], setImport] = useState<[StringOrNull, KeyringPair$Json | null, boolean]>([null, null, false]);
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
   const [
     [password, setPassword],
     [isPasswordValid, setIsPasswordValid]
@@ -109,7 +110,8 @@ function Import (props: Props): React.ReactElement<Props> {
             isError={!isPasswordValid}
             label={t('password')}
             onChange={_onChangePassword}
-            onEnter={onTextEnterKey}
+            onEnter={onInputEnterKey}
+            onEscape={onInputEscapeKey}
             value={password}
           />
         </AddressRow>
@@ -121,6 +123,7 @@ function Import (props: Props): React.ReactElement<Props> {
             isNegative
             label={t('Cancel')}
             onClick={onClose}
+            ref={cancelButtonRef}
           />
           <Button.Or />
           <Button
@@ -137,4 +140,4 @@ function Import (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default withSubmittableButton(translate(Import));
+export default translate(Import);

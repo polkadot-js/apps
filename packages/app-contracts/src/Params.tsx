@@ -14,6 +14,7 @@ interface Props {
   params?: ContractABIFnArg[];
   onChange: (values: any[]) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
 }
 
 interface ParamDef {
@@ -21,7 +22,7 @@ interface ParamDef {
   type: TypeDef;
 }
 
-export default function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
+export default function Params ({ isDisabled, onChange, onEnter, onEscape, params: propParams }: Props): React.ReactElement<Props> | null {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
@@ -43,6 +44,7 @@ export default function Params ({ isDisabled, onChange, onEnter, params: propPar
       isDisabled={isDisabled}
       onChange={_onChange}
       onEnter={onEnter}
+      onEscape={onEscape}
       params={params}
     />
   );

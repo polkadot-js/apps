@@ -25,12 +25,19 @@ export interface AppProps {
 
 export type I18nProps = BareProps & WithTranslation;
 
-export type ConstructTxFn = () => any[];
-
-export interface WithSubmittableButtonProps {
-  submitButtonRef?: React.Ref<HTMLButtonElement>;
-  onTextEnterKey?: () => void;
+interface FormProps$Refs {
+  cancelButtonRef?: React.RefObject<React.Component<ButtonProps>>;
+  submitButtonRef?: React.RefObject<React.Component<ButtonProps>>;
 }
+
+interface FormProps$Hooks {
+  onInputEnterKey: () => void;
+  onInputEscapeKey: () => void;
+}
+
+export interface FormProps extends FormProps$Refs, FormProps$Hooks {}
+
+export type ConstructTxFn = () => any[];
 
 export interface TxTriggerProps {
   onOpen: () => void;
@@ -56,7 +63,7 @@ export interface TxButtonProps extends TxProps, ApiProps {
   className?: string;
   icon: string;
   iconSize?: Button$Sizes;
-  innerRef?: React.RefObject<HTMLButtonElement>;
+  innerRef?: React.RefObject<React.Component<ButtonProps>>;
   isBasic?: boolean;
   isDisabled?: boolean;
   isNegative?: boolean;
@@ -72,7 +79,7 @@ export interface TxButtonProps extends TxProps, ApiProps {
   withSpinner?: boolean;
 }
 
-export interface TxModalProps extends I18nProps, TxProps, WithSubmittableButtonProps {
+export interface TxModalProps extends I18nProps, TxProps, FormProps$Refs {
   accountId?: StringOrNull;
   header?: React.ReactNode;
   isDisabled?: boolean;

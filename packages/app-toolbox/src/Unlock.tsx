@@ -2,27 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps, StringOrNull, WithSubmittableButtonProps } from '@polkadot/react-components/types';
+import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useState, useEffect } from 'react';
-import { withMulti } from '@polkadot/react-api';
-import { AddressRow, Button, Modal, Password, withSubmittableButton } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 
 import translate from './translate';
 
-interface Props extends I18nProps, WithSubmittableButtonProps {
+interface Props extends I18nProps {
   onClose: () => void;
   onUnlock: () => void;
   pair: KeyringPair | null;
 }
 
 function Unlock (props: Props): React.ReactElement<Props> | null {
-  const { onClose, onTextEnterKey, pair, submitButtonRef, t } = props;
+  const { onClose, pair, t } = props;
 
   if (!(pair && pair.address)) {
     return null;
   }
+
+  const { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey } = useForm();
 
   const [password, setPassword] = useState('');
   const [unlockError, setUnlockError] = useState<StringOrNull>(null);
@@ -82,7 +84,8 @@ function Unlock (props: Props): React.ReactElement<Props> | null {
               help={t('The account\'s password specified at the creation of this account.')}
               label={t('password')}
               onChange={_onChangePassword}
-              onEnter={onTextEnterKey}
+              onEnter={onInputEnterKey}
+              onEscape={onInputEscapeKey}
               value={password}
             />
           </div>
@@ -95,6 +98,7 @@ function Unlock (props: Props): React.ReactElement<Props> | null {
             onClick={onClose}
             label={t('Cancel')}
             icon='cancel'
+            ref={cancelButtonRef}
           />
           <Button.Or />
           <Button
@@ -110,8 +114,4 @@ function Unlock (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default withMulti(
-  Unlock,
-  translate,
-  withSubmittableButton
-);
+export default translate(Unlock);

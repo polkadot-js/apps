@@ -7,6 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, FilterOverlay, Input } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import translate from './translate';
@@ -31,6 +32,8 @@ function stateFromValue (value: string): State {
 }
 
 function Query ({ className, t, value: propsValue }: Props): React.ReactElement<Props> {
+  const { submitButtonRef, onInputEnterKey } = useForm();
+
   const [{ value, isValid }, setState] = useState(stateFromValue(propsValue || ''));
 
   const _setHash = (value: string): void => setState(stateFromValue(value));
@@ -48,12 +51,13 @@ function Query ({ className, t, value: propsValue }: Props): React.ReactElement<
         isError={!isValid && value.length !== 0}
         placeholder={t('block hash or number to query')}
         onChange={_setHash}
-        onEnter={_onQuery}
+        onEnter={onInputEnterKey}
         withLabel={false}
       >
         <Button
           icon='play'
           onClick={_onQuery}
+          ref={submitButtonRef}
         />
       </Input>
     </FilterOverlay>

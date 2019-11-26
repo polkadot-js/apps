@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import { Button, Input } from '@polkadot/react-components';
+import { useForm } from '@polkadot/react-hooks';
 
 import translate from './translate';
 
@@ -23,6 +24,8 @@ interface Props extends BareProps, I18nProps {
 }
 
 function ActionButtons ({ className, generateLink, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs, t }: Props): React.ReactElement<Props> {
+  const { submitButtonRef, onInputEnterKey } = useForm();
+
   const [isOpen, setIsOpen] = useState(false);
   const [shareText, setShareText] = useState(t('Generate link to share code example'));
   const [snippetName, setSnippetName] = useState('');
@@ -99,7 +102,7 @@ function ActionButtons ({ className, generateLink, isCustomExample, isRunning, r
           <Input
             autoFocus
             onChange={_onChangeName}
-            onEnter={_saveSnippet}
+            onEnter={onInputEnterKey}
             maxLength={50}
             min={1}
             placeholder={t('Name your example')}
@@ -112,6 +115,7 @@ function ActionButtons ({ className, generateLink, isCustomExample, isRunning, r
             isPrimary
             label={t('Save snippet to local storage')}
             onClick={_saveSnippet}
+            ref={submitButtonRef}
           />
         </Popup>
       )}
