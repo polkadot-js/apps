@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { BareProps, CallProps } from '@polkadot/react-api/types';
+import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useState, useEffect } from 'react';
 import { getAddressName } from '@polkadot/react-components/util';
 import { trackStream, useApi } from '@polkadot/react-hooks';
 
-interface Props extends BareProps, CallProps {
+interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
   label?: React.ReactNode;
