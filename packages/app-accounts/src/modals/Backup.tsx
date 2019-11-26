@@ -50,7 +50,8 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
 
     setBackupFailed(false);
     setPassword(value);
-  };
+  }
+  
   const _doBackup = (): void => {
     try {
       const addressKeyring = address && keyring.getPair(address);
