@@ -196,8 +196,16 @@ export default translate(
       margin: 1.5rem auto;
 
       tr {
+        border: 0px solid #f2f2f2;
+        border-left-width: 1px;
+        border-right-width: 1px;
+
         &:nth-child(even) {
           background: #f2f2f2;
+        }
+
+        &:nth-child(odd) {
+          background: white;
         }
 
         td, th {
