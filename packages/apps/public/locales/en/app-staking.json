@@ -124,5 +124,12 @@
   "{{currency}} average": "{{currency}} average",
   "{{currency}} total": "{{currency}} total",
   "{{currency}} own": "{{currency}} own",
-  "{{currency}} other": "{{currency}} other"
+  "{{currency}} other": "{{currency}} other",
+  "Returns": "Returns",
+  "The amount that will be used on a per-validator basis to calculate rewards for that validator.": "The amount that will be used on a per-validator basis to calculate rewards for that validator.",
+  "amount to use for estimation": "amount to use for estimation",
+  "Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.": "Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.",
+  "total staked": "total staked",
+  "total issuance": "total issuance",
+  "staked": "staked"
 }
