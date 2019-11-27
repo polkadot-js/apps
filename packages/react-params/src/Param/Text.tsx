@@ -21,7 +21,7 @@ function onChange ({ onChange }: Props): (_: string) => void {
 }
 
 export default function Text (props: Props): React.ReactNode {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
+  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
   const defaultValue = (value || '').toString();
 
   return (
@@ -37,6 +37,7 @@ export default function Text (props: Props): React.ReactNode {
         label={label}
         onChange={onChange(props)}
         onEnter={onEnter}
+        onEscape={onEscape}
         placeholder='<any string>'
         type='text'
         withLabel={withLabel}

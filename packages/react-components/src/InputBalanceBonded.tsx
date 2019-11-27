@@ -32,6 +32,7 @@ interface Props extends BareProps, ApiProps {
   label?: any;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
   placeholder?: string;
   stashId: string;
   value?: BN | string;
@@ -61,7 +62,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
     const { maxBalance } = this.state;
 
     return (
@@ -79,6 +80,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
         maxValue={maxBalance}
         onChange={onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         placeholder={placeholder}
         style={style}
         value={value}

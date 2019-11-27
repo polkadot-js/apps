@@ -21,7 +21,7 @@ function onChange ({ onChange }: Props): (_: string) => void {
 }
 
 export default function Data (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
+  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
   const defaultValue = value
     ? (value.toHex ? value.toHex() : value)
     : '';
@@ -39,6 +39,7 @@ export default function Data (props: Props): React.ReactElement<Props> {
         label={label}
         onChange={onChange(props)}
         onEnter={onEnter}
+        onEscape={onEscape}
         placeholder='Hex data'
         type='text'
         withLabel={withLabel}

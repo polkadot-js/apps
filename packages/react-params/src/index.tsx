@@ -19,6 +19,7 @@ interface Props extends I18nProps {
   isDisabled?: boolean;
   onChange?: (value: RawParams) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
   overrides?: ComponentMap;
   params: ParamDef[];
   values?: RawParams | null;
@@ -72,7 +73,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, overrides, params, style } = this.props;
+    const { className, isDisabled, onEnter, onEscape, overrides, params, style } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -93,6 +94,8 @@ class Params extends React.PureComponent<Props, State> {
               key={`${name}:${type}:${index}`}
               name={name}
               onChange={this.onChangeParam}
+              onEnter={onEnter}
+              onEscape={onEscape}
               overrides={overrides}
               type={type}
             />

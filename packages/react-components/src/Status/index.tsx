@@ -67,6 +67,10 @@ function signerIconName (status: QueueTxStatus): any {
 }
 
 function renderStatus ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode {
+  const addressRendered = account
+    ? <AddressMini value={account} withName={false} />
+    : undefined;
+
   return (
     <div
       className={classes('item', status)}
@@ -85,9 +89,7 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
             <div className='header'>
               {action}
             </div>
-            {account && (
-              <AddressMini value={account} />
-            )}
+            {addressRendered}
             <div className='status'>
               {message}
             </div>
@@ -174,6 +176,7 @@ function Status ({ className, stqueue = [], txqueue = [], t }: Props): React.Rea
           />
         </div>
       )}
+
       {alltx.map(renderItem)}
       {allst.map(renderStatus)}
     </div>
@@ -217,22 +220,10 @@ export default translate(
           .status {
             font-weight: 700;
           }
-
-          .ui--AddressMini {
-            .ui--AddressMini-address {
-              min-width: 0;
-              text-align: left;
-            }
-          }
-        }
-
-        .header {
-          opacity: 0.66;
         }
 
         .short {
           font-size: 2.5rem;
-          opacity:  0.75;
           padding: 0.5rem;
 
           i.icon {
