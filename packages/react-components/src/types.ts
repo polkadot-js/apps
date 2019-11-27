@@ -65,7 +65,7 @@ export interface TxButtonProps extends TxProps, ApiProps {
   className?: string;
   icon: string;
   iconSize?: Button$Sizes;
-  innerRef?: React.RefObject<React.Component<ButtonProps>>;
+  innerRef?: ButtonRef;
   isBasic?: boolean;
   isDisabled?: boolean;
   isNegative?: boolean;

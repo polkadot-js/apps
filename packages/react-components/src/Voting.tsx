@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal } from '@polkadot/types/interfaces';
-import { I18nProps, TxModalProps, TxTriggerProps } from '@polkadot/react-components/types';
+import { I18nProps, TxModalProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';

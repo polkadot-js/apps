@@ -27,11 +27,11 @@ function renderHeader ({ t, header = t('Submit signed extrinsic') }: Props): Rea
   return header;
 }
 
-function renderPreContent ({ preContent: PreContent = () => null, hooks }: ContentProps): React.ReactNode {
+function renderPreContent ({ preContent: PreContent = (): null => null, hooks }: ContentProps): React.ReactNode {
   return <PreContent {...hooks} />;
 }
 
-function renderContent ({ content: Content = () => null, hooks }: ContentProps): React.ReactNode {
+function renderContent ({ content: Content = (): null => null, hooks }: ContentProps): React.ReactNode {
   return <Content {...hooks} />;
 }
 
@@ -167,7 +167,7 @@ function TxModal<P extends Props> (props: P): React.ReactElement<P> {
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
-            {renderCancelButton({ ...props, refs: { cancelButtonRef } },_onClose)}
+            {renderCancelButton({ ...props, refs: { cancelButtonRef } }, _onClose)}
             {renderSubmitButton({ ...props, refs: { submitButtonRef } }, accountId || null, _onSubmit, _onSuccess, _onFailed)}
           </Button.Group>
         </Modal.Actions>
