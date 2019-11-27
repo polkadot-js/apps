@@ -219,6 +219,14 @@ export default translate(
           font-weight: normal;
           padding: 0.75rem;
           text-align: right;
+
+          &:first-child {
+            border-top-left-radius: 0.25rem;
+          }
+
+          &:last-child {
+            border-top-right-radius: 0.25rem;
+          }
         }
       }
     }
