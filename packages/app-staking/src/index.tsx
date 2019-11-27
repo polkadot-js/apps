@@ -16,10 +16,11 @@ import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
 
-import Actions from './Actions';
 import basicMd from './md/basic.md';
+import Actions from './Actions';
 import Overview from './Overview';
 import Query from './Query';
+import Targets from './Targets';
 import { MAX_SESSIONS } from './constants';
 import translate from './translate';
 import useSessionRewards from './useSessionRewards';
@@ -90,6 +91,10 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
               text: t('Account actions')
             },
             {
+              name: 'returns',
+              text: t('Returns')
+            },
+            {
               hasParams: true,
               name: 'query',
               text: t('Validator stats')
@@ -101,6 +106,7 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
         <Route path={`${basePath}/actions`}>{_renderComponent(Actions)}</Route>
         <Route path={`${basePath}/query/:value`}>{_renderComponent(Query)}</Route>
         <Route path={`${basePath}/query`}>{_renderComponent(Query)}</Route>
+        <Route path={`${basePath}/returns`}>{_renderComponent(Targets)}</Route>
       </Switch>
       {_renderComponent(Overview, routeMatch?.isExact ? '' : 'staking--hidden')}
     </main>
