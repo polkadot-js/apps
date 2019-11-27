@@ -24,11 +24,12 @@ jobs:
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         GH_PAGES_SRC: packages/apps/build
-        GH_PAT: ${{ secrets.GH_PAT }}
+        GH_PAT: ${{ secrets.GITHUB_TOKEN }}
         NPM_SKIP: true
       run: |
         yarn install --frozen-lockfile
         yarn polkadot-dev-ghact-build
+        yarn polkadot-dev-ghact-docs
 
   dummy:
     name: Dummy
