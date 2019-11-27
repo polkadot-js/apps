@@ -138,47 +138,51 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   return (
     <div className={className}>
       <Summary totalStaked={totalStaked} />
-      <InputBalance
-        help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
-        label={t('amount to use for estimation')}
-        onChange={setAmount}
-        value={amount}
-      />
-      <table>
-        <thead>
-          <tr className='header'>
-            <th>&nbsp;</th>
-            <th>
-              <Icon
-                name='info circle'
-                data-tip
-                data-for='ranking-trigger'
-              />
-              <Tooltip
-                text={t('Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.')}
-                trigger='ranking-trigger'
-              />
-            </th>
-            <th>validator</th>
-            <th className='number'>commission</th>
-            <th className='number'>nominators</th>
-            <th className='number'>total stake</th>
-            <th className='number'>own stake</th>
-            <th className='number'>other stake</th>
-            <th className='number'>payout (est.)</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {validators.map((info): React.ReactNode =>
-            <Validator
-              info={info}
-              key={info.key}
-              toggleFavorite={toggleFavorite}
-            />
-          )}
-        </tbody>
-      </table>
+      {validators.length !== 0 && (
+        <>
+          <InputBalance
+            help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
+            label={t('amount to use for estimation')}
+            onChange={setAmount}
+            value={amount}
+          />
+          <table>
+            <thead>
+              <tr className='header'>
+                <th>&nbsp;</th>
+                <th>
+                  <Icon
+                    name='info circle'
+                    data-tip
+                    data-for='ranking-trigger'
+                  />
+                  <Tooltip
+                    text={t('Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.')}
+                    trigger='ranking-trigger'
+                  />
+                </th>
+                <th>validator</th>
+                <th className='number'>commission</th>
+                <th className='number'>nominators</th>
+                <th className='number'>total stake</th>
+                <th className='number'>own stake</th>
+                <th className='number'>other stake</th>
+                <th className='number'>payout (est.)</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              {validators.map((info): React.ReactNode =>
+                <Validator
+                  info={info}
+                  key={info.key}
+                  toggleFavorite={toggleFavorite}
+                />
+              )}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 }
@@ -188,27 +192,33 @@ export default translate(
     text-align: center;
 
     table {
+      border-collapse: collapse;
       margin: 1.5rem auto;
 
       tr {
-        &:nth-child(even), &.header {
+        &:nth-child(even) {
           background: #f2f2f2;
         }
 
         td, th {
-          padding: 0.25rem 0.5rem;
           text-align: left;
+        }
 
-          &.number {
+        td {
+          padding: 0.5rem 0.75rem;
+
+          &.number{
             text-align: right;
           }
         }
 
         th {
-          color: rgba(0,0,0,.6);
+          background: #666;
+          color: #eee;
           font-family: sans-serif;
-          font-weight: 100;
-          font-size: 1.25rem;
+          font-weight: normal;
+          padding: 0.75rem;
+          text-align: right;
         }
       }
     }
