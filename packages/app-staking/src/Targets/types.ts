@@ -12,15 +12,17 @@ export interface ValidatorInfo {
   bondOwn: Balance;
   bondShare: number;
   bondTotal: Balance;
-  commission: Balance;
+  commissionPer: number;
+  isCommission: boolean;
   isFavorite: boolean;
   isNominating: boolean;
   key: string;
   numNominators: number;
   rankBonded: number;
-  rankCommission: number;
   rankOverall: number;
+  rankPayment: number;
   rankReward: number;
   rewardPayout: BN;
   rewardSplit: BN;
+  validatorPayment: BN;
 }

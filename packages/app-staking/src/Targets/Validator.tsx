@@ -17,7 +17,7 @@ interface Props extends I18nProps {
   toggleFavorite: (accountId: string) => void;
 }
 
-function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
   const _onFavorite = (): void => toggleFavorite(key);
   const _onQueryStats = (): void => {
     window.location.hash = `/staking/query/${key}`;
@@ -34,7 +34,13 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
       </td>
       <td className='number'>{formatNumber(rankOverall)}</td>
       <td className='address'><AddressMini value={accountId} /></td>
-      <td className='number'><FormatBalance value={commission} /></td>
+      <td className='number'>
+        {
+          isCommission
+            ? `${commissionPer.toFixed(2)}%`
+            : <FormatBalance value={validatorPayment} />
+        }
+      </td>
       <td className='number'>{formatNumber(numNominators)}</td>
       <td className='number'><FormatBalance value={bondTotal} /></td>
       <td className='number'><FormatBalance value={bondOwn} /></td>
