@@ -27,19 +27,19 @@ export type I18nProps = BareProps & WithTranslation;
 
 export type ButtonRef = React.RefObject<React.Component<ButtonProps>>;
 
-export type FormProps$Ref = React.MutableRefObject<Button$OnClick>;
+// export type FormProps$Ref = React.MutableRefObject<Button$OnClick>;
 
-export interface FormProps$Refs {
-  onCancelRef: FormProps$Ref;
-  onSubmitRef: FormProps$Ref;
+export interface FormProps {
+  onCancel: Button$OnClick;
+  onSubmit: Button$OnClick;
 }
 
-export interface FormProps$Hooks {
-  onInputEnterKey: () => void;
-  onInputEscapeKey: () => void;
-}
+// export interface FormProps$Hooks {
+//   onInputEnterKey: () => void;
+//   onInputEscapeKey: () => void;
+// }
 
-export interface FormProps extends FormProps$Refs, FormProps$Hooks {}
+// export interface FormProps extends FormProps$Refs, FormProps$Hooks {}
 
 export type ConstructTxFn = () => any[];
 
@@ -57,7 +57,7 @@ export interface TxButtonInterface {
   };
 }
 
-export type TxContent = React.ComponentType<FormProps$Hooks>;
+export type TxContent = React.ComponentType<FormProps>;
 
 export interface TxProps {
   extrinsic?: IExtrinsic | SubmittableExtrinsic | null;

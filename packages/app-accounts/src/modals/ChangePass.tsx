@@ -41,55 +41,56 @@ function ChangePass (props: Props): React.ReactElement<Props> {
     setNewPassword(newPassword);
   };
 
-  const _onSubmit = (): void => {
-    const status: Partial<ActionStatus> = {
-      action: 'changePassword'
-    };
-
-    try {
-      const account = address && keyring.getPair(address);
-
-      if (!account) {
-        status.message = t(`No keypair found for this address ${address}`);
-
-        return;
-      }
+  const { onSubmit, onCancel } = useForm(
+    (): void => {
+      const status: Partial<ActionStatus> = {
+        action: 'changePassword'
+      };
 
       try {
-        if (!account.isLocked) {
-          account.lock();
+        const account = address && keyring.getPair(address);
+
+        if (!account) {
+          status.message = t(`No keypair found for this address ${address}`);
+
+          return;
         }
 
-        account.decodePkcs8(oldPassword);
+        try {
+          if (!account.isLocked) {
+            account.lock();
+          }
+
+          account.decodePkcs8(oldPassword);
+        } catch (error) {
+          setIsOldPasswordValid(false);
+          status.message = error.message;
+
+          return;
+        }
+
+        try {
+          keyring.encryptAccount(account, newPassword);
+          status.account = address;
+          status.status = 'success';
+          status.message = t('password changed');
+        } catch (error) {
+          setIsNewPasswordValid(false);
+          status.status = 'error';
+          status.message = error.message;
+
+          return;
+        }
       } catch (error) {
-        setIsOldPasswordValid(false);
         status.message = error.message;
 
         return;
       }
 
-      try {
-        keyring.encryptAccount(account, newPassword);
-        status.account = address;
-        status.status = 'success';
-        status.message = t('password changed');
-      } catch (error) {
-        setIsNewPasswordValid(false);
-        status.status = 'error';
-        status.message = error.message;
-
-        return;
-      }
-    } catch (error) {
-      status.message = error.message;
-
-      return;
-    }
-
-    onClose();
-  };
-
-  const { onCancelRef, onSubmitRef, onInputEnterKey, onInputEscapeKey } = useForm(_onSubmit, onClose);
+      onClose();
+    },
+    onClose
+  );
 
   return (
     <Modal
@@ -113,8 +114,8 @@ function ChangePass (props: Props): React.ReactElement<Props> {
               isError={!isOldPasswordValid}
               label={t('your current password')}
               onChange={_onChangeOldPassword}
-              onEnter={onInputEnterKey}
-              onEscape={onInputEscapeKey}
+              onEnter={onSubmit}
+              onEscape={onCancel}
               tabIndex={1}
               value={oldPassword}
             />
@@ -123,8 +124,8 @@ function ChangePass (props: Props): React.ReactElement<Props> {
               isError={!isNewPasswordValid}
               label={t('your new password')}
               onChange={_onChangeNewPassword}
-              onEnter={onInputEnterKey}
-              onEscape={onInputEscapeKey}
+              onEnter={onSubmit}
+              onEscape={onCancel}
               tabIndex={2}
               value={newPassword}
             />
@@ -137,7 +138,7 @@ function ChangePass (props: Props): React.ReactElement<Props> {
             icon='cancel'
             isNegative
             label={t('Cancel')}
-            onClick={onCancelRef.current}
+            onClick={onCancel}
           />
           <Button.Or />
           <Button
@@ -145,7 +146,7 @@ function ChangePass (props: Props): React.ReactElement<Props> {
             isDisabled={!isNewPasswordValid || !isOldPasswordValid}
             isPrimary
             label={t('Change')}
-            onClick={onSubmitRef.current}
+            onClick={onSubmit}
           />
         </Button.Group>
       </Modal.Actions>

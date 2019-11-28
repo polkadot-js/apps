@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StringOrNull, FormProps$Hooks, FormProps$Ref, TxContent, TxTrigger, TxModalProps as Props } from './types';
+import { StringOrNull, FormProps, TxContent, TxTrigger, TxModalProps as Props } from './types';
+import { Button$OnClick } from './Button/types';
 
 import React, { useState, useEffect } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
@@ -19,11 +20,7 @@ function renderHeader ({ t, header = t('Submit signed extrinsic') }: Props): Rea
   return header;
 }
 
-function renderPreContent (PreContent: TxContent = (): null => null, hooks: FormProps$Hooks): React.ReactNode {
-  return <PreContent {...hooks} />;
-}
-
-function renderContent (Content: TxContent = (): null => null, hooks: FormProps$Hooks): React.ReactNode {
+function renderContent (Content: TxContent = (): null => null, hooks: FormProps): React.ReactNode {
   return <Content {...hooks} />;
 }
 
@@ -43,12 +40,12 @@ function renderInputAccount ({ t, inputAddressLabel = t('using my account'), inp
   );
 }
 
-function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onCancelRef: FormProps$Ref): React.ReactNode {
+function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onClick: Button$OnClick): React.ReactNode {
   return (
     <>
       <Button
         isNegative
-        onClick={onCancelRef.current}
+        onClick={onClick}
         label={cancelButtonLabel}
         icon='cancel'
       />
@@ -57,7 +54,7 @@ function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onCa
   );
 }
 
-function renderSubmitButton ({ t, extrinsic, submitButtonLabel = t('Submit'), isDisabled = false, isUnsigned = false, isSubmittable = true, tx, params }: Props, onSubmitRef: FormProps$Ref, accountId: string | null, onSuccess: () => void, onFailed: () => void, submitButtonProps = {}): React.ReactNode {
+function renderSubmitButton ({ t, extrinsic, submitButtonLabel = t('Submit'), isDisabled = false, isUnsigned = false, isSubmittable = true, tx, params }: Props, onClick: Button$OnClick, accountId: string | null, onSuccess: () => void, onFailed: () => void, submitButtonProps = {}): React.ReactNode {
   return (
     <TxButton
       {...(
@@ -70,7 +67,7 @@ function renderSubmitButton ({ t, extrinsic, submitButtonLabel = t('Submit'), is
       isPrimary
       label={submitButtonLabel}
       icon='sign-in'
-      onClick={onSubmitRef.current}
+      onClick={onClick}
       onFailed={onFailed}
       onSuccess={onSuccess}
       params={params}
@@ -125,7 +122,7 @@ function TxModal<P extends Props> (props: P): React.ReactElement<P> {
     props.onSuccess && props.onSuccess();
   };
 
-  const { onCancelRef, onSubmitRef, ...hooks } = useForm(_onSubmit, _onClose);
+  const formProps = useForm(_onSubmit, _onClose);
 
   useEffect((): void => {
     !isUndefined(props.isOpen) && setIsOpen(props.isOpen);
@@ -151,14 +148,14 @@ function TxModal<P extends Props> (props: P): React.ReactElement<P> {
           {renderHeader(props)}
         </Modal.Header>
         <Modal.Content>
-          {renderPreContent(props.preContent, hooks)}
+          {renderContent(props.preContent, formProps)}
           {renderInputAccount(props, accountId, _onChangeAccountId, isBusy)}
-          {renderContent(props.content, hooks)}
+          {renderContent(props.content, formProps)}
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
-            {renderCancelButton(props, onCancelRef)}
-            {renderSubmitButton(props, onSubmitRef, accountId, _onSuccess, _onFailed)}
+            {renderCancelButton(props, formProps.onCancel)}
+            {renderSubmitButton(props, formProps.onSubmit, accountId, _onSuccess, _onFailed)}
           </Button.Group>
         </Modal.Actions>
       </Modal>

@@ -11,13 +11,12 @@ export default function useForm (onSubmit: () => void, onCancel: () => void = ()
   const onCancelRef = useRef<Button$OnClick>(onCancel);
   const onSubmitRef = useRef<Button$OnClick>(onSubmit);
 
-  const onInputEnterKey = (): void => {
-    onSubmitRef.current && onSubmitRef.current();
+  return {
+    onCancel: (): void => {
+      onCancelRef.current && onCancelRef.current();
+    },
+    onSubmit: (): void => {
+      onSubmitRef.current && onSubmitRef.current();
+    }
   };
-
-  const onInputEscapeKey = (): void => {
-    onCancelRef.current && onCancelRef.current();
-  };
-
-  return { onCancelRef, onSubmitRef, onInputEnterKey, onInputEscapeKey };
 }
