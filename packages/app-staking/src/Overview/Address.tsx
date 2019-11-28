@@ -41,7 +41,7 @@ interface StakingState {
   isNominatorMe: boolean;
   nominators: [AccountId, Balance][];
   sessionId?: string;
-  stashId?: string;
+  stashId: string;
 }
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
@@ -56,7 +56,8 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
     balanceOpts: { bonded: true },
     hasNominators: false,
     isNominatorMe: false,
-    nominators: []
+    nominators: [],
+    stashId: address.toString()
   });
 
   useEffect((): void => {
@@ -88,17 +89,15 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
         ),
         nominators,
         sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
-        stashId: stashId?.toString()
+        stashId: (stashId || address).toString()
       });
     }
   }, [stakingInfo]);
 
   useEffect((): void => {
-    setHasActivity(
-      recentlyOnline && recentlyOnline[stashId || '']
-        ? recentlyOnline[stashId || ''].isOnline
-        : true
-    );
+    if (recentlyOnline && stashId && recentlyOnline[stashId]) {
+      setHasActivity(recentlyOnline[stashId].isOnline);
+    }
   }, [recentlyOnline, stashId]);
 
   if ((filter === 'hasNominators' && !hasNominators) ||
@@ -108,18 +107,6 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
     (filter === 'iNominated' && !isNominatorMe) ||
     (filter === 'nextSet' && !isElected)) {
     return null;
-  }
-
-  if (!stashId) {
-    return (
-      <AddressCard
-        className={className}
-        defaultName={defaultName}
-        isDisabled
-        value={address}
-        withBalance={false}
-      />
-    );
   }
 
   const lastBlockNumber = authorsMap[stashId];
@@ -276,7 +263,6 @@ export default translate(
     }
 
     .staking--Address-info {
-      /* Small additional margin to take care of validator highlights */
       margin-right: 0.25rem;
       text-align: right;
 
