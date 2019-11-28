@@ -49,21 +49,25 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 
       return info;
     })
-    .sort((a, b): number =>
-      a.rankReward === b.rankReward
-        ? a.rankPayment === b.rankPayment
-          ? a.rankBonded === b.rankBonded
-            ? 0
-            : a.rankBonded < b.rankBonded
+    .sort((a, b): number => {
+      const cmp = b.rewardPayout.cmp(a.rewardPayout);
+
+      return cmp !== 0
+        ? cmp
+        : a.rankReward === b.rankReward
+          ? a.rankPayment === b.rankPayment
+            ? a.rankBonded === b.rankBonded
+              ? 0
+              : a.rankBonded < b.rankBonded
+                ? 1
+                : -1
+            : a.rankPayment < b.rankPayment
               ? 1
               : -1
-          : a.rankPayment < b.rankPayment
+          : a.rankReward < b.rankReward
             ? 1
-            : -1
-        : a.rankReward < b.rankReward
-          ? 1
-          : -1
-    )
+            : -1;
+    })
     .map((info, index): ValidatorInfo => {
       info.rankOverall = index + 1;
 
@@ -99,8 +103,6 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
       const numValidators = electedInfo.info.length;
       const validators = sortValidators(
         electedInfo.info.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
-          console.error((validatorPrefs as ValidatorPrefs).commission.toString());
-
           const exposure = stakers || {
             total: api.createType('Compact<Balance>'),
             own: api.createType('Compact<Balance>'),
