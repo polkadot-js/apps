@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { InputBalance, Icon, Tooltip } from '@polkadot/react-components';
-import { useApi, useFavorites, trackStream } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useFavorites, trackStream } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
@@ -77,18 +77,23 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 
 function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const [amount, setAmount] = useState<BN | undefined>(new BN(1000));
   const electedInfo = trackStream<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
+  const [lastReward, setLastReward] = useState(new BN(0));
   const [{ validators, totalStaked }, setWorkable] = useState<AllInfo>({ totalStaked: new BN(0), validators: [] });
+
+  useEffect((): void => {
+    if (sessionRewards && sessionRewards.length) {
+      setLastReward(sessionRewards[sessionRewards.length - 1].reward);
+    }
+  }, [sessionRewards]);
 
   useEffect((): void => {
     if (electedInfo) {
       let totalStaked = new BN(0);
       const numValidators = electedInfo.info.length;
-      const lastReward = sessionRewards[sessionRewards.length - 1]
-        ? sessionRewards[sessionRewards.length - 1].reward.divn(numValidators)
-        : new BN(0);
       const validators = sortValidators(
         electedInfo.info.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
           const exposure = stakers || {
@@ -103,11 +108,14 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
           const bondTotal = exposure.total.unwrap();
           const commission = prefs.validatorPayment.unwrap();
           const key = accountId.toString();
-          const rewardSplit = lastReward.sub(commission);
+          const rewardSplit = lastReward.divn(numValidators).sub(commission);
           const calcAmount = amount || new BN(0);
           const rewardPayout = rewardSplit.gtn(0)
             ? calcAmount.mul(rewardSplit).div(calcAmount.add(bondTotal))
             : new BN(0);
+          const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
+            return isNominating || allAccounts.includes(indv.who.toString());
+          }, allAccounts.includes(key));
 
           totalStaked = totalStaked.add(bondTotal);
 
@@ -118,6 +126,7 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
             bondShare: 0,
             bondTotal,
             isFavorite: favorites.includes(key),
+            isNominating,
             key,
             commission,
             numNominators: exposure.others.length,
@@ -133,11 +142,14 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
 
       setWorkable({ totalStaked, validators });
     }
-  }, [amount, electedInfo, favorites, sessionRewards]);
+  }, [allAccounts, amount, electedInfo, favorites, lastReward]);
 
   return (
     <div className={className}>
-      <Summary totalStaked={totalStaked} />
+      <Summary
+        lastReward={lastReward}
+        totalStaked={totalStaked}
+      />
       {validators.length !== 0 && (
         <>
           <InputBalance
@@ -196,9 +208,8 @@ export default translate(
       margin: 1.5rem auto;
 
       tr {
-        border: 0px solid #f2f2f2;
-        border-left-width: 1px;
-        border-right-width: 1px;
+        border: 1px solid #f2f2f2;
+        border-top-width: 0px;
 
         &:nth-child(even) {
           background: #f2f2f2;
@@ -206,6 +217,10 @@ export default translate(
 
         &:nth-child(odd) {
           background: white;
+        }
+
+        &.isNominating {
+          background: #ffffed;
         }
 
         td, th {

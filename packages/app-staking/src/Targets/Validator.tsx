@@ -17,14 +17,14 @@ interface Props extends I18nProps {
   toggleFavorite: (accountId: string) => void;
 }
 
-function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commission, isFavorite, key, numNominators, rankOverall, rewardPayout }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout }, toggleFavorite }: Props): React.ReactElement<Props> {
   const _onFavorite = (): void => toggleFavorite(key);
   const _onQueryStats = (): void => {
     window.location.hash = `/staking/query/${key}`;
   };
 
   return (
-    <tr>
+    <tr className={`${isNominating && 'isNominating'}`}>
       <td>
         <Icon
           className={`favorite ${isFavorite && 'isSelected'}`}
