@@ -187,7 +187,7 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
                       trigger='ranking-trigger'
                     />
                   </th>
-                  <th className='number'>validator</th>
+                  <th className='number'>&nbsp;</th>
                   <th className='number'>commission</th>
                   <th className='number'>nominators</th>
                   <th className='number'>total stake</th>
