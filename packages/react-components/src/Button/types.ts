@@ -22,7 +22,8 @@ export interface ButtonProps extends BareProps {
   isPrimary?: boolean;
   label?: React.ReactNode;
   labelPosition?: 'left' | 'right';
-  onClick?: () => void | Promise<void>;
+  onClick?: Button$OnClick;
+  ref?: any;
   size?: Button$Sizes;
   tabIndex?: number;
   tooltip?: React.ReactNode;
