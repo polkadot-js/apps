@@ -14,6 +14,7 @@ import { formatBalance } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
+  lastReward: BN;
   totalStaked: BN;
 }
 
@@ -23,7 +24,7 @@ interface StakeInfo {
   total: string | null;
 }
 
-function Summary ({ t, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const totalInsurance = trackStream<Balance>(api.query.balances.totalIssuance, []);
   const [{ percentage, staked, total }, setStakeInfo] = useState<StakeInfo>({ percentage: '-', staked: null, total: null });
@@ -40,25 +41,16 @@ function Summary ({ t, totalStaked }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox>
-      <section>
-        <CardSummary
-          className='ui--media-small'
-          label={t('total staked')}
-        >
+      <section className='ui--media-small'>
+        <CardSummary label={t('total staked')}>
           {
             staked
               ? `${formatBalance(staked, false)}${formatBalance.calcSi(staked).value}`
               : '-'
           }
         </CardSummary>
-        <CardSummary
-          className='ui--media-small'
-          label=''
-        >/</CardSummary>
-        <CardSummary
-          className='ui--media-small'
-          label={t('total issuance')}
-        >
+        <CardSummary label=''>/</CardSummary>
+        <CardSummary label={t('total issuance')}>
           {
             total
               ? `${formatBalance(total, false)}${formatBalance.calcSi(total).value}`
@@ -66,11 +58,15 @@ function Summary ({ t, totalStaked }: Props): React.ReactElement<Props> {
           }
         </CardSummary>
       </section>
-      <CardSummary
-        className='ui--media-small'
-        label={t('staked')}
-      >
+      <CardSummary label={t('staked')}>
         {percentage}
+      </CardSummary>
+      <CardSummary label={t('last reward')}>
+        {
+          lastReward.gtn(0)
+            ? `${formatBalance(lastReward, false)}`
+            : '-'
+        }
       </CardSummary>
     </SummaryBox>
   );

@@ -14,6 +14,7 @@ export interface ValidatorInfo {
   bondTotal: Balance;
   commission: Balance;
   isFavorite: boolean;
+  isNominating: boolean;
   key: string;
   numNominators: number;
   rankBonded: number;
