@@ -3,31 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FormProps } from '@polkadot/react-components/types';
-import { ButtonProps } from '@polkadot/react-components/Button/types';
 
-import { Component, createRef } from 'react';
+import { useRef } from 'react';
 
-export default function useForm (): FormProps {
-  const cancelButtonRef = createRef<Component<ButtonProps>>();
-  const submitButtonRef = createRef<Component<ButtonProps>>();
+export default function useForm (onSubmit: () => void, onCancel: () => void = () => null): FormProps {
+  const onCancelRef = useRef<() => void | Promise<void>>(onCancel);
+  const onSubmitRef = useRef<() => void | Promise<void>>(onSubmit);
 
   const onInputEnterKey = (): void => {
-    if (submitButtonRef &&
-      submitButtonRef.current &&
-      submitButtonRef.current.props &&
-      submitButtonRef.current.props.onClick) {
-      submitButtonRef.current.props.onClick();
-    }
+    onSubmitRef.current && onSubmitRef.current();
   };
 
   const onInputEscapeKey = (): void => {
-    if (cancelButtonRef &&
-      cancelButtonRef.current &&
-      cancelButtonRef.current.props &&
-      cancelButtonRef.current.props.onClick) {
-      cancelButtonRef.current.props.onClick();
-    }
+    onCancelRef.current && onCancelRef.current();
   };
 
-  return { cancelButtonRef, submitButtonRef, onInputEnterKey, onInputEscapeKey };
+  return { onCancelRef, onSubmitRef, onInputEnterKey, onInputEscapeKey };
 }

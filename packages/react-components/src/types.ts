@@ -10,7 +10,7 @@ import { InputAddressProps } from '@polkadot/react-components/InputAddress/types
 import { IExtrinsic } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { Index } from '@polkadot/types/interfaces';
-import { ButtonProps, Button$Sizes } from './Button/types';
+import { ButtonProps, Button$OnClick, Button$Sizes } from './Button/types';
 import { TxCallback, TxFailedCallback } from './Status/types';
 
 export interface BareProps {
@@ -28,8 +28,8 @@ export type I18nProps = BareProps & WithTranslation;
 export type ButtonRef = React.RefObject<React.Component<ButtonProps>>;
 
 export interface FormProps$Refs {
-  cancelButtonRef?: ButtonRef;
-  submitButtonRef?: ButtonRef;
+  onCancelRef: React.MutableRefObject<Button$OnClick>;
+  onSubmitRef: React.MutableRefObject<Button$OnClick>;
 }
 
 export interface FormProps$Hooks {
