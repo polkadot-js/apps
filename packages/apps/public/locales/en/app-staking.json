@@ -131,5 +131,6 @@
   "Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.": "Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.",
   "total staked": "total staked",
   "total issuance": "total issuance",
-  "staked": "staked"
+  "staked": "staked",
+  "last reward": "last reward"
 }
