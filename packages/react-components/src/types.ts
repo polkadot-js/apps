@@ -27,9 +27,11 @@ export type I18nProps = BareProps & WithTranslation;
 
 export type ButtonRef = React.RefObject<React.Component<ButtonProps>>;
 
+export type FormProps$Ref = React.MutableRefObject<Button$OnClick>;
+
 export interface FormProps$Refs {
-  onCancelRef: React.MutableRefObject<Button$OnClick>;
-  onSubmitRef: React.MutableRefObject<Button$OnClick>;
+  onCancelRef: FormProps$Ref;
+  onSubmitRef: FormProps$Ref;
 }
 
 export interface FormProps$Hooks {
@@ -40,6 +42,8 @@ export interface FormProps$Hooks {
 export interface FormProps extends FormProps$Refs, FormProps$Hooks {}
 
 export type ConstructTxFn = () => any[];
+
+export type TxTrigger = React.ComponentType<TxTriggerProps>;
 
 export interface TxTriggerProps {
   onOpen: () => void;
@@ -53,6 +57,8 @@ export interface TxButtonInterface {
   };
 }
 
+export type TxContent = React.ComponentType<FormProps$Hooks>;
+
 export interface TxProps {
   extrinsic?: IExtrinsic | SubmittableExtrinsic | null;
   tx?: string;
@@ -65,7 +71,7 @@ export interface TxButtonProps extends TxProps, ApiProps {
   className?: string;
   icon: string;
   iconSize?: Button$Sizes;
-  innerRef?: ButtonRef;
+  innerRef: ButtonRef;
   isBasic?: boolean;
   isDisabled?: boolean;
   isNegative?: boolean;
@@ -81,16 +87,16 @@ export interface TxButtonProps extends TxProps, ApiProps {
   withSpinner?: boolean;
 }
 
-export interface TxModalProps extends I18nProps, TxProps, FormProps$Refs {
+export interface TxModalProps extends I18nProps, TxProps {
   accountId?: StringOrNull;
   header?: React.ReactNode;
   isDisabled?: boolean;
   isOpen?: boolean;
   isUnsigned?: boolean;
   isSubmittable?: boolean;
-  content: React.ComponentType<FormProps$Hooks>;
-  preContent?: React.ComponentType<FormProps$Hooks>;
-  trigger?: React.ComponentType<TxTriggerProps>;
+  content: TxContent;
+  preContent?: TxContent;
+  trigger?: TxTrigger;
   onChangeAccountId?: (_: StringOrNull) => void;
   onSubmit?: () => void;
   onOpen?: () => void;

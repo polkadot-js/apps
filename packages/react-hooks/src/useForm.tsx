@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Button$OnClick } from '@polkadot/react-components/Button/types';
 import { FormProps } from '@polkadot/react-components/types';
 
 import { useRef } from 'react';
 
-export default function useForm (onSubmit: () => void, onCancel: () => void = () => null): FormProps {
-  const onCancelRef = useRef<() => void | Promise<void>>(onCancel);
-  const onSubmitRef = useRef<() => void | Promise<void>>(onSubmit);
+export default function useForm (onSubmit: () => void, onCancel: () => void = (): void => {}): FormProps {
+  const onCancelRef = useRef<Button$OnClick>(onCancel);
+  const onSubmitRef = useRef<Button$OnClick>(onSubmit);
 
   const onInputEnterKey = (): void => {
     onSubmitRef.current && onSubmitRef.current();
