@@ -153,46 +153,49 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
       {validators.length !== 0 && (
         <>
           <InputBalance
+            className='balanceInput'
             help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
             label={t('amount to use for estimation')}
             onChange={setAmount}
             value={amount}
           />
-          <table>
-            <thead>
-              <tr className='header'>
-                <th>&nbsp;</th>
-                <th>
-                  <Icon
-                    name='info circle'
-                    data-tip
-                    data-for='ranking-trigger'
+          <div className='tableContainer'>
+            <table>
+              <thead>
+                <tr className='header'>
+                  <th>&nbsp;</th>
+                  <th>
+                    <Icon
+                      name='info circle'
+                      data-tip
+                      data-for='ranking-trigger'
+                    />
+                    <Tooltip
+                      text={t('Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.')}
+                      trigger='ranking-trigger'
+                    />
+                  </th>
+                  <th className='number'>validator</th>
+                  <th className='number'>commission</th>
+                  <th className='number'>nominators</th>
+                  <th className='number'>total stake</th>
+                  <th className='number'>own stake</th>
+                  <th className='number'>other stake</th>
+                  <th className='number'>payout (est.)</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                {validators.map((info): React.ReactNode =>
+                  <Validator
+                    info={info}
+                    key={info.key}
+                    toggleFavorite={toggleFavorite}
                   />
-                  <Tooltip
-                    text={t('Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.')}
-                    trigger='ranking-trigger'
-                  />
-                </th>
-                <th>validator</th>
-                <th className='number'>commission</th>
-                <th className='number'>nominators</th>
-                <th className='number'>total stake</th>
-                <th className='number'>own stake</th>
-                <th className='number'>other stake</th>
-                <th className='number'>payout (est.)</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              {validators.map((info): React.ReactNode =>
-                <Validator
-                  info={info}
-                  key={info.key}
-                  toggleFavorite={toggleFavorite}
-                />
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>
@@ -203,9 +206,17 @@ export default translate(
   styled(Targets)`
     text-align: center;
 
+    .balanceInput {
+      padding-right: 2rem;
+    }
+
+    .tableContainer {
+      padding: 1.5rem 0;
+    }
+
     table {
       border-collapse: collapse;
-      margin: 1.5rem auto;
+      width: 100%;
 
       tr {
         border: 1px solid #f2f2f2;
@@ -224,7 +235,7 @@ export default translate(
         }
 
         td, th {
-          text-align: left;
+          text-align: right;
         }
 
         td {
