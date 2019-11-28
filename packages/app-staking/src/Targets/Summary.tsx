@@ -63,10 +63,10 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
       </CardSummary>
       <CardSummary label={t('last reward')}>
         {
-            lastReward.gtn(0)
-              ? `${formatBalance(lastReward, false)}`
-              : '-'
-          }
+          lastReward.gtn(0)
+            ? `${formatBalance(lastReward, false)}`
+            : '-'
+        }
       </CardSummary>
     </SummaryBox>
   );
