@@ -651,5 +651,8 @@
   "Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.": "",
   "total staked": "",
   "staked": "",
-  "last reward": ""
+  "last reward": "",
+  "The percentage reward (0-100) that should be applied for the validator": "",
+  "reward commission percentage": "",
+  "validator payment": ""
 }

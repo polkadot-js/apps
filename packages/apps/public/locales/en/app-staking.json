@@ -132,5 +132,8 @@
   "total staked": "total staked",
   "total issuance": "total issuance",
   "staked": "staked",
-  "last reward": "last reward"
+  "last reward": "last reward",
+  "The percentage reward (0-100) that should be applied for the validator": "The percentage reward (0-100) that should be applied for the validator",
+  "reward commission percentage": "reward commission percentage",
+  "validator payment": "validator payment"
 }
