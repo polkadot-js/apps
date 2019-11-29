@@ -135,5 +135,6 @@
   "last reward": "last reward",
   "The percentage reward (0-100) that should be applied for the validator": "The percentage reward (0-100) that should be applied for the validator",
   "reward commission percentage": "reward commission percentage",
-  "validator payment": "validator payment"
+  "validator payment": "validator payment",
+  "Validator info not available": "Validator info not available"
 }
