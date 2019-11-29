@@ -5,13 +5,11 @@
 import { Ledger } from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
+import chains from '@polkadot/ui-settings/defaults/chains';
+
 import { api } from './Api';
 
-const ALLOWED_CHAINS = [
-  '0x3fd7b9eb6a00376e5be61f01abb429ffb0b104be05eaff4d458da48fcd425baf', // Kusama CC1
-  '0xe3777fa922cafbff200cadeaea1a76bd7898ad5b89f7848999058b50e715f636', // Kusama CC2
-  '0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe' // Kusama CC3
-];
+const ALLOWED_CHAINS = chains.kusama;
 
 let ledger: Ledger | null = null;
 
