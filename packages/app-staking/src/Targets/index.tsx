@@ -162,54 +162,61 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
         lastReward={lastReward}
         totalStaked={totalStaked}
       />
-      {validators.length !== 0 && (
-        <>
-          <InputBalance
-            className='balanceInput'
-            help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
-            label={t('amount to use for estimation')}
-            onChange={setAmount}
-            value={amount}
-          />
+      {validators.length
+        ? (
+          <>
+            <InputBalance
+              className='balanceInput'
+              help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
+              label={t('amount to use for estimation')}
+              onChange={setAmount}
+              value={amount}
+            />
+            <div className='tableContainer'>
+              <table>
+                <thead>
+                  <tr className='header'>
+                    <th>&nbsp;</th>
+                    <th>
+                      <Icon
+                        name='info circle'
+                        data-tip
+                        data-for='ranking-trigger'
+                      />
+                      <Tooltip
+                        text={t('Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.')}
+                        trigger='ranking-trigger'
+                      />
+                    </th>
+                    <th className='number'>&nbsp;</th>
+                    <th className='number'>commission</th>
+                    <th className='number'>nominators</th>
+                    <th className='number'>total stake</th>
+                    <th className='number'>own stake</th>
+                    <th className='number'>other stake</th>
+                    <th className='number'>payout (est.)</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {validators.map((info): React.ReactNode =>
+                    <Validator
+                      info={info}
+                      key={info.key}
+                      toggleFavorite={toggleFavorite}
+                    />
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )
+        : (
           <div className='tableContainer'>
-            <table>
-              <thead>
-                <tr className='header'>
-                  <th>&nbsp;</th>
-                  <th>
-                    <Icon
-                      name='info circle'
-                      data-tip
-                      data-for='ranking-trigger'
-                    />
-                    <Tooltip
-                      text={t('Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.')}
-                      trigger='ranking-trigger'
-                    />
-                  </th>
-                  <th className='number'>&nbsp;</th>
-                  <th className='number'>commission</th>
-                  <th className='number'>nominators</th>
-                  <th className='number'>total stake</th>
-                  <th className='number'>own stake</th>
-                  <th className='number'>other stake</th>
-                  <th className='number'>payout (est.)</th>
-                  <th>&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-                {validators.map((info): React.ReactNode =>
-                  <Validator
-                    info={info}
-                    key={info.key}
-                    toggleFavorite={toggleFavorite}
-                  />
-                )}
-              </tbody>
-            </table>
+            {t('Validator info not available')}
           </div>
-        </>
-      )}
+        )
+      }
     </div>
   );
 }

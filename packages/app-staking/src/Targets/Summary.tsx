@@ -21,20 +21,25 @@ interface Props extends I18nProps {
 interface StakeInfo {
   percentage: string;
   staked: string | null;
-  total: string | null;
 }
 
 function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const totalInsurance = trackStream<Balance>(api.query.balances.totalIssuance, []);
-  const [{ percentage, staked, total }, setStakeInfo] = useState<StakeInfo>({ percentage: '-', staked: null, total: null });
+  const [{ percentage, staked }, setStakeInfo] = useState<StakeInfo>({ percentage: '-', staked: null });
+  const [total, setTotal] = useState<string | null>(null);
+
+  useEffect((): void => {
+    if (totalInsurance) {
+      setTotal(totalInsurance.toString());
+    }
+  }, [totalInsurance]);
 
   useEffect((): void => {
     if (totalInsurance && totalStaked?.gtn(0)) {
       setStakeInfo({
         percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`,
-        staked: totalStaked.toString(),
-        total: totalInsurance.toString()
+        staked: totalStaked.toString()
       });
     }
   }, [totalInsurance, totalStaked]);
