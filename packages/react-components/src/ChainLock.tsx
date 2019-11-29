@@ -20,18 +20,24 @@ interface Props extends I18nProps {
   preventDefault?: boolean;
 }
 
+function calcLock (apiGenesis: string, genesisHash: string | null): boolean {
+  if (!genesisHash) {
+    return false;
+  }
+
+  return (
+    Object.values(chains).find((hashes): boolean =>
+      hashes.includes(apiGenesis)
+    ) || [apiGenesis]
+  ).includes(genesisHash);
+}
+
 function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefault, t }: Props): React.ReactElement<Props> | null {
   const { isDevelopment, api } = useApi();
-  const [isTiedToChain, setTied] = useState(false);
+  const [isTiedToChain, setTied] = useState(calcLock(api.genesisHash.toHex(), genesisHash));
 
   useEffect((): void => {
-    const apiGenesis = api.genesisHash.toHex();
-
-    setTied((
-      Object.values(chains).find((hashes): boolean =>
-        hashes.includes(apiGenesis)
-      ) || [apiGenesis]
-    ).includes(genesisHash || ''));
+    setTied(calcLock(api.genesisHash.toHex(), genesisHash));
   }, [api, genesisHash]);
 
   if (isDevelopment) {
