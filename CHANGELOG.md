@@ -1,5 +1,6 @@
 # 0.37.1
 
+- Support for Kusama CC3
 - Support for contracts with new ABI v2 (Thanks to @kwingram25)
 - Support for on-chain nicks
 - Speed improvements for the staking pages
