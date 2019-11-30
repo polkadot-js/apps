@@ -260,6 +260,24 @@ export default translate(
         td {
           padding: 0.5rem 0.75rem;
 
+          &.address {
+            white-space: nowrap;
+            text-align: left;
+            text-overflow: ellipsis;
+
+            > div  {
+              display: inline-block;
+              vertical-align: middle;
+            }
+
+            > div+div {
+              margin-left: 0.75rem;
+              max-width: 16rem;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+
           &.number{
             text-align: right;
           }
