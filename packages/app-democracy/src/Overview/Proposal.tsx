@@ -59,13 +59,11 @@ function Proposal (props: Props): React.ReactElement<Props> {
       className={className}
       idNumber={idNumber}
       proposal={value}
-      accessory={
-        <Seconding
-          depositors={depositors}
-          proposalId={idNumber}
-        />
-      }
     >
+      <Seconding
+        depositors={depositors}
+        proposalId={idNumber}
+      />
       {renderProposal(props)}
     </ActionItem>
   );
