@@ -3,19 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { Balance, Hash, Exposure, SessionIndex } from '@polkadot/types/interfaces';
-import { SessionRewards, Slash } from '@polkadot/react-hooks/types';
+import { Balance, Hash, Exposure } from '@polkadot/types/interfaces';
+import { SessionRewards, Slash } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Chart, Columar, Column } from '@polkadot/react-components';
 import { toShortAddress } from '@polkadot/react-components/util';
 import { getHistoric } from '@polkadot/react-api/util';
-import { trackStream, useApi } from '@polkadot/react-hooks';
-import { u32 } from '@polkadot/types';
+import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
+import useBlockCounts from '../useBlockCounts';
 
 interface Props extends I18nProps {
   className?: string;
@@ -92,11 +92,7 @@ function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
 
 function Validator ({ className, sessionRewards, t, validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  // FIXME There is something seriously wrong in these two with "any" horrors
-  const blockCounts = trackStream<u32[]>(api.query.imOnline?.authoredBlocks?.multi as any, [sessionRewards, validatorId], {
-    paramMap: ([sessionRewards, validatorId]: [SessionRewards[], string]): any =>
-      [sessionRewards.map(({ sessionIndex }): [SessionIndex, string] => [sessionIndex, validatorId])]
-  });
+  const blockCounts = useBlockCounts(validatorId, sessionRewards);
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
   const [blocksChart, setBlocksChart] = useState<LineData | null>(null);
   const [{ currency, divisor }] = useState<{ currency: string; divisor: BN }>({
