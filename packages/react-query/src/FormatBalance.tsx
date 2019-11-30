@@ -19,14 +19,15 @@ interface Props extends BareProps {
 // for million, 2 * 3-grouping + comma
 const M_LENGTH = 6 + 1;
 
-function format (value: Compact<any> | BN | string, currency: string): string {
+function format (value: Compact<any> | BN | string, currency: string): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
 
   if (prefix.length > M_LENGTH) {
+    // TODO Format with balance-postfix
     return formatBalance(value);
   }
 
-  return `${prefix}.${`000${postfix || ''}`.slice(-3)} ${currency}`;
+  return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span> {currency}</>;
 }
 
 export function FormatBalance ({ children, className, label = '', value }: Props): React.ReactElement<Props> {
@@ -48,13 +49,19 @@ export default styled(FormatBalance)`
   vertical-align: baseline;
 
   * {
-    vertical-align: baseline;
+    vertical-align: baseline !important;
   }
 
   > label,
   > .label {
     display: inline-block;
     margin-right: 0.25rem;
+    vertical-align: baseline;
+  }
+
+  > .balance-postfix {
+    font-weight: 100;
+    opacity: 0.75;
     vertical-align: baseline;
   }
 `;

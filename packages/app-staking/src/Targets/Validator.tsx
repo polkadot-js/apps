@@ -6,8 +6,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorInfo } from './types';
 
 import React from 'react';
-import { AddressMini, Icon } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
+import { Icon, IdentityIcon } from '@polkadot/react-components';
+import { AccountName, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -33,7 +33,10 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
         />
       </td>
       <td className='number'>{formatNumber(rankOverall)}</td>
-      <td className='address'><AddressMini value={accountId} /></td>
+      <td className='address'>
+        <IdentityIcon value={accountId} size={24} />
+        <AccountName params={accountId} />
+      </td>
       <td className='number'>
         {
           isCommission
