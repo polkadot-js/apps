@@ -13,7 +13,7 @@
 - Convert a large number of components to use hooks
 - Display validator graphs
 - Refactor of backup modal (Thanks to @LukeSugiura)
-- Enable lanugage setting options (Thanks to @LukeSugiura)
+- Enable language setting options (Thanks to @LukeSugiura)
 - Allow for signRaw to be used in the signing toolbox (injected accounts)
 - Display account names in status events
 - Nomination targets dashboard

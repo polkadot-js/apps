@@ -36,7 +36,7 @@ function renderProposal ({ democracy_depositOf, t }: Props): React.ReactNode {
           <InputAddress
             isDisabled
             key={`${index}:${address}`}
-            value={address}
+            defaultValue={address}
             withLabel={false}
           />
         ))}
