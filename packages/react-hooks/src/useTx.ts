@@ -22,7 +22,7 @@ interface TxProps {
   onUpdate?: () => void;
 }
 
-function getExtrinsic (api: ApiPromise, tx: SubmittableExtrinsic | IExtrinsic | [string, any[] | ConstructTxFn] | null, { accountId: anAccountId, onChangeAccountId, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}) {
+function getExtrinsic (api: ApiPromise, tx: SubmittableExtrinsic | IExtrinsic | [string, any[] | ConstructTxFn] | null) {
   if (!tx) {
     return null;
   }
