@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, EventRecord, Hash, Header, StorageChangeSet } from '@polkadot/types/interfaces';
-import { Slash, SessionRewards } from '@polkadot/react-hooks/types';
+import { Slash, SessionRewards } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
@@ -22,9 +22,11 @@ interface Serialized {
   blockHash: string;
   blockNumber: string;
   isEventsEmpty: boolean;
+  parentHash: string;
   reward: string;
   sessionIndex: string;
   slashes: SerializedSlash[];
+  treasury: string;
 }
 
 const MAX_BLOCKS = 2500;
@@ -34,17 +36,20 @@ function fromJSON (sessions: Serialized[]): SessionRewards[] {
   let keepAll = true;
 
   return sessions
-    .map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
+    .map(({ blockHash, blockNumber, isEventsEmpty, parentHash, reward, sessionIndex, slashes, treasury }): SessionRewards => ({
       blockHash: createType(registry, 'Hash', blockHash),
       blockNumber: createType(registry, 'BlockNumber', blockNumber),
       isEventsEmpty,
+      parentHash: createType(registry, 'Hash', parentHash),
       reward: createType(registry, 'Balance', reward),
       sessionIndex: createType(registry, 'SessionIndex', sessionIndex),
       slashes: slashes.map(({ accountId, amount }): Slash => ({
         accountId: createType(registry, 'AccountId', accountId),
         amount: createType(registry, 'Balance', amount)
-      }))
+      })),
+      treasury: createType(registry, 'Balance', treasury)
     }))
+    .filter(({ parentHash }): boolean => !parentHash.isEmpty)
     .filter(({ isEventsEmpty }): boolean => {
       if (!isEventsEmpty) {
         // we first see if we have some data up to this point (we may not, i.e. non-archive)
@@ -59,16 +64,18 @@ function fromJSON (sessions: Serialized[]): SessionRewards[] {
 }
 
 function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
-  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): Serialized => ({
+  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, parentHash, reward, sessionIndex, slashes, treasury }): Serialized => ({
     blockHash: blockHash.toHex(),
     blockNumber: blockNumber.toHex(),
     isEventsEmpty,
+    parentHash: parentHash.toHex(),
     reward: reward.toHex(),
     sessionIndex: sessionIndex.toHex(),
     slashes: slashes.map(({ accountId, amount }): SerializedSlash => ({
       accountId: accountId.toString(),
       amount: amount.toHex()
-    }))
+    })),
+    treasury: treasury.toHex()
   })).slice(-maxSessions);
 }
 
@@ -108,10 +115,10 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
         amount: amount as any
       }))
   );
-  const rewards: (Balance | undefined)[] = events.map((info): Balance | undefined => {
+  const rewards: [Balance | undefined, Balance | undefined][] = events.map((info): [Balance | undefined, Balance | undefined] => {
     const rewards = info.filter(({ event: { method } }): boolean => method === 'Reward');
 
-    return rewards[0]?.event?.data[0] as Balance;
+    return [rewards[0]?.event?.data[0] as Balance, rewards[0]?.event?.data[1] as Balance];
   });
 
   // For old v1, the query results have empty spots (subsequently fixed in v2),
@@ -122,11 +129,13 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
       blockHash: headers[index].hash,
       blockNumber: headers[index].number.unwrap(),
       isEventsEmpty: events[index].length === 0,
-      reward: rewards[index] || createType(registry, 'Balance'),
+      parentHash: headers[index].parentHash,
+      reward: rewards[index][0] || createType(registry, 'Balance'),
       sessionIndex: createType(registry, 'SessionIndex', u8aToU8a(
         value.isSome ? value.unwrap() : new Uint8Array([])
       )),
-      slashes: slashes[index]
+      slashes: slashes[index],
+      treasury: rewards[index][1] || createType(registry, 'Balance')
     }));
 }
 
