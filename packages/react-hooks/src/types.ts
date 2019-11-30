@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StringOrNull } from '@polkadot/react-components/types';
 import { AccountId, Balance, BlockNumber, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 export interface Slash {
   accountId: AccountId;
@@ -16,4 +18,13 @@ export interface SessionRewards {
   reward: Balance;
   sessionIndex: SessionIndex;
   slashes: Slash[];
+}
+
+export interface TxState {
+  extrinsic: SubmittableExtrinsic | null;
+  isSending: boolean;
+  accountId?: StringOrNull;
+  onChangeAccountId: (_: StringOrNull) => void;
+  sendTx: () => void;
+  sendUnsigned: () => void;
 }

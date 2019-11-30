@@ -7,6 +7,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Abi } from '@polkadot/api-contract';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { InputAddressProps } from '@polkadot/react-components/InputAddress/types';
+import { TxState } from '@polkadot/react-hooks/types';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { Index } from '@polkadot/types/interfaces';
@@ -57,7 +58,7 @@ export interface TxButtonInterface {
   };
 }
 
-export type TxContent = React.ComponentType<FormProps>;
+export type TxContent = React.ComponentType<FormProps & TxState>;
 
 export interface TxProps {
   extrinsic?: IExtrinsic | SubmittableExtrinsic | null;
@@ -72,6 +73,27 @@ export interface TxButtonProps extends TxProps, ApiProps {
   icon: string;
   iconSize?: Button$Sizes;
   innerRef: ButtonRef;
+  isBasic?: boolean;
+  isDisabled?: boolean;
+  isNegative?: boolean;
+  isPrimary?: boolean;
+  isUnsigned?: boolean;
+  label: React.ReactNode;
+  onClick?: () => any;
+  onFailed?: TxFailedCallback;
+  onStart?: () => void;
+  onSuccess?: TxCallback;
+  onUpdate?: TxCallback;
+  tooltip?: string;
+  withSpinner?: boolean;
+}
+
+export interface TxButtonNewProps extends TxProps {
+  accountId?: StringOrNull;
+  accountNonce?: Index;
+  className?: string;
+  icon: string;
+  iconSize?: Button$Sizes;
   isBasic?: boolean;
   isDisabled?: boolean;
   isNegative?: boolean;
@@ -107,10 +129,12 @@ export interface TxModalProps extends I18nProps, TxProps {
     [index: string]: any;
   };
   inputAddressHelp?: React.ReactNode;
+  inputAddressExtra?: TxContent;
   inputAddressLabel?: React.ReactNode;
   inputAddressProps?: Pick<InputAddressProps, never>;
   cancelButtonLabel?: React.ReactNode;
   cancelButtonProps?: Pick<ButtonProps, never>;
+  submitButtonIcon?: string;
   submitButtonLabel?: React.ReactNode;
   submitButtonProps?: Pick<TxButtonProps, never>;
 }

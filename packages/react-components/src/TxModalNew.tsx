@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StringOrNull, FormProps, TxContent, TxTrigger, TxModalProps as Props } from './types';
+import { TxState } from '@polkadot/react-hooks/types';
+import { FormProps, TxContent, TxTrigger, TxModalProps as Props } from './types';
 import { Button$OnClick } from './Button/types';
 
-import React, { useState, useEffect } from 'react';
-import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useForm } from '@polkadot/react-hooks';
+import React, { useMemo, useState, useEffect } from 'react';
+import { Button, InputAddress, Modal } from '@polkadot/react-components';
+import { useForm, useTx } from '@polkadot/react-hooks';
 import { isUndefined } from '@polkadot/util';
 
 import translate from './translate';
@@ -20,18 +21,21 @@ function renderHeader ({ t, header = t('Submit signed extrinsic') }: Props): Rea
   return header;
 }
 
-function renderContent (Content: TxContent = (): null => null, hooks: FormProps): React.ReactNode {
-  return <Content {...hooks} />;
+function renderContent (Content: TxContent = (): null => null, contentProps: FormProps & TxState): React.ReactNode {
+  return <Content {...contentProps} />;
 }
 
-function renderInputAccount ({ t, inputAddressLabel = t('using my account'), inputAddressHelp = t('Select the account to use for this action.'), inputAddressProps = {}, isDisabled }: Props, accountId: string | null, onChangeAccountId: (_: string | null) => void, isBusy = false): React.ReactNode {
+function renderInputAccount ({ t, inputAddressExtra, inputAddressLabel = t('using my account'), inputAddressHelp = t('Select the account to use for this action.'), inputAddressProps = {}, isDisabled }: Props, contentProps: FormProps & TxState): React.ReactNode {
+  const { accountId, isSending = false, onChangeAccountId } = contentProps;
+
   return (
     <InputAddress
       defaultValue={accountId}
       help={inputAddressHelp}
-      isDisabled={isDisabled || isBusy}
+      isDisabled={isDisabled || isSending}
       isInput={false}
       label={inputAddressLabel}
+      labelExtra={inputAddressExtra && renderContent(inputAddressExtra, contentProps)}
       onChange={onChangeAccountId}
       type='account'
       value={accountId}
@@ -54,42 +58,27 @@ function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onCl
   );
 }
 
-function renderSubmitButton ({ t, extrinsic, submitButtonLabel = t('Submit'), isDisabled = false, isUnsigned = false, isSubmittable = true, tx, params }: Props, onClick: Button$OnClick, accountId: string | null, onSuccess: () => void, onFailed: () => void, submitButtonProps = {}): React.ReactNode {
+function renderSubmitButton ({ t, submitButtonIcon = 'sign-in', submitButtonLabel = t('Submit'), isDisabled = false, isSubmittable = true, submitButtonProps = {} }: Props, { isSending = false }: TxState, onClick: Button$OnClick): React.ReactNode {
   return (
-    <TxButton
-      {...(
-        isUnsigned
-          ? { isUnsigned: true }
-          : { accountId }
-      )}
-      extrinsic={extrinsic}
+    <Button
+      isLoading={isSending}
       isDisabled={!isSubmittable || isDisabled}
       isPrimary
       label={submitButtonLabel}
-      icon='sign-in'
+      icon={submitButtonIcon}
       onClick={onClick}
-      onFailed={onFailed}
-      onSuccess={onSuccess}
-      params={params}
-      tx={tx}
       {...submitButtonProps}
     />
   );
 }
 
-function TxModal<P extends Props> (props: P): React.ReactElement<P> {
+function TxModal<P extends Props> (props: P): React.ReactElement<P> | null {
+  if (!props.extrinsic && (!props.tx || !props.params)) {
+    return null;
+  }
+
   const isControlled = !isUndefined(props.isOpen);
-  const isFixedAccount = !isUndefined(props.accountId);
-
-  const [accountId, setAccountId] = useState<StringOrNull>(isFixedAccount ? props.accountId || null : null);
-  const [isBusy, setIsBusy] = useState(false);
   const [isOpen, setIsOpen] = useState(isControlled ? props.isOpen : false);
-
-  const _onChangeAccountId = (accountId: StringOrNull): void => {
-    setAccountId(accountId);
-
-    props.onChangeAccountId && props.onChangeAccountId(accountId);
-  };
 
   const _onOpen = (): void => {
     !isControlled && setIsOpen(true);
@@ -103,34 +92,41 @@ function TxModal<P extends Props> (props: P): React.ReactElement<P> {
     props.onClose && props.onClose();
   };
 
-  const _onSubmit = (): void => {
-    setIsBusy(true);
-
+  const _onStart = (): void => {
     props.onSubmit && props.onSubmit();
   };
 
   const _onFailed = (): void => {
-    setIsBusy(false);
-
     props.onFailed && props.onFailed();
   };
 
   const _onSuccess = (): void => {
-    setIsBusy(false);
     !isControlled && setIsOpen(false);
 
     props.onSuccess && props.onSuccess();
   };
 
-  const formProps = useForm(_onSubmit, _onClose);
+  const tx = useMemo(
+    (): any => props.extrinsic || [props.tx!, props.params!],
+    [props.extrinsic, props.tx, props.params]
+  );
+
+  const state = useTx(
+    tx,
+    {
+      accountId: props.accountId,
+      onChangeAccountId: props.onChangeAccountId,
+      onStart: _onStart,
+      onFailed: _onFailed,
+      onSuccess: _onSuccess,
+    }
+  );
+
+  const formProps = useForm(state.sendTx, _onClose);
 
   useEffect((): void => {
     !isUndefined(props.isOpen) && setIsOpen(props.isOpen);
   }, [props.isOpen]);
-
-  useEffect((): void => {
-    !isUndefined(props.accountId) && setAccountId(props.accountId);
-  }, [props.accountId]);
 
   const modalProps = {
     className: ['ui--Modal', (props.modalProps || {}).className].join(' '),
@@ -140,6 +136,11 @@ function TxModal<P extends Props> (props: P): React.ReactElement<P> {
     open: isOpen
   };
 
+  const contentProps = {
+    ...formProps,
+    ...state
+  }
+
   return (
     <>
       {props.trigger && renderTrigger(props.trigger, _onOpen)}
@@ -148,14 +149,14 @@ function TxModal<P extends Props> (props: P): React.ReactElement<P> {
           {renderHeader(props)}
         </Modal.Header>
         <Modal.Content>
-          {renderContent(props.preContent, formProps)}
-          {renderInputAccount(props, accountId, _onChangeAccountId, isBusy)}
-          {renderContent(props.content, formProps)}
+          {renderContent(props.preContent, contentProps)}
+          {renderInputAccount(props, contentProps)}
+          {renderContent(props.content, contentProps)}
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
             {renderCancelButton(props, formProps.onCancel)}
-            {renderSubmitButton(props, formProps.onSubmit, accountId, _onSuccess, _onFailed)}
+            {renderSubmitButton(props, state, formProps.onSubmit)}
           </Button.Group>
         </Modal.Actions>
       </Modal>

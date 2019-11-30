@@ -3,15 +3,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { Button, InputAddress, InputBalance, Modal } from '@polkadot/react-components';
+import { useTx, useForm } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
 
@@ -65,26 +64,75 @@ const ZERO = new BN(0);
 // }
 
 function Transfer ({ className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
   const [hasAvailable, setHasAvailable] = useState(true);
-  const [maxBalance] = useState(new BN(0));
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
-  const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
 
-  useEffect((): void => {
-    if (senderId && recipientId) {
-      setExtrinsic(api.tx.balances.transfer(recipientId, amount || ZERO));
+  const { accountId: senderId, onChangeAccountId: onChangeSenderId, extrinsic, isSending, sendTx } = useTx(['balances.transfer', [recipientId, amount || ZERO]]);
+  const { onSubmit, onCancel } = useForm(sendTx, onClose);
+  
+  // useEffect((): void => {
+  //   if (senderId && recipientId) {
+  //     setExtrinsic(api.tx.balances.transfer(recipientId, amount || ZERO));
 
-      // We currently have not enabled the max functionality - we don't take care of weights
-      // calcMax(api, balances_fees, senderId, recipientId)
-      //   .then(([maxBalance]): void => setMaxBalance(maxBalance))
-      //   .catch((error: Error): void => console.error(error));
-    }
-  }, [amount, recipientId, senderId]);
+  //     // We currently have not enabled the max functionality - we don't take care of weights
+  //     // calcMax(api, balances_fees, senderId, recipientId)
+  //     //   .then(([maxBalance]): void => setMaxBalance(maxBalance))
+  //     //   .catch((error: Error): void => console.error(error));
+  //   }
+  // }, [amount, recipientId, senderId]);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;
+
+  // return (
+  //   <TxModal
+  //     isOpen
+  //     isDisabled={!hasAvailable}
+  //     accountId={propSenderId || null}
+  //     tx='balances.transfer'
+  //     params={[recipientId, amount || ZERO]}
+  //     header={t('Send funds')}
+  //     inputAddressLabel={t('send from account')}
+  //     inputAddressHelp={t('The account you will send funds from.')}
+  //     inputAddressExtra={
+  //       ({ accountId: senderId }): React.ReactElement => ((
+  //         <Available label={transferrable} params={senderId} />
+  //       ))
+  //     }
+  //     content={
+  //       ({ accountId: senderId, extrinsic, onCancel, onSubmit }): React.ReactElement => ((
+  //         <>
+  //           <InputAddress
+  //             defaultValue={propRecipientId}
+  //             help={t('Select a contact or paste the address you want to send funds to.')}
+  //             isDisabled={!!propRecipientId}
+  //             label={t('send to address')}
+  //             labelExtra={<Available label={transferrable} params={recipientId} />}
+  //             onChange={setRecipientId}
+  //             type='allPlus'
+  //           />
+  //           <InputBalance
+  //             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
+  //             isError={!hasAvailable}
+  //             label={t('amount')}
+  //             onChange={(amount?: BN) => { setAmount(amount); }}
+  //             onEnter={onSubmit}
+  //             onEscape={onCancel}
+  //           />
+  //           <Checks
+  //             accountId={senderId}
+  //             extrinsic={extrinsic}
+  //             isSendable
+  //             onChange={setHasAvailable}
+  //           />
+  //         </>
+  //       ))
+  //     }
+  //     onClose={onClose}
+  //     submitButtonIcon='send'
+  //     submitButtonLabel={t('Make Transfer')}
+  //   />
+  // )
 
   return (
     <Modal
@@ -92,7 +140,9 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
       dimmer='inverted'
       open
     >
-      <Modal.Header>{t('Send funds')}</Modal.Header>
+      <Modal.Header>
+        {t('Send funds')}
+      </Modal.Header>
       <Modal.Content>
         <div className={className}>
           <InputAddress
@@ -100,8 +150,10 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('The account you will send funds from.')}
             isDisabled={!!propSenderId}
             label={t('send from account')}
-            labelExtra={<Available label={transferrable} params={senderId} />}
-            onChange={setSenderId}
+            labelExtra={
+              <Available label={transferrable} params={senderId} />
+            }
+            onChange={onChangeSenderId}
             type='account'
           />
           <InputAddress
@@ -109,7 +161,9 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('Select a contact or paste the address you want to send funds to.')}
             isDisabled={!!propRecipientId}
             label={t('send to address')}
-            labelExtra={<Available label={transferrable} params={recipientId} />}
+            labelExtra={
+              <Available label={transferrable} params={recipientId} />
+            }
             onChange={setRecipientId}
             type='allPlus'
           />
@@ -117,9 +171,9 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
             isError={!hasAvailable}
             label={t('amount')}
-            maxValue={maxBalance}
             onChange={setAmount}
-            withMax
+            onEnter={onSubmit}
+            onEscape={onClose}
           />
           <Checks
             accountId={senderId}
@@ -135,18 +189,16 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             icon='cancel'
             isNegative
             label={t('Cancel')}
-            onClick={onClose}
+            onClick={onCancel}
           />
           <Button.Or />
-          <TxButton
-            accountId={senderId}
-            extrinsic={extrinsic}
+          <Button
             icon='send'
             isDisabled={!hasAvailable}
+            isLoading={isSending}
             isPrimary
             label={t('Make Transfer')}
-            onStart={onClose}
-            withSpinner={false}
+            onClick={onSubmit}
           />
         </Button.Group>
       </Modal.Actions>
