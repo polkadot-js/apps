@@ -43,12 +43,12 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
+  const { pathname } = useLocation();
   const stakingControllers = trackStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
   const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
   const recentlyOnline = trackStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
   const stakingOverview = trackStream<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
-  const location = useLocation();
 
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
@@ -107,8 +107,8 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
         <Route path={`${basePath}/query`}>{_renderComponent(Query)}</Route>
         <Route path={`${basePath}/returns`}>{_renderComponent(Targets)}</Route>
       </Switch>
-      {_renderComponent(Actions, location.pathname === `${basePath}/actions` ? '' : 'staking--hidden')}
-      {_renderComponent(Overview, location.pathname === basePath ? '' : 'staking--hidden')}
+      {_renderComponent(Actions, pathname === `${basePath}/actions` ? '' : 'staking--hidden')}
+      {_renderComponent(Overview, pathname === basePath ? '' : 'staking--hidden')}
     </main>
   );
 }
