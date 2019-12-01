@@ -12,6 +12,7 @@ import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-compon
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
+import Table from '../Table';
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
 import Address from './Address';
@@ -119,7 +120,20 @@ function CurrentList ({ authorsMap, hasQueries, lastAuthors, next, recentlyOnlin
           withLabel={false}
         />
       </FilterOverlay>
-      <Columar className='validator--ValidatorsList'>
+      <Table>
+        <Table.Head>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th className='number'>{t('commission')}</th>
+          <th className='number'>{t('last')}</th>
+          <th>&nbsp;</th>
+        </Table.Head>
+        <Table.Body>
+          {_renderColumn(validators, t('validator'), true)}
+        </Table.Body>
+      </Table>
+      {/* <Columar className='validator--ValidatorsList'>
         <Column
           emptyText={t('No addresses found')}
           headerText={t('validators')}
@@ -137,7 +151,7 @@ function CurrentList ({ authorsMap, hasQueries, lastAuthors, next, recentlyOnlin
             </>
           )}
         </Column>
-      </Columar>
+      </Columar> */}
     </div>
   );
 }

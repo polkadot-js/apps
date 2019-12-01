@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, Points } from '@polkadot/types/interfaces';
+import { AccountId, Balance, Points, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { DerivedStaking, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
@@ -15,7 +15,9 @@ import { classes } from '@polkadot/react-components/util';
 import { trackStream, useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
+import AddressSmall from '../AddressSmall';
 import translate from '../translate';
+import { FormatBalance } from '@polkadot/react-query/FormatBalance';
 
 interface Props extends I18nProps {
   address: AccountId | string;
@@ -36,12 +38,14 @@ interface Props extends I18nProps {
 
 interface StakingState {
   balanceOpts: { bonded: boolean | BN[] };
+  commission?: string;
   controllerId?: string;
   hasNominators: boolean;
   isNominatorMe: boolean;
   nominators: [AccountId, Balance][];
   sessionId?: string;
   stashId: string;
+  validatorPayment?: BN;
 }
 
 const WITH_VALIDATOR_PREFS = { validatorPayment: true };
@@ -52,7 +56,7 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
   const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
   const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
-  const [{ balanceOpts, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
+  const [{ balanceOpts, commission, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId, validatorPayment }, setStakingState] = useState<StakingState>({
     balanceOpts: { bonded: true },
     hasNominators: false,
     isNominatorMe: false,
@@ -72,16 +76,20 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
 
   useEffect((): void => {
     if (stakingInfo) {
-      const { controllerId, nextSessionIds, stakers, stashId } = stakingInfo;
+      const { controllerId, nextSessionIds, stakers, stashId, validatorPrefs } = stakingInfo;
       const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
       const stakersOwn = stakers && !stakers.own.isEmpty && stakers.own.unwrap();
+      const commission = validatorPrefs?.commission?.unwrap();
 
       setStakingState({
         balanceOpts: stakers && stakersOwn
           ? { bonded: [stakersOwn, stakers.total.unwrap().sub(stakersOwn)] }
           : { bonded: true },
+        commission: commission
+          ? `${(commission.toNumber() / 10000000).toFixed(2)}%`
+          : undefined,
         controllerId: controllerId?.toString(),
         hasNominators: nominators.length !== 0,
         isNominatorMe: nominators.some(([who]): boolean =>
@@ -89,7 +97,8 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
         ),
         nominators,
         sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
-        stashId: (stashId || address).toString()
+        stashId: (stashId || address).toString(),
+        validatorPayment: (validatorPrefs as any as ValidatorPrefsTo196)?.validatorPayment?.unwrap()
       });
     }
   }, [stakingInfo]);
@@ -115,6 +124,62 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
   const _onQueryStats = (): void => {
     window.location.hash = `/staking/query/${stashId}`;
   };
+
+  return (
+    <tr className={`${className} ${isAuthor && 'isHighlight'}`}>
+      <td className='favorite'>
+        <Icon
+          className={`${isFavorite && 'isSelected'}`}
+          name={isFavorite ? 'star' : 'star outline'}
+          onClick={_onFavorite}
+        />
+      </td>
+      <td>
+        {isElected && (
+          <Badge
+            hover={t('Selected for the next session')}
+            info={<Icon name='chevron right' />}
+            isInline
+            isTooltip
+            type='next'
+          />
+        )}
+        {recentlyOnline && hasActivity && recentlyOnline[stashId] && (
+          <Badge
+            hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
+              replace: {
+                blocks: formatNumber(recentlyOnline[stashId].blockCount),
+                hasMessage: recentlyOnline[stashId].hasMessage ? ' and a' : ', no'
+              }
+            })}
+            info={<Icon name='check' />}
+            isInline
+            isTooltip
+            type='online'
+          />
+        )}
+      </td>
+      <td>
+        <AddressSmall value={stashId} />
+      </td>
+      <td className='number'>
+        {(commission || validatorPayment) && (
+          commission || <FormatBalance value={validatorPayment} />
+        )}
+      </td>
+      <td className='number'>
+        {lastBlockNumber && <>#{lastBlockNumber}</>}
+      </td>
+      <td>
+        {hasQueries && api.query.imOnline?.authoredBlocks && (
+          <Icon
+            name='line graph'
+            onClick={_onQueryStats}
+          />
+        )}
+      </td>
+    </tr>
+  );
 
   return (
     <AddressCard

@@ -24,10 +24,10 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
   };
 
   return (
-    <tr className={`${isNominating && 'isNominating'}`}>
-      <td>
+    <tr className={`${isNominating && 'isHighlight'}`}>
+      <td className='favorite'>
         <Icon
-          className={`favorite ${isFavorite && 'isSelected'}`}
+          className={`${isFavorite && 'isSelected'}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />
