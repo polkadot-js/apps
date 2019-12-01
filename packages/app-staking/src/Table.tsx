@@ -69,6 +69,20 @@ export default styled(Table)`
         }
       }
 
+      label {
+        opacity: 0.25;
+      }
+
+      &:hover {
+        label {
+          opacity: 1;
+        }
+
+        td {
+          border-color: #ccc;
+        }
+      }
+
       td, th {
         text-align: left;
 

@@ -194,7 +194,7 @@ function Address ({ address, authorsMap, className, filter, hasQueries, isElecte
             )}
           </td>
           <td className='number'>
-            {lastBlockNumber && <>#{lastBlockNumber}</>}
+            {lastBlockNumber && <><label>{t('last #')}</label>{lastBlockNumber}</>}
           </td>
           <td>
             {hasQueries && api.query.imOnline?.authoredBlocks && (
