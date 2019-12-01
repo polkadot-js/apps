@@ -65,15 +65,21 @@ export default styled(Table)`
       border-top-width: 0px;
 
       &:nth-child(even) {
-        background: #f9f9f9;
+        td {
+          background: #f9f9f9;
+        }
       }
 
       &:nth-child(odd) {
-        background: white;
+        td {
+          background: white;
+        }
       }
 
       &.isHighlight {
-        background: #ffffed;
+        td {
+          background: #ffffed;
+        }
       }
 
       td, th {
@@ -82,6 +88,14 @@ export default styled(Table)`
         &.number {
           text-align: right;
         }
+
+        &.together {
+          white-space: nowrap;
+        }
+
+        &.toggle {
+          cursor: pointer;
+        }
       }
 
       td {
@@ -89,6 +103,14 @@ export default styled(Table)`
 
         i.icon {
           cursor: pointer;
+        }
+
+        &:first-child {
+          border-radius: 0.25rem 0 0 0.25rem;
+        }
+
+        &:last-child {
+          border-radius: 0 0.25rem 0.25rem 0;
         }
 
         &.favorite i.icon.isSelected {

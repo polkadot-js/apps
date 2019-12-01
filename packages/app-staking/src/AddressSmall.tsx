@@ -11,10 +11,11 @@ import { AccountIndex, AccountName } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
+  defaultName?: string;
   value?: string | Address | AccountId;
 }
 
-function AddressSmall ({ className, value }: Props): React.ReactElement<Props> {
+function AddressSmall ({ className, defaultName, value }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon
@@ -22,10 +23,7 @@ function AddressSmall ({ className, value }: Props): React.ReactElement<Props> {
         value={value}
       />
       <div className='nameInfo'>
-        <AccountName
-          defaultName='...'
-          params={value}
-        />
+        <AccountName defaultName={defaultName} params={value} />
         <AccountIndex params={value} />
       </div>
     </div>

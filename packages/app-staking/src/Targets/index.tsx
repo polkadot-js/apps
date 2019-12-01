@@ -188,12 +188,12 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
                   />
                 </th>
                 <th className='number'>&nbsp;</th>
-                <th className='number'>commission</th>
-                <th className='number'>nominators</th>
-                <th className='number'>total stake</th>
-                <th className='number'>own stake</th>
-                <th className='number'>other stake</th>
-                <th className='number'>payout (est.)</th>
+                <th className='number'>{t('commission')}</th>
+                <th className='number'>{t('nominators')}</th>
+                <th className='number'>{t('total stake')}</th>
+                <th className='number'>{t('own stake')}</th>
+                <th className='number'>{t('other stake')}</th>
+                <th className='number'>{t('payout (est.)')}</th>
                 <th>&nbsp;</th>
               </Table.Head>
               <Table.Body>

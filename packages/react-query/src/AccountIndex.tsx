@@ -24,8 +24,6 @@ export default function AccountIndexDisplay ({ children, className, defaultValue
   useEffect((): void => {
     const { accountIndex } = info || {};
 
-    console.error(info);
-
     if (accountIndex) {
       setAccountIndex(accountIndex.toString());
     }

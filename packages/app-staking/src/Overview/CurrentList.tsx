@@ -125,8 +125,12 @@ function CurrentList ({ authorsMap, hasQueries, lastAuthors, next, recentlyOnlin
           <th>&nbsp;</th>
           <th>&nbsp;</th>
           <th>&nbsp;</th>
+          <th className='number'>{t('stake own')}</th>
+          <th className='number'>{t('stake other')}</th>
+          <th className='number'>{t('nominators')}</th>
           <th className='number'>{t('commission')}</th>
-          <th className='number'>{t('last')}</th>
+          <th className='number'>{t('last #')}</th>
+          <th className='number'>{t('points')}</th>
           <th>&nbsp;</th>
         </Table.Head>
         <Table.Body>

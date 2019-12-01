@@ -10,8 +10,7 @@ import { ValidatorFilter } from '../types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
+import { AddressMini, Badge, Icon } from '@polkadot/react-components';
 import { trackStream, useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
@@ -37,42 +36,31 @@ interface Props extends I18nProps {
 }
 
 interface StakingState {
-  balanceOpts: { bonded: boolean | BN[] };
   commission?: string;
   controllerId?: string;
   hasNominators: boolean;
   isNominatorMe: boolean;
   nominators: [AccountId, Balance][];
   sessionId?: string;
+  stakeTotal?: BN;
+  stakeOther?: BN;
+  stakeOwn?: BN;
   stashId: string;
   validatorPayment?: BN;
 }
 
-const WITH_VALIDATOR_PREFS = { validatorPayment: true };
-
 function Address ({ address, authorsMap, className, defaultName, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
-  const { api, isSubstrateV2 } = useApi();
+  const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
   const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
-  const [extraInfo, setExtraInfo] = useState<[React.ReactNode, React.ReactNode][] | undefined>();
   const [hasActivity, setHasActivity] = useState(true);
-  const [{ balanceOpts, commission, controllerId, hasNominators, isNominatorMe, nominators, sessionId, stashId, validatorPayment }, setStakingState] = useState<StakingState>({
-    balanceOpts: { bonded: true },
+  const [{ commission, hasNominators, isNominatorMe, nominators, stashId, stakeOwn, stakeOther, validatorPayment }, setStakingState] = useState<StakingState>({
     hasNominators: false,
     isNominatorMe: false,
     nominators: [],
     stashId: address.toString()
   });
-
-  useEffect((): void => {
-    if (points) {
-      const formatted = formatNumber(points);
-
-      if (!extraInfo || extraInfo[0][1] !== formatted) {
-        setExtraInfo([[t('era points'), formatted]]);
-      }
-    }
-  }, [extraInfo, points]);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect((): void => {
     if (stakingInfo) {
@@ -80,13 +68,12 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
       const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
-      const stakersOwn = stakers && !stakers.own.isEmpty && stakers.own.unwrap();
+      const stakeTotal = (stakers && !stakers.total.isEmpty && stakers.total.unwrap()) || undefined;
+      const stakeOwn = (stakers && !stakers.own.isEmpty && stakers.own.unwrap()) || undefined;
+      const stakeOther = (stakeTotal && stakeOwn) ? stakeTotal.sub(stakeOwn) : undefined;
       const commission = validatorPrefs?.commission?.unwrap();
 
       setStakingState({
-        balanceOpts: stakers && stakersOwn
-          ? { bonded: [stakersOwn, stakers.total.unwrap().sub(stakersOwn)] }
-          : { bonded: true },
         commission: commission
           ? `${(commission.toNumber() / 10000000).toFixed(2)}%`
           : undefined,
@@ -98,6 +85,9 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
         nominators,
         sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
         stashId: (stashId || address).toString(),
+        stakeOther,
+        stakeOwn,
+        stakeTotal,
         validatorPayment: (validatorPrefs as any as ValidatorPrefsTo196)?.validatorPayment?.unwrap()
       });
     }
@@ -124,6 +114,12 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
   const _onQueryStats = (): void => {
     window.location.hash = `/staking/query/${stashId}`;
   };
+  const _toggleNominators = (event: React.SyntheticEvent): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <tr className={`${className} ${isAuthor && 'isHighlight'}`}>
@@ -134,7 +130,7 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
           onClick={_onFavorite}
         />
       </td>
-      <td>
+      <td className='together'>
         {isElected && (
           <Badge
             hover={t('Selected for the next session')}
@@ -160,16 +156,49 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
         )}
       </td>
       <td>
-        <AddressSmall value={stashId} />
+        <AddressSmall defaultName={defaultName} value={stashId} />
       </td>
       <td className='number'>
-        {(commission || validatorPayment) && (
-          commission || <FormatBalance value={validatorPayment} />
+        {stakeOwn && <FormatBalance value={stakeOwn} />}
+      </td>
+      <td className={'toggle number'} colSpan={isExpanded ? 5 : 1} onClick={_toggleNominators}>
+        {stakeOther && (
+          isExpanded
+            ? (
+              <div>
+                {nominators.map(([who, bonded]): React.ReactNode =>
+                  <AddressMini
+                    bonded={bonded}
+                    key={who.toString()}
+                    value={who}
+                    withBonded
+                  />
+                )}
+              </div>
+            )
+            : <FormatBalance value={stakeOther}>&nbsp;<Icon name='angle double right' /></FormatBalance>
         )}
       </td>
-      <td className='number'>
-        {lastBlockNumber && <>#{lastBlockNumber}</>}
-      </td>
+      {!isExpanded && (
+        <>
+          <td className='number'>
+            {nominators.length !== 0 && (
+              <div>{formatNumber(nominators.length)}</div>
+            )}
+          </td>
+          <td className='number'>
+            {(commission || validatorPayment) && (
+              commission || <FormatBalance value={validatorPayment} />
+            )}
+          </td>
+          <td className='number'>
+            {lastBlockNumber && <>#{lastBlockNumber}</>}
+          </td>
+          <td className='number'>
+            {formatNumber(points)}
+          </td>
+        </>
+      )}
       <td>
         {hasQueries && api.query.imOnline?.authoredBlocks && (
           <Icon
@@ -179,99 +208,6 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
         )}
       </td>
     </tr>
-  );
-
-  return (
-    <AddressCard
-      buttons={
-        <div className='staking--Address-info'>
-          {isSubstrateV2 && (
-            <div className='extras'>
-              {lastBlockNumber && (
-                <div className={`blockNumberV${isSubstrateV2 ? '2' : '1'} ${isAuthor && 'isCurrent'}`}>#{lastBlockNumber}</div>
-              )}
-              <Icon
-                className={`favorite ${isFavorite && 'isSelected'}`}
-                name={isFavorite ? 'star' : 'star outline'}
-                onClick={_onFavorite}
-              />
-            </div>
-          )}
-          {controllerId && (
-            <div>
-              <label className={classes('staking--label', isSubstrateV2 && !lastBlockNumber && 'controllerSpacer')}>{t('controller')}</label>
-              <AddressMini value={controllerId} />
-            </div>
-          )}
-          {!isSubstrateV2 && sessionId && (
-            <div>
-              <label className='staking--label'>{t('session')}</label>
-              <AddressMini value={sessionId} />
-            </div>
-          )}
-        </div>
-      }
-      className={className}
-      defaultName={defaultName}
-      extraInfo={extraInfo}
-      iconInfo={
-        <>
-          {isElected && (
-            <Badge
-              hover={t('Selected for the next session')}
-              info={<Icon name='chevron right' />}
-              isTooltip
-              type='next'
-            />
-          )}
-          {recentlyOnline && hasActivity && recentlyOnline[stashId] && (
-            <Badge
-              hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
-                replace: {
-                  blocks: formatNumber(recentlyOnline[stashId].blockCount),
-                  hasMessage: recentlyOnline[stashId].hasMessage ? ' and a' : ', no'
-                }
-              })}
-              info={<Icon name='check' />}
-              isTooltip
-              type='online'
-            />
-          )}
-        </>
-      }
-      overlay={
-        hasQueries && api.query.imOnline?.authoredBlocks && (
-          <Icon
-            className='staking--stats'
-            name='line graph'
-            onClick={_onQueryStats}
-          />
-        )
-      }
-      stakingInfo={stakingInfo}
-      value={stashId}
-      withBalance={balanceOpts}
-      withValidatorPrefs={WITH_VALIDATOR_PREFS}
-    >
-      {withNominations && hasNominators && (
-        <Expander
-          summary={t('Nominators ({{count}})', {
-            replace: {
-              count: nominators.length
-            }
-          })}
-        >
-          {nominators.map(([who, bonded]): React.ReactNode =>
-            <AddressMini
-              bonded={bonded}
-              key={who.toString()}
-              value={who}
-              withBonded
-            />
-          )}
-        </Expander>
-      )}
-    </AddressCard>
   );
 }
 
