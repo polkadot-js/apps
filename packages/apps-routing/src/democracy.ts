@@ -10,6 +10,7 @@ export default ([
   {
     Component: Democracy,
     display: {
+      isHidden: true,
       needsApi: [
         'query.democracy.nextTally'
       ]
