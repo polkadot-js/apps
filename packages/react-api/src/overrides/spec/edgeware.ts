@@ -11,5 +11,7 @@ export default {
   ...IdentityTypes,
   ...SignalingTypes,
   ...TreasuryRewardTypes,
-  ...VotingTypes
+  ...VotingTypes,
+  Keys: 'SessionKeys3',
+  ValidatorPrefs: 'ValidatorPrefsTo196'
 };

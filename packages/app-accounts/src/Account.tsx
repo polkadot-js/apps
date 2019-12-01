@@ -143,7 +143,6 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
                     <ChainLock
                       className='accounts--network-toggle'
                       genesisHash={genesisHash}
-                      isDisabled={!isEditable || isExternal}
                       onChange={_onGenesisChange}
                       preventDefault
                     />
