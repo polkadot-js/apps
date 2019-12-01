@@ -5,7 +5,8 @@
 import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React, { useState } from 'react';
-import { Button, Columar } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { Button } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Proposals from './Proposals';
@@ -13,13 +14,13 @@ import Referendums from './Referendums';
 import Summary from './Summary';
 import PreImage from './PreImage';
 
-function Overview ({ t }: Props): React.ReactElement {
+function Overview ({ className, t }: Props): React.ReactElement {
   const [isPreimageOpen, setIsPreimageOpen] = useState(false);
 
   const _togglePreimage = (): void => setIsPreimageOpen(!isPreimageOpen);
 
   return (
-    <>
+    <div className={className}>
       <Summary />
       <Button.Group>
         <Button
@@ -32,12 +33,16 @@ function Overview ({ t }: Props): React.ReactElement {
       {isPreimageOpen && (
         <PreImage onClose={_togglePreimage} />
       )}
-      <Columar>
-        <Referendums />
-        <Proposals />
-      </Columar>
-    </>
+      <Referendums />
+      <Proposals />
+    </div>
   );
 }
 
-export default translate(Overview);
+export default translate(
+  styled(Overview)`
+    .proposalSection {
+      margin-bottom: 1.5rem;
+    }
+  `
+);
