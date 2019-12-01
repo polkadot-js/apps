@@ -655,5 +655,13 @@
   "The percentage reward (0-100) that should be applied for the validator": "",
   "reward commission percentage": "",
   "validator payment": "",
-  "Validator info not available": ""
+  "Validator info not available": "",
+  "Waiting": "",
+  "own stake": "",
+  "other stake": "",
+  "points": "",
+  "last #": "",
+  "nominators": "",
+  "total stake": "",
+  "payout (est.)": ""
 }

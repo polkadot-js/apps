@@ -136,5 +136,13 @@
   "The percentage reward (0-100) that should be applied for the validator": "The percentage reward (0-100) that should be applied for the validator",
   "reward commission percentage": "reward commission percentage",
   "validator payment": "validator payment",
-  "Validator info not available": "Validator info not available"
+  "Validator info not available": "Validator info not available",
+  "Waiting": "Waiting",
+  "own stake": "own stake",
+  "other stake": "other stake",
+  "commission": "commission",
+  "points": "points",
+  "last #": "last #",
+  "total stake": "total stake",
+  "payout (est.)": "payout (est.)"
 }
