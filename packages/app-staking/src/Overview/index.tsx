@@ -6,6 +6,7 @@ import { BareProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
@@ -16,9 +17,11 @@ interface Props extends BareProps, ComponentProps {}
 
 export default function Overview ({ allControllers, hasQueries, allStashes, className, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useApi();
+  const { pathname } = useLocation();
   const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
   const [next, setNext] = useState<string[]>([]);
   const validators = stakingOverview && stakingOverview.validators;
+  const isIntentions = pathname !== '/staking';
 
   useEffect((): void => {
     validators && setNext(
@@ -32,16 +35,19 @@ export default function Overview ({ allControllers, hasQueries, allStashes, clas
 
   return (
     <div className={`staking--Overview ${className}`}>
-      <Summary
-        allControllers={allControllers}
-        lastBlock={lastBlockNumber}
-        lastAuthors={lastBlockAuthors}
-        next={next}
-        stakingOverview={stakingOverview}
-      />
+      {!isIntentions && (
+        <Summary
+          allControllers={allControllers}
+          lastBlock={lastBlockNumber}
+          lastAuthors={lastBlockAuthors}
+          next={next}
+          stakingOverview={stakingOverview}
+        />
+      )}
       <CurrentList
         authorsMap={byAuthor}
         hasQueries={hasQueries}
+        isIntentions={isIntentions}
         lastAuthors={lastBlockAuthors}
         next={next}
         recentlyOnline={recentlyOnline}

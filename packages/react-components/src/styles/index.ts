@@ -155,7 +155,7 @@ export default createGlobalStyle`
 
   label {
     box-sizing: border-box;
-    color: rgba(78,78,78,.85);
+    color: rgba(78, 78, 78, .66);
     display: block;
     font-family: sans-serif;
     font-size: 1rem;

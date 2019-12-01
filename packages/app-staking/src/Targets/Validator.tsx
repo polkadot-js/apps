@@ -6,10 +6,11 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorInfo } from './types';
 
 import React from 'react';
-import { Icon, IdentityIcon } from '@polkadot/react-components';
-import { AccountName, FormatBalance } from '@polkadot/react-query';
+import { Icon } from '@polkadot/react-components';
+import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import AddressSmall from '../AddressSmall';
 import translate from '../translate';
 
 interface Props extends I18nProps {
@@ -17,38 +18,36 @@ interface Props extends I18nProps {
   toggleFavorite: (accountId: string) => void;
 }
 
-function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, t, toggleFavorite }: Props): React.ReactElement<Props> {
   const _onFavorite = (): void => toggleFavorite(key);
   const _onQueryStats = (): void => {
     window.location.hash = `/staking/query/${key}`;
   };
 
   return (
-    <tr className={`${isNominating && 'isNominating'}`}>
-      <td>
+    <tr className={`${isNominating && 'isHighlight'}`}>
+      <td className='favorite'>
         <Icon
-          className={`favorite ${isFavorite && 'isSelected'}`}
+          className={`${isFavorite && 'isSelected'}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />
       </td>
       <td className='number'>{formatNumber(rankOverall)}</td>
       <td className='address'>
-        <IdentityIcon value={accountId} size={24} />
-        <AccountName params={accountId} />
+        <AddressSmall value={accountId} />
       </td>
       <td className='number'>
         {
           isCommission
-            ? `${commissionPer.toFixed(2)}%`
-            : <FormatBalance value={validatorPayment} />
+            ? <><label>{t('commission')}</label>{`${commissionPer.toFixed(2)}%`}</>
+            : <FormatBalance label={<label>{t('commission')}</label>} value={validatorPayment} />
         }
       </td>
-      <td className='number'>{formatNumber(numNominators)}</td>
-      <td className='number'><FormatBalance value={bondTotal} /></td>
-      <td className='number'><FormatBalance value={bondOwn} /></td>
-      <td className='number'><FormatBalance value={bondOther} /></td>
-      <td className='number'><FormatBalance value={rewardPayout} /></td>
+      <td className='number'><FormatBalance label={<label>{t('total stake')}</label>} value={bondTotal} /></td>
+      <td className='number'><FormatBalance label={<label>{t('own stake')}</label>} value={bondOwn} /></td>
+      <td className='number'><FormatBalance label={<label>{t('other stake')}</label>} value={bondOther} >&nbsp;({formatNumber(numNominators)})</FormatBalance></td>
+      <td className='number'><FormatBalance label={<label>{t('payout (est.)')}</label>} value={rewardPayout} /></td>
       <td>
         <Icon
           className='staking--stats'
