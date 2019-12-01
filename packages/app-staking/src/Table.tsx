@@ -78,9 +78,9 @@ export default styled(Table)`
           opacity: 1;
         }
 
-        td {
+        /* td {
           border-color: #ccc;
-        }
+        } */
       }
 
       td, th {
