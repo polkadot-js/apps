@@ -10,7 +10,6 @@ export default ([
   {
     Component: Democracy,
     display: {
-      isHidden: true,
       needsApi: [
         'tx.democracy.notePreimage'
       ]
