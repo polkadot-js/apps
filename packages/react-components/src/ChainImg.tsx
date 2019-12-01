@@ -27,7 +27,9 @@ const CHAINS: Record<string, any> = {
   Kusama: chainKusama, // old name, the W3F nodes still has these
   'Kusama CC1': chainKusama,
   'Kusama CC2': chainKusama,
+  'Kusama CC3': chainKusama,
   'Plasm Testnet v1': plasm,
+  'Plasm Testnet v2': plasm
 };
 
 // overrides based on the actual software node type

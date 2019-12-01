@@ -6,6 +6,7 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
 import BN from 'bn.js';
+import { registry } from '@polkadot/react-api';
 import { createType, getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
 
 import Account from './Account';
@@ -46,7 +47,7 @@ const components: ComponentMap = ([
   { c: Code, t: ['Code'] },
   { c: Data, t: ['Data', 'Keys'] },
   { c: Enum, t: ['Enum'] },
-  { c: Hash256, t: ['CodeHash', 'Hash', 'H256', 'SeedOf'] },
+  { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
@@ -68,6 +69,8 @@ const components: ComponentMap = ([
 
   return components;
 }, {} as unknown as ComponentMap);
+
+const warnList: string[] = [];
 
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const findOne = (type: string): React.ComponentType<Props> | null =>
@@ -114,7 +117,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
   if (!Component) {
     try {
-      const instance = createType(type as any);
+      const instance = createType(registry, type as any);
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(raw.type);
@@ -130,7 +133,11 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       // console.error(error.message);
     }
 
-    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`);
+    // we only want to want once, not spam
+    if (!warnList.includes(type)) {
+      warnList.push(type);
+      console.warn(`Cannot find component for ${type}, defaulting to Unknown`);
+    }
   }
 
   return Component || Unknown;

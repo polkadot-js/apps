@@ -3,17 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { BareProps, CallProps } from '@polkadot/react-api/types';
+import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useState, useEffect } from 'react';
-import { withCalls } from '@polkadot/react-api';
 import { getAddressName } from '@polkadot/react-components/util';
+import { trackStream, useApi } from '@polkadot/react-hooks';
 
-interface Props extends BareProps, CallProps {
+interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
-  info?: DeriveAccountInfo;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | null;
   withShort?: boolean;
@@ -41,7 +40,9 @@ function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | 
   return extracted;
 }
 
-export function AccountName ({ children, className, defaultName, info, label = '', params, style }: Props): React.ReactElement<Props> {
+export default function AccountName ({ children, className, defaultName, label = '', params, style }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const info = trackStream<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
   const [name, setName] = useState(defaultOrAddr(defaultName, params));
 
   useEffect((): void => {
@@ -66,7 +67,3 @@ export function AccountName ({ children, className, defaultName, info, label = '
     </div>
   );
 }
-
-export default withCalls<Props>(
-  ['derive.accounts.info', { paramName: 'params', propName: 'info' }]
-)(AccountName);

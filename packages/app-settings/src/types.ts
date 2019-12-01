@@ -8,7 +8,7 @@ export interface Option {
 }
 
 export interface SetOption {
-  info: string;
+  info?: string;
   text: string;
   value: string | number;
 }

@@ -5,28 +5,29 @@
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
+import { registry } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
 
 const ZERO_BALANCE: DerivedBalances = {
-  accountId: createType('AccountId'),
-  accountNonce: createType('Index'),
-  availableBalance: createType('Balance'),
-  freeBalance: createType('Balance'),
+  accountId: createType(registry, 'AccountId'),
+  accountNonce: createType(registry, 'Index'),
+  availableBalance: createType(registry, 'Balance'),
+  freeBalance: createType(registry, 'Balance'),
   isVesting: false,
-  lockedBalance: createType('Balance'),
+  lockedBalance: createType(registry, 'Balance'),
   lockedBreakdown: [],
-  reservedBalance: createType('Balance'),
-  vestedBalance: createType('Balance'),
-  vestingTotal: createType('Balance'),
-  votingBalance: createType('Balance')
+  reservedBalance: createType(registry, 'Balance'),
+  vestedBalance: createType(registry, 'Balance'),
+  vestingTotal: createType(registry, 'Balance'),
+  votingBalance: createType(registry, 'Balance')
 };
 
 const ZERO_FEES_BALANCES: DerivedFees = {
-  creationFee: createType('Balance'),
-  existentialDeposit: createType('Balance'),
-  transactionBaseFee: createType('Balance'),
-  transactionByteFee: createType('Balance'),
-  transferFee: createType('Balance')
+  creationFee: createType(registry, 'Balance'),
+  existentialDeposit: createType(registry, 'Balance'),
+  transactionBaseFee: createType(registry, 'Balance'),
+  transactionByteFee: createType(registry, 'Balance'),
+  transferFee: createType(registry, 'Balance')
 };
 
 const ZERO_FEES = ZERO_FEES_BALANCES;

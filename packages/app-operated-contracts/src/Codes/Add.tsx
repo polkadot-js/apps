@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { createType } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { Button, Input } from '@polkadot/react-components';
 
 import ContractModal, { ContractModalProps as Props, ContractModalState } from '../Modal';
@@ -93,7 +94,7 @@ class Add extends ContractModal<Props, State> {
 
     this.setState({ isBusy: true }, (): void => {
       store
-        .saveCode(createType('Hash', codeHash), { abi, name, tags })
+        .saveCode(createType(registry, 'Hash', codeHash), { abi, name, tags })
         .then((): void => {
           this.setState(
             { isBusy: false },

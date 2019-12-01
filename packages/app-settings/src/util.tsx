@@ -19,7 +19,7 @@ export function createOption ({ info, text, value }: SetOption, overrides: strin
         <ChainImg
           className='ui--Dropdown-icon'
           logo={
-            overrides.includes(info)
+            info && overrides.includes(info)
               ? override
               : info
           }
@@ -42,7 +42,7 @@ export function createIdenticon ({ info, text, value }: SetOption, overrides: st
           className='ui--Dropdown-icon'
           size={32}
           theme={
-            overrides.includes(info)
+            info && overrides.includes(info)
               ? override as 'empty'
               : info as 'substrate'
           }

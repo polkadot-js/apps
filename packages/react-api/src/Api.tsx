@@ -22,6 +22,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 import typesChain from './overrides/chain';
 import typesSpec from './overrides/spec';
 import ApiContext from './ApiContext';
+import registry from './typeRegistry';
 
 interface Props {
   children: React.ReactNode;
@@ -43,8 +44,8 @@ interface InjectedAccountExt {
   };
 }
 
-const DEFAULT_DECIMALS = new U32(12);
-const DEFAULT_SS58 = new U32(addressDefaults.prefix);
+const DEFAULT_DECIMALS = new U32(registry, 12);
+const DEFAULT_SS58 = new U32(registry, addressDefaults.prefix);
 
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
@@ -86,6 +87,7 @@ export default class Api extends React.PureComponent<Props, State> {
   private createApi (provider: ProviderInterface, signer: ApiSigner, types: any): ApiPromise {
     return new ApiPromise({
       provider,
+      registry,
       signer,
       typesChain,
       typesSpec,

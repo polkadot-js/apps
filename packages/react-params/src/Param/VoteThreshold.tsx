@@ -6,6 +6,7 @@ import { Props } from '../types';
 
 import React from 'react';
 import { ClassOf } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { Dropdown } from '@polkadot/react-components';
 import { bnToBn } from '@polkadot/util';
 
@@ -36,7 +37,7 @@ function onChange ({ onChange }: Props): (_: number) => void {
 
 export default function VoteThresholdParam (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
-  const defaultValue = value instanceof ClassOf('VoteThreshold')
+  const defaultValue = value instanceof ClassOf(registry, 'VoteThreshold')
     ? value.toNumber()
     : bnToBn(value as number).toNumber();
 

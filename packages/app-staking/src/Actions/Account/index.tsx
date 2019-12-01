@@ -364,7 +364,7 @@ class Account extends React.PureComponent<Props, State> {
 
   private renderPopupMenu (): React.ReactNode {
     const { balances_all, isOwnStash, isSubstrateV2, t } = this.props;
-    const { hexSessionIdNext, isStashNominating, isStashValidating, sessionIds } = this.state;
+    const { isStashNominating, isStashValidating } = this.state;
 
     // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
     // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
@@ -401,7 +401,7 @@ class Account extends React.PureComponent<Props, State> {
             {t('Change validator preferences')}
           </Menu.Item>
         }
-        {!isStashNominating && (!!sessionIds.length || (isSubstrateV2 && hexSessionIdNext !== '0x')) &&
+        {!isStashNominating &&
           <Menu.Item onClick={this.toggleSetSessionAccount}>
             {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
           </Menu.Item>

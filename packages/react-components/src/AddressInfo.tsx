@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
-import { ValidatorPrefs0to145 } from '@polkadot/types/interfaces';
+import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from './types';
 
 import BN from 'bn.js';
@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { formatBalance, formatNumber, isObject } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import CryptoType from './CryptoType';
@@ -40,6 +41,8 @@ export interface ValidatorPrefsType {
   unstakeThreshold?: boolean;
   validatorPayment?: boolean;
 }
+
+const PERBILL = new BN(1000000000);
 
 interface Props extends BareProps, I18nProps {
   address: string;
@@ -203,28 +206,37 @@ function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: P
   return (
     <>
       <div />
-      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
+      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold && (
         <>
           <Label label={t('unstake threshold')} />
           <div className='result'>
-            {(stakingInfo.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
+            {(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold.toString()}
           </div>
         </>
       )}
-      {validatorPrefsDisplay.validatorPayment && stakingInfo.validatorPrefs.validatorPayment && (
-        <>
-          <Label label={t('commission')} />
-          <FormatBalance
-            className='result'
-            value={stakingInfo.validatorPrefs.validatorPayment}
-          />
-        </>
+      {validatorPrefsDisplay.validatorPayment && (stakingInfo.validatorPrefs.commission || (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment) && (
+        (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment
+          ? (
+            <>
+              <Label label={t('commission')} />
+              <FormatBalance
+                className='result'
+                value={(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment}
+              />
+            </>
+          )
+          : (
+            <>
+              <Label label={t('commission')} />
+              <span>{(stakingInfo.validatorPrefs.commission.unwrap().muln(10000).div(PERBILL).toNumber() / 100).toFixed(2)}%</span>
+            </>
+          )
       )}
     </>
   );
 }
 
-function renderBalances (props: Props): React.ReactNode {
+function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
   const { balancesAll, stakingInfo, t, withBalance = true } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
@@ -235,6 +247,7 @@ function renderBalances (props: Props): React.ReactNode {
   }
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
+  const controllerId = stakingInfo?.controllerId?.toString();
 
   return (
     <>
@@ -256,7 +269,7 @@ function renderBalances (props: Props): React.ReactNode {
           />
         </>
       )}
-      {balancesAll && balanceDisplay.vested && balancesAll.isVesting && (
+      {balanceDisplay.vested && balancesAll?.isVesting && (
         <>
           <Label label={t('vested')} />
           <FormatBalance
@@ -265,7 +278,7 @@ function renderBalances (props: Props): React.ReactNode {
           />
         </>
       )}
-      {balancesAll && balanceDisplay.locked && balancesAll.lockedBalance && balancesAll.lockedBalance.gtn(0) && (
+      {balanceDisplay.locked && balancesAll?.lockedBalance?.gtn(0) && (
         <>
           <Label label={t('locked')} />
           <FormatBalance
@@ -274,7 +287,7 @@ function renderBalances (props: Props): React.ReactNode {
           />
         </>
       )}
-      {balancesAll && balanceDisplay.reserved && balancesAll.reservedBalance && balancesAll.reservedBalance.gtn(0) && (
+      {balanceDisplay.reserved && balancesAll?.reservedBalance?.gtn(0) && (
         <>
           <Label label={t('reserved')} />
           <FormatBalance
@@ -298,16 +311,16 @@ function renderBalances (props: Props): React.ReactNode {
           </FormatBalance>
         </>
       )}
-      {balanceDisplay.redeemable && stakingInfo && stakingInfo.redeemable && stakingInfo.redeemable.gtn(0) && (
+      {balanceDisplay.redeemable && stakingInfo?.redeemable?.gtn(0) && (
         <>
           <Label label={t('redeemable')} />
           <FormatBalance
             className='result'
             value={stakingInfo.redeemable}
           >
-            {stakingInfo.controllerId && (
+            {controllerId && allAccounts.includes(controllerId) && (
               <TxButton
-                accountId={stakingInfo.controllerId.toString()}
+                accountId={controllerId}
                 className='icon-button'
                 icon='lock'
                 size='small'
@@ -321,7 +334,7 @@ function renderBalances (props: Props): React.ReactNode {
           </FormatBalance>
         </>
       )}
-      {balanceDisplay.unlocking && stakingInfo && stakingInfo.unlocking && (
+      {balanceDisplay.unlocking && stakingInfo?.unlocking && (
         <>
           <Label label={t('unbonding')} />
           <div className='result'>
@@ -334,12 +347,13 @@ function renderBalances (props: Props): React.ReactNode {
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
+  const { allAccounts } = useAccounts();
   const { className, children, extraInfo, stakingInfo, t, withHexSessionId, withRewardDestination } = props;
 
   return (
     <div className={className}>
       <div className='column'>
-        {renderBalances(props)}
+        {renderBalances(props, allAccounts)}
         {withHexSessionId && (
           <>
             <Label label={t('session keys')} />

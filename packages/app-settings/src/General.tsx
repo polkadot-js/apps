@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { Option } from './types';
+import { Option, SetOption } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
-import uiSettings from '@plasm/ui-settings';
+import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
 
 import translate from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
@@ -22,6 +22,20 @@ interface Props extends I18nProps{
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
 const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
 const ledgerConnOptions = uiSettings.availableLedgerConn;
+const availableLanguages: SetOption[] = [
+  {
+    text: 'Default browser language (auto-detect)',
+    value: 'default'
+  },
+  {
+    text: 'English',
+    value: 'en'
+  },
+  {
+    text: '日本語',
+    value: 'ja'
+  }
+];
 
 function General ({ className, isModalContent, onClose, t }: Props): React.ReactElement<Props> {
   // tri-state: null = nothing  changed, false = no reload, true = reload required
@@ -40,22 +54,27 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
     );
   }, [settings]);
 
-  const _onChangeApiUrl = (apiUrl: string): void => setSettings({ ...settings, apiUrl });
-  const _onChangeIcon = (icon: string): void => setSettings({ ...settings, icon });
-  const _onChangeLedgerConn = (ledgerConn: string): void => setSettings({ ...settings, ledgerConn });
-  const _onChangePrefix = (prefix: number): void => setSettings({ ...settings, prefix });
-  const _onChangeUiMode = (uiMode: string): void => setSettings({ ...settings, uiMode });
+  const _handleChange = (key: keyof SettingsStruct) => <T extends string | number>(value: T): void => {
+    setSettings({ ...settings, [key]: value });
+  };
   const _saveAndReload = (): void => saveAndReload(settings);
   const _save = (): void => {
     save(settings);
     setChanged(null);
   };
 
+  const translatedAvailableLanguages = useMemo(() =>
+    availableLanguages.map(option => ({
+      ...option,
+      text: t(option.text)
+    }))
+  , [t]);
+
   const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
   return (
     <div className={className}>
-      <SelectUrl onChange={_onChangeApiUrl} />
+      <SelectUrl onChange={_handleChange('apiUrl')} />
       {!isModalContent && (
         <>
           <div className='ui--row'>
@@ -63,7 +82,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
               defaultValue={prefix}
               help={t('Override the default ss58 prefix for address generation')}
               label={t('address prefix')}
-              onChange={_onChangePrefix}
+              onChange={_handleChange('prefix')}
               options={prefixOptions}
             />
           </div>
@@ -72,7 +91,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
               defaultValue={icon}
               help={t('Override the default identity icon display with a specific theme')}
               label={t('default icon theme')}
-              onChange={_onChangeIcon}
+              onChange={_handleChange('icon')}
               options={iconOptions}
             />
           </div>
@@ -81,7 +100,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
               defaultValue={uiMode}
               help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
               label={t('interface operation mode')}
-              onChange={_onChangeUiMode}
+              onChange={_handleChange('uiMode')}
               options={uiSettings.availableUIModes}
             />
           </div>
@@ -91,7 +110,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
                 defaultValue={ledgerConn}
                 help={t('Manage your connection to Ledger S')}
                 label={t('manage hardware connections')}
-                onChange={_onChangeLedgerConn}
+                onChange={_handleChange('ledgerConn')}
                 options={ledgerConnOptions}
               />
             </div>
@@ -99,9 +118,9 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
           <div className='ui--row'>
             <Dropdown
               defaultValue={i18nLang}
-              isDisabled
               label={t('default interface language')}
-              options={uiSettings.availableLanguages}
+              onChange={_handleChange('i18nLang')}
+              options={translatedAvailableLanguages}
             />
           </div>
         </>

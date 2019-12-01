@@ -14,8 +14,7 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import store from 'store';
 import { ThemeProvider } from 'styled-components';
-import { getTypeRegistry } from '@polkadot/types';
-import { Api } from '@polkadot/react-api';
+import { Api, registry } from '@polkadot/react-api';
 import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
@@ -46,7 +45,7 @@ try {
   const names = Object.keys(types);
 
   if (names.length) {
-    getTypeRegistry().register(types);
+    registry.register(types);
     console.log('Type registration:', names.join(', '));
   }
 } catch (error) {

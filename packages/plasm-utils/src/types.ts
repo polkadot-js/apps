@@ -2,10 +2,11 @@
 // @ts-check
 // Import the API
 import { Struct, u128, bool } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 
 export class Parameters extends Struct {
 	constructor (value?: any) {
-    super({
+    super(registry, {
       canBeNominated: 'bool',
       optionExpired: 'u128',
       optionP: 'u128'
@@ -13,9 +14,9 @@ export class Parameters extends Struct {
   }
   static default(): Parameters {
     return new Parameters({
-      canBeNominated: new bool(true),
-      optionExpired: new u128(0),
-      optionP: new u128(0)
+      canBeNominated: new bool(registry,true),
+      optionExpired: new u128(registry, 0),
+      optionP: new u128(registry, 0)
     });
   }
   public isError(): boolean {

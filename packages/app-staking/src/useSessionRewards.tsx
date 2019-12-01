@@ -8,6 +8,7 @@ import { Slash, SessionRewards } from '@polkadot/react-hooks/types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
+import { registry } from '@polkadot/react-api';
 import { useApi, useCacheKey } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
@@ -26,18 +27,35 @@ interface Serialized {
   slashes: SerializedSlash[];
 }
 
+const MAX_BLOCKS = 2500;
+
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
-  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
-    blockHash: createType('Hash', blockHash),
-    blockNumber: createType('BlockNumber', blockNumber),
-    isEventsEmpty,
-    reward: createType('Balance', reward),
-    sessionIndex: createType('SessionIndex', sessionIndex),
-    slashes: slashes.map(({ accountId, amount }): Slash => ({
-      accountId: createType('AccountId', accountId),
-      amount: createType('Balance', amount)
+  let hasSome = false;
+  let keepAll = true;
+
+  return sessions
+    .map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
+      blockHash: createType(registry, 'Hash', blockHash),
+      blockNumber: createType(registry, 'BlockNumber', blockNumber),
+      isEventsEmpty,
+      reward: createType(registry, 'Balance', reward),
+      sessionIndex: createType(registry, 'SessionIndex', sessionIndex),
+      slashes: slashes.map(({ accountId, amount }): Slash => ({
+        accountId: createType(registry, 'AccountId', accountId),
+        amount: createType(registry, 'Balance', amount)
+      }))
     }))
-  }));
+    .filter(({ isEventsEmpty }): boolean => {
+      if (!isEventsEmpty) {
+        // we first see if we have some data up to this point (we may not, i.e. non-archive)
+        hasSome = true;
+      } else if (hasSome) {
+        // if data is followed by empty, drop everything from here on
+        keepAll = false;
+      }
+
+      return keepAll;
+    });
 }
 
 function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
@@ -104,8 +122,8 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
       blockHash: headers[index].hash,
       blockNumber: headers[index].number.unwrap(),
       isEventsEmpty: events[index].length === 0,
-      reward: rewards[index] || createType('Balance'),
-      sessionIndex: createType('SessionIndex', u8aToU8a(
+      reward: rewards[index] || createType(registry, 'Balance'),
+      sessionIndex: createType(registry, 'SessionIndex', u8aToU8a(
         value.isSome ? value.unwrap() : new Uint8Array([])
       )),
       slashes: slashes[index]
@@ -119,34 +137,35 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
 
   useEffect((): void => {
     let workQueue = fromJSON(getCache() || []);
+    const savedNumber = workQueue[workQueue.length - 1]
+      ? workQueue[workQueue.length - 1].blockNumber
+      : undefined;
 
     setImmediate((): void => {
       api.isReady.then(async (): Promise<void> => {
         const maxSessionsStore = maxSessions + 1; // assuming first is a bust
-        const sessionLength = api.consts.babe?.epochDuration || new BN(500);
-        const count = Math.min(sessionLength.muln(maxSessionsStore).divn(10).toNumber(), 10000);
         const bestHeader = await api.rpc.chain.getHeader();
         let toHash = bestHeader.hash;
         let toNumber = bestHeader.number.unwrap().toBn();
-        let fromHash = api.genesisHash;
-        let fromNumber = bnMax(toNumber.subn(count), new BN(1));
+        let fromNumber = bnMax(toNumber.subn(MAX_BLOCKS), new BN(1));
 
         while (true) {
-          fromHash = await api.rpc.chain.getBlockHash(fromNumber as any);
+          // console.log(`Updating rewards cache, #${fromNumber} -> #${toNumber}`);
 
+          const fromHash = await api.rpc.chain.getBlockHash(fromNumber as any);
           const newQueue = await loadSome(api, fromHash, toHash);
 
           workQueue = mergeResults(workQueue, newQueue);
           toHash = fromHash;
           toNumber = fromNumber;
-          fromNumber = bnMax(toNumber.subn(count), new BN(1));
+          fromNumber = bnMax(toNumber.subn(MAX_BLOCKS), new BN(1));
 
           setCache(toJSON(workQueue, maxSessionsStore));
           setFiltered(workQueue.slice(-maxSessions));
 
           const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
 
-          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(lastNumber))) {
+          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
             break;
           }
         }

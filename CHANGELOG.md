@@ -1,3 +1,26 @@
+# 0.37.1
+
+- Support for Kusama CC3
+- Support for contracts with new ABI v2 (Thanks to @kwingram25)
+- Support for on-chain nicks
+- Speed improvements for the staking pages
+- Add account derivation from existing account
+- Council voting with runner up & phragmen
+- Allow favorites in validators pages
+- Rework nominations to take favorites & current into account
+- Enhance AddressCard with additional info (incl. vested)
+- Move account/address actions to popup menu
+- Convert a large number of components to use hooks
+- Display validator graphs
+- Refactor of backup modal (Thanks to @LukeSugiura)
+- Enable lanugage setting options (Thanks to @LukeSugiura)
+- Allow for signRaw to be used in the signing toolbox (injected accounts)
+- Display account names in status events
+- Nomination targets dashboard
+- Validator preferences are expressed as commission % as supported by chains
+- Account locks are applied on a genesis range (e.g. CC2 & CC3 allow availability)
+- ... lots of smaller enhancements & bug fixes
+
 # 0.36.1
 
 - Api 0.95.1, Util 1.6.1, Extension 0.13.1
