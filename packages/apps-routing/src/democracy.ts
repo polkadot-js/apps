@@ -12,7 +12,7 @@ export default ([
     display: {
       isHidden: true,
       needsApi: [
-        'query.democracy.nextTally'
+        'tx.democracy.notePreimage'
       ]
     },
     i18n: {
