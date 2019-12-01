@@ -12,11 +12,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressMini, Badge, Icon } from '@polkadot/react-components';
 import { trackStream, useApi } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import AddressSmall from '../AddressSmall';
 import translate from '../translate';
-import { FormatBalance } from '@polkadot/react-query/FormatBalance';
 
 interface Props extends I18nProps {
   address: AccountId | string;
@@ -49,7 +49,7 @@ interface StakingState {
   validatorPayment?: BN;
 }
 
-function Address ({ address, authorsMap, className, defaultName, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
   const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
@@ -156,10 +156,10 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
         )}
       </td>
       <td>
-        <AddressSmall defaultName={defaultName} value={stashId} />
+        <AddressSmall value={stashId} />
       </td>
       <td className='number'>
-        {stakeOwn && <FormatBalance value={stakeOwn} />}
+        {stakeOwn && <FormatBalance label={<label>{t('own stake')}</label>} value={stakeOwn} />}
       </td>
       <td className={'toggle number'} colSpan={isExpanded ? 5 : 1} onClick={_toggleNominators}>
         {stakeOther && (
@@ -176,37 +176,36 @@ function Address ({ address, authorsMap, className, defaultName, filter, hasQuer
                 )}
               </div>
             )
-            : <FormatBalance value={stakeOther}>&nbsp;<Icon name='angle double right' /></FormatBalance>
+            : <FormatBalance label={<label>{t('other stake')}</label>} value={stakeOther}>&nbsp;({formatNumber(nominators.length)})&nbsp;<Icon name='angle double right' /></FormatBalance>
         )}
       </td>
       {!isExpanded && (
         <>
           <td className='number'>
-            {nominators.length !== 0 && (
-              <div>{formatNumber(nominators.length)}</div>
+            {(commission || validatorPayment) && (
+              commission
+                ? <><label>{t('commission')}</label>{commission}</>
+                : <FormatBalance label={<label>{t('commission')}</label>} value={validatorPayment} />
             )}
           </td>
           <td className='number'>
-            {(commission || validatorPayment) && (
-              commission || <FormatBalance value={validatorPayment} />
+            {points && points.gtn(0) && (
+              <><label>{t('points')}</label>{formatNumber(points)}</>
             )}
           </td>
           <td className='number'>
             {lastBlockNumber && <>#{lastBlockNumber}</>}
           </td>
-          <td className='number'>
-            {formatNumber(points)}
+          <td>
+            {hasQueries && api.query.imOnline?.authoredBlocks && (
+              <Icon
+                name='line graph'
+                onClick={_onQueryStats}
+              />
+            )}
           </td>
         </>
       )}
-      <td>
-        {hasQueries && api.query.imOnline?.authoredBlocks && (
-          <Icon
-            name='line graph'
-            onClick={_onQueryStats}
-          />
-        )}
-      </td>
     </tr>
   );
 }

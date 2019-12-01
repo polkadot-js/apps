@@ -54,28 +54,15 @@ Table.Body = Body;
 Table.Head = Head;
 
 export default styled(Table)`
-  padding: 1.5rem 0;
+  margin-bottom: 1.5rem;
 
   table {
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
+    border-collapse: separate;
+    border-spacing: 0 0.25rem;
     width: 100%;
 
     tr {
-      border: 1px solid #f2f2f2;
-      border-top-width: 0px;
-
-      &:nth-child(even) {
-        td {
-          background: #f9f9f9;
-        }
-      }
-
-      &:nth-child(odd) {
-        td {
-          background: white;
-        }
-      }
-
       &.isHighlight {
         td {
           background: #ffffed;
@@ -99,39 +86,33 @@ export default styled(Table)`
       }
 
       td {
+        background: white;
+        border: 1px solid #f2f2f2;
+        border-left-width: 0;
+        border-right-width: 0;
         padding: 0.5rem 0.75rem;
+
+        label {
+          display: block !important;
+          white-space: nowrap;
+        }
 
         i.icon {
           cursor: pointer;
         }
 
         &:first-child {
+          border-left-width: 1px;
           border-radius: 0.25rem 0 0 0.25rem;
         }
 
         &:last-child {
+          border-right-width: 1px;
           border-radius: 0 0.25rem 0.25rem 0;
         }
 
         &.favorite i.icon.isSelected {
           color: darkorange;
-        }
-
-        &.address {
-          white-space: nowrap;
-          text-overflow: ellipsis;
-
-          > div  {
-            display: inline-block;
-            vertical-align: middle;
-          }
-
-          > div+div {
-            margin-left: 0.75rem;
-            max-width: 16rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
         }
       }
 

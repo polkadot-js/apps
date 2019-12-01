@@ -30,11 +30,11 @@ function format (value: Compact<any> | BN | string, currency: string): React.Rea
   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span> {currency}</>;
 }
 
-export function FormatBalance ({ children, className, label = '', value }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className, label = '', value }: Props): React.ReactElement<Props> {
   const [currency] = useState(formatBalance.getDefaults().unit);
 
   return (
-    <div className={className}>
+    <div className={`ui--FormatBalance ${className}`}>
       {label}{
         value
           ? format(value, currency)

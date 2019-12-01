@@ -87,12 +87,16 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
               text: t('Staking overview')
             },
             {
-              name: 'actions',
-              text: t('Account actions')
+              name: 'waiting',
+              text: t('Waiting')
             },
             {
               name: 'returns',
               text: t('Returns')
+            },
+            {
+              name: 'actions',
+              text: t('Account actions')
             },
             {
               hasParams: true,
@@ -108,7 +112,7 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
         <Route path={`${basePath}/returns`}>{_renderComponent(Targets)}</Route>
       </Switch>
       {_renderComponent(Actions, pathname === `${basePath}/actions` ? '' : 'staking--hidden')}
-      {_renderComponent(Overview, pathname === basePath ? '' : 'staking--hidden')}
+      {_renderComponent(Overview, [basePath, `${basePath}/waiting`].includes(pathname) ? '' : 'staking--hidden')}
     </main>
   );
 }

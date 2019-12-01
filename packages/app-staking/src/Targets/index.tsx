@@ -11,7 +11,7 @@ import { ValidatorInfo } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { InputBalance, Icon, Tooltip } from '@polkadot/react-components';
+import { InputBalance } from '@polkadot/react-components';
 import { useAccounts, useApi, useFavorites, trackStream } from '@polkadot/react-hooks';
 
 import Table from '../Table';
@@ -174,7 +174,7 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
               value={amount}
             />
             <Table>
-              <Table.Head>
+              {/* <Table.Head>
                 <th>&nbsp;</th>
                 <th className='number'>
                   <Icon
@@ -195,7 +195,7 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
                 <th className='number'>{t('other stake')}</th>
                 <th className='number'>{t('payout (est.)')}</th>
                 <th>&nbsp;</th>
-              </Table.Head>
+              </Table.Head> */}
               <Table.Body>
                 {validators.map((info): React.ReactNode =>
                   <Validator
@@ -224,6 +224,7 @@ export default translate(
 
     .balanceInput {
       padding-right: 2rem;
+      margin-bottom: 1.5rem;
     }
   `
 );
