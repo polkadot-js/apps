@@ -52,5 +52,6 @@
   "remaining": "remaining",
   "activate at": "activate at",
   "Aye ({{count}})": "Aye ({{count}})",
-  "Nay ({{count}})": "Nay ({{count}})"
+  "Nay ({{count}})": "Nay ({{count}})",
+  "proposal hash": "proposal hash"
 }

@@ -687,5 +687,6 @@
   "Tech. committee": "",
   "Proposals ({{count}})": "",
   "No committee proposals": "",
-  "Motions ({{count}})": ""
+  "Motions ({{count}})": "",
+  "proposal hash": ""
 }
