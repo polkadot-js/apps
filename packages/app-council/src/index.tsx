@@ -6,6 +6,8 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
@@ -14,9 +16,11 @@ import translate from './translate';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-function App ({ basePath, t }: Props): React.ReactElement<Props> {
+function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
+  const { pathname } = useLocation();
+
   return (
-    <main>
+    <main className={className}>
       <header>
         <Tabs
           basePath={basePath}
@@ -27,6 +31,10 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
               text: t('Council overview')
             },
             {
+              name: 'candidates',
+              text: t('Candidates')
+            },
+            {
               name: 'motions',
               text: t('Motions')
             }
@@ -35,10 +43,16 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
       </header>
       <Switch>
         <Route path={`${basePath}/motions`} component={Motions} />
-        <Route component={Overview} />
       </Switch>
+      <Overview className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'} />
     </main>
   );
 }
 
-export default translate(App);
+export default translate(
+  styled(App)`
+    .council--hidden {
+      display: none;
+    }
+  `
+);
