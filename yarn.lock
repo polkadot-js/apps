@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@acala-network/types@^0.2.0-beta.3":
+  version "0.2.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@acala-network/types/-/types-0.2.0-beta.3.tgz#7bce966032638b5d5adba0c1574b4f3c2fd17cd4"
+  integrity sha512-C1/rzKccZPfZ85hJU85jgPP4JQR6sHzrsiUnPqfeLZ4TfBF1e/CqlNLdl4KcopRs0wveMdHTbDI84UPQ3ntZWQ==
+  dependencies:
+    "@babel/runtime" "^7.7.4"
+    "@orml/types" "^0.2.0-beta.1"
+    "@polkadot/types" "^0.97.0-beta.33"
+
 "@babel/cli@^7.7.4":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.7.4.tgz#38804334c8db40209f88c69a5c90998e60cca18b"
@@ -2029,6 +2038,14 @@
   dependencies:
     "@types/node" ">= 8"
 
+"@orml/types@^0.2.0-beta.1":
+  version "0.2.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@orml/types/-/types-0.2.0-beta.1.tgz#f41248bdcf10a92c0ccb8448066dccba06c53351"
+  integrity sha512-YAUpX3BkkipP/nNX3KT2s8GjupFnhAxAfnjWj+9v1KC+AJMUwgAmgro69bYYnSyEcJ+WmkJ1c6S76wiGpiak2w==
+  dependencies:
+    "@babel/runtime" "^7.7.4"
+    "@polkadot/types" "^0.97.0-beta.33"
+
 "@polkadot/api-contract@^0.98.0-beta.0":
   version "0.98.0-beta.0"
   resolved "https://registry.yarnpkg.com/@polkadot/api-contract/-/api-contract-0.98.0-beta.0.tgz#218b763c43f66f4f6446d16fe0d275bad188246f"
@@ -2244,7 +2261,7 @@
   dependencies:
     "@types/chrome" "^0.0.91"
 
-"@polkadot/types@^0.98.0-beta.0":
+"@polkadot/types@^0.97.0-beta.33", "@polkadot/types@^0.98.0-beta.0":
   version "0.98.0-beta.0"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-0.98.0-beta.0.tgz#5c51c234772c1c456ac43bbef71c3804e65e0e02"
   integrity sha512-pmATM5HA4wHJHATvYOZym48TXvpST5xxG49+E5qHMi9Wsoij0RFiFNqyuOl/RIeFd8Xp1xhCIxZo0NbS17NT9g==
