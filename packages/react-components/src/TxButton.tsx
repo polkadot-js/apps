@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { assert, isFunction, isUndefined } from '@polkadot/util';
 import { QueueTx, QueueTxExtrinsicAdd } from './Status/types';
 import { TxButtonProps as Props } from './types';
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { withApi } from '@polkadot/react-api';
+import { assert, isFunction, isUndefined } from '@polkadot/util';
 
 import Button from './Button';
 import { QueueConsumer } from './Status/Context';
@@ -33,8 +33,6 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
 
   public render (): React.ReactNode {
     const { accountId, className, icon, iconSize, innerRef, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
-
-    assert(!!this.props.extrinsic || (!!this.props.params && !!this.props.tx), 'TxButton: Invalid extrinsic provided');
 
     const { isSending } = this.state;
     const needsAccount = isUnsigned
