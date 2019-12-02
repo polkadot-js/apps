@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2019 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,10 +13,11 @@ import { isBoolean } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  referendumId: BN | number;
+  hash: string;
+  proposalId: BN | number;
 }
 
-function Voting ({ referendumId, t }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, proposalId, t }: Props): React.ReactElement<Props> | null {
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, setIsVotingOpen] = useState(false);
@@ -73,8 +74,8 @@ function Voting ({ referendumId, t }: Props): React.ReactElement<Props> | null {
                 isPrimary
                 label={t('Vote')}
                 onClick={_toggleVoting}
-                params={[referendumId, voteValue]}
-                tx='democracy.vote'
+                params={[hash, proposalId, voteValue]}
+                tx='technicalCommittee.vote'
               />
             </Button.Group>
           </Modal.Actions>

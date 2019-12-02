@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2019 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +9,6 @@ import React from 'react';
 import { CardGrid } from '@polkadot/react-components';
 
 import Proposal from './Proposal';
-import Propose from './Propose';
 import translate from '../translate';
 
 interface Props extends I18nProps {
@@ -22,7 +20,7 @@ function Proposals ({ proposals, t }: Props): React.ReactElement<Props> {
     <CardGrid
       emptyText={t('No committee proposals')}
       headerText={t('Proposals')}
-      buttons={<Propose />}
+      // buttons={<Propose />}
     >
       {proposals?.map((hash: Hash): React.ReactNode => (
         <Proposal

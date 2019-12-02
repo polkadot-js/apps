@@ -1,33 +1,32 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2019 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import BN from 'bn.js';
 import React from 'react';
+import { useApi, trackStream } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import { ActionItem, InputAddress, Labelled, Voting } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  chain_bestNumber?: BN;
   hash: string;
-  proposal: ProposalType | null;
-  votes: Votes | null;
 }
 
-function Proposal ({ className, hash, proposal, t, votes }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const proposal = trackStream<ProposalType>(api.query.technicalCommittee.proposalOf, [hash]);
+  const votes = trackStream<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
 
-  if (!proposal || !votes) {
+  if (!proposal || !votes?.isSome) {
     return null;
   }
 
-  const { ayes, index, nays, threshold } = votes;
+  const { ayes, index, nays, threshold } = votes.unwrap();
 
   return (
     <ActionItem
@@ -35,8 +34,7 @@ function Proposal ({ className, hash, proposal, t, votes }: Props): React.ReactE
       accessory={
         <Voting
           hash={hash}
-          isCouncil
-          idNumber={index}
+          proposalId={index}
           proposal={proposal}
         />
       }
@@ -85,21 +83,4 @@ function Proposal ({ className, hash, proposal, t, votes }: Props): React.ReactE
   );
 }
 
-export default withMulti(
-  Motion,
-  translate,
-  withCalls<Props>(
-    ['query.council.proposalOf', {
-      paramName: 'hash',
-      propName: 'proposal',
-      transform: (value: Option<ProposalType>): ProposalType | null =>
-        value.unwrapOr(null)
-    }],
-    ['query.council.voting', {
-      paramName: 'hash',
-      propName: 'votes',
-      transform: (value: Option<Votes>): Votes | null =>
-        value.unwrapOr(null)
-    }]
-  )
-);
+export default translate(Proposal);
