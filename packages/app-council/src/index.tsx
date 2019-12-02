@@ -16,6 +16,8 @@ import Overview from './Overview';
 import Motions from './Motions';
 import translate from './translate';
 
+export { default as useCounter } from './useCounter';
+
 interface Props extends AppProps, BareProps, I18nProps {}
 
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {

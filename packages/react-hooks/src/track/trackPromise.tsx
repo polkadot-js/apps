@@ -34,7 +34,7 @@ export default function trackPromise <T> (fn: TrackFn<T> | undefined, params: Pa
 
   // initial round, subscribe once
   useEffect((): void => {
-    const [serialized, mappedParams] = extractParams(params, paramMap);
+    const [serialized, mappedParams] = extractParams(fn, params, paramMap);
 
     tracker.current.serialized = serialized;
 
@@ -45,14 +45,14 @@ export default function trackPromise <T> (fn: TrackFn<T> | undefined, params: Pa
 
   // on changes, re-get
   useEffect((): void => {
-    const [serialized, mappedParams] = extractParams(params, paramMap);
+    const [serialized, mappedParams] = extractParams(fn, params, paramMap);
 
     if (mappedParams && serialized !== tracker.current.serialized) {
       tracker.current.serialized = serialized;
 
       _subscribe(mappedParams);
     }
-  }, [params]);
+  }, [fn, params]);
 
   return value;
 }

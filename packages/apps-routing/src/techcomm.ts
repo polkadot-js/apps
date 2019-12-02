@@ -4,16 +4,17 @@
 
 import { Routes } from './types';
 
-import TechComm from '@polkadot/app-tech-comm';
+import TechComm, { useCounter } from '@polkadot/app-tech-comm';
 
 export default ([
   {
     Component: TechComm,
+    useCounter,
     display: {
       needsApi: ['query.technicalCommittee.members']
     },
     i18n: {
-      defaultValue: 'Tech. committee'
+      defaultValue: 'Tech. comm.'
     },
     icon: 'microchip',
     name: 'techcomm'

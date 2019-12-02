@@ -13,6 +13,8 @@ import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';
 
+export { default as useCounter } from './useCounter';
+
 interface Props extends AppProps, BareProps, I18nProps {}
 
 const hidden = uiSettings.uiMode === 'full'
