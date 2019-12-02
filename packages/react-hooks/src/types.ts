@@ -24,13 +24,13 @@ export interface SessionRewards {
 }
 
 export interface ExtrinsicAndSenders {
-  extrinsic: SubmittableExtrinsic | null,
-  sendTx: () => void,
-  sendUnsigned: () => void
+  extrinsic: SubmittableExtrinsic | null;
+  sendTx: () => void;
+  sendUnsigned: () => void;
 }
 
 export interface TxProps {
-  accountId?: StringOrNull,
+  accountId?: StringOrNull;
   onChangeAccountId?: (_: StringOrNull) => void;
   onSuccess?: () => void;
   onFailed?: () => void;

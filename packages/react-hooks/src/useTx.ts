@@ -33,7 +33,7 @@ function getExtrinsic<T extends TxSources> (api: ApiPromise, tx: T): Submittable
   } else {
     if ((tx as Call).callIndex) {
       const fn = api.findCall(tx.callIndex);
-    
+
       return api.tx[fn.section][fn.method](...tx.args);
     }
 
@@ -101,26 +101,24 @@ export default function useTx<T extends TxSources> (source: T, { accountId: anAc
 
     return {
       extrinsic,
-      sendTx: () => _sendTx(),
-      sendUnsigned: () => _sendTx(true)
+      sendTx: (): void => _sendTx(),
+      sendUnsigned: (): void => _sendTx(true)
     };
   }
 
-  const { extrinsic, sendTx, sendUnsigned } = useMemo<ExtrinsicAndSenders>(
+  const txAndSenders = useMemo<ExtrinsicAndSenders>(
     (): ExtrinsicAndSenders => getExtrinsicAndSenders(api, accountId, source),
     [accountId, source]
   );
 
   return {
-    extrinsic,
+    ...txAndSenders,
+    isSending,
     accountId,
     onChangeAccountId: (accountId: StringOrNull): void => {
       setAccountId(accountId);
-  
+
       onChangeAccountId && onChangeAccountId(accountId);
-    },
-    sendTx,
-    sendUnsigned,
-    isSending
+    }
   };
 }

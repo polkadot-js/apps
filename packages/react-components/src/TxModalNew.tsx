@@ -15,10 +15,8 @@ function TxModal<P extends Props> ({
   t,
   accountId,
   onChangeAccountId,
-  extrinsic,
   sendTx,
   isSending,
-  // txSource,
   trigger: Trigger,
   header = t('Submit signed extrinsic'),
   content,
@@ -129,7 +127,7 @@ function TxModal<P extends Props> ({
               icon={submitButtonIcon}
               onClick={sendTx}
               {...submitButtonProps}
-            />          
+            />
           </Button.Group>
         </Modal.Actions>
       </Modal>

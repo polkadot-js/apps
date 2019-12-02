@@ -125,6 +125,7 @@ export interface TxModalProps extends I18nProps, TxState {
   modalProps?: {
     [index: string]: any;
   };
+  contentClassName?: string;
   inputAddressHelp?: React.ReactNode;
   inputAddressExtra?: React.ReactNode;
   inputAddressLabel?: React.ReactNode;

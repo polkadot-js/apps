@@ -3,45 +3,41 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal } from '@polkadot/types/interfaces';
-import { I18nProps, TxModalProps } from '@polkadot/react-components/types';
+import { I18nProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
-import { withMulti } from '@polkadot/react-api';
+import { useTx } from '@polkadot/react-hooks';
 
 import translate from './translate';
 import Button from './Button';
 import Dropdown from './Dropdown';
 import ProposedAction from './ProposedAction';
-import TxModalNew from './TxModalNew';
+import TxModal from './TxModalNew';
 import { isTreasuryProposalVote } from './util';
 
-interface Props extends I18nProps, TxModalProps {
+interface Props extends I18nProps {
   allAccounts?: SubjectInfo;
   hash?: string;
   idNumber: BN | number;
-  isCouncil: boolean;
+  isCouncil?: boolean;
   proposal?: Proposal | null;
 }
 
-function getTx ({ isCouncil, idNumber, hash }: Props, voteValue: boolean): [string, any[]] {
-  return [
-    isCouncil ? 'council.vote' : 'democracy.vote',
-    isCouncil
-      ? [hash, idNumber, voteValue]
-      : [idNumber, voteValue]
-  ];
-}
-
-function Voting (props: Props): React.ReactElement<Props> {
-  const { t, hash, idNumber, isCouncil, proposal } = props;
-
+function Voting ({ t, hash, idNumber, isCouncil = false, proposal }: Props): React.ReactElement<Props> {
   const [voteValue, setVoteValue] = useState(false);
 
-  const [txMethod, txParams] = useMemo(
-    (): [string, any[]] => getTx(props, voteValue),
-    [hash, idNumber, isCouncil, voteValue]
+  const txState = useTx(
+    useMemo(
+      (): [string, any[]] => [
+        isCouncil ? 'council.vote' : 'democracy.vote',
+        isCouncil
+          ? [hash, idNumber, voteValue]
+          : [idNumber, voteValue]
+      ],
+      [hash, idNumber, isCouncil, voteValue]
+    )
   );
 
   const voteOptions = [
@@ -54,7 +50,8 @@ function Voting (props: Props): React.ReactElement<Props> {
   };
 
   return (
-    <TxModalNew
+    <TxModal
+      {...txState}
       trigger={
         ({ onOpen }): React.ReactElement => (
           <div className='ui--Row-buttons'>
@@ -69,39 +66,30 @@ function Voting (props: Props): React.ReactElement<Props> {
       }
       header={t(isCouncil ? 'Vote on council proposal' : 'Vote on proposal')}
       preContent={
-        (): React.ReactElement => ((
-          <>
-            <ProposedAction
-              expandNested={isTreasuryProposalVote(proposal)}
-              idNumber={idNumber}
-              isCollapsible
-              proposal={proposal}
-            />
-            <br />
-            <br />
-          </>
-        ))
+        <>
+          <ProposedAction
+            expandNested={isTreasuryProposalVote(proposal)}
+            idNumber={idNumber}
+            isCollapsible
+            proposal={proposal}
+          />
+          <br />
+          <br />
+        </>
       }
       inputAddressLabel={t('vote with account')}
       inputAddressHelp={t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
       content={
-        (): React.ReactElement => ((
-          <Dropdown
-            help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
-            label={t('record my vote as')}
-            options={voteOptions}
-            onChange={_onChangeVote}
-            value={voteValue}
-          />
-        ))
+        <Dropdown
+          help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
+          label={t('record my vote as')}
+          options={voteOptions}
+          onChange={_onChangeVote}
+          value={voteValue}
+        />
       }
-      tx={txMethod}
-      params={txParams}
     />
   );
 }
 
-export default withMulti(
-  Voting,
-  translate
-);
+export default translate(Voting);

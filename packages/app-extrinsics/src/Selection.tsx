@@ -3,9 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Call } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
-import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
-import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo, useState } from 'react';
 import { Button, Extrinsic, InputAddress } from '@polkadot/react-components';
@@ -14,19 +12,13 @@ import { BalanceFree } from '@polkadot/react-query';
 
 import translate from './translate';
 
-interface Props extends ApiProps, I18nProps {
-  queueExtrinsic: QueueTxExtrinsicAdd;
-}
-
-function Selection (props: Props): React.ReactElement<Props> {
-  const { t } = props;
-
+function Selection ({ t }: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();
   const [method, setMethod] = useState<Call | null>(null);
 
   const _onChangeMethod = (method?: Call): void => {
     setMethod(method || null);
-  }
+  };
 
   const { accountId, onChangeAccountId, sendTx, sendUnsigned } = useTx(method);
 

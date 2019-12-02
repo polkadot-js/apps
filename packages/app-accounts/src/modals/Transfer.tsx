@@ -9,7 +9,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, Modal, TxModalNew as TxModal } from '@polkadot/react-components';
+import { InputAddress, InputBalance, TxModalNew as TxModal } from '@polkadot/react-components';
 import { useTx } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
@@ -68,14 +68,18 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   const [hasAvailable, setHasAvailable] = useState(true);
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
 
-  const transferrable = <span className='label'>{t('transferrable')}</span>;
+  const transferrable = (
+    <span className='label'>
+      {t('transferrable')}
+    </span>
+  );
 
   const tx = useMemo(
     (): [string, any[]] => ['balances.transfer', [recipientId, amount || ZERO]],
     [recipientId, amount]
   );
-  
-  const txState = useTx(tx, { onSuccess: onClose });
+
+  const txState = useTx(tx, { accountId: propSenderId || undefined, onSuccess: onClose });
   const { accountId: senderId, extrinsic, sendTx: onSubmit } = txState;
 
   return (
@@ -107,7 +111,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
             isError={!hasAvailable}
             label={t('amount')}
-            onChange={(amount?: BN) => { setAmount(amount); }}
+            onChange={setAmount}
             onEnter={onSubmit}
             onEscape={onClose}
             value={amount}
@@ -120,11 +124,12 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
           />
         </>
       }
+      contentClassName={className}
       onClose={onClose}
       submitButtonIcon='send'
       submitButtonLabel={t('Make Transfer')}
     />
-  )
+  );
 
   // return (
   //   <Modal
