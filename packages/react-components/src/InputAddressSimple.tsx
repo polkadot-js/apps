@@ -18,9 +18,10 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onChange?: (address: string | null) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
 }
 
-function InputAddressSimple ({ children, className, defaultValue, help, label, onChange, onEnter }: Props): React.ReactElement<Props> {
+function InputAddressSimple ({ children, className, defaultValue, help, label, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> {
   const [address, setAddress] = useState<string | null>(defaultValue || null);
 
   const _onChange = (_address: string): void => {
@@ -40,6 +41,7 @@ function InputAddressSimple ({ children, className, defaultValue, help, label, o
         label={label}
         onChange={_onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
       >
         {children}
       </Input>
