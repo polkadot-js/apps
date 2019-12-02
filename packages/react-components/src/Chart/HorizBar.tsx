@@ -97,6 +97,7 @@ export default function ChartHorizBar ({ aspectRatio = 8, className, max = 100, 
     return null;
   }
 
+  // HACK on width/height to get the aspectRatio to work
   return (
     <div
       className={className}
@@ -104,9 +105,9 @@ export default function ChartHorizBar ({ aspectRatio = 8, className, max = 100, 
     >
       <HorizontalBar
         data={chartData}
-        height={null}
+        height={null as any}
         options={chartOptions}
-        width={null}
+        width={null as any}
       />
     </div>
   );
