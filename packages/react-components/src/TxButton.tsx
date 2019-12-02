@@ -11,7 +11,6 @@ import { SubmittableResult } from '@polkadot/api';
 import { withApi } from '@polkadot/react-api';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
 
-
 import Button from './Button';
 import { QueueConsumer } from './Status/Context';
 
