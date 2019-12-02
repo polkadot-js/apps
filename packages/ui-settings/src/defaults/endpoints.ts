@@ -2,7 +2,7 @@ import { Option } from '../types';
 
 import { isPlasm } from './type';
 
-type ChainName = 'plasmTest';
+type ChainName = 'plasmTestV1' | 'plasmTestV2';
 
 interface ChainData {
   chainDisplay: string;
@@ -18,17 +18,22 @@ interface PoviderData {
 }
 
 // we use this to give an ordering to the chains available
-const ORDER_CHAINS: ChainName[] = ['plasmTest'];
+const ORDER_CHAINS: ChainName[] = ['plasmTestV1', 'plasmTestV2'];
 
 // we use this to order the providers inside the chains
 const ORDER_PROVIDERS: ProviderName[] = ['stake'];
 
 // some suplementary info on a per-chain basis
 const CHAIN_INFO: Record<ChainName, ChainData> = {
-  plasmTest: {
+  plasmTestV2: {
+    chainDisplay: 'Plasm Testnet v2',
+    logo: 'plasm',
+    type: 'Plasm Testnet version2'
+  },
+  plasmTestV1: {
     chainDisplay: 'Plasm Testnet v1',
     logo: 'plasm',
-    type: 'Plasm Testnet'
+    type: 'Plasm Testnet version1'
   }
 };
 
@@ -39,14 +44,14 @@ const PROVIDERS: Record<ProviderName, PoviderData> = ORDER_PROVIDERS.reduce((map
   map[p] = {
     providerDisplay: 'Stake technologies Host',
     nodes: {
-      plasmTest: 'wss://' + HOSTS[i]
+      plasmTestV2: 'wss://' + HOSTS[i],
     }
   };
   return map;
 }, {});
 
 export const ENDPOINT_DEFAULT = isPlasm
-  ? PROVIDERS.stake.nodes.plasmTest
+  ? PROVIDERS.stake.nodes.plasmTestV2
   : 'ws://127.0.0.1:9944/';
 
 export const ENDPOINTS: Option[] = ORDER_CHAINS.reduce((endpoints: Option[], chainName): Option[] => {
