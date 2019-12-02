@@ -33,6 +33,7 @@ function Proposal ({ className, t, value: { balance, index, proposal, proposer, 
             <AddressMini
               className='identityIcon'
               key={`${count}:${address}`}
+              label={!count ? t('seconding') : undefined}
               value={address}
               withBalance={false}
             />
@@ -56,7 +57,7 @@ export default translate(
   styled(Proposal)`
     .identityIcon {
       &:first-child {
-        margin-top: 4px;
+        padding-top: 0;
       }
 
       &:last-child {

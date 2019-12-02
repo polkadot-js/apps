@@ -573,7 +573,7 @@ export default withMulti(
       }
 
       .staking--label {
-        margin: 0 1.75rem -0.75rem 0;
+        margin: 0 0 -0.75rem 1.75rem;
       }
     }
 
@@ -605,7 +605,7 @@ export default withMulti(
       text-align: left;
 
       .staking--label {
-        margin: 0 0 -.75rem 3.25rem;
+        margin: 0 0 -.75rem 2.25rem;
       }
     }
 

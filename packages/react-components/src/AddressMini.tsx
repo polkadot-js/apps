@@ -24,6 +24,7 @@ interface Props extends BareProps {
   iconInfo?: React.ReactNode;
   isPadded?: boolean;
   isShort?: boolean;
+  label?: React.ReactNode;
   type?: KeyringItemType;
   value?: AccountId | AccountIndex | Address | string;
   withAddress?: boolean;
@@ -33,7 +34,7 @@ interface Props extends BareProps {
   withName?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -43,6 +44,9 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
       className={classes('ui--AddressMini', isPadded ? 'padded' : '', className)}
       style={style}
     >
+      {label && (
+        <label className='ui--AddressMini-label'>{label}</label>
+      )}
       <div className='ui--AddressMini-icon'>
         <IdentityIcon
           size={24}
@@ -90,11 +94,12 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
 export default styled(AddressMini)`
   display: inline-block;
   padding: 0 0.25rem 0 1rem;
+  text-align: left;
   white-space: nowrap;
 
   &.padded {
     display: inline-block;
-    padding: 0.25rem 0 0 1rem;
+    padding: 0.25rem 1rem 0 0;
   }
 
   &.summary {
@@ -108,6 +113,10 @@ export default styled(AddressMini)`
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
+  }
+
+  .ui--AddressMini-label {
+    margin: 0 0 -0.5rem 2.25rem;
   }
 
   .ui--AddressMini-balances {
