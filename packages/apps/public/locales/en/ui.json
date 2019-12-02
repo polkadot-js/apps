@@ -680,5 +680,8 @@
   "remaining": "",
   "activate at": "",
   "Aye ({{count}})": "",
-  "Nay ({{count}})": ""
+  "Nay ({{count}})": "",
+  "Candidates": "",
+  "backing": "",
+  "No runners up found": ""
 }
