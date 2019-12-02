@@ -5,9 +5,8 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { useForm, usePassword } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
@@ -17,90 +16,69 @@ interface Props extends I18nProps {
   onClose: () => void;
 }
 
-function ChangePass (props: Props): React.ReactElement<Props> {
-  const { address, onClose, t } = props;
+interface State {
+  isNewValid: boolean;
+  isOldValid: boolean;
+  newPass: string;
+  oldPass: string;
+}
 
-  const {
-    password: oldPassword,
-    setPassword: setOldPassword,
-    isPasswordValid: isOldPasswordValid,
-    setIsPasswordValid: setIsOldPasswordValid
-  } = usePassword();
-  const {
-    password: newPassword,
-    setPassword: setNewPassword,
-    isPasswordValid: isNewPasswordValid,
-    setIsPasswordValid: setIsNewPasswordValid
-  } = usePassword();
-
-  const _onChangeOldPassword = (oldPassword: string): void => {
-    setOldPassword(oldPassword);
+class ChangePass extends TxComponent<Props, State> {
+  public state: State = {
+    isNewValid: false,
+    isOldValid: false,
+    newPass: '',
+    oldPass: ''
   };
 
-  const _onChangeNewPassword = (newPassword: string): void => {
-    setNewPassword(newPassword);
-  };
+  public render (): React.ReactNode {
+    const { t } = this.props;
 
-  const { onSubmit, onCancel } = useForm(
-    (): void => {
-      const status: Partial<ActionStatus> = {
-        action: 'changePassword'
-      };
+    return (
+      <Modal
+        className='app--accounts-Modal'
+        dimmer='inverted'
+        open
+      >
+        <Modal.Header>{t('Change account password')}</Modal.Header>
+        {this.renderContent()}
+        {this.renderButtons()}
+      </Modal>
+    );
+  }
 
-      try {
-        const account = address && keyring.getPair(address);
+  private renderButtons (): React.ReactNode {
+    const { onClose, t } = this.props;
+    const { isNewValid, isOldValid } = this.state;
 
-        if (!account) {
-          status.message = t(`No keypair found for this address ${address}`);
+    return (
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            label={t('Cancel')}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <Button
+            icon='sign-in'
+            isDisabled={!isNewValid || !isOldValid}
+            isPrimary
+            label={t('Change')}
+            onClick={this.doChange}
+            ref={this.button}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    );
+  }
 
-          return;
-        }
+  private renderContent (): React.ReactNode {
+    const { address, t } = this.props;
+    const { isNewValid, isOldValid, newPass, oldPass } = this.state;
 
-        try {
-          if (!account.isLocked) {
-            account.lock();
-          }
-
-          account.decodePkcs8(oldPassword);
-        } catch (error) {
-          setIsOldPasswordValid(false);
-          status.message = error.message;
-
-          return;
-        }
-
-        try {
-          keyring.encryptAccount(account, newPassword);
-          status.account = address;
-          status.status = 'success';
-          status.message = t('password changed');
-        } catch (error) {
-          setIsNewPasswordValid(false);
-          status.status = 'error';
-          status.message = error.message;
-
-          return;
-        }
-      } catch (error) {
-        status.message = error.message;
-
-        return;
-      }
-
-      onClose();
-    },
-    onClose
-  );
-
-  return (
-    <Modal
-      className='app--accounts-Modal'
-      dimmer='inverted'
-      open
-    >
-      <Modal.Header>
-        {t('Change account password')}
-      </Modal.Header>
+    return (
       <Modal.Content>
         <AddressRow
           isInline
@@ -111,47 +89,94 @@ function ChangePass (props: Props): React.ReactElement<Props> {
             <Password
               autoFocus
               help={t('The existing account password as specified when this account was created or when it was last changed.')}
-              isError={!isOldPasswordValid}
+              isError={!isOldValid}
               label={t('your current password')}
-              onChange={_onChangeOldPassword}
-              onEnter={onSubmit}
-              onEscape={onCancel}
+              onChange={this.onChangeOld}
               tabIndex={1}
-              value={oldPassword}
+              value={oldPass}
             />
             <Password
               help={t('The new account password. Once set, all future account unlocks will be performed with this new password.')}
-              isError={!isNewPasswordValid}
+              isError={!isNewValid}
               label={t('your new password')}
-              onChange={_onChangeNewPassword}
-              onEnter={onSubmit}
-              onEscape={onCancel}
+              onChange={this.onChangeNew}
+              onEnter={this.submit}
               tabIndex={2}
-              value={newPassword}
+              value={newPass}
             />
           </div>
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onCancel}
-          />
-          <Button.Or />
-          <Button
-            icon='sign-in'
-            isDisabled={!isNewPasswordValid || !isOldPasswordValid}
-            isPrimary
-            label={t('Change')}
-            onClick={onSubmit}
-          />
-        </Button.Group>
-      </Modal.Actions>
-    </Modal>
-  );
+    );
+  }
+
+  private doChange = (): void => {
+    const { address, onClose, t } = this.props;
+    const { newPass, oldPass } = this.state;
+    const status: Partial<ActionStatus> = {
+      action: 'changePassword'
+    };
+
+    try {
+      const account = address && keyring.getPair(address);
+
+      if (!account) {
+        status.message = t(`No keypair found for this address ${address}`);
+
+        return;
+      }
+
+      try {
+        if (!account.isLocked) {
+          account.lock();
+        }
+
+        account.decodePkcs8(oldPass);
+      } catch (error) {
+        this.setState({ isOldValid: false });
+        status.message = error.message;
+
+        return;
+      }
+
+      try {
+        keyring.encryptAccount(account, newPass);
+        status.account = address;
+        status.status = 'success';
+        status.message = t('password changed');
+      } catch (error) {
+        this.setState({ isNewValid: false });
+        status.status = 'error';
+        status.message = error.message;
+
+        return;
+      }
+    } catch (error) {
+      status.message = error.message;
+
+      return;
+    }
+
+    onClose();
+  }
+
+  private onChangeNew = (newPass: string): void => {
+    this.setState({
+      isNewValid: this.validatePass(newPass),
+      newPass
+    });
+  }
+
+  private onChangeOld = (oldPass: string): void => {
+    this.setState({
+      isOldValid: this.validatePass(oldPass),
+      oldPass
+    });
+  }
+
+  private validatePass (password: string): boolean {
+    return keyring.isPassValid(password);
+  }
 }
 
 export default translate(ChangePass);
