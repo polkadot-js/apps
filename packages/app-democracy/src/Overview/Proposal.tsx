@@ -22,7 +22,7 @@ interface Props extends I18nProps {
 function Proposal ({ className, t, value: { balance, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
   return (
     <tr className={className}>
-      <td className='number toppad'>{formatNumber(index)}</td>
+      <td className='number top'><h1>{formatNumber(index)}</h1></td>
       <td className='top'>
         <AddressSmall value={proposer} />
       </td>

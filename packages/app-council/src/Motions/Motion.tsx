@@ -9,8 +9,10 @@ import BN from 'bn.js';
 import React from 'react';
 import { Option } from '@polkadot/types';
 
-import { ActionItem, InputAddress, Labelled, Voting } from '@polkadot/react-components';
+import { AddressMini, Voting } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
+import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
@@ -29,58 +31,42 @@ function Motion ({ className, hash, proposal, t, votes }: Props): React.ReactEle
   const { ayes, index, nays, threshold } = votes;
 
   return (
-    <ActionItem
-      className={className}
-      accessory={
+    <tr className={className}>
+      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <ProposalCell proposal={proposal} />
+      <td className='number top'>
+        <label>{t('threshold')}</label>
+        {formatNumber(ayes.length)}/{formatNumber(threshold)}
+      </td>
+      <td className='top'>
+        {ayes.map((address, index): React.ReactNode => (
+          <AddressMini
+            key={`${index}:${address}`}
+            label={index === 0 ? t('Aye') : undefined}
+            value={address}
+            withBalance={false}
+          />
+        ))}
+      </td>
+      <td className='top'>
+        {nays.map((address, index): React.ReactNode => (
+          <AddressMini
+            key={`${index}:${address}`}
+            label={t('Nay')}
+            value={address}
+            withBalance={false}
+          />
+        ))}
+      </td>
+      <td className='number top together'>
         <Voting
           hash={hash}
           isCouncil
           idNumber={index}
           proposal={proposal}
         />
-      }
-      expandNested
-      idNumber={index}
-      proposal={proposal}
-    >
-      <div>
-        <h4>{t('ayes ({{ayes}}/{{threshold}} to approve)', {
-          replace: {
-            ayes: ayes.length,
-            threshold: threshold.toString()
-          }
-        })}</h4>
-        {ayes.map((address, index): React.ReactNode => (
-          <Labelled
-            key={`${index}:${address}`}
-            label={t('Aye')}
-          >
-            <InputAddress
-              isDisabled
-              defaultValue={address}
-              withLabel={false}
-            />
-          </Labelled>
-        ))}
-        <h4>{t('nays ({{nays}})', {
-          replace: {
-            nays: nays.length
-          }
-        })}</h4>
-        {nays.map((address, index): React.ReactNode => (
-          <Labelled
-            key={`${index}:${address}`}
-            label={t('Nay')}
-          >
-            <InputAddress
-              isDisabled
-              defaultValue={address}
-              withLabel={false}
-            />
-          </Labelled>
-        ))}
-      </div>
-    </ActionItem>
+      </td>
+    </tr>
   );
 }
 

@@ -18,13 +18,14 @@ import translate from './translate';
 
 export interface Props extends I18nProps, BareProps {
   children?: React.ReactNode;
+  labelHash?: React.ReactNode;
   value: IExtrinsic | IMethod;
   withHash?: boolean;
   mortality?: string;
   tip?: BN;
 }
 
-function Call ({ children, className, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
+function Call ({ children, className, labelHash, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
   const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
     name: name.toString(),
     type: getTypeDef(type.toString())
@@ -46,7 +47,7 @@ function Call ({ children, className, style, mortality, tip, value, withHash, t 
       {hash && (
         <Static
           className='hash'
-          label={t('extrinsic hash')}
+          label={labelHash || t('extrinsic hash')}
         >
           {hash.toHex()}
         </Static>

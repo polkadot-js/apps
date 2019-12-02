@@ -28,6 +28,7 @@ function ProposalCell ({ className, proposal, t }: Props): React.ReactElement<Pr
             : t('Details')
         }</summary>
         <Call
+          labelHash={t('proposal hash')}
           value={proposal}
           withHash
         />
