@@ -35,7 +35,7 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
   const { api } = useApi();
   const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
   const _electionsInfo = trackStream<DerivedElectionsInfo>(api.derive.elections.info, []);
-  const allVotes = trackStream<Record<string, AccountId[]>>(api.query.electionsPhragmen.votesOf, [], {
+  const allVotes = trackStream<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
     transform: ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> =>
       voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
         casted[index].forEach((candidate): void => {
