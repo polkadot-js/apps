@@ -2,9 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StringOrNull } from '@polkadot/react-components/types';
-import { AccountId, Balance, BlockNumber, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { ConstructTxFn, StringOrNull } from '@polkadot/react-components/types';
+import { AccountId, Balance, BlockNumber, Call, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { IExtrinsic } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+
+export type TxSources = SubmittableExtrinsic | IExtrinsic | Call | [string, any[] | ConstructTxFn] | null;
 
 export interface Slash {
   accountId: AccountId;
@@ -20,11 +23,23 @@ export interface SessionRewards {
   slashes: Slash[];
 }
 
-export interface TxState {
-  extrinsic: SubmittableExtrinsic | null;
+export interface ExtrinsicAndSenders {
+  extrinsic: SubmittableExtrinsic | null,
+  sendTx: () => void,
+  sendUnsigned: () => void
+}
+
+export interface TxProps {
+  accountId?: StringOrNull,
+  onChangeAccountId?: (_: StringOrNull) => void;
+  onSuccess?: () => void;
+  onFailed?: () => void;
+  onStart?: () => void;
+  onUpdate?: () => void;
+}
+
+export interface TxState extends ExtrinsicAndSenders {
   isSending: boolean;
   accountId?: StringOrNull;
   onChangeAccountId: (_: StringOrNull) => void;
-  sendTx: () => void;
-  sendUnsigned: () => void;
 }

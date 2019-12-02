@@ -2,161 +2,134 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TxState } from '@polkadot/react-hooks/types';
-import { FormProps, TxContent, TxTrigger, TxModalProps as Props } from './types';
-import { Button$OnClick } from './Button/types';
+import { TxModalProps as Props } from './types';
 
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, InputAddress, Modal } from '@polkadot/react-components';
-import { useForm, useTx } from '@polkadot/react-hooks';
+// import { useTx } from '@polkadot/react-hooks';
 import { isUndefined } from '@polkadot/util';
 
 import translate from './translate';
 
-function renderTrigger (Trigger: TxTrigger, onOpen: () => void): React.ReactNode {
-  return Trigger ? <Trigger onOpen={onOpen} /> : null;
-}
-
-function renderHeader ({ t, header = t('Submit signed extrinsic') }: Props): React.ReactNode {
-  return header;
-}
-
-function renderContent (Content: TxContent = (): null => null, contentProps: FormProps & TxState): React.ReactNode {
-  return <Content {...contentProps} />;
-}
-
-function renderInputAccount ({ t, inputAddressExtra, inputAddressLabel = t('using my account'), inputAddressHelp = t('Select the account to use for this action.'), inputAddressProps = {}, isDisabled }: Props, contentProps: FormProps & TxState): React.ReactNode {
-  const { accountId, isSending = false, onChangeAccountId } = contentProps;
-
-  return (
-    <InputAddress
-      defaultValue={accountId}
-      help={inputAddressHelp}
-      isDisabled={isDisabled || isSending}
-      isInput={false}
-      label={inputAddressLabel}
-      labelExtra={inputAddressExtra && renderContent(inputAddressExtra, contentProps)}
-      onChange={onChangeAccountId}
-      type='account'
-      value={accountId}
-      {...inputAddressProps}
-    />
-  );
-}
-
-function renderCancelButton ({ t, cancelButtonLabel = t('Cancel') }: Props, onClick: Button$OnClick): React.ReactNode {
-  return (
-    <>
-      <Button
-        isNegative
-        onClick={onClick}
-        label={cancelButtonLabel}
-        icon='cancel'
-      />
-      <Button.Or />
-    </>
-  );
-}
-
-function renderSubmitButton ({ t, submitButtonIcon = 'sign-in', submitButtonLabel = t('Submit'), isDisabled = false, isSubmittable = true, submitButtonProps = {} }: Props, { isSending = false }: TxState, onClick: Button$OnClick): React.ReactNode {
-  return (
-    <Button
-      isLoading={isSending}
-      isDisabled={!isSubmittable || isDisabled}
-      isPrimary
-      label={submitButtonLabel}
-      icon={submitButtonIcon}
-      onClick={onClick}
-      {...submitButtonProps}
-    />
-  );
-}
-
-function TxModal<P extends Props> (props: P): React.ReactElement<P> | null {
-  if (!props.extrinsic && (!props.tx || !props.params)) {
-    return null;
-  }
-
+function TxModal<P extends Props> ({
+  t,
+  accountId,
+  onChangeAccountId,
+  extrinsic,
+  sendTx,
+  isSending,
+  // txSource,
+  trigger: Trigger,
+  header = t('Submit signed extrinsic'),
+  content,
+  preContent,
+  isDisabled = false,
+  isSubmittable = true,
+  modalProps = {},
+  inputAddressExtra,
+  inputAddressLabel = t('using my account'),
+  inputAddressHelp = t('Select the account to use for this action.'),
+  inputAddressProps = {},
+  cancelButtonLabel = t('Cancel'),
+  submitButtonIcon = 'sign-in',
+  submitButtonLabel = t('Submit'),
+  submitButtonProps = {},
+  ...props
+}: P): React.ReactElement<P> | null {
   const isControlled = !isUndefined(props.isOpen);
   const [isOpen, setIsOpen] = useState(isControlled ? props.isOpen : false);
 
-  const _onOpen = (): void => {
+  const onOpen = (): void => {
     !isControlled && setIsOpen(true);
 
     props.onOpen && props.onOpen();
   };
 
-  const _onClose = (): void => {
+  const onClose = (): void => {
     !isControlled && setIsOpen(false);
 
     props.onClose && props.onClose();
   };
 
-  const _onStart = (): void => {
-    props.onSubmit && props.onSubmit();
-  };
+  // const onStart = (): void => {
+  //   props.onSubmit && props.onSubmit();
+  // };
 
-  const _onFailed = (): void => {
-    props.onFailed && props.onFailed();
-  };
+  // const onFailed = (): void => {
+  //   props.onFailed && props.onFailed();
+  // };
 
-  const _onSuccess = (): void => {
-    !isControlled && setIsOpen(false);
+  // const onSuccess = (): void => {
+  //   !isControlled && setIsOpen(false);
 
-    props.onSuccess && props.onSuccess();
-  };
+  //   props.onSuccess && props.onSuccess();
+  // };
 
-  const tx = useMemo(
-    (): any => props.extrinsic || [props.tx!, props.params!],
-    [props.extrinsic, props.tx, props.params]
-  );
+  // const txState = useTx(
+  //   txSource,
+  //   {
+  //     ...(props.accountId ? { accountId: props.accountId } : {}),
+  //     onChangeAccountId: props.onChangeAccountId,
+  //     onStart,
+  //     onFailed,
+  //     onSuccess
+  //   }
+  // );
 
-  const state = useTx(
-    tx,
-    {
-      accountId: props.accountId,
-      onChangeAccountId: props.onChangeAccountId,
-      onStart: _onStart,
-      onFailed: _onFailed,
-      onSuccess: _onSuccess,
-    }
-  );
-
-  const formProps = useForm(state.sendTx, _onClose);
+  // const { accountId, onChangeAccountId, isSending, sendTx } = th
 
   useEffect((): void => {
     !isUndefined(props.isOpen) && setIsOpen(props.isOpen);
   }, [props.isOpen]);
 
-  const modalProps = {
-    className: ['ui--Modal', (props.modalProps || {}).className].join(' '),
+  const allModalProps = {
+    className: ['ui--Modal', modalProps.className || ''].join(' '),
     dimmer: 'inverted',
-    ...(props.modalProps || {}),
-    onClose: _onClose,
+    ...modalProps,
+    onClose,
     open: isOpen
   };
 
-  const contentProps = {
-    ...formProps,
-    ...state
-  }
-
   return (
     <>
-      {props.trigger && renderTrigger(props.trigger, _onOpen)}
-      <Modal {...modalProps}>
+      {Trigger ? <Trigger onOpen={onOpen} /> : null}
+      <Modal {...allModalProps}>
         <Modal.Header>
-          {renderHeader(props)}
+          {header}
         </Modal.Header>
         <Modal.Content>
-          {renderContent(props.preContent, contentProps)}
-          {renderInputAccount(props, contentProps)}
-          {renderContent(props.content, contentProps)}
+          {preContent}
+          <InputAddress
+            defaultValue={accountId}
+            help={inputAddressHelp}
+            isDisabled={isDisabled || isSending}
+            isInput={false}
+            label={inputAddressLabel}
+            labelExtra={inputAddressExtra}
+            onChange={onChangeAccountId}
+            type='account'
+            {...inputAddressProps}
+          />
+          {content}
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
-            {renderCancelButton(props, formProps.onCancel)}
-            {renderSubmitButton(props, state, formProps.onSubmit)}
+            <Button
+              isNegative
+              onClick={onClose}
+              label={cancelButtonLabel}
+              icon='cancel'
+            />
+            <Button.Or />
+            <Button
+              isLoading={isSending}
+              isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
+              isPrimary
+              label={submitButtonLabel}
+              icon={submitButtonIcon}
+              onClick={sendTx}
+              {...submitButtonProps}
+            />          
           </Button.Group>
         </Modal.Actions>
       </Modal>

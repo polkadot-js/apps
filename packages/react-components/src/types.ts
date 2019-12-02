@@ -7,9 +7,9 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Abi } from '@polkadot/api-contract';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { InputAddressProps } from '@polkadot/react-components/InputAddress/types';
-import { TxState } from '@polkadot/react-hooks/types';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ApiProps } from '@polkadot/react-api/types';
+import { TxState } from '@polkadot/react-hooks/types';
 import { Index } from '@polkadot/types/interfaces';
 import { ButtonProps, Button$OnClick, Button$Sizes } from './Button/types';
 import { TxCallback, TxFailedCallback } from './Status/types';
@@ -57,8 +57,6 @@ export interface TxButtonInterface {
     };
   };
 }
-
-export type TxContent = React.ComponentType<FormProps & TxState>;
 
 export interface TxProps {
   extrinsic?: IExtrinsic | SubmittableExtrinsic | null;
@@ -109,17 +107,16 @@ export interface TxButtonNewProps extends TxProps {
   withSpinner?: boolean;
 }
 
-export interface TxModalProps extends I18nProps, TxProps {
+export interface TxModalProps extends I18nProps, TxState {
   accountId?: StringOrNull;
   header?: React.ReactNode;
   isDisabled?: boolean;
   isOpen?: boolean;
   isUnsigned?: boolean;
   isSubmittable?: boolean;
-  content: TxContent;
-  preContent?: TxContent;
+  content: React.ReactNode;
+  preContent?: React.ReactNode;
   trigger?: TxTrigger;
-  onChangeAccountId?: (_: StringOrNull) => void;
   onSubmit?: () => void;
   onOpen?: () => void;
   onClose?: () => void;
@@ -129,7 +126,7 @@ export interface TxModalProps extends I18nProps, TxProps {
     [index: string]: any;
   };
   inputAddressHelp?: React.ReactNode;
-  inputAddressExtra?: TxContent;
+  inputAddressExtra?: React.ReactNode;
   inputAddressLabel?: React.ReactNode;
   inputAddressProps?: Pick<InputAddressProps, never>;
   cancelButtonLabel?: React.ReactNode;

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ConstructTxFn, StringOrNull } from '@polkadot/react-components/types';
-import { IExtrinsic } from '@polkadot/types/types';
-import { TxState } from './types';
+import { StringOrNull } from '@polkadot/react-components/types';
+import { Call } from '@polkadot/types/interfaces';
+import { ExtrinsicAndSenders, TxSources, TxProps, TxState } from './types';
 
 import { useContext, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
@@ -13,16 +13,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { assert, isFunction } from '@polkadot/util';
 import useApi from './useApi';
 
-interface TxProps {
-  accountId?: StringOrNull,
-  onChangeAccountId?: (_: StringOrNull) => void;
-  onSuccess?: () => void;
-  onFailed?: () => void;
-  onStart?: () => void;
-  onUpdate?: () => void;
-}
-
-function getExtrinsic (api: ApiPromise, tx: SubmittableExtrinsic | IExtrinsic | [string, any[] | ConstructTxFn] | null) {
+function getExtrinsic<T extends TxSources> (api: ApiPromise, tx: T): SubmittableExtrinsic | null {
   if (!tx) {
     return null;
   }
@@ -40,41 +31,63 @@ function getExtrinsic (api: ApiPromise, tx: SubmittableExtrinsic | IExtrinsic | 
       return null;
     }
   } else {
+    if ((tx as Call).callIndex) {
+      const fn = api.findCall(tx.callIndex);
+    
+      return api.tx[fn.section][fn.method](...tx.args);
+    }
+
     return tx as any as SubmittableExtrinsic;
   }
 }
 
-export default function useTx (tx: SubmittableExtrinsic | IExtrinsic | [string, any[] | ConstructTxFn] | null, { accountId: anAccountId, onChangeAccountId, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
+export default function useTx<T extends TxSources> (source: T, { accountId: anAccountId, onChangeAccountId, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
 
   const [accountId, setAccountId] = useState<StringOrNull>(anAccountId || null);
   const [isSending, setIsSending] = useState(false);
-  const extrinsic = useMemo(
-    (): SubmittableExtrinsic | null => getExtrinsic(api, tx),
-    [api, tx]
+
+  const _onStart = useMemo(
+    (): () => void => (): void => {
+      setIsSending(true);
+
+      onStart && onStart();
+    },
+    [onStart]
   );
 
-  const _onStart = (): void => {
-    setIsSending(true);
+  const _onSuccess = useMemo(
+    (): () => void => (): void => {
+      setIsSending(false);
 
-    onStart && onStart();
-  }
+      onSuccess && onSuccess();
+    },
+    [onSuccess]
+  );
 
-  const _onSuccess = (): void => {
-    setIsSending(false);
+  const _onFailed = useMemo(
+    (): () => void => (): void => {
+      setIsSending(false);
 
-    onSuccess && onSuccess();
-  }
+      onFailed && onFailed();
+    },
+    [onFailed]
+  );
 
-  const _onFailed = (): void => {
-    setIsSending(false);
+  const _onUpdate = useMemo(
+    (): () => void => (): void => {
+      setIsSending(false);
 
-    onFailed && onFailed();
-  }
+      onUpdate && onUpdate();
+    },
+    [onUpdate]
+  );
 
-  function sendTxFactory (accountId: StringOrNull, extrinsic: SubmittableExtrinsic | null): (_?: boolean) => void {
-    return function (isUnsigned?: boolean): void {
+  function getExtrinsicAndSenders (api: ApiPromise, accountId: StringOrNull, tx: T): ExtrinsicAndSenders {
+    const extrinsic = getExtrinsic<T>(api, tx);
+
+    function _sendTx (isUnsigned?: boolean): void {
       !!extrinsic && queueExtrinsic({
         accountId,
         extrinsic,
@@ -82,31 +95,32 @@ export default function useTx (tx: SubmittableExtrinsic | IExtrinsic | [string, 
         txFailedCb: _onFailed,
         txStartCb: _onStart,
         txSuccessCb: _onSuccess,
-        txUpdateCb: onUpdate
+        txUpdateCb: _onUpdate
       });
     }
+
+    return {
+      extrinsic,
+      sendTx: () => _sendTx(),
+      sendUnsigned: () => _sendTx(true)
+    };
   }
 
-  const _sendTx = useMemo<(_?: boolean) => void>(
-    () => sendTxFactory(accountId, extrinsic),
-    [extrinsic, accountId]
-  )
+  const { extrinsic, sendTx, sendUnsigned } = useMemo<ExtrinsicAndSenders>(
+    (): ExtrinsicAndSenders => getExtrinsicAndSenders(api, accountId, source),
+    [accountId, source]
+  );
 
   return {
     extrinsic,
     accountId,
-    isSending,
     onChangeAccountId: (accountId: StringOrNull): void => {
       setAccountId(accountId);
-      console.log('onChangeAccountId');
   
       onChangeAccountId && onChangeAccountId(accountId);
     },
-    sendTx: (): void => {
-      _sendTx();
-    },
-    sendUnsigned: (): void => {
-      _sendTx(true);
-    }
+    sendTx,
+    sendUnsigned,
+    isSending
   };
 }

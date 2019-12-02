@@ -6,10 +6,8 @@ import { Call } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React, { useMemo, useState } from 'react';
-import { ApiPromise } from '@polkadot/api';
 import { Button, Extrinsic, InputAddress } from '@polkadot/react-components';
 import { useApi, useTx } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
@@ -20,27 +18,17 @@ interface Props extends ApiProps, I18nProps {
   queueExtrinsic: QueueTxExtrinsicAdd;
 }
 
-function getExtrinsic (api: ApiPromise, method: Call | null): SubmittableExtrinsic | null {
-  if (!method) {
-    return null;
-  }
-
-  const fn = api.findCall(method.callIndex);
-
-  return api.tx[fn.section][fn.method](...method.args);
-}
-
 function Selection (props: Props): React.ReactElement<Props> {
   const { t } = props;
 
-  const { api, apiDefaultTxSudo } = useApi();
+  const { apiDefaultTxSudo } = useApi();
   const [method, setMethod] = useState<Call | null>(null);
 
   const _onChangeMethod = (method?: Call): void => {
     setMethod(method || null);
   }
 
-  const { accountId, onChangeAccountId, sendTx, sendUnsigned } = useTx(getExtrinsic(api, method));
+  const { accountId, onChangeAccountId, sendTx, sendUnsigned } = useTx(method);
 
   const isValid = useMemo(
     (): boolean => !(!accountId || !method || (accountId && accountId.length === 0)),
