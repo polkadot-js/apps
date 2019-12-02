@@ -40,6 +40,7 @@ function Proposal ({ className, t, value: { balance, index, proposal, proposer, 
               label={count ? undefined : t('seconds')}
               value={address}
               withBalance={false}
+              withShrink
             />
           ))}
       </td>

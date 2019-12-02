@@ -32,16 +32,17 @@ interface Props extends BareProps {
   withBonded?: boolean;
   withLockedVote?: boolean;
   withName?: boolean;
+  withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   return (
     <div
-      className={classes('ui--AddressMini', isPadded ? 'padded' : '', className)}
+      className={classes('ui--AddressMini', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}
       style={style}
     >
       {label && (
@@ -110,9 +111,21 @@ export default styled(AddressMini)`
   .ui--AddressMini-address {
     font-family: monospace;
     max-width: 9rem;
+    min-width: 9rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
+
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &.withShrink {
+    .ui--AddressMini-address {
+      min-width: 3rem;
+    }
   }
 
   .ui--AddressMini-label {
