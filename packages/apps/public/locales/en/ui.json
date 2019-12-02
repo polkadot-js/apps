@@ -688,5 +688,6 @@
   "Proposals ({{count}})": "",
   "No committee proposals": "",
   "Motions ({{count}})": "",
-  "proposal hash": ""
+  "proposal hash": "",
+  "Submit signed extrinsic": ""
 }

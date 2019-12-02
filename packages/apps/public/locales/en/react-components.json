@@ -69,5 +69,6 @@
   "No documentation provided": "No documentation provided",
   "vested": "vested",
   "session rotate": "session rotate",
-  "session next": "session next"
+  "session next": "session next",
+  "Submit signed extrinsic": "Submit signed extrinsic"
 }
