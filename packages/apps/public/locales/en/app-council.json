@@ -46,5 +46,6 @@
   "voting balance": "voting balance",
   "Candidates": "Candidates",
   "backing": "backing",
-  "No runners up found": "No runners up found"
+  "No runners up found": "No runners up found",
+  "Motions ({{count}})": "Motions ({{count}})"
 }
