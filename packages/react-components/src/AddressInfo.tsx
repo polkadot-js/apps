@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
-import { ValidatorPrefs0to145 } from '@polkadot/types/interfaces';
+import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from './types';
 
 import BN from 'bn.js';
@@ -41,6 +41,8 @@ export interface ValidatorPrefsType {
   unstakeThreshold?: boolean;
   validatorPayment?: boolean;
 }
+
+const PERBILL = new BN(1000000000);
 
 interface Props extends BareProps, I18nProps {
   address: string;
@@ -204,22 +206,31 @@ function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: P
   return (
     <>
       <div />
-      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
+      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold && (
         <>
           <Label label={t('unstake threshold')} />
           <div className='result'>
-            {(stakingInfo.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
+            {(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold.toString()}
           </div>
         </>
       )}
-      {validatorPrefsDisplay.validatorPayment && stakingInfo.validatorPrefs.validatorPayment && (
-        <>
-          <Label label={t('commission')} />
-          <FormatBalance
-            className='result'
-            value={stakingInfo.validatorPrefs.validatorPayment}
-          />
-        </>
+      {validatorPrefsDisplay.validatorPayment && (stakingInfo.validatorPrefs.commission || (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment) && (
+        (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment
+          ? (
+            <>
+              <Label label={t('commission')} />
+              <FormatBalance
+                className='result'
+                value={(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment}
+              />
+            </>
+          )
+          : (
+            <>
+              <Label label={t('commission')} />
+              <span>{(stakingInfo.validatorPrefs.commission.unwrap().muln(10000).div(PERBILL).toNumber() / 100).toFixed(2)}%</span>
+            </>
+          )
       )}
     </>
   );

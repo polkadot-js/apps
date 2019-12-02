@@ -33,14 +33,14 @@ function areParamsValid (values: RawParams): boolean {
 
 function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [{ defaultValues, isLinked, key, params }, setKey] = useState<{ defaultValues: RawParams | undefined | null; isLinked: boolean; key: StorageEntryPromise; params: ParamsType }>({ defaultValues: undefined, isLinked: false, key: api.query.timestamp.now, params: [] });
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<{ defaultValues: RawParams | undefined | null; isIterable: boolean; key: StorageEntryPromise; params: ParamsType }>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
   const [{ isValid, values }, setValues] = useState<{ isValid: boolean; values: RawParams }>({ isValid: true, values: [] });
 
   const _onAdd = (): void => {
     isValid && onAdd({
       isConst: false,
       key,
-      params: values.filter(({ value }): boolean => !isLinked || !isNull(value))
+      params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
     });
   };
   const _onChangeValues = (values: RawParams): void => {
@@ -54,26 +54,26 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
     });
   };
   const _onChangeKey = (key: StorageEntryPromise): void => {
-    const isMap = key.creator.meta.type.isMap;
-    const isLinked = isMap && key.creator.meta.type.asMap.linked.isTrue;
+    const asMap = key.creator.meta.type.isMap && key.creator.meta.type.asMap;
+    const isIterable = !!asMap && (asMap.kind.isLinkedMap || asMap.kind.isPrefixedMap);
 
     setKey({
       defaultValues: key.creator.section === 'session' && key.creator.meta.type.isDoubleMap
         ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
         : null,
-      isLinked,
+      isIterable,
       key,
       params: key.creator.meta.type.isDoubleMap
         ? [
           { type: getTypeDef(key.creator.meta.type.asDoubleMap.key1.toString()) },
           { type: getTypeDef(key.creator.meta.type.asDoubleMap.key2.toString()) }
         ]
-        : isMap
+        : asMap
           ? [{
             type: getTypeDef(
-              isLinked
-                ? `Option<${key.creator.meta.type.asMap.key.toString()}>`
-                : key.creator.meta.type.asMap.key.toString()
+              isIterable
+                ? `Option<${asMap.key.toString()}>`
+                : asMap.key.toString()
             )
           }]
           : []

@@ -4,9 +4,10 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
+import chains from '@polkadot/ui-settings/defaults/chains';
 
 import translate from './translate';
 import Toggle from './Toggle';
@@ -19,14 +20,30 @@ interface Props extends I18nProps {
   preventDefault?: boolean;
 }
 
+function calcLock (apiGenesis: string, genesisHash: string | null): boolean {
+  if (!genesisHash) {
+    return false;
+  }
+
+  return (
+    Object.values(chains).find((hashes): boolean =>
+      hashes.includes(apiGenesis)
+    ) || [apiGenesis]
+  ).includes(genesisHash);
+}
+
 function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefault, t }: Props): React.ReactElement<Props> | null {
   const { isDevelopment, api } = useApi();
+  const [isTiedToChain, setTied] = useState(calcLock(api.genesisHash.toHex(), genesisHash));
+
+  useEffect((): void => {
+    setTied(calcLock(api.genesisHash.toHex(), genesisHash));
+  }, [api, genesisHash]);
 
   if (isDevelopment) {
     return null;
   }
 
-  const isTiedToChain = api.genesisHash.eq(genesisHash);
   const _onChange = (isTiedToChain: boolean): void =>
     onChange(
       isTiedToChain
@@ -37,7 +54,6 @@ function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefau
   return (
     <Toggle
       className={className}
-      defaultValue={isTiedToChain}
       isDisabled={isDisabled}
       label={
         isTiedToChain
@@ -46,6 +62,7 @@ function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefau
       }
       onChange={_onChange}
       preventDefault={preventDefault}
+      value={isTiedToChain}
     />
   );
 }

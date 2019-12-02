@@ -9,17 +9,18 @@ import { ComponentProps } from './types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { useRouteMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
 
-import Actions from './Actions';
 import basicMd from './md/basic.md';
+import Actions from './Actions';
 import Overview from './Overview';
 import Query from './Query';
+import Targets from './Targets';
 import { MAX_SESSIONS } from './constants';
 import translate from './translate';
 import useSessionRewards from './useSessionRewards';
@@ -42,12 +43,12 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
+  const { pathname } = useLocation();
   const stakingControllers = trackStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
   const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
   const recentlyOnline = trackStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
   const stakingOverview = trackStream<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
-  const routeMatch = useRouteMatch({ path: basePath, strict: true });
 
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
@@ -86,6 +87,14 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
               text: t('Staking overview')
             },
             {
+              name: 'waiting',
+              text: t('Waiting')
+            },
+            {
+              name: 'returns',
+              text: t('Returns')
+            },
+            {
               name: 'actions',
               text: t('Account actions')
             },
@@ -98,11 +107,12 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/actions`}>{_renderComponent(Actions)}</Route>
         <Route path={`${basePath}/query/:value`}>{_renderComponent(Query)}</Route>
         <Route path={`${basePath}/query`}>{_renderComponent(Query)}</Route>
+        <Route path={`${basePath}/returns`}>{_renderComponent(Targets)}</Route>
       </Switch>
-      {_renderComponent(Overview, routeMatch?.isExact ? '' : 'staking--hidden')}
+      {_renderComponent(Actions, pathname === `${basePath}/actions` ? '' : 'staking--hidden')}
+      {_renderComponent(Overview, [basePath, `${basePath}/waiting`].includes(pathname) ? '' : 'staking--hidden')}
     </main>
   );
 }
