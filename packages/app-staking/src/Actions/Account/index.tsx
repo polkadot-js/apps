@@ -573,7 +573,7 @@ export default withMulti(
       }
 
       .staking--label {
-        margin: 0 1.75rem -0.75rem 0;
+        margin: 0 0 -0.75rem 1.75rem;
       }
     }
 
@@ -602,10 +602,10 @@ export default withMulti(
     }
 
     .staking--Account-Nominee {
-      text-align: right;
+      text-align: left;
 
       .staking--label {
-        margin: 0 2.25rem -.75rem 0;
+        margin: 0 0 -.75rem 2.25rem;
       }
     }
 

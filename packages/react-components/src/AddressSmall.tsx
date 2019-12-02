@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2019 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,8 +6,9 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { IdentityIcon } from '@polkadot/react-components';
 import { AccountIndex, AccountName } from '@polkadot/react-query';
+
+import IdentityIcon from './IdentityIcon';
 
 interface Props {
   className?: string;

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2019 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -63,6 +63,8 @@ export default styled(Table)`
     width: 100%;
 
     tr {
+      width: 100%;
+
       &.isHighlight {
         td {
           background: #ffffed;
@@ -86,6 +88,10 @@ export default styled(Table)`
       td, th {
         text-align: left;
 
+        &.all {
+          width: 100%;
+        }
+
         &.number {
           text-align: right;
         }
@@ -96,6 +102,15 @@ export default styled(Table)`
 
         &.toggle {
           cursor: pointer;
+        }
+
+        &.top {
+          vertical-align: top;
+        }
+
+        &.toppad {
+          padding-top: 1.25rem;
+          vertical-align: top;
         }
       }
 

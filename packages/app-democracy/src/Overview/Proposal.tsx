@@ -6,44 +6,63 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { ActionItem, InputAddress, Static } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { AddressMini, AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
+import ProposalCell from './ProposalCell';
 import Seconding from './Seconding';
 
 interface Props extends I18nProps {
   value: DeriveProposal;
 }
 
-function Proposal ({ className, t, value: { balance, index, proposal, seconds } }: Props): React.ReactElement<Props> {
+function Proposal ({ className, t, value: { balance, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
   return (
-    <ActionItem
-      className={className}
-      idNumber={index}
-      proposal={proposal}
-    >
-      <Seconding
-        depositors={seconds || []}
-        proposalId={index}
-      />
-      {balance && seconds && (
-        <div>
-          {seconds.map((address, count): React.ReactNode => (
-            <InputAddress
-              isDisabled
-              label={count === 0 ? t('proposer') : t('depositor {{count}}', { replace: { count } })}
+    <tr className={className}>
+      <td className='number toppad'>{formatNumber(index)}</td>
+      <td className='top'>
+        <AddressSmall value={proposer} />
+      </td>
+      <td className='number together top'>
+        <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
+      </td>
+      <ProposalCell className='top' proposal={proposal} />
+      <td className='top'>
+        {seconds
+          .filter((_address, index): boolean => index !== 0)
+          .map((address, count): React.ReactNode => (
+            <AddressMini
+              className='identityIcon'
               key={`${count}:${address}`}
-              defaultValue={address}
+              label={count ? undefined : t('seconds')}
+              value={address}
+              withBalance={false}
             />
           ))}
-          <Static label={t('balance')}>
-            <FormatBalance value={balance} />
-          </Static>
-        </div>
-      )}
-    </ActionItem>
+      </td>
+      <td className='together number top'>
+        <Seconding
+          depositors={seconds || []}
+          proposalId={index}
+        />
+      </td>
+    </tr>
   );
 }
 
-export default translate(Proposal);
+export default translate(
+  styled(Proposal)`
+    .identityIcon {
+      &:first-child {
+        padding-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 4px;
+      }
+    }
+  `
+);

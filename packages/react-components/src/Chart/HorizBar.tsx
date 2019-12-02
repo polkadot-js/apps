@@ -19,6 +19,7 @@ interface Value {
 interface Props extends BareProps {
   aspectRatio?: number;
   max?: number;
+  showLabels?: boolean;
   values: Value[];
   withColors?: boolean;
 }
@@ -41,7 +42,7 @@ interface Config {
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
-function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string, max: number): State {
+function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string, max: number, showLabels: boolean): State {
   const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }): Config => {
     const dataset = data.datasets[0];
 
@@ -71,10 +72,9 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
       },
       scales: {
         xAxes: [{
-          ticks: {
-            beginAtZero: true,
-            max
-          }
+          ticks: showLabels
+            ? { beginAtZero: true, max }
+            : { display: false }
         }]
       }
     },
@@ -82,14 +82,14 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
   };
 }
 
-export default function ChartHorizBar ({ aspectRatio = 8, className, max = 100, style, values }: Props): React.ReactElement<Props> | null {
+export default function ChartHorizBar ({ aspectRatio = 8, className, max = 100, showLabels = false, style, values }: Props): React.ReactElement<Props> | null {
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
     const newJsonValues = JSON.stringify(values);
 
     if (newJsonValues !== jsonValues) {
-      setState(calculateOptions(aspectRatio, values, newJsonValues, max));
+      setState(calculateOptions(aspectRatio, values, newJsonValues, max, showLabels));
     }
   }, [values]);
 
