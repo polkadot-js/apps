@@ -6,7 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { ActionItem, InputAddress, Labelled, Static } from '@polkadot/react-components';
+import { ActionItem, InputAddress, Static } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import translate from '../translate';
@@ -29,16 +29,14 @@ function Proposal ({ className, t, value: { balance, index, proposal, seconds } 
       />
       {balance && seconds && (
         <div>
-          <Labelled label={t('depositors')}>
-            {seconds.map((address, index): React.ReactNode => (
-              <InputAddress
-                isDisabled
-                key={`${index}:${address}`}
-                defaultValue={address}
-                withLabel={false}
-              />
-            ))}
-          </Labelled>
+          {seconds.map((address, count): React.ReactNode => (
+            <InputAddress
+              isDisabled
+              label={count === 0 ? t('proposer') : t('depositor {{count}}', { replace: { count } })}
+              key={`${count}:${address}`}
+              defaultValue={address}
+            />
+          ))}
           <Static label={t('balance')}>
             <FormatBalance value={balance} />
           </Static>

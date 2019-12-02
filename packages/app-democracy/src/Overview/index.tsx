@@ -13,11 +13,14 @@ import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
 import PreImage from './PreImage';
+import Propose from './Propose';
 
 function Overview ({ className, t }: Props): React.ReactElement {
   const [isPreimageOpen, setIsPreimageOpen] = useState(false);
+  const [isProposeOpen, setIsProposeOpen] = useState(false);
 
   const _togglePreimage = (): void => setIsPreimageOpen(!isPreimageOpen);
+  const _togglePropose = (): void => setIsProposeOpen(!isProposeOpen);
 
   return (
     <div className={className}>
@@ -26,12 +29,22 @@ function Overview ({ className, t }: Props): React.ReactElement {
         <Button
           icon='add'
           isPrimary
-          label={t('Note preimage')}
+          label={t('Submit preimage')}
           onClick={_togglePreimage}
+        />
+        <Button.Or />
+        <Button
+          icon='add'
+          isPrimary
+          label={t('Submit proposal')}
+          onClick={_togglePropose}
         />
       </Button.Group>
       {isPreimageOpen && (
         <PreImage onClose={_togglePreimage} />
+      )}
+      {isProposeOpen && (
+        <Propose onClose={_togglePropose} />
       )}
       <Referendums />
       <Proposals />

@@ -23,7 +23,7 @@ interface Props extends I18nProps {
 
 function Summary (props: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const activeProposals = trackStream<any[]>(api.query.democracy.publicProps, []);
+  const activeProposals = trackStream<any[]>(api.derive.democracy.proposals, []);
 
   const {
     chain_bestNumber,

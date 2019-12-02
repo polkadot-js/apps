@@ -3,9 +3,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedReferendumVote } from '@polkadot/api-derive/types';
+import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -25,7 +24,7 @@ interface Props extends I18nProps {
   chain_bestNumber?: BN;
   democracy_referendumVotesFor?: DerivedReferendumVote[];
   democracy_enactmentPeriod: BN;
-  value: ReferendumInfoExtended;
+  value: DerivedReferendum;
 }
 
 interface State {
@@ -79,11 +78,11 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
     }
   }, [democracy_referendumVotesFor]);
 
-  if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
+  if (!chain_bestNumber || value.info.end.sub(chain_bestNumber).lten(0)) {
     return null;
   }
 
-  const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(value.end);
+  const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(value.info.end);
 
   return (
     <ActionItem
@@ -98,6 +97,31 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
       }
     >
       <div>
+        <Static label={t('ending at')}>
+          {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
+            replace: {
+              blockNumber: formatNumber(value.info.end),
+              remaining: formatNumber(value.info.end.sub(chain_bestNumber).subn(1))
+            }
+          })}
+        </Static>
+        <Static label={t('activate at (if passed)')}>
+          {t('block #{{blockNumber}}', {
+            replace: {
+              blockNumber: formatNumber(enactBlock)
+            }
+          })}
+        </Static>
+        <VoteThreshold
+          isDisabled
+          defaultValue={{ isValid: true, value: value.info.threshold }}
+          label={t('vote threshold')}
+          name='voteThreshold'
+          type={{
+            info: 0,
+            type: 'VoteThreshold'
+          }}
+        />
         {voteCount !== 0 && votedTotal.gtn(0) && (
           <div className='democracy--Referendum-results chart'>
             <Chart.HorizBar
@@ -116,31 +140,6 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
             />
           </div>
         )}
-        <Static label={t('ending at')}>
-          {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
-            replace: {
-              blockNumber: formatNumber(value.end),
-              remaining: formatNumber(value.end.sub(chain_bestNumber).subn(1))
-            }
-          })}
-        </Static>
-        <Static label={t('activate at (if passed)')}>
-          {t('block #{{blockNumber}}', {
-            replace: {
-              blockNumber: formatNumber(enactBlock)
-            }
-          })}
-        </Static>
-        <VoteThreshold
-          isDisabled
-          defaultValue={{ isValid: true, value: value.threshold }}
-          label={t('vote threshold')}
-          name='voteThreshold'
-          type={{
-            info: 0,
-            type: 'VoteThreshold'
-          }}
-        />
       </div>
     </ActionItem>
   );

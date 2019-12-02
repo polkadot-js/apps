@@ -52,9 +52,9 @@ function PreImage ({ className, onClose, t }: Props): React.ReactElement<Props> 
           onChange={setProposal}
         />
         <Input
-          help={t('The hash of the selected call')}
+          help={t('The hash of the selected proposal, use it for submitting the proposal')}
           isDisabled
-          label={t('call hash')}
+          label={t('preimage hash')}
           value={hash}
         />
       </Modal.Content>

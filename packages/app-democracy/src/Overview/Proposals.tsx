@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -16,8 +15,6 @@ function Proposals ({ className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const proposals = trackStream<DeriveProposal[]>(api.derive.democracy.proposals, []);
 
-  console.error(proposals);
-
   return (
     <div className={`proposalSection ${className}`}>
       <h1>{t('proposals')}</h1>
@@ -29,7 +26,7 @@ function Proposals ({ className, t }: Props): React.ReactElement<Props> {
               value={proposal}
             />
           ))
-          : t('No available proposals')
+          : t('No active proposals')
       }
     </div>
   );
