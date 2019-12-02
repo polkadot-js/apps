@@ -135,7 +135,6 @@ function Address ({ address, authorsMap, className, filter, hasQueries, isElecte
             hover={t('Selected for the next session')}
             info={<Icon name='chevron right' />}
             isInline
-            isTooltip
             type='next'
           />
         )}
@@ -149,7 +148,6 @@ function Address ({ address, authorsMap, className, filter, hasQueries, isElecte
             })}
             info={<Icon name='check' />}
             isInline
-            isTooltip
             type='online'
           />
         )}
