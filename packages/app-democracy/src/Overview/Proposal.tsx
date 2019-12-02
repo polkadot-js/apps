@@ -26,6 +26,10 @@ function Proposal ({ className, t, value: { balance, index, proposal, proposer, 
       <td className='top'>
         <AddressSmall value={proposer} />
       </td>
+      <td className='number together top'>
+        <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
+      </td>
+      <ProposalCell className='top' proposal={proposal} />
       <td className='top'>
         {seconds
           .filter((_address, index): boolean => index !== 0)
@@ -33,16 +37,12 @@ function Proposal ({ className, t, value: { balance, index, proposal, proposer, 
             <AddressMini
               className='identityIcon'
               key={`${count}:${address}`}
-              label={!count ? t('seconding') : undefined}
+              label={count ? undefined : t('seconds')}
               value={address}
               withBalance={false}
             />
           ))}
       </td>
-      <td className='number together top'>
-        <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
-      </td>
-      <ProposalCell className='top' proposal={proposal} />
       <td className='together number top'>
         <Seconding
           depositors={seconds || []}
