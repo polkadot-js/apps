@@ -6,7 +6,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { CardGrid } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 
 import Motion from './Motion';
 import Propose from './Propose';
@@ -16,22 +16,26 @@ interface Props extends I18nProps {
   motions?: Hash[];
 }
 
-function Proposals ({ motions, t }: Props): React.ReactElement<Props> {
+function Proposals ({ className, motions, t }: Props): React.ReactElement<Props> {
   return (
-    <CardGrid
-      emptyText={t('No council motions')}
-      headerText={t('Motions')}
-      buttons={
-        <Propose />
+    <div className={className}>
+      <Propose />
+      {motions?.length
+        ? (
+          <Table>
+            <Table.Body>
+              {motions?.map((hash: Hash): React.ReactNode => (
+                <Motion
+                  hash={hash.toHex()}
+                  key={hash.toHex()}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('No council motions')
       }
-    >
-      {motions?.map((hash: Hash): React.ReactNode => (
-        <Motion
-          hash={hash.toHex()}
-          key={hash.toHex()}
-        />
-      ))}
-    </CardGrid>
+    </div>
   );
 }
 
