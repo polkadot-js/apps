@@ -57,7 +57,7 @@ function Motion ({ className, hash, proposal, t, votes }: Props): React.ReactEle
           >
             <InputAddress
               isDisabled
-              value={address}
+              defaultValue={address}
               withLabel={false}
             />
           </Labelled>
@@ -74,7 +74,7 @@ function Motion ({ className, hash, proposal, t, votes }: Props): React.ReactEle
           >
             <InputAddress
               isDisabled
-              value={address}
+              defaultValue={address}
               withLabel={false}
             />
           </Labelled>
