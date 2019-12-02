@@ -21,7 +21,6 @@ interface Props extends I18nProps, ComponentProps {
 function Members ({ allVotes = {}, className, electionsInfo: { members }, t }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      <h1>{t('members')}</h1>
       {members.length
         ? (
           <Table>

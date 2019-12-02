@@ -17,9 +17,9 @@ interface Props extends I18nProps, ComponentProps {
   bestNumber?: BlockNumber;
 }
 
-function Summary ({ bestNumber, electionsInfo: { members, candidateCount, desiredSeats, runnersUp, termDuration, voteCount }, t }: Props): React.ReactElement<Props> {
+function Summary ({ bestNumber, className, electionsInfo: { members, candidateCount, desiredSeats, runnersUp, termDuration, voteCount }, t }: Props): React.ReactElement<Props> {
   return (
-    <SummaryBox>
+    <SummaryBox className={className}>
       <section>
         <CardSummary label={t('seats')}>
           {formatNumber(members.length)}/{formatNumber(desiredSeats)}

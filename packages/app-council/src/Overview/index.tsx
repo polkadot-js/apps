@@ -50,21 +50,25 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
 
         return result;
       }, {})
-  })
+  });
   const { pathname } = useLocation();
   const electionsInfo = _electionsInfo || NULL_INFO;
 
   return (
     <div className={className}>
-      <Summary
-        bestNumber={bestNumber}
-        electionsInfo={electionsInfo}
-      />
-      <Button.Group>
-        <SubmitCandidacy electionsInfo={electionsInfo} />
-        <Button.Or />
-        <Vote electionsInfo={electionsInfo} />
-      </Button.Group>
+      {pathname === '/council' && (
+        <>
+          <Summary
+            bestNumber={bestNumber}
+            electionsInfo={electionsInfo}
+          />
+          <Button.Group>
+            <SubmitCandidacy electionsInfo={electionsInfo} />
+            <Button.Or />
+            <Vote electionsInfo={electionsInfo} />
+          </Button.Group>
+        </>
+      )}
       <Members
         allVotes={allVotes}
         className={pathname === '/council' ? '' : 'council--hidden'}
