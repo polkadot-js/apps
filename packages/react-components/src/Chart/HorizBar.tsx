@@ -75,7 +75,6 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
           ticks: showLabels
             ? { beginAtZero: true, max }
             : { display: false }
-          }
         }]
       }
     },

@@ -107,6 +107,11 @@ export default styled(Table)`
         &.top {
           vertical-align: top;
         }
+
+        &.toppad {
+          padding-top: 1.25rem;
+          vertical-align: top;
+        }
       }
 
       td {

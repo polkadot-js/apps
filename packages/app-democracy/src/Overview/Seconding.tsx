@@ -62,7 +62,7 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
                 isPrimary
                 label={t('Second')}
                 icon='sign-in'
-                onClick={_toggleSeconding}
+                onStart={_toggleSeconding}
                 params={[proposalId]}
                 tx='democracy.second'
               />

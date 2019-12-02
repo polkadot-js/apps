@@ -43,17 +43,6 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
       className={classes('ui--AddressMini', isPadded ? 'padded' : '', className)}
       style={style}
     >
-      <div className='ui--AddressMini-info'>
-        {withAddress && (
-          <div className='ui--AddressMini-address'>
-            {withName
-              ? <AccountName params={value} />
-              : toShortAddress(value)
-            }
-          </div>
-        )}
-        {children}
-      </div>
       <div className='ui--AddressMini-icon'>
         <IdentityIcon
           size={24}
@@ -64,6 +53,17 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
             {iconInfo}
           </div>
         )}
+      </div>
+      <div className='ui--AddressMini-info'>
+        {withAddress && (
+          <div className='ui--AddressMini-address'>
+            {withName
+              ? <AccountName params={value} />
+              : toShortAddress(value)
+            }
+          </div>
+        )}
+        {children}
       </div>
       <div className='ui--AddressMini-balances'>
         {withBalance && (
@@ -105,9 +105,8 @@ export default styled(AddressMini)`
   .ui--AddressMini-address {
     font-family: monospace;
     max-width: 9rem;
-    min-width: 9em;
     overflow: hidden;
-    text-align: right;
+    text-align: left;
     text-overflow: ellipsis;
   }
 
@@ -118,14 +117,14 @@ export default styled(AddressMini)`
     .ui--Bonded,
     .ui--LockedVote {
       font-size: 0.75rem;
-      margin-right: 2.25rem;
+      margin-left: 2.25rem;
       margin-top: -0.5rem;
-      text-align: right;
+      text-align: left;
     }
   }
 
   .ui--AddressMini-icon {
-    margin: 0 0 0 0.5rem;
+    margin: 0 0.5rem 0 0;
 
     .ui--AddressMini-icon-info {
       position: absolute;
