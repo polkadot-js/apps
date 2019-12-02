@@ -675,5 +675,10 @@
   "The preimage hash of the proposal": "",
   "The locked value for this proposal": "",
   "locked balance": "",
-  "No active referendums": ""
+  "No active referendums": "",
+  "seconds": "",
+  "remaining": "",
+  "activate at": "",
+  "Aye ({{count}})": "",
+  "Nay ({{count}})": ""
 }

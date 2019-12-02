@@ -45,5 +45,12 @@
   "The locked value for this proposal": "The locked value for this proposal",
   "locked balance": "locked balance",
   "No active referendums": "No active referendums",
-  "total": "total"
+  "total": "total",
+  "locked": "locked",
+  "seconds": "seconds",
+  "Details": "Details",
+  "remaining": "remaining",
+  "activate at": "activate at",
+  "Aye ({{count}})": "Aye ({{count}})",
+  "Nay ({{count}})": "Nay ({{count}})"
 }
