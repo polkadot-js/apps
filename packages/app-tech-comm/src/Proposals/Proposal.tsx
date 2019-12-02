@@ -33,7 +33,7 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell proposal={proposal} />
+      <ProposalCell className='top' proposal={proposal} />
       <td className='number top'>
         <label>{t('threshold')}</label>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
