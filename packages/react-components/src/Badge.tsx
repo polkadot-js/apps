@@ -9,11 +9,11 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  hover: React.ReactNode;
+  hover?: React.ReactNode;
   info: React.ReactNode;
   isInline?: boolean;
   isTooltip?: boolean;
-  type: 'online' | 'offline' | 'next' | 'runnerup' | 'selected';
+  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected';
 }
 
 let badgeId = 0;
@@ -42,10 +42,12 @@ function Badge ({ className, hover, info, isInline, isTooltip, type }: Props): R
       <div className='detail'>
         {hover}
       </div>
-      <Tooltip
-        trigger={`badge-status-${key}`}
-        text={hover}
-      />
+      {hover && (
+        <Tooltip
+          trigger={`badge-status-${key}`}
+          text={hover}
+        />
+      )}
     </div>
   );
 }
@@ -76,8 +78,14 @@ export default styled(Badge)`
     background: steelblue;
   }
 
-  &.offline {
+  &.offline,
+  &.counter {
     background: red;
+  }
+
+  &.counter {
+    margin: 0 0.5rem;
+    vertical-align: middle;
   }
 
   &.runnerup {

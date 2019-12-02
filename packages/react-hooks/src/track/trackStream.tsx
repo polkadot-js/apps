@@ -56,7 +56,7 @@ export default function trackStream <T> (fn: TrackFn | undefined, params: Params
 
   // initial round, subscribe once
   useEffect((): () => void => {
-    const [serialized, mappedParams] = extractParams(params, paramMap);
+    const [serialized, mappedParams] = extractParams(fn, params, paramMap);
 
     tracker.current.serialized = serialized;
 
@@ -69,14 +69,14 @@ export default function trackStream <T> (fn: TrackFn | undefined, params: Params
 
   // on changes, re-subscribe
   useEffect((): void => {
-    const [serialized, mappedParams] = extractParams(params, paramMap);
+    const [serialized, mappedParams] = extractParams(fn, params, paramMap);
 
     if (mappedParams && serialized !== tracker.current.serialized) {
       tracker.current.serialized = serialized;
 
       _subscribe(mappedParams);
     }
-  }, [params]);
+  }, [fn, params]);
 
   return value;
 }

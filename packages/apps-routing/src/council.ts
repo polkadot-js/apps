@@ -4,11 +4,12 @@
 
 import { Routes } from './types';
 
-import Council from '@polkadot/app-council';
+import Council, { useCounter } from '@polkadot/app-council';
 
 export default ([
   {
     Component: Council,
+    useCounter,
     display: {
       needsApi: [
         [
