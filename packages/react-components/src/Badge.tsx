@@ -20,18 +20,10 @@ let badgeId = 0;
 
 function Badge ({ className, hover, info, isInline, isTooltip, type }: Props): React.ReactElement<Props> | null {
   const [key] = useState(`${Date.now()}-${badgeId++}`);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const _toggleOpen = (): void => setIsOpen(!isOpen);
 
   return (
     <div
-      className={`ui--Badge ${isOpen && 'expand'} ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${type} ${className}`}
-      onClick={
-        isTooltip
-          ? _toggleOpen
-          : undefined
-      }
+      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${type} ${className}`}
       data-for={`badge-status-${key}`}
       data-tip={true}
       data-tip-disable={!isTooltip}
