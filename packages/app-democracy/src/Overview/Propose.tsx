@@ -1,122 +1,83 @@
-// Copyright 2017-2019 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call } from '@polkadot/types/interfaces';
-import { ApiProps } from '@polkadot/react-api/types';
+import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React from 'react';
-import { createType } from '@polkadot/types';
-import { Button, Extrinsic, InputBalance } from '@polkadot/react-components';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { registry, withApi, withMulti } from '@polkadot/react-api';
+import React, { useState } from 'react';
+import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Available } from '@polkadot/react-query';
+import { isHex } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends TxModalProps, ApiProps {}
-
-interface State extends TxModalState {
-  accountId?: string | null;
-  method: Call | null;
-  value: BN;
-  isValid: boolean;
+interface Props extends I18nProps {
+  onClose: () => void;
 }
 
-class Propose extends TxModal<Props, State> {
-  public state: State = {
-    ...this.defaultState,
-    value: new BN(0)
-  };
+function Propose ({ className, onClose, t }: Props): React.ReactElement<Props> {
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const [balance, setBalance] = useState<BN | undefined>();
+  const [{ isHashValid, hash }, setHash] = useState<{ isHashValid: boolean; hash?: string }>({ isHashValid: false, hash: '' });
 
-  protected headerText = (): string => this.props.t('Submit proposal');
+  const _onChangeHash = (hash?: string): void => setHash({
+    isHashValid: isHex(hash, 256),
+    hash
+  });
 
-  protected txMethod = (): string => 'democracy.propose';
-
-  protected txParams = (): [Call, BN] => {
-    const { value, method } = this.state;
-
-    return [createType(registry, 'Proposal', method || undefined), value];
-  }
-
-  protected isDisabled = (): boolean => {
-    const { accountId, value, method } = this.state;
-    const hasValue = !!value && value.gtn(0);
-    const hasMethod = !!method;
-
-    return !accountId || !hasValue || !hasMethod;
-  }
-
-  protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
-
-    return (
-      <Button.Group>
-        <Button
-          isPrimary
-          label={t('Submit proposal')}
-          icon='add'
-          onClick={this.showModal}
+  return (
+    <Modal
+      className={className}
+      dimmer='inverted'
+      open
+    >
+      <Modal.Header>{t('Submit proposal')}</Modal.Header>
+      <Modal.Content>
+        <InputAddress
+          help={t('The account you want to register the proposal from')}
+          label={t('send from account')}
+          labelExtra={<Available label={t('transferrable')} params={accountId} />}
+          onChange={setAccountId}
+          type='account'
         />
-      </Button.Group>
-    );
-  }
-
-  protected renderContent = (): React.ReactNode => {
-    const { apiDefaultTxSudo, t } = this.props;
-    const { value } = this.state;
-    const hasValue = !!value && value.gtn(0);
-
-    return (
-      <section>
-        <Extrinsic
-          defaultValue={apiDefaultTxSudo}
-          label={t('propose')}
-          onChange={this.onChangeExtrinsic}
-          onEnter={this.sendTx}
+        <Input
+          autoFocus
+          help={t('The preimage hash of the proposal')}
+          label={t('preimage hash')}
+          onChange={_onChangeHash}
+          value={hash}
         />
         <InputBalance
-          className='medium'
-          isError={!hasValue}
-          help={t('The amount that will be bonded to submit the proposal')}
-          label={t('value')}
-          onChange={this.onChangeValue}
-          onEnter={this.sendTx}
+          help={t('The locked value for this proposal')}
+          label={t('locked balance')}
+          onChange={setBalance}
         />
-      </section>
-    );
-  }
-
-  private nextState (newState: Partial<State>): void {
-    this.setState(
-      (prevState: State): Pick<State, never> => {
-        const { accountId = prevState.accountId, method = prevState.method, value = prevState.value } = newState;
-        const isValid = !!method && !!value && value.gt(new BN(0)) && !!accountId && accountId.length > 0;
-
-        return {
-          accountId,
-          method,
-          value,
-          isValid
-        };
-      }
-    );
-  }
-
-  private onChangeExtrinsic = (method?: Call): void => {
-    if (!method) {
-      return this.nextState({ method: null });
-    }
-
-    this.nextState({ method });
-  }
-
-  private onChangeValue = (value?: BN): void => {
-    this.nextState({ value });
-  }
+      </Modal.Content>
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            isNegative
+            label={t('Cancel')}
+            icon='add'
+            onClick={onClose}
+          />
+          <Button.Or />
+          <TxButton
+            accountId={accountId}
+            isDisabled={!balance || balance.lten(0) || !isHashValid || !accountId}
+            isPrimary
+            label={t('Submit proposal')}
+            icon='add'
+            onStart={onClose}
+            params={[hash, balance]}
+            tx='democracy.propose'
+            withSpinner={false}
+          />
+        </Button.Group>
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-export default withMulti(
-  withApi(Propose),
-  translate
-);
+export default translate(Propose);
