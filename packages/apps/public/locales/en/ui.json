@@ -683,5 +683,8 @@
   "Nay ({{count}})": "",
   "Candidates": "",
   "backing": "",
-  "No runners up found": ""
+  "No runners up found": "",
+  "Tech. committee": "",
+  "Proposals ({{count}})": "",
+  "No committee proposals": ""
 }
