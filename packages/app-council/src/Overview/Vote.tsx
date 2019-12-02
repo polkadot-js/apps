@@ -56,8 +56,7 @@ const Candidates = styled.div`
     border: 1px solid #eee;
     border-radius: 0.25rem;
     margin: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-right: 0.5rem;
+    padding: 0 0.5rem 0.25rem;
     position: relative;
 
     &::after {

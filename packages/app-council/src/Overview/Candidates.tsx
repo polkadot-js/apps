@@ -18,14 +18,15 @@ interface Props extends I18nProps, ComponentProps {
   className?: string;
 }
 
-function Members ({ allVotes = {}, className, electionsInfo: { members }, t }: Props): React.ReactElement<Props> {
+function Candidates ({ allVotes = {}, className, electionsInfo: { candidates, runnersUp }, t }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      {members.length
+      <h1>{t('runners up')}</h1>
+      {runnersUp.length
         ? (
           <Table>
             <Table.Body>
-              {members.map(([accountId, balance]): React.ReactNode => (
+              {runnersUp.map(([accountId, balance]): React.ReactNode => (
                 <Candidate
                   address={accountId}
                   balance={balance}
@@ -36,10 +37,27 @@ function Members ({ allVotes = {}, className, electionsInfo: { members }, t }: P
             </Table.Body>
           </Table>
         )
-        : t('No members found')
+        : t('No runners up found')
+      }
+      <h1>{t('candidates')}</h1>
+      {candidates.length
+        ? (
+          <Table>
+            <Table.Body>
+              {candidates.map((accountId): React.ReactNode => (
+                <Candidate
+                  address={accountId}
+                  key={accountId.toString()}
+                  voters={allVotes[accountId.toString()]}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('No candidates found')
       }
     </div>
   );
 }
 
-export default translate(Members);
+export default translate(Candidates);
