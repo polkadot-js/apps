@@ -8,10 +8,10 @@ import { AccountId, EraPoints, Points } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
 import React, { useEffect, useState } from 'react';
+import { Dropdown, FilterOverlay, Table } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import Table from '../Table';
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
 import Address from './Address';
@@ -60,7 +60,7 @@ function accountsToString (accounts: AccountId[]): string[] {
 function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const { isSubstrateV2 } = useApi();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [filter] = useState<ValidatorFilter>('all');
+  const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [myAccounts] = useState(keyring.getAccounts().map(({ address }): string => address));
   const [{ elected, validators, waiting }, setFiltered] = useState<{ elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ elected: [], validators: [], waiting: [] });
 
@@ -102,26 +102,9 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
       />
     ));
 
-  const _renderTable = (className: string, rows: React.ReactNode): React.ReactNode =>
-    <Table className={className}>
-      {/* <Table.Head>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th className='number'>{t('own stake')}</th>
-        <th className='number'>{t('other stake')}</th>
-        <th className='number'>{t('nominators')}</th>
-        <th className='number'>{t('commission')}</th>
-        <th className='number'>{t('points')}</th>
-        <th className='number'>{t('last #')}</th>
-        <th>&nbsp;</th>
-      </Table.Head> */}
-      <Table.Body>{rows}</Table.Body>
-    </Table>;
-
   return (
     <div>
-      {/* <FilterOverlay>
+      <FilterOverlay>
         <Dropdown
           onChange={setFilter}
           options={[
@@ -136,18 +119,18 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
           value={filter}
           withLabel={false}
         />
-      </FilterOverlay> */}
-      {_renderTable(isIntentions ? 'staking--hidden' : '', (
-        <>
+      </FilterOverlay>
+      <Table className={isIntentions ? 'staking--hidden' : ''}>
+        <Table.Body>
           {_renderRows(validators, t('validators'), true)}
-        </>
-      ))}
-      {_renderTable(isIntentions ? '' : 'staking--hidden', (
-        <>
+        </Table.Body>
+      </Table>
+      <Table className={isIntentions ? '' : 'staking--hidden'}>
+        <Table.Body>
           {_renderRows(elected, t('intention'), false)}
           {_renderRows(waiting, t('intention'), false)}
-        </>
-      ))}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

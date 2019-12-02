@@ -11,10 +11,9 @@ import { ValidatorInfo } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { InputBalance } from '@polkadot/react-components';
+import { InputBalance, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useFavorites, trackStream } from '@polkadot/react-hooks';
 
-import Table from '../Table';
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
 import Summary from './Summary';
@@ -174,28 +173,6 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
               value={amount}
             />
             <Table>
-              {/* <Table.Head>
-                <th>&nbsp;</th>
-                <th className='number'>
-                  <Icon
-                    name='info circle'
-                    data-tip
-                    data-for='ranking-trigger'
-                  />
-                  <Tooltip
-                    text={t('Ranking is done of the estimated best return, taking the commission and total bonded amount into account. It does not incorporate validator liveliness according to length of operation nor number of blocks produced.')}
-                    trigger='ranking-trigger'
-                  />
-                </th>
-                <th className='number'>&nbsp;</th>
-                <th className='number'>{t('commission')}</th>
-                <th className='number'>{t('nominators')}</th>
-                <th className='number'>{t('total stake')}</th>
-                <th className='number'>{t('own stake')}</th>
-                <th className='number'>{t('other stake')}</th>
-                <th className='number'>{t('payout (est.)')}</th>
-                <th>&nbsp;</th>
-              </Table.Head> */}
               <Table.Body>
                 {validators.map((info): React.ReactNode =>
                   <Validator

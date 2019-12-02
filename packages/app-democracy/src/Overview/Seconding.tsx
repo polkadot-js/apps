@@ -70,14 +70,12 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
           </Modal.Actions>
         </Modal>
       )}
-      <Button.Group>
-        <Button
-          isPrimary
-          label={t('Second proposal')}
-          icon='toggle off'
-          onClick={_toggleSeconding}
-        />
-      </Button.Group>
+      <Button
+        isPrimary
+        label={t('Second proposal')}
+        icon='toggle off'
+        onClick={_toggleSeconding}
+      />
     </>
   );
 }

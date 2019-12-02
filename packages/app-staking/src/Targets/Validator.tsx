@@ -6,11 +6,10 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorInfo } from './types';
 
 import React from 'react';
-import { Icon } from '@polkadot/react-components';
+import { AddressSmall, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import AddressSmall from '../AddressSmall';
 import translate from '../translate';
 
 interface Props extends I18nProps {

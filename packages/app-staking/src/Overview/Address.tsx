@@ -10,12 +10,11 @@ import { ValidatorFilter } from '../types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressMini, Badge, Icon } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
 import { trackStream, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import AddressSmall from '../AddressSmall';
 import translate from '../translate';
 
 interface Props extends I18nProps {

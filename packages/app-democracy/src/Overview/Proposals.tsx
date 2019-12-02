@@ -6,6 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
+import { Table } from '@polkadot/react-components';
 import { useApi, trackStream } from '@polkadot/react-hooks';
 
 import ProposalDisplay from './Proposal';
@@ -18,15 +19,20 @@ function Proposals ({ className, t }: Props): React.ReactElement<Props> {
   return (
     <div className={`proposalSection ${className}`}>
       <h1>{t('proposals')}</h1>
-      {
-        proposals?.length
-          ? proposals.map((proposal): React.ReactNode => (
-            <ProposalDisplay
-              key={proposal.index.toString()}
-              value={proposal}
-            />
-          ))
-          : t('No active proposals')
+      {proposals?.length
+        ? (
+          <Table>
+            <Table.Body>
+              {proposals.map((proposal): React.ReactNode => (
+                <ProposalDisplay
+                  key={proposal.index.toString()}
+                  value={proposal}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('No active proposals')
       }
     </div>
   );

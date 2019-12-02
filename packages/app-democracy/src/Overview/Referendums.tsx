@@ -6,6 +6,7 @@ import { DerivedReferendum } from '@polkadot/api-derive/types';
 import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
+import { Table } from '@polkadot/react-components';
 import { useApi, trackStream } from '@polkadot/react-hooks';
 
 import Referendum from './Referendum';
@@ -18,16 +19,21 @@ function Referendums ({ className, t }: Props): React.ReactElement<Props> {
   return (
     <div className={`proposalSection ${className}`}>
       <h1>{t('referenda')}</h1>
-      {
-        referendums?.length
-          ? referendums.map((referendum): React.ReactNode => (
-            <Referendum
-              idNumber={referendum.index}
-              key={referendum.index.toString()}
-              value={referendum}
-            />
-          ))
-          : t('No active referendums')
+      {referendums?.length
+        ? (
+          <Table>
+            <Table.Body>
+              {referendums.map((referendum): React.ReactNode => (
+                <Referendum
+                  idNumber={referendum.index}
+                  key={referendum.index.toString()}
+                  value={referendum}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('No active referendums')
       }
     </div>
   );

@@ -15,6 +15,7 @@ import VoteThreshold from '@polkadot/react-params/Param/VoteThreshold';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import translate from '../translate';
+import ProposalCell from './ProposalCell';
 
 const COLORS_AYE = ['#64bebe', '#5badad'];
 const COLORS_NAY = ['#d75ea1', '#e189ba'];
@@ -85,33 +86,18 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
   const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(value.info.end);
 
   return (
-    <ActionItem
-      className={className}
-      idNumber={value.index}
-      proposal={value.proposal}
-      accessory={
-        <Voting
-          idNumber={value.index}
-          proposal={value.proposal}
-        />
-      }
-    >
-      <div>
-        <Static label={t('ending at')}>
-          {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
-            replace: {
-              blockNumber: formatNumber(value.info.end),
-              remaining: formatNumber(value.info.end.sub(chain_bestNumber).subn(1))
-            }
-          })}
-        </Static>
-        <Static label={t('activate at (if passed)')}>
-          {t('block #{{blockNumber}}', {
-            replace: {
-              blockNumber: formatNumber(enactBlock)
-            }
-          })}
-        </Static>
+    <tr className={className}>
+      <td className='number'>{formatNumber(value.index)}</td>
+      <ProposalCell className='top' proposal={value.proposal} />
+      <td className='number top'>
+        <label>{t('remaining')}</label>
+        {formatNumber(value.info.end.sub(chain_bestNumber).subn(1))} blocks
+      </td>
+      <td className='number top'>
+        <label>{t('activate at')}</label>
+        {formatNumber(enactBlock)}
+      </td>
+      {/* <td>
         <VoteThreshold
           isDisabled
           defaultValue={{ isValid: true, value: value.info.threshold }}
@@ -122,26 +108,36 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
             type: 'VoteThreshold'
           }}
         />
+      </td> */}
+      <td>
         {voteCount !== 0 && votedTotal.gtn(0) && (
           <div className='democracy--Referendum-results chart'>
             <Chart.HorizBar
+              aspectRatio={4}
               values={[
                 {
                   colors: COLORS_AYE,
-                  label: `Aye, ${formatBalance(votedAye, { forceUnit: '-' })} (${formatNumber(voteCountAye)})`,
+                  label: `Aye, ${formatBalance(votedAye)} (${formatNumber(voteCountAye)})`,
                   value: votedAye.muln(10000).div(votedTotal).toNumber() / 100
                 },
                 {
                   colors: COLORS_NAY,
-                  label: `Nay, ${formatBalance(votedNay, { forceUnit: '-' })} (${formatNumber(voteCountNay)})`,
+                  label: `Nay, ${formatBalance(votedNay)} (${formatNumber(voteCountNay)})`,
                   value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
                 }
               ]}
+              showLabels={false}
             />
           </div>
         )}
-      </div>
-    </ActionItem>
+      </td>
+      <td className='number together top'>
+        <Voting
+          idNumber={value.index}
+          proposal={value.proposal}
+        />
+      </td>
+    </tr>
   );
 }
 
