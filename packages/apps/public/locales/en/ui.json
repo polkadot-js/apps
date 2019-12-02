@@ -663,5 +663,17 @@
   "last #": "",
   "nominators": "",
   "total stake": "",
-  "payout (est.)": ""
+  "payout (est.)": "",
+  "Submit preimage": "",
+  "The account you want to register the preimage from": "",
+  "The hash of the selected proposal, use it for submitting the proposal": "",
+  "preimage hash": "",
+  "proposer": "",
+  "depositor {{count}}": "",
+  "No active proposals": "",
+  "The account you want to register the proposal from": "",
+  "The preimage hash of the proposal": "",
+  "The locked value for this proposal": "",
+  "locked balance": "",
+  "No active referendums": ""
 }

@@ -30,5 +30,20 @@
   "record my vote as": "record my vote as",
   "Aye, I approve": "Aye, I approve",
   "Nay, I do not approve": "Nay, I do not approve",
-  "Vote": "Vote"
+  "Vote": "Vote",
+  "Submit preimage": "Submit preimage",
+  "The account you want to register the preimage from": "The account you want to register the preimage from",
+  "send from account": "send from account",
+  "transferrable": "transferrable",
+  "The hash of the selected proposal, use it for submitting the proposal": "The hash of the selected proposal, use it for submitting the proposal",
+  "preimage hash": "preimage hash",
+  "proposer": "proposer",
+  "depositor {{count}}": "depositor {{count}}",
+  "No active proposals": "No active proposals",
+  "The account you want to register the proposal from": "The account you want to register the proposal from",
+  "The preimage hash of the proposal": "The preimage hash of the proposal",
+  "The locked value for this proposal": "The locked value for this proposal",
+  "locked balance": "locked balance",
+  "No active referendums": "No active referendums",
+  "total": "total"
 }
