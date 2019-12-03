@@ -29,6 +29,16 @@ export default styled(Card)`
   min-width: 24%;
   justify-content: space-around;
 
+  label {
+    opacity: 0.25;
+  }
+
+  &:hover {
+    label {
+      opacity: 1;
+    }
+  }
+
   &.error {
     background: rgba(255, 0, 0, 0.05);
 
