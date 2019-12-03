@@ -5,8 +5,10 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
+import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { Button, Input, InputAddress, Extrinsic, Modal, TxButton } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { Button, Input, InputAddress, InputNumber, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -22,6 +24,9 @@ const ZERO_HASH = blake2AsHex('');
 function PreImage ({ className, onClose, t }: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [atBlock, setAtBlock] = useState<BN | undefined>();
+  const [forProposal, setForProposal] = useState<BN | undefined>();
+  const [isImminent, setIsImminent] = useState(false);
   const [{ hex, hash }, setHash] = useState<{ hex: string; hash: string }>({ hex: '', hash: ZERO_HASH });
   const [proposal, setProposal] = useState<any>();
 
@@ -57,6 +62,26 @@ function PreImage ({ className, onClose, t }: Props): React.ReactElement<Props> 
           label={t('preimage hash')}
           value={hash}
         />
+        <Toggle
+          className='toggleImminent'
+          label={t('imminent preimage (proposal already passed)')}
+          onChange={setIsImminent}
+          value={isImminent}
+        />
+        {isImminent && (
+          <>
+            <InputNumber
+              help={t('The blocknumber for the proposal to be enacted at')}
+              label={t('block number to be enacted at')}
+              onChange={setAtBlock}
+            />
+            <InputNumber
+              help={t('The proposal to which this image applies')}
+              label={t('proposal id')}
+              onChange={setForProposal}
+            />
+          </>
+        )}
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
@@ -69,13 +94,19 @@ function PreImage ({ className, onClose, t }: Props): React.ReactElement<Props> 
           <Button.Or />
           <TxButton
             accountId={accountId}
-            isDisabled={!proposal || !accountId}
+            isDisabled={!proposal || !accountId || (
+              isImminent ? !(atBlock?.gtn(0) && forProposal?.gtn(0)) : false
+            )}
             isPrimary
             label={t('Submit preimage')}
             icon='add'
             onStart={onClose}
-            params={[hex]}
-            tx='democracy.notePreimage'
+            params={
+              isImminent
+                ? [hex, atBlock, forProposal]
+                : [hex]
+            }
+            tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
             withSpinner={false}
           />
         </Button.Group>
@@ -84,4 +115,11 @@ function PreImage ({ className, onClose, t }: Props): React.ReactElement<Props> 
   );
 }
 
-export default translate(PreImage);
+export default translate(
+  styled(PreImage)`
+    .toggleImminent {
+      margin: 0.5rem 0;
+      text-align: right;
+    }
+  `
+);
