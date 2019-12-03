@@ -2,199 +2,257 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber } from '@polkadot/types/interfaces';
-import { DerivedStaking, DerivedStakingOnlineStatus } from '@polkadot/api-derive/types';
+import { AccountId, Balance, Points, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import { DerivedStaking, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiContext, withCalls, withMulti } from '@polkadot/react-api';
-import { AddressCard, AddressMini, OnlineStatus } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
-import keyring from '@polkadot/ui-keyring';
-import { formatBalance } from '@polkadot/util';
-import { updateOnlineStatus } from '../util';
+import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
+import { trackStream, useApi } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  address: string;
+  address: AccountId | string;
+  authorsMap: Record<string, string>;
   className?: string;
   defaultName: string;
   filter: ValidatorFilter;
-  lastAuthor: string;
-  lastBlock: string;
-  recentlyOnline?: Record<string, BlockNumber>;
-  stakingInfo?: DerivedStaking;
+  hasQueries: boolean;
+  isElected: boolean;
+  isFavorite: boolean;
+  lastAuthors?: string[];
+  myAccounts: string[];
+  points?: Points;
+  recentlyOnline?: DerivedHeartbeats;
+  toggleFavorite: (accountId: string) => void;
+  withNominations?: boolean;
 }
 
 interface StakingState {
-  balanceOpts: { bonded: boolean | BN[] };
+  commission?: string;
   controllerId?: string;
   hasNominators: boolean;
+  isNominatorMe: boolean;
   nominators: [AccountId, Balance][];
-  stashActive: string | null;
-  stashTotal: string | null;
   sessionId?: string;
-  stashId?: string;
+  stakeTotal?: BN;
+  stakeOther?: BN;
+  stakeOwn?: BN;
+  stashId: string;
+  validatorPayment?: BN;
 }
 
-interface OnlineState {
-  hasOfflineWarnings: boolean;
-  onlineStatus: DerivedStakingOnlineStatus;
-}
-
-const WITH_VALIDATOR_PREFS = { validatorPayment: true };
-
-function Address ({ address, className, defaultName, filter, lastAuthor, lastBlock, recentlyOnline, stakingInfo, t }: Props): React.ReactElement<Props> | null {
-  const { isSubstrateV2 } = useContext(ApiContext);
-  const [isNominatorMe, seIsNominatorMe] = useState(false);
-  const [{ hasOfflineWarnings, onlineStatus }, setOnlineStatus] = useState<OnlineState>({
-    hasOfflineWarnings: false,
-    onlineStatus: {}
-  });
-  const [{ balanceOpts, controllerId, hasNominators, nominators, sessionId, stashId }, setStakingState] = useState<StakingState>({
-    balanceOpts: { bonded: true },
+function Address ({ address, authorsMap, className, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  // FIXME Any horrors, caused by derive type mismatches
+  const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
+  const [hasActivity, setHasActivity] = useState(true);
+  const [{ commission, hasNominators, isNominatorMe, nominators, stashId, stakeOwn, stakeOther, validatorPayment }, setStakingState] = useState<StakingState>({
     hasNominators: false,
+    isNominatorMe: false,
     nominators: [],
-    stashActive: null,
-    stashTotal: null
+    stashId: address.toString()
   });
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect((): void => {
     if (stakingInfo) {
-      const { controllerId, nextSessionId, stakers, stakingLedger, stashId } = stakingInfo;
-      const nominators = stakers
+      const { controllerId, nextSessionIds, stakers, stashId, validatorPrefs } = stakingInfo;
+      const nominators = withNominations && stakers
         ? stakers.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
         : [];
-      const myAccounts = keyring.getAccounts().map(({ address }): string => address);
+      const stakeTotal = (stakers && !stakers.total.isEmpty && stakers.total.unwrap()) || undefined;
+      const stakeOwn = (stakers && !stakers.own.isEmpty && stakers.own.unwrap()) || undefined;
+      const stakeOther = (stakeTotal && stakeOwn) ? stakeTotal.sub(stakeOwn) : undefined;
+      const commission = validatorPrefs?.commission?.unwrap();
 
-      seIsNominatorMe(nominators.some(([who]): boolean =>
-        myAccounts.includes(who.toString())
-      ));
       setStakingState({
-        balanceOpts: {
-          bonded: stakers && !stakers.own.isEmpty
-            ? [stakers.own.unwrap(), stakers.total.unwrap().sub(stakers.own.unwrap())]
-            : true
-        },
-        controllerId: controllerId && controllerId.toString(),
+        commission: commission
+          ? `${(commission.toNumber() / 10000000).toFixed(2)}%`
+          : undefined,
+        controllerId: controllerId?.toString(),
         hasNominators: nominators.length !== 0,
+        isNominatorMe: nominators.some(([who]): boolean =>
+          myAccounts.includes(who.toString())
+        ),
         nominators,
-        sessionId: nextSessionId && nextSessionId.toString(),
-        stashActive: stakingLedger
-          ? formatBalance(stakingLedger.active)
-          : null,
-        stashId: stashId && stashId.toString(),
-        stashTotal: stakingLedger
-          ? formatBalance(stakingLedger.total)
-          : null
+        sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
+        stashId: (stashId || address).toString(),
+        stakeOther,
+        stakeOwn,
+        stakeTotal,
+        validatorPayment: (validatorPrefs as any as ValidatorPrefsTo196)?.validatorPayment?.unwrap()
       });
     }
   }, [stakingInfo]);
 
   useEffect((): void => {
-    if (stakingInfo) {
-      const { online, offline, sessionIds, stashId } = stakingInfo;
-      const onlineStatus = updateOnlineStatus(recentlyOnline || {})(sessionIds, { offline, online });
-
-      setOnlineStatus({
-        hasOfflineWarnings: !!(stashId && onlineStatus.offline && onlineStatus.offline.length),
-        onlineStatus
-      });
+    if (recentlyOnline && stashId && recentlyOnline[stashId]) {
+      setHasActivity(recentlyOnline[stashId].isOnline);
     }
-  }, [recentlyOnline, stakingInfo]);
+  }, [recentlyOnline, stashId]);
 
   if ((filter === 'hasNominators' && !hasNominators) ||
     (filter === 'noNominators' && hasNominators) ||
-    (filter === 'hasWarnings' && !hasOfflineWarnings) ||
-    (filter === 'noWarnings' && hasOfflineWarnings) ||
-    (filter === 'iNominated' && !isNominatorMe)) {
+    (filter === 'hasWarnings' && hasActivity) ||
+    (filter === 'noWarnings' && !hasActivity) ||
+    (filter === 'iNominated' && !isNominatorMe) ||
+    (filter === 'nextSet' && !isElected)) {
     return null;
   }
 
-  const isAuthor = !!lastBlock && !!lastAuthor && [address, controllerId, stashId].includes(lastAuthor);
+  const lastBlockNumber = authorsMap[stashId];
+  const isAuthor = lastAuthors && lastAuthors.includes(stashId);
+  const _onFavorite = (): void => toggleFavorite(stashId);
+  const _onQueryStats = (): void => {
+    window.location.hash = `/staking/query/${stashId}`;
+  };
+  const _toggleNominators = (event: React.SyntheticEvent): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setIsExpanded(!isExpanded);
+  };
 
   return (
-    <AddressCard
-      buttons={
-        <div className='staking--Address-info'>
-          {isAuthor && (
-            <div className={classes(isSubstrateV2 ? 'blockNumberV2' : 'blockNumberV1')}>#{lastBlock}</div>
-          )}
-          {controllerId && (
-            <div>
-              <label className={classes('staking--label', isSubstrateV2 && !isAuthor && 'controllerSpacer')}>{t('controller')}</label>
-              <AddressMini value={controllerId} />
-            </div>
-          )}
-          {!isSubstrateV2 && sessionId && (
-            <div>
-              <label className='staking--label'>{t('session')}</label>
-              <AddressMini value={sessionId} />
-            </div>
-          )}
-        </div>
-      }
-      className={className}
-      defaultName={defaultName}
-      iconInfo={controllerId && onlineStatus && (
-        <OnlineStatus
-          accountId={controllerId}
-          value={onlineStatus}
-          tooltip
+    <tr className={`${className} ${isAuthor && 'isHighlight'}`}>
+      <td className='favorite'>
+        <Icon
+          className={`${isFavorite && 'isSelected'}`}
+          name={isFavorite ? 'star' : 'star outline'}
+          onClick={_onFavorite}
         />
-      )}
-      key={stashId || controllerId || undefined}
-      value={stashId || address}
-      withBalance={balanceOpts}
-      withValidatorPrefs={WITH_VALIDATOR_PREFS}
-    >
-      {hasNominators && (
-        <details>
-          <summary>
-            {t('Nominators ({{count}})', {
+      </td>
+      <td className='together'>
+        {isElected && (
+          <Badge
+            hover={t('Selected for the next session')}
+            info={<Icon name='chevron right' />}
+            isInline
+            isTooltip
+            type='next'
+          />
+        )}
+        {recentlyOnline && hasActivity && recentlyOnline[stashId] && (
+          <Badge
+            hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
               replace: {
-                count: nominators.length
+                blocks: formatNumber(recentlyOnline[stashId].blockCount),
+                hasMessage: recentlyOnline[stashId].hasMessage ? ' and a' : ', no'
               }
             })}
-          </summary>
-          {nominators.map(([who, bonded]): React.ReactNode =>
-            <AddressMini
-              bonded={bonded}
-              key={who.toString()}
-              value={who}
-              withBonded
-            />
-          )}
-        </details>
+            info={<Icon name='check' />}
+            isInline
+            isTooltip
+            type='online'
+          />
+        )}
+      </td>
+      <td>
+        <AddressSmall value={stashId} />
+      </td>
+      <td className='number'>
+        {stakeOwn && <FormatBalance label={<label>{t('own stake')}</label>} value={stakeOwn} />}
+      </td>
+      <td className={'toggle number'} colSpan={isExpanded ? 5 : 1} onClick={_toggleNominators}>
+        {stakeOther && (
+          isExpanded
+            ? (
+              <div>
+                {nominators.map(([who, bonded]): React.ReactNode =>
+                  <AddressMini
+                    bonded={bonded}
+                    key={who.toString()}
+                    value={who}
+                    withBonded
+                  />
+                )}
+              </div>
+            )
+            : <FormatBalance label={<label>{t('other stake')}</label>} value={stakeOther}>&nbsp;({formatNumber(nominators.length)})&nbsp;<Icon name='angle double right' /></FormatBalance>
+        )}
+      </td>
+      {!isExpanded && (
+        <>
+          <td className='number'>
+            {(commission || validatorPayment) && (
+              commission
+                ? <><label>{t('commission')}</label>{commission}</>
+                : <FormatBalance label={<label>{t('commission')}</label>} value={validatorPayment} />
+            )}
+          </td>
+          <td className='number'>
+            {points && points.gtn(0) && (
+              <><label>{t('points')}</label>{formatNumber(points)}</>
+            )}
+          </td>
+          <td className='number'>
+            {lastBlockNumber && <><label>{t('last #')}</label>{lastBlockNumber}</>}
+          </td>
+          <td>
+            {hasQueries && api.query.imOnline?.authoredBlocks && (
+              <Icon
+                name='line graph'
+                onClick={_onQueryStats}
+              />
+            )}
+          </td>
+        </>
       )}
-    </AddressCard>
+    </tr>
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Address)`
+    .extras {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+
+      .favorite {
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 0.5rem;
+        margin-right: -0.25rem;
+
+        &.isSelected {
+          color: darkorange;
+        }
+      }
+    }
+
     .blockNumberV1,
     .blockNumberV2 {
-      background: #3f3f3f;
       border-radius: 0.25rem;
-      box-shadow: 0 3px 3px rgba(0,0,0,.2);
-      color: #eee;
       font-size: 1.5rem;
       font-weight: 100;
       line-height: 1.5rem;
+      opacity: 0.5;
       vertical-align: middle;
       z-index: 1;
+
+      &.isCurrent {
+        background: #3f3f3f;
+        box-shadow: 0 3px 3px rgba(0,0,0,.2);
+        color: #eee;
+        opacity: 1;
+      }
     }
 
     .blockNumberV2 {
       display: inline-block;
-      margin-bottom: 0.75rem;
-      margin-right: -0.25rem;
-      padding: 0.25rem 0.75rem;
+      padding: 0.25rem 0;
+
+      &.isCurrent {
+        margin-right: -0.25rem;
+        padding: 0.25rem 0.75rem;
+      }
     }
 
     .blockNumberV1 {
@@ -204,7 +262,6 @@ export default withMulti(
     }
 
     .staking--Address-info {
-      /* Small additional margin to take care of validator highlights */
       margin-right: 0.25rem;
       text-align: right;
 
@@ -214,14 +271,14 @@ export default withMulti(
     }
 
     .staking--label.controllerSpacer {
-      margin-top: 2.75rem;
+      margin-top: 0.5rem;
     }
-  `,
-  translate,
-  withCalls<Props>(
-    ['derive.staking.info', {
-      paramName: 'address',
-      propName: 'stakingInfo'
-    }]
-  )
+
+    .staking--stats {
+      bottom: 0.75rem;
+      cursor: pointer;
+      position: absolute;
+      right: 0.5rem;
+    }
+  `
 );

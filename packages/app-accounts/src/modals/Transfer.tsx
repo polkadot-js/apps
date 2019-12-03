@@ -8,12 +8,12 @@ import { DerivedFees } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
-import { ApiContext } from '@polkadot/react-api';
 
 import translate from '../translate';
 
@@ -65,7 +65,7 @@ const ZERO = new BN(0);
 // }
 
 function Transfer ({ className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
   const [hasAvailable, setHasAvailable] = useState(true);
@@ -84,7 +84,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
     }
   }, [amount, recipientId, senderId]);
 
-  const available = <span className='label'>{t('available ')}</span>;
+  const transferrable = <span className='label'>{t('transferrable')}</span>;
 
   return (
     <Modal
@@ -100,7 +100,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('The account you will send funds from.')}
             isDisabled={!!propSenderId}
             label={t('send from account')}
-            labelExtra={<Available label={available} params={senderId} />}
+            labelExtra={<Available label={transferrable} params={senderId} />}
             onChange={setSenderId}
             type='account'
           />
@@ -109,7 +109,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             help={t('Select a contact or paste the address you want to send funds to.')}
             isDisabled={!!propRecipientId}
             label={t('send to address')}
-            labelExtra={<Available label={available} params={recipientId} />}
+            labelExtra={<Available label={transferrable} params={recipientId} />}
             onChange={setRecipientId}
             type='allPlus'
           />

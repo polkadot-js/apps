@@ -6,12 +6,13 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
-import { ApiContext, withMulti, withObservable } from '@polkadot/react-api';
+import { withMulti, withObservable } from '@polkadot/react-api';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import translate from './translate';
@@ -30,7 +31,7 @@ interface Option {
 }
 
 function Transfer ({ assets, className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApi();
   const [assetId, setAssetId] = useState('0');
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
@@ -63,7 +64,7 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
     }
   };
 
-  const available = <span className='label'>{t('available ')}</span>;
+  const transferrable = <span className='label'>{t('transferrable')}</span>;
 
   return (
     <div>
@@ -73,7 +74,7 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           help={t('The account you will send funds from.')}
           isDisabled={!!propSenderId}
           label={t('send from account')}
-          labelExtra={<Available label={available} params={senderId} />}
+          labelExtra={<Available label={transferrable} params={senderId} />}
           onChange={setSenderId}
           type='account'
         />
@@ -82,7 +83,7 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           help={t('Select a contact or paste the address you want to send funds to.')}
           isDisabled={!!propRecipientId}
           label={t('send to address')}
-          labelExtra={<Available label={available} params={recipientId} />}
+          labelExtra={<Available label={transferrable} params={recipientId} />}
           onChange={setRecipientId}
           type='allPlus'
         />

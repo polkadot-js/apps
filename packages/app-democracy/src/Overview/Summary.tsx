@@ -8,6 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
+import { useApi, trackStream } from '@polkadot/react-hooks';
 import { withCalls } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
@@ -15,16 +16,17 @@ import translate from '../translate';
 
 interface Props extends I18nProps {
   chain_bestNumber?: BN;
-  democracy_launchPeriod?: BN;
   democracy_nextTally?: BN;
   democracy_publicPropCount?: BN;
   democracy_referendumCount?: BN;
 }
 
 function Summary (props: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const activeProposals = trackStream<any[]>(api.derive.democracy.proposals, []);
+
   const {
-    chain_bestNumber = new BN(0),
-    democracy_launchPeriod = new BN(1),
+    chain_bestNumber,
     democracy_nextTally = new BN(0),
     democracy_publicPropCount,
     democracy_referendumCount = new BN(0),
@@ -35,31 +37,37 @@ function Summary (props: Props): React.ReactElement<Props> {
     <SummaryBox>
       <section>
         <CardSummary label={t('proposals')}>
+          {formatNumber(activeProposals?.length)}
+        </CardSummary>
+        <CardSummary label={t('total')}>
           {formatNumber(democracy_publicPropCount)}
         </CardSummary>
+      </section>
+      <section>
         <CardSummary label={t('referenda')}>
-          {formatNumber(democracy_referendumCount)}
-        </CardSummary>
-        <CardSummary label={t('active')}>
           {formatNumber(democracy_referendumCount.sub(democracy_nextTally))}
         </CardSummary>
+        <CardSummary label={t('total')}>
+          {formatNumber(democracy_referendumCount)}
+        </CardSummary>
       </section>
-      <section className='ui--media-medium'>
-        <CardSummary
-          label={t('launch period')}
-          progress={{
-            value: chain_bestNumber.mod(democracy_launchPeriod).addn(1),
-            total: democracy_launchPeriod || new BN(1)
-          }}
-        />
-      </section>
+      {chain_bestNumber && (
+        <section className='ui--media-medium'>
+          <CardSummary
+            label={t('launch period')}
+            progress={{
+              value: chain_bestNumber.mod(api.consts.democracy.launchPeriod).addn(1),
+              total: api.consts.democracy.launchPeriod
+            }}
+          />
+        </section>
+      )}
     </SummaryBox>
   );
 }
 
 export default translate(
   withCalls<Props>(
-    ['consts.democracy.launchPeriod', { fallbacks: ['query.democracy.launchPeriod'] }],
     'query.democracy.nextTally',
     'query.democracy.publicPropCount',
     'query.democracy.referendumCount',

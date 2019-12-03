@@ -21,5 +21,7 @@
   "Tip (optional)": "Tip (optional)",
   "wrong password": "wrong password",
   "sending from my account": "sending from my account",
-  "unlock account with password": "unlock account with password"
+  "unlock account with password": "unlock account with password",
+  "Include an optional tip for faster processing": "Include an optional tip for faster processing",
+  "Do not include a tip for the block author": "Do not include a tip for the block author"
 }

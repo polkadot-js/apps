@@ -8,7 +8,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -20,15 +21,17 @@ interface Props extends I18nProps {
   className?: string;
 }
 
-const WITH_BALANCE = { available: true, bonded: true, free: true, total: true };
+const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, reserved: true, total: true };
 const WITH_EXTENDED = { nonce: true };
 
 const isEditable = true;
 
 function Address ({ address, className, t }: Props): React.ReactElement<Props> {
+  const api = useApi();
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
+  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
 
   useEffect((): void => {
@@ -39,6 +42,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
   }, []);
 
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
+  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
   const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
   const _onForget = (): void => {
     if (address) {
@@ -63,6 +67,8 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
     const account = keyring.getAddress(address);
 
     account && keyring.saveAddress(address, { ...account.meta, genesisHash });
+
+    setGenesisHash(genesisHash);
   };
 
   return (
@@ -70,16 +76,6 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
       buttons={
         <div className='addresses--Address-buttons buttons'>
           <div className='actions'>
-            {isEditable && (
-              <Button
-                isNegative
-                onClick={_toggleForget}
-                icon='trash'
-                key='forget'
-                size='small'
-                tooltip={t('Forget this address')}
-              />
-            )}
             <Button
               icon='paper plane'
               isPrimary
@@ -89,15 +85,45 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
               size='small'
               tooltip={t('Send funds to this address')}
             />
+            <Popup
+              className='theme--default'
+              onClose={_toggleSettingPopup}
+              open={isSettingPopupOpen}
+              position='bottom right'
+              trigger={
+                <Button
+                  icon='setting'
+                  onClick={_toggleSettingPopup}
+                  size='small'
+                />
+              }
+            >
+              <Menu
+                vertical
+                text
+                onClick={_toggleSettingPopup}
+              >
+                <Menu.Item
+                  disabled={!isEditable}
+                  onClick={_toggleForget}
+                >
+                  {t('Forget this address')}
+                </Menu.Item>
+                {!api.isDevelopment && (
+                  <>
+                    <Menu.Divider />
+                    <ChainLock
+                      className='addresses--network-toggle'
+                      genesisHash={genesisHash}
+                      isDisabled={!isEditable}
+                      onChange={_onGenesisChange}
+                      preventDefault
+                    />
+                  </>
+                )}
+              </Menu>
+            </Popup>
           </div>
-          {isEditable && (
-            <div className='others'>
-              <ChainLock
-                genesisHash={genesisHash}
-                onChange={_onGenesisChange}
-              />
-            </div>
-          )}
         </div>
       }
       className={className}
@@ -105,7 +131,7 @@ function Address ({ address, className, t }: Props): React.ReactElement<Props> {
       type='address'
       value={address}
       withExplorer
-      withIndex
+      withIndexOrAddress={false}
       withTags
     >
       {address && current && (
@@ -141,11 +167,6 @@ export default translate(
   styled(Address)`
     .addresses--Address-buttons {
       text-align: right;
-
-      .others {
-        margin-right: 0.125rem;
-        margin-top: 0.25rem;
-      }
     }
   `
 );

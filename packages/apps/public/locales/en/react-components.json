@@ -61,5 +61,14 @@
   "record my vote as": "record my vote as",
   "Vote": "Vote",
   "Aye, I approve": "Aye, I approve",
-  "Nay, I do not approve": "Nay, I do not approve"
+  "Nay, I do not approve": "Nay, I do not approve",
+  "reserved": "reserved",
+  "locked": "locked",
+  "Remove ABI": "Remove ABI",
+  "transferrable": "transferrable",
+  "No documentation provided": "No documentation provided",
+  "vested": "vested",
+  "session rotate": "session rotate",
+  "session next": "session next",
+  "Submit signed extrinsic": "Submit signed extrinsic"
 }

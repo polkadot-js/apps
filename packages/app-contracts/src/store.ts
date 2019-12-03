@@ -8,8 +8,8 @@ import { CodeJson, CodeStored } from './types';
 import EventEmitter from 'eventemitter3';
 import store from 'store';
 import { Abi } from '@polkadot/api-contract';
+import { api, registry } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
-import { api } from '@polkadot/react-api';
 
 const KEY_CODE = 'code:';
 
@@ -30,7 +30,7 @@ class Store extends EventEmitter {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>): Promise<void> {
-    const hex = (typeof codeHash === 'string' ? createType('Hash', codeHash) : codeHash).toHex();
+    const hex = (typeof codeHash === 'string' ? createType(registry, 'Hash', codeHash) : codeHash).toHex();
 
     const existing = this.getCode(hex);
 
@@ -78,7 +78,7 @@ class Store extends EventEmitter {
       this.allCode[json.codeHash] = {
         json,
         contractAbi: abi
-          ? new Abi(abi)
+          ? new Abi(registry, abi)
           : undefined
       };
 

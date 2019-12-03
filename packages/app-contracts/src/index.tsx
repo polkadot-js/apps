@@ -42,7 +42,7 @@ class App extends React.PureComponent<Props, State> {
     updated: 0
   };
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     store.on('new-code', this.triggerUpdate);

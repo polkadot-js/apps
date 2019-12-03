@@ -5,11 +5,11 @@
 import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputAddress, Labelled, Static } from '@polkadot/react-components';
-import { ApiContext } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import Inset, { InsetProps } from './Inset';
 import translate from './translate';
@@ -26,7 +26,7 @@ interface Props extends I18nProps {
 
 function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
   const [stateProposal, setProposal] = useState<TreasuryProposalType | null>(null);
-  const { api } = useContext(ApiContext);
+  const { api } = useApi();
 
   useEffect((): void => {
     if (!proposal && proposalId) {
@@ -65,10 +65,10 @@ function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, 
         />
       </Labelled>
       <Static label={t('value')}>
-        {formatBalance(value)}
+        <FormatBalance value={value} />
       </Static>
       <Static label={t('bond')}>
-        {formatBalance(bond)}
+        <FormatBalance value={bond} />
       </Static>
     </>
   );

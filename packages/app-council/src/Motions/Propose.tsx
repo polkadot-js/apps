@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call, Proposal } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
+import { Call, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
-import { createType } from '@polkadot/types';
+import { withCalls, withMulti, registry } from '@polkadot/react-api';
 import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { withApi, withCalls, withMulti } from '@polkadot/react-api';
+import { createType } from '@polkadot/types';
 
 import translate from '../translate';
 
@@ -24,7 +24,7 @@ interface State extends TxModalState {
 }
 
 class Propose extends TxModal<Props, State> {
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -54,7 +54,7 @@ class Propose extends TxModal<Props, State> {
 
     return [
       threshold,
-      ...(method ? [createType('Proposal', method)] : [])
+      ...(method ? [createType(registry, 'Proposal', method)] : [])
     ];
   }
 
@@ -136,9 +136,9 @@ class Propose extends TxModal<Props, State> {
 export default withMulti(
   Propose,
   translate,
-  withApi,
   withCalls(
-    ['query.elections.members', {
+    ['query.electionsPhragmen.members', {
+      fallbacks: ['query.elections.members'],
       propName: 'memberCount',
       transform: (value: any[]): number =>
         value.length

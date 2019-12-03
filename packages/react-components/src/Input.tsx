@@ -25,11 +25,13 @@ interface Props extends BareProps {
   isHidden?: boolean;
   isReadOnly?: boolean;
   label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   max?: any;
   maxLength?: number;
   min?: any;
   name?: string;
   onEnter?: () => void;
+  onEscape?: () => void;
   onChange?: (value: string) => void;
   onBlur?: () => void;
   onKeyDown?: (event: React.KeyboardEvent<Element>) => void;
@@ -85,7 +87,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, isReadOnly = false, label, max, maxLength, min, name, onBlur, onChange, onEnter, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = (): void => {
@@ -104,6 +106,11 @@ export default function Input ({ autoFocus = false, children, className, default
       (event.target as any).blur();
       onEnter();
     }
+
+    if (onEscape && event.keyCode === 27) {
+      (event.target as any).blur();
+      onEscape();
+    }
   };
   const _onPaste = (event: React.ClipboardEvent<HTMLInputElement>): void => {
     onPaste && onPaste(event);
@@ -114,6 +121,7 @@ export default function Input ({ autoFocus = false, children, className, default
       className={className}
       help={help}
       label={label}
+      labelExtra={labelExtra}
       style={style}
       withEllipsis={withEllipsis}
       withLabel={withLabel}

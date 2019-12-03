@@ -30,5 +30,22 @@
   "Vote": "Vote",
   "You have already voted in this round": "You have already voted in this round",
   "Retract vote": "Retract vote",
-  "No vote": "No vote"
+  "No vote": "No vote",
+  "No candidates found": "No candidates found",
+  "value": "value",
+  "member": "member",
+  "term progress": "term progress",
+  "Voters ({{count}})": "Voters ({{count}})",
+  "The amount that is associated with this vote. This value is is locked for the duration of the vote.": "The amount that is associated with this vote. This value is is locked for the duration of the vote.",
+  "vote value": "vote value",
+  "voting balance ": "voting balance ",
+  "runner up": "runner up",
+  "Runner up": "Runner up",
+  "Current member": "Current member",
+  "runners up": "runners up",
+  "voting balance": "voting balance",
+  "Candidates": "Candidates",
+  "backing": "backing",
+  "No runners up found": "No runners up found",
+  "Motions ({{count}})": "Motions ({{count}})"
 }

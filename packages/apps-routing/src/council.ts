@@ -4,14 +4,18 @@
 
 import { Routes } from './types';
 
-import Council from '@polkadot/app-council';
+import Council, { useCounter } from '@polkadot/app-council';
 
 export default ([
   {
     Component: Council,
+    useCounter,
     display: {
       needsApi: [
-        'query.elections.candidates'
+        [
+          'query.electionsPhragmen.candidates',
+          'query.elections.candidates'
+        ]
       ]
     },
     i18n: {

@@ -26,24 +26,26 @@ const NOOP = (): void => {
   // ignore
 };
 
+const NO_SKIP = (): boolean => false;
+
 // a mapping of actual error messages that has already been shown
 const errorred: Record<string, boolean> = {};
 
-export default function withCall<P extends ApiProps> (
-  endpoint: string,
-  {
-    at,
-    atProp,
-    callOnResult,
-    fallbacks,
-    isMulti = false,
-    params = [],
-    paramName,
-    paramPick,
-    paramValid = false,
-    propName,
-    transform = echoTransform
-  }: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
+export default function withCall<P extends ApiProps> (endpoint: string, {
+  at,
+  atProp,
+  callOnResult,
+  fallbacks,
+  isMulti = false,
+  params = [],
+  paramName,
+  paramPick,
+  paramValid = false,
+  propName,
+  skipIf = NO_SKIP,
+  transform = echoTransform,
+  withIndicator = false
+}: Options = {}): (Inner: React.ComponentType<ApiProps>) => React.ComponentType<any> {
   return (Inner: React.ComponentType<ApiProps>): React.ComponentType<SubtractProps<P, ApiProps>> => {
     class WithPromise extends React.Component<P, State> {
       public state: State = {
@@ -60,7 +62,7 @@ export default function withCall<P extends ApiProps> (
 
       private timerId = -1;
 
-      public constructor (props: P) {
+      constructor (props: P) {
         super(props);
 
         const [, section, method] = endpoint.split('.');
@@ -82,23 +84,26 @@ export default function withCall<P extends ApiProps> (
 
       public componentDidMount (): void {
         this.isActive = true;
-        this.timerId = window.setInterval((): void => {
-          const elapsed = Date.now() - (this.state.callUpdatedAt || 0);
-          const callUpdated = elapsed <= 1500;
 
-          if (callUpdated !== this.state.callUpdated) {
-            this.nextState({ callUpdated });
-          }
-        }, 500);
+        if (withIndicator) {
+          this.timerId = window.setInterval((): void => {
+            const elapsed = Date.now() - (this.state.callUpdatedAt || 0);
+            const callUpdated = elapsed <= 1500;
+
+            if (callUpdated !== this.state.callUpdated) {
+              this.nextState({ callUpdated });
+            }
+          }, 500);
+        }
 
         // The attachment takes time when a lot is available, set a timeout
         // to first handle the current queue before subscribing
-        setTimeout((): void => {
+        setImmediate((): void => {
           this
             .subscribe(this.getParams(this.props))
             .then(NOOP)
             .catch(NOOP);
-        }, 0);
+        });
       }
 
       public componentWillUnmount (): void {
@@ -188,7 +193,7 @@ export default function withCall<P extends ApiProps> (
         if (area === 'query' && meta && meta.type.isMap) {
           const arg = newParams[0];
 
-          assert((!isUndefined(arg) && !isNull(arg)) || meta.type.asMap.linked.isTrue, `${meta.name} expects one argument`);
+          assert((!isUndefined(arg) && !isNull(arg)) || meta.type.asMap.kind.isLinkedMap, `${meta.name} expects one argument`);
         }
 
         return [
@@ -199,7 +204,7 @@ export default function withCall<P extends ApiProps> (
       }
 
       private async subscribe ([isValid, newParams]: [boolean, any[]]): Promise<void> {
-        if (!isValid) {
+        if (!isValid || skipIf(this.props)) {
           return;
         }
 
@@ -284,9 +289,12 @@ export default function withCall<P extends ApiProps> (
         const _props = {
           ...this.props,
           callUpdated,
-          callUpdatedAt,
-          [propName || this.propName]: callResult
+          callUpdatedAt
         };
+
+        if (!isUndefined(callResult)) {
+          (_props as any)[propName || this.propName] = callResult;
+        }
 
         return (
           <Inner {..._props} />

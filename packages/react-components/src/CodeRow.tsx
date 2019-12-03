@@ -9,7 +9,7 @@ import { CodeStored } from '@polkadot/app-contracts/types';
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { withMulti } from '@polkadot/react-api';
+import { registry, withMulti } from '@polkadot/react-api';
 import { classes, toShortAddress } from '@polkadot/react-components/util';
 import contracts from '@polkadot/app-contracts/store';
 
@@ -51,18 +51,17 @@ const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 class CodeRow extends Row<Props, State> {
   public state: State;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ code: { json }, accounts_idAndIndex = [] }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ code: { json }, accounts_info }: Props, prevState: State): State | null {
     const codeHash = json.codeHash || DEFAULT_HASH;
     const name = json.name || DEFAULT_NAME;
     const tags = json.tags || [];
-    const [_accountId] = accounts_idAndIndex;
-    const accountId = _accountId;
+    const { accountId } = accounts_info || {};
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
@@ -192,7 +191,7 @@ class CodeRow extends Row<Props, State> {
 
     // Save only if the name was changed or if it's no empty.
     if (trimmedName && codeHash) {
-      await contracts.saveCode(createType('Hash', codeHash), { name });
+      await contracts.saveCode(createType(registry, 'Hash', codeHash), { name });
 
       this.setState({ isEditingName: false });
     }
@@ -202,7 +201,7 @@ class CodeRow extends Row<Props, State> {
     const { codeHash, tags } = this.state;
 
     if (codeHash) {
-      await contracts.saveCode(createType('Hash', codeHash), { tags });
+      await contracts.saveCode(createType(registry, 'Hash', codeHash), { tags });
 
       this.setState({ isEditingTags: false });
     }

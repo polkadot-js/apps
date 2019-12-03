@@ -7,6 +7,7 @@ import { BaseProps, Props as CProps, ComponentMap } from '../types';
 
 import React, { useRef } from 'react';
 import { classes } from '@polkadot/react-components/util';
+import { displayType } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 import translate from '../translate';
@@ -19,7 +20,7 @@ interface Props extends I18nProps, BaseProps {
   overrides?: ComponentMap;
 }
 
-function Param ({ className, defaultValue, isDisabled, isOptional, name, onChange, onEnter, overrides, style, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className, defaultValue, isDisabled, isOptional, name, onChange, onEnter, onEscape, overrides, style, type }: Props): React.ReactElement<Props> | null {
   const compRef = useRef<React.ComponentType<CProps> | null>(findComponent(type, overrides));
 
   if (!compRef.current) {
@@ -27,8 +28,8 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
   }
 
   const label = isUndefined(name)
-    ? type.type
-    : `${name}: ${type.type}`;
+    ? displayType(type)
+    : `${name}: ${displayType(type)}`;
 
   return isOptional
     ? (
@@ -48,6 +49,7 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
         name={name}
         onChange={onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         style={style}
         type={type}
       />

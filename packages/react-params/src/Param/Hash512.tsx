@@ -8,7 +8,7 @@ import React from 'react';
 
 import BaseBytes from './BaseBytes';
 
-export default function Hash512 ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
+export default function Hash512 ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
   return (
     <BaseBytes
       className={className}
@@ -20,6 +20,7 @@ export default function Hash512 ({ className, defaultValue, isDisabled, isError,
       name={name}
       onChange={onChange}
       onEnter={onEnter}
+      onEscape={onEscape}
       style={style}
       type={type}
       withLabel={withLabel}

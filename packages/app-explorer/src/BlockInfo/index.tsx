@@ -7,8 +7,8 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { useParams } from 'react-router-dom';
+import { withCalls } from '@polkadot/react-api';
 import { isHex } from '@polkadot/util';
 
 import Query from '../Query';
@@ -17,15 +17,11 @@ import BlockByNumber from './ByNumber';
 
 interface Props extends BareProps {
   chain_bestNumber?: BlockNumber;
-  match: {
-    params: {
-      value: string;
-    };
-  };
 }
 
-function Entry ({ chain_bestNumber, match: { params: { value } } }: Props): React.ReactElement<Props> | null {
-  const [stateValue, setStateValue] = useState<string>(value);
+function Entry ({ chain_bestNumber }: Props): React.ReactElement<Props> | null {
+  const { value } = useParams();
+  const [stateValue, setStateValue] = useState<string | undefined>(value);
 
   useEffect((): void => {
     if (value && value !== stateValue) {
@@ -54,7 +50,4 @@ function Entry ({ chain_bestNumber, match: { params: { value } } }: Props): Reac
   );
 }
 
-export default withMulti(
-  withRouter(Entry),
-  withCalls<Props>('derive.chain.bestNumber')
-);
+export default withCalls<Props>('derive.chain.bestNumber')(Entry);

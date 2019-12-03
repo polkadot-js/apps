@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import ChartJs from 'chart.js';
 import { HorizontalBar } from 'react-chartjs-2';
-import { bnToBn } from '@polkadot/util';
+import { bnToBn, isNumber } from '@polkadot/util';
 
 interface Value {
   colors: string[];
@@ -18,7 +18,10 @@ interface Value {
 
 interface Props extends BareProps {
   aspectRatio?: number;
+  max?: number;
+  showLabels?: boolean;
   values: Value[];
+  withColors?: boolean;
 }
 
 interface State {
@@ -39,13 +42,13 @@ interface Config {
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
-function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string): State {
+function calculateOptions (aspectRatio: number, values: Value[], jsonValues: string, max: number, showLabels: boolean): State {
   const chartData = values.reduce((data, { colors: [normalColor = '#00f', hoverColor], label, value }): Config => {
     const dataset = data.datasets[0];
 
     dataset.backgroundColor.push(alphaColor(normalColor));
     dataset.hoverBackgroundColor.push(alphaColor(hoverColor || normalColor));
-    dataset.data.push(bnToBn(value).toNumber());
+    dataset.data.push(isNumber(value) ? value : bnToBn(value).toNumber());
     data.labels.push(label);
 
     return data;
@@ -69,10 +72,9 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
       },
       scales: {
         xAxes: [{
-          ticks: {
-            beginAtZero: true,
-            max: 100
-          }
+          ticks: showLabels
+            ? { beginAtZero: true, max }
+            : { display: false }
         }]
       }
     },
@@ -80,14 +82,14 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
   };
 }
 
-export default function ChartHorizBar ({ aspectRatio = 4, className, style, values }: Props): React.ReactElement<Props> | null {
+export default function ChartHorizBar ({ aspectRatio = 8, className, max = 100, showLabels = false, style, values }: Props): React.ReactElement<Props> | null {
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
     const newJsonValues = JSON.stringify(values);
 
     if (newJsonValues !== jsonValues) {
-      setState(calculateOptions(aspectRatio, values, newJsonValues));
+      setState(calculateOptions(aspectRatio, values, newJsonValues, max, showLabels));
     }
   }, [values]);
 
@@ -95,6 +97,7 @@ export default function ChartHorizBar ({ aspectRatio = 4, className, style, valu
     return null;
   }
 
+  // HACK on width/height to get the aspectRatio to work
   return (
     <div
       className={className}
@@ -102,7 +105,9 @@ export default function ChartHorizBar ({ aspectRatio = 4, className, style, valu
     >
       <HorizontalBar
         data={chartData}
+        height={null as any}
         options={chartOptions}
+        width={null as any}
       />
     </div>
   );

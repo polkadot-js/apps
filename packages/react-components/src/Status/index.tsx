@@ -7,7 +7,7 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { GenericCall } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 
 import AddressMini from '../AddressMini';
 import Button from '../Button';
@@ -67,10 +67,6 @@ function signerIconName (status: QueueTxStatus): any {
 }
 
 function renderStatus ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode {
-  const addressRendered = account
-    ? <AddressMini value={account} />
-    : undefined;
-
   return (
     <div
       className={classes('item', status)}
@@ -89,7 +85,9 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
             <div className='header'>
               {action}
             </div>
-            {addressRendered}
+            {account && (
+              <AddressMini value={account} />
+            )}
             <div className='status'>
               {message}
             </div>
@@ -104,7 +102,7 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
   let { method, section } = rpc;
 
   if (extrinsic) {
-    const found = GenericCall.findFunction(extrinsic.callIndex);
+    const found = registry.findMetaCall(extrinsic.callIndex);
 
     if (found.section !== 'unknown') {
       method = found.method;
@@ -176,7 +174,6 @@ function Status ({ className, stqueue = [], txqueue = [], t }: Props): React.Rea
           />
         </div>
       )}
-
       {alltx.map(renderItem)}
       {allst.map(renderStatus)}
     </div>
@@ -220,10 +217,22 @@ export default translate(
           .status {
             font-weight: 700;
           }
+
+          .ui--AddressMini {
+            .ui--AddressMini-address {
+              min-width: 0;
+              text-align: left;
+            }
+          }
+        }
+
+        .header {
+          opacity: 0.66;
         }
 
         .short {
           font-size: 2.5rem;
+          opacity:  0.75;
           padding: 0.5rem;
 
           i.icon {

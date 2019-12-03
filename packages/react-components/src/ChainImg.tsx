@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ApiContext } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 
 // the imports here as a bit all-over, non-aphabetical - since we expect this to grow,
 // rather organise based on type, grouping chains and nodes as opposed to location
@@ -25,7 +25,8 @@ import substrate from '@polkadot/ui-assets/substrate-hexagon.svg';
 const CHAINS: Record<string, any> = {
   Kusama: chainKusama, // old name, the W3F nodes still has these
   'Kusama CC1': chainKusama,
-  'Kusama CC2': chainKusama
+  'Kusama CC2': chainKusama,
+  'Kusama CC3': chainKusama
 };
 
 // overrides based on the actual software node type
@@ -54,7 +55,7 @@ interface Props {
 }
 
 function ChainImg ({ className, logo = '', onClick }: Props): React.ReactElement<Props> {
-  const { systemChain, systemName } = useContext(ApiContext);
+  const { systemChain, systemName } = useApi();
   const img = LOGOS[logo] || CHAINS[systemChain] || NODES[systemName] || EMPTY;
 
   return (

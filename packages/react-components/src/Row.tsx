@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, AccountIndex } from '@polkadot/types/interfaces';
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { Label } from 'semantic-ui-react';
@@ -17,7 +17,15 @@ import InputTags from './InputTags';
 export const styles = `
   text-align: left;
 
-  &.inline {
+  &.isDisabled {
+    opacity: 0.6;
+
+    .ui--IdentityIcon  {
+      filter: grayscale(100%);
+    }
+  }
+
+  &.isInline {
     display: flex;
 
     .ui--Row-accountId {
@@ -25,7 +33,7 @@ export const styles = `
     }
   }
 
-  &.invalid {
+  &.isInvalid {
     .ui--Row-accountId,
     .ui--Row-icon {
       filter: grayscale(100);
@@ -72,6 +80,7 @@ export const styles = `
       label,
       .result {
         display: inline-block;
+        vertical-align: middle;
       }
     }
 
@@ -185,7 +194,7 @@ export const styles = `
 `;
 
 export interface RowProps {
-  accounts_idAndIndex?: [AccountId?, AccountIndex?];
+  accounts_info?: DeriveAccountInfo;
   buttons?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
@@ -259,7 +268,7 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
     return (
       <span className='editSpan'>
         <Button
-          className='iconButton'
+          className='icon-button'
           icon='edit'
           size='mini'
           isPrimary
@@ -275,7 +284,7 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
     const { address, isEditingName, name } = this.state;
     const withName = name !== defaultName;
 
-    // can't be both editable and copiable
+    // can't be both editable and copyable
     return isEditingName
       ? (
         <Input

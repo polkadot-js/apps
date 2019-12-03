@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ValidatorPrefs, ValidatorPrefs0to145 } from '@polkadot/types/interfaces';
+import { ValidatorPrefs, ValidatorPrefsTo145, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { registry, withApi, withMulti } from '@polkadot/react-api';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { createType } from '@polkadot/types';
 
 import InputValidationUnstakeThreshold from './InputValidationUnstakeThreshold';
 import translate from '../../translate';
@@ -19,50 +20,58 @@ interface Props extends ApiProps, I18nProps {
   isOpen: boolean;
   onClose: () => void;
   stashId: string;
-  validatorPrefs?: ValidatorPrefs | ValidatorPrefs0to145;
+  validatorPrefs?: ValidatorPrefs | ValidatorPrefsTo145 | ValidatorPrefsTo196;
 }
 
 interface State {
-  unstakeThreshold?: BN;
+  hasCommission: boolean;
+  commission: BN;
+  unstakeThreshold: BN;
   unstakeThresholdError: string | null;
-  validatorPayment?: BN;
+  validatorPayment: BN;
 }
+
+const COMM_MUL = new BN(10000000);
+const MAX_COMM = new BN(100);
 
 class Validate extends TxComponent<Props, State> {
   public state: State = {
+    hasCommission: !!(createType(registry, 'ValidatorPrefs').commission),
+    commission: new BN(0),
     unstakeThreshold: new BN(3),
     unstakeThresholdError: null,
     validatorPayment: new BN(0)
   };
 
+  // FIXME Borken with new InputBalance
   // inject the preferences returned via RPC once into the state (from this
   // point forward it will be entirely managed by the actual inputs)
-  public static getDerivedStateFromProps ({ isSubstrateV2, validatorPrefs }: Props, state: State): Pick<State, never> | null {
-    if (state.unstakeThreshold && state.validatorPayment) {
-      return null;
-    }
+  // public static getDerivedStateFromProps ({ isSubstrateV2, validatorPrefs }: Props, state: State): Pick<State, never> | null {
+  //   if (state.unstakeThreshold && state.validatorPayment) {
+  //     return null;
+  //   }
 
-    if (validatorPrefs) {
-      // 1.x, it has both values
-      if (isSubstrateV2) {
-        const { validatorPayment } = validatorPrefs as ValidatorPrefs;
+  //   if (validatorPrefs) {
+  //     // 1.x, it has both values
+  //     if (isSubstrateV2) {
+  //       const { validatorPayment } = validatorPrefs as ValidatorPrefs;
 
-        return {
-          validatorPayment: validatorPayment.toBn()
-        };
-      } else {
-        const { unstakeThreshold, validatorPayment } = validatorPrefs as ValidatorPrefs0to145;
+  //       return {
+  //         validatorPayment: validatorPayment.toBn()
+  //       };
+  //     } else {
+  //       const { unstakeThreshold, validatorPayment } = validatorPrefs as ValidatorPrefs0to145;
 
-        return {
-          unstakeThreshold: unstakeThreshold.toBn(),
-          unstakeThresholdError: null,
-          validatorPayment: validatorPayment.toBn()
-        };
-      }
-    }
+  //       return {
+  //         unstakeThreshold: unstakeThreshold.toBn(),
+  //         unstakeThresholdError: null,
+  //         validatorPayment: validatorPayment.toBn()
+  //       };
+  //     }
+  //   }
 
-    return null;
-  }
+  //   return null;
+  // }
 
   public render (): React.ReactNode {
     const { isOpen } = this.props;
@@ -86,7 +95,7 @@ class Validate extends TxComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { controllerId, isSubstrateV2, onClose, t } = this.props;
-    const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
+    const { commission, hasCommission, unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
 
     return (
       <Modal.Actions>
@@ -107,7 +116,9 @@ class Validate extends TxComponent<Props, State> {
             onClick={onClose}
             params={[
               isSubstrateV2
-                ? { validatorPayment }
+                ? hasCommission
+                  ? { commission }
+                  : { validatorPayment }
                 : { unstakeThreshold, validatorPayment }
             ]}
             tx='staking.validate'
@@ -120,8 +131,8 @@ class Validate extends TxComponent<Props, State> {
 
   private renderContent (): React.ReactNode {
     const { controllerId, isSubstrateV2, stashId, t, validatorPrefs } = this.props;
-    const { unstakeThreshold, unstakeThresholdError, validatorPayment } = this.state;
-    const defaultThreshold = validatorPrefs && (validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toBn();
+    const { hasCommission, unstakeThreshold, unstakeThresholdError } = this.state;
+    const defaultThreshold = validatorPrefs && (validatorPrefs as ValidatorPrefsTo145).unstakeThreshold && (validatorPrefs as ValidatorPrefsTo145).unstakeThreshold.toBn();
 
     return (
       <>
@@ -153,11 +164,6 @@ class Validate extends TxComponent<Props, State> {
                 label={t('automatic unstake threshold')}
                 onChange={this.onChangeThreshold}
                 onEnter={this.sendTx}
-                value={
-                  unstakeThreshold
-                    ? unstakeThreshold.toString()
-                    : '3'
-                }
               />
               <InputValidationUnstakeThreshold
                 onError={this.onUnstakeThresholdError}
@@ -165,34 +171,42 @@ class Validate extends TxComponent<Props, State> {
               />
             </>
           )}
-          <InputBalance
-            className='medium'
-            defaultValue={validatorPrefs && validatorPrefs.validatorPayment && validatorPrefs.validatorPayment.toBn()}
-            help={t('Amount taken up-front from the reward by the validator before splitting the remainder between themselves and the nominators')}
-            label={t('reward commission')}
-            onChange={this.onChangePayment}
-            onEnter={this.sendTx}
-            value={
-              validatorPayment
-                ? validatorPayment.toString()
-                : '0'
-            }
-          />
+          {
+            hasCommission
+              ? <InputNumber
+                className='medium'
+                help={t('The percentage reward (0-100) that should be applied for the validator')}
+                isZeroable
+                label={t('reward commission percentage')}
+                maxValue={MAX_COMM}
+                onChange={this.onChangeCommission}
+                onEnter={this.sendTx}
+              />
+              : <InputBalance
+                className='medium'
+                defaultValue={(validatorPrefs as ValidatorPrefsTo196)?.validatorPayment?.toBn()}
+                help={t('Amount taken up-front from the reward by the validator before splitting the remainder between themselves and the nominators')}
+                isZeroable
+                label={t('validator payment')}
+                onChange={this.onChangePayment}
+                onEnter={this.sendTx}
+              />
+          }
         </Modal.Content>
       </>
     );
   }
 
+  private onChangeCommission = (commission?: BN): void => {
+    commission && this.setState({ commission: commission.mul(COMM_MUL) });
+  }
+
   private onChangePayment = (validatorPayment?: BN): void => {
-    if (validatorPayment) {
-      this.setState({ validatorPayment });
-    }
+    validatorPayment && this.setState({ validatorPayment });
   }
 
   private onChangeThreshold = (unstakeThreshold?: BN): void => {
-    if (unstakeThreshold) {
-      this.setState({ unstakeThreshold });
-    }
+    unstakeThreshold && this.setState({ unstakeThreshold });
   }
 
   private onUnstakeThresholdError = (unstakeThresholdError: string | null): void => {

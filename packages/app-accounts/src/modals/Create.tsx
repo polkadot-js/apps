@@ -4,15 +4,16 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { CreateResult } from '@polkadot/ui-keyring/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { ApiContext } from '@polkadot/react-api';
 import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -121,11 +122,39 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
   };
 }
 
+export function downloadAccount ({ json, pair }: CreateResult): void {
+  const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+
+  FileSaver.saveAs(blob, `${pair.address}.json`);
+  InputAddress.setLastValue('account', pair.address);
+}
+
+function createAccount (suri: string, pairType: KeypairType, name: string, password: string, success: string): ActionStatus {
+  // we will fill in all the details below
+  const status = { action: 'create' } as ActionStatus;
+
+  try {
+    const result = keyring.addUri(suri, password, { name: name.trim(), tags: [] }, pairType);
+    const { address } = result.pair;
+
+    status.account = address;
+    status.status = 'success';
+    status.message = success;
+
+    downloadAccount(result);
+  } catch (error) {
+    status.status = 'error';
+    status.message = error.message;
+  }
+
+  return status;
+}
+
 function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type: propsType }: Props): React.ReactElement<Props> {
-  const { isDevelopment } = useContext(ApiContext);
+  const { isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [{ isNameValid, name }, setName] = useState({ isNameValid: true, name: 'new account' });
+  const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isSeedValid;
 
@@ -142,11 +171,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
       setAddress(generateSeed(null, derivePath, newSeedType, pairType));
     }
   };
-  const _onChangeName = (_name: string): void => {
-    const name = _name.trim();
-
-    setName({ isNameValid: !!name, name });
-  };
+  const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
   const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
 
   const _onCommit = (): void => {
@@ -154,25 +179,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
       return;
     }
 
-    // we will fill in all the details below
-    const status = { action: 'create' } as ActionStatus;
-
-    try {
-      const { json, pair } = keyring.addUri(`${seed}${derivePath}`, password, { name, tags: [] }, pairType);
-      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
-      const { address } = pair;
-
-      FileSaver.saveAs(blob, `${address}.json`);
-
-      status.account = address;
-      status.status = pair ? 'success' : 'error';
-      status.message = t('created account');
-
-      InputAddress.setLastValue('account', address);
-    } catch (error) {
-      status.status = 'error';
-      status.message = error.message;
-    }
+    const status = createAccount(`${seed}${derivePath}`, pairType, name, password, t('created account'));
 
     _toggleConfirmation();
     onStatusChange(status);
@@ -197,6 +204,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
       <Modal.Content>
         <AddressRow
           defaultName={name}
+          noDefaultNameOpacity
           value={isSeedValid ? address : ''}
         >
           <Input
@@ -207,6 +215,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             label={t('name')}
             onChange={_onChangeName}
             onEnter={_onCommit}
+            placeholder={t('new account')}
             value={name}
           />
           <Input

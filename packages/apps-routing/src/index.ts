@@ -23,6 +23,7 @@ import settings from './settings';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
+import techcomm from './techcomm';
 import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
@@ -57,6 +58,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     democracy,
     council,
     treasury,
+    techcomm,
     parachains,
     null,
     contracts,

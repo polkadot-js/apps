@@ -11,7 +11,7 @@ import { Button } from '@polkadot/react-components';
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-export default function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type, withLabel }: Props): React.ReactElement<Props> {
+export default function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
   const [isFileDrop, setIsFileDrop] = useState(false);
 
   const _toggleFile = (): void => setIsFileDrop(true);
@@ -45,6 +45,7 @@ export default function Bytes ({ className, defaultValue, isDisabled, isError, l
         name={name}
         onChange={onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         style={style}
         type={type}
         withLabel={withLabel}

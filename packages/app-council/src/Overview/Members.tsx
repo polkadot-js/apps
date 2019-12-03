@@ -3,45 +3,42 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { Columar, Column } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Candidate from './Candidate';
-import Member from './Member';
 
-interface Props extends I18nProps, ComponentProps {}
+interface Props extends I18nProps, ComponentProps {
+  allVotes?: Record<string, AccountId[]>;
+  className?: string;
+}
 
-function Members ({ electionsInfo: { candidates, members }, t }: Props): React.ReactElement<Props> {
+function Members ({ allVotes = {}, className, electionsInfo: { members }, t }: Props): React.ReactElement<Props> {
   return (
-    <Columar>
-      <Column
-        emptyText={t('No members found')}
-        headerText={t('members')}
-      >
-        {Object.entries(members).map(([address, block]): React.ReactNode => (
-          <Member
-            address={address}
-            block={block}
-            key={address}
-          />
-        ))}
-      </Column>
-      <Column
-        emptyText={t('No members found')}
-        headerText={t('candidates')}
-      >
-        {candidates.map((address): React.ReactNode => (
-          <Candidate
-            address={address}
-            key={address.toString()}
-          />
-        ))}
-      </Column>
-    </Columar>
+    <div className={className}>
+      {members.length
+        ? (
+          <Table>
+            <Table.Body>
+              {members.map(([accountId, balance]): React.ReactNode => (
+                <Candidate
+                  address={accountId}
+                  balance={balance}
+                  key={accountId.toString()}
+                  voters={allVotes[accountId.toString()]}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('No members found')
+      }
+    </div>
   );
 }
 

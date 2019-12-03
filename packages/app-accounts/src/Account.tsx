@@ -7,11 +7,13 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, ChainLock, Forget } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
+import Derive from './modals/Derive';
 import Transfer from './modals/Transfer';
 import translate from './translate';
 
@@ -21,11 +23,14 @@ interface Props extends I18nProps {
 }
 
 function Account ({ address, className, t }: Props): React.ReactElement<Props> {
+  const api = useApi();
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
+  const [isDeriveOpen, setIsDeriveOpen] = useState(false);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
 
   useEffect((): void => {
@@ -40,8 +45,10 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   }, [address]);
 
   const _toggleBackup = (): void => setIsBackupOpen(!isBackupOpen);
+  const _toggleDerive = (): void => setIsDeriveOpen(!isDeriveOpen);
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
   const _togglePass = (): void => setIsPasswordOpen(!isPasswordOpen);
+  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
   const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
   const _onForget = (): void => {
     if (!address) {
@@ -66,6 +73,8 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
     const account = keyring.getPair(address);
 
     account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
+
+    setGenesisHash(genesisHash);
   };
 
   // FIXME It is a bit heavy-handled switching of being editable here completely
@@ -75,33 +84,6 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       buttons={
         <div className='accounts--Account-buttons buttons'>
           <div className='actions'>
-            {isEditable && !isDevelopment && (
-              <Button
-                isNegative
-                onClick={_toggleForget}
-                icon='trash'
-                size='small'
-                tooltip={t('Forget this account')}
-              />
-            )}
-            {isEditable && !isExternal && !isDevelopment && (
-              <>
-                <Button
-                  icon='cloud download'
-                  isPrimary
-                  onClick={_toggleBackup}
-                  size='small'
-                  tooltip={t('Create a backup file for this account')}
-                />
-                <Button
-                  icon='key'
-                  isPrimary
-                  onClick={_togglePass}
-                  size='small'
-                  tooltip={t("Change this account's password")}
-                />
-              </>
-            )}
             <Button
               icon='paper plane'
               isPrimary
@@ -110,15 +92,65 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
               size='small'
               tooltip={t('Send funds from this account')}
             />
+            <Popup
+              className='theme--default'
+              onClose={_toggleSettingPopup}
+              open={isSettingPopupOpen}
+              position='bottom right'
+              trigger={
+                <Button
+                  icon='setting'
+                  onClick={_toggleSettingPopup}
+                  size='small'
+                />
+              }
+            >
+              <Menu
+                vertical
+                text
+                onClick={_toggleSettingPopup}
+              >
+                <Menu.Item
+                  disabled={!isEditable || isExternal}
+                  onClick={_toggleDerive}
+                >
+                  {t('Derive account from source')}
+                </Menu.Item>
+                <Menu.Item disabled>
+                  {t('Change on-chain nickname')}
+                </Menu.Item>
+                <Menu.Item
+                  disabled={!isEditable || isExternal || isDevelopment}
+                  onClick={_toggleBackup}
+                >
+                  {t('Create a backup file for this account')}
+                </Menu.Item>
+                <Menu.Item
+                  disabled={!isEditable || isExternal || isDevelopment}
+                  onClick={_togglePass}
+                >
+                  {t("Change this account's password")}
+                </Menu.Item>
+                <Menu.Item
+                  disabled={!isEditable || isDevelopment}
+                  onClick={_toggleForget}
+                >
+                  {t('Forget this account')}
+                </Menu.Item>
+                {!api.isDevelopment && (
+                  <>
+                    <Menu.Divider />
+                    <ChainLock
+                      className='accounts--network-toggle'
+                      genesisHash={genesisHash}
+                      onChange={_onGenesisChange}
+                      preventDefault
+                    />
+                  </>
+                )}
+              </Menu>
+            </Popup>
           </div>
-          {isEditable && !isExternal && (
-            <div className='others'>
-              <ChainLock
-                genesisHash={genesisHash}
-                onChange={_onGenesisChange}
-              />
-            </div>
-          )}
         </div>
       }
       className={className}
@@ -126,16 +158,23 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       type='account'
       value={address}
       withExplorer
-      withIndex
+      withIndexOrAddress={false}
       withTags
     >
       {address && (
         <>
           {isBackupOpen && (
             <Backup
+              address={address}
               key='modal-backup-account'
               onClose={_toggleBackup}
-              address={address}
+            />
+          )}
+          {isDeriveOpen && (
+            <Derive
+              from={address}
+              key='modal-derive-account'
+              onClose={_toggleDerive}
             />
           )}
           {isForgetOpen && (
@@ -175,11 +214,6 @@ export default translate(
   styled(Account)`
     .accounts--Account-buttons {
       text-align: right;
-
-      .others {
-        margin-right: 0.125rem;
-        margin-top: 0.25rem;
-      }
     }
   `
 );

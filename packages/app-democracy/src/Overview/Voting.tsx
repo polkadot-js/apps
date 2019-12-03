@@ -3,32 +3,31 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
+import { isBoolean } from '@polkadot/util';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  allAccounts?: SubjectInfo;
   referendumId: BN | number;
 }
 
-function Voting ({ allAccounts, referendumId, t }: Props): React.ReactElement<Props> | null {
+function Voting ({ referendumId, t }: Props): React.ReactElement<Props> | null {
+  const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, setIsVotingOpen] = useState(false);
   const [voteValue, setVoteValue] = useState(true);
-  const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
   if (!hasAccounts) {
     return null;
   }
 
   const _toggleVoting = (): void => setIsVotingOpen(!isVotingOpen);
+  const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
 
   return (
     <>
@@ -54,7 +53,7 @@ function Voting ({ allAccounts, referendumId, t }: Props): React.ReactElement<Pr
                 { text: t('Aye, I approve'), value: true },
                 { text: t('Nay, I do not approve'), value: false }
               ]}
-              onChange={setVoteValue}
+              onChange={_onChangeVote}
               value={voteValue}
             />
           </Modal.Content>
@@ -93,8 +92,4 @@ function Voting ({ allAccounts, referendumId, t }: Props): React.ReactElement<Pr
   );
 }
 
-export default withMulti(
-  Voting,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(Voting);

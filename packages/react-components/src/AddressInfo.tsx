@@ -1,18 +1,19 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
-import { ValidatorPrefs0to145 } from '@polkadot/types/interfaces';
+import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { formatBalance, formatNumber, isObject } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 
 import CryptoType from './CryptoType';
 import Label from './Label';
@@ -22,9 +23,13 @@ import translate from './translate';
 export interface BalanceActiveType {
   available?: boolean;
   bonded?: boolean | BN[];
+  extraInfo?: [React.ReactNode, React.ReactNode][];
+  locked?: boolean;
   redeemable?: boolean;
+  reserved?: boolean;
   total?: boolean;
   unlocking?: boolean;
+  vested?: boolean;
 }
 
 export interface CryptoActiveType {
@@ -37,24 +42,30 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
+const PERBILL = new BN(1000000000);
+
 interface Props extends BareProps, I18nProps {
   address: string;
-  balances_all?: DerivedBalances;
+  balancesAll?: DerivedBalances;
   children?: React.ReactNode;
-  staking_info?: DerivedStaking;
+  extraInfo?: [string, string][];
+  stakingInfo?: DerivedStaking;
   withBalance?: boolean | BalanceActiveType;
   withExtended?: boolean | CryptoActiveType;
-  withHexSessionId: string | null;
+  withHexSessionId?: (string | null)[];
   withRewardDestination?: boolean;
   withValidatorPrefs?: boolean | ValidatorPrefsType;
 }
 
-const DEFAULT_BALANCES = {
+const DEFAULT_BALANCES: BalanceActiveType = {
   available: true,
   bonded: true,
+  locked: true,
   redeemable: true,
+  reserved: true,
   total: true,
-  unlocking: true
+  unlocking: true,
+  vested: true
 };
 const DEFAULT_EXTENDED = {
   crypto: true,
@@ -65,8 +76,42 @@ const DEFAULT_PREFS = {
   validatorPayment: true
 };
 
+// skip balances retrieval of none of this matches
+function skipBalancesIf ({ withBalance = true, withExtended = false }: Props): boolean {
+  if (withBalance === true || withExtended === true) {
+    return false;
+  } else if (isObject(withBalance)) {
+    // these all pull from the all balances
+    if (withBalance.available || withBalance.locked || withBalance.reserved || withBalance.total || withBalance.vested) {
+      return false;
+    }
+  } else if (isObject(withExtended)) {
+    if (withExtended.nonce) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function skipStakingIf ({ stakingInfo, withBalance = true, withRewardDestination = false, withValidatorPrefs = false }: Props): boolean {
+  if (stakingInfo) {
+    return true;
+  } else if (withBalance === true || withValidatorPrefs || withRewardDestination) {
+    return false;
+  } else if (isObject(withBalance)) {
+    if (withBalance.unlocking || withBalance.redeemable) {
+      return false;
+    } else if (withBalance.bonded) {
+      return Array.isArray(withBalance.bonded);
+    }
+  }
+
+  return true;
+}
+
 // calculates the bonded, first being the own, the second being nominated
-function calcBonded (staking_info?: DerivedStaking, bonded?: boolean | BN[]): [BN, BN[]] {
+function calcBonded (stakingInfo?: DerivedStaking, bonded?: boolean | BN[]): [BN, BN[]] {
   let other: BN[] = [];
   let own = new BN(0);
 
@@ -76,28 +121,28 @@ function calcBonded (staking_info?: DerivedStaking, bonded?: boolean | BN[]): [B
       .filter((value): boolean => value.gtn(0));
 
     own = bonded[0];
-  } else if (staking_info && staking_info.stakingLedger && staking_info.accountId.eq(staking_info.stashId)) {
-    own = staking_info.stakingLedger.active.unwrap();
+  } else if (stakingInfo && stakingInfo.stakingLedger && stakingInfo.accountId.eq(stakingInfo.stashId)) {
+    own = stakingInfo.stakingLedger.active.unwrap();
   }
 
   return [own, other];
 }
 
-function renderExtended ({ balances_all, t, address, withExtended }: Props): React.ReactNode {
+function renderExtended ({ balancesAll, t, address, withExtended }: Props): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
 
-  if (!extendedDisplay || !balances_all) {
+  if (!extendedDisplay) {
     return null;
   }
 
   return (
     <div className='column'>
-      {extendedDisplay.nonce && (
+      {balancesAll && extendedDisplay.nonce && (
         <>
           <Label label={t('transactions')} />
-          <div className='result'>{formatNumber(balances_all.accountNonce)}</div>
+          <div className='result'>{formatNumber(balancesAll.accountNonce)}</div>
         </>
       )}
       {extendedDisplay.crypto && (
@@ -113,12 +158,12 @@ function renderExtended ({ balances_all, t, address, withExtended }: Props): Rea
   );
 }
 
-function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
-  if (!staking_info || !staking_info.unlocking || !staking_info.unlocking.length) {
+function renderUnlocking ({ stakingInfo, t }: Props): React.ReactNode {
+  if (!stakingInfo || !stakingInfo.unlocking || !stakingInfo.unlocking.length) {
     return null;
   }
 
-  const total = staking_info.unlocking.reduce((total, { value }): BN => total.add(value), new BN(0));
+  const total = stakingInfo.unlocking.reduce((total, { value }): BN => total.add(value), new BN(0));
 
   if (total.eqn(0)) {
     return null;
@@ -126,19 +171,19 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
 
   return (
     <div>
-      {formatBalance(total)}
+      <FormatBalance value={total} />
       <Icon
         name='info circle'
         data-tip
         data-for='unlocking-trigger'
       />
       <Tooltip
-        text={staking_info.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
+        text={stakingInfo.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
           <div key={index}>
             {t('{{value}}, {{remaining}} blocks left', {
               replace: {
                 remaining: formatNumber(remainingBlocks),
-                value: formatBalance(value)
+                value: formatBalance(value, { forceUnit: '-' })
               }
             })}
           </div>
@@ -149,81 +194,134 @@ function renderUnlocking ({ staking_info, t }: Props): React.ReactNode {
   );
 }
 
-function renderValidatorPrefs ({ staking_info, t, withValidatorPrefs = false }: Props): React.ReactNode {
+function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: Props): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
 
-  if (!validatorPrefsDisplay || !staking_info || !staking_info.validatorPrefs) {
+  if (!validatorPrefsDisplay || !stakingInfo || !stakingInfo.validatorPrefs) {
     return null;
   }
 
   return (
     <>
       <div />
-      {validatorPrefsDisplay.unstakeThreshold && (staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold && (
+      {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold && (
         <>
           <Label label={t('unstake threshold')} />
           <div className='result'>
-            {(staking_info.validatorPrefs as ValidatorPrefs0to145).unstakeThreshold.toString()}
+            {(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold.toString()}
           </div>
         </>
       )}
-      {validatorPrefsDisplay.validatorPayment && staking_info.validatorPrefs.validatorPayment && (
-        <>
-          <Label label={t('commission')} />
-          <div className='result'>{
-            formatBalance(staking_info.validatorPrefs.validatorPayment)
-          }</div>
-        </>
+      {validatorPrefsDisplay.validatorPayment && (stakingInfo.validatorPrefs.commission || (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment) && (
+        (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment
+          ? (
+            <>
+              <Label label={t('commission')} />
+              <FormatBalance
+                className='result'
+                value={(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment}
+              />
+            </>
+          )
+          : (
+            <>
+              <Label label={t('commission')} />
+              <span>{(stakingInfo.validatorPrefs.commission.unwrap().muln(10000).div(PERBILL).toNumber() / 100).toFixed(2)}%</span>
+            </>
+          )
       )}
     </>
   );
 }
 
-function renderBalances (props: Props): React.ReactNode {
-  const { balances_all, staking_info, t, withBalance = true } = props;
+function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
+  const { balancesAll, stakingInfo, t, withBalance = true } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
-    : withBalance || undefined;
+    : withBalance || false;
 
-  if (!balanceDisplay || !balances_all) {
+  if (!balanceDisplay) {
     return null;
   }
 
-  const [ownBonded, otherBonded] = calcBonded(staking_info, balanceDisplay.bonded);
+  const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
+  const controllerId = stakingInfo?.controllerId?.toString();
 
   return (
     <>
-      {balanceDisplay.total && (
+      {balancesAll && balanceDisplay.total && (
         <>
           <Label label={t('total')} />
-          <div className='result'>{formatBalance(ownBonded.add(balances_all.votingBalance))}</div>
+          <FormatBalance
+            className='result'
+            value={balancesAll.votingBalance}
+          />
         </>
       )}
-      {balanceDisplay.available && (
+      {balancesAll && balanceDisplay.available && (
         <>
-          <Label label={t('available')} />
-          <div className='result'>{formatBalance(balances_all.availableBalance)}</div>
+          <Label label={t('transferrable')} />
+          <FormatBalance
+            className='result'
+            value={balancesAll.availableBalance}
+          />
+        </>
+      )}
+      {balanceDisplay.vested && balancesAll?.isVesting && (
+        <>
+          <Label label={t('vested')} />
+          <FormatBalance
+            className='result'
+            value={balancesAll.vestedBalance}
+          />
+        </>
+      )}
+      {balanceDisplay.locked && balancesAll?.lockedBalance?.gtn(0) && (
+        <>
+          <Label label={t('locked')} />
+          <FormatBalance
+            className='result'
+            value={balancesAll.lockedBalance}
+          />
+        </>
+      )}
+      {balanceDisplay.reserved && balancesAll?.reservedBalance?.gtn(0) && (
+        <>
+          <Label label={t('reserved')} />
+          <FormatBalance
+            className='result'
+            value={balancesAll.reservedBalance}
+          />
         </>
       )}
       {balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && (
         <>
           <Label label={t('bonded')} />
-          <div className='result'>{formatBalance(ownBonded)}{otherBonded.length !== 0 && (
-            ` (+${otherBonded.map((bonded): string => formatBalance(bonded)).join(', ')})`
-          )}</div>
+          <FormatBalance
+            className='result'
+            value={ownBonded}
+          >
+            {otherBonded.length !== 0 && (
+              <>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode =>
+                <FormatBalance key={index} value={bonded} />
+              )})</>
+            )}
+          </FormatBalance>
         </>
       )}
-      {balanceDisplay.redeemable && staking_info && staking_info.redeemable && staking_info.redeemable.gtn(0) && (
+      {balanceDisplay.redeemable && stakingInfo?.redeemable?.gtn(0) && (
         <>
           <Label label={t('redeemable')} />
-          <div className='result'>
-            {formatBalance(staking_info.redeemable)}
-            {staking_info.controllerId && (
+          <FormatBalance
+            className='result'
+            value={stakingInfo.redeemable}
+          >
+            {controllerId && allAccounts.includes(controllerId) && (
               <TxButton
-                accountId={staking_info.controllerId.toString()}
-                className='iconButton'
+                accountId={controllerId}
+                className='icon-button'
                 icon='lock'
                 size='small'
                 isPrimary
@@ -233,10 +331,10 @@ function renderBalances (props: Props): React.ReactNode {
                 tx='staking.withdrawUnbonded'
               />
             )}
-          </div>
+          </FormatBalance>
         </>
       )}
-      {balanceDisplay.unlocking && staking_info && staking_info.unlocking && (
+      {balanceDisplay.unlocking && stakingInfo?.unlocking && (
         <>
           <Label label={t('unbonding')} />
           <div className='result'>
@@ -249,23 +347,43 @@ function renderBalances (props: Props): React.ReactNode {
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
-  const { className, children, staking_info, t, withHexSessionId, withRewardDestination } = props;
+  const { allAccounts } = useAccounts();
+  const { className, children, extraInfo, stakingInfo, t, withHexSessionId, withRewardDestination } = props;
 
   return (
     <div className={className}>
       <div className='column'>
-        {renderBalances(props)}
+        {renderBalances(props, allAccounts)}
         {withHexSessionId && (
           <>
             <Label label={t('session keys')} />
-            <div className='result'>{withHexSessionId}</div>
+            <div className='result'>{withHexSessionId[0]}</div>
+          </>
+        )}
+        {withHexSessionId && withHexSessionId[0] !== withHexSessionId[1] && (
+          <>
+            <Label label={t('session next')} />
+            <div className='result'>{withHexSessionId[1]}</div>
           </>
         )}
         {renderValidatorPrefs(props)}
-        {withRewardDestination && staking_info && staking_info.rewardDestination && (
+        {extraInfo && (
+          <>
+            <div />
+            {extraInfo.map(([label, value], index): React.ReactNode => (
+              <React.Fragment key={`label:${index}`}>
+                <Label label={label} />
+                <div className='result'>
+                  {value}
+                </div>
+              </React.Fragment>
+            ))}
+          </>
+        )}
+        {withRewardDestination && stakingInfo && stakingInfo.rewardDestination && (
           <>
             <Label label={t('reward destination')} />
-            <div className='result'>{staking_info.rewardDestination.toString().toLowerCase()}</div>
+            <div className='result'>{stakingInfo.rewardDestination.toString().toLowerCase()}</div>
           </>
         )}
       </div>
@@ -293,9 +411,10 @@ export default withMulti(
       opacity: 1;
 
       label {
-        grid-column:  1;
+        grid-column: 1;
         padding-right: 0.5rem;
         text-align: right;
+        vertical-align: middle;
 
         .help.circle.icon {
           display: none;
@@ -303,7 +422,7 @@ export default withMulti(
       }
 
       .result {
-        grid-column:  2;
+        grid-column: 2;
 
         .icon {
           margin-left: .3em;
@@ -311,7 +430,7 @@ export default withMulti(
           padding-right: 0 !important;
         }
 
-        button.ui.icon.primary.button.iconButton {
+        button.ui.icon.primary.button.icon-button {
           background: white !important;
         }
       }
@@ -319,7 +438,15 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.balances.all', { paramName: 'address' }],
-    ['derive.staking.info', { paramName: 'address' }]
+    ['derive.balances.all', {
+      paramName: 'address',
+      propName: 'balancesAll',
+      skipIf: skipBalancesIf
+    }],
+    ['derive.staking.info', {
+      paramName: 'address',
+      propName: 'stakingInfo',
+      skipIf: skipStakingIf
+    }]
   )
 );

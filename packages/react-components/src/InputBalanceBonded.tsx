@@ -28,12 +28,13 @@ interface Props extends BareProps, ApiProps {
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
+  isZeroable?: boolean;
   label?: any;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
   placeholder?: string;
   stashId: string;
-  system_accountNonce?: BN;
   value?: BN | string;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -51,7 +52,7 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 class InputBalanceBonded extends React.PureComponent<Props, State> {
   public state: State;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.state = {
@@ -61,7 +62,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
     const { maxBalance } = this.state;
 
     return (
@@ -74,10 +75,12 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
         isDisabled={isDisabled}
         isError={isError}
         isSi
+        isZeroable={isZeroable}
         label={label}
         maxValue={maxBalance}
         onChange={onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         placeholder={placeholder}
         style={style}
         value={value}
@@ -104,7 +107,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
   }
 
   private setMaxBalance = (): void => {
-    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, extrinsicProp, system_accountNonce = ZERO } = this.props;
+    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE, controllerId, destination, extrinsicProp } = this.props;
     const { transactionBaseFee, transactionByteFee } = balances_fees;
     const { freeBalance } = balances_all;
     let prevMax = new BN(0);
@@ -124,7 +127,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
         extrinsic = api.tx.staking.bonExtra(prevMax);
       }
 
-      const txLength = calcTxLength(extrinsic, system_accountNonce);
+      const txLength = calcTxLength(extrinsic, balances_all.accountNonce);
       const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
 
       maxBalance = bnMax(freeBalance.sub(fees), ZERO);
@@ -157,7 +160,6 @@ export default withMulti(
   withApi,
   withCalls<Props>(
     'derive.balances.fees',
-    ['derive.balances.all', { paramName: 'stashId' }],
-    ['query.system.accountNonce', { paramName: 'stashId' }]
+    ['derive.balances.all', { paramName: 'stashId' }]
   )
 );

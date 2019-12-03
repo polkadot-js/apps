@@ -10,7 +10,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { GenericCall, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/react-params';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import Static from './Static';
 import { classes } from './util';
@@ -18,13 +18,14 @@ import translate from './translate';
 
 export interface Props extends I18nProps, BareProps {
   children?: React.ReactNode;
+  labelHash?: React.ReactNode;
   value: IExtrinsic | IMethod;
   withHash?: boolean;
   mortality?: string;
   tip?: BN;
 }
 
-function Call ({ children, className, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
+function Call ({ children, className, labelHash, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
   const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
     name: name.toString(),
     type: getTypeDef(type.toString())
@@ -46,7 +47,7 @@ function Call ({ children, className, style, mortality, tip, value, withHash, t 
       {hash && (
         <Static
           className='hash'
-          label={t('extrinsic hash')}
+          label={labelHash || t('extrinsic hash')}
         >
           {hash.toHex()}
         </Static>
@@ -64,7 +65,7 @@ function Call ({ children, className, style, mortality, tip, value, withHash, t 
           className='tip'
           label={t('tip')}
         >
-          {formatBalance(tip)}
+          <FormatBalance value={tip} />
         </Static>
       )}
       <Params

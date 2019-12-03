@@ -7,7 +7,7 @@ import { Proposal } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { GenericCall } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
 import Call from './Call';
@@ -41,7 +41,7 @@ export const styles = `
 `;
 
 function ProposedAction (props: Props): React.ReactElement<Props> {
-  const { asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = props;
+  const { className, asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = props;
   const idNumber = typeof props.idNumber === 'string'
     ? props.idNumber
     : formatNumber(props.idNumber);
@@ -52,7 +52,7 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
     );
   }
 
-  const { meta, method, section } = GenericCall.findFunction(proposal.callIndex);
+  const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   const header = `#${idNumber}: ${section}.${method}`;
   const documentation = (meta && meta.documentation)
@@ -94,7 +94,7 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
   }
 
   return (
-    <>
+    <div className={className}>
       <h3>{header}</h3>
       {isCollapsible
         ? (
@@ -111,7 +111,7 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
             {params}
           </>
         )}
-    </>
+    </div>
   );
 }
 

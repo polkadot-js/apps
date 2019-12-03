@@ -4,6 +4,7 @@
 
 import Api, { api } from './Api';
 import ApiContext from './ApiContext';
+import registry from './typeRegistry';
 
 export * from './ledger';
 export * from './with';
@@ -11,5 +12,6 @@ export * from './with';
 export {
   api,
   Api,
-  ApiContext
+  ApiContext,
+  registry
 };

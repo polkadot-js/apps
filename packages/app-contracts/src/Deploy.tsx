@@ -14,17 +14,16 @@ import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
-import { Button, Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
-import { displayType } from '@polkadot/types';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';
 import translate from './translate';
-import { GAS_LIMIT, ENDOWMENT } from './constants';
+import { ENDOWMENT, GAS_LIMIT } from './constants';
 
-type ConstructOptions = { key: string; text: string; value: string }[];
+type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
 
 interface Props extends ContractModalProps, ApiProps, I18nProps, RouteComponentProps {
   codeHash?: string;
@@ -45,7 +44,7 @@ class Deploy extends ContractModal<Props, State> {
 
   public isContract = true;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     this.defaultState = {
@@ -125,14 +124,16 @@ class Deploy extends ContractModal<Props, State> {
     const { abi: { contract: { constructors } } } = contractAbi;
     const constructor = constructors[constructorIndex];
     const constructOptions: ConstructOptions = constructors.map(
-      (constr) => {
-        const { name, args } = constr;
-        const textArgs = args.map(({ name, type }): string => `${name}: ${displayType(type)}`);
-
+      (constr, index) => {
         return {
-          key: `${constructorIndex}`,
-          text: `${name}(${textArgs.join(', ')})`,
-          value: `${constructorIndex}`
+          key: `${index}`,
+          text: (
+            <MessageSignature
+              asConstructor
+              message={constr}
+            />
+          ),
+          value: `${index}`
         };
       });
 
@@ -147,7 +148,6 @@ class Deploy extends ContractModal<Props, State> {
     const { t } = this.props;
     const { codeHash, constructorIndex, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
-    const isEndowValid = !endowment.isZero();
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }): { text: string; value: string } => ({
       text: `${name} (${codeHash})`,
       value: codeHash
@@ -187,6 +187,7 @@ class Deploy extends ContractModal<Props, State> {
                 options={constructOptions}
                 style={{ fontFamily: 'monospace' }}
                 value={`${constructorIndex}`}
+                withLabel
               />
             )
             : null
@@ -204,7 +205,7 @@ class Deploy extends ContractModal<Props, State> {
         <InputBalance
           help={t('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
           isDisabled={isBusy}
-          isError={!isEndowValid}
+          isError={endowment.isZero()}
           label={t('endowment')}
           onChange={this.onChangeEndowment}
           onEnter={this.sendTx}
@@ -291,10 +292,12 @@ class Deploy extends ContractModal<Props, State> {
     const { api, history } = this.props;
 
     const section = api.tx.contracts ? 'contracts' : 'contract';
-    const record = result.findRecord(section, 'Instantiated');
+    const records = result.filterRecords(section, 'Instantiated');
 
-    if (record) {
-      const address = record.event.data[1] as unknown as AccountId;
+    if (records.length) {
+      // find the last EventRecord (in the case of multiple contracts deployed - we should really be
+      // more clever here to find the exact contract deployed, this works for eg. Delegator)
+      const address = records[records.length - 1].event.data[1] as unknown as AccountId;
 
       this.setState(({ abi, name, tags }): Pick<State, never> | unknown => {
         if (!abi || !name) {

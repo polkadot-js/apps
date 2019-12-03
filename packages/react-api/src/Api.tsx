@@ -11,7 +11,7 @@ import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { InputNumber } from '@polkadot/react-components/InputNumber';
+import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
@@ -22,6 +22,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 import typesChain from './overrides/chain';
 import typesSpec from './overrides/spec';
 import ApiContext from './ApiContext';
+import registry from './typeRegistry';
 
 interface Props {
   children: React.ReactNode;
@@ -42,8 +43,8 @@ interface InjectedAccountExt {
   };
 }
 
-const DEFAULT_DECIMALS = new U32(12);
-const DEFAULT_SS58 = new U32(addressDefaults.prefix);
+const DEFAULT_DECIMALS = new U32(registry, 12);
+const DEFAULT_SS58 = new U32(registry, addressDefaults.prefix);
 
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
@@ -53,7 +54,7 @@ export { api };
 export default class Api extends React.PureComponent<Props, State> {
   public state: State = {} as unknown as State;
 
-  public constructor (props: Props) {
+  constructor (props: Props) {
     super(props);
 
     const { queuePayload, queueSetTxStatus, url } = props;
@@ -85,6 +86,7 @@ export default class Api extends React.PureComponent<Props, State> {
   private createApi (provider: ProviderInterface, signer: ApiSigner): ApiPromise {
     return new ApiPromise({
       provider,
+      registry,
       signer,
       typesChain,
       typesSpec
@@ -152,7 +154,7 @@ export default class Api extends React.PureComponent<Props, State> {
       decimals: tokenDecimals,
       unit: tokenSymbol
     });
-    InputNumber.setUnit(tokenSymbol);
+    TokenUnit.setAbbr(tokenSymbol);
 
     // finally load the keyring
     keyring.loadAll({

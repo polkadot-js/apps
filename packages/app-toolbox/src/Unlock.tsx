@@ -12,6 +12,7 @@ import translate from './translate';
 
 interface Props extends I18nProps {
   onClose: () => void;
+  onUnlock: () => void;
   pair: KeyringPair | null;
 }
 
@@ -138,7 +139,7 @@ class Unlock extends TxComponent<Props, State> {
   }
 
   private onUnlock = (): void => {
-    const { onClose } = this.props;
+    const { onUnlock } = this.props;
     const { password } = this.state;
     const unlockError = this.unlockAccount(password);
 
@@ -147,7 +148,7 @@ class Unlock extends TxComponent<Props, State> {
       return;
     }
 
-    onClose();
+    onUnlock();
   }
 }
 

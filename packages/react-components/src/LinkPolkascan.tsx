@@ -4,9 +4,9 @@
 
 import { I18nProps } from './types';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ApiContext } from '@polkadot/react-api';
+import { useApi } from '@polkadot/react-hooks';
 
 import translate from './translate';
 
@@ -24,7 +24,8 @@ const CHAINS: Record<string, string> = {
   Alexander: 'alexander',
   Kusama: 'kusama-cc1', // old name via W3F nodes
   'Kusama CC1': 'kusama-cc1',
-  'Kusama CC2': 'kusama-cc2'
+  'Kusama CC2': 'kusama-cc2',
+  'Kusama CC3': 'kusama-cc3'
 };
 
 const TYPES: Record<string, string> = {
@@ -34,7 +35,7 @@ const TYPES: Record<string, string> = {
 };
 
 function LinkPolkascan ({ className, data, t, type }: Props): React.ReactElement<Props> | null {
-  const { systemChain } = useContext(ApiContext);
+  const { systemChain } = useApi();
   const extChain = CHAINS[systemChain];
   const extType = TYPES[type];
 

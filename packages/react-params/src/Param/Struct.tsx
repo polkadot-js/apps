@@ -6,6 +6,7 @@ import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
+import { registry } from '@polkadot/react-api';
 import { createType, getTypeDef } from '@polkadot/types';
 
 import Params from '../';
@@ -17,8 +18,13 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
-    const rawType = createType(type.type as any).toRawType();
-    const typeDef = getTypeDef(rawType);
+    let typeDef;
+    try {
+      const rawType = createType(registry, type.type as any).toRawType();
+      typeDef = getTypeDef(rawType);
+    } catch (e) {
+      typeDef = type;
+    }
 
     setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
   }, [type]);

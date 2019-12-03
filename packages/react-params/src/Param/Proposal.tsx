@@ -6,7 +6,7 @@ import { Extrinsic } from '@polkadot/types/interfaces';
 import { Props } from '../types';
 
 import React from 'react';
-import { GenericCall } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { Call, Static } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 
@@ -23,7 +23,7 @@ export default function Proposal (props: Props): React.ReactElement<Props> {
   }
 
   const proposal = value as Extrinsic;
-  const { method, section } = GenericCall.findFunction(proposal.callIndex);
+  const { method, section } = registry.findMetaCall(proposal.callIndex);
 
   return (
     <Bare>

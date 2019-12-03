@@ -29,29 +29,27 @@ function ValidateController ({ accountId, bondedId, controllerId, defaultControl
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
-    const newError = ((): string | null => {
-      if (defaultController === controllerId) {
-        // don't show an error if the selected controller is the default
-        // this applies when changing controller
-        return null;
-      } else if (controllerId === accountId) {
-        return isUnsafeChain
+    // don't show an error if the selected controller is the default
+    // this applies when changing controller
+    if (defaultController !== controllerId) {
+      let newError: string | null = null;
+
+      if (controllerId === accountId) {
+        newError = isUnsafeChain
           ? t(`${DISTINCT} You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.`)
           : t(DISTINCT);
       } else if (bondedId) {
-        return t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
+        newError = t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
-        return t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
+        newError = t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
       }
 
-      return null;
-    })();
-
-    if (error !== newError) {
-      onError(newError);
-      setError(newError);
+      if (error !== newError) {
+        onError(newError);
+        setError(newError);
+      }
     }
-  }, [accountId, controllerId, defaultController]);
+  }, [accountId, bondedId, controllerId, defaultController, stashId]);
 
   if (!error || !accountId) {
     return null;
