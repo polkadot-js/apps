@@ -10,6 +10,7 @@ import { useApi, trackStream } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { AddressMini } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
+import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -21,13 +22,14 @@ interface Props extends I18nProps {
 
 function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const proposal = trackStream<ProposalType>(api.query.technicalCommittee.proposalOf, [hash]);
+  const _proposal = trackStream<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
   const votes = trackStream<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
 
-  if (!proposal || !votes?.isSome) {
+  if (!votes?.isSome) {
     return null;
   }
 
+  const proposal = _proposal?.unwrapOr(null);
   const { ayes, index, nays, threshold } = votes.unwrap();
 
   return (
