@@ -213,8 +213,8 @@ function InputNumber (props: Props): React.ReactElement<Props> {
   }, [value, si, bitLength, maxValue]);
 
   useEffect((): void => {
-    onChange && isValid && onChange(valueBn);
-  }, [isValid, valueBn]);
+    onChange && onChange(valueBn);
+  }, [valueBn]);
 
   const _onChange = (input: string): void => {
     setValues(getValuesFromString(input, si, props));

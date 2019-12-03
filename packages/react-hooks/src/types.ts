@@ -7,7 +7,11 @@ import { AccountId, Balance, BlockNumber, Call, Hash, SessionIndex } from '@polk
 import { IExtrinsic } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
-export type TxSources = SubmittableExtrinsic | IExtrinsic | Call | [string, any[] | ConstructTxFn] | null;
+export type TxDef = [string, any[] | ConstructTxFn];
+
+export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
+
+export type TxSource<T extends TxDefs> = [T, boolean];
 
 export interface Slash {
   accountId: AccountId;
@@ -25,6 +29,7 @@ export interface SessionRewards {
 
 export interface ExtrinsicAndSenders {
   extrinsic: SubmittableExtrinsic | null;
+  isSubmittable: boolean;
   sendTx: () => void;
   sendUnsigned: () => void;
 }

@@ -3,8 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { AccountId, Hash } from '@polkadot/types/interfaces';
+import { ComponentProps as Props } from '../types';
 
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
@@ -13,11 +12,6 @@ import { u32 } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
-
-interface Props extends I18nProps {
-  members?: AccountId[];
-  proposals?: Hash[];
-}
 
 function Summary ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
