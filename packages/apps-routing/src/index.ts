@@ -19,6 +19,7 @@ import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
 import settings from './settings';
+import session from './session';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
@@ -36,6 +37,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     addressbook,
     claims,
     transfer,
+    session,
     genericAsset,
     null,
     operatedcontracts,
@@ -54,6 +56,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     addressbook,
     claims,
     transfer,
+    session,
     genericAsset,
     null,
     staking,

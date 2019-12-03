@@ -91,5 +91,9 @@
   "derivation path": "derivation path",
   "//hard/soft": "//hard/soft",
   "Unlock": "Unlock",
-  "transferrable": "transferrable"
+  "transferrable": "transferrable",
+  "Set Session Key": "Set Session Key",
+  "account": "account",
+  "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command",
+  "Keys from rotateKeys": "Keys from rotateKeys"
 }
