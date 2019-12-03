@@ -689,5 +689,10 @@
   "No committee proposals": "",
   "Motions ({{count}})": "",
   "proposal hash": "",
-  "Submit signed extrinsic": ""
+  "Submit signed extrinsic": "",
+  "imminent preimage (proposal already passed)": "",
+  "The blocknumber for the proposal to be enacted at": "",
+  "block number to be enacted at": "",
+  "The proposal to which this image applies": "",
+  "proposal id": ""
 }
