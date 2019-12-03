@@ -19,7 +19,7 @@ interface Props extends I18nProps {
   value: DeriveProposal;
 }
 
-function Proposal ({ className, t, value: { balance, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
+function Proposal ({ className, t, value: { balance, hash, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
@@ -29,7 +29,7 @@ function Proposal ({ className, t, value: { balance, index, proposal, proposer, 
       <td className='number together top'>
         <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
       </td>
-      <ProposalCell className='top' proposal={proposal} />
+      <ProposalCell className='top' proposalHash={hash} proposal={proposal} />
       <td className='top'>
         {seconds
           .filter((_address, index): boolean => index !== 0)

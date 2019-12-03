@@ -84,7 +84,7 @@ function Referendum ({ chain_bestNumber, className, democracy_referendumVotesFor
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(value.index)}</h1></td>
-      <ProposalCell className='top' proposal={value.proposal} />
+      <ProposalCell className='top' proposalHash={value.hash} proposal={value.proposal} />
       <td className='number together top'>
         <label>{t('remaining')}</label>
         {formatNumber(value.info.end.sub(chain_bestNumber).subn(1))} blocks
