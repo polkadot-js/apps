@@ -695,5 +695,6 @@
   "block number to be enacted at": "",
   "The proposal to which this image applies": "",
   "proposal id": "",
-  "externals": ""
+  "externals": "",
+  "Nominating {{count}}": ""
 }
