@@ -90,6 +90,10 @@ export default styled(Table)`
 
         &.all {
           width: 100%;
+
+          summary {
+            white-space: normal;
+          }
         }
 
         &.number {
