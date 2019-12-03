@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 
 import translate from '../translate';
+import Externals from './Externals';
 import Proposals from './Proposals';
 import Referendums from './Referendums';
 import Summary from './Summary';
@@ -48,6 +49,7 @@ function Overview ({ className, t }: Props): React.ReactElement {
       )}
       <Referendums />
       <Proposals />
+      <Externals />
     </div>
   );
 }
