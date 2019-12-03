@@ -12,7 +12,7 @@ import { Call } from '@polkadot/react-components';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  proposal?: Proposal;
+  proposal?: Proposal | null;
   proposalHash: Hash | string;
 }
 
