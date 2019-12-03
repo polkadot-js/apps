@@ -38,11 +38,13 @@ export interface Props extends I18nProps, RowProps {
   withBalance?: boolean | BalanceActiveType;
   withIndex?: boolean;
   withIndexOrAddress?: boolean;
+  withSmallIcon?: boolean;
   withValidatorPrefs?: boolean | ValidatorPrefsType;
 }
 
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
+const ICON_SIZE_SMALL = 32;
 
 class AddressRow extends Row<ApiProps & Props, State> {
   public state: State;
@@ -164,10 +166,10 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderAccountIndex (): React.ReactNode {
-    const { accounts_info = {}, withIndex = true, withIndexOrAddress = true } = this.props;
+    const { accounts_info = {}, withIndex = true, withIndexOrAddress = true, withSmallIcon } = this.props;
     const { accountIndex } = accounts_info;
 
-    if (!accountIndex || !(withIndex || withIndexOrAddress)) {
+    if (withSmallIcon || !accountIndex || !(withIndex || withIndexOrAddress)) {
       return null;
     }
 
@@ -200,7 +202,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderIcon (): React.ReactNode {
-    const { accounts_info = {}, iconInfo, systemName, withIcon = true } = this.props;
+    const { accounts_info = {}, iconInfo, systemName, withIcon = true, withSmallIcon = false } = this.props;
     const { address } = this.state;
     const { accountId } = accounts_info;
 
@@ -218,7 +220,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
     return (
       <div className='ui--Row-icon'>
         <Component
-          size={ICON_SIZE}
+          size={withSmallIcon ? ICON_SIZE_SMALL : ICON_SIZE}
           theme={theme}
           value={address}
         />

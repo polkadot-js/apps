@@ -9,7 +9,7 @@ import { useApi, trackStream } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const motions = trackStream<Hash[]>(isApiReady ? api.query.council.proposals : undefined, []);
+  const motions = trackStream<Hash[]>(isApiReady ? api.query.council?.proposals : undefined, []);
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {

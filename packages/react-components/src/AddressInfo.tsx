@@ -354,7 +354,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
     <div className={className}>
       <div className='column'>
         {renderBalances(props, allAccounts)}
-        {withHexSessionId && (
+        {withHexSessionId && withHexSessionId[0] && (
           <>
             <Label label={t('session keys')} />
             <div className='result'>{withHexSessionId[0]}</div>

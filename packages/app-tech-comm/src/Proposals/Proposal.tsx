@@ -6,10 +6,10 @@ import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { useApi, trackStream } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 import { AddressMini } from '@polkadot/react-components';
+import { useApi, trackStream } from '@polkadot/react-hooks';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
+import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -29,12 +29,13 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
     return null;
   }
 
+  const proposal = _proposal?.unwrapOr(null);
   const { ayes, index, nays, threshold } = votes.unwrap();
 
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell className='top' proposal={proposal} />
+      <ProposalCell className='top' proposalHash={hash} proposal={proposal} />
       <td className='number top'>
         <label>{t('threshold')}</label>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}

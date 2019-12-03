@@ -79,10 +79,22 @@ export default styled(Table)`
         label {
           opacity: 1;
         }
+      }
 
-        /* td {
-          border-color: #ccc;
-        } */
+      &:not(:hover) {
+        .ui.button:not(.disabled) {
+          background: #eee !important;
+          color: #555 !important;
+        }
+
+        .ui.toggle.checkbox input:checked~.box:before,
+        .ui.toggle.checkbox input:checked~label:before {
+          background-color: #eee !important;
+        }
+
+        .ui.button.mini {
+          visibility: hidden;
+        }
       }
 
       td, th {
@@ -90,6 +102,10 @@ export default styled(Table)`
 
         &.all {
           width: 100%;
+
+          summary {
+            white-space: normal;
+          }
         }
 
         &.number {
