@@ -6,9 +6,8 @@ import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { useApi, trackStream } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 import { AddressMini } from '@polkadot/react-components';
+import { useApi, trackStream } from '@polkadot/react-hooks';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
