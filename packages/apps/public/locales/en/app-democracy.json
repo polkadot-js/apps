@@ -59,5 +59,8 @@
   "block number to be enacted at": "block number to be enacted at",
   "The proposal to which this image applies": "The proposal to which this image applies",
   "proposal id": "proposal id",
-  "externals": "externals"
+  "externals": "externals",
+  "enact at": "enact at",
+  "dispatch queue": "dispatch queue",
+  "nothing queued to be executed": "nothing queued to be executed"
 }

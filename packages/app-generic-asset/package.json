@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-generic-asset",
-  "version": "0.38.0-beta.29",
+  "version": "0.38.0-beta.30",
   "description": "A basic GenericAsset transfer app",
   "main": "index.js",
   "scripts": {},
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.4",
-    "@polkadot/react-components": "^0.38.0-beta.29"
+    "@polkadot/react-components": "^0.38.0-beta.30"
   }
 }
