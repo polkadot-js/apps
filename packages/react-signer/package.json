@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-signer",
-  "version": "0.38.0-beta.33",
+  "version": "0.38.0-beta.34",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.4",
-    "@polkadot/react-components": "^0.38.0-beta.33",
+    "@polkadot/react-components": "^0.38.0-beta.34",
     "@polkadot/react-qr": "^0.47.1"
   }
 }
