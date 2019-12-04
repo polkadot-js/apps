@@ -7,8 +7,9 @@ import { Option } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import store from 'store';
 import { Dropdown, Input, Toggle } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import uiSettings, { ICON_DEFAULT, PREFIX_DEFAULT } from '@polkadot/ui-settings';
 
 import translate from './translate';
 import { createOption } from './util';
@@ -26,6 +27,22 @@ interface StateUrl {
 interface State extends StateUrl {
   isCustom: boolean;
 }
+
+const hijackSettings = () => {
+  const ENDPOINT_DEFAULT = 'wss://testnet-node-1.acala.laminar.one/ws';
+  const ENDPOINTS = [
+    { text: 'Acala Alpha Testnet', value: ENDPOINT_DEFAULT, info: 'substrate' },
+    { text: 'Local Node (127.0.0.1:9944)', value: 'ws://127.0.0.1:9944/', info: 'substrate' }
+  ];
+  const storedSettings = store.get('settings') || {};
+  const anySettings = uiSettings as any;
+  anySettings._apiUrl = storedSettings.apiUrl || ENDPOINT_DEFAULT;
+  anySettings._prefix = storedSettings.prefix || PREFIX_DEFAULT;
+  anySettings._icon = storedSettings.icon || ICON_DEFAULT;
+  Object.defineProperty(anySettings, 'availableNodes', { value: ENDPOINTS });
+};
+
+hijackSettings();
 
 const endpointOptions = uiSettings.availableNodes.map((o): Option => createOption(o, ['local']));
 
