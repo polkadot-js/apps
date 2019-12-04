@@ -21,15 +21,15 @@ interface Props extends I18nProps {
 
 function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const option = trackStream<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
+  const optProposal = trackStream<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
   const votes = trackStream<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
 
-  const proposal = option?.unwrapOr(null) || null;
-  if (!proposal || !votes?.isSome) {
+  if (!optProposal?.isSome || !votes?.isSome) {
     return null;
   }
 
-  const { ayes, index, nays, threshold }: Votes = votes?.unwrap() || {};
+  const proposal = optProposal.unwrap();
+  const { ayes, index, nays, threshold } = votes.unwrap();
 
   return (
     <tr className={className}>

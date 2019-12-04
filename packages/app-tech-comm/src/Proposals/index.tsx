@@ -6,33 +6,17 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { ComponentProps } from '../types';
 
-import React, { useState } from 'react';
-import { Button, Table } from '@polkadot/react-components';
+import React from 'react';
+import { Table } from '@polkadot/react-components';
 
 import Proposal from './Proposal';
-import Propose from './Propose';
 import translate from '../translate';
 
 interface Props extends ComponentProps, I18nProps {}
 
-function Proposals ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
-  const [isProposeOpen, setIsProposeOpen] = useState(false);
-
+function Proposals ({ className, proposals, t }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      <Button.Group>
-        <Button
-          isPrimary
-          label={t('Propose a committee motion')}
-          icon='add'
-          onClick={(): void => setIsProposeOpen(true)}
-        />
-      </Button.Group>
-      <Propose
-        isOpen={isProposeOpen}
-        memberCount={members?.length || 0}
-        onClose={(): void => setIsProposeOpen(false)}
-      />
       {proposals?.length
         ? (
           <Table>

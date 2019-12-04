@@ -113,7 +113,7 @@ export interface TxModalProps extends I18nProps, TxState {
   isDisabled?: boolean;
   isOpen?: boolean;
   isUnsigned?: boolean;
-  content: React.ReactNode;
+  children: React.ReactNode;
   preContent?: React.ReactNode;
   trigger?: TxTrigger;
   onSubmit?: () => void;

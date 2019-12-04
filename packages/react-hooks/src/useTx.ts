@@ -51,41 +51,29 @@ export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSo
   const [accountId, setAccountId] = useState<StringOrNull>(anAccountId || null);
   const [isSending, setIsSending] = useState(false);
 
-  const _onStart = useMemo(
-    (): () => void => (): void => {
-      setIsSending(true);
+  const _onStart = (): void => {
+    setIsSending(true);
 
-      onStart && onStart();
-    },
-    [onStart]
-  );
+    onStart && onStart();
+  };
 
-  const _onSuccess = useMemo(
-    (): () => void => (): void => {
-      setIsSending(false);
+  const _onSuccess = (): void => {
+    setIsSending(false);
 
-      onSuccess && onSuccess();
-    },
-    [onSuccess]
-  );
+    onSuccess && onSuccess();
+  };
 
-  const _onFailed = useMemo(
-    (): () => void => (): void => {
-      setIsSending(false);
+  const _onFailed = (): void => {
+    setIsSending(false);
 
-      onFailed && onFailed();
-    },
-    [onFailed]
-  );
+    onFailed && onFailed();
+  };
 
-  const _onUpdate = useMemo(
-    (): () => void => (): void => {
-      setIsSending(false);
+  const _onUpdate = (): void => {
+    setIsSending(false);
 
-      onUpdate && onUpdate();
-    },
-    [onUpdate]
-  );
+    onUpdate && onUpdate();
+  };
 
   function getExtrinsicAndSenders (api: ApiPromise, accountId: StringOrNull, [txDef, isSubmittable]: TxSource<T>): ExtrinsicAndSenders {
     const extrinsic = getExtrinsic<T>(api, txDef);

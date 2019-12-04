@@ -4,7 +4,7 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { TxSource, TxDef } from '@polkadot/react-hooks/types';
-import { Call } from '@polkadot/types/interfaces';
+import { Call, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -16,82 +16,67 @@ import { createType } from '@polkadot/types';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  isOpen: boolean;
-  memberCount: number;
+  memberCount?: number;
   onClose: () => void;
 }
 
-function Propose ({ t, isOpen, onClose, memberCount = 0 }: Props): React.ReactElement<Props> {
-  const _hasThreshold = (threshold?: BN | null): boolean => {
-    return !!threshold && !threshold.isZero() && threshold.lten(memberCount);
-  };
+function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Props> {
+  const _hasThreshold = (threshold?: BN | null): boolean =>
+    !!threshold && !threshold.isZero() && threshold.lten(memberCount);
 
-  const [method, setMethod] = useState<Call | null>(null);
+  const { apiDefaultTxSudo } = useApi();
+  const [proposal, setProposal] = useState<Proposal | null>(null);
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
     new BN(memberCount / 2 + 1),
     true
   ]);
 
-  const _onChangeThreshold = (threshold?: BN): void => {
-    setThreshold([threshold || null, _hasThreshold(threshold)]);
-  };
-
-  const _onChangeExtrinsic = (method?: Call): void => {
-    !!method && setMethod(method);
-  };
-
-  useEffect(
-    (): void => setThreshold([threshold, _hasThreshold(threshold)]),
-    [memberCount]
-  );
-
-  const { apiDefaultTxSudo } = useApi();
+  // FIXME Rework this, unless you know, you can never figure out what all these options mean here
   const txState = useTx(
     (): TxSource<TxDef> => [
       [
         'technicalCommittee.propose',
-        [threshold, method ? createType(registry, 'Proposal', method) : null]
+        [threshold, proposal]
       ],
-      !!method && hasThreshold
+      !!proposal && hasThreshold
     ],
-    [memberCount, method, threshold, hasThreshold],
-    {
-      onSuccess: onClose
-    }
+    [memberCount, proposal, threshold, hasThreshold],
+    {}
   );
+
+  useEffect((): void => {
+    setThreshold([threshold, _hasThreshold(threshold)]);
+  }, [memberCount]);
+
+  const _onChangeExtrinsic = (method?: Call): void =>
+    setProposal(method ? createType(registry, 'Proposal', method) : null);
+  const _onChangeThreshold = (threshold?: BN): void =>
+    setThreshold([threshold || null, _hasThreshold(threshold)]);
 
   return (
     <TxModal
-      isOpen={isOpen}
+      isOpen
       onClose={onClose}
       {...txState}
       header={t('Propose a committee motion')}
-      content={
-        <>
-          <InputNumber
-            className='medium'
-            label={t('threshold')}
-            help={t('The minimum number of committee votes required to approve this motion')}
-            isError={!hasThreshold}
-            onChange={_onChangeThreshold}
-            onEnter={txState.sendTx}
-            placeholder={
-              t(
-                'Positive number between 1 and {{memberCount}}',
-                { replace: { memberCount } }
-              )
-            }
-            value={threshold || undefined}
-          />
-          <Extrinsic
-            defaultValue={apiDefaultTxSudo}
-            label={t('proposal')}
-            onChange={_onChangeExtrinsic}
-            onEnter={txState.sendTx}
-          />
-        </>
-      }
-    />
+    >
+      <InputNumber
+        className='medium'
+        label={t('threshold')}
+        help={t('The minimum number of committee votes required to approve this motion')}
+        isError={!hasThreshold}
+        onChange={_onChangeThreshold}
+        onEnter={txState.sendTx}
+        placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount } })}
+        value={threshold || undefined}
+      />
+      <Extrinsic
+        defaultValue={apiDefaultTxSudo}
+        label={t('proposal')}
+        onChange={_onChangeExtrinsic}
+        onEnter={txState.sendTx}
+      />
+    </TxModal>
   );
 }
 
