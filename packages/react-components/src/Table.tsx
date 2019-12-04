@@ -72,7 +72,7 @@ export default styled(Table)`
       }
 
       label {
-        opacity: 0.25;
+        opacity: 0.42;
       }
 
       &:hover {

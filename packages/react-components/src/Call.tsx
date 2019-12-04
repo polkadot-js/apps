@@ -43,6 +43,11 @@ function Call ({ children, className, labelHash, style, mortality, tip, value, w
       className={classes('ui--Extrinsic', className)}
       style={style}
     >
+      <Params
+        isDisabled
+        params={params}
+        values={values}
+      />
       {children}
       {hash && (
         <Static
@@ -68,11 +73,6 @@ function Call ({ children, className, labelHash, style, mortality, tip, value, w
           <FormatBalance value={tip} />
         </Static>
       )}
-      <Params
-        isDisabled
-        params={params}
-        values={values}
-      />
     </div>
   );
 }
