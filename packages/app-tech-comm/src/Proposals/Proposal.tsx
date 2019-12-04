@@ -29,7 +29,6 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
     return null;
   }
 
-  const proposal = _proposal?.unwrapOr(null);
   const { ayes, index, nays, threshold } = votes.unwrap();
 
   return (
