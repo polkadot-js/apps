@@ -15,11 +15,15 @@ import { u8aToHex } from '@polkadot/util';
 import translate from '../translate';
 import DispatchBlock from './DispatchBlock';
 
-function DispatchQueue ({ className, t }: Props): React.ReactElement<Props> {
+function DispatchQueue ({ className, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [keyPrefix] = useState(u8aToHex(api.query.democracy.dispatchQueue.creator.iterKey));
   const queued = trackStream<[StorageKey, Option<Vec<Option<ITuple<[Hash, ReferendumIndex]>>>>
   ][]>(api.query.democracy.dispatchQueue.entries as any, []);
+
+  if (!queued?.length) {
+    return null;
+  }
 
   return (
     <div className={className}>

@@ -30,7 +30,7 @@ export default styled(Card)`
   justify-content: space-around;
 
   label {
-    opacity: 0.25;
+    opacity: 0.42;
   }
 
   &:hover {

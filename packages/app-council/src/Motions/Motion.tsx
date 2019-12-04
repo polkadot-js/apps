@@ -52,7 +52,7 @@ function Motion ({ className, hash, proposal, t, votes }: Props): React.ReactEle
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
-            label={t('Nay')}
+            label={index === 0 ? t('Nay') : undefined}
             value={address}
             withBalance={false}
           />

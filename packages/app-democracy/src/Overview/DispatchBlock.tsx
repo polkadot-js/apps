@@ -40,12 +40,12 @@ export default function DispatchBlock ({ entries, keyPrefix, storageKey }: Props
     setExpanded(
       entries?.isSome
         ? entries
-        .unwrap()
-        .map((entry): [Hash, ReferendumIndex] | null => entry.unwrapOr(null))
-        .filter((entry): boolean => !!entry)
-        .map(([hash, referendumIndex]: any): Entry => ({
-          blockNumber, hash, referendumIndex
-        }))
+          .unwrap()
+          .map((entry): [Hash, ReferendumIndex] | null => entry.unwrapOr(null))
+          .filter((entry): boolean => !!entry)
+          .map(([hash, referendumIndex]: any): Entry => ({
+            blockNumber, hash, referendumIndex
+          }))
         : []
     );
   }, [blockNumber, entries]);
