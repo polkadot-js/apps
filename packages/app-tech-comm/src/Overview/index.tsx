@@ -5,40 +5,21 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
-import React, { useState } from 'react';
-import { Button } from '@polkadot/react-components';
+import React from 'react';
 
 import translate from '../translate';
-import Propose from '../Proposals/Propose';
 import Members from './Members';
 import Summary from './Summary';
 
 interface Props extends I18nProps, ComponentProps {}
 
-function Overview ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
-  const [isProposeOpen, setIsProposeOpen] = useState(false);
-  const _toggleProposal = (): void => setIsProposeOpen(!isProposeOpen);
-
+function Overview ({ className, members, proposals }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
         members={members}
         proposals={proposals}
       />
-      {isProposeOpen && (
-        <Propose
-          memberCount={members?.length}
-          onClose={_toggleProposal}
-        />
-      )}
-      <Button.Group>
-        <Button
-          isPrimary
-          label={t('Submit proposal')}
-          icon='add'
-          onClick={_toggleProposal}
-        />
-      </Button.Group>
       <Members members={members} />
     </div>
   );
