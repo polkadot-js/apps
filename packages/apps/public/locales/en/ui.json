@@ -696,5 +696,7 @@
   "The proposal to which this image applies": "",
   "proposal id": "",
   "externals": "",
-  "Nominating {{count}}": ""
+  "Nominating {{count}}": "",
+  "Propose a committee motion": "",
+  "The minimum number of committee votes required to approve this motion": ""
 }
