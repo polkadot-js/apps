@@ -20,7 +20,7 @@ import edgeware from '@plasm/ui-assets/edgeware-circle.svg';
 import polkadot from '@plasm/ui-assets/polkadot-circle.svg';
 import polkadotJs from '@plasm/ui-assets/polkadot-js.svg';
 import substrate from '@plasm/ui-assets/substrate-hexagon.svg';
-import plasm from '@plasm/ui-assets/plasm.svg';
+import plasm from '@plasm/ui-assets/plasm_cir.png';
 
 // overrides based on the actual matched chain name
 const CHAINS: Record<string, any> = {
