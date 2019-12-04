@@ -19,7 +19,7 @@ function TxModal<P extends Props> ({
   isSending,
   trigger: Trigger,
   header = t('Submit signed extrinsic'),
-  content,
+  children,
   preContent,
   isDisabled = false,
   isSubmittable = true,
@@ -47,6 +47,11 @@ function TxModal<P extends Props> ({
     !isControlled && setIsOpen(false);
 
     props.onClose && props.onClose();
+  };
+
+  const onSend = (): void => {
+    sendTx();
+    onClose();
   };
 
   // const onStart = (): void => {
@@ -108,7 +113,7 @@ function TxModal<P extends Props> ({
             type='account'
             {...inputAddressProps}
           />
-          {content}
+          {children}
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
@@ -120,12 +125,11 @@ function TxModal<P extends Props> ({
             />
             <Button.Or />
             <Button
-              isLoading={isSending}
               isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
               isPrimary
               label={submitButtonLabel}
               icon={submitButtonIcon}
-              onClick={sendTx}
+              onClick={onSend}
               {...submitButtonProps}
             />
           </Button.Group>

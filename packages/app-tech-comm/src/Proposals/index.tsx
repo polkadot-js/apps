@@ -2,23 +2,39 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
+import { Hash } from '@polkadot/types/interfaces';
+import { ComponentProps } from '../types';
 
-import React from 'react';
-import { Table } from '@polkadot/react-components';
+import React, { useState } from 'react';
+import { Button, Table } from '@polkadot/react-components';
 
-import Proposal from './Proposal';
 import translate from '../translate';
+import Proposal from './Proposal';
+import Propose from './Propose';
 
-interface Props extends I18nProps {
-  proposals?: Hash[];
-}
+interface Props extends ComponentProps, I18nProps {}
 
-function Proposals ({ className, proposals, t }: Props): React.ReactElement<Props> {
+function Proposals ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
+  const [isProposeOpen, setIsProposeOpen] = useState(false);
+  const _toggleProposal = (): void => setIsProposeOpen(!isProposeOpen);
+
   return (
     <div className={className}>
-      {/* <Propose /> */}
+      {isProposeOpen && (
+        <Propose
+          memberCount={members?.length}
+          onClose={_toggleProposal}
+        />
+      )}
+      <Button.Group>
+        <Button
+          isPrimary
+          label={t('Submit proposal')}
+          icon='add'
+          onClick={_toggleProposal}
+        />
+      </Button.Group>
       {proposals?.length
         ? (
           <Table>

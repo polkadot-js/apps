@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { AccountId, Hash } from '@polkadot/types/interfaces';
+import { ComponentProps } from '../types';
 
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
@@ -14,10 +14,7 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
-  members?: AccountId[];
-  proposals?: Hash[];
-}
+interface Props extends ComponentProps, I18nProps {}
 
 function Summary ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();

@@ -4,7 +4,7 @@
 
 import { StringOrNull } from '@polkadot/react-components/types';
 import { Call } from '@polkadot/types/interfaces';
-import { ExtrinsicAndSenders, TxSources, TxProps, TxState } from './types';
+import { ExtrinsicAndSenders, TxDef, TxDefs, TxSource, TxProps, TxState } from './types';
 
 import { useContext, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
@@ -13,82 +13,73 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { assert, isFunction } from '@polkadot/util';
 import useApi from './useApi';
 
-function getExtrinsic<T extends TxSources> (api: ApiPromise, tx: T): SubmittableExtrinsic | null {
-  if (!tx) {
+function getExtrinsic<T extends TxDefs> (api: ApiPromise, txDef: T): SubmittableExtrinsic | null {
+  if (!txDef) {
     return null;
   }
-  if (Array.isArray(tx)) {
-    const [section, method] = tx[0].split('.');
+
+  if (Array.isArray(txDef)) {
+    const [section, method] = txDef[0].split('.');
 
     assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
     try {
       return api.tx[section][method](...(
-        isFunction(tx[1])
-          ? tx[1]()
-          : tx[1]
+        isFunction(txDef[1])
+          ? txDef[1]()
+          : txDef[1]
       )) as any as SubmittableExtrinsic;
     } catch (e) {
       return null;
     }
   } else {
-    if ((tx as Call).callIndex) {
-      const fn = api.findCall(tx.callIndex);
+    if ((txDef as Call).callIndex) {
+      const fn = api.findCall(txDef.callIndex);
 
-      return api.tx[fn.section][fn.method](...tx.args);
+      return api.tx[fn.section][fn.method](...txDef.args);
     }
 
-    return tx as any as SubmittableExtrinsic;
+    return txDef as any as SubmittableExtrinsic;
   }
 }
 
-export default function useTx<T extends TxSources> (source: T, { accountId: anAccountId, onChangeAccountId, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
+export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSource<T>, memoArr: any[], { accountId: anAccountId, onChangeAccountId, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
+
+  const txSource = useMemo(memoFn, memoArr);
 
   const [accountId, setAccountId] = useState<StringOrNull>(anAccountId || null);
   const [isSending, setIsSending] = useState(false);
 
-  const _onStart = useMemo(
-    (): () => void => (): void => {
-      setIsSending(true);
+  const _onStart = (): void => {
+    setIsSending(true);
 
-      onStart && onStart();
-    },
-    [onStart]
-  );
+    onStart && onStart();
+  };
 
-  const _onSuccess = useMemo(
-    (): () => void => (): void => {
-      setIsSending(false);
+  const _onSuccess = (): void => {
+    setIsSending(false);
 
-      onSuccess && onSuccess();
-    },
-    [onSuccess]
-  );
+    onSuccess && onSuccess();
+  };
 
-  const _onFailed = useMemo(
-    (): () => void => (): void => {
-      setIsSending(false);
+  const _onFailed = (): void => {
+    setIsSending(false);
 
-      onFailed && onFailed();
-    },
-    [onFailed]
-  );
+    onFailed && onFailed();
+  };
 
-  const _onUpdate = useMemo(
-    (): () => void => (): void => {
-      setIsSending(false);
+  const _onUpdate = (): void => {
+    setIsSending(false);
 
-      onUpdate && onUpdate();
-    },
-    [onUpdate]
-  );
+    onUpdate && onUpdate();
+  };
 
-  function getExtrinsicAndSenders (api: ApiPromise, accountId: StringOrNull, tx: T): ExtrinsicAndSenders {
-    const extrinsic = getExtrinsic<T>(api, tx);
+  function getExtrinsicAndSenders (api: ApiPromise, accountId: StringOrNull, [txDef, isSubmittable]: TxSource<T>): ExtrinsicAndSenders {
+    const extrinsic = getExtrinsic<T>(api, txDef);
 
     function _sendTx (isUnsigned?: boolean): void {
-      !!extrinsic && queueExtrinsic({
+      !!extrinsic && isSubmittable && queueExtrinsic({
         accountId,
         extrinsic,
         isUnsigned,
@@ -101,14 +92,15 @@ export default function useTx<T extends TxSources> (source: T, { accountId: anAc
 
     return {
       extrinsic,
+      isSubmittable: !!accountId && !!extrinsic && isSubmittable,
       sendTx: (): void => _sendTx(),
       sendUnsigned: (): void => _sendTx(true)
     };
   }
 
   const txAndSenders = useMemo<ExtrinsicAndSenders>(
-    (): ExtrinsicAndSenders => getExtrinsicAndSenders(api, accountId, source),
-    [accountId, source]
+    (): ExtrinsicAndSenders => getExtrinsicAndSenders(api, accountId, txSource),
+    [accountId, txSource]
   );
 
   return {

@@ -2,32 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Hash } from '@polkadot/types/interfaces';
+import { I18nProps } from '@polkadot/react-components/types';
+import { ComponentProps } from '../types';
 
 import React from 'react';
 
+import translate from '../translate';
 import Members from './Members';
 import Summary from './Summary';
 
-interface Props {
-  className?: string;
-  members?: AccountId[];
-  proposals?: Hash[];
-}
+interface Props extends I18nProps, ComponentProps {}
 
-export default function Overview ({ className, members, proposals }: Props): React.ReactElement<Props> {
+function Overview ({ className, members, proposals }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
         members={members}
         proposals={proposals}
       />
-      {/* <Button.Group>
-        <SubmitCandidacy electionsInfo={electionsInfo} />
-        <Button.Or />
-        <Vote electionsInfo={electionsInfo} />
-      </Button.Group> */}
       <Members members={members} />
     </div>
   );
 }
+
+export default translate(Overview);

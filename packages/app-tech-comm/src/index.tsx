@@ -43,7 +43,10 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
       </header>
       <Switch>
         <Route path={`${basePath}/proposals`}>
-          <Proposals proposals={proposals} />
+          <Proposals
+            members={members}
+            proposals={proposals}
+          />
         </Route>
         <Route path={basePath}>
           <Overview
