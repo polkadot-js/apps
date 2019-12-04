@@ -37,11 +37,15 @@ function Nominate ({ className, controllerId, nominees, onClose, stashId, stashO
 
   useEffect((): void => {
     if (nominees) {
+      const _favorites = favorites.filter((accountId): boolean =>
+        stashOptions.some(({ value }): boolean => value === accountId)
+      );
+
       const shortlist = [
         // ensure that the favorite is included in the list of stashes
-        ...favorites.filter((accountId): boolean => stashOptions.some(({ value }): boolean => value === accountId)),
+        ..._favorites,
         // make sure the nominee is not in our favorites already
-        ...nominees.filter((accountId): boolean => !favorites.includes(accountId))
+        ...nominees.filter((accountId): boolean => !_favorites.includes(accountId))
       ];
 
       setShortlist({
