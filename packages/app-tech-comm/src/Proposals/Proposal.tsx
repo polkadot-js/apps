@@ -29,7 +29,7 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
     return null;
   }
 
-  const { ayes, index, nays, threshold } = votes.unwrap();
+  const { ayes, index, nays, threshold }: Votes = votes?.unwrap() || {};
 
   return (
     <tr className={className}>

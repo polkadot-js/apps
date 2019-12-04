@@ -23,8 +23,8 @@ interface Props extends I18nProps {
 
 function Propose ({ t, isOpen, onClose, memberCount = 0 }: Props): React.ReactElement<Props> {
   const _hasThreshold = (threshold?: BN | null): boolean => {
-    return !!threshold &&; !threshold.isZero() && threshold.lten(memberCount);
-  }
+    return !!threshold && !threshold.isZero() && threshold.lten(memberCount);
+  };
 
   const [method, setMethod] = useState<Call | null>(null);
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([

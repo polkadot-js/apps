@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { I18nProps } from '@polkadot/react-components/types';
 import { Hash } from '@polkadot/types/interfaces';
-import { ComponentProps as Props } from '../types';
+import { ComponentProps } from '../types';
 
 import React, { useState } from 'react';
 import { Button, Table } from '@polkadot/react-components';
@@ -11,6 +12,8 @@ import { Button, Table } from '@polkadot/react-components';
 import Proposal from './Proposal';
 import Propose from './Propose';
 import translate from '../translate';
+
+interface Props extends ComponentProps, I18nProps {}
 
 function Proposals ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
   const [isProposeOpen, setIsProposeOpen] = useState(false);
