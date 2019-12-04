@@ -31,7 +31,7 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
   }, [accountId, sessionRewards]);
 
   useEffect((): void => {
-    setCounts([...historic, current || api.createType('u32')]);
+    setCounts([...historic, current || api.createType('u32')].slice(1));
   }, [current, historic]);
 
   return counts;
