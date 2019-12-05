@@ -38,7 +38,7 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
   useEffect((): void => {
     if (totalInsurance && totalStaked?.gtn(0)) {
       setStakeInfo({
-        percentage: `${(totalStaked.muln(10_000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`,
+        percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`,
         staked: totalStaked.toString()
       });
     }

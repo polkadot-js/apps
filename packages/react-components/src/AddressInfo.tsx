@@ -42,7 +42,7 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
-const PERBILL = new BN(1_000_000_000);
+const PERBILL = new BN(1000000000);
 
 interface Props extends BareProps, I18nProps {
   address: string;
@@ -228,7 +228,7 @@ function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: P
           : (
             <>
               <Label label={t('commission')} />
-              <span>{(stakingInfo.validatorPrefs.commission.unwrap().muln(10_000).div(PERBILL).toNumber() / 100).toFixed(2)}%</span>
+              <span>{(stakingInfo.validatorPrefs.commission.unwrap().muln(10000).div(PERBILL).toNumber() / 100).toFixed(2)}%</span>
             </>
           )
       )}
