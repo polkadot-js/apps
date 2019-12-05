@@ -19,8 +19,7 @@ import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
 
-// TODO: use the generated definitions instead
-import acalaTypes from '@acala-network/types/interfaces/runtime/definitions';
+import { types as acalaTypes } from '@acala-network/types';
 
 import Apps from './Apps';
 
@@ -44,7 +43,7 @@ const wsEndpoint = _wsEndpoint.split('#')[0];
 console.log('WS endpoint=', wsEndpoint);
 
 // Acala Types
-registry.register(acalaTypes.types);
+registry.register(acalaTypes);
 
 try {
   const types = store.get('types') || {};
