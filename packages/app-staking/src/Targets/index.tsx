@@ -4,15 +4,15 @@
 
 import { DerivedStakingElected } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import { AccountId, Exposure, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { ComponentProps } from '../types';
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { InputBalance, Table } from '@polkadot/react-components';
-import { useAccounts, useApi, useFavorites, trackStream } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useFavorites, useStream } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
@@ -27,6 +27,12 @@ interface Props extends I18nProps, ComponentProps {
 interface AllInfo {
   totalStaked: BN;
   validators: ValidatorInfo[];
+}
+
+interface BaseInfo {
+  accountId: AccountId;
+  stakers?: Exposure;
+  validatorPrefs?: ValidatorPrefs;
 }
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
@@ -86,9 +92,11 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [amount, setAmount] = useState<BN | undefined>(new BN(1000));
-  const electedInfo = trackStream<DerivedStakingElected>(api.derive.staking.electedInfo, []);
+  const electedInfo = useStream<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [lastReward, setLastReward] = useState(new BN(0));
+  const lastBase = useRef<number>(0);
+  const [baseInfo, setBaseInfo] = useState<BaseInfo[]>([]);
   const [{ validators, totalStaked }, setWorkable] = useState<AllInfo>({ totalStaked: new BN(0), validators: [] });
 
   useEffect((): void => {
@@ -104,63 +112,73 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   }, [sessionRewards]);
 
   useEffect((): void => {
-    if (electedInfo) {
-      let totalStaked = new BN(0);
-      const numValidators = electedInfo.info.length;
-      const validators = sortValidators(
-        electedInfo.info.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
-          const exposure = stakers || {
-            total: api.createType('Compact<Balance>'),
-            own: api.createType('Compact<Balance>'),
-            others: api.createType('Vec<IndividualExposure>')
-          };
-          const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
-            commission: api.createType('Compact<Perbill>')
-          };
-          const bondOwn = exposure.own.unwrap();
-          const bondTotal = exposure.total.unwrap();
-          const perValidatorReward = lastReward.divn(numValidators);
-          const validatorPayment = (prefs as ValidatorPrefsTo196).validatorPayment
-            ? (prefs as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
-            : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
-          const key = accountId.toString();
-          const rewardSplit = perValidatorReward.sub(validatorPayment);
-          const calcAmount = amount || new BN(0);
-          const rewardPayout = rewardSplit.gtn(0)
-            ? calcAmount.mul(rewardSplit).div(calcAmount.add(bondTotal))
-            : new BN(0);
-          const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
-            return isNominating || allAccounts.includes(indv.who.toString());
-          }, allAccounts.includes(key));
+    if (electedInfo && lastBase.current !== electedInfo.info.length) {
+      lastBase.current = electedInfo.info.length;
 
-          totalStaked = totalStaked.add(bondTotal);
-
-          return {
-            accountId,
-            bondOther: bondTotal.sub(bondOwn),
-            bondOwn,
-            bondShare: 0,
-            bondTotal,
-            isCommission: !!(prefs as ValidatorPrefs).commission,
-            isFavorite: favorites.includes(key),
-            isNominating,
-            key,
-            commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).muln(10000).div(PERBILL).toNumber() / 100),
-            numNominators: exposure.others.length,
-            rankBonded: 0,
-            rankOverall: 0,
-            rankPayment: 0,
-            rankReward: 0,
-            rewardPayout,
-            rewardSplit,
-            validatorPayment
-          };
-        })
+      setBaseInfo(
+        electedInfo.info.map(({ accountId, stakers, validatorPrefs }) => ({
+          accountId, stakers, validatorPrefs
+        }))
       );
-
-      setWorkable({ totalStaked, validators });
     }
-  }, [allAccounts, amount, electedInfo, favorites, lastReward]);
+  }, [electedInfo]);
+
+  useEffect((): void => {
+    let totalStaked = new BN(0);
+    const numValidators = baseInfo.length;
+    const validators = sortValidators(
+      baseInfo.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
+        const exposure = stakers || {
+          total: api.createType('Compact<Balance>'),
+          own: api.createType('Compact<Balance>'),
+          others: api.createType('Vec<IndividualExposure>')
+        };
+        const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
+          commission: api.createType('Compact<Perbill>')
+        };
+        const bondOwn = exposure.own.unwrap();
+        const bondTotal = exposure.total.unwrap();
+        const perValidatorReward = lastReward.divn(numValidators);
+        const validatorPayment = (prefs as ValidatorPrefsTo196).validatorPayment
+          ? (prefs as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
+          : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
+        const key = accountId.toString();
+        const rewardSplit = perValidatorReward.sub(validatorPayment);
+        const calcAmount = amount || new BN(0);
+        const rewardPayout = rewardSplit.gtn(0)
+          ? calcAmount.mul(rewardSplit).div(calcAmount.add(bondTotal))
+          : new BN(0);
+        const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
+          return isNominating || allAccounts.includes(indv.who.toString());
+        }, allAccounts.includes(key));
+
+        totalStaked = totalStaked.add(bondTotal);
+
+        return {
+          accountId,
+          bondOther: bondTotal.sub(bondOwn),
+          bondOwn,
+          bondShare: 0,
+          bondTotal,
+          isCommission: !!(prefs as ValidatorPrefs).commission,
+          isFavorite: favorites.includes(key),
+          isNominating,
+          key,
+          commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).muln(10000).div(PERBILL).toNumber() / 100),
+          numNominators: exposure.others.length,
+          rankBonded: 0,
+          rankOverall: 0,
+          rankPayment: 0,
+          rankReward: 0,
+          rewardPayout,
+          rewardSplit,
+          validatorPayment
+        };
+      })
+    );
+
+    setWorkable({ totalStaked, validators });
+  }, [allAccounts, amount, baseInfo, favorites, lastReward]);
 
   return (
     <div className={className}>

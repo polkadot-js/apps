@@ -10,7 +10,7 @@ import { ComponentProps } from '../types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, CardGrid } from '@polkadot/react-components';
-import { trackStream, useApi } from '@polkadot/react-hooks';
+import { useStream, useApi } from '@polkadot/react-hooks';
 import { AccountName } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import createOption from '@polkadot/ui-keyring/options/item';
@@ -46,8 +46,8 @@ function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], q
 
 function Actions ({ allAccounts, allStashes, className, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const queryBonded = trackStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
-  const queryLedger = trackStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
+  const queryBonded = useStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
+  const queryLedger = useStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const foundStashes = getStashes(allAccounts, queryBonded, queryLedger);
   const stashOptions = allStashes.map((stashId): KeyringSectionOption =>

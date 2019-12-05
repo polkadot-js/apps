@@ -7,14 +7,14 @@ import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useStream } from '@polkadot/react-hooks';
 
 import Referendum from './Referendum';
 import translate from '../translate';
 
 function Referendums ({ className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const referendums = trackStream<DerivedReferendum[]>(api.derive.democracy.referendums, []);
+  const referendums = useStream<DerivedReferendum[]>(api.derive.democracy.referendums, []);
 
   return (
     <div className={`proposalSection ${className}`}>

@@ -18,7 +18,7 @@ interface TrackFn <T> {
 // tracks a promise, typically an api.* call (query, query.at, rpc) that
 //  - returns a promise with the value
 // FIXME The typings here need some serious TLC
-export default function trackPromise <T> (fn: TrackFn<T> | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
+export default function usePromise <T> (fn: TrackFn<T> | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>();
   const tracker = useRef<{ serialized: string | null }>({ serialized: null });
 
@@ -31,17 +31,6 @@ export default function trackPromise <T> (fn: TrackFn<T> | undefined, params: Pa
       }
     });
   };
-
-  // initial round, subscribe once
-  useEffect((): void => {
-    const [serialized, mappedParams] = extractParams(fn, params, paramMap);
-
-    tracker.current.serialized = serialized;
-
-    if (mappedParams) {
-      _subscribe(mappedParams);
-    }
-  }, []);
 
   // on changes, re-get
   useEffect((): void => {

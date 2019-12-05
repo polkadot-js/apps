@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useStream } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
 import translate from '../translate';
@@ -25,7 +25,7 @@ interface StakeInfo {
 
 function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const totalInsurance = trackStream<Balance>(api.query.balances.totalIssuance, []);
+  const totalInsurance = useStream<Balance>(api.query.balances.totalIssuance, []);
   const [{ percentage, staked }, setStakeInfo] = useState<StakeInfo>({ percentage: '-', staked: null });
   const [total, setTotal] = useState<string | null>(null);
 

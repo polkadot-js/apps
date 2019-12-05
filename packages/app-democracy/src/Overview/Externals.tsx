@@ -8,7 +8,7 @@ import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { AddressSmall, Table } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useStream } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Bytes, Option } from '@polkadot/types';
 
@@ -17,10 +17,10 @@ import ProposalCell from './ProposalCell';
 
 function Externals ({ className, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const external = trackStream<Option<ITuple<[Hash, VoteThreshold]>>>(api.query.democracy.nextExternal, []);
+  const external = useStream<Option<ITuple<[Hash, VoteThreshold]>>>(api.query.democracy.nextExternal, []);
   const [hash, setHash] = useState<Hash | null>(null);
   const [expanded, setExpanded] = useState<{ at: BlockNumber; balance: Balance; proposer: AccountId; proposal: Proposal } | null>(null);
-  const preimage = trackStream<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>>(api.query.democracy.preimages, [hash]);
+  const preimage = useStream<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>>(api.query.democracy.preimages, [hash]);
 
   useEffect((): void => {
     setHash(

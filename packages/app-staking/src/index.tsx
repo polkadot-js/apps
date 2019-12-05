@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
+import { useStream, useAccounts, useApi } from '@polkadot/react-hooks';
 
 import basicMd from './md/basic.md';
 import Actions from './Actions';
@@ -44,10 +44,10 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const { pathname } = useLocation();
-  const stakingControllers = trackStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
-  const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
-  const recentlyOnline = trackStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
-  const stakingOverview = trackStream<DerivedStakingOverview>(api.derive.staking.overview, []);
+  const stakingControllers = useStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
+  const bestNumber = useStream<BlockNumber>(api.derive.chain.bestNumber, []);
+  const recentlyOnline = useStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
+  const stakingOverview = useStream<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
 
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);

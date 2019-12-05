@@ -9,7 +9,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { registry } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useStream } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 
 import Candidates from './Candidates';
@@ -33,9 +33,9 @@ const NULL_INFO: DerivedElectionsInfo = {
 
 export default function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumber = trackStream<BlockNumber>(api.derive.chain.bestNumber, []);
-  const _electionsInfo = trackStream<DerivedElectionsInfo>(api.derive.elections.info, []);
-  const allVotes = trackStream<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
+  const bestNumber = useStream<BlockNumber>(api.derive.chain.bestNumber, []);
+  const _electionsInfo = useStream<DerivedElectionsInfo>(api.derive.elections.info, []);
+  const allVotes = useStream<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
     transform: ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> =>
       voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
         casted[index].forEach((candidate): void => {

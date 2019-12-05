@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useStream } from '@polkadot/react-hooks';
 import { withCalls } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
@@ -23,7 +23,7 @@ interface Props extends I18nProps {
 
 function Summary (props: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const activeProposals = trackStream<any[]>(api.derive.democracy.proposals, []);
+  const activeProposals = useStream<any[]>(api.derive.democracy.proposals, []);
 
   const {
     chain_bestNumber,

@@ -7,7 +7,7 @@ import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { BareProps } from '@polkadot/react-api/types';
 
 import React, { useState, useEffect } from 'react';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useStream } from '@polkadot/react-hooks';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -18,7 +18,7 @@ interface Props extends BareProps {
 
 export default function AccountIndexDisplay ({ children, className, defaultValue = '-', label = '', params, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = trackStream<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
+  const info = useStream<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
   const [accountIndex, setAccountIndex] = useState<string | null>(null);
 
   useEffect((): void => {
