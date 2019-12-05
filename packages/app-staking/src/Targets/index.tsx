@@ -19,7 +19,7 @@ import translate from '../translate';
 import Summary from './Summary';
 import Validator from './Validator';
 
-const PERBILL = new BN(1000000000);
+const PERBILL = new BN(1_000_000_000);
 
 interface Props extends I18nProps, ComponentProps {
 }
@@ -141,7 +141,7 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
             isFavorite: favorites.includes(key),
             isNominating,
             key,
-            commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).muln(10000).div(PERBILL).toNumber() / 100),
+            commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).muln(10_000).div(PERBILL).toNumber() / 100),
             numNominators: exposure.others.length,
             rankBonded: 0,
             rankOverall: 0,

@@ -74,7 +74,7 @@ function Address ({ address, authorsMap, className, filter, hasQueries, isElecte
 
       setStakingState({
         commission: commission
-          ? `${(commission.toNumber() / 10000000).toFixed(2)}%`
+          ? `${(commission.toNumber() / 10_000_000).toFixed(2)}%`
           : undefined,
         controllerId: controllerId?.toString(),
         hasNominators: nominators.length !== 0,

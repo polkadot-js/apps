@@ -7,7 +7,9 @@ import { FormProps } from '@polkadot/react-components/types';
 
 import { useRef } from 'react';
 
-export default function useForm (onSubmit: () => void, onCancel: () => void = (): void => {}): FormProps {
+const EMPTY_CALLBACK = (): void => undefined;
+
+export default function useForm (onSubmit: () => void, onCancel: () => void = EMPTY_CALLBACK): FormProps {
   const onCancelRef = useRef<Button$OnClick>(onCancel);
   const onSubmitRef = useRef<Button$OnClick>(onSubmit);
 

@@ -31,7 +31,7 @@ interface State {
   validatorPayment: BN;
 }
 
-const COMM_MUL = new BN(10000000);
+const COMM_MUL = new BN(10_000_000);
 const MAX_COMM = new BN(100);
 
 class Validate extends TxComponent<Props, State> {
