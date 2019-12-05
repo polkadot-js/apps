@@ -93,7 +93,9 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
 
   useEffect((): void => {
     if (sessionRewards && sessionRewards.length) {
-      setLastReward(sessionRewards[sessionRewards.length - 1].reward);
+      const lastRewardSession = [...sessionRewards].reverse().find(({ reward }): boolean => reward.gtn(0));
+
+      setLastReward(lastRewardSession?.reward || new BN(0));
     }
   }, [sessionRewards]);
 
