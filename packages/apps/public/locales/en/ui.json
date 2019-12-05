@@ -701,5 +701,6 @@
   "The minimum number of committee votes required to approve this motion": "",
   "enact at": "",
   "dispatch queue": "",
-  "nothing queued to be executed": ""
+  "nothing queued to be executed": "",
+  "Seconds ({{count}})": ""
 }

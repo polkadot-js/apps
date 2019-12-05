@@ -62,5 +62,6 @@
   "externals": "externals",
   "enact at": "enact at",
   "dispatch queue": "dispatch queue",
-  "nothing queued to be executed": "nothing queued to be executed"
+  "nothing queued to be executed": "nothing queued to be executed",
+  "Seconds ({{count}})": "Seconds ({{count}})"
 }
