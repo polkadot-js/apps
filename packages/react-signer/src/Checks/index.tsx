@@ -6,6 +6,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
+import { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
@@ -17,7 +18,7 @@ import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
-// import translate from '../translate';
+import translate from '../translate';
 import ContractCall from './ContractCall';
 import ContractDeploy from './ContractDeploy';
 import Proposal from './Proposal';
@@ -260,16 +261,37 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
 //   )(FeeDisplay)
 // );
 
-export default function Checks ({ accountId, extrinsic }: any): null {
+function Checks ({ accountId, className, extrinsic, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
+  const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
   useEffect((): void => {
     if (accountId && extrinsic?.paymentInfo && api.rpc.payment?.queryInfo) {
-      // extrinsic
-      //   .paymentInfo(accountId)
-      //   .then((json: any): void => console.log(JSON.stringify({ json })));
+      extrinsic
+        .paymentInfo(accountId)
+        .then(setDispatchInfo);
     }
   }, [api, accountId, extrinsic]);
 
-  return null;
+  if (!dispatchInfo) {
+    return null;
+  }
+
+  return (
+    <article
+      className={[className, 'ui--Checks', 'normal', 'padded'].join(' ')}
+      key='txinfo'
+    >
+      <div>
+        <Icon name='arrow right' />
+        {t('Fees of {{fees}} will be applied to the submission', {
+          replace: {
+            fees: formatBalance(dispatchInfo.partialFee)
+          }
+        })}
+      </div>
+    </article>
+  );
 }
+
+export default translate(Checks);

@@ -282,6 +282,7 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <>
         <Toggle
+          className='tipToggle'
           label={
             showTip
               ? t('Include an optional tip for faster processing')

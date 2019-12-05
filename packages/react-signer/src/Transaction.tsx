@@ -52,17 +52,17 @@ function Transaction ({ children, hideDetails, isSendable, value: { accountId, e
               />
             )}
             <Call value={extrinsic} />
-            {!isUnsigned && (
-              <Checks
-                accountId={accountId}
-                extrinsic={extrinsic}
-                isSendable={isSendable}
-                tip={tip}
-              />
-            )}
           </>
         )}
         {children}
+        {!hideDetails && !isUnsigned && (
+          <Checks
+            accountId={accountId}
+            extrinsic={extrinsic}
+            isSendable={isSendable}
+            tip={tip}
+          />
+        )}
       </Modal.Content>
     </>
   );
