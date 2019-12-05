@@ -260,7 +260,16 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
 //   )(FeeDisplay)
 // );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Checks (props: any): null {
+export default function Checks ({ accountId, extrinsic }: any): null {
+  const { api } = useApi();
+
+  useEffect((): void => {
+    if (accountId && extrinsic?.paymentInfo && api.rpc.payment?.queryInfo) {
+      // extrinsic
+      //   .paymentInfo(accountId)
+      //   .then((json: any): void => console.log(JSON.stringify({ json })));
+    }
+  }, [api, accountId, extrinsic]);
+
   return null;
 }

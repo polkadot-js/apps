@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import Checks from '@polkadot/react-signer/Checks';
+// import Checks from '@polkadot/react-signer/Checks';
 
 import translate from '../translate';
 
@@ -68,7 +68,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
-  const [hasAvailable, setHasAvailable] = useState(true);
+  const [hasAvailable] = useState(true);
   const [maxBalance] = useState(new BN(0));
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
@@ -121,12 +121,12 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             onChange={setAmount}
             withMax
           />
-          <Checks
+          {/* <Checks
             accountId={senderId}
             extrinsic={extrinsic}
             isSendable
             onChange={setHasAvailable}
-          />
+          /> */}
         </div>
       </Modal.Content>
       <Modal.Actions>

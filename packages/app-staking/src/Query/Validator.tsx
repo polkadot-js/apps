@@ -78,7 +78,7 @@ function extractSplit (values: [Hash, Exposure][], validatorId: string): SplitDa
     .map(({ accountId, isOwn, value }): SplitEntry => ({
       colors: isOwn ? COLORS_MINE : COLORS_OTHER,
       label: toShortAddress(accountId),
-      value: value.muln(10_000).div(total).toNumber() / 100
+      value: value.muln(10000).div(total).toNumber() / 100
     }));
 }
 
