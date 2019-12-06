@@ -5,10 +5,10 @@
 import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useFavorites } from '@polkadot/react-hooks';
 import { Button, Table } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
@@ -20,6 +20,10 @@ import translate from './translate';
 
 interface Props extends ComponentProps, I18nProps {
 }
+
+type SortedAccount = { address: string; isFavorite: boolean };
+
+const STORE_FAVS = 'accounts:favorites';
 
 // query the ledger for the address, adding it to the keyring
 async function queryLedger (): Promise<void> {
@@ -39,7 +43,22 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
-  // const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && !hasAccounts;
+  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
+  const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
+
+  useEffect((): void => {
+    setSortedAccounts(
+      allAccounts
+        .map((address): SortedAccount => ({ address, isFavorite: favorites.includes(address) }))
+        .sort((a, b): number =>
+          a.isFavorite === b.isFavorite
+            ? 0
+            : b.isFavorite
+              ? 1
+              : -1
+        )
+    );
+  }, [allAccounts, favorites]);
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
   const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
@@ -103,10 +122,12 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
         ? (
           <Table>
             <Table.Body>
-              {allAccounts.map((address): React.ReactNode => (
+              {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
                 <Account
                   address={address}
+                  isFavorite={isFavorite}
                   key={address}
+                  toggleFavorite={toggleFavorite}
                 />
               ))}
             </Table.Body>

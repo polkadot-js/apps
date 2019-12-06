@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressSmall, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, InputTags, LinkPolkascan, Menu, Popup, Input } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
@@ -21,13 +21,18 @@ import translate from './translate';
 interface Props extends I18nProps {
   address: string;
   className?: string;
+  isFavorite: boolean;
+  toggleFavorite: (address: string) => void;
 }
 
-function Account ({ address, className, t }: Props): React.ReactElement<Props> {
+function Account ({ address, className, isFavorite, t, toggleFavorite }: Props): React.ReactElement<Props> {
   const api = useApi();
   const [tags, setTags] = useState<string[]>([]);
+  const [accName, setAccName] = useState('');
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingTags, setIsEditingTags] = useState(false);
   const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
   const [isDeriveOpen, setIsDeriveOpen] = useState(false);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
@@ -45,14 +50,47 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       isExternal: (account && account.meta.isExternal) || false
     });
     setTags(account?.meta?.tags || []);
+    setAccName(account?.meta?.name || '');
   }, [address]);
 
+  const _toggleEditName = (): void => setIsEditingName(!isEditingName);
+  const _toggleEditTags = (): void => setIsEditingTags(!isEditingTags);
   const _toggleBackup = (): void => setIsBackupOpen(!isBackupOpen);
   const _toggleDerive = (): void => setIsDeriveOpen(!isDeriveOpen);
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
   const _togglePass = (): void => setIsPasswordOpen(!isPasswordOpen);
   const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
   const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
+  const _saveName = (): void => {
+    _toggleEditName();
+
+    const meta = { name: accName, whenEdited: Date.now() };
+
+    if (address) {
+      try {
+        const currentKeyring = keyring.getPair(address);
+
+        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+      } catch (error) {
+        keyring.saveAddress(address, meta);
+      }
+    }
+  };
+  const _saveTags = (): void => {
+    _toggleEditTags();
+
+    const meta = { tags, whenEdited: Date.now() };
+
+    if (address) {
+      try {
+        const currentKeyring = keyring.getPair(address);
+
+        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+      } catch (error) {
+        keyring.saveAddress(address, meta);
+      }
+    }
+  };
   const _onForget = (): void => {
     if (!address) {
       return;
@@ -79,11 +117,38 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
 
     setGenesisHash(genesisHash);
   };
+  const _onFavorite = (): void => toggleFavorite(address);
 
   return (
     <tr className={className}>
+      <td className='favorite'>
+        <Icon
+          className={`${isFavorite && 'isSelected'}`}
+          name={isFavorite ? 'star' : 'star outline'}
+          onClick={_onFavorite}
+        />
+      </td>
       <td className='top'>
-        <AddressSmall value={address} />
+        <AddressSmall
+          overrideName={
+            isEditingName
+              ? (
+                <Input
+                  className='name--input'
+                  autoFocus
+                  defaultValue={accName}
+                  onBlur={_saveName}
+                  onChange={setAccName}
+                  onEnter={_saveName}
+                  withLabel={false}
+                />
+              )
+              : undefined
+          }
+          onClickName={_toggleEditName}
+          toggle={isEditingName}
+          value={address}
+        />
         {isBackupOpen && (
           <Backup
             address={address}
@@ -122,9 +187,30 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
         )}
       </td>
       <td className='top'>
-        {tags.map((tag): React.ReactNode => (
-          <Label key={tag} size='tiny' color='grey'>{tag}</Label>
-        ))}
+        {isEditingTags
+          ? (
+            <InputTags
+              onBlur={_saveTags}
+              onChange={setTags}
+              onClose={_saveTags}
+              openOnFocus
+              defaultValue={tags}
+              searchInput={{ autoFocus: true }}
+              value={tags}
+              withLabel={false}
+            />
+          )
+          : (
+            <div className='tags--toggle' onClick={_toggleEditTags}>
+              {tags.length
+                ? tags.map((tag): React.ReactNode => (
+                  <Label key={tag} size='tiny' color='grey'>{tag}</Label>
+                ))
+                : <label>{t('no tags')}</label>
+              }
+            </div>
+          )
+        }
       </td>
       <td className='top'>
         <AddressInfo
@@ -209,74 +295,15 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
           </Menu>
         </Popup>
       </td>
+      <td className='mini top'>
+        <LinkPolkascan
+          className='ui--AddressCard-exporer-link'
+          data={address}
+          type='address'
+          withShort
+        />
+      </td>
     </tr>
-  );
-
-  // FIXME It is a bit heavy-handled switching of being editable here completely
-  // (and removing the tags, however the keyring cannot save these)
-  return (
-    <AddressCard
-      buttons={
-        <div className='accounts--Account-buttons buttons'>
-          <div className='actions'>
-
-          </div>
-        </div>
-      }
-      className={className}
-      isEditable={isEditable}
-      type='account'
-      value={address}
-      withExplorer
-      withIndexOrAddress={false}
-      withTags
-    >
-      {address && (
-        <>
-          {isBackupOpen && (
-            <Backup
-              address={address}
-              key='modal-backup-account'
-              onClose={_toggleBackup}
-            />
-          )}
-          {isDeriveOpen && (
-            <Derive
-              from={address}
-              key='modal-derive-account'
-              onClose={_toggleDerive}
-            />
-          )}
-          {isForgetOpen && (
-            <Forget
-              address={address}
-              onForget={_onForget}
-              key='modal-forget-account'
-              onClose={_toggleForget}
-            />
-          )}
-          {isPasswordOpen && (
-            <ChangePass
-              address={address}
-              key='modal-change-pass'
-              onClose={_togglePass}
-            />
-          )}
-          {isTransferOpen && (
-            <Transfer
-              key='modal-transfer'
-              onClose={_toggleTransfer}
-              senderId={address}
-            />
-          )}
-        </>
-      )}
-      <AddressInfo
-        address={address}
-        withBalance
-        withExtended
-      />
-    </AddressCard>
   );
 }
 
@@ -284,6 +311,20 @@ export default translate(
   styled(Account)`
     .accounts--Account-buttons {
       text-align: right;
+    }
+
+    .tags--toggle {
+      cursor: pointer;
+      width: 100%;
+      min-height: 1.5rem;
+
+      label {
+        cursor: pointer;
+      }
+    }
+
+    .name--input {
+      width: 16rem;
     }
   `
 );

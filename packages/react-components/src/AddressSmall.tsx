@@ -13,10 +13,13 @@ import IdentityIcon from './IdentityIcon';
 interface Props {
   className?: string;
   defaultName?: string;
+  onClickName?: () => void;
+  overrideName?: React.ReactNode;
+  toggle?: any;
   value?: string | Address | AccountId;
 }
 
-function AddressSmall ({ className, defaultName, value }: Props): React.ReactElement<Props> {
+function AddressSmall ({ className, defaultName, onClickName, overrideName, toggle, value }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon
@@ -24,7 +27,14 @@ function AddressSmall ({ className, defaultName, value }: Props): React.ReactEle
         value={value}
       />
       <div className='nameInfo'>
-        <AccountName defaultName={defaultName} params={value} />
+        <AccountName
+          className={(overrideName || !onClickName) ? '' : 'name--clickable'}
+          defaultName={defaultName}
+          override={overrideName}
+          onClick={onClickName}
+          params={value}
+          toggle={toggle}
+        />
         <AccountIndex params={value} />
       </div>
     </div>
@@ -34,6 +44,10 @@ function AddressSmall ({ className, defaultName, value }: Props): React.ReactEle
 export default styled(AddressSmall)`
   vertical-align: middle;
   white-space: nowrap;
+
+  .name--clickable {
+    cursor: pointer;
+  }
 
   .ui--IdentityIcon,
   .nameInfo {
@@ -45,9 +59,11 @@ export default styled(AddressSmall)`
     margin-right: 0.75rem;
   }
 
-  .nameInfo > div {
-    max-width: 16rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .nameInfo {
+    > div {
+      max-width: 16rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `;

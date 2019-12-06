@@ -14,7 +14,10 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
   label?: React.ReactNode;
+  onClick?: () => void;
+  override?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | null;
+  toggle?: any;
   withShort?: boolean;
 }
 
@@ -40,7 +43,7 @@ function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | 
   return extracted;
 }
 
-export default function AccountName ({ children, className, defaultName, label = '', params, style, withShort }: Props): React.ReactElement<Props> {
+export default function AccountName ({ children, className, defaultName, label = '', onClick, override, params, style, toggle, withShort }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useStream<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
   const [name, setName] = useState(defaultOrAddr(defaultName, params));
@@ -56,14 +59,19 @@ export default function AccountName ({ children, className, defaultName, label =
     } else {
       setName(defaultOrAddr(defaultName, accountId || params, withShort ? null : accountIndex));
     }
-  }, [info]);
+  }, [info, toggle]);
 
   return (
     <div
       className={className}
+      onClick={
+        override
+          ? undefined
+          : onClick
+      }
       style={style}
     >
-      {label}{name}{children}
+      {label}{override || name}{children}
     </div>
   );
 }
