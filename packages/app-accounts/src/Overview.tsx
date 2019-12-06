@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
 import { useAccounts } from '@polkadot/react-hooks';
-import { Button, CardGrid } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
@@ -34,58 +34,20 @@ async function queryLedger (): Promise<void> {
   }
 }
 
-function Overview ({ onStatusChange, t }: Props): React.ReactElement<Props> {
+function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
   const { allAccounts, hasAccounts } = useAccounts();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
-  const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && !hasAccounts;
+  // const emptyScreen = !(isCreateOpen || isImportOpen || isQrOpen) && !hasAccounts;
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
   const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
   const _toggleQr = (): void => setIsQrOpen(!isQrOpen);
 
   return (
-    <CardGrid
-      banner={<Banner />}
-      buttons={
-        <Button.Group>
-          <Button
-            icon='add'
-            isPrimary
-            label={t('Add account')}
-            onClick={_toggleCreate}
-          />
-          <Button.Or />
-          <Button
-            icon='sync'
-            isPrimary
-            label={t('Restore JSON')}
-            onClick={_toggleImport}
-          />
-          <Button.Or />
-          <Button
-            icon='qrcode'
-            isPrimary
-            label={t('Add via Qr')}
-            onClick={_toggleQr}
-          />
-          {isLedger() && (
-            <>
-              <Button.Or />
-              <Button
-                icon='question'
-                isPrimary
-                label={t('Query Ledger')}
-                onClick={queryLedger}
-              />
-            </>
-          )}
-        </Button.Group>
-      }
-      isEmpty={emptyScreen}
-      emptyText={t('No account yet?')}
-    >
+    <div className={className}>
+      <Banner />
       {isCreateOpen && (
         <CreateModal
           onClose={_toggleCreate}
@@ -104,13 +66,55 @@ function Overview ({ onStatusChange, t }: Props): React.ReactElement<Props> {
           onStatusChange={onStatusChange}
         />
       )}
-      {allAccounts.map((address): React.ReactNode => (
-        <Account
-          address={address}
-          key={address}
+      <Button.Group>
+        <Button
+          icon='add'
+          isPrimary
+          label={t('Add account')}
+          onClick={_toggleCreate}
         />
-      ))}
-    </CardGrid>
+        <Button.Or />
+        <Button
+          icon='sync'
+          isPrimary
+          label={t('Restore JSON')}
+          onClick={_toggleImport}
+        />
+        <Button.Or />
+        <Button
+          icon='qrcode'
+          isPrimary
+          label={t('Add via Qr')}
+          onClick={_toggleQr}
+        />
+        {isLedger() && (
+          <>
+            <Button.Or />
+            <Button
+              icon='question'
+              isPrimary
+              label={t('Query Ledger')}
+              onClick={queryLedger}
+            />
+          </>
+        )}
+      </Button.Group>
+      {hasAccounts
+        ? (
+          <Table>
+            <Table.Body>
+              {allAccounts.map((address): React.ReactNode => (
+                <Account
+                  address={address}
+                  key={address}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('no accounts yet, create or import and existing')
+      }
+    </div>
   );
 }
 

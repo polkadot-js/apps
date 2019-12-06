@@ -343,7 +343,7 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
           onChange={this.onChangeTags}
           onClose={this.saveTags}
           openOnFocus
-          defaultValue = {tags}
+          defaultValue={tags}
           searchInput={{ autoFocus: true }}
           value={tags}
           withLabel={false}

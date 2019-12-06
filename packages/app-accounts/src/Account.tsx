@@ -7,7 +7,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, AddressSmall, Button, ChainLock, Forget, Label, Menu, Popup } from '@polkadot/react-components';
+import { getAddressTags } from '@polkadot/react-components/util';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
@@ -24,6 +25,7 @@ interface Props extends I18nProps {
 
 function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   const api = useApi();
+  const [tags] = useState<string[]>(getAddressTags(address));
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
@@ -77,6 +79,102 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
     setGenesisHash(genesisHash);
   };
 
+  return (
+    <tr className={className}>
+      <td className='top'>
+        <AddressSmall value={address} />
+      </td>
+      <td className='top'>
+        {tags.map((tag): React.ReactNode => (
+          <Label key={tag} size='tiny' color='grey'>{tag}</Label>
+        ))}
+      </td>
+      <td className='top'>
+        <AddressInfo
+          address={address}
+          withBalance
+          withBalanceToggle
+          withExtended={false}
+        />
+      </td>
+      <td className='top'>
+        <AddressInfo
+          address={address}
+          withBalance={false}
+          withExtended
+        />
+      </td>
+      <td className='number top'>
+        <Button
+          icon='paper plane'
+          isPrimary
+          label={t('send')}
+          onClick={_toggleTransfer}
+          size='small'
+          tooltip={t('Send funds from this account')}
+        />
+        <Popup
+          className='theme--default'
+          onClose={_toggleSettingPopup}
+          open={isSettingPopupOpen}
+          position='bottom right'
+          trigger={
+            <Button
+              icon='setting'
+              onClick={_toggleSettingPopup}
+              size='small'
+            />
+          }
+        >
+          <Menu
+            vertical
+            text
+            onClick={_toggleSettingPopup}
+          >
+            <Menu.Item
+              disabled={!isEditable || isExternal}
+              onClick={_toggleDerive}
+            >
+              {t('Derive account from source')}
+            </Menu.Item>
+            <Menu.Item disabled>
+              {t('Change on-chain nickname')}
+            </Menu.Item>
+            <Menu.Item
+              disabled={!isEditable || isExternal || isDevelopment}
+              onClick={_toggleBackup}
+            >
+              {t('Create a backup file for this account')}
+            </Menu.Item>
+            <Menu.Item
+              disabled={!isEditable || isExternal || isDevelopment}
+              onClick={_togglePass}
+            >
+              {t("Change this account's password")}
+            </Menu.Item>
+            <Menu.Item
+              disabled={!isEditable || isDevelopment}
+              onClick={_toggleForget}
+            >
+              {t('Forget this account')}
+            </Menu.Item>
+            {!api.isDevelopment && (
+              <>
+                <Menu.Divider />
+                <ChainLock
+                  className='accounts--network-toggle'
+                  genesisHash={genesisHash}
+                  onChange={_onGenesisChange}
+                  preventDefault
+                />
+              </>
+            )}
+          </Menu>
+        </Popup>
+      </td>
+    </tr>
+  );
+
   // FIXME It is a bit heavy-handled switching of being editable here completely
   // (and removing the tags, however the keyring cannot save these)
   return (
@@ -84,72 +182,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       buttons={
         <div className='accounts--Account-buttons buttons'>
           <div className='actions'>
-            <Button
-              icon='paper plane'
-              isPrimary
-              label={t('send')}
-              onClick={_toggleTransfer}
-              size='small'
-              tooltip={t('Send funds from this account')}
-            />
-            <Popup
-              className='theme--default'
-              onClose={_toggleSettingPopup}
-              open={isSettingPopupOpen}
-              position='bottom right'
-              trigger={
-                <Button
-                  icon='setting'
-                  onClick={_toggleSettingPopup}
-                  size='small'
-                />
-              }
-            >
-              <Menu
-                vertical
-                text
-                onClick={_toggleSettingPopup}
-              >
-                <Menu.Item
-                  disabled={!isEditable || isExternal}
-                  onClick={_toggleDerive}
-                >
-                  {t('Derive account from source')}
-                </Menu.Item>
-                <Menu.Item disabled>
-                  {t('Change on-chain nickname')}
-                </Menu.Item>
-                <Menu.Item
-                  disabled={!isEditable || isExternal || isDevelopment}
-                  onClick={_toggleBackup}
-                >
-                  {t('Create a backup file for this account')}
-                </Menu.Item>
-                <Menu.Item
-                  disabled={!isEditable || isExternal || isDevelopment}
-                  onClick={_togglePass}
-                >
-                  {t("Change this account's password")}
-                </Menu.Item>
-                <Menu.Item
-                  disabled={!isEditable || isDevelopment}
-                  onClick={_toggleForget}
-                >
-                  {t('Forget this account')}
-                </Menu.Item>
-                {!api.isDevelopment && (
-                  <>
-                    <Menu.Divider />
-                    <ChainLock
-                      className='accounts--network-toggle'
-                      genesisHash={genesisHash}
-                      onChange={_onGenesisChange}
-                      preventDefault
-                    />
-                  </>
-                )}
-              </Menu>
-            </Popup>
+
           </div>
         </div>
       }
