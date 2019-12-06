@@ -42,6 +42,8 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
+  const _setTags = (tags: string[]): void => setTags(tags.sort());
+
   useEffect((): void => {
     const account = keyring.getAccount(address);
 
@@ -51,7 +53,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
       isEditable: (account && !(account.meta.isInjected || account.meta.isHardware)) || false,
       isExternal: (account && account.meta.isExternal) || false
     });
-    setTags(account?.meta?.tags || []);
+    _setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
   }, [address]);
 
@@ -209,7 +211,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
           ? (
             <InputTags
               onBlur={_saveTags}
-              onChange={setTags}
+              onChange={_setTags}
               onClose={_saveTags}
               openOnFocus
               defaultValue={tags}

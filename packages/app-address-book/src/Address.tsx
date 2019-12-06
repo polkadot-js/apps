@@ -43,6 +43,8 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
+  const _setTags = (tags: string[]): void => setTags(tags.sort());
+
   useEffect((): void => {
     const current = keyring.getAddress(address);
 
@@ -53,7 +55,7 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
   useEffect((): void => {
     const account = keyring.getAddress(address);
 
-    setTags(account?.meta?.tags || []);
+    _setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
   }, [address]);
 
@@ -192,7 +194,7 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
           ? (
             <InputTags
               onBlur={_saveTags}
-              onChange={setTags}
+              onChange={_setTags}
               onClose={_saveTags}
               openOnFocus
               defaultValue={tags}

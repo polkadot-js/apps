@@ -33,7 +33,7 @@ interface Props extends BareProps {
 }
 
 function loadTags (): string[] {
-  return store.get('tags') || ['Default'];
+  return (store.get('tags') || ['Default']).sort();
 }
 
 function valueToOption (value: string): Option {
@@ -44,11 +44,12 @@ const tags = loadTags();
 const options = tags.map(valueToOption);
 
 function saveTags (tags: string[]): void {
-  store.set('tags', tags);
+  store.set('tags', tags.sort());
 }
 
 function onAddTag (value: string): void {
   tags.push(value);
+
   options.push(valueToOption(value));
 
   saveTags(tags);
