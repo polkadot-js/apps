@@ -6,9 +6,9 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState, useEffect } from 'react';
+import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressSmall, Button, ChainLock, Forget, Label, Menu, Popup } from '@polkadot/react-components';
-import { getAddressTags } from '@polkadot/react-components/util';
+import { AddressCard, AddressInfo, AddressSmall, Button, ChainLock, Forget, Menu, Popup } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
@@ -25,7 +25,7 @@ interface Props extends I18nProps {
 
 function Account ({ address, className, t }: Props): React.ReactElement<Props> {
   const api = useApi();
-  const [tags] = useState<string[]>(getAddressTags(address));
+  const [tags, setTags] = useState<string[]>([]);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
@@ -44,6 +44,7 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
       isEditable: (account && !(account.meta.isInjected || account.meta.isHardware)) || false,
       isExternal: (account && account.meta.isExternal) || false
     });
+    setTags(account?.meta?.tags || []);
   }, [address]);
 
   const _toggleBackup = (): void => setIsBackupOpen(!isBackupOpen);
@@ -83,6 +84,42 @@ function Account ({ address, className, t }: Props): React.ReactElement<Props> {
     <tr className={className}>
       <td className='top'>
         <AddressSmall value={address} />
+        {isBackupOpen && (
+          <Backup
+            address={address}
+            key='modal-backup-account'
+            onClose={_toggleBackup}
+          />
+        )}
+        {isDeriveOpen && (
+          <Derive
+            from={address}
+            key='modal-derive-account'
+            onClose={_toggleDerive}
+          />
+        )}
+        {isForgetOpen && (
+          <Forget
+            address={address}
+            onForget={_onForget}
+            key='modal-forget-account'
+            onClose={_toggleForget}
+          />
+        )}
+        {isPasswordOpen && (
+          <ChangePass
+            address={address}
+            key='modal-change-pass'
+            onClose={_togglePass}
+          />
+        )}
+        {isTransferOpen && (
+          <Transfer
+            key='modal-transfer'
+            onClose={_toggleTransfer}
+            senderId={address}
+          />
+        )}
       </td>
       <td className='top'>
         {tags.map((tag): React.ReactNode => (
