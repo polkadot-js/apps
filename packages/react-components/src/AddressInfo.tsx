@@ -51,6 +51,7 @@ interface Props extends BareProps, I18nProps {
   extraInfo?: [string, string][];
   stakingInfo?: DerivedStaking;
   withBalance?: boolean | BalanceActiveType;
+  withBalanceToggle?: false;
   withExtended?: boolean | CryptoActiveType;
   withHexSessionId?: (string | null)[];
   withRewardDestination?: boolean;
@@ -237,7 +238,7 @@ function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: P
 }
 
 function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
-  const { balancesAll, stakingInfo, t, withBalance = true } = props;
+  const { balancesAll, stakingInfo, t, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -249,7 +250,7 @@ function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const controllerId = stakingInfo?.controllerId?.toString();
 
-  return (
+  const allItems = (
     <>
       {balancesAll && balanceDisplay.total && (
         <>
@@ -344,15 +345,39 @@ function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
       )}
     </>
   );
+
+  if (withBalanceToggle) {
+    return (
+      <>
+        <label>{t('balances')}</label>
+        <details>
+          <summary>
+            <div className='body'>
+              <FormatBalance value={balancesAll?.votingBalance} />
+            </div>
+          </summary>
+          <div className='body column'>
+            {allItems}
+          </div>
+        </details>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {allItems}
+    </>
+  );
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
-  const { className, children, extraInfo, stakingInfo, t, withHexSessionId, withRewardDestination } = props;
+  const { className, children, extraInfo, stakingInfo, t, withBalanceToggle, withHexSessionId, withRewardDestination } = props;
 
   return (
-    <div className={className}>
-      <div className='column'>
+    <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
+      <div className={`column ${withBalanceToggle ? 'column--expander' : ''}`}>
         {renderBalances(props, allAccounts)}
         {withHexSessionId && withHexSessionId[0] && (
           <>
@@ -402,36 +427,62 @@ export default withMulti(
     align-items: flex-start;
     display: flex;
     flex: 1;
-    justify-content: center;
     white-space: nowrap;
 
+    &:not(.ui--AddressInfo-expander) {
+      justify-content: center;
+    }
+
     .column {
-      flex: 1;
-      display: grid;
-      opacity: 1;
+      &.column--expander {
+        text-align: left;
+        width: 15rem;
 
-      label {
-        grid-column: 1;
-        padding-right: 0.5rem;
-        text-align: right;
-        vertical-align: middle;
+        details[open] summary {
+          .body {
+            opacity: 0;
+          }
+        }
 
-        .help.circle.icon {
-          display: none;
+        details summary {
+          width: 100%;
+
+          .body {
+            display: inline-block;
+            text-align: right;
+            min-width: 12rem;
+          }
         }
       }
 
-      .result {
-        grid-column: 2;
+      &:not(.column--expander) {
+        flex: 1;
+        display: grid;
+        opacity: 1;
 
-        .icon {
-          margin-left: .3em;
-          margin-right: 0;
-          padding-right: 0 !important;
+        label {
+          grid-column: 1;
+          padding-right: 0.5rem;
+          text-align: right;
+          vertical-align: middle;
+
+          .help.circle.icon {
+            display: none;
+          }
         }
 
-        button.ui.icon.primary.button.icon-button {
-          background: white !important;
+        .result {
+          grid-column: 2;
+
+          .icon {
+            margin-left: .3em;
+            margin-right: 0;
+            padding-right: 0 !important;
+          }
+
+          button.ui.icon.primary.button.icon-button {
+            background: white !important;
+          }
         }
       }
     }

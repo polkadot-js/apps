@@ -57,7 +57,6 @@ export default styled(Table)`
   margin-bottom: 1.5rem;
 
   table {
-    /* border-collapse: collapse; */
     border-collapse: separate;
     border-spacing: 0 0.25rem;
     width: 100%;
@@ -78,6 +77,10 @@ export default styled(Table)`
       &:hover {
         label {
           opacity: 1;
+        }
+
+        td {
+          border-color: #ccc;
         }
       }
 
@@ -144,6 +147,10 @@ export default styled(Table)`
 
         i.icon {
           cursor: pointer;
+        }
+
+        &.mini {
+          padding: 0 0.75rem 0 0;
         }
 
         &:first-child {

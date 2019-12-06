@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import translate from './translate';
+import Icon from './Icon';
 
 export type LinkTypes = 'address' | 'block' | 'extrinsic';
 
@@ -16,6 +17,7 @@ interface Props extends I18nProps {
   className?: string;
   data: string;
   type: LinkTypes;
+  withShort?: boolean;
 }
 
 const BASE = 'https://polkascan.io/pre/';
@@ -34,7 +36,7 @@ const TYPES: Record<string, string> = {
   extrinsic: '/system/extrinsic/'
 };
 
-function LinkPolkascan ({ className, data, t, type }: Props): React.ReactElement<Props> | null {
+function LinkPolkascan ({ className, data, t, type, withShort }: Props): React.ReactElement<Props> | null {
   const { systemChain } = useApi();
   const extChain = CHAINS[systemChain];
   const extType = TYPES[type];
@@ -44,13 +46,16 @@ function LinkPolkascan ({ className, data, t, type }: Props): React.ReactElement
   }
 
   return (
-    <div className={className}>
+    <div className={`${className} ${withShort ? 'withShort' : ''}`}>
       <a
         href={`${BASE}${extChain}${extType}${data}`}
         rel='noopener noreferrer'
         target='_blank'
       >
-        {t('View this {{type}} on Polkascan.io', { replace: { type } })}
+        {withShort
+          ? <Icon name='external' />
+          : t('View this {{type}} on Polkascan.io', { replace: { type } })
+        }
       </a>
     </div>
   );
