@@ -4,16 +4,16 @@
 
 import { Routes } from './types';
 
-import Operator from '@polkadot/app-operator';
+import ChangeOperator from '@polkadot/app-accounts/modals/ChangeOperator';
 
 export default ([
   {
-    Component: Operator,
+    Modal: ChangeOperator,
     display: {
       isHidden: false,
       needsAccounts: true,
       needsApi: [
-        'tx.operator.instantiate'
+        'tx.operator.changeOperator'
       ]
     },
     i18n: {

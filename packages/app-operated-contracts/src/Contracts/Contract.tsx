@@ -14,6 +14,9 @@ import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/react-components';
 
 import translate from '../translate';
+import { useApi } from '@polkadot/react-hooks';
+import AccountId from '@polkadot/types/primitive/Generic/AccountId';
+import { Codec } from '@polkadot/types/types';
 
 interface Props extends I18nProps, RouteComponentProps {
   basePath: string;
@@ -29,11 +32,21 @@ const ContractCard = styled(Card)`
 `;
 
 function Contract (props: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const { contract: { abi, address }, onCall, t } = props;
+  const [operatorId, setOperatorId] = useState<string | null>(null);
 
   if (!address || !abi) {
     return null;
   }
+  console.log('address', address)
+  api.query.operator
+    .contractHasOperator<AccountId & Codec>(address.toString())
+    .then((operator): void => {
+      console.log('operator', operator)
+      setOperatorId(operator.toString());
+    });
+  console.log('operatorId', operatorId)
 
   const [isForgetOpen, setIsForgetOpen] = useState(false);
 
@@ -100,6 +113,13 @@ function Contract (props: Props): React.ReactElement<Props> | null {
         withNonce={false}
         withTags
       >
+        {!!operatorId &&(
+          <AddressRow
+            value={operatorId}
+            isInline
+            label={t('operator')}
+          />
+        )}
         <details>
           <summary>{t('Messages')}</summary>
           <Messages

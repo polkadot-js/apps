@@ -150,7 +150,7 @@ class Deploy extends ContractModal<Props, State> {
 
   protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
-    const { codeHash, constructorIndex, constructOptions, contractAbi, endowment, operateParameters, isAbiSupplied, isBusy, isHashValid } = this.state;
+    const { codeHash, constructorIndex, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }): { text: string; value: string } => ({
       text: `${name} (${codeHash})`,
@@ -160,9 +160,7 @@ class Deploy extends ContractModal<Props, State> {
     const defaultCode = codeOptions.length
       ? codeOptions[codeOptions.length - 1].value
       : undefined;
-
-      console.log('contractAbi', contractAbi);
-    console.log('operateParameters', operateParameters);
+    
     return (
       <>
         {this.renderInputAccount()}

@@ -19,8 +19,6 @@
       "@polkadot/app-contracts/*": [ "packages/app-contracts/src/*" ],
       "@polkadot/app-operated-contracts": [ "packages/app-operated-contracts/src" ],
       "@polkadot/app-operated-contracts/*": [ "packages/app-operated-contracts/src/*" ],
-      "@polkadot/app-operator": [ "packages/app-operator/src" ],
-      "@polkadot/app-operator/*": [ "packages/app-operator/src/*" ],
       "@polkadot/app-council": [ "packages/app-council/src" ],
       "@polkadot/app-council/*": [ "packages/app-council/src/*" ],
       "@polkadot/app-dashboard": [ "packages/app-dashboard/src" ],

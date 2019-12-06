@@ -671,5 +671,8 @@
   "Update parameters": "",
   "The opeartor account address": "",
   "operator": "",
-  "Make update parameters": ""
+  "Make update parameters": "",
+  "The account you will change operator authorship.": "",
+  "change from account": "",
+  "ChangeOperator": ""
 }
