@@ -294,5 +294,19 @@ export default translate(
     .addresses--Address-buttons {
       text-align: right;
     }
+
+    .tags--toggle {
+      cursor: pointer;
+      width: 100%;
+      min-height: 1.5rem;
+
+      label {
+        cursor: pointer;
+      }
+    }
+
+    .name--input {
+      width: 16rem;
+    }
   `
 );
