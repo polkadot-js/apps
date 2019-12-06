@@ -91,5 +91,8 @@
   "derivation path": "derivation path",
   "//hard/soft": "//hard/soft",
   "Unlock": "Unlock",
-  "transferrable": "transferrable"
+  "transferrable": "transferrable",
+  "no tags": "no tags",
+  "filter by tags": "filter by tags",
+  "no accounts yet, create or import and existing": "no accounts yet, create or import and existing"
 }

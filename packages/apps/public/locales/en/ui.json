@@ -702,5 +702,10 @@
   "enact at": "",
   "dispatch queue": "",
   "nothing queued to be executed": "",
-  "Seconds ({{count}})": ""
+  "Seconds ({{count}})": "",
+  "no tags": "",
+  "filter by tags": "",
+  "no accounts yet, create or import and existing": "",
+  "no addresses yet add and existring contact": "",
+  "balances": ""
 }

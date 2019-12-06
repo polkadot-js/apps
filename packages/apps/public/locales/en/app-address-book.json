@@ -15,5 +15,8 @@
   "Save": "Save",
   "Add contact": "Add contact",
   "No contacts found.": "No contacts found.",
-  "new address": "new address"
+  "new address": "new address",
+  "no tags": "no tags",
+  "filter by tags": "filter by tags",
+  "no addresses yet add and existring contact": "no addresses yet add and existring contact"
 }
