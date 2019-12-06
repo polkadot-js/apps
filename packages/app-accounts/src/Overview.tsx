@@ -6,10 +6,11 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
 import { useAccounts, useFavorites } from '@polkadot/react-hooks';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, InputTags, Table } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
@@ -45,6 +46,7 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
 
   useEffect((): void => {
     setSortedAccounts(
@@ -120,18 +122,29 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
       </Button.Group>
       {hasAccounts
         ? (
-          <Table>
-            <Table.Body>
-              {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
-                <Account
-                  address={address}
-                  isFavorite={isFavorite}
-                  key={address}
-                  toggleFavorite={toggleFavorite}
-                />
-              ))}
-            </Table.Body>
-          </Table>
+          <>
+            <div className='filter--tags'>
+              <InputTags
+                label={t('filter by tags')}
+                onChange={setTags}
+                defaultValue={tags}
+                value={tags}
+              />
+            </div>
+            <Table>
+              <Table.Body>
+                {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
+                  <Account
+                    address={address}
+                    allowTags={tags}
+                    isFavorite={isFavorite}
+                    key={address}
+                    toggleFavorite={toggleFavorite}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          </>
         )
         : t('no accounts yet, create or import and existing')
       }
@@ -139,4 +152,16 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
   );
 }
 
-export default translate(Overview);
+export default translate(
+  styled(Overview)`
+    .filter--tags {
+      .ui--Dropdown {
+        padding-left: 0;
+
+        label {
+          left: 1.55rem;
+        }
+      }
+    }
+  `
+);

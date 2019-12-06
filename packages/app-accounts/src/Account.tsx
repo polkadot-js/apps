@@ -20,12 +20,13 @@ import translate from './translate';
 
 interface Props extends I18nProps {
   address: string;
+  allowTags: string[];
   className?: string;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;
 }
 
-function Account ({ address, className, isFavorite, t, toggleFavorite }: Props): React.ReactElement<Props> {
+function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const api = useApi();
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
@@ -39,6 +40,7 @@ function Account ({ address, className, isFavorite, t, toggleFavorite }: Props):
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect((): void => {
     const account = keyring.getAccount(address);
@@ -52,6 +54,22 @@ function Account ({ address, className, isFavorite, t, toggleFavorite }: Props):
     setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
   }, [address]);
+
+  useEffect((): void => {
+    if (allowTags.length === 0) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(
+        allowTags.reduce((result: boolean, tag: string): boolean => {
+          return result || tags.includes(tag);
+        }, false)
+      );
+    }
+  }, [allowTags, tags]);
+
+  if (!isVisible) {
+    return null;
+  }
 
   const _toggleEditName = (): void => setIsEditingName(!isEditingName);
   const _toggleEditTags = (): void => setIsEditingTags(!isEditingTags);
