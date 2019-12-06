@@ -125,6 +125,7 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
           <>
             <div className='filter--tags'>
               <InputTags
+                allowAdd={false}
                 label={t('filter by tags')}
                 onChange={setTags}
                 defaultValue={tags}

@@ -54,10 +54,10 @@ function onAddTag (value: string): void {
   saveTags(tags);
 }
 
-export default function InputTags ({ className, defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
+export default function InputTags ({ allowAdd = true, className, defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
-      allowAdd={!isDisabled}
+      allowAdd={allowAdd && !isDisabled}
       className={className}
       defaultValue={defaultValue}
       help={help}
