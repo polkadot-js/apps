@@ -228,7 +228,7 @@ class Account extends React.PureComponent<Props, State> {
         </div>
         {nominees && !!nominees.length && (
           <details className='staking--Account-Nominations'>
-            <summary>{t('Nominating {{count}}', { replace: { count: nominees.length } })}</summary>
+            <summary>{t('Nominating ({{count}})', { replace: { count: nominees.length } })}</summary>
             {nominees.map((nomineeId, index): React.ReactNode => (
               <AddressMini
                 key={index}
