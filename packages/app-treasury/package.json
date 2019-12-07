@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-treasury",
-  "version": "0.38.0-beta.43",
+  "version": "0.38.0-beta.44",
   "description": "A referendum & proposal app",
   "main": "index.js",
   "scripts": {},
@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.5",
-    "@polkadot/react-components": "^0.38.0-beta.43",
-    "@polkadot/react-query": "^0.38.0-beta.43"
+    "@polkadot/react-components": "^0.38.0-beta.44",
+    "@polkadot/react-query": "^0.38.0-beta.44"
   }
 }

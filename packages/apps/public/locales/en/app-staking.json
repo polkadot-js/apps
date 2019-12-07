@@ -145,5 +145,6 @@
   "last #": "last #",
   "total stake": "total stake",
   "payout (est.)": "payout (est.)",
-  "Nominating {{count}}": "Nominating {{count}}"
+  "Nominating {{count}}": "Nominating {{count}}",
+  "Nominating ({{count}})": "Nominating ({{count}})"
 }

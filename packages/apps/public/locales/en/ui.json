@@ -707,5 +707,6 @@
   "filter by tags": "",
   "no accounts yet, create or import and existing": "",
   "no addresses yet add and existring contact": "",
-  "balances": ""
+  "balances": "",
+  "Nominating ({{count}})": ""
 }
