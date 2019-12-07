@@ -18,8 +18,8 @@ interface TrackFn <T> {
 // tracks a promise, typically an api.* call (query, query.at, rpc) that
 //  - returns a promise with the value
 // FIXME The typings here need some serious TLC
-export default function usePromise <T> (fn: TrackFn<T> | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
-  const [value, setValue] = useState<T | undefined>();
+export default function usePromise <T> (fn: TrackFn<T> | undefined, params: Params, { defaultValue, paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
+  const [value, setValue] = useState<T | undefined>(defaultValue);
   const tracker = useRef<{ serialized: string | null }>({ serialized: null });
 
   const _subscribe = (params: Params): void => {
@@ -34,12 +34,14 @@ export default function usePromise <T> (fn: TrackFn<T> | undefined, params: Para
 
   // on changes, re-get
   useEffect((): void => {
-    const [serialized, mappedParams] = extractParams(fn, params, paramMap);
+    if (fn) {
+      const [serialized, mappedParams] = extractParams(fn, params, paramMap);
 
-    if (mappedParams && serialized !== tracker.current.serialized) {
-      tracker.current.serialized = serialized;
+      if (mappedParams && serialized !== tracker.current.serialized) {
+        tracker.current.serialized = serialized;
 
-      _subscribe(mappedParams);
+        _subscribe(mappedParams);
+      }
     }
   }, [fn, params]);
 

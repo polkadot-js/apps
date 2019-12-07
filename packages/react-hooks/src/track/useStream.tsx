@@ -32,8 +32,8 @@ interface TrackFn {
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export default function useStream <T> (fn: TrackFn | undefined, params: Params, { paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
-  const [value, setValue] = useState<T | undefined>();
+export default function useStream <T> (fn: TrackFn | undefined, params: Params, { defaultValue, paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
+  const [value, setValue] = useState<T | undefined>(defaultValue);
   const tracker = useRef<{ serialized: string | null; subscriber: TrackFnResult }>({ serialized: null, subscriber: dummyPromise });
 
   const _unsubscribe = (): void => {
@@ -54,14 +54,21 @@ export default function useStream <T> (fn: TrackFn | undefined, params: Params, 
     });
   };
 
+  // initial effect, we need an unsubscription
+  useEffect((): () => void => {
+    return _unsubscribe;
+  }, [fn, params]);
+
   // on changes, re-subscribe
   useEffect((): void => {
-    const [serialized, mappedParams] = extractParams(fn, params, paramMap);
+    if (fn) {
+      const [serialized, mappedParams] = extractParams(fn, params, paramMap);
 
-    if (mappedParams && serialized !== tracker.current.serialized) {
-      tracker.current.serialized = serialized;
+      if (mappedParams && serialized !== tracker.current.serialized) {
+        tracker.current.serialized = serialized;
 
-      _subscribe(mappedParams);
+        _subscribe(mappedParams);
+      }
     }
   }, [fn, params]);
 
