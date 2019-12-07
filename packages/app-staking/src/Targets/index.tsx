@@ -5,7 +5,7 @@
 import { DerivedStakingElected } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Exposure, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import { ComponentProps } from '../types';
+import { SessionRewards } from '../types';
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
@@ -21,7 +21,8 @@ import Validator from './Validator';
 
 const PERBILL = new BN(1000000000);
 
-interface Props extends I18nProps, ComponentProps {
+interface Props extends I18nProps {
+  sessionRewards: SessionRewards[];
 }
 
 interface AllInfo {

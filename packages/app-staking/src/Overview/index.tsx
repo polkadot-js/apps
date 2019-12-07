@@ -2,52 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { BareProps } from '@polkadot/react-components/types';
-import { ComponentProps } from '../types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import CurrentList from './CurrentList';
-import Summary from './Summary';
 
-interface Props extends BareProps, ComponentProps {}
+interface Props extends BareProps {
+  hasQueries: boolean;
+  isVisible: boolean;
+  recentlyOnline?: DerivedHeartbeats;
+  next: string[];
+  stakingOverview?: DerivedStakingOverview;
+}
 
-export default function Overview ({ allControllers, hasQueries, allStashes, className, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
-  const { isSubstrateV2 } = useApi();
+export default function Overview ({ hasQueries, isVisible, className, recentlyOnline, next, stakingOverview }: Props): React.ReactElement<Props> {
   const { pathname } = useLocation();
-  const { byAuthor, lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
-  const [next, setNext] = useState<string[]>([]);
-  const validators = stakingOverview && stakingOverview.validators;
+  const { byAuthor, lastBlockAuthors } = useContext(BlockAuthorsContext);
   const isIntentions = pathname !== '/staking';
 
-  useEffect((): void => {
-    validators && setNext(
-      isSubstrateV2
-        // this is a V2 node currentValidators is a list of stashes
-        ? allStashes.filter((address): boolean => !validators.includes(address as any))
-        // this is a V1 node currentValidators is a list of controllers
-        : allControllers.filter((address): boolean => !validators.includes(address as any))
-    );
-  }, [allControllers, allStashes, validators]);
-
   return (
-    <div className={`staking--Overview ${className}`}>
-      {!isIntentions && (
-        <Summary
-          allControllers={allControllers}
-          lastBlock={lastBlockNumber}
-          lastAuthors={lastBlockAuthors}
-          next={next}
-          stakingOverview={stakingOverview}
-        />
-      )}
+    <div className={`staking--Overview ${className} ${!isVisible && 'staking--hidden'}`}>
       <CurrentList
         authorsMap={byAuthor}
         hasQueries={hasQueries}
         isIntentions={isIntentions}
+        isVisible={isVisible}
         lastAuthors={lastBlockAuthors}
         next={next}
         recentlyOnline={recentlyOnline}

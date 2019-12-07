@@ -4,10 +4,9 @@
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
-import { ComponentProps } from './types';
+import { AccountId } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -19,6 +18,7 @@ import { useStream, useAccounts, useApi } from '@polkadot/react-hooks';
 import basicMd from './md/basic.md';
 import Actions from './Actions';
 import Overview from './Overview';
+import Summary from './Overview/Summary';
 import Query from './Query';
 import Targets from './Targets';
 import { MAX_SESSIONS } from './constants';
@@ -41,31 +41,27 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
 }
 
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
+  const { api, isSubstrateV2 } = useApi();
+  const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
+  const [next, setNext] = useState<string[]>([]);
   const stakingControllers = useStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
-  const bestNumber = useStream<BlockNumber>(api.derive.chain.bestNumber, []);
   const recentlyOnline = useStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
   const stakingOverview = useStream<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
-
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
-  const _renderComponent = (Component: React.ComponentType<ComponentProps>, className?: string): React.ReactNode => (
-    <Component
-      allAccounts={allAccounts}
-      allControllers={allControllers}
-      allStashes={allStashes}
-      bestNumber={bestNumber}
-      className={className}
-      hasAccounts={hasAccounts}
-      hasQueries={hasQueries}
-      recentlyOnline={recentlyOnline}
-      sessionRewards={sessionRewards}
-      stakingOverview={stakingOverview}
-    />
-  );
+  const validators = stakingOverview && stakingOverview.validators;
+
+  useEffect((): void => {
+    validators && setNext(
+      isSubstrateV2
+        // this is a V2 node currentValidators is a list of stashes
+        ? allStashes.filter((address): boolean => !validators.includes(address as any))
+        // this is a V1 node currentValidators is a list of controllers
+        : allControllers.filter((address): boolean => !validators.includes(address as any))
+    );
+  }, [allControllers, allStashes, validators]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -106,13 +102,31 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
           ]}
         />
       </header>
+      <Summary
+        isVisible={pathname === basePath}
+        next={next}
+        stakingOverview={stakingOverview}
+      />
       <Switch>
-        <Route path={`${basePath}/query/:value`}>{_renderComponent(Query)}</Route>
-        <Route path={`${basePath}/query`}>{_renderComponent(Query)}</Route>
-        <Route path={`${basePath}/returns`}>{_renderComponent(Targets)}</Route>
+        <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
+          <Query sessionRewards={sessionRewards} />
+        </Route>
+        <Route path={`${basePath}/returns`}>
+          <Targets sessionRewards={sessionRewards} />
+        </Route>
       </Switch>
-      {_renderComponent(Actions, pathname === `${basePath}/actions` ? '' : 'staking--hidden')}
-      {_renderComponent(Overview, [basePath, `${basePath}/waiting`].includes(pathname) ? '' : 'staking--hidden')}
+      <Actions
+        allStashes={allStashes}
+        isVisible={pathname === `${basePath}/actions`}
+        recentlyOnline={recentlyOnline}
+      />
+      <Overview
+        hasQueries={hasQueries}
+        isVisible={[basePath, `${basePath}/waiting`].includes(pathname)}
+        recentlyOnline={recentlyOnline}
+        next={next}
+        stakingOverview={stakingOverview}
+      />
     </main>
   );
 }
