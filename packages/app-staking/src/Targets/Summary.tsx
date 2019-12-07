@@ -31,7 +31,9 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
 
   useEffect((): void => {
     if (totalInsurance) {
-      setTotal(totalInsurance.toString());
+      setTotal(
+        `${formatBalance(totalInsurance, false)}${formatBalance.calcSi(totalInsurance.toString()).value}`
+      );
     }
   }, [totalInsurance]);
 
@@ -39,7 +41,7 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
     if (totalInsurance && totalStaked?.gtn(0)) {
       setStakeInfo({
         percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`,
-        staked: totalStaked.toString()
+        staked: `${formatBalance(totalStaked, false)}${formatBalance.calcSi(totalStaked.toString()).value}`
       });
     }
   }, [totalInsurance, totalStaked]);
@@ -48,19 +50,11 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
     <SummaryBox>
       <section className='ui--media-small'>
         <CardSummary label={t('total staked')}>
-          {
-            staked
-              ? `${formatBalance(staked, false)}${formatBalance.calcSi(staked).value}`
-              : '-'
-          }
+          {staked || '-'}
         </CardSummary>
         <CardSummary label=''>/</CardSummary>
         <CardSummary label={t('total issuance')}>
-          {
-            total
-              ? `${formatBalance(total, false)}${formatBalance.calcSi(total).value}`
-              : '-'
-          }
+          {total || '-'}
         </CardSummary>
       </section>
       <CardSummary label={t('staked')}>

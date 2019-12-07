@@ -7,6 +7,7 @@ export type Param = any;
 export type Params = [] | [Param] | [Param, Param] | [Param, Param, Param];
 
 export interface Options <T> {
+  defaultValue?: T;
   paramMap?: (params: any) => Params;
   transform?: (value: any) => T;
 }

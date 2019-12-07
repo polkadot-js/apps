@@ -3,16 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useState } from 'react';
-import store from 'store';
 
 import useCacheKey from './useCacheKey';
 
 // hook for favorites with local storage
 export default function useFavorites (storageKeyBase: string): [string[], (address: string) => void] {
   const [getCache, setCache] = useCacheKey<string[]>(storageKeyBase);
-
-  // retrieve from the new style first, if not available, fallback to old-style
-  const [favorites, setFavorites] = useState<string[]>(getCache() || store.get(storageKeyBase, []));
+  const [favorites, setFavorites] = useState<string[]>(getCache() || []);
 
   const _toggleFavorite = (address: string): void =>
     setFavorites(

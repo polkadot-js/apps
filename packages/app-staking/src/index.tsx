@@ -45,13 +45,15 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [next, setNext] = useState<string[]>([]);
-  const stakingControllers = useStream<[string[], string[]]>(api.derive.staking.controllers, [], { transform: transformStakingControllers });
+  const [allStashes, allControllers] = (useStream<[string[], string[]]>(api.derive.staking.controllers, [], {
+    defaultValue: EMPTY_ALL,
+    transform: transformStakingControllers
+  }) as [string[], string[]]);
   const recentlyOnline = useStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
   const stakingOverview = useStream<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
-  const [allStashes, allControllers] = stakingControllers || EMPTY_ALL;
-  const validators = stakingOverview && stakingOverview.validators;
+  const validators = stakingOverview?.validators;
 
   useEffect((): void => {
     validators && setNext(
