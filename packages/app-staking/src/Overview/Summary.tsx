@@ -5,26 +5,27 @@
 import { DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-components';
+import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  allControllers: string[];
   className?: string;
-  lastAuthors?: string[];
-  lastBlock?: string;
+  isVisible: boolean;
   next: string[];
   stakingOverview?: DerivedStakingOverview;
 }
 
-function Summary ({ className, lastAuthors, lastBlock, next, stakingOverview, style, t }: Props): React.ReactElement<Props> {
+function Summary ({ className, isVisible, next, stakingOverview, style, t }: Props): React.ReactElement<Props> {
+  const { lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
+
   return (
     <SummaryBox
-      className={className}
+      className={`${className} ${!isVisible && 'staking--hidden'}`}
       style={style}
     >
       <section>
@@ -44,7 +45,7 @@ function Summary ({ className, lastAuthors, lastBlock, next, stakingOverview, st
           className='validator--Summary-authors'
           label={t('last block')}
         >
-          {lastAuthors && lastAuthors.map((author): React.ReactNode => (
+          {lastBlockAuthors?.map((author): React.ReactNode => (
             <IdentityIcon
               className='validator--Account-block-icon'
               key={author}
@@ -52,7 +53,7 @@ function Summary ({ className, lastAuthors, lastBlock, next, stakingOverview, st
               value={author}
             />
           ))}
-          {lastBlock}
+          {lastBlockNumber}
         </CardSummary>
       </section>
       <section>

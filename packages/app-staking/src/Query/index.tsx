@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from '../types';
+import { SessionRewards } from '../types';
 
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -12,31 +12,9 @@ import { Button, InputAddressSimple } from '@polkadot/react-components';
 import translate from '../translate';
 import Validator from './Validator';
 
-interface Props extends I18nProps, ComponentProps {
+interface Props extends I18nProps {
+  sessionRewards: SessionRewards[];
 }
-
-// const _onQuery = (): void => {
-//   if (isValid && value.length !== 0) {
-//     window.location.hash = `/explorer/query/${value}`;
-//   }
-// };
-
-// return (
-//   <FilterOverlay className={className}>
-//     <Input
-//       className='explorer--query'
-//       defaultValue={propsValue}
-//       isError={!isValid && value.length !== 0}
-//       placeholder={t('block hash or number to query')}
-//       onChange={_setHash}
-//       onEnter={_onQuery}
-//       withLabel={false}
-//     >
-//       <Button
-//         icon='play'
-//         onClick={_onQuery}
-//       />
-//     </Input>
 
 function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
   const { value } = useParams();
