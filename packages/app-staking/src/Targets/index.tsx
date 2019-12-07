@@ -200,7 +200,7 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
               help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
               label={t('amount to use for estimation')}
               onChange={setAmount}
-              value={amount}
+              value={_amount}
             />
             <Table>
               <Table.Body>
