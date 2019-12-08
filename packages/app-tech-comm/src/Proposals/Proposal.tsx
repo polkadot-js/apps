@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
@@ -21,8 +21,8 @@ interface Props extends I18nProps {
 
 function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const optProposal = useStream<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
-  const votes = useStream<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
+  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
+  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
 
   if (!optProposal?.isSome || !votes?.isSome) {
     return null;

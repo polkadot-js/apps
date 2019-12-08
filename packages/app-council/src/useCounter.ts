@@ -5,11 +5,11 @@
 import { Hash } from '@polkadot/types/interfaces';
 
 import { useState, useEffect } from 'react';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const motions = useStream<Hash[]>(isApiReady ? api.query.council?.proposals : undefined, []);
+  const motions = useCall<Hash[]>(isApiReady ? api.query.council?.proposals : undefined, []);
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {

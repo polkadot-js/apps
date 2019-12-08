@@ -18,10 +18,10 @@ interface Props extends BareProps, CallProps {
   params?: string | null;
 }
 
-export function Nonce ({ accountNonce, children, className, label = '' }: Props): React.ReactElement<Props> {
+export function Nonce ({ accountNonce, children, className, label }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      {label}{
+      {label || ''}{
         accountNonce
           ? formatNumber(accountNonce)
           : '0'

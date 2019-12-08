@@ -13,7 +13,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-export default function Chain ({ children, className, label = '', style }: Props): React.ReactElement<Props> {
+export default function Chain ({ children, className, label, style }: Props): React.ReactElement<Props> {
   const { systemChain } = useApi();
 
   return (
@@ -21,7 +21,7 @@ export default function Chain ({ children, className, label = '', style }: Props
       className={className}
       style={style}
     >
-      {label}{systemChain}{children}
+      {label || ''}{systemChain}{children}
     </div>
   );
 }

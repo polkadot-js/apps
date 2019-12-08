@@ -8,7 +8,7 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useState, useEffect } from 'react';
 import { getAddressName } from '@polkadot/react-components/util';
-import { useStream, useApi } from '@polkadot/react-hooks';
+import { useCall, useApi } from '@polkadot/react-hooks';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -43,9 +43,9 @@ function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | 
   return extracted;
 }
 
-export default function AccountName ({ children, className, defaultName, label = '', onClick, override, params, style, toggle, withShort }: Props): React.ReactElement<Props> {
+export default function AccountName ({ children, className, defaultName, label, onClick, override, params, style, toggle, withShort }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useStream<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
   const [name, setName] = useState(defaultOrAddr(defaultName, params));
 
   useEffect((): void => {
@@ -71,7 +71,7 @@ export default function AccountName ({ children, className, defaultName, label =
       }
       style={style}
     >
-      {label}{override || name}{children}
+      {label || ''}{override || name}{children}
     </div>
   );
 }

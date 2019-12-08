@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
-import { useStream, useApi } from '@polkadot/react-hooks';
+import { useCall, useApi } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
@@ -33,7 +33,7 @@ interface Props extends I18nProps {
 
 function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, menuOpen }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const runtimeVersion = useStream<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
+  const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
   const [modals, setModals] = useState<Record<string, boolean>>(
     routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {

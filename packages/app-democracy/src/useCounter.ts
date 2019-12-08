@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useState, useEffect } from 'react';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const proposals = useStream<any[]>(isApiReady ? api.derive.democracy.proposals : undefined, []);
-  const referenda = useStream<any[]>(isApiReady ? api.derive.democracy.referendums : undefined, []);
+  const proposals = useCall<any[]>(isApiReady ? api.derive.democracy.proposals : undefined, []);
+  const referenda = useCall<any[]>(isApiReady ? api.derive.democracy.referendums : undefined, []);
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {

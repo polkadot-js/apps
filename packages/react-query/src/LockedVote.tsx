@@ -18,7 +18,7 @@ interface Props extends BareProps, CallProps {
   electionsPhragmen_stakeOf?: BalanceOf;
 }
 
-export function LockedVote ({ children, className, electionsPhragmen_stakeOf, label = '' }: Props): React.ReactElement<Props> {
+export function LockedVote ({ children, className, electionsPhragmen_stakeOf, label }: Props): React.ReactElement<Props> {
   return (
     <FormatBalance
       className={className}

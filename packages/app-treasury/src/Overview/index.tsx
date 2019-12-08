@@ -6,7 +6,7 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Summary from './Summary';
 import Proposals from './Proposals';
@@ -16,8 +16,8 @@ interface Props extends AppProps, BareProps, I18nProps {}
 
 export default function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const approvalIds = useStream<BN[]>(api.query.treasury.approvals, []);
-  const proposalCount = useStream<BN>(api.query.treasury.proposalCount, []);
+  const approvalIds = useCall<BN[]>(api.query.treasury.approvals, []);
+  const proposalCount = useCall<BN>(api.query.treasury.proposalCount, []);
   const [proposalIds, setProposalIds] = useState<BN[]>([]);
 
   useEffect((): void => {

@@ -7,6 +7,17 @@ import { AccountId, Balance, BlockNumber, Call, Hash, SessionIndex } from '@polk
 import { IExtrinsic } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
+export type CallParam = any;
+
+export type CallParams = [] | [CallParam] | [CallParam, CallParam] | [CallParam, CallParam, CallParam];
+
+export interface CallOptions <T> {
+  defaultValue?: T;
+  isSingle?: boolean;
+  paramMap?: (params: any) => CallParams;
+  transform?: (value: any) => T;
+}
+
 export type TxDef = [string, any[] | ConstructTxFn];
 
 export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;

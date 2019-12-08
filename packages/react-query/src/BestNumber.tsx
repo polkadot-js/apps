@@ -16,13 +16,13 @@ interface Props extends BareProps, CallProps {
   chain_bestNumber?: BlockNumber;
 }
 
-export function BestNumber ({ children, className, label = '', style, chain_bestNumber }: Props): React.ReactElement<Props> {
+export function BestNumber ({ children, className, label, style, chain_bestNumber }: Props): React.ReactElement<Props> {
   return (
     <div
       className={className}
       style={style}
     >
-      {label}{
+      {label || ''}{
         chain_bestNumber
           ? formatNumber(chain_bestNumber)
           : '-'

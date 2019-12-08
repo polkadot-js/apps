@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
-import { useStream, useApi } from '@polkadot/react-hooks';
+import { useCall, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -51,7 +51,7 @@ interface StakingState {
 function Address ({ address, authorsMap, className, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
-  const stakingInfo = useStream<DerivedStaking>(api.derive.staking.info as any, [address]);
+  const stakingInfo = useCall<DerivedStaking>(api.derive.staking.info as any, [address]);
   const [hasActivity, setHasActivity] = useState(true);
   const [{ commission, hasNominators, isNominatorMe, nominators, stashId, stakeOwn, stakeOther, validatorPayment }, setStakingState] = useState<StakingState>({
     hasNominators: false,

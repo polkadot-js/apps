@@ -16,7 +16,7 @@ interface Props extends BareProps, CallProps {
   balances_totalIssuance?: Balance;
 }
 
-export function TotalIssuance ({ children, className, label = '', style, balances_totalIssuance }: Props): React.ReactElement<Props> {
+export function TotalIssuance ({ children, className, label, style, balances_totalIssuance }: Props): React.ReactElement<Props> {
   const value = balances_totalIssuance
     ? balances_totalIssuance.toString()
     : null;
@@ -26,7 +26,7 @@ export function TotalIssuance ({ children, className, label = '', style, balance
       className={className}
       style={style}
     >
-      {label}{
+      {label || ''}{
         value
           ? `${formatBalance(value, false)}${formatBalance.calcSi(value).value}`
           : '-'
