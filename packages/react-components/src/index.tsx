@@ -76,7 +76,6 @@ export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { default as Toggle } from './Toggle';
 export { default as Tooltip } from './Tooltip';
-export { default as TreasuryProposal } from './TreasuryProposal';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';

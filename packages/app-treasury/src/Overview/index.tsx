@@ -5,7 +5,6 @@
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Columar } from '@polkadot/react-components';
 
 import Summary from './Summary';
 import Proposals, { Approvals } from './Proposals';
@@ -18,10 +17,8 @@ export default function Overview (): React.ReactElement<Props> {
     <>
       <Summary />
       <Propose />
-      <Columar>
-        <Proposals />
-        <Approvals />
-      </Columar>
+      <Proposals />
+      <Approvals />
     </>
   );
 }
