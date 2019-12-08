@@ -10,7 +10,7 @@ import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, CardGrid } from '@polkadot/react-components';
-import { useStream, useApi, useAccounts } from '@polkadot/react-hooks';
+import { useCall, useApi, useAccounts } from '@polkadot/react-hooks';
 import { AccountName } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import createOption from '@polkadot/ui-keyring/options/item';
@@ -50,8 +50,8 @@ function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], q
 function Actions ({ allStashes, className, isVisible, recentlyOnline, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const queryBonded = useStream<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
-  const queryLedger = useStream<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
+  const queryBonded = useCall<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
+  const queryLedger = useCall<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashOptions, setStashOptions] = useState<KeyringSectionOption[]>([]);

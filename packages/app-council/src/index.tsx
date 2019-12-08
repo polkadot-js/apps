@@ -10,7 +10,7 @@ import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { Tabs } from '@polkadot/react-components';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Overview from './Overview';
 import Motions from './Motions';
@@ -23,7 +23,7 @@ interface Props extends AppProps, BareProps, I18nProps {}
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { pathname } = useLocation();
-  const motions = useStream<Hash[]>(api.query.council.proposals, []);
+  const motions = useCall<Hash[]>(api.query.council.proposals, []);
 
   return (
     <main className={className}>

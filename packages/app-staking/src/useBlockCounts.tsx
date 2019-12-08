@@ -6,15 +6,15 @@ import { SessionIndex } from '@polkadot/types/interfaces';
 import { SessionRewards } from './types';
 
 import { useEffect, useState } from 'react';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types';
 
 export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
   const [counts, setCounts] = useState<u32[]>([]);
   const [historic, setHistoric] = useState<u32[]>([]);
-  const sessionIndex = useStream<SessionIndex>(api.query.session.currentIndex, []);
-  const current = useStream<u32>(api.query.imOnline?.authoredBlocks, [sessionIndex, accountId]);
+  const sessionIndex = useCall<SessionIndex>(api.query.session.currentIndex, []);
+  const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [sessionIndex, accountId]);
 
   useEffect((): void => {
     if (api.query.imOnline?.authoredBlocks && sessionRewards && sessionRewards.length) {

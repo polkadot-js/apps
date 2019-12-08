@@ -7,7 +7,7 @@ import { AccountId, Balance, BlockNumber, Hash, Proposal, ReferendumIndex } from
 import { ITuple } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Bytes, Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,7 +22,7 @@ interface Props extends I18nProps {
 
 function DispatchEntry ({ blockNumber, hash, referendumIndex, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const preimage = useStream<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>
+  const preimage = useCall<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>
   >(api.query.democracy.preimages, [hash]);
   const [proposal, setProposal] = useState<Proposal | undefined>();
 

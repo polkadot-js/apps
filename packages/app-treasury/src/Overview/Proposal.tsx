@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useEffect } from 'react';
 import { Option } from '@polkadot/types';
 import { AddressMini, AddressSmall } from '@polkadot/react-components';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -24,7 +24,7 @@ interface Props extends I18nProps {
 
 function ProposalDisplay ({ className, onPopulate, proposalId, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const proposal = useStream<TreasuryProposal | null>(api.query.treasury.proposals, [proposalId], {
+  const proposal = useCall<TreasuryProposal | null>(api.query.treasury.proposals, [proposalId], {
     transform: (value: Option<TreasuryProposal>): TreasuryProposal | null =>
       value.unwrapOr(null)
   });

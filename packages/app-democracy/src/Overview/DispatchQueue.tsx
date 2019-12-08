@@ -8,7 +8,7 @@ import { ITuple } from '@polkadot/types/types';
 
 import React, { useState } from 'react';
 import { Table } from '@polkadot/react-components';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option, StorageKey, Vec } from '@polkadot/types';
 import { u8aToHex } from '@polkadot/util';
 
@@ -18,7 +18,7 @@ import DispatchBlock from './DispatchBlock';
 function DispatchQueue ({ className, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [keyPrefix] = useState(u8aToHex(api.query.democracy.dispatchQueue.creator.iterKey));
-  const queued = useStream<[StorageKey, Option<Vec<Option<ITuple<[Hash, ReferendumIndex]>>>>
+  const queued = useCall<[StorageKey, Option<Vec<Option<ITuple<[Hash, ReferendumIndex]>>>>
   ][]>(api.query.democracy.dispatchQueue.entries as any, []);
 
   if (!queued?.length) {

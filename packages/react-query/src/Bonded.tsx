@@ -19,7 +19,7 @@ interface Props extends BareProps, CallProps {
   staking_ledger?: StakingLedger | null;
 }
 
-export function BondedDisplay ({ children, className, label = '', staking_ledger }: Props): React.ReactElement<Props> {
+export function BondedDisplay ({ children, className, label, staking_ledger }: Props): React.ReactElement<Props> {
   return (
     <FormatBalance
       className={className}

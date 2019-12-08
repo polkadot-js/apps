@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useStream, useAccounts, useApi } from '@polkadot/react-hooks';
+import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
 
 import basicMd from './md/basic.md';
 import Actions from './Actions';
@@ -45,12 +45,12 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [next, setNext] = useState<string[]>([]);
-  const [allStashes, allControllers] = (useStream<[string[], string[]]>(api.derive.staking.controllers, [], {
+  const [allStashes, allControllers] = (useCall<[string[], string[]]>(api.derive.staking.controllers, [], {
     defaultValue: EMPTY_ALL,
     transform: transformStakingControllers
   }) as [string[], string[]]);
-  const recentlyOnline = useStream<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
-  const stakingOverview = useStream<DerivedStakingOverview>(api.derive.staking.overview, []);
+  const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
+  const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const validators = stakingOverview?.validators;

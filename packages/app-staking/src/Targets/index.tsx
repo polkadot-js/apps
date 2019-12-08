@@ -9,11 +9,11 @@ import { SessionRewards } from '../types';
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { InputBalance, Table } from '@polkadot/react-components';
-import { useAccounts, useApi, useDebounce, useFavorites, useStream } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useDebounce, useFavorites, useCall } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 
 import { STORE_FAVS_BASE } from '../constants';
@@ -150,13 +150,22 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1000));
-  const electedInfo = useStream<DerivedStakingElected>(api.derive.staking.electedInfo, []);
+  const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, [], { isSingle: true });
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [lastReward, setLastReward] = useState(new BN(0));
-  const lastBase = useRef<number>(0);
-  const [baseInfo, setBaseInfo] = useState<BaseInfo[]>([]);
+  const [baseInfo, setBaseInfo] = useState<BaseInfo[] | undefined>();
   const [{ validators, totalStaked }, setWorkable] = useState<AllInfo>({ totalStaked: new BN(0), validators: [] });
   const amount = useDebounce(_amount);
+
+  useEffect((): void => {
+    if (electedInfo) {
+      setBaseInfo(
+        electedInfo.info.map(({ accountId, stakers, validatorPrefs }) => ({
+          accountId, stakers, validatorPrefs
+        }))
+      );
+    }
+  }, [electedInfo]);
 
   useEffect((): void => {
     if (sessionRewards && sessionRewards.length) {
@@ -171,19 +180,9 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   }, [sessionRewards]);
 
   useEffect((): void => {
-    if (electedInfo && lastBase.current !== electedInfo.info.length) {
-      lastBase.current = electedInfo.info.length;
-
-      setBaseInfo(
-        electedInfo.info.map(({ accountId, stakers, validatorPrefs }) => ({
-          accountId, stakers, validatorPrefs
-        }))
-      );
+    if (baseInfo) {
+      setWorkable(extractInfo(allAccounts, amount, baseInfo, favorites, lastReward));
     }
-  }, [electedInfo]);
-
-  useEffect((): void => {
-    setWorkable(extractInfo(allAccounts, amount, baseInfo, favorites, lastReward));
   }, [allAccounts, amount, baseInfo, favorites, lastReward]);
 
   return (

@@ -17,13 +17,13 @@ interface Props extends BareProps, CallProps {
   timestamp_minimumPeriod?: Moment;
 }
 
-export function TimePeriod ({ babe_expectedBlockTime, children, className, label = '', style, timestamp_minimumPeriod }: Props): React.ReactElement<Props> {
+export function TimePeriod ({ babe_expectedBlockTime, children, className, label, style, timestamp_minimumPeriod }: Props): React.ReactElement<Props> {
   return (
     <div
       className={className}
       style={style}
     >
-      {label}{
+      {label || ''}{
         babe_expectedBlockTime
           ? `${formatNumber(babe_expectedBlockTime.toNumber() / 1000)}s`
           : timestamp_minimumPeriod

@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, useStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber, stringToU8a } from '@polkadot/util';
 
 import translate from '../translate';
@@ -21,8 +21,8 @@ interface Props extends I18nProps {
 
 function Summary ({ approvalCount, proposalCount, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const pot = useStream<BN>(api.query.treasury.pot, []);
-  const treasuryBalance = useStream<BN>(api.query.balances.freeBalance, [TREASURY_ACCOUNT]);
+  const pot = useCall<BN>(api.query.treasury.pot, []);
+  const treasuryBalance = useCall<BN>(api.query.balances.freeBalance, [TREASURY_ACCOUNT]);
 
   const value = treasuryBalance?.gtn(0)
     ? treasuryBalance.toString()

@@ -17,7 +17,7 @@ interface Props extends BareProps, CallProps {
   timestamp_now?: Moment;
 }
 
-export function TimeNow ({ children, className, isSubstrateV2, label = '', style, timestamp_now }: Props): React.ReactElement<Props> {
+export function TimeNow ({ children, className, isSubstrateV2, label, style, timestamp_now }: Props): React.ReactElement<Props> {
   const value = isSubstrateV2 || !timestamp_now
     ? timestamp_now
     : timestamp_now.muln(1000); // for 1.x, timestamps are in seconds
@@ -27,7 +27,7 @@ export function TimeNow ({ children, className, isSubstrateV2, label = '', style
       className={className}
       style={style}
     >
-      {label}
+      {label || ''}
       <Elapsed value={value} />
       {children}
     </div>

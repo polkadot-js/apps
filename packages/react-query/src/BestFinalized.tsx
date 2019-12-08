@@ -16,13 +16,13 @@ interface Props extends BareProps, CallProps {
   chain_bestNumberFinalized?: BlockNumber;
 }
 
-export function BestFinalized ({ children, className, label = '', style, chain_bestNumberFinalized }: Props): React.ReactElement<Props> {
+export function BestFinalized ({ children, className, label, style, chain_bestNumberFinalized }: Props): React.ReactElement<Props> {
   return (
     <div
       className={className}
       style={style}
     >
-      {label}{
+      {label || ''}{
         chain_bestNumberFinalized
           ? formatNumber(chain_bestNumberFinalized)
           : '-'
