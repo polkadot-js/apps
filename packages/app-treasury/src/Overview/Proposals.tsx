@@ -9,19 +9,20 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { withCalls, withMulti } from '@polkadot/react-api';
-import { Column } from '@polkadot/react-components';
+import { useApi, useStream } from '@polkadot/react-hooks';
+import { Table } from '@polkadot/react-components';
 
 import Proposal from './Proposal';
 import translate from '../translate';
 
 interface Props extends I18nProps {
   isApprovals?: boolean;
-  treasury_approvals?: BN[];
-  treasury_proposalCount?: BN;
 }
 
-function ProposalsBase ({ isApprovals = false, treasury_approvals, treasury_proposalCount, t }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ className, isApprovals, t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const approvalIds = useStream<ProposalIndex[]>(api.query.treasury.approvals, []);
+  const proposalCount = useStream<BN>(api.query.treasury.proposalCount, []);
   const history = useHistory();
   const [isEmpty, setIsEmpty] = useState(true);
   const [proposalIndices, setProposalIndices] = useState<BN[]>([]);
@@ -30,17 +31,17 @@ function ProposalsBase ({ isApprovals = false, treasury_approvals, treasury_prop
     let proposalIndices: BN[] = [];
 
     if (isApprovals) {
-      proposalIndices = treasury_approvals || [];
-    } else if (treasury_proposalCount && treasury_approvals) {
-      for (let i = 0; i < treasury_proposalCount.toNumber(); i++) {
-        if (!treasury_approvals.find((index): boolean => index.eqn(i))) {
+      proposalIndices = approvalIds || [];
+    } else if (proposalCount && approvalIds) {
+      for (let i = 0; i < proposalCount.toNumber(); i++) {
+        if (!approvalIds.find((index): boolean => index.eqn(i))) {
           proposalIndices.push(new BN(i));
         }
       }
     }
 
     setProposalIndices(proposalIndices);
-  }, [isApprovals, treasury_approvals, treasury_approvals]);
+  }, [isApprovals, proposalCount, approvalIds]);
 
   const _onRespond = (): void => {
     history.push('/council/motions');
@@ -50,37 +51,29 @@ function ProposalsBase ({ isApprovals = false, treasury_approvals, treasury_prop
   };
 
   return (
-    <>
-      <Column
-        emptyText={isApprovals ? t('No approved proposals') : t('No pending proposals')}
-        headerText={isApprovals ? t('Approved') : t('Proposals')}
-        isEmpty={isEmpty}
-      >
-        {proposalIndices.map((proposalId): React.ReactNode => (
-          <Proposal
-            isApproved={isApprovals}
-            onPopulate={_onPopulateProposal}
-            onRespond={_onRespond}
-            proposalId={proposalId.toString()}
-            key={proposalId.toString()}
-          />
-        ))}
-      </Column>
-    </>
+    <div className={className}>
+      <h1>{isApprovals ? t('Approved') : t('Proposals')}</h1>
+      {isEmpty && (
+        isApprovals ? t('No approved proposals') : t('No pending proposals')
+      )}
+      <Table>
+        <Table.Body>
+          {proposalIndices.map((proposalId): React.ReactNode => (
+            <Proposal
+              isApproved={isApprovals}
+              onPopulate={_onPopulateProposal}
+              onRespond={_onRespond}
+              proposalId={proposalId}
+              key={proposalId.toString()}
+            />
+          ))}
+        </Table.Body>
+      </Table>
+    </div>
   );
 }
 
-const Proposals = withMulti(
-  ProposalsBase,
-  translate,
-  withCalls<Props>(
-    ['query.treasury.approvals', {
-      transform: (value: ProposalIndex[]): BN[] =>
-        value.map((proposalId): BN => new BN(proposalId))
-    }],
-    'query.treasury.proposalCount'
-  )
-);
+const Proposals = translate(ProposalsBase);
 
 export default Proposals;
 

@@ -147,7 +147,7 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
             </Table>
           </>
         )
-        : t('no accounts yet, create or import and existing')
+        : t('no accounts yet, create or import an existing')
       }
     </div>
   );
