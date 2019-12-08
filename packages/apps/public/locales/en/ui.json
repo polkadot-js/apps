@@ -708,5 +708,7 @@
   "no accounts yet, create or import and existing": "",
   "no addresses yet add and existring contact": "",
   "balances": "",
-  "Nominating ({{count}})": ""
+  "Nominating ({{count}})": "",
+  "no accounts yet, create or import an existing": "",
+  "no contracts yet, add an existing contact": ""
 }
