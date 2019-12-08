@@ -8,6 +8,7 @@ export type Params = [] | [Param] | [Param, Param] | [Param, Param, Param];
 
 export interface Options <T> {
   defaultValue?: T;
+  isDebug?: boolean;
   paramMap?: (params: any) => Params;
   transform?: (value: any) => T;
 }

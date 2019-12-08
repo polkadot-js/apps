@@ -8,7 +8,7 @@ import { Options, Param, Params } from './types';
 import { useEffect, useRef, useState } from 'react';
 import { isUndefined } from '@polkadot/util';
 
-import { dummyPromise, extractParams, transformIdentity } from './util';
+import { extractParams, transformIdentity } from './util';
 
 interface TrackFnCallback {
   (value: Codec): void;
@@ -32,15 +32,24 @@ interface TrackFn {
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export default function useStream <T> (fn: TrackFn | undefined, params: Params, { defaultValue, paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
+export default function useStream <T> (fn: TrackFn | undefined, params: Params, { defaultValue, isDebug, paramMap = transformIdentity, transform = transformIdentity }: Options<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>(defaultValue);
-  const tracker = useRef<{ serialized: string | null; subscriber: TrackFnResult }>({ serialized: null, subscriber: dummyPromise });
+  const tracker = useRef<{ serialized: string | null; subscriber: TrackFnResult | null }>({ serialized: null, subscriber: null });
 
+  const _debug = (fn: () => any[]): void => {
+    isDebug && console.log(...fn());
+  };
   const _unsubscribe = (): void => {
-    tracker.current.subscriber.then((fn): void => fn());
-    tracker.current.subscriber = dummyPromise;
+    if (tracker.current.subscriber) {
+      _debug(() => ['unsubscribe', fn?.name]);
+
+      tracker.current.subscriber.then((unsubFn): void => unsubFn());
+      tracker.current.subscriber = null;
+    }
   };
   const _subscribe = (params: Params): void => {
+    _debug(() => ['subscribe', fn?.name]);
+
     const validParams = params.filter((p): boolean => !isUndefined(p));
 
     _unsubscribe();
@@ -49,15 +58,18 @@ export default function useStream <T> (fn: TrackFn | undefined, params: Params, 
       tracker.current.subscriber = fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore We tried to get the typings right, close but no cigar...
-        ? fn(...params, (value: any): void => setValue(transform(value)))
-        : dummyPromise;
+        ? fn(...params, (value: any): void => {
+          _debug(() => ['setValue', JSON.stringify({ value })]);
+          setValue(transform(value));
+        })
+        : null;
     });
   };
 
   // initial effect, we need an unsubscription
   useEffect((): () => void => {
     return _unsubscribe;
-  }, [fn, params]);
+  }, []);
 
   // on changes, re-subscribe
   useEffect((): void => {
@@ -65,6 +77,8 @@ export default function useStream <T> (fn: TrackFn | undefined, params: Params, 
       const [serialized, mappedParams] = extractParams(fn, params, paramMap);
 
       if (mappedParams && serialized !== tracker.current.serialized) {
+        _debug(() => ['_createSubscription', fn?.name, serialized]);
+
         tracker.current.serialized = serialized;
 
         _subscribe(mappedParams);
