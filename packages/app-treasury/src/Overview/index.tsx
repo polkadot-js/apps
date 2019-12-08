@@ -4,21 +4,45 @@
 
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import BN from 'bn.js';
+import React, { useEffect, useState } from 'react';
+import { useApi, useStream } from '@polkadot/react-hooks';
 
 import Summary from './Summary';
-import Proposals, { Approvals } from './Proposals';
+import Proposals from './Proposals';
 import Propose from './Propose';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-export default function Overview (): React.ReactElement<Props> {
+export default function Overview ({ className }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const approvalIds = useStream<BN[]>(api.query.treasury.approvals, []);
+  const proposalCount = useStream<BN>(api.query.treasury.proposalCount, []);
+  const [proposalIds, setProposalIds] = useState<BN[]>([]);
+
+  useEffect((): void => {
+    if (approvalIds && proposalCount) {
+      const proposalIds: BN[] = [];
+
+      for (let i = 0; i < proposalCount.toNumber(); i++) {
+        if (!approvalIds.find((index): boolean => index.eqn(i))) {
+          proposalIds.push(new BN(i));
+        }
+      }
+
+      setProposalIds(proposalIds);
+    }
+  }, [approvalIds, proposalCount]);
+
   return (
-    <>
-      <Summary />
+    <div className={className}>
+      <Summary
+        approvalCount={approvalIds?.length}
+        proposalCount={proposalIds?.length}
+      />
       <Propose />
-      <Proposals />
-      <Approvals />
-    </>
+      <Proposals ids={proposalIds} />
+      <Proposals ids={approvalIds} isApprovals />
+    </div>
   );
 }
