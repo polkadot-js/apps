@@ -61,14 +61,12 @@ function subscribe <T> (tracker: TrackerRef, fn: TrackFn | undefined, params: Ca
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore We tried to get the typings right, close but no cigar...
       ? fn(...params, (value: any): void => {
-        setTimeout((): void => {
-          // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
-          // since .subscriber may not be set on immeditae callback)
-          if (tracker.current.isActive && (!isSingle || !tracker.current.count)) {
-            tracker.current.count++;
-            setValue(transform(value));
-          }
-        }, 0);
+        // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
+        // since .subscriber may not be set on immeditae callback)
+        if (tracker.current.isActive && (!isSingle || !tracker.current.count)) {
+          tracker.current.count++;
+          setValue(transform(value));
+        }
       })
       : null;
   }, 0);
