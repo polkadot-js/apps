@@ -71,5 +71,6 @@
   "session rotate": "session rotate",
   "session next": "session next",
   "Submit signed extrinsic": "Submit signed extrinsic",
-  "balances": "balances"
+  "balances": "balances",
+  "vote with account": "vote with account"
 }

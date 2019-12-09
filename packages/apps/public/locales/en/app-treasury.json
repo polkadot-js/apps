@@ -34,5 +34,16 @@
   "Pot": "Pot",
   "pot size": "pot size",
   "available": "available",
-  "bond": "bond"
+  "bond": "bond",
+  "Submit treasury proposal": "Submit treasury proposal",
+  "Select the account you wish to submit the proposal from.": "Select the account you wish to submit the proposal from.",
+  "submit with account": "submit with account",
+  "Cancel": "Cancel",
+  "Submit proposal": "Submit proposal",
+  "Vote on proposal": "Vote on proposal",
+  "The council proposal to make the vote on": "The council proposal to make the vote on",
+  "council proposal": "council proposal",
+  "The hash for the proposal this vote applies to": "The hash for the proposal this vote applies to",
+  "proposal hash": "proposal hash",
+  "Vote": "Vote"
 }

@@ -710,5 +710,11 @@
   "balances": "",
   "Nominating ({{count}})": "",
   "no accounts yet, create or import an existing": "",
-  "no contracts yet, add an existing contact": ""
+  "no contracts yet, add an existing contact": "",
+  "Submit treasury proposal": "",
+  "Select the account you wish to submit the proposal from.": "",
+  "submit with account": "",
+  "The council proposal to make the vote on": "",
+  "council proposal": "",
+  "The hash for the proposal this vote applies to": ""
 }
