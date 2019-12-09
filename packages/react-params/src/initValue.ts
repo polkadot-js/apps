@@ -88,7 +88,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'H512':
       return createType(registry, 'H512');
 
-    case 'Data':
+    case 'U8a':
     case 'Keys':
       return '';
 

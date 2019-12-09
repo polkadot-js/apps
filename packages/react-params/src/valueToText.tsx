@@ -36,7 +36,7 @@ function valueToText (type: string, value: any, swallowError = true, contentShor
   // FIXME dont' even ask, nested ?: ... really?
   return div(
     {},
-    ['Bytes', 'Data', 'Option<Keys>', 'Keys'].includes(type)
+    ['Bytes', 'U8a', 'Option<Keys>', 'Keys'].includes(type)
       ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
       : (
         // HACK Handle Keys as hex-only (this should go away once the node value is

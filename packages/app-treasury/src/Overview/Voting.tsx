@@ -7,7 +7,7 @@ import { ProposalIndex, Hash } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, Input, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
@@ -70,13 +70,7 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
         >
           <Modal.Header>{t('Vote on proposal')}</Modal.Header>
           <Modal.Content>
-            <InputAddress
-              help={t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
-              label={t('vote with account')}
-              onChange={setAccountId}
-              type='account'
-              withLabel
-            />
+            <VoteAccount onChange={setAccountId} />
             <Dropdown
               help={t('The council proposal to make the vote on')}
               label={t('council proposal')}
@@ -90,38 +84,18 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
               label={t('proposal hash')}
               value={councilHash}
             />
-            <Dropdown
-              help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
-              label={t('record my vote as')}
-              options={[
-                { text: t('Aye, I approve'), value: true },
-                { text: t('Nay, I do not approve'), value: false }
-              ]}
+            <VoteToggle
               onChange={_onChangeVote}
               value={voteValue}
             />
           </Modal.Content>
-          <Modal.Actions>
-            <Button.Group>
-              <Button
-                icon='cancel'
-                isNegative
-                label={t('Cancel')}
-                onClick={_toggleVoting}
-              />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='check'
-                isDisabled={!accountId || !councilHash}
-                isPrimary
-                label={t('Vote')}
-                onClick={_toggleVoting}
-                params={[councilHash, councilId, voteValue]}
-                tx='council.vote'
-              />
-            </Button.Group>
-          </Modal.Actions>
+          <VoteActions
+            accountId={accountId}
+            isDisabled={!councilHash}
+            onClick={_toggleVoting}
+            params={[councilHash, councilId, voteValue]}
+            tx='council.vote'
+          />
         </Modal>
       )}
       <Button

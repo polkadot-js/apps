@@ -15,8 +15,7 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
-import Data from './Data';
-import Enum from './Enum';
+import Enum from './U8a';
 import Hash256 from './Hash256';
 import Hash512 from './Hash512';
 import Moment from './Moment';
@@ -28,6 +27,7 @@ import Option from './Option';
 import Struct from './Struct';
 import Text from './Text';
 import Tuple from './Tuple';
+import U8a from './U8s';
 import Unknown from './Unknown';
 import Vector from './Vector';
 import Vote from './Vote';
@@ -45,7 +45,7 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
-  { c: Data, t: ['Data', 'Keys'] },
+  { c: U8a, t: ['U8a', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
