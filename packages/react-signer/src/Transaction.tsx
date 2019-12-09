@@ -26,46 +26,59 @@ function Transaction ({ children, hideDetails, isSendable, value: { accountId, e
     return null;
   }
 
-  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+  try {
+    const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
 
-  return (
-    <>
-      <Modal.Header>
-        {section}.{method}
-        <label><details><summary>{
-          meta && meta.documentation
-            ? meta.documentation.join(' ')
-            : ''
-        }</summary></details></label>
-      </Modal.Header>
-      <Modal.Content className='ui--signer-Signer-Content'>
-        {!hideDetails && (
-          <>
-            {!isUnsigned && accountId && (
-              <InputAddress
-                className='full'
-                defaultValue={accountId}
-                isDisabled
-                isInput
-                label={t('sending from my account')}
-                withLabel
-              />
-            )}
-            <Call value={extrinsic} />
-            {!isUnsigned && (
-              <Checks
-                accountId={accountId}
-                extrinsic={extrinsic}
-                isSendable={isSendable}
-                tip={tip}
-              />
-            )}
-          </>
-        )}
-        {children}
-      </Modal.Content>
-    </>
-  );
+    return (
+      <>
+        <Modal.Header>
+          {section}.{method}
+          <label><details><summary>{
+            meta && meta.documentation
+              ? meta.documentation.join(' ')
+              : ''
+          }</summary></details></label>
+        </Modal.Header>
+        <Modal.Content className='ui--signer-Signer-Content'>
+          {!hideDetails && (
+            <>
+              {!isUnsigned && accountId && (
+                <InputAddress
+                  className='full'
+                  defaultValue={accountId}
+                  isDisabled
+                  isInput
+                  label={t('sending from my account')}
+                  withLabel
+                />
+              )}
+              <Call value={extrinsic} />
+              {!isUnsigned && (
+                <Checks
+                  accountId={accountId}
+                  extrinsic={extrinsic}
+                  isSendable={isSendable}
+                  tip={tip}
+                />
+              )}
+            </>
+          )}
+          {children}
+        </Modal.Content>
+      </>
+    );
+  } catch (error) {
+    console.error(error);
+
+    return (
+      <>
+        <Modal.Header>{t('FATAL')}</Modal.Header>
+        <Modal.Content className='ui--signer-Signer-Content'>
+          {t('Unable to render extrinsic, invalid')}
+        </Modal.Content>
+      </>
+    );
+  }
 }
 
 export default translate(Transaction);
