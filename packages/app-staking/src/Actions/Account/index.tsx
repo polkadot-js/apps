@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStaking, DerivedStakingOnlineStatus, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStakingAccount, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
@@ -11,7 +11,7 @@ import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, OnlineStatus, Popup, TxButton } from '@polkadot/react-components';
+import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, Popup, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 
 import BondExtra from './BondExtra';
@@ -31,7 +31,7 @@ interface Props extends ApiProps, I18nProps {
   className?: string;
   isOwnStash: boolean;
   recentlyOnline?: DerivedHeartbeats;
-  staking_info?: DerivedStaking;
+  staking_account?: DerivedStakingAccount;
   stashId: string;
   stashOptions: KeyringSectionOption[];
 }
@@ -53,7 +53,6 @@ interface State {
   isUnbondOpen: boolean;
   isValidateOpen: boolean;
   nominees?: string[];
-  onlineStatus: DerivedStakingOnlineStatus;
   sessionIds: string[];
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
@@ -99,16 +98,15 @@ class Account extends React.PureComponent<Props, State> {
     isStashValidating: false,
     isUnbondOpen: false,
     isValidateOpen: false,
-    onlineStatus: {},
     sessionIds: []
   };
 
-  public static getDerivedStateFromProps ({ allStashes, staking_info, stashId }: Props): Pick<State, never> | null {
-    if (!staking_info) {
+  public static getDerivedStateFromProps ({ allStashes, staking_account, stashId }: Props): Pick<State, never> | null {
+    if (!staking_account) {
       return null;
     }
 
-    const { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, validatorPrefs } = staking_info;
+    const { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, validatorPrefs } = staking_account;
     const isStashNominating = nominators && !!nominators.length;
     const isStashValidating = !!allStashes && !!stashId && allStashes.includes(stashId);
     const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
@@ -135,7 +133,7 @@ class Account extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className, isSubstrateV2, stashId, t } = this.props;
-    const { controllerId, hexSessionIdNext, hexSessionIdQueue, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, onlineStatus, sessionIds } = this.state;
+    const { controllerId, hexSessionIdNext, hexSessionIdQueue, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, sessionIds } = this.state;
 
     // Each component is rendered and gets a `is[Component]Open` passed in a `isOpen` props.
     // These components will be loaded and return null at the first load (because is[Component]Open === false).
@@ -145,13 +143,6 @@ class Account extends React.PureComponent<Props, State> {
       <AddressCard
         buttons={this.renderButtons()}
         className={className}
-        iconInfo={onlineStatus && (
-          <OnlineStatus
-            isTooltip
-            value={onlineStatus}
-          />
-        )}
-        // label={t('stash')}
         type='account'
         value={stashId}
         withAddressOrName
@@ -612,7 +603,7 @@ export default withMulti(
   `,
   translate,
   withCalls<Props>(
-    ['derive.staking.info', { paramName: 'stashId' }],
+    ['derive.staking.account', { paramName: 'stashId' }],
     ['derive.balances.all', { paramName: 'stashId' }]
   )
 );

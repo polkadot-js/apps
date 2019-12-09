@@ -4,7 +4,7 @@
 
 import { DerivedStakingElected } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { AccountId, Exposure, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import { ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { SessionRewards } from '../types';
 import { ValidatorInfo } from './types';
 
@@ -30,12 +30,6 @@ interface Props extends I18nProps {
 interface AllInfo {
   totalStaked: BN;
   validators: ValidatorInfo[];
-}
-
-interface BaseInfo {
-  accountId: AccountId;
-  stakers?: Exposure;
-  validatorPrefs?: ValidatorPrefs;
 }
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
@@ -91,10 +85,11 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractInfo (allAccounts: string[], amount: BN = new BN(0), baseInfo: BaseInfo[], favorites: string[], lastReward: BN): AllInfo {
+function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DerivedStakingElected, favorites: string[], lastReward: BN): AllInfo {
   let totalStaked = new BN(0);
+  const perValidatorReward = lastReward.divn(electedInfo.info.length);
   const validators = sortValidators(
-    baseInfo.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
+    electedInfo.info.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
       const exposure = stakers || {
         total: createType(registry, 'Compact<Balance>'),
         own: createType(registry, 'Compact<Balance>'),
@@ -105,7 +100,6 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), baseInfo: B
       };
       const bondOwn = exposure.own.unwrap();
       const bondTotal = exposure.total.unwrap();
-      const perValidatorReward = lastReward.divn(baseInfo.length);
       const validatorPayment = (prefs as ValidatorPrefsTo196).validatorPayment
         ? (prefs as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
         : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
@@ -150,22 +144,11 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1000));
-  const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, [], { isSingle: true });
+  const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [lastReward, setLastReward] = useState(new BN(0));
-  const [baseInfo, setBaseInfo] = useState<BaseInfo[] | undefined>();
   const [{ validators, totalStaked }, setWorkable] = useState<AllInfo>({ totalStaked: new BN(0), validators: [] });
   const amount = useDebounce(_amount);
-
-  useEffect((): void => {
-    if (electedInfo) {
-      setBaseInfo(
-        electedInfo.info.map(({ accountId, stakers, validatorPrefs }) => ({
-          accountId, stakers, validatorPrefs
-        }))
-      );
-    }
-  }, [electedInfo]);
 
   useEffect((): void => {
     if (sessionRewards && sessionRewards.length) {
@@ -180,10 +163,10 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   }, [sessionRewards]);
 
   useEffect((): void => {
-    if (baseInfo) {
-      setWorkable(extractInfo(allAccounts, amount, baseInfo, favorites, lastReward));
+    if (electedInfo) {
+      setWorkable(extractInfo(allAccounts, amount, electedInfo, favorites, lastReward));
     }
-  }, [allAccounts, amount, baseInfo, favorites, lastReward]);
+  }, [allAccounts, amount, electedInfo, favorites, lastReward]);
 
   return (
     <div className={className}>

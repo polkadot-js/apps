@@ -67,7 +67,6 @@ export { default as Password } from './Password';
 export { default as Popup } from './Popup';
 export { default as Progress } from './Progress';
 export { default as ProposedAction } from './ProposedAction';
-export { default as OnlineStatus } from './OnlineStatus';
 export { default as Row } from './Row';
 export { default as Static } from './Static';
 export { default as Status, StatusContext } from './Status';
