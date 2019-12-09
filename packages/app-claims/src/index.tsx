@@ -103,7 +103,7 @@ class App extends TxModal<Props, State> {
 
     const payload = accountId
       ? (
-        u8aToString(Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true))) +
+        u8aToString(api.consts.claims.prefix.toU8a(true)) +
         u8aToHex(decodeAddress(accountId), -1, false)
       )
       : '';
