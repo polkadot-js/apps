@@ -89,7 +89,6 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   return (
     <Modal
       className='app--accounts-Modal'
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Send funds')}</Modal.Header>

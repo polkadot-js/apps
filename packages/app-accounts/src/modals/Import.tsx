@@ -38,10 +38,7 @@ class Import extends TxComponent<Props, State> {
     const { isFileValid, isPassValid } = this.state;
 
     return (
-      <Modal
-        dimmer='inverted'
-        open
-      >
+      <Modal open>
         <Modal.Header>{t('Add via backup file')}</Modal.Header>
         {this.renderInput()}
         <Modal.Actions>

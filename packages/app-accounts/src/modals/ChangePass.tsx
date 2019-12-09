@@ -37,7 +37,6 @@ class ChangePass extends TxComponent<Props, State> {
     return (
       <Modal
         className='app--accounts-Modal'
-        dimmer='inverted'
         open
       >
         <Modal.Header>{t('Change account password')}</Modal.Header>

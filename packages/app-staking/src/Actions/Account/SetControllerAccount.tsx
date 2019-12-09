@@ -44,7 +44,6 @@ class SetControllerAccount extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--SetControllerAccount'
-        dimmer='inverted'
         open
         size='small'
       >

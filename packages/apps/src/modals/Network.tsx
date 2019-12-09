@@ -18,7 +18,6 @@ function NetworkModal ({ className, onClose, t }: Props): React.ReactElement<Pro
   return (
     <Modal
       className={className}
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Select Network')}</Modal.Header>

@@ -4,11 +4,12 @@
 
 import { Routes } from './types';
 
-import Treasury from '@polkadot/app-treasury';
+import Treasury, { useCounter } from '@polkadot/app-treasury';
 
 export default ([
   {
     Component: Treasury,
+    useCounter,
     display: {
       needsAccounts: true,
       needsApi: [

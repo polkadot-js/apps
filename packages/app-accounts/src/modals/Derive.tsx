@@ -136,7 +136,6 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
   return (
     <Modal
       className={className}
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Derive account from pair')}</Modal.Header>

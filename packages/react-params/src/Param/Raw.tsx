@@ -20,7 +20,7 @@ function onChange ({ onChange }: Props): (_: string) => void {
   };
 }
 
-export default function Data (props: Props): React.ReactElement<Props> {
+export default function Raw (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
   const defaultValue = value
     ? (value.toHex ? value.toHex() : value)

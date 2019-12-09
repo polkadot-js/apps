@@ -98,7 +98,6 @@ function Forget (props: Props): React.ReactElement<Props> {
   return (
     <Modal
       className='app--accounts-Modal'
-      dimmer='inverted'
       onClose={onClose}
       open
     >

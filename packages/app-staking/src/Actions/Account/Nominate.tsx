@@ -72,7 +72,6 @@ function Nominate ({ className, controllerId, nominees, onClose, stashId, stashO
   return (
     <Modal
       className={`staking--Nominating ${className}`}
-      dimmer='inverted'
       open
     >
       <Modal.Header>

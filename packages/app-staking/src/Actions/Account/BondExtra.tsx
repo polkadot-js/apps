@@ -67,7 +67,6 @@ class BondExtra extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--BondExtra'
-        dimmer='inverted'
         open
         size='small'
       >

@@ -38,7 +38,7 @@ function Summary ({ bestNumber, className, electionsInfo: { members, candidateCo
           </CardSummary>
         </section>
       )}
-      {bestNumber && termDuration && termDuration.gtn(0) && (
+      {bestNumber && termDuration?.gtn(0) && (
         <section>
           <CardSummary
             label={t('term progress')}

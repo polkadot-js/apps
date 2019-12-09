@@ -28,10 +28,7 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <Modal
-      dimmer='inverted'
-      open
-    >
+    <Modal open>
       <Modal.Header>{t('Register an Asset')}</Modal.Header>
       <Modal.Content>
         <InputNumber

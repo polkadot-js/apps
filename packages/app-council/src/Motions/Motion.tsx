@@ -2,29 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+import { DerivedCouncilProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import BN from 'bn.js';
 import React from 'react';
-import { Option } from '@polkadot/types';
 
 import { AddressMini, Voting } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  chain_bestNumber?: BN;
-  hash: string;
-  proposal: ProposalType | null;
-  votes: Votes | null;
+  motion: DerivedCouncilProposal;
 }
 
-function Motion ({ className, hash, proposal, t, votes }: Props): React.ReactElement<Props> | null {
-  if (!proposal || !votes) {
+function Motion ({ className, motion: { hash, proposal, votes }, t }: Props): React.ReactElement<Props> | null {
+  if (!votes) {
     return null;
   }
 
@@ -33,7 +27,11 @@ function Motion ({ className, hash, proposal, t, votes }: Props): React.ReactEle
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell className='top' proposalHash={hash} proposal={proposal} />
+      <ProposalCell
+        className='top'
+        proposalHash={hash}
+        proposal={proposal}
+      />
       <td className='number top'>
         <label>{t('threshold')}</label>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
@@ -70,21 +68,4 @@ function Motion ({ className, hash, proposal, t, votes }: Props): React.ReactEle
   );
 }
 
-export default withMulti(
-  Motion,
-  translate,
-  withCalls<Props>(
-    ['query.council.proposalOf', {
-      paramName: 'hash',
-      propName: 'proposal',
-      transform: (value: Option<ProposalType>): ProposalType | null =>
-        value.unwrapOr(null)
-    }],
-    ['query.council.voting', {
-      paramName: 'hash',
-      propName: 'votes',
-      transform: (value: Option<Votes>): Votes | null =>
-        value.unwrapOr(null)
-    }]
-  )
-);
+export default translate(Motion);

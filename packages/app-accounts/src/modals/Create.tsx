@@ -189,7 +189,6 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
   return (
     <Modal
       className={className}
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Add an account via seed')}</Modal.Header>

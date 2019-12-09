@@ -62,7 +62,6 @@ class Unbond extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--Unbond'
-        dimmer='inverted'
         open
         size='small'
       >

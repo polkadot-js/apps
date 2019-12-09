@@ -41,7 +41,6 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
   return (
     <Modal
       className='staking--SetSessionAccount'
-      dimmer='inverted'
       open
       size='small'
     >

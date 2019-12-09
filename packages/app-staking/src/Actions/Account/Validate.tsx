@@ -83,7 +83,6 @@ class Validate extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--Staking'
-        dimmer='inverted'
         open
         size='small'
       >

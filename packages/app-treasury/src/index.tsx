@@ -10,9 +10,10 @@ import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
-// import Settings from './Settings';
 
 import translate from './translate';
+
+export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
@@ -29,15 +30,10 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
               name: 'overview',
               text: t('Treasury overview')
             }
-            // {
-            //   name: 'settings',
-            //   text: t('Edit settings')
-            // }
           ]}
         />
       </header>
       <Switch>
-        {/* <Route path={`${basePath}/settings`} component={Settings} /> */}
         <Route component={Overview} />
       </Switch>
     </main>
