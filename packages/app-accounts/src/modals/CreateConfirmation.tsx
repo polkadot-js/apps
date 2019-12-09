@@ -18,10 +18,10 @@ interface Props extends I18nProps {
 
 function CreateConfirmation ({ address, name, onClose, onCommit, t }: Props): React.ReactElement<Props> | null {
   return (
-    <Modal open>
-      <Modal.Header>
-        {t('Important notice')}
-      </Modal.Header>
+    <Modal
+      header={t('Important notice')}
+      open
+    >
       <Modal.Content>
         <AddressRow
           defaultName={name}

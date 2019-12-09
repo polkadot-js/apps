@@ -24,12 +24,10 @@ function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<P
   return (
     <Modal
       className='app--accounts-Modal'
+      header={t('Confirm ABI removal')}
       onClose={onClose}
       open
     >
-      <Modal.Header>
-        {t('Confirm ABI removal')}
-      </Modal.Header>
       <Modal.Content>
         <CodeRow
           code={code}

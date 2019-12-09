@@ -29,9 +29,9 @@ function Propose ({ className, onClose, t }: Props): React.ReactElement<Props> {
   return (
     <Modal
       className={className}
+      header={t('Submit proposal')}
       open
     >
-      <Modal.Header>{t('Submit proposal')}</Modal.Header>
       <Modal.Content>
         <InputAddress
           help={t('The account you want to register the proposal from')}

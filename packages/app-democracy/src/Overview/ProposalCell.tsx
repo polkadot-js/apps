@@ -32,11 +32,7 @@ function ProposalCell ({ className, proposal, proposalHash, t }: Props): React.R
     <td className={`${className} all`}>
       <div>{section}.{method}</div>
       <details>
-        <summary>{
-          meta && meta.documentation
-            ? meta.documentation.join(' ')
-            : t('Details')
-        }</summary>
+        <summary>{meta?.documentation.join(' ') || t('Details')}</summary>
         <Call
           labelHash={t('proposal hash')}
           value={proposal}

@@ -113,12 +113,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       className={[className || '', 'app--contracts-Modal'].join(' ')}
+      header={t('Call a contract')}
       onClose={onClose}
       open={isOpen}
     >
-      <Modal.Header>
-        {t('Call a contract')}
-      </Modal.Header>
       <Modal.Content>
         {callContract && (
           <div className='contracts--CallControls'>

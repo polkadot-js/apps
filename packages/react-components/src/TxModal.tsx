@@ -37,12 +37,10 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         {this.renderTrigger && this.renderTrigger()}
         <Modal
           className='ui--Modal'
+          header={this.headerText()}
           onClose={this.hideModal}
           open={isOpen}
         >
-          <Modal.Header>
-            {this.headerText()}
-          </Modal.Header>
           <Modal.Content>
             {this.renderPreContent()}
             {this.renderInputAccount()}

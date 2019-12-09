@@ -77,7 +77,7 @@ export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, i
         label={label}
         onChange={_onChangeMethod}
         withLabel={withLabel}
-        help={meta && meta.documentation && meta.documentation.join(' ')}
+        help={meta?.documentation.join(' ')}
       />
       <Params
         key={`${section}.${method}:params` /* force re-render on change */}

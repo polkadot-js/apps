@@ -44,12 +44,10 @@ class SetControllerAccount extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--SetControllerAccount'
+        header={t('Change controller account')}
         open
         size='small'
       >
-        <Modal.Header>
-          {t('Change controller account')}
-        </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           {isValidating && (
             <article className='warning'>

@@ -49,9 +49,9 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
   return (
     <Modal
       className={className}
+      header={t('Add account via Qr')}
       open
     >
-      <Modal.Header>{t('Add account via Qr')}</Modal.Header>
       <Modal.Content>
         {
           scanned

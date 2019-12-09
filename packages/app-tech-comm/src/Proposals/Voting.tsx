@@ -34,10 +34,10 @@ function Voting ({ hash, proposalId, t }: Props): React.ReactElement<Props> | nu
     <>
       {isVotingOpen && (
         <Modal
+          header={t('Vote on proposal')}
           open
           size='small'
         >
-          <Modal.Header>{t('Vote on proposal')}</Modal.Header>
           <Modal.Content>
             <VoteAccount onChange={setAccountId} />
             <VoteToggle

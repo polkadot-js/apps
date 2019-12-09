@@ -91,7 +91,7 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
           defaultValue={api.query.timestamp.now}
           label={t('selected state query')}
           onChange={_onChangeKey}
-          help={meta && meta.documentation && meta.documentation.join(' ')}
+          help={meta?.documentation.join(' ')}
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}

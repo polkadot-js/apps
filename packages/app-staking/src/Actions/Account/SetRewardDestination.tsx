@@ -38,6 +38,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--Bonding'
+        header={t('Bonding Preferences')}
         open
         size='small'
       >
@@ -73,29 +74,24 @@ class SetRewardDestination extends TxComponent<Props, State> {
     const { destination } = this.state;
 
     return (
-      <>
-        <Modal.Header>
-          {t('Bonding Preferences')}
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            isDisabled
-            defaultValue={controllerId}
-            help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
-            label={t('controller account')}
-          />
-          <Dropdown
-            className='medium'
-            defaultValue={defaultDestination}
-            help={t('The destination account for any payments as either a nominator or validator')}
-            label={t('payment destination')}
-            onChange={this.onChangeDestination}
-            options={rewardDestinationOptions}
-            value={destination}
-          />
-        </Modal.Content>
-      </>
+      <Modal.Content className='ui--signer-Signer-Content'>
+        <InputAddress
+          className='medium'
+          isDisabled
+          defaultValue={controllerId}
+          help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
+          label={t('controller account')}
+        />
+        <Dropdown
+          className='medium'
+          defaultValue={defaultDestination}
+          help={t('The destination account for any payments as either a nominator or validator')}
+          label={t('payment destination')}
+          onChange={this.onChangeDestination}
+          options={rewardDestinationOptions}
+          value={destination}
+        />
+      </Modal.Content>
     );
   }
 
