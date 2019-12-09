@@ -716,5 +716,8 @@
   "submit with account": "",
   "The council proposal to make the vote on": "",
   "council proposal": "",
-  "The hash for the proposal this vote applies to": ""
+  "The hash for the proposal this vote applies to": "",
+  "Unable to render extrinsic": "",
+  "FATAL": "",
+  "Unable to render extrinsic, invalid": ""
 }
