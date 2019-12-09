@@ -25,5 +25,6 @@
   "Include an optional tip for faster processing": "Include an optional tip for faster processing",
   "Do not include a tip for the block author": "Do not include a tip for the block author",
   "FATAL": "FATAL",
-  "Unable to render extrinsic, invalid": "Unable to render extrinsic, invalid"
+  "Unable to render extrinsic, invalid": "Unable to render extrinsic, invalid",
+  "Details": "Details"
 }
