@@ -77,10 +77,7 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
   };
 
   return (
-    <Modal
-      dimmer='inverted'
-      open
-    >
+    <Modal open>
       <Modal.Header>{t('Add an address')}</Modal.Header>
       <Modal.Content>
         <AddressRow

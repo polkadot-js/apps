@@ -6,6 +6,7 @@ import { DerivedTreasuryProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Summary from './Summary';
@@ -24,7 +25,9 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
         approvalCount={info?.proposals.length}
         proposalCount={info?.approvals.length}
       />
-      <Propose />
+      <Button.Group>
+        <Propose />
+      </Button.Group>
       <Proposals proposals={info?.proposals} />
       <Proposals proposals={info?.approvals} isApprovals />
     </div>

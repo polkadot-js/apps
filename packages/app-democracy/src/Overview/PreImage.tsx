@@ -39,7 +39,6 @@ function PreImage ({ className, onClose, t }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className={className}
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Submit preimage')}</Modal.Header>

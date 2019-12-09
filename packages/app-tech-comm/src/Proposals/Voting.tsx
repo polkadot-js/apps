@@ -34,7 +34,6 @@ function Voting ({ hash, proposalId, t }: Props): React.ReactElement<Props> | nu
     <>
       {isVotingOpen && (
         <Modal
-          dimmer='inverted'
           open
           size='small'
         >

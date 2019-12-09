@@ -113,7 +113,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       className={[className || '', 'app--contracts-Modal'].join(' ')}
-      dimmer='inverted'
       onClose={onClose}
       open={isOpen}
     >

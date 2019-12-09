@@ -71,7 +71,6 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
 
   return (
     <Modal
-      dimmer='inverted'
       open
       size='small'
     >

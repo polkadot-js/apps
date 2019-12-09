@@ -29,7 +29,6 @@ function Propose ({ className, onClose, t }: Props): React.ReactElement<Props> {
   return (
     <Modal
       className={className}
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Submit proposal')}</Modal.Header>

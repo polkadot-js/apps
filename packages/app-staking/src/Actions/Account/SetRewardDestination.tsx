@@ -38,7 +38,6 @@ class SetRewardDestination extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--Bonding'
-        dimmer='inverted'
         open
         size='small'
       >

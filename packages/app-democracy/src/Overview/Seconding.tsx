@@ -33,7 +33,6 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
     <>
       {isSecondingOpen && (
         <Modal
-          dimmer='inverted'
           open
           size='small'
         >

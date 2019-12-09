@@ -39,7 +39,7 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
       }))
       .filter(({ value }): boolean => value !== -1);
 
-    setCouncilOptId(available ? available[0].value : 0);
+    setCouncilOptId(available.length ? available[0].value : 0);
     setCouncilOpts(available);
   }, [proposals]);
 
@@ -64,7 +64,6 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
     <>
       {isVotingOpen && (
         <Modal
-          dimmer='inverted'
           open
           size='small'
         >

@@ -24,7 +24,6 @@ function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<P
   return (
     <Modal
       className='app--accounts-Modal'
-      dimmer='inverted'
       onClose={onClose}
       open
     >

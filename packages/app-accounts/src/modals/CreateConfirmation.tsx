@@ -18,10 +18,7 @@ interface Props extends I18nProps {
 
 function CreateConfirmation ({ address, name, onClose, onCommit, t }: Props): React.ReactElement<Props> | null {
   return (
-    <Modal
-      dimmer='inverted'
-      open
-    >
+    <Modal open>
       <Modal.Header>
         {t('Important notice')}
       </Modal.Header>

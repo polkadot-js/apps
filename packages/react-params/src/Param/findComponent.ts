@@ -24,10 +24,10 @@ import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import Null from './Null';
 import Option from './Option';
+import Raw from './Raw';
 import Struct from './Struct';
 import Text from './Text';
 import Tuple from './Tuple';
-import U8a from './U8a';
 import Unknown from './Unknown';
 import Vector from './Vector';
 import Vote from './Vote';
@@ -45,7 +45,7 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
-  { c: U8a, t: ['U8a', 'Keys'] },
+  { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },

@@ -49,7 +49,6 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
   return (
     <Modal
       className={className}
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Add account via Qr')}</Modal.Header>

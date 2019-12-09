@@ -37,7 +37,6 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         {this.renderTrigger && this.renderTrigger()}
         <Modal
           className='ui--Modal'
-          dimmer='inverted'
           onClose={this.hideModal}
           open={isOpen}
         >

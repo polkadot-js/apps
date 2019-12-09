@@ -67,7 +67,6 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
   return (
     <Modal
       className='app--accounts-Modal'
-      dimmer='inverted'
       open
     >
       <Modal.Header>{t('Backup account')}</Modal.Header>

@@ -22,6 +22,8 @@ interface Props extends I18nProps {
 function Summary ({ approvalCount, proposalCount, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const pot = useCall<BN>(api.query.treasury.pot, []);
+  const bestNumber = useCall<BN>(api.derive.chain.bestNumber as any, []);
+  const spendPeriod = api.consts.treasury.spendPeriod;
   const treasuryBalance = useCall<BN>(api.query.balances.freeBalance, [TREASURY_ACCOUNT]);
 
   const value = treasuryBalance?.gtn(0)
@@ -47,6 +49,17 @@ function Summary ({ approvalCount, proposalCount, t }: Props): React.ReactElemen
           </CardSummary>
         )}
       </section>
+      {bestNumber && spendPeriod?.gtn(0) && (
+        <section>
+          <CardSummary
+            label={t('spend period')}
+            progress={{
+              total: spendPeriod,
+              value: bestNumber.mod(spendPeriod)
+            }}
+          />
+        </section>
+      )}
     </SummaryBox>
   );
 }

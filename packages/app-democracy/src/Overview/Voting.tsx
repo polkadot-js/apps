@@ -33,7 +33,6 @@ function Voting ({ referendumId, t }: Props): React.ReactElement<Props> | null {
     <>
       {isVotingOpen && (
         <Modal
-          dimmer='inverted'
           open
           size='small'
         >
