@@ -80,14 +80,12 @@ function Voting ({ referendumId, t }: Props): React.ReactElement<Props> | null {
           </Modal.Actions>
         </Modal>
       )}
-      <div className='ui--Row-buttons'>
-        <Button
-          icon='check'
-          isPrimary
-          label={t('Vote')}
-          onClick={_toggleVoting}
-        />
-      </div>
+      <Button
+        icon='check'
+        isPrimary
+        label={t('Vote')}
+        onClick={_toggleVoting}
+      />
     </>
   );
 }

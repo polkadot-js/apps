@@ -2,45 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TreasuryProposal } from '@polkadot/types/interfaces';
+import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import BN from 'bn.js';
-import React, { useEffect } from 'react';
-import { Option } from '@polkadot/types';
+import React from 'react';
 import { AddressMini, AddressSmall } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
+import Voting from './Voting';
 
 interface Props extends I18nProps {
   isApproved?: boolean;
-  proposalId: BN;
-  onPopulate: () => void;
+  proposal: DerivedTreasuryProposal;
   onRespond: () => void;
 }
 
-function ProposalDisplay ({ className, onPopulate, proposalId, t }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
-  const proposal = useCall<TreasuryProposal | null>(api.query.treasury.proposals, [proposalId], {
-    transform: (value: Option<TreasuryProposal>): TreasuryProposal | null =>
-      value.unwrapOr(null)
-  });
-
-  useEffect((): void => {
-    proposal && onPopulate();
-  }, [proposal]);
-
-  if (!proposal) {
-    return null;
-  }
-
+function ProposalDisplay ({ className, proposal: { council, id, proposal }, t }: Props): React.ReactElement<Props> | null {
   return (
     <tr className={className}>
       <td className='number top'>
-        <h1>{formatNumber(proposalId)}</h1>
+        <h1>{formatNumber(id)}</h1>
       </td>
       <td>
         <AddressSmall value={proposal.proposer} />
@@ -62,6 +45,9 @@ function ProposalDisplay ({ className, onPopulate, proposalId, t }: Props): Reac
           label={<label>{t('value')}</label>}
           value={proposal.value}
         />
+      </td>
+      <td className='top number together'>
+        <Voting proposals={council} />
       </td>
     </tr>
   );

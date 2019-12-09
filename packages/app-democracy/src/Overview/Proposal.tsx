@@ -31,7 +31,11 @@ function Proposal ({ className, t, value: { balance, hash, index, proposal, prop
       <td className='number together top'>
         <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
       </td>
-      <ProposalCell className='top' proposalHash={hash} proposal={proposal} />
+      <ProposalCell
+        className='top'
+        proposalHash={hash}
+        proposal={proposal}
+      />
       <td className='top seconding'>
         {seconding.length !== 0 && (
           <details>
