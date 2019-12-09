@@ -102,7 +102,7 @@ function renderContent (props: Props): React.ReactNode {
     } catch (error) {
       console.error(error);
 
-      return props.t('Unablt to render extrinsic');
+      return props.t('Unable to render extrinsic');
     }
   });
 }
