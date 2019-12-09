@@ -97,17 +97,16 @@ function Contracts (props: Props): React.ReactElement<Props> {
           </Button.Group>
         }
       >
-        {contracts
-          .map((contract: ApiContract, index): React.ReactNode => {
-            return (
-              <ContractCard
-                basePath={basePath}
-                contract={contract}
-                key={contract.address.toString()}
-                onCall={_onCall(index)}
-              />
-            );
-          })}
+        {contracts.map((contract: ApiContract, index): React.ReactNode => {
+          return (
+            <ContractCard
+              basePath={basePath}
+              contract={contract}
+              key={contract.address.toString()}
+              onCall={_onCall(index)}
+            />
+          );
+        })}
       </CardGrid>
       <Add
         basePath={basePath}

@@ -37,69 +37,74 @@ function renderSigner ({ t }: Props, extrinsic: Extrinsic): React.ReactNode {
 }
 
 // FIXME This is _very_ similar to what we have in democracy/Item
-function renderExtrinsic (props: Props): (_: Extrinsic, __: number) => React.ReactNode {
+function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number): React.ReactNode {
   const { blockNumber, t } = props;
+  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+  const isMortal = extrinsic.era.isMortalEra;
+  let eraEnd;
+  let eraStart;
 
-  return function ExplorerExtrinsic (extrinsic: Extrinsic, index: number): React.ReactNode {
-    const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
-    const isMortal = extrinsic.era.isMortalEra;
-    let eraEnd;
-    let eraStart;
+  if (blockNumber && isMortal) {
+    const mortalEra = extrinsic.era.asMortalEra;
 
-    if (blockNumber && isMortal) {
-      const mortalEra = extrinsic.era.asMortalEra;
+    eraEnd = mortalEra.death(blockNumber.toNumber());
+    eraStart = mortalEra.birth(blockNumber.toNumber());
+  }
 
-      eraEnd = mortalEra.death(blockNumber.toNumber());
-      eraStart = mortalEra.birth(blockNumber.toNumber());
-    }
-
-    return (
-      <article key={`extrinsic:${index}`}>
-        <div className='header'>
-          <h3>
-            {section}.{method}&nbsp;(#{formatNumber(index)})
-          </h3>
-          {renderSigner(props, extrinsic)}
-        </div>
-        <details>
-          <summary>{
-            meta && meta.documentation
-              ? meta.documentation.join(' ')
-              : t('Details')
-          }</summary>
-          <Call
-            className='details'
-            mortality={
-              isMortal
-                ? blockNumber
-                  ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
-                    replace: {
-                      endsAt: formatNumber(eraEnd),
-                      startAt: formatNumber(eraStart)
-                    }
-                  })
-                  : t('mortal')
-                : t('immortal')
-            }
-            tip={extrinsic.tip.toBn()}
-            value={extrinsic}
-            withHash
-          />
-        </details>
-        {
-          extrinsic.isSigned
-            ? <LinkPolkascan data={extrinsic.hash.toHex()} type='extrinsic' />
-            : null
-        }
-      </article>
-    );
-  };
+  return (
+    <article key={`extrinsic:${index}`}>
+      <div className='header'>
+        <h3>
+          {section}.{method}&nbsp;(#{formatNumber(index)})
+        </h3>
+        {renderSigner(props, extrinsic)}
+      </div>
+      <details>
+        <summary>{
+          meta && meta.documentation
+            ? meta.documentation.join(' ')
+            : t('Details')
+        }</summary>
+        <Call
+          className='details'
+          mortality={
+            isMortal
+              ? blockNumber
+                ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+                  replace: {
+                    endsAt: formatNumber(eraEnd),
+                    startAt: formatNumber(eraStart)
+                  }
+                })
+                : t('mortal')
+              : t('immortal')
+          }
+          tip={extrinsic.tip.toBn()}
+          value={extrinsic}
+          withHash
+        />
+      </details>
+      {
+        extrinsic.isSigned
+          ? <LinkPolkascan data={extrinsic.hash.toHex()} type='extrinsic' />
+          : null
+      }
+    </article>
+  );
 }
 
 function renderContent (props: Props): React.ReactNode {
   const { value = [] } = props;
 
-  return (value || []).map(renderExtrinsic(props));
+  return (value || []).map((extrinsic, index): React.ReactNode => {
+    try {
+      return renderExtrinsic(props, extrinsic, index);
+    } catch (error) {
+      console.error(error);
+
+      return props.t('Unable to render extrinsic');
+    }
+  });
 }
 
 function Extrinsics (props: Props): React.ReactElement<Props> {
@@ -125,9 +130,9 @@ export default translate(styled(Extrinsics)`
 
   .explorer--BlockByHash-nonce {
     font-size: 0.75rem;
-    margin-right: 2.25rem;
+    margin-left: 2.25rem;
     margin-top: -0.625rem;
     opacity: 0.45;
-    text-align: right;
+    text-align: left;
   }
 `);
