@@ -98,15 +98,11 @@ function Forget (props: Props): React.ReactElement<Props> {
   return (
     <Modal
       className='app--accounts-Modal'
+      header={getHeaderText(props)}
       onClose={onClose}
       open
     >
-      <Modal.Header>
-        {getHeaderText(props)}
-      </Modal.Header>
-      <Modal.Content>
-        {renderContent(props)}
-      </Modal.Content>
+      <Modal.Content>{renderContent(props)}</Modal.Content>
       <Modal.Actions>
         <Button.Group>
           <Button

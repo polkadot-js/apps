@@ -72,11 +72,9 @@ function Nominate ({ className, controllerId, nominees, onClose, stashId, stashO
   return (
     <Modal
       className={`staking--Nominating ${className}`}
+      header={t('Nominate Validators')}
       open
     >
-      <Modal.Header>
-        {t('Nominate Validators')}
-      </Modal.Header>
       <Modal.Content className='ui--signer-Signer-Content'>
         <InputAddress
           className='medium'

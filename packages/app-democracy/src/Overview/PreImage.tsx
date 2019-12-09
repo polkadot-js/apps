@@ -39,9 +39,9 @@ function PreImage ({ className, onClose, t }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className={className}
+      header={t('Submit preimage')}
       open
     >
-      <Modal.Header>{t('Submit preimage')}</Modal.Header>
       <Modal.Content>
         <InputAddress
           help={t('The account you want to register the preimage from')}

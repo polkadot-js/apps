@@ -67,6 +67,7 @@ class BondExtra extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--BondExtra'
+        header= {t('Bond more funds')}
         open
         size='small'
       >
@@ -103,36 +104,31 @@ class BondExtra extends TxComponent<Props, State> {
     const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
-      <>
-        <Modal.Header>
-          {t('Bond more funds')}
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            defaultValue={stashId}
-            isDisabled
-            label={t('stash account')}
-            labelExtra={<Available label={transferrable} params={stashId} />}
-          />
-          <InputBalance
-            autoFocus
-            className='medium'
-            help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-            isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
-            label={t('additional bonded funds')}
-            maxValue={maxBalance}
-            onChange={this.onChangeValue}
-            onEnter={this.sendTx}
-            withMax={!isUnsafeChain}
-          />
-          <ValidateAmount
-            accountId={stashId}
-            onError={this.setAmountError}
-            value={maxAdditional}
-          />
-        </Modal.Content>
-      </>
+      <Modal.Content className='ui--signer-Signer-Content'>
+        <InputAddress
+          className='medium'
+          defaultValue={stashId}
+          isDisabled
+          label={t('stash account')}
+          labelExtra={<Available label={transferrable} params={stashId} />}
+        />
+        <InputBalance
+          autoFocus
+          className='medium'
+          help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
+          isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
+          label={t('additional bonded funds')}
+          maxValue={maxBalance}
+          onChange={this.onChangeValue}
+          onEnter={this.sendTx}
+          withMax={!isUnsafeChain}
+        />
+        <ValidateAmount
+          accountId={stashId}
+          onError={this.setAmountError}
+          value={maxAdditional}
+        />
+      </Modal.Content>
     );
   }
 

@@ -136,9 +136,9 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
   return (
     <Modal
       className={className}
+      header={t('Derive account from pair')}
       open
     >
-      <Modal.Header>{t('Derive account from pair')}</Modal.Header>
       {address && isConfirmationOpen && (
         <CreateConfirmation
           address={address}

@@ -10,10 +10,10 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.99.0-beta.11",
-    "@polkadot/api-contract": "^0.99.0-beta.11",
+    "@polkadot/api": "^0.99.0-beta.13",
+    "@polkadot/api-contract": "^0.99.0-beta.13",
     "@polkadot/keyring": "^1.7.1",
-    "@polkadot/types": "^0.99.0-beta.11",
+    "@polkadot/types": "^0.99.0-beta.13",
     "@polkadot/util": "^1.7.1",
     "@polkadot/util-crypto": "^1.7.1",
     "babel-core": "^7.0.0-bridge.0",

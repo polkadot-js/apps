@@ -19,24 +19,6 @@ interface Props extends I18nProps {
   value?: Extrinsic[] | null;
 }
 
-function renderSigner ({ t }: Props, extrinsic: Extrinsic): React.ReactNode {
-  if (!extrinsic.isSigned) {
-    return null;
-  }
-
-  return (
-    <div className='explorer--BlockByHash-header'>
-      <div>
-        <AddressMini value={extrinsic.signer} />
-      </div>
-      <div className='explorer--BlockByHash-nonce'>
-        {t('index')} {formatNumber(extrinsic.nonce)}
-      </div>
-    </div>
-  );
-}
-
-// FIXME This is _very_ similar to what we have in democracy/Item
 function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number): React.ReactNode {
   const { blockNumber, t } = props;
   const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
@@ -57,14 +39,19 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number): Re
         <h3>
           {section}.{method}&nbsp;(#{formatNumber(index)})
         </h3>
-        {renderSigner(props, extrinsic)}
+        {extrinsic.isSigned && (
+          <div className='explorer--BlockByHash-header'>
+            <div>
+              <AddressMini value={extrinsic.signer} />
+            </div>
+            <div className='explorer--BlockByHash-nonce'>
+              {t('index')} {formatNumber(extrinsic.nonce)}
+            </div>
+          </div>
+        )}
       </div>
       <details>
-        <summary>{
-          meta && meta.documentation
-            ? meta.documentation.join(' ')
-            : t('Details')
-        }</summary>
+        <summary>{meta?.documentation.join(' ') || t('Details')}</summary>
         <Call
           className='details'
           mortality={
@@ -93,22 +80,8 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number): Re
   );
 }
 
-function renderContent (props: Props): React.ReactNode {
-  const { value = [] } = props;
-
-  return (value || []).map((extrinsic, index): React.ReactNode => {
-    try {
-      return renderExtrinsic(props, extrinsic, index);
-    } catch (error) {
-      console.error(error);
-
-      return props.t('Unable to render extrinsic');
-    }
-  });
-}
-
 function Extrinsics (props: Props): React.ReactElement<Props> {
-  const { className, label, t } = props;
+  const { className, label, t, value } = props;
 
   return (
     <Column
@@ -116,7 +89,15 @@ function Extrinsics (props: Props): React.ReactElement<Props> {
       emptyText={t('No pending extrinsics are in the queue')}
       headerText={label || t('extrinsics')}
     >
-      {renderContent(props)}
+      {value?.map((extrinsic, index): React.ReactNode => {
+        try {
+          return renderExtrinsic(props, extrinsic, index);
+        } catch (error) {
+          console.error(error);
+
+          return props.t('Unable to render extrinsic');
+        }
+      })}
     </Column>
   );
 }

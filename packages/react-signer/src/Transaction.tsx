@@ -33,11 +33,7 @@ function Transaction ({ children, hideDetails, isSendable, value: { accountId, e
       <>
         <Modal.Header>
           {section}.{method}
-          <label><details><summary>{
-            meta && meta.documentation
-              ? meta.documentation.join(' ')
-              : ''
-          }</summary></details></label>
+          <label><details><summary>{meta?.documentation.join(' ') || t('Details')}</summary></details></label>
         </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           {!hideDetails && (

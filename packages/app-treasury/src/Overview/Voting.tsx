@@ -64,10 +64,10 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
     <>
       {isVotingOpen && (
         <Modal
+          header={t('Vote on proposal')}
           open
           size='small'
         >
-          <Modal.Header>{t('Vote on proposal')}</Modal.Header>
           <Modal.Content>
             <VoteAccount onChange={setAccountId} />
             <Dropdown

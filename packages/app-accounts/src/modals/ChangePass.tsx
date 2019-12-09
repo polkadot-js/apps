@@ -37,9 +37,9 @@ class ChangePass extends TxComponent<Props, State> {
     return (
       <Modal
         className='app--accounts-Modal'
+        header={t('Change account password')}
         open
       >
-        <Modal.Header>{t('Change account password')}</Modal.Header>
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>

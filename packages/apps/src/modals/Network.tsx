@@ -18,9 +18,9 @@ function NetworkModal ({ className, onClose, t }: Props): React.ReactElement<Pro
   return (
     <Modal
       className={className}
+      header={t('Select Network')}
       open
     >
-      <Modal.Header>{t('Select Network')}</Modal.Header>
       <Modal.Content>
         <General
           isModalContent

@@ -23,6 +23,7 @@ function Modal (props: Props): React.ReactElement<Props> {
       {...props}
       className={classes('theme--default', 'ui--Modal', className)}
       dimmer='inverted'
+      header={undefined}
     >
       {header && (
         <SUIModal.Header>{header}</SUIModal.Header>
