@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, Points, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import { DerivedStaking, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedStakingQuery, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
@@ -51,7 +51,7 @@ interface StakingState {
 function Address ({ address, authorsMap, className, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
-  const stakingInfo = useCall<DerivedStaking>(api.derive.staking.info as any, [address]);
+  const stakingInfo = useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]);
   const [hasActivity, setHasActivity] = useState(true);
   const [{ commission, hasNominators, isNominatorMe, nominators, stashId, stakeOwn, stakeOther, validatorPayment }, setStakingState] = useState<StakingState>({
     hasNominators: false,

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStakingAccount } from '@polkadot/api-derive/types';
 import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from './types';
 
@@ -49,7 +49,7 @@ interface Props extends BareProps, I18nProps {
   balancesAll?: DerivedBalances;
   children?: React.ReactNode;
   extraInfo?: [string, string][];
-  stakingInfo?: DerivedStaking;
+  stakingInfo?: DerivedStakingAccount;
   withBalance?: boolean | BalanceActiveType;
   withBalanceToggle?: false;
   withExtended?: boolean | CryptoActiveType;
@@ -112,7 +112,7 @@ function skipStakingIf ({ stakingInfo, withBalance = true, withRewardDestination
 }
 
 // calculates the bonded, first being the own, the second being nominated
-function calcBonded (stakingInfo?: DerivedStaking, bonded?: boolean | BN[]): [BN, BN[]] {
+function calcBonded (stakingInfo?: DerivedStakingAccount, bonded?: boolean | BN[]): [BN, BN[]] {
   let other: BN[] = [];
   let own = new BN(0);
 
@@ -494,7 +494,7 @@ export default withMulti(
       propName: 'balancesAll',
       skipIf: skipBalancesIf
     }],
-    ['derive.staking.info', {
+    ['derive.staking.account', {
       paramName: 'address',
       propName: 'stakingInfo',
       skipIf: skipStakingIf
