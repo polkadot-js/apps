@@ -19,6 +19,8 @@ import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
 
+import { types as flowchainTypes } from '@flowchain/types';
+
 import Apps from './Apps';
 
 const rootId = 'root';
@@ -39,6 +41,8 @@ if (Array.isArray(_wsEndpoint)) {
 const wsEndpoint = _wsEndpoint.split('#')[0];
 
 console.log('WS endpoint=', wsEndpoint);
+
+registry.register(flowchainTypes);
 
 try {
   const types = store.get('types') || {};

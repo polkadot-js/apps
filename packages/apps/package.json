@@ -14,6 +14,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
     "@babel/runtime": "^7.7.4",
+    "@flowchain/types": "^0.2.0-beta.2",
     "@polkadot/react-components": "^0.38.0-beta.8",
     "@polkadot/react-signer": "^0.38.0-beta.8",
     "@polkadot/ui-assets": "^0.47.1",
