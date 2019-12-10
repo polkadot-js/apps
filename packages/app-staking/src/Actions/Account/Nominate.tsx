@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressMini, Button, InputAddress, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { AddressMulti, Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../../constants';
@@ -15,59 +15,47 @@ import translate from '../../translate';
 
 interface Props extends I18nProps {
   controllerId: string;
+  next: string[];
   nominees?: string[];
   onClose: () => void;
+  stakingOverview?: DerivedStakingOverview;
   stashId: string;
-  stashOptions: KeyringSectionOption[];
 }
 
-// We only allow a maximum of 16 nominees, negative to slice
-const MAX_NOMINEES = -16;
+const MAX_NOMINEES = 16;
 
-function Nominate ({ className, controllerId, nominees, onClose, stashId, stashOptions, t }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className, controllerId, nominees, onClose, next, stakingOverview, stashId, t }: Props): React.ReactElement<Props> | null {
   const [favorites] = useFavorites(STORE_FAVS_BASE);
-  const [next, setNext] = useState<string[] | undefined>();
-  const [{ options, shortlist }, setShortlist] = useState<{ options: KeyringSectionOption[]; shortlist: string[] }>({ options: [], shortlist: [] });
+  const [validators, setValidators] = useState<string[]>([]);
+  const [selection, setSelection] = useState<string[]>([]);
+  const [available, setAvailable] = useState<string[]>([]);
 
   useEffect((): void => {
-    if (!next && nominees) {
-      setNext(nominees);
+    if (!selection.length && nominees) {
+      setSelection(nominees);
     }
-  }, [next, nominees]);
+  }, [selection, nominees]);
 
   useEffect((): void => {
-    if (nominees) {
-      const _favorites = favorites.filter((accountId): boolean =>
-        stashOptions.some(({ value }): boolean => value === accountId)
-      );
-
-      const shortlist = [
-        // ensure that the favorite is included in the list of stashes
-        ..._favorites,
-        // make sure the nominee is not in our favorites already
-        ...nominees.filter((accountId): boolean => !_favorites.includes(accountId))
-      ];
-
-      setShortlist({
-        options: stashOptions.filter(({ value }): boolean => !shortlist.includes(value as string)),
-        shortlist
-      });
+    if (stakingOverview) {
+      setValidators((stakingOverview.currentElected || []).map((acc): string => acc.toString()));
     }
-  }, [favorites, nominees, stashOptions]);
+  }, [stakingOverview]);
 
-  const _onChangeNominees = (_nominees: string[]): void => {
-    const newNominees = _nominees.slice(MAX_NOMINEES);
+  useEffect((): void => {
+    const shortlist = [
+      // ensure that the favorite is included in the list of stashes
+      ...favorites.filter((acc): boolean => validators.includes(acc) || next.includes(acc)),
+      // make sure the nominee is not in our favorites already
+      ...(nominees || []).filter((acc): boolean => !favorites.includes(acc))
+    ];
 
-    if (JSON.stringify(newNominees) !== JSON.stringify(nominees)) {
-      setNext(newNominees);
-    }
-  };
-  const _onToggleNominee = (nominee: string): void =>
-    setNext(
-      (next || []).includes(nominee)
-        ? (next || []).filter((accountId): boolean => accountId !== nominee)
-        : [...(next || []), nominee].slice(MAX_NOMINEES)
-    );
+    setAvailable([
+      ...shortlist,
+      ...validators.filter((acc): boolean => !shortlist.includes(acc)),
+      ...next.filter((acc): boolean => !shortlist.includes(acc))
+    ]);
+  }, [favorites, next, nominees, validators]);
 
   return (
     <Modal
@@ -88,46 +76,15 @@ function Nominate ({ className, controllerId, nominees, onClose, stashId, stashO
           isDisabled
           label={t('stash account')}
         />
-        <InputAddress
+        <AddressMulti
+          available={available}
           className='medium'
-          help={t('Stash accounts that are to be nominated. Block rewards are split between validators and nominators. Only 16 nominees will be taken into account.')}
-          isInput={false}
-          isMultiple
-          label={t('nominate the following addresses')}
-          onChangeMulti={_onChangeNominees}
-          options={options}
-          placeholder={t('select accounts(s) nominate')}
-          type='account'
-          value={next || []}
+          help={t('Filter available candidates based on name, address or short account index.')}
+          label={t('filter candidates')}
+          maxCount={MAX_NOMINEES}
+          onChange={setSelection}
+          value={selection}
         />
-        {shortlist.length !== 0 && (
-          <div className='shortlist'>
-            {shortlist.map((address): React.ReactNode => {
-              const isAye = next?.includes(address);
-              const _onChange = (): void => _onToggleNominee(address);
-
-              return (
-                <AddressMini
-                  className={`candidate ${isAye ? 'isAye' : 'isNay'}`}
-                  key={address}
-                  value={address}
-                >
-                  <div className='candidate-right'>
-                    <Toggle
-                      label={
-                        isAye
-                          ? t('Aye')
-                          : t('Nay')
-                      }
-                      onChange={_onChange}
-                      value={isAye}
-                    />
-                  </div>
-                </AddressMini>
-              );
-            })}
-          </div>
-        )}
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
@@ -140,10 +97,10 @@ function Nominate ({ className, controllerId, nominees, onClose, stashId, stashO
           <Button.Or />
           <TxButton
             accountId={controllerId}
-            isDisabled={!next || next.length === 0}
+            isDisabled={!selection.length}
             isPrimary
             onClick={onClose}
-            params={[next]}
+            params={[selection]}
             label={t('Nominate')}
             icon='hand paper outline'
             tx='staking.nominate'

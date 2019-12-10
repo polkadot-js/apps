@@ -121,6 +121,8 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
         allStashes={allStashes}
         isVisible={pathname === `${basePath}/actions`}
         recentlyOnline={recentlyOnline}
+        next={next}
+        stakingOverview={stakingOverview}
       />
       <Overview
         hasQueries={hasQueries}
