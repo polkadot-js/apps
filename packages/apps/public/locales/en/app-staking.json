@@ -146,5 +146,7 @@
   "total stake": "total stake",
   "payout (est.)": "payout (est.)",
   "Nominating {{count}}": "Nominating {{count}}",
-  "Nominating ({{count}})": "Nominating ({{count}})"
+  "Nominating ({{count}})": "Nominating ({{count}})",
+  "Filter available candidates based on name, address or short account index.": "Filter available candidates based on name, address or short account index.",
+  "filter candidates": "filter candidates"
 }

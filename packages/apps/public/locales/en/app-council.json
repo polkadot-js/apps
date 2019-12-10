@@ -47,5 +47,7 @@
   "Candidates": "Candidates",
   "backing": "backing",
   "No runners up found": "No runners up found",
-  "Motions ({{count}})": "Motions ({{count}})"
+  "Motions ({{count}})": "Motions ({{count}})",
+  "Filter available candidates based on name, address or short account index.": "Filter available candidates based on name, address or short account index.",
+  "filter candidates": "filter candidates"
 }
