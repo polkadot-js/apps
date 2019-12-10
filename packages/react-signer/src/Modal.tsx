@@ -17,7 +17,7 @@ import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, InputBalance, Modal, Toggle } from '@polkadot/react-components';
+import { Button, InputBalance, Modal, Toggle, ErrorBoundary } from '@polkadot/react-components';
 import { registry, withApi, withMulti, withObservable } from '@polkadot/react-api';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
@@ -43,6 +43,7 @@ interface State {
   currentItem?: QueueTx;
   isQrScanning: boolean;
   isQrVisible: boolean;
+  isRenderError: boolean;
   isSendable: boolean;
   isV2?: boolean;
   password: string;
@@ -94,9 +95,10 @@ async function makeExtrinsicSignature (payload: SignerPayloadJSON, { id, signerC
 
 class Signer extends React.PureComponent<Props, State> {
   public state: State = {
-    isSendable: false,
     isQrScanning: false,
     isQrVisible: false,
+    isRenderError: false,
+    isSendable: false,
     password: '',
     qrAddress: '',
     qrPayload: new Uint8Array(),
@@ -164,7 +166,9 @@ class Signer extends React.PureComponent<Props, State> {
         className='ui--signer-Signer'
         open
       >
-        {this.renderContent()}
+        <ErrorBoundary onError={this.onRenderError}>
+          {this.renderContent()}
+        </ErrorBoundary>
         {this.renderButtons()}
       </Modal>
     );
@@ -172,7 +176,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, isQrScanning, isQrVisible, isSendable } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isRenderError, isSendable } = this.state;
 
     if (!currentItem) {
       return null;
@@ -194,7 +198,7 @@ class Signer extends React.PureComponent<Props, State> {
             label={t('Cancel')}
             icon='cancel'
           />
-          {(!isQrVisible || !isQrScanning) && (
+          {!isRenderError && (!isQrVisible || !isQrScanning) && (
             <>
               <Button.Or />
               <Button
@@ -246,6 +250,7 @@ class Signer extends React.PureComponent<Props, State> {
       <Transaction
         hideDetails={isQrVisible}
         isSendable={isSendable}
+        onError={this.onRenderError}
         tip={tip}
         value={currentItem}
       >
@@ -300,6 +305,10 @@ class Signer extends React.PureComponent<Props, State> {
         )}
       </>
     );
+  }
+
+  private onRenderError = (): void => {
+    this.setState({ isRenderError: true });
   }
 
   private onShowTip = (showTip: boolean): void => {

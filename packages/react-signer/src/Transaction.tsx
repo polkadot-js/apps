@@ -17,64 +17,55 @@ interface Props extends I18nProps {
   children?: React.ReactNode;
   hideDetails?: boolean;
   isSendable: boolean;
+  onError: () => void;
   tip?: BN;
   value: QueueTx;
 }
 
-function Transaction ({ children, hideDetails, isSendable, value: { accountId, extrinsic, isUnsigned }, t, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ children, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, t, tip }: Props): React.ReactElement<Props> | null {
   if (!extrinsic) {
     return null;
   }
 
-  try {
-    const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
 
-    return (
-      <>
-        <Modal.Header>
-          {section}.{method}
-          <label><details><summary>{meta?.documentation.join(' ') || t('Details')}</summary></details></label>
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          {!hideDetails && (
-            <>
-              {!isUnsigned && accountId && (
-                <InputAddress
-                  className='full'
-                  defaultValue={accountId}
-                  isDisabled
-                  isInput
-                  label={t('sending from my account')}
-                  withLabel
-                />
-              )}
-              <Call value={extrinsic} />
-              {!isUnsigned && (
-                <Checks
-                  accountId={accountId}
-                  extrinsic={extrinsic}
-                  isSendable={isSendable}
-                  tip={tip}
-                />
-              )}
-            </>
-          )}
-          {children}
-        </Modal.Content>
-      </>
-    );
-  } catch (error) {
-    console.error(error);
-
-    return (
-      <>
-        <Modal.Header>{t('FATAL')}</Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          {t('Unable to render extrinsic, invalid')}
-        </Modal.Content>
-      </>
-    );
-  }
+  return (
+    <>
+      <Modal.Header>
+        {section}.{method}
+        <label><details><summary>{meta?.documentation.join(' ') || t('Details')}</summary></details></label>
+      </Modal.Header>
+      <Modal.Content className='ui--signer-Signer-Content'>
+        {!hideDetails && (
+          <>
+            {!isUnsigned && accountId && (
+              <InputAddress
+                className='full'
+                defaultValue={accountId}
+                isDisabled
+                isInput
+                label={t('sending from my account')}
+                withLabel
+              />
+            )}
+            <Call
+              onError={onError}
+              value={extrinsic}
+            />
+            {!isUnsigned && (
+              <Checks
+                accountId={accountId}
+                extrinsic={extrinsic}
+                isSendable={isSendable}
+                tip={tip}
+              />
+            )}
+          </>
+        )}
+        {children}
+      </Modal.Content>
+    </>
+  );
 }
 
 export default translate(Transaction);
