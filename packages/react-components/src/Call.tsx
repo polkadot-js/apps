@@ -50,7 +50,7 @@ function Call ({ children, className, labelHash, mortality, onError, style, tip,
       value
     }));
     const hash = withHash
-      ? (value as IExtrinsic).hash
+      ? value.hash
       : null;
 
     setExtracted({ hash, params, values });
@@ -85,7 +85,7 @@ function Call ({ children, className, labelHash, mortality, onError, style, tip,
             {mortality}
           </Static>
         )}
-        {tip && tip.gtn(0) && (
+        {tip?.gtn(0) && (
           <Static
             className='tip'
             label={t('tip')}
