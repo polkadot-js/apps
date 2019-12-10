@@ -719,5 +719,6 @@
   "The hash for the proposal this vote applies to": "",
   "Unable to render extrinsic": "",
   "FATAL": "",
-  "Unable to render extrinsic, invalid": ""
+  "Unable to render extrinsic, invalid": "",
+  "Uncaught error. Something went wrong with the data extraction, resulting in an error log.": ""
 }
