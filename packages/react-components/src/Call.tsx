@@ -19,13 +19,14 @@ import translate from './translate';
 export interface Props extends I18nProps, BareProps {
   children?: React.ReactNode;
   labelHash?: React.ReactNode;
+  mortality?: string;
+  onError?: () => void;
   value: IExtrinsic | IMethod;
   withHash?: boolean;
-  mortality?: string;
   tip?: BN;
 }
 
-function Call ({ children, className, labelHash, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
+function Call ({ children, className, labelHash, mortality, onError, style, tip, value, withHash, t }: Props): React.ReactElement<Props> {
   const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
     name: name.toString(),
     type: getTypeDef(type.toString())
@@ -45,6 +46,7 @@ function Call ({ children, className, labelHash, style, mortality, tip, value, w
     >
       <Params
         isDisabled
+        onError={onError}
         params={params}
         values={values}
       />

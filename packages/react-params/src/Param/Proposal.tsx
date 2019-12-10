@@ -23,37 +23,19 @@ export default function Proposal (props: Props): React.ReactElement<Props> {
   }
 
   const proposal = value as Extrinsic;
+  const { method, section } = registry.findMetaCall(proposal.callIndex);
 
-  try {
-    const { method, section } = registry.findMetaCall(proposal.callIndex);
-
-    return (
-      <Bare>
-        <Static
-          className={classes(className, 'full')}
-          label={label}
-          style={style}
-          withLabel={withLabel}
-        >
-          {section}.{method}
-        </Static>
-        <Call value={proposal} />
-      </Bare>
-    );
-  } catch (error) {
-    console.error(error);
-
-    return (
-      <Bare>
-        <Static
-          className={classes(className, 'full')}
-          label={label}
-          style={style}
-          withLabel={withLabel}
-        >
-          Unable to render extrinsic.
-        </Static>
-      </Bare>
-    );
-  }
+  return (
+    <Bare>
+      <Static
+        className={classes(className, 'full')}
+        label={label}
+        style={style}
+        withLabel={withLabel}
+      >
+        {section}.{method}
+      </Static>
+      <Call value={proposal} />
+    </Bare>
+  );
 }
