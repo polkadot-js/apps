@@ -2,18 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, CardGrid } from '@polkadot/react-components';
 import { useCall, useApi, useAccounts } from '@polkadot/react-hooks';
-import { AccountName } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
-import createOption from '@polkadot/ui-keyring/options/item';
 
 import Account from './Account';
 import StartStaking from './NewStake';
@@ -23,6 +20,8 @@ interface Props extends I18nProps {
   allStashes: string[];
   isVisible: boolean;
   recentlyOnline?: DerivedHeartbeats;
+  next: string[];
+  stakingOverview?: DerivedStakingOverview;
 }
 
 function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): [string, boolean][] | null {
@@ -47,22 +46,13 @@ function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], q
   return result;
 }
 
-function Actions ({ allStashes, className, isVisible, recentlyOnline, t }: Props): React.ReactElement<Props> {
+function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const queryBonded = useCall<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
   const queryLedger = useCall<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
-  const [stashOptions, setStashOptions] = useState<KeyringSectionOption[]>([]);
-
-  useEffect((): void => {
-    setStashOptions(
-      allStashes.map((stashId): KeyringSectionOption =>
-        createOption(stashId, (<AccountName params={stashId} />) as any)
-      )
-    );
-  }, [allStashes]);
 
   useEffect((): void => {
     setFoundStashes(getStashes(allAccounts, queryBonded, queryLedger));
@@ -89,15 +79,16 @@ function Actions ({ allStashes, className, isVisible, recentlyOnline, t }: Props
       {isNewStakeOpen && (
         <StartStaking onClose={_toggleNewStake} />
       )}
-      {foundStashes && foundStashes.map(([stashId, isOwnStash], index): React.ReactNode => (
+      {foundStashes?.map(([stashId, isOwnStash], index): React.ReactNode => (
         stashId && (
           <Account
             allStashes={allStashes}
             isOwnStash={isOwnStash}
             key={index}
+            next={next}
             recentlyOnline={recentlyOnline}
+            stakingOverview={stakingOverview}
             stashId={stashId}
-            stashOptions={stashOptions}
           />
         )
       ))}

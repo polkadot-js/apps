@@ -3,11 +3,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStakingAccount, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -30,10 +29,11 @@ interface Props extends ApiProps, I18nProps {
   balances_all?: DerivedBalances;
   className?: string;
   isOwnStash: boolean;
+  next: string[];
   recentlyOnline?: DerivedHeartbeats;
   staking_account?: DerivedStakingAccount;
+  stakingOverview?: DerivedStakingOverview;
   stashId: string;
-  stashOptions: KeyringSectionOption[];
 }
 
 interface State {
@@ -235,7 +235,7 @@ class Account extends React.PureComponent<Props, State> {
   }
 
   private renderNominate (): React.ReactNode {
-    const { stashId, stashOptions } = this.props;
+    const { next, stakingOverview, stashId } = this.props;
     const { controllerId, isNominateOpen, nominees } = this.state;
 
     if (!isNominateOpen || !stashId || !controllerId) {
@@ -245,10 +245,11 @@ class Account extends React.PureComponent<Props, State> {
     return (
       <Nominate
         controllerId={controllerId}
+        next={next}
         nominees={nominees}
         onClose={this.toggleNominate}
+        stakingOverview={stakingOverview}
         stashId={stashId}
-        stashOptions={stashOptions}
       />
     );
   }
