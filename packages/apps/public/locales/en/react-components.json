@@ -74,5 +74,6 @@
   "balances": "balances",
   "vote with account": "vote with account",
   "Uncaught error. Something went wrong with the data extraction, resulting in an error log.": "Uncaught error. Something went wrong with the data extraction, resulting in an error log.",
-  "partial name, address or account index": "partial name, address or account index"
+  "partial name, address or account index": "partial name, address or account index",
+  "rewards": "rewards"
 }

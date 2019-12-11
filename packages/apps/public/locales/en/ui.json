@@ -723,5 +723,8 @@
   "Uncaught error. Something went wrong with the data extraction, resulting in an error log.": "",
   "Filter available candidates based on name, address or short account index.": "",
   "filter candidates": "",
-  "partial name, address or account index": ""
+  "partial name, address or account index": "",
+  "Session Key": "",
+  "No funds staked yet. Bond funds to validate or nominate a validator.": "",
+  "rewards": ""
 }
