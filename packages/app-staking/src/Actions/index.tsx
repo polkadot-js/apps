@@ -89,7 +89,7 @@ function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stak
         ? (
           <Table>
             <Table.Body>
-              {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
+              {foundStashes.map(([stashId, isOwnStash]): React.ReactNode => (
                 <Account
                   allStashes={allStashes}
                   isOwnStash={isOwnStash}
