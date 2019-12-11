@@ -7,8 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Button, CardGrid } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { useCall, useApi, useAccounts } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
@@ -24,7 +23,7 @@ interface Props extends I18nProps {
   stakingOverview?: DerivedStakingOverview;
 }
 
-function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): [string, boolean][] | null {
+function getStashes (allAccounts: string[], stashTypes: Record<string, number>, queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): [string, boolean][] | null {
   const result: [string, boolean][] = [];
 
   if (!queryBonded || !queryLedger) {
@@ -43,7 +42,9 @@ function getStashes (allAccounts: string[], queryBonded?: Option<AccountId>[], q
     }
   });
 
-  return result;
+  return result.sort((a, b): number =>
+    (stashTypes[a[0]] || 99) - (stashTypes[b[0]] || 99)
+  );
 }
 
 function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
@@ -53,17 +54,26 @@ function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stak
   const queryLedger = useCall<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
+  const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
 
   useEffect((): void => {
-    setFoundStashes(getStashes(allAccounts, queryBonded, queryLedger));
-  }, [allAccounts, queryBonded, queryLedger]);
+    setFoundStashes(getStashes(allAccounts, stashTypes, queryBonded, queryLedger));
+  }, [allAccounts, queryBonded, queryLedger, stashTypes]);
 
-  const isEmpty = !isNewStakeOpen && (!foundStashes || foundStashes.length === 0);
   const _toggleNewStake = (): void => setIsNewStateOpen(!isNewStakeOpen);
+  const _onUpdateType = (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
+    setStashTypes({
+      ...stashTypes,
+      [stashId]: type === 'validator'
+        ? 1
+        : type === 'nominator'
+          ? 5
+          : 9
+    });
 
   return (
-    <CardGrid
-      buttons={
+    <div className={`${className} ${!isVisible && 'staking--hidden'}`}>
+      <Button.Group>
         <Button
           isPrimary
           key='new-stake'
@@ -71,35 +81,33 @@ function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stak
           icon='add'
           onClick={_toggleNewStake}
         />
-      }
-      className={`${className} ${!isVisible && 'staking--hidden'}`}
-      emptyText={t('No funds staked yet.')}
-      isEmpty={isEmpty}
-    >
+      </Button.Group>
       {isNewStakeOpen && (
         <StartStaking onClose={_toggleNewStake} />
       )}
-      {foundStashes?.map(([stashId, isOwnStash], index): React.ReactNode => (
-        stashId && (
-          <Account
-            allStashes={allStashes}
-            isOwnStash={isOwnStash}
-            key={index}
-            next={next}
-            recentlyOnline={recentlyOnline}
-            stakingOverview={stakingOverview}
-            stashId={stashId}
-          />
+      {foundStashes?.length
+        ? (
+          <Table>
+            <Table.Body>
+              {foundStashes.map(([stashId, isOwnStash]): React.ReactNode => (
+                <Account
+                  allStashes={allStashes}
+                  isOwnStash={isOwnStash}
+                  key={stashId}
+                  next={next}
+                  onUpdateType={_onUpdateType}
+                  recentlyOnline={recentlyOnline}
+                  stakingOverview={stakingOverview}
+                  stashId={stashId}
+                />
+              ))}
+            </Table.Body>
+          </Table>
         )
-      ))}
-    </CardGrid>
+        : t('No funds staked yet. Bond funds to validate or nominate a validator.')
+      }
+    </div>
   );
 }
 
-export default translate(
-  styled(Actions)`
-    .ui--CardGrid-buttons {
-      text-align: right;
-    }
-  `
-);
+export default translate(Actions);

@@ -1,57 +1,48 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { Codec, ITuple } from '@polkadot/types/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressCard, AddressInfo, AddressMini, AddressRow, Button, Menu, Popup, TxButton } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, TxButton } from '@polkadot/react-components';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { u8aConcat, u8aToHex } from '@polkadot/util';
 
+import translate from '../../translate';
 import BondExtra from './BondExtra';
 import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
 import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
-import translate from '../../translate';
 import Unbond from './Unbond';
 import Validate from './Validate';
-import { u8aToHex, u8aConcat } from '@polkadot/util';
 
-interface Props extends ApiProps, I18nProps {
+type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]>;
+
+interface Props extends I18nProps {
   allStashes?: string[];
-  balances_all?: DerivedBalances;
-  className?: string;
   isOwnStash: boolean;
   next: string[];
+  onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
   recentlyOnline?: DerivedHeartbeats;
-  staking_account?: DerivedStakingAccount;
   stakingOverview?: DerivedStakingOverview;
   stashId: string;
 }
 
-interface State {
+interface StakeState {
   controllerId: string | null;
   destination: number;
   hexSessionIdNext: string | null;
   hexSessionIdQueue: string | null;
-  isBondExtraOpen: boolean;
-  isInjectOpen: boolean;
-  isNominateOpen: boolean;
-  isSetControllerAccountOpen: boolean;
-  isSetRewardDestinationOpen: boolean;
-  isSetSessionAccountOpen: boolean;
-  isSettingPopupOpen: boolean;
+  isLoading: boolean;
   isStashNominating: boolean;
   isStashValidating: boolean;
-  isUnbondOpen: boolean;
-  isValidateOpen: boolean;
   nominees?: string[];
   sessionIds: string[];
   stakers?: Exposure;
@@ -59,552 +50,312 @@ interface State {
   validatorPrefs?: ValidatorPrefs;
 }
 
-const DEFAULT_BALANCES = {
-  available: true,
-  bonded: false,
-  total: false,
-  redeemable: false,
-  unlocking: false
-};
-
-const CONTROLLER_BALANCES = {
-  available: true,
-  bonded: false,
-  free: false,
-  redeemable: false,
-  unlocking: false
-};
-
 function toIdString (id?: AccountId | null): string | null {
   return id
     ? id.toString()
     : null;
 }
 
-class Account extends React.PureComponent<Props, State> {
-  public state: State = {
-    controllerId: null,
-    destination: 0,
-    hexSessionIdNext: null,
-    hexSessionIdQueue: null,
-    isBondExtraOpen: false,
-    isInjectOpen: false,
-    isNominateOpen: false,
-    isSetControllerAccountOpen: false,
-    isSettingPopupOpen: false,
-    isSetRewardDestinationOpen: false,
-    isSetSessionAccountOpen: false,
-    isStashNominating: false,
-    isStashValidating: false,
-    isUnbondOpen: false,
-    isValidateOpen: false,
-    sessionIds: []
+function getStakeState (allStashes: string[] | undefined, { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, validatorPrefs }: DerivedStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
+  const isStashNominating = !!(nominators?.length);
+  const isStashValidating = !validateInfo[1].isEmpty || !!allStashes?.includes(stashId);
+  const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
+  const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
+
+  return {
+    controllerId: toIdString(controllerId),
+    destination: rewardDestination?.toNumber() || 0,
+    hexSessionIdNext: u8aToHex(nextConcat, 48),
+    hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
+    isLoading: false,
+    isStashNominating,
+    isStashValidating,
+    // we assume that all ids are non-null
+    nominees: nominators?.map(toIdString) as string[],
+    sessionIds: (
+      nextSessionIds.length
+        ? nextSessionIds
+        : sessionIds
+    ).map(toIdString) as string[],
+    stakers,
+    stakingLedger,
+    validatorPrefs
   };
+}
 
-  public static getDerivedStateFromProps ({ allStashes, staking_account, stashId }: Props): Pick<State, never> | null {
-    if (!staking_account) {
-      return null;
+function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId, t }: Props): React.ReactElement<Props> {
+  const { api, isSubstrateV2 } = useApi();
+  const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
+  const balancesAll = useCall<DerivedBalances>(api.derive.balances.all as any, [stashId]);
+  const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
+  const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isStashNominating: false, isStashValidating: false, sessionIds: [] });
+  const [isBondExtraOpen, toggleBondExtra] = useToggle();
+  const [isInjectOpen, toggleInject] = useToggle();
+  const [isNominateOpen, toggleNominate] = useToggle();
+  const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
+  const [isSetControllerOpen, toggleSetController] = useToggle();
+  const [isSetSessionOpen, toggleSetSession] = useToggle();
+  const [isSettingsOpen, toggleSettings] = useToggle();
+  const [isUnbondOpen, toggleUnbond] = useToggle();
+  const [isValidateOpen, toggleValidate] = useToggle();
+
+  useEffect((): void => {
+    if (stakingAccount && validateInfo) {
+      const state = getStakeState(allStashes, stakingAccount, stashId, validateInfo);
+
+      setStakeState(state);
+
+      if (state.isStashValidating) {
+        onUpdateType(stashId, 'validator');
+      } else if (state.isStashNominating) {
+        onUpdateType(stashId, 'nominator');
+      } else {
+        onUpdateType(stashId, 'other');
+      }
     }
+  }, [allStashes, stakingAccount, stashId, validateInfo]);
 
-    const { controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, validatorPrefs } = staking_account;
-    const isStashNominating = nominators && !!nominators.length;
-    const isStashValidating = !!allStashes && !!stashId && allStashes.includes(stashId);
-    const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
-    const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
-
-    return {
-      controllerId: toIdString(controllerId),
-      destination: rewardDestination && rewardDestination.toNumber(),
-      hexSessionIdNext: u8aToHex(nextConcat, 48),
-      hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
-      isStashNominating,
-      isStashValidating,
-      nominees: nominators && nominators.map(toIdString),
-      sessionIds: (
-        nextSessionIds.length
-          ? nextSessionIds
-          : sessionIds
-      ).map(toIdString),
-      stakers,
-      stakingLedger,
-      validatorPrefs
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { className, isSubstrateV2, stashId, t } = this.props;
-    const { controllerId, hexSessionIdNext, hexSessionIdQueue, isBondExtraOpen, isInjectOpen, isStashValidating, isUnbondOpen, nominees, sessionIds } = this.state;
-
-    // Each component is rendered and gets a `is[Component]Open` passed in a `isOpen` props.
-    // These components will be loaded and return null at the first load (because is[Component]Open === false).
-    // This is deliberate in order to display the Component modals in a performant matter later on
-    // because their state will already be loaded.
-    return (
-      <AddressCard
-        buttons={this.renderButtons()}
-        className={className}
-        type='account'
-        value={stashId}
-        withAddressOrName
-        withBalance={DEFAULT_BALANCES}
-      >
+  return (
+    <tr className={className}>
+      <td className='top'>
         <BondExtra
           controllerId={controllerId}
           isOpen={isBondExtraOpen}
-          onClose={this.toggleBondExtra}
+          onClose={toggleBondExtra}
           stashId={stashId}
         />
         <Unbond
           controllerId={controllerId}
           isOpen={isUnbondOpen}
-          onClose={this.toggleUnbond}
+          onClose={toggleUnbond}
           stashId={stashId}
         />
+        <Validate
+          controllerId={controllerId}
+          isOpen={isValidateOpen}
+          onClose={toggleValidate}
+          stashId={stashId}
+          validatorPrefs={validatorPrefs}
+        />
         {isInjectOpen && (
-          <InjectKeys onClose={this.toggleInject} />
+          <InjectKeys onClose={toggleInject} />
         )}
-        {this.renderSetValidatorPrefs()}
-        {this.renderNominate()}
-        {this.renderSetControllerAccount()}
-        {this.renderSetRewardDestination()}
-        {this.renderSetSessionAccount()}
-        {this.renderValidate()}
-        <div className='staking--Card'>
-          <div className='staking--Accounts'>
-            {controllerId && (
-              <div className='staking--Account-detail actions'>
-                <AddressRow
-                  // label={t('controller')}
-                  value={controllerId}
-                  withAddressOrName
-                  withBalance={CONTROLLER_BALANCES}
-                  withSmallIcon
-                />
-              </div>
-            )}
-            {!isSubstrateV2 && !!sessionIds.length && (
-              <div className='staking--Account-detail actions'>
-                <AddressRow
-                  label={t('session')}
-                  value={sessionIds[0]}
-                  withAddressOrName
-                  withBalance={{
-                    available: true,
-                    bonded: false,
-                    free: false,
-                    redeemable: false,
-                    unlocking: false
-                  }}
-                />
-              </div>
-            )}
-          </div>
-          <div className='staking--Infos'>
-            <div className='staking--balances'>
-              <AddressInfo
-                address={stashId}
-                withBalance={{
-                  available: false,
-                  bonded: true,
-                  free: false,
-                  redeemable: true,
-                  unlocking: true
-                }}
-                withRewardDestination
-                withHexSessionId={ isSubstrateV2 && hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
-                withValidatorPrefs={isStashValidating}
-              />
-            </div>
-          </div>
-        </div>
-        {nominees && !!nominees.length && (
-          <details className='staking--Account-Nominations'>
-            <summary>{t('Nominating ({{count}})', { replace: { count: nominees.length } })}</summary>
-            {nominees.map((nomineeId, index): React.ReactNode => (
-              <AddressMini
-                key={index}
-                value={nomineeId}
-                withBalance={false}
-                withBonded
-              />
-            ))}
-          </details>
+        {isNominateOpen && controllerId && (
+          <Nominate
+            controllerId={controllerId}
+            next={next}
+            nominees={nominees}
+            onClose={toggleNominate}
+            stakingOverview={stakingOverview}
+            stashId={stashId}
+          />
         )}
-      </AddressCard>
-    );
-  }
-
-  private renderNominate (): React.ReactNode {
-    const { next, stakingOverview, stashId } = this.props;
-    const { controllerId, isNominateOpen, nominees } = this.state;
-
-    if (!isNominateOpen || !stashId || !controllerId) {
-      return null;
-    }
-
-    return (
-      <Nominate
-        controllerId={controllerId}
-        next={next}
-        nominees={nominees}
-        onClose={this.toggleNominate}
-        stakingOverview={stakingOverview}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private renderValidate (): React.ReactNode {
-    const { stashId } = this.props;
-    const { controllerId, isValidateOpen, validatorPrefs } = this.state;
-
-    if (!controllerId) {
-      return null;
-    }
-
-    return (
-      <Validate
-        controllerId={controllerId}
-        isOpen={isValidateOpen}
-        onClose={this.toggleValidate}
-        stashId={stashId}
-        validatorPrefs={validatorPrefs}
-      />
-    );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { isSubstrateV2, t } = this.props;
-    const { controllerId, hexSessionIdNext, isSettingPopupOpen, isStashNominating, isStashValidating, sessionIds } = this.state;
-    const buttons = [];
-
-    // if we are validating/nominating show stop
-    if (isStashNominating || isStashValidating) {
-      buttons.push(
-        <TxButton
-          accountId={controllerId}
-          isNegative
-          label={
-            isStashNominating
-              ? t('Stop Nominating')
-              : t('Stop Validating')
-          }
-          icon='stop'
-          key='stop'
-          tx='staking.chill'
+        {isSetControllerOpen && (
+          <SetControllerAccount
+            defaultControllerId={controllerId}
+            isValidating={isStashValidating}
+            onClose={toggleSetController}
+            stashId={stashId}
+          />
+        )}
+        {isRewardDestinationOpen && controllerId && (
+          <SetRewardDestination
+            controllerId={controllerId}
+            defaultDestination={destination}
+            onClose={toggleRewardDestination}
+          />
+        )}
+        {controllerId && (
+          <SetSessionKey
+            controllerId={controllerId}
+            isOpen={isSetSessionOpen}
+            onClose={toggleSetSession}
+            sessionIds={sessionIds}
+            stashId={stashId}
+          />
+        )}
+        <AddressSmall value={stashId} />
+      </td>
+      <td className='top'>
+        <AddressMini
+          label={t('controller')}
+          value={controllerId}
         />
-      );
-    } else {
-      if (!sessionIds.length || (isSubstrateV2 && hexSessionIdNext === '0x')) {
-        buttons.push(
-          <Button
-            isPrimary
-            key='set'
-            onClick={this.toggleSetSessionAccount}
-            label={t('Set Session Key')}
-            icon='sign-in'
-          />
-        );
-      } else {
-        buttons.push(
-          <Button
-            isPrimary
-            key='validate'
-            onClick={this.toggleValidate}
-            label={t('Validate')}
-            icon='check circle outline'
-          />
-        );
+      </td>
+      <td className='top'>
+        <AddressInfo
+          address={stashId}
+          withBalance={{
+            available: false,
+            bonded: true,
+            free: false,
+            redeemable: false,
+            unlocking: true
+          }}
+          withRewardDestination
+        />
+      </td>
+      {isStashValidating
+        ? (
+          <td className='top'>
+            <AddressInfo
+              address={stashId}
+              withBalance={{
+                available: false,
+                bonded: false,
+                free: false,
+                redeemable: true,
+                unlocking: true
+              }}
+              withHexSessionId={isSubstrateV2 && hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
+              withValidatorPrefs
+            />
+          </td>
+        )
+        : (
+          <td>
+            {isStashNominating && nominees && (
+              <details>
+                <summary>{t('Nominating ({{count}})', { replace: { count: nominees.length } })}</summary>
+                {nominees.map((nomineeId, index): React.ReactNode => (
+                  <AddressMini
+                    key={index}
+                    value={nomineeId}
+                    withBalance={false}
+                    withBonded
+                  />
+                ))}
+              </details>
+            )}
+          </td>
+        )
       }
-
-      buttons.push(<Button.Or key='nominate.or' />);
-      buttons.push(
-        <Button
-          isPrimary
-          key='nominate'
-          onClick={this.toggleNominate}
-          label={t('Nominate')}
-          icon='hand paper outline'
-        />
-      );
-    }
-
-    buttons.push(
-      <Popup
-        key='settings'
-        onClose={this.toggleSettingPopup}
-        open={isSettingPopupOpen}
-        position='bottom right'
-        trigger={
-          <Button
-            icon='setting'
-            onClick={this.toggleSettingPopup}
-            size='tiny'
-          />
+      <td className='top number together'>
+        {isLoading
+          ? null
+          : (
+            <>
+              {(isStashNominating || isStashValidating)
+                ? (
+                  <TxButton
+                    accountId={controllerId}
+                    isNegative
+                    label={
+                      isStashNominating
+                        ? t('Stop Nominating')
+                        : t('Stop Validating')
+                    }
+                    icon='stop'
+                    key='stop'
+                    tx='staking.chill'
+                  />
+                )
+                : (
+                  <Button.Group>
+                    {(!sessionIds.length || (isSubstrateV2 && hexSessionIdNext === '0x'))
+                      ? (
+                        <Button
+                          isPrimary
+                          key='set'
+                          onClick={toggleSetSession}
+                          label={t('Session Key')}
+                          icon='sign-in'
+                        />
+                      )
+                      : (
+                        <Button
+                          isPrimary
+                          key='validate'
+                          onClick={toggleValidate}
+                          label={t('Validate')}
+                          icon='check circle outline'
+                        />
+                      )
+                    }
+                    <Button.Or key='nominate.or' />
+                    <Button
+                      isPrimary
+                      key='nominate'
+                      onClick={toggleNominate}
+                      label={t('Nominate')}
+                      icon='hand paper outline'
+                    />
+                  </Button.Group>
+                )
+              }
+              <Popup
+                key='settings'
+                onClose={toggleSettings}
+                open={isSettingsOpen}
+                position='bottom right'
+                trigger={
+                  <Button
+                    icon='setting'
+                    onClick={toggleSettings}
+                  />
+                }
+              >
+                <Menu
+                  vertical
+                  text
+                  onClick={toggleSettings}
+                >
+                  {balancesAll?.freeBalance.gtn(0) && (
+                    <Menu.Item
+                      disabled={!isOwnStash}
+                      onClick={toggleBondExtra}
+                    >
+                      {t('Bond more funds')}
+                    </Menu.Item>
+                  )}
+                  <Menu.Item onClick={toggleUnbond}>
+                    {t('Unbond funds')}
+                  </Menu.Item>
+                  <Menu.Item
+                    disabled={!isOwnStash}
+                    onClick={toggleSetController}
+                  >
+                    {t('Change controller account')}
+                  </Menu.Item>
+                  <Menu.Item onClick={toggleRewardDestination}>
+                    {t('Change reward destination')}
+                  </Menu.Item>
+                  {isStashValidating &&
+                    <Menu.Item onClick={toggleValidate}>
+                      {t('Change validator preferences')}
+                    </Menu.Item>
+                  }
+                  {!isStashNominating &&
+                    <Menu.Item onClick={toggleSetSession}>
+                      {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
+                    </Menu.Item>
+                  }
+                  {isStashNominating &&
+                    <Menu.Item onClick={toggleNominate}>
+                      {t('Change nominee(s)')}
+                    </Menu.Item>
+                  }
+                  {!isStashNominating && isSubstrateV2 &&
+                    <Menu.Item onClick={toggleInject}>
+                      {t('Inject session keys (advanced)')}
+                    </Menu.Item>
+                  }
+                </Menu>
+              </Popup>
+            </>
+          )
         }
-      >
-        {this.renderPopupMenu()}
-      </Popup>
-    );
-
-    return (
-      <>
-        <Button.Group>
-          {buttons}
-        </Button.Group>
-      </>
-    );
-  }
-
-  private renderPopupMenu (): React.ReactNode {
-    const { balances_all, isOwnStash, isSubstrateV2, t } = this.props;
-    const { isStashNominating, isStashValidating } = this.state;
-
-    // only show a "Bond Additional" button if this stash account actually doesn't bond everything already
-    // staking_ledger.total gives the total amount that can be slashed (any active amount + what is being unlocked)
-    const canBondExtra = balances_all?.freeBalance.gtn(0);
-
-    return (
-      <Menu
-        vertical
-        text
-        onClick={this.toggleSettingPopup}
-      >
-        {canBondExtra &&
-          <Menu.Item
-            disabled={!isOwnStash}
-            onClick={this.toggleBondExtra}
-          >
-            {t('Bond more funds')}
-          </Menu.Item>
-        }
-        <Menu.Item onClick={this.toggleUnbond}>
-          {t('Unbond funds')}
-        </Menu.Item>
-        <Menu.Item
-          disabled={!isOwnStash}
-          onClick={this.toggleSetControllerAccount}
-        >
-          {t('Change controller account')}
-        </Menu.Item>
-        <Menu.Item onClick={this.toggleSetRewardDestination}>
-          {t('Change reward destination')}
-        </Menu.Item>
-        {isStashValidating &&
-          <Menu.Item onClick={this.toggleValidate}>
-            {t('Change validator preferences')}
-          </Menu.Item>
-        }
-        {!isStashNominating &&
-          <Menu.Item onClick={this.toggleSetSessionAccount}>
-            {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
-          </Menu.Item>
-        }
-        {isStashNominating &&
-          <Menu.Item onClick={this.toggleNominate}>
-            {t('Change nominee(s)')}
-          </Menu.Item>
-        }
-        {!isStashNominating && isSubstrateV2 &&
-          <Menu.Item onClick={this.toggleInject}>
-            {t('Inject session keys (advanced)')}
-          </Menu.Item>
-        }
-      </Menu>
-    );
-  }
-
-  private renderSetValidatorPrefs (): React.ReactNode {
-    const { stashId } = this.props;
-    const { controllerId, isValidateOpen, validatorPrefs } = this.state;
-
-    if (!controllerId || !validatorPrefs) {
-      return null;
-    }
-
-    return (
-      <Validate
-        controllerId={controllerId}
-        isOpen={isValidateOpen}
-        onClose={this.toggleValidate}
-        stashId={stashId}
-        validatorPrefs={validatorPrefs}
-      />
-    );
-  }
-
-  private renderSetControllerAccount (): React.ReactNode {
-    const { stashId } = this.props;
-    const { controllerId, isSetControllerAccountOpen, isStashValidating } = this.state;
-
-    if (!isSetControllerAccountOpen) {
-      return null;
-    }
-
-    return (
-      <SetControllerAccount
-        defaultControllerId={controllerId}
-        isValidating={isStashValidating}
-        onClose={this.toggleSetControllerAccount}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private renderSetRewardDestination (): React.ReactNode {
-    const { controllerId, destination, isSetRewardDestinationOpen } = this.state;
-
-    if (!isSetRewardDestinationOpen || !controllerId) {
-      return null;
-    }
-
-    return (
-      <SetRewardDestination
-        controllerId={controllerId}
-        defaultDestination={destination}
-        onClose={this.toggleSetRewardDestination}
-      />
-    );
-  }
-
-  private renderSetSessionAccount (): React.ReactNode {
-    const { stashId } = this.props;
-    const { controllerId, isSetSessionAccountOpen, sessionIds } = this.state;
-
-    if (!controllerId) {
-      return null;
-    }
-
-    return (
-      <SetSessionKey
-        controllerId={controllerId}
-        isOpen={isSetSessionAccountOpen}
-        onClose={this.toggleSetSessionAccount}
-        sessionIds={sessionIds}
-        stashId={stashId}
-      />
-    );
-  }
-
-  private toggleBondExtra = (): void => {
-    this.setState(({ isBondExtraOpen }): Pick<State, never> => ({
-      isBondExtraOpen: !isBondExtraOpen
-    }));
-  }
-
-  private toggleInject = (): void => {
-    this.setState(({ isInjectOpen }): Pick<State, never> => ({
-      isInjectOpen: !isInjectOpen
-    }));
-  }
-
-  private toggleNominate = (): void => {
-    this.setState(({ isNominateOpen }): Pick<State, never> => ({
-      isNominateOpen: !isNominateOpen
-    }));
-  }
-
-  private toggleSetControllerAccount = (): void => {
-    this.setState(({ isSetControllerAccountOpen }): Pick<State, never> => ({
-      isSetControllerAccountOpen: !isSetControllerAccountOpen
-    }));
-  }
-
-  private toggleSetRewardDestination = (): void => {
-    this.setState(({ isSetRewardDestinationOpen }): Pick<State, never> => ({
-      isSetRewardDestinationOpen: !isSetRewardDestinationOpen
-    }));
-  }
-
-  private toggleSetSessionAccount = (): void => {
-    this.setState(({ isSetSessionAccountOpen }): Pick<State, never> => ({
-      isSetSessionAccountOpen: !isSetSessionAccountOpen
-    }));
-  }
-
-  private toggleSettingPopup = (): void => {
-    this.setState(({ isSettingPopupOpen }): Pick<State, never> => ({
-      isSettingPopupOpen: !isSettingPopupOpen
-    }));
-  }
-
-  private toggleUnbond = (): void => {
-    this.setState(({ isUnbondOpen }): Pick<State, never> => ({
-      isUnbondOpen: !isUnbondOpen
-    }));
-  }
-
-  private toggleValidate = (): void => {
-    this.setState(({ isValidateOpen }): Pick<State, never> => ({
-      isValidateOpen: !isValidateOpen
-    }));
-  }
+      </td>
+    </tr>
+  );
 }
 
-export default withMulti(
-  styled(Account as React.ComponentClass<Props>)`
-    .staking--Card {
-      display: flex;
+export default translate(
+  styled(Account)`
+    .ui--Button-Group {
+      display: inline-block;
+      margin-right: 0.25rem;
+      vertical-align: inherit;
     }
-
-    .staking--Accounts {
-      flex: 3;
-      display: flex;
-      flex-direction: column;
-      width: 0px;
-    }
-
-    .staking--Account-detail {
-      text-align: right;
-
-      &.actions{
-        display: inline-block;
-        vertical-align: top;
-        margin-top: .5rem;
-        margin-bottom: 1.5rem;
-
-        &:last-child {
-          margin: 0;
-        }
-      }
-
-      .staking--label {
-        margin: 0 0 -0.75rem 1.75rem;
-      }
-    }
-
-    .staking--Infos {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      margin-top: -2.25rem;
-
-      .staking--balances {
-        div {
-          justify-content: flex-end;
-        }
-
-        .column {
-          flex:0;
-        }
-      }
-    }
-
-    .staking--Account-Nominations {
-      margin-top: 1em;
-    }
-
-    .ui--Row-buttons .ui--Button-Group {
-      margin-right: .25rem;
-
-      .ui.tiny.icon.button {
-        visibility: visible;
-      }
-    }
-  `,
-  translate,
-  withCalls<Props>(
-    ['derive.staking.account', { paramName: 'stashId' }],
-    ['derive.balances.all', { paramName: 'stashId' }]
-  )
+  `
 );
