@@ -407,7 +407,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
         )}
         {withRewardDestination && stakingInfo && stakingInfo.rewardDestination && (
           <>
-            <Label label={t('reward destination')} />
+            <Label label={t('rewards')} />
             <div className='result'>{stakingInfo.rewardDestination.toString().toLowerCase()}</div>
           </>
         )}
@@ -434,6 +434,8 @@ export default withMulti(
     }
 
     .column {
+      justify-content: start;
+
       &.column--expander {
         text-align: left;
         width: 15rem;

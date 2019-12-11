@@ -11,4 +11,5 @@ export { default as useForm } from './useForm';
 export { default as useDebounce } from './useDebounce';
 export { default as useFavorites } from './useFavorites';
 export { default as usePassword } from './usePassword';
+export { default as useToggle } from './useToggle';
 export { default as useTx } from './useTx';
