@@ -42,16 +42,9 @@ function getStashes (allAccounts: string[], stashTypes: Record<string, number>, 
     }
   });
 
-  return result.sort((a, b): number => {
-    const orderA = stashTypes[a[0]] || 99;
-    const orderB = stashTypes[b[0]] || 99;
-
-    return orderA === orderB
-      ? 0
-      : orderA < orderB
-        ? -1
-        : 1;
-  });
+  return result.sort((a, b): number =>
+    (stashTypes[a[0]] || 99) - (stashTypes[b[0]] || 99)
+  );
 }
 
 function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
