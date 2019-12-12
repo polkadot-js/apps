@@ -7,7 +7,7 @@ import { I18nProps as Props } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
@@ -15,14 +15,12 @@ function Propose ({ className, t }: Props): React.ReactElement<Props> | null {
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [beneficiary, setBeneficiary] = useState<string | null>(null);
-  const [isProposeOpen, setIsProposeOpen] = useState(false);
   const [value, setValue] = useState<BN | undefined>();
+  const [isProposeOpen, togglePropose] = useToggle();
 
   if (!hasAccounts) {
     return null;
   }
-
-  const _togglePropose = (): void => setIsProposeOpen(!isProposeOpen);
 
   const hasValue = value?.gtn(0);
 
@@ -64,7 +62,7 @@ function Propose ({ className, t }: Props): React.ReactElement<Props> | null {
                 icon='cancel'
                 isNegative
                 label={t('Cancel')}
-                onClick={_togglePropose}
+                onClick={togglePropose}
               />
               <Button.Or />
               <TxButton
@@ -73,7 +71,7 @@ function Propose ({ className, t }: Props): React.ReactElement<Props> | null {
                 isDisabled={!accountId || !hasValue}
                 isPrimary
                 label={t('Submit proposal')}
-                onClick={_togglePropose}
+                onClick={togglePropose}
                 params={[value, beneficiary]}
                 tx='treasury.proposeSpend'
               />
@@ -85,7 +83,7 @@ function Propose ({ className, t }: Props): React.ReactElement<Props> | null {
         icon='check'
         isPrimary
         label={t('Submit proposal')}
-        onClick={_togglePropose}
+        onClick={togglePropose}
       />
     </>
   );

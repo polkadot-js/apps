@@ -8,7 +8,7 @@ import { ComponentProps } from './types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputTags, Table } from '@polkadot/react-components';
-import { useAddresses, useFavorites } from '@polkadot/react-hooks';
+import { useAddresses, useFavorites, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
@@ -23,10 +23,10 @@ const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
   const { hasAddresses, allAddresses } = useAddresses();
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
   const [tags, setTags] = useState<string[]>([]);
+  const [isCreateOpen, toggleCreate] = useToggle();
 
   useEffect((): void => {
     setSortedAddresses(
@@ -42,8 +42,6 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
     );
   }, [allAddresses, favorites]);
 
-  const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
-
   return (
     <div className={className}>
       <Button.Group>
@@ -51,12 +49,12 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
           icon='add'
           isPrimary
           label={t('Add contact')}
-          onClick={_toggleCreate}
+          onClick={toggleCreate}
         />
       </Button.Group>
       {isCreateOpen && (
         <CreateModal
-          onClose={_toggleCreate}
+          onClose={toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
