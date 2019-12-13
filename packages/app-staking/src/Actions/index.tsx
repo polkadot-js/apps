@@ -8,7 +8,7 @@ import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from '@polkadot/react-components';
-import { useCall, useApi, useAccounts } from '@polkadot/react-hooks';
+import { useApi, useAccounts, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import Account from './Account';
@@ -52,15 +52,14 @@ function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stak
   const { allAccounts } = useAccounts();
   const queryBonded = useCall<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
   const queryLedger = useCall<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
-  const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
+  const [isNewStakeOpen, toggleNewStake] = useToggle();
 
   useEffect((): void => {
     setFoundStashes(getStashes(allAccounts, stashTypes, queryBonded, queryLedger));
   }, [allAccounts, queryBonded, queryLedger, stashTypes]);
 
-  const _toggleNewStake = (): void => setIsNewStateOpen(!isNewStakeOpen);
   const _onUpdateType = (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
     setStashTypes({
       ...stashTypes,
@@ -79,11 +78,11 @@ function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stak
           key='new-stake'
           label={t('New stake')}
           icon='add'
-          onClick={_toggleNewStake}
+          onClick={toggleNewStake}
         />
       </Button.Group>
       {isNewStakeOpen && (
-        <StartStaking onClose={_toggleNewStake} />
+        <StartStaking onClose={toggleNewStake} />
       )}
       {foundStashes?.length
         ? (

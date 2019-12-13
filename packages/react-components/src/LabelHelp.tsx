@@ -4,8 +4,9 @@
 
 import { BareProps } from './types';
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
 import { classes } from './util';
@@ -16,9 +17,7 @@ interface Props extends BareProps {
 }
 
 function LabelHelp ({ className, help, style }: Props): React.ReactElement<Props> {
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
-
-  const _toggleTooltip = (): void => setIsTooltipOpen(!isTooltipOpen);
+  const [isTooltipOpen, toggleTooltip] = useToggle();
 
   return (
     <div
@@ -29,8 +28,8 @@ function LabelHelp ({ className, help, style }: Props): React.ReactElement<Props
         name='help circle'
         data-tip
         data-for='controlled-trigger'
-        onMouseOver={_toggleTooltip}
-        onMouseOut={_toggleTooltip}
+        onMouseOver={toggleTooltip}
+        onMouseOut={toggleTooltip}
       />
       {isTooltipOpen && (
         <Tooltip

@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api';
+import { useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
@@ -42,14 +43,13 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
   const hasRpc = api.rpc.contracts && api.rpc.contracts.call;
   let callMessage = callContract.getMessage(callMessageIndex);
-
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
   const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
-  const [isBusy, setIsBusy] = useState(false);
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
   const [useRpc, setUseRpc] = useState(callMessage && !callMessage.def.mutates);
+  const [isBusy, toggleBusy] = useToggle();
 
   useEffect((): void => {
     callMessage = callContract.getMessage(callMessageIndex);
@@ -76,9 +76,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
   const _onChangeEndowment = (endowment?: BN): void => endowment && setEndowment(endowment);
   const _onChangeGasLimit = (gasLimit?: BN): void => gasLimit && setGasLimit(gasLimit);
-
   const _onChangeParams = (params: any[]): void => setParams(params);
-  const _toggleBusy = (): void => setIsBusy(!isBusy);
 
   const _constructTx = (): any[] => {
     if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
@@ -218,9 +216,9 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 isDisabled={!isValid}
                 isPrimary
                 label={t('Call')}
-                onClick={_toggleBusy}
-                onFailed={_toggleBusy}
-                onSuccess={_toggleBusy}
+                onClick={toggleBusy}
+                onFailed={toggleBusy}
+                onSuccess={toggleBusy}
                 params={_constructTx}
                 tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
               />

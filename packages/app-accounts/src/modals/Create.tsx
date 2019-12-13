@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -153,9 +153,9 @@ function createAccount (suri: string, pairType: KeypairType, name: string, passw
 function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type: propsType }: Props): React.ReactElement<Props> {
   const { isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
+  const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isSeedValid;
 
   const _onChangePass = (password: string): void =>
@@ -172,7 +172,6 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
     }
   };
   const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
-  const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
 
   const _onCommit = (): void => {
     if (!isValid) {
@@ -181,7 +180,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
 
     const status = createAccount(`${seed}${derivePath}`, pairType, name, password, t('created account'));
 
-    _toggleConfirmation();
+    toggleConfirmation();
     onStatusChange(status);
     onClose();
   };
@@ -197,7 +196,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
           address={address}
           name={name}
           onCommit={_onCommit}
-          onClose={_toggleConfirmation}
+          onClose={toggleConfirmation}
         />
       )}
       <Modal.Content>
@@ -301,7 +300,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
             isDisabled={!isValid}
             isPrimary
             label={t('Save')}
-            onClick={_toggleConfirmation}
+            onClick={toggleConfirmation}
           />
         </Button.Group>
       </Modal.Actions>
