@@ -12,6 +12,7 @@ import { registry } from '@polkadot/react-api';
 import { useApi, useCacheKey, useIsMountedRef } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
+import { recover } from 'secp256k1/elliptic';
 
 interface SerializedSlash {
   accountId: string;
@@ -32,8 +33,8 @@ interface Serialized {
 const MAX_BLOCKS = 2500;
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
-  let hasSome = false;
-  let keepAll = true;
+  let hasData = false;
+  let keepAll = false;
 
   return sessions
     .map(({ blockHash, blockNumber, isEventsEmpty, parentHash, reward, sessionIndex, slashes, treasury }): SessionRewards => ({
@@ -50,17 +51,22 @@ function fromJSON (sessions: Serialized[]): SessionRewards[] {
       treasury: createType(registry, 'Balance', treasury)
     }))
     .filter(({ parentHash }): boolean => !parentHash.isEmpty)
-    .filter(({ isEventsEmpty }): boolean => {
-      if (!isEventsEmpty) {
-        // we first see if we have some data up to this point (we may not, i.e. non-archive)
-        hasSome = true;
-      } else if (hasSome) {
-        // if data is followed by empty, drop everything from here on
-        keepAll = false;
+    .reverse()
+    // we drop everything before the second non-empty
+    .filter(({ isEventsEmpty }, index): boolean => {
+      if (index !== 0) {
+        if (!isEventsEmpty) {
+          // we first see if we have some data up to this point (we may not, i.e. non-archive)
+          hasData = true;
+        } else if (hasData) {
+          // if data is followed by empty, drop everything from here on
+          keepAll = true;
+        }
       }
 
       return keepAll;
-    });
+    })
+    .reverse();
 }
 
 function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
