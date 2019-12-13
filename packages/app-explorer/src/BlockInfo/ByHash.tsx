@@ -9,7 +9,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React from 'react';
 import styled from 'styled-components';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 import { Columar } from '@polkadot/react-components';
 
 import BlockHeader from '../BlockHeader';

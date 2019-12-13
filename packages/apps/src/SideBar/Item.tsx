@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
 import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 

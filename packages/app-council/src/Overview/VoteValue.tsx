@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 import { InputBalance } from '@polkadot/react-components';
 import { BalanceVoting } from '@polkadot/react-query';
 import { formatBalance, isBn } from '@polkadot/util';

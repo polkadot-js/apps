@@ -8,7 +8,7 @@ import { BareProps, CallProps } from '@polkadot/react-api/types';
 import BN from 'bn.js';
 import React from 'react';
 import { formatNumber } from '@polkadot/util';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 
 interface Props extends BareProps, CallProps {
   accountNonce?: BN;

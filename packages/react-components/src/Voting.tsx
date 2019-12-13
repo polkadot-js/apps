@@ -9,7 +9,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import keyring from '@polkadot/ui-keyring';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 
 import translate from './translate';
 import Button from './Button';

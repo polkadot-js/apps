@@ -6,12 +6,16 @@ import Api, { api } from './Api';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 
-export * from './ledger';
-export * from './with';
+import { withApi, withCalls, withCallDiv, withMulti, withObservable } from './hoc';
+import { isLedgerCapable, isLedger, clearLedger, getLedger } from './ledger';
+
+export default Api;
 
 export {
   api,
   Api,
   ApiContext,
-  registry
+  registry,
+  withApi, withCalls, withCallDiv, withMulti, withObservable,
+  isLedgerCapable, isLedger, clearLedger, getLedger
 };

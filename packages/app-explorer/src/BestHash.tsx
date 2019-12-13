@@ -7,7 +7,7 @@ import { Header } from '@polkadot/types/interfaces';
 import { BareProps, CallProps } from '@polkadot/react-api/types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 
 interface Props extends BareProps, CallProps {
   label?: string;

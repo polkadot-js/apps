@@ -13,7 +13,7 @@ import { BitLengthOption } from '@polkadot/react-components/constants';
 import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { InputNumber } from '@polkadot/react-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withMulti, withApi } from '@polkadot/react-api';
+import { withCalls, withMulti, withApi } from '@polkadot/react-api/hoc';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 import { bnMax } from '@polkadot/util';
 

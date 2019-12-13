@@ -9,7 +9,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
 

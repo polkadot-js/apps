@@ -7,7 +7,7 @@ import { IdentityProps } from '@polkadot/react-identicon/types';
 import { I18nProps } from './types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';

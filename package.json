@@ -10,10 +10,10 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^0.99.0-beta.16",
-    "@polkadot/api-contract": "^0.99.0-beta.16",
+    "@polkadot/api": "^0.99.1",
+    "@polkadot/api-contract": "^0.99.1",
     "@polkadot/keyring": "^1.7.1",
-    "@polkadot/types": "^0.99.0-beta.16",
+    "@polkadot/types": "^0.99.1",
     "@polkadot/util": "^1.7.1",
     "@polkadot/util-crypto": "^1.7.1",
     "babel-core": "^7.0.0-bridge.0",
@@ -36,8 +36,8 @@
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/register": "^7.7.4",
-    "@babel/runtime": "^7.7.5",
-    "@polkadot/dev-react": "^0.32.0-beta.17",
+    "@babel/runtime": "^7.7.6",
+    "@polkadot/dev-react": "^0.32.0-beta.19",
     "@polkadot/ts": "^0.1.88",
     "autoprefixer": "^9.7.1",
     "empty": "^0.10.1",

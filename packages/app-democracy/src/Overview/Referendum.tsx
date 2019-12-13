@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { FormatBalance } from '@polkadot/react-query';
 
 import translate from '../translate';

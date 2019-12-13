@@ -11,7 +11,7 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 import React, { useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 import GlobalStyle from '@polkadot/react-components/styles';
 import Signer from '@polkadot/react-signer';
 

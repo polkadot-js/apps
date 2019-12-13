@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Button, Dropdown } from '@polkadot/react-components';
-import { withMulti, withApi, withCalls } from '@polkadot/react-api';
+import { withMulti, withApi, withCalls } from '@polkadot/react-api/hoc';
 import TxModal, { TxModalProps, TxModalState } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';

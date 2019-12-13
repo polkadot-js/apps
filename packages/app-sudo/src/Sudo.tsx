@@ -10,7 +10,8 @@ import { ComponentProps } from './types';
 import React from 'react';
 import { createType } from '@polkadot/types';
 import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-components';
-import { registry, withApi, withMulti } from '@polkadot/react-api';
+import { registry } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from './translate';
 

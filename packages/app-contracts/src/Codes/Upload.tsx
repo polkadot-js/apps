@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, InputFile, TxButton } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
 

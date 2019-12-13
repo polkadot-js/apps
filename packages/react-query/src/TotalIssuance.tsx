@@ -7,7 +7,7 @@ import { BareProps, CallProps } from '@polkadot/react-api/types';
 import { Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 import { formatBalance } from '@polkadot/util';
 
 interface Props extends BareProps, CallProps {

@@ -11,7 +11,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useEffect } from 'react';
 import keyringOption from '@polkadot/ui-keyring/options';
 import { Status as StatusDisplay } from '@polkadot/react-components';
-import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { withCalls, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 

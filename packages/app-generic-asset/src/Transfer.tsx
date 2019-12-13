@@ -12,7 +12,7 @@ import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkado
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import translate from './translate';

@@ -8,7 +8,7 @@ import { TxButtonProps as Props } from './types';
 
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { withApi } from '@polkadot/react-api';
+import { withApi } from '@polkadot/react-api/hoc';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
 
 import Button from './Button';

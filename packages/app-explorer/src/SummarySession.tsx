@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { CardSummary } from '@polkadot/react-components';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 
 import translate from './translate';
 import { formatNumber } from '@polkadot/util';

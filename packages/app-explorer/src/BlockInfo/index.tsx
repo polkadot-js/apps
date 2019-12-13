@@ -8,7 +8,7 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 import { isHex } from '@polkadot/util';
 
 import Query from '../Query';

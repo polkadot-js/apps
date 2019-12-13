@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Button, Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withMulti } from '@polkadot/react-api';
+import { withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
 import { rewardDestinationOptions } from '../constants';
