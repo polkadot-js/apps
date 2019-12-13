@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
-import { useApi, useCacheKey } from '@polkadot/react-hooks';
+import { useApi, useCacheKey, useIsMountedRef } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
@@ -141,6 +141,7 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
 
 export default function useSessionRewards (maxSessions: number): SessionRewards[] {
   const { api } = useApi();
+  const mounted = useIsMountedRef();
   const [getCache, setCache] = useCacheKey<Serialized[]>('hooks:sessionSlashes');
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 
@@ -169,12 +170,14 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
           toNumber = fromNumber;
           fromNumber = bnMax(toNumber.subn(MAX_BLOCKS), new BN(1));
 
-          setCache(toJSON(workQueue, maxSessionsStore));
-          setFiltered(workQueue.slice(-maxSessions));
+          if (mounted.current) {
+            setCache(toJSON(workQueue, maxSessionsStore));
+            setFiltered(workQueue.slice(-maxSessions));
+          }
 
           const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
 
-          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
+          if (!mounted.current || !lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
             break;
           }
         }
