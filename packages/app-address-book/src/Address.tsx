@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkPolkascan, Forget, Menu, Popup } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -36,12 +36,12 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingTags, setIsEditingTags] = useState(false);
+  const [isForgetOpen, setIsForgetOpen] = useState(false);
+  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
+  const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [isEditingName, toggleEditName] = useToggle();
-  const [isEditingTags, toggleEditTags] = useToggle();
-  const [isForgetOpen, toggleForget] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
-  const [isTransferOpen, toggleTransfer] = useToggle();
 
   const _setTags = (tags: string[]): void => setTags(tags.sort());
 
@@ -75,6 +75,11 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
     return null;
   }
 
+  const _toggleEditName = (): void => setIsEditingName(!isEditingName);
+  const _toggleEditTags = (): void => setIsEditingTags(!isEditingTags);
+  const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
+  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
+  const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
   const _onForget = (): void => {
     if (address) {
       const status: Partial<ActionStatus> = {
@@ -103,7 +108,7 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
   };
   const _onFavorite = (): void => toggleFavorite(address);
   const _saveName = (): void => {
-    toggleEditName();
+    _toggleEditName();
 
     const meta = { name: accName, whenEdited: Date.now() };
 
@@ -118,7 +123,7 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
     }
   };
   const _saveTags = (): void => {
-    toggleEditTags();
+    _toggleEditTags();
 
     const meta = { tags, whenEdited: Date.now() };
 
@@ -159,7 +164,7 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
               )
               : undefined
           }
-          onClickName={toggleEditName}
+          onClickName={_toggleEditName}
           toggle={isEditingName}
           value={address}
         />
@@ -171,13 +176,13 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
                 onForget={_onForget}
                 key='modal-forget-account'
                 mode='address'
-                onClose={toggleForget}
+                onClose={_toggleForget}
               />
             )}
             {isTransferOpen && (
               <Transfer
                 key='modal-transfer'
-                onClose={toggleTransfer}
+                onClose={_toggleTransfer}
                 recipientId={address}
               />
             )}
@@ -199,7 +204,7 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
             />
           )
           : (
-            <div className='tags--toggle' onClick={toggleEditTags}>
+            <div className='tags--toggle' onClick={_toggleEditTags}>
               {tags.length
                 ? tags.map((tag): React.ReactNode => (
                   <Label key={tag} size='tiny' color='grey'>{tag}</Label>
@@ -231,19 +236,19 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
           isPrimary
           key='deposit'
           label={t('deposit')}
-          onClick={toggleTransfer}
+          onClick={_toggleTransfer}
           size='small'
           tooltip={t('Send funds to this address')}
         />
         <Popup
           className='theme--default'
-          onClose={toggleSettings}
-          open={isSettingsOpen}
+          onClose={_toggleSettingPopup}
+          open={isSettingPopupOpen}
           position='bottom right'
           trigger={
             <Button
               icon='setting'
-              onClick={toggleSettings}
+              onClick={_toggleSettingPopup}
               size='small'
             />
           }
@@ -251,11 +256,11 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
           <Menu
             vertical
             text
-            onClick={toggleSettings}
+            onClick={_toggleSettingPopup}
           >
             <Menu.Item
               disabled={!isEditable}
-              onClick={toggleForget}
+              onClick={_toggleForget}
             >
               {t('Forget this address')}
             </Menu.Item>

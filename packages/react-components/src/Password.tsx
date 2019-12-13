@@ -4,8 +4,7 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
-import { useToggle } from '@polkadot/react-hooks';
+import React, { useState } from 'react';
 import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
 
 import { classes } from './util';
@@ -30,7 +29,9 @@ interface Props extends BareProps {
 }
 
 export default function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
-  const [isVisible, toggleVisible] = useToggle();
+  const [isVisible, setIsVisible] = useState(false);
+
+  const _toggleVisible = (): void => setIsVisible(!isVisible);
 
   return (
     <Input
@@ -64,7 +65,7 @@ export default function Password ({ autoFocus, children, className, defaultValue
             : 'unhide'
         }
         isPrimary
-        onClick={toggleVisible}
+        onClick={_toggleVisible}
       />
       {children}
     </Input>

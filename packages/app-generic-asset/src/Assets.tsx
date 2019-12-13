@@ -5,10 +5,9 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, CardGrid } from '@polkadot/react-components';
 import { withMulti, withObservable } from '@polkadot/react-api';
-import { useToggle } from '@polkadot/react-hooks';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import AssetCard from './AssetCard';
@@ -20,12 +19,13 @@ type Props = I18nProps & {
 };
 
 function Assets ({ assets, t }: Props): React.ReactElement<Props> {
-  const [isCreateOpen, toggleCreate] = useToggle();
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const emptyScreen = !isCreateOpen && (!assets || Object.keys(assets).length === 0);
 
   const _onForget = (id: string): void => assetRegistry.remove(id);
   const _onRegister = (id: BN, name: string): void => assetRegistry.add(id.toString(), name);
   const _onSaveName = (id: string, name: string): void => assetRegistry.add(id, name);
+  const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
 
   return (
     <CardGrid
@@ -35,7 +35,7 @@ function Assets ({ assets, t }: Props): React.ReactElement<Props> {
             isPrimary
             label={t('Register Asset')}
             icon='registered'
-            onClick={toggleCreate}
+            onClick={_toggleCreate}
           />
         </Button.Group>
       }
@@ -44,7 +44,7 @@ function Assets ({ assets, t }: Props): React.ReactElement<Props> {
     >
       {isCreateOpen && (
         <CreateModal
-          onClose={toggleCreate}
+          onClose={_toggleCreate}
           onRegister={_onRegister}
         />
       )}

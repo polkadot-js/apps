@@ -4,10 +4,9 @@
 
 import { I18nProps as Props } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import DispatchQueue from './DispatchQueue';
@@ -19,8 +18,11 @@ import PreImage from './PreImage';
 import Propose from './Propose';
 
 function Overview ({ className, t }: Props): React.ReactElement {
-  const [isPreimageOpen, togglePreimage] = useToggle();
-  const [isProposeOpen, togglePropose] = useToggle();
+  const [isPreimageOpen, setIsPreimageOpen] = useState(false);
+  const [isProposeOpen, setIsProposeOpen] = useState(false);
+
+  const _togglePreimage = (): void => setIsPreimageOpen(!isPreimageOpen);
+  const _togglePropose = (): void => setIsProposeOpen(!isProposeOpen);
 
   return (
     <div className={className}>
@@ -30,21 +32,21 @@ function Overview ({ className, t }: Props): React.ReactElement {
           icon='add'
           isPrimary
           label={t('Submit preimage')}
-          onClick={togglePreimage}
+          onClick={_togglePreimage}
         />
         <Button.Or />
         <Button
           icon='add'
           isPrimary
           label={t('Submit proposal')}
-          onClick={togglePropose}
+          onClick={_togglePropose}
         />
       </Button.Group>
       {isPreimageOpen && (
-        <PreImage onClose={togglePreimage} />
+        <PreImage onClose={_togglePreimage} />
       )}
       {isProposeOpen && (
-        <Propose onClose={togglePropose} />
+        <Propose onClose={_togglePropose} />
       )}
       <Referendums />
       <Proposals />
