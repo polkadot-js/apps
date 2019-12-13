@@ -35,7 +35,7 @@ function renderSpacer (route: Route, index: number): React.ReactNode {
   );
 }
 
-function App ({ className }: Props): React.ReactElement<Props> {
+function DashboardApp ({ className }: Props): React.ReactElement<Props> {
   const [routes] = useState(
     routing.routes.filter((route): boolean =>
       !!route && !route.display.isHidden && route.name !== 'dashboard'
@@ -52,7 +52,7 @@ function App ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(App)`
+export default styled(DashboardApp)`
   .routes {
     display: flex;
     flex-direction: row;

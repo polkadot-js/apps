@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 

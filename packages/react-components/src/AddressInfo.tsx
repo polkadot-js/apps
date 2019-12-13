@@ -11,7 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber, isObject } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 

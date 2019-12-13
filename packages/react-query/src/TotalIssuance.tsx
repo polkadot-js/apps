@@ -1,25 +1,25 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, CallProps } from '@polkadot/react-api/types';
+import { BareProps } from '@polkadot/react-api/types';
 import { Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
-interface Props extends BareProps, CallProps {
+interface Props extends BareProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
-  balances_totalIssuance?: Balance;
 }
 
-export function TotalIssuance ({ children, className, label, style, balances_totalIssuance }: Props): React.ReactElement<Props> {
-  const value = balances_totalIssuance
-    ? balances_totalIssuance.toString()
-    : null;
+export default function TotalIssuance ({ children, className, label, style }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const totalIssuance = useCall<string>(api.query.balances.totalIssuance, [], {
+    transform: (totalIssuance: Balance): string =>
+      totalIssuance?.toString()
+  });
 
   return (
     <div
@@ -27,12 +27,10 @@ export function TotalIssuance ({ children, className, label, style, balances_tot
       style={style}
     >
       {label || ''}{
-        value
-          ? `${formatBalance(value, false)}${formatBalance.calcSi(value).value}`
+        totalIssuance
+          ? `${formatBalance(totalIssuance, false)}${formatBalance.calcSi(totalIssuance).value}`
           : '-'
       }{children}
     </div>
   );
 }
-
-export default withCalls<Props>('query.balances.totalIssuance')(TotalIssuance);

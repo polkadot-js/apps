@@ -7,7 +7,8 @@ import { Call, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
-import { withCalls, withMulti, registry } from '@polkadot/react-api';
+import { registry } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { createType } from '@polkadot/types';

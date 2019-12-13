@@ -11,7 +11,7 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import keyring from '@polkadot/ui-keyring';
 

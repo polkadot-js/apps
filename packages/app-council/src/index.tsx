@@ -20,7 +20,7 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
+function CouncilApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { pathname } = useLocation();
   const motions = useCall<DerivedCouncilProposals>(api.derive.council.proposals, []);
@@ -58,7 +58,7 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
 }
 
 export default translate(
-  styled(App)`
+  styled(CouncilApp)`
     .council--hidden {
       display: none;
     }

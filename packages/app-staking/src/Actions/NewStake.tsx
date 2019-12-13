@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../translate';
 import detectUnsafe from '../unsafeChains';

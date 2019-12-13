@@ -8,7 +8,7 @@ import { AccountId, AccountIndex, Address, StakingLedger } from '@polkadot/types
 
 import React from 'react';
 
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 
 import FormatBalance from './FormatBalance';
 

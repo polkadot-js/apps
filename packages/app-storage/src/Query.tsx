@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/with/types';
+import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/hoc/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { Button, Labelled } from '@polkadot/react-components';
-import { withCallDiv } from '@polkadot/react-api';
+import { withCallDiv } from '@polkadot/react-api/hoc';
 import valueToText from '@polkadot/react-params/valueToText';
 import { Compact, Option, Raw } from '@polkadot/types';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';

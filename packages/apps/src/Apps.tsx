@@ -8,11 +8,11 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 // we also need to export the default as hot(Apps) (last line)
 // import { hot } from 'react-hot-loader/root';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { withCalls } from '@polkadot/react-api';
 import GlobalStyle from '@polkadot/react-components/styles';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
 import ConnectingOverlay from './overlays/Connecting';
@@ -28,23 +28,21 @@ interface SidebarState {
   transition: SideBarTransition;
 }
 
-function Placeholder (): React.ReactElement {
+function WarmUp (): React.ReactElement {
+  const { api, isApiReady } = useApi();
+  const fees = useCall<any>(isApiReady ? api.derive.balances.fees : undefined, []);
+  const indexes = useCall<any>(isApiReady ? api.derive.accounts.indexes : undefined, []);
+  const staking = useCall<any>(isApiReady ? api.derive.staking.overview : undefined, []);
+  const [hasValues, setHasValues] = useState(false);
+
+  useEffect((): void => {
+    setHasValues(!!fees || !!indexes || !!staking);
+  }, []);
+
   return (
-    <div className='api-warm' />
+    <div className={`api-warm ${hasValues}`} />
   );
 }
-
-const WarmUp = withCalls<{}>(
-  'derive.accounts.indexes',
-  'derive.balances.fees',
-  'derive.staking.overview'
-  // This are very ineffective queries that
-  //   (a) adds load to the RPC node when activated globally
-  //   (b) is used in additional information (next-up)
-  // 'derive.staking.all'
-  // 'derive.staking.controllers'
-  // 'query.staking.nominators'
-)(Placeholder);
 
 function Apps ({ className }: Props): React.ReactElement<Props> {
   const [sidebar, setSidebar] = useState<SidebarState>({

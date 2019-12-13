@@ -16,14 +16,14 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onClick?: () => void;
   override?: React.ReactNode;
-  params?: AccountId | AccountIndex | Address | string | null;
   toggle?: any;
+  value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
   withShort?: boolean;
 }
 
 const nameCache: Map<string, string> = new Map();
 
-function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | Address | string | null, _accountIndex?: AccountIndex | null): string {
+function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | Address | string | null | Uint8Array, _accountIndex?: AccountIndex | null): string {
   const accountId = (_address || '').toString();
   const cached = nameCache.get(accountId);
 
@@ -43,10 +43,10 @@ function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | 
   return extracted;
 }
 
-export default function AccountName ({ children, className, defaultName, label, onClick, override, params, style, toggle, withShort }: Props): React.ReactElement<Props> {
+export default function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
-  const [name, setName] = useState(defaultOrAddr(defaultName, params));
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
+  const [name, setName] = useState(defaultOrAddr(defaultName, value));
 
   useEffect((): void => {
     const { accountId, accountIndex, nickname } = info || {};
@@ -54,10 +54,10 @@ export default function AccountName ({ children, className, defaultName, label, 
     if (nickname) {
       const name = nickname.toUpperCase();
 
-      nameCache.set((params || '').toString(), name);
+      nameCache.set((value || '').toString(), name);
       setName(name);
     } else {
-      setName(defaultOrAddr(defaultName, accountId || params, withShort ? null : accountIndex));
+      setName(defaultOrAddr(defaultName, accountId || value, withShort ? null : accountIndex));
     }
   }, [info, toggle]);
 

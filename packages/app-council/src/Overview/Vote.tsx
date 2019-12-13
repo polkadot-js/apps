@@ -9,7 +9,7 @@ import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { withApi } from '@polkadot/react-api';
+import { withApi } from '@polkadot/react-api/hoc';
 import { AddressMulti, Button } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 

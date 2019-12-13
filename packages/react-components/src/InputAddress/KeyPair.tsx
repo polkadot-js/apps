@@ -28,7 +28,7 @@ function KeyPair ({ address, className, style }: Props): React.ReactElement<Prop
         value={address}
       />
       <div className='name'>
-        <AccountName params={address} />
+        <AccountName value={address} />
       </div>
       <div className='address'>
         {address}

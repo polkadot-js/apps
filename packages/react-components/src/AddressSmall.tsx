@@ -16,7 +16,7 @@ interface Props {
   onClickName?: () => void;
   overrideName?: React.ReactNode;
   toggle?: any;
-  value?: string | Address | AccountId;
+  value?: string | Address | AccountId | null | Uint8Array;
 }
 
 function AddressSmall ({ className, defaultName, onClickName, overrideName, toggle, value }: Props): React.ReactElement<Props> {
@@ -24,7 +24,7 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon
         size={32}
-        value={value}
+        value={value as Uint8Array}
       />
       <div className='nameInfo'>
         <AccountName
@@ -32,10 +32,10 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
           defaultName={defaultName}
           override={overrideName}
           onClick={onClickName}
-          params={value}
           toggle={toggle}
+          value={value}
         />
-        <AccountIndex params={value} />
+        <AccountIndex value={value} />
       </div>
     </div>
   );

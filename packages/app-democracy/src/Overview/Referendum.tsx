@@ -5,12 +5,13 @@
 
 import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import translate from '../translate';
@@ -19,8 +20,6 @@ import Voting from './Voting';
 
 interface Props extends I18nProps {
   idNumber: BN;
-  chain_bestNumber?: BN;
-  democracy_referendumVotesFor?: DerivedReferendumVote[];
   value: DerivedReferendum;
 }
 
@@ -33,7 +32,10 @@ interface State {
   votedTotal: BN;
 }
 
-function Referendum ({ chain_bestNumber, className, democracy_referendumVotesFor, t, value }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className, idNumber, t, value }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const votesFor = useCall<DerivedReferendumVote[]>(api.derive.democracy.referendumVotesFor as any, [idNumber]);
   const [{ voteCountAye, voteCountNay, votedAye, votedNay }, setState] = useState<State>({
     voteCount: 0,
     voteCountAye: 0,
@@ -44,8 +46,8 @@ function Referendum ({ chain_bestNumber, className, democracy_referendumVotesFor
   });
 
   useEffect((): void => {
-    if (democracy_referendumVotesFor) {
-      const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }): State => {
+    if (votesFor) {
+      const newState: State = votesFor.reduce((state, { balance, vote }): State => {
         if (vote.isAye) {
           state.voteCountAye++;
           state.votedAye = state.votedAye.add(balance);
@@ -73,9 +75,9 @@ function Referendum ({ chain_bestNumber, className, democracy_referendumVotesFor
 
       setState(newState);
     }
-  }, [democracy_referendumVotesFor]);
+  }, [votesFor]);
 
-  if (!chain_bestNumber || value.info.end.sub(chain_bestNumber).lten(0)) {
+  if (!bestNumber || value.info.end.sub(bestNumber).lten(0)) {
     return null;
   }
 
@@ -91,7 +93,7 @@ function Referendum ({ chain_bestNumber, className, democracy_referendumVotesFor
       />
       <td className='number together top'>
         <label>{t('remaining')}</label>
-        {formatNumber(value.info.end.sub(chain_bestNumber).subn(1))} blocks
+        {formatNumber(value.info.end.sub(bestNumber).subn(1))} blocks
       </td>
       <td className='number together top'>
         <label>{t('activate at')}</label>
@@ -112,7 +114,7 @@ function Referendum ({ chain_bestNumber, className, democracy_referendumVotesFor
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Referendum)`
     .democracy--Referendum-results {
       margin-bottom: 1em;
@@ -121,10 +123,5 @@ export default withMulti(
         text-align: center;
       }
     }
-  `,
-  translate,
-  withCalls<Props>(
-    'derive.chain.bestNumber',
-    ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }]
-  )
+  `
 );
