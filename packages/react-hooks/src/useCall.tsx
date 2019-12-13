@@ -8,8 +8,6 @@ import { CallOptions, CallParam, CallParams } from './types';
 import { useEffect, useRef, useState } from 'react';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import { extractParams, transformIdentity } from './util';
-
 interface TrackFnCallback {
   (value: Codec): void;
 }
@@ -40,10 +38,26 @@ interface TrackerRef {
   current: Tracker;
 }
 
+// the default transform, just returns what we have
+function transformIdentity (value: any): any {
+  return value;
+}
+
+// extract the serialized and mapped params, all ready for use in our call
+function extractParams (fn: any, params: any[], paramMap: (params: any[]) => any): [string, CallParams | null] {
+  return [
+    JSON.stringify({ f: fn?.name, p: params }),
+    params.length === 0 || !params.some((param): boolean => isNull(param) || isUndefined(null))
+      ? paramMap(params)
+      : null
+  ];
+}
+
 // unsubscribe and remove from  the tracker
 function unsubscribe (tracker: TrackerRef): void {
+  tracker.current.isActive = false;
+
   if (tracker.current.subscriber) {
-    tracker.current.isActive = false;
     tracker.current.subscriber.then((unsubFn): void => unsubFn());
     tracker.current.subscriber = null;
   }
@@ -56,20 +70,24 @@ function subscribe <T> (tracker: TrackerRef, fn: TrackFn | undefined, params: Ca
   unsubscribe(tracker);
 
   setTimeout((): void => {
-    tracker.current.isActive = true;
-    tracker.current.count = 0;
-    tracker.current.subscriber = fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)
+    if (fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)) {
+      // swap to acive mode and reset our count
+      tracker.current.isActive = true;
+      tracker.current.count = 0;
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore We tried to get the typings right, close but no cigar...
-      ? fn(...params, (value: any): void => {
+      tracker.current.subscriber = fn(...params, (value: any): void => {
         // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
         // since .subscriber may not be set on immeditae callback)
         if (tracker.current.isActive && (!isSingle || !tracker.current.count)) {
           tracker.current.count++;
           setValue(transform(value));
         }
-      })
-      : null;
+      });
+    } else {
+      tracker.current.subscriber = null;
+    }
   }, 0);
 }
 
@@ -92,14 +110,14 @@ export default function useCall <T> (fn: TrackFn | undefined, params: CallParams
   useEffect((): void => {
     // check if we have a function
     if (fn) {
-      const nonEmptyParams = params.filter((param): boolean => !(isNull(param) || !isUndefined(param)));
+      const validParams = params.filter((param): boolean => !isUndefined(param));
 
       // in the case on unmounting, the params may go empty, cater for this, don't trigger
-      if (nonEmptyParams.length >= tracker.current.paramCount) {
+      if (validParams.length >= tracker.current.paramCount) {
         const [serialized, mappedParams] = extractParams(fn, params, options.paramMap || transformIdentity);
 
         if (mappedParams && serialized !== tracker.current.serialized) {
-          tracker.current.paramCount = nonEmptyParams.length;
+          tracker.current.paramCount = validParams.length;
           tracker.current.serialized = serialized;
 
           subscribe(tracker, fn, mappedParams, setValue, options);

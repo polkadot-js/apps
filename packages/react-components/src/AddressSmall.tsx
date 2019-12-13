@@ -32,10 +32,10 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
           defaultName={defaultName}
           override={overrideName}
           onClick={onClickName}
-          params={value}
           toggle={toggle}
+          value={value}
         />
-        <AccountIndex params={value} />
+        <AccountIndex value={value} />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
-import { BlockAuthorsContext } from '@polkadot/react-query';
+import { ValidatorsContext } from '@polkadot/react-query';
 
 import StatusContext from './Status/Context';
 import translate from './translate';
@@ -34,15 +34,13 @@ export function getIdentityTheme (systemName: string): 'empty' {
 function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, value }: Props): React.ReactElement<Props> {
   const { systemName } = useApi();
   const { queueAction } = useContext(StatusContext);
-  const { validators } = useContext(BlockAuthorsContext);
+  const validators = useContext(ValidatorsContext);
   const [isValidator, setIsValidator] = useState(false);
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
     if (value) {
-      const address = value.toString();
-
-      setIsValidator(validators.some((validator): boolean => validator === address));
+      setIsValidator(validators.includes(value.toString()));
     }
   }, [value, validators]);
 

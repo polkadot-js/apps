@@ -63,7 +63,7 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         {withAddress && (
           <div className='ui--AddressMini-address'>
             {withName
-              ? <AccountName params={value} />
+              ? <AccountName value={value} />
               : toShortAddress(value)
             }
           </div>

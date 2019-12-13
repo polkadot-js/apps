@@ -36,10 +36,8 @@ function WarmUp (): React.ReactElement {
   const [hasValues, setHasValues] = useState(false);
 
   useEffect((): void => {
-    if (!hasValues) {
-      setHasValues(!!fees || !!indexes || !!staking);
-    }
-  }, [hasValues, fees, indexes, staking]);
+    setHasValues(!!fees || !!indexes || !!staking);
+  }, []);
 
   return (
     <div className={`api-warm ${hasValues}`} />
