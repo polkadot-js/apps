@@ -9,17 +9,13 @@ import React from 'react';
 
 import translate from '../translate';
 import Members from './Members';
-import Summary from './Summary';
 
 interface Props extends I18nProps, ComponentProps {}
 
-function Overview ({ className, members, proposals }: Props): React.ReactElement<Props> {
+function Overview ({ className, members, t }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
-      <Summary
-        members={members}
-        proposals={proposals}
-      />
+      <h1>{t('technical committee members')}</h1>
       <Members members={members} />
     </div>
   );

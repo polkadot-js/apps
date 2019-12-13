@@ -18,11 +18,21 @@ export interface CallOptions <T> {
   transform?: (value: any) => T;
 }
 
-export type TxDef = [string, any[] | ConstructTxFn];
+export interface ModalState {
+  isOpen: boolean;
+  onOpen: () => void,
+  onClose: () => void
+}
+
+export type TxParams = any[] | ConstructTxFn;
+
+export type TxDef = [string, TxParams];
 
 export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
 
-export type TxSource<T extends TxDefs> = [T, boolean];
+export type TxIsSumittableFn = (...args: any[]) => boolean
+
+export type TxSource<T extends TxDefs> = [T, boolean | TxIsSumittableFn];
 
 export interface Slash {
   accountId: AccountId;
@@ -48,6 +58,7 @@ export interface ExtrinsicAndSenders {
 export interface TxProps {
   accountId?: StringOrNull;
   onChangeAccountId?: (_: StringOrNull) => void;
+  onQueue?: () => void;
   onSuccess?: () => void;
   onFailed?: () => void;
   onStart?: () => void;

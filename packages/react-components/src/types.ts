@@ -107,13 +107,13 @@ export interface TxButtonNewProps extends TxProps {
   withSpinner?: boolean;
 }
 
-export interface TxModalProps extends I18nProps, TxState {
+export interface TxModalProps extends TxState {
   accountId?: StringOrNull;
   header?: React.ReactNode;
   isDisabled?: boolean;
   isOpen?: boolean;
   isUnsigned?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   preContent?: React.ReactNode;
   trigger?: TxTrigger;
   onSubmit?: () => void;
@@ -158,3 +158,9 @@ export interface NullContract {
   abi: null;
   address: null;
 }
+
+export enum VotingType {
+  Democracy,
+  Council,
+  TechnicalCommittee
+};

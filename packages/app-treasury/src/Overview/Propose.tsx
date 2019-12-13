@@ -2,105 +2,77 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import React from 'react';
+import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
+import { TxSource, TxDef } from '@polkadot/react-hooks/types';
 
-import { Button, InputAddress, InputBalance } from '@polkadot/react-components';
-import TxModal, { TxModalState, TxModalProps as Props } from '@polkadot/react-components/TxModal';
+import BN from 'bn.js';
+import React, { useState } from 'react';
+
+import { Button, InputAddress, InputBalance, TxModalNew as TxModal } from '@polkadot/react-components';
+import { useModal, useTx } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
-interface State extends TxModalState {
-  beneficiary?: string | null;
-  value: BN;
+interface Props extends I18nProps {}
+
+function isValueValid (value?: BN | null): boolean {
+  return !!value && value.gtn(0);
 }
 
-class Propose extends TxModal<Props, State> {
-  public state: State = {
-    ...this.defaultState,
-    value: new BN(0)
-  };
+function Propose ({ t }: Props): React.ReactElement<Props> {
+  const [beneficiary, setBeneficiary] = useState<StringOrNull>(null);
+  const [value, setValue] = useState<BN | null>(new BN(0));
 
-  protected headerText = (): string => this.props.t('Submit a spend proposal');
+  const _onChangeValue = (value?: BN | null) => setValue(value || null);
 
-  protected txMethod = (): string => 'treasury.proposeSpend';
+  const txState = useTx(
+    (): TxSource<TxDef> => [
+      [
+        'treasury.proposeSpend',
+        [value, beneficiary]
+      ],
+      (value: BN, beneficiary?: StringOrNull) => isValueValid(value) && !!beneficiary
+    ],
+    [value, beneficiary]
+  );
+  const modalState = useModal();
 
-  protected txParams = (): [BN, string | null | undefined] => {
-    const { beneficiary, value } = this.state;
-
-    return [value, beneficiary];
-  }
-
-  protected isDisabled = (): boolean => {
-    const { accountId, beneficiary, value } = this.state;
-    const hasValue = !!value && value.gtn(0);
-    const hasBeneficiary = !!beneficiary;
-
-    return !accountId || !hasValue || !hasBeneficiary;
-  }
-
-  protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
-
-    return (
-      <Button.Group>
-        <Button
-          isPrimary
-          label={t('Submit a spend proposal')}
-          icon='add'
-          onClick={this.showModal}
-        />
-      </Button.Group>
-    );
-  }
-
-  protected renderContent = (): React.ReactNode => {
-    const { t } = this.props;
-    const { value } = this.state;
-    const hasValue = !!value && value.gtn(0);
-
-    return (
-      <>
-        <InputAddress
-          className='medium'
-          label={t('beneficiary')}
-          help={t('The account to which the proposed balance will be transferred if approved')}
-          type='allPlus'
-          onChange={this.onChangeBeneficiary}
-        />
-        <InputBalance
-          className='medium'
-          isError={!hasValue}
-          help={t('The amount that will be allocated from the treasury pot')}
-          label={t('value')}
-          onChange={this.onChangeValue}
-          onEnter={this.sendTx}
-        />
-      </>
-    );
-  }
-
-  private nextState (newState: Partial<State>): void {
-    this.setState(
-      (prevState: State): Pick<State, never> => {
-        const { accountId = prevState.accountId, beneficiary = prevState.beneficiary, value = prevState.value } = newState;
-
-        return {
-          accountId,
-          beneficiary,
-          value
-        };
+  return (
+    <TxModal
+      {...txState}
+      {...modalState}
+      header={t('Submit a spend proposal')}
+      trigger={
+        ({ onOpen }): React.ReactElement => ((
+          <Button.Group>
+            <Button
+              isPrimary
+              label={t('Submit a spend proposal')}
+              icon='add'
+              onClick={onOpen}
+            />
+          </Button.Group>
+        ))
       }
-    );
-  }
-
-  private onChangeBeneficiary = (beneficiary: string | null): void => {
-    this.nextState({ beneficiary });
-  }
-
-  private onChangeValue = (value?: BN): void => {
-    this.nextState({ value });
-  }
+    >
+      <InputAddress
+        className='medium'
+        label={t('beneficiary')}
+        help={t('The account to which the proposed balance will be transferred if approved')}
+        type='allPlus'
+        onChange={setBeneficiary}
+      />
+      <InputBalance
+        className='medium'
+        isError={!isValueValid(value)}
+        help={t('The amount that will be allocated from the treasury pot')}
+        label={t('value')}
+        onChange={_onChangeValue}
+        onEnter={txState.sendTx}
+        onEscape={modalState.onClose}
+      />
+    </TxModal>
+  );
 }
 
 export default translate(Propose);

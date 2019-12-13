@@ -42,7 +42,7 @@ function getExtrinsic<T extends TxDefs> (api: ApiPromise, txDef: T): Submittable
   }
 }
 
-export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSource<T>, memoArr: any[], { accountId: anAccountId, onChangeAccountId, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
+export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSource<T>, memoArr: any[], { accountId: anAccountId, onChangeAccountId, onQueue, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
 
@@ -50,6 +50,10 @@ export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSo
 
   const [accountId, setAccountId] = useState<StringOrNull>(anAccountId || null);
   const [isSending, setIsSending] = useState(false);
+
+  const _onQueue = (): void => {
+    onQueue && onQueue();
+  };
 
   const _onStart = (): void => {
     setIsSending(true);
@@ -88,13 +92,18 @@ export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSo
         txSuccessCb: _onSuccess,
         txUpdateCb: _onUpdate
       });
+      _onQueue();
     }
 
     return {
       extrinsic,
-      isSubmittable: !!accountId && !!extrinsic && isSubmittable,
-      sendTx: (): void => _sendTx(),
-      sendUnsigned: (): void => _sendTx(true)
+      isSubmittable: !!accountId && !!extrinsic && (isFunction(isSubmittable) ? isSubmittable(...isFunction(txDef[1]) ? txDef[1]() : txDef[1]) : isSubmittable),
+      sendTx: (): void => {
+        _sendTx();
+      },
+      sendUnsigned: (): void => {
+        _sendTx(true);
+      }
     };
   }
 

@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedTreasuryProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
-import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Summary from './Summary';
@@ -14,35 +14,25 @@ import Propose from './Propose';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-export default function Overview ({ className }: Props): React.ReactElement<Props> {
+export default function Overview ({ className }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const approvalIds = useCall<BN[]>(api.query.treasury.approvals, []);
-  const proposalCount = useCall<BN>(api.query.treasury.proposalCount, []);
-  const [proposalIds, setProposalIds] = useState<BN[]>([]);
+  const allProposals = useCall<DerivedTreasuryProposals>(api.derive.treasury.proposals, []);
+  
+  if (!allProposals) {
+    return null;
+  }
 
-  useEffect((): void => {
-    if (approvalIds && proposalCount) {
-      const proposalIds: BN[] = [];
-
-      for (let i = 0; i < proposalCount.toNumber(); i++) {
-        if (!approvalIds.find((index): boolean => index.eqn(i))) {
-          proposalIds.push(new BN(i));
-        }
-      }
-
-      setProposalIds(proposalIds);
-    }
-  }, [approvalIds, proposalCount]);
+  const { approvals, proposals, proposalCount } = allProposals;
 
   return (
     <div className={className}>
       <Summary
-        approvalCount={approvalIds?.length}
-        proposalCount={proposalIds?.length}
+        approvalCount={approvals?.length}
+        proposalCount={proposalCount.toNumber()}
       />
       <Propose />
-      <Proposals ids={proposalIds} />
-      <Proposals ids={approvalIds} isApprovals />
+      <Proposals proposals={proposals} />
+      <Proposals proposals={approvals} isApprovals />
     </div>
   );
 }

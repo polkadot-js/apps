@@ -2,133 +2,120 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { Hash, Proposal } from '@polkadot/types/interfaces';
+import { TxSource, TxDef } from '@polkadot/react-hooks/types';
+import { I18nProps, VotingType } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
-import keyring from '@polkadot/ui-keyring';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import React, { useState } from 'react';
+import { TxModalNew as TxModal } from '@polkadot/react-components';
+import { useTx } from '@polkadot/react-hooks';
 
 import translate from './translate';
 import Button from './Button';
 import Dropdown from './Dropdown';
 import ProposedAction from './ProposedAction';
-import TxModal, { TxModalProps, TxModalState } from './TxModal';
 import { isTreasuryProposalVote } from './util';
 
-interface Props extends I18nProps, TxModalProps {
-  allAccounts?: SubjectInfo;
-  hash?: string;
+interface Props extends I18nProps {
+  hash?: Hash;
   idNumber: BN | number;
-  isCouncil: boolean;
   proposal?: Proposal | null;
-  preContent?: React.ReactNode;
+  type: VotingType;
 }
 
-interface State extends TxModalState {
-  voteOptions: { text: React.ReactNode; value: boolean }[];
-  voteValue: boolean;
+const { Democracy, Council, TechnicalCommittee } = VotingType;
+
+function getVoteOptions ({ t }: Props): { text: React.ReactNode; value: boolean }[] {
+  return [
+    { text: t('Aye, I approve'), value: true },
+    { text: t('Nay, I do not approve'), value: false }
+  ];
 }
 
-class Voting extends TxModal<Props, State> {
-  public state: State;
+function Voting (props: Props): React.ReactElement<Props> {
+  const { hash, idNumber, proposal, type, t } = props;
 
-  protected headerText = (): string => {
-    const { isCouncil, t } = this.props;
+    const [voteValue, setVoteValue] = useState(true);
+    const voteOptions = getVoteOptions(props);
 
-    return isCouncil ? t('Vote on council proposal') : t('Vote on proposal');
-  }
+    let method: string;
+    let header: React.ReactNode;
+  
+    switch (props.type) {
+      case Council:
+        method = 'council.vote';
+        header = t('Vote on council motion');
+        break;
+      case TechnicalCommittee:
+        method = 'technicalCommittee.vote',
+        header = t('Vote on technical committee motion');
+        break;
+      case Democracy:
+      default:
+        method = 'democracy.vote',
+        header = t('Vote on proposal')
+        break;
+    }
 
-  protected accountLabel = (): string => this.props.t('Vote with account');
-
-  protected accountHelp = (): string => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
-
-  protected txMethod = (): string => {
-    const { isCouncil } = this.props;
-
-    return isCouncil ? 'council.vote' : 'democracy.vote';
-  }
-
-  protected txParams = (): any[] => {
-    const { hash, idNumber, isCouncil } = this.props;
-    const { voteValue } = this.state;
-
-    return isCouncil
-      ? [hash, idNumber, voteValue]
-      : [idNumber, voteValue];
-  }
-
-  constructor (props: Props) {
-    super(props);
-
-    const { t } = props;
-
-    this.state = {
-      ...this.defaultState,
-      voteOptions: [
-        { text: t('Aye, I approve'), value: true },
-        { text: t('Nay, I do not approve'), value: false }
-      ],
-      voteValue: true
-    };
-  }
-
-  protected renderPreContent = (): React.ReactNode => {
-    const { idNumber, proposal } = this.props;
-
-    return (
-      <>
-        <ProposedAction
-          expandNested={isTreasuryProposalVote(proposal)}
-          idNumber={idNumber}
-          isCollapsible
-          proposal={proposal}
-        />
-        <br />
-        <br />
-      </>
-    );
-  }
-
-  protected renderContent = (): React.ReactNode => {
-    const { t } = this.props;
-    const { voteOptions, voteValue } = this.state;
-
-    return (
+    const txState = useTx(
+      type !== Democracy && !!hash
+        ? (): TxSource<TxDef> => [
+          [
+            method,
+            [hash.toString(), idNumber, voteValue]
+          ],
+          !!hash
+        ]
+        : (): TxSource<TxDef> => [
+          [
+            method,
+            [idNumber, voteValue]
+          ],
+          true
+        ],
+      [hash, idNumber, voteValue]
+  );
+    
+  return (
+    <TxModal
+      {...txState}
+      trigger={
+        ({ onOpen }): React.ReactElement => ((
+          <div className='ui--Row-buttons'>
+            <Button
+              isPrimary
+              label={t('Vote')}
+              icon='check'
+              onClick={onOpen}
+            />
+          </div>
+        ))
+      }
+      header={header}
+      inputAddressLabel={t('Vote with account')}
+      preContent={
+        <>
+          <ProposedAction
+            expandNested={isTreasuryProposalVote(proposal)}
+            idNumber={idNumber}
+            isCollapsible
+            proposal={proposal}
+          />
+          <br />
+          <br />
+        </>
+      }
+    >
       <Dropdown
         help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
         label={t('record my vote as')}
         options={voteOptions}
-        onChange={this.onChangeVote}
+        onChange={setVoteValue}
         value={voteValue}
       />
-    );
-  }
-
-  protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
-
-    return (
-      <div className='ui--Row-buttons'>
-        <Button
-          isPrimary
-          label={t('Vote')}
-          icon='check'
-          onClick={this.showModal}
-        />
-      </div>
-    );
-  }
-
-  private onChangeVote = (voteValue: boolean): void => {
-    this.setState({ voteValue });
-  }
+    </TxModal>
+  )
 }
 
-export default withMulti(
-  Voting,
-  translate,
-  withObservable(keyring.accounts.subject, { propName: 'allAccounts' })
-);
+export default translate(Voting);

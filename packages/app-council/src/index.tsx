@@ -2,18 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, Hash } from '@polkadot/types/interfaces';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Tabs } from '@polkadot/react-components';
+import { Proposals, Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Overview from './Overview';
-import Motions from './Motions';
+import Candidates from './Candidates';
+import Summary from './Summary';
+import useElectionsInfo from './useElectionsInfo';
 import translate from './translate';
 
 export { default as useCounter } from './useCounter';
@@ -22,7 +23,8 @@ interface Props extends AppProps, BareProps, I18nProps {}
 
 function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const { pathname } = useLocation();
+  const componentProps = useElectionsInfo(api);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const motions = useCall<Hash[]>(api.query.council.proposals, []);
 
   return (
@@ -47,12 +49,30 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
           ]}
         />
       </header>
+      <Summary
+        bestNumber={bestNumber}
+        electionsInfo={componentProps.electionsInfo}
+      />
       <Switch>
-        <Route path={`${basePath}/motions`}>
-          <Motions motions={motions} />
-        </Route>
+        <Route
+          path={`${basePath}/candidates`}
+          render={
+            (): React.ReactElement => <Candidates {...componentProps} />
+          }
+        />
+        <Route
+          path={`${basePath}/motions`}
+          render={
+            (): React.ReactElement => <Proposals collective='council' />
+          }
+        />
+        <Route
+          exact
+          render={
+            (): React.ReactElement => <Overview {...componentProps} />
+          }
+        />
       </Switch>
-      <Overview className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'} />
     </main>
   );
 }

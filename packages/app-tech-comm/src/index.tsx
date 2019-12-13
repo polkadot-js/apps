@@ -8,10 +8,10 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Tabs } from '@polkadot/react-components';
+import { Proposals, Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
-import Proposals from './Proposals';
+import Summary from './Summary';
 import translate from './translate';
 
 export { default as useCounter } from './useCounter';
@@ -41,11 +41,14 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
           ]}
         />
       </header>
+      <Summary
+        members={members}
+        proposals={proposals}
+      />
       <Switch>
         <Route path={`${basePath}/proposals`}>
           <Proposals
-            members={members}
-            proposals={proposals}
+            collective='technicalCommittee'
           />
         </Route>
         <Route path={basePath}>

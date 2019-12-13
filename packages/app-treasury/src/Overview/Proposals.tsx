@@ -3,47 +3,34 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import BN from 'bn.js';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import { Table } from '@polkadot/react-components';
 
 import Proposal from './Proposal';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  ids?: BN[];
+  proposals: DerivedTreasuryProposal[];
   isApprovals?: boolean;
 }
 
-function ProposalsBase ({ className, ids, isApprovals, t }: Props): React.ReactElement<Props> {
-  const history = useHistory();
-  const [isEmpty, setIsEmpty] = useState(true);
-
-  const _onRespond = (): void => {
-    history.push('/council/motions');
-  };
-  const _onPopulateProposal = (): void => {
-    isEmpty && setIsEmpty(false);
-  };
-
+function ProposalsBase ({ className, proposals, isApprovals, t }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <h1>{isApprovals ? t('Approved') : t('Proposals')}</h1>
-      {isEmpty && (
+      {(!proposals || !proposals.length) && (
         isApprovals ? t('No approved proposals') : t('No pending proposals')
       )}
       <Table>
         <Table.Body>
-          {ids?.map((proposalId): React.ReactNode => (
+          {proposals?.map((proposal): React.ReactNode => (
             <Proposal
               isApproved={isApprovals}
-              onPopulate={_onPopulateProposal}
-              onRespond={_onRespond}
-              proposalId={proposalId}
-              key={proposalId.toString()}
+              proposal={proposal}
+              key={proposal.id.toString()}
             />
           ))}
         </Table.Body>

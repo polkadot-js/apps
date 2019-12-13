@@ -1,35 +1,30 @@
-// Copyright 2017-2019 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
+import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { I18nProps, VotingType } from '@polkadot/react-components/types';
+import { CollectiveProps } from './types';
 
 import React from 'react';
-import { AddressMini } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+
+import { AddressMini, Voting } from '@polkadot/react-components';
+
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
-import Voting from './Voting';
 
-interface Props extends I18nProps {
-  hash: string;
+interface Props extends CollectiveProps, I18nProps {
+  proposal: DerivedCollectiveProposal;
 }
 
-function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
-  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
-  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
-
-  if (!optProposal?.isSome || !votes?.isSome) {
+function Proposal ({ className, collective, proposal: { hash, votes, proposal }, t }: Props): React.ReactElement<Props> | null {
+  if (!votes || !proposal) {
     return null;
   }
 
-  const proposal = optProposal.unwrap();
-  const { ayes, index, nays, threshold } = votes.unwrap();
+  const { ayes, index, nays, threshold} = votes;
 
   return (
     <tr className={className}>
@@ -53,7 +48,7 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
-            label={t('Nay')}
+            label={index === 0 ? t('Nay') : undefined}
             value={address}
             withBalance={false}
           />
@@ -62,7 +57,9 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
       <td className='number top together'>
         <Voting
           hash={hash}
-          proposalId={index}
+          idNumber={index}
+          proposal={proposal}
+          type={collective === 'council' ? VotingType.Council : VotingType.TechnicalCommittee}
         />
       </td>
     </tr>

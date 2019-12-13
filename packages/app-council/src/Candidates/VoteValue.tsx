@@ -18,6 +18,8 @@ interface Props extends I18nProps {
   accountId?: string | null;
   allBalances?: DerivedBalances;
   onChange: (value: BN) => void;
+  onEnter?: () => void;
+  onEscape?: () => void;
 }
 
 interface ValueState {
@@ -25,7 +27,7 @@ interface ValueState {
   value?: BN | string;
 }
 
-function VoteValue ({ accountId, allBalances, onChange, t }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, allBalances, onChange, onEnter, onEscape, t }: Props): React.ReactElement<Props> | null {
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 
   // TODO This may be useful elsewhere, so figure out a way to make this a utility
@@ -64,6 +66,8 @@ function VoteValue ({ accountId, allBalances, onChange, t }: Props): React.React
       labelExtra={<BalanceVoting label={<label>{t('voting balance')}</label>} params={accountId} />}
       maxValue={allBalances?.votingBalance}
       onChange={_setValue}
+      onEnter={onEnter}
+      onEscape={onEscape}
       value={value}
     />
   );

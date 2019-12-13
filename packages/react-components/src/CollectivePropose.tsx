@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps, TxModalProps } from '@polkadot/react-components/types';
 import { TxSource, TxDef } from '@polkadot/react-hooks/types';
 import { Call, Proposal } from '@polkadot/types/interfaces';
 
@@ -10,17 +10,20 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Extrinsic, InputNumber, TxModalNew as TxModal } from '@polkadot/react-components';
-import { useApi, useTx } from '@polkadot/react-hooks';
+import { useApi, useModal, useTx } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 
-import translate from '../translate';
+import translate from './translate';
 
 interface Props extends I18nProps {
+  apiSection: string;
+  header?: React.ReactNode;
+  collectiveName: string;
   memberCount?: number;
-  onClose: () => void;
+  txModalProps: Pick<TxModalProps, never>;
 }
 
-function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Props> {
+function CollectivePropose ({ t, apiSection, header, collectiveName, memberCount = 0, txModalProps = {} }: Props): React.ReactElement<Props> {
   const _hasThreshold = (threshold?: BN | null): boolean =>
     !!threshold && !threshold.isZero() && threshold.lten(memberCount);
 
@@ -35,14 +38,14 @@ function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Pr
   const txState = useTx(
     (): TxSource<TxDef> => [
       [
-        'technicalCommittee.propose',
+        `${apiSection}.propose`,
         [threshold, proposal]
       ],
       !!proposal && hasThreshold
     ],
-    [memberCount, proposal, threshold, hasThreshold],
-    {}
+    [memberCount, proposal, threshold, hasThreshold]
   );
+  const modalState = useModal();
 
   useEffect((): void => {
     setThreshold([threshold, _hasThreshold(threshold)]);
@@ -55,18 +58,19 @@ function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Pr
 
   return (
     <TxModal
-      isOpen
-      onClose={onClose}
       {...txState}
-      header={t('Propose a committee motion')}
+      {...modalState}
+      header={header}
+      {...txModalProps}
     >
       <InputNumber
         className='medium'
         label={t('threshold')}
-        help={t('The minimum number of committee votes required to approve this motion')}
+        help={t(`The minimum number of ${collectiveName} votes required to approve this motion`)}
         isError={!hasThreshold}
         onChange={_onChangeThreshold}
         onEnter={txState.sendTx}
+        onEscape={modalState.onClose}
         placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount } })}
         value={threshold || undefined}
       />
@@ -75,9 +79,10 @@ function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Pr
         label={t('proposal')}
         onChange={_onChangeExtrinsic}
         onEnter={txState.sendTx}
+        onEscape={modalState.onClose}
       />
     </TxModal>
   );
 }
 
-export default translate(Propose);
+export default translate(CollectivePropose);

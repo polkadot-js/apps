@@ -2,14 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TxModalProps as Props } from './types';
+import { ModalState } from '@polkadot/react-hooks/types';
+import { I18nProps, TxModalProps } from './types';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button, InputAddress, Modal } from '@polkadot/react-components';
-// import { useTx } from '@polkadot/react-hooks';
-import { isUndefined } from '@polkadot/util';
+import { useModal } from '@polkadot/react-hooks';
+// import { isUndefined } from '@polkadot/util';
 
 import translate from './translate';
+
+interface Props extends I18nProps, TxModalProps {}
+
+function pickModalState<P extends Props> (props: Pick<P, any>): ModalState | null {
+  if (props.isOpen && props.onOpen && props.onClose) {
+    const { isOpen, onOpen, onClose } = props;
+    return { isOpen, onOpen, onClose };
+  }
+  return null;
+}
 
 function TxModal<P extends Props> ({
   t,
@@ -34,56 +45,7 @@ function TxModal<P extends Props> ({
   submitButtonProps = {},
   ...props
 }: P): React.ReactElement<P> | null {
-  const isControlled = !isUndefined(props.isOpen);
-  const [isOpen, setIsOpen] = useState(isControlled ? props.isOpen : false);
-
-  const onOpen = (): void => {
-    !isControlled && setIsOpen(true);
-
-    props.onOpen && props.onOpen();
-  };
-
-  const onClose = (): void => {
-    !isControlled && setIsOpen(false);
-
-    props.onClose && props.onClose();
-  };
-
-  const onSend = (): void => {
-    sendTx();
-    onClose();
-  };
-
-  // const onStart = (): void => {
-  //   props.onSubmit && props.onSubmit();
-  // };
-
-  // const onFailed = (): void => {
-  //   props.onFailed && props.onFailed();
-  // };
-
-  // const onSuccess = (): void => {
-  //   !isControlled && setIsOpen(false);
-
-  //   props.onSuccess && props.onSuccess();
-  // };
-
-  // const txState = useTx(
-  //   txSource,
-  //   {
-  //     ...(props.accountId ? { accountId: props.accountId } : {}),
-  //     onChangeAccountId: props.onChangeAccountId,
-  //     onStart,
-  //     onFailed,
-  //     onSuccess
-  //   }
-  // );
-
-  // const { accountId, onChangeAccountId, isSending, sendTx } = th
-
-  useEffect((): void => {
-    !isUndefined(props.isOpen) && setIsOpen(props.isOpen);
-  }, [props.isOpen]);
+  const {isOpen, onOpen, onClose} = pickModalState(props) || useModal();
 
   const allModalProps = {
     className: ['ui--Modal', modalProps.className || ''].join(' '),
@@ -129,7 +91,7 @@ function TxModal<P extends Props> ({
               isPrimary
               label={submitButtonLabel}
               icon={submitButtonIcon}
-              onClick={onSend}
+              onClick={sendTx}
               {...submitButtonProps}
             />
           </Button.Group>
