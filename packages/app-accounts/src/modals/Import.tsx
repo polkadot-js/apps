@@ -39,10 +39,9 @@ class Import extends TxComponent<Props, State> {
 
     return (
       <Modal
-        dimmer='inverted'
+        header={t('Add via backup file')}
         open
       >
-        <Modal.Header>{t('Add via backup file')}</Modal.Header>
         {this.renderInput()}
         <Modal.Actions>
           <Button.Group>

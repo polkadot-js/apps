@@ -45,12 +45,9 @@ class Unlock extends TxComponent<Props, State> {
     return (
       <Modal
         className='toolbox--Unlock'
-        dimmer='inverted'
+        header={t('Unlock account')}
         open
       >
-        <Modal.Header>
-          {t('Unlock account')}
-        </Modal.Header>
         {this.renderContent()}
         {this.renderActions()}
       </Modal>

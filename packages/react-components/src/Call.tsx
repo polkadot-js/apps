@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types/interfaces';
 import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import { BareProps, I18nProps } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GenericCall, getTypeDef } from '@polkadot/types';
 import Params from '@polkadot/react-params';
@@ -19,24 +20,41 @@ import translate from './translate';
 export interface Props extends I18nProps, BareProps {
   children?: React.ReactNode;
   labelHash?: React.ReactNode;
+  mortality?: string;
+  onError?: () => void;
   value: IExtrinsic | IMethod;
   withHash?: boolean;
-  mortality?: string;
   tip?: BN;
 }
 
-function Call ({ children, className, labelHash, style, mortality, tip, value, withHash, t }: Props): React.ReactElement<Props> {
-  const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): { name: string; type: TypeDef } => ({
-    name: name.toString(),
-    type: getTypeDef(type.toString())
-  }));
-  const values = value.args.map((value): { isValid: boolean; value: Codec } => ({
-    isValid: true,
-    value
-  }));
-  const hash = withHash
-    ? (value as IExtrinsic).hash
-    : null;
+interface Param {
+  name: string;
+  type: TypeDef;
+}
+
+interface Value {
+  isValid: boolean;
+  value: Codec;
+}
+
+function Call ({ children, className, labelHash, mortality, onError, style, tip, value, withHash, t }: Props): React.ReactElement<Props> {
+  const [{ hash, params, values }, setExtracted] = useState<{ hash: Hash | null; params: Param[]; values: Value[] }>({ hash: null, params: [], values: [] });
+
+  useEffect((): void => {
+    const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): Param => ({
+      name: name.toString(),
+      type: getTypeDef(type.toString())
+    }));
+    const values = value.args.map((value): Value => ({
+      isValid: true,
+      value
+    }));
+    const hash = withHash
+      ? value.hash
+      : null;
+
+    setExtracted({ hash, params, values });
+  }, [value, withHash]);
 
   return (
     <div
@@ -45,6 +63,7 @@ function Call ({ children, className, labelHash, style, mortality, tip, value, w
     >
       <Params
         isDisabled
+        onError={onError}
         params={params}
         values={values}
       />
@@ -66,7 +85,7 @@ function Call ({ children, className, labelHash, style, mortality, tip, value, w
             {mortality}
           </Static>
         )}
-        {tip && tip.gtn(0) && (
+        {tip?.gtn(0) && (
           <Static
             className='tip'
             label={t('tip')}

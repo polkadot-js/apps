@@ -61,7 +61,11 @@ function Externals ({ className, t }: Props): React.ReactElement<Props> | null {
             <td className='number together top'>
               {expanded && <FormatBalance label={<label>{t('locked')}</label>} value={expanded.balance} />}
             </td>
-            <ProposalCell className='top' proposalHash={hash} proposal={expanded?.proposal} />
+            <ProposalCell
+              className='top'
+              proposalHash={hash}
+              proposal={expanded?.proposal}
+            />
           </tr>
         </Table.Body>
       </Table>

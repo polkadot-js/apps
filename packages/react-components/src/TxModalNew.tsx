@@ -50,6 +50,7 @@ function TxModal<P extends Props> ({
   const allModalProps = {
     className: ['ui--Modal', modalProps.className || ''].join(' '),
     dimmer: 'inverted',
+    header,
     ...modalProps,
     onClose,
     open: isOpen
@@ -59,9 +60,6 @@ function TxModal<P extends Props> ({
     <>
       {Trigger ? <Trigger onOpen={onOpen} /> : null}
       <Modal {...allModalProps}>
-        <Modal.Header>
-          {header}
-        </Modal.Header>
         <Modal.Content>
           {preContent}
           <InputAddress

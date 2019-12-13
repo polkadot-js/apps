@@ -6,13 +6,13 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
+import { AccountId } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
-// import { withCalls } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
@@ -185,15 +185,15 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
         <>
           {(extSection === 'balances' && extMethod === 'transfer') && (
             <Transfer
-              amount={extrinsic.args[1]}
+              amount={extrinsic.args[1] as Compact<UInt>}
               fees={balances_fees}
-              recipientId={extrinsic.args[0]}
+              recipientId={extrinsic.args[0] as AccountId}
               onChange={setExtra}
             />
           )}
           {(extSection === 'democracy' && extMethod === 'propose') && (
             <Proposal
-              deposit={extrinsic.args[1]}
+              deposit={extrinsic.args[1] as Compact<UInt>}
               fees={balances_fees}
               onChange={setExtra}
             />
@@ -202,14 +202,14 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
             <>
               {(extMethod === 'call') && (
                 <ContractCall
-                  endowment={extrinsic.args[1] as unknown as Compact<UInt>}
+                  endowment={extrinsic.args[1] as Compact<UInt>}
                   fees={contract_fees}
                   onChange={setExtra}
                 />
               )}
               {(extMethod === 'create') && (
                 <ContractDeploy
-                  endowment={extrinsic.args[0] as unknown as Compact<UInt>}
+                  endowment={extrinsic.args[0] as Compact<UInt>}
                   fees={contract_fees}
                   onChange={setExtra}
                 />

@@ -2,30 +2,46 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import translate from '../../translate';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends I18nProps {
   accountId: string | null;
-  bondedId?: string | null;
   controllerId: string | null;
   defaultController?: string;
   isUnsafeChain?: boolean;
   onError: (error: string | null) => void;
-  stashId?: string | null;
 }
 
 const DISTINCT = 'Distinct stash and controller accounts are recommended to ensure fund security.';
 
-function ValidateController ({ accountId, bondedId, controllerId, defaultController, isUnsafeChain, onError, stashId, t }: Props): React.ReactElement<Props> | null {
+function ValidateController ({ accountId, controllerId, defaultController, isUnsafeChain, onError, t }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const bondedId = useCall<string | null>(api.query.staking.bonded, [controllerId], {
+    transform: (value: Option<AccountId>): string | null => {
+      const extracted = value.unwrapOr(null);
+
+      return extracted
+        ? extracted.toString()
+        : null;
+    }
+  });
+  const stashId = useCall<string | null>(api.query.staking.ledger, [controllerId], {
+    transform: (value: Option<StakingLedger>): string | null => {
+      const extracted = value.unwrapOr({ stash: null }).stash;
+
+      return extracted
+        ? extracted.toString()
+        : null;
+    }
+  });
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
@@ -62,30 +78,4 @@ function ValidateController ({ accountId, bondedId, controllerId, defaultControl
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.staking.bonded', {
-      paramName: 'controllerId',
-      propName: 'bondedId',
-      transform: (value: Option<AccountId>): string | null => {
-        const extracted = value.unwrapOr(null);
-
-        return extracted
-          ? extracted.toString()
-          : null;
-      }
-    }],
-    ['query.staking.ledger', {
-      paramName: 'controllerId',
-      propName: 'stashId',
-      transform: (value: Option<StakingLedger>): string | null => {
-        const extracted = value.unwrapOr({ stash: null }).stash;
-
-        return extracted
-          ? extracted.toString()
-          : null;
-      }
-
-    }]
-  )(ValidateController)
-);
+export default translate(ValidateController);

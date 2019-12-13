@@ -9,7 +9,6 @@ import { CollectiveProps } from './types';
 import React from 'react';
 
 import { AddressMini, Voting } from '@polkadot/react-components';
-
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
 
@@ -29,7 +28,11 @@ function Proposal ({ className, collective, proposal: { hash, votes, proposal },
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell className='top' proposalHash={hash} proposal={proposal} />
+      <ProposalCell
+        className='top'
+        proposalHash={hash}
+        proposal={proposal}
+      />
       <td className='number top'>
         <label>{t('threshold')}</label>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}

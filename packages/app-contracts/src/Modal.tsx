@@ -54,13 +54,10 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     return (
       <Modal
         className='app--contracts-Modal'
-        dimmer='inverted'
+        header={t(this.headerText)}
         onClose={this.onClose}
         open={isOpen}
       >
-        <Modal.Header>
-          {t(this.headerText)}
-        </Modal.Header>
         <Modal.Content>
           {this.renderContent()}
         </Modal.Content>

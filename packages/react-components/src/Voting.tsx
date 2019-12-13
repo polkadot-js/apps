@@ -8,12 +8,11 @@ import { I18nProps, VotingType } from './types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { TxModalNew as TxModal } from '@polkadot/react-components';
+import { Dropdown, TxModalNew as TxModal } from '@polkadot/react-components';
 import { useTx } from '@polkadot/react-hooks';
 
 import translate from './translate';
 import Button from './Button';
-import Dropdown from './Dropdown';
 import ProposedAction from './ProposedAction';
 import { isTreasuryProposalVote } from './util';
 

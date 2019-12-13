@@ -710,5 +710,21 @@
   "balances": "",
   "Nominating ({{count}})": "",
   "no accounts yet, create or import an existing": "",
-  "no contracts yet, add an existing contact": ""
+  "no contracts yet, add an existing contact": "",
+  "Submit treasury proposal": "",
+  "Select the account you wish to submit the proposal from.": "",
+  "submit with account": "",
+  "The council proposal to make the vote on": "",
+  "council proposal": "",
+  "The hash for the proposal this vote applies to": "",
+  "Unable to render extrinsic": "",
+  "FATAL": "",
+  "Unable to render extrinsic, invalid": "",
+  "Uncaught error. Something went wrong with the data extraction, resulting in an error log.": "",
+  "Filter available candidates based on name, address or short account index.": "",
+  "filter candidates": "",
+  "partial name, address or account index": "",
+  "Session Key": "",
+  "No funds staked yet. Bond funds to validate or nominate a validator.": "",
+  "rewards": ""
 }

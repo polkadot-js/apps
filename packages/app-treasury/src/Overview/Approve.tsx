@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber, ProposalIndex } from '@polkadot/types/interfaces';
+import { AccountId, ProposalIndex } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { TxSource, TxDef } from '@polkadot/react-hooks/types';
 
@@ -99,72 +99,5 @@ function Approve ({ proposalId, proposalInfo = null, t }: Props): React.ReactEle
     </TxModal>
   )
 }
-
-// class Approve2 extends TxModal<Props, State> {
-//   public state: State = {
-//     ...this.defaultState,
-//     isApproving: false
-//   };
-
-//   private approveOptions = (): { text: string; value: boolean }[] => [
-//     { text: this.props.t('Aye, I approve'), value: true },
-//     { text: this.props.t('Nay, I do not approve'), value: false }
-//   ]
-
-//   protected headerText = (): string => this.props.t('Approve or reject proposal');
-
-//   protected txMethod = (): string => 'council.propose';
-
-//   protected txParams = (): [number, any] => {
-//     const { api, proposalId, threshold } = this.props;
-//     const { isApproving } = this.state;
-
-//     const method = isApproving ? 'approveProposal' : 'rejectProposal';
-//     const spendProposal = api.tx.treasury[method](proposalId);
-
-//     return [threshold, spendProposal];
-//   }
-
-//   protected renderTrigger = (): React.ReactNode => {
-//     const { api, t } = this.props;
-
-//     // disable voting for 1.x (we only use elections here)
-//     if (!api.query.elections) {
-//       return null;
-//     }
-
-//     return (
-//     );
-//   }
-
-//   protected renderPreContent = (): React.ReactNode => {
-//     const { proposalInfo = null } = this.props;
-
-//     if (!proposalInfo) {
-//       return null;
-//     }
-
-//     return proposalInfo;
-//   }
-
-//   protected renderContent = (): React.ReactNode => {
-//     const { t } = this.props;
-//     const { isApproving } = this.state;
-
-//     return (
-//       <Dropdown
-//         help={t('Propose a majority council motion to either approve or reject this spend proposal')}
-//         label={t('proposed council action')}
-//         options={this.approveOptions()}
-//         onChange={this.onChangeApproving}
-//         value={isApproving}
-//       />
-//     );
-//   }
-
-//   private onChangeApproving = (isApproving: boolean): void => {
-//     this.setState({ isApproving });
-//   }
-// }
 
 export default translate(Approve);

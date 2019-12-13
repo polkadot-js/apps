@@ -71,13 +71,10 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
 
   return (
     <Modal
-      dimmer='inverted'
+      header={t('Inject Keys')}
       open
       size='small'
     >
-      <Modal.Header>
-        {t('Inject Keys')}
-      </Modal.Header>
       <Modal.Content>
         <Input
           isError={publicKey.length !== 66}

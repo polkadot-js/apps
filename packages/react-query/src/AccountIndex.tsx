@@ -13,12 +13,12 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   defaultValue?: string;
   label?: React.ReactNode;
-  params?: string | AccountId | Address | null;
+  value?: string | AccountId | Address | null | Uint8Array;
 }
 
-export default function AccountIndexDisplay ({ children, className, defaultValue, label, params, style }: Props): React.ReactElement<Props> {
+export default function AccountIndexDisplay ({ children, className, defaultValue, label, style, value }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [params]);
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
   const [accountIndex, setAccountIndex] = useState<string | null>(null);
 
   useEffect((): void => {

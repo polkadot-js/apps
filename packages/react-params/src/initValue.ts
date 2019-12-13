@@ -7,7 +7,7 @@ import { RawParamValue } from './types';
 
 import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
-import { Bytes, U8a, createType, getTypeDef } from '@polkadot/types';
+import { Bytes, Raw, createType, getTypeDef } from '@polkadot/types';
 
 export default function getInitValue (def: TypeDef): RawParamValue | RawParamValue[] {
   if (def.info === TypeDefInfo.Vec) {
@@ -88,7 +88,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'H512':
       return createType(registry, 'H512');
 
-    case 'Data':
+    case 'Raw':
     case 'Keys':
       return '';
 
@@ -109,7 +109,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
       return undefined;
 
     case 'Extrinsic':
-      return new U8a(registry);
+      return new Raw(registry);
 
     case 'Null':
       return null;

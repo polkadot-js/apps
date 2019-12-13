@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/with/types';
+import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/hoc/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
@@ -11,9 +11,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { Button, Labelled } from '@polkadot/react-components';
-import { withCallDiv } from '@polkadot/react-api';
+import { withCallDiv } from '@polkadot/react-api/hoc';
 import valueToText from '@polkadot/react-params/valueToText';
-import { Compact, Data, Option } from '@polkadot/types';
+import { Compact, Option, Raw } from '@polkadot/types';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
 import translate from './translate';
@@ -96,7 +96,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
           paramName: 'params',
           paramValid: true,
           params: [[key]],
-          transform: ([data]: Option<Data>[]): Option<Data> => data,
+          transform: ([data]: Option<Raw>[]): Option<Raw> => data,
           withIndicator: true
         });
       } else {
@@ -111,7 +111,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
 
       type = key.creator && key.creator.meta
         ? typeToString(key)
-        : 'Data';
+        : 'Raw';
     }
 
     const defaultProps = { className: 'ui--output' };
@@ -150,7 +150,7 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
     setIsSpreadable(
       (value.key as StorageEntryPromise).creator &&
       (value.key as StorageEntryPromise).creator.meta &&
-      ['Bytes', 'Data'].includes((value.key as StorageEntryPromise).creator.meta.type.toString())
+      ['Bytes', 'Raw'].includes((value.key as StorageEntryPromise).creator.meta.type.toString())
     );
   }, [value]);
 
@@ -158,7 +158,7 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
   const type = isConst
     ? (key as unknown as ConstValue).meta.type.toString()
     : isU8a(key)
-      ? 'Data'
+      ? 'Raw'
       : typeToString(key as StorageEntryPromise);
 
   if (!Component) {

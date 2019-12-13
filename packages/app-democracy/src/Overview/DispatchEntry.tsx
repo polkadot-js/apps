@@ -43,7 +43,10 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex, t }: Props): React
           </>
         )}
       </td>
-      <ProposalCell proposalHash={hash} proposal={proposal} />
+      <ProposalCell
+        proposalHash={hash}
+        proposal={proposal}
+      />
     </tr>
   );
 }

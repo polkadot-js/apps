@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
@@ -113,13 +113,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       className={[className || '', 'app--contracts-Modal'].join(' ')}
-      dimmer='inverted'
+      header={t('Call a contract')}
       onClose={onClose}
       open={isOpen}
     >
-      <Modal.Header>
-        {t('Call a contract')}
-      </Modal.Header>
       <Modal.Content>
         {callContract && (
           <div className='contracts--CallControls'>

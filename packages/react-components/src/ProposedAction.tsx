@@ -55,7 +55,7 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   const header = `#${idNumber}: ${section}.${method}`;
-  const documentation = (meta && meta.documentation)
+  const documentation = meta?.documentation
     ? (
       <summary>{meta.documentation.join(' ')}</summary>
     )

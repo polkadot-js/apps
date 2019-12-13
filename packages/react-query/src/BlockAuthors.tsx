@@ -23,10 +23,12 @@ const MAX_HEADERS = 25;
 
 const byAuthor: Record<string, string> = {};
 const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, lastHeaders: [] });
+const ValidatorsContext: React.Context<string[]> = React.createContext<string[]>([]);
 
 function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [state, setState] = useState<Authors>({ byAuthor, lastHeaders: [] });
+  const [validators, setValidators] = useState<string[]>([]);
 
   useEffect((): void => {
     // TODO We should really unsub - but since this should just be used once,
@@ -36,6 +38,12 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
 
+      // subscribe to all validators
+      api.query.session && api.query.session.validators((validatorIds): void => {
+        setValidators(validatorIds.map((validatorId): string => validatorId.toString()));
+      });
+
+      // subscribe to new headers
       api.derive.chain.subscribeNewHeads((lastHeader): void => {
         if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
@@ -69,10 +77,12 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
   }, []);
 
   return (
-    <BlockAuthorsContext.Provider value={state}>
-      {children}
-    </BlockAuthorsContext.Provider>
+    <ValidatorsContext.Provider value={validators}>
+      <BlockAuthorsContext.Provider value={state}>
+        {children}
+      </BlockAuthorsContext.Provider>
+    </ValidatorsContext.Provider>
   );
 }
 
-export { BlockAuthorsContext, BlockAuthors };
+export { BlockAuthorsContext, BlockAuthors, ValidatorsContext };

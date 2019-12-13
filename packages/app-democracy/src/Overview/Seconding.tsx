@@ -33,11 +33,10 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
     <>
       {isSecondingOpen && (
         <Modal
-          dimmer='inverted'
+          header={t('Second proposal')}
           open
           size='small'
         >
-          <Modal.Header>{t('Second proposal')}</Modal.Header>
           <Modal.Content>
             <InputAddress
               help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}

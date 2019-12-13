@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as ActionItem } from './ActionItem';
-export { default as AddressCard } from './AddressCard';
 export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
+export { default as AddressMulti } from './AddressMulti';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSmall } from './AddressSmall';
+export { default as AddressToggle } from './AddressToggle';
 export { default as Available } from './Available';
 export { default as Badge } from './Badge';
 export { default as Balance } from './Balance';
@@ -29,6 +30,7 @@ export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
 export { default as Dropdown } from './Dropdown';
 export { default as Editor } from './Editor';
+export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Event } from './Event';
 export { default as Expander } from './Expander';
 export { default as Extrinsic } from './Extrinsic';
@@ -82,6 +84,9 @@ export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';
 export { default as TxModalNew } from './TxModalNew';
+export { default as VoteAccount } from './VoteAccount';
+export { default as VoteActions } from './VoteActions';
+export { default as VoteToggle } from './VoteToggle';
 export { default as Voting } from './Voting';
 
 export { default as media } from './media';
