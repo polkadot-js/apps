@@ -21,6 +21,7 @@ export interface BareProps {
 
 export interface AppProps {
   basePath: string;
+  className?: string;
   onStatusChange: (status: ActionStatus) => void;
 }
 

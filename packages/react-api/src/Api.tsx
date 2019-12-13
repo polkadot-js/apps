@@ -15,7 +15,7 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
-import { u32 as U32 } from '@polkadot/types';
+import { createType } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
@@ -43,9 +43,8 @@ interface InjectedAccountExt {
   };
 }
 
-const DEFAULT_DECIMALS = new U32(registry, 12);
-const DEFAULT_SS58 = new U32(registry, addressDefaults.prefix);
-
+const DEFAULT_DECIMALS = createType(registry, 'u32', 12);
+const DEFAULT_SS58 = createType(registry, 'u32', addressDefaults.prefix);
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
 

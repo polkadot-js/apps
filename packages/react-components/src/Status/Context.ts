@@ -11,11 +11,11 @@ const defaultState: Partial<QueueProps> = {
   txqueue: [] as QueueTx[]
 };
 
-const Context: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState as QueueProps);
-const QueueConsumer: React.Consumer<QueueProps> = Context.Consumer;
-const QueueProvider: React.Provider<QueueProps> = Context.Provider;
+const StatusContext: React.Context<QueueProps> = React.createContext<QueueProps>(defaultState as QueueProps);
+const QueueConsumer: React.Consumer<QueueProps> = StatusContext.Consumer;
+const QueueProvider: React.Provider<QueueProps> = StatusContext.Provider;
 
-export default Context;
+export default StatusContext;
 
 export {
   QueueConsumer,

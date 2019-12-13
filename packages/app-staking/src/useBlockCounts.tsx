@@ -6,18 +6,19 @@ import { SessionIndex } from '@polkadot/types/interfaces';
 import { SessionRewards } from './types';
 
 import { useEffect, useState } from 'react';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types';
 
 export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
+  const mounted = useIsMountedRef();
   const [counts, setCounts] = useState<u32[]>([]);
   const [historic, setHistoric] = useState<u32[]>([]);
   const sessionIndex = useCall<SessionIndex>(api.query.session.currentIndex, []);
   const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [sessionIndex, accountId]);
 
   useEffect((): void => {
-    if (api.query.imOnline?.authoredBlocks && sessionRewards && sessionRewards.length) {
+    if (api.query.imOnline?.authoredBlocks && sessionRewards?.length) {
       const filtered = sessionRewards.filter(({ sessionIndex }): boolean => sessionIndex.gtn(0));
 
       if (filtered.length) {
@@ -25,7 +26,9 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
           .all(filtered.map(({ parentHash, sessionIndex }): Promise<u32> =>
             api.query.imOnline.authoredBlocks.at(parentHash, sessionIndex.subn(1), accountId) as Promise<u32>
           ))
-          .then(setHistoric);
+          .then((historic): void => {
+            mounted.current && setHistoric(historic);
+          });
       }
     }
   }, [accountId, sessionRewards]);
