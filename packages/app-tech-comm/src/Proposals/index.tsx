@@ -6,9 +6,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { ComponentProps } from '../types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Table } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import Proposal from './Proposal';
@@ -17,14 +16,15 @@ import Propose from './Propose';
 interface Props extends ComponentProps, I18nProps {}
 
 function Proposals ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
-  const [isProposeOpen, toggleProposal] = useToggle();
+  const [isProposeOpen, setIsProposeOpen] = useState(false);
+  const _toggleProposal = (): void => setIsProposeOpen(!isProposeOpen);
 
   return (
     <div className={className}>
       {isProposeOpen && (
         <Propose
           memberCount={members?.length}
-          onClose={toggleProposal}
+          onClose={_toggleProposal}
         />
       )}
       <Button.Group>
@@ -32,7 +32,7 @@ function Proposals ({ className, members, proposals, t }: Props): React.ReactEle
           isPrimary
           label={t('Submit proposal')}
           icon='add'
-          onClick={toggleProposal}
+          onClick={_toggleProposal}
         />
       </Button.Group>
       {proposals?.length

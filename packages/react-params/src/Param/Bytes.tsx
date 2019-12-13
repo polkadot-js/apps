@@ -4,17 +4,17 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Button } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import BaseBytes from './BaseBytes';
 import File from './File';
 
 export default function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
-  const [isFileDrop, toggleFile] = useToggle();
+  const [isFileDrop, setIsFileDrop] = useState(false);
 
+  const _toggleFile = (): void => setIsFileDrop(true);
   const _onChangeFile = (value: Uint8Array): void => {
     onChange && onChange({
       isValid: value.length !== 0,
@@ -54,7 +54,7 @@ export default function Bytes ({ className, defaultValue, isDisabled, isError, l
         {!isDisabled && (
           <Button
             icon='file'
-            onClick={toggleFile}
+            onClick={_toggleFile}
           />
         )}
       </BaseBytes>
