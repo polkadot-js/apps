@@ -4,10 +4,9 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactMd from 'react-markdown';
 import styled from 'styled-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
 
@@ -16,21 +15,23 @@ interface Props extends BareProps {
 }
 
 function HelpOverlay ({ className, md }: Props): React.ReactElement<Props> {
-  const [isVisible, toggleVisible] = useToggle();
+  const [isVisible, setIsVisible] = useState(false);
+
+  const _toggleVisible = (): void => setIsVisible(!isVisible);
 
   return (
     <div className={className}>
       <div className='help-button'>
         <Icon
           name='help circle'
-          onClick={toggleVisible}
+          onClick={_toggleVisible}
         />
       </div>
       <div className={`help-slideout ${isVisible ? 'open' : 'closed'}`}>
         <div className='help-button'>
           <Icon
             name='close'
-            onClick={toggleVisible}
+            onClick={_toggleVisible}
           />
         </div>
         <ReactMd
