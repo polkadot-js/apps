@@ -7,7 +7,7 @@ import { BareProps, CallProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address, BalanceOf } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api/hoc';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import FormatBalance from './FormatBalance';
 
@@ -15,21 +15,19 @@ interface Props extends BareProps, CallProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
-  electionsPhragmen_stakeOf?: BalanceOf;
 }
 
-export function LockedVote ({ children, className, electionsPhragmen_stakeOf, label }: Props): React.ReactElement<Props> {
+export default function LockedVote ({ children, className, label, params }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const stakeOf = useCall<BalanceOf>(api.query.electionsPhragmen.stakeOf, [params]);
+
   return (
     <FormatBalance
       className={className}
       label={label}
-      value={electionsPhragmen_stakeOf}
+      value={stakeOf}
     >
       {children}
     </FormatBalance>
   );
 }
-
-export default withCalls<Props>(
-  ['query.electionsPhragmen.stakeOf', { paramName: 'params' }]
-)(LockedVote);

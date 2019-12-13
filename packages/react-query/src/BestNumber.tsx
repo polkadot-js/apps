@@ -16,8 +16,8 @@ interface Props extends BareProps {
 }
 
 export default function BestNumber ({ children, className, label, style }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized as any, []);
+  const { api, isApiReady } = useApi();
+  const bestNumber = useCall<BlockNumber>(isApiReady ? api.derive.chain.bestNumberFinalized as any : undefined, []);
 
   return (
     <div
