@@ -3,16 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { BareProps, I18nProps, StringOrNull } from '@polkadot/react-components/types';
-import { ContractExecResult } from '@polkadot/types/interfaces/contracts';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
+import { useApi } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
@@ -23,10 +21,9 @@ import translate from '../translate';
 import { GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
 
-interface Props extends BareProps, I18nProps, ApiProps {
+interface Props extends BareProps, I18nProps {
   callContract: ApiContract | null;
   callMessageIndex: number | null;
-  callResults: ContractExecResult[];
   isOpen: boolean;
   onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
   onChangeCallMessageIndex: (callMessageIndex: number) => void;
@@ -34,7 +31,8 @@ interface Props extends BareProps, I18nProps, ApiProps {
 }
 
 function Call (props: Props): React.ReactElement<Props> | null {
-  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, api, t } = props;
+  const { api } = useApi();
+  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, t } = props;
 
   if (isNull(callContract) || isNull(callMessageIndex)) {
     return null;
@@ -254,7 +252,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Call)`
     .rpc-toggle {
       margin-top: 1rem;
@@ -265,7 +263,5 @@ export default withMulti(
     .clear-all {
       float: right;
     }
-  `,
-  translate,
-  withApi
+  `
 );

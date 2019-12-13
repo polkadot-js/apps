@@ -9,7 +9,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 
 import React, { useEffect, useState } from 'react';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/react-api/hoc';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { InfoForInput } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
@@ -17,11 +17,12 @@ import translate from '../translate';
 
 interface Props extends ApiProps, I18nProps {
   address?: string | null;
-  contracts_contractInfoOf?: Option<ContractInfo>;
   onChange: (isValid: boolean) => void;
 }
 
-function ValidateAddr ({ address, contracts_contractInfoOf, onChange, t }: Props): React.ReactElement<Props> | null {
+function ValidateAddr ({ address, onChange, t }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const contractInfo = useCall<Option<ContractInfo>>(api.query.contracts.contractInfoOf, [address]);
   const [isAddress, setIsAddress] = useState(false);
   const [isStored, setIsStored] = useState(false);
 
@@ -35,8 +36,8 @@ function ValidateAddr ({ address, contracts_contractInfoOf, onChange, t }: Props
   }, [address]);
 
   useEffect((): void => {
-    setIsStored(!!contracts_contractInfoOf && contracts_contractInfoOf.isSome);
-  }, [contracts_contractInfoOf]);
+    setIsStored(!!contractInfo?.isSome);
+  }, [contractInfo]);
 
   useEffect((): void => {
     onChange(isAddress && isStored);
@@ -48,20 +49,12 @@ function ValidateAddr ({ address, contracts_contractInfoOf, onChange, t }: Props
 
   return (
     <InfoForInput type='error'>
-      {
-        isAddress
-          ? t('Unable to find deployed contract code at the specified address')
-          : t('The value is not in a valid address format')
+      {isAddress
+        ? t('Unable to find deployed contract code at the specified address')
+        : t('The value is not in a valid address format')
       }
     </InfoForInput>
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.contracts.contractInfoOf', {
-      fallbacks: ['query.contract.contractInfoOf'],
-      paramName: 'address'
-    }]
-  )(ValidateAddr)
-);
+export default translate(ValidateAddr);
