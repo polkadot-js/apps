@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
-import { useApi, useCacheKey } from '@polkadot/react-hooks';
+import { useApi, useCacheKey, useIsMountedRef } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
@@ -32,8 +32,8 @@ interface Serialized {
 const MAX_BLOCKS = 2500;
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
-  let hasSome = false;
-  let keepAll = true;
+  let hasData = false;
+  let keepAll = false;
 
   return sessions
     .map(({ blockHash, blockNumber, isEventsEmpty, parentHash, reward, sessionIndex, slashes, treasury }): SessionRewards => ({
@@ -50,17 +50,22 @@ function fromJSON (sessions: Serialized[]): SessionRewards[] {
       treasury: createType(registry, 'Balance', treasury)
     }))
     .filter(({ parentHash }): boolean => !parentHash.isEmpty)
-    .filter(({ isEventsEmpty }): boolean => {
-      if (!isEventsEmpty) {
-        // we first see if we have some data up to this point (we may not, i.e. non-archive)
-        hasSome = true;
-      } else if (hasSome) {
-        // if data is followed by empty, drop everything from here on
-        keepAll = false;
+    .reverse()
+    // we drop everything before the second non-empty
+    .filter(({ isEventsEmpty }, index): boolean => {
+      if (index !== 0) {
+        if (!isEventsEmpty) {
+          // we first see if we have some data up to this point (we may not, i.e. non-archive)
+          hasData = true;
+        } else if (hasData) {
+          // if data is followed by empty, drop everything from here on
+          keepAll = true;
+        }
       }
 
       return keepAll;
-    });
+    })
+    .reverse();
 }
 
 function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
@@ -141,6 +146,7 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
 
 export default function useSessionRewards (maxSessions: number): SessionRewards[] {
   const { api } = useApi();
+  const mounted = useIsMountedRef();
   const [getCache, setCache] = useCacheKey<Serialized[]>('hooks:sessionSlashes');
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 
@@ -169,12 +175,14 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
           toNumber = fromNumber;
           fromNumber = bnMax(toNumber.subn(MAX_BLOCKS), new BN(1));
 
-          setCache(toJSON(workQueue, maxSessionsStore));
-          setFiltered(workQueue.slice(-maxSessions));
+          if (mounted.current) {
+            setCache(toJSON(workQueue, maxSessionsStore));
+            setFiltered(workQueue.slice(-maxSessions));
+          }
 
           const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
 
-          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
+          if (!mounted.current || !lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
             break;
           }
         }

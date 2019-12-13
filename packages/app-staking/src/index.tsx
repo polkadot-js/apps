@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps as Props } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
@@ -22,11 +22,8 @@ import Summary from './Overview/Summary';
 import Query from './Query';
 import Targets from './Targets';
 import { MAX_SESSIONS } from './constants';
-import translate from './translate';
+import { useTranslation } from './translate';
 import useSessionRewards from './useSessionRewards';
-
-interface Props extends AppProps, I18nProps {
-}
 
 const EMPY_ACCOUNTS: string[] = [];
 const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
@@ -40,7 +37,8 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
   ];
 }
 
-function StakingApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
+function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api, isSubstrateV2 } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
@@ -135,22 +133,20 @@ function StakingApp ({ basePath, className, t }: Props): React.ReactElement<Prop
   );
 }
 
-export default translate(
-  styled(StakingApp)`
-    .staking--hidden {
-      display: none;
-    }
+export default styled(StakingApp)`
+  .staking--hidden {
+    display: none;
+  }
 
-    .staking--queryInput {
-      margin-bottom: 1.5rem;
-    }
+  .staking--queryInput {
+    margin-bottom: 1.5rem;
+  }
 
-    .staking--Chart h1 {
-      margin-bottom: 0.5rem;
-    }
+  .staking--Chart h1 {
+    margin-bottom: 0.5rem;
+  }
 
-    .staking--Chart+.staking--Chart {
-      margin-top: 1.5rem;
-    }
-  `
-);
+  .staking--Chart+.staking--Chart {
+    margin-top: 1.5rem;
+  }
+`;
