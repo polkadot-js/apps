@@ -9,7 +9,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
-import { useDebounce, useToggle } from '@polkadot/react-hooks';
+import { useDebounce } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
@@ -71,12 +71,12 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
   const [{ address, deriveError }, setDerived] = useState<DerivedAddress>({ address: null, deriveError: null });
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(source.isLocked);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [rootPass, setRootPass] = useState('');
   const [suri, setSuri] = useState('');
-  const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const debouncedSuri = useDebounce(suri);
   const isValid = !!address && !deriveError && isNameValid && isPassValid;
 
@@ -101,6 +101,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
 
   const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
   const _onChangePass = (password: string): void => setPassword({ isPassValid: keyring.isPassValid(password), password });
+  const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
   const _onUnlock = (): void => {
     try {
       source.decodePkcs8(rootPass);
@@ -118,7 +119,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
 
     const status = createAccount(source, suri, name, password, t('created account'));
 
-    toggleConfirmation();
+    _toggleConfirmation();
     queueAction(status);
     onClose();
   };
@@ -143,7 +144,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
           address={address}
           name={name}
           onCommit={_onCommit}
-          onClose={toggleConfirmation}
+          onClose={_toggleConfirmation}
         />
       )}
       <Modal.Content>
@@ -220,7 +221,7 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
                 isDisabled={!isValid}
                 isPrimary
                 label={t('Save')}
-                onClick={toggleConfirmation}
+                onClick={_toggleConfirmation}
               />
             )
           }
