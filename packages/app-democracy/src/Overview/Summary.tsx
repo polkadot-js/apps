@@ -1,37 +1,26 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { withCalls } from '@polkadot/react-api';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
-  chain_bestNumber?: BN;
-  democracy_nextTally?: BN;
-  democracy_publicPropCount?: BN;
-  democracy_referendumCount?: BN;
-}
+const ZERO = new BN(0);
 
-function Summary (props: Props): React.ReactElement<Props> {
+function Summary ({ t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const activeProposals = useCall<any[]>(api.derive.democracy.proposals, []);
-
-  const {
-    chain_bestNumber,
-    democracy_nextTally = new BN(0),
-    democracy_publicPropCount,
-    democracy_referendumCount = new BN(0),
-    t
-  } = props;
+  const bestNumber = useCall<BN>(api.derive.chain.bestNumber, []);
+  const nextActive = useCall<BN>(api.query.democracy?.lowestUnbaked || api.query.democracy.nextTally, []);
+  const publicPropCount = useCall<BN>(api.query.democracy.publicPropCount, []);
+  const referendumCount = useCall<BN>(api.query.democracy.referendumCount, []);
 
   return (
     <SummaryBox>
@@ -40,23 +29,23 @@ function Summary (props: Props): React.ReactElement<Props> {
           {formatNumber(activeProposals?.length)}
         </CardSummary>
         <CardSummary label={t('total')}>
-          {formatNumber(democracy_publicPropCount)}
+          {formatNumber(publicPropCount)}
         </CardSummary>
       </section>
       <section>
         <CardSummary label={t('referenda')}>
-          {formatNumber(democracy_referendumCount.sub(democracy_nextTally))}
+          {formatNumber((referendumCount || ZERO).sub(nextActive || ZERO))}
         </CardSummary>
         <CardSummary label={t('total')}>
-          {formatNumber(democracy_referendumCount)}
+          {formatNumber(referendumCount)}
         </CardSummary>
       </section>
-      {chain_bestNumber && (
+      {bestNumber && (
         <section className='ui--media-medium'>
           <CardSummary
             label={t('launch period')}
             progress={{
-              value: chain_bestNumber.mod(api.consts.democracy.launchPeriod).addn(1),
+              value: bestNumber.mod(api.consts.democracy.launchPeriod).addn(1),
               total: api.consts.democracy.launchPeriod
             }}
           />
@@ -66,11 +55,4 @@ function Summary (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    'query.democracy.nextTally',
-    'query.democracy.publicPropCount',
-    'query.democracy.referendumCount',
-    'derive.chain.bestNumber'
-  )(Summary)
-);
+export default translate(Summary);
