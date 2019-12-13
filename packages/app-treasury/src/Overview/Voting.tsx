@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Input, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
 import translate from '../translate';
@@ -28,8 +28,8 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
   const [councilOptId, setCouncilOptId] = useState<number>(0);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [{ councilId, councilHash }, setCouncilInfo] = useState<{ councilId: ProposalIndex | null; councilHash: Hash | null }>({ councilId: null, councilHash: null });
-  const [isVotingOpen, setIsVotingOpen] = useState(false);
   const [voteValue, setVoteValue] = useState(true);
+  const [isVotingOpen, toggleVoting] = useToggle();
 
   useEffect((): void => {
     const available = proposals
@@ -47,7 +47,6 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  const _toggleVoting = (): void => setIsVotingOpen(!isVotingOpen);
   const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
   const _onChangeProposal = (optionId: number): void => {
     const councilProp = proposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
@@ -91,7 +90,7 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
           <VoteActions
             accountId={accountId}
             isDisabled={!councilHash}
-            onClick={_toggleVoting}
+            onClick={toggleVoting}
             params={[councilHash, councilId, voteValue]}
             tx='council.vote'
           />
@@ -101,7 +100,7 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
         icon='check'
         isPrimary
         label={t('Vote')}
-        onClick={_toggleVoting}
+        onClick={toggleVoting}
       />
     </>
   );

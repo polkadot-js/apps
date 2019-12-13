@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
@@ -37,7 +38,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
   const [isLocked, setIsLocked] = useState(false);
   const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: Signer | null }>({ isUsable: true, signer: null });
   const [signature, setSignature] = useState('');
-  const [isUnlockVisible, setIsUnlockVisible] = useState<boolean>(false);
+  const [isUnlockVisible, toggleUnlock] = useToggle();
 
   useEffect((): void => {
     const isExternal = currentPair?.meta.isExternal || false;
@@ -45,11 +46,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     const isInjected = currentPair?.meta.isInjected || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
-    setAccountState({
-      isExternal,
-      isHardware,
-      isInjected
-    });
+    setAccountState({ isExternal, isHardware, isInjected });
     setIsLocked(
       isInjected
         ? false
@@ -71,7 +68,6 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
     }
   }, [currentPair]);
 
-  const _toggleUnlock = (): void => setIsUnlockVisible(!isUnlockVisible);
   const _onChangeAccount = (accountId: string | null): void => setCurrentPair(keyring.getPair(accountId || ''));
   const _onChangeData = (data: string): void => setData({ data, isHexData: isHex(data) });
   const _onSign = (): void => {
@@ -103,7 +99,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
   };
   const _onUnlock = (): void => {
     setIsLocked(false);
-    _toggleUnlock();
+    toggleUnlock();
   };
 
   return (
@@ -163,7 +159,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
                 <Button.Group>
                   <Button
                     isPrimary
-                    onClick={_toggleUnlock}
+                    onClick={toggleUnlock}
                     label={t('Unlock account')}
                     icon='unlock'
                   />
@@ -186,7 +182,7 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
         </div>
         {isUnlockVisible && (
           <Unlock
-            onClose={_toggleUnlock}
+            onClose={toggleUnlock}
             onUnlock={_onUnlock}
             pair={currentPair}
           />
