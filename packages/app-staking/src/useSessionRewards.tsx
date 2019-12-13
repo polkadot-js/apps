@@ -12,7 +12,6 @@ import { registry } from '@polkadot/react-api';
 import { useApi, useCacheKey, useIsMountedRef } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
-import { recover } from 'secp256k1/elliptic';
 
 interface SerializedSlash {
   accountId: string;
