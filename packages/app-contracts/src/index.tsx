@@ -34,7 +34,7 @@ interface State {
   updated: number;
 }
 
-class App extends React.PureComponent<Props, State> {
+class ContractsApp extends React.PureComponent<Props, State> {
   public state: State = {
     constructorIndex: 0,
     hasContracts: false,
@@ -145,7 +145,7 @@ class App extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  withRouter(App),
+  withRouter(ContractsApp),
   translate,
   withObservable(keyring.accounts.subject, { propName: 'accounts' }),
   withObservable(keyring.contracts.subject, { propName: 'contracts' })

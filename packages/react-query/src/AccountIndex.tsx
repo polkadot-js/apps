@@ -13,7 +13,7 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   defaultValue?: string;
   label?: React.ReactNode;
-  params?: string | AccountId | Address | null;
+  params?: string | AccountId | Address | null | Uint8Array;
 }
 
 export default function AccountIndexDisplay ({ children, className, defaultValue, label, params, style }: Props): React.ReactElement<Props> {

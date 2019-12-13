@@ -16,14 +16,14 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onClick?: () => void;
   override?: React.ReactNode;
-  params?: AccountId | AccountIndex | Address | string | null;
+  params?: AccountId | AccountIndex | Address | string | null | Uint8Array;
   toggle?: any;
   withShort?: boolean;
 }
 
 const nameCache: Map<string, string> = new Map();
 
-function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | Address | string | null, _accountIndex?: AccountIndex | null): string {
+function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | Address | string | null | Uint8Array, _accountIndex?: AccountIndex | null): string {
   const accountId = (_address || '').toString();
   const cached = nameCache.get(accountId);
 

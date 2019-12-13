@@ -193,7 +193,7 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
           )}
           {(extSection === 'democracy' && extMethod === 'propose') && (
             <Proposal
-              deposit={extrinsic.args[1]}
+              deposit={extrinsic.args[1] as Compact<UInt>}
               fees={balances_fees}
               onChange={setExtra}
             />
@@ -202,14 +202,14 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
             <>
               {(extMethod === 'call') && (
                 <ContractCall
-                  endowment={extrinsic.args[1] as unknown as Compact<UInt>}
+                  endowment={extrinsic.args[1] as Compact<UInt>}
                   fees={contract_fees}
                   onChange={setExtra}
                 />
               )}
               {(extMethod === 'create') && (
                 <ContractDeploy
-                  endowment={extrinsic.args[0] as unknown as Compact<UInt>}
+                  endowment={extrinsic.args[0] as Compact<UInt>}
                   fees={contract_fees}
                   onChange={setExtra}
                 />

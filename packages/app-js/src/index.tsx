@@ -11,7 +11,7 @@ import Playground from './Playground';
 
 interface Props extends AppProps, BareProps {}
 
-export default function AppJs ({ basePath }: Props): React.ReactElement<Props> {
+export default function ScriptingApp ({ basePath }: Props): React.ReactElement<Props> {
   return (
     <Switch>
       <Route path={`${basePath}/share/:base64`} component={Playground} />

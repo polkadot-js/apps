@@ -73,7 +73,7 @@ const Signature = styled.textarea`
   }
 `;
 
-class App extends TxModal<Props, State> {
+class ClaimsApp extends TxModal<Props, State> {
   constructor (props: Props) {
     super(props);
 
@@ -252,7 +252,7 @@ class App extends TxModal<Props, State> {
 }
 
 export default withMulti(
-  App,
+  ClaimsApp,
   translate,
   withApi
 );

@@ -13,6 +13,7 @@ interface Authors {
   lastBlockNumber?: string;
   lastHeader?: HeaderExtended;
   lastHeaders: HeaderExtended[];
+  validators: string[];
 }
 
 interface Props {
@@ -22,11 +23,11 @@ interface Props {
 const MAX_HEADERS = 25;
 
 const byAuthor: Record<string, string> = {};
-const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, lastHeaders: [] });
+const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, lastHeaders: [], validators: [] });
 
 function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [state, setState] = useState<Authors>({ byAuthor, lastHeaders: [] });
+  const [state, setState] = useState<Authors>({ byAuthor, lastHeaders: [], validators: [] });
 
   useEffect((): void => {
     // TODO We should really unsub - but since this should just be used once,
@@ -35,7 +36,14 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
       let lastHeaders: HeaderExtended[] = [];
       let lastBlockAuthors: string[] = [];
       let lastBlockNumber = '';
+      let validators: string[] = [];
 
+      // subscribe to all validators
+      api.query.session && api.query.session.validators((validatorIds): void => {
+        validators = validatorIds.map((validatorId): string => validatorId.toString());
+      });
+
+      // subscribe to new headers
       api.derive.chain.subscribeNewHeads((lastHeader): void => {
         if (lastHeader?.number) {
           const blockNumber = lastHeader.number.unwrap();
@@ -62,7 +70,7 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
             }, [lastHeader])
             .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()));
 
-          setState({ byAuthor, lastBlockAuthors: lastBlockAuthors.slice(), lastBlockNumber, lastHeader, lastHeaders });
+          setState({ byAuthor, lastBlockAuthors: lastBlockAuthors.slice(), lastBlockNumber, lastHeader, lastHeaders, validators });
         }
       });
     });

@@ -6,7 +6,7 @@ import { Codec } from '@polkadot/types/types';
 import { CallOptions, CallParam, CallParams } from './types';
 
 import { useEffect, useRef, useState } from 'react';
-import { isUndefined } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 import { extractParams, transformIdentity } from './util';
 
@@ -31,6 +31,7 @@ interface TrackFn {
 interface Tracker {
   isActive: boolean;
   count: number;
+  paramCount: number;
   serialized: string | null;
   subscriber: TrackFnResult | null;
 }
@@ -78,7 +79,7 @@ function subscribe <T> (tracker: TrackerRef, fn: TrackFn | undefined, params: Ca
 // FIXME The typings here need some serious TLC
 export default function useCall <T> (fn: TrackFn | undefined, params: CallParams, options: CallOptions<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>(options.defaultValue);
-  const tracker = useRef<Tracker>({ isActive: false, count: 0, serialized: null, subscriber: null });
+  const tracker = useRef<Tracker>({ isActive: false, count: 0, paramCount: -1, serialized: null, subscriber: null });
 
   // initial effect, we need an unsubscription
   useEffect((): () => void => {
@@ -89,13 +90,20 @@ export default function useCall <T> (fn: TrackFn | undefined, params: CallParams
 
   // on changes, re-subscribe
   useEffect((): void => {
+    // check if we have a function
     if (fn) {
-      const [serialized, mappedParams] = extractParams(fn, params, options.paramMap || transformIdentity);
+      const nonEmptyParams = params.filter((param): boolean => !(isNull(param) || !isUndefined(param)));
 
-      if (mappedParams && serialized !== tracker.current.serialized) {
-        tracker.current.serialized = serialized;
+      // in the case on unmounting, the params may go empty, cater for this, don't trigger
+      if (nonEmptyParams.length >= tracker.current.paramCount) {
+        const [serialized, mappedParams] = extractParams(fn, params, options.paramMap || transformIdentity);
 
-        subscribe(tracker, fn, mappedParams, setValue, options);
+        if (mappedParams && serialized !== tracker.current.serialized) {
+          tracker.current.paramCount = nonEmptyParams.length;
+          tracker.current.serialized = serialized;
+
+          subscribe(tracker, fn, mappedParams, setValue, options);
+        }
       }
     }
   }, [fn, params]);

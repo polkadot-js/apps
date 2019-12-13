@@ -18,7 +18,7 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
+function TechCommApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
   const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals, []);
@@ -59,4 +59,4 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(TechCommApp);
