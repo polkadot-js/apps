@@ -17,9 +17,9 @@ interface Props extends BareProps {
 
 export default function TotalIssuance ({ children, className, label, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const totalIssuance = useCall<string | null>(api.query.balances.totalIssuance, [], {
-    transform: (totalIssuance: Balance): string | null =>
-      totalIssuance?.toString() || null
+  const totalIssuance = useCall<string>(api.query.balances.totalIssuance, [], {
+    transform: (totalIssuance: Balance): string =>
+      totalIssuance?.toString()
   });
 
   return (
