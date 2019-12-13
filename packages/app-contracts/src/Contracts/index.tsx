@@ -8,7 +8,7 @@ import { ComponentProps } from '../types';
 
 import React, { useState, useEffect } from 'react';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, CardGrid } from '@polkadot/react-components';
 
 import translate from '../translate';

@@ -11,8 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
 import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
@@ -23,7 +22,6 @@ interface Props extends I18nProps {
   isCollapsed: boolean;
   onClick: () => void;
   route: Route;
-  sudoKey?: AccountId;
 }
 
 const disabledLog: Map<string, string> = new Map();
@@ -76,9 +74,10 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
+function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, t, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady ? apiProps.api.query.sudo?.key : undefined, []);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const count = useCounter();
@@ -143,10 +142,4 @@ function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon
   );
 }
 
-export default withMulti(
-  Item,
-  translate,
-  withCalls<Props>(
-    ['query.sudo.key', { propName: 'sudoKey' }]
-  )
-);
+export default translate(Item);

@@ -26,7 +26,7 @@ interface Props extends BareProps {
   isShort?: boolean;
   label?: React.ReactNode;
   type?: KeyringItemType;
-  value?: AccountId | AccountIndex | Address | string | null;
+  value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
   withAddress?: boolean;
   withBalance?: boolean;
   withBonded?: boolean;
@@ -51,7 +51,7 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
       <div className='ui--AddressMini-icon'>
         <IdentityIcon
           size={24}
-          value={value}
+          value={value as Uint8Array}
         />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
@@ -63,7 +63,7 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         {withAddress && (
           <div className='ui--AddressMini-address'>
             {withName
-              ? <AccountName params={value} />
+              ? <AccountName value={value} />
               : toShortAddress(value)
             }
           </div>

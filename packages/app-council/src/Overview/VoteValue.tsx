@@ -7,8 +7,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { withCalls } from '@polkadot/react-api';
 import { InputBalance } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
 import { formatBalance, isBn } from '@polkadot/util';
 
@@ -16,7 +16,6 @@ import translate from '../translate';
 
 interface Props extends I18nProps {
   accountId?: string | null;
-  allBalances?: DerivedBalances;
   onChange: (value: BN) => void;
 }
 
@@ -25,7 +24,9 @@ interface ValueState {
   value?: BN | string;
 }
 
-function VoteValue ({ accountId, allBalances, onChange, t }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 
   // TODO This may be useful elsewhere, so figure out a way to make this a utility
@@ -69,11 +70,4 @@ function VoteValue ({ accountId, allBalances, onChange, t }: Props): React.React
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['derive.balances.all', {
-      paramName: 'accountId',
-      propName: 'allBalances'
-    }]
-  )(VoteValue)
-);
+export default translate(VoteValue);

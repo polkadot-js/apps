@@ -5,25 +5,24 @@
 
 import { DeriveStakingValidators } from '@polkadot/api-derive/types';
 import { BareProps, I18nProps } from '@polkadot/react-components/types';
+import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
 import { Bubble, IdentityIcon } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import translate from './translate';
 
-interface Props extends BareProps, I18nProps {
-  balances_totalIssuance?: BN;
-  chain_bestNumber?: BN;
-  chain_bestNumberLag?: BN;
-  staking_validators?: DeriveStakingValidators;
-}
+interface Props extends BareProps, I18nProps {}
 
-function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, staking_validators }: Props): React.ReactElement<Props> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function SummaryBar (props: Props): React.ReactElement<Props> {
   const { api, systemChain, systemName, systemVersion } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const bestNumberLag = useCall<BlockNumber>(api.derive.chain.bestNumberLag, []);
+  const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const validators = useCall<DeriveStakingValidators>(api.derive.staking.validators, []);
 
   return (
     <summary>
@@ -38,17 +37,17 @@ function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumbe
           {api.runtimeVersion.implName} v{api.runtimeVersion.implVersion.toString(10)}
         </Bubble>
         <Bubble icon='bullseye' label='best #'>
-          {formatNumber(chain_bestNumber)} ({formatNumber(chain_bestNumberLag)} lag)
+          {formatNumber(bestNumber)} ({formatNumber(bestNumberLag)} lag)
         </Bubble>
-        {staking_validators && (
+        {validators && (
           <Bubble icon='chess queen' label='validators'>{
-            staking_validators.validators.map((accountId, index): React.ReactNode => (
+            validators.validators.map((accountId, index): React.ReactNode => (
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>
         )}
         <Bubble icon='circle' label='total tokens'>
-          {formatBalance(balances_totalIssuance)}
+          {formatBalance(totalInsurance)}
         </Bubble>
       </div>
     </summary>
@@ -56,11 +55,4 @@ function SummaryBar ({ balances_totalIssuance, chain_bestNumber, chain_bestNumbe
 }
 
 // inject the actual API calls automatically into props
-export default translate(
-  withCalls<Props>(
-    'derive.chain.bestNumber',
-    'derive.chain.bestNumberLag',
-    'derive.staking.validators',
-    'query.balances.totalIssuance'
-  )(SummaryBar)
-);
+export default translate(SummaryBar);

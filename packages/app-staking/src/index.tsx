@@ -40,7 +40,7 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
   ];
 }
 
-function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
+function StakingApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api, isSubstrateV2 } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
@@ -136,7 +136,7 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
 }
 
 export default translate(
-  styled(App)`
+  styled(StakingApp)`
     .staking--hidden {
       display: none;
     }

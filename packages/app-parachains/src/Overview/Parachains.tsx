@@ -2,27 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Column } from '@polkadot/react-components';
-import { withCalls } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import Parachain from './Parachain';
 
-interface Props extends I18nProps {
-  parachains?: BN[];
-}
+function Parachains ({ t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const parachains = useCall<BN[]>(api.query.registrar.parachains || api.query.parachains.parachains, []);
 
-function Parachains ({ parachains, t }: Props): React.ReactElement<Props> {
   return (
     <Column
       emptyText={t('no deployed parachains')}
       headerText={t('parachains')}
     >
-      {parachains && parachains.map((paraId): React.ReactNode => (
+      {parachains?.map((paraId): React.ReactNode => (
         <Parachain
           key={paraId.toString()}
           paraId={paraId}
@@ -32,11 +31,4 @@ function Parachains ({ parachains, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.registrar.parachains', {
-      fallbacks: ['query.parachains.parachains'],
-      propName: 'parachains'
-    }]
-  )(Parachains)
-);
+export default translate(Parachains);

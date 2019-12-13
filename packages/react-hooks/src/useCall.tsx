@@ -6,9 +6,7 @@ import { Codec } from '@polkadot/types/types';
 import { CallOptions, CallParam, CallParams } from './types';
 
 import { useEffect, useRef, useState } from 'react';
-import { isUndefined } from '@polkadot/util';
-
-import { extractParams, transformIdentity } from './util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 interface TrackFnCallback {
   (value: Codec): void;
@@ -31,6 +29,7 @@ interface TrackFn {
 interface Tracker {
   isActive: boolean;
   count: number;
+  paramCount: number;
   serialized: string | null;
   subscriber: TrackFnResult | null;
 }
@@ -39,10 +38,26 @@ interface TrackerRef {
   current: Tracker;
 }
 
+// the default transform, just returns what we have
+function transformIdentity (value: any): any {
+  return value;
+}
+
+// extract the serialized and mapped params, all ready for use in our call
+function extractParams (fn: any, params: any[], paramMap: (params: any[]) => any): [string, CallParams | null] {
+  return [
+    JSON.stringify({ f: fn?.name, p: params }),
+    params.length === 0 || !params.some((param): boolean => isNull(param) || isUndefined(null))
+      ? paramMap(params)
+      : null
+  ];
+}
+
 // unsubscribe and remove from  the tracker
 function unsubscribe (tracker: TrackerRef): void {
+  tracker.current.isActive = false;
+
   if (tracker.current.subscriber) {
-    tracker.current.isActive = false;
     tracker.current.subscriber.then((unsubFn): void => unsubFn());
     tracker.current.subscriber = null;
   }
@@ -55,20 +70,24 @@ function subscribe <T> (tracker: TrackerRef, fn: TrackFn | undefined, params: Ca
   unsubscribe(tracker);
 
   setTimeout((): void => {
-    tracker.current.isActive = true;
-    tracker.current.count = 0;
-    tracker.current.subscriber = fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)
+    if (fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)) {
+      // swap to acive mode and reset our count
+      tracker.current.isActive = true;
+      tracker.current.count = 0;
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore We tried to get the typings right, close but no cigar...
-      ? fn(...params, (value: any): void => {
+      tracker.current.subscriber = fn(...params, (value: any): void => {
         // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
         // since .subscriber may not be set on immeditae callback)
         if (tracker.current.isActive && (!isSingle || !tracker.current.count)) {
           tracker.current.count++;
           setValue(transform(value));
         }
-      })
-      : null;
+      });
+    } else {
+      tracker.current.subscriber = null;
+    }
   }, 0);
 }
 
@@ -78,7 +97,7 @@ function subscribe <T> (tracker: TrackerRef, fn: TrackFn | undefined, params: Ca
 // FIXME The typings here need some serious TLC
 export default function useCall <T> (fn: TrackFn | undefined, params: CallParams, options: CallOptions<T> = {}): T | undefined {
   const [value, setValue] = useState<T | undefined>(options.defaultValue);
-  const tracker = useRef<Tracker>({ isActive: false, count: 0, serialized: null, subscriber: null });
+  const tracker = useRef<Tracker>({ isActive: false, count: 0, paramCount: -1, serialized: null, subscriber: null });
 
   // initial effect, we need an unsubscription
   useEffect((): () => void => {
@@ -89,13 +108,20 @@ export default function useCall <T> (fn: TrackFn | undefined, params: CallParams
 
   // on changes, re-subscribe
   useEffect((): void => {
+    // check if we have a function
     if (fn) {
-      const [serialized, mappedParams] = extractParams(fn, params, options.paramMap || transformIdentity);
+      const validParams = params.filter((param): boolean => !isUndefined(param));
 
-      if (mappedParams && serialized !== tracker.current.serialized) {
-        tracker.current.serialized = serialized;
+      // in the case on unmounting, the params may go empty, cater for this, don't trigger
+      if (validParams.length >= tracker.current.paramCount) {
+        const [serialized, mappedParams] = extractParams(fn, params, options.paramMap || transformIdentity);
 
-        subscribe(tracker, fn, mappedParams, setValue, options);
+        if (mappedParams && serialized !== tracker.current.serialized) {
+          tracker.current.paramCount = validParams.length;
+          tracker.current.serialized = serialized;
+
+          subscribe(tracker, fn, mappedParams, setValue, options);
+        }
       }
     }
   }, [fn, params]);

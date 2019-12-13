@@ -12,7 +12,7 @@ import React from 'react';
 import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withApi, withMulti } from '@polkadot/react-api';
+import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 import { bnMax } from '@polkadot/util';
 

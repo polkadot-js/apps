@@ -8,7 +8,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { registry, withApi, withMulti } from '@polkadot/react-api';
+import { registry } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { createType } from '@polkadot/types';
 

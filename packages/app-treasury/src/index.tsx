@@ -17,7 +17,7 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-function App ({ basePath, t }: Props): React.ReactElement<Props> {
+function TreasuryApp ({ basePath, t }: Props): React.ReactElement<Props> {
   return (
     <main className='treasury--App'>
       <HelpOverlay md={basicMd} />
@@ -40,4 +40,4 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(TreasuryApp);
