@@ -1,10 +1,10 @@
 {
-  "any text": "",
+  "any text": "随便写",
   "account forgotten": "",
   "Forget this account": "",
   "Create a backup file for this account": "",
   "Change this account's password": "",
-  "send": "",
+  "send": "发送",
   "Send funds from this account": "",
   "It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -": "",
   "Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.": "",
