@@ -4,5 +4,14 @@
   "exclude option": "exclude option",
   "<empty>": "<empty>",
   "Add item": "Add item",
-  "Remove item": "Remove item"
+  "Remove item": "Remove item",
+  "include value": "include value",
+  "exclude value": "exclude value",
+  "display name": "display name",
+  "legal name": "legal name",
+  "email": "email",
+  "web": "web",
+  "riot name": "riot name",
+  "image": "image",
+  "Pgp": "Pgp"
 }
