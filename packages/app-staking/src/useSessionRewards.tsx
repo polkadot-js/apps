@@ -32,7 +32,6 @@ interface Serialized {
 const MAX_BLOCKS = 2500;
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
-  let count = 0;
   let keepAll = false;
 
   return sessions
