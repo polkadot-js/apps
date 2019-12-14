@@ -726,5 +726,14 @@
   "partial name, address or account index": "",
   "Session Key": "",
   "No funds staked yet. Bond funds to validate or nominate a validator.": "",
-  "rewards": ""
+  "rewards": "",
+  "include value": "",
+  "exclude value": "",
+  "display name": "",
+  "legal name": "",
+  "email": "",
+  "web": "",
+  "riot name": "",
+  "image": "",
+  "Pgp": ""
 }
