@@ -59,22 +59,6 @@ function IdentityInfo (props: Props): React.ReactElement<Props> {
   const [valRiot, setValRiot] = useState('');
   const [valWeb, setValWeb] = useState('');
 
-// 0x0000a0724e18090000000000000000000000
-// 039911
-// 039922
-// 039944
-// 039955
-// 039933
-// 0000
-
-// 0x5404190100
-// 039911
-// 039922
-// 039944
-// 039955
-// 039933
-// 0000
-
   useEffect((): void => {
     onChange && onChange({
       value: {
