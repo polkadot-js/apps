@@ -7,6 +7,7 @@ import { Registration } from '@polkadot/types/interfaces';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Input, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
@@ -63,7 +64,7 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
   // const [hasPgp, setHasPgp] = useState(false);
   const [hasRiot, setHasRiot] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
-  const [valDisplay, setValDisplay] = useState('');
+  const [valDisplay, setValDisplay] = useState(getAddressMeta(address).name || '');
   const [valEmail, setValEmail] = useState('');
   // const [{ errImg, valImg }, setValImg] = useState<{ errImg: boolean; valImg: string }>({ errImg: true, valImg: '' });
   const [valLegal, setValLegal] = useState('');
