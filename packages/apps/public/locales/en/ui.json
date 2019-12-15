@@ -738,5 +738,14 @@
   "Pgp": "",
   "sha2 image hash": "",
   "0x...": "",
-  "pgp hash": ""
+  "pgp hash": "",
+  "Set on-chain identity": "",
+  "Derive account via derivation path": "",
+  "Register identity": "",
+  "The name that will be displayed in your accounts list.": "",
+  "The legal name for this identity.": "",
+  "The email address associated with this identity.": "",
+  "An URL that is linked to this identity.": "",
+  "a riot name linked to this identity": "",
+  "Set Identity": ""
 }
