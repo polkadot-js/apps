@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps, TxModalProps } from '@polkadot/react-components/types';
-import { TxSource, TxDef } from '@polkadot/react-hooks/types';
+import { TxSource } from '@polkadot/react-hooks/types';
 import { Call, Proposal } from '@polkadot/types/interfaces';
 import { CollectiveProps } from './types';
 
@@ -24,23 +24,25 @@ function Propose ({ t, collective, memberCount = 0, txModalProps = {} }: Props):
   const _hasThreshold = (threshold?: BN | null): boolean =>
     !!threshold && !threshold.isZero() && threshold.lten(memberCount);
 
-  const { apiDefaultTxSudo } = useApi();
+  const { api, apiDefaultTxSudo } = useApi();
   const [proposal, setProposal] = useState<Proposal | null>(null);
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
     new BN(memberCount / 2 + 1),
     true
   ]);
 
-  // FIXME Rework this, unless you know, you can never figure out what all these options mean here
   const txModalState = useTxModal(
-    (): TxSource<TxDef> => [
-      [
-        `${collective}.propose`,
-        [threshold, proposal]
-      ],
-      !!proposal && hasThreshold
-    ],
-    [memberCount, proposal, threshold, hasThreshold],
+    (): TxSource => ({
+      tx: ((): Call | null => {
+        try {
+          return api.tx[collective].propose(threshold, proposal);
+        } catch (e) {
+          return null;
+        }
+      })(),
+      isSubmittable: !!proposal && hasThreshold
+    }),
+    [memberCount, proposal, threshold, hasThreshold]
   );
 
   useEffect((): void => {
@@ -57,12 +59,12 @@ function Propose ({ t, collective, memberCount = 0, txModalProps = {} }: Props):
   switch (collective) {
     case 'technicalCommittee':
       title = t('Submit a technical committee proposal');
-      help = t('The minimum number of committee votes required to approve this proposal.')
+      help = t('The minimum number of committee votes required to approve this proposal.');
       break;
     case 'council':
     default:
       title = t('Submit a council motion');
-      help = t('The minimum number of council votes required to approve this motion.')
+      help = t('The minimum number of council votes required to approve this motion.');
       break;
   }
 

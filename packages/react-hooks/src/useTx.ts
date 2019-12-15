@@ -3,50 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StringOrNull } from '@polkadot/react-components/types';
-import { Call } from '@polkadot/types/interfaces';
-import { ExtrinsicAndSenders, TxDef, TxDefs, TxSource, TxProps, TxState } from './types';
+import { TxDef, TxIsSubmittable, TxSenders, TxSource, TxProps, TxState } from './types';
 
 import { useContext, useMemo, useState } from 'react';
-import { ApiPromise } from '@polkadot/api';
 import { StatusContext } from '@polkadot/react-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { assert, isFunction } from '@polkadot/util';
-import useApi from './useApi';
 
-function getExtrinsic<T extends TxDefs> (api: ApiPromise, txDef: T): SubmittableExtrinsic | null {
-  if (!txDef) {
-    return null;
-  }
-
-  if (Array.isArray(txDef)) {
-    const [section, method] = txDef[0].split('.');
-
-    assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
-    try {
-      return api.tx[section][method](...(
-        isFunction(txDef[1])
-          ? txDef[1]()
-          : txDef[1]
-      )) as any as SubmittableExtrinsic;
-    } catch (e) {
-      return null;
-    }
-  } else {
-    if ((txDef as Call).callIndex) {
-      const fn = api.findCall(txDef.callIndex);
-
-      return api.tx[fn.section][fn.method](...txDef.args);
-    }
-
-    return txDef as any as SubmittableExtrinsic;
-  }
-}
-
-export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSource<T>, memoArr: any[], { accountId: anAccountId, onChangeAccountId, onQueue, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
-  const { api } = useApi();
+export default function useTx (memoFn: (...args: any[]) => TxSource, memoArr: any[], { accountId: anAccountId, onChangeAccountId, onQueue, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
   const { queueExtrinsic } = useContext(StatusContext);
 
-  const txSource = useMemo(memoFn, memoArr);
+  const { tx, isSubmittable } = useMemo<TxSource>(memoFn, memoArr);
 
   const [accountId, setAccountId] = useState<StringOrNull>(anAccountId || null);
   const [isSending, setIsSending] = useState(false);
@@ -79,13 +45,11 @@ export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSo
     onUpdate && onUpdate();
   };
 
-  function getExtrinsicAndSenders (api: ApiPromise, accountId: StringOrNull, [txDef, isSubmittable]: TxSource<T>): ExtrinsicAndSenders {
-    const extrinsic = getExtrinsic<T>(api, txDef);
-
+  function getSenders (accountId: StringOrNull, extrinsic: TxDef, isSubmittable: TxIsSubmittable): TxSenders {
     function _sendTx (isUnsigned?: boolean): void {
       !!extrinsic && isSubmittable && queueExtrinsic({
         accountId,
-        extrinsic,
+        extrinsic: extrinsic as SubmittableExtrinsic,
         isUnsigned,
         txFailedCb: _onFailed,
         txStartCb: _onStart,
@@ -96,8 +60,7 @@ export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSo
     }
 
     return {
-      extrinsic,
-      isSubmittable: !!accountId && !!extrinsic && (isFunction(isSubmittable) ? isSubmittable(...isFunction(txDef[1]) ? txDef[1]() : txDef[1]) : isSubmittable),
+      isSubmittable: !!accountId && !!extrinsic && isSubmittable,
       sendTx: (): void => {
         _sendTx();
       },
@@ -107,13 +70,13 @@ export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSo
     };
   }
 
-  const txAndSenders = useMemo<ExtrinsicAndSenders>(
-    (): ExtrinsicAndSenders => getExtrinsicAndSenders(api, accountId, txSource),
-    [accountId, txSource]
+  const senders = useMemo<TxSenders>(
+    (): TxSenders => getSenders(accountId, tx, isSubmittable),
+    [accountId, tx, isSubmittable]
   );
 
   return {
-    ...txAndSenders,
+    ...senders,
     isSending,
     accountId,
     onChangeAccountId: (accountId: StringOrNull): void => {

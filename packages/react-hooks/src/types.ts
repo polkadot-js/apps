@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ConstructTxFn, StringOrNull } from '@polkadot/react-components/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 import { AccountId, Balance, BlockNumber, Call, Hash, SessionIndex } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -20,19 +20,20 @@ export interface CallOptions <T> {
 
 export interface ModalState {
   isOpen: boolean;
-  onOpen: () => void,
-  onClose: () => void
+  onOpen: () => void;
+  onClose: () => void;
 }
 
-export type TxParams = any[] | ConstructTxFn;
+export type TxDef = SubmittableExtrinsic | IExtrinsic | Call | null;
 
-export type TxDef = [string, TxParams];
+export interface TxSource {
+  tx: TxDef;
+  isSubmittable: boolean;
+}
 
-export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
+export type TxIsSubmittableFn = (...args: any[]) => boolean;
 
-export type TxIsSumittableFn = (...args: any[]) => boolean
-
-export type TxSource<T extends TxDefs> = [T, boolean | TxIsSumittableFn];
+export type TxIsSubmittable = boolean;
 
 export interface Slash {
   accountId: AccountId;
@@ -48,8 +49,7 @@ export interface SessionRewards {
   slashes: Slash[];
 }
 
-export interface ExtrinsicAndSenders {
-  extrinsic: SubmittableExtrinsic | null;
+export interface TxSenders {
   isSubmittable: boolean;
   sendTx: () => void;
   sendUnsigned: () => void;
@@ -65,7 +65,7 @@ export interface TxProps {
   onUpdate?: () => void;
 }
 
-export interface TxState extends ExtrinsicAndSenders {
+export interface TxState extends TxSenders {
   isSending: boolean;
   accountId?: StringOrNull;
   onChangeAccountId: (_: StringOrNull) => void;

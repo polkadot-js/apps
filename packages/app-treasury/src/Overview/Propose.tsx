@@ -2,18 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
-import { TxSource, TxDef } from '@polkadot/react-hooks/types';
+import { I18nProps as Props, StringOrNull } from '@polkadot/react-components/types';
+import { TxSource } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, TxModalNew as TxModal } from '@polkadot/react-components';
-import { useModal, useTx } from '@polkadot/react-hooks';
+import { useApi, useTxModal } from '@polkadot/react-hooks';
 
 import translate from '../translate';
-
-interface Props extends I18nProps {}
 
 function isValueValid (value?: BN | null): boolean {
   return !!value && value.gtn(0);
@@ -23,24 +21,20 @@ function Propose ({ t }: Props): React.ReactElement<Props> {
   const [beneficiary, setBeneficiary] = useState<StringOrNull>(null);
   const [value, setValue] = useState<BN | null>(new BN(0));
 
-  const _onChangeValue = (value?: BN | null) => setValue(value || null);
+  const _onChangeValue = (value?: BN | null): void => setValue(value || null);
 
-  const txState = useTx(
-    (): TxSource<TxDef> => [
-      [
-        'treasury.proposeSpend',
-        [value, beneficiary]
-      ],
-      (value: BN, beneficiary?: StringOrNull) => isValueValid(value) && !!beneficiary
-    ],
+  const { api } = useApi();
+  const txModalState = useTxModal(
+    (): TxSource => ({
+      tx: api.tx.treasury.proposeSpend(value, beneficiary || undefined),
+      isSubmittable: isValueValid(value) && !!beneficiary
+    }),
     [value, beneficiary]
   );
-  const modalState = useModal();
 
   return (
     <TxModal
-      {...txState}
-      {...modalState}
+      {...txModalState}
       header={t('Submit a spend proposal')}
       trigger={
         ({ onOpen }): React.ReactElement => ((
@@ -68,8 +62,8 @@ function Propose ({ t }: Props): React.ReactElement<Props> {
         help={t('The amount that will be allocated from the treasury pot')}
         label={t('value')}
         onChange={_onChangeValue}
-        onEnter={txState.sendTx}
-        onEscape={modalState.onClose}
+        onEnter={txModalState.sendTx}
+        onEscape={txModalState.onClose}
       />
     </TxModal>
   );

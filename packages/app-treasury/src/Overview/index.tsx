@@ -17,7 +17,7 @@ interface Props extends AppProps, BareProps, I18nProps {}
 export default function Overview ({ className }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const allProposals = useCall<DerivedTreasuryProposals>(api.derive.treasury.proposals, []);
-  
+
   if (!allProposals) {
     return null;
   }

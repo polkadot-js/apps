@@ -8,7 +8,7 @@ import { useRef, useState } from 'react';
 
 export default function useModal (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {
   const [isOpen, setIsOpen] = useState(defaultIsOpen || false);
-  
+
   const onOpenRef = useRef((): void => {
     setIsOpen(true);
 

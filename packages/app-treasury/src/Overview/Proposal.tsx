@@ -49,7 +49,7 @@ function ProposalDisplay ({ className, isApproved, proposal: { id, proposal, cou
             </>
           }
         />
-      )
+      );
   }
 
   return (

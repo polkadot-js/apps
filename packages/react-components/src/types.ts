@@ -164,4 +164,4 @@ export enum VotingType {
   Democracy,
   Council,
   TechnicalCommittee
-};
+}

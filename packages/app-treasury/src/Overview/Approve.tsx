@@ -4,12 +4,12 @@
 
 import { AccountId, ProposalIndex } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
-import { TxSource, TxDef } from '@polkadot/react-hooks/types';
+import { TxSource } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, Dropdown, InputNumber, TxModalNew as TxModal } from '@polkadot/react-components';
-import { useApi, useCall, useModal, useTx } from '@polkadot/react-hooks';
+import { useApi, useCall, useTxModal } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
@@ -32,35 +32,30 @@ function Approve ({ proposalId, proposalInfo = null, t }: Props): React.ReactEle
     }
   }) || new BN(0);
 
-  const _hasThreshold = (threshold: BN | null) => !!threshold && threshold.gtn(0) && threshold.lte(memberCount);
+  const _hasThreshold = (threshold: BN | null): boolean => !!threshold && threshold.gtn(0) && threshold.lte(memberCount);
 
   const [isApproving, setIsApproving] = useState(false);
   const [threshold, setThreshold] = useState<BN | null>(memberCount);
 
-  const _onChangeThreshold = (threshold?: BN) =>
+  const _onChangeThreshold = (threshold?: BN): void =>
     setThreshold(threshold || null);
 
-  const txState = useTx(
-    (): TxSource<TxDef> => [
-      [
-        'council.propose',
-        (): any[] => {
-          const method = isApproving ? 'approveProposal' : 'rejectProposal';
-          const spendProposal = api.tx.treasury[method](proposalId.toString());
-      
-          return [threshold, spendProposal];
-        }
-      ],
-      !!proposalId && _hasThreshold(threshold)
-    ],
+  const txModalState = useTxModal(
+    (): TxSource => {
+      const method = isApproving ? 'approveProposal' : 'rejectProposal';
+      const response = api.tx.treasury[method](proposalId.toString());
+
+      return {
+        tx: api.tx.council.propose(threshold, response),
+        isSubmittable: !!proposalId && _hasThreshold(threshold)
+      };
+    },
     [proposalId, threshold]
   );
-  const modalState = useModal();
 
   return (
     <TxModal
-      {...txState}
-      {...modalState}
+      {...txModalState}
       header={t('Approve or reject proposal')}
       preContent={proposalInfo}
       trigger={
@@ -88,16 +83,16 @@ function Approve ({ proposalId, proposalInfo = null, t }: Props): React.ReactEle
       <InputNumber
         className='medium'
         label={t('threshold')}
-        help={t(`The minimum number of council votes required to approve or reject this spend proposal`)}
+        help={t('The minimum number of council votes required to approve or reject this spend proposal')}
         isError={!_hasThreshold(threshold)}
         onChange={_onChangeThreshold}
-        onEnter={txState.sendTx}
-        onEscape={modalState.onClose}
+        onEnter={txModalState.sendTx}
+        onEscape={txModalState.onClose}
         placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount } })}
         value={threshold || undefined}
       />
     </TxModal>
-  )
+  );
 }
 
 export default translate(Approve);

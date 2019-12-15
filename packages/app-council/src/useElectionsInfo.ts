@@ -21,7 +21,7 @@ const NULL_INFO: DerivedElectionsInfo = {
 };
 
 export default function useElectionsInfo (anApi?: ApiPromise): ComponentProps {
-  let api = anApi || useApi().api;
+  const api = anApi || useApi().api;
 
   const electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []) || NULL_INFO;
   const allVotes = useCall<Record<string, AccountId[]>>((api.query.electionsPhragmen || api.query.elections).votesOf, [], {

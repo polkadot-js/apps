@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { TxSource, TxDef } from '@polkadot/react-hooks/types';
+import { TxSource } from '@polkadot/react-hooks/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
@@ -17,19 +17,16 @@ interface Props extends ComponentProps, I18nProps {}
 function SubmitCandidacy ({ t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const txState = useTx(
-    (): TxSource<TxDef> => [
-      [
-        api.query.electionPhragmen ? 'electionPhragmen.submitCandidacy' : 'elections.submitCandidacy',
-        [],
-      ],
-      true
-    ],
+    (): TxSource => ({
+      tx: (api.tx.electionPhragmen || api.tx.elections).submitCandidacy(),
+      isSubmittable: true
+    }),
     []
   );
 
   return (
     <TxModal
-      {...txState}    
+      {...txState}
       header={t('Submit your council candidacy')}
       inputAddressLabel={t('Candidate account')}
       inputAddressHelp={t('This account will be nominated to fill the council slot you specify.')}

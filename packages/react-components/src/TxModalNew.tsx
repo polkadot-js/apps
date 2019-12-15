@@ -45,7 +45,7 @@ function TxModal<P extends Props> ({
   submitButtonProps = {},
   ...props
 }: P): React.ReactElement<P> | null {
-  const {isOpen, onOpen, onClose} = pickModalState(props) || useModal();
+  const { isOpen, onOpen, onClose } = pickModalState(props) || useModal();
 
   const allModalProps = {
     className: ['ui--Modal', modalProps.className || ''].join(' '),

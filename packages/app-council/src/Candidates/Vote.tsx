@@ -6,14 +6,14 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { Codec } from '@polkadot/types/types';
 import { DerivedVoterPositions } from '@polkadot/api-derive/types';
 import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
-import { TxSource, TxDef } from '@polkadot/react-hooks/types';
+import { TxSource } from '@polkadot/react-hooks/types';
 import { ComponentProps } from '../types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AddressMini, Button, Toggle, TxModalNew as TxModal } from '@polkadot/react-components';
-import { useApi, useTx, useModal } from '@polkadot/react-hooks';
+import { useApi, useTxModal } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 import VoteValue from './VoteValue';
@@ -75,22 +75,6 @@ function Vote ({ electionsInfo: { candidates, members, runnersUp }, t }: Props):
   const [voteValue, setVoteValue] = useState<BN>(new BN(0));
 
   const { api } = useApi();
-  const txState = useTx(
-    (): TxSource<TxDef> => [
-      [
-        api.query.electionPhragmen ? 'electionPhragmen.vote' : 'elections.vote',
-        [
-          Object.entries(votes)
-            .filter(([, vote]): boolean => vote)
-            .map(([accountId]): string => accountId),
-          voteValue
-        ],
-      ],
-      Object.values(votes).some((vote): boolean => vote)
-    ],
-    [votes, voteValue]
-  );
-  const modalState = useModal();
 
   const _onChangeVote = (accountId: string): (_: boolean) => void =>
     (isChecked: boolean): void => {
@@ -98,7 +82,7 @@ function Vote ({ electionsInfo: { candidates, members, runnersUp }, t }: Props):
         ...votes,
         [accountId]: isChecked
       });
-  }
+    };
 
   const _fetchVotes = (accountId: StringOrNull): void => {
     (api.query.electionPhragmen || api.query.elections)
@@ -108,19 +92,31 @@ function Vote ({ electionsInfo: { candidates, members, runnersUp }, t }: Props):
           _onChangeVote(accountId.toString())(true);
         });
       });
-  }
+  };
+
+  const txModalState = useTxModal(
+    (): TxSource => ({
+      tx: (api.tx.electionPhragmen?.vote || api.tx.elections.vote)(
+        Object.entries(votes)
+          .filter(([, vote]): boolean => vote)
+          .map(([accountId]): string => accountId),
+        voteValue
+      ),
+      isSubmittable: Object.values(votes).some((vote): boolean => vote)
+    }),
+    [votes, voteValue],
+    { onChangeAccountId: _fetchVotes }
+  );
 
   const _candidates = candidates.map((accountId): [AccountId, VoteType] => [accountId, 'candidate']);
   const available = members
     .map(([accountId]): [AccountId, VoteType] => [accountId, 'member'])
     .concat(runnersUp.map(([accountId]): [AccountId, VoteType] => [accountId, 'runnerup']))
-    .concat(_candidates)
+    .concat(_candidates);
 
   return (
     <TxModal
-      onChangeAccountId={_fetchVotes}
-      {...txState}
-      {...modalState}
+      {...txModalState}
       header={t('Vote for current candidates')}
       inputAddressLabel={t('Voting account')}
       inputAddressHelp={t('This account will be use to approve or disapprove each candidate.')}
@@ -137,10 +133,10 @@ function Vote ({ electionsInfo: { candidates, members, runnersUp }, t }: Props):
       }
     >
       <VoteValue
-        accountId={txState.accountId}
+        accountId={txModalState.accountId}
         onChange={setVoteValue}
-        onEnter={txState.sendTx}
-        onEscape={modalState.onClose}
+        onEnter={txModalState.sendTx}
+        onEscape={txModalState.onClose}
       />
       <Candidates>
         {available.map(([accountId, type]): React.ReactNode => {

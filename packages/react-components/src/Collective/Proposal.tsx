@@ -23,7 +23,7 @@ function Proposal ({ className, collective, proposal: { hash, votes, proposal },
     return null;
   }
 
-  const { ayes, index, nays, threshold} = votes;
+  const { ayes, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>

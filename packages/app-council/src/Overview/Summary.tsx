@@ -5,13 +5,13 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
-import { ComponentProps } from './types';
+import { ComponentProps } from '../types';
 
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import translate from './translate';
+import translate from '../translate';
 
 interface Props extends I18nProps, ComponentProps {
   bestNumber?: BlockNumber;

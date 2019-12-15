@@ -7,12 +7,11 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
-import { Button, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
+
+import Candidate from './Candidate';
 
 import translate from '../translate';
-import Candidate from './Candidate';
-import SubmitCandidacy from './SubmitCandidacy';
-import Vote from './Vote';
 
 interface Props extends I18nProps, ComponentProps {
   className?: string;
@@ -23,11 +22,6 @@ function Candidates ({ className, electionsInfo, allVotes = {}, t }: Props): Rea
 
   return (
     <div className={className}>
-      <Button.Group>
-        <SubmitCandidacy electionsInfo={electionsInfo} />
-        <Button.Or />
-        <Vote electionsInfo={electionsInfo} />
-      </Button.Group>
       <h1>{t('runners up')}</h1>
       {runnersUp.length
         ? (

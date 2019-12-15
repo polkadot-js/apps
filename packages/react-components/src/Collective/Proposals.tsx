@@ -12,17 +12,16 @@ import { Button, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Propose from './Propose';
-import Proposal from './Proposal'
+import Proposal from './Proposal';
 import translate from '../translate';
 
 interface Props extends CollectiveProps, I18nProps {}
 
-function Proposals ({ className, collective, t }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const memberCount = useCall<number>(api.query[collective].members, [], {
+function Proposals ({ className, collective, t, ...props }: Props): React.ReactElement<Props> {
+  const memberCount = props.memberCount || useCall<number>(useApi().api.query[collective].members, [], {
     transform: (value: AccountId[]): number => value?.length || 0
   });
-  const proposals = useCall<DerivedCollectiveProposals | null>(api.derive[collective].proposals, []);
+  const proposals = props.proposals || useCall<DerivedCollectiveProposals | null>(useApi().api.derive[collective].proposals, []);
 
   return (
     <div className={className}>
