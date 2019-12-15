@@ -36,10 +36,10 @@ interface State {
   withHex: boolean;
 }
 
-const DEFAULT_MATCH = 'Some';
+const DEFAULT_MATCH = 'dsy';
 const BOOL_OPTIONS = [
-  { text: 'No', value: false },
-  { text: 'Yes', value: true }
+  { text: '否', value: false },
+  { text: '是', value: true }
 ];
 
 class VanityApp extends TxComponent<Props, State> {
