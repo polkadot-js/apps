@@ -6,7 +6,7 @@ import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { getAddressName } from '@polkadot/react-components/util';
 import { useCall, useApi } from '@polkadot/react-hooks';
 
@@ -23,8 +23,8 @@ interface Props extends BareProps {
 
 const nameCache: Map<string, string> = new Map();
 
-function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | Address | string | null | Uint8Array, _accountIndex?: AccountIndex | null): string {
-  const accountId = (_address || '').toString();
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): string {
+  const accountId = _address.toString();
   const cached = nameCache.get(accountId);
 
   if (cached) {
@@ -46,18 +46,20 @@ function defaultOrAddr (defaultName = '', _address?: AccountId | AccountIndex | 
 export default function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const [name, setName] = useState(defaultOrAddr(defaultName, value));
+  const address = useMemo((): string => (value || '').toString(), [value]);
+  const [name, setName] = useState(defaultOrAddr(defaultName, address));
 
   useEffect((): void => {
-    const { accountId, accountIndex, nickname } = info || {};
+    const { accountId, accountIndex, identity, nickname } = info || {};
+    const retrieved = identity?.displayName || nickname;
 
-    if (nickname) {
-      const name = nickname.toUpperCase();
+    if (retrieved) {
+      const name = retrieved.toUpperCase();
 
-      nameCache.set((value || '').toString(), name);
+      nameCache.set(address, name);
       setName(name);
     } else {
-      setName(defaultOrAddr(defaultName, accountId || value, withShort ? null : accountIndex));
+      setName(defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex));
     }
   }, [info, toggle]);
 
