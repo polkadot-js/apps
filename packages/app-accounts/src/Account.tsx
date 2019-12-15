@@ -32,17 +32,17 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
-  const [isBackupOpen, setIsBackupOpen] = useState(false);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingTags, setIsEditingTags] = useState(false);
   const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
-  const [isDeriveOpen, setIsDeriveOpen] = useState(false);
-  const [isForgetOpen, setIsForgetOpen] = useState(false);
-  const [isPasswordOpen, setIsPasswordOpen] = useState(false);
-  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
-  const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isEditingName, toggleEditName] = useToggle();
+  const [isEditingTags, toggleEditTags] = useToggle();
+  const [isBackupOpen, toggleBackup] = useToggle();
+  const [isDeriveOpen, toggleDerive] = useToggle();
+  const [isForgetOpen, toggleForget] = useToggle();
   const [isIdentityOpen, toggleIdentity] = useToggle();
+  const [isPasswordOpen, togglePassword] = useToggle();
+  const [isSettingsOpen, toggleSettings] = useToggle();
+  const [isTransferOpen, toggleTransfer] = useToggle();
 
   const _setTags = (tags: string[]): void => setTags(tags.sort());
 
@@ -75,16 +75,8 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
     return null;
   }
 
-  const _toggleEditName = (): void => setIsEditingName(!isEditingName);
-  const _toggleEditTags = (): void => setIsEditingTags(!isEditingTags);
-  const _toggleBackup = (): void => setIsBackupOpen(!isBackupOpen);
-  const _toggleDerive = (): void => setIsDeriveOpen(!isDeriveOpen);
-  const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
-  const _togglePass = (): void => setIsPasswordOpen(!isPasswordOpen);
-  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
-  const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
   const _saveName = (): void => {
-    _toggleEditName();
+    toggleEditName();
 
     const meta = { name: accName, whenEdited: Date.now() };
 
@@ -99,7 +91,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
     }
   };
   const _saveTags = (): void => {
-    _toggleEditTags();
+    toggleEditTags();
 
     const meta = { tags, whenEdited: Date.now() };
 
@@ -167,7 +159,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
               )
               : undefined
           }
-          onClickName={_toggleEditName}
+          onClickName={toggleEditName}
           toggle={isEditingName}
           value={address}
         />
@@ -175,14 +167,14 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
           <Backup
             address={address}
             key='modal-backup-account'
-            onClose={_toggleBackup}
+            onClose={toggleBackup}
           />
         )}
         {isDeriveOpen && (
           <Derive
             from={address}
             key='modal-derive-account'
-            onClose={_toggleDerive}
+            onClose={toggleDerive}
           />
         )}
         {isForgetOpen && (
@@ -190,7 +182,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
             address={address}
             onForget={_onForget}
             key='modal-forget-account'
-            onClose={_toggleForget}
+            onClose={toggleForget}
           />
         )}
         {isIdentityOpen && (
@@ -204,13 +196,13 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
           <ChangePass
             address={address}
             key='modal-change-pass'
-            onClose={_togglePass}
+            onClose={togglePassword}
           />
         )}
         {isTransferOpen && (
           <Transfer
             key='modal-transfer'
-            onClose={_toggleTransfer}
+            onClose={toggleTransfer}
             senderId={address}
           />
         )}
@@ -230,7 +222,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
             />
           )
           : (
-            <div className='tags--toggle' onClick={_toggleEditTags}>
+            <div className='tags--toggle' onClick={toggleEditTags}>
               {tags.length
                 ? tags.map((tag): React.ReactNode => (
                   <Label key={tag} size='tiny' color='grey'>{tag}</Label>
@@ -261,19 +253,19 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
           icon='paper plane'
           isPrimary
           label={t('send')}
-          onClick={_toggleTransfer}
+          onClick={toggleTransfer}
           size='small'
           tooltip={t('Send funds from this account')}
         />
         <Popup
           className='theme--default'
-          onClose={_toggleSettingPopup}
-          open={isSettingPopupOpen}
+          onClose={toggleSettings}
+          open={isSettingsOpen}
           position='bottom right'
           trigger={
             <Button
               icon='setting'
-              onClick={_toggleSettingPopup}
+              onClick={toggleSettings}
               size='small'
             />
           }
@@ -281,7 +273,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
           <Menu
             vertical
             text
-            onClick={_toggleSettingPopup}
+            onClick={toggleSettings}
           >
             <Menu.Item
               disabled={!api.api.tx.identity?.setIdentity}
@@ -291,25 +283,25 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
             </Menu.Item>
             <Menu.Item
               disabled={!isEditable || isExternal}
-              onClick={_toggleDerive}
+              onClick={toggleDerive}
             >
               {t('Derive account via derivation path')}
             </Menu.Item>
             <Menu.Item
               disabled={!isEditable || isExternal || isDevelopment}
-              onClick={_toggleBackup}
+              onClick={toggleBackup}
             >
               {t('Create a backup file for this account')}
             </Menu.Item>
             <Menu.Item
               disabled={!isEditable || isExternal || isDevelopment}
-              onClick={_togglePass}
+              onClick={togglePassword}
             >
               {t("Change this account's password")}
             </Menu.Item>
             <Menu.Item
               disabled={!isEditable || isDevelopment}
-              onClick={_toggleForget}
+              onClick={toggleForget}
             >
               {t('Forget this account')}
             </Menu.Item>
