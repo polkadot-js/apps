@@ -176,8 +176,9 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
         )}
         <AddressSmall value={stashId} />
       </td>
-      <td className='top'>
+      <td className='top '>
         <AddressMini
+          className='mini-nopad'
           label={t('controller')}
           value={controllerId}
         />
@@ -189,7 +190,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
             available: false,
             bonded: true,
             free: false,
-            redeemable: false,
+            redeemable: true,
             unlocking: true
           }}
           withRewardDestination
@@ -200,13 +201,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
           <td className='top'>
             <AddressInfo
               address={stashId}
-              withBalance={{
-                available: false,
-                bonded: false,
-                free: false,
-                redeemable: true,
-                unlocking: true
-              }}
+              withBalance={false}
               withHexSessionId={isSubstrateV2 && hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
               withValidatorPrefs
             />
@@ -356,6 +351,10 @@ export default translate(
       display: inline-block;
       margin-right: 0.25rem;
       vertical-align: inherit;
+    }
+
+    .mini-nopad {
+      padding: 0;
     }
   `
 );
