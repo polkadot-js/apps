@@ -9,12 +9,13 @@ import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, InputTags, LinkPolkascan, Menu, Popup, Input } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Derive from './modals/Derive';
+import Identity from './modals/Identity';
 import Transfer from './modals/Transfer';
 import translate from './translate';
 
@@ -41,6 +42,7 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isIdentityOpen, toggleIdentity] = useToggle();
 
   const _setTags = (tags: string[]): void => setTags(tags.sort());
 
@@ -191,6 +193,13 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
             onClose={_toggleForget}
           />
         )}
+        {isIdentityOpen && (
+          <Identity
+            address={address}
+            key='modal-identity'
+            onClose={toggleIdentity}
+          />
+        )}
         {isPasswordOpen && (
           <ChangePass
             address={address}
@@ -275,13 +284,16 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
             onClick={_toggleSettingPopup}
           >
             <Menu.Item
+              disabled={!api.api.tx.identity?.setIdentity}
+              onClick={toggleIdentity}
+            >
+              {t('Set on-chain identity')}
+            </Menu.Item>
+            <Menu.Item
               disabled={!isEditable || isExternal}
               onClick={_toggleDerive}
             >
-              {t('Derive account from source')}
-            </Menu.Item>
-            <Menu.Item disabled>
-              {t('Change on-chain nickname')}
+              {t('Derive account via derivation path')}
             </Menu.Item>
             <Menu.Item
               disabled={!isEditable || isExternal || isDevelopment}
