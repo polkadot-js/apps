@@ -13,5 +13,8 @@
   "web": "web",
   "riot name": "riot name",
   "image": "image",
-  "Pgp": "Pgp"
+  "Pgp": "Pgp",
+  "sha2 image hash": "sha2 image hash",
+  "0x...": "0x...",
+  "pgp hash": "pgp hash"
 }
