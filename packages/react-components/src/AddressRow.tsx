@@ -45,6 +45,11 @@ export interface Props extends I18nProps, RowProps {
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
 const ICON_SIZE_SMALL = 32;
+const EMPTY_INFO: DeriveAccountInfo = {
+  identity: {
+    judgements: []
+  }
+};
 
 class AddressRow extends Row<ApiProps & Props, State> {
   public state: State;
@@ -55,7 +60,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_info = {}, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accounts_info = EMPTY_INFO, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
     const accountId = accounts_info.accountId || value;
     const address = accountId
       ? accountId.toString()
@@ -86,7 +91,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { accounts_info = {}, className, isContract, isDisabled, isInline, label, overlay, style } = this.props;
+    const { accounts_info = EMPTY_INFO, className, isContract, isDisabled, isInline, label, overlay, style } = this.props;
     const { accountId, accountIndex } = accounts_info;
     const isValid = this.props.isValid || accountId || accountIndex;
 
@@ -113,7 +118,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private createState (): State {
-    const { accounts_info = {}, defaultName, type, value } = this.props;
+    const { accounts_info = EMPTY_INFO, defaultName, type, value } = this.props;
     const accountId = accounts_info.accountId || value;
     const address = accountId
       ? accountId.toString()
@@ -145,7 +150,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderAddress (): React.ReactNode {
-    const { accounts_info = {}, withIndexOrAddress = true } = this.props;
+    const { accounts_info = EMPTY_INFO, withIndexOrAddress = true } = this.props;
     const { address } = this.state;
     const { accountIndex } = accounts_info;
 
@@ -166,7 +171,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderAccountIndex (): React.ReactNode {
-    const { accounts_info = {}, withIndex = true, withIndexOrAddress = true, withSmallIcon } = this.props;
+    const { accounts_info = EMPTY_INFO, withIndex = true, withIndexOrAddress = true, withSmallIcon } = this.props;
     const { accountIndex } = accounts_info;
 
     if (withSmallIcon || !accountIndex || !(withIndex || withIndexOrAddress)) {
@@ -181,7 +186,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderBalances (): React.ReactNode {
-    const { accounts_info = {}, extraInfo, stakingInfo, withBalance, withValidatorPrefs } = this.props;
+    const { accounts_info = EMPTY_INFO, extraInfo, stakingInfo, withBalance, withValidatorPrefs } = this.props;
     const { accountId } = accounts_info;
 
     if (!(withBalance || withValidatorPrefs) || !accountId) {
@@ -202,7 +207,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderIcon (): React.ReactNode {
-    const { accounts_info = {}, iconInfo, systemName, withIcon = true, withSmallIcon = false } = this.props;
+    const { accounts_info = EMPTY_INFO, iconInfo, systemName, withIcon = true, withSmallIcon = false } = this.props;
     const { address } = this.state;
     const { accountId } = accounts_info;
 
