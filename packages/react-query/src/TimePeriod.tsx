@@ -16,7 +16,7 @@ interface Props extends BareProps {
 
 export default function TimePeriod ({ children, className, label, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const minimumPeriod = api.consts?.timestamp.minimumPeriod || useCall<Moment>(api.query.timestamp.minimumPeriod, []);
+  const minimumPeriod = api.consts?.timestamp?.minimumPeriod || useCall<Moment>(api.query.timestamp.minimumPeriod, []);
 
   return (
     <div
