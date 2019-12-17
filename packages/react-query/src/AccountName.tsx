@@ -132,6 +132,7 @@ export default styled(AccountName)`
       display: inline-block;
 
       &.other {
+        font-weight: 100;
         opacity: 0.6;
       }
     }
