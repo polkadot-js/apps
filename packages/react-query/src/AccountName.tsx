@@ -140,5 +140,9 @@ export default styled(AccountName)`
       line-height: 1em;
       vertical-align: middle;
     }
+
+    .ui--Badge {
+      margin-top: -2px;
+    }
   }
 `;
