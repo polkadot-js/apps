@@ -12,18 +12,19 @@ interface Props {
   hover?: React.ReactNode;
   info: React.ReactNode;
   isInline?: boolean;
+  isSmall?: boolean;
   isTooltip?: boolean;
-  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected';
+  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray';
 }
 
 let badgeId = 0;
 
-function Badge ({ className, hover, info, isInline, isTooltip, type }: Props): React.ReactElement<Props> | null {
+function Badge ({ className, hover, info, isInline, isSmall, isTooltip, type }: Props): React.ReactElement<Props> | null {
   const [key] = useState(`${Date.now()}-${badgeId++}`);
 
   return (
     <div
-      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${type} ${className}`}
+      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${type} ${className}`}
       data-for={`badge-status-${key}`}
       data-tip={true}
       data-tip-disable={!isTooltip}
@@ -55,6 +56,20 @@ export default styled(Badge)`
   text-align: center;
   width: 22px;
 
+  i.icon {
+    margin: 0;
+    width: 1em;
+  }
+
+  &.isSmall {
+    box-shadow: none;
+    font-size: 10px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0;
+    width: 16px;
+  }
+
   &:not(.isInline) {
     display: flex;
     justify-content: center;
@@ -66,7 +81,8 @@ export default styled(Badge)`
     margin-right: 0.25rem;
   }
 
-  &.next {
+  &.next,
+  &.blue {
     background: steelblue;
   }
 
@@ -80,24 +96,29 @@ export default styled(Badge)`
     vertical-align: middle;
   }
 
-  &.runnerup {
+  &.gray {
+    background: #eee;
+    color: #888;
+  }
+
+  &.runnerup,
+  &.brown {
     background: brown;
   }
 
   &.online,
-  &.selected {
+  &.selected,
+  &.green {
     background: green;
   }
 
   & > * {
     line-height: 22px;
     overflow: hidden;
-    transition: all ease 0.25;
   }
 
-  .badge {
-    font-weight: bold;
-    width: auto;
+  &.isSmall > * {
+    line-height: 16px;
   }
 
   .detail {
