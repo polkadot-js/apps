@@ -34,9 +34,10 @@ function AddressToggle ({ address, className, filter, onChange, value }: Props):
     if (!filter || address.includes(filter) || extracted.toLowerCase().includes(filter)) {
       isFiltered = false;
     } else if (info) {
-      const { accountId, accountIndex, nickname } = info;
+      const { accountId, accountIndex, identity, nickname } = info;
+      const filterLower = filter.toLowerCase();
 
-      if (accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filter)) {
+      if (identity.displayName?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
         isFiltered = false;
       }
     }
