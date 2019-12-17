@@ -153,6 +153,10 @@ export default styled(AccountName)`
         font-weight: 100;
         opacity: 0.6;
       }
+
+      &:not(.other) {
+        font-weight: normal;
+      }
     }
 
     > * {
