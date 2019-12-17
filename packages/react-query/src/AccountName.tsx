@@ -72,7 +72,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
         const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
 
         // FIXME This needs to be i18n, with plurals
-        const hover = `${judgements.length ? judgements.length : 'no'} judgement${judgements.length === 1 ? '': 's'}${judgements.length  ? ': ' : ''}${judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`;
+        const hover = `${judgements.length ? judgements.length : 'no'} judgement${judgements.length === 1 ? '' : 's'}${judgements.length ? ': ' : ''}${judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`;
 
         const name = (
           <div className='via-identity'>
