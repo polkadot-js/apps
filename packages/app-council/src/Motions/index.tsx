@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedCouncilProposals, DerivedCouncilProposal } from '@polkadot/api-derive/types';
+import { DerivedCollectiveProposals, DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -13,7 +13,7 @@ import Propose from './Propose';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  motions?: DerivedCouncilProposals;
+  motions?: DerivedCollectiveProposals;
 }
 
 function Proposals ({ className, motions, t }: Props): React.ReactElement<Props> {
@@ -24,7 +24,7 @@ function Proposals ({ className, motions, t }: Props): React.ReactElement<Props>
         ? (
           <Table>
             <Table.Body>
-              {motions?.map((motion: DerivedCouncilProposal): React.ReactNode => (
+              {motions?.map((motion: DerivedCollectiveProposal): React.ReactNode => (
                 <Motion
                   key={motion.hash.toHex()}
                   motion={motion}
