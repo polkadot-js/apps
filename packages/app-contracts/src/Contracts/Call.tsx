@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { BareProps, I18nProps, StringOrNull } from '@polkadot/react-components/types';
 import { ContractExecResult } from '@polkadot/types/interfaces/contracts';
 
@@ -12,7 +11,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
+import { withMulti } from '@polkadot/react-api/hoc';
+import { useApi } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
@@ -23,7 +23,7 @@ import translate from '../translate';
 import { GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
 
-interface Props extends BareProps, I18nProps, ApiProps {
+interface Props extends BareProps, I18nProps {
   callContract: ApiContract | null;
   callMessageIndex: number | null;
   callResults: ContractExecResult[];
@@ -34,31 +34,35 @@ interface Props extends BareProps, I18nProps, ApiProps {
 }
 
 function Call (props: Props): React.ReactElement<Props> | null {
-  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, api, t } = props;
+  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, t } = props;
 
   if (isNull(callContract) || isNull(callMessageIndex)) {
     return null;
   }
 
-  const hasRpc = api.rpc.contracts && api.rpc.contracts.call;
+  const hasRpc = callContract.hasRpcContractsCall;
   let callMessage = callContract.getMessage(callMessageIndex);
 
+  const { api } = useApi();
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
   const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
   const [isBusy, setIsBusy] = useState(false);
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
-  const [useRpc, setUseRpc] = useState(callMessage && !callMessage.def.mutates);
+  const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
 
   useEffect((): void => {
     callMessage = callContract.getMessage(callMessageIndex);
 
     setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
-    if (!callMessage || callMessage.def.mutates) {
-      setUseRpc(false);
-    } else {
-      setUseRpc(true);
+
+    if (hasRpc) {
+      if (!callMessage || callMessage.def.mutates) {
+        setUseRpc(false);
+      } else {
+        setUseRpc(true);
+      }
     }
   }, [callContract, callMessageIndex]);
 
@@ -266,6 +270,5 @@ export default withMulti(
       float: right;
     }
   `,
-  translate,
-  withApi
+  translate
 );
