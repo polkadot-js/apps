@@ -98,7 +98,7 @@ export default styled(Badge)`
 
   &.gray {
     background: #eee;
-    color: #888;
+    color: #aaa;
   }
 
   &.runnerup,
