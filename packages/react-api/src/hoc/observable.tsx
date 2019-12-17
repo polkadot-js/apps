@@ -18,11 +18,11 @@ interface State extends CallState {
   subscriptions: any[]; // FIXME subscriptions
 }
 
-// FIXME proper types for attributes
-
 export default function withObservable<T, P> (observable: Observable<P>, { callOnResult, propName = 'value', transform = echoTransform }: Options = {}): HOC {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps = {}, render?: RenderFn): React.ComponentType<any> => {
     return class WithObservable extends React.Component<any, State> {
+      private isActive = true;
+
       public state: State = {
         callResult: undefined,
         callUpdated: false,
@@ -49,6 +49,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
       }
 
       public componentWillUnmount (): void {
+        this.isActive = false;
         this.state.subscriptions.forEach((subscription): void =>
           subscription.unsubscribe()
         );
@@ -56,7 +57,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
 
       private triggerUpdate = (props: any, callResult?: T): void => {
         try {
-          if (isEqual(callResult, this.state.callResult)) {
+          if (!this.isActive || isEqual(callResult, this.state.callResult)) {
             return;
           }
 
