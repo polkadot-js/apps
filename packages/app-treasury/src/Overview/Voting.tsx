@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedCouncilProposal } from '@polkadot/api-derive/types';
+import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex, Hash } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
@@ -14,7 +14,7 @@ import { isBoolean } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  proposals: DerivedCouncilProposal[];
+  proposals: DerivedCollectiveProposal[];
 }
 
 interface Option {
