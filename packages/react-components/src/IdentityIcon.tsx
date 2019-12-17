@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { IdentityProps } from '@polkadot/react-identicon/types';
 import { I18nProps } from './types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
 import { ValidatorsContext } from '@polkadot/react-query';
@@ -32,10 +33,12 @@ export function getIdentityTheme (systemName: string): 'empty' {
 }
 
 function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, value }: Props): React.ReactElement<Props> {
-  const { systemName } = useApi();
+  const { api, systemName } = useApi();
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
   const { queueAction } = useContext(StatusContext);
   const validators = useContext(ValidatorsContext);
   const [isValidator, setIsValidator] = useState(false);
+  const [address, setAddress] = useState(value?.toString());
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
@@ -43,6 +46,12 @@ function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, value
       setIsValidator(validators.includes(value.toString()));
     }
   }, [value, validators]);
+
+  useEffect((): void => {
+    if (info) {
+      setAddress(info.accountId?.toString());
+    }
+  }, [info]);
 
   const _onCopy = (account: string): void => {
     onCopy && onCopy(account);
@@ -63,7 +72,7 @@ function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, value
       size={size}
       style={style}
       theme={thisTheme as 'substrate'}
-      value={value?.toString()}
+      value={address}
     />
   );
 }
