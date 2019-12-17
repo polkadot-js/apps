@@ -67,12 +67,15 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
     if (api.query.identity?.identityOf) {
       if (identity?.displayName) {
-        const { judgements, displayName } = identity;
-        const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
-        const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
+        const isGood = identity.judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
+        const isBad = identity.judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
 
         // FIXME This needs to be i18n, with plurals
-        const hover = `${judgements.length ? judgements.length : 'no'} judgement${judgements.length === 1 ? '' : 's'}${judgements.length ? ': ' : ''}${judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`;
+        const hover = (
+          <div className='hover-identity'>
+            <div className='header'>{`${identity.judgements.length ? identity.judgements.length : 'no'} judgement${identity.judgements.length === 1 ? '' : 's'}${identity.judgements.length ? ': ' : ''}${identity.judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`}</div>
+          </div>
+        );
 
         const name = (
           <div className='via-identity'>
@@ -90,7 +93,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <div className='name'>{displayName.toUpperCase()}</div>
+            <div className='name'>{identity.displayName.toUpperCase()}</div>
           </div>
         );
 
@@ -125,6 +128,21 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 }
 
 export default styled(AccountName)`
+  .hover-identity {
+    div+div {
+      margin-top: 0.75rem;
+    }
+
+    table {
+      border: 0;
+
+      td:first-child {
+        padding-right: 0.25rem;
+        text-align: right;
+      }
+    }
+  }
+
   .via-identity {
     display: inline-block;
 

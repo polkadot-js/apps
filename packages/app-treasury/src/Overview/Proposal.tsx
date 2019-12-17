@@ -36,7 +36,7 @@ function ProposalDisplay ({ className, proposal: { council, id, proposal }, t }:
       </td>
       <td className='top'>
         <AddressMini
-          label={<label>{t('beneficiary')}</label>}
+          label={t('beneficiary')}
           value={proposal.beneficiary}
         />
       </td>
