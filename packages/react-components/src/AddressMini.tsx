@@ -109,7 +109,6 @@ export default styled(AddressMini)`
   }
 
   .ui--AddressMini-address {
-    font-family: monospace;
     max-width: 9rem;
     min-width: 9rem;
     overflow: hidden;
