@@ -33,8 +33,8 @@ export function getIdentityTheme (systemName: string): 'empty' {
 }
 
 function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, value }: Props): React.ReactElement<Props> {
-  const { api, systemName } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
+  const { api, isApiReady, systemName } = useApi();
+  const info = useCall<DeriveAccountInfo>(isApiReady ? api.derive.accounts.info as any : undefined, [value]);
   const { queueAction } = useContext(StatusContext);
   const validators = useContext(ValidatorsContext);
   const [isValidator, setIsValidator] = useState(false);
