@@ -14,6 +14,7 @@ import { isBoolean } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
+  isDisabled?: boolean;
   proposals: DerivedCollectiveProposal[];
 }
 
@@ -22,7 +23,7 @@ interface Option {
   value: number;
 }
 
-function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
+function Voting ({ isDisabled, proposals, t }: Props): React.ReactElement<Props> | null {
   const { hasAccounts } = useAccounts();
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
@@ -99,6 +100,7 @@ function Voting ({ proposals, t }: Props): React.ReactElement<Props> | null {
       )}
       <Button
         icon='check'
+        isDisabled={isDisabled}
         isPrimary
         label={t('Vote')}
         onClick={_toggleVoting}
