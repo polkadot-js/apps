@@ -56,16 +56,15 @@ function Motion ({ className, isMember, motion: { hash, proposal, votes }, t }: 
           />
         ))}
       </td>
-      {isMember && (
-        <td className='number top together'>
-          <Voting
-            hash={hash}
-            isCouncil
-            idNumber={index}
-            proposal={proposal}
-          />
-        </td>
-      )}
+      <td className='number top together'>
+        <Voting
+          hash={hash}
+          isCouncil
+          isDisabled={!isMember}
+          idNumber={index}
+          proposal={proposal}
+        />
+      </td>
     </tr>
   );
 }

@@ -16,6 +16,7 @@ import { createType } from '@polkadot/types';
 import translate from '../translate';
 
 interface Props extends TxModalProps, ApiProps {
+  isMember: boolean;
   memberCount: number;
 }
 
@@ -70,11 +71,12 @@ class Propose extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
+    const { isMember, t } = this.props;
 
     return (
       <Button.Group>
         <Button
+          isDisabled={!isMember}
           isPrimary
           label={t('Propose a council motion')}
           icon='add'

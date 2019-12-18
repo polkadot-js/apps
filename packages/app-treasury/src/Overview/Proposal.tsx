@@ -46,11 +46,12 @@ function ProposalDisplay ({ className, isMember, proposal: { council, id, propos
           value={proposal.value}
         />
       </td>
-      {isMember && (
-        <td className='top number together'>
-          <Voting proposals={council} />
-        </td>
-      )}
+      <td className='top number together'>
+        <Voting
+          isDisabled={!isMember}
+          proposals={council}
+        />
+      </td>
     </tr>
   );
 }

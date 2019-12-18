@@ -36,9 +36,7 @@ function Proposals ({ className, motions, t }: Props): React.ReactElement<Props>
 
   return (
     <div className={className}>
-      {isMember && (
-        <Propose />
-      )}
+      <Propose isMember={isMember} />
       {motions?.length
         ? (
           <Table>
