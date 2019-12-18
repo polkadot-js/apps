@@ -45,5 +45,13 @@
   "council proposal": "council proposal",
   "The hash for the proposal this vote applies to": "The hash for the proposal this vote applies to",
   "proposal hash": "proposal hash",
-  "Vote": "Vote"
+  "Vote": "Vote",
+  "Submit to council": "Submit to council",
+  "Select the council account you wish to use to make the proposal.": "Select the council account you wish to use to make the proposal.",
+  "submit with council account": "submit with council account",
+  "The type of council proposal to submit.": "The type of council proposal to submit.",
+  "council proposal type": "council proposal type",
+  "Acceptance proposal to council": "Acceptance proposal to council",
+  "Rejection proposal to council": "Rejection proposal to council",
+  "Send to council": "Send to council"
 }
