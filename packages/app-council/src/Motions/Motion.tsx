@@ -6,7 +6,6 @@ import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-
 import { AddressMini, Voting } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
@@ -14,10 +13,11 @@ import { formatNumber } from '@polkadot/util';
 import translate from '../translate';
 
 interface Props extends I18nProps {
+  isMember: boolean;
   motion: DerivedCollectiveProposal;
 }
 
-function Motion ({ className, motion: { hash, proposal, votes }, t }: Props): React.ReactElement<Props> | null {
+function Motion ({ className, isMember, motion: { hash, proposal, votes }, t }: Props): React.ReactElement<Props> | null {
   if (!votes) {
     return null;
   }
@@ -60,6 +60,7 @@ function Motion ({ className, motion: { hash, proposal, votes }, t }: Props): Re
         <Voting
           hash={hash}
           isCouncil
+          isDisabled={!isMember}
           idNumber={index}
           proposal={proposal}
         />

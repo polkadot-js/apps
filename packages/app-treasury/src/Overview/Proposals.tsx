@@ -5,10 +5,12 @@
 
 import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Table } from '@polkadot/react-components';
+import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 
 import Proposal from './Proposal';
 import translate from '../translate';
@@ -19,7 +21,22 @@ interface Props extends I18nProps {
 }
 
 function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const { allAccounts } = useAccounts();
+  const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
+  const [isMember, setIsMember] = useState(false);
   const history = useHistory();
+
+  useEffect((): void => {
+    if (allAccounts && members) {
+      setIsMember(
+        members
+          .map(([accountId]): string => accountId.toString())
+          .some((accountId): boolean => allAccounts.includes(accountId))
+      );
+    }
+  }, [allAccounts, members]);
+
   const _onRespond = (): void => {
     history.push('/council/motions');
   };
@@ -34,7 +51,7 @@ function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.
         <Table.Body>
           {proposals?.map((proposal): React.ReactNode => (
             <Proposal
-              isApproved={isApprovals}
+              isMember={isMember}
               onRespond={_onRespond}
               proposal={proposal}
               key={proposal.id.toString()}

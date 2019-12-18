@@ -14,12 +14,12 @@ import translate from '../translate';
 import Voting from './Voting';
 
 interface Props extends I18nProps {
-  isApproved?: boolean;
+  isMember: boolean;
   proposal: DerivedTreasuryProposal;
   onRespond: () => void;
 }
 
-function ProposalDisplay ({ className, proposal: { council, id, proposal }, t }: Props): React.ReactElement<Props> | null {
+function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, t }: Props): React.ReactElement<Props> | null {
   return (
     <tr className={className}>
       <td className='number top'>
@@ -47,7 +47,10 @@ function ProposalDisplay ({ className, proposal: { council, id, proposal }, t }:
         />
       </td>
       <td className='top number together'>
-        <Voting proposals={council} />
+        <Voting
+          isDisabled={!isMember}
+          proposals={council}
+        />
       </td>
     </tr>
   );
