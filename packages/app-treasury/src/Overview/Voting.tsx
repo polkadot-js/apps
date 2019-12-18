@@ -4,18 +4,17 @@
 
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex, Hash } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Input, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  councilProposals: DerivedCollectiveProposal[];
   isDisabled?: boolean;
-  proposals: DerivedCollectiveProposal[];
 }
 
 interface Option {
@@ -23,17 +22,18 @@ interface Option {
   value: number;
 }
 
-function Voting ({ isDisabled, proposals, t }: Props): React.ReactElement<Props> | null {
+export default function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [{ councilId, councilHash }, setCouncilInfo] = useState<{ councilId: ProposalIndex | null; councilHash: Hash | null }>({ councilId: null, councilHash: null });
-  const [isVotingOpen, setIsVotingOpen] = useState(false);
+  const [isOpen, toggleOpen] = useToggle();
   const [voteValue, setVoteValue] = useState(true);
 
   useEffect((): void => {
-    const available = proposals
+    const available = councilProposals
       .map(({ proposal: { methodName, sectionName }, votes }): Option => ({
         text: `Council #${votes?.index.toNumber()}: ${sectionName}.${methodName} `,
         value: votes ? votes?.index.toNumber() : -1
@@ -42,16 +42,15 @@ function Voting ({ isDisabled, proposals, t }: Props): React.ReactElement<Props>
 
     setCouncilOptId(available.length ? available[0].value : 0);
     setCouncilOpts(available);
-  }, [proposals]);
+  }, [councilProposals]);
 
   if (!hasAccounts || !councilOpts.length) {
     return null;
   }
 
-  const _toggleVoting = (): void => setIsVotingOpen(!isVotingOpen);
   const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
   const _onChangeProposal = (optionId: number): void => {
-    const councilProp = proposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
+    const councilProp = councilProposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
 
     if (councilProp && councilProp.votes) {
       setCouncilInfo({ councilId: councilProp.votes.index, councilHash: councilProp.hash });
@@ -63,7 +62,7 @@ function Voting ({ isDisabled, proposals, t }: Props): React.ReactElement<Props>
 
   return (
     <>
-      {isVotingOpen && (
+      {isOpen && (
         <Modal
           header={t('Vote on proposal')}
           open
@@ -92,7 +91,7 @@ function Voting ({ isDisabled, proposals, t }: Props): React.ReactElement<Props>
           <VoteActions
             accountId={accountId}
             isDisabled={!councilHash}
-            onClick={_toggleVoting}
+            onClick={toggleOpen}
             params={[councilHash, councilId, voteValue]}
             tx='council.vote'
           />
@@ -103,10 +102,8 @@ function Voting ({ isDisabled, proposals, t }: Props): React.ReactElement<Props>
         isDisabled={isDisabled}
         isPrimary
         label={t('Vote')}
-        onClick={_toggleVoting}
+        onClick={toggleOpen}
       />
     </>
   );
 }
-
-export default translate(Voting);
