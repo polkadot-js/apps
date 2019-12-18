@@ -3,23 +3,26 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { AddressMini, AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
+import Submission from './Submission';
 import Voting from './Voting';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   isMember: boolean;
   proposal: DerivedTreasuryProposal;
   onRespond: () => void;
 }
 
-function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, t }: Props): React.ReactElement<Props> | null {
+export default function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal } }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   return (
     <tr className={className}>
       <td className='number top'>
@@ -47,13 +50,16 @@ function ProposalDisplay ({ className, isMember, proposal: { council, id, propos
         />
       </td>
       <td className='top number together'>
-        <Voting
+        <Submission
+          councilProposals={council}
+          id={id}
           isDisabled={!isMember}
-          proposals={council}
+        />
+        <Voting
+          councilProposals={council}
+          isDisabled={!isMember}
         />
       </td>
     </tr>
   );
 }
-
-export default translate(ProposalDisplay);
