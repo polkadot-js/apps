@@ -747,5 +747,13 @@
   "The email address associated with this identity.": "",
   "An URL that is linked to this identity.": "",
   "a riot name linked to this identity": "",
-  "Set Identity": ""
+  "Set Identity": "",
+  "Submit to council": "",
+  "Select the council account you wish to use to make the proposal.": "",
+  "submit with council account": "",
+  "The type of council proposal to submit.": "",
+  "council proposal type": "",
+  "Acceptance proposal to council": "",
+  "Rejection proposal to council": "",
+  "Send to council": ""
 }
