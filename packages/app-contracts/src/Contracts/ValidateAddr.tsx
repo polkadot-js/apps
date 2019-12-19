@@ -5,7 +5,6 @@
 
 import { ContractInfo } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 
 import React, { useEffect, useState } from 'react';
 import { Option } from '@polkadot/types';
@@ -15,7 +14,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import translate from '../translate';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends I18nProps {
   address?: string | null;
   onChange: (isValid: boolean) => void;
 }
