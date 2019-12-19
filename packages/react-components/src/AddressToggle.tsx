@@ -37,7 +37,7 @@ function AddressToggle ({ address, className, filter, onChange, value }: Props):
       const { accountId, accountIndex, identity, nickname } = info;
       const filterLower = filter.toLowerCase();
 
-      if (identity.displayName?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
+      if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
         isFiltered = false;
       }
     }
