@@ -95,5 +95,21 @@
   "no tags": "no tags",
   "filter by tags": "filter by tags",
   "no accounts yet, create or import and existing": "no accounts yet, create or import and existing",
-  "no accounts yet, create or import an existing": "no accounts yet, create or import an existing"
+  "no accounts yet, create or import an existing": "no accounts yet, create or import an existing",
+  "Set on-chain identity": "Set on-chain identity",
+  "Derive account via derivation path": "Derive account via derivation path",
+  "include value": "include value",
+  "exclude value": "exclude value",
+  "Register identity": "Register identity",
+  "The name that will be displayed in your accounts list.": "The name that will be displayed in your accounts list.",
+  "display name": "display name",
+  "The legal name for this identity.": "The legal name for this identity.",
+  "legal name": "legal name",
+  "The email address associated with this identity.": "The email address associated with this identity.",
+  "email": "email",
+  "An URL that is linked to this identity.": "An URL that is linked to this identity.",
+  "web": "web",
+  "a riot name linked to this identity": "a riot name linked to this identity",
+  "riot name": "riot name",
+  "Set Identity": "Set Identity"
 }

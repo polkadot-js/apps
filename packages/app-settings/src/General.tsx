@@ -38,7 +38,7 @@ const availableLanguages: SetOption[] = [
 ];
 
 function General ({ className, isModalContent, onClose, t }: Props): React.ReactElement<Props> {
-  // tri-state: null = nothing  changed, false = no reload, true = reload required
+  // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState(uiSettings.get());
 

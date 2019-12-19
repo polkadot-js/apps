@@ -6,8 +6,9 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AccountIndex, AccountName } from '@polkadot/react-query';
+import { AccountIndex } from '@polkadot/react-query';
 
+import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 
 interface Props {

@@ -32,7 +32,6 @@ interface Serialized {
 const MAX_BLOCKS = 2500;
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
-  let hasData = false;
   let keepAll = false;
 
   return sessions
@@ -51,16 +50,10 @@ function fromJSON (sessions: Serialized[]): SessionRewards[] {
     }))
     .filter(({ parentHash }): boolean => !parentHash.isEmpty)
     .reverse()
-    // we drop everything before the second non-empty
-    .filter(({ isEventsEmpty }, index): boolean => {
-      if (index !== 0) {
-        if (!isEventsEmpty) {
-          // we first see if we have some data up to this point (we may not, i.e. non-archive)
-          hasData = true;
-        } else if (hasData) {
-          // if data is followed by empty, drop everything from here on
-          keepAll = true;
-        }
+    // we drop everything before the last reward
+    .filter(({ reward }): boolean => {
+      if (reward.gtn(0)) {
+        keepAll = true;
       }
 
       return keepAll;

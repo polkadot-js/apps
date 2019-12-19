@@ -40,7 +40,7 @@ function Proposal ({ className, t, value: { balance, hash, index, proposal, prop
         {seconding.length !== 0 && (
           <details>
             <summary>
-              {t('Seconds ({{count}})', { replace: { count: seconds.length } })}
+              {t('Seconds ({{count}})', { replace: { count: seconding.length } })}
             </summary>
             {seconding.map((address, count): React.ReactNode => (
               <AddressMini

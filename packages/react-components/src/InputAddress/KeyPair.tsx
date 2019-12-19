@@ -4,8 +4,8 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { AccountName } from '@polkadot/react-query';
 
+import AccountName from '../AccountName';
 import IdentityIcon from '../IdentityIcon';
 
 interface Props {

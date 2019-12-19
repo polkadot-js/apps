@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // Copyright 2017-2019 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -13,6 +14,7 @@ import { bnToBn, isNumber } from '@polkadot/util';
 interface Value {
   colors: string[];
   label: string;
+  tooltip?: string;
   value: number | BN;
 }
 
@@ -28,6 +30,10 @@ interface State {
   chartData?: ChartJs.ChartData;
   chartOptions?: ChartJs.ChartOptions;
   jsonValues?: string;
+}
+
+interface TooltipItem {
+  index: number;
 }
 
 interface Config {
@@ -76,6 +82,12 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
             ? { beginAtZero: true, max }
             : { display: false }
         }]
+      },
+      tooltips: {
+        callbacks: {
+          label: (item: TooltipItem, _: any): string =>
+            values[item.index].tooltip || values[item.index].label
+        }
       }
     },
     jsonValues

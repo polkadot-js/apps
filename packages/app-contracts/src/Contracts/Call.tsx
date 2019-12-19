@@ -31,32 +31,35 @@ interface Props extends BareProps, I18nProps {
 }
 
 function Call (props: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
   const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, t } = props;
 
   if (isNull(callContract) || isNull(callMessageIndex)) {
     return null;
   }
 
-  const hasRpc = api.rpc.contracts && api.rpc.contracts.call;
+  const hasRpc = callContract.hasRpcContractsCall;
   let callMessage = callContract.getMessage(callMessageIndex);
 
+  const { api } = useApi();
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
   const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
   const [isBusy, setIsBusy] = useState(false);
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
-  const [useRpc, setUseRpc] = useState(callMessage && !callMessage.def.mutates);
+  const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
 
   useEffect((): void => {
     callMessage = callContract.getMessage(callMessageIndex);
 
     setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
-    if (!callMessage || callMessage.def.mutates) {
-      setUseRpc(false);
-    } else {
-      setUseRpc(true);
+
+    if (hasRpc) {
+      if (!callMessage || callMessage.def.mutates) {
+        setUseRpc(false);
+      } else {
+        setUseRpc(true);
+      }
     }
   }, [callContract, callMessageIndex]);
 

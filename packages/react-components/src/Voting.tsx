@@ -23,6 +23,7 @@ interface Props extends I18nProps, TxModalProps {
   hash?: string;
   idNumber: BN | number;
   isCouncil: boolean;
+  isDisabled?: boolean;
   proposal?: Proposal | null;
   preContent?: React.ReactNode;
 }
@@ -97,11 +98,12 @@ class Voting extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
+    const { isDisabled, t } = this.props;
 
     return (
       <div className='ui--Row-buttons'>
         <Button
+          isDisabled={isDisabled}
           isPrimary
           label={t('Vote')}
           icon='check'
