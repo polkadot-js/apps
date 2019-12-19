@@ -14,20 +14,22 @@ interface Props {
   isInline?: boolean;
   isSmall?: boolean;
   isTooltip?: boolean;
+  onClick?: () => void;
   type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray';
 }
 
 let badgeId = 0;
 
-function Badge ({ className, hover, info, isInline, isSmall, isTooltip, type }: Props): React.ReactElement<Props> | null {
+function Badge ({ className, hover, info, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
   const [key] = useState(`${Date.now()}-${badgeId++}`);
 
   return (
     <div
-      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${type} ${className}`}
+      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
       data-for={`badge-status-${key}`}
       data-tip={true}
       data-tip-disable={!isTooltip}
+      onClick={onClick}
     >
       <div className='badge'>
         {info}
@@ -57,8 +59,13 @@ export default styled(Badge)`
   width: 22px;
 
   i.icon {
+    cursor: inherit !important;
     margin: 0;
     width: 1em;
+  }
+
+  &.isClickable {
+    cursor: pointer;
   }
 
   &.isSmall {

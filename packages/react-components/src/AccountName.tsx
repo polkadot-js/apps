@@ -4,15 +4,23 @@
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { BareProps } from '@polkadot/react-api/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Address, RegistrarInfo } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Badge, Icon } from '@polkadot/react-components';
-import { getAddressName } from '@polkadot/react-components/util';
-import { useCall, useApi } from '@polkadot/react-hooks';
+import { useCall, useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
 import { useTranslation } from './translate';
+import { getAddressName } from './util';
+import Badge from './Badge';
+import Button from './Button';
+import Dropdown from './Dropdown';
+import Icon from './Icon';
+import Input from './Input';
+import InputAddress from './InputAddress';
+import Modal from './Modal';
+import TxButton from './TxButton';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -50,7 +58,15 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
+  const [isJudgementOpen, toggleJudgement] = useToggle();
+  const registrars = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const [isRegistrar, setIsRegistrar] = useState(false);
+  const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
+  const [judgementEnum, setJudgementEnum] = useState(0);
+  const [registrarIndex, setRegistrarIndex] = useState(-1);
   const address = useMemo((): string => (value || '').toString(), [value]);
 
   const _extractName = (accountId?: AccountId, accountIndex?: AccountIndex): React.ReactNode => {
@@ -66,7 +82,41 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   const [name, setName] = useState<React.ReactNode>((): React.ReactNode => _extractName());
 
   useEffect((): void => {
+    if (allAccounts && registrars) {
+      setIsRegistrar(
+        registrars
+          .map((registrar): string| null =>
+            registrar.isSome
+              ? registrar.unwrap().account.toString()
+              : null
+          )
+          .some((regId): boolean => !!regId && allAccounts.includes(regId))
+      );
+    }
+  }, [allAccounts, registrars]);
+
+  useEffect((): void => {
+    if (registrars && judgementAccountId) {
+      setRegistrarIndex(
+        registrars
+          .map((registrar): string| null =>
+            registrar.isSome
+              ? registrar.unwrap().account.toString()
+              : null
+          )
+          .indexOf(judgementAccountId)
+      );
+    } else {
+      setRegistrarIndex(-1);
+    }
+  }, [judgementAccountId, registrars]);
+
+  useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
+
+    if (accountId) {
+      setAccountId(accountId.toString());
+    }
 
     if (api.query.identity?.identityOf) {
       if (identity?.display) {
@@ -120,6 +170,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
               isInline
               isSmall
               isTooltip
+              onClick={isRegistrar ? toggleJudgement : undefined}
               type={
                 isGood
                   ? 'green'
@@ -148,17 +199,71 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   }, [info, toggle]);
 
   return (
-    <div
-      className={className}
-      onClick={
-        override
-          ? undefined
-          : onClick
-      }
-      style={style}
-    >
-      {label || ''}{override || name}{children}
-    </div>
+    <>
+      {isJudgementOpen && (
+        <Modal
+          header={t('Provide judgement')}
+          open
+          size='small'
+        >
+          <Modal.Content>
+            <InputAddress
+              label={t('registrar account')}
+              onChange={setJudgementAccountId}
+            />
+            <Input
+              isDisabled
+              label={t('registrar index')}
+              value={registrarIndex === -1 ? t('invalid/unknown registrar account') : registrarIndex}
+            />
+            <Dropdown
+              label={t('judgement')}
+              onChange={setJudgementEnum}
+              options={[
+                { value: 0, text: 'Unknown' },
+                { value: 1, text: 'Fee paid' },
+                { value: 2, text: 'Reasonable' },
+                { value: 3, text: 'Known good' },
+                { value: 4, text: 'Out of date' },
+                { value: 5, text: 'Low quality' }
+              ]}
+              value={judgementEnum}
+            />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button.Group>
+              <Button
+                icon='cancel'
+                isNegative
+                label={t('Cancel')}
+                onClick={toggleJudgement}
+              />
+              <Button.Or />
+              <TxButton
+                accountId={judgementAccountId}
+                icon='check'
+                isDisabled={registrarIndex === -1}
+                label={t('Judge')}
+                onClick={toggleJudgement}
+                params={[registrarIndex, accountId, judgementEnum]}
+                tx='identity.provideJudgement'
+              />
+            </Button.Group>
+          </Modal.Actions>
+        </Modal>
+      )}
+      <div
+        className={className}
+        onClick={
+          override
+            ? undefined
+            : onClick
+        }
+        style={style}
+      >
+        {label || ''}{override || name}{children}
+      </div>
+    </>
   );
 }
 
