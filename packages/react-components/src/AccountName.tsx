@@ -273,6 +273,7 @@ export default styled(AccountName)`
 
     .name {
       display: inline-block;
+      filter: grayscale(100%);
 
       &.other {
         font-weight: 100;
