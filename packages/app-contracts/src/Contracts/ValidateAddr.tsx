@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractInfo } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { Option } from '@polkadot/types';
@@ -12,14 +10,15 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { InfoForInput } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   address?: string | null;
   onChange: (isValid: boolean) => void;
 }
 
-function ValidateAddr ({ address, onChange, t }: Props): React.ReactElement<Props> | null {
+export default function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const contractInfo = useCall<Option<ContractInfo>>(api.query.contracts.contractInfoOf, [address]);
   const [isAddress, setIsAddress] = useState(false);
@@ -55,5 +54,3 @@ function ValidateAddr ({ address, onChange, t }: Props): React.ReactElement<Prop
     </InfoForInput>
   );
 }
-
-export default translate(ValidateAddr);
