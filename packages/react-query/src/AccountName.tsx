@@ -12,6 +12,8 @@ import { Badge, Icon } from '@polkadot/react-components';
 import { getAddressName } from '@polkadot/react-components/util';
 import { useCall, useApi } from '@polkadot/react-hooks';
 
+import { useTranslation } from './translate';
+
 interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
@@ -46,6 +48,7 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
 }
 
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
   const address = useMemo((): string => (value || '').toString(), [value]);
@@ -66,14 +69,46 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     const { accountId, accountIndex, identity, nickname } = info || {};
 
     if (api.query.identity?.identityOf) {
-      if (identity?.displayName) {
+      if (identity?.display) {
         const isGood = identity.judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
         const isBad = identity.judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
 
         // FIXME This needs to be i18n, with plurals
         const hover = (
-          <div className='hover-identity'>
-            <div className='header'>{`${identity.judgements.length ? identity.judgements.length : 'no'} judgement${identity.judgements.length === 1 ? '' : 's'}${identity.judgements.length ? ': ' : ''}${identity.judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`}</div>
+          <div>
+            <div>{`${identity.judgements.length ? identity.judgements.length : 'no'} judgement${identity.judgements.length === 1 ? '' : 's'}${identity.judgements.length ? ': ' : ''}${identity.judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`}</div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>{t('display')}</td>
+                  <td>{identity.display}</td>
+                </tr>
+                {identity.legal && (
+                  <tr>
+                    <td>{t('legal')}</td>
+                    <td>{identity.legal}</td>
+                  </tr>
+                )}
+                {identity.email && (
+                  <tr>
+                    <td>{t('email')}</td>
+                    <td>{identity.email}</td>
+                  </tr>
+                )}
+                {identity.web && (
+                  <tr>
+                    <td>{t('www')}</td>
+                    <td>{identity.web}</td>
+                  </tr>
+                )}
+                {identity.riot && (
+                  <tr>
+                    <td>{t('riot')}</td>
+                    <td>{identity.riot}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         );
 
@@ -93,7 +128,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <div className='name'>{identity.displayName.toUpperCase()}</div>
+            <div className='name'>{identity.display.toUpperCase()}</div>
           </div>
         );
 
@@ -128,21 +163,6 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 }
 
 export default styled(AccountName)`
-  .hover-identity {
-    div+div {
-      margin-top: 0.75rem;
-    }
-
-    table {
-      border: 0;
-
-      td:first-child {
-        padding-right: 0.25rem;
-        text-align: right;
-      }
-    }
-  }
-
   .via-identity {
     display: inline-block;
 

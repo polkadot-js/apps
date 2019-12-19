@@ -7,6 +7,7 @@ import { BareProps } from './types';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
+import styled from 'styled-components';
 
 import { classes } from './util';
 
@@ -26,7 +27,7 @@ interface Props extends BareProps {
   trigger: string;
 }
 
-export default function Tooltip ({ className, effect = 'solid', offset, place = 'bottom', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ className, effect = 'solid', offset, place = 'bottom', text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(document.createElement('div'));
 
   useEffect((): () => void => {
@@ -44,7 +45,6 @@ export default function Tooltip ({ className, effect = 'solid', offset, place = 
   return ReactDOM.createPortal(
     <ReactTooltip
       id={trigger}
-      delayShow={250}
       effect={effect}
       offset={offset}
       place={place}
@@ -55,3 +55,21 @@ export default function Tooltip ({ className, effect = 'solid', offset, place = 
     tooltipContainer
   );
 }
+
+export default styled(Tooltip)`
+  table {
+    border: 0;
+    margin-top: 0.75rem;
+
+    td {
+      text-align: left;
+    }
+
+    td:first-child {
+      opacity: 0.75;
+      padding-right: 0.25rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+  }
+`;
