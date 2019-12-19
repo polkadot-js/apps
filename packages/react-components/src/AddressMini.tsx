@@ -8,10 +8,10 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { AccountName } from '@polkadot/react-query';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { classes, toShortAddress } from './util';
+import AccountName from './AccountName';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
