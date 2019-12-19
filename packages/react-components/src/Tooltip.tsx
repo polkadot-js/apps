@@ -59,7 +59,6 @@ function Tooltip ({ className, effect = 'solid', offset, place = 'bottom', text,
 export default styled(Tooltip)`
   table {
     border: 0;
-    margin-top: 0.75rem;
 
     td {
       text-align: left;
@@ -71,5 +70,10 @@ export default styled(Tooltip)`
       text-align: right;
       white-space: nowrap;
     }
+  }
+
+  div+table,
+  table+div {
+    margin-top: 0.75rem;
   }
 `;
