@@ -13,7 +13,11 @@ export default function useCounter (): number {
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {
-    setCounter(motions?.length || 0);
+    setCounter(
+      motions
+        ? motions.filter(({ votes }): boolean => !!votes).length
+        : 0
+    );
   }, [motions]);
 
   return counter;
