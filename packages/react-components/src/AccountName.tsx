@@ -279,7 +279,7 @@ export default styled(AccountName)`
       display: inline-block;
       font-weight: normal !important;
       filter: grayscale(100%);
-      opacity: 0.75;
+      opacity: 0.6;
 
       &.isAddress {
         font-family: monospace;
