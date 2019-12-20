@@ -74,7 +74,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
     return (
       <div className='via-identity'>
-        <div className={`name ${isLocal ? '' : 'other'}`}>{name}</div>
+        <div className={`name ${isLocal ? 'isLocal' : 'isAddress'}`}>{name}</div>
       </div>
     );
   };
@@ -162,6 +162,10 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
           </div>
         );
 
+        const displayName = isGood
+          ? identity.display
+          : identity.display.replace(/[^\x20-\x7E]/g, '');
+
         const name = (
           <div className='via-identity'>
             <Badge
@@ -179,11 +183,11 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <div className='name'>{identity.display.toUpperCase()}</div>
+            <div className={`name ${isGood && 'isGood'}`}>{displayName.toUpperCase()}</div>
           </div>
         );
 
-        nameCache.set(address, name);
+        nameCache.set(address, displayName);
         setName((): React.ReactNode => name);
       } else {
         setName((): React.ReactNode => _extractName(accountId, accountIndex));
@@ -273,15 +277,17 @@ export default styled(AccountName)`
 
     .name {
       display: inline-block;
+      font-weight: normal !important;
       filter: grayscale(100%);
+      opacity: 0.75;
 
-      &.other {
-        font-weight: 100;
-        opacity: 0.6;
+      &.isAddress {
+        font-family: monospace;
       }
 
-      &:not(.other) {
-        font-weight: normal;
+      &.isGood,
+      &.isLocal {
+        opacity: 1;
       }
     }
 

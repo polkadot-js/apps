@@ -6,8 +6,8 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AccountIndex } from '@polkadot/react-query';
 
+import AccountIndex from './AccountIndex';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 
