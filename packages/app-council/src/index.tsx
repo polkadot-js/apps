@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
-import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -12,17 +12,20 @@ import styled from 'styled-components';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+import useCounter from './useCounter';
 import Overview from './Overview';
 import Motions from './Motions';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-export { default as useCounter } from './useCounter';
+export { useCounter };
 
-interface Props extends AppProps, BareProps, I18nProps {}
+interface Props extends AppProps, BareProps {}
 
-function CouncilApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
+function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
+  const numMotions = useCounter();
   const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals, []);
 
   return (
@@ -42,7 +45,7 @@ function CouncilApp ({ basePath, className, t }: Props): React.ReactElement<Prop
             },
             {
               name: 'motions',
-              text: t('Motions ({{count}})', { replace: { count: motions?.length || 0 } })
+              text: t('Motions ({{count}})', { replace: { count: numMotions } })
             }
           ]}
         />
@@ -57,10 +60,8 @@ function CouncilApp ({ basePath, className, t }: Props): React.ReactElement<Prop
   );
 }
 
-export default translate(
-  styled(CouncilApp)`
-    .council--hidden {
-      display: none;
-    }
-  `
-);
+export default styled(CouncilApp)`
+  .council--hidden {
+    display: none;
+  }
+`;
