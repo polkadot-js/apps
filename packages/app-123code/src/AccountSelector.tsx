@@ -4,8 +4,8 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Bubble, InputAddress } from '@polkadot/react-components';
-import { AccountIndex, Balance, Nonce } from '@polkadot/react-query';
+import { AccountIndex, Bubble, InputAddress } from '@polkadot/react-components';
+import { Balance, Nonce } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
