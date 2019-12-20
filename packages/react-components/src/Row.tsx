@@ -68,10 +68,6 @@ export const styles = `
     margin-bottom: 0.25rem;
   }
 
-  .ui--Row-accountIndex {
-    font-style: italic;
-  }
-
   .ui--Row-balances {
     display: flex;
     .column {

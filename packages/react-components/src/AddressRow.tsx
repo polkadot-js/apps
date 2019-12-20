@@ -17,7 +17,6 @@ import keyring from '@polkadot/ui-keyring';
 
 import AddressInfo, { BalanceActiveType, ValidatorPrefsType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
-import CopyButton from './CopyButton';
 import IdentityIcon, { getIdentityTheme } from './IdentityIcon';
 import Row, { RowProps, RowState as State, styles } from './Row';
 import translate from './translate';
@@ -160,12 +159,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
 
     return (
       <div className='ui--Row-accountId'>
-        <CopyButton
-          isAddress
-          value={address}
-        >
-          <span>{toShortAddress(address)}</span>
-        </CopyButton>
+        {toShortAddress(address)}
       </div>
     );
   }
@@ -292,6 +286,11 @@ export default withMulti(
 
     .ui--Row-placeholder {
       opacity: 0.5;
+    }
+
+    .ui--Row-accountId,
+    .ui--Row-accountIndex {
+      font-family: monospace;
     }
   `,
   translate,
