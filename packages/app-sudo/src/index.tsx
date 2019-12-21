@@ -9,7 +9,7 @@ import { ComponentProps } from './types';
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
-import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
+import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
 import Sudo from './Sudo';
@@ -19,9 +19,9 @@ import translate from './translate';
 interface Props extends AppProps, I18nProps {
 }
 
-function App ({ basePath, t }: Props): React.ReactElement<Props> {
+function SudoApp ({ basePath, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const sudoKey = trackStream<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
+  const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
   const { allAccounts } = useAccounts();
   const [isMine, setIsMine] = useState(false);
 
@@ -80,4 +80,4 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(SudoApp);

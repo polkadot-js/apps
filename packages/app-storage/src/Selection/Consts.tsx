@@ -41,7 +41,7 @@ function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
           defaultValue={defaultValue}
           label={t('selected constant query')}
           onChange={setValue}
-          help={meta && meta.documentation && meta.documentation.join(' ')}
+          help={meta?.documentation.join(' ')}
         />
       </div>
       <div className='storage--actionrow-buttons'>

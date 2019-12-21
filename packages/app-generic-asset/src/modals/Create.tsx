@@ -29,10 +29,9 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
 
   return (
     <Modal
-      dimmer='inverted'
+      header={t('Register an Asset')}
       open
     >
-      <Modal.Header>{t('Register an Asset')}</Modal.Header>
       <Modal.Content>
         <InputNumber
           help={t('Enter the Asset ID of the token you want to manage.')}

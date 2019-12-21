@@ -7,6 +7,8 @@ import uiSettings from '@plasm/ui-settings';
 
 import chains from '@polkadot/ui-settings/defaults/chains';
 
+import chains from '@polkadot/ui-settings/defaults/chains';
+
 import { api } from './Api';
 
 const ALLOWED_CHAINS = chains.kusama;

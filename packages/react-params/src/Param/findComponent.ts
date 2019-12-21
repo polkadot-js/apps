@@ -15,16 +15,17 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
-import Data from './Data';
 import Enum from './Enum';
 import Hash256 from './Hash256';
 import Hash512 from './Hash512';
-import Moment from './Moment';
-import Proposal from './Proposal';
+import IdentityInfo from './IdentityInfo';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
+import Moment from './Moment';
+import Proposal from './Proposal';
 import Null from './Null';
 import Option from './Option';
+import Raw from './Raw';
 import Struct from './Struct';
 import Text from './Text';
 import Tuple from './Tuple';
@@ -45,10 +46,11 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
-  { c: Data, t: ['Data', 'Keys'] },
+  { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
+  { c: IdentityInfo, t: ['IdentityInfo'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },

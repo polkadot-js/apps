@@ -12,8 +12,9 @@ import { ActionItem, Icon, TreasuryProposal } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api';
 import { useAccounts } from '@polkadot/react-hooks';
 
-import translate from '../translate';
-import Approve from './Approve';
+import { useTranslation } from '../translate';
+import Submission from './Submission';
+import Voting from './Voting';
 
 const Approved = styled.h3`
   color: green;
@@ -40,38 +41,43 @@ function ProposalDisplay ({ isApproved, onPopulate, onRespond, proposal, proposa
   }
 
   return (
-    <ActionItem
-      accessory={
-        isApproved
-          ? (
-            <Approved>
-              <Icon name='check' />
-              {'  '}
-              {t('Approved')}
-            </Approved>
-          )
-          : hasAccounts
-            ? (
-              <Approve
-                proposalInfo={
-                  <>
-                    <h3>Proposal #{proposalId}</h3>
-                    <details>
-                      <TreasuryProposal proposal={proposal} />
-                    </details>
-                    <br />
-                  </>
-                }
-                proposalId={proposalId}
-                onSuccess={onRespond}
-              />
-            )
-            : null
-      }
-      idNumber={proposalId}
-    >
-      <TreasuryProposal proposal={proposal} />
-    </ActionItem>
+    <tr className={className}>
+      <td className='number top'>
+        <h1>{formatNumber(id)}</h1>
+      </td>
+      <td>
+        <AddressSmall value={proposal.proposer} />
+      </td>
+      <td className='top'>
+        <FormatBalance
+          label={<label>{t('bond')}</label>}
+          value={proposal.bond}
+        />
+      </td>
+      <td className='top'>
+        <AddressMini
+          label={t('beneficiary')}
+          value={proposal.beneficiary}
+        />
+      </td>
+      <td className='top'>
+        <FormatBalance
+          label={<label>{t('value')}</label>}
+          value={proposal.value}
+        />
+      </td>
+      <td className='top number together'>
+        <Submission
+          councilProposals={council}
+          id={id}
+          isDisabled={!isMember}
+        />
+        <Voting
+          councilProposals={council}
+          isDisabled={!isMember}
+        />
+      </td>
+    </tr>
   );
 }
 

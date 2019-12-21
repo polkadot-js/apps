@@ -24,6 +24,7 @@ export interface RawParamOnChangeValue {
 }
 export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
 export type RawParamOnEnter = () => void;
+export type RawParamOnEscape = () => void;
 
 export type RawParams = RawParam[];
 
@@ -32,6 +33,7 @@ export interface BaseProps extends BareProps {
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
+  onEscape?: RawParamOnEscape;
   type: TypeDef;
 }
 

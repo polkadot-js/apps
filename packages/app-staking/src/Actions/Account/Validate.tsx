@@ -8,7 +8,8 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { registry, withApi, withMulti } from '@polkadot/react-api';
+import { registry } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { createType } from '@polkadot/types';
 
@@ -74,7 +75,7 @@ class Validate extends TxComponent<Props, State> {
   // }
 
   public render (): React.ReactNode {
-    const { isOpen } = this.props;
+    const { isOpen, t } = this.props;
 
     if (!isOpen) {
       return null;
@@ -83,7 +84,7 @@ class Validate extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--Staking'
-        dimmer='inverted'
+        header={t('Set validator preferences')}
         open
         size='small'
       >
@@ -135,65 +136,60 @@ class Validate extends TxComponent<Props, State> {
     const defaultThreshold = validatorPrefs && (validatorPrefs as ValidatorPrefsTo145).unstakeThreshold && (validatorPrefs as ValidatorPrefsTo145).unstakeThreshold.toBn();
 
     return (
-      <>
-        <Modal.Header>
-          {t('Set validator preferences')}
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            defaultValue={stashId.toString()}
-            isDisabled
-            label={t('stash account')}
-          />
-          <InputAddress
-            className='medium'
-            defaultValue={controllerId}
-            isDisabled
-            label={t('controller account')}
-          />
-          {!isSubstrateV2 && (
-            <>
-              <InputNumber
-                autoFocus
-                bitLength={32}
-                className='medium'
-                defaultValue={defaultThreshold}
-                help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
-                isError={!!unstakeThresholdError}
-                label={t('automatic unstake threshold')}
-                onChange={this.onChangeThreshold}
-                onEnter={this.sendTx}
-              />
-              <InputValidationUnstakeThreshold
-                onError={this.onUnstakeThresholdError}
-                unstakeThreshold={unstakeThreshold}
-              />
-            </>
-          )}
-          {
-            hasCommission
-              ? <InputNumber
-                className='medium'
-                help={t('The percentage reward (0-100) that should be applied for the validator')}
-                isZeroable
-                label={t('reward commission percentage')}
-                maxValue={MAX_COMM}
-                onChange={this.onChangeCommission}
-                onEnter={this.sendTx}
-              />
-              : <InputBalance
-                className='medium'
-                defaultValue={(validatorPrefs as ValidatorPrefsTo196)?.validatorPayment?.toBn()}
-                help={t('Amount taken up-front from the reward by the validator before splitting the remainder between themselves and the nominators')}
-                isZeroable
-                label={t('validator payment')}
-                onChange={this.onChangePayment}
-                onEnter={this.sendTx}
-              />
-          }
-        </Modal.Content>
-      </>
+      <Modal.Content className='ui--signer-Signer-Content'>
+        <InputAddress
+          className='medium'
+          defaultValue={stashId.toString()}
+          isDisabled
+          label={t('stash account')}
+        />
+        <InputAddress
+          className='medium'
+          defaultValue={controllerId}
+          isDisabled
+          label={t('controller account')}
+        />
+        {!isSubstrateV2 && (
+          <>
+            <InputNumber
+              autoFocus
+              bitLength={32}
+              className='medium'
+              defaultValue={defaultThreshold}
+              help={t('The number of time this validator can get slashed before being automatically unstaked (maximum of 10 allowed)')}
+              isError={!!unstakeThresholdError}
+              label={t('automatic unstake threshold')}
+              onChange={this.onChangeThreshold}
+              onEnter={this.sendTx}
+            />
+            <InputValidationUnstakeThreshold
+              onError={this.onUnstakeThresholdError}
+              unstakeThreshold={unstakeThreshold}
+            />
+          </>
+        )}
+        {
+          hasCommission
+            ? <InputNumber
+              className='medium'
+              help={t('The percentage reward (0-100) that should be applied for the validator')}
+              isZeroable
+              label={t('reward commission percentage')}
+              maxValue={MAX_COMM}
+              onChange={this.onChangeCommission}
+              onEnter={this.sendTx}
+            />
+            : <InputBalance
+              className='medium'
+              defaultValue={(validatorPrefs as ValidatorPrefsTo196)?.validatorPayment?.toBn()}
+              help={t('Amount taken up-front from the reward by the validator before splitting the remainder between themselves and the nominators')}
+              isZeroable
+              label={t('validator payment')}
+              onChange={this.onChangePayment}
+              onEnter={this.sendTx}
+            />
+        }
+      </Modal.Content>
     );
   }
 

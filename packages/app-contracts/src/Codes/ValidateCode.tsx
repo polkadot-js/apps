@@ -9,7 +9,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 import { InfoForInput } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 

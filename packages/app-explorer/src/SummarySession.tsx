@@ -5,9 +5,9 @@
 import { DerivedSessionInfo } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CardSummary } from '@polkadot/react-components';
-import { withCalls } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import translate from './translate';
 import { formatNumber } from '@polkadot/util';
@@ -69,16 +69,20 @@ function renderEra ({ sessionInfo, t, withEra = true }: Props): React.ReactNode 
 }
 
 function SummarySession (props: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const sessionInfo = useCall<DerivedSessionInfo>(api.derive.session.info, []);
+  const [expanded, setExpanded] = useState<Props>(props);
+
+  useEffect((): void => {
+    setExpanded({ ...props, sessionInfo });
+  }, [props, sessionInfo]);
+
   return (
     <>
-      {renderSession(props)}
-      {renderEra(props)}
+      {renderSession(expanded)}
+      {renderEra(expanded)}
     </>
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['derive.session.info', { propName: 'sessionInfo' }]
-  )(SummarySession)
-);
+export default translate(SummarySession);

@@ -7,7 +7,8 @@ import { Call, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
-import { withCalls, withMulti, registry } from '@polkadot/react-api';
+import { registry } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { createType } from '@polkadot/types';
@@ -15,6 +16,7 @@ import { createType } from '@polkadot/types';
 import translate from '../translate';
 
 interface Props extends TxModalProps, ApiProps {
+  isMember: boolean;
   memberCount: number;
 }
 
@@ -69,11 +71,12 @@ class Propose extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
+    const { isMember, t } = this.props;
 
     return (
       <Button.Group>
         <Button
+          isDisabled={!isMember}
           isPrimary
           label={t('Propose a council motion')}
           icon='add'

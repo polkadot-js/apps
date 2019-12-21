@@ -21,7 +21,7 @@ import translate from './translate';
 // define our internal types
 interface Props extends AppProps, I18nProps {}
 
-function App ({ className }: Props): React.ReactElement<Props> {
+function TemplateApp ({ className }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
 
   return (
@@ -35,4 +35,4 @@ function App ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(TemplateApp);

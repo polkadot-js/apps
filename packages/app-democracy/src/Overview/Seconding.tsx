@@ -33,11 +33,10 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
     <>
       {isSecondingOpen && (
         <Modal
-          dimmer='inverted'
+          header={t('Second proposal')}
           open
           size='small'
         >
-          <Modal.Header>{t('Second proposal')}</Modal.Header>
           <Modal.Content>
             <InputAddress
               help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
@@ -62,7 +61,7 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
                 isPrimary
                 label={t('Second')}
                 icon='sign-in'
-                onClick={_toggleSeconding}
+                onStart={_toggleSeconding}
                 params={[proposalId]}
                 tx='democracy.second'
               />
@@ -70,14 +69,12 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
           </Modal.Actions>
         </Modal>
       )}
-      <div className='ui--Row-buttons'>
-        <Button
-          isPrimary
-          label={t('Second proposal')}
-          icon='toggle off'
-          onClick={_toggleSeconding}
-        />
-      </div>
+      <Button
+        isPrimary
+        label={t('Second')}
+        icon='toggle off'
+        onClick={_toggleSeconding}
+      />
     </>
   );
 }

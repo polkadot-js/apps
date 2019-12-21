@@ -10,7 +10,7 @@ import React from 'react';
 import { Route, Switch, RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
@@ -34,7 +34,7 @@ interface State {
   updated: number;
 }
 
-class App extends React.PureComponent<Props, State> {
+class ContractsApp extends React.PureComponent<Props, State> {
   public state: State = {
     constructorIndex: 0,
     hasContracts: false,
@@ -145,7 +145,7 @@ class App extends React.PureComponent<Props, State> {
 }
 
 export default withMulti(
-  withRouter(App),
+  withRouter(ContractsApp),
   translate,
   withObservable(keyring.accounts.subject, { propName: 'accounts' }),
   withObservable(keyring.contracts.subject, { propName: 'contracts' })

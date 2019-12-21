@@ -10,7 +10,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React from 'react';
 import { Button, Extrinsic, InputAddress, TxButton, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { BalanceFree } from '@polkadot/react-query';
 
 import translate from './translate';

@@ -23,6 +23,7 @@ interface Props extends BareProps {
   maxValue?: BN;
   onChange?: (value?: BN) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
   placeholder?: string;
   value?: BN | string;
   withEllipsis?: boolean;
@@ -32,7 +33,7 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isZeroable, label, labelExtra, maxValue, onChange, onEnter, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const defaultValue = inDefault
     ? formatBalance(inDefault, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '')
     : inDefault;
@@ -53,6 +54,7 @@ function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, is
       maxValue={maxValue}
       onChange={onChange}
       onEnter={onEnter}
+      onEscape={onEscape}
       placeholder={placeholder}
       style={style}
       value={value}

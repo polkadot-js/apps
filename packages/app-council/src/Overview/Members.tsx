@@ -8,78 +8,38 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
-import { Columar, Column } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Candidate from './Candidate';
-import Member from './Member';
 
 interface Props extends I18nProps, ComponentProps {
   allVotes?: Record<string, AccountId[]>;
+  className?: string;
 }
 
-function Members ({ allVotes = {}, electionsInfo: { candidates, members, runnersUp }, t }: Props): React.ReactElement<Props> {
+function Members ({ allVotes = {}, className, electionsInfo: { members }, t }: Props): React.ReactElement<Props> {
   return (
-    <Columar>
-      <Column
-        emptyText={t('No members found')}
-        headerText={t('members')}
-      >
-        {members.map(([accountId]): React.ReactNode => (
-          <Member
-            address={accountId}
-            key={accountId.toString()}
-            voters={allVotes[accountId.toString()]}
-          />
-        ))}
-      </Column>
-      <Column
-        emptyText={t('No candidates found')}
-        headerText={t('candidates')}
-      >
-        {(!!candidates.length || !!runnersUp.length) && (
-          <>
-            {runnersUp.map(([accountId]): React.ReactNode => (
-              <Candidate
-                address={accountId}
-                isRunnerUp
-                key={accountId.toString()}
-                voters={allVotes[accountId.toString()]}
-              />
-            ))}
-            {candidates.map((accountId): React.ReactNode => (
-              <Candidate
-                address={accountId}
-                key={accountId.toString()}
-                voters={allVotes[accountId.toString()]}
-              />
-            ))}
-          </>
-        )}
-      </Column>
-    </Columar>
+    <div className={className}>
+      {members.length
+        ? (
+          <Table>
+            <Table.Body>
+              {members.map(([accountId, balance]): React.ReactNode => (
+                <Candidate
+                  address={accountId}
+                  balance={balance}
+                  key={accountId.toString()}
+                  voters={allVotes[accountId.toString()]}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('No members found')
+      }
+    </div>
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.electionsPhragmen.votesOf', {
-      propName: 'allVotes',
-      transform: ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> =>
-        voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
-          casted[index].forEach((candidate): void => {
-            const address = candidate.toString();
-
-            if (!result[address]) {
-              result[address] = [];
-            }
-
-            result[address].push(voter);
-          });
-
-          return result;
-        }, {})
-    }]
-  )(Members)
-);
+export default translate(Members);

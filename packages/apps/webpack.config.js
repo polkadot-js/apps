@@ -116,7 +116,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
               loader: require.resolve('url-loader'),
               options: {
                 limit: 10000,
-                name: 'static/[name].[hash:8].[ext]'
+                name: 'static/[name].[hash:8].[ext]',
+                esModule: false
               }
             }
           ]
@@ -127,7 +128,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             {
               loader: require.resolve('file-loader'),
               options: {
-                name: 'static/[name].[hash:8].[ext]'
+                name: 'static/[name].[hash:8].[ext]',
+                esModule: false
               }
             }
           ]

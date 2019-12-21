@@ -33,7 +33,7 @@ interface Props extends BareProps {
 }
 
 function loadTags (): string[] {
-  return store.get('tags') || ['Default'];
+  return (store.get('tags') || ['Default']).sort();
 }
 
 function valueToOption (value: string): Option {
@@ -44,20 +44,21 @@ const tags = loadTags();
 const options = tags.map(valueToOption);
 
 function saveTags (tags: string[]): void {
-  store.set('tags', tags);
+  store.set('tags', tags.sort());
 }
 
 function onAddTag (value: string): void {
   tags.push(value);
+
   options.push(valueToOption(value));
 
   saveTags(tags);
 }
 
-export default function InputTags ({ className, defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
+export default function InputTags ({ allowAdd = true, className, defaultValue, help, isDisabled, isError, label, onBlur, onChange, onClose, placeholder, searchInput, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
-      allowAdd={!isDisabled}
+      allowAdd={allowAdd && !isDisabled}
       className={className}
       defaultValue={defaultValue}
       help={help}

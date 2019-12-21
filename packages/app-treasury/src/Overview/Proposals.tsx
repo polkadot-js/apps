@@ -3,87 +3,64 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProposalIndex } from '@polkadot/types/interfaces';
+import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { withCalls, withMulti } from '@polkadot/react-api';
-import { Column } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
+import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 
 import Proposal from './Proposal';
 import translate from '../translate';
 
 interface Props extends I18nProps {
+  proposals?: DerivedTreasuryProposal[];
   isApprovals?: boolean;
-  treasury_approvals?: BN[];
-  treasury_proposalCount?: BN;
 }
 
-function ProposalsBase ({ isApprovals = false, treasury_approvals, treasury_proposalCount, t }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const { allAccounts } = useAccounts();
+  const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
+  const [isMember, setIsMember] = useState(false);
   const history = useHistory();
-  const [isEmpty, setIsEmpty] = useState(true);
-  const [proposalIndices, setProposalIndices] = useState<BN[]>([]);
 
   useEffect((): void => {
-    let proposalIndices: BN[] = [];
-
-    if (isApprovals) {
-      proposalIndices = treasury_approvals || [];
-    } else if (treasury_proposalCount && treasury_approvals) {
-      for (let i = 0; i < treasury_proposalCount.toNumber(); i++) {
-        if (!treasury_approvals.find((index): boolean => index.eqn(i))) {
-          proposalIndices.push(new BN(i));
-        }
-      }
+    if (allAccounts && members) {
+      setIsMember(
+        members
+          .map(([accountId]): string => accountId.toString())
+          .some((accountId): boolean => allAccounts.includes(accountId))
+      );
     }
-
-    setProposalIndices(proposalIndices);
-  }, [isApprovals, treasury_approvals, treasury_approvals]);
+  }, [allAccounts, members]);
 
   const _onRespond = (): void => {
     history.push('/council/motions');
   };
-  const _onPopulateProposal = (): void => {
-    isEmpty && setIsEmpty(false);
-  };
 
   return (
-    <>
-      <Column
-        emptyText={isApprovals ? t('No approved proposals') : t('No pending proposals')}
-        headerText={isApprovals ? t('Approved') : t('Proposals')}
-        isEmpty={isEmpty}
-      >
-        {proposalIndices.map((proposalId): React.ReactNode => (
-          <Proposal
-            isApproved={isApprovals}
-            onPopulate={_onPopulateProposal}
-            onRespond={_onRespond}
-            proposalId={proposalId.toString()}
-            key={proposalId.toString()}
-          />
-        ))}
-      </Column>
-    </>
+    <div className={className}>
+      <h1>{isApprovals ? t('Approved') : t('Proposals')}</h1>
+      {!(proposals?.length) && (
+        isApprovals ? t('No approved proposals') : t('No pending proposals')
+      )}
+      <Table>
+        <Table.Body>
+          {proposals?.map((proposal): React.ReactNode => (
+            <Proposal
+              isMember={isMember}
+              onRespond={_onRespond}
+              proposal={proposal}
+              key={proposal.id.toString()}
+            />
+          ))}
+        </Table.Body>
+      </Table>
+    </div>
   );
 }
 
-const Proposals = withMulti(
-  ProposalsBase,
-  translate,
-  withCalls<Props>(
-    ['query.treasury.approvals', {
-      transform: (value: ProposalIndex[]): BN[] =>
-        value.map((proposalId): BN => new BN(proposalId))
-    }],
-    'query.treasury.proposalCount'
-  )
-);
-
-export default Proposals;
-
-export function Approvals (): React.ReactElement<{}> {
-  return <Proposals isApprovals />;
-}
+export default translate(ProposalsBase);

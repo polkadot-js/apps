@@ -136,5 +136,19 @@
   "The percentage reward (0-100) that should be applied for the validator": "The percentage reward (0-100) that should be applied for the validator",
   "reward commission percentage": "reward commission percentage",
   "validator payment": "validator payment",
-  "Validator info not available": "Validator info not available"
+  "Validator info not available": "Validator info not available",
+  "Waiting": "Waiting",
+  "own stake": "own stake",
+  "other stake": "other stake",
+  "commission": "commission",
+  "points": "points",
+  "last #": "last #",
+  "total stake": "total stake",
+  "payout (est.)": "payout (est.)",
+  "Nominating {{count}}": "Nominating {{count}}",
+  "Nominating ({{count}})": "Nominating ({{count}})",
+  "Filter available candidates based on name, address or short account index.": "Filter available candidates based on name, address or short account index.",
+  "filter candidates": "filter candidates",
+  "Session Key": "Session Key",
+  "No funds staked yet. Bond funds to validate or nominate a validator.": "No funds staked yet. Bond funds to validate or nominate a validator."
 }

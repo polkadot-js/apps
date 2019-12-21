@@ -37,7 +37,7 @@ interface FileState {
 
 const BYTE_STR_0 = '0'.charCodeAt(0);
 const BYTE_STR_X = 'x'.charCodeAt(0);
-const NOOP = (): void => {};
+const NOOP = (): void => undefined;
 
 function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
   const data = new Uint8Array(result);

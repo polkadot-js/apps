@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance, EventRecord, Hash, Header, StorageChangeSet } from '@polkadot/types/interfaces';
-import { Slash, SessionRewards } from '@polkadot/react-hooks/types';
+import { Slash, SessionRewards } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
-import { useApi, useCacheKey } from '@polkadot/react-hooks';
+import { useApi, useCacheKey, useIsMountedRef } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { bnMax, u8aToU8a } from '@polkadot/util';
 
@@ -22,53 +22,58 @@ interface Serialized {
   blockHash: string;
   blockNumber: string;
   isEventsEmpty: boolean;
+  parentHash: string;
   reward: string;
   sessionIndex: string;
   slashes: SerializedSlash[];
+  treasury: string;
 }
 
 const MAX_BLOCKS = 2500;
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
-  let hasSome = false;
-  let keepAll = true;
+  let keepAll = false;
 
   return sessions
-    .map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): SessionRewards => ({
+    .map(({ blockHash, blockNumber, isEventsEmpty, parentHash, reward, sessionIndex, slashes, treasury }): SessionRewards => ({
       blockHash: createType(registry, 'Hash', blockHash),
       blockNumber: createType(registry, 'BlockNumber', blockNumber),
       isEventsEmpty,
+      parentHash: createType(registry, 'Hash', parentHash),
       reward: createType(registry, 'Balance', reward),
       sessionIndex: createType(registry, 'SessionIndex', sessionIndex),
       slashes: slashes.map(({ accountId, amount }): Slash => ({
         accountId: createType(registry, 'AccountId', accountId),
         amount: createType(registry, 'Balance', amount)
-      }))
+      })),
+      treasury: createType(registry, 'Balance', treasury)
     }))
-    .filter(({ isEventsEmpty }): boolean => {
-      if (!isEventsEmpty) {
-        // we first see if we have some data up to this point (we may not, i.e. non-archive)
-        hasSome = true;
-      } else if (hasSome) {
-        // if data is followed by empty, drop everything from here on
-        keepAll = false;
+    .filter(({ parentHash }): boolean => !parentHash.isEmpty)
+    .reverse()
+    // we drop everything before the last reward
+    .filter(({ reward }): boolean => {
+      if (reward.gtn(0)) {
+        keepAll = true;
       }
 
       return keepAll;
-    });
+    })
+    .reverse();
 }
 
 function toJSON (sessions: SessionRewards[], maxSessions: number): Serialized[] {
-  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, reward, sessionIndex, slashes }): Serialized => ({
+  return sessions.map(({ blockHash, blockNumber, isEventsEmpty, parentHash, reward, sessionIndex, slashes, treasury }): Serialized => ({
     blockHash: blockHash.toHex(),
     blockNumber: blockNumber.toHex(),
     isEventsEmpty,
+    parentHash: parentHash.toHex(),
     reward: reward.toHex(),
     sessionIndex: sessionIndex.toHex(),
     slashes: slashes.map(({ accountId, amount }): SerializedSlash => ({
       accountId: accountId.toString(),
       amount: amount.toHex()
-    }))
+    })),
+    treasury: treasury.toHex()
   })).slice(-maxSessions);
 }
 
@@ -108,10 +113,10 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
         amount: amount as any
       }))
   );
-  const rewards: (Balance | undefined)[] = events.map((info): Balance | undefined => {
+  const rewards: [Balance | undefined, Balance | undefined][] = events.map((info): [Balance | undefined, Balance | undefined] => {
     const rewards = info.filter(({ event: { method } }): boolean => method === 'Reward');
 
-    return rewards[0]?.event?.data[0] as Balance;
+    return [rewards[0]?.event?.data[0] as Balance, rewards[0]?.event?.data[1] as Balance];
   });
 
   // For old v1, the query results have empty spots (subsequently fixed in v2),
@@ -122,16 +127,19 @@ async function loadSome (api: ApiPromise, fromHash: Hash, toHash: Hash): Promise
       blockHash: headers[index].hash,
       blockNumber: headers[index].number.unwrap(),
       isEventsEmpty: events[index].length === 0,
-      reward: rewards[index] || createType(registry, 'Balance'),
+      parentHash: headers[index].parentHash,
+      reward: rewards[index][0] || createType(registry, 'Balance'),
       sessionIndex: createType(registry, 'SessionIndex', u8aToU8a(
         value.isSome ? value.unwrap() : new Uint8Array([])
       )),
-      slashes: slashes[index]
+      slashes: slashes[index],
+      treasury: rewards[index][1] || createType(registry, 'Balance')
     }));
 }
 
 export default function useSessionRewards (maxSessions: number): SessionRewards[] {
   const { api } = useApi();
+  const mounted = useIsMountedRef();
   const [getCache, setCache] = useCacheKey<Serialized[]>('hooks:sessionSlashes');
   const [filtered, setFiltered] = useState<SessionRewards[]>([]);
 
@@ -160,12 +168,14 @@ export default function useSessionRewards (maxSessions: number): SessionRewards[
           toNumber = fromNumber;
           fromNumber = bnMax(toNumber.subn(MAX_BLOCKS), new BN(1));
 
-          setCache(toJSON(workQueue, maxSessionsStore));
-          setFiltered(workQueue.slice(-maxSessions));
+          if (mounted.current) {
+            setCache(toJSON(workQueue, maxSessionsStore));
+            setFiltered(workQueue.slice(-maxSessions));
+          }
 
           const lastNumber = workQueue[workQueue.length - 1]?.blockNumber;
 
-          if (!lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
+          if (!mounted.current || !lastNumber || fromNumber.eqn(1) || ((workQueue.length >= maxSessionsStore) && fromNumber.lt(savedNumber || lastNumber))) {
             break;
           }
         }

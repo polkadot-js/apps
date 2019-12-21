@@ -21,7 +21,7 @@ const hidden = uiSettings.uiMode === 'full'
   ? []
   : ['developer'];
 
-function App (props: Props): React.ReactElement<Props> {
+function SettingsApp (props: Props): React.ReactElement<Props> {
   const _renderDeveloper = (): React.ReactNode => {
     return (
       <Developer {...props} />
@@ -57,4 +57,4 @@ function App (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(SettingsApp);

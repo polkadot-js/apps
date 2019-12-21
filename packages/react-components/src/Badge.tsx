@@ -9,31 +9,27 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  hover: React.ReactNode;
+  hover?: React.ReactNode;
   info: React.ReactNode;
+  isInline?: boolean;
+  isSmall?: boolean;
   isTooltip?: boolean;
-  type: 'online' | 'offline' | 'next' | 'runnerup' | 'selected';
+  onClick?: () => void;
+  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray';
 }
 
 let badgeId = 0;
 
-function Badge ({ className, hover, info, isTooltip, type }: Props): React.ReactElement<Props> | null {
+function Badge ({ className, hover, info, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
   const [key] = useState(`${Date.now()}-${badgeId++}`);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const _toggleOpen = (): void => setIsOpen(!isOpen);
 
   return (
     <div
-      className={`ui--Badge ${isOpen && 'expand'} ${isTooltip && 'tooltip'} ${type} ${className}`}
-      onClick={
-        isTooltip
-          ? _toggleOpen
-          : undefined
-      }
+      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
       data-for={`badge-status-${key}`}
       data-tip={true}
       data-tip-disable={!isTooltip}
+      onClick={onClick}
     >
       <div className='badge'>
         {info}
@@ -41,10 +37,12 @@ function Badge ({ className, hover, info, isTooltip, type }: Props): React.React
       <div className='detail'>
         {hover}
       </div>
-      <Tooltip
-        trigger={`badge-status-${key}`}
-        text={hover}
-      />
+      {hover && (
+        <Tooltip
+          trigger={`badge-status-${key}`}
+          text={hover}
+        />
+      )}
     </div>
   );
 }
@@ -54,44 +52,84 @@ export default styled(Badge)`
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
   cursor: help;
-  display: flex;
   font-size: 12px;
   height: 22px;
-  justify-content: center;
-  margin-bottom: 0.25rem;
   padding: 0 4px;
   text-align: center;
   width: 22px;
 
-  &.next {
+  i.icon {
+    cursor: inherit !important;
+    margin: 0;
+    width: 1em;
+  }
+
+  &.isClickable {
+    cursor: pointer;
+  }
+
+  &.isSmall {
+    box-shadow: none;
+    font-size: 10px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0;
+    width: 16px;
+  }
+
+  &:not(.isInline) {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+
+  &.isInline {
+    display: inline-block;
+    margin-right: 0.25rem;
+  }
+
+  &.next,
+  &.blue {
     background: steelblue;
   }
 
-  &.offline {
+  &.offline,
+  &.counter {
     background: red;
   }
 
-  &.runnerup {
+  &.counter {
+    margin: 0 0.5rem;
+    vertical-align: middle;
+  }
+
+  &.gray {
+    background: #eee;
+    color: #aaa;
+  }
+
+  &.runnerup,
+  &.brown {
     background: brown;
   }
 
   &.online,
-  &.selected {
+  &.selected,
+  &.green {
     background: green;
   }
 
   & > * {
     line-height: 22px;
     overflow: hidden;
-    transition: all ease 0.25;
   }
 
-  .badge {
-    font-weight: bold;
-    width: auto;
+  &.isSmall > * {
+    line-height: 16px;
   }
 
   .detail {
+    height: 0;
     width: 0;
   }
 

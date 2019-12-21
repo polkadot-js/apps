@@ -23,6 +23,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onChange: (method?: Call) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
   withLabel?: boolean;
 }
 
@@ -33,7 +34,7 @@ function getParams ({ meta }: CallFunction): { name: string; type: TypeDef }[] {
   }));
 }
 
-export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, withLabel }: Props): React.ReactElement<Props> {
+export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [extrinsic, setCall] = useState<{ fn: CallFunction; params: { name: string; type: TypeDef }[] }>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
 
@@ -76,12 +77,13 @@ export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, i
         label={label}
         onChange={_onChangeMethod}
         withLabel={withLabel}
-        help={meta && meta.documentation && meta.documentation.join(' ')}
+        help={meta?.documentation.join(' ')}
       />
       <Params
         key={`${section}.${method}:params` /* force re-render on change */}
         onChange={setValues}
         onEnter={onEnter}
+        onEscape={onEscape}
         overrides={paramComponents}
         params={params}
       />

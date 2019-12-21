@@ -6,30 +6,32 @@
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyringOptions } from '@polkadot/ui-keyring/options/types';
 import { ActionStatus, QueueStatus, QueueTx, QueueAction$Add } from '@polkadot/react-components/Status/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect } from 'react';
-import keyringOption from '@polkadot/ui-keyring/options';
 import { Status as StatusDisplay } from '@polkadot/react-components';
-import { withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   optionsAll?: KeyringOptions;
   queueAction: QueueAction$Add;
   stqueue: QueueStatus[];
-  system_events?: EventRecord[];
   txqueue: QueueTx[];
 }
 
 let prevEventHash: string;
 
-function Status ({ optionsAll, queueAction, stqueue, system_events, t, txqueue }: Props): React.ReactElement<Props> {
+export default function Status ({ optionsAll, queueAction, stqueue, txqueue }: Props): React.ReactElement<Props> {
+  const { api, isApiReady } = useApi();
+  const { allAccounts } = useAccounts();
+  const { t } = useTranslation();
+  const events = useCall<EventRecord[]>(isApiReady ? api.query.system?.events : undefined, []);
+
   useEffect((): void => {
-    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(system_events)));
+    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(events)));
 
     if (!optionsAll || eventHash === prevEventHash) {
       return;
@@ -37,13 +39,12 @@ function Status ({ optionsAll, queueAction, stqueue, system_events, t, txqueue }
 
     prevEventHash = eventHash;
 
-    const addresses = optionsAll.account.map((account): string | null => account.value);
-    const statusses = system_events && system_events
+    const statusses = events && events
       .map(({ event: { data, method, section } }): ActionStatus | null => {
         if (section === 'balances' && method === 'Transfer') {
           const account = data[1].toString();
 
-          if (addresses.includes(account)) {
+          if (allAccounts.includes(account)) {
             return {
               account,
               action: `${section}.${method}`,
@@ -70,7 +71,7 @@ function Status ({ optionsAll, queueAction, stqueue, system_events, t, txqueue }
       .filter((item): boolean => !!item) as ActionStatus[];
 
     statusses && statusses.length && queueAction(statusses);
-  }, [system_events]);
+  }, [events]);
 
   return (
     <StatusDisplay
@@ -79,10 +80,3 @@ function Status ({ optionsAll, queueAction, stqueue, system_events, t, txqueue }
     />
   );
 }
-
-export default withMulti(
-  Status,
-  translate,
-  withCalls<Props>('query.system.events'),
-  withObservable(keyringOption.optionsSubject, { propName: 'optionsAll' })
-);

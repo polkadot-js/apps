@@ -3,24 +3,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
-import { withCalls } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import translate from '../../translate';
 
-interface Props extends ApiProps, I18nProps {
-  allBalances?: DerivedBalances;
+interface Props extends I18nProps {
   accountId: string | null;
   onError: (error: string | null) => void;
   value?: BN | null;
 }
 
-function ValidateAmount ({ allBalances, onError, value, t }: Props): React.ReactElement<Props> | null {
+function ValidateAmount ({ accountId, onError, value, t }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
@@ -51,11 +51,4 @@ function ValidateAmount ({ allBalances, onError, value, t }: Props): React.React
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['derive.balances.all', {
-      paramName: 'accountId',
-      propName: 'allBalances'
-    }]
-  )(ValidateAmount)
-);
+export default translate(ValidateAmount);
