@@ -70,11 +70,4 @@ function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['derive.balances.all', {
-      paramName: 'accountId',
-      propName: 'allBalances'
-    }]
-  )(VoteValue)
-);
+export default translate(VoteValue);

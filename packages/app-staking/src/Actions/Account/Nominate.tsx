@@ -85,34 +85,6 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
           onChange={setSelection}
           value={selection}
         />
-        {shortlist.length !== 0 && (
-          <div className='shortlist'>
-            {shortlist.map((address): React.ReactNode => {
-              const isAye = next?.includes(address);
-              const _onChange = (): void => _onToggleNominee(address);
-
-              return (
-                <AddressMini
-                  className={`candidate ${isAye ? 'isAye' : 'isNay'}`}
-                  key={address}
-                  value={address}
-                >
-                  <div className='candidate-right'>
-                    <Toggle
-                      label={
-                        isAye
-                          ? t('Aye')
-                          : t('Nay')
-                      }
-                      onChange={_onChange}
-                      value={isAye}
-                    />
-                  </div>
-                </AddressMini>
-              );
-            })}
-          </div>
-        )}
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>

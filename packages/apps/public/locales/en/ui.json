@@ -767,5 +767,12 @@
   "registrar index": "",
   "invalid/unknown registrar account": "",
   "judgement": "",
-  "Judge": ""
+  "Judge": "",
+  "Change operator": "",
+  "The account you will change operator authorship.": "",
+  "change from account": "",
+  "Select a the operator address you want to change to.": "",
+  "new operator address": "",
+  "ChangeOperator": "",
+  "operator": ""
 }

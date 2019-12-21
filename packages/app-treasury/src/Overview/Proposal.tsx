@@ -2,43 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
+import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
 
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { Option } from '@polkadot/types';
-import { ActionItem, Icon, TreasuryProposal } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
-import { useAccounts } from '@polkadot/react-hooks';
+import React from 'react';
+import { AddressMini, AddressSmall } from '@polkadot/react-components';
+import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Submission from './Submission';
 import Voting from './Voting';
 
-const Approved = styled.h3`
-  color: green;
-  margin: 0;
-`;
-
-interface Props extends I18nProps {
-  isApproved: boolean;
-  proposal?: TreasuryProposalType | null;
-  proposalId: string;
-  onPopulate: () => void;
+interface Props {
+  className?: string;
+  isMember: boolean;
+  proposal: DerivedTreasuryProposal;
   onRespond: () => void;
 }
 
-function ProposalDisplay ({ isApproved, onPopulate, onRespond, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
-  const { hasAccounts } = useAccounts();
-
-  useEffect((): void => {
-    onPopulate();
-  }, [proposal]);
-
-  if (!proposal) {
-    return null;
-  }
+export default function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal } }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
 
   return (
     <tr className={className}>
@@ -80,16 +63,3 @@ function ProposalDisplay ({ isApproved, onPopulate, onRespond, proposal, proposa
     </tr>
   );
 }
-
-export default withMulti(
-  ProposalDisplay,
-  translate,
-  withCalls<Props>(
-    ['query.treasury.proposals', {
-      paramName: 'proposalId',
-      propName: 'proposal',
-      transform: (value: Option<TreasuryProposalType>): TreasuryProposalType | null =>
-        value.unwrapOr(null)
-    }]
-  )
-);
