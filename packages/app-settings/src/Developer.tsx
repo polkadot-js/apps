@@ -7,7 +7,7 @@ import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import React, { useEffect, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { getTypeRegistry } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { Button, Editor, InputFile } from '@polkadot/react-components';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
@@ -96,7 +96,7 @@ function Developer ({ className, onStatusChange, t }: Props): React.ReactElement
   };
   const _saveDeveloper = (): void => {
     try {
-      getTypeRegistry().register(types);
+      registry.register(types);
       store.set('types', types);
       setIsTypesValid(true);
       onStatusChange({

@@ -6,6 +6,7 @@ import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
 import React, { useEffect, useState } from 'react';
+import { registry } from '@polkadot/react-api';
 import { createType, getTypeDef } from '@polkadot/types';
 
 import Params from '../';
@@ -17,10 +18,14 @@ export default function Tuple (props: Props): React.ReactElement<Props> {
   const { className, isDisabled, label, onChange, style, type, withLabel } = props;
 
   useEffect((): void => {
-    const rawType = createType(type.type as any).toRawType();
-    const typeDef = getTypeDef(rawType);
+    try {
+      const rawType = createType(registry, type.type as any).toRawType();
+      const typeDef = getTypeDef(rawType);
 
-    setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
+      setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
+    } catch (e) {
+      setParams(((Array.isArray(type.sub) ? type.sub : [type.sub]) as TypeDef[]).map((subType): ParamDef => ({ name: subType.name, type: subType })));
+    }
   }, [type]);
 
   if (isDisabled) {

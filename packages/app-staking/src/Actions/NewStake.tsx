@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../translate';
 import detectUnsafe from '../unsafeChains';
@@ -58,13 +58,10 @@ class NewStake extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--Bonding'
-        dimmer='inverted'
+        header={t('Bonding Preferences')}
         open
         size='small'
       >
-        <Modal.Header>
-          {t('Bonding Preferences')}
-        </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           <InputAddress
             className='medium'

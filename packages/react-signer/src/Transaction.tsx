@@ -7,7 +7,7 @@ import { QueueTx } from '@polkadot/react-components/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { GenericCall } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { Call, InputAddress, Modal } from '@polkadot/react-components';
 
 import Checks from './Checks';
@@ -17,26 +17,23 @@ interface Props extends I18nProps {
   children?: React.ReactNode;
   hideDetails?: boolean;
   isSendable: boolean;
+  onError: () => void;
   tip?: BN;
   value: QueueTx;
 }
 
-function Transaction ({ children, hideDetails, isSendable, value: { accountId, extrinsic, isUnsigned }, t, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ children, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, t, tip }: Props): React.ReactElement<Props> | null {
   if (!extrinsic) {
     return null;
   }
 
-  const { meta, method, section } = GenericCall.findFunction(extrinsic.callIndex);
+  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
 
   return (
     <>
       <Modal.Header>
         {section}.{method}
-        <label><details><summary>{
-          meta && meta.documentation
-            ? meta.documentation.join(' ')
-            : ''
-        }</summary></details></label>
+        <label><details><summary>{meta?.documentation.join(' ') || t('Details')}</summary></details></label>
       </Modal.Header>
       <Modal.Content className='ui--signer-Signer-Content'>
         {!hideDetails && (
@@ -51,7 +48,10 @@ function Transaction ({ children, hideDetails, isSendable, value: { accountId, e
                 withLabel
               />
             )}
-            <Call value={extrinsic} />
+            <Call
+              onError={onError}
+              value={extrinsic}
+            />
             {!isUnsigned && (
               <Checks
                 accountId={accountId}

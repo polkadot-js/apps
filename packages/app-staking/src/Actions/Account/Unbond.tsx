@@ -12,7 +12,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
 import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withCalls, withApi, withMulti } from '@polkadot/react-api';
+import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
 
@@ -62,7 +62,7 @@ class Unbond extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--Unbond'
-        dimmer='inverted'
+        header={t('Unbond funds')}
         open
         size='small'
       >
@@ -98,37 +98,32 @@ class Unbond extends TxComponent<Props, State> {
     const { maxBalance } = this.state;
 
     return (
-      <>
-        <Modal.Header>
-          {t('Unbond funds')}
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            defaultValue={controllerId}
-            isDisabled
-            label={t('controller account')}
+      <Modal.Content className='ui--signer-Signer-Content'>
+        <InputAddress
+          className='medium'
+          defaultValue={controllerId}
+          isDisabled
+          label={t('controller account')}
+        />
+        <BalanceWrapper>
+          <AddressInfo
+            accountId={stashId}
+            withBalance={{
+              bonded: true
+            }}
           />
-          <BalanceWrapper>
-            <AddressInfo
-              accountId={stashId}
-              withBalance={{
-                bonded: true
-              }}
-            />
-          </BalanceWrapper>
-          <InputBalance
-            autoFocus
-            className='medium'
-            help={t('The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.')}
-            label={t('unbond amount')}
-            maxValue={maxBalance}
-            onChange={this.onChangeValue}
-            onEnter={this.sendTx}
-            withMax
-          />
-        </Modal.Content>
-      </>
+        </BalanceWrapper>
+        <InputBalance
+          autoFocus
+          className='medium'
+          help={t('The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.')}
+          label={t('unbond amount')}
+          maxValue={maxBalance}
+          onChange={this.onChangeValue}
+          onEnter={this.sendTx}
+          withMax
+        />
+      </Modal.Content>
     );
   }
 

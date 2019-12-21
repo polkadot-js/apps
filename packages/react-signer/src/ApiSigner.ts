@@ -8,6 +8,7 @@ import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polk
 import { Hash } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
+import { registry } from '@polkadot/react-api';
 import { ClassOf } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {
@@ -33,7 +34,7 @@ export default class ApiSigner implements Signer {
   }
 
   public update (id: number, result: Hash | SubmittableResult): void {
-    if (result instanceof ClassOf('Hash')) {
+    if (result instanceof ClassOf(registry, 'Hash')) {
       this._queueSetTxStatus(id, 'sent', result.toHex());
     } else {
       this._queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);

@@ -9,13 +9,13 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import BN from 'bn.js';
 import React from 'react';
 import keyring from '@polkadot/ui-keyring';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 
 import translate from './translate';
 import Button from './Button';
-import Dropdown from './Dropdown';
 import ProposedAction from './ProposedAction';
 import TxModal, { TxModalProps, TxModalState } from './TxModal';
+import VoteToggle from './VoteToggle';
 import { isTreasuryProposalVote } from './util';
 
 interface Props extends I18nProps, TxModalProps {
@@ -23,12 +23,12 @@ interface Props extends I18nProps, TxModalProps {
   hash?: string;
   idNumber: BN | number;
   isCouncil: boolean;
+  isDisabled?: boolean;
   proposal?: Proposal | null;
   preContent?: React.ReactNode;
 }
 
 interface State extends TxModalState {
-  voteOptions: { text: React.ReactNode; value: boolean }[];
   voteValue: boolean;
 }
 
@@ -63,14 +63,8 @@ class Voting extends TxModal<Props, State> {
   constructor (props: Props) {
     super(props);
 
-    const { t } = props;
-
     this.state = {
       ...this.defaultState,
-      voteOptions: [
-        { text: t('Aye, I approve'), value: true },
-        { text: t('Nay, I do not approve'), value: false }
-      ],
       voteValue: true
     };
   }
@@ -93,14 +87,10 @@ class Voting extends TxModal<Props, State> {
   }
 
   protected renderContent = (): React.ReactNode => {
-    const { t } = this.props;
-    const { voteOptions, voteValue } = this.state;
+    const { voteValue } = this.state;
 
     return (
-      <Dropdown
-        help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
-        label={t('record my vote as')}
-        options={voteOptions}
+      <VoteToggle
         onChange={this.onChangeVote}
         value={voteValue}
       />
@@ -108,11 +98,12 @@ class Voting extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { t } = this.props;
+    const { isDisabled, t } = this.props;
 
     return (
       <div className='ui--Row-buttons'>
         <Button
+          isDisabled={isDisabled}
           isPrimary
           label={t('Vote')}
           icon='check'

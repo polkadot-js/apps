@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2019 @polkadot/app-parachains authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -11,7 +10,7 @@ import styled from 'styled-components';
 import { Bytes, Option } from '@polkadot/types';
 import { Card, Static } from '@polkadot/react-components';
 import { styles as rowStyles } from '@polkadot/react-components/Row';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -19,11 +18,16 @@ import translate from '../translate';
 interface Props extends I18nProps {
   className?: string;
   paraId: BN;
-  parachains_heads?: string | null;
-  parachains_relayDispatchQueueSize?: [BN, BN];
 }
 
-function Parachain ({ className, paraId, parachains_heads, parachains_relayDispatchQueueSize, t }: Props): React.ReactElement<Props> {
+function Parachain ({ className, paraId, t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const heads = useCall<string | null>(api.query.parachains.heads, [paraId], {
+    transform: (heads: Option<Bytes>): string | null =>
+      heads.isSome ? heads.unwrap().toHex() : null
+  });
+  const relayDispatchQueueSize = useCall<[BN, BN]>(api.query.parachains.relayDispatchQueueSize, [paraId]);
+
   return (
     <Card className={className}>
       <div className='ui--Row'>
@@ -35,14 +39,14 @@ function Parachain ({ className, paraId, parachains_heads, parachains_relayDispa
         <Static
           help={t('the last heads of this parachain')}
           label={t('heads')}
-          value={parachains_heads || t('<unknown>')}
+          value={heads || t('<unknown>')}
         />
         <Static
           help={t('the relay dispatch queue size')}
           label={t('relay queue')}
           value={
-            parachains_relayDispatchQueueSize
-              ? formatNumber(parachains_relayDispatchQueueSize[0])
+            relayDispatchQueueSize
+              ? formatNumber(relayDispatchQueueSize[0])
               : '-'
           }
         />
@@ -51,21 +55,12 @@ function Parachain ({ className, paraId, parachains_heads, parachains_relayDispa
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Parachain)`
     ${rowStyles}
 
     .parachains--Item-header {
       margin-bottom: 1rem;
     }
-  `,
-  translate,
-  withCalls<Props>(
-    ['query.parachains.heads', {
-      paramName: 'paraId',
-      transform: (heads: Option<Bytes>): string | null =>
-        heads.isSome ? heads.unwrap().toHex() : null
-    }],
-    ['query.parachains.relayDispatchQueueSize', { paramName: 'paraId' }]
-  )
+  `
 );

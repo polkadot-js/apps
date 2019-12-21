@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { withApi } from '@polkadot/react-api';
+import { withApi } from '@polkadot/react-api/hoc';
 import { Button } from '@polkadot/react-components';
 import TxModal, { TxModalState as State, TxModalProps } from '@polkadot/react-components/TxModal';
 

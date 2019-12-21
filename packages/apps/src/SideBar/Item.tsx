@@ -4,26 +4,24 @@
 
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { Route } from '@polkadot/apps-routing/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
-import { Icon, Menu, Tooltip } from '@polkadot/react-components';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { ApiContext, withCalls, withMulti, withObservable } from '@polkadot/react-api';
+import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
 
+const DUMMY_COUNTER = (): number => 0;
+
 interface Props extends I18nProps {
   isCollapsed: boolean;
   onClick: () => void;
-  allAccounts?: SubjectInfo;
   route: Route;
-  sudoKey?: AccountId;
 }
 
 const disabledLog: Map<string, string> = new Map();
@@ -76,18 +74,16 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
-  const apiProps = useContext(ApiContext);
-  const [hasAccounts, setHasAccounts] = useState(false);
+function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, t, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+  const { allAccounts, hasAccounts } = useAccounts();
+  const apiProps = useApi();
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady ? apiProps.api.query.sudo?.key : undefined, []);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const count = useCounter();
 
   useEffect((): void => {
-    setHasAccounts(Object.keys(allAccounts || {}).length !== 0);
-  }, [allAccounts]);
-
-  useEffect((): void => {
-    setHasSudo(!!sudoKey && Object.keys(allAccounts || {}).some((address): boolean => sudoKey.eq(address)));
+    setHasSudo(!!sudoKey && allAccounts.some((address): boolean => sudoKey.eq(address)));
   }, [allAccounts, sudoKey]);
 
   useEffect((): void => {
@@ -102,6 +98,9 @@ function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, is
     <>
       <Icon name={icon} />
       <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+      {count !== 0 && (
+        <Badge isInline info={count} type='counter' />
+      )}
       <Tooltip
         offset={TOOLTIP_OFFSET}
         place='right'
@@ -143,11 +142,4 @@ function Item ({ allAccounts, route: { Modal, display, i18n, icon, name }, t, is
   );
 }
 
-export default withMulti(
-  Item,
-  translate,
-  withCalls<Props>(
-    ['query.sudo.key', { propName: 'sudoKey' }]
-  ),
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(Item);

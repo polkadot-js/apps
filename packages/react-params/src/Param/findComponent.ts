@@ -6,7 +6,8 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
 import BN from 'bn.js';
-import { createType, getTypeDef } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
+import { createType, getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -14,16 +15,17 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
-import Data from './Data';
 import Enum from './Enum';
 import Hash256 from './Hash256';
 import Hash512 from './Hash512';
-import Moment from './Moment';
-import Proposal from './Proposal';
+import IdentityInfo from './IdentityInfo';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
+import Moment from './Moment';
+import Proposal from './Proposal';
 import Null from './Null';
 import Option from './Option';
+import Raw from './Raw';
 import Struct from './Struct';
 import Text from './Text';
 import Tuple from './Tuple';
@@ -44,10 +46,11 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
-  { c: Data, t: ['Data', 'Keys'] },
+  { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
-  { c: Hash256, t: ['CodeHash', 'Hash', 'H256', 'SeedOf'] },
+  { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
+  { c: IdentityInfo, t: ['IdentityInfo'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
@@ -69,11 +72,13 @@ const components: ComponentMap = ([
   return components;
 }, {} as unknown as ComponentMap);
 
+const warnList: string[] = [];
+
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const findOne = (type: string): React.ComponentType<Props> | null =>
     overrides[type] || components[type];
   const type = (({ displayName, info, sub, type }: TypeDef): string => {
-    if (displayName) {
+    if (displayName && SPECIAL_TYPES.includes(displayName)) {
       return displayName;
     }
 
@@ -97,6 +102,10 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         return 'Tuple';
 
       case TypeDefInfo.Vec:
+        if (type === 'Vec<u8>') {
+          return 'Bytes';
+        }
+
         return ['Vec<KeyValue>'].includes(type)
           ? 'Vec<KeyValue>'
           : 'Vec';
@@ -110,7 +119,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
   if (!Component) {
     try {
-      const instance = createType(type as any);
+      const instance = createType(registry, type as any);
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(raw.type);
@@ -126,7 +135,11 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       // console.error(error.message);
     }
 
-    console.warn(`Cannot find Component for ${type}, defaulting to Unknown`);
+    // we only want to want once, not spam
+    if (!warnList.includes(type)) {
+      warnList.push(type);
+      console.warn(`Cannot find component for ${type}, defaulting to Unknown`);
+    }
   }
 
   return Component || Unknown;

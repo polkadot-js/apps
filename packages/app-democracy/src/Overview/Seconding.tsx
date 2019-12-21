@@ -4,26 +4,23 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  allAccounts?: SubjectInfo;
   depositors: AccountId[];
   proposalId: BN | number;
 }
 
-function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.ReactElement<Props> | null {
+function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Props> | null {
+  const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isSecondingOpen, setIsSecondingOpen] = useState(false);
-  const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
 
   if (!hasAccounts) {
     return null;
@@ -36,11 +33,10 @@ function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.Re
     <>
       {isSecondingOpen && (
         <Modal
-          dimmer='inverted'
+          header={t('Second proposal')}
           open
           size='small'
         >
-          <Modal.Header>{t('Second proposal')}</Modal.Header>
           <Modal.Content>
             <InputAddress
               help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
@@ -65,7 +61,7 @@ function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.Re
                 isPrimary
                 label={t('Second')}
                 icon='sign-in'
-                onClick={_toggleSeconding}
+                onStart={_toggleSeconding}
                 params={[proposalId]}
                 tx='democracy.second'
               />
@@ -73,20 +69,14 @@ function Seconding ({ allAccounts, depositors, proposalId, t }: Props): React.Re
           </Modal.Actions>
         </Modal>
       )}
-      <div className='ui--Row-buttons'>
-        <Button
-          isPrimary
-          label={t('Second proposal')}
-          icon='toggle off'
-          onClick={_toggleSeconding}
-        />
-      </div>
+      <Button
+        isPrimary
+        label={t('Second')}
+        icon='toggle off'
+        onClick={_toggleSeconding}
+      />
     </>
   );
 }
 
-export default withMulti(
-  Seconding,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(Seconding);

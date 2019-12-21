@@ -4,8 +4,8 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Bubble, InputAddress } from '@polkadot/react-components';
-import { AccountIndex, Balance, Nonce } from '@polkadot/react-query';
+import { AccountIndex, Bubble, InputAddress } from '@polkadot/react-components';
+import { Balance, Nonce } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
@@ -27,7 +27,7 @@ function AccountSelector ({ className, onChange }: Props): React.ReactElement<Pr
       />
       <div className='medium'>
         <Bubble color='teal' icon='address card' label='index'>
-          <AccountIndex params={accountId} />
+          <AccountIndex value={accountId} />
         </Bubble>
         <Bubble color='yellow' icon='adjust' label='balance'>
           <Balance params={accountId} />

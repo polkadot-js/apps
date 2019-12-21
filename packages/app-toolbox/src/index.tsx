@@ -3,13 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs from '@polkadot/react-components/Tabs';
-import accountObservable from '@polkadot/ui-keyring/observable/accounts';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import Hash from './Hash';
 import Rpc from './Rpc';
@@ -18,11 +16,10 @@ import Verify from './Verify';
 import translate from './translate';
 
 interface Props extends AppProps, I18nProps {
-  allAccounts?: SubjectInfo;
 }
 
-function ToolboxApp ({ allAccounts, basePath, t }: Props): React.ReactElement<Props> {
-  const hasAccounts = allAccounts && Object.keys(allAccounts).length !== 0;
+function ToolboxApp ({ basePath, t }: Props): React.ReactElement<Props> {
+  const { hasAccounts } = useAccounts();
   const tabs = [
     {
       isRoot: true,
@@ -64,8 +61,4 @@ function ToolboxApp ({ allAccounts, basePath, t }: Props): React.ReactElement<Pr
   );
 }
 
-export default withMulti(
-  ToolboxApp,
-  translate,
-  withObservable(accountObservable.subject, { propName: 'allAccounts' })
-);
+export default translate(ToolboxApp);

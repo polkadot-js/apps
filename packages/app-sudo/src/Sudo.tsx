@@ -10,7 +10,8 @@ import { ComponentProps } from './types';
 import React from 'react';
 import { createType } from '@polkadot/types';
 import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { registry } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from './translate';
 
@@ -50,7 +51,7 @@ class Propose extends TxComponent<Props, State> {
               icon='sign-in'
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
-              params={method ? [createType('Proposal', method)] : []}
+              params={method ? [createType(registry, 'Proposal', method)] : []}
               ref={this.button}
             />
           </Button.Group>

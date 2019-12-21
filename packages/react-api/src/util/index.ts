@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import getHashes from './hashes';
 import getHistoric from './historic';
 import intervalObservable from './intervalObservable';
 import isEqual from './isEqual';
 import triggerChange from './triggerChange';
 
 export {
-  getHashes,
   getHistoric,
   intervalObservable,
   isEqual,

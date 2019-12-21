@@ -3,7 +3,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Compact } from '@polkadot/types';
 import { Balance, EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
@@ -12,7 +11,7 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, Card, Columar, Column, InputAddress, Tooltip } from '@polkadot/react-components';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
@@ -74,7 +73,7 @@ const Signature = styled.textarea`
   }
 `;
 
-class App extends TxModal<Props, State> {
+class ClaimsApp extends TxModal<Props, State> {
   constructor (props: Props) {
     super(props);
 
@@ -103,7 +102,7 @@ class App extends TxModal<Props, State> {
 
     const payload = accountId
       ? (
-        u8aToString(Compact.stripLengthPrefix(api.consts.claims.prefix.toU8a(true))) +
+        u8aToString(api.consts.claims.prefix.toU8a(true)) +
         u8aToHex(decodeAddress(accountId), -1, false)
       )
       : '';
@@ -253,7 +252,7 @@ class App extends TxModal<Props, State> {
 }
 
 export default withMulti(
-  App,
+  ClaimsApp,
   translate,
   withApi
 );

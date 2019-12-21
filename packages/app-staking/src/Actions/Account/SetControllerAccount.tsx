@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Button, Icon, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
 import detectUnsafe from '../../unsafeChains';
@@ -44,13 +44,10 @@ class SetControllerAccount extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--SetControllerAccount'
-        dimmer='inverted'
+        header={t('Change controller account')}
         open
         size='small'
       >
-        <Modal.Header>
-          {t('Change controller account')}
-        </Modal.Header>
         <Modal.Content className='ui--signer-Signer-Content'>
           {isValidating && (
             <article className='warning'>

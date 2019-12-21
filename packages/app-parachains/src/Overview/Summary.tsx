@@ -2,27 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { withCalls } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
-  nextFreeId?: BN;
-  parachains?: BN[];
-}
+function Summary ({ t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const nextFreeId = useCall<BN>(api.query.parachains.nextFreeId, []);
+  const parachains = useCall<BN[]>(api.query.registrar.parachains || api.query.parachains.parachains, []);
 
-function Summary ({ nextFreeId, parachains = [], t }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox>
       <section>
         <CardSummary label={t('parachains')}>
-          {formatNumber(parachains.length)}
+          {formatNumber(parachains?.length)}
         </CardSummary>
       </section>
       {nextFreeId && (
@@ -36,15 +35,4 @@ function Summary ({ nextFreeId, parachains = [], t }: Props): React.ReactElement
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.registrar.nextFreeId', {
-      fallbacks: ['query.parachains.nextFreeId'],
-      propName: 'nextFreeId'
-    }],
-    ['query.registrar.parachains', {
-      fallbacks: ['query.parachains.parachains'],
-      propName: 'parachains'
-    }]
-  )(Summary)
-);
+export default translate(Summary);

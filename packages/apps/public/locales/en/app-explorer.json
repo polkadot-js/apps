@@ -40,5 +40,6 @@
   "best": "best",
   "epoch": "epoch",
   "session": "session",
-  "era": "era"
+  "era": "era",
+  "Unable to render extrinsic": "Unable to render extrinsic"
 }

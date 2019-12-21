@@ -3,59 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
-import { ComponentProps } from '../types';
+import { SessionRewards } from '../types';
 
-import React, { useEffect, useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button, InputAddressSimple } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Validator from './Validator';
 
-interface Props extends I18nProps, ComponentProps, RouteComponentProps<{}> {
-  match: {
-    isExact: boolean;
-    params: {
-      value: string;
-    };
-    path: string;
-    url: string;
-  };
+interface Props extends I18nProps {
+  sessionRewards: SessionRewards[];
 }
 
-// const _onQuery = (): void => {
-//   if (isValid && value.length !== 0) {
-//     window.location.hash = `/explorer/query/${value}`;
-//   }
-// };
-
-// return (
-//   <FilterOverlay className={className}>
-//     <Input
-//       className='explorer--query'
-//       defaultValue={propsValue}
-//       isError={!isValid && value.length !== 0}
-//       placeholder={t('block hash or number to query')}
-//       onChange={_setHash}
-//       onEnter={_onQuery}
-//       withLabel={false}
-//     >
-//       <Button
-//         icon='play'
-//         onClick={_onQuery}
-//       />
-//     </Input>
-
-function Query ({ bestNumber, className, stakingOverview, match: { params: { value } }, t }: Props): React.ReactElement<Props> {
-  const [startNumber, setStartNumber] = useState<BlockNumber | undefined>();
+function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
+  const { value } = useParams();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
-
-  useEffect((): void => {
-    if (bestNumber && !startNumber) {
-      setStartNumber(bestNumber);
-    }
-  }, [bestNumber, startNumber]);
 
   const _onQuery = (): void => {
     if (validatorId) {
@@ -79,10 +42,9 @@ function Query ({ bestNumber, className, stakingOverview, match: { params: { val
           onClick={_onQuery}
         />
       </InputAddressSimple>
-      {value && startNumber && stakingOverview && (
+      {value && (
         <Validator
-          currentIndex={stakingOverview.currentIndex}
-          startNumber={startNumber}
+          sessionRewards={sessionRewards}
           validatorId={value}
         />
       )}
@@ -90,4 +52,4 @@ function Query ({ bestNumber, className, stakingOverview, match: { params: { val
   );
 }
 
-export default translate(withRouter(Query));
+export default translate(Query);

@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React, { useRef, useState } from 'react';
+import { SubmittableResult } from '@polkadot/api';
+import { registry } from '@polkadot/react-api';
 import jsonrpc from '@polkadot/jsonrpc';
 import { createType } from '@polkadot/types';
 
 import { QueueProvider } from './Context';
-import { SubmittableResult } from '@polkadot/api';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { STATUS_COMPLETE } from './constants';
 
 export interface Props extends BareProps {
@@ -91,8 +92,8 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
     addToTxQueue({
       accountId: payload.address,
       // this is not great, but the Extrinsic we don't need a submittable
-      extrinsic: createType('Extrinsic',
-        { method: createType('Call', payload.method) },
+      extrinsic: createType(registry, 'Extrinsic',
+        { method: createType(registry, 'Call', payload.method) },
         { version: payload.version }
       ) as unknown as SubmittableExtrinsic,
       payload,

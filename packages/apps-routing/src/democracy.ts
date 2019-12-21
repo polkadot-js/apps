@@ -4,14 +4,15 @@
 
 import { Routes } from './types';
 
-import Democracy from '@polkadot/app-democracy';
+import Democracy, { useCounter } from '@polkadot/app-democracy';
 
 export default ([
   {
     Component: Democracy,
+    useCounter,
     display: {
       needsApi: [
-        'query.democracy.nextTally'
+        'tx.democracy.notePreimage'
       ]
     },
     i18n: {

@@ -4,8 +4,10 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 
-import React, { useContext } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useApi } from '@polkadot/react-hooks';
+import chains from '@polkadot/ui-settings/defaults/chains';
 
 import translate from './translate';
 import Toggle from './Toggle';
@@ -13,17 +15,35 @@ import Toggle from './Toggle';
 interface Props extends I18nProps {
   className?: string;
   genesisHash: string | null;
+  isDisabled?: boolean;
   onChange: (genesisHash: string | null) => void;
+  preventDefault?: boolean;
 }
 
-function ChainLock ({ genesisHash, onChange, t }: Props): React.ReactElement<Props> | null {
-  const { isDevelopment, api } = useContext(ApiContext);
+function calcLock (apiGenesis: string, genesisHash: string | null): boolean {
+  if (!genesisHash) {
+    return false;
+  }
+
+  return (
+    Object.values(chains).find((hashes): boolean =>
+      hashes.includes(apiGenesis)
+    ) || [apiGenesis]
+  ).includes(genesisHash);
+}
+
+function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefault, t }: Props): React.ReactElement<Props> | null {
+  const { isDevelopment, api } = useApi();
+  const [isTiedToChain, setTied] = useState(calcLock(api.genesisHash.toHex(), genesisHash));
+
+  useEffect((): void => {
+    setTied(calcLock(api.genesisHash.toHex(), genesisHash));
+  }, [api, genesisHash]);
 
   if (isDevelopment) {
     return null;
   }
 
-  const isTiedToChain = api.genesisHash.eq(genesisHash);
   const _onChange = (isTiedToChain: boolean): void =>
     onChange(
       isTiedToChain
@@ -33,15 +53,22 @@ function ChainLock ({ genesisHash, onChange, t }: Props): React.ReactElement<Pro
 
   return (
     <Toggle
-      defaultValue={isTiedToChain}
+      className={className}
+      isDisabled={isDisabled}
       label={
         isTiedToChain
           ? t('only this network')
           : t('use on any network')
       }
       onChange={_onChange}
+      preventDefault={preventDefault}
+      value={isTiedToChain}
     />
   );
 }
 
-export default translate(ChainLock);
+export default translate(
+  styled(ChainLock)`
+    text-align: right;
+  `
+);

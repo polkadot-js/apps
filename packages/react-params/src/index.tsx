@@ -9,6 +9,7 @@ import './Params.css';
 
 import React from 'react';
 import styled from 'styled-components';
+import { ErrorBoundary } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 
 import ParamComp from './ParamComp';
@@ -19,6 +20,8 @@ interface Props extends I18nProps {
   isDisabled?: boolean;
   onChange?: (value: RawParams) => void;
   onEnter?: () => void;
+  onError?: () => void;
+  onEscape?: () => void;
   overrides?: ComponentMap;
   params: ParamDef[];
   values?: RawParams | null;
@@ -72,7 +75,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, overrides, params, style } = this.props;
+    const { className, isDisabled, onEnter, onEscape, overrides, params, style } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -84,20 +87,24 @@ class Params extends React.PureComponent<Props, State> {
         className={classes('ui--Params', className)}
         style={style}
       >
-        <div className='ui--Params-Content'>
-          {values && params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
-            <ParamComp
-              defaultValue={values[index]}
-              index={index}
-              isDisabled={isDisabled}
-              key={`${name}:${type}:${index}`}
-              name={name}
-              onChange={this.onChangeParam}
-              overrides={overrides}
-              type={type}
-            />
-          ))}
-        </div>
+        <ErrorBoundary onError={this.onRenderError}>
+          <div className='ui--Params-Content'>
+            {values && params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
+              <ParamComp
+                defaultValue={values[index]}
+                index={index}
+                isDisabled={isDisabled}
+                key={`${name}:${type}:${index}`}
+                name={name}
+                onChange={this.onChangeParam}
+                onEnter={onEnter}
+                onEscape={onEscape}
+                overrides={overrides}
+                type={type}
+              />
+            ))}
+          </div>
+        </ErrorBoundary>
       </div>
     );
   }
@@ -132,6 +139,12 @@ class Params extends React.PureComponent<Props, State> {
     }
 
     onChange && onChange(values);
+  }
+
+  private onRenderError = (): void => {
+    const { onError } = this.props;
+
+    onError && onError();
   }
 }
 

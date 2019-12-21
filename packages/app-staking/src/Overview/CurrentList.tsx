@@ -7,11 +7,9 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, EraPoints, Points } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
-import React, { useContext, useEffect, useState } from 'react';
-import { ApiContext } from '@polkadot/react-api';
-import { Columar, Column, Dropdown, FilterOverlay } from '@polkadot/react-components';
-import { useFavorites } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import React, { useEffect, useState } from 'react';
+import { Dropdown, FilterOverlay, Table } from '@polkadot/react-components';
+import { useAccounts, useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
@@ -19,6 +17,9 @@ import Address from './Address';
 
 interface Props extends I18nProps {
   authorsMap: Record<string, string>;
+  hasQueries: boolean;
+  isIntentions: boolean;
+  isVisible: boolean;
   lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
@@ -56,15 +57,15 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((accountId): string => accountId.toString());
 }
 
-function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
-  const { isSubstrateV2 } = useContext(ApiContext);
+function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> | null {
+  const { isSubstrateV2 } = useApi();
+  const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
-  const [myAccounts] = useState(keyring.getAccounts().map(({ address }): string => address));
   const [{ elected, validators, waiting }, setFiltered] = useState<{ elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ elected: [], validators: [], waiting: [] });
 
   useEffect((): void => {
-    if (stakingOverview) {
+    if (isVisible && stakingOverview) {
       const _elected = accountsToString(stakingOverview.currentElected);
       const _validators = accountsToString(stakingOverview.validators);
       const validators = filterAccounts(_validators, _elected, favorites, [], stakingOverview.eraPoints);
@@ -76,20 +77,21 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
         waiting: filterAccounts(next, [], favorites, _elected)
       });
     }
-  }, [favorites, next, stakingOverview]);
+  }, [favorites, isVisible, next, stakingOverview]);
 
-  const _renderColumn = (addresses: AccountExtend[], defaultName: string, withOnline: boolean): React.ReactNode =>
+  const _renderRows = (addresses: AccountExtend[], defaultName: string, withOnline: boolean): React.ReactNode =>
     addresses.map(([address, isElected, isFavorite, points]): React.ReactNode => (
       <Address
         address={address}
         authorsMap={authorsMap}
         defaultName={defaultName}
         filter={filter}
+        hasQueries={hasQueries}
         isElected={isElected}
         isFavorite={isFavorite}
         lastAuthors={lastAuthors}
         key={address}
-        myAccounts={myAccounts}
+        myAccounts={allAccounts}
         points={points}
         recentlyOnline={
           withOnline
@@ -101,7 +103,7 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
     ));
 
   return (
-    <div>
+    <div className={`${!isVisible && 'staking--hidden'}`}>
       <FilterOverlay>
         <Dropdown
           onChange={setFilter}
@@ -118,25 +120,17 @@ function CurrentList ({ authorsMap, lastAuthors, next, recentlyOnline, stakingOv
           withLabel={false}
         />
       </FilterOverlay>
-      <Columar className='validator--ValidatorsList'>
-        <Column
-          emptyText={t('No addresses found')}
-          headerText={t('validators')}
-        >
-          {validators.length !== 0 && _renderColumn(validators, t('validator'), true)}
-        </Column>
-        <Column
-          emptyText={t('No addresses found')}
-          headerText={t('next up')}
-        >
-          {(elected.length !== 0 || waiting.length !== 0) && (
-            <>
-              {_renderColumn(elected, t('intention'), false)}
-              {_renderColumn(waiting, t('intention'), false)}
-            </>
-          )}
-        </Column>
-      </Columar>
+      <Table className={isIntentions ? 'staking--hidden' : ''}>
+        <Table.Body>
+          {_renderRows(validators, t('validators'), true)}
+        </Table.Body>
+      </Table>
+      <Table className={isIntentions ? '' : 'staking--hidden'}>
+        <Table.Body>
+          {_renderRows(elected, t('intention'), false)}
+          {_renderRows(waiting, t('intention'), false)}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

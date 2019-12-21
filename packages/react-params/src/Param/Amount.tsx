@@ -6,8 +6,9 @@ import { Props } from '../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { ClassOf } from '@polkadot/types';
+import { registry } from '@polkadot/react-api';
 import { Input } from '@polkadot/react-components';
+import { ClassOf } from '@polkadot/types';
 import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
@@ -25,7 +26,7 @@ export default function Amount (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
   const defaultValue = isDisabled
     ? (
-      value instanceof ClassOf('AccountIndex')
+      value instanceof ClassOf(registry, 'AccountIndex')
         ? value.toString()
         : formatNumber(value)
     )

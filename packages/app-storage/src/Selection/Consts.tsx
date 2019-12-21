@@ -7,16 +7,16 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { ComponentProps } from '../types';
 
-import React, { useContext, useState } from 'react';
-import { ApiContext } from '@polkadot/react-api';
+import React, { useState } from 'react';
 import { Button, InputConsts } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
 interface Props extends ComponentProps, I18nProps {}
 
 function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
-  const { api } = useContext(ApiContext);
+  const { api } = useApi();
   const [defaultValue] = useState<ConstValue>((): ConstValue => {
     const section = Object.keys(api.consts)[0];
     const method = Object.keys(api.consts[section])[0];
@@ -41,7 +41,7 @@ function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
           defaultValue={defaultValue}
           label={t('selected constant query')}
           onChange={setValue}
-          help={meta && meta.documentation && meta.documentation.join(' ')}
+          help={meta?.documentation.join(' ')}
         />
       </div>
       <div className='storage--actionrow-buttons'>

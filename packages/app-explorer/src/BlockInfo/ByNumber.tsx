@@ -6,25 +6,23 @@
 import { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { withCalls } from '@polkadot/react-api';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import BlockByHash from './ByHash';
 
 interface Props {
-  chain_getBlockHash?: Hash;
   value: string;
 }
 
-function BlockByNumber ({ chain_getBlockHash }: Props): React.ReactElement<Props> | null {
-  if (!chain_getBlockHash) {
+export default function BlockByNumber ({ value }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const getBlockHash = useCall<Hash>(api.rpc.chain.getBlockHash as any, [value]);
+
+  if (!getBlockHash) {
     return null;
   }
 
   return (
-    <BlockByHash value={chain_getBlockHash.toHex()} />
+    <BlockByHash value={getBlockHash.toHex()} />
   );
 }
-
-export default withCalls<Props>(
-  ['rpc.chain.getBlockHash', { paramName: 'value' }]
-)(BlockByNumber);

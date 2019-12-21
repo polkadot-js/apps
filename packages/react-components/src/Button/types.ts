@@ -6,6 +6,8 @@ import { BareProps } from '../types';
 
 export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
+export type Button$OnClick = () => void | Promise<void>;
+
 export interface ButtonProps extends BareProps {
   children?: React.ReactNode;
   floated?: 'left' | 'right';
@@ -20,7 +22,7 @@ export interface ButtonProps extends BareProps {
   isPrimary?: boolean;
   label?: React.ReactNode;
   labelPosition?: 'left' | 'right';
-  onClick?: () => void | Promise<void>;
+  onClick?: Button$OnClick;
   ref?: any;
   size?: Button$Sizes;
   tabIndex?: number;

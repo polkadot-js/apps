@@ -3,61 +3,106 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
-import React, { useState } from 'react';
-import { Button, CardGrid } from '@polkadot/react-components';
-import addressObservable from '@polkadot/ui-keyring/observable/addresses';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Button, InputTags, Table } from '@polkadot/react-components';
+import { useAddresses, useFavorites } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
 import translate from './translate';
 
 interface Props extends ComponentProps, I18nProps {
-  addresses?: SubjectInfo[];
 }
 
-function Overview ({ addresses, onStatusChange, t }: Props): React.ReactElement<Props> {
+type SortedAddress = { address: string; isFavorite: boolean };
+
+const STORE_FAVS = 'accounts:favorites';
+
+function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
+  const { hasAddresses, allAddresses } = useAddresses();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const emptyScreen = !isCreateOpen && (!addresses || Object.keys(addresses).length === 0);
+  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
+  const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+
+  useEffect((): void => {
+    setSortedAddresses(
+      allAddresses
+        .map((address): SortedAddress => ({ address, isFavorite: favorites.includes(address) }))
+        .sort((a, b): number =>
+          a.isFavorite === b.isFavorite
+            ? 0
+            : b.isFavorite
+              ? 1
+              : -1
+        )
+    );
+  }, [allAddresses, favorites]);
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
 
   return (
-    <CardGrid
-      buttons={
-        <Button.Group>
-          <Button
-            icon='add'
-            isPrimary
-            label={t('Add contact')}
-            onClick={_toggleCreate}
-          />
-        </Button.Group>
-      }
-      isEmpty={emptyScreen}
-      emptyText={t('No contacts found.')}
-    >
+    <div className={className}>
+      <Button.Group>
+        <Button
+          icon='add'
+          isPrimary
+          label={t('Add contact')}
+          onClick={_toggleCreate}
+        />
+      </Button.Group>
       {isCreateOpen && (
         <CreateModal
           onClose={_toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
-      {addresses && Object.keys(addresses).map((address): React.ReactNode => (
-        <Address
-          address={address}
-          key={address}
-        />
-      ))}
-    </CardGrid>
+      {hasAddresses
+        ? (
+          <>
+            <div className='filter--tags'>
+              <InputTags
+                allowAdd={false}
+                label={t('filter by tags')}
+                onChange={setTags}
+                defaultValue={tags}
+                value={tags}
+              />
+            </div>
+            <Table>
+              <Table.Body>
+                {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
+                  <Address
+                    address={address}
+                    allowTags={tags}
+                    isFavorite={isFavorite}
+                    key={address}
+                    toggleFavorite={toggleFavorite}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          </>
+        )
+        : t('no contracts yet, add an existing contact')
+      }
+    </div>
   );
 }
 
-export default withMulti(
-  Overview,
-  translate,
-  withObservable(addressObservable.subject, { propName: 'addresses' })
+export default translate(
+  styled(Overview)`
+    .filter--tags {
+      .ui--Dropdown {
+        padding-left: 0;
+
+        label {
+          left: 1.55rem;
+        }
+      }
+    }
+  `
 );

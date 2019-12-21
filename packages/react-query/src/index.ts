@@ -2,13 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export { default as AccountIndex } from './AccountIndex';
-export { default as AccountName } from './AccountName';
 export { default as Available } from './Available';
 export { default as Balance } from './Balance';
 export { default as BalanceFree } from './BalanceFree';
 export { default as BalanceVoting } from './BalanceVoting';
-export { BlockAuthors, BlockAuthorsContext } from './BlockAuthors';
+export { BlockAuthors, BlockAuthorsContext, ValidatorsContext } from './BlockAuthors';
 export { default as Bonded } from './Bonded';
 export { default as BestFinalized } from './BestFinalized';
 export { default as BestNumber } from './BestNumber';

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Abi } from '@polkadot/api-contract';
+import { registry } from '@polkadot/react-api';
 
 import getAddressMeta from './getAddressMeta';
 
@@ -16,7 +17,7 @@ export default function getContractAbi (address: string | null): Abi | null {
 
   try {
     const data = meta.contract && JSON.parse(meta.contract.abi);
-    abi = new Abi(data);
+    abi = new Abi(registry, data);
   } catch (error) {
     // invalid address, maybe
   }

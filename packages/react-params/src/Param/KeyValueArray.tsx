@@ -53,7 +53,7 @@ function parseFile (raw: Uint8Array): Parsed {
   };
 }
 
-function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, style, t, withLabel }: Props): React.ReactElement<Props> {
+function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, t, withLabel }: Props): React.ReactElement<Props> {
   const [placeholder, setPlaceholder] = useState(t(EMPTY_PLACEHOLDER));
 
   if (isDisabled) {
@@ -80,6 +80,7 @@ function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, o
                 label={keyHex}
                 name={keyHex}
                 onEnter={onEnter}
+                onEscape={onEscape}
                 type={BYTES_TYPE}
               />
             );
