@@ -77,7 +77,7 @@
   "Search for": "搜索",
   "Should the search be case sensitive, e.g if you select \"no\" your search for \"Some\" may return addresses containing \"somE\" or \"sOme\"...": "搜索是否大小写敏感, 例如: 如果你选择 \"否\" 你搜索 \"Dsy\" 返回的地址可能包括 \"dsY\" 或者 \"DSy\"...",
   "case sensitive": "大小写敏感",
-  "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)": "生成 {{count}} 个 key 在 {{elapsed}}秒 (平均{{avg}} keys/秒)",
+  "Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)": "在 {{elapsed}}秒, 生成 {{count}} 个 key (平均{{avg}} keys/秒)",
   "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.": "你可以对该账户自定义派生路径根据下面的语法 \"/<soft-key>//<hard-key>///<密码>\". \"/<soft-key>\" 和 \"//<hard-key>\" 可以重复和混合`. \"///密码\" 是可选的只能出现一次.",
   "//hard/soft///password": "//硬/软///密码",
   "new account": "新建账户",
