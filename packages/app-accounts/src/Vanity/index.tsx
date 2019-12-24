@@ -38,8 +38,8 @@ interface State {
 
 const DEFAULT_MATCH = 'Some';
 const BOOL_OPTIONS = [
-  { text: 'no', value: false },
-  { text: 'yes', value: true }
+  { text: 'No', value: false },
+  { text: 'Yes', value: true }
 ];
 
 class VanityApp extends TxComponent<Props, State> {
