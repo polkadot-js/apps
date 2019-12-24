@@ -36,7 +36,7 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
             },
             {
               name: 'proposals',
-              text: t('Proposals ({{count}})', { replace: { count: proposals && proposals.length || 0 } })
+              text: t('Proposals ({{count}})', { replace: { count: proposals?.length || 0 } })
             }
           ]}
         />
