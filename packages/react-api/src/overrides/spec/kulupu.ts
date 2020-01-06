@@ -6,7 +6,7 @@ export default {
   Difficulty: 'U256',
   DifficultyAndTimestamp: {
     difficulty: 'Difficulty',
-    timestamp: 'Momemt'
+    timestamp: 'Moment'
   },
   DispatchError: 'DispatchErrorTo198',
   DispatchResult: 'DispatchResultTo198',
