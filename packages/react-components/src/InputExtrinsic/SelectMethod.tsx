@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -20,17 +20,12 @@ interface Props extends BareProps {
   value: CallFunction;
 }
 
-function transform ({ api, value }: Props): (method: string) => CallFunction {
-  return (method: string): CallFunction => {
-    return api.tx[value.section][method];
-  };
-}
-
-export default function SelectMethod (props: Props): React.ReactElement<Props> | null {
-  const { className, isError, onChange, options, style, value } = props;
+export default function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
   if (!options.length) {
     return null;
   }
+
+  const transform = (method: string): CallFunction => api.tx[value.section][method];
 
   return (
     <Dropdown
@@ -39,7 +34,7 @@ export default function SelectMethod (props: Props): React.ReactElement<Props> |
       onChange={onChange}
       options={options}
       style={style}
-      transform={transform(props)}
+      transform={transform}
       value={value.method}
       withLabel={false}
     />

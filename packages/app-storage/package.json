@@ -10,7 +10,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.7.5",
+    "@babel/runtime": "^7.7.7",
     "@polkadot/react-components": "^0.39.0-beta.29",
     "@polkadot/react-params": "^0.39.0-beta.29"
   }
