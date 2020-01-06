@@ -168,6 +168,9 @@ export default function Input ({ autoFocus = false, children, className, default
               ? 'new-password'
               : 'off'
           }
+          autoCapitalize='off'
+          autoCorrect='off'
+          spellCheck={false}
           onPaste={_onPaste}
         />
         {isEditable && (
