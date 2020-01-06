@@ -8,6 +8,8 @@ export default {
     difficulty: 'Difficulty',
     timestamp: 'Momemt'
   },
-  DispatchError: 'DispatchErrorTo198',
-  DispatchResult: 'DispatchResultTo198'
+  DispatchInfo: {
+    weight: 'Weight',
+    class: 'DispatchClass'
+  }
 };
