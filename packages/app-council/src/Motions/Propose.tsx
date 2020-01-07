@@ -74,15 +74,13 @@ class Propose extends TxModal<Props, State> {
     const { isMember, t } = this.props;
 
     return (
-      <Button.Group>
-        <Button
-          isDisabled={!isMember}
-          isPrimary
-          label={t('Propose a council motion')}
-          icon='add'
-          onClick={this.showModal}
-        />
-      </Button.Group>
+      <Button
+        isDisabled={!isMember}
+        isPrimary
+        label={t('Propose motion')}
+        icon='add'
+        onClick={this.showModal}
+      />
     );
   }
 
