@@ -183,7 +183,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <div className={`name ${isGood && 'isGood'}`}>{displayName.toUpperCase()}</div>
+            <span className={`name ${isGood && 'isGood'}`}>{displayName.toUpperCase()}</span>
           </div>
         );
 
@@ -274,12 +274,18 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 export default styled(AccountName)`
   .via-identity {
     display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 
     .name {
-      display: inline-block;
       font-weight: normal !important;
       filter: grayscale(100%);
       opacity: 0.6;
+
+      &:not(.isAddress) {
+        text-transform: uppercase;
+      }
 
       &.isAddress {
         font-family: monospace;
