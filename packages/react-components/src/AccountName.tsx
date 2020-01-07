@@ -286,7 +286,7 @@ export default styled(AccountName)`
 
       &.isAddress {
         font-family: monospace;
-        text-transform: normal;
+        text-transform: none;
       }
 
       &.isGood,
