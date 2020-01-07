@@ -35,12 +35,12 @@ interface Props extends BareProps {
 
 const nameCache: Map<string, React.ReactNode> = new Map();
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean] {
   const accountId = _address.toString();
   const cached = nameCache.get(accountId);
 
   if (cached) {
-    return [cached, false];
+    return [cached, false, false];
   }
 
   const accountIndex = (_accountIndex || '').toString();
@@ -49,10 +49,10 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   if (isAddress && accountIndex) {
     nameCache.set(accountId, accountIndex);
 
-    return [accountIndex, false];
+    return [accountIndex, false, isAddress];
   }
 
-  return [extracted, !isAddress];
+  return [extracted, !isAddress, isAddress];
 }
 
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
@@ -70,11 +70,11 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   const address = useMemo((): string => (value || '').toString(), [value]);
 
   const _extractName = (accountId?: AccountId, accountIndex?: AccountIndex): React.ReactNode => {
-    const [name, isLocal] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
+    const [name, isLocal, isAddress] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
 
     return (
       <div className='via-identity'>
-        <div className={`name ${isLocal ? 'isLocal' : 'isAddress'}`}>{name}</div>
+        <div className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{name}</div>
       </div>
     );
   };
