@@ -282,13 +282,11 @@ export default styled(AccountName)`
       font-weight: normal !important;
       filter: grayscale(100%);
       opacity: 0.6;
-
-      &:not(.isAddress) {
-        text-transform: uppercase;
-      }
+      text-transform: uppercase;
 
       &.isAddress {
         font-family: monospace;
+        text-transform: normal;
       }
 
       &.isGood,
