@@ -765,5 +765,15 @@
   "registrar index": "",
   "invalid/unknown registrar account": "",
   "judgement": "",
-  "Judge": ""
+  "Judge": "",
+  "Propose motion": "",
+  "era {{era}}, {{count}} slashes": "",
+  "Cancel slashes": "",
+  "Revert pending slashes": "",
+  "Select the account you wish to make the proposal with.": "",
+  "propose from account": "",
+  "The unapplied slashed era to cancel.": "",
+  "the era to cancel for": "",
+  "no unapplied slashes found": "",
+  "Revert": ""
 }

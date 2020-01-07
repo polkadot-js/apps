@@ -125,6 +125,14 @@ export default styled(Table)`
 
         &.top {
           vertical-align: top;
+
+          >.ui--AddressMini.padded:first-child {
+            margin-top: -0.25rem;
+
+            .ui--AddressMini-label {
+              margin-bottom: 0.25rem;
+            }
+          }
         }
 
         &.toppad {
