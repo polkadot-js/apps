@@ -279,6 +279,7 @@ export default styled(AccountName)`
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
+    vertical-align: bottom;
     width: 100%;
 
     .name {
@@ -300,7 +301,7 @@ export default styled(AccountName)`
 
     > * {
       line-height: 1em;
-      vertical-align: bottom;
+      vertical-align: middle;
     }
 
     .ui--Badge {
