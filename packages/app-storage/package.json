@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-storage",
-  "version": "0.39.0-beta.30",
+  "version": "0.39.0-beta.31",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@polkadot/react-components": "^0.39.0-beta.30",
-    "@polkadot/react-params": "^0.39.0-beta.30"
+    "@polkadot/react-components": "^0.39.0-beta.31",
+    "@polkadot/react-params": "^0.39.0-beta.31"
   }
 }
