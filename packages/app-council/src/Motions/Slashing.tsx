@@ -77,7 +77,7 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
     <>
       <Button
         icon='cancel'
-        isDisabled={!isMember || !members?.length}
+        isDisabled={!isMember || !members?.length || !slashes.length}
         isPrimary
         label={t('Cancel slashes')}
         onClick={toggleVisible}
