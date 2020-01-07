@@ -33,23 +33,25 @@ interface Props extends BareProps {
   withShort?: boolean;
 }
 
-const nameCache: Map<string, React.ReactNode> = new Map();
+const nameCache: Map<string, [boolean, React.ReactNode]> = new Map();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean] {
   const accountId = _address.toString();
   const cached = nameCache.get(accountId);
 
   if (cached) {
-    return [cached, false, false];
+    const [isAddressCached, nameCached] = cached;
+
+    return [nameCached, false, isAddressCached];
   }
 
   const accountIndex = (_accountIndex || '').toString();
   const [isAddress,, extracted] = getAddressName(accountId, null, defaultName);
 
   if (isAddress && accountIndex) {
-    nameCache.set(accountId, accountIndex);
+    nameCache.set(accountId, [true, accountIndex]);
 
-    return [accountIndex, false, isAddress];
+    return [accountIndex, false, true];
   }
 
   return [extracted, !isAddress, isAddress];
@@ -74,13 +76,14 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
     return (
       <div className='via-identity'>
-        <div className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{name}</div>
+        <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{name}</span>
       </div>
     );
   };
 
   const [name, setName] = useState<React.ReactNode>((): React.ReactNode => _extractName());
 
+  // determine if we have a registrar or not - registrars are allowed to approve
   useEffect((): void => {
     if (allAccounts && registrars) {
       setIsRegistrar(
@@ -95,6 +98,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     }
   }, [allAccounts, registrars]);
 
+  // find the id of our registrar in the list
   useEffect((): void => {
     if (registrars && judgementAccountId) {
       setRegistrarIndex(
@@ -111,6 +115,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     }
   }, [judgementAccountId, registrars]);
 
+  // set the actual nickname, localname, accountIndex, accountId
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
 
@@ -183,20 +188,18 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <span className={`name ${isGood && 'isGood'}`}>{displayName.toUpperCase()}</span>
+            <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
           </div>
         );
 
-        nameCache.set(address, displayName);
+        nameCache.set(address, [false, displayName]);
         setName((): React.ReactNode => name);
       } else {
         setName((): React.ReactNode => _extractName(accountId, accountIndex));
       }
     } else if (nickname) {
-      const name = nickname.toUpperCase();
-
-      nameCache.set(address, name);
-      setName(name);
+      nameCache.set(address, [false, nickname]);
+      setName(nickname);
     } else {
       setName(defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex));
     }
@@ -297,7 +300,7 @@ export default styled(AccountName)`
 
     > * {
       line-height: 1em;
-      vertical-align: middle;
+      vertical-align: bottom;
     }
 
     .ui--Badge {
