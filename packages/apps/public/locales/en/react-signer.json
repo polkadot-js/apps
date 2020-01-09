@@ -26,5 +26,6 @@
   "Do not include a tip for the block author": "Do not include a tip for the block author",
   "FATAL": "FATAL",
   "Unable to render extrinsic, invalid": "Unable to render extrinsic, invalid",
-  "Details": "Details"
+  "Details": "Details",
+  "Fees of {{fees}} will be applied to the submission": "Fees of {{fees}} will be applied to the submission"
 }
