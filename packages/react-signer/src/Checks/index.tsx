@@ -4,9 +4,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
@@ -17,7 +16,7 @@ import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
-// import translate from '../translate';
+import { useTranslation } from '../translate';
 import ContractCall from './ContractCall';
 import ContractDeploy from './ContractDeploy';
 import Proposal from './Proposal';
@@ -36,11 +35,12 @@ interface State {
   overLimit: boolean;
 }
 
-interface Props extends I18nProps {
+interface Props {
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
   contract_fees?: DerivedContractFees;
   accountId?: string | null;
+  className?: string;
   extrinsic?: SubmittableExtrinsic | null;
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
@@ -65,7 +65,8 @@ export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN
   );
 };
 
-export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, t, tip }: Props): React.ReactElement<Props> | null {
+export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, tip }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const [state, setState] = useState<State>({
     allFees: ZERO,
@@ -260,16 +261,36 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
 //   )(FeeDisplay)
 // );
 
-export default function Checks ({ accountId, extrinsic }: any): null {
+export default function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
+  const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
   useEffect((): void => {
     if (accountId && extrinsic?.paymentInfo && api.rpc.payment?.queryInfo) {
-      // extrinsic
-      //   .paymentInfo(accountId)
-      //   .then((json: any): void => console.log(JSON.stringify({ json })));
+      extrinsic
+        .paymentInfo(accountId)
+        .then(setDispatchInfo);
     }
   }, [api, accountId, extrinsic]);
 
-  return null;
+  if (!dispatchInfo) {
+    return null;
+  }
+
+  return (
+    <article
+      className={[className, 'ui--Checks', 'normal', 'padded'].join(' ')}
+      key='txinfo'
+    >
+      <div>
+        <Icon name='arrow right' />
+        {t('Fees of {{fees}} will be applied to the submission', {
+          replace: {
+            fees: formatBalance(dispatchInfo.partialFee)
+          }
+        })}
+      </div>
+    </article>
+  );
 }
