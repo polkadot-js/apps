@@ -775,5 +775,8 @@
   "The unapplied slashed era to cancel.": "",
   "the era to cancel for": "",
   "no unapplied slashes found": "",
-  "Revert": ""
+  "Revert": "",
+  "version {{version}}": "",
+  "GitHub": "",
+  "Wiki": ""
 }

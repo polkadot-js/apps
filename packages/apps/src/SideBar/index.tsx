@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RuntimeVersion } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import './SideBar.css';
@@ -17,12 +16,12 @@ import { useCall, useApi } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 import NetworkModal from '../modals/Network';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   collapse: () => void;
   handleResize: () => void;
@@ -32,6 +31,7 @@ interface Props extends I18nProps {
 }
 
 function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, menuOpen }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
   const [modals, setModals] = useState<Record<string, boolean>>(
@@ -85,7 +85,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, 
               <div className='info'>
                 <Chain className='chain' />
                 {runtimeVersion && (
-                  <div className='runtimeVersion'>版本 {runtimeVersion.specVersion.toNumber()}</div>
+                  <div className='runtimeVersion'>{t('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
                 )}
                 <BestNumber label='#' />
               </div>
@@ -119,7 +119,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='github' /><span className='text'>GitHub</span>
+                <Icon name='github' /><span className='text'>{t('GitHub')}</span>
               </a>
             </Menu.Item>
             <Menu.Item className='apps--SideBar-Item'>
@@ -129,7 +129,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='book' /><span className='text'>Wiki</span>
+                <Icon name='book' /><span className='text'>{t('Wiki')}</span>
               </a>
             </Menu.Item>
             <Menu.Divider hidden />
@@ -162,31 +162,29 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, 
   );
 }
 
-export default translate(
-  styled(SideBar)`
-    .toggleImg {
-      cursor: pointer;
-      height: 2.75rem;
-      left: 0.9rem;
-      opacity: 0;
-      position: absolute;
-      top: 0px;
-      transition: opacity 0.2s ease-in, top 0.2s ease-in;
-      width: 2.75rem;
+export default styled(SideBar)`
+  .toggleImg {
+    cursor: pointer;
+    height: 2.75rem;
+    left: 0.9rem;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    transition: opacity 0.2s ease-in, top 0.2s ease-in;
+    width: 2.75rem;
 
-      &.delayed {
-        transition-delay: 0.4s;
-      }
-
-      &.open {
-        opacity: 1;
-        top: 0.9rem;
-      }
-
-      ${media.DESKTOP`
-        opacity: 0 !important;
-        top: -2.9rem !important;
-      `}
+    &.delayed {
+      transition-delay: 0.4s;
     }
-  `
-);
+
+    &.open {
+      opacity: 1;
+      top: 0.9rem;
+    }
+
+    ${media.DESKTOP`
+      opacity: 0 !important;
+      top: -2.9rem !important;
+    `}
+  }
+`;
