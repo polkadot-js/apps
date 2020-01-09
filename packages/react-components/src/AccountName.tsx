@@ -37,24 +37,21 @@ const nameCache: Map<string, [boolean, React.ReactNode]> = new Map();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean] {
   const accountId = _address.toString();
-  const cached = nameCache.get(accountId);
-
-  if (cached) {
-    const [isAddressCached, nameCached] = cached;
-
-    return [nameCached, false, isAddressCached];
-  }
-
   const accountIndex = (_accountIndex || '').toString();
-  const [isAddress,, extracted] = getAddressName(accountId, null, defaultName);
+  const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
+  const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, null];
 
-  if (isAddress && accountIndex) {
+  if (extracted && isAddressCached && !isAddressExtracted) {
+    // skip, default return
+  } else if (nameCached) {
+    return [nameCached, false, isAddressCached];
+  } else if (isAddressExtracted && accountIndex) {
     nameCache.set(accountId, [true, accountIndex]);
 
     return [accountIndex, false, true];
   }
 
-  return [extracted, !isAddress, isAddress];
+  return [extracted, !isAddressExtracted, isAddressExtracted];
 }
 
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
