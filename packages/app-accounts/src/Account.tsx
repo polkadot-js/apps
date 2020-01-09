@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
@@ -17,9 +16,9 @@ import ChangePass from './modals/ChangePass';
 import Derive from './modals/Derive';
 import Identity from './modals/Identity';
 import Transfer from './modals/Transfer';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   address: string;
   allowTags: string[];
   className?: string;
@@ -27,7 +26,8 @@ interface Props extends I18nProps {
   toggleFavorite: (address: string) => void;
 }
 
-function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ address, allowTags, className, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const api = useApi();
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
@@ -331,24 +331,22 @@ function Account ({ address, allowTags, className, isFavorite, t, toggleFavorite
   );
 }
 
-export default translate(
-  styled(Account)`
-    .accounts--Account-buttons {
-      text-align: right;
-    }
+export default styled(Account)`
+  .accounts--Account-buttons {
+    text-align: right;
+  }
 
-    .tags--toggle {
+  .tags--toggle {
+    cursor: pointer;
+    width: 100%;
+    min-height: 1.5rem;
+
+    label {
       cursor: pointer;
-      width: 100%;
-      min-height: 1.5rem;
-
-      label {
-        cursor: pointer;
-      }
     }
+  }
 
-    .name--input {
-      width: 16rem;
-    }
-  `
-);
+  .name--input {
+    width: 16rem;
+  }
+`;

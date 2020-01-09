@@ -4,7 +4,6 @@
 
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { Label } from 'semantic-ui-react';
@@ -12,12 +11,11 @@ import styled from 'styled-components';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkPolkascan, Forget, Menu, Popup } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
-
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   address: string;
   allowTags: string[];
   className?: string;
@@ -30,7 +28,8 @@ const WITH_EXTENDED = { nonce: true };
 
 const isEditable = true;
 
-function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, allowTags, className, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const api = useApi();
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
@@ -291,24 +290,22 @@ function Address ({ address, allowTags, className, isFavorite, t, toggleFavorite
   );
 }
 
-export default translate(
-  styled(Address)`
-    .addresses--Address-buttons {
-      text-align: right;
-    }
+export default styled(Address)`
+  .addresses--Address-buttons {
+    text-align: right;
+  }
 
-    .tags--toggle {
+  .tags--toggle {
+    cursor: pointer;
+    width: 100%;
+    min-height: 1.5rem;
+
+    label {
       cursor: pointer;
-      width: 100%;
-      min-height: 1.5rem;
-
-      label {
-        cursor: pointer;
-      }
     }
+  }
 
-    .name--input {
-      width: 16rem;
-    }
-  `
-);
+  .name--input {
+    width: 16rem;
+  }
+`;

@@ -4,7 +4,6 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
@@ -13,11 +12,12 @@ import { useDebounce } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import { downloadAccount } from './Create';
 import CreateConfirmation from './CreateConfirmation';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   from: string;
   onClose: () => void;
 }
@@ -67,7 +67,8 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
   return status;
 }
 
-function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
+export default function Derive ({ className, from, onClose }: Props): React.ReactElement {
+  const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
   const [{ address, deriveError }, setDerived] = useState<DerivedAddress>({ address: null, deriveError: null });
@@ -230,5 +231,3 @@ function Derive ({ className, from, onClose, t }: Props): React.ReactElement {
     </Modal>
   );
 }
-
-export default translate(Derive);

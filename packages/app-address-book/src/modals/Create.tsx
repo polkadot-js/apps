@@ -2,20 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps } from '../types';
+import { ModalProps as Props } from '../types';
 
 import React, { useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends ModalProps, I18nProps {}
-
-function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Props> {
+export default function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState<{ isNameValid: boolean; name: string }>({ isNameValid: false, name: '' });
   const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<{ address: string; isAddressExisting: boolean; isAddressValid: boolean }>({ address: '', isAddressExisting: false, isAddressValid: false });
   const isValid = isAddressValid && isNameValid;
@@ -130,5 +128,3 @@ function Create ({ onClose, onStatusChange, t }: Props): React.ReactElement<Prop
     </Modal>
   );
 }
-
-export default translate(Create);
