@@ -52,14 +52,6 @@ function Transaction ({ children, hideDetails, isSendable, onError, value: { acc
               onError={onError}
               value={extrinsic}
             />
-            {!isUnsigned && (
-              <Checks
-                accountId={accountId}
-                extrinsic={extrinsic}
-                isSendable={isSendable}
-                tip={tip}
-              />
-            )}
           </>
         )}
         {children}
