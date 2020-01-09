@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,7 +9,7 @@ import './Params.css';
 import React from 'react';
 import { classes } from '@polkadot/react-components/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
-import { Option, U8a } from '@polkadot/types';
+import { Option, Raw } from '@polkadot/types';
 
 interface DivProps {
   className?: string;
@@ -36,7 +36,7 @@ function valueToText (type: string, value: any, swallowError = true, contentShor
   // FIXME dont' even ask, nested ?: ... really?
   return div(
     {},
-    ['Bytes', 'Data', 'Option<Keys>', 'Keys'].includes(type)
+    ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type)
       ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
       : (
         // HACK Handle Keys as hex-only (this should go away once the node value is
@@ -48,7 +48,7 @@ function valueToText (type: string, value: any, swallowError = true, contentShor
             ])
           )
           : (
-            value instanceof U8a
+            value instanceof Raw
               ? (
                 value.isEmpty
                   ? '<empty>'

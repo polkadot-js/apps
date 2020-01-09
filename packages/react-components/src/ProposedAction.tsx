@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -55,7 +55,7 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   const header = `#${idNumber}: ${section}.${method}`;
-  const documentation = (meta && meta.documentation)
+  const documentation = meta?.documentation
     ? (
       <summary>{meta.documentation.join(' ')}</summary>
     )

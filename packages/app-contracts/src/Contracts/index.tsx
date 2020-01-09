@@ -1,20 +1,20 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useState, useEffect } from 'react';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, CardGrid } from '@polkadot/react-components';
 
 import translate from '../translate';
 import Add from './Add';
 import ContractCard from './Contract';
-// import Call from './Call';
+import Call from './Call';
 import { getContractForAddress } from './util';
 
 interface Props extends ComponentProps, I18nProps, ApiProps {}
@@ -27,47 +27,49 @@ function filterContracts ({ api, accounts, contracts: keyringContracts }: Props)
 
 function Contracts (props: Props): React.ReactElement<Props> {
   const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy, t } = props;
+  // const { callAddress, callMessage, isAddOpen, isCallOpen } = this.state;
+
   const [contracts, setContracts] = useState<ApiContract[]>(filterContracts(props));
+  const [callContractIndex, setCallContractIndex] = useState<number>(0);
+  const [callMessageIndex, setCallMessageIndex] = useState<number>(0);
   const [isAddOpen, setIsAddOpen] = useState(false);
-  // const [isCallOpen, setIsCallOpen] = useState(false);
-  // const [callContractIndex, setCallContractIndex] = useState<number>(0);
-  // const [callMessageIndex, setCallMessageIndex] = useState<number>(0);
+  const [isCallOpen, setIsCallOpen] = useState(false);
 
   useEffect((): void => {
     setContracts(filterContracts(props));
   }, [accounts, keyringContracts]);
 
-  // let callContract = contracts[callContractIndex] || null;
+  let callContract = contracts[callContractIndex] || null;
 
-  // useEffect((): void => {
-  //   callContract = contracts[callContractIndex];
-  // }, [callContractIndex]);
+  useEffect((): void => {
+    callContract = contracts[callContractIndex];
+  }, [callContractIndex]);
 
   const _toggleAdd = (): void => setIsAddOpen(!isAddOpen);
-  // const _toggleCall = (): void => setIsCallOpen(!isCallOpen);
+  const _toggleCall = (): void => setIsCallOpen(!isCallOpen);
 
-  // const _onChangeCallContractAddress = (newCallContractAddress: StringOrNull): void => {
-  //   const index = contracts.findIndex(({ address }: ApiContract): boolean => newCallContractAddress === address.toString());
+  const _onChangeCallContractAddress = (newCallContractAddress: StringOrNull): void => {
+    const index = contracts.findIndex(({ address }: ApiContract): boolean => newCallContractAddress === address.toString());
 
-  //   if (index > -1) {
-  //     index !== callContractIndex && setCallMessageIndex(0);
-  //     setCallContractIndex(index);
-  //   }
-  // };
+    if (index > -1) {
+      index !== callContractIndex && setCallMessageIndex(0);
+      setCallContractIndex(index);
+    }
+  };
 
-  // const _onChangeCallMessageIndex = (callMessageIndex: number): void => {
-  //   !!callContract && setCallMessageIndex(callMessageIndex);
-  // };
+  const _onChangeCallMessageIndex = (callMessageIndex: number): void => {
+    !!callContract && setCallMessageIndex(callMessageIndex);
+  };
 
-  // const _onCall = (callContractIndex: number): (_?: number) => () => void => {
-  //   return function (callMessageIndex?: number): () => void {
-  //     return function (): void {
-  //       setCallContractIndex(callContractIndex);
-  //       setCallMessageIndex(callMessageIndex || 0);
-  //       setIsCallOpen(true);
-  //     };
-  //   };
-  // };
+  const _onCall = (callContractIndex: number): (_?: number) => () => void => {
+    return function (callMessageIndex?: number): () => void {
+      return function (): void {
+        setCallContractIndex(callContractIndex);
+        setCallMessageIndex(callMessageIndex || 0);
+        setIsCallOpen(true);
+      };
+    };
+  };
 
   return (
     <>
@@ -95,13 +97,13 @@ function Contracts (props: Props): React.ReactElement<Props> {
           </Button.Group>
         }
       >
-        {contracts.map((contract: ApiContract): React.ReactNode => {
+        {contracts.map((contract: ApiContract, index): React.ReactNode => {
           return (
             <ContractCard
               basePath={basePath}
               contract={contract}
               key={contract.address.toString()}
-              // onCall={_onCall(index)}
+              onCall={_onCall(index)}
             />
           );
         })}
@@ -111,14 +113,14 @@ function Contracts (props: Props): React.ReactElement<Props> {
         isOpen={isAddOpen}
         onClose={_toggleAdd}
       />
-      {/* <Call
+      <Call
         callContract={callContract}
         callMessageIndex={callMessageIndex}
         isOpen={isCallOpen}
         onChangeCallContractAddress={_onChangeCallContractAddress}
         onChangeCallMessageIndex={_onChangeCallMessageIndex}
         onClose={_toggleCall}
-      /> */}
+      />
     </>
   );
 }

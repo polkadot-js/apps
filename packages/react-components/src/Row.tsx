@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -66,10 +66,6 @@ export const styles = `
     font-size: 1.25em;
     padding: 0;
     margin-bottom: 0.25rem;
-  }
-
-  .ui--Row-accountIndex {
-    font-style: italic;
   }
 
   .ui--Row-balances {
@@ -343,7 +339,7 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
           onChange={this.onChangeTags}
           onClose={this.saveTags}
           openOnFocus
-          defaultValue = {tags}
+          defaultValue={tags}
           searchInput={{ autoFocus: true }}
           value={tags}
           withLabel={false}

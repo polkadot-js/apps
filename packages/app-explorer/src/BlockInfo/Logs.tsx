@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-explorer authors & contributors
+// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { Codec, TypeDef } from '@polkadot/types/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Struct, Tuple, U8a, Vec, getTypeDef } from '@polkadot/types';
+import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
 import { Column } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 
@@ -17,7 +17,7 @@ interface Props extends I18nProps {
   value?: DigestItem[];
 }
 
-function formatU8a (value: U8a): React.ReactNode {
+function formatU8a (value: Raw): React.ReactNode {
   return (
     <Params
       isDisabled
@@ -96,7 +96,7 @@ function renderItem ({ t }: Props): (item: DigestItem, index: number) => React.R
       content = formatTuple(item.value);
     } else if (item.value instanceof Vec) {
       content = formatVector(item.value);
-    } else if (item.value instanceof U8a) {
+    } else if (item.value instanceof Raw) {
       content = formatU8a(item.value);
     } else {
       content = <div>{item.value.toString().split(',').join(', ')}</div>;

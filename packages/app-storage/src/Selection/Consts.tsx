@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-storage authors & contributors
+// Copyright 2017-2020 @polkadot/app-storage authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -41,7 +41,7 @@ function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
           defaultValue={defaultValue}
           label={t('selected constant query')}
           onChange={setValue}
-          help={meta && meta.documentation && meta.documentation.join(' ')}
+          help={meta?.documentation.join(' ')}
         />
       </div>
       <div className='storage--actionrow-buttons'>

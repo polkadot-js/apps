@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -37,13 +37,10 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         {this.renderTrigger && this.renderTrigger()}
         <Modal
           className='ui--Modal'
-          dimmer='inverted'
+          header={this.headerText()}
           onClose={this.hideModal}
           open={isOpen}
         >
-          <Modal.Header>
-            {this.headerText()}
-          </Modal.Header>
           <Modal.Content>
             {this.renderPreContent()}
             {this.renderInputAccount()}

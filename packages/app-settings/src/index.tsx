@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-settings authors & contributors
+// Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -21,7 +21,7 @@ const hidden = uiSettings.uiMode === 'full'
   ? []
   : ['developer'];
 
-function App (props: Props): React.ReactElement<Props> {
+function SettingsApp (props: Props): React.ReactElement<Props> {
   const _renderDeveloper = (): React.ReactNode => {
     return (
       <Developer {...props} />
@@ -57,4 +57,4 @@ function App (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(SettingsApp);

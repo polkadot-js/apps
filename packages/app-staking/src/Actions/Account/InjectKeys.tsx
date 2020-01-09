@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -71,13 +71,10 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
 
   return (
     <Modal
-      dimmer='inverted'
+      header={t('Inject Keys')}
       open
       size='small'
     >
-      <Modal.Header>
-        {t('Inject Keys')}
-      </Modal.Header>
       <Modal.Content>
         <Input
           isError={publicKey.length !== 66}

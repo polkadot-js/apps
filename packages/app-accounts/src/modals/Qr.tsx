@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -49,10 +49,9 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
   return (
     <Modal
       className={className}
-      dimmer='inverted'
+      header={t('Add account via Qr')}
       open
     >
-      <Modal.Header>{t('Add account via Qr')}</Modal.Header>
       <Modal.Content>
         {
           scanned

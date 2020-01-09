@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,7 +8,7 @@ import { ComponentProps } from '../types';
 
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
@@ -18,7 +18,7 @@ interface Props extends ComponentProps, I18nProps {}
 
 function Summary ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const proposalCount = trackStream<u32>(api.query.technicalCommittee.proposalCount, []);
+  const proposalCount = useCall<u32>(api.query.technicalCommittee.proposalCount, []);
 
   return (
     <SummaryBox className={className}>

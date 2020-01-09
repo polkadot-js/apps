@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,14 +7,14 @@ import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import ProposalDisplay from './Proposal';
 import translate from '../translate';
 
 function Proposals ({ className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const proposals = trackStream<DeriveProposal[]>(api.derive.democracy.proposals, []);
+  const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals, []);
 
   return (
     <div className={`proposalSection ${className}`}>

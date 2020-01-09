@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-dashboard authors & contributors
+// Copyright 2017-2020 @polkadot/app-dashboard authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -35,7 +35,7 @@ function renderSpacer (route: Route, index: number): React.ReactNode {
   );
 }
 
-function App ({ className }: Props): React.ReactElement<Props> {
+function DashboardApp ({ className }: Props): React.ReactElement<Props> {
   const [routes] = useState(
     routing.routes.filter((route): boolean =>
       !!route && !route.display.isHidden && route.name !== 'dashboard'
@@ -52,7 +52,7 @@ function App ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(App)`
+export default styled(DashboardApp)`
   .routes {
     display: flex;
     flex-direction: row;

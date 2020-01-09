@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
@@ -18,10 +18,10 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
+function TechCommApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const members = trackStream<AccountId[]>(api.query.technicalCommittee.members, []);
-  const proposals = trackStream<Hash[]>(api.query.technicalCommittee.proposals, []);
+  const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
+  const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals, []);
 
   return (
     <main className={className}>
@@ -36,7 +36,7 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
             },
             {
               name: 'proposals',
-              text: t('Proposals ({{count}})', { replace: { count: proposals?.length || 0 } })
+              text: t('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
             }
           ]}
         />
@@ -59,4 +59,4 @@ function App ({ basePath, className, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(TechCommApp);

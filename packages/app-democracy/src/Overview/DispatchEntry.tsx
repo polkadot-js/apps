@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { AccountId, Balance, BlockNumber, Hash, Proposal, ReferendumIndex } from
 import { ITuple } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Bytes, Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
@@ -22,7 +22,7 @@ interface Props extends I18nProps {
 
 function DispatchEntry ({ blockNumber, hash, referendumIndex, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const preimage = trackStream<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>
+  const preimage = useCall<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>
   >(api.query.democracy.preimages, [hash]);
   const [proposal, setProposal] = useState<Proposal | undefined>();
 
@@ -43,7 +43,10 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex, t }: Props): React
           </>
         )}
       </td>
-      <ProposalCell proposalHash={hash} proposal={proposal} />
+      <ProposalCell
+        proposalHash={hash}
+        proposal={proposal}
+      />
     </tr>
   );
 }

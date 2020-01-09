@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -32,11 +32,7 @@ function ProposalCell ({ className, proposal, proposalHash, t }: Props): React.R
     <td className={`${className} all`}>
       <div>{section}.{method}</div>
       <details>
-        <summary>{
-          meta && meta.documentation
-            ? meta.documentation.join(' ')
-            : t('Details')
-        }</summary>
+        <summary>{meta?.documentation.join(' ') || t('Details')}</summary>
         <Call
           labelHash={t('proposal hash')}
           value={proposal}

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-js authors & contributors
+// Copyright 2017-2020 @polkadot/app-js authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,7 +11,7 @@ import Playground from './Playground';
 
 interface Props extends AppProps, BareProps {}
 
-export default function AppJs ({ basePath }: Props): React.ReactElement<Props> {
+export default function ScriptingApp ({ basePath }: Props): React.ReactElement<Props> {
   return (
     <Switch>
       <Route path={`${basePath}/share/:base64`} component={Playground} />

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -189,10 +189,9 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
   return (
     <Modal
       className={className}
-      dimmer='inverted'
+      header={t('Add an account via seed')}
       open
     >
-      <Modal.Header>{t('Add an account via seed')}</Modal.Header>
       {address && isConfirmationOpen && (
         <CreateConfirmation
           address={address}

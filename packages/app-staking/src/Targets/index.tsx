@@ -1,18 +1,20 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedStakingElected } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import { ComponentProps } from '../types';
+import { SessionRewards } from '../types';
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { registry } from '@polkadot/react-api';
 import { InputBalance, Table } from '@polkadot/react-components';
-import { useAccounts, useApi, useFavorites, trackStream } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useDebounce, useFavorites, useCall } from '@polkadot/react-hooks';
+import { createType } from '@polkadot/types';
 
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
@@ -21,7 +23,8 @@ import Validator from './Validator';
 
 const PERBILL = new BN(1000000000);
 
-interface Props extends I18nProps, ComponentProps {
+interface Props extends I18nProps {
+  sessionRewards: SessionRewards[];
 }
 
 interface AllInfo {
@@ -82,79 +85,86 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
+function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DerivedStakingElected, favorites: string[], lastReward: BN): AllInfo {
+  let totalStaked = new BN(0);
+  const perValidatorReward = lastReward.divn(electedInfo.info.length);
+  const validators = sortValidators(
+    electedInfo.info.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
+      const exposure = stakers || {
+        total: createType(registry, 'Compact<Balance>'),
+        own: createType(registry, 'Compact<Balance>'),
+        others: createType(registry, 'Vec<IndividualExposure>')
+      };
+      const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
+        commission: createType(registry, 'Compact<Perbill>')
+      };
+      const bondOwn = exposure.own.unwrap();
+      const bondTotal = exposure.total.unwrap();
+      const validatorPayment = (prefs as ValidatorPrefsTo196).validatorPayment
+        ? (prefs as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
+        : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
+      const key = accountId.toString();
+      const rewardSplit = perValidatorReward.sub(validatorPayment);
+      const rewardPayout = rewardSplit.gtn(0)
+        ? amount.mul(rewardSplit).div(amount.add(bondTotal))
+        : new BN(0);
+      const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
+        return isNominating || allAccounts.includes(indv.who.toString());
+      }, allAccounts.includes(key));
+
+      totalStaked = totalStaked.add(bondTotal);
+
+      return {
+        accountId,
+        bondOther: bondTotal.sub(bondOwn),
+        bondOwn,
+        bondShare: 0,
+        bondTotal,
+        isCommission: !!(prefs as ValidatorPrefs).commission,
+        isFavorite: favorites.includes(key),
+        isNominating,
+        key,
+        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).muln(10000).div(PERBILL).toNumber() / 100),
+        numNominators: exposure.others.length,
+        rankBonded: 0,
+        rankOverall: 0,
+        rankPayment: 0,
+        rankReward: 0,
+        rewardPayout,
+        rewardSplit,
+        validatorPayment
+      };
+    })
+  );
+
+  return { totalStaked, validators };
+}
+
 function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [amount, setAmount] = useState<BN | undefined>(new BN(1000));
-  const electedInfo = trackStream<DerivedStakingElected>(api.derive.staking.electedInfo, []);
+  const [_amount, setAmount] = useState<BN | undefined>(new BN(1000));
+  const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [lastReward, setLastReward] = useState(new BN(0));
   const [{ validators, totalStaked }, setWorkable] = useState<AllInfo>({ totalStaked: new BN(0), validators: [] });
+  const amount = useDebounce(_amount);
 
   useEffect((): void => {
     if (sessionRewards && sessionRewards.length) {
-      const lastRewardSession = [...sessionRewards].reverse().find(({ reward }): boolean => reward.gtn(0));
+      const lastRewardSession = sessionRewards.filter(({ reward }): boolean => reward.gtn(0));
 
-      setLastReward(lastRewardSession?.reward || new BN(0));
+      setLastReward(
+        lastRewardSession.length
+          ? lastRewardSession[lastRewardSession.length - 1].reward
+          : new BN(0)
+      );
     }
   }, [sessionRewards]);
 
   useEffect((): void => {
     if (electedInfo) {
-      let totalStaked = new BN(0);
-      const numValidators = electedInfo.info.length;
-      const validators = sortValidators(
-        electedInfo.info.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
-          const exposure = stakers || {
-            total: api.createType('Compact<Balance>'),
-            own: api.createType('Compact<Balance>'),
-            others: api.createType('Vec<IndividualExposure>')
-          };
-          const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
-            commission: api.createType('Compact<Perbill>')
-          };
-          const bondOwn = exposure.own.unwrap();
-          const bondTotal = exposure.total.unwrap();
-          const perValidatorReward = lastReward.divn(numValidators);
-          const validatorPayment = (prefs as ValidatorPrefsTo196).validatorPayment
-            ? (prefs as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
-            : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
-          const key = accountId.toString();
-          const rewardSplit = perValidatorReward.sub(validatorPayment);
-          const calcAmount = amount || new BN(0);
-          const rewardPayout = rewardSplit.gtn(0)
-            ? calcAmount.mul(rewardSplit).div(calcAmount.add(bondTotal))
-            : new BN(0);
-          const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
-            return isNominating || allAccounts.includes(indv.who.toString());
-          }, allAccounts.includes(key));
-
-          totalStaked = totalStaked.add(bondTotal);
-
-          return {
-            accountId,
-            bondOther: bondTotal.sub(bondOwn),
-            bondOwn,
-            bondShare: 0,
-            bondTotal,
-            isCommission: !!(prefs as ValidatorPrefs).commission,
-            isFavorite: favorites.includes(key),
-            isNominating,
-            key,
-            commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).muln(10000).div(PERBILL).toNumber() / 100),
-            numNominators: exposure.others.length,
-            rankBonded: 0,
-            rankOverall: 0,
-            rankPayment: 0,
-            rankReward: 0,
-            rewardPayout,
-            rewardSplit,
-            validatorPayment
-          };
-        })
-      );
-
-      setWorkable({ totalStaked, validators });
+      setWorkable(extractInfo(allAccounts, amount, electedInfo, favorites, lastReward));
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward]);
 
@@ -172,7 +182,7 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
               help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
               label={t('amount to use for estimation')}
               onChange={setAmount}
-              value={amount}
+              value={_amount}
             />
             <Table>
               <Table.Body>

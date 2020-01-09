@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-var-requires */
-// Copyright 2017-2019 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -116,7 +116,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
               loader: require.resolve('url-loader'),
               options: {
                 limit: 10000,
-                name: 'static/[name].[hash:8].[ext]'
+                name: 'static/[name].[hash:8].[ext]',
+                esModule: false
               }
             }
           ]
@@ -127,7 +128,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             {
               loader: require.resolve('file-loader'),
               options: {
-                name: 'static/[name].[hash:8].[ext]'
+                name: 'static/[name].[hash:8].[ext]',
+                esModule: false
               }
             }
           ]

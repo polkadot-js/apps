@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-123code authors & contributors
+// Copyright 2017-2020 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -21,7 +21,7 @@ import translate from './translate';
 // define our internal types
 interface Props extends AppProps, I18nProps {}
 
-function App ({ className }: Props): React.ReactElement<Props> {
+function TemplateApp ({ className }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
 
   return (
@@ -35,4 +35,4 @@ function App ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(TemplateApp);

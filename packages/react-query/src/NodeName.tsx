@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/react-query authors & contributors
+// Copyright 2017-2020 @polkadot/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,7 +12,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-export default function NodeName ({ children, className, label = '', style }: Props): React.ReactElement<Props> {
+export default function NodeName ({ children, className, label, style }: Props): React.ReactElement<Props> {
   const { systemName } = useApi();
 
   return (
@@ -21,7 +20,7 @@ export default function NodeName ({ children, className, label = '', style }: Pr
       className={className}
       style={style}
     >
-      {label}{systemName}{children}
+      {label || ''}{systemName}{children}
     </div>
   );
 }

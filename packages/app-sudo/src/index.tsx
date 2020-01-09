@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-123code authors & contributors
+// Copyright 2017-2020 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,7 +9,7 @@ import { ComponentProps } from './types';
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
-import { trackStream, useAccounts, useApi } from '@polkadot/react-hooks';
+import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
 import Sudo from './Sudo';
@@ -19,9 +19,9 @@ import translate from './translate';
 interface Props extends AppProps, I18nProps {
 }
 
-function App ({ basePath, t }: Props): React.ReactElement<Props> {
+function SudoApp ({ basePath, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const sudoKey = trackStream<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
+  const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
   const { allAccounts } = useAccounts();
   const [isMine, setIsMine] = useState(false);
 
@@ -80,4 +80,4 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(SudoApp);

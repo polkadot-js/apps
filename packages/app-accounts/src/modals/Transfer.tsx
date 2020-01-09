@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -89,10 +89,9 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   return (
     <Modal
       className='app--accounts-Modal'
-      dimmer='inverted'
+      header={t('Send funds')}
       open
     >
-      <Modal.Header>{t('Send funds')}</Modal.Header>
       <Modal.Content>
         <div className={className}>
           <InputAddress

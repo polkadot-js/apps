@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-parachains authors & contributors
+// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,7 +13,7 @@ import translate from './translate';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-function App ({ basePath, t }: Props): React.ReactElement<Props> {
+function ParachainsApp ({ basePath, t }: Props): React.ReactElement<Props> {
   return (
     <main>
       <header>
@@ -35,4 +35,4 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(ParachainsApp);

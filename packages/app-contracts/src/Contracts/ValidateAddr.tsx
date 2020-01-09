@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,7 +9,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 
 import React, { useEffect, useState } from 'react';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 import { InfoForInput } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 

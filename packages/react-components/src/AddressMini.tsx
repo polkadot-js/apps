@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,10 +8,10 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { AccountName } from '@polkadot/react-query';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { classes, toShortAddress } from './util';
+import AccountName from './AccountName';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
@@ -26,7 +26,7 @@ interface Props extends BareProps {
   isShort?: boolean;
   label?: React.ReactNode;
   type?: KeyringItemType;
-  value?: AccountId | AccountIndex | Address | string;
+  value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
   withAddress?: boolean;
   withBalance?: boolean;
   withBonded?: boolean;
@@ -51,7 +51,7 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
       <div className='ui--AddressMini-icon'>
         <IdentityIcon
           size={24}
-          value={value}
+          value={value as Uint8Array}
         />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
@@ -63,7 +63,7 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         {withAddress && (
           <div className='ui--AddressMini-address'>
             {withName
-              ? <AccountName params={value} />
+              ? <AccountName value={value} />
               : toShortAddress(value)
             }
           </div>
@@ -109,7 +109,6 @@ export default styled(AddressMini)`
   }
 
   .ui--AddressMini-address {
-    font-family: monospace;
     max-width: 9rem;
     min-width: 9rem;
     overflow: hidden;

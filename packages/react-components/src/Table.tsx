@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -57,7 +57,6 @@ export default styled(Table)`
   margin-bottom: 1.5rem;
 
   table {
-    /* border-collapse: collapse; */
     border-collapse: separate;
     border-spacing: 0 0.25rem;
     width: 100%;
@@ -78,6 +77,10 @@ export default styled(Table)`
       &:hover {
         label {
           opacity: 1;
+        }
+
+        td {
+          border-color: #ccc;
         }
       }
 
@@ -122,6 +125,14 @@ export default styled(Table)`
 
         &.top {
           vertical-align: top;
+
+          >.ui--AddressMini.padded:first-child {
+            margin-top: -0.25rem;
+
+            .ui--AddressMini-label {
+              margin-bottom: 0.25rem;
+            }
+          }
         }
 
         &.toppad {
@@ -144,6 +155,10 @@ export default styled(Table)`
 
         i.icon {
           cursor: pointer;
+        }
+
+        &.mini {
+          padding: 0 0.75rem 0 0;
         }
 
         &:first-child {

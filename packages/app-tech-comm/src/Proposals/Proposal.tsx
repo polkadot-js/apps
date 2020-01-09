@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
-import { useApi, trackStream } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
@@ -21,8 +21,8 @@ interface Props extends I18nProps {
 
 function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const optProposal = trackStream<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
-  const votes = trackStream<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
+  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
+  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
 
   if (!optProposal?.isSome || !votes?.isSome) {
     return null;
@@ -34,7 +34,11 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <ProposalCell className='top' proposalHash={hash} proposal={proposal} />
+      <ProposalCell
+        className='top'
+        proposalHash={hash}
+        proposal={proposal}
+      />
       <td className='number top'>
         <label>{t('threshold')}</label>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -88,6 +88,7 @@ function TxModal<P extends Props> ({
   const allModalProps = {
     className: ['ui--Modal', modalProps.className || ''].join(' '),
     dimmer: 'inverted',
+    header,
     ...modalProps,
     onClose,
     open: isOpen
@@ -97,9 +98,6 @@ function TxModal<P extends Props> ({
     <>
       {Trigger ? <Trigger onOpen={onOpen} /> : null}
       <Modal {...allModalProps}>
-        <Modal.Header>
-          {header}
-        </Modal.Header>
         <Modal.Content>
           {preContent}
           <InputAddress

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -19,12 +19,9 @@ interface Props extends I18nProps {
 function CreateConfirmation ({ address, name, onClose, onCommit, t }: Props): React.ReactElement<Props> | null {
   return (
     <Modal
-      dimmer='inverted'
+      header={t('Important notice')}
       open
     >
-      <Modal.Header>
-        {t('Important notice')}
-      </Modal.Header>
       <Modal.Content>
         <AddressRow
           defaultName={name}
