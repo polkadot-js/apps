@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakingValidators } from '@polkadot/api-derive/types';
-import { BareProps, I18nProps } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@polkadot/react-components/types';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -12,12 +11,8 @@ import { Bubble, IdentityIcon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
-import translate from './translate';
-
-interface Props extends BareProps, I18nProps {}
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function SummaryBar (props: Props): React.ReactElement<Props> {
+export default function SummaryBar (props: Props): React.ReactElement<Props> {
   const { api, systemChain, systemName, systemVersion } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const bestNumberLag = useCall<BlockNumber>(api.derive.chain.bestNumberLag, []);
@@ -53,6 +48,3 @@ function SummaryBar (props: Props): React.ReactElement<Props> {
     </summary>
   );
 }
-
-// inject the actual API calls automatically into props
-export default translate(SummaryBar);
