@@ -20,13 +20,13 @@ import { useTranslation } from './translate';
 
 interface Props {
   address: string;
-  allowTags: string[];
   className?: string;
+  filter: string;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;
 }
 
-function Account ({ address, allowTags, className, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const [tags, setTags] = useState<string[]>([]);
@@ -60,16 +60,18 @@ function Account ({ address, allowTags, className, isFavorite, toggleFavorite }:
   }, [address]);
 
   useEffect((): void => {
-    if (allowTags.length === 0) {
+    if (filter.length === 0) {
       setIsVisible(true);
     } else {
+      const _filter = filter.toLowerCase();
+
       setIsVisible(
-        allowTags.reduce((result: boolean, tag: string): boolean => {
-          return result || tags.includes(tag);
-        }, false)
+        tags.reduce((result: boolean, tag: string): boolean => {
+          return result || tag.toLowerCase().includes(_filter);
+        }, accName.toLowerCase().includes(_filter))
       );
     }
-  }, [allowTags, tags]);
+  }, [accName, filter, tags]);
 
   if (!isVisible) {
     return null;
