@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, InputTags, LinkPolkascan, Menu, Popup, Input } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -20,15 +21,16 @@ import { useTranslation } from './translate';
 
 interface Props {
   address: string;
-  allowTags: string[];
   className?: string;
+  filter: string;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;
 }
 
-function Account ({ address, allowTags, className, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
+  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
@@ -47,6 +49,18 @@ function Account ({ address, allowTags, className, isFavorite, toggleFavorite }:
   const _setTags = (tags: string[]): void => setTags(tags.sort());
 
   useEffect((): void => {
+    const { identity, nickname } = info || {};
+
+    if (api.api.query.identity?.identityOf) {
+      if (identity?.display) {
+        setAccName(identity.display);
+      }
+    } else if (nickname) {
+      setAccName(nickname);
+    }
+  }, [info]);
+
+  useEffect((): void => {
     const account = keyring.getAccount(address);
 
     setGenesisHash((account && account.meta.genesisHash) || null);
@@ -60,16 +74,18 @@ function Account ({ address, allowTags, className, isFavorite, toggleFavorite }:
   }, [address]);
 
   useEffect((): void => {
-    if (allowTags.length === 0) {
+    if (filter.length === 0) {
       setIsVisible(true);
     } else {
+      const _filter = filter.toLowerCase();
+
       setIsVisible(
-        allowTags.reduce((result: boolean, tag: string): boolean => {
-          return result || tags.includes(tag);
-        }, false)
+        tags.reduce((result: boolean, tag: string): boolean => {
+          return result || tag.toLowerCase().includes(_filter);
+        }, accName.toLowerCase().includes(_filter))
       );
     }
-  }, [allowTags, tags]);
+  }, [accName, filter, tags]);
 
   if (!isVisible) {
     return null;

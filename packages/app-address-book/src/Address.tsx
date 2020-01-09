@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
@@ -9,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkPolkascan, Forget, Menu, Popup } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 
@@ -17,8 +18,8 @@ import { useTranslation } from './translate';
 
 interface Props {
   address: string;
-  allowTags: string[];
   className?: string;
+  filter: string;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;
 }
@@ -28,9 +29,10 @@ const WITH_EXTENDED = { nonce: true };
 
 const isEditable = true;
 
-function Address ({ address, allowTags, className, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
+  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
@@ -43,6 +45,18 @@ function Address ({ address, allowTags, className, isFavorite, toggleFavorite }:
   const [isVisible, setIsVisible] = useState(true);
 
   const _setTags = (tags: string[]): void => setTags(tags.sort());
+
+  useEffect((): void => {
+    const { identity, nickname } = info || {};
+
+    if (api.api.query.identity?.identityOf) {
+      if (identity?.display) {
+        setAccName(identity.display);
+      }
+    } else if (nickname) {
+      setAccName(nickname);
+    }
+  }, [info]);
 
   useEffect((): void => {
     const current = keyring.getAddress(address);
@@ -59,16 +73,18 @@ function Address ({ address, allowTags, className, isFavorite, toggleFavorite }:
   }, [address]);
 
   useEffect((): void => {
-    if (allowTags.length === 0) {
+    if (filter.length === 0) {
       setIsVisible(true);
     } else {
+      const _filter = filter.toLowerCase();
+
       setIsVisible(
-        allowTags.reduce((result: boolean, tag: string): boolean => {
-          return result || tags.includes(tag);
-        }, false)
+        tags.reduce((result: boolean, tag: string): boolean => {
+          return result || tag.toLowerCase().includes(_filter);
+        }, accName.toLowerCase().includes(_filter))
       );
     }
-  }, [allowTags, tags]);
+  }, [accName, filter, tags]);
 
   if (!isVisible) {
     return null;

@@ -6,7 +6,7 @@ import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, InputTags, Table } from '@polkadot/react-components';
+import { Button, Input, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
@@ -23,7 +23,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
+  const [filter, setFilter] = useState<string>('');
 
   useEffect((): void => {
     setSortedAddresses(
@@ -61,12 +61,11 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         ? (
           <>
             <div className='filter--tags'>
-              <InputTags
-                allowAdd={false}
-                label={t('filter by tags')}
-                onChange={setTags}
-                defaultValue={tags}
-                value={tags}
+              <Input
+                isFull
+                label={t('filter by name or tags')}
+                onChange={setFilter}
+                value={filter}
               />
             </div>
             <Table>
@@ -74,7 +73,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
                 {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
                   <Address
                     address={address}
-                    allowTags={tags}
+                    filter={filter}
                     isFavorite={isFavorite}
                     key={address}
                     toggleFavorite={toggleFavorite}
