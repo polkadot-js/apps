@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import { detect } from 'detect-browser';
 import React from 'react';
 import styled from 'styled-components';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
 import { stringUpperFirst } from '@polkadot/util';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
 // it would have been really good to import this from detect, however... not exported
 type Browser = 'chrome' | 'firefox';
@@ -21,7 +19,7 @@ interface Extension {
   name: string;
 }
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
 }
 
@@ -49,7 +47,9 @@ const browserInfo = detect();
 const browserName: Browser | null = (browserInfo && (browserInfo.name as Browser)) || null;
 const isSupported = browserName && Object.keys(available).includes(browserName);
 
-function Banner ({ className, t }: Props): React.ReactElement<Props> | null {
+function Banner ({ className }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   if (isWeb3Injected || !isSupported || !browserName) {
     return null;
   }
@@ -86,20 +86,18 @@ function Banner ({ className, t }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default translate(
-  styled(Banner)`
-    padding: 0 0.5rem 0.5rem;
+export default styled(Banner)`
+  padding: 0 0.5rem 0.5rem;
 
-    .box {
-      background: #fff6e5;
-      border-left: 0.25rem solid darkorange;
-      border-radius: 0 0.25rem 0.25rem 0;
-      box-sizing: border-box;
-      padding: 1rem 1.5rem;
+  .box {
+    background: #fff6e5;
+    border-left: 0.25rem solid darkorange;
+    border-radius: 0 0.25rem 0.25rem 0;
+    box-sizing: border-box;
+    padding: 1rem 1.5rem;
 
-      .info {
-        max-width: 50rem;
-      }
+    .info {
+      max-width: 50rem;
     }
-  `
-);
+  }
+`;

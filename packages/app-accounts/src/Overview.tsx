@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -17,10 +16,7 @@ import ImportModal from './modals/Import';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
-import translate from './translate';
-
-interface Props extends ComponentProps, I18nProps {
-}
+import { useTranslation } from './translate';
 
 type SortedAccount = { address: string; isFavorite: boolean };
 
@@ -39,7 +35,8 @@ async function queryLedger (): Promise<void> {
   }
 }
 
-function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
+function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
@@ -153,16 +150,14 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
   );
 }
 
-export default translate(
-  styled(Overview)`
-    .filter--tags {
-      .ui--Dropdown {
-        padding-left: 0;
+export default styled(Overview)`
+  .filter--tags {
+    .ui--Dropdown {
+      padding-left: 0;
 
-        label {
-          left: 1.55rem;
-        }
+      label {
+        left: 1.55rem;
       }
     }
-  `
-);
+  }
+`;

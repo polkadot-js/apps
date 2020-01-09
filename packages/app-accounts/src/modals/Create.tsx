@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { CreateResult } from '@polkadot/ui-keyring/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
@@ -19,10 +18,11 @@ import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
 
-interface Props extends ModalProps, I18nProps {
+interface Props extends ModalProps {
+  className?: string;
   seed?: string;
   type?: KeypairType;
 }
@@ -150,7 +150,8 @@ function createAccount (suri: string, pairType: KeypairType, name: string, passw
   return status;
 }
 
-function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type: propsType }: Props): React.ReactElement<Props> {
+function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -309,10 +310,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, t, type:
   );
 }
 
-export default translate(
-  styled(Create)`
-    .accounts--Creator-advanced {
-      margin-top: 1rem;
-    }
-  `
-);
+export default styled(Create)`
+  .accounts--Creator-advanced {
+    margin-top: 1rem;
+  }
+`;
