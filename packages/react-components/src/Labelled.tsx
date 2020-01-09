@@ -13,6 +13,7 @@ import { classes } from './util';
 interface Props extends BareProps {
   help?: React.ReactNode;
   isHidden?: boolean;
+  isFull?: boolean;
   isOuter?: boolean;
   isSmall?: boolean;
   label?: React.ReactNode;
@@ -61,6 +62,14 @@ const Wrapper = styled.div`
       > label {
         left: 3.55rem;
         text-align: left;
+      }
+    }
+
+    &.label-full {
+      padding-left: 0;
+
+      > label {
+        left: 1.55rem;
       }
     }
 
@@ -123,7 +132,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Labelled ({ className, children, help, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+export default function Labelled ({ className, children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
@@ -134,7 +143,7 @@ export default function Labelled ({ className, children, help, isHidden, isOuter
 
   return (
     <Wrapper
-      className={classes('ui--Labelled', isSmall && 'label-small', isOuter && 'label-outer', className)}
+      className={classes('ui--Labelled', isSmall && 'label-small', isFull && 'label-full', isOuter && 'label-outer', className)}
       style={style}
     >
       <label>

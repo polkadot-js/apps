@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
 import { useAccounts, useFavorites } from '@polkadot/react-hooks';
-import { Button, InputTags, Table } from '@polkadot/react-components';
+import { Button, Input, Table } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
@@ -43,7 +43,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
+  const [filter, setFilter] = useState<string>('');
 
   useEffect((): void => {
     setSortedAccounts(
@@ -121,12 +121,11 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         ? (
           <>
             <div className='filter--tags'>
-              <InputTags
-                allowAdd={false}
-                label={t('filter by tags')}
-                onChange={setTags}
-                defaultValue={tags}
-                value={tags}
+              <Input
+                isFull
+                label={t('filter by name or tags')}
+                onChange={setFilter}
+                value={filter}
               />
             </div>
             <Table>
@@ -134,7 +133,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
                 {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
                   <Account
                     address={address}
-                    allowTags={tags}
+                    filter={filter}
                     isFavorite={isFavorite}
                     key={address}
                     toggleFavorite={toggleFavorite}
