@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,11 +7,12 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 
 import Motion from './Motion';
 import Propose from './Propose';
+import Slashing from './Slashing';
 import translate from '../translate';
 
 interface Props extends I18nProps {
@@ -36,7 +37,11 @@ function Proposals ({ className, motions, t }: Props): React.ReactElement<Props>
 
   return (
     <div className={className}>
-      <Propose isMember={isMember} />
+      <Button.Group>
+        <Propose isMember={isMember} />
+        <Button.Or />
+        <Slashing isMember={isMember} />
+      </Button.Group>
       {motions?.length
         ? (
           <Table>

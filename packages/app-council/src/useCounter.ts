@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,7 +13,11 @@ export default function useCounter (): number {
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {
-    setCounter(motions?.length || 0);
+    setCounter(
+      motions
+        ? motions.filter(({ votes }): boolean => !!votes).length
+        : 0
+    );
   }, [motions]);
 
   return counter;

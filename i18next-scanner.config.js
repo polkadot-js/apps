@@ -40,6 +40,7 @@ module.exports = {
       'app-staking',
       'app-storage',
       'app-sudo',
+      'app-tech-comm',
       'app-toolbox',
       'app-transfer',
       'app-treasury',

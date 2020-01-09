@@ -49,5 +49,16 @@
   "No runners up found": "No runners up found",
   "Motions ({{count}})": "Motions ({{count}})",
   "Filter available candidates based on name, address or short account index.": "Filter available candidates based on name, address or short account index.",
-  "filter candidates": "filter candidates"
+  "filter candidates": "filter candidates",
+  "Propose motion": "Propose motion",
+  "era {{era}}, {{count}} slashes": "era {{era}}, {{count}} slashes",
+  "Cancel slashes": "Cancel slashes",
+  "Revert pending slashes": "Revert pending slashes",
+  "Select the account you wish to make the proposal with.": "Select the account you wish to make the proposal with.",
+  "propose from account": "propose from account",
+  "The unapplied slashed era to cancel.": "The unapplied slashed era to cancel.",
+  "the era to cancel for": "the era to cancel for",
+  "no unapplied slashes found": "no unapplied slashes found",
+  "Cancel": "Cancel",
+  "Revert": "Revert"
 }
