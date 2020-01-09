@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, InputTags, LinkPolkascan, Menu, Popup, Input } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
@@ -29,6 +30,7 @@ interface Props {
 function Account ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
+  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
@@ -45,6 +47,18 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const [isTransferOpen, toggleTransfer] = useToggle();
 
   const _setTags = (tags: string[]): void => setTags(tags.sort());
+
+  useEffect((): void => {
+    const { identity, nickname } = info || {};
+
+    if (api.api.query.identity?.identityOf) {
+      if (identity?.display) {
+        setAccName(identity.display);
+      }
+    } else if (nickname) {
+      setAccName(nickname);
+    }
+  }, [info]);
 
   useEffect((): void => {
     const account = keyring.getAccount(address);
