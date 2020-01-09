@@ -85,7 +85,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, 
               <div className='info'>
                 <Chain className='chain' />
                 {runtimeVersion && (
-                  <div className='runtimeVersion'>version {runtimeVersion.specVersion.toNumber()}</div>
+                  <div className='runtimeVersion'>版本 {runtimeVersion.specVersion.toNumber()}</div>
                 )}
                 <BestNumber label='#' />
               </div>

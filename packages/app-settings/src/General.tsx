@@ -32,6 +32,10 @@ const availableLanguages: SetOption[] = [
     value: 'en'
   },
   {
+    text: '汉语',
+    value: 'zh'
+  },
+  {
     text: '日本語',
     value: 'ja'
   }
