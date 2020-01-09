@@ -779,5 +779,6 @@
   "version {{version}}": "",
   "GitHub": "",
   "Wiki": "",
-  "Fees of {{fees}} will be applied to the submission": ""
+  "Fees of {{fees}} will be applied to the submission": "",
+  "filter by name or tags": ""
 }
