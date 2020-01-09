@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { ModalProps } from '../types';
 
 import React, { useState } from 'react';
@@ -11,18 +10,19 @@ import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-
 import { QrScanAddress } from '@polkadot/react-qr';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
 interface Scanned {
   address: string;
   genesisHash: string;
 }
 
-interface Props extends I18nProps, ModalProps {
+interface Props extends ModalProps {
   className?: string;
 }
 
-function QrModal ({ className, onClose, onStatusChange, t }: Props): React.ReactElement<Props> {
+function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [scanned, setScanned] = useState<Scanned | null>(null);
 
@@ -103,11 +103,9 @@ function QrModal ({ className, onClose, onStatusChange, t }: Props): React.React
   );
 }
 
-export default translate(
-  styled(QrModal)`
-    .qr-wrapper {
-      margin: 0 auto;
-      max-width: 30rem;
-    }
-  `
-);
+export default styled(QrModal)`
+  .qr-wrapper {
+    margin: 0 auto;
+    max-width: 30rem;
+  }
+`;

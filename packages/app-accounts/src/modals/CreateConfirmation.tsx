@@ -2,21 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 import { AddressRow, Button, Modal } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   address: string;
   name: string;
   onClose: () => void;
   onCommit: () => void;
 }
 
-function CreateConfirmation ({ address, name, onClose, onCommit, t }: Props): React.ReactElement<Props> | null {
+export default function CreateConfirmation ({ address, name, onClose, onCommit }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   return (
     <Modal
       header={t('Important notice')}
@@ -53,5 +53,3 @@ function CreateConfirmation ({ address, name, onClose, onCommit, t }: Props): Re
     </Modal>
   );
 }
-
-export default translate(CreateConfirmation);

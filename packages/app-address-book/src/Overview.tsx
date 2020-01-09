@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -12,16 +11,14 @@ import { useAddresses, useFavorites } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
-import translate from './translate';
-
-interface Props extends ComponentProps, I18nProps {
-}
+import { useTranslation } from './translate';
 
 type SortedAddress = { address: string; isFavorite: boolean };
 
 const STORE_FAVS = 'accounts:favorites';
 
-function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
+function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { hasAddresses, allAddresses } = useAddresses();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
@@ -93,16 +90,14 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
   );
 }
 
-export default translate(
-  styled(Overview)`
-    .filter--tags {
-      .ui--Dropdown {
-        padding-left: 0;
+export default styled(Overview)`
+  .filter--tags {
+    .ui--Dropdown {
+      padding-left: 0;
 
-        label {
-          left: 1.55rem;
-        }
+      label {
+        left: 1.55rem;
       }
     }
-  `
-);
+  }
+`;
