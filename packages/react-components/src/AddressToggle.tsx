@@ -28,17 +28,22 @@ function AddressToggle ({ address, className, filter, onChange, value }: Props):
   const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect((): void => {
-    const _filter = filter?.toLowerCase();
-    const [,, extracted] = getAddressName(address);
     let isFiltered = true;
 
-    if (!_filter || address.toLowerCase().includes(_filter) || extracted.toLowerCase().includes(_filter)) {
+    if (!filter || address.includes(filter)) {
       isFiltered = false;
     } else if (info) {
-      const { accountId, accountIndex, identity, nickname } = info;
+      const [,, extracted] = getAddressName(address);
+      const filterLower = filter.toLowerCase();
 
-      if (identity.display?.toLowerCase().includes(_filter) || accountId?.toString().toLowerCase().includes(_filter) || accountIndex?.toString().toLowerCase().includes(_filter) || nickname?.toLowerCase().includes(_filter)) {
+      if (extracted.toLowerCase().includes(filterLower)) {
         isFiltered = false;
+      } else if (info) {
+        const { accountId, accountIndex, identity, nickname } = info;
+
+        if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
+          isFiltered = false;
+        }
       }
     }
 
