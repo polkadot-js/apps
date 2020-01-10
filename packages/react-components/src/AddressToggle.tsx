@@ -3,18 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { I18nProps } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { getAddressName } from './util';
-import translate from './translate';
 import AddressMini from './AddressMini';
 import Toggle from './Toggle';
 
-interface Props extends I18nProps {
+interface Props {
   address: string;
   className?: string;
   filter?: string;
@@ -28,17 +26,22 @@ function AddressToggle ({ address, className, filter, onChange, value }: Props):
   const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect((): void => {
-    const [,, extracted] = getAddressName(address);
     let isFiltered = true;
 
-    if (!filter || address.includes(filter) || extracted.toLowerCase().includes(filter)) {
+    if (!filter || address.includes(filter)) {
       isFiltered = false;
     } else if (info) {
-      const { accountId, accountIndex, identity, nickname } = info;
+      const [,, extracted] = getAddressName(address);
       const filterLower = filter.toLowerCase();
 
-      if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
+      if (extracted.toLowerCase().includes(filterLower)) {
         isFiltered = false;
+      } else if (info) {
+        const { accountId, accountIndex, identity, nickname } = info;
+
+        if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
+          isFiltered = false;
+        }
       }
     }
 
@@ -71,46 +74,44 @@ function AddressToggle ({ address, className, filter, onChange, value }: Props):
   );
 }
 
-export default translate(
-  styled(AddressToggle)`
-    align-items: flex-start;
-    border: 1px solid transparent; /* #eee */
-    border-radius: 0.25rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    margin: 0.125rem;
-    padding: 0.125rem 0.25rem;
-    text-align: left;
-    vertical-align: middle;
-    white-space: nowrap;
+export default styled(AddressToggle)`
+  align-items: flex-start;
+  border: 1px solid transparent; /* #eee */
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  margin: 0.125rem;
+  padding: 0.125rem 0.25rem;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
 
+  .ui--AddressToggle-address {
+    filter: grayscale(100%);
+    opacity: 0.5;
+  }
+
+  &:hover {
+    border-color: #ccc;
+  }
+
+  &.isAye {
     .ui--AddressToggle-address {
-      filter: grayscale(100%);
-      opacity: 0.5;
+      filter: none;
+      opacity: 1;
     }
+    /* border-color: #ccc; */
+  }
 
-    &:hover {
-      border-color: #ccc;
-    }
+  .ui--AddressToggle-address,
+  .ui--AddressToggle-toggle {
+    flex: 1;
+    padding: 0;
+  }
 
-    &.isAye {
-      .ui--AddressToggle-address {
-        filter: none;
-        opacity: 1;
-      }
-      /* border-color: #ccc; */
-    }
-
-    .ui--AddressToggle-address,
-    .ui--AddressToggle-toggle {
-      flex: 1;
-      padding: 0;
-    }
-
-    .ui--AddressToggle-toggle {
-      margin-top: 0.1rem;
-      text-align: right;
-    }
-  `
-);
+  .ui--AddressToggle-toggle {
+    margin-top: 0.1rem;
+    text-align: right;
+  }
+`;
