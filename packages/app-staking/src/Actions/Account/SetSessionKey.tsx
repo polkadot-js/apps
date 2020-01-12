@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -41,13 +41,10 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
   return (
     <Modal
       className='staking--SetSessionAccount'
-      dimmer='inverted'
+      header={t('Set Session Key')}
       open
       size='small'
     >
-      <Modal.Header>
-        {t('Set Session Key')}
-      </Modal.Header>
       <Modal.Content className='ui--signer-Signer-Content'>
         <InputAddress
           className='medium'

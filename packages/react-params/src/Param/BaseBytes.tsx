@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -42,7 +42,7 @@ function convertInput (value: string): [boolean, Uint8Array] {
   return [value === '0x', new Uint8Array([])];
 }
 
-export default function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+export default function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
 
   useEffect((): void => {
@@ -102,6 +102,7 @@ export default function BaseBytes ({ asHex, children, className, defaultValue: {
         label={label}
         onChange={_onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         placeholder='0x...'
         type='text'
         withEllipsis

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,13 +13,15 @@ import basicMd from './md/basic.md';
 import Overview from './Overview';
 import translate from './translate';
 
+export { default as useCounter } from './useCounter';
+
 interface Props extends AppProps, BareProps, I18nProps {}
 
 const hidden = uiSettings.uiMode === 'full'
   ? []
   : ['propose'];
 
-function App ({ basePath, t }: Props): React.ReactElement<Props> {
+function DemocracyApp ({ basePath, t }: Props): React.ReactElement<Props> {
   return (
     <main className='democracy--App'>
       <HelpOverlay md={basicMd} />
@@ -43,4 +45,4 @@ function App ({ basePath, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(App);
+export default translate(DemocracyApp);

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -22,12 +22,13 @@ interface Props extends BareProps {
   name?: string;
   onChange: (value: string) => void;
   onEnter?: () => void;
+  onEscape?: () => void;
   tabIndex?: number;
   value: any;
   withLabel?: boolean;
 }
 
-export default function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
+export default function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
   const [isVisible, setIsVisible] = useState(false);
 
   const _toggleVisible = (): void => setIsVisible(!isVisible);
@@ -46,6 +47,7 @@ export default function Password ({ autoFocus, children, className, defaultValue
       name={name}
       onChange={onChange}
       onEnter={onEnter}
+      onEscape={onEscape}
       style={style}
       tabIndex={tabIndex}
       type={

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -30,6 +30,7 @@ type LineData = LineDataEntry[];
 interface SplitEntry {
   colors: string[];
   label: string;
+  tooltip: string;
   value: number;
 }
 
@@ -70,16 +71,25 @@ function extractSplit (values: [Hash, Exposure][], validatorId: string): SplitDa
     return null;
   }
 
+  const currency = formatBalance.getDefaults().unit;
+
   return [{ accountId: validatorId, isOwn: true, value: last.own.unwrap() }]
     .concat(last.others.map(({ who, value }): { accountId: string; isOwn: boolean; value: Balance } => ({
       accountId: who.toString(), isOwn: false, value: value.unwrap()
     })))
     .sort((a, b): number => b.value.cmp(a.value))
-    .map(({ accountId, isOwn, value }): SplitEntry => ({
-      colors: isOwn ? COLORS_MINE : COLORS_OTHER,
-      label: toShortAddress(accountId),
-      value: value.muln(10000).div(total).toNumber() / 100
-    }));
+    .map(({ accountId, isOwn, value }): SplitEntry => {
+      const label = toShortAddress(accountId);
+      const percentage = value.muln(10000).div(total).toNumber() / 100;
+      const tooltip = `${formatBalance(value, { forceUnit: '-', withSi: false })} ${currency} (${percentage.toFixed(2)}%)`;
+
+      return {
+        colors: isOwn ? COLORS_MINE : COLORS_OTHER,
+        label,
+        tooltip,
+        value: percentage
+      };
+    });
 }
 
 function extractEraSlash (validatorId: string, slashes: Slash[]): BN {

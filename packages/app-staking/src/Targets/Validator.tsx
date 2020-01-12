@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.v
 
@@ -6,11 +6,10 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorInfo } from './types';
 
 import React from 'react';
-import { Icon } from '@polkadot/react-components';
+import { AddressSmall, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import AddressSmall from '../AddressSmall';
 import translate from '../translate';
 
 interface Props extends I18nProps {

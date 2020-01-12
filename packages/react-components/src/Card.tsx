@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -28,6 +28,16 @@ export default styled(Card)`
   flex: 1 1;
   min-width: 24%;
   justify-content: space-around;
+
+  label {
+    opacity: 0.42;
+  }
+
+  &:hover {
+    label {
+      opacity: 1;
+    }
+  }
 
   &.error {
     background: rgba(255, 0, 0, 0.05);

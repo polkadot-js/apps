@@ -1,21 +1,20 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, Points, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import { DerivedStaking, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedStakingQuery, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressMini, Badge, Icon } from '@polkadot/react-components';
-import { trackStream, useApi } from '@polkadot/react-hooks';
+import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
+import { useCall, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import AddressSmall from '../AddressSmall';
 import translate from '../translate';
 
 interface Props extends I18nProps {
@@ -52,7 +51,7 @@ interface StakingState {
 function Address ({ address, authorsMap, className, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
-  const stakingInfo = trackStream<DerivedStaking>(api.derive.staking.info as any, [address]);
+  const stakingInfo = useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]);
   const [hasActivity, setHasActivity] = useState(true);
   const [{ commission, hasNominators, isNominatorMe, nominators, stashId, stakeOwn, stakeOther, validatorPayment }, setStakingState] = useState<StakingState>({
     hasNominators: false,

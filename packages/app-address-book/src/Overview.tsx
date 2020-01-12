@@ -1,57 +1,102 @@
-// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
+// Copyright 2017-2020 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
-import React, { useState } from 'react';
-import { Button, CardGrid } from '@polkadot/react-components';
-import { useAddresses } from '@polkadot/react-hooks';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Button, Input, Table } from '@polkadot/react-components';
+import { useAddresses, useFavorites } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends ComponentProps, I18nProps {
-}
+type SortedAddress = { address: string; isFavorite: boolean };
 
-function Overview ({ onStatusChange, t }: Props): React.ReactElement<Props> {
+const STORE_FAVS = 'accounts:favorites';
+
+function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { hasAddresses, allAddresses } = useAddresses();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const emptyScreen = !isCreateOpen && !hasAddresses;
+  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
+  const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
+  const [filter, setFilter] = useState<string>('');
+
+  useEffect((): void => {
+    setSortedAddresses(
+      allAddresses
+        .map((address): SortedAddress => ({ address, isFavorite: favorites.includes(address) }))
+        .sort((a, b): number =>
+          a.isFavorite === b.isFavorite
+            ? 0
+            : b.isFavorite
+              ? 1
+              : -1
+        )
+    );
+  }, [allAddresses, favorites]);
 
   const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
 
   return (
-    <CardGrid
-      buttons={
-        <Button.Group>
-          <Button
-            icon='add'
-            isPrimary
-            label={t('Add contact')}
-            onClick={_toggleCreate}
-          />
-        </Button.Group>
-      }
-      isEmpty={emptyScreen}
-      emptyText={t('No contacts found.')}
-    >
+    <div className={className}>
+      <Button.Group>
+        <Button
+          icon='add'
+          isPrimary
+          label={t('Add contact')}
+          onClick={_toggleCreate}
+        />
+      </Button.Group>
       {isCreateOpen && (
         <CreateModal
           onClose={_toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
-      {allAddresses.map((address): React.ReactNode => (
-        <Address
-          address={address}
-          key={address}
-        />
-      ))}
-    </CardGrid>
+      {hasAddresses
+        ? (
+          <>
+            <div className='filter--tags'>
+              <Input
+                isFull
+                label={t('filter by name or tags')}
+                onChange={setFilter}
+                value={filter}
+              />
+            </div>
+            <Table>
+              <Table.Body>
+                {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
+                  <Address
+                    address={address}
+                    filter={filter}
+                    isFavorite={isFavorite}
+                    key={address}
+                    toggleFavorite={toggleFavorite}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          </>
+        )
+        : t('no contracts yet, add an existing contact')
+      }
+    </div>
   );
 }
 
-export default translate(Overview);
+export default styled(Overview)`
+  .filter--tags {
+    .ui--Dropdown {
+      padding-left: 0;
+
+      label {
+        left: 1.55rem;
+      }
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,7 +8,7 @@ import { ComponentProps } from '../types';
 
 import React, { useState, useEffect } from 'react';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, CardGrid } from '@polkadot/react-components';
 
 import translate from '../translate';
@@ -97,17 +97,16 @@ function Contracts (props: Props): React.ReactElement<Props> {
           </Button.Group>
         }
       >
-        {contracts
-          .map((contract: ApiContract, index): React.ReactNode => {
-            return (
-              <ContractCard
-                basePath={basePath}
-                contract={contract}
-                key={contract.address.toString()}
-                onCall={_onCall(index)}
-              />
-            );
-          })}
+        {contracts.map((contract: ApiContract, index): React.ReactNode => {
+          return (
+            <ContractCard
+              basePath={basePath}
+              contract={contract}
+              key={contract.address.toString()}
+              onCall={_onCall(index)}
+            />
+          );
+        })}
       </CardGrid>
       <Add
         basePath={basePath}

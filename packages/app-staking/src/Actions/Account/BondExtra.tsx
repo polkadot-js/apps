@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,7 +12,7 @@ import React from 'react';
 import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withApi, withMulti } from '@polkadot/react-api';
+import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 import { bnMax } from '@polkadot/util';
 
@@ -67,7 +67,7 @@ class BondExtra extends TxComponent<Props, State> {
     return (
       <Modal
         className='staking--BondExtra'
-        dimmer='inverted'
+        header= {t('Bond more funds')}
         open
         size='small'
       >
@@ -104,36 +104,31 @@ class BondExtra extends TxComponent<Props, State> {
     const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
-      <>
-        <Modal.Header>
-          {t('Bond more funds')}
-        </Modal.Header>
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            defaultValue={stashId}
-            isDisabled
-            label={t('stash account')}
-            labelExtra={<Available label={transferrable} params={stashId} />}
-          />
-          <InputBalance
-            autoFocus
-            className='medium'
-            help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-            isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
-            label={t('additional bonded funds')}
-            maxValue={maxBalance}
-            onChange={this.onChangeValue}
-            onEnter={this.sendTx}
-            withMax={!isUnsafeChain}
-          />
-          <ValidateAmount
-            accountId={stashId}
-            onError={this.setAmountError}
-            value={maxAdditional}
-          />
-        </Modal.Content>
-      </>
+      <Modal.Content className='ui--signer-Signer-Content'>
+        <InputAddress
+          className='medium'
+          defaultValue={stashId}
+          isDisabled
+          label={t('stash account')}
+          labelExtra={<Available label={transferrable} params={stashId} />}
+        />
+        <InputBalance
+          autoFocus
+          className='medium'
+          help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
+          isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
+          label={t('additional bonded funds')}
+          maxValue={maxBalance}
+          onChange={this.onChangeValue}
+          onEnter={this.sendTx}
+          withMax={!isUnsafeChain}
+        />
+        <ValidateAmount
+          accountId={stashId}
+          onError={this.setAmountError}
+          value={maxAdditional}
+        />
+      </Modal.Content>
     );
   }
 

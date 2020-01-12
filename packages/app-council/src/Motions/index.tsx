@@ -1,44 +1,65 @@
-/* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '@polkadot/types/interfaces';
+import { DerivedCollectiveProposals, DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import React from 'react';
-import { withCalls } from '@polkadot/react-api';
-import { CardGrid } from '@polkadot/react-components';
+import React, { useEffect, useState } from 'react';
+import { Button, Table } from '@polkadot/react-components';
+import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 
 import Motion from './Motion';
 import Propose from './Propose';
+import Slashing from './Slashing';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  council_proposals?: Hash[];
+  motions?: DerivedCollectiveProposals;
 }
 
-function Proposals ({ council_proposals, t }: Props): React.ReactElement<Props> {
+function Proposals ({ className, motions, t }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const { allAccounts } = useAccounts();
+  const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
+  const [isMember, setIsMember] = useState(false);
+
+  useEffect((): void => {
+    if (allAccounts && members) {
+      setIsMember(
+        members
+          .map(([accountId]): string => accountId.toString())
+          .some((accountId): boolean => allAccounts.includes(accountId))
+      );
+    }
+  }, [allAccounts, members]);
+
   return (
-    <CardGrid
-      emptyText={t('No council motions')}
-      headerText={t('Motions')}
-      buttons={
-        <Propose />
+    <div className={className}>
+      <Button.Group>
+        <Propose isMember={isMember} />
+        <Button.Or />
+        <Slashing isMember={isMember} />
+      </Button.Group>
+      {motions?.length
+        ? (
+          <Table>
+            <Table.Body>
+              {motions?.map((motion: DerivedCollectiveProposal): React.ReactNode => (
+                <Motion
+                  isMember={isMember}
+                  key={motion.hash.toHex()}
+                  motion={motion}
+                />
+              ))}
+            </Table.Body>
+          </Table>
+        )
+        : t('No council motions')
       }
-    >
-      {council_proposals && council_proposals.map((hash: Hash): React.ReactNode => (
-        <Motion
-          hash={hash.toHex()}
-          key={hash.toHex()}
-        />
-      ))}
-    </CardGrid>
+    </div>
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    'query.council.proposals'
-  )(Proposals)
-);
+export default translate(Proposals);

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/react-query authors & contributors
+// Copyright 2017-2020 @polkadot/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,7 +8,7 @@ import { AccountId, AccountIndex, Address, StakingLedger } from '@polkadot/types
 
 import React from 'react';
 
-import { withCalls } from '@polkadot/react-api';
+import { withCalls } from '@polkadot/react-api/hoc';
 
 import FormatBalance from './FormatBalance';
 
@@ -19,7 +19,7 @@ interface Props extends BareProps, CallProps {
   staking_ledger?: StakingLedger | null;
 }
 
-export function BondedDisplay ({ children, className, label = '', staking_ledger }: Props): React.ReactElement<Props> {
+export function BondedDisplay ({ children, className, label, staking_ledger }: Props): React.ReactElement<Props> {
   return (
     <FormatBalance
       className={className}

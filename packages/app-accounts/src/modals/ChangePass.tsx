@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -37,10 +37,9 @@ class ChangePass extends TxComponent<Props, State> {
     return (
       <Modal
         className='app--accounts-Modal'
-        dimmer='inverted'
+        header={t('Change account password')}
         open
       >
-        <Modal.Header>{t('Change account password')}</Modal.Header>
         {this.renderContent()}
         {this.renderButtons()}
       </Modal>

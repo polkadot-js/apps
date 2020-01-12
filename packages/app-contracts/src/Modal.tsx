@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -54,13 +54,10 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     return (
       <Modal
         className='app--contracts-Modal'
-        dimmer='inverted'
+        header={t(this.headerText)}
         onClose={this.onClose}
         open={isOpen}
       >
-        <Modal.Header>
-          {t(this.headerText)}
-        </Modal.Header>
         <Modal.Content>
           {this.renderContent()}
         </Modal.Content>

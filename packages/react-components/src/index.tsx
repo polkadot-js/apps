@@ -1,12 +1,16 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+export { default as AccountIndex } from './AccountIndex';
+export { default as AccountName } from './AccountName';
 export { default as ActionItem } from './ActionItem';
-export { default as AddressCard } from './AddressCard';
 export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
+export { default as AddressMulti } from './AddressMulti';
 export { default as AddressRow } from './AddressRow';
+export { default as AddressSmall } from './AddressSmall';
+export { default as AddressToggle } from './AddressToggle';
 export { default as Available } from './Available';
 export { default as Badge } from './Badge';
 export { default as Balance } from './Balance';
@@ -27,6 +31,7 @@ export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
 export { default as Dropdown } from './Dropdown';
 export { default as Editor } from './Editor';
+export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Event } from './Event';
 export { default as Expander } from './Expander';
 export { default as Extrinsic } from './Extrinsic';
@@ -66,18 +71,21 @@ export { default as Password } from './Password';
 export { default as Popup } from './Popup';
 export { default as Progress } from './Progress';
 export { default as ProposedAction } from './ProposedAction';
-export { default as OnlineStatus } from './OnlineStatus';
 export { default as Row } from './Row';
 export { default as Static } from './Static';
 export { default as Status, StatusContext } from './Status';
 export { default as SummaryBox } from './SummaryBox';
+export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { default as Toggle } from './Toggle';
 export { default as Tooltip } from './Tooltip';
-export { default as TreasuryProposal } from './TreasuryProposal';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';
+export { default as TxModalNew } from './TxModalNew';
+export { default as VoteAccount } from './VoteAccount';
+export { default as VoteActions } from './VoteActions';
+export { default as VoteToggle } from './VoteToggle';
 export { default as Voting } from './Voting';
 
 export { default as media } from './media';

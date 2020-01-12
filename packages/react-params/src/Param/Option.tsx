@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,7 @@ import Param from './index';
 
 interface Props extends CProps, I18nProps {}
 
-function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter, t, type: { sub } }: Props): React.ReactElement<Props> {
+function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter, onEscape, t, type: { sub } }: Props): React.ReactElement<Props> {
   const [isActive, setIsActive] = useState(false);
 
   useEffect((): void => {
@@ -34,6 +34,7 @@ function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter,
         name={name}
         onChange={onChange}
         onEnter={onEnter}
+        onEscape={onEscape}
         type={sub as TypeDef}
       />
       {!isDisabled && (

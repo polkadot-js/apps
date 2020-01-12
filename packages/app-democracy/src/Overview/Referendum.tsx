@@ -1,31 +1,26 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedReferendumVote } from '@polkadot/api-derive/types';
+import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
-import { ReferendumInfoExtended } from '@polkadot/api-derive/type';
+import { BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ActionItem, Chart, Static, Voting } from '@polkadot/react-components';
-import { formatBalance, formatNumber } from '@polkadot/util';
-import VoteThreshold from '@polkadot/react-params/Param/VoteThreshold';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { formatNumber } from '@polkadot/util';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 
 import translate from '../translate';
-
-const COLORS_AYE = ['#64bebe', '#5badad'];
-const COLORS_NAY = ['#d75ea1', '#e189ba'];
+import ProposalCell from './ProposalCell';
+import Voting from './Voting';
 
 interface Props extends I18nProps {
   idNumber: BN;
-  chain_bestNumber?: BN;
-  democracy_referendumVotesFor?: DerivedReferendumVote[];
-  democracy_enactmentPeriod: BN;
-  value: ReferendumInfoExtended;
+  value: DerivedReferendum;
 }
 
 interface State {
@@ -37,8 +32,11 @@ interface State {
   votedTotal: BN;
 }
 
-function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, democracy_referendumVotesFor, t, value }: Props): React.ReactElement<Props> | null {
-  const [{ voteCount, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal }, setState] = useState<State>({
+function Referendum ({ className, idNumber, t, value }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const votesFor = useCall<DerivedReferendumVote[]>(api.derive.democracy.referendumVotesFor as any, [idNumber]);
+  const [{ voteCountAye, voteCountNay, votedAye, votedNay }, setState] = useState<State>({
     voteCount: 0,
     voteCountAye: 0,
     voteCountNay: 0,
@@ -48,8 +46,8 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
   });
 
   useEffect((): void => {
-    if (democracy_referendumVotesFor) {
-      const newState: State = democracy_referendumVotesFor.reduce((state, { balance, vote }): State => {
+    if (votesFor) {
+      const newState: State = votesFor.reduce((state, { balance, vote }): State => {
         if (vote.isAye) {
           state.voteCountAye++;
           state.votedAye = state.votedAye.add(balance);
@@ -77,76 +75,46 @@ function Referendum ({ chain_bestNumber, className, democracy_enactmentPeriod, d
 
       setState(newState);
     }
-  }, [democracy_referendumVotesFor]);
+  }, [votesFor]);
 
-  if (!chain_bestNumber || value.end.sub(chain_bestNumber).lten(0)) {
+  if (!bestNumber || value.info.end.sub(bestNumber).lten(0)) {
     return null;
   }
 
-  const enactBlock = (democracy_enactmentPeriod || new BN(0)).add(value.end);
+  const enactBlock = value.info.end.add(value.info.delay);
 
   return (
-    <ActionItem
-      className={className}
-      idNumber={value.index}
-      proposal={value.proposal}
-      accessory={
-        <Voting
-          idNumber={value.index}
-          proposal={value.proposal}
-        />
-      }
-    >
-      <div>
-        {voteCount !== 0 && votedTotal.gtn(0) && (
-          <div className='democracy--Referendum-results chart'>
-            <Chart.HorizBar
-              values={[
-                {
-                  colors: COLORS_AYE,
-                  label: `Aye, ${formatBalance(votedAye, { forceUnit: '-' })} (${formatNumber(voteCountAye)})`,
-                  value: votedAye.muln(10000).div(votedTotal).toNumber() / 100
-                },
-                {
-                  colors: COLORS_NAY,
-                  label: `Nay, ${formatBalance(votedNay, { forceUnit: '-' })} (${formatNumber(voteCountNay)})`,
-                  value: votedNay.muln(10000).div(votedTotal).toNumber() / 100
-                }
-              ]}
-            />
-          </div>
-        )}
-        <Static label={t('ending at')}>
-          {t('block #{{blockNumber}}, {{remaining}} blocks remaining', {
-            replace: {
-              blockNumber: formatNumber(value.end),
-              remaining: formatNumber(value.end.sub(chain_bestNumber).subn(1))
-            }
-          })}
-        </Static>
-        <Static label={t('activate at (if passed)')}>
-          {t('block #{{blockNumber}}', {
-            replace: {
-              blockNumber: formatNumber(enactBlock)
-            }
-          })}
-        </Static>
-        <VoteThreshold
-          isDisabled
-          defaultValue={{ isValid: true, value: value.threshold }}
-          label={t('vote threshold')}
-          name='voteThreshold'
-          type={{
-            info: 0,
-            type: 'VoteThreshold'
-          }}
-        />
-      </div>
-    </ActionItem>
+    <tr className={className}>
+      <td className='number top'><h1>{formatNumber(value.index)}</h1></td>
+      <ProposalCell
+        className='top'
+        proposalHash={value.hash}
+        proposal={value.proposal}
+      />
+      <td className='number together top'>
+        <label>{t('remaining')}</label>
+        {formatNumber(value.info.end.sub(bestNumber).subn(1))} blocks
+      </td>
+      <td className='number together top'>
+        <label>{t('activate at')}</label>
+        {formatNumber(enactBlock)}
+      </td>
+      <td className='number together top'>
+        <label>{t('Aye ({{count}})', { replace: { count: formatNumber(voteCountAye) } })}</label>
+        <FormatBalance value={votedAye} />
+      </td>
+      <td className='number together top'>
+        <label>{t('Nay ({{count}})', { replace: { count: formatNumber(voteCountNay) } })}</label>
+        <FormatBalance value={votedNay} />
+      </td>
+      <td className='number together top'>
+        <Voting referendumId={value.index} />
+      </td>
+    </tr>
   );
 }
 
-export default withMulti(
+export default translate(
   styled(Referendum)`
     .democracy--Referendum-results {
       margin-bottom: 1em;
@@ -155,11 +123,5 @@ export default withMulti(
         text-align: center;
       }
     }
-  `,
-  translate,
-  withCalls<Props>(
-    'derive.chain.bestNumber',
-    ['derive.democracy.referendumVotesFor', { paramName: 'idNumber' }],
-    ['consts.democracy.enactmentPeriod', { fallbacks: ['query.democracy.publicDelay'] }]
-  )
+  `
 );

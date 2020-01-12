@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,10 +8,9 @@ import { AccountId, EraPoints, Points } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import { useApi, useFavorites } from '@polkadot/react-hooks';
-import keyring from '@polkadot/ui-keyring';
+import { Dropdown, FilterOverlay, Table } from '@polkadot/react-components';
+import { useAccounts, useApi, useFavorites } from '@polkadot/react-hooks';
 
-import Table from '../Table';
 import { STORE_FAVS_BASE } from '../constants';
 import translate from '../translate';
 import Address from './Address';
@@ -20,6 +19,7 @@ interface Props extends I18nProps {
   authorsMap: Record<string, string>;
   hasQueries: boolean;
   isIntentions: boolean;
+  isVisible: boolean;
   lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
@@ -57,15 +57,15 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((accountId): string => accountId.toString());
 }
 
-function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
+function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> | null {
   const { isSubstrateV2 } = useApi();
+  const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [filter] = useState<ValidatorFilter>('all');
-  const [myAccounts] = useState(keyring.getAccounts().map(({ address }): string => address));
+  const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [{ elected, validators, waiting }, setFiltered] = useState<{ elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ elected: [], validators: [], waiting: [] });
 
   useEffect((): void => {
-    if (stakingOverview) {
+    if (isVisible && stakingOverview) {
       const _elected = accountsToString(stakingOverview.currentElected);
       const _validators = accountsToString(stakingOverview.validators);
       const validators = filterAccounts(_validators, _elected, favorites, [], stakingOverview.eraPoints);
@@ -77,7 +77,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
         waiting: filterAccounts(next, [], favorites, _elected)
       });
     }
-  }, [favorites, next, stakingOverview]);
+  }, [favorites, isVisible, next, stakingOverview]);
 
   const _renderRows = (addresses: AccountExtend[], defaultName: string, withOnline: boolean): React.ReactNode =>
     addresses.map(([address, isElected, isFavorite, points]): React.ReactNode => (
@@ -91,7 +91,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
         isFavorite={isFavorite}
         lastAuthors={lastAuthors}
         key={address}
-        myAccounts={myAccounts}
+        myAccounts={allAccounts}
         points={points}
         recentlyOnline={
           withOnline
@@ -102,26 +102,9 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
       />
     ));
 
-  const _renderTable = (className: string, rows: React.ReactNode): React.ReactNode =>
-    <Table className={className}>
-      {/* <Table.Head>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th className='number'>{t('own stake')}</th>
-        <th className='number'>{t('other stake')}</th>
-        <th className='number'>{t('nominators')}</th>
-        <th className='number'>{t('commission')}</th>
-        <th className='number'>{t('points')}</th>
-        <th className='number'>{t('last #')}</th>
-        <th>&nbsp;</th>
-      </Table.Head> */}
-      <Table.Body>{rows}</Table.Body>
-    </Table>;
-
   return (
-    <div>
-      {/* <FilterOverlay>
+    <div className={`${!isVisible && 'staking--hidden'}`}>
+      <FilterOverlay>
         <Dropdown
           onChange={setFilter}
           options={[
@@ -136,18 +119,18 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
           value={filter}
           withLabel={false}
         />
-      </FilterOverlay> */}
-      {_renderTable(isIntentions ? 'staking--hidden' : '', (
-        <>
+      </FilterOverlay>
+      <Table className={isIntentions ? 'staking--hidden' : ''}>
+        <Table.Body>
           {_renderRows(validators, t('validators'), true)}
-        </>
-      ))}
-      {_renderTable(isIntentions ? '' : 'staking--hidden', (
-        <>
+        </Table.Body>
+      </Table>
+      <Table className={isIntentions ? '' : 'staking--hidden'}>
+        <Table.Body>
           {_renderRows(elected, t('intention'), false)}
           {_renderRows(waiting, t('intention'), false)}
-        </>
-      ))}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

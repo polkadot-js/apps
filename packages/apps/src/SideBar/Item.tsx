@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,18 +10,18 @@ import { AccountId } from '@polkadot/types/interfaces';
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
-import { Icon, Menu, Tooltip } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import translate from '../translate';
+
+const DUMMY_COUNTER = (): number => 0;
 
 interface Props extends I18nProps {
   isCollapsed: boolean;
   onClick: () => void;
   route: Route;
-  sudoKey?: AccountId;
 }
 
 const disabledLog: Map<string, string> = new Map();
@@ -74,11 +74,13 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ route: { Modal, display, i18n, icon, name }, t, isCollapsed, onClick, sudoKey }: Props): React.ReactElement<Props> | null {
+function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, t, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady ? apiProps.api.query.sudo?.key : undefined, []);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const count = useCounter();
 
   useEffect((): void => {
     setHasSudo(!!sudoKey && allAccounts.some((address): boolean => sudoKey.eq(address)));
@@ -96,6 +98,9 @@ function Item ({ route: { Modal, display, i18n, icon, name }, t, isCollapsed, on
     <>
       <Icon name={icon} />
       <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+      {count !== 0 && (
+        <Badge isInline info={count} type='counter' />
+      )}
       <Tooltip
         offset={TOOLTIP_OFFSET}
         place='right'
@@ -137,10 +142,4 @@ function Item ({ route: { Modal, display, i18n, icon, name }, t, isCollapsed, on
   );
 }
 
-export default withMulti(
-  Item,
-  translate,
-  withCalls<Props>(
-    ['query.sudo.key', { propName: 'sudoKey' }]
-  )
-);
+export default translate(Item);

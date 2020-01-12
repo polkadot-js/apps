@@ -1,23 +1,22 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
+import { AccountId, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
-// import { withCalls } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
 
-// import translate from '../translate';
+import { useTranslation } from '../translate';
 import ContractCall from './ContractCall';
 import ContractDeploy from './ContractDeploy';
 import Proposal from './Proposal';
@@ -36,11 +35,12 @@ interface State {
   overLimit: boolean;
 }
 
-interface Props extends I18nProps {
+interface Props {
   balances_fees?: DerivedFees;
   balances_all?: DerivedBalances;
   contract_fees?: DerivedContractFees;
   accountId?: string | null;
+  className?: string;
   extrinsic?: SubmittableExtrinsic | null;
   isSendable: boolean;
   onChange?: (hasAvailable: boolean) => void;
@@ -65,7 +65,8 @@ export const calcTxLength = (extrinsic?: IExtrinsic | null, nonce?: BN, tip?: BN
   );
 };
 
-export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, t, tip }: Props): React.ReactElement<Props> | null {
+export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_fees = ZERO_FEES_BALANCES, className, contract_fees = ZERO_FEES_CONTRACT, extrinsic, isSendable, onChange, tip }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const [state, setState] = useState<State>({
     allFees: ZERO,
@@ -185,15 +186,15 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
         <>
           {(extSection === 'balances' && extMethod === 'transfer') && (
             <Transfer
-              amount={extrinsic.args[1]}
+              amount={extrinsic.args[1] as Compact<UInt>}
               fees={balances_fees}
-              recipientId={extrinsic.args[0]}
+              recipientId={extrinsic.args[0] as AccountId}
               onChange={setExtra}
             />
           )}
           {(extSection === 'democracy' && extMethod === 'propose') && (
             <Proposal
-              deposit={extrinsic.args[1]}
+              deposit={extrinsic.args[1] as Compact<UInt>}
               fees={balances_fees}
               onChange={setExtra}
             />
@@ -202,14 +203,14 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
             <>
               {(extMethod === 'call') && (
                 <ContractCall
-                  endowment={extrinsic.args[1] as unknown as Compact<UInt>}
+                  endowment={extrinsic.args[1] as Compact<UInt>}
                   fees={contract_fees}
                   onChange={setExtra}
                 />
               )}
               {(extMethod === 'create') && (
                 <ContractDeploy
-                  endowment={extrinsic.args[0] as unknown as Compact<UInt>}
+                  endowment={extrinsic.args[0] as Compact<UInt>}
                   fees={contract_fees}
                   onChange={setExtra}
                 />
@@ -260,7 +261,36 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
 //   )(FeeDisplay)
 // );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Checks (props: any): null {
-  return null;
+export default function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
+
+  useEffect((): void => {
+    if (accountId && extrinsic?.paymentInfo && api.rpc.payment?.queryInfo) {
+      extrinsic
+        .paymentInfo(accountId)
+        .then(setDispatchInfo);
+    }
+  }, [api, accountId, extrinsic]);
+
+  if (!dispatchInfo) {
+    return null;
+  }
+
+  return (
+    <article
+      className={[className, 'ui--Checks', 'normal', 'padded'].join(' ')}
+      key='txinfo'
+    >
+      <div>
+        <Icon name='arrow right' />
+        {t('Fees of {{fees}} will be applied to the submission', {
+          replace: {
+            fees: formatBalance(dispatchInfo.partialFee)
+          }
+        })}
+      </div>
+    </article>
+  );
 }

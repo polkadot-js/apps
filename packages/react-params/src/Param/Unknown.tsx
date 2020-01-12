@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,7 @@ interface Props extends BareProps {
 }
 
 export default function Unknown (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, style, type } = props;
+  const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type } = props;
 
   if (isDisabled) {
     return <Static {...props} />;
@@ -33,6 +33,7 @@ export default function Unknown (props: Props): React.ReactElement<Props> {
       name={name}
       onChange={onChange}
       onEnter={onEnter}
+      onEscape={onEscape}
       style={style}
       type={type}
       withLength={false}

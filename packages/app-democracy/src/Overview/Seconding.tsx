@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -33,11 +33,10 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
     <>
       {isSecondingOpen && (
         <Modal
-          dimmer='inverted'
+          header={t('Second proposal')}
           open
           size='small'
         >
-          <Modal.Header>{t('Second proposal')}</Modal.Header>
           <Modal.Content>
             <InputAddress
               help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
@@ -62,7 +61,7 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
                 isPrimary
                 label={t('Second')}
                 icon='sign-in'
-                onClick={_toggleSeconding}
+                onStart={_toggleSeconding}
                 params={[proposalId]}
                 tx='democracy.second'
               />
@@ -70,14 +69,12 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
           </Modal.Actions>
         </Modal>
       )}
-      <Button.Group>
-        <Button
-          isPrimary
-          label={t('Second proposal')}
-          icon='toggle off'
-          onClick={_toggleSeconding}
-        />
-      </Button.Group>
+      <Button
+        isPrimary
+        label={t('Second')}
+        icon='toggle off'
+        onClick={_toggleSeconding}
+      />
     </>
   );
 }

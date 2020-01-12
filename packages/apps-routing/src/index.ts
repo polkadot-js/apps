@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2020 @polkadot/apps-routing authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -23,6 +23,7 @@ import settings from './settings';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
+import techcomm from './techcomm';
 import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
@@ -57,6 +58,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     democracy,
     council,
     treasury,
+    techcomm,
     parachains,
     null,
     contracts,

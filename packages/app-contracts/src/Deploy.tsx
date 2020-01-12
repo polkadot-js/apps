@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,7 +12,7 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api';
+import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import { Button, Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';

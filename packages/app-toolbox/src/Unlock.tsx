@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-toolbox authors & contributors
+// Copyright 2017-2020 @polkadot/app-toolbox authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -45,12 +45,9 @@ class Unlock extends TxComponent<Props, State> {
     return (
       <Modal
         className='toolbox--Unlock'
-        dimmer='inverted'
+        header={t('Unlock account')}
         open
       >
-        <Modal.Header>
-          {t('Unlock account')}
-        </Modal.Header>
         {this.renderContent()}
         {this.renderActions()}
       </Modal>

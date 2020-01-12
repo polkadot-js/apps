@@ -1,23 +1,25 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
-import { ComponentProps } from './types';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { withCalls, registry } from '@polkadot/react-api';
+import { useLocation } from 'react-router-dom';
+import { registry } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 
+import Candidates from './Candidates';
 import Members from './Members';
 import SubmitCandidacy from './SubmitCandidacy';
 import Summary from './Summary';
 import Vote from './Vote';
 
-interface Props extends ComponentProps {
-  bestNumber?: BlockNumber;
+interface Props {
+  className?: string;
 }
 
 const NULL_INFO: DerivedElectionsInfo = {
@@ -29,28 +31,54 @@ const NULL_INFO: DerivedElectionsInfo = {
   termDuration: createType(registry, 'BlockNumber')
 };
 
-function Overview ({ bestNumber, electionsInfo = NULL_INFO }: Props): React.ReactElement<Props> {
+export default function Overview ({ className }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const _electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
+  const allVotes = useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
+    transform: ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> =>
+      voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
+        casted[index].forEach((candidate): void => {
+          const address = candidate.toString();
+
+          if (!result[address]) {
+            result[address] = [];
+          }
+
+          result[address].push(voter);
+        });
+
+        return result;
+      }, {})
+  });
+  const { pathname } = useLocation();
+  const electionsInfo = _electionsInfo || NULL_INFO;
+
   return (
-    <>
-      <Summary
-        bestNumber={bestNumber}
+    <div className={className}>
+      {pathname === '/council' && (
+        <>
+          <Summary
+            bestNumber={bestNumber}
+            electionsInfo={electionsInfo}
+          />
+          <Button.Group>
+            <SubmitCandidacy electionsInfo={electionsInfo} />
+            <Button.Or />
+            <Vote electionsInfo={electionsInfo} />
+          </Button.Group>
+        </>
+      )}
+      <Members
+        allVotes={allVotes}
+        className={pathname === '/council' ? '' : 'council--hidden'}
         electionsInfo={electionsInfo}
       />
-      <Button.Group>
-        <SubmitCandidacy electionsInfo={electionsInfo} />
-        <Button.Or />
-        <Vote electionsInfo={electionsInfo} />
-      </Button.Group>
-      <Members electionsInfo={electionsInfo} />
-    </>
+      <Candidates
+        allVotes={allVotes}
+        className={pathname === '/council' ? 'council--hidden' : ''}
+        electionsInfo={electionsInfo}
+      />
+    </div>
   );
 }
-
-export default withCalls<Props>(
-  ['derive.elections.info', {
-    propName: 'electionsInfo'
-  }],
-  ['derive.chain.bestNumber', {
-    propName: 'bestNumber'
-  }]
-)(Overview);

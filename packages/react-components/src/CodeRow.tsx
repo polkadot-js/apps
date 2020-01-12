@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,7 +9,8 @@ import { CodeStored } from '@polkadot/app-contracts/types';
 import React from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
-import { registry, withMulti } from '@polkadot/react-api';
+import { registry } from '@polkadot/react-api';
+import { withMulti } from '@polkadot/react-api/hoc';
 import { classes, toShortAddress } from '@polkadot/react-components/util';
 import contracts from '@polkadot/app-contracts/store';
 

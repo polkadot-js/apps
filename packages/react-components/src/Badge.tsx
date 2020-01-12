@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,32 +9,27 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  hover: React.ReactNode;
+  hover?: React.ReactNode;
   info: React.ReactNode;
   isInline?: boolean;
+  isSmall?: boolean;
   isTooltip?: boolean;
-  type: 'online' | 'offline' | 'next' | 'runnerup' | 'selected';
+  onClick?: () => void;
+  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray';
 }
 
 let badgeId = 0;
 
-function Badge ({ className, hover, info, isInline, isTooltip, type }: Props): React.ReactElement<Props> | null {
+function Badge ({ className, hover, info, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
   const [key] = useState(`${Date.now()}-${badgeId++}`);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const _toggleOpen = (): void => setIsOpen(!isOpen);
 
   return (
     <div
-      className={`ui--Badge ${isOpen && 'expand'} ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${type} ${className}`}
-      onClick={
-        isTooltip
-          ? _toggleOpen
-          : undefined
-      }
+      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
       data-for={`badge-status-${key}`}
       data-tip={true}
       data-tip-disable={!isTooltip}
+      onClick={onClick}
     >
       <div className='badge'>
         {info}
@@ -42,10 +37,12 @@ function Badge ({ className, hover, info, isInline, isTooltip, type }: Props): R
       <div className='detail'>
         {hover}
       </div>
-      <Tooltip
-        trigger={`badge-status-${key}`}
-        text={hover}
-      />
+      {hover && (
+        <Tooltip
+          trigger={`badge-status-${key}`}
+          text={hover}
+        />
+      )}
     </div>
   );
 }
@@ -61,6 +58,25 @@ export default styled(Badge)`
   text-align: center;
   width: 22px;
 
+  i.icon {
+    cursor: inherit !important;
+    margin: 0;
+    width: 1em;
+  }
+
+  &.isClickable {
+    cursor: pointer;
+  }
+
+  &.isSmall {
+    box-shadow: none;
+    font-size: 10px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0;
+    width: 16px;
+  }
+
   &:not(.isInline) {
     display: flex;
     justify-content: center;
@@ -72,32 +88,44 @@ export default styled(Badge)`
     margin-right: 0.25rem;
   }
 
-  &.next {
+  &.next,
+  &.blue {
     background: steelblue;
   }
 
-  &.offline {
+  &.offline,
+  &.counter {
     background: red;
   }
 
-  &.runnerup {
+  &.counter {
+    margin: 0 0.5rem;
+    vertical-align: middle;
+  }
+
+  &.gray {
+    background: #eee;
+    color: #aaa;
+  }
+
+  &.runnerup,
+  &.brown {
     background: brown;
   }
 
   &.online,
-  &.selected {
+  &.selected,
+  &.green {
     background: green;
   }
 
   & > * {
     line-height: 22px;
     overflow: hidden;
-    transition: all ease 0.25;
   }
 
-  .badge {
-    font-weight: bold;
-    width: auto;
+  &.isSmall > * {
+    line-height: 16px;
   }
 
   .detail {

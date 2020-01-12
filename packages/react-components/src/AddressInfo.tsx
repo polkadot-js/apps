@@ -1,8 +1,8 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStaking } from '@polkadot/api-derive/types';
+import { DerivedBalances, DerivedStakingAccount } from '@polkadot/api-derive/types';
 import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps, I18nProps } from './types';
 
@@ -11,7 +11,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber, isObject } from '@polkadot/util';
 import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -49,8 +49,9 @@ interface Props extends BareProps, I18nProps {
   balancesAll?: DerivedBalances;
   children?: React.ReactNode;
   extraInfo?: [string, string][];
-  stakingInfo?: DerivedStaking;
+  stakingInfo?: DerivedStakingAccount;
   withBalance?: boolean | BalanceActiveType;
+  withBalanceToggle?: false;
   withExtended?: boolean | CryptoActiveType;
   withHexSessionId?: (string | null)[];
   withRewardDestination?: boolean;
@@ -111,7 +112,7 @@ function skipStakingIf ({ stakingInfo, withBalance = true, withRewardDestination
 }
 
 // calculates the bonded, first being the own, the second being nominated
-function calcBonded (stakingInfo?: DerivedStaking, bonded?: boolean | BN[]): [BN, BN[]] {
+function calcBonded (stakingInfo?: DerivedStakingAccount, bonded?: boolean | BN[]): [BN, BN[]] {
   let other: BN[] = [];
   let own = new BN(0);
 
@@ -237,7 +238,7 @@ function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: P
 }
 
 function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
-  const { balancesAll, stakingInfo, t, withBalance = true } = props;
+  const { balancesAll, stakingInfo, t, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -249,7 +250,7 @@ function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const controllerId = stakingInfo?.controllerId?.toString();
 
-  return (
+  const allItems = (
     <>
       {balancesAll && balanceDisplay.total && (
         <>
@@ -344,17 +345,41 @@ function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
       )}
     </>
   );
+
+  if (withBalanceToggle) {
+    return (
+      <>
+        <label>{t('balances')}</label>
+        <details>
+          <summary>
+            <div className='body'>
+              <FormatBalance value={balancesAll?.votingBalance} />
+            </div>
+          </summary>
+          <div className='body column'>
+            {allItems}
+          </div>
+        </details>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {allItems}
+    </>
+  );
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
-  const { className, children, extraInfo, stakingInfo, t, withHexSessionId, withRewardDestination } = props;
+  const { className, children, extraInfo, stakingInfo, t, withBalanceToggle, withHexSessionId, withRewardDestination } = props;
 
   return (
-    <div className={className}>
-      <div className='column'>
+    <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
+      <div className={`column ${withBalanceToggle ? 'column--expander' : ''}`}>
         {renderBalances(props, allAccounts)}
-        {withHexSessionId && (
+        {withHexSessionId && withHexSessionId[0] && (
           <>
             <Label label={t('session keys')} />
             <div className='result'>{withHexSessionId[0]}</div>
@@ -382,7 +407,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
         )}
         {withRewardDestination && stakingInfo && stakingInfo.rewardDestination && (
           <>
-            <Label label={t('reward destination')} />
+            <Label label={t('rewards')} />
             <div className='result'>{stakingInfo.rewardDestination.toString().toLowerCase()}</div>
           </>
         )}
@@ -402,36 +427,64 @@ export default withMulti(
     align-items: flex-start;
     display: flex;
     flex: 1;
-    justify-content: center;
     white-space: nowrap;
 
+    &:not(.ui--AddressInfo-expander) {
+      justify-content: center;
+    }
+
     .column {
-      flex: 1;
-      display: grid;
-      opacity: 1;
+      justify-content: start;
 
-      label {
-        grid-column: 1;
-        padding-right: 0.5rem;
-        text-align: right;
-        vertical-align: middle;
+      &.column--expander {
+        text-align: left;
+        width: 15rem;
 
-        .help.circle.icon {
-          display: none;
+        details[open] summary {
+          .body {
+            opacity: 0;
+          }
+        }
+
+        details summary {
+          width: 100%;
+
+          .body {
+            display: inline-block;
+            text-align: right;
+            min-width: 12rem;
+          }
         }
       }
 
-      .result {
-        grid-column: 2;
+      &:not(.column--expander) {
+        flex: 1;
+        display: grid;
+        opacity: 1;
 
-        .icon {
-          margin-left: .3em;
-          margin-right: 0;
-          padding-right: 0 !important;
+        label {
+          grid-column: 1;
+          padding-right: 0.5rem;
+          text-align: right;
+          vertical-align: middle;
+
+          .help.circle.icon {
+            display: none;
+          }
         }
 
-        button.ui.icon.primary.button.icon-button {
-          background: white !important;
+        .result {
+          grid-column: 2;
+
+          .icon {
+            margin-left: .3em;
+            margin-right: 0;
+            padding-right: 0 !important;
+          }
+
+          button.ui.icon.primary.button.icon-button {
+            background: white !important;
+          }
         }
       }
     }
@@ -443,7 +496,7 @@ export default withMulti(
       propName: 'balancesAll',
       skipIf: skipBalancesIf
     }],
-    ['derive.staking.info', {
+    ['derive.staking.account', {
       paramName: 'address',
       propName: 'stakingInfo',
       skipIf: skipStakingIf

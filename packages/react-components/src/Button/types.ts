@@ -1,10 +1,12 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '../types';
 
 export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
+
+export type Button$OnClick = () => void | Promise<void>;
 
 export interface ButtonProps extends BareProps {
   children?: React.ReactNode;
@@ -20,7 +22,7 @@ export interface ButtonProps extends BareProps {
   isPrimary?: boolean;
   label?: React.ReactNode;
   labelPosition?: 'left' | 'right';
-  onClick?: () => void | Promise<void>;
+  onClick?: Button$OnClick;
   ref?: any;
   size?: Button$Sizes;
   tabIndex?: number;
