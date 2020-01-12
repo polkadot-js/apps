@@ -63,6 +63,7 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
   const [hasLegal, setHasLegal] = useState(false);
   // const [hasPgp, setHasPgp] = useState(false);
   const [hasRiot, setHasRiot] = useState(false);
+  const [hasTwitter, setHasTwitter] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
   const [valDisplay, setValDisplay] = useState(getAddressMeta(address).name || '');
   const [valEmail, setValEmail] = useState('');
@@ -70,6 +71,7 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
   const [valLegal, setValLegal] = useState('');
   // const [{ errPgp, valPgp }, setValPgp] = useState<{ errPgp: boolean; valPgp: string }>({ errPgp: true, valPgp: '' });
   const [valRiot, setValRiot] = useState('');
+  const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
 
   useEffect((): void => {
@@ -80,6 +82,7 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
       setData(info.email, setHasEmail, setValEmail);
       setData(info.legal, setHasLegal, setValLegal);
       setData(info.riot, setHasRiot, setValRiot);
+      setData(info.twitter, setHasTwitter, setValTwitter);
       setData(info.web, setHasWeb, setValWeb);
     }
   }, [identityOpt]);
@@ -90,6 +93,7 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
       email: { [hasEmail ? 'raw' : 'none']: hasEmail ? valEmail : null },
       legal: { [hasLegal ? 'raw' : 'none']: hasLegal ? valLegal : null },
       riot: { [hasRiot ? 'raw' : 'none']: hasRiot ? valRiot : null },
+      twitter: { [hasTwitter ? 'raw' : 'none']: hasTwitter ? valTwitter : null },
       web: { [hasWeb ? 'raw' : 'none']: hasWeb ? valWeb : null }
       // image: { [hasImg ? 'sha256' : 'none']: hasImg ? valImg : null },
       // pgpFingerprint: hasPgp ? valPgp : null
@@ -149,6 +153,18 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
             onChange={setValWeb}
             maxLength={32}
             value={hasWeb ? valWeb : '<none>'}
+          />
+        </WrapToggle>
+        <WrapToggle
+          onChange={setHasTwitter}
+          value={hasTwitter}
+        >
+          <Input
+            help={t('The twitter name for this identity.')}
+            isDisabled={!hasTwitter}
+            label={t('twitter')}
+            onChange={setValTwitter}
+            value={hasTwitter ? valTwitter : '<none>'}
           />
         </WrapToggle>
         <WrapToggle
