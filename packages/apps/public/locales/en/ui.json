@@ -780,5 +780,8 @@
   "GitHub": "",
   "Wiki": "",
   "Fees of {{fees}} will be applied to the submission": "",
-  "filter by name or tags": ""
+  "filter by name or tags": "",
+  "The twitter name for this identity.": "",
+  "twitter": "",
+  "parent": ""
 }

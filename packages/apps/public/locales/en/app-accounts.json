@@ -112,5 +112,7 @@
   "a riot name linked to this identity": "a riot name linked to this identity",
   "riot name": "riot name",
   "Set Identity": "Set Identity",
-  "filter by name or tags": "filter by name or tags"
+  "filter by name or tags": "filter by name or tags",
+  "The twitter name for this identity.": "The twitter name for this identity.",
+  "twitter": "twitter"
 }
