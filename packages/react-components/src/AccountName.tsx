@@ -13,6 +13,7 @@ import { Option } from '@polkadot/types';
 
 import { useTranslation } from './translate';
 import { getAddressName } from './util';
+import AddressMini from './AddressMini';
 import Badge from './Badge';
 import Button from './Button';
 import Dropdown from './Dropdown';
@@ -135,6 +136,12 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                   <td>{t('display')}</td>
                   <td>{identity.display}</td>
                 </tr>
+                {identity.parent && (
+                  <tr>
+                    <td>{t('parent')}</td>
+                    <td><AddressMini value={identity.parent} /></td>
+                  </tr>
+                )}
                 {identity.legal && (
                   <tr>
                     <td>{t('legal')}</td>
@@ -151,6 +158,12 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                   <tr>
                     <td>{t('www')}</td>
                     <td>{identity.web}</td>
+                  </tr>
+                )}
+                {identity.twitter && (
+                  <tr>
+                    <td>{t('twitter')}</td>
+                    <td>{identity.twitter}</td>
                   </tr>
                 )}
                 {identity.riot && (
@@ -172,7 +185,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
           <div className='via-identity'>
             <Badge
               hover={hover}
-              info={<Icon name={isGood ? 'check' : 'minus'} />}
+              info={<Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />}
               isInline
               isSmall
               isTooltip
