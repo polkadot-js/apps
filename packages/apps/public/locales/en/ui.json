@@ -783,5 +783,6 @@
   "filter by name or tags": "",
   "The twitter name for this identity.": "",
   "twitter": "",
-  "parent": ""
+  "parent": "",
+  "filter by name, address or index": ""
 }
