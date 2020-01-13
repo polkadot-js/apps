@@ -132,16 +132,16 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
             <div>{`${identity.judgements.length ? identity.judgements.length : 'no'} judgement${identity.judgements.length === 1 ? '' : 's'}${identity.judgements.length ? ': ' : ''}${identity.judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`}</div>
             <table>
               <tbody>
-                <tr>
-                  <td>{t('display')}</td>
-                  <td>{identity.display}</td>
-                </tr>
                 {identity.parent && (
                   <tr>
                     <td>{t('parent')}</td>
                     <td><AddressMini value={identity.parent} /></td>
                   </tr>
                 )}
+                <tr>
+                  <td>{t('display')}</td>
+                  <td>{identity.display}</td>
+                </tr>
                 {identity.legal && (
                   <tr>
                     <td>{t('legal')}</td>
@@ -180,6 +180,13 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
         const displayName = isGood
           ? identity.display
           : identity.display.replace(/[^\x20-\x7E]/g, '');
+        const displayParent = identity.displayParent
+          ? (
+            isGood
+              ? identity.displayParent
+              : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
+          )
+          : undefined;
 
         const name = (
           <div className='via-identity'>
@@ -198,7 +205,11 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
+            {
+              displayParent
+                ? <span className={`name ${isGood && 'isGood'}`}>{displayParent}/{displayName}</span>
+                : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
+            }
           </div>
         );
 
@@ -307,6 +318,14 @@ export default styled(AccountName)`
       &.isLocal {
         opacity: 1;
       }
+
+      .sub {
+        font-size: 0.75rem;
+      }
+    }
+
+    div.name {
+      display: inline-block;
     }
 
     > * {
