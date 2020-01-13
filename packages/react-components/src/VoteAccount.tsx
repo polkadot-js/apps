@@ -2,18 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from './types';
-
 import React from 'react';
 
 import InputAddress from './InputAddress';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   onChange: (value: string | null) => void;
 }
 
-function VoteAccount ({ className, onChange, t }: Props): React.ReactElement<Props> {
+export default function VoteAccount ({ className, onChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <InputAddress
       className={className}
@@ -25,5 +26,3 @@ function VoteAccount ({ className, onChange, t }: Props): React.ReactElement<Pro
     />
   );
 }
-
-export default translate(VoteAccount);
