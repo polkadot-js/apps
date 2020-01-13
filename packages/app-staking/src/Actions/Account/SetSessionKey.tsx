@@ -35,7 +35,7 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
   }
 
   const hasError = isSubstrateV2
-    ? !keys || !controllerId
+    ? !keys
     : (!keys || !!keysError);
 
   return (
