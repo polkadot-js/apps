@@ -205,11 +205,11 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            {displayParent
-              ? <span className={`name ${isGood && 'isGood'}`}>{displayParent}/{displayName}</span>
-              : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
+            {
+              displayParent
+                ? <span className={`name ${isGood && 'isGood'}`}>{displayParent}/{displayName}</span>
+                : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
             }
-
           </div>
         );
 
