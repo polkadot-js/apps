@@ -9,16 +9,18 @@ import { AddressRow, Button, CodeRow, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
+type Mode = 'account' | 'address' | 'contract' | 'code';
+
 interface Props {
   address?: string;
   code?: CodeStored;
   name?: string;
-  mode?: 'account' | 'address' | 'contract' | 'code';
+  mode?: Mode;
   onClose: () => void;
   onForget: () => void;
 }
 
-function getContent ({ mode = 'account' }: Props, t: (key: string) => string): React.ReactNode {
+function getContent (mode: Mode, t: (key: string) => string): React.ReactNode {
   switch (mode) {
     case 'account':
       return (
@@ -51,7 +53,7 @@ function getContent ({ mode = 'account' }: Props, t: (key: string) => string): R
   }
 }
 
-function getHeaderText ({ mode = 'account' }: Props, t: (key: string) => string): string {
+function getHeaderText (mode: Mode, t: (key: string) => string): string {
   switch (mode) {
     case 'account':
       return t('Confirm account removal');
@@ -76,7 +78,7 @@ function renderContent (props: Props, t: (key: string) => string): React.ReactNo
           isInline
           value={address || ''}
         >
-          {getContent(props, t)}
+          {getContent(mode, t)}
         </AddressRow>
       );
     case 'code':
@@ -85,7 +87,7 @@ function renderContent (props: Props, t: (key: string) => string): React.ReactNo
           isInline
           code={code || ''}
         >
-          {getContent(props, t)}
+          {getContent(mode, t)}
         </CodeRow>
       );
   }
@@ -93,12 +95,12 @@ function renderContent (props: Props, t: (key: string) => string): React.ReactNo
 
 export default function Forget (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { onForget, onClose } = props;
+  const { mode = 'account', onForget, onClose } = props;
 
   return (
     <Modal
       className='app--accounts-Modal'
-      header={getHeaderText(props, t)}
+      header={getHeaderText(mode, t)}
       onClose={onClose}
       open
     >

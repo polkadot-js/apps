@@ -112,6 +112,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
 
 function renderConstructor (props: Props, index: number): React.ReactNode {
   const { contractAbi: { abi: { contract: { constructors } } } } = props;
+
   if (!constructors[index]) {
     return null;
   }
@@ -121,6 +122,7 @@ function renderConstructor (props: Props, index: number): React.ReactNode {
 
 function renderMessage (props: Props, index: number): React.ReactNode {
   const { contractAbi: { abi: { contract: { messages } } } } = props;
+
   if (!messages[index]) {
     return null;
   }
