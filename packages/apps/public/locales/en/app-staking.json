@@ -150,5 +150,6 @@
   "Filter available candidates based on name, address or short account index.": "Filter available candidates based on name, address or short account index.",
   "filter candidates": "filter candidates",
   "Session Key": "Session Key",
-  "No funds staked yet. Bond funds to validate or nominate a validator.": "No funds staked yet. Bond funds to validate or nominate a validator."
+  "No funds staked yet. Bond funds to validate or nominate a validator.": "No funds staked yet. Bond funds to validate or nominate a validator.",
+  "filter by name, address or index": "filter by name, address or index"
 }
