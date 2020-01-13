@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { InputAddress, Labelled, Static } from '@polkadot/react-components';
@@ -12,9 +11,9 @@ import { Option } from '@polkadot/types';
 import { FormatBalance } from '@polkadot/react-query';
 
 import Inset, { InsetProps } from './Inset';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   asInset?: boolean;
   insetProps?: Partial<InsetProps>;
@@ -24,7 +23,8 @@ interface Props extends I18nProps {
   withLink?: boolean;
 }
 
-function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
+export default function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const [stateProposal, setProposal] = useState<TreasuryProposalType | null>(null);
   const { api } = useApi();
 
@@ -93,5 +93,3 @@ function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, 
     </div>
   );
 }
-
-export default translate(TreasuryProposal);

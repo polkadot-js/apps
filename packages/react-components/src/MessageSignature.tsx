@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -11,11 +10,11 @@ import { displayType } from '@polkadot/types';
 
 import Icon from './Icon';
 import Tooltip from './Tooltip';
-import translate from './translate';
+import { useTranslation } from './translate';
 
 const MAX_PARAM_LENGTH = 20;
 
-export interface Props extends I18nProps {
+export interface Props {
   asConstructor?: boolean;
   message: ContractABIMessage;
   params?: any[];
@@ -53,7 +52,9 @@ function truncate (param: string): string {
     : param;
 }
 
-function MessageSignature ({ message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false, t }: Props): React.ReactElement<Props> {
+export default function MessageSignature ({ message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <Signature>
       <Name>
@@ -107,5 +108,3 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
     </Signature>
   );
 }
-
-export default translate(MessageSignature);
