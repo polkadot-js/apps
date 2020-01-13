@@ -207,7 +207,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
             />
             {
               displayParent
-                ? <span className={`name ${isGood && 'isGood'}`}>{displayParent}/{displayName}</span>
+                ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
                 : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
             }
           </div>
@@ -321,6 +321,7 @@ export default styled(AccountName)`
 
       .sub {
         font-size: 0.75rem;
+        opacity: 0.75;
       }
     }
 
