@@ -2,24 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, I18nProps } from './types';
+import { BareProps } from './types';
 
 import React, { useContext } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import StatusContext from './Status/Context';
 import Button from './Button';
-import translate from './translate';
+import { useTranslation } from './translate';
 import styled from 'styled-components';
 
-interface Props extends BareProps, I18nProps {
+interface Props extends BareProps {
   children?: React.ReactNode;
+  className?: string;
   icon?: string;
   isAddress?: boolean;
   value?: any;
 }
 
-function CopyButton ({ children, className, icon = 'copy', isAddress = false, t, value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className, icon = 'copy', isAddress = false, value }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
   const _onCopy = (): void => {
@@ -53,16 +55,14 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, t,
   );
 }
 
-export default translate(
-  styled(CopyButton)`
+export default styled(CopyButton)`
+  cursor: copy;
+
+  button.ui.mini.icon.primary.button.icon-button {
     cursor: copy;
+  }
 
-    button.ui.mini.icon.primary.button.icon-button {
-      cursor: copy;
-    }
-
-    .copySpan {
-      white-space: nowrap;
-    }
-  `
-);
+  .copySpan {
+    white-space: nowrap;
+  }
+`;

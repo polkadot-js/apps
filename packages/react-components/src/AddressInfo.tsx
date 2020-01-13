@@ -4,7 +4,7 @@
 
 import { DerivedBalances, DerivedStakingAccount } from '@polkadot/api-derive/types';
 import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
-import { BareProps, I18nProps } from './types';
+import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -17,7 +17,7 @@ import { FormatBalance } from '@polkadot/react-query';
 
 import CryptoType from './CryptoType';
 import Label from './Label';
-import translate from './translate';
+import { useTranslation } from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {
@@ -44,7 +44,7 @@ export interface ValidatorPrefsType {
 
 const PERBILL = new BN(1000000000);
 
-interface Props extends BareProps, I18nProps {
+interface Props extends BareProps {
   address: string;
   balancesAll?: DerivedBalances;
   children?: React.ReactNode;
@@ -129,7 +129,8 @@ function calcBonded (stakingInfo?: DerivedStakingAccount, bonded?: boolean | BN[
   return [own, other];
 }
 
-function renderExtended ({ balancesAll, t, address, withExtended }: Props): React.ReactNode {
+function renderExtended ({ balancesAll, address, withExtended }: Props): React.ReactNode {
+  const { t } = useTranslation();
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
@@ -159,7 +160,9 @@ function renderExtended ({ balancesAll, t, address, withExtended }: Props): Reac
   );
 }
 
-function renderUnlocking ({ stakingInfo, t }: Props): React.ReactNode {
+function renderUnlocking ({ stakingInfo }: Props): React.ReactNode {
+  const { t } = useTranslation();
+
   if (!stakingInfo || !stakingInfo.unlocking || !stakingInfo.unlocking.length) {
     return null;
   }
@@ -195,7 +198,8 @@ function renderUnlocking ({ stakingInfo, t }: Props): React.ReactNode {
   );
 }
 
-function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: Props): React.ReactNode {
+function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props): React.ReactNode {
+  const { t } = useTranslation();
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
@@ -238,7 +242,8 @@ function renderValidatorPrefs ({ stakingInfo, t, withValidatorPrefs = false }: P
 }
 
 function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
-  const { balancesAll, stakingInfo, t, withBalance = true, withBalanceToggle = false } = props;
+  const { t } = useTranslation();
+  const { balancesAll, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -372,8 +377,9 @@ function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
 }
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const { className, children, extraInfo, stakingInfo, t, withBalanceToggle, withHexSessionId, withRewardDestination } = props;
+  const { className, children, extraInfo, stakingInfo, withBalanceToggle, withHexSessionId, withRewardDestination } = props;
 
   return (
     <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
@@ -489,7 +495,6 @@ export default withMulti(
       }
     }
   `,
-  translate,
   withCalls<Props>(
     ['derive.balances.all', {
       paramName: 'address',
