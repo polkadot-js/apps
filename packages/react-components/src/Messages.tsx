@@ -61,13 +61,13 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
       key={name}
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
     >
-      <div className="info">
+      <div className='info'>
         <MessageSignature
           asConstructor={asConstructor}
           message={message}
           withTooltip
         />
-        <details className="docs">
+        <details className='docs'>
           <summary>
             {
               docs && docs.length > 0
@@ -87,20 +87,20 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
         </details>
       </div>
       {!asConstructor && props.onSelect && (
-        <div className="accessory">
+        <div className='accessory'>
           <Button
-            className="execute"
-            icon="play"
+            className='execute'
+            icon='play'
             onClick={onSelect(props, index)}
             tooltip={t('Call this message')}
           />
         </div>
       )}
       {asConstructor && props.onSelectConstructor && (
-        <div className="accessory">
+        <div className='accessory'>
           <Button
-            className="execute"
-            icon="cloud upload"
+            className='execute'
+            icon='cloud upload'
             onClick={onSelectConstructor(props, index)}
             tooltip={t('Deploy with this constructor')}
           />
