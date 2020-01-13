@@ -14,7 +14,7 @@ import Base from './Base';
 import Static from './Static';
 
 export default function StructParam (props: Props): React.ReactElement<Props> {
-  const { className, isDisabled, label, onChange, style, type, withLabel } = props;
+  const { className, isDisabled, label, onChange, overrides, style, type, withLabel } = props;
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
@@ -54,6 +54,7 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
       />
       <Params
         onChange={_onChangeParams}
+        overrides={overrides}
         params={params}
       />
     </div>
