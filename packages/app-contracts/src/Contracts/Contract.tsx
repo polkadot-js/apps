@@ -13,9 +13,9 @@ import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps, RouteComponentProps {
+interface Props extends RouteComponentProps {
   basePath: string;
   contract: ApiContract;
   onCall: (_?: number) => () => void;

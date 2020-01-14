@@ -4,7 +4,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractInfo } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
 import React, { useEffect, useState } from 'react';
@@ -13,15 +12,16 @@ import { withCalls } from '@polkadot/react-api/hoc';
 import { InfoForInput } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends ApiProps {
   address?: string | null;
   contracts_contractInfoOf?: Option<ContractInfo>;
   onChange: (isValid: boolean) => void;
 }
 
-function ValidateAddr ({ address, contracts_contractInfoOf, onChange, t }: Props): React.ReactElement<Props> | null {
+function ValidateAddr ({ address, contracts_contractInfoOf, onChange }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const [isAddress, setIsAddress] = useState(false);
   const [isStored, setIsStored] = useState(false);
 
@@ -57,11 +57,9 @@ function ValidateAddr ({ address, contracts_contractInfoOf, onChange, t }: Props
   );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.contracts.contractInfoOf', {
-      fallbacks: ['query.contract.contractInfoOf'],
-      paramName: 'address'
-    }]
-  )(ValidateAddr)
-);
+export default withCalls<Props>(
+  ['query.contracts.contractInfoOf', {
+    fallbacks: ['query.contract.contractInfoOf'],
+    paramName: 'address'
+  }]
+)(ValidateAddr);

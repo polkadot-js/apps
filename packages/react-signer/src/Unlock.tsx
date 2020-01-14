@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useState } from 'react';
 import { Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   autoFocus?: boolean;
   error?: string;
   onChange: (password: string) => void;
@@ -29,7 +28,8 @@ function getPair (address?: string | null): KeyringPair | null {
   }
 }
 
-function Unlock ({ autoFocus, error, onChange, onEnter, password, t, tabIndex, value }: Props): React.ReactElement<Props> | null {
+export default function Unlock ({ autoFocus, error, onChange, onEnter, password, tabIndex, value }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const [pair] = useState<KeyringPair | null>(getPair(value));
 
   if (!pair || !(pair.isLocked) || pair.meta.isInjected) {
@@ -50,5 +50,3 @@ function Unlock ({ autoFocus, error, onChange, onEnter, password, t, tabIndex, v
     </div>
   );
 }
-
-export default translate(Unlock);
