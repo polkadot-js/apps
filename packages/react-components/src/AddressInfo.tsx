@@ -129,8 +129,7 @@ function calcBonded (stakingInfo?: DerivedStakingAccount, bonded?: boolean | BN[
   return [own, other];
 }
 
-function renderExtended ({ balancesAll, address, withExtended }: Props): React.ReactNode {
-  const { t } = useTranslation();
+function renderExtended ({ balancesAll, address, withExtended }: Props, t: (key: string) => string): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
@@ -160,9 +159,7 @@ function renderExtended ({ balancesAll, address, withExtended }: Props): React.R
   );
 }
 
-function renderUnlocking ({ stakingInfo }: Props): React.ReactNode {
-  const { t } = useTranslation();
-
+function renderUnlocking ({ stakingInfo }: Props, t: (key: string, data: any) => string): React.ReactNode {
   if (!stakingInfo || !stakingInfo.unlocking || !stakingInfo.unlocking.length) {
     return null;
   }
@@ -198,8 +195,7 @@ function renderUnlocking ({ stakingInfo }: Props): React.ReactNode {
   );
 }
 
-function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props): React.ReactNode {
-  const { t } = useTranslation();
+function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: (key: string) => string): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
@@ -241,8 +237,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
-  const { t } = useTranslation();
+function renderBalances (props: Props, allAccounts: string[], t: (key: string) => string): React.ReactNode {
   const { balancesAll, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
@@ -344,7 +339,7 @@ function renderBalances (props: Props, allAccounts: string[]): React.ReactNode {
         <>
           <Label label={t('unbonding')} />
           <div className='result'>
-            {renderUnlocking(props)}
+            {renderUnlocking(props, t)}
           </div>
         </>
       )}
@@ -384,7 +379,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
       <div className={`column ${withBalanceToggle ? 'column--expander' : ''}`}>
-        {renderBalances(props, allAccounts)}
+        {renderBalances(props, allAccounts, t)}
         {withHexSessionId && withHexSessionId[0] && (
           <>
             <Label label={t('session keys')} />
@@ -397,7 +392,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
             <div className='result'>{withHexSessionId[1]}</div>
           </>
         )}
-        {renderValidatorPrefs(props)}
+        {renderValidatorPrefs(props, t)}
         {extraInfo && (
           <>
             <div />
@@ -418,7 +413,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
           </>
         )}
       </div>
-      {renderExtended(props)}
+      {renderExtended(props, t)}
       {children && (
         <div className='column'>
           {children}
