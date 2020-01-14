@@ -784,5 +784,6 @@
   "The twitter name for this identity.": "",
   "twitter": "",
   "parent": "",
-  "filter by name, address or index": ""
+  "filter by name, address or index": "",
+  "Inactive ({{count}})": ""
 }
