@@ -27,7 +27,7 @@ interface State extends ExtraFees {
 
 const ZERO = new BN(0);
 
-export function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
+export default function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const minDeposit = api.consts.democracy.minimumDeposit || useCall<BN>(api.query.democracy.minimumDeposit, []);
@@ -84,5 +84,3 @@ export function Proposal ({ deposit, onChange }: Props): React.ReactElement<Prop
     </>
   );
 }
-
-export default translate(Proposal);
