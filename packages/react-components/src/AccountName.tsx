@@ -34,25 +34,25 @@ interface Props extends BareProps {
   withShort?: boolean;
 }
 
-const nameCache: Map<string, [boolean, React.ReactNode]> = new Map();
+const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean] {
   const accountId = _address.toString();
   const accountIndex = (_accountIndex || '').toString();
   const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
-  const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, null];
+  const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, [null, null]];
 
   if (extracted && isAddressCached && !isAddressExtracted) {
     // skip, default return
-  } else if (nameCached) {
+  } else if (nameCached[0]) {
     return [nameCached, false, isAddressCached];
   } else if (isAddressExtracted && accountIndex) {
-    nameCache.set(accountId, [true, accountIndex]);
+    nameCache.set(accountId, [true, [accountIndex, null]]);
 
-    return [accountIndex, false, true];
+    return [[accountIndex, null], false, true];
   }
 
-  return [extracted, !isAddressExtracted, isAddressExtracted];
+  return [[extracted, null], !isAddressExtracted, isAddressExtracted];
 }
 
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
@@ -70,11 +70,15 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   const address = useMemo((): string => (value || '').toString(), [value]);
 
   const _extractName = (accountId?: AccountId, accountIndex?: AccountIndex): React.ReactNode => {
-    const [name, isLocal, isAddress] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
+    const [[displayFirst, displaySecond], isLocal, isAddress] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
 
     return (
       <div className='via-identity'>
-        <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{name}</span>
+        <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
+          displaySecond
+            ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
+            : displayFirst
+        }</span>
       </div>
     );
   };
@@ -138,10 +142,12 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     <td><AddressMini value={identity.parent} /></td>
                   </tr>
                 )}
-                <tr>
-                  <td>{t('display')}</td>
-                  <td>{identity.display}</td>
-                </tr>
+                {identity.display && (
+                  <tr>
+                    <td>{t('display')}</td>
+                    <td>{identity.display}</td>
+                  </tr>
+                )}
                 {identity.legal && (
                   <tr>
                     <td>{t('legal')}</td>
@@ -213,13 +219,13 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
           </div>
         );
 
-        nameCache.set(address, [false, displayName]);
+        nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
         setName((): React.ReactNode => name);
       } else {
         setName((): React.ReactNode => _extractName(accountId, accountIndex));
       }
     } else if (nickname) {
-      nameCache.set(address, [false, nickname]);
+      nameCache.set(address, [false, [nickname, null]]);
       setName(nickname);
     } else {
       setName(defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex));
