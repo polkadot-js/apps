@@ -22,6 +22,7 @@ import SetRewardDestination from './SetRewardDestination';
 import SetSessionKey from './SetSessionKey';
 import Unbond from './Unbond';
 import Validate from './Validate';
+import useInactives from './useInactives';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]>;
 
@@ -93,6 +94,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   const balancesAll = useCall<DerivedBalances>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
+  const inactives = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
@@ -214,17 +216,32 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
         : (
           <td>
             {isStashNominating && nominees && (
-              <details>
-                <summary>{t('Nominating ({{count}})', { replace: { count: nominees.length } })}</summary>
-                {nominees.map((nomineeId, index): React.ReactNode => (
-                  <AddressMini
-                    key={index}
-                    value={nomineeId}
-                    withBalance={false}
-                    withBonded
-                  />
-                ))}
-              </details>
+              <>
+                <details>
+                  <summary>{t('Nominating ({{count}})', { replace: { count: nominees.length } })}</summary>
+                  {nominees.map((nomineeId, index): React.ReactNode => (
+                    <AddressMini
+                      key={index}
+                      value={nomineeId}
+                      withBalance={false}
+                      withBonded
+                    />
+                  ))}
+                </details>
+                {inactives.length !== 0 && (
+                  <details>
+                    <summary>{t('Inactive ({{count}})', { replace: { count: inactives.length } })}</summary>
+                    {inactives.map((nomineeId, index): React.ReactNode => (
+                      <AddressMini
+                        key={index}
+                        value={nomineeId}
+                        withBalance={false}
+                        withBonded
+                      />
+                    ))}
+                  </details>
+                )}
+              </>
             )}
           </td>
         )
