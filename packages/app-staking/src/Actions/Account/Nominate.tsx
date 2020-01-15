@@ -38,7 +38,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
 
   useEffect((): void => {
     if (stakingOverview) {
-      setValidators((stakingOverview.currentElected || []).map((acc): string => acc.toString()));
+      setValidators(stakingOverview.validators.map((acc): string => acc.toString()));
     }
   }, [stakingOverview]);
 
