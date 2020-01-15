@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { Button } from '@polkadot/react-components';
 
 import React from 'react';
@@ -12,11 +11,12 @@ import { Abi } from '@polkadot/api-contract';
 
 import IconLink from './IconLink';
 import MessageSignature from './MessageSignature';
-import translate from './translate';
+import { useTranslation } from './translate';
 import { classes } from './util';
 
-export interface Props extends I18nProps {
+export interface Props {
   address?: string;
+  className?: string;
   contractAbi: Abi;
   isLabelled?: boolean;
   isRemovable: boolean;
@@ -53,6 +53,7 @@ function onSelectConstructor (props: Props, index: number): () => void {
 }
 
 function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor = false): React.ReactNode {
+  const { t } = useTranslation();
   const { docs = [], name } = message;
 
   return (
@@ -60,13 +61,13 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
       key={name}
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
     >
-      <div className="info">
+      <div className='info'>
         <MessageSignature
           asConstructor={asConstructor}
           message={message}
           withTooltip
         />
-        <details className="docs">
+        <details className='docs'>
           <summary>
             {
               docs && docs.length > 0
@@ -79,31 +80,29 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
                     </React.Fragment>
                   )))
                 : (
-                  <i>
-                    {props.t('No documentation provided')}
-                  </i>
+                  <i>{t('No documentation provided')}</i>
                 )
             }
           </summary>
         </details>
       </div>
       {!asConstructor && props.onSelect && (
-        <div className="accessory">
+        <div className='accessory'>
           <Button
-            className="execute"
-            icon="play"
+            className='execute'
+            icon='play'
             onClick={onSelect(props, index)}
-            tooltip={props.t('Call this message')}
+            tooltip={t('Call this message')}
           />
         </div>
       )}
       {asConstructor && props.onSelectConstructor && (
-        <div className="accessory">
+        <div className='accessory'>
           <Button
-            className="execute"
-            icon="cloud upload"
+            className='execute'
+            icon='cloud upload'
             onClick={onSelectConstructor(props, index)}
-            tooltip={props.t('Deploy with this constructor')}
+            tooltip={t('Deploy with this constructor')}
           />
         </div>
       )}
@@ -113,6 +112,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
 
 function renderConstructor (props: Props, index: number): React.ReactNode {
   const { contractAbi: { abi: { contract: { constructors } } } } = props;
+
   if (!constructors[index]) {
     return null;
   }
@@ -122,6 +122,7 @@ function renderConstructor (props: Props, index: number): React.ReactNode {
 
 function renderMessage (props: Props, index: number): React.ReactNode {
   const { contractAbi: { abi: { contract: { messages } } } } = props;
+
   if (!messages[index]) {
     return null;
   }
@@ -130,7 +131,9 @@ function renderMessage (props: Props, index: number): React.ReactNode {
 }
 
 function Messages (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors, t } = props;
+  const { t } = useTranslation();
+  const { className, contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
       {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index))}
@@ -147,7 +150,7 @@ function Messages (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(styled(Messages)`
+export default styled(Messages)`
   font-size: 0.9rem;
   padding: 0;
   margin: 0;
@@ -223,4 +226,4 @@ export default translate(styled(Messages)`
       color: #555 !important;
     }
   }
-`);
+`;

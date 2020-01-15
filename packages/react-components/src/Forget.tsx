@@ -2,24 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
 import { AddressRow, Button, CodeRow, Modal } from '@polkadot/react-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+type Mode = 'account' | 'address' | 'contract' | 'code';
+
+interface Props {
   address?: string;
   code?: CodeStored;
   name?: string;
-  mode?: 'account' | 'address' | 'contract' | 'code';
+  mode?: Mode;
   onClose: () => void;
   onForget: () => void;
 }
 
-function getContent ({ mode = 'account', t }: Props): React.ReactNode {
+function getContent (mode: Mode, t: (key: string) => string): React.ReactNode {
   switch (mode) {
     case 'account':
       return (
@@ -52,7 +53,7 @@ function getContent ({ mode = 'account', t }: Props): React.ReactNode {
   }
 }
 
-function getHeaderText ({ mode = 'account', t }: Props): string {
+function getHeaderText (mode: Mode, t: (key: string) => string): string {
   switch (mode) {
     case 'account':
       return t('Confirm account removal');
@@ -65,7 +66,7 @@ function getHeaderText ({ mode = 'account', t }: Props): string {
   }
 }
 
-function renderContent (props: Props): React.ReactNode {
+function renderContent (props: Props, t: (key: string) => string): React.ReactNode {
   const { address, code, mode = 'account' } = props;
 
   switch (mode) {
@@ -77,7 +78,7 @@ function renderContent (props: Props): React.ReactNode {
           isInline
           value={address || ''}
         >
-          {getContent(props)}
+          {getContent(mode, t)}
         </AddressRow>
       );
     case 'code':
@@ -86,23 +87,24 @@ function renderContent (props: Props): React.ReactNode {
           isInline
           code={code || ''}
         >
-          {getContent(props)}
+          {getContent(mode, t)}
         </CodeRow>
       );
   }
 }
 
-function Forget (props: Props): React.ReactElement<Props> {
-  const { onForget, onClose, t } = props;
+export default function Forget (props: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { mode = 'account', onForget, onClose } = props;
 
   return (
     <Modal
       className='app--accounts-Modal'
-      header={getHeaderText(props)}
+      header={getHeaderText(mode, t)}
       onClose={onClose}
       open
     >
-      <Modal.Content>{renderContent(props)}</Modal.Content>
+      <Modal.Content>{renderContent(props, t)}</Modal.Content>
       <Modal.Actions>
         <Button.Group>
           <Button
@@ -123,5 +125,3 @@ function Forget (props: Props): React.ReactElement<Props> {
     </Modal>
   );
 }
-
-export default translate(Forget);
