@@ -19,8 +19,7 @@ interface Props {
   className?: string;
 }
 
-function ExtensionOverlay ({ className }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
+function ExtensionOverlay ({ className }: Props, t: (key: string) => string): React.ReactElement<Props> | null {
   const { isWaitingInjected } = useApi();
 
   if (!isWaitingInjected) {
@@ -37,8 +36,7 @@ function ExtensionOverlay ({ className }: Props): React.ReactElement<Props> | nu
   );
 }
 
-function ConnectOverlay ({ className }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
+function ConnectOverlay ({ className }: Props, t: (key: string) => string): React.ReactElement<Props> | null {
   const { isApiConnected } = useApi();
 
   if (isApiConnected) {
@@ -61,7 +59,8 @@ function ConnectOverlay ({ className }: Props): React.ReactElement<Props> | null
 }
 
 function Connecting (props: Props): React.ReactElement<Props> | null {
-  return ExtensionOverlay(props) || ConnectOverlay(props);
+  const { t } = useTranslation();
+  return ExtensionOverlay(props, t) || ConnectOverlay(props, t);
 }
 
 export default styled(Connecting)`
