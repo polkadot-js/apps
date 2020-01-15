@@ -45,7 +45,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   useEffect((): void => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc): boolean => validators.includes(acc) || next.includes(acc)),
+      ...favorites,
       // make sure the nominee is not in our favorites already
       ...(nominees || []).filter((acc): boolean => !favorites.includes(acc))
     ];
