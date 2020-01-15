@@ -785,5 +785,8 @@
   "twitter": "",
   "parent": "",
   "filter by name, address or index": "",
-  "Inactive ({{count}})": ""
+  "Inactive ({{count}})": "",
+  "All Nominations ({{count}})": "",
+  "Inactive nominations ({{count}})": "",
+  "Set nominees": ""
 }
