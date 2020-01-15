@@ -21,22 +21,20 @@ interface Props {
   className?: string;
 }
 
-function ExtensionOverlay ({ className }: Props, { isWaitingInjected }: ApiProps, t: (key: string, opts?: any) => string): React.ReactElement<Props> | null {
-  if (!isWaitingInjected) {
-    return null;
+function Connecting ({ className }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const { isApiConnected, isWaitingInjected } = useApi();
+
+  if (isWaitingInjected) {
+    return (
+      <BaseOverlay
+        className={className}
+        icon='puzzle'
+      >
+        <div>{t('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
+      </BaseOverlay>
+    );
   }
-
-  return (
-    <BaseOverlay
-      className={className}
-      icon='puzzle'
-    >
-      <div>{t('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
-    </BaseOverlay>
-  );
-}
-
-function ConnectOverlay ({ className }: Props, { isApiConnected }: ApiProps, t: (key: string, opts?: any) => string): React.ReactElement<Props> | null {
 
   if (isApiConnected) {
     return null;
@@ -55,13 +53,6 @@ function ConnectOverlay ({ className }: Props, { isApiConnected }: ApiProps, t: 
       }
     </BaseOverlay>
   );
-}
-
-function Connecting (props: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-  const api = useApi();
-
-  return ExtensionOverlay(props, api, t) || ConnectOverlay(props, api, t);
 }
 
 export default styled(Connecting)`
