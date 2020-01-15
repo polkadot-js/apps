@@ -33,7 +33,7 @@ const NULL_INFO: DerivedElectionsInfo = {
 
 export default function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const _electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
   const allVotes = useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
     transform: ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> =>
@@ -56,14 +56,14 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
 
   return (
     <div className={className}>
-      {pathname === '/council' && (
+      <Summary
+        bestNumber={bestNumber}
+        electionsInfo={electionsInfo}
+      />
+      {pathname !== '/council' && (
         <>
-          <Summary
-            bestNumber={bestNumber}
-            electionsInfo={electionsInfo}
-          />
           <Button.Group>
-            <SubmitCandidacy electionsInfo={electionsInfo} />
+            <SubmitCandidacy />
             <Button.Or />
             <Vote electionsInfo={electionsInfo} />
           </Button.Group>

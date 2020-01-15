@@ -4,17 +4,17 @@
 
 import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
+import { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Tabs } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { Proposals, Tabs } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import useCounter from './useCounter';
 import Overview from './Overview';
-import Motions from './Motions';
 import { useTranslation } from './translate';
 
 export { useCounter };
@@ -24,9 +24,22 @@ interface Props extends AppProps, BareProps {}
 function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const { pathname } = useLocation();
   const numMotions = useCounter();
-  const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals, []);
+  const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members);
+  const proposals = useCall<DerivedCollectiveProposals>(api.derive.council.proposals);
+
+  const [isMember, setIsMember] = useState(false);
+  useEffect((): void => {
+    if (allAccounts && members) {
+      setIsMember(
+        members
+          .map(([accountId]): string => accountId.toString())
+          .some((accountId): boolean => allAccounts.includes(accountId))
+      );
+    }
+  }, [allAccounts, members]);
 
   return (
     <main className={className}>
@@ -52,7 +65,12 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
       </header>
       <Switch>
         <Route path={`${basePath}/motions`}>
-          <Motions motions={motions} />
+          <Proposals
+            collective='council'
+            isMember={isMember}
+            memberCount={members?.length || 0}
+            proposals={proposals}
+          />
         </Route>
       </Switch>
       <Overview className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'} />

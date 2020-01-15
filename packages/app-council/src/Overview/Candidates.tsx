@@ -3,22 +3,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
-
-import translate from '../translate';
 import Candidate from './Candidate';
 
-interface Props extends I18nProps, ComponentProps {
-  allVotes?: Record<string, AccountId[]>;
-  className?: string;
-}
+import { useTranslation } from '../translate';
 
-function Candidates ({ allVotes = {}, className, electionsInfo: { candidates, runnersUp }, t }: Props): React.ReactElement<Props> {
+export default function Candidates ({ allVotes = {}, className, electionsInfo: { candidates, runnersUp } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <div className={className}>
       <h1>{t('runners up')}</h1>
@@ -59,5 +54,3 @@ function Candidates ({ allVotes = {}, className, electionsInfo: { candidates, ru
     </div>
   );
 }
-
-export default translate(Candidates);

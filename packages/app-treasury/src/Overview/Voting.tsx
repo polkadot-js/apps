@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
-import { ProposalIndex, Hash } from '@polkadot/types/interfaces';
+import { TxSource } from '@polkadot/react-hooks/types';
+import { Call, ProposalIndex, Hash } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, Input, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import { Button, Dropdown, Input, TxModalNew as TxModal, VoteToggle } from '@polkadot/react-components';
+import { useAccounts, useApi, useTxModal } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -23,13 +24,12 @@ interface Option {
 }
 
 export default function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
-  const [accountId, setAccountId] = useState<string | null>(null);
   const [{ councilId, councilHash }, setCouncilInfo] = useState<{ councilId: ProposalIndex | null; councilHash: Hash | null }>({ councilId: null, councilHash: null });
-  const [isOpen, toggleOpen] = useToggle();
   const [voteValue, setVoteValue] = useState(true);
 
   useEffect((): void => {
@@ -44,10 +44,6 @@ export default function Voting ({ councilProposals, isDisabled }: Props): React.
     setCouncilOpts(available);
   }, [councilProposals]);
 
-  if (!hasAccounts || !councilOpts.length) {
-    return null;
-  }
-
   const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
   const _onChangeProposal = (optionId: number): void => {
     const councilProp = councilProposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
@@ -60,50 +56,102 @@ export default function Voting ({ councilProposals, isDisabled }: Props): React.
     }
   };
 
-  return (
-    <>
-      {isOpen && (
-        <Modal
-          header={t('Vote on proposal')}
-          open
-          size='small'
-        >
-          <Modal.Content>
-            <VoteAccount onChange={setAccountId} />
-            <Dropdown
-              help={t('The council proposal to make the vote on')}
-              label={t('council proposal')}
-              onChange={_onChangeProposal}
-              options={councilOpts}
-              value={councilOptId}
-            />
-            <Input
-              help={t('The hash for the proposal this vote applies to')}
-              isDisabled
-              label={t('proposal hash')}
-              value={councilHash}
-            />
-            <VoteToggle
-              onChange={_onChangeVote}
-              value={voteValue}
-            />
-          </Modal.Content>
-          <VoteActions
-            accountId={accountId}
-            isDisabled={!councilHash}
-            onClick={toggleOpen}
-            params={[councilHash, councilId, voteValue]}
-            tx='council.vote'
-          />
-        </Modal>
-      )}
-      <Button
-        icon='check'
-        isDisabled={isDisabled}
-        isPrimary
-        label={t('Vote')}
-        onClick={toggleOpen}
-      />
-    </>
+  const txModalState = useTxModal(
+    (): TxSource => ({
+      tx: ((): Call | null => {
+        try {
+          return api.tx.council.vote(councilHash, councilId, voteValue);
+        } catch (e) {
+          return null;
+        }
+      })(),
+      isSubmittable: !!councilHash
+    }),
+    [councilHash, councilId, voteValue]
   );
+
+  if (!hasAccounts || !councilOpts.length) {
+    return null;
+  }
+
+  return (
+    <TxModal
+      {...txModalState}
+      header={t('Vote on proposal')}
+      trigger={({ onOpen }): React.ReactElement => ((
+        <Button
+          icon='check'
+          isDisabled={isDisabled}
+          isPrimary
+          label={t('Vote')}
+          onClick={onOpen}
+        />
+      ))}
+    >
+      <Dropdown
+        help={t('The council proposal to make the vote on')}
+        label={t('council proposal')}
+        onChange={_onChangeProposal}
+        options={councilOpts}
+        value={councilOptId}
+      />
+      <Input
+        help={t('The hash for the proposal this vote applies to')}
+        isDisabled
+        label={t('proposal hash')}
+        value={councilHash}
+      />
+      <VoteToggle
+        onChange={_onChangeVote}
+        value={voteValue}
+      />
+    </TxModal>
+  );
+
+  // return (
+  //   <>
+  //     {isOpen && (
+  //       <Modal
+  //         header={t('Vote on proposal')}
+  //         open
+  //         size='small'
+  //       >
+  //         <Modal.Content>
+  //           <VoteAccount onChange={setAccountId} />
+  //           <Dropdown
+  //             help={t('The council proposal to make the vote on')}
+  //             label={t('council proposal')}
+  //             onChange={_onChangeProposal}
+  //             options={councilOpts}
+  //             value={councilOptId}
+  //           />
+  //           <Input
+  //             help={t('The hash for the proposal this vote applies to')}
+  //             isDisabled
+  //             label={t('proposal hash')}
+  //             value={councilHash}
+  //           />
+  //           <VoteToggle
+  //             onChange={_onChangeVote}
+  //             value={voteValue}
+  //           />
+  //         </Modal.Content>
+  //         <VoteActions
+  //           accountId={accountId}
+  //           isDisabled={!councilHash}
+  //           onClick={toggleOpen}
+  //           params={[councilHash, councilId, voteValue]}
+  //           tx='council.vote'
+  //         />
+  //       </Modal>
+  //     )}
+  //     <Button
+  //       icon='check'
+  //       isDisabled={isDisabled}
+  //       isPrimary
+  //       label={t('Vote')}
+  //       onClick={toggleOpen}
+  //     />
+  //   </>
+  // );
 }

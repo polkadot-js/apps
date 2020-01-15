@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ConstructTxFn, StringOrNull } from '@polkadot/react-components/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 import { AccountId, Balance, BlockNumber, Call, Hash, SessionIndex } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
@@ -18,11 +18,22 @@ export interface CallOptions <T> {
   transform?: (value: any) => T;
 }
 
-export type TxDef = [string, any[] | ConstructTxFn];
+export interface ModalState {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}
 
-export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
+export type TxDef = SubmittableExtrinsic | IExtrinsic | Call | null;
 
-export type TxSource<T extends TxDefs> = [T, boolean];
+export interface TxSource {
+  tx: TxDef;
+  isSubmittable: boolean;
+}
+
+export type TxIsSubmittableFn = (...args: any[]) => boolean;
+
+export type TxIsSubmittable = boolean;
 
 export interface Slash {
   accountId: AccountId;
@@ -45,16 +56,23 @@ export interface ExtrinsicAndSenders {
   sendUnsigned: () => void;
 }
 
+export interface TxSenders {
+  isSubmittable: boolean;
+  sendTx: () => void;
+  sendUnsigned: () => void;
+}
+
 export interface TxProps {
   accountId?: StringOrNull;
   onChangeAccountId?: (_: StringOrNull) => void;
+  onQueue?: () => void;
   onSuccess?: () => void;
   onFailed?: () => void;
   onStart?: () => void;
   onUpdate?: () => void;
 }
 
-export interface TxState extends ExtrinsicAndSenders {
+export interface TxState extends TxSenders {
   isSending: boolean;
   accountId?: StringOrNull;
   onChangeAccountId: (_: StringOrNull) => void;

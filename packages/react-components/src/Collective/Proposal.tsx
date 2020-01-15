@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps, VotingType } from '@polkadot/react-components/types';
+import { CollectiveProps } from './types';
 
 import React from 'react';
 import { AddressMini, Voting } from '@polkadot/react-components';
@@ -12,17 +13,13 @@ import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
 
-interface Props extends I18nProps {
+interface Props extends I18nProps, CollectiveProps {
   isMember: boolean;
-  motion: DerivedCollectiveProposal;
+  proposal: DerivedCollectiveProposal;
 }
 
-function Motion ({ className, isMember, motion: { hash, proposal, votes }, t }: Props): React.ReactElement<Props> | null {
-  if (!votes) {
-    return null;
-  }
-
-  const { ayes, index, nays, threshold } = votes;
+function Proposal ({ className, collective, isMember, proposal: { hash, proposal, votes }, t }: Props): React.ReactElement<Props> | null {
+  const { ayes = [], index = 0, nays = [], threshold = 0 } = votes || {};
 
   return (
     <tr className={className}>
@@ -57,16 +54,17 @@ function Motion ({ className, isMember, motion: { hash, proposal, votes }, t }: 
         ))}
       </td>
       <td className='number top together'>
-        <Voting
-          hash={hash}
-          isCouncil
-          isDisabled={!isMember}
-          idNumber={index}
-          proposal={proposal}
-        />
+        {isMember && (
+          <Voting
+            hash={hash}
+            idNumber={index}
+            proposal={proposal}
+            type={collective === 'council' ? VotingType.Council : VotingType.TechnicalCommittee}
+          />
+        )}
       </td>
     </tr>
   );
 }
 
-export default translate(Motion);
+export default translate(Proposal);

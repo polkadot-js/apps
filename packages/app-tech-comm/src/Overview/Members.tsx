@@ -2,20 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
+import { ComponentProps as Props } from '../types';
 
 import React from 'react';
 import { AddressSmall, Table } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
-  members?: AccountId[];
-  className?: string;
-}
-
-function Members ({ className, members, t }: Props): React.ReactElement<Props> {
+export default function Members ({ className, members }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       {members?.length
@@ -32,10 +26,8 @@ function Members ({ className, members, t }: Props): React.ReactElement<Props> {
             </Table.Body>
           </Table>
         )
-        : t('No members found')
+        : useTranslation().t('No members found')
       }
     </div>
   );
 }
-
-export default translate(Members);

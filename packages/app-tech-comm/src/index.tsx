@@ -2,26 +2,38 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Hash } from '@polkadot/types/interfaces';
-import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
+import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
+import { AccountId } from '@polkadot/types/interfaces';
+import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { Tabs } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { Proposals, Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
-import Proposals from './Proposals';
-import translate from './translate';
+import Summary from './Summary';
+import { useTranslation } from './translate';
 
 export { default as useCounter } from './useCounter';
 
-interface Props extends AppProps, BareProps, I18nProps {}
+interface Props extends AppProps, BareProps {}
 
-function TechCommApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
+export default function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
-  const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals, []);
+  const { t } = useTranslation();
+  const { allAccounts } = useAccounts();
+  const proposals = useCall<DerivedCollectiveProposals>(api.derive.technicalCommittee.proposals);
+  const members = useCall<AccountId[]>(api.query.technicalCommittee.members);
+
+  const [isMember, setIsMember] = useState(false);
+  useEffect((): void => {
+    if (allAccounts && members) {
+      setIsMember(
+        members.some((accountId): boolean => allAccounts.includes(accountId.toString()))
+      );
+    }
+  }, [allAccounts, members]);
 
   return (
     <main className={className}>
@@ -36,27 +48,30 @@ function TechCommApp ({ basePath, className, t }: Props): React.ReactElement<Pro
             },
             {
               name: 'proposals',
-              text: t('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
+              text: t('Proposals ({{count}})', { replace: { count: proposals?.length || 0 } })
             }
           ]}
         />
       </header>
+      <Summary
+        members={members}
+        proposals={proposals}
+      />
       <Switch>
         <Route path={`${basePath}/proposals`}>
           <Proposals
-            members={members}
+            collective='technicalCommittee'
+            isMember={isMember}
+            memberCount={members?.length || 0}
             proposals={proposals}
           />
         </Route>
         <Route path={basePath}>
           <Overview
             members={members}
-            proposals={proposals}
           />
         </Route>
       </Switch>
     </main>
   );
 }
-
-export default translate(TechCommApp);

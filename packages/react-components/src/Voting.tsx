@@ -2,124 +2,102 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import { Hash, Proposal } from '@polkadot/types/interfaces';
+import { TxSource } from '@polkadot/react-hooks/types';
+import { VotingType } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
-import keyring from '@polkadot/ui-keyring';
-import { withMulti, withObservable } from '@polkadot/react-api/hoc';
+import React, { useState } from 'react';
+import { useApi, useTxModal } from '@polkadot/react-hooks';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 import Button from './Button';
 import ProposedAction from './ProposedAction';
-import TxModal, { TxModalProps, TxModalState } from './TxModal';
+import TxModal from './TxModalNew';
 import VoteToggle from './VoteToggle';
 import { isTreasuryProposalVote } from './util';
 
-interface Props extends I18nProps, TxModalProps {
-  allAccounts?: SubjectInfo;
-  hash?: string;
+interface Props {
+  hash?: Hash;
   idNumber: BN | number;
-  isCouncil: boolean;
-  isDisabled?: boolean;
   proposal?: Proposal | null;
-  preContent?: React.ReactNode;
+  type: VotingType;
 }
 
-interface State extends TxModalState {
-  voteValue: boolean;
-}
+const { Democracy, Council, TechnicalCommittee } = VotingType;
 
-class Voting extends TxModal<Props, State> {
-  public state: State;
+export default function Voting ({ hash, idNumber, proposal, type }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const { t } = useTranslation();
+  const [voteValue, setVoteValue] = useState(true);
 
-  protected headerText = (): string => {
-    const { isCouncil, t } = this.props;
+  let method: SubmittableExtrinsicFunction<'promise'>;
+  let header: React.ReactNode;
 
-    return isCouncil ? t('Vote on council proposal') : t('Vote on proposal');
+  switch (type) {
+    case Council:
+      method = api.tx.council.vote;
+      header = t('Vote on council motion');
+      break;
+    case TechnicalCommittee:
+      method = api.tx.technicalCommittee.vote;
+      header = t('Vote on technical committee motion');
+      break;
+    case Democracy:
+    default:
+      method = api.tx.democracy.vote;
+      header = t('Vote on proposal');
+      break;
   }
 
-  protected accountLabel = (): string => this.props.t('Vote with account');
+  const txModalState = useTxModal(
+    type !== Democracy && !!hash
+      ? (): TxSource => ({
+        tx: method(hash.toString(), idNumber, voteValue),
+        isSubmittable: !!hash
+      })
+      : (): TxSource => ({
+        tx: method(idNumber, voteValue),
+        isSubmittable: true
+      }),
+    [hash, idNumber, voteValue]
+  );
 
-  protected accountHelp = (): string => this.props.t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.');
-
-  protected txMethod = (): string => {
-    const { isCouncil } = this.props;
-
-    return isCouncil ? 'council.vote' : 'democracy.vote';
-  }
-
-  protected txParams = (): any[] => {
-    const { hash, idNumber, isCouncil } = this.props;
-    const { voteValue } = this.state;
-
-    return isCouncil
-      ? [hash, idNumber, voteValue]
-      : [idNumber, voteValue];
-  }
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      ...this.defaultState,
-      voteValue: true
-    };
-  }
-
-  protected renderPreContent = (): React.ReactNode => {
-    const { idNumber, proposal } = this.props;
-
-    return (
-      <>
-        <ProposedAction
-          expandNested={isTreasuryProposalVote(proposal)}
-          idNumber={idNumber}
-          isCollapsible
-          proposal={proposal}
-        />
-        <br />
-        <br />
-      </>
-    );
-  }
-
-  protected renderContent = (): React.ReactNode => {
-    const { voteValue } = this.state;
-
-    return (
+  return (
+    <TxModal
+      {...txModalState}
+      trigger={
+        ({ onOpen }): React.ReactElement => ((
+          <div className='ui--Row-buttons'>
+            <Button
+              isPrimary
+              label={t('Vote')}
+              icon='check'
+              onClick={onOpen}
+            />
+          </div>
+        ))
+      }
+      header={header}
+      inputAddressLabel={t('Vote with account')}
+      preContent={
+        <>
+          <ProposedAction
+            expandNested={isTreasuryProposalVote(proposal)}
+            idNumber={idNumber}
+            isCollapsible
+            proposal={proposal}
+          />
+          <br />
+          <br />
+        </>
+      }
+    >
       <VoteToggle
-        onChange={this.onChangeVote}
+        onChange={setVoteValue}
         value={voteValue}
       />
-    );
-  }
-
-  protected renderTrigger = (): React.ReactNode => {
-    const { isDisabled, t } = this.props;
-
-    return (
-      <div className='ui--Row-buttons'>
-        <Button
-          isDisabled={isDisabled}
-          isPrimary
-          label={t('Vote')}
-          icon='check'
-          onClick={this.showModal}
-        />
-      </div>
-    );
-  }
-
-  private onChangeVote = (voteValue: boolean): void => {
-    this.setState({ voteValue });
-  }
+    </TxModal>
+  );
 }
-
-export default withMulti(
-  Voting,
-  translate,
-  withObservable(keyring.accounts.subject, { propName: 'allAccounts' })
-);

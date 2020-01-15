@@ -8,7 +8,6 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Table } from '@polkadot/react-components';
 import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 
@@ -16,7 +15,7 @@ import Proposal from './Proposal';
 import translate from '../translate';
 
 interface Props extends I18nProps {
-  proposals?: DerivedTreasuryProposal[];
+  proposals: DerivedTreasuryProposal[];
   isApprovals?: boolean;
 }
 
@@ -25,7 +24,6 @@ function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.
   const { allAccounts } = useAccounts();
   const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
   const [isMember, setIsMember] = useState(false);
-  const history = useHistory();
 
   useEffect((): void => {
     if (allAccounts && members) {
@@ -37,14 +35,10 @@ function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.
     }
   }, [allAccounts, members]);
 
-  const _onRespond = (): void => {
-    history.push('/council/motions');
-  };
-
   return (
     <div className={className}>
       <h1>{isApprovals ? t('Approved') : t('Proposals')}</h1>
-      {!(proposals?.length) && (
+      {(!proposals || !proposals.length) && (
         isApprovals ? t('No approved proposals') : t('No pending proposals')
       )}
       <Table>
@@ -52,7 +46,6 @@ function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.
           {proposals?.map((proposal): React.ReactNode => (
             <Proposal
               isMember={isMember}
-              onRespond={_onRespond}
               proposal={proposal}
               key={proposal.id.toString()}
             />

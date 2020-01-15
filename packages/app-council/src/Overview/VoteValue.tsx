@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -12,11 +11,13 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
 import { formatBalance, isBn } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   accountId?: string | null;
   onChange: (value: BN) => void;
+  onEnter?: () => void;
+  onEscape?: () => void;
 }
 
 interface ValueState {
@@ -24,8 +25,9 @@ interface ValueState {
   value?: BN | string;
 }
 
-function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props> | null {
+export default function VoteValue ({ accountId, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
+  const { t } = useTranslation();
   const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 
@@ -65,9 +67,9 @@ function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props
       labelExtra={<BalanceVoting label={<label>{t('voting balance')}</label>} params={accountId} />}
       maxValue={allBalances?.votingBalance}
       onChange={_setValue}
+      onEnter={onEnter}
+      onEscape={onEscape}
       value={value}
     />
   );
 }
-
-export default translate(VoteValue);

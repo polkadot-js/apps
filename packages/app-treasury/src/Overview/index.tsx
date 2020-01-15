@@ -5,8 +5,8 @@
 import { DerivedTreasuryProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Summary from './Summary';
@@ -15,21 +15,21 @@ import Propose from './Propose';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-export default function Overview ({ className }: Props): React.ReactElement<Props> {
+export default function Overview ({ className }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DerivedTreasuryProposals>(api.derive.treasury.proposals, []);
+  const allProposals = useCall<DerivedTreasuryProposals>(api.derive.treasury.proposals);
+  console.log(allProposals);
+  const { approvals = [], proposals = [], proposalCount = new BN(0) } = allProposals || {};
 
   return (
     <div className={className}>
       <Summary
-        approvalCount={info?.proposals.length}
-        proposalCount={info?.approvals.length}
+        approvalCount={approvals?.length}
+        proposalCount={proposalCount.toNumber()}
       />
-      <Button.Group>
-        <Propose />
-      </Button.Group>
-      <Proposals proposals={info?.proposals} />
-      <Proposals proposals={info?.approvals} isApprovals />
+      <Propose />
+      <Proposals proposals={proposals} />
+      <Proposals proposals={approvals} isApprovals />
     </div>
   );
 }
