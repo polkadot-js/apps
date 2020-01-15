@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiProps } from '@polkadot/react-api/types';
+
 import React from 'react';
 import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -19,9 +21,7 @@ interface Props {
   className?: string;
 }
 
-function ExtensionOverlay ({ className }: Props, t: (key: string) => string): React.ReactElement<Props> | null {
-  const { isWaitingInjected } = useApi();
-
+function ExtensionOverlay ({ className }: Props, { isWaitingInjected }: ApiProps, t: (key: string, opts?: any) => string): React.ReactElement<Props> | null {
   if (!isWaitingInjected) {
     return null;
   }
@@ -36,8 +36,7 @@ function ExtensionOverlay ({ className }: Props, t: (key: string) => string): Re
   );
 }
 
-function ConnectOverlay ({ className }: Props, t: (key: string) => string): React.ReactElement<Props> | null {
-  const { isApiConnected } = useApi();
+function ConnectOverlay ({ className }: Props, { isApiConnected }: ApiProps, t: (key: string, opts?: any) => string): React.ReactElement<Props> | null {
 
   if (isApiConnected) {
     return null;
@@ -60,7 +59,9 @@ function ConnectOverlay ({ className }: Props, t: (key: string) => string): Reac
 
 function Connecting (props: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  return ExtensionOverlay(props, t) || ConnectOverlay(props, t);
+  const api = useApi();
+
+  return ExtensionOverlay(props, api, t) || ConnectOverlay(props, api, t);
 }
 
 export default styled(Connecting)`
