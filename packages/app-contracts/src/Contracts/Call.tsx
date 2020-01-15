@@ -4,7 +4,6 @@
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
 import { BareProps, StringOrNull } from '@polkadot/react-components/types';
-import { ContractExecResult } from '@polkadot/types/interfaces/contracts';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
@@ -25,7 +24,6 @@ import { getCallMessageOptions } from './util';
 interface Props extends BareProps {
   callContract: ApiContract | null;
   callMessageIndex: number | null;
-  callResults: ContractExecResult[];
   isOpen: boolean;
   onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
   onChangeCallMessageIndex: (callMessageIndex: number) => void;
