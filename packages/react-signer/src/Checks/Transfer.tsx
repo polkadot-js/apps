@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedFees } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { ExtraFees } from './types';
 
@@ -14,9 +13,9 @@ import { Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   amount: BN | Compact<UInt>;
   fees: DerivedFees;
   recipientId: string | AccountId;
@@ -28,7 +27,8 @@ interface State extends ExtraFees {
   isNoEffect: boolean;
 }
 
-export function Transfer ({ amount, fees, onChange, recipientId, t }: Props): React.ReactElement<Props> {
+export default function Transfer ({ amount, fees, onChange, recipientId }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [recipientId]);
   const [{ isCreation, isNoEffect }, setState] = useState<State>({
@@ -88,5 +88,3 @@ export function Transfer ({ amount, fees, onChange, recipientId, t }: Props): Re
     </>
   );
 }
-
-export default translate(Transfer);

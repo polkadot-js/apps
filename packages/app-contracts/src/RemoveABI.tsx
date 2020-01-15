@@ -2,25 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
 import { Button, CodeRow, Modal } from '@polkadot/react-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   code: CodeStored;
   onClose: () => void;
   onRemove: () => void;
 }
 
-function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<Props> {
+export default function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   const _onRemove = (): void => {
     onClose && onClose();
     onRemove();
   };
+
   return (
     <Modal
       className='app--accounts-Modal'
@@ -57,5 +59,3 @@ function RemoveABI ({ code, onClose, onRemove, t }: Props): React.ReactElement<P
     </Modal>
   );
 }
-
-export default translate(RemoveABI);

@@ -2,23 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Voters from './Voters';
 
-interface Props extends I18nProps {
+interface Props {
   address: AccountId;
   balance?: Balance;
   voters?: AccountId[];
 }
 
-function Candidate ({ address, balance, t, voters }: Props): React.ReactElement<Props> {
+export default function Candidate ({ address, balance, voters }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <tr>
       <td className='top'>
@@ -37,5 +38,3 @@ function Candidate ({ address, balance, t, voters }: Props): React.ReactElement<
     </tr>
   );
 }
-
-export default translate(Candidate);

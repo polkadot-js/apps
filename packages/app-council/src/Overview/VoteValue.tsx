@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -12,9 +11,9 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
 import { formatBalance, isBn } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   accountId?: string | null;
   onChange: (value: BN) => void;
 }
@@ -24,7 +23,8 @@ interface ValueState {
   value?: BN | string;
 }
 
-function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props> | null {
+export default function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
@@ -69,5 +69,3 @@ function VoteValue ({ accountId, onChange, t }: Props): React.ReactElement<Props
     />
   );
 }
-
-export default translate(VoteValue);
