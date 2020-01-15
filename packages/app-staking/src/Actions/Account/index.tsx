@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalances, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
@@ -13,7 +12,7 @@ import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, TxButton }
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
 import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
@@ -26,8 +25,9 @@ import useInactives from './useInactives';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]>;
 
-interface Props extends I18nProps {
+interface Props {
   allStashes?: string[];
+  className?: string;
   isOwnStash: boolean;
   next: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
@@ -87,7 +87,8 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId, t }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api, isSubstrateV2 } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
@@ -381,16 +382,14 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   );
 }
 
-export default translate(
-  styled(Account)`
-    .ui--Button-Group {
-      display: inline-block;
-      margin-right: 0.25rem;
-      vertical-align: inherit;
-    }
+export default styled(Account)`
+  .ui--Button-Group {
+    display: inline-block;
+    margin-right: 0.25rem;
+    vertical-align: inherit;
+  }
 
-    .mini-nopad {
-      padding: 0;
-    }
-  `
-);
+  .mini-nopad {
+    padding: 0;
+  }
+`;
