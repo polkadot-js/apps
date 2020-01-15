@@ -19,27 +19,20 @@ interface Props {
   className?: string;
 }
 
-function ExtensionOverlay ({ className }: Props): React.ReactElement<Props> | null {
+function Connecting ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { isWaitingInjected } = useApi();
+  const { isApiConnected, isWaitingInjected } = useApi();
 
-  if (!isWaitingInjected) {
-    return null;
+  if (isWaitingInjected) {
+    return (
+      <BaseOverlay
+        className={className}
+        icon='puzzle'
+      >
+        <div>{t('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
+      </BaseOverlay>
+    );
   }
-
-  return (
-    <BaseOverlay
-      className={className}
-      icon='puzzle'
-    >
-      <div>{t('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
-    </BaseOverlay>
-  );
-}
-
-function ConnectOverlay ({ className }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-  const { isApiConnected } = useApi();
 
   if (isApiConnected) {
     return null;
@@ -58,10 +51,6 @@ function ConnectOverlay ({ className }: Props): React.ReactElement<Props> | null
       }
     </BaseOverlay>
   );
-}
-
-function Connecting (props: Props): React.ReactElement<Props> | null {
-  return ExtensionOverlay(props) || ConnectOverlay(props);
 }
 
 export default styled(Connecting)`
