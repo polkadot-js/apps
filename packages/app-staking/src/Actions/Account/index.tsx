@@ -218,7 +218,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
             {isStashNominating && nominees && (
               <>
                 <details>
-                  <summary>{t('Nominating ({{count}})', { replace: { count: nominees.length } })}</summary>
+                  <summary>{t('All Nominations ({{count}})', { replace: { count: nominees.length } })}</summary>
                   {nominees.map((nomineeId, index): React.ReactNode => (
                     <AddressMini
                       key={index}
@@ -230,7 +230,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                 </details>
                 {inactives.length !== 0 && (
                   <details>
-                    <summary>{t('Inactive ({{count}})', { replace: { count: inactives.length } })}</summary>
+                    <summary>{t('Inactive nominations ({{count}})', { replace: { count: inactives.length } })}</summary>
                     {inactives.map((nomineeId, index): React.ReactNode => (
                       <AddressMini
                         key={index}
@@ -363,7 +363,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       disabled={!isOwnController}
                       onClick={toggleNominate}
                     >
-                      {t('Change nominee(s)')}
+                      {t('Set nominees')}
                     </Menu.Item>
                   }
                   {!isStashNominating && isSubstrateV2 &&
