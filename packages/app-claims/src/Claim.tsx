@@ -4,7 +4,6 @@
 
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -12,15 +11,17 @@ import { Button, Card } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 import { addrToChecksum } from './util';
 
-interface Props extends I18nProps {
+interface Props {
   button: React.ReactNode;
+  className?: string;
   ethereumAddress: EthereumAddress | null;
 }
 
-function Claim ({ button, className, ethereumAddress, t }: Props): React.ReactElement<Props> | null {
+function Claim ({ button, className, ethereumAddress }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
   const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
@@ -77,31 +78,29 @@ function Claim ({ button, className, ethereumAddress, t }: Props): React.ReactEl
   );
 }
 
-export default translate(
-  styled(Claim)`
-    font-size: 1.15rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 12rem;
-    align-items: center;
-    margin: 0 1rem;
+export default styled(Claim)`
+  font-size: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 12rem;
+  align-items: center;
+  margin: 0 1rem;
 
-    h3 {
-      font-family: monospace;
-      font-size: 1.5rem;
-      max-width: 100%;
-      margin: 0.5rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+  h3 {
+    font-family: monospace;
+    font-size: 1.5rem;
+    max-width: 100%;
+    margin: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-    h2 {
-      margin: 0.5rem 0 2rem;
-      font-family: monospace;
-      font-size: 2.5rem;
-      font-weight: 200;
-    }
-  `
-);
+  h2 {
+    margin: 0.5rem 0 2rem;
+    font-family: monospace;
+    font-size: 2.5rem;
+    font-weight: 200;
+  }
+`;

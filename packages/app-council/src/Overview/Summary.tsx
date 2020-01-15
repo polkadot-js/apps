@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 import { ComponentProps } from './types';
 
@@ -11,13 +9,16 @@ import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps, ComponentProps {
+interface Props extends ComponentProps {
   bestNumber?: BlockNumber;
+  className?: string;
 }
 
-function Summary ({ bestNumber, className, electionsInfo: { members, candidateCount, desiredSeats, runnersUp, termDuration, voteCount }, t }: Props): React.ReactElement<Props> {
+export default function Summary ({ bestNumber, className, electionsInfo: { members, candidateCount, desiredSeats, runnersUp, termDuration, voteCount } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <SummaryBox className={className}>
       <section>
@@ -52,5 +53,3 @@ function Summary ({ bestNumber, className, electionsInfo: { members, candidateCo
     </SummaryBox>
   );
 }
-
-export default translate(Summary);

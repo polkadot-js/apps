@@ -3,21 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 import { ComponentProps } from '../types';
 
 import React, { useState, useEffect } from 'react';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
+import { withApi } from '@polkadot/react-api/hoc';
 import { Button, CardGrid } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Add from './Add';
 import ContractCard from './Contract';
 import Call from './Call';
 import { getContractForAddress } from './util';
 
-interface Props extends ComponentProps, I18nProps, ApiProps {}
+interface Props extends ComponentProps, ApiProps {}
 
 function filterContracts ({ api, accounts, contracts: keyringContracts }: Props): ApiContract[] {
   return accounts && keyringContracts && Object.keys(keyringContracts)
@@ -26,7 +26,8 @@ function filterContracts ({ api, accounts, contracts: keyringContracts }: Props)
 }
 
 function Contracts (props: Props): React.ReactElement<Props> {
-  const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy, t } = props;
+  const { t } = useTranslation();
+  const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy } = props;
   // const { callAddress, callMessage, isAddOpen, isCallOpen } = this.state;
 
   const [contracts, setContracts] = useState<ApiContract[]>(filterContracts(props));
@@ -125,8 +126,4 @@ function Contracts (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default withMulti(
-  Contracts,
-  translate,
-  withApi
-);
+export default withApi(Contracts);
