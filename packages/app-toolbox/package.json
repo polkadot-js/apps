@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-toolbox",
-  "version": "0.39.0-beta.53",
+  "version": "0.39.0-beta.54",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,6 +11,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@polkadot/react-components": "^0.39.0-beta.53"
+    "@polkadot/react-components": "^0.39.0-beta.54"
   }
 }
