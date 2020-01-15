@@ -38,14 +38,14 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
 
   useEffect((): void => {
     if (stakingOverview) {
-      setValidators((stakingOverview.currentElected || []).map((acc): string => acc.toString()));
+      setValidators(stakingOverview.validators.map((acc): string => acc.toString()));
     }
   }, [stakingOverview]);
 
   useEffect((): void => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites,
+      ...favorites.filter((acc): boolean => validators.includes(acc) || next.includes(acc)),
       // make sure the nominee is not in our favorites already
       ...(nominees || []).filter((acc): boolean => !favorites.includes(acc))
     ];
