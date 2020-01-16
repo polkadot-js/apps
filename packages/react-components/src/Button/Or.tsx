@@ -2,19 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '../types';
-
 import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { isUndefined } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
+  style?: any;
   text?: string;
 }
 
-function ButtonOr ({ className, style, t, text }: Props): React.ReactElement<Props> {
+export default function ButtonOr ({ className, style, text }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <SUIButton.Or
       className={className}
@@ -27,5 +29,3 @@ function ButtonOr ({ className, style, t, text }: Props): React.ReactElement<Pro
     />
   );
 }
-
-export default translate(ButtonOr);
