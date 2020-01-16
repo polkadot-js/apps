@@ -792,5 +792,6 @@
   "1 judgement": "",
   "{{count}} judgements": "",
   "no judgements": "",
-  " ({{count}} waiting)": ""
+  " ({{count}} waiting)": "",
+  "details": ""
 }
