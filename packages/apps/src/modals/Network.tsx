@@ -2,19 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 import { Modal } from '@polkadot/react-components';
 import General from '@polkadot/app-settings/General';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   onClose: () => void;
 }
 
-function NetworkModal ({ className, onClose, t }: Props): React.ReactElement<Props> {
+export default function NetworkModal ({ className, onClose }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <Modal
       className={className}
@@ -30,5 +31,3 @@ function NetworkModal ({ className, onClose, t }: Props): React.ReactElement<Pro
     </Modal>
   );
 }
-
-export default translate(NetworkModal);
