@@ -600,7 +600,6 @@ class Signer extends React.PureComponent<Props, State> {
             .filter(({ event: { section } }): boolean => section === 'system')
             .forEach(({ event: { method } }): void => {
               if (isFunction(txFailedCb) && method === 'ExtrinsicFailed') {
-                console.error(JSON.stringify(event), txFailedCb);
                 txFailedCb(result);
               } else if (isFunction(txSuccessCb) && method === 'ExtrinsicSuccess') {
                 txSuccessCb(result);
