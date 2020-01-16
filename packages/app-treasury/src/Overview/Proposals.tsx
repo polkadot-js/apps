@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
@@ -13,14 +11,16 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 
 import Proposal from './Proposal';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
-  proposals?: DerivedTreasuryProposal[];
+interface Props {
+  className?: string;
   isApprovals?: boolean;
+  proposals?: DerivedTreasuryProposal[];
 }
 
-function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.ReactElement<Props> {
+export default function ProposalsBase ({ className, isApprovals, proposals }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
@@ -62,5 +62,3 @@ function ProposalsBase ({ className, isApprovals, proposals, t }: Props): React.
     </div>
   );
 }
-
-export default translate(ProposalsBase);
