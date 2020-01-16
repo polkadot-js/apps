@@ -88,5 +88,9 @@
   "judgement": "judgement",
   "Judge": "Judge",
   "parent": "parent",
-  "twitter": "twitter"
+  "twitter": "twitter",
+  "1 judgement": "1 judgement",
+  "{{count}} judgements": "{{count}} judgements",
+  "no judgements": "no judgements",
+  " ({{count}} waiting)": " ({{count}} waiting)"
 }

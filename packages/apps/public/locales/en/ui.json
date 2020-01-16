@@ -788,5 +788,9 @@
   "Inactive ({{count}})": "",
   "All Nominations ({{count}})": "",
   "Inactive nominations ({{count}})": "",
-  "Set nominees": ""
+  "Set nominees": "",
+  "1 judgement": "",
+  "{{count}} judgements": "",
+  "no judgements": "",
+  " ({{count}} waiting)": ""
 }
