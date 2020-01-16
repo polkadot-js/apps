@@ -15,6 +15,7 @@ import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
 import Code from './Code';
+import DispatchError from './DispatchError';
 import Enum from './Enum';
 import Hash256 from './Hash256';
 import Hash512 from './Hash512';
@@ -46,6 +47,7 @@ const components: ComponentMap = ([
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
   { c: Code, t: ['Code'] },
+  { c: DispatchError, t: ['DispatchError'] },
   { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
