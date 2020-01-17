@@ -30,6 +30,7 @@ export interface ApiProps extends ApiState {
   api: ApiPromise;
   isWaitingInjected: boolean;
   isApiConnected: boolean;
+  isApiLoading: boolean;
 }
 
 export interface OnChangeCbObs {

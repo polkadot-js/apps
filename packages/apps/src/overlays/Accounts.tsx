@@ -4,7 +4,6 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -14,7 +13,7 @@ interface Props {
   className?: string;
 }
 
-function Accounts ({ className }: Props): React.ReactElement<Props> | null {
+export default function Accounts ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const { isApiReady } = useApi();
@@ -30,6 +29,7 @@ function Accounts ({ className }: Props): React.ReactElement<Props> | null {
     <BaseOverlay
       className={className}
       icon='users'
+      type='info'
     >
       <p>{t("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}</p>
       <p>
@@ -43,9 +43,3 @@ function Accounts ({ className }: Props): React.ReactElement<Props> | null {
     </BaseOverlay>
   );
 }
-
-export default styled(Accounts)`
-  background: #fff6cb;
-  border-color: #e7c000;
-  color: #6b5900;
-`;
