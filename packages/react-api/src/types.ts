@@ -18,11 +18,9 @@ export interface BareProps {
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
-  isApiConnected: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
   isSubstrateV2: boolean;
-  isWaitingInjected: boolean;
   systemChain: string;
   systemName: string;
   systemVersion: string;
@@ -30,6 +28,8 @@ export interface ApiState {
 
 export interface ApiProps extends ApiState {
   api: ApiPromise;
+  isWaitingInjected: boolean;
+  isApiConnected: boolean;
 }
 
 export interface OnChangeCbObs {

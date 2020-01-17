@@ -5,7 +5,7 @@
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { ApiState } from './types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
@@ -107,74 +107,41 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
     systemChain,
     systemName: _systemName.toString(),
     systemVersion: _systemVersion.toString()
-  } as Partial<State> as State;
+  } as State;
 }
 
-export default class Api extends React.PureComponent<Props, State> {
-  public state: State;
+export default function Api ({ children, queuePayload, queueSetTxStatus, url }: Props): React.ReactElement<Props> | null {
+  const [state, setState] = useState<State>({ isApiReady: false } as Partial<State> as State);
+  const [isApiConnected, setIsApiConnected] = useState(false);
+  const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
 
-  constructor (props: Props) {
-    super(props);
-
-    const { queuePayload, queueSetTxStatus, url } = props;
+  // initial initialization
+  useEffect((): void => {
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 
     api = new ApiPromise({ provider, registry, signer, typesChain, typesSpec });
 
-    this.state = {
-      isApiConnected: false,
-      isApiReady: false,
-      isSubstrateV2: true,
-      isWaitingInjected: isWeb3Injected
-    } as Partial<State> as State;
-  }
-
-  public componentDidMount (): void {
-    this.subscribeEvents();
-
-    injectedPromise
-      .then((): void => this.setState({ isWaitingInjected: false }))
-      .catch((error: Error) => console.error(error));
-  }
-
-  private subscribeEvents (): void {
-    api.on('connected', (): void => {
-      this.setState({ isApiConnected: true });
-    });
-
-    api.on('disconnected', (): void => {
-      this.setState({ isApiConnected: false });
-    });
-
+    api.on('connected', (): void => setIsApiConnected(true));
+    api.on('disconnected', (): void => setIsApiConnected(false));
     api.on('ready', async (): Promise<void> => {
       try {
-        this.setState(await loadOnReady(api));
+        setState(await loadOnReady(api));
       } catch (error) {
         console.error('Unable to load chain', error);
       }
     });
-  }
 
-  public render (): React.ReactNode {
-    const { apiDefaultTx, apiDefaultTxSudo, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, systemChain, systemName, systemVersion } = this.state;
+    injectedPromise
+      .then((): void => setIsWaitingInjected(false))
+      .catch((error: Error) => console.error(error));
+  }, []);
 
-    return (
-      <ApiContext.Provider value={{
-        api,
-        apiDefaultTx,
-        apiDefaultTxSudo,
-        isApiConnected,
-        isApiReady: isApiReady && !!systemChain,
-        isDevelopment,
-        isSubstrateV2,
-        isWaitingInjected,
-        systemChain,
-        systemName,
-        systemVersion
-      }}>
-        {this.props.children}
+  return api
+    ? (
+      <ApiContext.Provider value={{ ...state, api, isApiConnected, isWaitingInjected }}>
+        {children}
       </ApiContext.Provider>
-    );
-  }
+    )
+    : null;
 }
