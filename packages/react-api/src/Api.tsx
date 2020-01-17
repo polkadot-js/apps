@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
-import { ApiProps } from './types';
+import { ApiState } from './types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import defaults from '@polkadot/rpc-provider/defaults';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
@@ -31,7 +29,7 @@ interface Props {
   url?: string;
 }
 
-interface State extends ApiProps {
+interface State extends ApiState {
   chain?: string | null;
 }
 
@@ -50,8 +48,70 @@ let api: ApiPromise;
 
 export { api };
 
+async function loadOnReady (api: ApiPromise): Promise<State> {
+  const [properties, _systemChain, _systemName, _systemVersion, injectedAccounts] = await Promise.all([
+    api.rpc.system.properties(),
+    api.rpc.system.chain(),
+    api.rpc.system.name(),
+    api.rpc.system.version(),
+    web3Accounts().then((accounts): InjectedAccountExt[] =>
+      accounts.map(({ address, meta }): InjectedAccountExt => ({
+        address,
+        meta: {
+          ...meta,
+          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+        }
+      }))
+    )
+  ]);
+  const ss58Format = uiSettings.prefix === -1
+    ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
+    : uiSettings.prefix;
+  const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
+  const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
+  const systemChain = _systemChain
+    ? _systemChain.toString()
+    : '<unknown>';
+  const isDevelopment = isTestChain(systemChain);
+
+  console.log('api: found chain', systemChain, JSON.stringify(properties));
+
+  // first setup the UI helpers
+  formatBalance.setDefaults({
+    decimals: tokenDecimals,
+    unit: tokenSymbol
+  });
+  TokenUnit.setAbbr(tokenSymbol);
+
+  // finally load the keyring
+  keyring.loadAll({
+    addressPrefix: ss58Format,
+    genesisHash: api.genesisHash,
+    isDevelopment,
+    ss58Format,
+    type: 'ed25519'
+  }, injectedAccounts);
+
+  const defaultSection = Object.keys(api.tx)[0];
+  const defaultMethod = Object.keys(api.tx[defaultSection])[0];
+  const apiDefaultTx = api.tx[defaultSection][defaultMethod];
+  const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
+  const isSubstrateV2 = !!Object.keys(api.consts).length;
+
+  return {
+    apiDefaultTx,
+    apiDefaultTxSudo,
+    isApiReady: true,
+    isDevelopment,
+    isSubstrateV2,
+    systemChain,
+    systemName: _systemName.toString(),
+    systemVersion: _systemVersion.toString()
+  } as Partial<State> as State;
+}
+
 export default class Api extends React.PureComponent<Props, State> {
-  public state: State = {} as unknown as State;
+  public state: State;
 
   constructor (props: Props) {
     super(props);
@@ -60,36 +120,14 @@ export default class Api extends React.PureComponent<Props, State> {
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 
-    const setApi = (provider: ProviderInterface): void => {
-      api = this.createApi(provider, signer);
-
-      this.setState({ api }, (): void => {
-        this.subscribeEvents();
-      });
-    };
-    const setApiUrl = (url: string = defaults.WS_URL): void =>
-      setApi(new WsProvider(url));
-
-    api = this.createApi(provider, signer);
+    api = new ApiPromise({ provider, registry, signer, typesChain, typesSpec });
 
     this.state = {
-      api,
       isApiConnected: false,
       isApiReady: false,
       isSubstrateV2: true,
-      isWaitingInjected: isWeb3Injected,
-      setApiUrl
-    } as unknown as State;
-  }
-
-  private createApi (provider: ProviderInterface, signer: ApiSigner): ApiPromise {
-    return new ApiPromise({
-      provider,
-      registry,
-      signer,
-      typesChain,
-      typesSpec
-    });
+      isWaitingInjected: isWeb3Injected
+    } as Partial<State> as State;
   }
 
   public componentDidMount (): void {
@@ -101,8 +139,6 @@ export default class Api extends React.PureComponent<Props, State> {
   }
 
   private subscribeEvents (): void {
-    const { api } = this.state;
-
     api.on('connected', (): void => {
       this.setState({ isApiConnected: true });
     });
@@ -113,98 +149,30 @@ export default class Api extends React.PureComponent<Props, State> {
 
     api.on('ready', async (): Promise<void> => {
       try {
-        await this.loadOnReady(api);
+        this.setState(await loadOnReady(api));
       } catch (error) {
         console.error('Unable to load chain', error);
       }
     });
   }
 
-  private async loadOnReady (api: ApiPromise): Promise<void> {
-    const [properties, _systemChain, _systemName, _systemVersion, injectedAccounts] = await Promise.all([
-      api.rpc.system.properties(),
-      api.rpc.system.chain(),
-      api.rpc.system.name(),
-      api.rpc.system.version(),
-      web3Accounts().then((accounts): InjectedAccountExt[] =>
-        accounts.map(({ address, meta }): InjectedAccountExt => ({
-          address,
-          meta: {
-            ...meta,
-            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
-          }
-        }))
-      )
-    ]);
-    const ss58Format = uiSettings.prefix === -1
-      ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
-      : uiSettings.prefix;
-    const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
-    const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-    const systemChain = _systemChain
-      ? _systemChain.toString()
-      : '<unknown>';
-    const isDevelopment = isTestChain(systemChain);
-
-    console.log('api: found chain', systemChain, JSON.stringify(properties));
-
-    // first setup the UI helpers
-    formatBalance.setDefaults({
-      decimals: tokenDecimals,
-      unit: tokenSymbol
-    });
-    TokenUnit.setAbbr(tokenSymbol);
-
-    // finally load the keyring
-    keyring.loadAll({
-      addressPrefix: ss58Format,
-      genesisHash: api.genesisHash,
-      isDevelopment,
-      ss58Format,
-      type: 'ed25519'
-    }, injectedAccounts);
-
-    const defaultSection = Object.keys(api.tx)[0];
-    const defaultMethod = Object.keys(api.tx[defaultSection])[0];
-    const apiDefaultTx = api.tx[defaultSection][defaultMethod];
-    const apiDefaultTxSudo =
-      (api.tx.system && api.tx.system.setCode) || // 2.x
-      (api.tx.consensus && api.tx.consensus.setCode) || // 1.x
-      apiDefaultTx; // other
-    const isSubstrateV2 = !!Object.keys(api.consts).length;
-
-    this.setState({
-      apiDefaultTx,
-      apiDefaultTxSudo,
-      isApiReady: true,
-      isDevelopment,
-      isSubstrateV2,
-      systemChain,
-      systemName: _systemName.toString(),
-      systemVersion: _systemVersion.toString()
-    });
-  }
-
   public render (): React.ReactNode {
-    const { api, apiDefaultTx, apiDefaultTxSudo, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, setApiUrl, systemChain, systemName, systemVersion } = this.state;
+    const { apiDefaultTx, apiDefaultTxSudo, isApiConnected, isApiReady, isDevelopment, isSubstrateV2, isWaitingInjected, systemChain, systemName, systemVersion } = this.state;
 
     return (
-      <ApiContext.Provider
-        value={{
-          api,
-          apiDefaultTx,
-          apiDefaultTxSudo,
-          isApiConnected,
-          isApiReady: isApiReady && !!systemChain,
-          isDevelopment,
-          isSubstrateV2,
-          isWaitingInjected,
-          setApiUrl,
-          systemChain,
-          systemName,
-          systemVersion
-        }}
-      >
+      <ApiContext.Provider value={{
+        api,
+        apiDefaultTx,
+        apiDefaultTxSudo,
+        isApiConnected,
+        isApiReady: isApiReady && !!systemChain,
+        isDevelopment,
+        isSubstrateV2,
+        isWaitingInjected,
+        systemChain,
+        systemName,
+        systemVersion
+      }}>
         {this.props.children}
       </ApiContext.Provider>
     );
