@@ -4,13 +4,10 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps as Props } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Transition } from 'semantic-ui-react';
-import snappy from 'snappyjs';
 import styled from 'styled-components';
 import { Button, Dropdown, Editor } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -19,10 +16,10 @@ import * as types from '@polkadot/types';
 import * as util from '@polkadot/util';
 import * as hashing from '@polkadot/util-crypto';
 
+import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
 import makeWrapper from './snippets/wrapping';
 import allSnippets from './snippets';
-import translate from './translate';
-import { STORE_EXAMPLES, STORE_SELECTED, CUSTOM_LABEL } from './constants';
+import { useTranslation } from './translate';
 
 import Output from './Output';
 import ActionButtons from './ActionButtons';
@@ -36,66 +33,33 @@ interface Injected {
   global: null;
   hashing: typeof hashing;
   keyring: KeyringInstance | null;
+  localStorage: null;
+  location: null;
+  setIsRunning: (isRunning: boolean) => void;
   types: typeof types;
   util: typeof util;
   window: null;
 }
 
-interface Props extends AppProps, I18nProps {
-}
-
 const snippets: Snippet[] = JSON.parse(JSON.stringify(allSnippets));
 let hasSnippetWrappers = false;
 
-function decodeBase64 (base64: string): Snippet {
-  const sharedExample: Snippet = {
-    code: '',
-    label: { basic: true, children: 'URL', size: 'tiny' },
-    text: 'Shared code example (unsaved)',
-    type: 'shared',
-    value: `custom-${Date.now()}`
-  };
-
-  try {
-    const compStr = atob(base64);
-    const compU8a = new Uint8Array(compStr.length);
-
-    compU8a.forEach((_, i): void => {
-      compU8a[i] = compStr.charCodeAt(i);
-    });
-
-    const u8a = snappy.uncompress(compU8a);
-    const code = util.u8aToString(u8a);
-
-    sharedExample.code = code;
-  } catch (error) {
-    const errorMessage = 'ERROR: Unable to decode code example from URL';
-
-    console.error(`${errorMessage}: \n${error}`);
-    sharedExample.code = `// ${errorMessage}`;
-  }
-
-  return sharedExample;
-}
-
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
-function Playground ({ className, t }: Props): React.ReactElement<Props> {
+function Playground ({ className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
-  const history = useHistory();
-  const { base64 } = useParams();
   const injectedRef = useRef<Injected | null>(null);
   const [code, setCode] = useState('');
-  const [isAnimated, setIsAnimated] = useState(true);
   const [isCustomExample, setIsCustomExample] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [customExamples, setCustomExamples] = useState<Snippet[]>([]);
   const [logs, setLogs] = useState<Log[]>([]);
   const [options, setOptions] = useState<Snippet[]>([]);
   const [selected, setSelected] = useState(snippets[0]);
-  const [sharedExample, setSharedExample] = useState<Snippet | undefined>();
 
-  // add snippet wrappers
+  // initialize all options
   useEffect((): void => {
+    // add snippets if not already available (global)
     if (!hasSnippetWrappers) {
       snippets.forEach((snippet): void => {
         snippet.code = `${makeWrapper(isDevelopment)}${snippet.code}`;
@@ -103,28 +67,19 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
 
       hasSnippetWrappers = true;
     }
-  }, []);
 
-  // initialize all options
-  useEffect((): void => {
-    const sharedExample = base64 ? decodeBase64(base64) : undefined;
     const localData = {
       examples: localStorage.getItem(STORE_EXAMPLES),
       selectedValue: localStorage.getItem(STORE_SELECTED)
     };
     const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
-
-    const options: Snippet[] = sharedExample
-      ? [sharedExample, ...customExamples, ...snippets]
-      : [...customExamples, ...snippets];
-
+    const options: Snippet[] = [...customExamples, ...snippets];
     const selected = options.find((option): boolean => option.value === localData.selectedValue);
 
     setCustomExamples(customExamples);
     setIsCustomExample((selected && selected.type === 'custom') || false);
     setOptions(options);
-    setSelected(sharedExample || selected || snippets[0]);
-    setSharedExample(sharedExample);
+    setSelected(selected || snippets[0]);
   }, []);
 
   useEffect((): void => {
@@ -135,32 +90,6 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
   const _hookConsole = (type: LogType, args: any[]): void => {
     logs.push({ args, type });
     setLogs(logs.slice(0));
-  };
-  const _copyToClipboard = (link: string): void => {
-    // See https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
-    const el = document.createElement('textarea');
-
-    el.value = link;
-    el.setAttribute('readonly', '');
-    el.style.position = 'absolute';
-    el.style.left = '-9999px';
-    document.body.appendChild(el);
-
-    const existingSelection = document.getSelection();
-    const selected = existingSelection && existingSelection.rangeCount > 0
-      ? existingSelection.getRangeAt(0)
-      : undefined;
-
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-
-    if (existingSelection && selected) {
-      existingSelection.removeAllRanges();
-      existingSelection.addRange(selected);
-    }
-
-    setIsAnimated(!isAnimated);
   };
   const _stopJs = (): void => {
     if (injectedRef.current) {
@@ -185,6 +114,9 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
       keyring: isDevelopment
         ? uiKeyring.keyring
         : null,
+      location: null,
+      localStorage: null,
+      setIsRunning,
       types,
       util,
       window: null
@@ -192,12 +124,17 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
 
     await injectedRef.current.api.isReady;
 
-    // squash into a single line so exceptions (with line numbers) maps to the same line/origin
-    // as we have in the editor view (TODO: Make the console.error here actually return the full stack)
-    const exec = `(async ({${Object.keys(injectedRef.current).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); } })(injected);`;
+    try {
+      // squash into a single line so exceptions (with line numbers) maps to the
+      // same line/origin as we have in the editor view
+      // TODO: Make the console.error here actually return the full stack
+      const exec = `(async ({${Object.keys(injectedRef.current).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
 
-    // eslint-disable-next-line no-new-func
-    new Function('injected', exec)(injectedRef.current);
+      // eslint-disable-next-line no-new-func
+      new Function('injected', exec).bind({}, injectedRef.current)();
+    } catch (error) {
+      injectedRef.current.console.error(error);
+    }
 
     setIsRunning(false);
   };
@@ -216,34 +153,13 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
       }
     }
   };
-  const _generateLink = (): void => {
-    const u8a = util.stringToU8a(code);
-    const compU8a = snappy.compress(u8a);
-    const compStr = compU8a.reduce((str: string, ch: number): string => {
-      return str + String.fromCharCode(ch);
-    }, '');
-
-    const base64code = btoa(compStr);
-    const path = `/js/share/${base64code}`;
-
-    if (base64code !== base64) {
-      history.push(path);
-    }
-
-    const basePath = window.location.pathname.replace('/', '').length > 0
-      ? `${window.location.origin}/${window.location.pathname.replace('/', '')}`
-      : `${window.location.origin}`;
-
-    _copyToClipboard(`${basePath}/#${path}`);
-  };
   const _removeSnippet = (): void => {
     const filtered = customExamples.filter((value): boolean => value.value !== selected.value);
     const nextOptions = [...filtered, ...snippets];
 
     setCustomExamples(filtered);
     setIsCustomExample(nextOptions[0].type === 'custom');
-    setOptions(sharedExample ? [sharedExample, ...nextOptions] : nextOptions);
-
+    setOptions(nextOptions);
     _selectExample(nextOptions[0].value);
     localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
   };
@@ -257,20 +173,13 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
       type: 'custom',
       value: `custom-${Date.now()}`
     };
-    const nextOptions = [snapshot, ...customExamples, ...snippets];
-    const options = selected.type === 'shared'
-      ? nextOptions
-      : sharedExample
-        ? [sharedExample, ...nextOptions]
-        : nextOptions;
+    const options = [snapshot, ...customExamples, ...snippets];
 
     localStorage.setItem(STORE_EXAMPLES, JSON.stringify([snapshot, ...customExamples]));
-
     setCustomExamples([snapshot, ...customExamples]);
     setIsCustomExample(true);
     setOptions(options);
     setSelected(snapshot);
-    setSharedExample(selected.type === 'shared' ? undefined : sharedExample);
   };
 
   const snippetName = selected.type === 'custom' ? selected.text : undefined;
@@ -280,6 +189,7 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
       <header className='container'>
         <Dropdown
           className='js--Dropdown'
+          isFull
           onChange={_selectExample}
           label={t('Select example')}
           options={options}
@@ -287,28 +197,21 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
         />
       </header>
       <section className='js--Content'>
-        <Transition
-          animation='glow'
-          duration={700}
-          visible={isAnimated}
-        >
-          <article className='container js--Editor'>
-            <ActionButtons
-              generateLink={_generateLink}
-              isCustomExample={isCustomExample}
-              isRunning={isRunning}
-              removeSnippet={_removeSnippet}
-              runJs={_runJs}
-              saveSnippet={_saveSnippet}
-              snippetName={snippetName}
-              stopJs={_stopJs}
-            />
-            <Editor
-              code={code}
-              onEdit={setCode}
-            />
-          </article>
-        </Transition>
+        <article className='container js--Editor'>
+          <ActionButtons
+            isCustomExample={isCustomExample}
+            isRunning={isRunning}
+            removeSnippet={_removeSnippet}
+            runJs={_runJs}
+            saveSnippet={_saveSnippet}
+            snippetName={snippetName}
+            stopJs={_stopJs}
+          />
+          <Editor
+            code={code}
+            onEdit={setCode}
+          />
+        </article>
         <Output
           className='js--Output'
           logs={logs}
@@ -326,103 +229,101 @@ function Playground ({ className, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(
-  styled(Playground)`
+export default styled(Playground)`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 1rem 0 0;
+
+  .js--Content {
+    align-content: stretch;
+    align-items: stretch;
     display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding: 1rem 0 0;
+    height: 100%;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
 
-    .js--Content {
-      align-content: stretch;
-      align-items: stretch;
+  .js--Dropdown {
+    margin-right: 100px;
+    position: relative;
+    z-index: 200;
+
+    .dropdown .menu > .item {
       display: flex;
-      height: 100%;
+      flex-direction: row-reverse;
       justify-content: space-between;
-      margin-bottom: 0;
+    }
+  }
+
+  .js--Editor,
+  .js--Output {
+    min-width: 200px;
+
+    .action-button {
+      position: absolute;
+      right: 0.25rem;
+      top: 0.5rem;
+      z-index: 100;
+    }
+  }
+
+  .js--Editor {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 0;
+    position: relative;
+    resize: horizontal;
+    width: 60%;
+
+    textarea {
+      outline: 0;
     }
 
-    .js--Dropdown {
-      margin-right: 100px;
-      position: relative;
-      z-index: 200;
-
-      .dropdown .menu > .item {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-      }
+    .codeflask {
+      background: transparent;
     }
 
-    .js--Editor,
-    .js--Output {
-      min-width: 200px;
-
-      .action-button {
-        position: absolute;
-        right: 0.25rem;
-        top: 0.5rem;
-        z-index: 100;
-      }
+    .codeflask--has-line-numbers {
+      z-index: 0;
     }
 
-    .js--Editor {
-      flex-grow: 1;
-      overflow: auto;
-      padding: 0;
-      position: relative;
-      resize: horizontal;
-      width: 60%;
-
-      textarea {
-        outline: 0;
-      }
-
-      .codeflask {
-        background: transparent;
-      }
-
-      .codeflask--has-line-numbers {
-        z-index: 0;
-      }
-
-      .codeflask--has-line-numbers .codeflask__flatten {
-        font-size: 12px;
-        line-height: 18px;
-        min-width: calc(100% - 40px);
-        padding-top: 50px;
-        width: auto;
-      }
-
-      .codeflask__lines {
-        background: #fafafa;
-        line-height: 18px;
-        padding-top: 50px;
-        z-index: 100;
-      }
-
-      &::after {
-        bottom: 0;
-        content: '↔';
-        cursor: col-resize;
-        font-size: 20px;
-        height: 20px;
-        line-height: 18px;
-        position: absolute;
-        right: 0;
-        width: 22px;
-        z-index: 1;
-      }
+    .codeflask--has-line-numbers .codeflask__flatten {
+      font-size: 12px;
+      line-height: 18px;
+      min-width: calc(100% - 40px);
+      padding-top: 50px;
+      width: auto;
     }
 
-    .ui.popup.popup-local {
-      display: flex;
-      flex: 1 1 100%;
-      max-width: 300px;
-
-      .button {
-        margin: 0;
-      }
+    .codeflask__lines {
+      background: #fafafa;
+      line-height: 18px;
+      padding-top: 50px;
+      z-index: 100;
     }
-  `
-);
+
+    &::after {
+      bottom: 0;
+      content: '↔';
+      cursor: col-resize;
+      font-size: 20px;
+      height: 20px;
+      line-height: 18px;
+      position: absolute;
+      right: 0;
+      width: 22px;
+      z-index: 1;
+    }
+  }
+
+  .ui.popup.popup-local {
+    display: flex;
+    flex: 1 1 100%;
+    max-width: 300px;
+
+    .button {
+      margin: 0;
+    }
+  }
+`;

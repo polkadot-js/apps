@@ -2,19 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, I18nProps } from '@polkadot/react-components/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import { Button, Input } from '@polkadot/react-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends BareProps, I18nProps {
+interface Props extends BareProps {
   isCustomExample: boolean;
   isRunning: boolean;
-  generateLink: () => void;
   removeSnippet: () => void;
   runJs: () => void;
   saveSnippet: (snippetName: string) => void;
@@ -22,18 +20,11 @@ interface Props extends BareProps, I18nProps {
   stopJs: () => void;
 }
 
-function ActionButtons ({ className, generateLink, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs, t }: Props): React.ReactElement<Props> {
+export default function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [shareText, setShareText] = useState(t('Generate link to share code example'));
   const [snippetName, setSnippetName] = useState('');
 
-  const _generateLink = (): void => {
-    setShareText(t('Copied to clipboard'));
-    generateLink();
-  };
-  const _onShareClose = (): void => {
-    setShareText(t('Generate link to share code example'));
-  };
   const _onChangeName = (snippetName: string): void => {
     setSnippetName(snippetName);
   };
@@ -51,19 +42,6 @@ function ActionButtons ({ className, generateLink, isCustomExample, isRunning, r
 
   return (
     <div className={`${className} action-button`}>
-      <Popup
-        content={shareText}
-        on='hover'
-        onClose={_onShareClose}
-        trigger={
-          <SUIB
-            circular
-            icon='share alternate'
-            onClick={_generateLink}
-          />
-        }
-        wide='very'
-      />
       {
       // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
       // <Button /> component. That's why the original Semantic UI component is being used here.
@@ -137,7 +115,3 @@ function ActionButtons ({ className, generateLink, isCustomExample, isRunning, r
     </div>
   );
 }
-
-export default translate(
-  styled(ActionButtons)``
-);
