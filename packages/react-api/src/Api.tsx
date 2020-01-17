@@ -101,7 +101,6 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
-    isApiReady: true,
     isDevelopment,
     isSubstrateV2,
     systemChain,
