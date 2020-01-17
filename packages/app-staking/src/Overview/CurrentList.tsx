@@ -8,7 +8,7 @@ import { AccountId, EraPoints, Points } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import { Dropdown, FilterOverlay, Table } from '@polkadot/react-components';
+import { Dropdown, FilterOverlay, Input, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
@@ -63,6 +63,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [{ elected, validators, waiting }, setFiltered] = useState<{ elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ elected: [], validators: [], waiting: [] });
+  const [nameFilter, setNameFilter] = useState<string>('');
 
   useEffect((): void => {
     if (isVisible && stakingOverview) {
@@ -86,6 +87,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
         authorsMap={authorsMap}
         defaultName={defaultName}
         filter={filter}
+        filterName={nameFilter}
         hasQueries={hasQueries}
         isElected={isElected}
         isFavorite={isFavorite}
@@ -120,6 +122,13 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
           withLabel={false}
         />
       </FilterOverlay>
+      <Input
+        autoFocus
+        isFull
+        label={t('filter by name, address or index')}
+        onChange={setNameFilter}
+        value={nameFilter}
+      />
       <Table className={isIntentions ? 'staking--hidden' : ''}>
         <Table.Body>
           {_renderRows(validators, t('validators'), true)}

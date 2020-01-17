@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
 import React from 'react';
@@ -12,14 +12,16 @@ import Tabs from '@polkadot/react-components/Tabs';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends AppProps, I18nProps {
+interface Props extends AppProps {
   allAddresses?: SubjectInfo;
   location: any;
 }
 
-function AddressBookApp ({ basePath, onStatusChange, t }: Props): React.ReactElement<Props> {
+export default function AddressBookApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <main className='address-book--App'>
       <HelpOverlay md={basicMd} />
@@ -47,5 +49,3 @@ function AddressBookApp ({ basePath, onStatusChange, t }: Props): React.ReactEle
     </main>
   );
 }
-
-export default translate(AddressBookApp);

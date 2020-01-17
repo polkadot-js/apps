@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps, StringOrNull } from '@polkadot/react-components/types';
-import { ComponentProps } from '../types';
+import { StringOrNull } from '@polkadot/react-components/types';
+import { ComponentProps as Props } from '../types';
 
 import React, { useState, useEffect } from 'react';
 import { ApiPromise } from '@polkadot/api';
@@ -11,13 +11,11 @@ import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { Button, CardGrid } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Add from './Add';
 import ContractCard from './Contract';
 import Call from './Call';
 import { getContractForAddress } from './util';
-
-interface Props extends ComponentProps, I18nProps {}
 
 function filterContracts (api: ApiPromise, { accounts, contracts: keyringContracts }: Props): ApiContract[] {
   return accounts && keyringContracts && Object.keys(keyringContracts)
@@ -25,9 +23,10 @@ function filterContracts (api: ApiPromise, { accounts, contracts: keyringContrac
     .filter((contract: ApiContract | null): boolean => !!contract) as ApiContract[];
 }
 
-function Contracts (props: Props): React.ReactElement<Props> {
+export default function Contracts (props: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
-  const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy, t } = props;
+  const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy } = props;
   // const { callAddress, callMessage, isAddOpen, isCallOpen } = this.state;
 
   const [contracts, setContracts] = useState<ApiContract[]>(filterContracts(api, props));
@@ -125,5 +124,3 @@ function Contracts (props: Props): React.ReactElement<Props> {
     </>
   );
 }
-
-export default translate(Contracts);

@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { IdentityProps } from '@polkadot/react-identicon/types';
-import { I18nProps } from './types';
+import { IdentityProps as Props } from '@polkadot/react-identicon/types';
 
 import React, { useContext, useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -13,10 +12,7 @@ import uiSettings from '@polkadot/ui-settings';
 import { ValidatorsContext } from '@polkadot/react-query';
 
 import StatusContext from './Status/Context';
-import translate from './translate';
-
-interface Props extends IdentityProps, I18nProps {
-}
+import { useTranslation } from './translate';
 
 // overrides based on the actual software node type
 const NODES: Record<string, string> = {
@@ -32,8 +28,9 @@ export function getIdentityTheme (systemName: string): 'empty' {
   return ((uiSettings.icon === 'default' && NODES[systemName]) || uiSettings.icon) as 'empty';
 }
 
-function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, value }: Props): React.ReactElement<Props> {
+export default function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }: Props): React.ReactElement<Props> {
   const { api, isApiReady, systemName } = useApi();
+  const { t } = useTranslation();
   const info = useCall<DeriveAccountInfo>(isApiReady ? api.derive.accounts.info as any : undefined, [value]);
   const { queueAction } = useContext(StatusContext);
   const validators = useContext(ValidatorsContext);
@@ -76,5 +73,3 @@ function IdentityIcon ({ className, onCopy, prefix, size, style, t, theme, value
     />
   );
 }
-
-export default translate(IdentityIcon);

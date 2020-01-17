@@ -2,17 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
 import chains from '@polkadot/ui-settings/defaults/chains';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 import Toggle from './Toggle';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   genesisHash: string | null;
   isDisabled?: boolean;
@@ -32,7 +30,8 @@ function calcLock (apiGenesis: string, genesisHash: string | null): boolean {
   ).includes(genesisHash);
 }
 
-function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefault, t }: Props): React.ReactElement<Props> | null {
+function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefault }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { isDevelopment, api } = useApi();
   const [isTiedToChain, setTied] = useState(calcLock(api.genesisHash.toHex(), genesisHash));
 
@@ -67,8 +66,6 @@ function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefau
   );
 }
 
-export default translate(
-  styled(ChainLock)`
-    text-align: right;
-  `
-);
+export default styled(ChainLock)`
+  text-align: right;
+`;

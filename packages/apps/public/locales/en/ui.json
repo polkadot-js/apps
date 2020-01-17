@@ -778,5 +778,20 @@
   "Revert": "",
   "version {{version}}": "",
   "GitHub": "",
-  "Wiki": ""
+  "Wiki": "",
+  "Fees of {{fees}} will be applied to the submission": "",
+  "filter by name or tags": "",
+  "The twitter name for this identity.": "",
+  "twitter": "",
+  "parent": "",
+  "filter by name, address or index": "",
+  "Inactive ({{count}})": "",
+  "All Nominations ({{count}})": "",
+  "Inactive nominations ({{count}})": "",
+  "Set nominees": "",
+  "1 judgement": "",
+  "{{count}} judgements": "",
+  "no judgements": "",
+  " ({{count}} waiting)": "",
+  "details": ""
 }

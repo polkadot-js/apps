@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposals, DerivedCollectiveProposal } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
@@ -13,13 +12,15 @@ import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 import Motion from './Motion';
 import Propose from './Propose';
 import Slashing from './Slashing';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   motions?: DerivedCollectiveProposals;
 }
 
-function Proposals ({ className, motions, t }: Props): React.ReactElement<Props> {
+export default function Proposals ({ className, motions }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
@@ -61,5 +62,3 @@ function Proposals ({ className, motions, t }: Props): React.ReactElement<Props>
     </div>
   );
 }
-
-export default translate(Proposals);

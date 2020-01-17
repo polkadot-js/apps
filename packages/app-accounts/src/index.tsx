@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps as Props } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -12,13 +12,11 @@ import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
-import translate from './translate';
+import { useTranslation } from './translate';
 import Vanity from './Vanity';
 
-interface Props extends AppProps, I18nProps {
-}
-
-function AccountsApp ({ basePath, onStatusChange, t }: Props): React.ReactElement<Props> {
+export default function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [hidden, setHidden] = useState<string[]>(['vanity']);
 
@@ -64,5 +62,3 @@ function AccountsApp ({ basePath, onStatusChange, t }: Props): React.ReactElemen
     </main>
   );
 }
-
-export default translate(AccountsApp);

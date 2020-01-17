@@ -16,5 +16,7 @@
   "Pgp": "Pgp",
   "sha2 image hash": "sha2 image hash",
   "0x...": "0x...",
-  "pgp hash": "pgp hash"
+  "pgp hash": "pgp hash",
+  "type": "type",
+  "details": "details"
 }

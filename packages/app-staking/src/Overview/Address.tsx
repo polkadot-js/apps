@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance, Points, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import { DerivedStakingQuery, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DeriveAccountInfo, DerivedStakingQuery, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -23,6 +24,7 @@ interface Props extends I18nProps {
   className?: string;
   defaultName: string;
   filter: ValidatorFilter;
+  filterName: string;
   hasQueries: boolean;
   isElected: boolean;
   isFavorite: boolean;
@@ -48,9 +50,10 @@ interface StakingState {
   validatorPayment?: BN;
 }
 
-function Address ({ address, authorsMap, className, filter, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, filter, filterName, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const stakingInfo = useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]);
   const [hasActivity, setHasActivity] = useState(true);
   const [{ commission, hasNominators, isNominatorMe, nominators, stashId, stakeOwn, stakeOther, validatorPayment }, setStakingState] = useState<StakingState>({
@@ -60,6 +63,7 @@ function Address ({ address, authorsMap, className, filter, hasQueries, isElecte
     stashId: address.toString()
   });
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect((): void => {
     if (stakingInfo) {
@@ -98,14 +102,40 @@ function Address ({ address, authorsMap, className, filter, hasQueries, isElecte
     }
   }, [recentlyOnline, stashId]);
 
-  if ((filter === 'hasNominators' && !hasNominators) ||
-    (filter === 'noNominators' && hasNominators) ||
-    (filter === 'hasWarnings' && hasActivity) ||
-    (filter === 'noWarnings' && !hasActivity) ||
-    (filter === 'iNominated' && !isNominatorMe) ||
-    (filter === 'nextSet' && !isElected)) {
-    return null;
-  }
+  useEffect((): void => {
+    let isVisible = false;
+    const filterLower = filterName.toLowerCase();
+
+    if ((filter === 'hasNominators' && !hasNominators) || (filter === 'noNominators' && hasNominators) || (filter === 'hasWarnings' && hasActivity) || (filter === 'noWarnings' && !hasActivity) || (filter === 'iNominated' && !isNominatorMe) || (filter === 'nextSet' && !isElected)) {
+      isVisible = true;
+    } else if (filterLower) {
+      if (info) {
+        const { identity, nickname, accountId, accountIndex } = info;
+
+        if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
+          isVisible = true;
+        } else if (api.query.identity?.identityOf) {
+          if (identity?.display) {
+            isVisible = identity.display.toLowerCase().includes(filterLower);
+          }
+        } else if (nickname) {
+          isVisible = nickname.toLowerCase().includes(filterLower);
+        }
+      }
+
+      if (!isVisible) {
+        const account = keyring.getAddress(address);
+
+        isVisible = account?.meta?.name
+          ? account.meta.name.toLowerCase().includes(filterLower)
+          : false;
+      }
+    } else {
+      isVisible = true;
+    }
+
+    setIsVisible(isVisible);
+  }, [address, filter, filterName, info]);
 
   const lastBlockNumber = authorsMap[stashId];
   const isAuthor = lastAuthors && lastAuthors.includes(stashId);
@@ -121,7 +151,7 @@ function Address ({ address, authorsMap, className, filter, hasQueries, isElecte
   };
 
   return (
-    <tr className={`${className} ${isAuthor && 'isHighlight'}`}>
+    <tr className={`${className} ${isAuthor && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>
       <td className='favorite'>
         <Icon
           className={`${isFavorite && 'isSelected'}`}

@@ -13,6 +13,7 @@ import { Option } from '@polkadot/types';
 
 import { useTranslation } from './translate';
 import { getAddressName } from './util';
+import AddressMini from './AddressMini';
 import Badge from './Badge';
 import Button from './Button';
 import Dropdown from './Dropdown';
@@ -33,28 +34,25 @@ interface Props extends BareProps {
   withShort?: boolean;
 }
 
-const nameCache: Map<string, [boolean, React.ReactNode]> = new Map();
+const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean] {
   const accountId = _address.toString();
-  const cached = nameCache.get(accountId);
-
-  if (cached) {
-    const [isAddressCached, nameCached] = cached;
-
-    return [nameCached, false, isAddressCached];
-  }
-
   const accountIndex = (_accountIndex || '').toString();
-  const [isAddress,, extracted] = getAddressName(accountId, null, defaultName);
+  const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
+  const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, [null, null]];
 
-  if (isAddress && accountIndex) {
-    nameCache.set(accountId, [true, accountIndex]);
+  if (extracted && isAddressCached && !isAddressExtracted) {
+    // skip, default return
+  } else if (nameCached[0]) {
+    return [nameCached, false, isAddressCached];
+  } else if (isAddressExtracted && accountIndex) {
+    nameCache.set(accountId, [true, [accountIndex, null]]);
 
-    return [accountIndex, false, true];
+    return [[accountIndex, null], false, true];
   }
 
-  return [extracted, !isAddress, isAddress];
+  return [[extracted, null], !isAddressExtracted, isAddressExtracted];
 }
 
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
@@ -72,11 +70,15 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   const address = useMemo((): string => (value || '').toString(), [value]);
 
   const _extractName = (accountId?: AccountId, accountIndex?: AccountIndex): React.ReactNode => {
-    const [name, isLocal, isAddress] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
+    const [[displayFirst, displaySecond], isLocal, isAddress] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
 
     return (
       <div className='via-identity'>
-        <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{name}</span>
+        <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
+          displaySecond
+            ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
+            : displayFirst
+        }</span>
       </div>
     );
   };
@@ -125,19 +127,40 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
     if (api.query.identity?.identityOf) {
       if (identity?.display) {
-        const isGood = identity.judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
-        const isBad = identity.judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
-
-        // FIXME This needs to be i18n, with plurals
+        const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
+        const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
+        const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
+        const waitCount = identity.judgements.length - judgements.length;
         const hover = (
           <div>
-            <div>{`${identity.judgements.length ? identity.judgements.length : 'no'} judgement${identity.judgements.length === 1 ? '' : 's'}${identity.judgements.length ? ': ' : ''}${identity.judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`}</div>
+            <div>
+              {
+                judgements.length
+                  ? (judgements.length === 1
+                    ? t('1 judgement')
+                    : t('{{count}} judgements', { replace: { count: judgements.length } })
+                  )
+                  : t('no judgements')
+              }{judgements.length ? ': ' : ''}{judgements.map(([, judgement]): string => judgement.toString()).join(', ')}{
+                waitCount
+                  ? t(' ({{count}} waiting)', { replace: { count: waitCount } })
+                  : ''
+              }
+            </div>
             <table>
               <tbody>
-                <tr>
-                  <td>{t('display')}</td>
-                  <td>{identity.display}</td>
-                </tr>
+                {identity.parent && (
+                  <tr>
+                    <td>{t('parent')}</td>
+                    <td><AddressMini value={identity.parent} /></td>
+                  </tr>
+                )}
+                {identity.display && (
+                  <tr>
+                    <td>{t('display')}</td>
+                    <td>{identity.display}</td>
+                  </tr>
+                )}
                 {identity.legal && (
                   <tr>
                     <td>{t('legal')}</td>
@@ -156,6 +179,12 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     <td>{identity.web}</td>
                   </tr>
                 )}
+                {identity.twitter && (
+                  <tr>
+                    <td>{t('twitter')}</td>
+                    <td>{identity.twitter}</td>
+                  </tr>
+                )}
                 {identity.riot && (
                   <tr>
                     <td>{t('riot')}</td>
@@ -170,12 +199,19 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
         const displayName = isGood
           ? identity.display
           : identity.display.replace(/[^\x20-\x7E]/g, '');
+        const displayParent = identity.displayParent
+          ? (
+            isGood
+              ? identity.displayParent
+              : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
+          )
+          : undefined;
 
         const name = (
           <div className='via-identity'>
             <Badge
               hover={hover}
-              info={<Icon name={isGood ? 'check' : 'minus'} />}
+              info={<Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />}
               isInline
               isSmall
               isTooltip
@@ -188,17 +224,21 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
+            {
+              displayParent
+                ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
+                : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
+            }
           </div>
         );
 
-        nameCache.set(address, [false, displayName]);
+        nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
         setName((): React.ReactNode => name);
       } else {
         setName((): React.ReactNode => _extractName(accountId, accountIndex));
       }
     } else if (nickname) {
-      nameCache.set(address, [false, nickname]);
+      nameCache.set(address, [false, [nickname, null]]);
       setName(nickname);
     } else {
       setName(defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex));
@@ -297,6 +337,15 @@ export default styled(AccountName)`
       &.isLocal {
         opacity: 1;
       }
+
+      .sub {
+        font-size: 0.75rem;
+        opacity: 0.75;
+      }
+    }
+
+    div.name {
+      display: inline-block;
     }
 
     > * {

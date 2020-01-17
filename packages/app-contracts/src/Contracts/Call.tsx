@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
-import { BareProps, I18nProps, StringOrNull } from '@polkadot/react-components/types';
+import { BareProps, StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
@@ -17,11 +17,11 @@ import { isNull } from '@polkadot/util';
 import Params from '../Params';
 import Outcome from './Outcome';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import { GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
 
-interface Props extends BareProps, I18nProps {
+interface Props extends BareProps {
   callContract: ApiContract | null;
   callMessageIndex: number | null;
   isOpen: boolean;
@@ -31,7 +31,8 @@ interface Props extends BareProps, I18nProps {
 }
 
 function Call (props: Props): React.ReactElement<Props> | null {
-  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, t } = props;
+  const { t } = useTranslation();
+  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
 
   if (isNull(callContract) || isNull(callMessageIndex)) {
     return null;
@@ -255,16 +256,14 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default translate(
-  styled(Call)`
-    .rpc-toggle {
-      margin-top: 1rem;
-      display: flex;
-      justify-content: flex-end;
-    }
+export default styled(Call)`
+  .rpc-toggle {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
 
-    .clear-all {
-      float: right;
-    }
-  `
-);
+  .clear-all {
+    float: right;
+  }
+`;

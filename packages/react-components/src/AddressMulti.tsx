@@ -2,17 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from './types';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDebounce } from '@polkadot/react-hooks';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 import AddressToggle from './AddressToggle';
 import Input from './Input';
 
-interface Props extends I18nProps {
+interface Props {
   available: string[];
   className?: string;
   help: React.ReactNode;
@@ -22,7 +20,8 @@ interface Props extends I18nProps {
   value: string[];
 }
 
-function AddressMulti ({ available, className, help, label, maxCount, onChange, t, value }: Props): React.ReactElement<Props> {
+function AddressMulti ({ available, className, help, label, maxCount, onChange, value }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [_filter, setFilter] = useState<string>('');
   const filter = useDebounce(_filter);
 
@@ -63,34 +62,32 @@ function AddressMulti ({ available, className, help, label, maxCount, onChange, 
   );
 }
 
-export default translate(
-  styled(AddressMulti)`
-    .ui--AddressMulti-input {
-      .ui.input {
-        margin-bottom: 0rem;
+export default styled(AddressMulti)`
+  .ui--AddressMulti-input {
+    .ui.input {
+      margin-bottom: 0rem;
 
-        input {
-          border-bottom-width: 0px;
-          border-bottom-right-radius: 0px;
-          border-bottom-left-radius: 0px;
-        }
+      input {
+        border-bottom-width: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
       }
     }
+  }
 
-    .ui--AddressMulti-container {
-      background: white;
-      border: 1px solid rgba(34,36,38,.15);
-      border-top-width: 0px;
-      border-radius: 0 0 0.25rem 0.25rem;
-      margin-left: 2rem;
-      max-height: 15rem;
-      overflow-y: scroll;
-      padding: 0.25rem 0.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+  .ui--AddressMulti-container {
+    background: white;
+    border: 1px solid rgba(34,36,38,.15);
+    border-top-width: 0px;
+    border-radius: 0 0 0.25rem 0.25rem;
+    margin-left: 2rem;
+    max-height: 15rem;
+    overflow-y: scroll;
+    padding: 0.25rem 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
-      .ui--AddressToggle {}
-    }
-  `
-);
+    .ui--AddressToggle {}
+  }
+`;

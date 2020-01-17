@@ -3,21 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { AddressMini, Voting } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   isMember: boolean;
   motion: DerivedCollectiveProposal;
 }
 
-function Motion ({ className, isMember, motion: { hash, proposal, votes }, t }: Props): React.ReactElement<Props> | null {
+export default function Motion ({ className, isMember, motion: { hash, proposal, votes } }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   if (!votes) {
     return null;
   }
@@ -68,5 +70,3 @@ function Motion ({ className, isMember, motion: { hash, proposal, votes }, t }: 
     </tr>
   );
 }
-
-export default translate(Motion);
