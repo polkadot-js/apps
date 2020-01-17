@@ -113,6 +113,7 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
 export default function Api ({ children, queuePayload, queueSetTxStatus, url }: Props): React.ReactElement<Props> | null {
   const [state, setState] = useState<State>({ isApiReady: false } as Partial<State> as State);
   const [isApiConnected, setIsApiConnected] = useState(false);
+  const [isApiLoading, setIsApiLoading] = useState(true);
   const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
 
   // initial initialization
@@ -135,11 +136,13 @@ export default function Api ({ children, queuePayload, queueSetTxStatus, url }: 
     injectedPromise
       .then((): void => setIsWaitingInjected(false))
       .catch((error: Error) => console.error(error));
+
+    setIsApiLoading(false);
   }, []);
 
   return api
     ? (
-      <ApiContext.Provider value={{ ...state, api, isApiConnected, isWaitingInjected }}>
+      <ApiContext.Provider value={{ ...state, api, isApiConnected, isApiLoading, isWaitingInjected }}>
         {children}
       </ApiContext.Provider>
     )
