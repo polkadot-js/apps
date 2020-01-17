@@ -27,8 +27,6 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy } = props;
-  // const { callAddress, callMessage, isAddOpen, isCallOpen } = this.state;
-
   const [contracts, setContracts] = useState<ApiContract[]>(filterContracts(api, props));
   const [callContractIndex, setCallContractIndex] = useState<number>(0);
   const [callMessageIndex, setCallMessageIndex] = useState<number>(0);
@@ -97,16 +95,14 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
           </Button.Group>
         }
       >
-        {contracts.map((contract: ApiContract, index): React.ReactNode => {
-          return (
-            <ContractCard
-              basePath={basePath}
-              contract={contract}
-              key={contract.address.toString()}
-              onCall={_onCall(index)}
-            />
-          );
-        })}
+        {contracts.map((contract: ApiContract, index): React.ReactNode => (
+          <ContractCard
+            basePath={basePath}
+            contract={contract}
+            key={contract.address.toString()}
+            onCall={_onCall(index)}
+          />
+        ))}
       </CardGrid>
       <Add
         basePath={basePath}
