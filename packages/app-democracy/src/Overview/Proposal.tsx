@@ -58,6 +58,7 @@ function Proposal ({ className, t, value: { balance, hash, index, proposal, prop
         <Seconding
           depositors={seconds || []}
           proposalId={index}
+          proposal={proposal}
         />
       </td>
     </tr>

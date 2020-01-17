@@ -27,9 +27,9 @@ interface Props {
 }
 
 export const styles = `
-  .ui--ProposedAction-extrinsic {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 
+  .ui--ProposedAction-extrinsic {
     .ui--Params-Content {
       padding-left: 0;
     }
@@ -60,23 +60,19 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
       <summary>{meta.documentation.join(' ')}</summary>
     )
     : null;
-  const params = (isTreasuryProposalVote(proposal) && expandNested) ? (
-    <TreasuryProposal
-      className='ui--ProposedAction-extrinsic'
-      asInset={withLinks}
-      insetProps={{
-        withTopMargin: true,
-        withBottomMargin: true,
-        ...(withLinks ? { href: '/treasury' } : {})
-      }}
-      proposalId={proposal.args[0].toString()}
-    />
-  ) : (
-    <Call
-      className='ui--ProposedAction-extrinsic'
-      value={proposal}
-    />
-  );
+  const params = (isTreasuryProposalVote(proposal) && expandNested)
+    ? (
+      <TreasuryProposal
+        asInset={withLinks}
+        insetProps={{
+          withTopMargin: true,
+          withBottomMargin: true,
+          ...(withLinks ? { href: '/treasury' } : {})
+        }}
+        proposalId={proposal.args[0].toString()}
+      />
+    )
+    : <Call value={proposal} />;
 
   if (asInset) {
     return (
@@ -94,7 +90,7 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
   }
 
   return (
-    <div className={className}>
+    <div className={`ui--ProposedAction ${className}`}>
       <h3>{header}</h3>
       {isCollapsible
         ? (

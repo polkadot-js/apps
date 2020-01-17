@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { PropIndex, Proposal } from '@polkadot/types/interfaces';
+import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 import { Button, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
@@ -12,11 +12,13 @@ import { isBoolean } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  proposal?: Proposal;
-  referendumId: PropIndex;
+  hash: Hash;
+  idNumber: ProposalIndex;
+  isDisabled: boolean;
+  proposal: Proposal;
 }
 
-export default function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> | null {
+export default function Voting ({ hash, idNumber, isDisabled, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -40,7 +42,7 @@ export default function Voting ({ proposal, referendumId }: Props): React.ReactE
         >
           <Modal.Content>
             <ProposedAction
-              idNumber={referendumId}
+              idNumber={idNumber}
               isCollapsible
               proposal={proposal}
             />
@@ -53,13 +55,14 @@ export default function Voting ({ proposal, referendumId }: Props): React.ReactE
           <VoteActions
             accountId={accountId}
             onClick={_toggleVoting}
-            params={[referendumId, voteValue]}
-            tx='democracy.vote'
+            params={[hash, idNumber, voteValue]}
+            tx='council.vote'
           />
         </Modal>
       )}
       <Button
         icon='check'
+        isDisabled={isDisabled}
         isPrimary
         label={t('Vote')}
         onClick={_toggleVoting}

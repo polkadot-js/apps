@@ -2,22 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, Proposal } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 import translate from '../translate';
 
 interface Props extends I18nProps {
   depositors: AccountId[];
+  proposal?: Proposal;
   proposalId: BN | number;
 }
 
-function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Props> | null {
+function Seconding ({ depositors, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isSecondingOpen, setIsSecondingOpen] = useState(false);
@@ -38,6 +39,11 @@ function Seconding ({ depositors, proposalId, t }: Props): React.ReactElement<Pr
           size='small'
         >
           <Modal.Content>
+            <ProposedAction
+              idNumber={proposalId}
+              isCollapsible
+              proposal={proposal}
+            />
             <InputAddress
               help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
               label={t('second with account')}

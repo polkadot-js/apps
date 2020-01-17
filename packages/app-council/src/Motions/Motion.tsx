@@ -5,11 +5,12 @@
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { AddressMini, Voting } from '@polkadot/react-components';
+import { AddressMini } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Voting from './Voting';
 
 interface Props {
   className?: string;
@@ -61,9 +62,8 @@ export default function Motion ({ className, isMember, motion: { hash, proposal,
       <td className='number top together'>
         <Voting
           hash={hash}
-          isCouncil
-          isDisabled={!isMember}
           idNumber={index}
+          isDisabled={!isMember}
           proposal={proposal}
         />
       </td>
