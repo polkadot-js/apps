@@ -245,7 +245,6 @@ export default styled(Playground)`
   }
 
   .js--Dropdown {
-    margin-right: 100px;
     position: relative;
     z-index: 200;
 

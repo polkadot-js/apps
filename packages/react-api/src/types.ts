@@ -15,19 +15,21 @@ export interface BareProps {
   style?: Record<string, any>;
 }
 
-export interface ApiProps {
-  api: ApiPromise;
+export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
-  isApiConnected: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
   isSubstrateV2: boolean;
-  isWaitingInjected: boolean;
-  setApiUrl: (url?: string) => void;
   systemChain: string;
   systemName: string;
   systemVersion: string;
+}
+
+export interface ApiProps extends ApiState {
+  api: ApiPromise;
+  isWaitingInjected: boolean;
+  isApiConnected: boolean;
 }
 
 export interface OnChangeCbObs {
