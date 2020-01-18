@@ -10,7 +10,7 @@ import { StatusContext } from '@polkadot/react-components';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import useToggle from './useToggle';
 
-export default function useTx (memoFn: (...args: any[]) => TxSource, memoArr: any[], { accountId: anAccountId, onChangeAccountId, onQueue, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
+export default function useTx (memoFn: (...args: any[]) => TxSource, memoArr: any[] = [], { accountId: anAccountId, onChangeAccountId, onQueue, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
   const { queueExtrinsic } = useContext(StatusContext);
 
   const { tx, isSubmittable } = useMemo<TxSource>(memoFn, memoArr);

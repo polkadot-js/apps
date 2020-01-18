@@ -14,7 +14,9 @@ import { useApi, useTxModal } from '@polkadot/react-hooks';
 import { useTranslation } from './translate';
 import Button from './Button';
 import ProposedAction from './ProposedAction';
-import TxModal from './TxModalNew';
+import Modal from './Modal';
+import TxAccount from './TxAccount';
+import TxActions from './TxActions';
 import VoteToggle from './VoteToggle';
 import { isTreasuryProposalVote } from './util';
 
@@ -51,7 +53,7 @@ export default function Voting ({ hash, idNumber, proposal, type }: Props): Reac
       break;
   }
 
-  const txModalState = useTxModal(
+  const { isOpen, isSubmittable, onChangeAccountId, onClose, onOpen, sendTx } = useTxModal(
     type !== Democracy && !!hash
       ? (): TxSource => ({
         tx: method(hash.toString(), idNumber, voteValue),
@@ -65,24 +67,24 @@ export default function Voting ({ hash, idNumber, proposal, type }: Props): Reac
   );
 
   return (
-    <TxModal
-      {...txModalState}
-      trigger={
-        ({ onOpen }): React.ReactElement => ((
-          <div className='ui--Row-buttons'>
-            <Button
-              isPrimary
-              label={t('Vote')}
-              icon='check'
-              onClick={onOpen}
-            />
-          </div>
-        ))
-      }
-      header={header}
-      inputAddressLabel={t('Vote with account')}
-      preContent={
-        <>
+    <>
+      <div className='ui--Row-buttons'>
+        <Button
+          isPrimary
+          label={t('Vote')}
+          icon='check'
+          onClick={onOpen}
+        />
+      </div>
+      <Modal
+        open={isOpen}
+        onClose={onClose}
+        small
+      >
+        <Modal.Header>
+          {header}
+        </Modal.Header>
+        <Modal.Content>
           <ProposedAction
             expandNested={isTreasuryProposalVote(proposal)}
             idNumber={idNumber}
@@ -91,13 +93,21 @@ export default function Voting ({ hash, idNumber, proposal, type }: Props): Reac
           />
           <br />
           <br />
-        </>
-      }
-    >
-      <VoteToggle
-        onChange={setVoteValue}
-        value={voteValue}
-      />
-    </TxModal>
+          <TxAccount
+            label={t('vote with account')}
+            onChange={onChangeAccountId}
+          />
+          <VoteToggle
+            onChange={setVoteValue}
+            value={voteValue}
+          />
+        </Modal.Content>
+        <TxActions
+          isSubmittable={isSubmittable}
+          onCancel={onClose}
+          onSend={sendTx}
+        />
+      </Modal>
+    </>
   );
 }

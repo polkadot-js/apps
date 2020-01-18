@@ -15,14 +15,9 @@ import Proposal from './Proposal';
 import Slashing from './Slashing';
 
 export default function Proposals ({ className, collective, isMember = false, memberCount = 0, proposals }: Props): React.ReactElement<Props> {
-  // const { api } = useApi();
   const { t } = useTranslation();
-  // const { allAccounts } = useAccounts();
-
   const isCouncil = collective === 'council';
-  // const members = props.members || useCall<[AccountId, Balance][]>(isCouncil ? (api.query.electionsPhragmen?.members || api.query.elections.members) : api.query[collective].members);
-  // const [isMember, setIsMember] = useState(false);
-  // console.log(proposals);
+
   return (
     <div className={className}>
       <Button.Group>

@@ -7,7 +7,7 @@ import { ModalState, TxSource, TxProps, TxState } from './types';
 import useModal from './useModal';
 import useTx from './useTx';
 
-export default function useTxModal (memoFn: (...args: any[]) => TxSource, memoArr: any[], { isOpen, onOpen, onClose, ...props }: TxProps & Pick<ModalState, any> = {}): TxState & ModalState {
+export default function useTxModal (memoFn: (...args: any[]) => TxSource, memoArr: any[] = [], { isOpen, onOpen, onClose, ...props }: TxProps & Pick<ModalState, any> = {}): TxState & ModalState {
   const modalState = useModal(isOpen, onOpen, onClose);
   const txState = useTx(memoFn, memoArr, props);
   return {

@@ -11,7 +11,7 @@ import { ComponentProps as Props } from './types';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { useApi, useTxModal } from '@polkadot/react-hooks';
-import { AddressMulti, Button, TxModalNew as TxModal } from '@polkadot/react-components';
+import { AddressMulti, Button, Modal, TxAccount, TxActions } from '@polkadot/react-components';
 import VoteValue from './VoteValue';
 
 import { useTranslation } from '../translate';
@@ -33,7 +33,7 @@ export default function Vote ({ electionsInfo: { candidates, members, runnersUp 
       });
   };
 
-  const txModalState = useTxModal(
+  const { accountId, isOpen, isSubmittable, onChangeAccountId, onClose, onOpen, sendTx } = useTxModal(
     (): TxSource => ({
       tx: (api.tx.electionPhragmen?.vote || api.tx.elections.vote)(
         votes,
@@ -51,144 +51,50 @@ export default function Vote ({ electionsInfo: { candidates, members, runnersUp 
     .concat(candidates.map((accountId): string => accountId.toString()));
 
   return (
-    <TxModal
-      {...txModalState}
-      header={t('Vote for current candidates')}
-      inputAddressLabel={t('Voting account')}
-      inputAddressHelp={t('This account will be use to approve or disapprove each candidate.')}
-      trigger={
-        ({ onOpen }): React.ReactElement => ((
-          <Button
-            isDisabled={available.length === 0}
-            isPrimary
-            label={t('Vote')}
-            icon='check'
-            onClick={onOpen}
+    <>
+      <Button
+        isDisabled={available.length === 0}
+        isPrimary
+        label={t('Vote')}
+        icon='check'
+        onClick={onOpen}
+      />
+      <Modal
+        open={isOpen}
+        onClose={onClose}
+        small
+      >
+        <Modal.Header>
+          {t('Vote for current candidates')}
+        </Modal.Header>
+        <Modal.Content>
+          <TxAccount
+            help={t('Select the account with which to cast your vote.')}
+            label={t('vote with account')}
+            onChange={onChangeAccountId}
           />
-        ))
-      }
-    >
-      <VoteValue
-        accountId={txModalState.accountId}
-        onChange={setVoteValue}
-        onEnter={txModalState.sendTx}
-        onEscape={txModalState.onClose}
-      />
-      <AddressMulti
-        available={available}
-        help={t('Filter available candidates based on name, address or short account index.')}
-        label={t('filter candidates')}
-        maxCount={MAX_VOTES}
-        onChange={setVotes}
-        value={votes}
-      />
-    </TxModal>
+          <VoteValue
+            accountId={accountId}
+            onChange={setVoteValue}
+            onEnter={sendTx}
+            onEscape={onClose}
+          />
+          <AddressMulti
+            available={available}
+            help={t('Filter available candidates based on name, address or short account index.')}
+            label={t('filter candidates')}
+            maxCount={MAX_VOTES}
+            onChange={setVotes}
+            value={votes}
+          />
+        </Modal.Content>
+        <TxActions
+          isSubmittable={isSubmittable}
+          onCancel={onClose}
+          onSend={sendTx}
+          submitButtonLabel={t('Vote')}
+        />
+      </Modal>
+    </>
   );
 }
-
-// class Vote2 extends TxModal<Props, State> {
-//   constructor (props: Props) {
-//     super(props);
-
-//     this.defaultState = {
-//       ...this.defaultState,
-//       votes: [],
-//       voteValue: new BN(0)
-//     };
-
-//     this.state = {
-//       ...this.defaultState
-//     };
-//   }
-
-//   protected headerText = (): string => this.props.t('Vote for current candidates');
-
-//   protected accountLabel = (): string => this.props.t('Voting account');
-
-//   protected accountHelp = (): string => this.props.t('This account will be use to approve or disapprove each candidate.');
-
-//   protected txMethod = (): string =>
-//     this.props.api.tx.electionsPhragmen
-//       ? 'electionsPhragmen.vote'
-//       : 'elections.vote';
-
-//   protected txParams = (): [boolean[] | null, VoteIndex, BN | null] | [string[], BN] => {
-//     const { votes, voteValue } = this.state;
-
-//     return [votes, voteValue];
-//   }
-
-//   protected isDisabled = (): boolean => {
-//     const { accountId, votes } = this.state;
-
-//     return !accountId || votes.length === 0;
-//   }
-
-//   protected renderTrigger = (): React.ReactNode => {
-//     const { electionsInfo: { candidates, members, runnersUp }, t } = this.props;
-//     const available = members
-//       .map(([accountId]): AccountId => accountId)
-//       .concat(runnersUp.map(([accountId]): AccountId => accountId))
-//       .concat(candidates);
-
-//     return (
-//       <Button
-//         isDisabled={available.length === 0}
-//         isPrimary
-//         label={t('Vote')}
-//         icon='check'
-//         onClick={this.showModal}
-//       />
-//     );
-//   }
-
-//   protected renderContent = (): React.ReactNode => {
-//     const { electionsInfo: { candidates, members, runnersUp }, t } = this.props;
-//     const { accountId, votes } = this.state;
-//     const available = members
-//       .map(([accountId]): string => accountId.toString())
-//       .concat(runnersUp.map(([accountId]): string => accountId.toString()))
-//       .concat(candidates.map((accountId): string => accountId.toString()));
-
-//     return (
-//       <>
-//         <VoteValue
-//           accountId={accountId}
-//           onChange={this.setVoteValue}
-//         />
-//         <AddressMulti
-//           available={available}
-//           help={t('Filter available candidates based on name, address or short account index.')}
-//           label={t('filter candidates')}
-//           maxCount={MAX_VOTES}
-//           onChange={this.onChangeVotes}
-//           value={votes}
-//         />
-//       </>
-//     );
-//   }
-
-//   private setVoteValue = (voteValue: BN): void => {
-//     this.setState({ voteValue });
-//   }
-
-//   protected onChangeAccount = (accountId: string | null): void => {
-//     const { api } = this.props;
-
-//     this.setState({ accountId });
-
-//     if (accountId) {
-//       (api.query.electionsPhragmen || api.query.elections)
-//         .votesOf<[AccountId[]] & Codec>(accountId)
-//         .then(([existingVotes]): void => {
-//           this.setState({ votes: existingVotes.map((accountId): string => accountId.toString()) });
-//         });
-//     }
-//   }
-
-//   private onChangeVotes = (votes: string[]): void => {
-//     this.setState({ votes });
-//   }
-// }
-
-// export default translate(withApi(Vote));
