@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props, StringOrNull } from '@polkadot/react-components/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 import { TxSource } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
@@ -11,13 +11,18 @@ import React, { useState } from 'react';
 import { Button, InputAddress, InputBalance, TxModalNew as TxModal } from '@polkadot/react-components';
 import { useApi, useTxModal } from '@polkadot/react-hooks';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
+
+interface Props {
+  className?: string;
+}
 
 function isValueValid (value?: BN | null): boolean {
   return !!value && value.gtn(0);
 }
 
-function Propose ({ t }: Props): React.ReactElement<Props> {
+export default function Propose (): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [beneficiary, setBeneficiary] = useState<StringOrNull>(null);
   const [value, setValue] = useState<BN | null>(new BN(0));
 
@@ -68,5 +73,3 @@ function Propose ({ t }: Props): React.ReactElement<Props> {
     </TxModal>
   );
 }
-
-export default translate(Propose);

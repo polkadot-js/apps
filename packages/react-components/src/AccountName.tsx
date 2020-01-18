@@ -127,13 +127,26 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
     if (api.query.identity?.identityOf) {
       if (identity?.display) {
-        const isGood = identity.judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
-        const isBad = identity.judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
-
-        // FIXME This needs to be i18n, with plurals
+        const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
+        const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
+        const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
+        const waitCount = identity.judgements.length - judgements.length;
         const hover = (
           <div>
-            <div>{`${identity.judgements.length ? identity.judgements.length : 'no'} judgement${identity.judgements.length === 1 ? '' : 's'}${identity.judgements.length ? ': ' : ''}${identity.judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`}</div>
+            <div>
+              {
+                judgements.length
+                  ? (judgements.length === 1
+                    ? t('1 judgement')
+                    : t('{{count}} judgements', { replace: { count: judgements.length } })
+                  )
+                  : t('no judgements')
+              }{judgements.length ? ': ' : ''}{judgements.map(([, judgement]): string => judgement.toString()).join(', ')}{
+                waitCount
+                  ? t(' ({{count}} waiting)', { replace: { count: waitCount } })
+                  : ''
+              }
+            </div>
             <table>
               <tbody>
                 {identity.parent && (

@@ -26,8 +26,8 @@ interface ValueState {
 }
 
 export default function VoteValue ({ accountId, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
   const { t } = useTranslation();
+  const { api } = useApi();
   const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 

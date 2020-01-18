@@ -13,11 +13,13 @@ interface Props {
   voters: AccountId[];
 }
 
-export default function Votsers ({ voters }: Props): React.ReactElement<Props> | null {
+export default function Voters ({ voters }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   return (
     <details>
       <summary>
-        {useTranslation().t('Voters ({{count}})', {
+        {t('Voters ({{count}})', {
           replace: {
             count: voters.length
           }

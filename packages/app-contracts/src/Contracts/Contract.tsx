@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -13,9 +12,9 @@ import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps, RouteComponentProps {
+interface Props extends RouteComponentProps {
   basePath: string;
   contract: ApiContract;
   onCall: (_?: number) => () => void;
@@ -29,7 +28,8 @@ const ContractCard = styled(Card)`
 `;
 
 function Contract (props: Props): React.ReactElement<Props> | null {
-  const { contract: { abi, address }, onCall, t } = props;
+  const { t } = useTranslation();
+  const { contract: { abi, address }, onCall } = props;
 
   if (!address || !abi) {
     return null;
@@ -114,4 +114,4 @@ function Contract (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default translate(withRouter(Contract));
+export default withRouter(Contract);

@@ -12,11 +12,12 @@ import Bare from './Bare';
 
 interface Props extends BareProps {
   asHex?: boolean;
+  children?: React.ReactNode;
   defaultValue: RawParam;
   withLabel?: boolean;
 }
 
-export default function StaticParam ({ asHex, className, defaultValue, label, style }: Props): React.ReactElement<Props> {
+export default function StaticParam ({ asHex, children, className, defaultValue, label, style }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const value = defaultValue && defaultValue.value && defaultValue.value[asHex ? 'toHex' : 'toString']();
 
@@ -30,6 +31,7 @@ export default function StaticParam ({ asHex, className, defaultValue, label, st
         label={label}
         value={value || t('<empty>')}
       />
+      {children}
     </Bare>
   );
 }

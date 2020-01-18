@@ -8,9 +8,8 @@ import React from 'react';
 import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import Voters from './Voters';
-
 import { useTranslation } from '../translate';
+import Voters from './Voters';
 
 interface Props {
   address: AccountId;
@@ -19,6 +18,8 @@ interface Props {
 }
 
 export default function Candidate ({ address, balance, voters }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <tr>
       <td className='top'>
@@ -26,7 +27,7 @@ export default function Candidate ({ address, balance, voters }: Props): React.R
       </td>
       <td className='top together right'>
         {balance && balance.gtn(0) && (
-          <FormatBalance label={<label>{useTranslation().t('backing')}</label>} value={balance} />
+          <FormatBalance label={<label>{t('backing')}</label>} value={balance} />
         )}
       </td>
       <td className='all'>

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedCollectiveProposal, DerivedCollectiveProposals } from '@polkadot/api-derive/types';
+import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 // import { AccountId, Balance } from '@polkadot/types/interfaces';
 import { CollectiveProps as Props } from './types';
 
@@ -14,7 +14,7 @@ import Propose from './Propose';
 import Proposal from './Proposal';
 import Slashing from './Slashing';
 
-export default function Proposals ({ className, collective, isMember = false, memberCount = 0, proposals, ...props }: Props): React.ReactElement<Props> {
+export default function Proposals ({ className, collective, isMember = false, memberCount = 0, proposals }: Props): React.ReactElement<Props> {
   // const { api } = useApi();
   const { t } = useTranslation();
   // const { allAccounts } = useAccounts();

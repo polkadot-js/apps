@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
-import { I18nProps, VotingType } from '@polkadot/react-components/types';
+import { VotingType } from '../types';
 import { CollectiveProps } from './types';
 
 import React from 'react';
@@ -11,15 +11,22 @@ import { AddressMini, Voting } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps, CollectiveProps {
+interface Props extends CollectiveProps {
+  className?: string;
   isMember: boolean;
   proposal: DerivedCollectiveProposal;
 }
 
-function Proposal ({ className, collective, isMember, proposal: { hash, proposal, votes }, t }: Props): React.ReactElement<Props> | null {
-  const { ayes = [], index = 0, nays = [], threshold = 0 } = votes || {};
+export default function Proposal ({ className, collective, isMember, proposal: { hash, proposal, votes } }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
+  if (!votes) {
+    return null;
+  }
+
+  const { ayes, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>
@@ -66,5 +73,3 @@ function Proposal ({ className, collective, isMember, proposal: { hash, proposal
     </tr>
   );
 }
-
-export default translate(Proposal);

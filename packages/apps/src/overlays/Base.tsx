@@ -10,9 +10,10 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   icon: string;
+  type: 'error' | 'info';
 }
 
-function BaseOverlay ({ children, className, icon }: Props): React.ReactElement<Props> | null {
+function BaseOverlay ({ children, className, icon, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, setIsHidden] = useState(false);
 
   if (isHidden) {
@@ -22,7 +23,7 @@ function BaseOverlay ({ children, className, icon }: Props): React.ReactElement<
   const _onClose = (): void => setIsHidden(true);
 
   return (
-    <div className={className}>
+    <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
       <div className='content'>
         <Icon
           className='contentIcon'
@@ -51,6 +52,18 @@ export default styled(BaseOverlay)`
   right: 0;
   top: 0;
   z-index: 500;
+
+  &.isError {
+    background: #ffe6e6;
+    border-color: #c00;
+    color: #4d0000;
+  }
+
+  &.isInfo {
+    background: #fff6cb;
+    border-color: #e7c000;
+    color: #6b5900;
+  }
 
   .content {
     display: flex;
