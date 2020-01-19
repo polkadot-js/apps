@@ -20,16 +20,13 @@ interface Props {
 export default function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const pot = useCall<BN>(api.query.treasury.pot, []);
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber as any, []);
   const spendPeriod = api.consts.treasury.spendPeriod;
   const treasuryBalance = useCall<BN>(api.query.balances.freeBalance, [TREASURY_ACCOUNT]);
 
   const value = treasuryBalance?.gtn(0)
     ? treasuryBalance.toString()
-    : pot?.gtn(0)
-      ? pot.toString()
-      : null;
+    : null;
 
   return (
     <SummaryBox>

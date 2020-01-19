@@ -37,6 +37,7 @@ module.exports = {
       'app-js',
       'app-parachains',
       'app-settings',
+      'app-society',
       'app-staking',
       'app-storage',
       'app-sudo',

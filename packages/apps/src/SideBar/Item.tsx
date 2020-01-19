@@ -15,6 +15,7 @@ import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
+const DUMMY_CHECK = (): boolean => true;
 const DUMMY_COUNTER = (): number => 0;
 
 interface Props {
@@ -73,13 +74,14 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-export default function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+export default function Item ({ route: { Modal, useCheck = DUMMY_CHECK, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady ? apiProps.api.query.sudo?.key : undefined, []);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const checkState = useCheck();
   const count = useCounter();
 
   useEffect((): void => {
@@ -87,8 +89,8 @@ export default function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, disp
   }, [allAccounts, sudoKey]);
 
   useEffect((): void => {
-    setIsVisible(checkVisible(name, apiProps, hasAccounts, hasSudo, display));
-  }, [apiProps, hasAccounts, hasSudo]);
+    setIsVisible(checkState && checkVisible(name, apiProps, hasAccounts, hasSudo, display));
+  }, [apiProps, checkState, hasAccounts, hasSudo]);
 
   if (!isVisible) {
     return null;
