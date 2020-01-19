@@ -27,7 +27,7 @@ export default function Member ({ value: { accountId, isSuspended, strikes } }: 
       </td>
       <td className='number top'>
         <label>{t('suspended')}</label>
-        {!isSuspended ? t('Yes') : t('No')}
+        {isSuspended ? t('Yes') : t('No')}
       </td>
     </tr>
   );

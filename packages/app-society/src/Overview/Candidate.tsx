@@ -34,7 +34,7 @@ export default function Candidate ({ value: { accountId, isSuspended, kind, valu
       </td>
       <td className='number top'>
         <label>{t('suspended')}</label>
-        {!isSuspended ? t('Yes') : t('No')}
+        {isSuspended ? t('Yes') : t('No')}
       </td>
     </tr>
   );
