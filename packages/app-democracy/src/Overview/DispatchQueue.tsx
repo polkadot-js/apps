@@ -2,17 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/react-components/types';
 import { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import DispatchEntry from './DispatchEntry';
 
-function DispatchQueue ({ className, t }: Props): React.ReactElement<Props> | null {
+interface Props {
+  className?: string;
+}
+
+export default function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const queued = useCall<[BlockNumber, Hash, ReferendumIndex][]>(api.query.democracy.dispatchQueue, []);
 
@@ -43,5 +47,3 @@ function DispatchQueue ({ className, t }: Props): React.ReactElement<Props> | nu
     </div>
   );
 }
-
-export default translate(DispatchQueue);

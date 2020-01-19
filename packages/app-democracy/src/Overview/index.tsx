@@ -2,13 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/react-components/types';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import DispatchQueue from './DispatchQueue';
 import Externals from './Externals';
 import Proposals from './Proposals';
@@ -17,7 +15,12 @@ import Summary from './Summary';
 import PreImage from './PreImage';
 import Propose from './Propose';
 
-function Overview ({ className, t }: Props): React.ReactElement {
+interface Props {
+  className?: string;
+}
+
+function Overview ({ className }: Props): React.ReactElement {
+  const { t } = useTranslation();
   const [isPreimageOpen, setIsPreimageOpen] = useState(false);
   const [isProposeOpen, setIsProposeOpen] = useState(false);
 
@@ -56,10 +59,8 @@ function Overview ({ className, t }: Props): React.ReactElement {
   );
 }
 
-export default translate(
-  styled(Overview)`
-    .proposalSection {
-      margin-bottom: 1.5rem;
-    }
-  `
-);
+export default styled(Overview)`
+  .proposalSection {
+    margin-bottom: 1.5rem;
+  }
+`;
