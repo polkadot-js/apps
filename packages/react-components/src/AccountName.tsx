@@ -300,7 +300,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
         </Modal>
       )}
       <div
-        className={className}
+        className={`ui--AccountName ${className}`}
         onClick={
           override
             ? undefined

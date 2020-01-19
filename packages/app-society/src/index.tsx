@@ -5,8 +5,6 @@
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Route, Switch } from 'react-router';
-import styled from 'styled-components';
 import { Tabs } from '@polkadot/react-components';
 
 import useCheck from './useCheck';
@@ -17,7 +15,7 @@ export { useCheck };
 
 interface Props extends AppProps, BareProps {}
 
-function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
+export default function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -34,18 +32,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
           ]}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/motions`}>
-          <Motions motions={motions} />
-        </Route>
-      </Switch>
-      <Overview className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'} />
+      <Overview />
     </main>
   );
 }
-
-export default styled(SocietyApp)`
-  .council--hidden {
-    display: none;
-  }
-`;
