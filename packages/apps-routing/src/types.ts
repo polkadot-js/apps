@@ -12,7 +12,7 @@ export interface RouteProps extends AppProps, BareProps {
 export interface Route {
   Component: React.ComponentType<RouteProps>;
   Modal?: React.ComponentType<any>;
-  useCheck?: () => boolean,
+  useCheck?: () => boolean;
   useCounter?: () => number;
   display: {
     isHidden?: boolean;

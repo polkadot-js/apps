@@ -18,22 +18,25 @@ interface Props {
 }
 
 interface NameProps {
+  label: string;
   value?: AccountId;
 }
 
-function Name ({ value }: NameProps): React.ReactElement<NameProps> | null {
+function Name ({ label, value }: NameProps): React.ReactElement<NameProps> | null {
   if (!value) {
     return null;
   }
 
   return (
-    <div className='society--header--account'>
-      <IdentityIcon
-        size={24}
-        value={value}
-      />
-      <AccountName value={value} />
-    </div>
+    <CardSummary label={label}>
+      <div className='society--header--account'>
+        <IdentityIcon
+          size={24}
+          value={value}
+        />
+        <AccountName value={value} />
+      </div>
+    </CardSummary>
   );
 }
 
@@ -50,12 +53,10 @@ function Summary ({ className }: Props): React.ReactElement<Props> {
   return (
     <SummaryBox className={className}>
       <section>
-        <CardSummary label={t('head')}>
-          <Name value={info?.head} />
-        </CardSummary>
-        <CardSummary label={t('defender')}>
-          <Name value={info?.defender} />
-        </CardSummary>
+        <Name
+          label={t('head')}
+          value={info?.head}
+        />
       </section>
       <section>
         {info && members && (
