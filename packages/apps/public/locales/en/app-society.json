@@ -1,1 +1,15 @@
-{}
+{
+  "Society overview": "Society overview",
+  "kind": "kind",
+  "value": "value",
+  "suspended": "suspended",
+  "Yes": "Yes",
+  "No": "No",
+  "candidates": "candidates",
+  "No candidates": "No candidates",
+  "strikes": "strikes",
+  "members": "members",
+  "No active members": "No active members",
+  "head": "head",
+  "available": "available"
+}
