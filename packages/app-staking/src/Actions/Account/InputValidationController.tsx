@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
@@ -10,9 +9,9 @@ import { Icon } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 
-interface Props extends I18nProps {
+interface Props {
   accountId: string | null;
   controllerId: string | null;
   defaultController?: string;
@@ -22,25 +21,20 @@ interface Props extends I18nProps {
 
 const DISTINCT = 'Distinct stash and controller accounts are recommended to ensure fund security.';
 
-function ValidateController ({ accountId, controllerId, defaultController, isUnsafeChain, onError, t }: Props): React.ReactElement<Props> | null {
+export default function ValidateController ({ accountId, controllerId, defaultController, isUnsafeChain, onError }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const bondedId = useCall<string | null>(api.query.staking.bonded, [controllerId], {
-    transform: (value: Option<AccountId>): string | null => {
-      const extracted = value.unwrapOr(null);
-
-      return extracted
-        ? extracted.toString()
-        : null;
-    }
+    transform: (value: Option<AccountId>): string | null =>
+      value.isSome
+        ? value.unwrap().toString()
+        : null
   });
-  const stashId = useCall<string | null>(api.query.staking.ledger, [controllerId], {
-    transform: (value: Option<StakingLedger>): string | null => {
-      const extracted = value.unwrapOr({ stash: null }).stash;
-
-      return extracted
-        ? extracted.toString()
-        : null;
-    }
+  const stashId = useCall<string | null>(controllerId ? api.query.staking.ledger : null, [controllerId], {
+    transform: (value: Option<StakingLedger>): string | null =>
+      value.isSome
+        ? value.unwrap().stash.toString()
+        : null
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -77,5 +71,3 @@ function ValidateController ({ accountId, controllerId, defaultController, isUns
     </article>
   );
 }
-
-export default translate(ValidateController);

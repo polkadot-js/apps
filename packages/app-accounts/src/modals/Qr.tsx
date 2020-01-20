@@ -50,7 +50,6 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
     <Modal
       className={className}
       header={t('Add account via Qr')}
-      open
     >
       <Modal.Content>
         {

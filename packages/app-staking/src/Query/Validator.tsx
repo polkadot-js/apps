@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { Balance, Hash, Exposure } from '@polkadot/types/interfaces';
 import { SessionRewards, Slash } from '../types';
 
@@ -14,10 +13,10 @@ import { getHistoric } from '@polkadot/react-api/util';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import useBlockCounts from '../useBlockCounts';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   sessionRewards: SessionRewards[];
   validatorId: string;
@@ -100,7 +99,8 @@ function extractEraSlash (validatorId: string, slashes: Slash[]): BN {
   }, new BN(0));
 }
 
-function Validator ({ className, sessionRewards, t, validatorId }: Props): React.ReactElement<Props> {
+export default function Validator ({ className, sessionRewards, validatorId }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const blockCounts = useBlockCounts(validatorId, sessionRewards);
   const [blocksLabels, setBlocksLabels] = useState<string[]>([]);
@@ -269,5 +269,3 @@ function Validator ({ className, sessionRewards, t, validatorId }: Props): React
     </Columar>
   );
 }
-
-export default translate(Validator);

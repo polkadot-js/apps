@@ -48,13 +48,11 @@ export default function Propose (): React.ReactElement<Props> {
         />
       </Button.Group>
       <Modal
+        header={t('Submit a spend proposal')}
         open={isOpen}
         onClose={onClose}
         small
       >
-        <Modal.Header>
-          {t('Submit a spend proposal')}
-        </Modal.Header>
         <Modal.Content>
           <TxAccount
             onChange={onChangeAccountId}

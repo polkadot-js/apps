@@ -138,7 +138,6 @@ export default function Derive ({ className, from, onClose }: Props): React.Reac
     <Modal
       className={className}
       header={t('Derive account from pair')}
-      open
     >
       {address && isConfirmationOpen && (
         <CreateConfirmation

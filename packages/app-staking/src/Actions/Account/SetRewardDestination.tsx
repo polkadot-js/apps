@@ -39,7 +39,6 @@ class SetRewardDestination extends TxComponent<Props, State> {
       <Modal
         className='staking--Bonding'
         header={t('Bonding Preferences')}
-        open
         size='small'
       >
         {this.renderContent()}

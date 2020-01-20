@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, EraPoints, Points } from '@polkadot/types/interfaces';
 import { ValidatorFilter } from '../types';
 
@@ -12,10 +11,10 @@ import { Dropdown, FilterOverlay, Input, Table } from '@polkadot/react-component
 import { useAccounts, useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Address from './Address';
 
-interface Props extends I18nProps {
+interface Props {
   authorsMap: Record<string, string>;
   hasQueries: boolean;
   isIntentions: boolean;
@@ -57,7 +56,8 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((accountId): string => accountId.toString());
 }
 
-function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> | null {
+export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { isSubstrateV2 } = useApi();
   const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
@@ -143,5 +143,3 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
     </div>
   );
 }
-
-export default translate(CurrentList);

@@ -10,9 +10,11 @@ import { useTranslation } from '../translate';
 import Members from './Members';
 
 export default function Overview ({ className, members }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <div className={className}>
-      <h1>{useTranslation().t('technical committee members')}</h1>
+      <h1>{t('technical committee members')}</h1>
       <Members members={members} />
     </div>
   );

@@ -10,6 +10,8 @@ import { AddressSmall, Table } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 
 export default function Members ({ className, members }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <div className={className}>
       {members?.length
@@ -26,7 +28,7 @@ export default function Members ({ className, members }: Props): React.ReactElem
             </Table.Body>
           </Table>
         )
-        : useTranslation().t('No members found')
+        : t('No members found')
       }
     </div>
   );

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useEffect, useState } from 'react';
@@ -13,7 +12,7 @@ import { isHex } from '@polkadot/util';
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
 import styled from 'styled-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
 type CryptoTypes = KeypairType | 'unknown';
 
@@ -34,7 +33,8 @@ const AlignedIcon = styled(Icon)`
   }
 `;
 
-function Verify ({ t }: Props): React.ReactElement<Props> {
+export default function Verify (): React.ReactElement<{}> {
+  const { t } = useTranslation();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ publicKey, isValidPk }, setPublicKey] = useState<{ publicKey: Uint8Array | null; isValidPk: boolean }>({ publicKey: null, isValidPk: false });
@@ -157,5 +157,3 @@ function Verify ({ t }: Props): React.ReactElement<Props> {
     </div>
   );
 }
-
-export default translate(Verify);

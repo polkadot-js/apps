@@ -15,7 +15,6 @@ import { HashRouter } from 'react-router-dom';
 import store from 'store';
 import { ThemeProvider } from 'styled-components';
 import { Api, registry } from '@polkadot/react-api';
-import { QueueConsumer } from '@polkadot/react-components/Status/Context';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
 
@@ -62,27 +61,19 @@ if (!rootElement) {
 
 ReactDOM.render(
   <Suspense fallback='...'>
-    <Queue>
-      <QueueConsumer>
-        {({ queuePayload, queueSetTxStatus }): React.ReactNode => (
-          <Api
-            queuePayload={queuePayload}
-            queueSetTxStatus={queueSetTxStatus}
-            url={wsEndpoint}
-          >
-            <BlockAuthors>
-              <Events>
-                <HashRouter>
-                  <ThemeProvider theme={theme}>
-                    <Apps />
-                  </ThemeProvider>
-                </HashRouter>
-              </Events>
-            </BlockAuthors>
-          </Api>
-        )}
-      </QueueConsumer>
-    </Queue>
+    <ThemeProvider theme={theme}>
+      <Queue>
+        <Api url={wsEndpoint}>
+          <BlockAuthors>
+            <Events>
+              <HashRouter>
+                <Apps />
+              </HashRouter>
+            </Events>
+          </BlockAuthors>
+        </Api>
+      </Queue>
+    </ThemeProvider>
   </Suspense>,
   rootElement
 );

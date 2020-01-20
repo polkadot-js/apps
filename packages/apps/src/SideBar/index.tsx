@@ -26,11 +26,11 @@ interface Props {
   collapse: () => void;
   handleResize: () => void;
   isCollapsed: boolean;
-  menuOpen: boolean;
+  isMenuOpen: boolean;
   toggleMenu: () => void;
 }
 
-function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, menuOpen }: Props): React.ReactElement<Props> {
+function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
@@ -53,7 +53,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, toggleMenu, 
       className={classes(className, 'apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
     >
       <ChainImg
-        className={`toggleImg ${menuOpen ? 'closed' : 'open delayed'}`}
+        className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
         onClick={toggleMenu}
       />
       {routing.routes.map((route): React.ReactNode => (

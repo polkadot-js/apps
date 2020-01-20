@@ -12,11 +12,12 @@ import { classes } from './util';
 interface Props extends BareProps {
   children: React.ReactNode;
   header?: React.ReactNode;
+  open?: boolean;
   [index: string]: any;
 }
 
 function Modal (props: Props): React.ReactElement<Props> {
-  const { className, children, header } = props;
+  const { className, children, header, open = true } = props;
 
   return (
     <SUIModal
@@ -24,6 +25,7 @@ function Modal (props: Props): React.ReactElement<Props> {
       className={classes('theme--default', 'ui--Modal', className)}
       dimmer='inverted'
       header={undefined}
+      open={open}
     >
       {header && (
         <SUIModal.Header>{header}</SUIModal.Header>

@@ -28,7 +28,6 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
       className='app--accounts-Modal'
       header={t('Confirm ABI removal')}
       onClose={onClose}
-      open
     >
       <Modal.Content>
         <CodeRow
