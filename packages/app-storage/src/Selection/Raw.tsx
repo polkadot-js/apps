@@ -2,19 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from '../types';
+import { ComponentProps as Props } from '../types';
 
 import React, { useState } from 'react';
 import { Button, Input } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import { u8aToU8a } from '@polkadot/util';
 import { Compact } from '@polkadot/types';
 
-interface Props extends ComponentProps, I18nProps {}
-
-function Raw ({ onAdd, t }: Props): React.ReactElement<Props> {
+export default function Raw ({ onAdd }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>({ isValid: false, key: new Uint8Array([]) });
 
   const _onAdd = (): void => {
@@ -51,5 +49,3 @@ function Raw ({ onAdd, t }: Props): React.ReactElement<Props> {
     </section>
   );
 }
-
-export default translate(Raw);

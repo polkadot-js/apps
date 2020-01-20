@@ -5,6 +5,7 @@
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
@@ -29,7 +30,9 @@ export default function SocietyApp ({ basePath, className }: Props): React.React
           ]}
         />
       </header>
-      <Overview />
+      <Switch>
+        <Route component={Overview} />
+      </Switch>
     </main>
   );
 }

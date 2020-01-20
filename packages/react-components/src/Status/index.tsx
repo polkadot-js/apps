@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '../types';
 import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React from 'react';
@@ -12,14 +11,15 @@ import { registry } from '@polkadot/react-api';
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import { classes } from '../util';
 import StatusContext from './Context';
 import { STATUS_COMPLETE } from './constants';
 
 export { StatusContext };
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   stqueue?: QueueStatus[];
   txqueue?: QueueTx[];
 }
@@ -145,7 +145,8 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
   );
 }
 
-function Status ({ className, stqueue = [], txqueue = [], t }: Props): React.ReactElement<Props> | null {
+function Status ({ className, stqueue = [], txqueue = [] }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const allst: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
   const alltx: QueueTx[] = txqueue.filter(({ status }): boolean =>
     !['completed', 'incomplete'].includes(status)
@@ -180,99 +181,97 @@ function Status ({ className, stqueue = [], txqueue = [], t }: Props): React.Rea
   );
 }
 
-export default translate(
-  styled(Status)`
-    display: inline-block;
-    position: fixed;
-    right: 0.25rem;
-    top: 0.25rem;
-    width: 20rem;
-    z-index: 1001;
+export default styled(Status)`
+  display: inline-block;
+  position: fixed;
+  right: 0.25rem;
+  top: 0.25rem;
+  width: 20rem;
+  z-index: 1001;
 
-    .dismiss {
+  .dismiss {
+    margin-bottom: 0.25rem;
+  }
+
+  .item {
+    display: block;
+
+    > .wrapper > .container {
+      align-items: center;
+      background: #00688b;
+      border-radius: $small-corner;
+      color: white;
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 0.25rem;
+      padding: 0 0.5rem;
+      opacity: 0.95;
+      vertical-align: middle;
+      position: relative;
+
+      .desc {
+        flex: 1;
+        overflow: hidden;
+        padding: 0.5rem 1rem;
+
+        .status {
+          font-weight: 700;
+        }
+
+        .ui--AddressMini {
+          .ui--AddressMini-address {
+            min-width: 0;
+            text-align: left;
+          }
+        }
+      }
+
+      .header {
+        opacity: 0.66;
+      }
+
+      .short {
+        font-size: 2.5rem;
+        opacity:  0.75;
+        padding: 0.5rem;
+
+        i.icon {
+          line-height: 1;
+        }
+      }
+
+      .padded {
+        padding: 0.25rem 0 0 0 !important;
+      }
+
+      i.close {
+        position: absolute;
+        top: 0.25rem;
+        right: 0rem;
+        cursor: pointer;
+      }
     }
 
-    .item {
-      display: block;
-
-      > .wrapper > .container {
-        align-items: center;
-        background: #00688b;
-        border-radius: $small-corner;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.25rem;
-        padding: 0 0.5rem;
-        opacity: 0.95;
-        vertical-align: middle;
-        position: relative;
-
-        .desc {
-          flex: 1;
-          overflow: hidden;
-          padding: 0.5rem 1rem;
-
-          .status {
-            font-weight: 700;
-          }
-
-          .ui--AddressMini {
-            .ui--AddressMini-address {
-              min-width: 0;
-              text-align: left;
-            }
-          }
-        }
-
-        .header {
-          opacity: 0.66;
-        }
-
-        .short {
-          font-size: 2.5rem;
-          opacity:  0.75;
-          padding: 0.5rem;
-
-          i.icon {
-            line-height: 1;
-          }
-        }
-
-        .padded {
-          padding: 0.25rem 0 0 0 !important;
-        }
-
-        i.close {
-          position: absolute;
-          top: 0.25rem;
-          right: 0rem;
-          cursor: pointer;
-        }
-      }
-
-      &.cancelled > .wrapper > .container {
-        background: #cd9b1d
-      }
-
-      &.event > .wrapper > .container {
-        background: teal;
-      }
-
-      &.completed > .wrapper > .container,
-      &.finalized > .wrapper > .container,
-      &.sent > .wrapper > .container,
-      &.success > .wrapper > .container {
-        background: green;
-      }
-
-      &.dropped > .wrapper > .container,
-      &.error > .wrapper > .container,
-      &.invalid > .wrapper > .container,
-      &.usurped > .wrapper > .container {
-        background: red;
-      }
+    &.cancelled > .wrapper > .container {
+      background: #cd9b1d
     }
-  `
-);
+
+    &.event > .wrapper > .container {
+      background: teal;
+    }
+
+    &.completed > .wrapper > .container,
+    &.finalized > .wrapper > .container,
+    &.sent > .wrapper > .container,
+    &.success > .wrapper > .container {
+      background: green;
+    }
+
+    &.dropped > .wrapper > .container,
+    &.error > .wrapper > .container,
+    &.invalid > .wrapper > .container,
+    &.usurped > .wrapper > .container {
+      background: red;
+    }
+  }
+`;

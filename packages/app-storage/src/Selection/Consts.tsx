@@ -3,19 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
-import { ComponentProps } from '../types';
+import { ComponentProps as Props } from '../types';
 
 import React, { useState } from 'react';
 import { Button, InputConsts } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends ComponentProps, I18nProps {}
-
-function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
+export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const [defaultValue] = useState<ConstValue>((): ConstValue => {
     const section = Object.keys(api.consts)[0];
@@ -54,5 +52,3 @@ function Consts ({ onAdd, t }: Props): React.ReactElement<Props> {
     </section>
   );
 }
-
-export default translate(Consts);

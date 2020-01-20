@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/hoc/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
 
@@ -16,9 +15,8 @@ import valueToText from '@polkadot/react-params/valueToText';
 import { Compact, Option, Raw } from '@polkadot/types';
 import { isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 
-import translate from './translate';
-
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   onRemove: (id: number) => void;
   value: QueryTypes;
 }
@@ -214,22 +212,20 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
   );
 }
 
-export default translate(
-  styled(Query)`
-    margin-bottom: 0.25em;
+export default styled(Query)`
+  margin-bottom: 0.25em;
 
-    label {
-      text-transform: none !important;
-    }
+  label {
+    text-transform: none !important;
+  }
 
-    .ui.disabled.dropdown.selection {
-      color: #aaa;
-      opacity: 1;
-    }
+  .ui.disabled.dropdown.selection {
+    color: #aaa;
+    opacity: 1;
+  }
 
-    .ui--IdentityIcon {
-      margin: -10px 0;
-      vertical-align: middle;
-    }
-  `
-);
+  .ui--IdentityIcon {
+    margin: -10px 0;
+    vertical-align: middle;
+  }
+`;

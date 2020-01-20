@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -13,12 +13,10 @@ import Hash from './Hash';
 import Rpc from './Rpc';
 import Sign from './Sign';
 import Verify from './Verify';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends AppProps, I18nProps {
-}
-
-function ToolboxApp ({ basePath, t }: Props): React.ReactElement<Props> {
+export default function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const tabs = [
     {
@@ -60,5 +58,3 @@ function ToolboxApp ({ basePath, t }: Props): React.ReactElement<Props> {
     </main>
   );
 }
-
-export default translate(ToolboxApp);

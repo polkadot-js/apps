@@ -3,7 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps as Props } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -14,12 +14,10 @@ import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
 import SetKey from './SetKey';
 import Sudo from './Sudo';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends AppProps, I18nProps {
-}
-
-function SudoApp ({ basePath, t }: Props): React.ReactElement<Props> {
+export default function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
   const { allAccounts } = useAccounts();
@@ -79,5 +77,3 @@ function SudoApp ({ basePath, t }: Props): React.ReactElement<Props> {
     </main>
   );
 }
-
-export default translate(SudoApp);
