@@ -66,13 +66,11 @@ export default function Approve ({ proposalId, proposalInfo = null }: Props): Re
         </Button.Group>
       </div>
       <Modal
+        header={t('Approve or reject proposal')}
         open={isOpen}
         onClose={onClose}
         small
       >
-        <Modal.Header>
-          {t('Approve or reject proposal')}
-        </Modal.Header>
         <Modal.Content>
           {proposalInfo}
           <TxAccount

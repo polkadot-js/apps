@@ -60,13 +60,11 @@ export default function Vote ({ electionsInfo: { candidates, members, runnersUp 
         onClick={onOpen}
       />
       <Modal
+        header={t('Vote for current candidates')}
         open={isOpen}
         onClose={onClose}
         small
       >
-        <Modal.Header>
-          {t('Vote for current candidates')}
-        </Modal.Header>
         <Modal.Content>
           <TxAccount
             help={t('Select the account with which to cast your vote.')}

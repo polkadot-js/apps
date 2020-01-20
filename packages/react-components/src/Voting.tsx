@@ -77,13 +77,11 @@ export default function Voting ({ hash, idNumber, proposal, type }: Props): Reac
         />
       </div>
       <Modal
+        header={header}
         open={isOpen}
         onClose={onClose}
         small
       >
-        <Modal.Header>
-          {header}
-        </Modal.Header>
         <Modal.Content>
           <ProposedAction
             expandNested={isTreasuryProposalVote(proposal)}

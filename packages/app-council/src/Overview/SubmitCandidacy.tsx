@@ -29,13 +29,11 @@ export default function SubmitCandidacy (): React.ReactElement {
         onClick={onOpen}
       />
       <Modal
+        header={t('Submit your council candidacy')}
         open={isOpen}
         onClose={onClose}
         small
       >
-        <Modal.Header>
-          {t('Submit your council candidacy')}
-        </Modal.Header>
         <Modal.Content>
           <TxAccount
             help={t('This account will be nominated to fill the council slot you specify.')}

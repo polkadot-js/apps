@@ -78,13 +78,11 @@ export default function Propose ({ collective, isMember = false, memberCount = 0
         onClick={onOpen}
       />
       <Modal
+        header={title}
         open={isOpen}
         onClose={onClose}
         small
       >
-        <Modal.Header>
-          {title}
-        </Modal.Header>
         <Modal.Content>
           <TxAccount
             onChange={onChangeAccountId}
