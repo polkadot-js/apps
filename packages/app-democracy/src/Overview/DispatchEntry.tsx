@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, Balance, BlockNumber, Hash, Proposal, ReferendumIndex } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
@@ -11,16 +10,17 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { Bytes, Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import ProposalCell from './ProposalCell';
 
-interface Props extends I18nProps {
+interface Props {
   blockNumber?: BlockNumber;
   hash: Hash;
   referendumIndex: ReferendumIndex;
 }
 
-function DispatchEntry ({ blockNumber, hash, referendumIndex, t }: Props): React.ReactElement<Props> {
+export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const preimage = useCall<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>
   >(api.query.democracy.preimages, [hash]);
@@ -50,5 +50,3 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex, t }: Props): React
     </tr>
   );
 }
-
-export default translate(DispatchEntry);

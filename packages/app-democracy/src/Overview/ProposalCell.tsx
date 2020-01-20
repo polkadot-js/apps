@@ -3,20 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, Proposal } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
 import { Call } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   proposal?: Proposal | null;
   proposalHash: Hash | string;
 }
 
-function ProposalCell ({ className, proposal, proposalHash, t }: Props): React.ReactElement<Props> {
+export default function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   if (!proposal) {
     return (
       <td className={`${className} all`}>
@@ -42,5 +44,3 @@ function ProposalCell ({ className, proposal, proposalHash, t }: Props): React.R
     </td>
   );
 }
-
-export default translate(ProposalCell);

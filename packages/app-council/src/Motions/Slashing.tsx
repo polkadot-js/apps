@@ -33,7 +33,7 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
   const [proposal, setProposal] = useState<CallFunction | null>(null);
   const [eras, setEras] = useState<Option[]>([]);
   const [selectedEra, setSelectedEra] = useState(0);
-  const threshold = Math.ceil((members?.length || 0) * 0.75);
+  const threshold = Math.ceil((members?.length || 0) * 0.5);
 
   useEffect((): void => {
     if (accountId && members) {

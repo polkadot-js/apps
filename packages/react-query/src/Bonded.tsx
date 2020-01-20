@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -23,7 +22,7 @@ export default function BondedDisplay ({ children, className, label, params }: P
     transform: (value): AccountId | null =>
       value.unwrapOr(null)
   });
-  const stakingLedger = useCall<StakingLedger | null>(api.query.staking.ledger, [controllerId], {
+  const stakingLedger = useCall<StakingLedger | null>(controllerId && api.query.staking.ledger, [controllerId], {
     transform: (value): StakingLedger | null =>
       value.unwrapOr(null)
   });

@@ -3,22 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Proposal } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   depositors: AccountId[];
   proposal?: Proposal;
   proposalId: BN | number;
 }
 
-function Seconding ({ depositors, proposal, proposalId, t }: Props): React.ReactElement<Props> | null {
+export default function Seconding ({ depositors, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isSecondingOpen, setIsSecondingOpen] = useState(false);
@@ -84,5 +85,3 @@ function Seconding ({ depositors, proposal, proposalId, t }: Props): React.React
     </>
   );
 }
-
-export default translate(Seconding);
