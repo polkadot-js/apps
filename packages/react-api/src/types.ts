@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-api authors & contributors
+// Copyright 2017-2020 @polkadot/react-api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,19 +15,22 @@ export interface BareProps {
   style?: Record<string, any>;
 }
 
-export interface ApiProps {
-  api: ApiPromise;
+export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
-  isApiConnected: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
   isSubstrateV2: boolean;
-  isWaitingInjected: boolean;
-  setApiUrl: (url?: string) => void;
   systemChain: string;
   systemName: string;
   systemVersion: string;
+}
+
+export interface ApiProps extends ApiState {
+  api: ApiPromise;
+  isWaitingInjected: boolean;
+  isApiConnected: boolean;
+  isApiLoading: boolean;
 }
 
 export interface OnChangeCbObs {

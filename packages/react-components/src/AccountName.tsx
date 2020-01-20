@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-query authors & contributors
+// Copyright 2017-2020 @polkadot/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,6 +13,7 @@ import { Option } from '@polkadot/types';
 
 import { useTranslation } from './translate';
 import { getAddressName } from './util';
+import AddressMini from './AddressMini';
 import Badge from './Badge';
 import Button from './Button';
 import Dropdown from './Dropdown';
@@ -33,26 +34,25 @@ interface Props extends BareProps {
   withShort?: boolean;
 }
 
-const nameCache: Map<string, React.ReactNode> = new Map();
+const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean] {
   const accountId = _address.toString();
-  const cached = nameCache.get(accountId);
-
-  if (cached) {
-    return [cached, false];
-  }
-
   const accountIndex = (_accountIndex || '').toString();
-  const [isAddress,, extracted] = getAddressName(accountId, null, defaultName);
+  const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
+  const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, [null, null]];
 
-  if (isAddress && accountIndex) {
-    nameCache.set(accountId, accountIndex);
+  if (extracted && isAddressCached && !isAddressExtracted) {
+    // skip, default return
+  } else if (nameCached[0]) {
+    return [nameCached, false, isAddressCached];
+  } else if (isAddressExtracted && accountIndex) {
+    nameCache.set(accountId, [true, [accountIndex, null]]);
 
-    return [accountIndex, false];
+    return [[accountIndex, null], false, true];
   }
 
-  return [extracted, !isAddress];
+  return [[extracted, null], !isAddressExtracted, isAddressExtracted];
 }
 
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
@@ -70,17 +70,22 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   const address = useMemo((): string => (value || '').toString(), [value]);
 
   const _extractName = (accountId?: AccountId, accountIndex?: AccountIndex): React.ReactNode => {
-    const [name, isLocal] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
+    const [[displayFirst, displaySecond], isLocal, isAddress] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
 
     return (
       <div className='via-identity'>
-        <div className={`name ${isLocal ? 'isLocal' : 'isAddress'}`}>{name}</div>
+        <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
+          displaySecond
+            ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
+            : displayFirst
+        }</span>
       </div>
     );
   };
 
   const [name, setName] = useState<React.ReactNode>((): React.ReactNode => _extractName());
 
+  // determine if we have a registrar or not - registrars are allowed to approve
   useEffect((): void => {
     if (allAccounts && registrars) {
       setIsRegistrar(
@@ -95,6 +100,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     }
   }, [allAccounts, registrars]);
 
+  // find the id of our registrar in the list
   useEffect((): void => {
     if (registrars && judgementAccountId) {
       setRegistrarIndex(
@@ -111,6 +117,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     }
   }, [judgementAccountId, registrars]);
 
+  // set the actual nickname, localname, accountIndex, accountId
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
 
@@ -120,19 +127,40 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
     if (api.query.identity?.identityOf) {
       if (identity?.display) {
-        const isGood = identity.judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
-        const isBad = identity.judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
-
-        // FIXME This needs to be i18n, with plurals
+        const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
+        const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
+        const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
+        const waitCount = identity.judgements.length - judgements.length;
         const hover = (
           <div>
-            <div>{`${identity.judgements.length ? identity.judgements.length : 'no'} judgement${identity.judgements.length === 1 ? '' : 's'}${identity.judgements.length ? ': ' : ''}${identity.judgements.map(([, judgement]): string => judgement.toString()).join(', ')}`}</div>
+            <div>
+              {
+                judgements.length
+                  ? (judgements.length === 1
+                    ? t('1 judgement')
+                    : t('{{count}} judgements', { replace: { count: judgements.length } })
+                  )
+                  : t('no judgements')
+              }{judgements.length ? ': ' : ''}{judgements.map(([, judgement]): string => judgement.toString()).join(', ')}{
+                waitCount
+                  ? t(' ({{count}} waiting)', { replace: { count: waitCount } })
+                  : ''
+              }
+            </div>
             <table>
               <tbody>
-                <tr>
-                  <td>{t('display')}</td>
-                  <td>{identity.display}</td>
-                </tr>
+                {identity.parent && (
+                  <tr>
+                    <td>{t('parent')}</td>
+                    <td><AddressMini value={identity.parent} /></td>
+                  </tr>
+                )}
+                {identity.display && (
+                  <tr>
+                    <td>{t('display')}</td>
+                    <td>{identity.display}</td>
+                  </tr>
+                )}
                 {identity.legal && (
                   <tr>
                     <td>{t('legal')}</td>
@@ -151,6 +179,12 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     <td>{identity.web}</td>
                   </tr>
                 )}
+                {identity.twitter && (
+                  <tr>
+                    <td>{t('twitter')}</td>
+                    <td>{identity.twitter}</td>
+                  </tr>
+                )}
                 {identity.riot && (
                   <tr>
                     <td>{t('riot')}</td>
@@ -165,12 +199,19 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
         const displayName = isGood
           ? identity.display
           : identity.display.replace(/[^\x20-\x7E]/g, '');
+        const displayParent = identity.displayParent
+          ? (
+            isGood
+              ? identity.displayParent
+              : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
+          )
+          : undefined;
 
         const name = (
           <div className='via-identity'>
             <Badge
               hover={hover}
-              info={<Icon name={isGood ? 'check' : 'minus'} />}
+              info={<Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />}
               isInline
               isSmall
               isTooltip
@@ -183,20 +224,22 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     : 'gray'
               }
             />
-            <div className={`name ${isGood && 'isGood'}`}>{displayName.toUpperCase()}</div>
+            {
+              displayParent
+                ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
+                : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
+            }
           </div>
         );
 
-        nameCache.set(address, displayName);
+        nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
         setName((): React.ReactNode => name);
       } else {
         setName((): React.ReactNode => _extractName(accountId, accountIndex));
       }
     } else if (nickname) {
-      const name = nickname.toUpperCase();
-
-      nameCache.set(address, name);
-      setName(name);
+      nameCache.set(address, [false, [nickname, null]]);
+      setName(nickname);
     } else {
       setName(defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex));
     }
@@ -257,7 +300,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
         </Modal>
       )}
       <div
-        className={className}
+        className={`ui--AccountName ${className}`}
         onClick={
           override
             ? undefined
@@ -274,21 +317,35 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 export default styled(AccountName)`
   .via-identity {
     display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    width: 100%;
 
     .name {
-      display: inline-block;
       font-weight: normal !important;
       filter: grayscale(100%);
       opacity: 0.6;
+      text-transform: uppercase;
 
       &.isAddress {
         font-family: monospace;
+        text-transform: none;
       }
 
       &.isGood,
       &.isLocal {
         opacity: 1;
       }
+
+      .sub {
+        font-size: 0.75rem;
+        opacity: 0.75;
+      }
+    }
+
+    div.name {
+      display: inline-block;
     }
 
     > * {

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -38,7 +38,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
 
   useEffect((): void => {
     if (stakingOverview) {
-      setValidators((stakingOverview.currentElected || []).map((acc): string => acc.toString()));
+      setValidators(stakingOverview.validators.map((acc): string => acc.toString()));
     }
   }, [stakingOverview]);
 

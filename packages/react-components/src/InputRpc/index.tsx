@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,6 @@
 
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
-import { I18nProps } from '../types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
 
@@ -15,22 +14,23 @@ import map from '@polkadot/jsonrpc';
 import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
-import translate from '../translate';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   defaultValue: RpcMethod;
   help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: RpcMethod) => void;
+  style?: any;
   withLabel?: boolean;
 }
 
-function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+export default function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -84,5 +84,3 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
     </div>
   );
 }
-
-export default translate(InputRpc);

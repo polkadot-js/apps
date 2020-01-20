@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,7 @@ import Static from './Static';
 
 export default function Tuple (props: Props): React.ReactElement<Props> {
   const [params, setParams] = useState<ParamDef[]>([]);
-  const { className, isDisabled, label, onChange, style, type, withLabel } = props;
+  const { className, isDisabled, label, onChange, overrides, style, type, withLabel } = props;
 
   useEffect((): void => {
     try {
@@ -49,6 +49,7 @@ export default function Tuple (props: Props): React.ReactElement<Props> {
       />
       <Params
         onChange={_onChangeParams}
+        overrides={overrides}
         params={params}
       />
     </div>

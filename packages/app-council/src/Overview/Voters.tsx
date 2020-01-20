@@ -1,20 +1,21 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   voters: AccountId[];
 }
 
-function Voters ({ voters, t }: Props): React.ReactElement<Props> | null {
+export default function Voters ({ voters }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   return (
     <details>
       <summary>
@@ -34,5 +35,3 @@ function Voters ({ voters, t }: Props): React.ReactElement<Props> | null {
     </details>
   );
 }
-
-export default translate(Voters);
