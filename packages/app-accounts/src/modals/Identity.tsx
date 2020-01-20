@@ -99,13 +99,12 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
       // pgpFingerprint: hasPgp ? valPgp : null
     });
     //  errImg, errPgp, hasImg, hasPgp, valImg, valPgp,
-  }, [hasEmail, hasLegal, hasRiot, hasWeb, valDisplay, valEmail, valLegal, valRiot, valWeb]);
+  }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valWeb]);
 
   return (
     <Modal
       className={className}
       header={t('Register identity')}
-      open
     >
       <Modal.Content>
         <Input

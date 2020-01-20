@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Signer } from '@polkadot/api/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useEffect, useState } from 'react';
@@ -13,10 +12,10 @@ import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-com
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 import Unlock from './Unlock';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
 }
 
@@ -26,7 +25,8 @@ interface AccountState {
   isInjected: boolean;
 }
 
-function Sign ({ className, t }: Props): React.ReactElement<Props> {
+function Sign ({ className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isInjected }, setAccountState] = useState<AccountState>({
@@ -205,38 +205,36 @@ function Sign ({ className, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(
-  styled(Sign)`
-    .toolbox--Sign-input {
-      position: relative;
+export default styled(Sign)`
+  .toolbox--Sign-input {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .unlock-overlay {
+      position: absolute;
       width: 100%;
       height: 100%;
+      top:0;
+      left:0;
+      background-color: #0f0e0e7a;
+    }
 
-      .unlock-overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top:0;
-        left:0;
-        background-color: #0f0e0e7a;
-      }
+    .unlock-overlay-warning {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height:100%;
+    }
 
-      .unlock-overlay-warning {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height:100%;
-      }
+    .unlock-overlay-content {
+      color:#fff;
+      padding: 0 2.5rem;
+      text-align:center;
 
-      .unlock-overlay-content {
-        color:#fff;
-        padding: 0 2.5rem;
-        text-align:center;
-
-        .ui--Button-Group {
-          text-align: center;
-        }
+      .ui--Button-Group {
+        text-align: center;
       }
     }
-  `
-);
+  }
+`;

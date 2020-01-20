@@ -47,7 +47,6 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
       {isOpen && (
         <Modal
           header={t('Submit to council')}
-          open
           size='small'
         >
           <Modal.Content>

@@ -122,6 +122,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           <>
             <div className='filter--tags'>
               <Input
+                autoFocus
                 isFull
                 label={t('filter by name or tags')}
                 onChange={setFilter}

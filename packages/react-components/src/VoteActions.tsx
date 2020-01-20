@@ -2,24 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from './types';
-
 import React from 'react';
 
 import Button from './Button';
 import Modal from './Modal';
 import TxButton from './TxButton';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   accountId: string | null;
+  className?: string;
   isDisabled?: boolean;
   onClick: () => void;
   params: any[];
   tx: string;
 }
 
-function VoteActions ({ accountId, className, isDisabled, onClick, params, t, tx }: Props): React.ReactElement<Props> {
+export default function VoteActions ({ accountId, className, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <Modal.Actions>
       <Button.Group className={className}>
@@ -44,5 +45,3 @@ function VoteActions ({ accountId, className, isDisabled, onClick, params, t, tx
     </Modal.Actions>
   );
 }
-
-export default translate(VoteActions);

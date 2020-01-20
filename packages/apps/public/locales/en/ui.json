@@ -783,5 +783,22 @@
   "filter by name or tags": "",
   "The twitter name for this identity.": "",
   "twitter": "",
-  "parent": ""
+  "parent": "",
+  "filter by name, address or index": "",
+  "Inactive ({{count}})": "",
+  "All Nominations ({{count}})": "",
+  "Inactive nominations ({{count}})": "",
+  "Set nominees": "",
+  "1 judgement": "",
+  "{{count}} judgements": "",
+  "no judgements": "",
+  " ({{count}} waiting)": "",
+  "details": "",
+  "Society overview": "",
+  "kind": "",
+  "suspended": "",
+  "No candidates": "",
+  "strikes": "",
+  "No active members": "",
+  "head": ""
 }

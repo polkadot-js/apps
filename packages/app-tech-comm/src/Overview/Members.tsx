@@ -3,19 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { AddressSmall, Table } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
-  members?: AccountId[];
+interface Props {
   className?: string;
+  members?: AccountId[];
 }
 
-function Members ({ className, members, t }: Props): React.ReactElement<Props> {
+export default function Members ({ className, members }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <div className={className}>
       {members?.length
@@ -37,5 +38,3 @@ function Members ({ className, members, t }: Props): React.ReactElement<Props> {
     </div>
   );
 }
-
-export default translate(Members);

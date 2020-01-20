@@ -2,18 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 import Icon from './Icon';
 
 export type LinkTypes = 'address' | 'block' | 'extrinsic';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   data: string;
   type: LinkTypes;
@@ -24,6 +22,7 @@ const BASE = 'https://polkascan.io/pre/';
 
 const CHAINS: Record<string, string> = {
   Alexander: 'alexander',
+  Kulupu: 'kulupu',
   Kusama: 'kusama-cc1', // old name via W3F nodes
   'Kusama CC1': 'kusama-cc1',
   'Kusama CC2': 'kusama-cc2',
@@ -36,7 +35,8 @@ const TYPES: Record<string, string> = {
   extrinsic: '/system/extrinsic/'
 };
 
-function LinkPolkascan ({ className, data, t, type, withShort }: Props): React.ReactElement<Props> | null {
+function LinkPolkascan ({ className, data, type, withShort }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { systemChain } = useApi();
   const extChain = CHAINS[systemChain];
   const extType = TYPES[type];
@@ -61,9 +61,7 @@ function LinkPolkascan ({ className, data, t, type, withShort }: Props): React.R
   );
 }
 
-export default translate(
-  styled(LinkPolkascan)`
-    margin-top: 1rem;
-    text-align: right;
-  `
-);
+export default styled(LinkPolkascan)`
+  margin-top: 1rem;
+  text-align: right;
+`;

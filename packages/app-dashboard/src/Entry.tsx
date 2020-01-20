@@ -3,20 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Route } from '@polkadot/apps-routing/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   route: Route;
 }
 
-function Entry ({ className, route: { i18n, icon, name }, t }: Props): React.ReactElement<Props> {
+function Entry ({ className, route: { i18n, icon, name } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <div className={className}>
       <Link to={`/${name}`}>
@@ -32,8 +34,8 @@ function Entry ({ className, route: { i18n, icon, name }, t }: Props): React.Rea
   );
 }
 
-export default translate(styled(Entry)`
+export default styled(Entry)`
   .name {
     margin-top: 0.75rem;
   }
-`);
+`;

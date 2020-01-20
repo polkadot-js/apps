@@ -3,15 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
-import { BareProps, I18nProps, StringOrNull } from '@polkadot/react-components/types';
-import { ContractExecResult } from '@polkadot/types/interfaces/contracts';
+import { BareProps, StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { withMulti } from '@polkadot/react-api/hoc';
 import { useApi } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
@@ -19,14 +17,13 @@ import { isNull } from '@polkadot/util';
 import Params from '../Params';
 import Outcome from './Outcome';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import { GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
 
-interface Props extends BareProps, I18nProps {
+interface Props extends BareProps {
   callContract: ApiContract | null;
   callMessageIndex: number | null;
-  callResults: ContractExecResult[];
   isOpen: boolean;
   onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
   onChangeCallMessageIndex: (callMessageIndex: number) => void;
@@ -34,7 +31,8 @@ interface Props extends BareProps, I18nProps {
 }
 
 function Call (props: Props): React.ReactElement<Props> | null {
-  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose, t } = props;
+  const { t } = useTranslation();
+  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
 
   if (isNull(callContract) || isNull(callMessageIndex)) {
     return null;
@@ -258,17 +256,14 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default withMulti(
-  styled(Call)`
-    .rpc-toggle {
-      margin-top: 1rem;
-      display: flex;
-      justify-content: flex-end;
-    }
+export default styled(Call)`
+  .rpc-toggle {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
 
-    .clear-all {
-      float: right;
-    }
-  `,
-  translate
-);
+  .clear-all {
+    float: right;
+  }
+`;

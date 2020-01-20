@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { SignerPayloadJSON } from '@polkadot/types/types';
+import { DispatchError } from '@polkadot/types/interfaces';
+import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
 import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
@@ -128,13 +129,31 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
         // filter events handled globally, or those we are not interested in, these are
         // handled by the global overview, so don't add them here
         .filter((record): boolean => !!record.event && record.event.section !== 'democracy')
-        .map(({ event: { method, section } }): ActionStatus => ({
-          action: `${section}.${method}`,
-          status: section === 'system' && method === 'ExtrinsicFailed'
-            ? 'error'
-            : 'event',
-          message: 'extrinsic event'
-        }))
+        .map(({ event: { data, method, section } }): ActionStatus => {
+          if (section === 'system' && method === 'ExtrinsicFailed') {
+            const [dispatchError] = data as unknown as ITuple<[DispatchError]>;
+            let message = dispatchError.type;
+
+            if (dispatchError.isModule) {
+              const mod = dispatchError.asModule;
+              const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
+
+              message = `${error.section}.${error.name}`;
+            }
+
+            return {
+              action: `${section}.${method}`,
+              status: 'error',
+              message
+            };
+          }
+
+          return {
+            action: `${section}.${method}`,
+            status: 'event',
+            message: 'extrinsic event'
+          };
+        })
     );
 
     if (STATUS_COMPLETE.includes(status)) {

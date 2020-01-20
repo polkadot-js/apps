@@ -28,7 +28,7 @@ interface State extends StateUrl {
   isCustom: boolean;
 }
 
-const hijackSettings = () => {
+const hijackSettings = (): void => {
   const ENDPOINT_DEFAULT = 'wss://testnet-node-1.acala.laminar.one/ws';
   const ENDPOINTS = [
     { text: 'Acala Alpha Testnet', value: ENDPOINT_DEFAULT, info: 'substrate' },

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
 
 import BN from 'bn.js';
@@ -11,9 +10,9 @@ import { registry } from '@polkadot/react-api';
 import { Call, InputAddress, Modal } from '@polkadot/react-components';
 
 import Checks from './Checks';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   children?: React.ReactNode;
   hideDetails?: boolean;
   isSendable: boolean;
@@ -22,7 +21,9 @@ interface Props extends I18nProps {
   value: QueueTx;
 }
 
-function Transaction ({ children, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, t, tip }: Props): React.ReactElement<Props> | null {
+export default function Transaction ({ children, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, tip }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   if (!extrinsic) {
     return null;
   }
@@ -67,5 +68,3 @@ function Transaction ({ children, hideDetails, isSendable, onError, value: { acc
     </>
   );
 }
-
-export default translate(Transaction);

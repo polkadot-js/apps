@@ -34,6 +34,7 @@ export interface BaseProps extends BareProps {
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
+  overrides?: ComponentMap;
   type: TypeDef;
 }
 
