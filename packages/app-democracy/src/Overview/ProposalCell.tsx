@@ -17,6 +17,8 @@ interface Props {
 }
 
 export default function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   if (!proposal) {
     return (
       <td className={`${className} all`}>

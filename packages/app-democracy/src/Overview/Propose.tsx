@@ -15,7 +15,7 @@ interface Props {
   onClose: () => void;
 }
 
-function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
+export default function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
