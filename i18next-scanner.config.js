@@ -1,6 +1,37 @@
+// Copyright 2017-2020 @polkadot/apps authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 const fs = require('fs');
 const path = require('path');
 const typescript = require('typescript');
+
+const findPackages = require('./scripts/findPackages');
+
+function transform (file, enc, done) {
+  const { ext } = path.parse(file.path);
+
+  if (ext === '.tsx') {
+    const content = fs.readFileSync(file.path, enc);
+
+    const { outputText } = typescript.transpileModule(content, {
+      compilerOptions: {
+        target: 'es2018'
+      },
+      fileName: path.basename(file.path)
+    });
+
+    const parserHandler = (key, options) => {
+      options.defaultValue = key;
+      options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1];
+      this.parser.set(key, options);
+    };
+
+    this.parser.parseFuncFromString(outputText, parserHandler);
+  }
+
+  done();
+}
 
 module.exports = {
   input: [
@@ -22,38 +53,7 @@ module.exports = {
     },
     lngs: ['en'],
     defaultLng: 'en',
-    ns: [
-      'app-123code',
-      'app-accounts',
-      'app-address-book',
-      'app-claims',
-      'app-contracts',
-      'app-council',
-      'app-dashboard',
-      'app-democracy',
-      'app-explorer',
-      'app-extrinsics',
-      'app-generic-asset',
-      'app-js',
-      'app-parachains',
-      'app-settings',
-      'app-society',
-      'app-staking',
-      'app-storage',
-      'app-sudo',
-      'app-tech-comm',
-      'app-toolbox',
-      'app-transfer',
-      'app-treasury',
-      'apps',
-      'apps-routing',
-      'react-api',
-      'react-components',
-      'react-params',
-      'react-query',
-      'react-signer',
-      'ui'
-    ],
+    ns: findPackages().map(({ dir }) => dir),
     defaultNs: 'ui',
     resource: {
       loadPath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
@@ -64,28 +64,5 @@ module.exports = {
     nsSeparator: false, // namespace separator
     keySeparator: false // key separator
   },
-  transform: function transform (file, enc, done) {
-    const { ext } = path.parse(file.path);
-
-    if (ext === '.tsx') {
-      const content = fs.readFileSync(file.path, enc);
-
-      const { outputText } = typescript.transpileModule(content, {
-        compilerOptions: {
-          target: 'es2018'
-        },
-        fileName: path.basename(file.path)
-      });
-
-      const parserHandler = (key, options) => {
-        options.defaultValue = key;
-        options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1];
-        this.parser.set(key, options);
-      };
-
-      this.parser.parseFuncFromString(outputText, parserHandler);
-    }
-
-    done();
-  }
+  transform
 };

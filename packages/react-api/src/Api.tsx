@@ -140,11 +140,13 @@ export default function Api ({ children, queuePayload, queueSetTxStatus, url }: 
     setIsApiLoading(false);
   }, []);
 
-  return api
-    ? (
-      <ApiContext.Provider value={{ ...state, api, isApiConnected, isApiLoading, isWaitingInjected }}>
-        {children}
-      </ApiContext.Provider>
-    )
-    : null;
+  if (isApiLoading) {
+    return null;
+  }
+
+  return (
+    <ApiContext.Provider value={{ ...state, api, isApiConnected, isWaitingInjected }}>
+      {children}
+    </ApiContext.Provider>
+  );
 }

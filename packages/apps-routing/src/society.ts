@@ -4,12 +4,11 @@
 
 import { Routes } from './types';
 
-import Society, { useCheck } from '@polkadot/app-society';
+import Society from '@polkadot/app-society';
 
 export default ([
   {
     Component: Society,
-    useCheck,
     display: {
       needsApi: [
         'query.society.pot'
