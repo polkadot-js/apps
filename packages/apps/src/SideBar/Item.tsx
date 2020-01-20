@@ -1,9 +1,8 @@
-// Copyright 2017-2019 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { Route } from '@polkadot/apps-routing/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
@@ -14,11 +13,12 @@ import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
+const DUMMY_CHECK = (): boolean => true;
 const DUMMY_COUNTER = (): number => 0;
 
-interface Props extends I18nProps {
+interface Props {
   isCollapsed: boolean;
   onClick: () => void;
   route: Route;
@@ -74,12 +74,14 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, t, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+export default function Item ({ route: { Modal, useCheck = DUMMY_CHECK, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady ? apiProps.api.query.sudo?.key : undefined, []);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const checkState = useCheck();
   const count = useCounter();
 
   useEffect((): void => {
@@ -87,8 +89,8 @@ function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon
   }, [allAccounts, sudoKey]);
 
   useEffect((): void => {
-    setIsVisible(checkVisible(name, apiProps, hasAccounts, hasSudo, display));
-  }, [apiProps, hasAccounts, hasSudo]);
+    setIsVisible(checkState && checkVisible(name, apiProps, hasAccounts, hasSudo, display));
+  }, [apiProps, checkState, hasAccounts, hasSudo]);
 
   if (!isVisible) {
     return null;
@@ -141,5 +143,3 @@ function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon
     </Menu.Item>
   );
 }
-
-export default translate(Item);

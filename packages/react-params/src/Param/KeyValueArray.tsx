@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ import { WithTranslation } from 'react-i18next';
 import { Vec } from '@polkadot/types';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';
@@ -53,7 +53,8 @@ function parseFile (raw: Uint8Array): Parsed {
   };
 }
 
-function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, t, withLabel }: Props): React.ReactElement<Props> {
+export default function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [placeholder, setPlaceholder] = useState(t(EMPTY_PLACEHOLDER));
 
   if (isDisabled) {
@@ -123,5 +124,3 @@ function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, o
     />
   );
 }
-
-export default translate(KeyValueArray);

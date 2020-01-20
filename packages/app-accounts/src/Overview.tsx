@@ -1,26 +1,22 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
 import { useAccounts, useFavorites } from '@polkadot/react-hooks';
-import { Button, InputTags, Table } from '@polkadot/react-components';
+import { Button, Input, Table } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
-import translate from './translate';
-
-interface Props extends ComponentProps, I18nProps {
-}
+import { useTranslation } from './translate';
 
 type SortedAccount = { address: string; isFavorite: boolean };
 
@@ -39,14 +35,15 @@ async function queryLedger (): Promise<void> {
   }
 }
 
-function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
+function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
+  const [filter, setFilter] = useState<string>('');
 
   useEffect((): void => {
     setSortedAccounts(
@@ -124,12 +121,12 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
         ? (
           <>
             <div className='filter--tags'>
-              <InputTags
-                allowAdd={false}
-                label={t('filter by tags')}
-                onChange={setTags}
-                defaultValue={tags}
-                value={tags}
+              <Input
+                autoFocus
+                isFull
+                label={t('filter by name or tags')}
+                onChange={setFilter}
+                value={filter}
               />
             </div>
             <Table>
@@ -137,7 +134,7 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
                 {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
                   <Account
                     address={address}
-                    allowTags={tags}
+                    filter={filter}
                     isFavorite={isFavorite}
                     key={address}
                     toggleFavorite={toggleFavorite}
@@ -153,16 +150,14 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
   );
 }
 
-export default translate(
-  styled(Overview)`
-    .filter--tags {
-      .ui--Dropdown {
-        padding-left: 0;
+export default styled(Overview)`
+  .filter--tags {
+    .ui--Dropdown {
+      padding-left: 0;
 
-        label {
-          left: 1.55rem;
-        }
+      label {
+        left: 1.55rem;
       }
     }
-  `
-);
+  }
+`;

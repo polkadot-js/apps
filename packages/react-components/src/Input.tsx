@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -22,6 +22,7 @@ interface Props extends BareProps {
   isDisabled?: boolean;
   isEditable?: boolean;
   isError?: boolean;
+  isFull?: boolean;
   isHidden?: boolean;
   isReadOnly?: boolean;
   label?: React.ReactNode;
@@ -87,7 +88,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = (): void => {
@@ -120,6 +121,7 @@ export default function Input ({ autoFocus = false, children, className, default
     <Labelled
       className={className}
       help={help}
+      isFull={isFull}
       label={label}
       labelExtra={labelExtra}
       style={style}
@@ -168,6 +170,9 @@ export default function Input ({ autoFocus = false, children, className, default
               ? 'new-password'
               : 'off'
           }
+          autoCapitalize='off'
+          autoCorrect='off'
+          spellCheck={false}
           onPaste={_onPaste}
         />
         {isEditable && (

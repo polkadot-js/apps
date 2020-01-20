@@ -1,10 +1,9 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { DropdownOptions } from '../util/types';
-import { I18nProps } from '../types';
 import { ConstValue, ConstValueBase } from './types';
 
 import '../InputExtrinsic/InputExtrinsic.css';
@@ -14,18 +13,19 @@ import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
-import translate from '../translate';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
 import keyOptions from './options/key';
 import sectionOptions from './options/section';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   defaultValue: ConstValueBase;
   help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: ConstValue) => void;
+  style?: any;
   withLabel?: boolean;
 }
 
@@ -42,7 +42,7 @@ function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstV
   };
 }
 
-function InputConsts ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+export default function InputConsts ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -99,5 +99,3 @@ function InputConsts ({ className, defaultValue, help, label, onChange, style, w
     </div>
   );
 }
-
-export default translate(InputConsts);

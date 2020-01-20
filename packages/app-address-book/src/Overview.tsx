@@ -1,32 +1,29 @@
-// Copyright 2017-2019 @polkadot/app-address-book authors & contributors
+// Copyright 2017-2020 @polkadot/app-address-book authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, InputTags, Table } from '@polkadot/react-components';
+import { Button, Input, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
-import translate from './translate';
-
-interface Props extends ComponentProps, I18nProps {
-}
+import { useTranslation } from './translate';
 
 type SortedAddress = { address: string; isFavorite: boolean };
 
 const STORE_FAVS = 'accounts:favorites';
 
-function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
+function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { hasAddresses, allAddresses } = useAddresses();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
+  const [filter, setFilter] = useState<string>('');
 
   useEffect((): void => {
     setSortedAddresses(
@@ -64,12 +61,12 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
         ? (
           <>
             <div className='filter--tags'>
-              <InputTags
-                allowAdd={false}
-                label={t('filter by tags')}
-                onChange={setTags}
-                defaultValue={tags}
-                value={tags}
+              <Input
+                autoFocus
+                isFull
+                label={t('filter by name or tags')}
+                onChange={setFilter}
+                value={filter}
               />
             </div>
             <Table>
@@ -77,7 +74,7 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
                 {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
                   <Address
                     address={address}
-                    allowTags={tags}
+                    filter={filter}
                     isFavorite={isFavorite}
                     key={address}
                     toggleFavorite={toggleFavorite}
@@ -93,16 +90,14 @@ function Overview ({ className, onStatusChange, t }: Props): React.ReactElement<
   );
 }
 
-export default translate(
-  styled(Overview)`
-    .filter--tags {
-      .ui--Dropdown {
-        padding-left: 0;
+export default styled(Overview)`
+  .filter--tags {
+    .ui--Dropdown {
+      padding-left: 0;
 
-        label {
-          left: 1.55rem;
-        }
+      label {
+        left: 1.55rem;
       }
     }
-  `
-);
+  }
+`;

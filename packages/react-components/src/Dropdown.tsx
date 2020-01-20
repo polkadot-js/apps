@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -21,6 +21,7 @@ interface Props<Option> extends BareProps {
   isButton?: boolean;
   isDisabled?: boolean;
   isError?: boolean;
+  isFull?: boolean;
   isMultiple?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
@@ -39,7 +40,7 @@ interface Props<Option> extends BareProps {
   withLabel?: boolean;
 }
 
-function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
+function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<any>();
 
@@ -102,6 +103,7 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
       <Labelled
         className={classes('ui--Dropdown', className)}
         help={help}
+        isFull={isFull}
         label={label}
         labelExtra={labelExtra}
         style={style}
