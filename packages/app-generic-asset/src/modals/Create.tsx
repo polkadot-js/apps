@@ -28,10 +28,7 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <Modal
-      header={t('Register an Asset')}
-      open
-    >
+    <Modal header={t('Register an Asset')}>
       <Modal.Content>
         <InputNumber
           help={t('Enter the Asset ID of the token you want to manage.')}

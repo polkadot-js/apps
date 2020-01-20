@@ -35,7 +35,6 @@ export default function Seconding ({ depositors, proposalId }: Props): React.Rea
       {isSecondingOpen && (
         <Modal
           header={t('Second proposal')}
-          open
           size='small'
         >
           <Modal.Content>
