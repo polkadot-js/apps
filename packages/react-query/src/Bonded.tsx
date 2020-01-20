@@ -23,7 +23,7 @@ export default function BondedDisplay ({ children, className, label, params }: P
     transform: (value): AccountId | null =>
       value.unwrapOr(null)
   });
-  const stakingLedger = useCall<StakingLedger | null>(api.query.staking.ledger, [controllerId], {
+  const stakingLedger = useCall<StakingLedger | null>(controllerId && api.query.staking.ledger, [controllerId], {
     transform: (value): StakingLedger | null =>
       value.unwrapOr(null)
   });

@@ -33,7 +33,7 @@ function ValidateController ({ accountId, controllerId, defaultController, isUns
         : null;
     }
   });
-  const stashId = useCall<string | null>(api.query.staking.ledger, [controllerId], {
+  const stashId = useCall<string | null>(controllerId && api.query.staking.ledger, [controllerId], {
     transform: (value: Option<StakingLedger>): string | null => {
       const extracted = value.unwrapOr({ stash: null }).stash;
 
