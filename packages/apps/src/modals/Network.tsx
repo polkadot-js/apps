@@ -20,7 +20,6 @@ export default function NetworkModal ({ className, onClose }: Props): React.Reac
     <Modal
       className={className}
       header={t('Select Network')}
-      open
     >
       <Modal.Content>
         <General

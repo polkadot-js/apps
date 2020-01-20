@@ -59,7 +59,6 @@ class NewStake extends TxComponent<Props, State> {
       <Modal
         className='staking--Bonding'
         header={t('Bonding Preferences')}
-        open
         size='small'
       >
         <Modal.Content className='ui--signer-Signer-Content'>

@@ -30,7 +30,6 @@ export default function Propose ({ className, onClose }: Props): React.ReactElem
     <Modal
       className={className}
       header={t('Submit proposal')}
-      open
     >
       <Modal.Content>
         <InputAddress

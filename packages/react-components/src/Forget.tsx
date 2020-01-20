@@ -102,7 +102,6 @@ export default function Forget (props: Props): React.ReactElement<Props> {
       className='app--accounts-Modal'
       header={getHeaderText(mode, t)}
       onClose={onClose}
-      open
     >
       <Modal.Content>{renderContent(props, t)}</Modal.Content>
       <Modal.Actions>

@@ -86,7 +86,6 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
         <Modal
           className={className}
           header={t('Revert pending slashes')}
-          open
         >
           <Modal.Content>
             <InputAddress

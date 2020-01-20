@@ -72,7 +72,6 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
   return (
     <Modal
       header={t('Inject Keys')}
-      open
       size='small'
     >
       <Modal.Content>

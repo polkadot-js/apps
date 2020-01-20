@@ -75,10 +75,7 @@ export default function Create ({ onClose, onStatusChange }: Props): React.React
   };
 
   return (
-    <Modal
-      header={t('Add an address')}
-      open
-    >
+    <Modal header={t('Add an address')}>
       <Modal.Content>
         <AddressRow
           defaultName={name}

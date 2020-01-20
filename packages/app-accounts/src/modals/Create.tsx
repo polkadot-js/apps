@@ -191,7 +191,6 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
     <Modal
       className={className}
       header={t('Add an account via seed')}
-      open
     >
       {address && isConfirmationOpen && (
         <CreateConfirmation
