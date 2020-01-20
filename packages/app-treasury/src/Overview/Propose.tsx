@@ -35,7 +35,6 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
         <Modal
           className={className}
           header={t('Submit treasury proposal')}
-          open
           size='small'
         >
           <Modal.Content>

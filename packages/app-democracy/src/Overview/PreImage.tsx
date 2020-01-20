@@ -38,7 +38,6 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
     <Modal
       className={className}
       header={t('Submit preimage')}
-      open
     >
       <Modal.Content>
         <InputAddress

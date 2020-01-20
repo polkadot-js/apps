@@ -85,7 +85,6 @@ class Validate extends TxComponent<Props, State> {
       <Modal
         className='staking--Staking'
         header={t('Set validator preferences')}
-        open
         size='small'
       >
         {this.renderContent()}

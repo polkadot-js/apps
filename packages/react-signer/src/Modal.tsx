@@ -163,10 +163,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Modal
-        className='ui--signer-Signer'
-        open
-      >
+      <Modal className='ui--signer-Signer'>
         <ErrorBoundary onError={this.onRenderError}>
           {this.renderContent()}
         </ErrorBoundary>

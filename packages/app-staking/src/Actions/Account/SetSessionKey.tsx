@@ -42,7 +42,6 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
     <Modal
       className='staking--SetSessionAccount'
       header={t('Set Session Key')}
-      open
       size='small'
     >
       <Modal.Content className='ui--signer-Signer-Content'>

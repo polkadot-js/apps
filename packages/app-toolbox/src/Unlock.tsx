@@ -46,7 +46,6 @@ class Unlock extends TxComponent<Props, State> {
       <Modal
         className='toolbox--Unlock'
         header={t('Unlock account')}
-        open
       >
         {this.renderContent()}
         {this.renderActions()}
