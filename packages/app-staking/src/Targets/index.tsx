@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedStakingElected } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { SessionRewards } from '../types';
 import { ValidatorInfo } from './types';
@@ -17,13 +16,14 @@ import { useAccounts, useApi, useDebounce, useFavorites, useCall } from '@polkad
 import { createType } from '@polkadot/types';
 
 import { STORE_FAVS_BASE } from '../constants';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Summary from './Summary';
 import Validator from './Validator';
 
 const PERBILL = new BN(1000000000);
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   sessionRewards: SessionRewards[];
 }
 
@@ -140,7 +140,8 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   return { totalStaked, validators };
 }
 
-function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
+function Targets ({ className, sessionRewards }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1000));
@@ -207,13 +208,11 @@ function Targets ({ className, sessionRewards, t }: Props): React.ReactElement<P
   );
 }
 
-export default translate(
-  styled(Targets)`
-    text-align: center;
+export default styled(Targets)`
+  text-align: center;
 
-    .balanceInput {
-      padding-right: 2rem;
-      margin-bottom: 1.5rem;
-    }
-  `
-);
+  .balanceInput {
+    padding-right: 2rem;
+    margin-bottom: 1.5rem;
+  }
+`;
