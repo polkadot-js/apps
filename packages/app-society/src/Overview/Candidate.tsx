@@ -14,7 +14,7 @@ interface Props {
   value: DeriveSocietyCandidate;
 }
 
-export default function Candidate ({ value: { accountId, isSuspended, kind, value } }: Props): React.ReactElement<Props> {
+export default function Candidate ({ value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -31,10 +31,6 @@ export default function Candidate ({ value: { accountId, isSuspended, kind, valu
           label={t('value')}
           value={value}
         />
-      </td>
-      <td className='number top'>
-        <label>{t('suspended')}</label>
-        {isSuspended ? t('Yes') : t('No')}
       </td>
     </tr>
   );

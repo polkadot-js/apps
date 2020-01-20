@@ -3,16 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveProposal } from '@polkadot/api-derive/types';
-import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import ProposalDisplay from './Proposal';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-function Proposals ({ className, t }: Props): React.ReactElement<Props> {
+interface Props {
+  className?: string;
+}
+
+export default function Proposals ({ className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals, []);
 
@@ -37,5 +41,3 @@ function Proposals ({ className, t }: Props): React.ReactElement<Props> {
     </div>
   );
 }
-
-export default translate(Proposals);

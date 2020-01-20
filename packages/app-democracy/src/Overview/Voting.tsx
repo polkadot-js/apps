@@ -2,21 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   referendumId: BN | number;
 }
 
-function Voting ({ referendumId, t }: Props): React.ReactElement<Props> | null {
+export default function Voting ({ referendumId }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, setIsVotingOpen] = useState(false);
@@ -61,5 +60,3 @@ function Voting ({ referendumId, t }: Props): React.ReactElement<Props> | null {
     </>
   );
 }
-
-export default translate(Voting);
