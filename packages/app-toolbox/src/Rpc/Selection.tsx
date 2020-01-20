@@ -14,7 +14,7 @@ import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
 
-import translate from './translate';
+import translate from '../translate';
 
 interface Props extends I18nProps {
   queueRpc: QueueTxRpcAdd;

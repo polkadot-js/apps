@@ -2,16 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import React, { useState } from 'react';
 import { Button, InputAddress, Input, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import ValidationSessionKey from './InputValidationSessionKey';
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 
-interface Props extends I18nProps {
+interface Props {
   controllerId: string;
   isOpen: boolean;
   onClose: () => void;
@@ -21,7 +19,8 @@ interface Props extends I18nProps {
 
 const EMPTY_PROOF = new Uint8Array();
 
-function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t }: Props): React.ReactElement<Props> | null {
+export default function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { isSubstrateV2 } = useApi();
   const [keysError, setKeysError] = useState<string | null>(null);
   const [keys, setKeys] = useState<string | null>(
@@ -113,5 +112,3 @@ function SetSessionKey ({ controllerId, isOpen, onClose, sessionIds, stashId, t 
     </Modal>
   );
 }
-
-export default translate(SetSessionKey);

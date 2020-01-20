@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -11,9 +10,9 @@ import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   lastReward: BN;
   totalStaked: BN;
 }
@@ -23,7 +22,8 @@ interface StakeInfo {
   staked: string | null;
 }
 
-function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Props> {
+export default function Summary ({ lastReward, totalStaked }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
   const [{ percentage, staked }, setStakeInfo] = useState<StakeInfo>({ percentage: '-', staked: null });
@@ -70,5 +70,3 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
     </SummaryBox>
   );
 }
-
-export default translate(Summary);

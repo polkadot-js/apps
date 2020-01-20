@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedStakingOverview } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -11,9 +10,10 @@ import { AddressMulti, Button, InputAddress, Modal, TxButton } from '@polkadot/r
 import { useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../../constants';
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   controllerId: string;
   next: string[];
   nominees?: string[];
@@ -24,7 +24,8 @@ interface Props extends I18nProps {
 
 const MAX_NOMINEES = 16;
 
-function Nominate ({ className, controllerId, nominees, onClose, next, stakingOverview, stashId, t }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className, controllerId, nominees, onClose, next, stakingOverview, stashId }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
   const [validators, setValidators] = useState<string[]>([]);
   const [selection, setSelection] = useState<string[]>([]);
@@ -110,53 +111,51 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   );
 }
 
-export default translate(
-  styled(Nominate)`
-    .shortlist {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+export default styled(Nominate)`
+  .shortlist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
-      .candidate {
-        border: 1px solid #eee;
-        border-radius: 0.25rem;
-        margin: 0.25rem;
-        padding-bottom: 0.25rem;
-        padding-right: 0.5rem;
-        position: relative;
+    .candidate {
+      border: 1px solid #eee;
+      border-radius: 0.25rem;
+      margin: 0.25rem;
+      padding-bottom: 0.25rem;
+      padding-right: 0.5rem;
+      position: relative;
 
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          right: 0;
-          border-color: transparent;
-          border-style: solid;
-          border-radius: 0.25em;
-          border-width: 0.25em;
-        }
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-radius: 0.25em;
+        border-width: 0.25em;
+      }
 
-        &.isAye {
-          background: #fff;
-          border-color: #ccc;
-        }
+      &.isAye {
+        background: #fff;
+        border-color: #ccc;
+      }
 
-        &.member::after {
-          border-color: green;
-        }
+      &.member::after {
+        border-color: green;
+      }
 
-        &.runnerup::after {
-          border-color: steelblue;
-        }
+      &.runnerup::after {
+        border-color: steelblue;
+      }
 
-        .ui--AddressMini-icon {
-          z-index: 1;
-        }
+      .ui--AddressMini-icon {
+        z-index: 1;
+      }
 
-        .candidate-right {
-          text-align: right;
-        }
+      .candidate-right {
+        text-align: right;
       }
     }
-  `
-);
+  }
+`;

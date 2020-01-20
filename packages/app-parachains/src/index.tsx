@@ -2,18 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends AppProps, BareProps, I18nProps {}
+interface Props extends AppProps, BareProps {}
 
-function ParachainsApp ({ basePath, t }: Props): React.ReactElement<Props> {
+export default function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <main>
       <header>
@@ -34,5 +36,3 @@ function ParachainsApp ({ basePath, t }: Props): React.ReactElement<Props> {
     </main>
   );
 }
-
-export default translate(ParachainsApp);

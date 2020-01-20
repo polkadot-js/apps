@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.v
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorInfo } from './types';
 
 import React from 'react';
@@ -10,14 +9,15 @@ import { AddressSmall, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   info: ValidatorInfo;
   toggleFavorite: (accountId: string) => void;
 }
 
-function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, t, toggleFavorite }: Props): React.ReactElement<Props> {
+export default function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const _onFavorite = (): void => toggleFavorite(key);
   const _onQueryStats = (): void => {
     window.location.hash = `/staking/query/${key}`;
@@ -57,5 +57,3 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
     </tr>
   );
 }
-
-export default translate(Validator);

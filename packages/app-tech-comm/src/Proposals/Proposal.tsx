@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
@@ -12,14 +11,16 @@ import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Voting from './Voting';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   hash: string;
 }
 
-function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | null {
+export default function Proposal ({ className, hash }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
   const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
@@ -72,5 +73,3 @@ function Proposal ({ className, hash, t }: Props): React.ReactElement<Props> | n
     </tr>
   );
 }
-
-export default translate(Proposal);
