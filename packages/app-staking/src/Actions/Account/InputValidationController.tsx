@@ -25,22 +25,16 @@ export default function ValidateController ({ accountId, controllerId, defaultCo
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedId = useCall<string | null>(api.query.staking.bonded, [controllerId], {
-    transform: (value: Option<AccountId>): string | null => {
-      const extracted = value.unwrapOr(null);
-
-      return extracted
-        ? extracted.toString()
-        : null;
-    }
+    transform: (value: Option<AccountId>): string | null =>
+      value.isSome
+        ? value.unwrap().toString()
+        : null
   });
   const stashId = useCall<string | null>(controllerId ? api.query.staking.ledger : null, [controllerId], {
-    transform: (value: Option<StakingLedger>): string | null => {
-      const extracted = value.unwrapOr({ stash: null }).stash;
-
-      return extracted
-        ? extracted.toString()
-        : null;
-    }
+    transform: (value: Option<StakingLedger>): string | null =>
+      value.isSome
+        ? value.unwrap().stash.toString()
+        : null
   });
   const [error, setError] = useState<string | null>(null);
 
