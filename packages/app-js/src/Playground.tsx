@@ -30,15 +30,14 @@ interface Injected {
     error: (...args: any[]) => void;
     log: (...args: any[]) => void;
   };
-  global: null;
   hashing: typeof hashing;
   keyring: KeyringInstance | null;
-  localStorage: null;
-  location: null;
   setIsRunning: (isRunning: boolean) => void;
   types: typeof types;
   util: typeof util;
+  global: null;
   window: null;
+  [name: string]: any;
 }
 
 const snippets: Snippet[] = JSON.parse(JSON.stringify(allSnippets));
@@ -109,18 +108,22 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
         error: (...args: any[]): void => _hookConsole('error', args),
         log: (...args: any[]): void => _hookConsole('log', args)
       },
-      global: null,
       hashing,
       keyring: isDevelopment
         ? uiKeyring.keyring
         : null,
-      location: null,
-      localStorage: null,
       setIsRunning,
       types,
       util,
+      global: null,
       window: null
     };
+
+    Object.keys(window).forEach((key): void => {
+      if (!key.includes('-') && !['atob', 'btoa', 'setImmediate', 'setTimeout'].includes(key) && injectedRef.current) {
+        injectedRef.current[key] = null;
+      }
+    });
 
     await injectedRef.current.api.isReady;
 
@@ -128,7 +131,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
       // squash into a single line so exceptions (with line numbers) maps to the
       // same line/origin as we have in the editor view
       // TODO: Make the console.error here actually return the full stack
-      const exec = `(async ({${Object.keys(injectedRef.current).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
+      const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
 
       // eslint-disable-next-line no-new-func
       new Function('injected', exec).bind({}, injectedRef.current)();
