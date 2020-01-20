@@ -3,16 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedReferendum } from '@polkadot/api-derive/types';
-import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Referendum from './Referendum';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-function Referendums ({ className, t }: Props): React.ReactElement<Props> {
+interface Props {
+  className?: string;
+}
+
+export default function Referendums ({ className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const referendums = useCall<DerivedReferendum[]>(api.derive.democracy.referendums, []);
 
@@ -38,5 +42,3 @@ function Referendums ({ className, t }: Props): React.ReactElement<Props> {
     </div>
   );
 }
-
-export default translate(Referendums);

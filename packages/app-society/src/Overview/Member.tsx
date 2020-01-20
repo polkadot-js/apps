@@ -13,7 +13,7 @@ interface Props {
   value: DeriveSocietyMember;
 }
 
-export default function Member ({ value: { accountId, isSuspended, strikes } }: Props): React.ReactElement<Props> {
+export default function Member ({ value: { accountId, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -24,10 +24,6 @@ export default function Member ({ value: { accountId, isSuspended, strikes } }: 
       <td className='number top'>
         <label>{t('strikes')}</label>
         {strikes.toString()}
-      </td>
-      <td className='number top'>
-        <label>{t('suspended')}</label>
-        {isSuspended ? t('Yes') : t('No')}
       </td>
     </tr>
   );
