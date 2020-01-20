@@ -7,11 +7,8 @@ import { AppProps, BareProps } from '@polkadot/react-components/types';
 import React from 'react';
 import { Tabs } from '@polkadot/react-components';
 
-import useCheck from './useCheck';
 import Overview from './Overview';
 import { useTranslation } from './translate';
-
-export { useCheck };
 
 interface Props extends AppProps, BareProps {}
 

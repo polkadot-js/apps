@@ -110,6 +110,8 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   } as State;
 }
 
+let counter = 0;
+
 export default function Api ({ children, queuePayload, queueSetTxStatus, url }: Props): React.ReactElement<Props> | null {
   const [state, setState] = useState<State>({ isApiReady: false } as Partial<State> as State);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -140,11 +142,13 @@ export default function Api ({ children, queuePayload, queueSetTxStatus, url }: 
     setIsApiLoading(false);
   }, []);
 
-  return api
-    ? (
-      <ApiContext.Provider value={{ ...state, api, isApiConnected, isApiLoading, isWaitingInjected }}>
-        {children}
-      </ApiContext.Provider>
-    )
-    : null;
+  if (isApiLoading) {
+    return null;
+  }
+
+  return (
+    <ApiContext.Provider value={{ ...state, api, isApiConnected, isWaitingInjected }}>
+      {children}
+    </ApiContext.Provider>
+  );
 }
