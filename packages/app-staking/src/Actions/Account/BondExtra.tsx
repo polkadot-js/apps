@@ -9,7 +9,7 @@ import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Available, Button, ButtonCancel, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Available, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
@@ -71,9 +71,7 @@ class BondExtra extends TxComponent<Props, State> {
         size='small'
       >
         {this.renderContent()}
-        <Modal.Actions>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
+        <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={stashId}
             isDisabled={!canSubmit}

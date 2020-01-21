@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, Input, InputAddress, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, InputAddress, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -65,9 +65,7 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
           value={isImminent}
         />
       </Modal.Content>
-      <Modal.Actions>
-        <ButtonCancel onClick={onClose} />
-        <Button.Or />
+      <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
           isDisabled={!proposal || !accountId}

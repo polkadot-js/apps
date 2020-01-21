@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { AddressRow, Button, ButtonCancel, Modal, Password, TxComponent } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
@@ -50,9 +50,7 @@ class ChangePass extends TxComponent<Props, State> {
     const { isNewValid, isOldValid } = this.state;
 
     return (
-      <Modal.Actions>
-        <ButtonCancel onClick={onClose} />
-        <Button.Or />
+      <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in'
           isDisabled={!isNewValid || !isOldValid}

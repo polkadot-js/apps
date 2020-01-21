@@ -17,7 +17,7 @@ import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, ButtonCancel, InputBalance, Modal, Toggle, ErrorBoundary } from '@polkadot/react-components';
+import { Button, InputBalance, Modal, Toggle, ErrorBoundary } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
@@ -183,15 +183,13 @@ class Signer extends React.PureComponent<Props, State> {
     const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
 
     return (
-      <Modal.Actions>
-        <ButtonCancel
-          onClick={
-            isQrVisible
-              ? this.onCancelQr
-              : this.onCancel
-          }
-          tabIndex={3}
-        />
+      <Modal.Actions
+        onCancel={
+          isQrVisible
+            ? this.onCancelQr
+            : this.onCancel
+        }
+      >
         {!isRenderError && (!isQrVisible || !isQrScanning) && (
           <>
             <Button.Or />

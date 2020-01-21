@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
-import { AddressInfo, Button, ButtonCancel, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { AddressInfo, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
@@ -66,9 +66,7 @@ class Unbond extends TxComponent<Props, State> {
         size='small'
       >
         {this.renderContent()}
-        <Modal.Actions>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
+        <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={controllerId}
             isDisabled={!canSubmit}
@@ -79,7 +77,7 @@ class Unbond extends TxComponent<Props, State> {
             params={[maxUnbond]}
             tx='staking.unbond'
             ref={this.button}
-          />S
+          />
         </Modal.Actions>
       </Modal>
     );

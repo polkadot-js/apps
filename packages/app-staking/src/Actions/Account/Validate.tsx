@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React from 'react';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
-import { Button, ButtonCancel, InputAddress, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { InputAddress, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 
 import translate from '../../translate';
 
@@ -85,9 +85,7 @@ class Validate extends TxComponent<Props, State> {
     const { commission } = this.state;
 
     return (
-      <Modal.Actions>
-        <ButtonCancel onClick={onClose} />
-        <Button.Or />
+      <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
           isPrimary

@@ -8,7 +8,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
 import React from 'react';
-import { AddressRow, Button, ButtonCancel, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
+import { AddressRow, Button, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
@@ -40,9 +40,7 @@ class Import extends TxComponent<Props, State> {
     return (
       <Modal header={t('Add via backup file')}>
         {this.renderInput()}
-        <Modal.Actions>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
+        <Modal.Actions onCancel={onClose}>
           <Button
             icon='sync'
             isDisabled={!isFileValid || !isPassValid}

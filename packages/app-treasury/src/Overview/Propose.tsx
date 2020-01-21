@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Button, ButtonCancel, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -60,9 +60,7 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
               onChange={setValue}
             />
           </Modal.Content>
-          <Modal.Actions>
-            <ButtonCancel onClick={_togglePropose} />
-            <Button.Or />
+          <Modal.Actions onCancel={_togglePropose}>
             <TxButton
               accountId={accountId}
               icon='add'

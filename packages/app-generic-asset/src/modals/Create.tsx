@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Button, ButtonCancel, Input, InputNumber, Modal } from '@polkadot/react-components';
+import { Button, Input, InputNumber, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -48,9 +48,7 @@ export default function Create ({ onClose, onRegister }: Props): React.ReactElem
           value={name}
         />
       </Modal.Content>
-      <Modal.Actions>
-        <ButtonCancel onClick={onClose} />
-        <Button.Or />
+      <Modal.Actions onCancel={onClose}>
         <Button
           isDisabled={!name}
           isPrimary

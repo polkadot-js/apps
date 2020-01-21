@@ -5,7 +5,7 @@
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { Button, ButtonCancel, CodeRow, Modal } from '@polkadot/react-components';
+import { Button, CodeRow, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -38,9 +38,7 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
           <p>{t('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
         </CodeRow>
       </Modal.Content>
-      <Modal.Actions>
-        <ButtonCancel onClick={onClose} />
-        <Button.Or />
+      <Modal.Actions onCancel={onClose}>
         <Button
           isPrimary
           onClick={_onRemove}

@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, ButtonCancel, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
+import { Button, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
@@ -109,9 +109,7 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
           <div><Icon name='warning sign' />{t('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
         </article>
       </Modal.Content>
-      <Modal.Actions>
-        <ButtonCancel onClick={onClose} />
-        <Button.Or />
+      <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in'
           isPrimary

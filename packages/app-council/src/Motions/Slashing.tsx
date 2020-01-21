@@ -6,7 +6,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { CallFunction } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
-import { Button, ButtonCancel, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -114,9 +114,7 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
               )
             }
           </Modal.Content>
-          <Modal.Actions>
-            <ButtonCancel onClick={toggleVisible} />
-            <Button.Or />
+          <Modal.Actions onCancel={toggleVisible}>
             <TxButton
               accountId={accountId}
               icon='repeat'

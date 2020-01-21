@@ -7,7 +7,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 // import Checks from '@polkadot/react-signer/Checks';
@@ -124,9 +124,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
           /> */}
         </div>
       </Modal.Content>
-      <Modal.Actions>
-        <ButtonCancel onClick={onClose} />
-        <Button.Or />
+      <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={senderId}
           extrinsic={extrinsic}

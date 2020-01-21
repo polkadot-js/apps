@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React from 'react';
 import { Abi } from '@polkadot/api-contract';
-import { Button, ButtonCancel, Input, InputAddress, InputNumber, Modal, TxComponent } from '@polkadot/react-components';
+import { Input, InputAddress, InputNumber, Modal, TxComponent } from '@polkadot/react-components';
 
 import ABI from './ABI';
 
@@ -61,7 +61,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
         <Modal.Content>
           {this.renderContent()}
         </Modal.Content>
-        <Modal.Actions>
+        <Modal.Actions onCancel={this.onClose}>
           {this.renderButtons()}
         </Modal.Actions>
       </Modal>
@@ -154,15 +154,6 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
         onEnter={this.sendTx}
         value={gasLimit || ''}
       />
-    );
-  }
-
-  protected renderCancelButton (): React.ReactNode {
-    return (
-      <>
-        <ButtonCancel onClick={this.onClose} />
-        <Button.Or />
-      </>
     );
   }
 

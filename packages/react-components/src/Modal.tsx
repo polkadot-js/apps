@@ -8,6 +8,7 @@ import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 
 import Button from './Button';
+import ButtonCancel from './ButtonCancel';
 import { classes } from './util';
 
 interface ModalProps extends BareProps {
@@ -19,6 +20,7 @@ interface ModalProps extends BareProps {
 
 interface ActionsProps extends BareProps {
   children: React.ReactNode;
+  onCancel: () => void;
 }
 
 function Modal (props: ModalProps): React.ReactElement<ModalProps> {
@@ -40,10 +42,14 @@ function Modal (props: ModalProps): React.ReactElement<ModalProps> {
   );
 }
 
-function Actions ({ className, children }: ActionsProps): React.ReactElement<ActionsProps> {
+function Actions ({ className, children, onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
   return (
     <SUIModal.Actions>
-      <Button.Group className={className}>{children}</Button.Group>
+      <Button.Group className={className}>
+        <ButtonCancel onClick={onCancel} />
+        <Button.Or />
+        {children}
+      </Button.Group>
     </SUIModal.Actions>
   );
 }

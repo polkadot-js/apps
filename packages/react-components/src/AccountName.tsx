@@ -15,8 +15,6 @@ import { useTranslation } from './translate';
 import { getAddressName } from './util';
 import AddressMini from './AddressMini';
 import Badge from './Badge';
-import Button from './Button';
-import ButtonCancel from './ButtonCancel';
 import Dropdown from './Dropdown';
 import Icon from './Icon';
 import Input from './Input';
@@ -277,9 +275,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
               value={judgementEnum}
             />
           </Modal.Content>
-          <Modal.Actions>
-            <ButtonCancel onClick={toggleJudgement} />
-            <Button.Or />
+          <Modal.Actions onCancel={toggleJudgement}>
             <TxButton
               accountId={judgementAccountId}
               icon='check'

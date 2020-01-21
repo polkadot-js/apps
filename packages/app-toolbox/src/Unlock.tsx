@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React from 'react';
-import { AddressRow, Button, ButtonCancel, Modal, Password, TxComponent } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
 
 import translate from './translate';
 
@@ -57,9 +57,7 @@ class Unlock extends TxComponent<Props, State> {
     const { t } = this.props;
 
     return (
-      <Modal.Actions>
-        <ButtonCancel onClick={this.onCancel} />
-        <Button.Or />
+      <Modal.Actions onCancel={this.onCancel}>
         <Button
           isPrimary
           onClick={this.onUnlock}
