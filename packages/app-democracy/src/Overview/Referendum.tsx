@@ -4,19 +4,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
-import { VotingType } from '@polkadot/react-components/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
-import { Voting } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 import ProposalCell from './ProposalCell';
+import Voting from './Voting';
 
 interface Props {
   className?: string;
@@ -112,7 +111,7 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
       <td className='number together top'>
         <Voting
           idNumber={value.index}
-          type={VotingType.Democracy}
+          proposal={value.proposal}
         />
       </td>
     </tr>
