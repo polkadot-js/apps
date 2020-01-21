@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { VotingType } from '../types';
 import { CollectiveProps } from './types';
 
 import React from 'react';
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, Voting } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
-import Voting from './Voting';
 
 import { useTranslation } from '../translate';
 
@@ -63,11 +63,10 @@ export default function Proposal ({ className, collective, isMember, proposal: {
       <td className='number top together'>
         {isMember && (
           <Voting
-            collective={collective}
-            header={collective === 'council' ? t('Vote for council motion') : t('Vote on technical committee proposal')}
             hash={hash}
             idNumber={index}
             proposal={proposal}
+            type={collective === 'council' ? VotingType.Council : VotingType.TechnicalCommittee}
           />
         )}
       </td>

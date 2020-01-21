@@ -13,6 +13,7 @@ import { formatNumber } from '@polkadot/util';
 import Call from './Call';
 import Inset, { InsetProps } from './Inset';
 import TreasuryProposal from './TreasuryProposal';
+import { isTreasuryProposalVote } from './util';
 
 interface Props {
   className?: string;
@@ -22,6 +23,7 @@ interface Props {
   idNumber: BN | number | string;
   isCollapsible?: boolean;
   withLinks?: boolean;
+  expandNested?: boolean;
 }
 
 export const styles = `
@@ -38,20 +40,8 @@ export const styles = `
   }
 `;
 
-function isTreasuryProposalVote (proposal?: Proposal | null): boolean {
-  if (!proposal) {
-    return false;
-  }
-
-  const { method, section } = registry.findMetaCall(proposal.callIndex);
-
-  return section === 'treasury' &&
-    ['approveProposal', 'rejectProposal'].includes(method) &&
-    !!proposal.args[0];
-}
-
 function ProposedAction (props: Props): React.ReactElement<Props> {
-  const { className, asInset, insetProps, isCollapsible, proposal, withLinks } = props;
+  const { className, asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = props;
   const idNumber = typeof props.idNumber === 'string'
     ? props.idNumber
     : formatNumber(props.idNumber);
@@ -70,7 +60,7 @@ function ProposedAction (props: Props): React.ReactElement<Props> {
       <summary>{meta.documentation.join(' ')}</summary>
     )
     : null;
-  const params = isTreasuryProposalVote(proposal) ? (
+  const params = (isTreasuryProposalVote(proposal) && expandNested) ? (
     <TreasuryProposal
       className='ui--ProposedAction-extrinsic'
       asInset={withLinks}

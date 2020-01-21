@@ -4,6 +4,7 @@
 
 export { default as AccountIndex } from './AccountIndex';
 export { default as AccountName } from './AccountName';
+export { default as ActionItem } from './ActionItem';
 export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
 export { default as AddressMulti } from './AddressMulti';
@@ -85,5 +86,6 @@ export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';
 export { default as VoteToggle } from './VoteToggle';
+export { default as Voting } from './Voting';
 
 export { default as media } from './media';

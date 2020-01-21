@@ -2,35 +2,67 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { Hash, Proposal } from '@polkadot/types/interfaces';
 import { TxSource } from '@polkadot/react-hooks/types';
+import { VotingType } from './types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { useApi, useTxModal } from '@polkadot/react-hooks';
 
-import { Button, ProposedAction, Modal, TxAccount, TxActions, VoteToggle } from '@polkadot/react-components';
-
-import { useTranslation } from '../translate';
+import { useTranslation } from './translate';
+import Button from './Button';
+import ProposedAction from './ProposedAction';
+import Modal from './Modal';
+import TxAccount from './TxAccount';
+import TxActions from './TxActions';
+import VoteToggle from './VoteToggle';
+import { isTreasuryProposalVote } from './util';
 
 interface Props {
-  collective: 'council' | 'technicalCommittee';
-  hash: Hash;
-  header: React.ReactNode;
+  hash?: Hash;
   idNumber: BN | number;
   proposal?: Proposal | null;
+  type: VotingType;
 }
 
-export default function Voting ({ collective, hash, header, idNumber, proposal }: Props): React.ReactElement<Props> {
+const { Democracy, Council, TechnicalCommittee } = VotingType;
+
+export default function Voting ({ hash, idNumber, proposal, type }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
   const [voteValue, setVoteValue] = useState(true);
 
+  let method: SubmittableExtrinsicFunction<'promise'>;
+  let header: React.ReactNode;
+
+  switch (type) {
+    case Council:
+      method = api.tx.council.vote;
+      header = t('Vote on council motion');
+      break;
+    case TechnicalCommittee:
+      method = api.tx.technicalCommittee.vote;
+      header = t('Vote on technical committee motion');
+      break;
+    case Democracy:
+    default:
+      method = api.tx.democracy.vote;
+      header = t('Vote on proposal');
+      break;
+  }
+
   const { isOpen, isSubmittable, onChangeAccountId, onClose, onOpen, sendTx } = useTxModal(
-    (): TxSource => ({
-      tx: api.tx[collective].vote(hash.toString(), idNumber, voteValue),
-      isSubmittable: !!hash
-    }),
+    type !== Democracy && !!hash
+      ? (): TxSource => ({
+        tx: method(hash.toString(), idNumber, voteValue),
+        isSubmittable: !!hash
+      })
+      : (): TxSource => ({
+        tx: method(idNumber, voteValue),
+        isSubmittable: true
+      }),
     [hash, idNumber, voteValue]
   );
 
@@ -52,6 +84,7 @@ export default function Voting ({ collective, hash, header, idNumber, proposal }
       >
         <Modal.Content>
           <ProposedAction
+            expandNested={isTreasuryProposalVote(proposal)}
             idNumber={idNumber}
             isCollapsible
             proposal={proposal}

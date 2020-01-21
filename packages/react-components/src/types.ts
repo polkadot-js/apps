@@ -156,3 +156,9 @@ export interface NullContract {
   abi: null;
   address: null;
 }
+
+export enum VotingType {
+  Democracy,
+  Council,
+  TechnicalCommittee
+}
