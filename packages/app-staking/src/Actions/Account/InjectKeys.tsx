@@ -109,13 +109,22 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
           <div><Icon name='warning sign' />{t('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
         </article>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
-        <Button
-          icon='sign-in'
-          isPrimary
-          label={t('Submit key')}
-          onClick={_onSubmit}
-        />
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            label={t('Cancel')}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <Button
+            icon='sign-in'
+            isPrimary
+            label={t('Submit key')}
+            onClick={_onSubmit}
+          />
+        </Button.Group>
       </Modal.Actions>
     </Modal>
   );

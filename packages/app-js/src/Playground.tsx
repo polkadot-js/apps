@@ -4,7 +4,6 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
@@ -31,49 +30,24 @@ interface Injected {
     error: (...args: any[]) => void;
     log: (...args: any[]) => void;
   };
+  global: null;
   hashing: typeof hashing;
   keyring: KeyringInstance | null;
+  localStorage: null;
+  location: null;
   setIsRunning: (isRunning: boolean) => void;
   types: typeof types;
   util: typeof util;
-  [name: string]: any;
+  window: null;
 }
 
-const ALLOWED_GLOBALS = ['atob', 'btoa'];
 const snippets: Snippet[] = JSON.parse(JSON.stringify(allSnippets));
 let hasSnippetWrappers = false;
-
-function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: any[]) => void): Injected {
-  const nullObject = Object
-    .keys(window)
-    .filter((key): boolean => !key.includes('-') && !ALLOWED_GLOBALS.includes(key))
-    .reduce((result: Record<string, null>, key): Record<string, null> => {
-      result[key] = null;
-
-      return result;
-    }, { global: null, window: null });
-
-  return {
-    ...nullObject,
-    api: api.clone(),
-    console: {
-      error: (...args: any[]): void => hookConsole('error', args),
-      log: (...args: any[]): void => hookConsole('log', args)
-    },
-    hashing,
-    keyring: isDevelopment
-      ? uiKeyring.keyring
-      : null,
-    setIsRunning,
-    types,
-    util
-  };
-}
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
 function Playground ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const apiProps = useApi();
+  const { api, isDevelopment } = useApi();
   const injectedRef = useRef<Injected | null>(null);
   const [code, setCode] = useState('');
   const [isCustomExample, setIsCustomExample] = useState(false);
@@ -88,7 +62,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     // add snippets if not already available (global)
     if (!hasSnippetWrappers) {
       snippets.forEach((snippet): void => {
-        snippet.code = `${makeWrapper(apiProps.isDevelopment)}${snippet.code}`;
+        snippet.code = `${makeWrapper(isDevelopment)}${snippet.code}`;
       });
 
       hasSnippetWrappers = true;
@@ -129,7 +103,24 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     setIsRunning(true);
     _clearConsole();
 
-    injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
+    injectedRef.current = {
+      api: api.clone(),
+      console: {
+        error: (...args: any[]): void => _hookConsole('error', args),
+        log: (...args: any[]): void => _hookConsole('log', args)
+      },
+      global: null,
+      hashing,
+      keyring: isDevelopment
+        ? uiKeyring.keyring
+        : null,
+      location: null,
+      localStorage: null,
+      setIsRunning,
+      types,
+      util,
+      window: null
+    };
 
     await injectedRef.current.api.isReady;
 
@@ -137,7 +128,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
       // squash into a single line so exceptions (with line numbers) maps to the
       // same line/origin as we have in the editor view
       // TODO: Make the console.error here actually return the full stack
-      const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
+      const exec = `(async ({${Object.keys(injectedRef.current).join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
 
       // eslint-disable-next-line no-new-func
       new Function('injected', exec).bind({}, injectedRef.current)();

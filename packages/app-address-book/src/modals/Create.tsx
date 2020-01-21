@@ -104,14 +104,23 @@ export default function Create ({ onClose, onStatusChange }: Props): React.React
           />
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
-        <Button
-          icon='save'
-          isDisabled={!isValid}
-          isPrimary
-          onClick={_onCommit}
-          label={t('Save')}
-        />
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+          />
+          <Button.Or />
+          <Button
+            icon='save'
+            isDisabled={!isValid}
+            isPrimary
+            onClick={_onCommit}
+            label={t('Save')}
+          />
+        </Button.Group>
       </Modal.Actions>
     </Modal>
   );

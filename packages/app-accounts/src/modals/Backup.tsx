@@ -16,6 +16,12 @@ interface Props extends BareProps {
   address: string;
 }
 
+interface ButtonsProps {
+  doBackup: () => void;
+  isPassValid: boolean;
+  onClose: () => void;
+}
+
 interface ContentProps {
   address: string;
   doBackup: () => void;
@@ -71,14 +77,11 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
         password={password}
         onChangePass={_onChangePass}
       />
-      <Modal.Actions onCancel={onClose}>
-        <Button
-          icon='download'
-          isDisabled={!isPassValid}
-          label={t('Download')}
-          onClick={_doBackup}
-        />
-      </Modal.Actions>
+      <Buttons
+        doBackup={_doBackup}
+        isPassValid={isPassValid}
+        onClose={onClose}
+      />
     </Modal>
   );
 }
@@ -108,5 +111,29 @@ function Content ({ address, doBackup, isPassTouched, isPassValid, onChangePass,
         </div>
       </AddressRow>
     </Modal.Content>
+  );
+}
+
+function Buttons ({ doBackup, isPassValid, onClose }: ButtonsProps): React.ReactElement<ButtonsProps> {
+  const { t } = useTranslation();
+
+  return (
+    <Modal.Actions>
+      <Button.Group>
+        <Button
+          icon='cancel'
+          isNegative
+          label={t('Cancel')}
+          onClick={onClose}
+        />
+        <Button.Or />
+        <Button
+          icon='download'
+          isDisabled={!isPassValid}
+          label={t('Download')}
+          onClick={doBackup}
+        />
+      </Button.Group>
+    </Modal.Actions>
   );
 }

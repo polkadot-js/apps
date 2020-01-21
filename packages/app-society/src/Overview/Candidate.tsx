@@ -24,11 +24,11 @@ export default function Candidate ({ value: { accountId, kind, value } }: Props)
       </td>
       <td className='number top'>
         <label>{t('kind')}</label>
-        {kind.type}
+        {kind.toString()}
       </td>
       <td className='number top'>
         <FormatBalance
-          label={<label>{t('value')}</label>}
+          label={t('value')}
           value={value}
         />
       </td>

@@ -31,6 +31,7 @@ function TxModal<P extends Props> ({
   inputAddressLabel = t('using my account'),
   inputAddressHelp = t('Select the account to use for this action.'),
   inputAddressProps = {},
+  cancelButtonLabel = t('Cancel'),
   submitButtonIcon = 'sign-in',
   submitButtonLabel = t('Submit'),
   submitButtonProps = {}
@@ -46,7 +47,7 @@ function TxModal<P extends Props> ({
 
   return (
     <>
-      {Trigger && <Trigger onOpen={onOpen} />}
+      {Trigger ? <Trigger onOpen={onOpen} /> : null}
       <Modal {...allModalProps}>
         <Modal.Content>
           {preContent}
@@ -63,15 +64,24 @@ function TxModal<P extends Props> ({
           />
           {children}
         </Modal.Content>
-        <Modal.Actions onCancel={onClose}>
-          <Button
-            isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
-            isPrimary
-            label={submitButtonLabel}
-            icon={submitButtonIcon}
-            onClick={sendTx}
-            {...submitButtonProps}
-          />
+        <Modal.Actions>
+          <Button.Group>
+            <Button
+              isNegative
+              onClick={onClose}
+              label={cancelButtonLabel}
+              icon='cancel'
+            />
+            <Button.Or />
+            <Button
+              isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
+              isPrimary
+              label={submitButtonLabel}
+              icon={submitButtonIcon}
+              onClick={sendTx}
+              {...submitButtonProps}
+            />
+          </Button.Group>
         </Modal.Actions>
       </Modal>
     </>

@@ -15,7 +15,6 @@ import { useTranslation } from '../translate';
 interface Scanned {
   address: string;
   genesisHash: string;
-  name?: string;
 }
 
 interface Props extends ModalProps {
@@ -28,13 +27,6 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
   const [scanned, setScanned] = useState<Scanned | null>(null);
 
   const _onNameChange = (name: string): void => setName({ isNameValid: !!name.trim(), name });
-  const _onScan = (scanned: Scanned): void => {
-    setScanned(scanned);
-
-    if (scanned.name) {
-      _onNameChange(scanned.name);
-    }
-  };
   const _onSave = (): void => {
     if (!scanned || !isNameValid) {
       return;
@@ -83,19 +75,28 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
             )
             : (
               <div className='qr-wrapper'>
-                <QrScanAddress onScan={_onScan} />
+                <QrScanAddress onScan={setScanned} />
               </div>
             )
         }
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>
-        <Button
-          icon='sign-in'
-          isDisabled={!scanned || !isNameValid}
-          isPrimary
-          onClick={_onSave}
-          label={t('Create')}
-        />
+      <Modal.Actions>
+        <Button.Group>
+          <Button
+            icon='cancel'
+            isNegative
+            label={t('Cancel')}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <Button
+            icon='sign-in'
+            isDisabled={!scanned || !isNameValid}
+            isPrimary
+            onClick={_onSave}
+            label={t('Create')}
+          />
+        </Button.Group>
       </Modal.Actions>
     </Modal>
   );

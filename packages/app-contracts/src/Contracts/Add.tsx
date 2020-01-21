@@ -75,14 +75,17 @@ class Add extends ContractModal<Props, State> {
     const isValid = isNameValid && isAddressValid && isAbiValid;
 
     return (
-      <Button
-        icon='save'
-        isDisabled={!isValid}
-        isPrimary
-        label={t('Save')}
-        onClick={this.onAdd}
-        ref={this.button}
-      />
+      <Button.Group>
+        {this.renderCancelButton()}
+        <Button
+          icon='save'
+          isDisabled={!isValid}
+          isPrimary
+          label={t('Save')}
+          onClick={this.onAdd}
+          ref={this.button}
+        />
+      </Button.Group>
     );
   }
 

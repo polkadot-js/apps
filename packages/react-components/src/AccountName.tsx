@@ -15,6 +15,7 @@ import { useTranslation } from './translate';
 import { getAddressName } from './util';
 import AddressMini from './AddressMini';
 import Badge from './Badge';
+import Button from './Button';
 import Dropdown from './Dropdown';
 import Icon from './Icon';
 import Input from './Input';
@@ -275,16 +276,25 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
               value={judgementEnum}
             />
           </Modal.Content>
-          <Modal.Actions onCancel={toggleJudgement}>
-            <TxButton
-              accountId={judgementAccountId}
-              icon='check'
-              isDisabled={registrarIndex === -1}
-              label={t('Judge')}
-              onClick={toggleJudgement}
-              params={[registrarIndex, accountId, judgementEnum]}
-              tx='identity.provideJudgement'
-            />
+          <Modal.Actions>
+            <Button.Group>
+              <Button
+                icon='cancel'
+                isNegative
+                label={t('Cancel')}
+                onClick={toggleJudgement}
+              />
+              <Button.Or />
+              <TxButton
+                accountId={judgementAccountId}
+                icon='check'
+                isDisabled={registrarIndex === -1}
+                label={t('Judge')}
+                onClick={toggleJudgement}
+                params={[registrarIndex, accountId, judgementEnum]}
+                tx='identity.provideJudgement'
+              />
+            </Button.Group>
           </Modal.Actions>
         </Modal>
       )}

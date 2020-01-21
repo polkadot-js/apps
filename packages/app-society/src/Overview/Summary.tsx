@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSociety } from '@polkadot/api-derive/types';
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AccountIndex, IdentityIcon, SummaryBox, CardSummary } from '@polkadot/react-components';
+import { AccountName, IdentityIcon, SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
@@ -34,7 +34,7 @@ function Name ({ label, value }: NameProps): React.ReactElement<NameProps> | nul
           size={24}
           value={value}
         />
-        <AccountIndex value={value} />
+        <AccountName value={value} />
       </div>
     </CardSummary>
   );
@@ -45,7 +45,6 @@ function Summary ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveSociety>(api.derive.society.info, []);
   const members = useCall<any[]>(api.derive.society.members, []);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
   const pot = info?.pot.gtn(0)
     ? info.pot.toString()
@@ -59,42 +58,19 @@ function Summary ({ className }: Props): React.ReactElement<Props> {
           value={info?.head}
         />
       </section>
-      <section className='ui--media-medium'>
+      <section>
         {info && members && (
           <CardSummary label={t('members')}>
             {members.length}/{info.maxMembers.toString()}
           </CardSummary>
         )}
       </section>
-      {bestNumber && (
-        <>
-          <section>
-            <CardSummary
-              label={t('rotation')}
-              progress={{
-                total: api.consts.society.rotationPeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber)
-              }}
-            />
-          </section>
-          <section className='ui--media-large'>
-            <CardSummary
-              label={t('challenge')}
-              progress={{
-                total: api.consts.society.challengePeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber)
-              }}
-            />
-          </section>
-        </>
-      )}
       <section>
-        <CardSummary label={t('pot')}>
-          {pot
-            ? <>{formatBalance(pot, false)}{formatBalance.calcSi(pot).value}</>
-            : '-'
-          }
-        </CardSummary>
+        {pot && (
+          <CardSummary label={t('available')}>
+            {formatBalance(pot, false)}{formatBalance.calcSi(pot).value}
+          </CardSummary>
+        )}
       </section>
     </SummaryBox>
   );
@@ -104,7 +80,7 @@ export default styled(Summary)`
   .society--header--account {
     white-space: nowrap;
 
-    .ui--AccountIndex,
+    .ui--AccountName,
     .ui--IdentityIcon {
       display: inline-block;
     }

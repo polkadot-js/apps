@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 
 export interface TxModalProps extends I18nProps {
   onSubmit?: () => void;
@@ -46,7 +46,7 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
             {this.renderInputAccount()}
             {this.renderContent()}
           </Modal.Content>
-          <Modal.Actions onCancel={this.hideModal}>
+          <Modal.Actions>
             {this.renderButtons()}
           </Modal.Actions>
         </Modal>
@@ -116,7 +116,12 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
   protected renderTrigger?: () => React.ReactNode = (): React.ReactNode => null;
 
   protected renderButtons: () => React.ReactNode = (): React.ReactNode => {
-    return this.renderTxButton();
+    return (
+      <Button.Group>
+        {this.renderCancelButton()}
+        {this.renderTxButton()}
+      </Button.Group>
+    );
   }
 
   protected renderInputAccount (): React.ReactNode {
@@ -157,6 +162,22 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         ref={this.button}
         tx={this.txMethod()}
       />
+    );
+  }
+
+  protected renderCancelButton (): React.ReactNode {
+    const { t } = this.props;
+
+    return (
+      <>
+        <Button
+          isNegative
+          onClick={this.hideModal}
+          label={t('Cancel')}
+          icon='cancel'
+        />
+        <Button.Or />
+      </>
     );
   }
 

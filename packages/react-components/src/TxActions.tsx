@@ -21,17 +21,23 @@ export default function TxActions ({ className, isSubmittable, onCancel, onSend,
   const { t } = useTranslation();
 
   return (
-    <Modal.Actions
-      className={className}
-      onCancel={onCancel}
-    >
-      <Button
-        icon={submitButtonIcon || 'check'}
-        isDisabled={!isSubmittable}
-        isPrimary
-        label={submitButtonLabel || t('Submit')}
-        onClick={onSend}
-      />
+    <Modal.Actions>
+      <Button.Group className={className}>
+        <Button
+          icon='cancel'
+          isNegative
+          label={t('Cancel')}
+          onClick={onCancel}
+        />
+        <Button.Or />
+        <Button
+          icon={submitButtonIcon || 'check'}
+          isDisabled={!isSubmittable}
+          isPrimary
+          label={submitButtonLabel || t('Submit')}
+          onClick={onSend}
+        />
+      </Button.Group>
     </Modal.Actions>
   );
 }

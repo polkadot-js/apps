@@ -8,7 +8,7 @@ import { BareProps, StringOrNull } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { useApi } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
@@ -196,7 +196,12 @@ function Call (props: Props): React.ReactElement<Props> | null {
           />
         )}
         <Button.Group>
-          <ButtonCancel onClick={onClose} />
+          <Button
+            icon='cancel'
+            isNegative
+            onClick={onClose}
+            label={t('Cancel')}
+          />
           <Button.Or />
           {useRpc
             ? (
