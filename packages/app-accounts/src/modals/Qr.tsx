@@ -6,7 +6,7 @@ import { ModalProps } from '../types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { AddressRow, Button, ButtonCancel, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { QrScanAddress } from '@polkadot/react-qr';
 import keyring from '@polkadot/ui-keyring';
 
@@ -88,18 +88,14 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
             )
         }
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='sign-in'
-            isDisabled={!scanned || !isNameValid}
-            isPrimary
-            onClick={_onSave}
-            label={t('Create')}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='sign-in'
+          isDisabled={!scanned || !isNameValid}
+          isPrimary
+          onClick={_onSave}
+          label={t('Create')}
+        />
       </Modal.Actions>
     </Modal>
   );

@@ -17,7 +17,7 @@ import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, ButtonCancel, InputBalance, Modal, Toggle, ErrorBoundary } from '@polkadot/react-components';
+import { Button, InputBalance, Modal, Toggle, ErrorBoundary } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
@@ -183,53 +183,49 @@ class Signer extends React.PureComponent<Props, State> {
     const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
 
     return (
-      <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel
-            onClick={
-              isQrVisible
-                ? this.onCancelQr
-                : this.onCancel
-            }
-            tabIndex={3}
-          />
-          {!isRenderError && (!isQrVisible || !isQrScanning) && (
-            <>
-              <Button.Or />
-              <Button
-                className='ui--signer-Signer-Submit'
-                isDisabled={!isSendable}
-                isPrimary
-                onClick={
-                  isQrVisible
-                    ? this.activateQrScanning
-                    : this.onSend
-                }
-                tabIndex={2}
-                label={
-                  isQrVisible
-                    ? t('Scan Signature Qr')
-                    : currentItem.isUnsigned
-                      ? t('Submit (no signature)')
-                      : isHardware
-                        ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
-                        : isExternal
-                          ? t('Sign via Qr')
-                          : t('Sign and Submit')
-                }
-                icon={
-                  isQrVisible
-                    ? 'qrcode'
-                    : currentItem.isUnsigned
-                      ? 'sign-in'
+      <Modal.Actions
+        onCancel={
+          isQrVisible
+            ? this.onCancelQr
+            : this.onCancel
+        }
+      >
+        {!isRenderError && (!isQrVisible || !isQrScanning) && (
+          <>
+            <Button.Or />
+            <Button
+              className='ui--signer-Signer-Submit'
+              isDisabled={!isSendable}
+              isPrimary
+              onClick={
+                isQrVisible
+                  ? this.activateQrScanning
+                  : this.onSend
+              }
+              tabIndex={2}
+              label={
+                isQrVisible
+                  ? t('Scan Signature Qr')
+                  : currentItem.isUnsigned
+                    ? t('Submit (no signature)')
+                    : isHardware
+                      ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
                       : isExternal
-                        ? 'qrcode'
-                        : 'sign-in'
-                }
-              />
-            </>
-          )}
-        </Button.Group>
+                        ? t('Sign via Qr')
+                        : t('Sign and Submit')
+              }
+              icon={
+                isQrVisible
+                  ? 'qrcode'
+                  : currentItem.isUnsigned
+                    ? 'sign-in'
+                    : isExternal
+                      ? 'qrcode'
+                      : 'sign-in'
+              }
+            />
+          </>
+        )}
       </Modal.Actions>
     );
   }

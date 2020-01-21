@@ -4,8 +4,6 @@
 
 import React from 'react';
 
-import Button from './Button';
-import ButtonCancel from './ButtonCancel';
 import Modal from './Modal';
 import TxButton from './TxButton';
 import { useTranslation } from './translate';
@@ -23,21 +21,20 @@ export default function VoteActions ({ accountId, className, isDisabled, onClick
   const { t } = useTranslation();
 
   return (
-    <Modal.Actions>
-      <Button.Group className={className}>
-        <ButtonCancel onClick={onClick} />
-        <Button.Or />
-        <TxButton
-          accountId={accountId}
-          icon='check'
-          isDisabled={!accountId || isDisabled}
-          isPrimary
-          label={t('Vote')}
-          onClick={onClick}
-          params={params}
-          tx={tx}
-        />
-      </Button.Group>
+    <Modal.Actions
+      className={className}
+      onCancel={onClick}
+    >
+      <TxButton
+        accountId={accountId}
+        icon='check'
+        isDisabled={!accountId || isDisabled}
+        isPrimary
+        label={t('Vote')}
+        onClick={onClick}
+        params={params}
+        tx={tx}
+      />
     </Modal.Actions>
   );
 }

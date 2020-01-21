@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Input, InputAddress, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, InputAddress, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -65,27 +65,18 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
           value={isImminent}
         />
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            icon='add'
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!proposal || !accountId}
-            isPrimary
-            label={t('Submit preimage')}
-            icon='add'
-            onStart={onClose}
-            params={[hex]}
-            tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
-            withSpinner={false}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={accountId}
+          isDisabled={!proposal || !accountId}
+          isPrimary
+          label={t('Submit preimage')}
+          icon='add'
+          onStart={onClose}
+          params={[hex]}
+          tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
+          withSpinner={false}
+        />
       </Modal.Actions>
     </Modal>
   );

@@ -11,7 +11,7 @@ import FileSaver from 'file-saver';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, ButtonCancel, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -294,18 +294,14 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
           </details>
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='plus'
-            isDisabled={!isValid}
-            isPrimary
-            label={t('Save')}
-            onClick={_toggleConfirmation}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='plus'
+          isDisabled={!isValid}
+          isPrimary
+          label={t('Save')}
+          onClick={_toggleConfirmation}
+        />
       </Modal.Actions>
     </Modal>
   );
