@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useState } from 'react';
-import { Button, InputAddress, Input, Modal, TxButton } from '@polkadot/react-components';
+import { Button, ButtonCancel, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import ValidationSessionKey from './InputValidationSessionKey';
@@ -82,12 +82,7 @@ export default function SetSessionKey ({ controllerId, isOpen, onClose, sessionI
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-            icon='cancel'
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <TxButton
             accountId={controllerId}

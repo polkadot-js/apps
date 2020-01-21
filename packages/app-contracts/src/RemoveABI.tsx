@@ -5,7 +5,7 @@
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { Button, CodeRow, Modal } from '@polkadot/react-components';
+import { Button, ButtonCancel, CodeRow, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -40,12 +40,7 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-            icon='cancel'
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <Button
             isPrimary

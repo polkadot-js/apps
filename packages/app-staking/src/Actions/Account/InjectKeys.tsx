@@ -6,7 +6,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
@@ -111,12 +111,7 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <Button
             icon='sign-in'

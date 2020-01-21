@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
@@ -44,12 +44,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
         {this.renderContent()}
         <Modal.Actions>
           <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              icon='cancel'
-            />
+            <ButtonCancel onClick={onClose} />
             <Button.Or />
             <TxButton
               accountId={controllerId}

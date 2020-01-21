@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { AddressRow, Button, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, ButtonCancel, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -32,12 +32,7 @@ export default function CreateConfirmation ({ address, name, onClose, onCommit }
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <Button
             icon='plus'
