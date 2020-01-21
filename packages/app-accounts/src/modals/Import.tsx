@@ -8,7 +8,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
 import React from 'react';
-import { AddressRow, Button, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
+import { AddressRow, Button, ButtonCancel, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
@@ -42,12 +42,7 @@ class Import extends TxComponent<Props, State> {
         {this.renderInput()}
         <Modal.Actions>
           <Button.Group>
-            <Button
-              icon='cancel'
-              isNegative
-              label={t('Cancel')}
-              onClick={onClose}
-            />
+            <ButtonCancel onClick={onClose} />
             <Button.Or />
             <Button
               icon='sync'

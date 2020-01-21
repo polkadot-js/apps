@@ -115,11 +115,9 @@ function TxModal<P extends Props> ({
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
+            <ButtonCancel
               label={cancelButtonLabel}
-              icon='cancel'
+              onClick={onClose}
             />
             <Button.Or />
             <Button

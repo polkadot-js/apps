@@ -6,7 +6,7 @@ import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -70,12 +70,7 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
           </Modal.Content>
           <Modal.Actions>
             <Button.Group>
-              <Button
-                icon='cancel'
-                isNegative
-                label={t('Cancel')}
-                onClick={toggleOpen}
-              />
+              <ButtonCancel onClick={toggleOpen} />
               <Button.Or />
               <TxButton
                 accountId={accountId}

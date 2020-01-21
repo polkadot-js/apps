@@ -6,7 +6,7 @@ import { DerivedStakingOverview } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressMulti, Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { AddressMulti, Button, ButtonCancel, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../../constants';
@@ -88,12 +88,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-            icon='cancel'
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <TxButton
             accountId={controllerId}

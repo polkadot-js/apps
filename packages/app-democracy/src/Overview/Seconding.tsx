@@ -6,7 +6,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, ButtonCancel, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -48,12 +48,7 @@ export default function Seconding ({ depositors, proposalId }: Props): React.Rea
           </Modal.Content>
           <Modal.Actions>
             <Button.Group>
-              <Button
-                isNegative
-                onClick={_toggleSeconding}
-                label={t('Cancel')}
-                icon='cancel'
-              />
+              <ButtonCancel onClick={_toggleSeconding} />
               <Button.Or />
               <TxButton
                 accountId={accountId}
