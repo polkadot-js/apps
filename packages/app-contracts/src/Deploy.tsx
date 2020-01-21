@@ -14,7 +14,7 @@ import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import { Button, Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
+import { Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
 
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
@@ -224,28 +224,25 @@ class Deploy extends ContractModal<Props, State> {
     const isValid = isAbiValid && isHashValid && isEndowValid && isGasValid && !!accountId && isNameValid;
 
     return (
-      <Button.Group>
-        {this.renderCancelButton()}
-        <TxButton
-          accountId={accountId}
-          icon='cloud upload'
-          isDisabled={!isValid}
-          isPrimary
-          label={t('Deploy')}
-          onClick={this.toggleBusy(true)}
-          onFailed={this.toggleBusy(false)}
-          onSuccess={this.onSuccess}
-          params={this.constructCall}
-          tx={
-            api.tx.contracts
-              ? api.tx.contracts.instantiate
-                ? 'contracts.instantiate' // V2 (new)
-                : 'contracts.create' // V2 (old)
-              : 'contract.create' // V1
-          }
-          ref={this.button}
-        />
-      </Button.Group>
+      <TxButton
+        accountId={accountId}
+        icon='cloud upload'
+        isDisabled={!isValid}
+        isPrimary
+        label={t('Deploy')}
+        onClick={this.toggleBusy(true)}
+        onFailed={this.toggleBusy(false)}
+        onSuccess={this.onSuccess}
+        params={this.constructCall}
+        tx={
+          api.tx.contracts
+            ? api.tx.contracts.instantiate
+              ? 'contracts.instantiate' // V2 (new)
+              : 'contracts.create' // V2 (old)
+            : 'contract.create' // V1
+        }
+        ref={this.button}
+      />
     );
   }
 

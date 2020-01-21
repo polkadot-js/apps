@@ -6,7 +6,7 @@ import { Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Input, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option } from '@polkadot/types';
@@ -208,26 +208,17 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
           />
         </WrapToggle> */}
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={address}
-            icon='send'
-            isPrimary
-            label={t('Set Identity')}
-            onStart={onClose}
-            params={[info]}
-            tx='identity.setIdentity'
-            withSpinner={false}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={address}
+          icon='send'
+          isPrimary
+          label={t('Set Identity')}
+          onStart={onClose}
+          params={[info]}
+          tx='identity.setIdentity'
+          withSpinner={false}
+        />
       </Modal.Actions>
     </Modal>
   );
