@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useState } from 'react';
-import { Button, ButtonCancel, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import ValidationSessionKey from './InputValidationSessionKey';
@@ -80,29 +80,25 @@ export default function SetSessionKey ({ controllerId, isOpen, onClose, sessionI
           )
         }
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <TxButton
-            accountId={controllerId}
-            isDisabled={hasError}
-            isPrimary
-            label={t('Set Session Key')}
-            icon='sign-in'
-            onClick={onClose}
-            params={
-              isSubstrateV2
-                ? [keys, EMPTY_PROOF]
-                : [keys]
-            }
-            tx={
-              isSubstrateV2
-                ? 'session.setKeys'
-                : 'session.setKey'
-            }
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={controllerId}
+          isDisabled={hasError}
+          isPrimary
+          label={t('Set Session Key')}
+          icon='sign-in'
+          onClick={onClose}
+          params={
+            isSubstrateV2
+              ? [keys, EMPTY_PROOF]
+              : [keys]
+          }
+          tx={
+            isSubstrateV2
+              ? 'session.setKeys'
+              : 'session.setKey'
+          }
+        />
       </Modal.Actions>
     </Modal>
   );

@@ -5,7 +5,7 @@
 import { TxModalProps as Props } from './types';
 
 import React, { useState, useEffect } from 'react';
-import { Button, ButtonCancel, InputAddress, Modal } from '@polkadot/react-components';
+import { Button, InputAddress, Modal } from '@polkadot/react-components';
 // import { useTx } from '@polkadot/react-hooks';
 import { isUndefined } from '@polkadot/util';
 
@@ -28,7 +28,6 @@ function TxModal<P extends Props> ({
   inputAddressLabel = t('using my account'),
   inputAddressHelp = t('Select the account to use for this action.'),
   inputAddressProps = {},
-  cancelButtonLabel,
   submitButtonIcon = 'sign-in',
   submitButtonLabel = t('Submit'),
   submitButtonProps = {},
@@ -113,22 +112,15 @@ function TxModal<P extends Props> ({
           />
           {children}
         </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel
-              label={cancelButtonLabel}
-              onClick={onClose}
-            />
-            <Button.Or />
-            <Button
-              isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
-              isPrimary
-              label={submitButtonLabel}
-              icon={submitButtonIcon}
-              onClick={onSend}
-              {...submitButtonProps}
-            />
-          </Button.Group>
+        <Modal.Actions onCancel={onClose}>
+          <Button
+            isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
+            isPrimary
+            label={submitButtonLabel}
+            icon={submitButtonIcon}
+            onClick={onSend}
+            {...submitButtonProps}
+          />
         </Modal.Actions>
       </Modal>
     </>

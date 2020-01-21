@@ -6,7 +6,7 @@ import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { Button, ButtonCancel, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -68,26 +68,22 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
               value={councilType}
             />
           </Modal.Content>
-          <Modal.Actions>
-            <Button.Group>
-              <ButtonCancel onClick={toggleOpen} />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='check'
-                isDisabled={!accountId || !councilThreshold}
-                isPrimary
-                label={t('Send to council')}
-                onClick={toggleOpen}
-                params={[
-                  councilThreshold,
-                  councilType === 'reject'
-                    ? api.tx.treasury.rejectProposal(id)
-                    : api.tx.treasury.approveProposal(id)
-                ]}
-                tx='council.propose'
-              />
-            </Button.Group>
+          <Modal.Actions onCancel={toggleOpen}>
+            <TxButton
+              accountId={accountId}
+              icon='check'
+              isDisabled={!accountId || !councilThreshold}
+              isPrimary
+              label={t('Send to council')}
+              onClick={toggleOpen}
+              params={[
+                councilThreshold,
+                councilType === 'reject'
+                  ? api.tx.treasury.rejectProposal(id)
+                  : api.tx.treasury.approveProposal(id)
+              ]}
+              tx='council.propose'
+            />
           </Modal.Actions>
         </Modal>
       )}

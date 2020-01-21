@@ -5,7 +5,7 @@
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { AddressRow, Button, ButtonCancel, CodeRow, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, CodeRow, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -104,17 +104,13 @@ export default function Forget (props: Props): React.ReactElement<Props> {
       onClose={onClose}
     >
       <Modal.Content>{renderContent(props, t)}</Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={onForget}
-            label={t('Forget')}
-            icon='trash'
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          isPrimary
+          onClick={onForget}
+          label={t('Forget')}
+          icon='trash'
+        />
       </Modal.Actions>
     </Modal>
   );

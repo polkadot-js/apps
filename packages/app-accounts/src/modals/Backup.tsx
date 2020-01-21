@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
 import React, { useState, useMemo } from 'react';
-import { AddressRow, Button, ButtonCancel, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
@@ -71,17 +71,13 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
         password={password}
         onChangePass={_onChangePass}
       />
-      <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='download'
-            isDisabled={!isPassValid}
-            label={t('Download')}
-            onClick={_doBackup}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='download'
+          isDisabled={!isPassValid}
+          label={t('Download')}
+          onClick={_doBackup}
+        />
       </Modal.Actions>
     </Modal>
   );

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { AddressRow, Button, ButtonCancel, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -30,17 +30,13 @@ export default function CreateConfirmation ({ address, name, onClose, onCommit }
           <p>{t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='plus'
-            isPrimary
-            label={t('Create and backup account')}
-            onClick={onCommit}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='plus'
+          isPrimary
+          label={t('Create and backup account')}
+          onClick={onCommit}
+        />
       </Modal.Actions>
     </Modal>
   );
