@@ -39,6 +39,12 @@ interface AddressState {
   seedType: SeedType;
 }
 
+interface CreateOptions {
+  genesisHash?: string;
+  name: string;
+  tags?: string[];
+}
+
 const DEFAULT_PAIR_TYPE = 'sr25519';
 
 function deriveValidate (seed: string, derivePath: string, pairType: KeypairType): string | null {
@@ -129,12 +135,12 @@ export function downloadAccount ({ json, pair }: CreateResult): void {
   InputAddress.setLastValue('account', pair.address);
 }
 
-function createAccount (suri: string, pairType: KeypairType, name: string, password: string, success: string): ActionStatus {
+function createAccount (suri: string, pairType: KeypairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
-    const result = keyring.addUri(suri, password, { name: name.trim(), tags: [] }, pairType);
+    const result = keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
     const { address } = result.pair;
 
     status.account = address;
@@ -152,7 +158,7 @@ function createAccount (suri: string, pairType: KeypairType, name: string, passw
 
 function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isDevelopment } = useApi();
+  const { api, isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
@@ -180,7 +186,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
       return;
     }
 
-    const status = createAccount(`${seed}${derivePath}`, pairType, name, password, t('created account'));
+    const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+    const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t('created account'));
 
     _toggleConfirmation();
     onStatusChange(status);
