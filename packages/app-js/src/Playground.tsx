@@ -4,6 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { KeyringInstance } from '@polkadot/keyring/types';
+import { ApiProps } from '@polkadot/react-api/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
@@ -35,18 +36,44 @@ interface Injected {
   setIsRunning: (isRunning: boolean) => void;
   types: typeof types;
   util: typeof util;
-  global: null;
-  window: null;
   [name: string]: any;
 }
 
+const ALLOWED_GLOBALS = ['atob', 'btoa'];
 const snippets: Snippet[] = JSON.parse(JSON.stringify(allSnippets));
 let hasSnippetWrappers = false;
+
+function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: any[]) => void): Injected {
+  const nullObject = Object
+    .keys(window)
+    .filter((key): boolean => !key.includes('-') && !ALLOWED_GLOBALS.includes(key))
+    .reduce((result: Record<string, null>, key): Record<string, null> => {
+      result[key] = null;
+
+      return result;
+    }, { global: null, window: null });
+
+  return {
+    ...nullObject,
+    api: api.clone(),
+    console: {
+      error: (...args: any[]): void => hookConsole('error', args),
+      log: (...args: any[]): void => hookConsole('log', args)
+    },
+    hashing,
+    keyring: isDevelopment
+      ? uiKeyring.keyring
+      : null,
+    setIsRunning,
+    types,
+    util
+  };
+}
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
 function Playground ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isDevelopment } = useApi();
+  const apiProps = useApi();
   const injectedRef = useRef<Injected | null>(null);
   const [code, setCode] = useState('');
   const [isCustomExample, setIsCustomExample] = useState(false);
@@ -61,7 +88,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     // add snippets if not already available (global)
     if (!hasSnippetWrappers) {
       snippets.forEach((snippet): void => {
-        snippet.code = `${makeWrapper(isDevelopment)}${snippet.code}`;
+        snippet.code = `${makeWrapper(apiProps.isDevelopment)}${snippet.code}`;
       });
 
       hasSnippetWrappers = true;
@@ -102,28 +129,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     setIsRunning(true);
     _clearConsole();
 
-    injectedRef.current = {
-      api: api.clone(),
-      console: {
-        error: (...args: any[]): void => _hookConsole('error', args),
-        log: (...args: any[]): void => _hookConsole('log', args)
-      },
-      hashing,
-      keyring: isDevelopment
-        ? uiKeyring.keyring
-        : null,
-      setIsRunning,
-      types,
-      util,
-      global: null,
-      window: null
-    };
-
-    Object.keys(window).forEach((key): void => {
-      if (!key.includes('-') && !['atob', 'btoa', 'setImmediate', 'setTimeout'].includes(key) && injectedRef.current) {
-        injectedRef.current[key] = null;
-      }
-    });
+    injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
 
     await injectedRef.current.api.isReady;
 
