@@ -6,7 +6,7 @@ import { StringOrNull } from '@polkadot/react-components/types';
 import { TxDef, TxIsSubmittable, TxSenders, TxSource, TxProps, TxState } from './types';
 
 import { useContext, useMemo, useState } from 'react';
-import { StatusContext } from '@polkadot/react-components';
+import { StatusContext } from '@polkadot/react-components/Status';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import useToggle from './useToggle';
 
