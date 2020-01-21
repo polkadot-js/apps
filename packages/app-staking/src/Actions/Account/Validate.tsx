@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
-import { Button, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Button, ButtonCancel, InputAddress, InputBalance, InputNumber, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { createType } from '@polkadot/types';
 
 import InputValidationUnstakeThreshold from './InputValidationUnstakeThreshold';
@@ -100,12 +100,7 @@ class Validate extends TxComponent<Props, State> {
     return (
       <Modal.Actions>
         <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            icon='cancel'
-            onClick={onClose}
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <TxButton
             accountId={controllerId}

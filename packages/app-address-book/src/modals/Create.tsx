@@ -7,7 +7,7 @@ import { ModalProps as Props } from '../types';
 
 import React, { useState } from 'react';
 
-import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, ButtonCancel, Input, InputAddress, Modal } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
@@ -106,12 +106,7 @@ export default function Create ({ onClose, onStatusChange }: Props): React.React
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <Button
             icon='save'

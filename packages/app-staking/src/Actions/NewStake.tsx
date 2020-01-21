@@ -9,7 +9,7 @@ import { CalculateBalanceProps } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../translate';
@@ -115,12 +115,7 @@ class NewStake extends TxComponent<Props, State> {
         </Modal.Content>
         <Modal.Actions>
           <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              icon='cancel'
-            />
+            <ButtonCancel onClick={onClose} />
             <Button.Or />
             <TxButton
               accountId={stashId}

@@ -7,7 +7,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
+import { AddressRow, Button, ButtonCancel, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
 import { useDebounce } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
@@ -198,12 +198,7 @@ export default function Derive ({ className, from, onClose }: Props): React.Reac
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           {isLocked
             ? (

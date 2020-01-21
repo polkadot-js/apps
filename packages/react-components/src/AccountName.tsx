@@ -16,6 +16,7 @@ import { getAddressName } from './util';
 import AddressMini from './AddressMini';
 import Badge from './Badge';
 import Button from './Button';
+import ButtonCancel from './ButtonCancel';
 import Dropdown from './Dropdown';
 import Icon from './Icon';
 import Input from './Input';
@@ -278,12 +279,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
           </Modal.Content>
           <Modal.Actions>
             <Button.Group>
-              <Button
-                icon='cancel'
-                isNegative
-                label={t('Cancel')}
-                onClick={toggleJudgement}
-              />
+              <ButtonCancel onClick={toggleJudgement} />
               <Button.Or />
               <TxButton
                 accountId={judgementAccountId}

@@ -6,7 +6,7 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
 import React, { useState, useMemo } from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, ButtonCancel, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
@@ -14,12 +14,6 @@ import { useTranslation } from '../translate';
 interface Props extends BareProps {
   onClose: () => void;
   address: string;
-}
-
-interface ButtonsProps {
-  doBackup: () => void;
-  isPassValid: boolean;
-  onClose: () => void;
 }
 
 interface ContentProps {
@@ -77,11 +71,18 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
         password={password}
         onChangePass={_onChangePass}
       />
-      <Buttons
-        doBackup={_doBackup}
-        isPassValid={isPassValid}
-        onClose={onClose}
-      />
+      <Modal.Actions>
+        <Button.Group>
+          <ButtonCancel onClick={onClose} />
+          <Button.Or />
+          <Button
+            icon='download'
+            isDisabled={!isPassValid}
+            label={t('Download')}
+            onClick={_doBackup}
+          />
+        </Button.Group>
+      </Modal.Actions>
     </Modal>
   );
 }
@@ -111,29 +112,5 @@ function Content ({ address, doBackup, isPassTouched, isPassValid, onChangePass,
         </div>
       </AddressRow>
     </Modal.Content>
-  );
-}
-
-function Buttons ({ doBackup, isPassValid, onClose }: ButtonsProps): React.ReactElement<ButtonsProps> {
-  const { t } = useTranslation();
-
-  return (
-    <Modal.Actions>
-      <Button.Group>
-        <Button
-          icon='cancel'
-          isNegative
-          label={t('Cancel')}
-          onClick={onClose}
-        />
-        <Button.Or />
-        <Button
-          icon='download'
-          isDisabled={!isPassValid}
-          label={t('Download')}
-          onClick={doBackup}
-        />
-      </Button.Group>
-    </Modal.Actions>
   );
 }
