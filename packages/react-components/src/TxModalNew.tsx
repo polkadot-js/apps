@@ -5,7 +5,7 @@
 import { TxModalProps as Props } from './types';
 
 import React, { useState, useEffect } from 'react';
-import { Button, InputAddress, Modal } from '@polkadot/react-components';
+import { Button, ButtonCancel, InputAddress, Modal } from '@polkadot/react-components';
 // import { useTx } from '@polkadot/react-hooks';
 import { isUndefined } from '@polkadot/util';
 
@@ -28,7 +28,7 @@ function TxModal<P extends Props> ({
   inputAddressLabel = t('using my account'),
   inputAddressHelp = t('Select the account to use for this action.'),
   inputAddressProps = {},
-  cancelButtonLabel = t('Cancel'),
+  cancelButtonLabel,
   submitButtonIcon = 'sign-in',
   submitButtonLabel = t('Submit'),
   submitButtonProps = {},
@@ -96,7 +96,7 @@ function TxModal<P extends Props> ({
 
   return (
     <>
-      {Trigger ? <Trigger onOpen={onOpen} /> : null}
+      {Trigger && <Trigger onOpen={onOpen} />}
       <Modal {...allModalProps}>
         <Modal.Content>
           {preContent}

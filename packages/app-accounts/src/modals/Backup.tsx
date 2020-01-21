@@ -79,7 +79,7 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
             icon='download'
             isDisabled={!isPassValid}
             label={t('Download')}
-            onClick={doBackup}
+            onClick={_doBackup}
           />
         </Button.Group>
       </Modal.Actions>
