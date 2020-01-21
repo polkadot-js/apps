@@ -6,7 +6,7 @@ import { ModalProps } from '../types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, ButtonCancel, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { QrScanAddress } from '@polkadot/react-qr';
 import keyring from '@polkadot/ui-keyring';
 
@@ -15,6 +15,7 @@ import { useTranslation } from '../translate';
 interface Scanned {
   address: string;
   genesisHash: string;
+  name?: string;
 }
 
 interface Props extends ModalProps {
@@ -27,6 +28,13 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
   const [scanned, setScanned] = useState<Scanned | null>(null);
 
   const _onNameChange = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+  const _onScan = (scanned: Scanned): void => {
+    setScanned(scanned);
+
+    if (scanned.name) {
+      _onNameChange(scanned.name);
+    }
+  };
   const _onSave = (): void => {
     if (!scanned || !isNameValid) {
       return;
@@ -75,19 +83,14 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
             )
             : (
               <div className='qr-wrapper'>
-                <QrScanAddress onScan={setScanned} />
+                <QrScanAddress onScan={_onScan} />
               </div>
             )
         }
       </Modal.Content>
       <Modal.Actions>
         <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
+          <ButtonCancel onClick={onClose} />
           <Button.Or />
           <Button
             icon='sign-in'
