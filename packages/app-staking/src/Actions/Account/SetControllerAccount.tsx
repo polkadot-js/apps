@@ -6,7 +6,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, Icon, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Icon, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
@@ -80,27 +80,18 @@ class SetControllerAccount extends TxComponent<Props, State> {
             onError={this.onControllerError}
           />
         </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              icon='cancel'
-            />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Set controller')}
-              icon='sign-in'
-              onClick={onClose}
-              params={[controllerId]}
-              tx='staking.setController'
-              ref={this.button}
-            />
-          </Button.Group>
+        <Modal.Actions onCancel={onClose}>
+          <TxButton
+            accountId={stashId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Set controller')}
+            icon='sign-in'
+            onClick={onClose}
+            params={[controllerId]}
+            tx='staking.setController'
+            ref={this.button}
+          />
         </Modal.Actions>
       </Modal>
     );

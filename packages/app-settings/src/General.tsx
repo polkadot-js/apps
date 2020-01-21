@@ -7,7 +7,7 @@ import { Option, SetOption } from './types';
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { isLedgerCapable } from '@polkadot/react-api';
-import { Button, Dropdown } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown } from '@polkadot/react-components';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
 
 import translate from './translate';
@@ -16,7 +16,7 @@ import SelectUrl from './SelectUrl';
 
 interface Props extends I18nProps{
   isModalContent?: boolean;
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
@@ -132,12 +132,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
       <Button.Group>
         {isModalContent && (
           <>
-            <Button
-              isNegative
-              label={t('Cancel')}
-              icon='cancel'
-              onClick={onClose}
-            />
+            <ButtonCancel onClick={onClose} />
             <Button.Or />
           </>
         )}
