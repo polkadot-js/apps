@@ -7,16 +7,21 @@ import { BareProps } from './types';
 import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 
+import Button from './Button';
 import { classes } from './util';
 
-interface Props extends BareProps {
+interface ModalProps extends BareProps {
   children: React.ReactNode;
   header?: React.ReactNode;
   open?: boolean;
   [index: string]: any;
 }
 
-function Modal (props: Props): React.ReactElement<Props> {
+interface ActionsProps extends BareProps {
+  children: React.ReactNode;
+}
+
+function Modal (props: ModalProps): React.ReactElement<ModalProps> {
   const { className, children, header, open = true } = props;
 
   return (
@@ -35,7 +40,15 @@ function Modal (props: Props): React.ReactElement<Props> {
   );
 }
 
-Modal.Actions = SUIModal.Actions;
+function Actions ({ className, children }: ActionsProps): React.ReactElement<ActionsProps> {
+  return (
+    <SUIModal.Actions>
+      <Button.Group className={className}>{children}</Button.Group>
+    </SUIModal.Actions>
+  );
+}
+
+Modal.Actions = Actions;
 Modal.Content = SUIModal.Content;
 Modal.Header = SUIModal.Header;
 Modal.Description = SUIModal.Description;

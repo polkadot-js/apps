@@ -89,17 +89,15 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
         }
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='sign-in'
-            isDisabled={!scanned || !isNameValid}
-            isPrimary
-            onClick={_onSave}
-            label={t('Create')}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          icon='sign-in'
+          isDisabled={!scanned || !isNameValid}
+          isPrimary
+          onClick={_onSave}
+          label={t('Create')}
+        />
       </Modal.Actions>
     </Modal>
   );

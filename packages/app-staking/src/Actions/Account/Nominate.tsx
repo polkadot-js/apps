@@ -87,20 +87,18 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
         />
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <TxButton
-            accountId={controllerId}
-            isDisabled={!selection.length}
-            isPrimary
-            onClick={onClose}
-            params={[selection]}
-            label={t('Nominate')}
-            icon='hand paper outline'
-            tx='staking.nominate'
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <TxButton
+          accountId={controllerId}
+          isDisabled={!selection.length}
+          isPrimary
+          onClick={onClose}
+          params={[selection]}
+          label={t('Nominate')}
+          icon='hand paper outline'
+          tx='staking.nominate'
+        />
       </Modal.Actions>
     </Modal>
   );

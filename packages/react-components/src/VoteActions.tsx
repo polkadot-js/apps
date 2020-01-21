@@ -23,21 +23,19 @@ export default function VoteActions ({ accountId, className, isDisabled, onClick
   const { t } = useTranslation();
 
   return (
-    <Modal.Actions>
-      <Button.Group className={className}>
-        <ButtonCancel onClick={onClick} />
-        <Button.Or />
-        <TxButton
-          accountId={accountId}
-          icon='check'
-          isDisabled={!accountId || isDisabled}
-          isPrimary
-          label={t('Vote')}
-          onClick={onClick}
-          params={params}
-          tx={tx}
-        />
-      </Button.Group>
+    <Modal.Actions className={className}>
+      <ButtonCancel onClick={onClick} />
+      <Button.Or />
+      <TxButton
+        accountId={accountId}
+        icon='check'
+        isDisabled={!accountId || isDisabled}
+        isPrimary
+        label={t('Vote')}
+        onClick={onClick}
+        params={params}
+        tx={tx}
+      />
     </Modal.Actions>
   );
 }

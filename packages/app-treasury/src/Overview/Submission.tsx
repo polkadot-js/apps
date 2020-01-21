@@ -69,25 +69,23 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
             />
           </Modal.Content>
           <Modal.Actions>
-            <Button.Group>
-              <ButtonCancel onClick={toggleOpen} />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='check'
-                isDisabled={!accountId || !councilThreshold}
-                isPrimary
-                label={t('Send to council')}
-                onClick={toggleOpen}
-                params={[
-                  councilThreshold,
-                  councilType === 'reject'
-                    ? api.tx.treasury.rejectProposal(id)
-                    : api.tx.treasury.approveProposal(id)
-                ]}
-                tx='council.propose'
-              />
-            </Button.Group>
+            <ButtonCancel onClick={toggleOpen} />
+            <Button.Or />
+            <TxButton
+              accountId={accountId}
+              icon='check'
+              isDisabled={!accountId || !councilThreshold}
+              isPrimary
+              label={t('Send to council')}
+              onClick={toggleOpen}
+              params={[
+                councilThreshold,
+                councilType === 'reject'
+                  ? api.tx.treasury.rejectProposal(id)
+                  : api.tx.treasury.approveProposal(id)
+              ]}
+              tx='council.propose'
+            />
           </Modal.Actions>
         </Modal>
       )}

@@ -43,21 +43,19 @@ class SetRewardDestination extends TxComponent<Props, State> {
       >
         {this.renderContent()}
         <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel onClick={onClose} />
-            <Button.Or />
-            <TxButton
-              accountId={controllerId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Set reward destination')}
-              icon='sign-in'
-              onClick={onClose}
-              params={[destination]}
-              tx={'staking.setPayee'}
-              ref={this.button}
-            />
-          </Button.Group>
+          <ButtonCancel onClick={onClose} />
+          <Button.Or />
+          <TxButton
+            accountId={controllerId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Set reward destination')}
+            icon='sign-in'
+            onClick={onClose}
+            params={[destination]}
+            tx={'staking.setPayee'}
+            ref={this.button}
+          />
         </Modal.Actions>
       </Modal>
     );

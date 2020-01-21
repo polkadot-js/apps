@@ -209,20 +209,18 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
         </WrapToggle> */}
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <TxButton
-            accountId={address}
-            icon='send'
-            isPrimary
-            label={t('Set Identity')}
-            onStart={onClose}
-            params={[info]}
-            tx='identity.setIdentity'
-            withSpinner={false}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <TxButton
+          accountId={address}
+          icon='send'
+          isPrimary
+          label={t('Set Identity')}
+          onStart={onClose}
+          params={[info]}
+          tx='identity.setIdentity'
+          withSpinner={false}
+        />
       </Modal.Actions>
     </Modal>
   );

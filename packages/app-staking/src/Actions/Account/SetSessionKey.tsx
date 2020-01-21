@@ -81,28 +81,26 @@ export default function SetSessionKey ({ controllerId, isOpen, onClose, sessionI
         }
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <TxButton
-            accountId={controllerId}
-            isDisabled={hasError}
-            isPrimary
-            label={t('Set Session Key')}
-            icon='sign-in'
-            onClick={onClose}
-            params={
-              isSubstrateV2
-                ? [keys, EMPTY_PROOF]
-                : [keys]
-            }
-            tx={
-              isSubstrateV2
-                ? 'session.setKeys'
-                : 'session.setKey'
-            }
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <TxButton
+          accountId={controllerId}
+          isDisabled={hasError}
+          isPrimary
+          label={t('Set Session Key')}
+          icon='sign-in'
+          onClick={onClose}
+          params={
+            isSubstrateV2
+              ? [keys, EMPTY_PROOF]
+              : [keys]
+          }
+          tx={
+            isSubstrateV2
+              ? 'session.setKeys'
+              : 'session.setKey'
+          }
+        />
       </Modal.Actions>
     </Modal>
   );

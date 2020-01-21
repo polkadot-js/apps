@@ -58,17 +58,15 @@ class Unlock extends TxComponent<Props, State> {
 
     return (
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={this.onCancel} />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={this.onUnlock}
-            label={t('Unlock')}
-            icon='unlock'
-            ref={this.button}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={this.onCancel} />
+        <Button.Or />
+        <Button
+          isPrimary
+          onClick={this.onUnlock}
+          label={t('Unlock')}
+          icon='unlock'
+          ref={this.button}
+        />
       </Modal.Actions>
     );
   }

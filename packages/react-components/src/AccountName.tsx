@@ -278,19 +278,17 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
             />
           </Modal.Content>
           <Modal.Actions>
-            <Button.Group>
-              <ButtonCancel onClick={toggleJudgement} />
-              <Button.Or />
-              <TxButton
-                accountId={judgementAccountId}
-                icon='check'
-                isDisabled={registrarIndex === -1}
-                label={t('Judge')}
-                onClick={toggleJudgement}
-                params={[registrarIndex, accountId, judgementEnum]}
-                tx='identity.provideJudgement'
-              />
-            </Button.Group>
+            <ButtonCancel onClick={toggleJudgement} />
+            <Button.Or />
+            <TxButton
+              accountId={judgementAccountId}
+              icon='check'
+              isDisabled={registrarIndex === -1}
+              label={t('Judge')}
+              onClick={toggleJudgement}
+              params={[registrarIndex, accountId, judgementEnum]}
+              tx='identity.provideJudgement'
+            />
           </Modal.Actions>
         </Modal>
       )}

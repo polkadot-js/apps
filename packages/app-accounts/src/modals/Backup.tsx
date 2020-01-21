@@ -72,16 +72,14 @@ export default function ({ address, onClose }: Props): React.ReactElement<Props>
         onChangePass={_onChangePass}
       />
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='download'
-            isDisabled={!isPassValid}
-            label={t('Download')}
-            onClick={_doBackup}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          icon='download'
+          isDisabled={!isPassValid}
+          label={t('Download')}
+          onClick={_doBackup}
+        />
       </Modal.Actions>
     </Modal>
   );

@@ -81,21 +81,19 @@ class SetControllerAccount extends TxComponent<Props, State> {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel onClick={onClose} />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Set controller')}
-              icon='sign-in'
-              onClick={onClose}
-              params={[controllerId]}
-              tx='staking.setController'
-              ref={this.button}
-            />
-          </Button.Group>
+          <ButtonCancel onClick={onClose} />
+          <Button.Or />
+          <TxButton
+            accountId={stashId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Set controller')}
+            icon='sign-in'
+            onClick={onClose}
+            params={[controllerId]}
+            tx='staking.setController'
+            ref={this.button}
+          />
         </Modal.Actions>
       </Modal>
     );

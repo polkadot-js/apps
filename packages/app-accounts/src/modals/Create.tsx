@@ -295,17 +295,15 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
         </AddressRow>
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='plus'
-            isDisabled={!isValid}
-            isPrimary
-            label={t('Save')}
-            onClick={_toggleConfirmation}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          icon='plus'
+          isDisabled={!isValid}
+          isPrimary
+          label={t('Save')}
+          onClick={_toggleConfirmation}
+        />
       </Modal.Actions>
     </Modal>
   );

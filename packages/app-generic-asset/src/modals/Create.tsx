@@ -49,17 +49,15 @@ export default function Create ({ onClose, onRegister }: Props): React.ReactElem
         />
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            isDisabled={!name}
-            isPrimary
-            onClick={onClose}
-            label={t('Register')}
-            icon='registered'
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          isDisabled={!name}
+          isPrimary
+          onClick={onClose}
+          label={t('Register')}
+          icon='registered'
+        />
       </Modal.Actions>
     </Modal>
   );

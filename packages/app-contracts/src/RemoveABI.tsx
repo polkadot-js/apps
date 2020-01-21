@@ -39,16 +39,14 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
         </CodeRow>
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={_onRemove}
-            label={t('Remove')}
-            icon='trash'
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          isPrimary
+          onClick={_onRemove}
+          label={t('Remove')}
+          icon='trash'
+        />
       </Modal.Actions>
     </Modal>
   );

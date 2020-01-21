@@ -61,20 +61,18 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
             />
           </Modal.Content>
           <Modal.Actions>
-            <Button.Group>
-              <ButtonCancel onClick={_togglePropose} />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='add'
-                isDisabled={!accountId || !hasValue}
-                isPrimary
-                label={t('Submit proposal')}
-                onClick={_togglePropose}
-                params={[value, beneficiary]}
-                tx='treasury.proposeSpend'
-              />
-            </Button.Group>
+            <ButtonCancel onClick={_togglePropose} />
+            <Button.Or />
+            <TxButton
+              accountId={accountId}
+              icon='add'
+              isDisabled={!accountId || !hasValue}
+              isPrimary
+              label={t('Submit proposal')}
+              onClick={_togglePropose}
+              params={[value, beneficiary]}
+              tx='treasury.proposeSpend'
+            />
           </Modal.Actions>
         </Modal>
       )}

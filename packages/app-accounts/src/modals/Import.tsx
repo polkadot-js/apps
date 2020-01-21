@@ -41,18 +41,16 @@ class Import extends TxComponent<Props, State> {
       <Modal header={t('Add via backup file')}>
         {this.renderInput()}
         <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel onClick={onClose} />
-            <Button.Or />
-            <Button
-              icon='sync'
-              isDisabled={!isFileValid || !isPassValid}
-              isPrimary
-              onClick={this.onSave}
-              label={t('Restore')}
-              ref={this.button}
-            />
-          </Button.Group>
+          <ButtonCancel onClick={onClose} />
+          <Button.Or />
+          <Button
+            icon='sync'
+            isDisabled={!isFileValid || !isPassValid}
+            isPrimary
+            onClick={this.onSave}
+            label={t('Restore')}
+            ref={this.button}
+          />
         </Modal.Actions>
       </Modal>
     );

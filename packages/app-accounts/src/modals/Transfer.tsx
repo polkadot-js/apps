@@ -125,20 +125,18 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
         </div>
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <TxButton
-            accountId={senderId}
-            extrinsic={extrinsic}
-            icon='send'
-            isDisabled={!hasAvailable}
-            isPrimary
-            label={t('Make Transfer')}
-            onStart={onClose}
-            withSpinner={false}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <TxButton
+          accountId={senderId}
+          extrinsic={extrinsic}
+          icon='send'
+          isDisabled={!hasAvailable}
+          isPrimary
+          label={t('Make Transfer')}
+          onStart={onClose}
+          withSpinner={false}
+        />
       </Modal.Actions>
     </Modal>
   );

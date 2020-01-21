@@ -72,20 +72,18 @@ class BondExtra extends TxComponent<Props, State> {
       >
         {this.renderContent()}
         <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel onClick={onClose} />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Bond more')}
-              icon='sign-in'
-              onClick={onClose}
-              extrinsic={extrinsic}
-              ref={this.button}
-            />
-          </Button.Group>
+          <ButtonCancel onClick={onClose} />
+          <Button.Or />
+          <TxButton
+            accountId={stashId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Bond more')}
+            icon='sign-in'
+            onClick={onClose}
+            extrinsic={extrinsic}
+            ref={this.button}
+          />
         </Modal.Actions>
       </Modal>
     );

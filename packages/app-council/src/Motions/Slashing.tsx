@@ -115,20 +115,18 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
             }
           </Modal.Content>
           <Modal.Actions>
-            <Button.Group>
-              <ButtonCancel onClick={toggleVisible} />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='repeat'
-                isDisabled={!threshold || !isSelectedMember || !proposal}
-                isPrimary
-                label={t('Revert')}
-                onStart={toggleVisible}
-                params={[threshold, proposal]}
-                tx='council.propose'
-              />
-            </Button.Group>
+            <ButtonCancel onClick={toggleVisible} />
+            <Button.Or />
+            <TxButton
+              accountId={accountId}
+              icon='repeat'
+              isDisabled={!threshold || !isSelectedMember || !proposal}
+              isPrimary
+              label={t('Revert')}
+              onStart={toggleVisible}
+              params={[threshold, proposal]}
+              tx='council.propose'
+            />
           </Modal.Actions>
         </Modal>
       )}

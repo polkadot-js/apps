@@ -51,18 +51,16 @@ class ChangePass extends TxComponent<Props, State> {
 
     return (
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='sign-in'
-            isDisabled={!isNewValid || !isOldValid}
-            isPrimary
-            label={t('Change')}
-            onClick={this.doChange}
-            ref={this.button}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          icon='sign-in'
+          isDisabled={!isNewValid || !isOldValid}
+          isPrimary
+          label={t('Change')}
+          onClick={this.doChange}
+          ref={this.button}
+        />
       </Modal.Actions>
     );
   }

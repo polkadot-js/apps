@@ -47,20 +47,18 @@ export default function Seconding ({ depositors, proposalId }: Props): React.Rea
             />
           </Modal.Content>
           <Modal.Actions>
-            <Button.Group>
-              <ButtonCancel onClick={_toggleSeconding} />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                isDisabled={!accountId || isDepositor}
-                isPrimary
-                label={t('Second')}
-                icon='sign-in'
-                onStart={_toggleSeconding}
-                params={[proposalId]}
-                tx='democracy.second'
-              />
-            </Button.Group>
+            <ButtonCancel onClick={_toggleSeconding} />
+            <Button.Or />
+            <TxButton
+              accountId={accountId}
+              isDisabled={!accountId || isDepositor}
+              isPrimary
+              label={t('Second')}
+              icon='sign-in'
+              onStart={_toggleSeconding}
+              params={[proposalId]}
+              tx='democracy.second'
+            />
           </Modal.Actions>
         </Modal>
       )}

@@ -114,21 +114,19 @@ function TxModal<P extends Props> ({
           {children}
         </Modal.Content>
         <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel
-              label={cancelButtonLabel}
-              onClick={onClose}
-            />
-            <Button.Or />
-            <Button
-              isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
-              isPrimary
-              label={submitButtonLabel}
-              icon={submitButtonIcon}
-              onClick={onSend}
-              {...submitButtonProps}
-            />
-          </Button.Group>
+          <ButtonCancel
+            label={cancelButtonLabel}
+            onClick={onClose}
+          />
+          <Button.Or />
+          <Button
+            isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
+            isPrimary
+            label={submitButtonLabel}
+            icon={submitButtonIcon}
+            onClick={onSend}
+            {...submitButtonProps}
+          />
         </Modal.Actions>
       </Modal>
     </>

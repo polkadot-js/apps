@@ -197,30 +197,28 @@ export default function Derive ({ className, from, onClose }: Props): React.Reac
         )}
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          {isLocked
-            ? (
-              <Button
-                icon='lock'
-                isDisabled={!rootPass}
-                isPrimary
-                label={t('Unlock')}
-                onClick={_onUnlock}
-              />
-            )
-            : (
-              <Button
-                icon='plus'
-                isDisabled={!isValid}
-                isPrimary
-                label={t('Save')}
-                onClick={_toggleConfirmation}
-              />
-            )
-          }
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        {isLocked
+          ? (
+            <Button
+              icon='lock'
+              isDisabled={!rootPass}
+              isPrimary
+              label={t('Unlock')}
+              onClick={_onUnlock}
+            />
+          )
+          : (
+            <Button
+              icon='plus'
+              isDisabled={!isValid}
+              isPrimary
+              label={t('Save')}
+              onClick={_toggleConfirmation}
+            />
+          )
+        }
       </Modal.Actions>
     </Modal>
   );

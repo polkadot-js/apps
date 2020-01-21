@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Button, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, ButtonCancel, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { Available } from '@polkadot/react-query';
 import { isHex } from '@polkadot/util';
 
@@ -53,26 +53,19 @@ export default function Propose ({ className, onClose }: Props): React.ReactElem
         />
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            icon='add'
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!balance || balance.lten(0) || !isHashValid || !accountId}
-            isPrimary
-            label={t('Submit proposal')}
-            icon='add'
-            onStart={onClose}
-            params={[hash, balance]}
-            tx='democracy.propose'
-            withSpinner={false}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <TxButton
+          accountId={accountId}
+          isDisabled={!balance || balance.lten(0) || !isHashValid || !accountId}
+          isPrimary
+          label={t('Submit proposal')}
+          icon='add'
+          onStart={onClose}
+          params={[hash, balance]}
+          tx='democracy.propose'
+          withSpinner={false}
+        />
       </Modal.Actions>
     </Modal>
   );

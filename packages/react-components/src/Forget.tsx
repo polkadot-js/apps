@@ -105,16 +105,14 @@ export default function Forget (props: Props): React.ReactElement<Props> {
     >
       <Modal.Content>{renderContent(props, t)}</Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={onForget}
-            label={t('Forget')}
-            icon='trash'
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          isPrimary
+          onClick={onForget}
+          label={t('Forget')}
+          icon='trash'
+        />
       </Modal.Actions>
     </Modal>
   );

@@ -114,20 +114,18 @@ class NewStake extends TxComponent<Props, State> {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel onClick={onClose} />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Bond')}
-              icon='sign-in'
-              onClick={onClose}
-              extrinsic={extrinsic}
-              ref={this.button}
-            />
-          </Button.Group>
+          <ButtonCancel onClick={onClose} />
+          <Button.Or />
+          <TxButton
+            accountId={stashId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Bond')}
+            icon='sign-in'
+            onClick={onClose}
+            extrinsic={extrinsic}
+            ref={this.button}
+          />
         </Modal.Actions>
       </Modal>
     );

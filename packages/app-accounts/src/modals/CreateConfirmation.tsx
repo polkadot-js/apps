@@ -31,16 +31,14 @@ export default function CreateConfirmation ({ address, name, onClose, onCommit }
         </AddressRow>
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='plus'
-            isPrimary
-            label={t('Create and backup account')}
-            onClick={onCommit}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          icon='plus'
+          isPrimary
+          label={t('Create and backup account')}
+          onClick={onCommit}
+        />
       </Modal.Actions>
     </Modal>
   );

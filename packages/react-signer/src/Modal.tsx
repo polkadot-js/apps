@@ -184,52 +184,50 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel
-            onClick={
-              isQrVisible
-                ? this.onCancelQr
-                : this.onCancel
-            }
-            tabIndex={3}
-          />
-          {!isRenderError && (!isQrVisible || !isQrScanning) && (
-            <>
-              <Button.Or />
-              <Button
-                className='ui--signer-Signer-Submit'
-                isDisabled={!isSendable}
-                isPrimary
-                onClick={
-                  isQrVisible
-                    ? this.activateQrScanning
-                    : this.onSend
-                }
-                tabIndex={2}
-                label={
-                  isQrVisible
-                    ? t('Scan Signature Qr')
-                    : currentItem.isUnsigned
-                      ? t('Submit (no signature)')
-                      : isHardware
-                        ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
-                        : isExternal
-                          ? t('Sign via Qr')
-                          : t('Sign and Submit')
-                }
-                icon={
-                  isQrVisible
-                    ? 'qrcode'
-                    : currentItem.isUnsigned
-                      ? 'sign-in'
+        <ButtonCancel
+          onClick={
+            isQrVisible
+              ? this.onCancelQr
+              : this.onCancel
+          }
+          tabIndex={3}
+        />
+        {!isRenderError && (!isQrVisible || !isQrScanning) && (
+          <>
+            <Button.Or />
+            <Button
+              className='ui--signer-Signer-Submit'
+              isDisabled={!isSendable}
+              isPrimary
+              onClick={
+                isQrVisible
+                  ? this.activateQrScanning
+                  : this.onSend
+              }
+              tabIndex={2}
+              label={
+                isQrVisible
+                  ? t('Scan Signature Qr')
+                  : currentItem.isUnsigned
+                    ? t('Submit (no signature)')
+                    : isHardware
+                      ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
                       : isExternal
-                        ? 'qrcode'
-                        : 'sign-in'
-                }
-              />
-            </>
-          )}
-        </Button.Group>
+                        ? t('Sign via Qr')
+                        : t('Sign and Submit')
+              }
+              icon={
+                isQrVisible
+                  ? 'qrcode'
+                  : currentItem.isUnsigned
+                    ? 'sign-in'
+                    : isExternal
+                      ? 'qrcode'
+                      : 'sign-in'
+              }
+            />
+          </>
+        )}
       </Modal.Actions>
     );
   }

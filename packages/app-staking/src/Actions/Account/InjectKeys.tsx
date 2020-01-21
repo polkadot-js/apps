@@ -110,16 +110,14 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
         </article>
       </Modal.Content>
       <Modal.Actions>
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          <Button.Or />
-          <Button
-            icon='sign-in'
-            isPrimary
-            label={t('Submit key')}
-            onClick={_onSubmit}
-          />
-        </Button.Group>
+        <ButtonCancel onClick={onClose} />
+        <Button.Or />
+        <Button
+          icon='sign-in'
+          isPrimary
+          label={t('Submit key')}
+          onClick={_onSubmit}
+        />
       </Modal.Actions>
     </Modal>
   );

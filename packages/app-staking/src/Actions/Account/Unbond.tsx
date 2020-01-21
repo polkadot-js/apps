@@ -67,21 +67,19 @@ class Unbond extends TxComponent<Props, State> {
       >
         {this.renderContent()}
         <Modal.Actions>
-          <Button.Group>
-            <ButtonCancel onClick={onClose} />
-            <Button.Or />
-            <TxButton
-              accountId={controllerId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Unbond')}
-              icon='sign-out'
-              onClick={onClose}
-              params={[maxUnbond]}
-              tx='staking.unbond'
-              ref={this.button}
-            />
-          </Button.Group>
+          <ButtonCancel onClick={onClose} />
+          <Button.Or />
+          <TxButton
+            accountId={controllerId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Unbond')}
+            icon='sign-out'
+            onClick={onClose}
+            params={[maxUnbond]}
+            tx='staking.unbond'
+            ref={this.button}
+          />S
         </Modal.Actions>
       </Modal>
     );
