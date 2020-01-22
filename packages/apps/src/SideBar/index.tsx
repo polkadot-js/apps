@@ -5,8 +5,6 @@
 import { RuntimeVersion } from '@polkadot/types/interfaces';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
-import './SideBar.css';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
@@ -50,7 +48,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
   return (
     <Responsive
       onUpdate={handleResize}
-      className={classes(className, 'apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+      className={classes(className, 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
     >
       <ChainImg
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
@@ -76,7 +74,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
           secondary
           vertical
         >
-          <div className='apps-SideBar-Scroll'>
+          <div className='apps--SideBar-Scroll'>
             <div
               className='apps--SideBar-logo'
               onClick={_toggleModal('network')}
@@ -163,6 +161,130 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
 }
 
 export default styled(SideBar)`
+  display: flex;
+  position: relative;
+  transition: width 0.3s linear;
+  z-index: 300;
+
+  &.collapsed {
+    width: 4.2rem;
+  }
+
+  &.expanded {
+    width: 12rem;
+  }
+
+  .apps--SideBar {
+    align-items: center;
+    background: #3f3f3f;
+    display: flex;
+    flex-flow: column;
+    height: auto;
+    position: relative;
+    transition: left 0.3s linear;
+    width: 100%;
+
+    .ui.vertical.menu {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      top: 0;
+      width: 100%;
+      position: sticky;
+    }
+
+    .apps--SideBar-Scroll {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+      width: 100%;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+        width: 0px;
+      }
+    }
+
+    .apps--SideBar-Item {
+      align-self: flex-end;
+      flex-grow: 0;
+      padding: 0 !important;
+      width: inherit;
+
+      .text {
+        padding-left: 0.5rem;
+      }
+    }
+
+    .apps--SideBar-logo {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5rem 1rem 1.5rem 0;
+      padding-top: 0.75em;
+      width: 10rem;
+
+      img {
+        height: 2.75rem;
+        width: 2.75rem;
+      }
+
+      > div.info {
+        color: white;
+        opacity: 0.75;
+        text-align: right;
+        vertical-align: middle;
+
+        > div.chain {
+          font-size: 0.9rem;
+          line-height: 1rem;
+        }
+
+        > div.runtimeVersion {
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
+      }
+    }
+
+    .apps--SideBar-collapse {
+      background: #3f3f3f;
+      bottom: 0;
+      left: 0;
+      padding: 0.75rem 0 .75rem 0.65rem;
+      position: sticky;
+      right: 0;
+      text-align: left;
+      width: 100%;
+
+      .ui.circular.button {
+        background: white !important;
+        color: #3f3f3f !important;
+        box-shadow: 0 0 0 1px #eee inset !important;
+        margin: 0;
+        transition: transform 0.15s;
+      }
+    }
+
+    .apps--SideBar-toggle {
+      height: 100%;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      transition: all 0.2s;
+      width: 6px;
+
+      &:hover {
+        background: rgba(255,255,255,0.15);
+        cursor: pointer;
+      }
+    }
+  }
+
   .toggleImg {
     cursor: pointer;
     height: 2.75rem;

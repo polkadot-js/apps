@@ -4,8 +4,6 @@
 
 import { ButtonType } from './types';
 
-import './Button.css';
-
 import IButton from './Button';
 import Divider from './Divider';
 import Group from './Group';
