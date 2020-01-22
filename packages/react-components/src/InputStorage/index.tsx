@@ -7,12 +7,11 @@
 import { DropdownOptions } from '../util/types';
 import { StorageEntryPromise } from './types';
 
-import '../InputExtrinsic/InputExtrinsic.css';
-
 import React, { useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
 import keyOptions from './options/key';
@@ -56,7 +55,7 @@ export default function InputStorage ({ className, defaultValue, help, label, on
   };
 
   return (
-    <div
+    <LinkedWrapper
       className={className}
       style={style}
     >
@@ -80,6 +79,6 @@ export default function InputStorage ({ className, defaultValue, help, label, on
           />
         </div>
       </Labelled>
-    </div>
+    </LinkedWrapper>
   );
 }

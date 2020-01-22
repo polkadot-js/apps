@@ -6,13 +6,12 @@ import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { DropdownOptions } from '../util/types';
 import { ConstValue, ConstValueBase } from './types';
 
-import '../InputExtrinsic/InputExtrinsic.css';
-
 import React, { useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
 import keyOptions from './options/key';
@@ -72,7 +71,7 @@ export default function InputConsts ({ className, defaultValue, help, label, onC
   };
 
   return (
-    <div
+    <LinkedWrapper
       className={className}
       style={style}
     >
@@ -96,6 +95,6 @@ export default function InputConsts ({ className, defaultValue, help, label, onC
           />
         </div>
       </Labelled>
-    </div>
+    </LinkedWrapper>
   );
 }

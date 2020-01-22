@@ -5,12 +5,11 @@
 import { CallFunction } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
 
-import './InputExtrinsic.css';
-
 import React, { useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
+import LinkedWrapper from './LinkedWrapper';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
 import methodOptions from './options/method';
@@ -56,7 +55,7 @@ export default function InputExtrinsic ({ className, defaultValue, help, label, 
   };
 
   return (
-    <div
+    <LinkedWrapper
       className={className}
       style={style}
     >
@@ -81,6 +80,6 @@ export default function InputExtrinsic ({ className, defaultValue, help, label, 
           />
         </div>
       </Labelled>
-    </div>
+    </LinkedWrapper>
   );
 }

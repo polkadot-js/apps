@@ -7,13 +7,12 @@
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
 
-import '../InputExtrinsic/InputExtrinsic.css';
-
 import React, { useState } from 'react';
 import map from '@polkadot/jsonrpc';
 import { useApi } from '@polkadot/react-hooks';
 
 import Labelled from '../Labelled';
+import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
 import methodOptions from './options/method';
@@ -57,7 +56,7 @@ export default function InputRpc ({ className, defaultValue, help, label, onChan
   };
 
   return (
-    <div
+    <LinkedWrapper
       className={className}
       style={style}
     >
@@ -81,6 +80,6 @@ export default function InputRpc ({ className, defaultValue, help, label, onChan
           />
         </div>
       </Labelled>
-    </div>
+    </LinkedWrapper>
   );
 }
