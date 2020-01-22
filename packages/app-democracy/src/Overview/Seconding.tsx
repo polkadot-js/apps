@@ -41,7 +41,6 @@ export default function Seconding ({ depositors, proposal, proposalId }: Props):
           <Modal.Content>
             <ProposedAction
               idNumber={proposalId}
-              isCollapsible
               proposal={proposal}
             />
             <InputAddress

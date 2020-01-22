@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isString } from '@polkadot/util';
 
 import Call from './Call';
 import Inset, { InsetProps } from './Inset';
@@ -40,21 +40,20 @@ export const styles = `
   }
 `;
 
-function ProposedAction (props: Props): React.ReactElement<Props> {
-  const { className, asInset, insetProps, isCollapsible, proposal, withLinks, expandNested } = props;
-  const idNumber = typeof props.idNumber === 'string'
-    ? props.idNumber
-    : formatNumber(props.idNumber);
+function ProposedAction ({ className, asInset, idNumber, insetProps, isCollapsible = true, proposal, withLinks, expandNested }: Props): React.ReactElement<Props> {
+  const stringId = isString(idNumber)
+    ? idNumber
+    : formatNumber(idNumber);
 
   if (!proposal) {
     return (
-      <h3>#{idNumber}</h3>
+      <h3>#{stringId}</h3>
     );
   }
 
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
-  const header = `#${idNumber}: ${section}.${method}`;
+  const header = `#${stringId}: ${section}.${method}`;
   const documentation = meta?.documentation
     ? (
       <summary>{meta.documentation.join(' ')}</summary>

@@ -34,7 +34,6 @@ function ActionItem ({ className, children, accessory, idNumber, proposal, expan
           <div className='ui--Row-details'>
             <ProposedAction
               idNumber={idNumber}
-              isCollapsible
               proposal={proposal}
               withLinks={expandNested}
               expandNested={expandNested}

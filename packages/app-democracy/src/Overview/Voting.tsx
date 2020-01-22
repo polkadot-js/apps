@@ -40,7 +40,6 @@ export default function Voting ({ proposal, referendumId }: Props): React.ReactE
           <Modal.Content>
             <ProposedAction
               idNumber={referendumId}
-              isCollapsible
               proposal={proposal}
             />
             <VoteAccount onChange={setAccountId} />
