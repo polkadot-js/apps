@@ -156,6 +156,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
+    const { className } = this.props;
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -163,7 +164,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Modal className='ui--signer-Signer'>
+      <Modal className={`ui--signer-Signer ${className}`}>
         <ErrorBoundary onError={this.onRenderError}>
           {this.renderContent()}
         </ErrorBoundary>
