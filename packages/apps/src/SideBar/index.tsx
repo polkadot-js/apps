@@ -48,7 +48,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
   return (
     <Responsive
       onUpdate={handleResize}
-      className={classes(className, 'apps-SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+      className={classes(className, 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
     >
       <ChainImg
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
@@ -74,7 +74,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
           secondary
           vertical
         >
-          <div className='apps-SideBar-Scroll'>
+          <div className='apps--SideBar-Scroll'>
             <div
               className='apps--SideBar-logo'
               onClick={_toggleModal('network')}
@@ -193,7 +193,7 @@ export default styled(SideBar)`
       position: sticky;
     }
 
-    .apps-SideBar-Scroll {
+    .apps--SideBar-Scroll {
       align-items: center;
       display: flex;
       flex-direction: column;

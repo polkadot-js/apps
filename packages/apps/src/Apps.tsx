@@ -37,7 +37,7 @@ function WarmUp (): React.ReactElement {
   }, []);
 
   return (
-    <div className={`api-warm ${hasValues}`} />
+    <div className={`apps--api-warm ${hasValues}`} />
   );
 }
 
@@ -72,9 +72,9 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle />
-      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
+      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
         <div
-          className={`apps-Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
+          className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
           onClick={_handleResize}
         />
         <SideBar
@@ -128,34 +128,6 @@ export default styled(Apps)`
     }
   }
 
-  .apps-Menu-bg {
-    background: rgba(0,0,0,0.6);
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    transition: opacity 0.2s;
-    width: 100%;
-    z-index: 299;
-
-    &.closed {
-      opacity: 0;
-      width: 0;
-    }
-
-    &.open {
-      opacity: 1;
-    }
-  }
-
-  &.expanded .apps--SideBar {
-    text-align: left;
-
-    .apps-SideBar-Scroll {
-      padding-left: 0.75rem;
-    }
-  }
-
   &.collapsed .apps--SideBar {
     text-align: center;
 
@@ -190,8 +162,16 @@ export default styled(Apps)`
     }
   }
 
+  &.expanded .apps--SideBar {
+    text-align: left;
+
+    .apps--SideBar-Scroll {
+      padding-left: 0.75rem;
+    }
+  }
+
   &.fixed {
-    .apps-SideBar-Wrapper {
+    .apps--SideBar-Wrapper {
       position: absolute;
       width: 0px;
 
@@ -202,8 +182,28 @@ export default styled(Apps)`
   }
 
   &.menu-open {
-    .apps-SideBar-Wrapper {
+    .apps--SideBar-Wrapper {
       width: 12rem;
+    }
+  }
+
+  .apps--Menu-bg {
+    background: rgba(0,0,0,0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.2s;
+    width: 100%;
+    z-index: 299;
+
+    &.closed {
+      opacity: 0;
+      width: 0;
+    }
+
+    &.open {
+      opacity: 1;
     }
   }
 `;
