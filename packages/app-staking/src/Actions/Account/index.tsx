@@ -95,7 +95,8 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   const balancesAll = useCall<DerivedBalances>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
-  const inactives = useInactives(stashId, nominees);
+  const [activeNoms, setActiveNoms] = useState<string[]>([]);
+  const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
@@ -121,6 +122,12 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
       }
     }
   }, [allStashes, stakingAccount, stashId, validateInfo]);
+
+  useEffect((): void => {
+    if (nominees) {
+      setActiveNoms(nominees.filter((id): boolean => !inactiveNoms.includes(id)));
+    }
+  }, [inactiveNoms, nominees]);
 
   return (
     <tr className={className}>
@@ -216,23 +223,25 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
         )
         : (
           <td>
-            {isStashNominating && nominees && (
+            {isStashNominating && (
               <>
-                <details>
-                  <summary>{t('All Nominations ({{count}})', { replace: { count: nominees.length } })}</summary>
-                  {nominees.map((nomineeId, index): React.ReactNode => (
-                    <AddressMini
-                      key={index}
-                      value={nomineeId}
-                      withBalance={false}
-                      withBonded
-                    />
-                  ))}
-                </details>
-                {inactives.length !== 0 && (
+                {activeNoms.length !== 0 && (
                   <details>
-                    <summary>{t('Inactive nominations ({{count}})', { replace: { count: inactives.length } })}</summary>
-                    {inactives.map((nomineeId, index): React.ReactNode => (
+                    <summary>{t('Active nominations ({{count}})', { replace: { count: activeNoms.length } })}</summary>
+                    {activeNoms.map((nomineeId, index): React.ReactNode => (
+                      <AddressMini
+                        key={index}
+                        value={nomineeId}
+                        withBalance={false}
+                        withBonded
+                      />
+                    ))}
+                  </details>
+                )}
+                {inactiveNoms.length !== 0 && (
+                  <details>
+                    <summary>{t('Inactive nominations ({{count}})', { replace: { count: inactiveNoms.length } })}</summary>
+                    {inactiveNoms.map((nomineeId, index): React.ReactNode => (
                       <AddressMini
                         key={index}
                         value={nomineeId}

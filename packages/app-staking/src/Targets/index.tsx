@@ -181,6 +181,7 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
             <InputBalance
               className='balanceInput'
               help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
+              isFull
               label={t('amount to use for estimation')}
               onChange={setAmount}
               value={_amount}
@@ -210,9 +211,4 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
 
 export default styled(Targets)`
   text-align: center;
-
-  .balanceInput {
-    padding-right: 2rem;
-    margin-bottom: 1.5rem;
-  }
 `;
