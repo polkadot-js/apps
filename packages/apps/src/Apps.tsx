@@ -15,8 +15,9 @@ import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
-import ConnectingOverlay from './overlays/Connecting';
 import AccountsOverlay from './overlays/Accounts';
+import ConnectingOverlay from './overlays/Connecting';
+import UpgradeOverlay from './overlays/Upgrade';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
@@ -93,6 +94,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         </Signer>
         <ConnectingOverlay />
         <AccountsOverlay />
+        <UpgradeOverlay />
       </div>
       <WarmUp />
     </>
