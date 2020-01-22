@@ -805,5 +805,6 @@
   "No bids": "",
   "rotation": "",
   "challenge": "",
-  "Reload": ""
+  "Reload": "",
+  "Active nominations ({{count}})": ""
 }
