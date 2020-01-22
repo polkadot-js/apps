@@ -5,19 +5,32 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Labelled from '../Labelled';
+
 interface Props {
   children: React.ReactNode;
   className?: string;
+  help?: React.ReactNode;
+  label: React.ReactNode;
   style?: any;
+  withLabel?: boolean;
 }
 
-function LinkedWrapper ({ children, className, style }: Props): React.ReactElement<Props> {
+function LinkedWrapper ({ children, className, help, label, style, withLabel }: Props): React.ReactElement<Props> {
   return (
     <div
       className={className}
       style={style}
     >
-      {children}
+      <Labelled
+        help={help}
+        label={label}
+        withLabel={withLabel}
+      >
+        <div className='ui--DropdownLinked ui--row'>
+          {children}
+        </div>
+      </Labelled>
     </div>
   );
 }

@@ -10,7 +10,6 @@ import { StorageEntryPromise } from './types';
 import React, { useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
-import Labelled from '../Labelled';
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectKey from './SelectKey';
 import SelectSection from './SelectSection';
@@ -57,28 +56,23 @@ export default function InputStorage ({ className, defaultValue, help, label, on
   return (
     <LinkedWrapper
       className={className}
+      help={help}
+      label={label}
       style={style}
+      withLabel={withLabel}
     >
-      <Labelled
-        help={help}
-        label={label}
-        withLabel={withLabel}
-      >
-        <div className=' ui--DropdownLinked ui--row'>
-          <SelectSection
-            className='small'
-            onChange={_onSectionChange}
-            options={optionsSection}
-            value={value}
-          />
-          <SelectKey
-            className='large'
-            onChange={_onKeyChange}
-            options={optionsMethod}
-            value={value}
-          />
-        </div>
-      </Labelled>
+      <SelectSection
+        className='small'
+        onChange={_onSectionChange}
+        options={optionsSection}
+        value={value}
+      />
+      <SelectKey
+        className='large'
+        onChange={_onKeyChange}
+        options={optionsMethod}
+        value={value}
+      />
     </LinkedWrapper>
   );
 }

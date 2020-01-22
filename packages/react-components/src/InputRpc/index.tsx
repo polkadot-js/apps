@@ -11,7 +11,6 @@ import React, { useState } from 'react';
 import map from '@polkadot/jsonrpc';
 import { useApi } from '@polkadot/react-hooks';
 
-import Labelled from '../Labelled';
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
@@ -58,28 +57,23 @@ export default function InputRpc ({ className, defaultValue, help, label, onChan
   return (
     <LinkedWrapper
       className={className}
+      help={help}
+      label={label}
       style={style}
+      withLabel={withLabel}
     >
-      <Labelled
-        help={help}
-        label={label}
-        withLabel={withLabel}
-      >
-        <div className=' ui--DropdownLinked ui--row'>
-          <SelectSection
-            className='small'
-            onChange={_onSectionChange}
-            options={optionsSection}
-            value={value}
-          />
-          <SelectMethod
-            className='large'
-            onChange={_onMethodChange}
-            options={optionsMethod}
-            value={value}
-          />
-        </div>
-      </Labelled>
+      <SelectSection
+        className='small'
+        onChange={_onSectionChange}
+        options={optionsSection}
+        value={value}
+      />
+      <SelectMethod
+        className='large'
+        onChange={_onMethodChange}
+        options={optionsMethod}
+        value={value}
+      />
     </LinkedWrapper>
   );
 }
