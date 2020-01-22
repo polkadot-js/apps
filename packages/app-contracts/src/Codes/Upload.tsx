@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
-import { Button, InputFile, TxButton } from '@polkadot/react-components';
+import { InputFile, TxButton } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
 
 import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
@@ -71,22 +71,19 @@ class Upload extends ContractModal<Props, State> {
     const isValid = !isBusy && accountId && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
 
     return (
-      <Button.Group>
-        {this.renderCancelButton()}
-        <TxButton
-          accountId={accountId}
-          icon='upload'
-          isDisabled={!isValid}
-          isPrimary
-          label={t('Upload')}
-          onClick={this.toggleBusy(true)}
-          onSuccess={this.onSuccess}
-          onFailed={this.toggleBusy(false)}
-          params={[gasLimit, wasm]}
-          tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
-          ref={this.button}
-        />
-      </Button.Group>
+      <TxButton
+        accountId={accountId}
+        icon='upload'
+        isDisabled={!isValid}
+        isPrimary
+        label={t('Upload')}
+        onClick={this.toggleBusy(true)}
+        onSuccess={this.onSuccess}
+        onFailed={this.toggleBusy(false)}
+        params={[gasLimit, wasm]}
+        tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
+        ref={this.button}
+      />
     );
   }
 

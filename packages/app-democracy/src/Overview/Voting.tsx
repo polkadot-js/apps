@@ -35,7 +35,6 @@ export default function Voting ({ proposal, referendumId }: Props): React.ReactE
       {isVotingOpen && (
         <Modal
           header={t('Vote on proposal')}
-          open
           size='small'
         >
           <Modal.Content>

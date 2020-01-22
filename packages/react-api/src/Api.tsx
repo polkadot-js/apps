@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueTxPayloadAdd, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { ApiState } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
+import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -24,8 +24,6 @@ import registry from './typeRegistry';
 
 interface Props {
   children: React.ReactNode;
-  queuePayload: QueueTxPayloadAdd;
-  queueSetTxStatus: QueueTxMessageSetStatus;
   url?: string;
 }
 
@@ -110,11 +108,12 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   } as State;
 }
 
-export default function Api ({ children, queuePayload, queueSetTxStatus, url }: Props): React.ReactElement<Props> | null {
+export default function Api ({ children, url }: Props): React.ReactElement<Props> | null {
+  const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<State>({ isApiReady: false } as Partial<State> as State);
   const [isApiConnected, setIsApiConnected] = useState(false);
-  const [isApiLoading, setIsApiLoading] = useState(true);
   const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // initial initialization
   useEffect((): void => {
@@ -137,10 +136,10 @@ export default function Api ({ children, queuePayload, queueSetTxStatus, url }: 
       .then((): void => setIsWaitingInjected(false))
       .catch((error: Error) => console.error(error));
 
-    setIsApiLoading(false);
+    setIsInitialized(true);
   }, []);
 
-  if (isApiLoading) {
+  if (!isInitialized) {
     return null;
   }
 

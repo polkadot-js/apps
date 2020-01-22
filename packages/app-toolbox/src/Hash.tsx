@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/react-components/types';
-
 import React, { useState } from 'react';
 import { Input, Output, Static } from '@polkadot/react-components';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
 interface State {
   data: string;
@@ -17,7 +15,8 @@ interface State {
   isHexData: boolean;
 }
 
-function Hash ({ t }: Props): React.ReactElement<Props> {
+export default function Hash (): React.ReactElement<{}> {
+  const { t } = useTranslation();
   const [{ data, hash, isHexData }, setState] = useState<State>({
     data: '',
     hash: blake2AsHex(stringToU8a(''), 256),
@@ -77,5 +76,3 @@ function Hash ({ t }: Props): React.ReactElement<Props> {
     </div>
   );
 }
-
-export default translate(Hash);

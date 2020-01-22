@@ -63,14 +63,14 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   useEffect((): void => {
     const account = keyring.getAccount(address);
 
-    setGenesisHash((account && account.meta.genesisHash) || null);
+    setGenesisHash(account?.meta.genesisHash || null);
     setFlags({
-      isDevelopment: (account && account.meta.isTesting) || false,
+      isDevelopment: account?.meta.isTesting || false,
       isEditable: (account && !(account.meta.isInjected || account.meta.isHardware)) || false,
-      isExternal: (account && account.meta.isExternal) || false
+      isExternal: account?.meta.isExternal || false
     });
-    _setTags(account?.meta?.tags || []);
-    setAccName(account?.meta?.name || '');
+    _setTags(account?.meta.tags || []);
+    setAccName(account?.meta.name || '');
   }, [address]);
 
   useEffect((): void => {

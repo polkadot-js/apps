@@ -2,21 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { SessionRewards } from '../types';
 
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, InputAddressSimple } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Validator from './Validator';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   sessionRewards: SessionRewards[];
 }
 
-function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Props> {
+export default function Query ({ className, sessionRewards }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { value } = useParams();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
@@ -51,5 +52,3 @@ function Query ({ className, sessionRewards, t }: Props): React.ReactElement<Pro
     </div>
   );
 }
-
-export default translate(Query);

@@ -24,7 +24,7 @@ import SideBar from './SideBar';
 interface SidebarState {
   isCollapsed: boolean;
   isMenu: boolean;
-  menuOpen: boolean;
+  isMenuOpen: boolean;
   transition: SideBarTransition;
 }
 
@@ -48,20 +48,19 @@ function WarmUp (): React.ReactElement {
 function Apps ({ className }: Props): React.ReactElement<Props> {
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
+    isMenuOpen: false,
     transition: SideBarTransition.COLLAPSED,
     ...store.get('sidebar', {}),
-    menuOpen: false,
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
-
-  const { isCollapsed, isMenu, menuOpen } = sidebar;
+  const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
   const _setSidebar = (update: Partial<SidebarState>): void =>
     setSidebar(store.set('sidebar', { ...sidebar, ...update }));
   const _collapse = (): void =>
     _setSidebar({ isCollapsed: !isCollapsed });
   const _toggleMenu = (): void =>
-    _setSidebar({ isCollapsed: false, menuOpen: true });
+    _setSidebar({ isCollapsed: false, isMenuOpen: true });
   const _handleResize = (): void => {
     const transition = window.innerWidth < SIDEBAR_MENU_THRESHOLD
       ? SideBarTransition.MINIMISED_AND_EXPANDED
@@ -69,7 +68,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
 
     _setSidebar({
       isMenu: transition === SideBarTransition.MINIMISED_AND_EXPANDED,
-      menuOpen: false,
+      isMenuOpen: false,
       transition
     });
   };
@@ -77,16 +76,16 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle />
-      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${menuOpen && 'menu-open'} theme--default ${className}`}>
+      <div className={`apps-Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
         <div
-          className={`apps-Menu-bg ${menuOpen ? 'open' : 'closed'}`}
+          className={`apps-Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
           onClick={_handleResize}
         />
         <SideBar
           collapse={_collapse}
           handleResize={_handleResize}
-          menuOpen={menuOpen}
           isCollapsed={isCollapsed}
+          isMenuOpen={isMenuOpen}
           toggleMenu={_toggleMenu}
         />
         <Signer>

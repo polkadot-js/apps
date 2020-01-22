@@ -86,7 +86,6 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
         <Modal
           className={className}
           header={t('Revert pending slashes')}
-          open
         >
           <Modal.Content>
             <InputAddress
@@ -115,26 +114,17 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
               )
             }
           </Modal.Content>
-          <Modal.Actions>
-            <Button.Group>
-              <Button
-                isNegative
-                icon='cancel'
-                label={t('Cancel')}
-                onClick={toggleVisible}
-              />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='repeat'
-                isDisabled={!threshold || !isSelectedMember || !proposal}
-                isPrimary
-                label={t('Revert')}
-                onStart={toggleVisible}
-                params={[threshold, proposal]}
-                tx='council.propose'
-              />
-            </Button.Group>
+          <Modal.Actions onCancel={toggleVisible}>
+            <TxButton
+              accountId={accountId}
+              icon='repeat'
+              isDisabled={!threshold || !isSelectedMember || !proposal}
+              isPrimary
+              label={t('Revert')}
+              onStart={toggleVisible}
+              params={[threshold, proposal]}
+              tx='council.propose'
+            />
           </Modal.Actions>
         </Modal>
       )}

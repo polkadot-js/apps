@@ -36,7 +36,6 @@ export default function Seconding ({ depositors, proposal, proposalId }: Props):
       {isSecondingOpen && (
         <Modal
           header={t('Second proposal')}
-          open
           size='small'
         >
           <Modal.Content>
@@ -53,26 +52,17 @@ export default function Seconding ({ depositors, proposal, proposalId }: Props):
               withLabel
             />
           </Modal.Content>
-          <Modal.Actions>
-            <Button.Group>
-              <Button
-                isNegative
-                onClick={_toggleSeconding}
-                label={t('Cancel')}
-                icon='cancel'
-              />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                isDisabled={!accountId || isDepositor}
-                isPrimary
-                label={t('Second')}
-                icon='sign-in'
-                onStart={_toggleSeconding}
-                params={[proposalId]}
-                tx='democracy.second'
-              />
-            </Button.Group>
+          <Modal.Actions onCancel={_toggleSeconding}>
+            <TxButton
+              accountId={accountId}
+              isDisabled={!accountId || isDepositor}
+              isPrimary
+              label={t('Second')}
+              icon='sign-in'
+              onStart={_toggleSeconding}
+              params={[proposalId]}
+              tx='democracy.second'
+            />
           </Modal.Actions>
         </Modal>
       )}

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Hash } from '@polkadot/types/interfaces';
-import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
@@ -12,13 +12,14 @@ import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
 import Proposals from './Proposals';
-import translate from './translate';
+import { useTranslation } from './translate';
 
 export { default as useCounter } from './useCounter';
 
-interface Props extends AppProps, BareProps, I18nProps {}
+interface Props extends AppProps, BareProps {}
 
-function TechCommApp ({ basePath, className, t }: Props): React.ReactElement<Props> {
+export default function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
   const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals, []);
@@ -58,5 +59,3 @@ function TechCommApp ({ basePath, className, t }: Props): React.ReactElement<Pro
     </main>
   );
 }
-
-export default translate(TechCommApp);

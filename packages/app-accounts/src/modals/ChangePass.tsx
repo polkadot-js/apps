@@ -38,7 +38,6 @@ class ChangePass extends TxComponent<Props, State> {
       <Modal
         className='app--accounts-Modal'
         header={t('Change account password')}
-        open
       >
         {this.renderContent()}
         {this.renderButtons()}
@@ -51,24 +50,15 @@ class ChangePass extends TxComponent<Props, State> {
     const { isNewValid, isOldValid } = this.state;
 
     return (
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <Button
-            icon='sign-in'
-            isDisabled={!isNewValid || !isOldValid}
-            isPrimary
-            label={t('Change')}
-            onClick={this.doChange}
-            ref={this.button}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='sign-in'
+          isDisabled={!isNewValid || !isOldValid}
+          isPrimary
+          label={t('Change')}
+          onClick={this.doChange}
+          ref={this.button}
+        />
       </Modal.Actions>
     );
   }

@@ -11,5 +11,10 @@
   "members": "members",
   "No active members": "No active members",
   "head": "head",
-  "available": "available"
+  "available": "available",
+  "bids": "bids",
+  "No bids": "No bids",
+  "rotation": "rotation",
+  "challenge": "challenge",
+  "pot": "pot"
 }
