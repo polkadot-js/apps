@@ -4,10 +4,6 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-// this is disabled, Chrome + WASM memory leak makes it slow & laggy. If enabled
-// we also need to export the default as hot(Apps) (last line)
-// import { hot } from 'react-hot-loader/root';
-
 import React, { useEffect, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
@@ -103,5 +99,111 @@ export default styled(Apps)`
   align-items: stretch;
   box-sizing: border-box;
   display: flex;
+  flex-direction: row;
   min-height: 100vh;
+
+  &.theme--default {
+    a.apps--SideBar-Item-NavLink {
+      color: #eee;
+      display: block;
+      padding: 0.75em 0.75em;
+      white-space: nowrap;
+
+      &:hover {
+        background: #5f5f5f;
+        border-radius: 0.28571429rem 0 0 0.28571429rem;
+        color: #eee;
+      }
+    }
+
+    a.apps--SideBar-Item-NavLink-active {
+      background: #fafafa;
+      border-radius: 0.28571429rem 0 0 0.28571429rem;
+      color: #3f3f3f;
+
+      &:hover {
+        background: #fafafa;
+        color: #3f3f3f;
+      }
+    }
+  }
+
+  .apps-Menu-bg {
+    background: rgba(0,0,0,0.6);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.2s;
+    width: 100%;
+    z-index: 299;
+
+    &.closed {
+      opacity: 0;
+      width: 0;
+    }
+
+    &.open {
+      opacity: 1;
+    }
+  }
+
+  &.expanded .apps--SideBar {
+    text-align: left;
+
+    .apps-SideBar-Scroll {
+      padding-left: 0.75rem;
+    }
+  }
+
+  &.collapsed .apps--SideBar {
+    text-align: center;
+
+    .divider {
+      display: none;
+    }
+
+    .apps--SideBar-Item {
+      margin-left: 5px;
+
+      .text {
+        display: none;
+      }
+    }
+
+    .apps--SideBar-logo {
+      margin: 0.875rem auto;
+      padding: 0;
+      width: 3rem;
+
+      img {
+        margin: 0 0.25rem 0 0;
+      }
+
+      > div.info {
+        display: none;
+      }
+    }
+
+    .apps--SideBar-collapse .ui.basic.secondary.button {
+      left: 0.66rem;
+    }
+  }
+
+  &.fixed {
+    .apps-SideBar-Wrapper {
+      position: absolute;
+      width: 0px;
+
+      .apps--SideBar {
+        padding-left: 0;
+      }
+    }
+  }
+
+  &.menu-open {
+    .apps-SideBar-Wrapper {
+      width: 12rem;
+    }
+  }
 `;
