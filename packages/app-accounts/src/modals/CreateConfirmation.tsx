@@ -18,10 +18,7 @@ export default function CreateConfirmation ({ address, name, onClose, onCommit }
   const { t } = useTranslation();
 
   return (
-    <Modal
-      header={t('Important notice')}
-      open
-    >
+    <Modal header={t('Important notice')}>
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -33,22 +30,13 @@ export default function CreateConfirmation ({ address, name, onClose, onCommit }
           <p>{t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <Button
-            icon='plus'
-            isPrimary
-            label={t('Create and backup account')}
-            onClick={onCommit}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='plus'
+          isPrimary
+          label={t('Create and backup account')}
+          onClick={onCommit}
+        />
       </Modal.Actions>
     </Modal>
   );

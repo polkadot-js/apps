@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
 
 import React from 'react';
@@ -13,16 +12,17 @@ import { useApi } from '@polkadot/react-hooks';
 import Consts from './Consts';
 import Modules from './Modules';
 import Raw from './Raw';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   basePath: string;
   onAdd: (query: QueryTypes) => void;
 }
 
 let id = -1;
 
-function Selection ({ basePath, onAdd, t }: Props): React.ReactElement<Props> {
+export default function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { isSubstrateV2 } = useApi();
   const _onAdd = (query: ParitalQueryTypes): void => onAdd({ ...query, id: ++id });
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode =>
@@ -64,5 +64,3 @@ function Selection ({ basePath, onAdd, t }: Props): React.ReactElement<Props> {
     </>
   );
 }
-
-export default translate(Selection);

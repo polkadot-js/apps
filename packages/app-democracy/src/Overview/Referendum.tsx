@@ -4,7 +4,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
@@ -14,11 +13,12 @@ import { formatNumber } from '@polkadot/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import ProposalCell from './ProposalCell';
 import Voting from './Voting';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   idNumber: BN;
   value: DerivedReferendum;
 }
@@ -32,7 +32,8 @@ interface State {
   votedTotal: BN;
 }
 
-function Referendum ({ className, idNumber, t, value }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className, idNumber, value }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const votesFor = useCall<DerivedReferendumVote[]>(api.derive.democracy.referendumVotesFor as any, [idNumber]);
@@ -114,14 +115,12 @@ function Referendum ({ className, idNumber, t, value }: Props): React.ReactEleme
   );
 }
 
-export default translate(
-  styled(Referendum)`
-    .democracy--Referendum-results {
-      margin-bottom: 1em;
+export default styled(Referendum)`
+  .democracy--Referendum-results {
+    margin-bottom: 1em;
 
-      &.chart {
-        text-align: center;
-      }
+    &.chart {
+      text-align: center;
     }
-  `
-);
+  }
+`;

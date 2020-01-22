@@ -4,7 +4,6 @@
 
 import { AccountId, Balance, Points, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo, DerivedStakingQuery, DerivedHeartbeats } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { ValidatorFilter } from '../types';
 
 import BN from 'bn.js';
@@ -16,9 +15,9 @@ import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   address: AccountId | string;
   authorsMap: Record<string, string>;
   className?: string;
@@ -50,7 +49,8 @@ interface StakingState {
   validatorPayment?: BN;
 }
 
-function Address ({ address, authorsMap, className, filter, filterName, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, t, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+function Address ({ address, authorsMap, className, filter, filterName, hasQueries, isElected, isFavorite, lastAuthors, myAccounts, points, recentlyOnline, toggleFavorite, withNominations = true }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
@@ -239,76 +239,74 @@ function Address ({ address, authorsMap, className, filter, filterName, hasQueri
   );
 }
 
-export default translate(
-  styled(Address)`
-    .extras {
-      display: inline-block;
-      margin-bottom: 0.75rem;
+export default styled(Address)`
+  .extras {
+    display: inline-block;
+    margin-bottom: 0.75rem;
 
-      .favorite {
-        cursor: pointer;
-        display: inline-block;
-        margin-left: 0.5rem;
-        margin-right: -0.25rem;
-
-        &.isSelected {
-          color: darkorange;
-        }
-      }
-    }
-
-    .blockNumberV1,
-    .blockNumberV2 {
-      border-radius: 0.25rem;
-      font-size: 1.5rem;
-      font-weight: 100;
-      line-height: 1.5rem;
-      opacity: 0.5;
-      vertical-align: middle;
-      z-index: 1;
-
-      &.isCurrent {
-        background: #3f3f3f;
-        box-shadow: 0 3px 3px rgba(0,0,0,.2);
-        color: #eee;
-        opacity: 1;
-      }
-    }
-
-    .blockNumberV2 {
-      display: inline-block;
-      padding: 0.25rem 0;
-
-      &.isCurrent {
-        margin-right: -0.25rem;
-        padding: 0.25rem 0.75rem;
-      }
-    }
-
-    .blockNumberV1 {
-      padding: 0.25rem 0.5rem;
-      position: absolute;
-      right: 0;
-    }
-
-    .staking--Address-info {
-      margin-right: 0.25rem;
-      text-align: right;
-
-      .staking--label {
-        margin: 0 2.25rem -0.75rem 0;
-      }
-    }
-
-    .staking--label.controllerSpacer {
-      margin-top: 0.5rem;
-    }
-
-    .staking--stats {
-      bottom: 0.75rem;
+    .favorite {
       cursor: pointer;
-      position: absolute;
-      right: 0.5rem;
+      display: inline-block;
+      margin-left: 0.5rem;
+      margin-right: -0.25rem;
+
+      &.isSelected {
+        color: darkorange;
+      }
     }
-  `
-);
+  }
+
+  .blockNumberV1,
+  .blockNumberV2 {
+    border-radius: 0.25rem;
+    font-size: 1.5rem;
+    font-weight: 100;
+    line-height: 1.5rem;
+    opacity: 0.5;
+    vertical-align: middle;
+    z-index: 1;
+
+    &.isCurrent {
+      background: #3f3f3f;
+      box-shadow: 0 3px 3px rgba(0,0,0,.2);
+      color: #eee;
+      opacity: 1;
+    }
+  }
+
+  .blockNumberV2 {
+    display: inline-block;
+    padding: 0.25rem 0;
+
+    &.isCurrent {
+      margin-right: -0.25rem;
+      padding: 0.25rem 0.75rem;
+    }
+  }
+
+  .blockNumberV1 {
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    right: 0;
+  }
+
+  .staking--Address-info {
+    margin-right: 0.25rem;
+    text-align: right;
+
+    .staking--label {
+      margin: 0 2.25rem -0.75rem 0;
+    }
+  }
+
+  .staking--label.controllerSpacer {
+    margin-top: 0.5rem;
+  }
+
+  .staking--stats {
+    bottom: 0.75rem;
+    cursor: pointer;
+    position: absolute;
+    right: 0.5rem;
+  }
+`;

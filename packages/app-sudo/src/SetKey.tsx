@@ -9,11 +9,12 @@ import { ComponentProps } from './types';
 
 import styled from 'styled-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
 interface Props extends I18nProps, ComponentProps {}
 
-function SetKey ({ allAccounts, className, isMine, sudoKey, t }: Props): React.ReactElement<Props> {
+function SetKey ({ allAccounts, className, isMine, sudoKey }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState<string | null>(null);
 
   useEffect((): void => {
@@ -75,21 +76,19 @@ function SetKey ({ allAccounts, className, isMine, sudoKey, t }: Props): React.R
   );
 }
 
-export default translate(
-  styled(SetKey)`
-    align-items: flex-end;
-    justify-content: center;
+export default styled(SetKey)`
+  align-items: flex-end;
+  justify-content: center;
 
-    .summary {
-      text-align: center;
-    }
+  .summary {
+    text-align: center;
+  }
 
-    .sudoInputAddress {
-      margin: -0.25rem 0.5rem -0.25rem 0;
-    }
+  .sudoInputAddress {
+    margin: -0.25rem 0.5rem -0.25rem 0;
+  }
 
-    .sudoLabelled {
-      align-items: center;
-    }
-  `
-);
+  .sudoLabelled {
+    align-items: center;
+  }
+`;

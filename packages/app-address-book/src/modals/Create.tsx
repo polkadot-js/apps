@@ -75,10 +75,7 @@ export default function Create ({ onClose, onStatusChange }: Props): React.React
   };
 
   return (
-    <Modal
-      header={t('Add an address')}
-      open
-    >
+    <Modal header={t('Add an address')}>
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -107,23 +104,14 @@ export default function Create ({ onClose, onStatusChange }: Props): React.React
           />
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-          />
-          <Button.Or />
-          <Button
-            icon='save'
-            isDisabled={!isValid}
-            isPrimary
-            onClick={_onCommit}
-            label={t('Save')}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='save'
+          isDisabled={!isValid}
+          isPrimary
+          onClick={_onCommit}
+          label={t('Save')}
+        />
       </Modal.Actions>
     </Modal>
   );

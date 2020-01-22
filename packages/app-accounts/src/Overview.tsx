@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -49,6 +50,12 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     setSortedAccounts(
       allAccounts
         .map((address): SortedAccount => ({ address, isFavorite: favorites.includes(address) }))
+        .sort((a, b): number => {
+          const accA = keyring.getAccount(a.address) as KeyringAddress;
+          const accB = keyring.getAccount(b.address) as KeyringAddress;
+
+          return (accA.meta.whenCreated || 0) - (accB.meta.whenCreated || 0);
+        })
         .sort((a, b): number =>
           a.isFavorite === b.isFavorite
             ? 0

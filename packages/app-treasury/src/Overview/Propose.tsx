@@ -35,7 +35,6 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
         <Modal
           className={className}
           header={t('Submit treasury proposal')}
-          open
           size='small'
         >
           <Modal.Content>
@@ -61,26 +60,17 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
               onChange={setValue}
             />
           </Modal.Content>
-          <Modal.Actions>
-            <Button.Group>
-              <Button
-                icon='cancel'
-                isNegative
-                label={t('Cancel')}
-                onClick={_togglePropose}
-              />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='add'
-                isDisabled={!accountId || !hasValue}
-                isPrimary
-                label={t('Submit proposal')}
-                onClick={_togglePropose}
-                params={[value, beneficiary]}
-                tx='treasury.proposeSpend'
-              />
-            </Button.Group>
+          <Modal.Actions onCancel={_togglePropose}>
+            <TxButton
+              accountId={accountId}
+              icon='add'
+              isDisabled={!accountId || !hasValue}
+              isPrimary
+              label={t('Submit proposal')}
+              onClick={_togglePropose}
+              params={[value, beneficiary]}
+              tx='treasury.proposeSpend'
+            />
           </Modal.Actions>
         </Modal>
       )}

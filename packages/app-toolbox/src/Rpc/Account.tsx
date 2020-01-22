@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { InputAddress, Labelled } from '@polkadot/react-components';
 import { Nonce } from '@polkadot/react-query';
 
-import translate from './translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   defaultValue?: string | null;
   isError?: boolean;
   onChange: (accountId: string | undefined | null, accountNonce: BN) => void;
 }
 
-function Account ({ className, defaultValue, isError, onChange, t }: Props): React.ReactElement<Props> {
+function Account ({ className, defaultValue, isError, onChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null | undefined>(defaultValue);
   const [accountNonce, setAccountNonce] = useState(new BN(0));
 
@@ -59,9 +59,7 @@ function Account ({ className, defaultValue, isError, onChange, t }: Props): Rea
   );
 }
 
-export default translate(
-  styled(Account)`
-    box-sizing: border-box;
-    padding-left: 2em;
-  `
-);
+export default styled(Account)`
+  box-sizing: border-box;
+  padding-left: 2em;
+`;

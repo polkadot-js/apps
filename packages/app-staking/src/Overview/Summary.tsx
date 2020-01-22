@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedStakingOverview } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useContext } from 'react';
 import styled from 'styled-components';
@@ -11,16 +10,18 @@ import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-components';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   isVisible: boolean;
   next: string[];
   stakingOverview?: DerivedStakingOverview;
+  style?: any;
 }
 
-function Summary ({ className, isVisible, next, stakingOverview, style, t }: Props): React.ReactElement<Props> {
+function Summary ({ className, isVisible, next, stakingOverview, style }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
 
   return (
@@ -63,18 +64,16 @@ function Summary ({ className, isVisible, next, stakingOverview, style, t }: Pro
   );
 }
 
-export default translate(
-  styled(Summary)`
-    .validator--Account-block-icon {
-      margin-right: 0.75rem;
-      margin-top: -0.25rem;
-      vertical-align: middle;
-    }
+export default styled(Summary)`
+  .validator--Account-block-icon {
+    margin-right: 0.75rem;
+    margin-top: -0.25rem;
+    vertical-align: middle;
+  }
 
-    .validator--Summary-authors {
-      .validator--Account-block-icon+.validator--Account-block-icon {
-        margin-left: -1.5rem;
-      }
+  .validator--Summary-authors {
+    .validator--Account-block-icon+.validator--Account-block-icon {
+      margin-left: -1.5rem;
     }
-  `
-);
+  }
+`;

@@ -89,7 +89,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
 
 function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isSubstrateV2 } = useApi();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DerivedBalances>(api.derive.balances.all as any, [stashId]);
@@ -209,7 +209,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
             <AddressInfo
               address={stashId}
               withBalance={false}
-              withHexSessionId={isSubstrateV2 && hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
+              withHexSessionId={hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
               withValidatorPrefs
             />
           </td>
@@ -269,7 +269,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                 )
                 : (
                   <Button.Group>
-                    {(!sessionIds.length || (isSubstrateV2 && hexSessionIdNext === '0x'))
+                    {(!sessionIds.length || hexSessionIdNext === '0x')
                       ? (
                         <Button
                           isPrimary
@@ -356,7 +356,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       disabled={!isOwnController}
                       onClick={toggleSetSession}
                     >
-                      {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
+                      {t('Change session keys')}
                     </Menu.Item>
                   }
                   {isStashNominating &&
@@ -367,7 +367,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       {t('Set nominees')}
                     </Menu.Item>
                   }
-                  {!isStashNominating && isSubstrateV2 &&
+                  {!isStashNominating &&
                     <Menu.Item onClick={toggleInject}>
                       {t('Inject session keys (advanced)')}
                     </Menu.Item>

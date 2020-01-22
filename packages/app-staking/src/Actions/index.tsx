@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
@@ -13,10 +12,11 @@ import { Option } from '@polkadot/types';
 
 import Account from './Account';
 import StartStaking from './NewStake';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   allStashes: string[];
+  className?: string;
   isVisible: boolean;
   recentlyOnline?: DerivedHeartbeats;
   next: string[];
@@ -47,7 +47,8 @@ function getStashes (allAccounts: string[], stashTypes: Record<string, number>, 
   );
 }
 
-function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stakingOverview, t }: Props): React.ReactElement<Props> {
+export default function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const queryBonded = useCall<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
@@ -109,5 +110,3 @@ function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stak
     </div>
   );
 }
-
-export default translate(Actions);

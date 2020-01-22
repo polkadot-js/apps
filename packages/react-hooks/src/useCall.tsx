@@ -98,7 +98,7 @@ function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | 
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export default function useCall <T> (fn: TrackFn | undefined, params: CallParams, options: CallOptions<T> = {}): T | undefined {
+export default function useCall <T> (fn: TrackFn | undefined | null, params: CallParams, options: CallOptions<T> = {}): T | undefined {
   const mounted = useIsMountedRef();
   const tracker = useRef<Tracker>({ isActive: false, count: 0, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>(options.defaultValue);

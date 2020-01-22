@@ -15,7 +15,6 @@ import { useTranslation } from './translate';
 import { getAddressName } from './util';
 import AddressMini from './AddressMini';
 import Badge from './Badge';
-import Button from './Button';
 import Dropdown from './Dropdown';
 import Icon from './Icon';
 import Input from './Input';
@@ -34,6 +33,15 @@ interface Props extends BareProps {
   withShort?: boolean;
 }
 
+const JUDGEMENT_ENUM = [
+  { value: 0, text: 'Unknown' },
+  { value: 1, text: 'Fee paid' },
+  { value: 2, text: 'Reasonable' },
+  { value: 3, text: 'Known good' },
+  { value: 4, text: 'Out of date' },
+  { value: 5, text: 'Low quality' }
+];
+const DISPLAY_KEYS = ['display', 'legal', 'email', 'web', 'twitter', 'riot'];
 const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean] {
@@ -65,7 +73,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isRegistrar, setIsRegistrar] = useState(false);
   const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
-  const [judgementEnum, setJudgementEnum] = useState(0);
+  const [judgementEnum, setJudgementEnum] = useState(2); // Reasonable
   const [registrarIndex, setRegistrarIndex] = useState(-1);
   const address = useMemo((): string => (value || '').toString(), [value]);
 
@@ -155,42 +163,15 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                     <td><AddressMini value={identity.parent} /></td>
                   </tr>
                 )}
-                {identity.display && (
-                  <tr>
-                    <td>{t('display')}</td>
-                    <td>{identity.display}</td>
-                  </tr>
-                )}
-                {identity.legal && (
-                  <tr>
-                    <td>{t('legal')}</td>
-                    <td>{identity.legal}</td>
-                  </tr>
-                )}
-                {identity.email && (
-                  <tr>
-                    <td>{t('email')}</td>
-                    <td>{identity.email}</td>
-                  </tr>
-                )}
-                {identity.web && (
-                  <tr>
-                    <td>{t('www')}</td>
-                    <td>{identity.web}</td>
-                  </tr>
-                )}
-                {identity.twitter && (
-                  <tr>
-                    <td>{t('twitter')}</td>
-                    <td>{identity.twitter}</td>
-                  </tr>
-                )}
-                {identity.riot && (
-                  <tr>
-                    <td>{t('riot')}</td>
-                    <td>{identity.riot}</td>
-                  </tr>
-                )}
+                {DISPLAY_KEYS
+                  .filter((key): boolean => !!identity[key as 'web'])
+                  .map((key): React.ReactNode => (
+                    <tr key={key}>
+                      <td>{t(key)}</td>
+                      <td>{identity[key as 'web']}</td>
+                    </tr>
+                  ))
+                }
               </tbody>
             </table>
           </div>
@@ -250,7 +231,6 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
       {isJudgementOpen && (
         <Modal
           header={t('Provide judgement')}
-          open
           size='small'
         >
           <Modal.Content>
@@ -266,41 +246,25 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
             <Dropdown
               label={t('judgement')}
               onChange={setJudgementEnum}
-              options={[
-                { value: 0, text: 'Unknown' },
-                { value: 1, text: 'Fee paid' },
-                { value: 2, text: 'Reasonable' },
-                { value: 3, text: 'Known good' },
-                { value: 4, text: 'Out of date' },
-                { value: 5, text: 'Low quality' }
-              ]}
+              options={JUDGEMENT_ENUM}
               value={judgementEnum}
             />
           </Modal.Content>
-          <Modal.Actions>
-            <Button.Group>
-              <Button
-                icon='cancel'
-                isNegative
-                label={t('Cancel')}
-                onClick={toggleJudgement}
-              />
-              <Button.Or />
-              <TxButton
-                accountId={judgementAccountId}
-                icon='check'
-                isDisabled={registrarIndex === -1}
-                label={t('Judge')}
-                onClick={toggleJudgement}
-                params={[registrarIndex, accountId, judgementEnum]}
-                tx='identity.provideJudgement'
-              />
-            </Button.Group>
+          <Modal.Actions onCancel={toggleJudgement}>
+            <TxButton
+              accountId={judgementAccountId}
+              icon='check'
+              isDisabled={registrarIndex === -1}
+              label={t('Judge')}
+              onClick={toggleJudgement}
+              params={[registrarIndex, accountId, judgementEnum]}
+              tx='identity.provideJudgement'
+            />
           </Modal.Actions>
         </Modal>
       )}
       <div
-        className={className}
+        className={`ui--AccountName ${className}`}
         onClick={
           override
             ? undefined
