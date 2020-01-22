@@ -15,7 +15,7 @@ interface Props {
   className?: string;
 }
 
-let lastVersion: number = -1;
+let lastVersion = -1;
 
 export default function Upgrade ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -31,7 +31,12 @@ export default function Upgrade ({ className }: Props): React.ReactElement<Props
         lastVersion = version;
       }
 
-      setHasUpgraded(lastVersion !== version);
+      const newStatus = lastVersion !== version;
+
+      if (newStatus !== hasUpgraded) {
+        setHasUpgraded(newStatus);
+      }
+
       lastVersion = version;
     }
   }, [hasUpgraded, runtimeVersion]);
@@ -50,7 +55,7 @@ export default function Upgrade ({ className }: Props): React.ReactElement<Props
       icon='users'
       type='info'
     >
-      <p>{t(`The runtime has been upgraded to ${runtimeVersion.specVersion.toNumber()}, your current metadata would need to be refreshed to take advantage of the new features.`)}</p>
+      <p>{t(`The runtime has been upgraded to ${runtimeVersion.specVersion.toNumber()}, your current interface would need to be refreshed to take advantage of the new features.`)}</p>
       <p>
         <Button
           icon='refresh'
