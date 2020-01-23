@@ -135,10 +135,14 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
             let message = dispatchError.type;
 
             if (dispatchError.isModule) {
-              const mod = dispatchError.asModule;
-              const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
+              try {
+                const mod = dispatchError.asModule;
+                const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
 
-              message = `${error.section}.${error.name}`;
+                message = `${error.section}.${error.name}`;
+              } catch (error) {
+                // swallow
+              }
             }
 
             return {
