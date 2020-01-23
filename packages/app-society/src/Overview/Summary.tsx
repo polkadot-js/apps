@@ -91,7 +91,7 @@ function Summary ({ className }: Props): React.ReactElement<Props> {
       <section>
         <CardSummary label={t('pot')}>
           {pot
-            ? <>{formatBalance(pot, false)}{formatBalance.calcSi(pot).value}</>
+            ? <>{formatBalance(pot, { withSi: false })}{formatBalance.calcSi(pot).value}</>
             : '-'
           }
         </CardSummary>
