@@ -11,7 +11,9 @@ import styled from 'styled-components';
 
 import { classes } from './util';
 
-const rootElement = document.getElementById('tooltips');
+const rootElement = typeof document === 'undefined'
+  ? null // This hack is required for server side renreding
+  : document.getElementById('tooltips');
 
 interface Props extends BareProps {
   dataFor?: string;
@@ -28,7 +30,11 @@ interface Props extends BareProps {
 }
 
 function Tooltip ({ className, effect = 'solid', offset, place = 'bottom', text, trigger }: Props): React.ReactElement<Props> | null {
-  const [tooltipContainer] = useState(document.createElement('div'));
+  const defaultTooltipContainer = typeof document === 'undefined'
+    ? {} as HTMLElement // This hack is required for server side renreding
+    : document.createElement('div');
+
+  const [tooltipContainer] = useState(defaultTooltipContainer);
 
   useEffect((): () => void => {
     if (rootElement !== null) {
