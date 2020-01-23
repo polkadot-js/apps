@@ -4,18 +4,22 @@
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { RecoveryConfig } from '@polkadot/types/interfaces';
 
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, InputTags, LinkPolkascan, Menu, Popup, Input } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Derive from './modals/Derive';
 import Identity from './modals/Identity';
+import RecoverAccount from './modals/RecoverAccount';
+import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
 import { useTranslation } from './translate';
 
@@ -31,6 +35,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const { t } = useTranslation();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
+  const recoveryInfo = useCall<Option<RecoveryConfig>>(api.api.query.recovery?.recoverable, [address]);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
@@ -43,6 +48,8 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const [isForgetOpen, toggleForget] = useToggle();
   const [isIdentityOpen, toggleIdentity] = useToggle();
   const [isPasswordOpen, togglePassword] = useToggle();
+  const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
+  const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
 
@@ -222,6 +229,19 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
             senderId={address}
           />
         )}
+        {isRecoverAccountOpen && (
+          <RecoverAccount
+            key='recover-account'
+            onClose={toggleRecoverAccount}
+          />
+        )}
+        {isRecoverSetupOpen && (
+          <RecoverSetup
+            address={address}
+            key='recover-setup'
+            onClose={toggleRecoverSetup}
+          />
+        )}
       </td>
       <td className='top'>
         {isEditingTags
@@ -321,6 +341,17 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
             >
               {t('Forget this account')}
             </Menu.Item>
+            {api.api.tx.recovery?.createRecovery && (
+              <>
+                <Menu.Divider />
+                <Menu.Item onClick={toggleRecoverSetup}>
+                  {t('Make recoverable')}
+                </Menu.Item>
+                <Menu.Item onClick={toggleRecoverAccount}>
+                  {t('Recover another account')}
+                </Menu.Item>
+              </>
+            )}
             {!api.isDevelopment && (
               <>
                 <Menu.Divider />
