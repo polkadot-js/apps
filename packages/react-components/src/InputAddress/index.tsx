@@ -208,13 +208,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
-    const { optionsAll, type = DEFAULT_TYPE } = this.props;
-
-    if (!optionsAll) {
-      return;
-    }
-
-    const available = optionsAll[type].filter(({ value }): boolean => !!value);
+    const available = this.getFiltered();
 
     return available.length
       ? available[available.length - 1]
@@ -222,13 +216,15 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private hasValue (test?: Uint8Array | string): boolean {
-    const { optionsAll, type = DEFAULT_TYPE } = this.props;
+    return this.getFiltered().some(({ value }): boolean => test === value);
+  }
 
-    if (!optionsAll) {
-      return false;
-    }
+  private getFiltered (): Option[] {
+    const { filter, optionsAll, type = DEFAULT_TYPE } = this.props;
 
-    return !!optionsAll[type].find(({ value }): boolean => test === value);
+    return !optionsAll
+      ? []
+      : optionsAll[type].filter(({ value }): boolean => !!value && (!filter || filter.includes(value)));
   }
 
   private onChange = (address: string): void => {

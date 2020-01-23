@@ -26,6 +26,7 @@ export default function Proposals ({ className, motions }: Props): React.ReactEl
     <div className={className}>
       <Button.Group>
         <Propose
+          filter={members}
           isMember={isMember}
           members={members}
         />

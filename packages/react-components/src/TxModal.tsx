@@ -8,6 +8,7 @@ import React from 'react';
 import { InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 
 export interface TxModalProps extends I18nProps {
+  filter?: string[];
   onSubmit?: () => void;
   onClose?: () => void;
   onSuccess?: () => void;
@@ -120,11 +121,13 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
   }
 
   protected renderInputAccount (): React.ReactNode {
+    const { filter } = this.props;
     const { accountId, isBusy } = this.state;
 
     return (
       <InputAddress
         defaultValue={accountId}
+        filter={filter}
         help={this.accountHelp()}
         isDisabled={isBusy}
         isInput={false}
