@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { Option } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Dropdown, Input, Toggle } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
-import translate from './translate';
+import { availableEndpoints } from './available';
+import { useTranslation } from './translate';
 import { createOption } from './util';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   onChange: (url: string) => void;
 }
@@ -26,8 +26,6 @@ interface StateUrl {
 interface State extends StateUrl {
   isCustom: boolean;
 }
-
-const endpointOptions = uiSettings.availableNodes.map((o): Option => createOption(o, ['local']));
 
 // check the validity of the url
 function isValidUrl (url: string): boolean {
@@ -59,11 +57,22 @@ function getInitialState (): State {
   return { isCustom, isValid, url };
 }
 
-function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props> {
+function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [info, setInfo] = useState(getInitialState());
   const { isCustom, isValid, url } = info;
   const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
   const label = t('remote node/endpoint to connect to');
+  const translatedEndpoints = useMemo(() => {
+    return availableEndpoints.map((option): Option => createOption(t, option, ['local']));
+  }, [t]);
+
+  useEffect((): void => {
+    if (onChange && info.isValid) {
+      onChange(info.url);
+    }
+  }, [info]);
+
   const _onChangeUrl = (url: string): void => setInfo({ ...info, ...makeUrl(url) });
   const _onChangeCustom = (isCustom: boolean): void =>
     setInfo({
@@ -74,12 +83,6 @@ function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props
       ),
       isCustom
     });
-
-  useEffect((): void => {
-    if (onChange && info.isValid) {
-      onChange(info.url);
-    }
-  }, [info]);
 
   return (
     <div className={className}>
@@ -97,7 +100,7 @@ function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props
             help={help}
             label={label}
             onChange={_onChangeUrl}
-            options={endpointOptions}
+            options={translatedEndpoints}
           />
       }</div>
       <Toggle
@@ -110,14 +113,12 @@ function SelectUrl ({ className, onChange, t }: Props): React.ReactElement<Props
   );
 }
 
-export default translate(
-  styled(SelectUrl)`
-    position: relative;
+export default styled(SelectUrl)`
+  position: relative;
 
-    .settings--customToggle {
-      position: absolute;
-      top: .5rem;
-      right: 3.5rem;
-    }
-  `
-);
+  .settings--customToggle {
+    position: absolute;
+    top: .5rem;
+    right: 3.5rem;
+  }
+`;
