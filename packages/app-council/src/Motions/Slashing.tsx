@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
 import { CallFunction } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useAvailableSlashes from './useAvailableSlashes';
@@ -15,6 +14,7 @@ import useAvailableSlashes from './useAvailableSlashes';
 interface Props {
   className?: string;
   isMember: boolean;
+  members: string[];
 }
 
 interface Option {
@@ -22,28 +22,16 @@ interface Option {
   value: number;
 }
 
-export default function Slashing ({ className, isMember }: Props): React.ReactElement<Props> {
+export default function Slashing ({ className, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const members = useCall<AccountId[]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
   const slashes = useAvailableSlashes();
   const [isVisible, toggleVisible] = useToggle();
-  const [isSelectedMember, setIsMember] = useState(false);
   const [accountId, setAcountId] = useState<string | null>(null);
   const [proposal, setProposal] = useState<CallFunction | null>(null);
   const [eras, setEras] = useState<Option[]>([]);
   const [selectedEra, setSelectedEra] = useState(0);
-  const threshold = Math.ceil((members?.length || 0) * 0.5);
-
-  useEffect((): void => {
-    if (accountId && members) {
-      setIsMember(
-        members
-          .map(([accountId]): string => accountId.toString())
-          .includes(accountId)
-      );
-    }
-  }, [accountId, members]);
+  const threshold = Math.ceil((members.length || 0) * 0.5);
 
   useEffect((): void => {
     if (slashes?.length) {
@@ -77,7 +65,7 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
     <>
       <Button
         icon='cancel'
-        isDisabled={!isMember || !members?.length || !slashes.length}
+        isDisabled={!isMember || !members.length || !slashes.length}
         isPrimary
         label={t('Cancel slashes')}
         onClick={toggleVisible}
@@ -89,6 +77,7 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
         >
           <Modal.Content>
             <InputAddress
+              filter={members}
               help={t('Select the account you wish to make the proposal with.')}
               label={t('propose from account')}
               onChange={setAcountId}
@@ -118,7 +107,7 @@ export default function Slashing ({ className, isMember }: Props): React.ReactEl
             <TxButton
               accountId={accountId}
               icon='repeat'
-              isDisabled={!threshold || !isSelectedMember || !proposal}
+              isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
               isPrimary
               label={t('Revert')}
               onStart={toggleVisible}

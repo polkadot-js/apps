@@ -23,6 +23,7 @@ import createItem from './createItem';
 
 interface Props extends BareProps {
   defaultValue?: Uint8Array | string | null;
+  filter?: string[];
   help?: React.ReactNode;
   hideAddress?: boolean;
   isDisabled?: boolean;
@@ -131,7 +132,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
+    const { className, defaultValue, filter = [], help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
@@ -156,7 +157,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         isDisabled && actualValue
           ? [createOption(actualValue)]
           : optionsAll
-            ? optionsAll[type]
+            ? optionsAll[type].filter(({ value }): boolean => !filter.length || filter.includes(value || ''))
             : []
       );
     const _defaultValue = (isMultiple || !isUndefined(value))
@@ -207,13 +208,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
-    const { optionsAll, type = DEFAULT_TYPE } = this.props;
-
-    if (!optionsAll) {
-      return;
-    }
-
-    const available = optionsAll[type].filter(({ value }): boolean => !!value);
+    const available = this.getFiltered();
 
     return available.length
       ? available[available.length - 1]
@@ -221,13 +216,15 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private hasValue (test?: Uint8Array | string): boolean {
-    const { optionsAll, type = DEFAULT_TYPE } = this.props;
+    return this.getFiltered().some(({ value }): boolean => test === value);
+  }
 
-    if (!optionsAll) {
-      return false;
-    }
+  private getFiltered (): Option[] {
+    const { filter, optionsAll, type = DEFAULT_TYPE } = this.props;
 
-    return !!optionsAll[type].find(({ value }): boolean => test === value);
+    return !optionsAll
+      ? []
+      : optionsAll[type].filter(({ value }): boolean => !!value && (!filter || filter.includes(value)));
   }
 
   private onChange = (address: string): void => {
