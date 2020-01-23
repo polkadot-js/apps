@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useEffect, useState } from 'react';
-import { AddressMulti, Modal } from '@polkadot/react-components';
+import { AddressMulti, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useAddresses } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -40,13 +40,20 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
         <AddressMulti
           available={availableHelpers}
           help={t('The addresses that are able to help in recovery')}
-          label={t('trusted social recovery helpers')}
+          label={t('trusted social recovery helpers. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS }})}
           onChange={setHelpers}
           maxCount={MAX_HELPERS}
           value={helpers}
         />
       </Modal.Content>
-      <Modal.Actions onCancel={onClose}>nothing</Modal.Actions>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          isDisabled={!helpers.length || true}
+          label={t('Make recoverable')}
+          onClick={onClose}
+          params={[helpers]}
+        />
+      </Modal.Actions>
     </Modal>
   )
 }
