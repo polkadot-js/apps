@@ -23,25 +23,32 @@ export default function Proposals ({ className, motions }: Props): React.ReactEl
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
-  const [isMember, setIsMember] = useState(false);
+  const queryMembers = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
+  const [{ members, isMember }, setMembers] = useState<{ members: string[]; isMember: boolean }>({ members: [], isMember: false });
 
   useEffect((): void => {
-    if (allAccounts && members) {
-      setIsMember(
-        members
-          .map(([accountId]): string => accountId.toString())
-          .some((accountId): boolean => allAccounts.includes(accountId))
-      );
+    if (allAccounts && queryMembers) {
+      const members = queryMembers.map(([accountId]): string => accountId.toString());
+
+      setMembers({
+        members,
+        isMember: members.some((accountId): boolean => allAccounts.includes(accountId))
+      });
     }
-  }, [allAccounts, members]);
+  }, [allAccounts, queryMembers]);
 
   return (
     <div className={className}>
       <Button.Group>
-        <Propose isMember={isMember} />
+        <Propose
+          isMember={isMember}
+          members={members}
+        />
         <Button.Or />
-        <Slashing isMember={isMember} />
+        <Slashing
+          isMember={isMember}
+          members={members}
+        />
       </Button.Group>
       {motions?.length
         ? (
@@ -51,6 +58,7 @@ export default function Proposals ({ className, motions }: Props): React.ReactEl
                 <Motion
                   isMember={isMember}
                   key={motion.hash.toHex()}
+                  members={members}
                   motion={motion}
                 />
               ))}

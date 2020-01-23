@@ -15,10 +15,11 @@ interface Props {
   hash: Hash;
   idNumber: ProposalIndex;
   isDisabled: boolean;
+  members: string[];
   proposal: Proposal;
 }
 
-export default function Voting ({ hash, idNumber, isDisabled, proposal }: Props): React.ReactElement<Props> | null {
+export default function Voting ({ hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
@@ -43,7 +44,10 @@ export default function Voting ({ hash, idNumber, isDisabled, proposal }: Props)
               idNumber={idNumber}
               proposal={proposal}
             />
-            <VoteAccount onChange={setAccountId} />
+            <VoteAccount
+              filter={members}
+              onChange={setAccountId}
+            />
             <VoteToggle
               onChange={_onChangeVote}
               value={voteValue}
