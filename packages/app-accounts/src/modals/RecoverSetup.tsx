@@ -40,7 +40,7 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
         <AddressMulti
           available={availableHelpers}
           help={t('The addresses that are able to help in recovery')}
-          label={t('trusted social recovery helpers. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS }})}
+          label={t('trusted social recovery helpers. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS } })}
           onChange={setHelpers}
           maxCount={MAX_HELPERS}
           value={helpers}
@@ -48,12 +48,14 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
+          icon='share alternate'
           isDisabled={!helpers.length || true}
           label={t('Make recoverable')}
           onClick={onClose}
           params={[helpers]}
+          tx='recovery.createRecovery'
         />
       </Modal.Actions>
     </Modal>
-  )
+  );
 }

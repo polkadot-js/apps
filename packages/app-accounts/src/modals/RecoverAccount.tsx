@@ -22,12 +22,14 @@ export default function RecoverAccount ({ className, onClose }: Props): React.Re
     >
       <Modal.Actions onCancel={onClose}>
         <TxButton
+          icon='recycle'
           isDisabled={true}
           label={t('Start recovery')}
           onClick={onClose}
           params={[]}
+          tx='recovery.initiateRecovery'
         />
       </Modal.Actions>
     </Modal>
-  )
+  );
 }
