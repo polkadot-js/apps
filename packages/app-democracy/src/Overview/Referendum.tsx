@@ -109,7 +109,10 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
         <FormatBalance value={votedNay} />
       </td>
       <td className='number together top'>
-        <Voting referendumId={value.index} />
+        <Voting
+          proposal={value.proposal}
+          referendumId={value.index}
+        />
       </td>
     </tr>
   );
