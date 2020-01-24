@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-society",
-  "version": "0.39.0-beta.96",
+  "version": "0.39.0-beta.97",
   "description": "A society",
   "main": "index.js",
   "scripts": {},
@@ -8,6 +8,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@polkadot/react-components": "^0.39.0-beta.96"
+    "@polkadot/react-components": "^0.39.0-beta.97"
   }
 }
