@@ -87,7 +87,7 @@ class SetControllerAccount extends TxComponent<Props, State> {
             isPrimary
             label={t('Set controller')}
             icon='sign-in'
-            onClick={onClose}
+            onStart={onClose}
             params={[controllerId]}
             tx='staking.setController'
             ref={this.button}

@@ -78,7 +78,7 @@ class BondExtra extends TxComponent<Props, State> {
             isPrimary
             label={t('Bond more')}
             icon='sign-in'
-            onClick={onClose}
+            onStart={onClose}
             extrinsic={extrinsic}
             ref={this.button}
             withSpinner
