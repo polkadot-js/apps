@@ -2,49 +2,43 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { Option, SetOption } from './types';
+import { Option } from './types';
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, ButtonCancel, Dropdown } from '@polkadot/react-components';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
 
-import translate from './translate';
+import { availableLanguages } from './available';
+import { useTranslation } from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
 
-interface Props extends I18nProps{
+interface Props {
+  className?: string;
   isModalContent?: boolean;
   onClose: () => void;
 }
 
-const prefixOptions = uiSettings.availablePrefixes.map((o): Option => createOption(o, ['default']));
-const iconOptions = uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default']));
 const ledgerConnOptions = uiSettings.availableLedgerConn;
-const availableLanguages: SetOption[] = [
-  {
-    text: 'Default browser language (auto-detect)',
-    value: 'default'
-  },
-  {
-    text: 'English',
-    value: 'en'
-  },
-  {
-    text: '汉语',
-    value: 'zh'
-  },
-  {
-    text: '日本語',
-    value: 'ja'
-  }
-];
 
-function General ({ className, isModalContent, onClose, t }: Props): React.ReactElement<Props> {
+export default function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState(uiSettings.get());
+  const iconOptions = useMemo((): Option[] => {
+    return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
+  }, [t]);
+  const prefixOptions = useMemo((): Option[] => {
+    return uiSettings.availablePrefixes.map((o): Option => createOption(t, o, ['default']));
+  }, [t]);
+  const translateLanguages = useMemo((): Option[] => {
+    return availableLanguages.map(({ text, value, withI18n }) => ({
+      value,
+      text: withI18n ? t(text as string) : text
+    }));
+  }, [t]);
 
   useEffect((): void => {
     const prev = uiSettings.get();
@@ -66,13 +60,6 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
     save(settings);
     setChanged(null);
   };
-
-  const translatedAvailableLanguages = useMemo(() =>
-    availableLanguages.map(option => ({
-      ...option,
-      text: t(option.text)
-    }))
-  , [t]);
 
   const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
@@ -124,7 +111,7 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
               defaultValue={i18nLang}
               label={t('default interface language')}
               onChange={_handleChange('i18nLang')}
-              options={translatedAvailableLanguages}
+              options={translateLanguages}
             />
           </div>
         </>
@@ -155,5 +142,3 @@ function General ({ className, isModalContent, onClose, t }: Props): React.React
     </div>
   );
 }
-
-export default translate(General);
