@@ -186,7 +186,7 @@ export default styled(Status)`
   position: fixed;
   right: 0.25rem;
   top: 0.25rem;
-  width: 20rem;
+  width: 23rem;
   z-index: 1001;
 
   .dismiss {
@@ -233,7 +233,7 @@ export default styled(Status)`
       .short {
         font-size: 2.5rem;
         opacity:  0.75;
-        padding: 0.5rem;
+        padding: 0.5rem 0 0.5rem 0.5rem;
 
         i.icon {
           line-height: 1;
