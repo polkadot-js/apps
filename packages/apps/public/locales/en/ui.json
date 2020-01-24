@@ -823,5 +823,6 @@
   "The threshold of vouches that is to be reached for the account to be recovered.": "",
   "recoverey threshold": "",
   "The delay between vouching and the availability of the recovered account.": "",
-  "recoverey block delay": ""
+  "recoverey block delay": "",
+  "wrong password supplied": ""
 }
