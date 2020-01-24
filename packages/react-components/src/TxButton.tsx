@@ -62,7 +62,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   protected send = (): void => {
-    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = true } = this.props;
+    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, isSign, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = true } = this.props;
     let extrinsic: any;
 
     if (propsExtrinsic) {
@@ -85,10 +85,22 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
       this.setState({ isSending: true });
     }
 
+    console.log({
+      accountId,
+      extrinsic,
+      isUnsigned,
+      isSign,
+      txFailedCb: withSpinner ? this.onFailed : onFailed,
+      txStartCb: onStart,
+      txSuccessCb: withSpinner ? this.onSuccess : onSuccess,
+      txUpdateCb: onUpdate
+    });
+
     queueExtrinsic({
       accountId,
       extrinsic,
       isUnsigned,
+      isSign,
       txFailedCb: withSpinner ? this.onFailed : onFailed,
       txStartCb: onStart,
       txSuccessCb: withSpinner ? this.onSuccess : onSuccess,

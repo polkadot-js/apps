@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignerOptions, SignerResult } from '@polkadot/api/types';
+import { SignerOptions, SignerResult, Signer as ApiSigner } from '@polkadot/api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps, BareProps } from '@polkadot/react-components/types';
@@ -11,13 +11,14 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
+import { SignerPayload, ExtrinsicStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, InputBalance, Modal, Toggle, ErrorBoundary } from '@polkadot/react-components';
+import { Button, InputBalance, Modal, Toggle, ErrorBoundary, Extrinsic } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
@@ -183,6 +184,8 @@ class Signer extends React.PureComponent<Props, State> {
 
     const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
 
+    console.log(currentItem);
+
     return (
       <Modal.Actions
         onCancel={
@@ -213,7 +216,7 @@ class Signer extends React.PureComponent<Props, State> {
                       ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
                       : isExternal
                         ? t('Sign via Qr')
-                        : t('Sign and Submit')
+                        : currentItem.isSign ? 'Sign' : t('Sign and Submit')
               }
               icon={
                 isQrVisible
@@ -260,6 +263,7 @@ class Signer extends React.PureComponent<Props, State> {
               <>
                 {this.renderTip()}
                 {this.renderUnlock()}
+                {currentItem.isSign && this.renderSignParams()}
               </>
             )
         }
@@ -298,6 +302,40 @@ class Signer extends React.PureComponent<Props, State> {
         )}
       </>
     );
+  }
+
+  private renderSignParams (): React.ReactNode {
+    const { t } = this.props;
+    const { currentItem } = this.state;
+
+    if (!currentItem?.isSign) {
+      return null;
+    }
+
+    // TODO: implementme!
+    // return (
+    //   <>
+    //     <Toggle
+    //       className='tipToggle'
+    //       label={
+    //         showTip
+    //           ? t('Include an optional tip for faster processing')
+    //           : t('Do not include a tip for the block author')
+    //       }
+    //       onChange={this.onShowTip}
+    //       value={showTip}
+    //     />
+    //     {showTip && (
+    //       <InputBalance
+    //         defaultValue={new BN(0)}
+    //         help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
+    //         isZeroable
+    //         onChange={this.onChangeTip}
+    //         label={t('Tip (optional)')}
+    //       />
+    //     )}
+    //   </>
+    // );
   }
 
   private onRenderError = (): void => {
@@ -610,6 +648,124 @@ class Signer extends React.PureComponent<Props, State> {
         txFailedCb(null);
       }
     }
+  }
+
+  private async makeSignedTransaction (
+    extrinsic: SubmittableExtrinsic,
+    { id }: QueueTx,
+    pair: KeyringPair
+  ): Promise<void> {
+    const { api, queueSetTxStatus } = this.props;
+    const { isV2, showTip, tip } = this.state;
+
+    console.log('makeSignedTransaction: extrinsic ::', extrinsic.toHex());
+
+    const params = [];
+
+    const {
+      address,
+      meta: { isExternal, isHardware, isInjected, source }
+    } = pair;
+
+    let signer: ApiSigner | undefined;
+    const blockNumber = 0;
+
+    queueSetTxStatus(id, 'signing');
+
+    // set the signer
+    if (isHardware) {
+      signer = ledgerSigner;
+      params.push(address);
+    } else if (isExternal) {
+      queueSetTxStatus(id, 'qr');
+      signer = { signPayload: this.signQrPayload };
+      params.push(address);
+    } else if (isInjected) {
+      const injected = await web3FromSource(source);
+
+      assert(injected, `Unable to find a signer for ${address}`);
+
+      signer = injected.signer;
+      params.push(address);
+    }
+
+    if (showTip && isV2 && tip) {
+      params.push({ tip } as Partial<SignerOptions>);
+    }
+
+    const payload: SignerPayload = api.createType('SignerPayload', {
+      version: api.extrinsicVersion,
+      runtimeVersion: api.runtimeVersion,
+      genesisHash: api.genesisHash,
+      ...params,
+      address,
+      method: extrinsic.method,
+      blockNumber
+    });
+
+    const payloadJSON = (payload.toJSON() as any) as SignerPayloadJSON;
+    payloadJSON.era = payload.era.toHex();
+    payloadJSON.method = payload.method.toHex();
+
+    console.log(payloadJSON);
+
+    if (signer && signer.signPayload) {
+      const signature = await signer.signPayload(payloadJSON);
+
+      extrinsic.addSignature(address, signature.signature, payload.toPayload());
+
+      console.log(extrinsic.toJSON());
+
+      queueSetTxStatus(id, 'signed');
+    } else {
+      queueSetTxStatus(id, 'error');
+    }
+
+    // try {
+    //   // eslint-disable-next-line @typescript-eslint/require-await
+    //   const unsubscribe = await extrinsicCall.apply(extrinsic, [
+    //     ...params,
+    //     async (result: SubmittableResult): Promise<void> => {
+    //       if (!result || !result.status) {
+    //         return;
+    //       }
+
+    //       const status = result.status.type.toLowerCase() as QueueTxStatus;
+
+    //       console.log("makeExtrinsicCall: updated status ::", JSON.stringify(result));
+    //       queueSetTxStatus(id, status, result);
+
+    //       if (isFunction(txUpdateCb)) {
+    //         txUpdateCb(result);
+    //       }
+
+    //       if (result.status.isFinalized) {
+    //         unsubscribe();
+
+    //         result.events
+    //           .filter(({ event: { section } }): boolean => section === "system")
+    //           .forEach(({ event: { method } }): void => {
+    //             if (isFunction(txFailedCb) && method === "ExtrinsicFailed") {
+    //               txFailedCb(result);
+    //             } else if (isFunction(txSuccessCb) && method === "ExtrinsicSuccess") {
+    //               txSuccessCb(result);
+    //             }
+    //           });
+    //       } else if (result.isError && isFunction(txFailedCb)) {
+    //         txFailedCb(result);
+    //       }
+    //     }
+    //   ]);
+
+    //   queueSetTxStatus(id, "sending");
+    // } catch (error) {
+    //   console.error("makeExtrinsicCall: error:", error);
+    //   queueSetTxStatus(id, "error", {}, error);
+
+    //   if (isFunction(txFailedCb)) {
+    //     txFailedCb(null);
+    //   }
+    // }
   }
 }
 

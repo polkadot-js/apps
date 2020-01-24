@@ -21,7 +21,7 @@ interface Props {
   value: QueueTx;
 }
 
-export default function Transaction ({ children, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, tip }: Props): React.ReactElement<Props> | null {
+export default function Transaction ({ children, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned, isSign }, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {
@@ -56,7 +56,7 @@ export default function Transaction ({ children, hideDetails, isSendable, onErro
           </>
         )}
         {children}
-        {!hideDetails && !isUnsigned && (
+        {!hideDetails && !isUnsigned && !isSign && (
           <Checks
             accountId={accountId}
             extrinsic={extrinsic}

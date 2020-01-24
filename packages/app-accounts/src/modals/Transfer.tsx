@@ -131,6 +131,16 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
           icon='send'
           isDisabled={!hasAvailable}
           isPrimary
+          label='Make Signed Transaction'
+          onStart={onClose}
+          withSpinner={false}
+        />
+        <TxButton
+          accountId={senderId}
+          extrinsic={extrinsic}
+          icon='send'
+          isDisabled={!hasAvailable}
+          isPrimary
           label={t('Make Transfer')}
           onStart={onClose}
           withSpinner={false}

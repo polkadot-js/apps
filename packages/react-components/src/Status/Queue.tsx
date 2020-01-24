@@ -79,11 +79,12 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
       }))]);
     }
   };
-  const queueExtrinsic = ({ accountId, extrinsic, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned }: PartialQueueTxExtrinsic): void =>
+  const queueExtrinsic = ({ accountId, extrinsic, txFailedCb, txSuccessCb, txStartCb, txUpdateCb, isUnsigned, isSign }: PartialQueueTxExtrinsic): void =>
     addToTxQueue({
       accountId,
       extrinsic,
       isUnsigned,
+      isSign,
       txFailedCb,
       txSuccessCb,
       txStartCb,

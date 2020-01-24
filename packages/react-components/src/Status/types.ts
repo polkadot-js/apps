@@ -22,7 +22,7 @@ export interface AccountInfo {
   accountId?: string | null;
 }
 
-export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'qr' | 'sending' | 'signing' | 'sent' | 'blocked';
+export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'qr' | 'sending' | 'signing' | 'sent' | 'blocked' | 'signed';
 
 export type SignerCallback = (id: number, result: SignerResult | null) => void;
 
@@ -35,6 +35,7 @@ export interface QueueTx extends AccountInfo {
   extrinsic?: SubmittableExtrinsic;
   id: number;
   isUnsigned?: boolean;
+  isSign?: boolean;
   payload?: SignerPayloadJSON;
   result?: any;
   removeItem: () => void;
@@ -82,6 +83,7 @@ export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
   txStartCb?: () => void;
   txUpdateCb?: TxCallback;
   isUnsigned?: boolean;
+  isSign?: boolean;
 }
 
 export interface PartialQueueTxRpc extends PartialAccountInfo {
