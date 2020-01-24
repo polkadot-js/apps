@@ -12,7 +12,7 @@ interface Props {
   unlockError?: string | null;
 }
 
-function PasswordCheck ({ className, unlockError }: Props): React.ReactElement<Props> | null {
+function UnlockError ({ className, unlockError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return unlockError
@@ -20,7 +20,7 @@ function PasswordCheck ({ className, unlockError }: Props): React.ReactElement<P
     : null;
 }
 
-export default styled(PasswordCheck)`
-  margin-left: 15em;
+export default styled(UnlockError)`
+  margin-right: 2rem;
   color: #9f3a38;
 `;

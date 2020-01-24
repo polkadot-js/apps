@@ -9,6 +9,7 @@ import { Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate';
+import UnlockError from './UnlockError';
 
 interface Props {
   autoFocus?: boolean;
@@ -41,7 +42,9 @@ export default function Unlock ({ autoFocus, error, onChange, onEnter, password,
       <Password
         autoFocus={autoFocus}
         isError={!!error}
+        isFull
         label={t('unlock account with password')}
+        labelExtra={<UnlockError unlockError={error} />}
         onChange={onChange}
         onEnter={onEnter}
         tabIndex={tabIndex}
