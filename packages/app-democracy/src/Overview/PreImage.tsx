@@ -83,7 +83,6 @@ function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose 
           onStart={onClose}
           params={[encodedProposal]}
           tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

@@ -91,7 +91,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
           accountId={controllerId}
           isDisabled={!selection.length}
           isPrimary
-          onClick={onClose}
+          onStart={onClose}
           params={[selection]}
           label={t('Nominate')}
           icon='hand paper outline'

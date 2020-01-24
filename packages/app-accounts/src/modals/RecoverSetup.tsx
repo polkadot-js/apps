@@ -77,10 +77,9 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
           icon='share alternate'
           isDisabled={isErrorHelpers || isErrorThreshold || isErrorDelay}
           label={t('Make recoverable')}
-          onClick={onClose}
+          onStart={onClose}
           params={[helpers, threshold, delay]}
           tx='recovery.createRecovery'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

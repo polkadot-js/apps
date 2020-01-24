@@ -87,7 +87,7 @@ export default function SetSessionKey ({ controllerId, isOpen, onClose, sessionI
           isPrimary
           label={t('Set Session Key')}
           icon='sign-in'
-          onClick={onClose}
+          onStart={onClose}
           params={
             isSubstrateV2
               ? [keys, EMPTY_PROOF]

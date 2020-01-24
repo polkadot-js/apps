@@ -31,7 +31,7 @@ export default function VoteActions ({ accountId, className, isDisabled, onClick
         isDisabled={!accountId || isDisabled}
         isPrimary
         label={t('Vote')}
-        onClick={onClick}
+        onStart={onClick}
         params={params}
         tx={tx}
       />

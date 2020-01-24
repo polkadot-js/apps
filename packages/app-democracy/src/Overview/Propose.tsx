@@ -62,7 +62,6 @@ export default function Propose ({ className, onClose }: Props): React.ReactElem
           onStart={onClose}
           params={[hash, balance]}
           tx='democracy.propose'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

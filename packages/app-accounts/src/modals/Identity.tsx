@@ -217,7 +217,6 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
           onStart={onClose}
           params={[info]}
           tx='identity.setIdentity'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

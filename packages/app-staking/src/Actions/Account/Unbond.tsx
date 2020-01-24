@@ -73,10 +73,11 @@ class Unbond extends TxComponent<Props, State> {
             isPrimary
             label={t('Unbond')}
             icon='sign-out'
-            onClick={onClose}
+            onStart={onClose}
             params={[maxUnbond]}
             tx='staking.unbond'
             ref={this.button}
+            withSpinner
           />
         </Modal.Actions>
       </Modal>
