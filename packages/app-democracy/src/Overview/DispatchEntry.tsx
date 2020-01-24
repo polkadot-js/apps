@@ -12,6 +12,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import ProposalCell from './ProposalCell';
+import PreImageButton from './PreImageButton';
 
 interface Props {
   blockNumber?: BlockNumber;
@@ -47,6 +48,13 @@ export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: P
         proposalHash={hash}
         proposal={proposal}
       />
+      <td className='together number top'>
+        <PreImageButton
+          hash={hash}
+          isImminent
+          proposal={proposal}
+        />
+      </td>
     </tr>
   );
 }

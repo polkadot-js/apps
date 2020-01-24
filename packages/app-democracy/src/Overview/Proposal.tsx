@@ -11,6 +11,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Seconding from './Seconding';
 
@@ -59,6 +60,10 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
         <Seconding
           depositors={seconds || []}
           proposalId={index}
+          proposal={proposal}
+        />
+        <PreImageButton
+          hash={hash}
           proposal={proposal}
         />
       </td>
