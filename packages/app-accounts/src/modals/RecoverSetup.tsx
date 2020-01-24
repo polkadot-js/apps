@@ -80,7 +80,6 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
           onClick={onClose}
           params={[helpers, threshold, delay]}
           tx='recovery.createRecovery'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

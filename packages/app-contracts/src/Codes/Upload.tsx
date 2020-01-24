@@ -83,6 +83,7 @@ class Upload extends ContractModal<Props, State> {
         params={[gasLimit, wasm]}
         tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
         ref={this.button}
+        withSpinner
       />
     );
   }

@@ -53,6 +53,7 @@ class SetRewardDestination extends TxComponent<Props, State> {
             params={[destination]}
             tx={'staking.setPayee'}
             ref={this.button}
+            withSpinner
           />
         </Modal.Actions>
       </Modal>

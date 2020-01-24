@@ -44,7 +44,6 @@ export default function RecoverAccount ({ address, className, onClose }: Props):
           onClick={onClose}
           params={[recover]}
           tx='recovery.initiateRecovery'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

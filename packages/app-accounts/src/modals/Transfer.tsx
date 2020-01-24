@@ -135,7 +135,6 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
           isPrimary
           label={t('Make Transfer')}
           onStart={onClose}
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

@@ -81,6 +81,7 @@ class BondExtra extends TxComponent<Props, State> {
             onClick={onClose}
             extrinsic={extrinsic}
             ref={this.button}
+            withSpinner
           />
         </Modal.Actions>
       </Modal>
