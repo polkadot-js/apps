@@ -824,5 +824,6 @@
   "recoverey threshold": "",
   "The delay between vouching and the availability of the recovered account.": "",
   "recoverey block delay": "",
-  "wrong password supplied": ""
+  "wrong password supplied": "",
+  "Preimage": ""
 }
