@@ -6,7 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, AddressSmall } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Button } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -57,15 +57,17 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
         )}
       </td>
       <td className='together number top'>
-        <Seconding
-          depositors={seconds || []}
-          proposalId={index}
-          proposal={proposal}
-        />
-        <PreImageButton
-          hash={hash}
-          proposal={proposal}
-        />
+        <Button.Group>
+          <Seconding
+            depositors={seconds || []}
+            proposalId={index}
+            proposal={proposal}
+          />
+          <PreImageButton
+            hash={hash}
+            proposal={proposal}
+          />
+        </Button.Group>
       </td>
     </tr>
   );

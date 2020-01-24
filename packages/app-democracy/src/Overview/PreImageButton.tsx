@@ -31,6 +31,7 @@ export default function PreImageButton ({ hash, isImminent, proposal, withoutOr 
       {!withoutOr && <Button.Or />}
       <Button
         icon='plus'
+        isPrimary
         label={t('Preimage')}
         onClick={togglePreimage}
       />
