@@ -32,7 +32,7 @@ export default function Summary ({ lastReward, totalStaked }: Props): React.Reac
   useEffect((): void => {
     if (totalInsurance) {
       setTotal(
-        `${formatBalance(totalInsurance, false)}${formatBalance.calcSi(totalInsurance.toString()).value}`
+        `${formatBalance(totalInsurance, { withSi: false })}${formatBalance.calcSi(totalInsurance.toString()).value}`
       );
     }
   }, [totalInsurance]);
@@ -41,7 +41,7 @@ export default function Summary ({ lastReward, totalStaked }: Props): React.Reac
     if (totalInsurance && totalStaked?.gtn(0)) {
       setStakeInfo({
         percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`,
-        staked: `${formatBalance(totalStaked, false)}${formatBalance.calcSi(totalStaked.toString()).value}`
+        staked: `${formatBalance(totalStaked, { withSi: false })}${formatBalance.calcSi(totalStaked.toString()).value}`
       });
     }
   }, [totalInsurance, totalStaked]);
@@ -63,7 +63,7 @@ export default function Summary ({ lastReward, totalStaked }: Props): React.Reac
       <CardSummary label={t('last reward')}>
         {
           lastReward.gtn(0)
-            ? `${formatBalance(lastReward, false)}`
+            ? `${formatBalance(lastReward, { withSi: false })}`
             : '-'
         }
       </CardSummary>

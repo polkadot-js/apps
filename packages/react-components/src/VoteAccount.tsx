@@ -9,15 +9,17 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  filter?: string[];
   onChange: (value: string | null) => void;
 }
 
-export default function VoteAccount ({ className, onChange }: Props): React.ReactElement<Props> {
+export default function VoteAccount ({ className, filter, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <InputAddress
       className={className}
+      filter={filter}
       help={t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
       label={t('vote with account')}
       onChange={onChange}

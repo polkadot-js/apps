@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import useCouncilMembers from '@polkadot/app-council/useCouncilMembers';
 
 import { useTranslation } from '../translate';
 
@@ -15,15 +15,11 @@ interface Props {
 
 export default function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { hasAccounts } = useAccounts();
+  const { isMember, members } = useCouncilMembers();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [beneficiary, setBeneficiary] = useState<string | null>(null);
   const [isProposeOpen, setIsProposeOpen] = useState(false);
   const [value, setValue] = useState<BN | undefined>();
-
-  if (!hasAccounts) {
-    return null;
-  }
 
   const _togglePropose = (): void => setIsProposeOpen(!isProposeOpen);
 
@@ -39,6 +35,7 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
         >
           <Modal.Content>
             <InputAddress
+              filter={members}
               help={t('Select the account you wish to submit the proposal from.')}
               label={t('submit with account')}
               onChange={setAccountId}
@@ -76,6 +73,7 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
       )}
       <Button
         icon='check'
+        isDisabled={!isMember}
         isPrimary
         label={t('Submit proposal')}
         onClick={_togglePropose}

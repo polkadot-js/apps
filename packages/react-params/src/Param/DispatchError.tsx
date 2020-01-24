@@ -5,7 +5,7 @@
 import { DispatchError } from '@polkadot/types/interfaces';
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Input } from '@polkadot/react-components';
 
@@ -13,17 +13,37 @@ import { useTranslation } from '../translate';
 import Static from './Static';
 import Unknown from './Unknown';
 
+interface Details {
+  details?: string | null;
+  type?: string;
+}
+
 export default function ErrorDisplay (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [{ details, type }, setDetails] = useState<Details>({});
 
-  if (!props.isDisabled || !props.defaultValue?.value?.isModule) {
+  useEffect((): void => {
+    if (details !== null && props.defaultValue?.value?.isModule) {
+      try {
+        const mod = (props.defaultValue.value as DispatchError).asModule;
+        const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
+
+        setDetails({
+          details: error.documentation.join(', '),
+          type: `${error.section}.${error.name}`
+        });
+      } catch (error) {
+        // Errors may not actually be exposed, in this case, just return the default representation
+        console.error(error);
+
+        setDetails({ details: null });
+      }
+    }
+  }, [props.defaultValue]);
+
+  if (!props.isDisabled || !details) {
     return <Unknown {...props} />;
   }
-
-  const mod = (props.defaultValue.value as DispatchError).asModule;
-  const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
-  const type = `${error.section}.${error.name}`;
-  const details = error.documentation.join(', ');
 
   return (
     <Static {...props}>
