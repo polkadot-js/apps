@@ -109,6 +109,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             type='allPlus'
           />
           <InputBalance
+            autoFocus
             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
             isError={!hasAvailable}
             isZeroable
