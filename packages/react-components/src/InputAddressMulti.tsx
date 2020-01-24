@@ -20,7 +20,7 @@ interface Props {
   value: string[];
 }
 
-function AddressMulti ({ available, className, help, label, maxCount, onChange, value }: Props): React.ReactElement<Props> {
+function InputAddressMulti ({ available, className, help, label, maxCount, onChange, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [_filter, setFilter] = useState<string>('');
   const filter = useDebounce(_filter);
@@ -37,17 +37,17 @@ function AddressMulti ({ available, className, help, label, maxCount, onChange, 
     };
 
   return (
-    <div className={`ui--AddressMulti ${className}`}>
+    <div className={`ui--InputAddressMulti ${className}`}>
       <Input
         autoFocus
-        className='ui--AddressMulti-input'
+        className='ui--InputAddressMulti-Input'
         help={help}
         label={label}
         onChange={setFilter}
         placeholder={t('partial name, address or account index')}
         value={_filter}
       />
-      <div className='ui--AddressMulti-container'>
+      <div className='ui--InputAddressMulti-container'>
         {available.map((key): React.ReactNode => (
           <AddressToggle
             address={key}
@@ -62,8 +62,8 @@ function AddressMulti ({ available, className, help, label, maxCount, onChange, 
   );
 }
 
-export default styled(AddressMulti)`
-  .ui--AddressMulti-input {
+export default styled(InputAddressMulti)`
+  .ui--InputAddressMulti-Input {
     .ui.input {
       margin-bottom: 0rem;
 
@@ -75,7 +75,7 @@ export default styled(AddressMulti)`
     }
   }
 
-  .ui--AddressMulti-container {
+  .ui--InputAddressMulti-container {
     background: white;
     border: 1px solid rgba(34,36,38,.15);
     border-top-width: 0px;

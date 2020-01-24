@@ -10,7 +10,7 @@ import { ComponentProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { withApi } from '@polkadot/react-api/hoc';
-import { AddressMulti, Button } from '@polkadot/react-components';
+import { InputAddressMulti, Button } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
@@ -95,7 +95,7 @@ class Vote extends TxModal<Props, State> {
           accountId={accountId}
           onChange={this.setVoteValue}
         />
-        <AddressMulti
+        <InputAddressMulti
           available={available}
           help={t('Filter available candidates based on name, address or short account index.')}
           label={t('filter candidates')}
