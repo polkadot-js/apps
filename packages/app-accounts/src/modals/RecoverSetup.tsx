@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { AddressMulti, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddressMulti, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useAddresses } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -49,7 +49,7 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
           label={t('the account to make recoverable')}
           value={address}
         />
-        <AddressMulti
+        <InputAddressMulti
           available={availableHelpers}
           help={t('The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS } })}
           label={t('trusted social recovery helpers')}
