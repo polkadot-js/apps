@@ -64,5 +64,14 @@
   "dispatch queue": "dispatch queue",
   "nothing queued to be executed": "nothing queued to be executed",
   "Seconds ({{count}})": "Seconds ({{count}})",
-  "Preimage": "Preimage"
+  "Preimage": "Preimage",
+  "0.1x of voting balance, no lockup period": "0.1x of voting balance, no lockup period",
+  "1x of voting balance, locked for 1x enactment": "1x of voting balance, locked for 1x enactment",
+  "2x of voting balance, locked for 2x enactment": "2x of voting balance, locked for 2x enactment",
+  "3x of voting balance, locked for 4x enactment": "3x of voting balance, locked for 4x enactment",
+  "4x of voting balance, locked for 8x enactment": "4x of voting balance, locked for 8x enactment",
+  "5x of voting balance, locked for 16x enactment": "5x of voting balance, locked for 16x enactment",
+  "6x of voting balance, locked for 32x enactment": "6x of voting balance, locked for 32x enactment",
+  "The conviction to use for this vote, with an appropriate lock period.": "The conviction to use for this vote, with an appropriate lock period.",
+  "conviction": "conviction"
 }
