@@ -25,7 +25,6 @@ import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
 import ledgerSigner from './LedgerSigner';
-import PasswordCheck from './PasswordCheck';
 import Transaction from './Transaction';
 import Qr from './Qr';
 import Unlock from './Unlock';
@@ -320,19 +319,15 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <>
-        <Unlock
-          autoFocus
-          error={unlockError || undefined}
-          onChange={this.onChangePassword}
-          password={password}
-          value={currentItem.accountId}
-          tabIndex={1}
-        />
-        <PasswordCheck
-          unlockError={unlockError}
-        />
-      </>
+      <Unlock
+        autoFocus
+        error={unlockError || undefined}
+        onChange={this.onChangePassword}
+        onEnter={this.onSend}
+        password={password}
+        value={currentItem.accountId}
+        tabIndex={1}
+      />
     );
   }
 
