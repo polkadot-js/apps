@@ -9,11 +9,13 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { formatNumber } from '@polkadot/util';
+import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Voting from './Voting';
 
@@ -109,10 +111,16 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
         <FormatBalance value={votedNay} />
       </td>
       <td className='number together top'>
-        <Voting
-          proposal={value.proposal}
-          referendumId={value.index}
-        />
+        <Button.Group>
+          <Voting
+            proposal={value.proposal}
+            referendumId={value.index}
+          />
+          <PreImageButton
+            hash={value.hash}
+            proposal={value.proposal}
+          />
+        </Button.Group>
       </td>
     </tr>
   );
