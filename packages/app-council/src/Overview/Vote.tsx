@@ -120,7 +120,17 @@ class Vote extends TxModal<Props, State> {
       (api.query.electionsPhragmen || api.query.elections)
         .votesOf<[AccountId[]] & Codec>(accountId)
         .then(([existingVotes]): void => {
-          this.setState({ votes: existingVotes.map((accountId): string => accountId.toString()) });
+          const { electionsInfo: { candidates, members, runnersUp } } = this.props;
+          const available = members
+            .map(([accountId]): string => accountId.toString())
+            .concat(runnersUp.map(([accountId]): string => accountId.toString()))
+            .concat(candidates.map((accountId): string => accountId.toString()));
+
+          this.setState({
+            votes: existingVotes
+              .map((accountId): string => accountId.toString())
+              .filter((accountId): boolean => available.includes(accountId))
+          });
         });
     }
   }
