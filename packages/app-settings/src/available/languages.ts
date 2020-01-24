@@ -17,9 +17,11 @@ export default [
   {
     text: '汉语',
     value: 'zh'
-  },
-  {
-    text: '日本語',
-    value: 'ja'
   }
+  // For ja, we only have the settings page, remove until comprehensive
+  // ,
+  // {
+  //   text: '日本語',
+  //   value: 'ja'
+  // }
 ] as Option[];
