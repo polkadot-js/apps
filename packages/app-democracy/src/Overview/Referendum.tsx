@@ -51,16 +51,21 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
   useEffect((): void => {
     if (votesFor) {
       const newState: State = votesFor.reduce((state, { balance, vote }): State => {
+        const isDefault = vote.conviction.index === 0;
+        const counted = balance
+          .muln(isDefault ? 1 : vote.conviction.index)
+          .divn(isDefault ? 10 : 1);
+
         if (vote.isAye) {
           state.voteCountAye++;
-          state.votedAye = state.votedAye.add(balance);
+          state.votedAye = state.votedAye.add(counted);
         } else {
           state.voteCountNay++;
-          state.votedNay = state.votedNay.add(balance);
+          state.votedNay = state.votedNay.add(counted);
         }
 
         state.voteCount++;
-        state.votedTotal = state.votedTotal.add(balance);
+        state.votedTotal = state.votedTotal.add(counted);
 
         return state;
       }, {
