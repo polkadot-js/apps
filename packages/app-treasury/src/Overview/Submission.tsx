@@ -75,7 +75,7 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
               isDisabled={!accountId || !councilThreshold}
               isPrimary
               label={t('Send to council')}
-              onClick={toggleOpen}
+              onStart={toggleOpen}
               params={[
                 councilThreshold,
                 councilType === 'reject'

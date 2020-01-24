@@ -41,10 +41,9 @@ export default function RecoverAccount ({ address, className, onClose }: Props):
           icon='recycle'
           isDisabled={!recover || recover === address}
           label={t('Start recovery')}
-          onClick={onClose}
+          onStart={onClose}
           params={[recover]}
           tx='recovery.initiateRecovery'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

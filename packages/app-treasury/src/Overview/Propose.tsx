@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import useCouncilMembers from '@polkadot/app-council/useCouncilMembers';
 
 import { useTranslation } from '../translate';
@@ -18,10 +19,8 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
   const { isMember, members } = useCouncilMembers();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [beneficiary, setBeneficiary] = useState<string | null>(null);
-  const [isProposeOpen, setIsProposeOpen] = useState(false);
+  const [isProposeOpen, togglePropose] = useToggle();
   const [value, setValue] = useState<BN | undefined>();
-
-  const _togglePropose = (): void => setIsProposeOpen(!isProposeOpen);
 
   const hasValue = value?.gtn(0);
 
@@ -57,14 +56,14 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
               onChange={setValue}
             />
           </Modal.Content>
-          <Modal.Actions onCancel={_togglePropose}>
+          <Modal.Actions onCancel={togglePropose}>
             <TxButton
               accountId={accountId}
               icon='add'
               isDisabled={!accountId || !hasValue}
               isPrimary
               label={t('Submit proposal')}
-              onClick={_togglePropose}
+              onStart={togglePropose}
               params={[value, beneficiary]}
               tx='treasury.proposeSpend'
             />
@@ -76,7 +75,7 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
         isDisabled={!isMember}
         isPrimary
         label={t('Submit proposal')}
-        onClick={_togglePropose}
+        onClick={togglePropose}
       />
     </>
   );

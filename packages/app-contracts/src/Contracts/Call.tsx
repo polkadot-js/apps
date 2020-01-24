@@ -220,6 +220,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 onSuccess={_toggleBusy}
                 params={_constructTx}
                 tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
+                withSpinner
               />
             )
           }
