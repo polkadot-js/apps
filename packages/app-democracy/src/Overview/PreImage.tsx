@@ -43,7 +43,7 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
         <InputAddress
           help={t('The account you want to register the preimage from')}
           label={t('send from account')}
-          labelExtra={<Available label={t('transferrable')} params={accountId} />}
+          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={accountId} />}
           onChange={setAccountId}
           type='account'
         />
