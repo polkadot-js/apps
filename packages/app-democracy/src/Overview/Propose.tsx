@@ -35,7 +35,7 @@ export default function Propose ({ className, onClose }: Props): React.ReactElem
         <InputAddress
           help={t('The account you want to register the proposal from')}
           label={t('send from account')}
-          labelExtra={<Available label={t('transferrable')} params={accountId} />}
+          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={accountId} />}
           onChange={setAccountId}
           type='account'
         />
