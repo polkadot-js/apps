@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { Hash } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -15,24 +16,30 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  isImminent?: boolean;
+  matchHash?: Hash;
   onClose: () => void;
 }
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [isImminent, setIsImminent] = useState(false);
-  const [{ hex, hash }, setHash] = useState<{ hex: string; hash: string }>({ hex: '', hash: ZERO_HASH });
+  const [isImminent, setIsImminent] = useState(propsIsImminent || false);
+  const [{ encodedProposal, encodedHash }, setHash] = useState<{ encodedProposal: string; encodedHash: string }>({ encodedProposal: '', encodedHash: ZERO_HASH });
   const [proposal, setProposal] = useState<any>();
 
   useEffect((): void => {
-    const hex = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
+    const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
 
-    setHash({ hex, hash: blake2AsHex(hex) });
+    setHash({ encodedProposal, encodedHash: blake2AsHex(encodedProposal) });
   }, [proposal]);
+
+  const isMatched = matchHash
+    ? matchHash.eq(encodedHash)
+    : true;
 
   return (
     <Modal
@@ -55,8 +62,9 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
         <Input
           help={t('The hash of the selected proposal, use it for submitting the proposal')}
           isDisabled
+          isDisabledError={!isMatched}
           label={t('preimage hash')}
-          value={hash}
+          value={encodedHash}
         />
         <Toggle
           className='toggleImminent'
@@ -68,12 +76,12 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
-          isDisabled={!proposal || !accountId}
+          isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
           isPrimary
           label={t('Submit preimage')}
           icon='add'
           onStart={onClose}
-          params={[hex]}
+          params={[encodedProposal]}
           tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
           withSpinner={false}
         />
