@@ -12,11 +12,11 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/polyfill": "^7.7.0",
-    "@babel/runtime": "^7.7.7",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/runtime": "^7.8.3",
     "@polkadot/react-components": "^0.39.0-beta.101",
     "@polkadot/react-signer": "^0.39.0-beta.101",
-    "@polkadot/ui-assets": "^0.48.0-beta.14",
-    "query-string": "^6.8.3"
+    "@polkadot/ui-assets": "^0.48.0-beta.15",
+    "query-string": "^6.10.1"
   }
 }
