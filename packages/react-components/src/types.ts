@@ -6,11 +6,9 @@ import { WithTranslation } from 'react-i18next';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Abi } from '@polkadot/api-contract';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { InputAddressProps } from '@polkadot/react-components/InputAddress/types';
 import { IExtrinsic } from '@polkadot/types/types';
-import { TxState } from '@polkadot/react-hooks/types';
-import { Index } from '@polkadot/types/interfaces';
-import { ButtonProps, Button$OnClick, Button$Sizes } from './Button/types';
+import { AccountId, Index } from '@polkadot/types/interfaces';
+import { Button$Sizes } from './Button/types';
 import { TxCallback, TxFailedCallback } from './Status/types';
 
 export type VoidFn = () => void;
@@ -28,37 +26,7 @@ export interface AppProps {
 
 export type I18nProps = BareProps & WithTranslation;
 
-export type ButtonRef = React.RefObject<React.Component<ButtonProps>>;
-
-// export type FormProps$Ref = React.MutableRefObject<Button$OnClick>;
-
-export interface FormProps {
-  onCancel: Button$OnClick;
-  onSubmit: Button$OnClick;
-}
-
-// export interface FormProps$Hooks {
-//   onInputEnterKey: () => void;
-//   onInputEscapeKey: () => void;
-// }
-
-// export interface FormProps extends FormProps$Refs, FormProps$Hooks {}
-
 export type ConstructTxFn = () => any[];
-
-export type TxTrigger = React.ComponentType<TxTriggerProps>;
-
-export interface TxTriggerProps {
-  onOpen: VoidFn;
-}
-
-export interface TxButtonInterface {
-  component?: {
-    current?: {
-      send: VoidFn;
-    };
-  };
-}
 
 export interface TxProps {
   extrinsic?: IExtrinsic | SubmittableExtrinsic | null;
@@ -66,8 +34,16 @@ export interface TxProps {
   params?: any[] | ConstructTxFn;
 }
 
+export interface TxAccountProps {
+  className?: string;
+  filter?: string[];
+  label?: React.ReactNode;
+  help?: React.ReactNode;
+  onChange: (value: string | null) => void;
+}
+
 export interface TxButtonProps extends TxProps {
-  accountId?: StringOrNull;
+  accountId?: AccountId | StringOrNull;
   accountNonce?: Index;
   className?: string;
   icon?: string;
@@ -84,58 +60,9 @@ export interface TxButtonProps extends TxProps {
   onStart?: VoidFn;
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
+  size?: string;
   tooltip?: string;
   withSpinner?: boolean;
-}
-
-export interface TxButtonNewProps extends TxProps {
-  accountId?: StringOrNull;
-  accountNonce?: Index;
-  className?: string;
-  icon: string;
-  iconSize?: Button$Sizes;
-  isBasic?: boolean;
-  isDisabled?: boolean;
-  isNegative?: boolean;
-  isPrimary?: boolean;
-  isUnsigned?: boolean;
-  label: React.ReactNode;
-  onClick?: () => any;
-  onFailed?: TxFailedCallback;
-  onStart?: VoidFn;
-  onSuccess?: TxCallback;
-  onUpdate?: TxCallback;
-  tooltip?: string;
-  withSpinner?: boolean;
-}
-
-export interface TxModalProps extends I18nProps, TxState {
-  accountId?: StringOrNull;
-  header?: React.ReactNode;
-  isDisabled?: boolean;
-  isOpen?: boolean;
-  isUnsigned?: boolean;
-  children: React.ReactNode;
-  preContent?: React.ReactNode;
-  trigger?: TxTrigger;
-  onSubmit?: VoidFn;
-  onOpen?: VoidFn;
-  onClose?: VoidFn;
-  onSuccess?: VoidFn;
-  onFailed?: VoidFn;
-  modalProps?: {
-    [index: string]: any;
-  };
-  contentClassName?: string;
-  inputAddressHelp?: React.ReactNode;
-  inputAddressExtra?: React.ReactNode;
-  inputAddressLabel?: React.ReactNode;
-  inputAddressProps?: Pick<InputAddressProps, never>;
-  cancelButtonLabel?: React.ReactNode;
-  cancelButtonProps?: Pick<ButtonProps, never>;
-  submitButtonIcon?: string;
-  submitButtonLabel?: React.ReactNode;
-  submitButtonProps?: Pick<TxButtonProps, never>;
 }
 
 export type BitLength = 8 | 16 | 32 | 64 | 128 | 256;

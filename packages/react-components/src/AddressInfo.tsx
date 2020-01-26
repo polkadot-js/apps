@@ -324,7 +324,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
                 accountId={controllerId}
                 className='icon-button'
                 icon='lock'
-                size='small'
+                iconSize='small'
                 isPrimary
                 key='unlock'
                 params={[]}

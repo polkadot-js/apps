@@ -80,7 +80,6 @@ class BondExtra extends TxComponent<Props, State> {
             icon='sign-in'
             onStart={onClose}
             extrinsic={extrinsic}
-            ref={this.button}
             withSpinner
           />
         </Modal.Actions>

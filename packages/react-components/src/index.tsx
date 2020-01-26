@@ -85,6 +85,7 @@ export { default as TxAccount } from './TxAccount';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';
+export { default as VoteAccount } from './VoteAccount';
 export { default as VoteToggle } from './VoteToggle';
 
 export { default as media } from './media';

@@ -287,7 +287,7 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
         <Icon name='arrow right' />
         {t('Fees of {{fees}} will be applied to the submission', {
           replace: {
-            fees: formatBalance(dispatchInfo.partialFee, { withSiFull: true })
+            fees: formatBalance(dispatchInfo.partialFee, { withSi: true })
           }
         })}
       </div>

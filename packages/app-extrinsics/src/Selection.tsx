@@ -36,7 +36,7 @@ class Selection extends TxComponent<Props, State> {
   public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
     const { isValid, isValidUnsigned, accountId } = this.state;
-    const extrinsic = this.getExtrinsic() || apiDefaultTxSudo;
+    const extrinsic = this.getExtrinsic() || apiDefaultTxSudo();
 
     return (
       <div className='extrinsics--Selection'>
@@ -70,7 +70,6 @@ class Selection extends TxComponent<Props, State> {
             label={t('Submit Transaction')}
             icon='sign-in'
             extrinsic={extrinsic}
-            ref={this.button}
             withSpinner
           />
         </Button.Group>

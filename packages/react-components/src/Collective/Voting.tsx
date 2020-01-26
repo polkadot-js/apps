@@ -10,7 +10,7 @@ import React, { useRef, useState } from 'react';
 import { useAccountId, useAccounts, useModal } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
-import { Button, ProposedAction, Modal, TxAccount, TxButton, VoteToggle } from '@polkadot/react-components';
+import { Button, ProposedAction, Modal, TxButton, VoteAccount, VoteToggle } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -60,9 +60,8 @@ export default function Voting ({ collective, hash, header, idNumber, isDisabled
             isCollapsible
             proposal={proposal}
           />
-          <TxAccount
+          <VoteAccount
             filter={members}
-            label={t('vote with account')}
             onChange={onChangeAccountId}
           />
           <VoteToggle

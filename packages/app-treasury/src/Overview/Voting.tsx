@@ -6,7 +6,7 @@ import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex, Hash } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, Input, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
+import { Button, Dropdown, Input, Modal, TxButton, VoteAccount, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
@@ -87,13 +87,16 @@ export default function Voting ({ councilProposals, isDisabled }: Props): React.
               value={voteValue}
             />
           </Modal.Content>
-          <VoteActions
-            accountId={accountId}
-            isDisabled={!councilHash}
-            onClick={toggleOpen}
-            params={[councilHash, councilId, voteValue]}
-            tx='council.vote'
-          />
+          <Modal.Actions onCancel={toggleOpen}>
+            <TxButton
+              accountId={accountId}
+              isDisabled={!councilHash}
+              label={t('Vote')}
+              onClick={toggleOpen}
+              params={[councilHash, councilId, voteValue]}
+              tx='council.vote'
+            />
+          </Modal.Actions>
         </Modal>
       )}
       <Button

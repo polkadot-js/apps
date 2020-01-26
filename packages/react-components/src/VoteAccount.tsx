@@ -2,29 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TxAccountProps as Props } from './types';
+
 import React from 'react';
 
-import InputAddress from './InputAddress';
+import TxAccount from './TxAccount';
 import { useTranslation } from './translate';
 
-interface Props {
-  className?: string;
-  filter?: string[];
-  onChange: (value: string | null) => void;
-}
-
-export default function VoteAccount ({ className, filter, onChange }: Props): React.ReactElement<Props> {
+export default function VoteAccount (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <InputAddress
-      className={className}
-      filter={filter}
+    <TxAccount
       help={t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
       label={t('vote with account')}
-      onChange={onChange}
-      type='account'
-      withLabel
+      {...props}
     />
   );
 }

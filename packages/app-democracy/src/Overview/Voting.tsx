@@ -5,7 +5,7 @@
 import { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
 import React, { useMemo, useState } from 'react';
-import { Button, Dropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
+import { Button, Dropdown, Modal, ProposedAction, TxButton, VoteAccount, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
@@ -71,12 +71,15 @@ export default function Voting ({ proposal, referendumId }: Props): React.ReactE
               value={conviction}
             />
           </Modal.Content>
-          <VoteActions
-            accountId={accountId}
-            onClick={toggleVoting}
-            params={[referendumId, { aye, conviction }]}
-            tx='democracy.vote'
-          />
+          <Modal.Actions onCancel={toggleVoting}>
+            <TxButton
+              accountId={accountId}
+              label={t('Vote')}
+              onClick={toggleVoting}
+              params={[referendumId, { aye, conviction }]}
+              tx='democracy.vote'
+            />
+          </Modal.Actions>
         </Modal>
       )}
       <Button

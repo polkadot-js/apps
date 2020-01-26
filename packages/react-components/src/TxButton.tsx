@@ -61,7 +61,7 @@ export default function TxButton (props: Props): React.ReactElement<Props> {
     }
 
     queueExtrinsic({
-      accountId,
+      accountId: accountId && accountId.toString(),
       extrinsic,
       isUnsigned,
       txFailedCb: withSpinner ? _onFailed : onFailed,

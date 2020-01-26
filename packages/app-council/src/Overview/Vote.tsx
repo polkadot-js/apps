@@ -10,7 +10,7 @@ import { ComponentProps as Props } from './types';
 import BN from 'bn.js';
 import React, { useRef, useState } from 'react';
 import { useAccountId, useApi, useModal } from '@polkadot/react-hooks';
-import { AddressMulti, Button, Modal, TxAccount, TxButton } from '@polkadot/react-components';
+import { InputAddressMulti, Button, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
 import VoteValue from './VoteValue';
 
 import { useTranslation } from '../translate';
@@ -56,10 +56,8 @@ export default function Vote ({ electionsInfo: { candidates, members, runnersUp 
         small
       >
         <Modal.Content>
-          <TxAccount
+          <VoteAccount
             filter={members.map(([accountId]): string => accountId.toString())}
-            help={t('Select the account with which to cast your vote.')}
-            label={t('vote with account')}
             onChange={onChangeAccountId}
           />
           <VoteValue
@@ -68,7 +66,7 @@ export default function Vote ({ electionsInfo: { candidates, members, runnersUp 
             onEnter={onSendRef.current}
             onEscape={onClose}
           />
-          <AddressMulti
+          <InputAddressMulti
             available={available}
             help={t('Filter available candidates based on name, address or short account index.')}
             label={t('filter candidates')}

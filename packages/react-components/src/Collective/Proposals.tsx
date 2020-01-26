@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
-// import { AccountId, Balance } from '@polkadot/types/interfaces';
 import { CollectiveProps } from './types';
 
 import React from 'react';
@@ -12,7 +11,6 @@ import { Button, Table } from '@polkadot/react-components';
 import Propose from './Propose';
 import Proposal from './Proposal';
 import Slashing from './Slashing';
-import useMembers from './useMembers';
 
 interface Props extends CollectiveProps {
   header: React.ReactNode;

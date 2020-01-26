@@ -52,7 +52,6 @@ class Propose extends TxComponent<Props, State> {
               tx='sudo.sudo'
               isDisabled={!method || !isValid}
               params={method ? [createType(registry, 'Proposal', method)] : []}
-              ref={this.button}
               withSpinner
             />
           </Button.Group>
