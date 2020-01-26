@@ -203,8 +203,6 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward]);
 
-  const sortIcon = `chevron ${sortFromMax ? 'down' : 'up'}` as 'chevron up';
-
   return (
     <div className={className}>
       <Summary
@@ -232,7 +230,7 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
                     className={`isClickable ${sortBy === header && 'isSelected'}`}
                     key={header}
                     onClick={(): void => _sort(header as 'rankComm')}
-                  >{sortBy === header ? <Icon name={sortIcon} /> : ''}</th>
+                  ><Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></th>
                 ))}
                 <th>&nbsp;</th>
               </Table.Head>

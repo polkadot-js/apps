@@ -10,14 +10,14 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.0.0-beta.18",
-    "@polkadot/api-contract": "^1.0.0-beta.18",
-    "@polkadot/keyring": "^2.0.0-beta.5",
-    "@polkadot/types": "^1.0.0-beta.18",
-    "@polkadot/util": "^2.0.0-beta.5",
-    "@polkadot/util-crypto": "^2.0.0-beta.5",
+    "@polkadot/api": "^1.0.0-beta.19",
+    "@polkadot/api-contract": "^1.0.0-beta.19",
+    "@polkadot/keyring": "^2.0.0-beta.6",
+    "@polkadot/types": "^1.0.0-beta.19",
+    "@polkadot/util": "^2.0.0-beta.6",
+    "@polkadot/util-crypto": "^2.0.0-beta.6",
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
@@ -34,12 +34,12 @@
     "start": "cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.7",
+    "@babel/core": "^7.8.3",
     "@babel/register": "^7.7.7",
-    "@babel/runtime": "^7.7.7",
-    "@polkadot/dev-react": "^0.32.14",
-    "@polkadot/ts": "^0.1.90",
-    "autoprefixer": "^9.7.1",
+    "@babel/runtime": "^7.8.3",
+    "@polkadot/dev-react": "^0.32.17",
+    "@polkadot/ts": "^0.1.91",
+    "autoprefixer": "^9.7.4",
     "empty": "^0.10.1",
     "html-loader": "^0.5.5",
     "i18next-scanner": "^2.10.3",
@@ -53,6 +53,6 @@
     "postcss-sass": "^0.4.1",
     "postcss-simple-vars": "^5.0.0",
     "precss": "^4.0.0",
-    "source-map-explorer": "^2.1.0"
+    "source-map-explorer": "^2.2.2"
   }
 }
