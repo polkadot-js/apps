@@ -60,6 +60,7 @@ class Selection extends TxComponent<Props, State> {
             label={t('Submit Unsigned')}
             icon='sign-in'
             extrinsic={extrinsic}
+            withSpinner
           />
           <Button.Or />
           <TxButton
@@ -70,6 +71,7 @@ class Selection extends TxComponent<Props, State> {
             icon='sign-in'
             extrinsic={extrinsic}
             ref={this.button}
+            withSpinner
           />
         </Button.Group>
       </div>

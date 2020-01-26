@@ -7,7 +7,7 @@ import { AccountId, Proposal } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -22,14 +22,13 @@ export default function Seconding ({ depositors, proposal, proposalId }: Props):
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [isSecondingOpen, setIsSecondingOpen] = useState(false);
+  const [isSecondingOpen, toggleSeconding] = useToggle();
 
   if (!hasAccounts) {
     return null;
   }
 
   const isDepositor = depositors.some((depositor): boolean => depositor.eq(accountId));
-  const _toggleSeconding = (): void => setIsSecondingOpen(!isSecondingOpen);
 
   return (
     <>
@@ -51,14 +50,14 @@ export default function Seconding ({ depositors, proposal, proposalId }: Props):
               withLabel
             />
           </Modal.Content>
-          <Modal.Actions onCancel={_toggleSeconding}>
+          <Modal.Actions onCancel={toggleSeconding}>
             <TxButton
               accountId={accountId}
               isDisabled={!accountId || isDepositor}
               isPrimary
               label={t('Second')}
               icon='sign-in'
-              onStart={_toggleSeconding}
+              onStart={toggleSeconding}
               params={[proposalId]}
               tx='democracy.second'
             />
@@ -69,7 +68,7 @@ export default function Seconding ({ depositors, proposal, proposalId }: Props):
         isPrimary
         label={t('Second')}
         icon='toggle off'
-        onClick={_toggleSeconding}
+        onClick={toggleSeconding}
       />
     </>
   );

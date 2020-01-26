@@ -91,10 +91,11 @@ class Validate extends TxComponent<Props, State> {
           isPrimary
           label={t('Validate')}
           icon='check circle outline'
-          onClick={onClose}
+          onStart={onClose}
           params={[{ commission }]}
           tx='staking.validate'
           ref={this.button}
+          withSpinner
         />
       </Modal.Actions>
     );

@@ -5,18 +5,19 @@
 import { Props } from '../types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { GenericVote } from '@polkadot/types';
 import { Dropdown } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Bare from './Bare';
 
-const options = [
-  { text: 'Nay', value: 0 },
-  { text: 'Aye', value: -1 }
-];
+interface Option {
+  text: string;
+  value: number;
+}
 
-function onChange ({ onChange }: Props): (_: number) => void {
+function doChange (onChange?: (value: any) => void): (_: number) => void {
   return function (value: number): void {
     onChange && onChange({
       isValid: true,
@@ -25,13 +26,33 @@ function onChange ({ onChange }: Props): (_: number) => void {
   };
 }
 
-export default function Vote (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
+export default function Vote ({ className, defaultValue: { value }, isDisabled, isError, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const optAye = useMemo((): Option[] => {
+    return [
+      { text: t('Nay'), value: 0 },
+      { text: t('Aye'), value: -1 }
+    ];
+  }, [t]);
+  const optConv = useMemo((): Option[] => {
+    return [
+      { text: t('None'), value: 0 },
+      { text: t('Locked1x'), value: 1 },
+      { text: t('Locked2x'), value: 2 },
+      { text: t('Locked3x'), value: 3 },
+      { text: t('Locked4x'), value: 4 },
+      { text: t('Locked5x'), value: 5 },
+      { text: t('Locked6x'), value: 6 }
+    ];
+  }, [t]);
   const defaultValue = value instanceof BN
     ? value.toNumber()
     : value instanceof GenericVote
       ? (value.isAye ? -1 : 0)
       : value as number;
+  const defaultConv = value instanceof GenericVote
+    ? value.conviction.index
+    : 0;
 
   return (
     <Bare
@@ -43,11 +64,22 @@ export default function Vote (props: Props): React.ReactElement<Props> {
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
-        label={label}
-        options={options}
-        onChange={onChange(props)}
+        label={t('aye: bool')}
+        options={optAye}
+        onChange={doChange(onChange)}
         withLabel={withLabel}
       />
+      {isDisabled && (
+        <Dropdown
+          className='full'
+          defaultValue={defaultConv}
+          isDisabled={isDisabled}
+          isError={isError}
+          label={t('conviction: Conviction')}
+          options={optConv}
+          withLabel={withLabel}
+        />
+      )}
     </Bare>
   );
 }

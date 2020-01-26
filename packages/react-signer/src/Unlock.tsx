@@ -5,6 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
@@ -12,6 +13,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   autoFocus?: boolean;
+  className?: string;
   error?: string;
   onChange: (password: string) => void;
   onEnter?: () => void;
@@ -28,7 +30,7 @@ function getPair (address?: string | null): KeyringPair | null {
   }
 }
 
-export default function Unlock ({ autoFocus, error, onChange, onEnter, password, tabIndex, value }: Props): React.ReactElement<Props> | null {
+function Unlock ({ autoFocus, className, error, onChange, onEnter, password, tabIndex, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [pair] = useState<KeyringPair | null>(getPair(value));
 
@@ -37,11 +39,13 @@ export default function Unlock ({ autoFocus, error, onChange, onEnter, password,
   }
 
   return (
-    <div className='ui--signer-Signer-Unlock'>
+    <div className={`ui--signer-Signer-Unlock ${className}`}>
       <Password
         autoFocus={autoFocus}
         isError={!!error}
+        isFull
         label={t('unlock account with password')}
+        labelExtra={error && <div className='errorLabel'>{t('wrong password supplied')}</div>}
         onChange={onChange}
         onEnter={onEnter}
         tabIndex={tabIndex}
@@ -50,3 +54,10 @@ export default function Unlock ({ autoFocus, error, onChange, onEnter, password,
     </div>
   );
 }
+
+export default styled(Unlock)`
+  .errorLabel {
+    margin-right: 2rem;
+    color: #9f3a38 !important;
+  }
+`;

@@ -46,7 +46,7 @@ export default function Validator ({ info: { accountId, bondOther, bondOwn, bond
       <td className='number together'><FormatBalance label={<label>{t('total stake')}</label>} value={bondTotal} /></td>
       <td className='number together'><FormatBalance label={<label>{t('own stake')}</label>} value={bondOwn} /></td>
       <td className='number together'><FormatBalance label={<label>{t('other stake')}</label>} value={bondOther} >&nbsp;({formatNumber(numNominators)})</FormatBalance></td>
-      <td className='number together'><FormatBalance label={<label>{t('payout (est.)')}</label>} value={rewardPayout} /></td>
+      <td className='number together'><FormatBalance label={<label>{t('profit/era est.')}</label>} value={rewardPayout} /></td>
       <td>
         <Icon
           className='staking--stats'
