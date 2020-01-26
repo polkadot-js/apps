@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Hash } from '@polkadot/types/interfaces';
+import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { Tabs } from '@polkadot/react-components';
+import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
+import { Proposals, Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
-import Proposals from './Proposals';
 import { useTranslation } from './translate';
 
 export { default as useCounter } from './useCounter';
@@ -21,8 +20,8 @@ interface Props extends AppProps, BareProps {}
 export default function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
-  const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals, []);
+  const { members, isMember } = useMembers('technicalCommittee');
+  const proposals = useCall<DerivedCollectiveProposals>(api.derive.technicalCommittee.proposals);
 
   return (
     <main className={className}>
@@ -45,8 +44,14 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
       <Switch>
         <Route path={`${basePath}/proposals`}>
           <Proposals
+            collective='technicalCommittee'
+            header={t('technical committee proposals')}
+            isMember={isMember}
             members={members}
+            placeholder={t('no proposals')}
             proposals={proposals}
+            proposePrompt={t('Submit a new technical committee proposal')}
+            thresholdHelp={(t('The minimum number of committee votes required to approve this proposal.'))}
           />
         </Route>
         <Route path={basePath}>

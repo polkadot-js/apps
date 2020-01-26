@@ -56,14 +56,14 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
 
   return (
     <div className={className}>
-      {pathname === '/council' && (
+      <Summary
+        bestNumber={bestNumber}
+        electionsInfo={electionsInfo}
+      />
+      {pathname !== '/council' && (
         <>
-          <Summary
-            bestNumber={bestNumber}
-            electionsInfo={electionsInfo}
-          />
           <Button.Group>
-            <SubmitCandidacy electionsInfo={electionsInfo} />
+            <SubmitCandidacy />
             <Button.Or />
             <Vote electionsInfo={electionsInfo} />
           </Button.Group>

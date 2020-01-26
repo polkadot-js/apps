@@ -1,36 +1,30 @@
-// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { CollectiveProps } from './types';
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
-
-import { useTranslation } from '../translate';
 import Voting from './Voting';
 
-interface Props {
-  className?: string;
-  hash: string;
+import { useTranslation } from '../translate';
+
+interface Props extends CollectiveProps {
+  proposal: DerivedCollectiveProposal;
 }
 
-export default function Proposal ({ className, hash }: Props): React.ReactElement<Props> | null {
+export default function Proposal ({ className, collective, members, proposal: { hash, proposal, votes } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
-  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
 
-  if (!optProposal?.isSome || !votes?.isSome) {
+  if (!votes) {
     return null;
   }
 
-  const proposal = optProposal.unwrap();
-  const { ayes, index, nays, threshold } = votes.unwrap();
+  const { ayes, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>
@@ -58,7 +52,7 @@ export default function Proposal ({ className, hash }: Props): React.ReactElemen
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
-            label={t('Nay')}
+            label={index === 0 ? t('Nay') : undefined}
             value={address}
             withBalance={false}
           />
@@ -66,8 +60,12 @@ export default function Proposal ({ className, hash }: Props): React.ReactElemen
       </td>
       <td className='number top together'>
         <Voting
+          collective={collective}
+          header={collective === 'council' ? t('Vote for council motion') : t('Vote on technical committee proposal')}
           hash={hash}
-          proposalId={index}
+          idNumber={index}
+          members={members}
+          proposal={proposal}
         />
       </td>
     </tr>

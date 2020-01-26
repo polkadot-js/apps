@@ -16,6 +16,8 @@ import { useTranslation } from '../translate';
 interface Props {
   accountId?: string | null;
   onChange: (value: BN) => void;
+  onEnter?: () => void;
+  onEscape?: () => void;
 }
 
 interface ValueState {
@@ -23,7 +25,7 @@ interface ValueState {
   value?: BN | string;
 }
 
-export default function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> | null {
+export default function VoteValue ({ accountId, onChange, onEnter, onEscape }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
@@ -65,6 +67,8 @@ export default function VoteValue ({ accountId, onChange }: Props): React.ReactE
       labelExtra={<BalanceVoting label={<label>{t('voting balance')}</label>} params={accountId} />}
       maxValue={allBalances?.votingBalance}
       onChange={_setValue}
+      onEnter={onEnter}
+      onEscape={onEscape}
       value={value}
     />
   );

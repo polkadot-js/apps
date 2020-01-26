@@ -9,12 +9,11 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Tabs } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { Proposals, Tabs } from '@polkadot/react-components';
+import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
 
 import useCounter from './useCounter';
 import Overview from './Overview';
-import Motions from './Motions';
 import { useTranslation } from './translate';
 
 export { useCounter };
@@ -25,8 +24,9 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { t } = useTranslation();
   const { api } = useApi();
   const { pathname } = useLocation();
+  const { isMember, members } = useMembers('council');
   const numMotions = useCounter();
-  const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals, []);
+  const proposals = useCall<DerivedCollectiveProposals>(api.derive.council.proposals);
 
   return (
     <main className={className}>
@@ -52,7 +52,16 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
       </header>
       <Switch>
         <Route path={`${basePath}/motions`}>
-          <Motions motions={motions} />
+          <Proposals
+            collective='council'
+            header={t('council motions')}
+            isMember={isMember}
+            members={members}
+            placeholder={t('no council motions')}
+            proposals={proposals}
+            proposePrompt={t('Submit a new council motion')}
+            thresholdHelp={(t('The minimum number of council votes required to approve this motion.'))}
+          />
         </Route>
       </Switch>
       <Overview className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'} />

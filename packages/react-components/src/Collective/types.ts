@@ -4,8 +4,10 @@
 
 import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
 
-export interface ComponentProps {
+export interface CollectiveProps {
   className?: string;
-  proposals?: DerivedCollectiveProposals;
+  collective: 'council' | 'technicalCommittee';
+  isMember?: boolean;
   members?: string[];
+  proposals?: DerivedCollectiveProposals;
 }
