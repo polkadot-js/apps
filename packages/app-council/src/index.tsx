@@ -14,6 +14,7 @@ import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
 
 import useCounter from './useCounter';
 import Overview from './Overview';
+import Slashing from './Slashing';
 import { useTranslation } from './translate';
 
 export { useCounter };
@@ -53,6 +54,13 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
       <Switch>
         <Route path={`${basePath}/motions`}>
           <Proposals
+            buttons={[
+              <Slashing
+                key='slashing'
+                isMember={isMember}
+                members={members}
+              />
+            ]}
             collective='council'
             header={t('council motions')}
             isMember={isMember}

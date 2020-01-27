@@ -10,18 +10,16 @@ import { Button, Table } from '@polkadot/react-components';
 
 import Propose from './Propose';
 import Proposal from './Proposal';
-import Slashing from './Slashing';
 
 interface Props extends CollectiveProps {
+  buttons?: React.ReactNode[];
   header: React.ReactNode;
   placeholder: React.ReactNode;
   proposePrompt: React.ReactNode;
   thresholdHelp: React.ReactNode;
 }
 
-export default function Proposals ({ className, collective, header, isMember, members, placeholder, proposals, proposePrompt, thresholdHelp }: Props): React.ReactElement<Props> {
-  const isCouncil = collective === 'council';
-
+export default function Proposals ({ buttons, className, collective, header, isMember, members, placeholder, proposals, proposePrompt, thresholdHelp }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Button.Group>
@@ -32,14 +30,10 @@ export default function Proposals ({ className, collective, header, isMember, me
           prompt={proposePrompt}
           thresholdHelp={thresholdHelp}
         />
-        {isCouncil && (
+        {buttons && (
           <>
             <Button.Or />
-            <Slashing
-              collective={collective}
-              isMember={isMember}
-              members={members}
-            />
+            {...buttons}
           </>
         )}
       </Button.Group>

@@ -3,18 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CallFunction } from '@polkadot/types/types';
-import { CollectiveProps as Props } from './types';
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Dropdown, Input, Modal, TxAccount, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useModal } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from './translate';
 import useAvailableSlashes from './useAvailableSlashes';
 
 interface Option {
   text: string;
   value: number;
+}
+
+interface Props {
+  className?: string;
+  isMember?: boolean;
+  members?: string[];
 }
 
 export default function Slashing ({ className, isMember, members = [] }: Props): React.ReactElement<Props> {
