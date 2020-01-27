@@ -85,17 +85,6 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
       this.setState({ isSending: true });
     }
 
-    console.log({
-      accountId,
-      extrinsic,
-      isUnsigned,
-      isSign,
-      txFailedCb: withSpinner ? this.onFailed : onFailed,
-      txStartCb: onStart,
-      txSuccessCb: withSpinner ? this.onSuccess : onSuccess,
-      txUpdateCb: onUpdate
-    });
-
     queueExtrinsic({
       accountId,
       extrinsic,
