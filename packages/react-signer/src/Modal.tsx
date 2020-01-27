@@ -706,8 +706,6 @@ class Signer extends React.PureComponent<Props, State> {
     let blockNumber = 0;
     let options: SubmittableSignerOptions;
 
-    console.log({ blocks, nonce, blocksNum, nonceNum });
-
     if (blocksNum === 0) {
       options = {
         era: 0 as any,
@@ -728,8 +726,6 @@ class Signer extends React.PureComponent<Props, State> {
       };
       blockNumber = signedBlock.block.header.number.toNumber();
     }
-
-    console.log({ blockNumber, params, options });
 
     if (isFunction(txStartCb)) {
       txStartCb();
