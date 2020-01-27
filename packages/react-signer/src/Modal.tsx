@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignerOptions, SignerResult, Signer as ApiSigner } from '@polkadot/api/types';
+import { SignerOptions as SubmittableSignerOptions } from '@polkadot/api/submittable/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps, BareProps } from '@polkadot/react-components/types';
@@ -110,22 +111,24 @@ async function makeExtrinsicSignature (
   }
 }
 
+const initialState: State = {
+  accountNonce: undefined,
+  blocks: '50',
+  isQrScanning: false,
+  isQrVisible: false,
+  isRenderError: false,
+  isSendable: false,
+  nonce: undefined,
+  password: '',
+  qrAddress: '',
+  qrPayload: new Uint8Array(),
+  showTip: false,
+  signedTx: '',
+  unlockError: null
+};
+
 class Signer extends React.PureComponent<Props, State> {
-  public state: State = {
-    accountNonce: undefined,
-    blocks: '50',
-    isQrScanning: false,
-    isQrVisible: false,
-    isRenderError: false,
-    isSendable: false,
-    nonce: undefined,
-    password: '',
-    qrAddress: '',
-    qrPayload: new Uint8Array(),
-    showTip: false,
-    signedTx: '',
-    unlockError: null
-  };
+  public state: State = initialState;
 
   public static getDerivedStateFromProps (
     { allAccounts, api, queue }: Props,
@@ -206,7 +209,7 @@ class Signer extends React.PureComponent<Props, State> {
     const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
 
     return (
-      <Modal.Actions cancelLabel={signedTx ? 'Close' : undefined} withOr={!signedTx} onCancel={isQrVisible ? this.onCancelQr : this.onCancel}>
+      <Modal.Actions cancelLabel={signedTx ? 'Close' : undefined} withOr={!signedTx} onCancel={isQrVisible ? this.onCancelQr : signedTx ? this.onCancelSign : this.onCancel}>
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
             <Button.Or />
@@ -258,7 +261,7 @@ class Signer extends React.PureComponent<Props, State> {
           <>
             {this.renderTip()}
             {this.renderUnlock()}
-            {currentItem.isSign && this.renderSignParams()}
+            {currentItem.isSign && this.renderSignFields()}
           </>
         )}
       </Transaction>
@@ -298,7 +301,7 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderSignParams (): React.ReactNode {
+  private renderSignFields (): React.ReactNode {
     const { currentItem, accountNonce, signedTx } = this.state;
 
     if (!currentItem?.isSign || accountNonce == null) {
@@ -413,6 +416,19 @@ class Signer extends React.PureComponent<Props, State> {
       }
     );
   };
+
+  private onCancelSign = (): void => {
+    const { queueSetTxStatus } = this.props;
+    const { currentItem } = this.state;
+    const { id, txSuccessCb } = currentItem as QueueTx;
+    queueSetTxStatus(id, 'completed');
+
+    if (isFunction(txSuccessCb)) {
+      txSuccessCb({} as any);
+    }
+
+    this.setState(initialState);
+  }
 
   private onCancel = (): void => {
     const { queueSetTxStatus } = this.props;
@@ -668,7 +684,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private async makeSignedTransaction (
     extrinsic: SubmittableExtrinsic,
-    { id, txFailedCb, txSuccessCb, txStartCb }: QueueTx,
+    { id, txFailedCb, txStartCb }: QueueTx,
     pair: KeyringPair
   ): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
@@ -676,42 +692,47 @@ class Signer extends React.PureComponent<Props, State> {
 
     console.log('makeSignedTransaction: extrinsic ::', extrinsic.toHex());
 
-    const params = [];
+    const params: any[] = [];
 
     const {
       address,
       meta: { isExternal, isHardware, isInjected, source }
     } = pair;
 
+    const blocksNum = +blocks;
+    const nonceNum = +(nonce || 0);
     let signer: ApiSigner | undefined;
     let blockNumber = 0;
+    let options: SubmittableSignerOptions;
 
-    if (+blocks === 0) {
-      params.push({
-        era: 0,
+    console.log({ blocks, nonce, blocksNum, nonceNum });
+
+    if (blocksNum === 0) {
+      options = {
+        era: 0 as any,
         blockHash: api.genesisHash,
-        nonce
-      });
+        nonce: nonceNum
+      };
       blockNumber = 0;
     } else {
       // Get current block if we want to modify the number of blocks we have to sign
       const signedBlock = await api.rpc.chain.getBlock();
-      params.push({
+      options = {
         blockHash: signedBlock.block.header.hash,
         era: api.createType('ExtrinsicEra', {
           current: signedBlock.block.header.number,
-          period: blocks
+          period: blocksNum
         }),
-        nonce
-      });
+        nonce: nonceNum
+      };
       blockNumber = signedBlock.block.header.number.toNumber();
     }
+
+    console.log({ blockNumber, params, options });
 
     if (isFunction(txStartCb)) {
       txStartCb();
     }
-
-    // queueSetTxStatus(id, 'signing');
 
     // set the signer
     if (isHardware) {
@@ -739,6 +760,7 @@ class Signer extends React.PureComponent<Props, State> {
       runtimeVersion: api.runtimeVersion,
       genesisHash: api.genesisHash,
       ...params,
+      ...options,
       address,
       method: extrinsic.method,
       blockNumber
@@ -751,28 +773,23 @@ class Signer extends React.PureComponent<Props, State> {
     if (signer && signer.signPayload) {
       try {
         const signature = await signer.signPayload(payloadJSON);
-
         extrinsic.addSignature(address, signature.signature, payload.toPayload());
+        const signedTx = extrinsic.toJSON()?.toString();
 
-        console.log(extrinsic.toJSON());
-        this.setState({ signedTx: extrinsic.toJSON()?.toString() });
+        console.log('makeSignedTransaction: result ::', signedTx);
 
-        // queueSetTxStatus(id, 'completed');
-
-        // if (isFunction(txSuccessCb)) {
-        //   txSuccessCb({} as any);
-        // }
+        this.setState({ signedTx });
       } catch (e) {
-        // queueSetTxStatus(id, 'error', undefined, e);
-        // if (isFunction(txFailedCb)) {
-        //   txFailedCb(e);
-        // }
+        queueSetTxStatus(id, 'error', undefined, e);
+        if (isFunction(txFailedCb)) {
+          txFailedCb(e);
+        }
       }
     } else {
-      // queueSetTxStatus(id, 'error');
-      // if (isFunction(txFailedCb)) {
-      //   txFailedCb({} as any);
-      // }
+      queueSetTxStatus(id, 'error');
+      if (isFunction(txFailedCb)) {
+        txFailedCb({} as any);
+      }
     }
   }
 }
