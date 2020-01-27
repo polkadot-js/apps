@@ -114,7 +114,7 @@ function Address ({ address, authorsMap, className, filter, filterName, hasQueri
 
         if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
           isVisible = true;
-        } else if (api.query.identity?.identityOf) {
+        } else if (api.query.identity && api.query.identity.identityOf) {
           if (identity?.display) {
             isVisible = identity.display.toLowerCase().includes(filterLower);
           }
