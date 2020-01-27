@@ -54,27 +54,25 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
     });
   };
   const _onChangeKey = (key: StorageEntryPromise): void => {
-    const { creator: { meta, section } } = key;
-    const asMap = meta.type.isMap && meta.type.asMap;
-    const isIterable = !!asMap && asMap.linked.isTrue;
+    const { creator: { meta: { type }, section } } = key;
 
     setKey({
-      defaultValues: section === 'session' && meta.type.isDoubleMap
+      defaultValues: section === 'session' && type.isDoubleMap
         ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
         : null,
-      isIterable,
+      isIterable: type.isMap && type.asMap.linked.isTrue,
       key,
-      params: meta.type.isDoubleMap
+      params: type.isDoubleMap
         ? [
-          { type: getTypeDef(meta.type.asDoubleMap.key1.toString()) },
-          { type: getTypeDef(meta.type.asDoubleMap.key2.toString()) }
+          { type: getTypeDef(type.asDoubleMap.key1.toString()) },
+          { type: getTypeDef(type.asDoubleMap.key2.toString()) }
         ]
-        : asMap
+        : type.isMap
           ? [{
             type: getTypeDef(
-              isIterable
-                ? `Option<${asMap.key.toString()}>`
-                : asMap.key.toString()
+              type.asMap.linked.isTrue
+                ? `Option<${type.asMap.key.toString()}>`
+                : type.asMap.key.toString()
             )
           }]
           : []
