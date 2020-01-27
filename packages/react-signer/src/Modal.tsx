@@ -24,7 +24,7 @@ import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, CopyButton, InputBalance, Modal, Toggle, Output, ErrorBoundary, InputNumber } from '@polkadot/react-components';
+import { Button, InputBalance, Modal, Toggle, Output, ErrorBoundary, InputNumber } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
