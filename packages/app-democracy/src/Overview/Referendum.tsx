@@ -9,11 +9,13 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { formatNumber } from '@polkadot/util';
+import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Voting from './Voting';
 
@@ -49,16 +51,21 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
   useEffect((): void => {
     if (votesFor) {
       const newState: State = votesFor.reduce((state, { balance, vote }): State => {
+        const isDefault = vote.conviction.index === 0;
+        const counted = balance
+          .muln(isDefault ? 1 : vote.conviction.index)
+          .divn(isDefault ? 10 : 1);
+
         if (vote.isAye) {
           state.voteCountAye++;
-          state.votedAye = state.votedAye.add(balance);
+          state.votedAye = state.votedAye.add(counted);
         } else {
           state.voteCountNay++;
-          state.votedNay = state.votedNay.add(balance);
+          state.votedNay = state.votedNay.add(counted);
         }
 
         state.voteCount++;
-        state.votedTotal = state.votedTotal.add(balance);
+        state.votedTotal = state.votedTotal.add(counted);
 
         return state;
       }, {
@@ -109,10 +116,16 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
         <FormatBalance value={votedNay} />
       </td>
       <td className='number together top'>
-        <Voting
-          proposal={value.proposal}
-          referendumId={value.index}
-        />
+        <Button.Group>
+          <Voting
+            proposal={value.proposal}
+            referendumId={value.index}
+          />
+          <PreImageButton
+            hash={value.hash}
+            proposal={value.proposal}
+          />
+        </Button.Group>
       </td>
     </tr>
   );

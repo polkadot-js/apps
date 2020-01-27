@@ -120,9 +120,10 @@ class NewStake extends TxComponent<Props, State> {
             isPrimary
             label={t('Bond')}
             icon='sign-in'
-            onClick={onClose}
+            onStart={onClose}
             extrinsic={extrinsic}
             ref={this.button}
+            withSpinner
           />
         </Modal.Actions>
       </Modal>

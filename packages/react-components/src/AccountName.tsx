@@ -256,7 +256,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
               icon='check'
               isDisabled={registrarIndex === -1}
               label={t('Judge')}
-              onClick={toggleJudgement}
+              onStart={toggleJudgement}
               params={[registrarIndex, accountId, judgementEnum]}
               tx='identity.provideJudgement'
             />

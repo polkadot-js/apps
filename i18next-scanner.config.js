@@ -46,7 +46,7 @@ module.exports = {
     debug: true,
     func: {
       list: ['t', 'i18next.t', 'i18n.t'],
-      extensions: ['.tsx']
+      extensions: ['.tsx', '.ts']
     },
     trans: {
       component: 'Trans'

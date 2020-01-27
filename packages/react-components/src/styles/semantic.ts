@@ -76,6 +76,11 @@ export default css`
       }
     }
 
+    &.disabled.error input {
+      background-color: #fff6f6;
+      border-color: #e0b4b4;
+    }
+
     > input {
       width: 0;
     }

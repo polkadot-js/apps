@@ -78,9 +78,10 @@ class BondExtra extends TxComponent<Props, State> {
             isPrimary
             label={t('Bond more')}
             icon='sign-in'
-            onClick={onClose}
+            onStart={onClose}
             extrinsic={extrinsic}
             ref={this.button}
+            withSpinner
           />
         </Modal.Actions>
       </Modal>
@@ -90,7 +91,6 @@ class BondExtra extends TxComponent<Props, State> {
   private renderContent (): React.ReactNode {
     const { stashId, systemChain, t } = this.props;
     const { amountError, maxAdditional, maxBalance } = this.state;
-    const transferrable = <span className='label'>{t('transferrable')}</span>;
     const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
@@ -100,7 +100,7 @@ class BondExtra extends TxComponent<Props, State> {
           defaultValue={stashId}
           isDisabled
           label={t('stash account')}
-          labelExtra={<Available label={transferrable} params={stashId} />}
+          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={stashId} />}
         />
         <InputBalance
           autoFocus

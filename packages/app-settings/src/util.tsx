@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SettingsStruct } from '@polkadot/ui-settings/types';
-import { Option, SetOption } from './types';
+import { Option } from './types';
 
 import React from 'react';
 import { ChainImg, IdentityIcon } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
-export function createOption ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
+export function createOption (t: (input: any) => string, { info, text, value, withI18n }: Option, overrides: string[] = [], override = 'empty'): Option {
   return {
     text: (
       <div
@@ -24,14 +24,14 @@ export function createOption ({ info, text, value }: SetOption, overrides: strin
               : info
           }
         />
-        <div className='ui--Dropdown-name'>{text}</div>
+        <div className='ui--Dropdown-name'>{withI18n ? t(text) : text}</div>
       </div>
     ),
     value
   };
 }
 
-export function createIdenticon ({ info, text, value }: SetOption, overrides: string[] = [], override = 'empty'): Option {
+export function createIdenticon (t: (input: any) => string, { info, text, value, withI18n }: Option, overrides: string[] = [], override = 'empty'): Option {
   return {
     text: (
       <div
@@ -48,7 +48,7 @@ export function createIdenticon ({ info, text, value }: SetOption, overrides: st
           }
           value='5F9999K9UgTUgSsbXZQcEmRMvQqwJoBUHMv9e1k2MdgghuRA'
         />
-        <div className='ui--Dropdown-name'>{text}</div>
+        <div className='ui--Dropdown-name'>{withI18n ? t(text) : text}</div>
       </div>
     ),
     value
