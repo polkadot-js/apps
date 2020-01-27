@@ -302,6 +302,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderSignFields (): React.ReactNode {
+    const { t } = this.props;
     const { currentItem, accountNonce, signedTx } = this.state;
 
     if (!currentItem?.isSign || accountNonce == null) {
@@ -311,10 +312,10 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <>
         <br />
-        <InputNumber isZeroable={true} label="Nonce" labelExtra={`Current account nonce: ${accountNonce}`} defaultValue={accountNonce} onChange={this.onChangeNonce} />
-        <InputNumber isZeroable={true} label="Lifetime in blocks" labelExtra='Set to 0 to make transaction immortal' defaultValue="50" onChange={this.onChangeBlocks} />
+        <InputNumber isZeroable={true} label={t('Nonce')} labelExtra={t(`Current account nonce: ${accountNonce}`)} defaultValue={accountNonce} onChange={this.onChangeNonce} />
+        <InputNumber isZeroable={true} label={t('Lifetime in blocks')} labelExtra={t('Set to 0 to make transaction immortal')} defaultValue="50" onChange={this.onChangeBlocks} />
         {!!signedTx && <Output
-          label="Signed transaction"
+          label={t('Signed transaction')}
           value={signedTx}
           withCopy
         />}

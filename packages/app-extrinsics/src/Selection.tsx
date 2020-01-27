@@ -67,7 +67,7 @@ class Selection extends TxComponent<Props, State> {
             isBasic
             isDisabled={!isValid}
             isSign
-            label='Sign Transaction'
+            label={t('Sign Transaction')}
             icon='sign-in'
             extrinsic={extrinsic}
           />

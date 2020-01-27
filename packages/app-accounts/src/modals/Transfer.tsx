@@ -132,7 +132,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
           isBasic
           isDisabled={!hasAvailable}
           isSign
-          label='Sign Transaction'
+          label={t('Sign Transaction')}
           onStart={onClose}
           withSpinner={false}
         />
