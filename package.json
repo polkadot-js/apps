@@ -10,12 +10,12 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.0.0-beta.28",
-    "@polkadot/api-contract": "^1.0.0-beta.28",
-    "@polkadot/keyring": "^2.0.0-beta.6",
-    "@polkadot/types": "^1.0.0-beta.28",
-    "@polkadot/util": "^2.0.0-beta.6",
-    "@polkadot/util-crypto": "^2.0.0-beta.6",
+    "@polkadot/api": "^1.0.0-beta.33",
+    "@polkadot/api-contract": "^1.0.0-beta.33",
+    "@polkadot/keyring": "^2.0.0-beta.9",
+    "@polkadot/types": "^1.0.0-beta.33",
+    "@polkadot/util": "^2.0.0-beta.9",
+    "@polkadot/util-crypto": "^2.0.0-beta.9",
     "babel-core": "^7.0.0-bridge.0",
     "typescript": "^3.7.5"
   },
