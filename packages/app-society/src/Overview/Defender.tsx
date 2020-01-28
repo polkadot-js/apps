@@ -26,8 +26,7 @@ export default function Defender ({ className, info, isMember, ownMembers }: Pro
     transform: (members: DeriveSocietyMember[]): VoteType[] =>
       members
         .filter(({ vote }): boolean => !!vote)
-        // FIXME Derive typings should point to SocietyVote
-        .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as unknown as SocietyVote])
+        .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote])
   });
 
   if (!info || !info.hasDefender || !info.defender) {
