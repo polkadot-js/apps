@@ -39,7 +39,7 @@ function transformStakingControllers ([stashes, controllers]: [AccountId[], Opti
 
 function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isSubstrateV2 } = useApi();
+  const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [next, setNext] = useState<string[]>([]);
@@ -79,11 +79,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   useEffect((): void => {
     validators && setNext(
-      isSubstrateV2
-        // this is a V2 node currentValidators is a list of stashes
-        ? allStashes.filter((address): boolean => !validators.includes(address as any))
-        // this is a V1 node currentValidators is a list of controllers
-        : allControllers.filter((address): boolean => !validators.includes(address as any))
+      allStashes.filter((address): boolean => !validators.includes(address as any))
     );
   }, [allControllers, allStashes, validators]);
 
