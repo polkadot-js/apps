@@ -4,15 +4,17 @@
 
 import { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
 import { AccountId, SocietyVote } from '@polkadot/types/interfaces';
+import { VoteType } from '../types';
 
-import React, { useEffect, useState } from 'react';
-import { AddressMini, AddressSmall } from '@polkadot/react-components';
+import React from 'react';
+import { AddressSmall } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 import CandidateVoting from './CandidateVoting';
+import VoteDisplay from './VoteDisplay';
 
 interface Props {
   allMembers: string[];
@@ -21,18 +23,9 @@ interface Props {
   value: DeriveSocietyCandidate;
 }
 
-type VoteType = [string, SocietyVote];
-
-interface VoteSplit {
-  allAye: VoteType[];
-  allNay: VoteType[];
-  allSkeptic: VoteType[];
-}
-
 export default function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ allAye, allNay, allSkeptic }, setVoteSplit] = useState<VoteSplit>({ allAye: [], allNay: [], allSkeptic: [] });
   const votes = useCall<VoteType[]>(api.query.society.votes.multi as any, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])] as any, {
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
       voteOpts
@@ -40,16 +33,6 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
         .filter(([, voteOpt]): boolean => voteOpt.isSome)
         .map(([accountId, voteOpt]): VoteType => [accountId, voteOpt.unwrap()])
   });
-
-  useEffect((): void => {
-    if (votes) {
-      setVoteSplit({
-        allAye: votes.filter(([, vote]): boolean => vote.isApprove),
-        allNay: votes.filter(([, vote]): boolean => vote.isReject),
-        allSkeptic: votes.filter(([, vote]): boolean => vote.isSkeptic)
-      });
-    }
-  }, [votes]);
 
   return (
     <tr>
@@ -66,51 +49,7 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
           value={value}
         />
       </td>
-      <td className='top padtop'>
-        {allSkeptic.length !== 0 && (
-          <details>
-            <summary>
-              {t('Skeptics ({{count}})', { replace: { count: allSkeptic.length } })}
-            </summary>
-            {allSkeptic.map(([who]): React.ReactNode =>
-              <AddressMini
-                key={who.toString()}
-                value={who}
-              />
-            )}
-          </details>
-        )}
-      </td>
-      <td className='top padtop'>
-        {allAye.length !== 0 && (
-          <details>
-            <summary>
-              {t('Approvals ({{count}})', { replace: { count: allAye.length } })}
-            </summary>
-            {allAye.map(([who]): React.ReactNode =>
-              <AddressMini
-                key={who.toString()}
-                value={who}
-              />
-            )}
-          </details>
-        )}
-      </td>
-      <td className='top padtop'>
-        {allNay.length !== 0 && (
-          <details>
-            <summary>
-              {t('Rejections ({{count}})', { replace: { count: allNay.length } })}
-            </summary>
-            {allNay.map(([who]): React.ReactNode =>
-              <AddressMini
-                key={who.toString()}
-                value={who}
-              />
-            )}
-          </details>
-        )}
-      </td>
+      <VoteDisplay votes={votes} />
       <td className='number together top'>
         <CandidateVoting
           candidateId={accountId.toString()}

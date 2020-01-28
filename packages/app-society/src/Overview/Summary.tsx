@@ -15,6 +15,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  info?: DeriveSociety;
 }
 
 interface NameProps {
@@ -40,10 +41,9 @@ function Name ({ label, value }: NameProps): React.ReactElement<NameProps> | nul
   );
 }
 
-function Summary ({ className }: Props): React.ReactElement<Props> {
+function Summary ({ className, info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const info = useCall<DeriveSociety>(api.derive.society.info, []);
   const members = useCall<any[]>(api.derive.society.members, []);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 

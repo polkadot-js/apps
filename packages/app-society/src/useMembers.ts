@@ -3,15 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSocietyMember } from '@polkadot/api-derive/types';
+import { OwnMembers } from './types';
 
 import { useEffect, useState } from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-
-interface OwnMembers {
-  allMembers: string[];
-  isMember: boolean;
-  ownMembers: string[];
-}
 
 export default function useMembers (): OwnMembers {
   const { api } = useApi();
