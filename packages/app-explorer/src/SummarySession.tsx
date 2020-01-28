@@ -3,22 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedSessionInfo } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-
-import translate from './translate';
 import { formatNumber } from '@polkadot/util';
 
-interface Props extends I18nProps {
+import { useTranslation } from './translate';
+
+interface Props {
   sessionInfo?: DerivedSessionInfo;
   withEra?: boolean;
   withSession?: boolean;
 }
 
-function renderSession ({ sessionInfo, t, withSession = true }: Props): React.ReactNode {
+function renderSession ({ sessionInfo, withSession = true }: Props, t: (input: string) => string): React.ReactNode {
   if (!withSession || !sessionInfo) {
     return null;
   }
@@ -44,7 +43,7 @@ function renderSession ({ sessionInfo, t, withSession = true }: Props): React.Re
     );
 }
 
-function renderEra ({ sessionInfo, t, withEra = true }: Props): React.ReactNode {
+function renderEra ({ sessionInfo, withEra = true }: Props, t: (input: string) => string): React.ReactNode {
   if (!withEra || !sessionInfo) {
     return null;
   }
@@ -68,9 +67,10 @@ function renderEra ({ sessionInfo, t, withEra = true }: Props): React.ReactNode 
     );
 }
 
-function SummarySession (props: Props): React.ReactElement<Props> {
+export default function SummarySession (props: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DerivedSessionInfo>(api.derive.session.info, []);
+  const sessionInfo = useCall<DerivedSessionInfo>(api.derive.session?.info, []);
   const [expanded, setExpanded] = useState<Props>(props);
 
   useEffect((): void => {
@@ -79,10 +79,8 @@ function SummarySession (props: Props): React.ReactElement<Props> {
 
   return (
     <>
-      {renderSession(expanded)}
-      {renderEra(expanded)}
+      {renderSession(expanded, t)}
+      {renderEra(expanded, t)}
     </>
   );
 }
-
-export default translate(SummarySession);
