@@ -33,7 +33,7 @@ export default function Proposals ({ buttons, className, collective, header, isM
         {buttons && (
           <>
             <Button.Or />
-            {...buttons}
+            {buttons}
           </>
         )}
       </Button.Group>
