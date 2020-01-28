@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Balance } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -11,9 +10,9 @@ import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   lastReward: BN;
   totalStaked: BN;
 }
@@ -23,7 +22,8 @@ interface StakeInfo {
   staked: string | null;
 }
 
-function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Props> {
+export default function Summary ({ lastReward, totalStaked }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
   const [{ percentage, staked }, setStakeInfo] = useState<StakeInfo>({ percentage: '-', staked: null });
@@ -32,7 +32,7 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
   useEffect((): void => {
     if (totalInsurance) {
       setTotal(
-        `${formatBalance(totalInsurance, false)}${formatBalance.calcSi(totalInsurance.toString()).value}`
+        `${formatBalance(totalInsurance, { withSi: false })}${formatBalance.calcSi(totalInsurance.toString()).value}`
       );
     }
   }, [totalInsurance]);
@@ -41,7 +41,7 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
     if (totalInsurance && totalStaked?.gtn(0)) {
       setStakeInfo({
         percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`,
-        staked: `${formatBalance(totalStaked, false)}${formatBalance.calcSi(totalStaked.toString()).value}`
+        staked: `${formatBalance(totalStaked, { withSi: false })}${formatBalance.calcSi(totalStaked.toString()).value}`
       });
     }
   }, [totalInsurance, totalStaked]);
@@ -63,12 +63,10 @@ function Summary ({ lastReward, t, totalStaked }: Props): React.ReactElement<Pro
       <CardSummary label={t('last reward')}>
         {
           lastReward.gtn(0)
-            ? `${formatBalance(lastReward, false)}`
+            ? `${formatBalance(lastReward, { withSi: false })}`
             : '-'
         }
       </CardSummary>
     </SummaryBox>
   );
 }
-
-export default translate(Summary);

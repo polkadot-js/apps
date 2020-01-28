@@ -2,27 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps as Props } from '@polkadot/react-components/types';
 import { QueryTypes } from './types';
 
-import './index.css';
-
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 import Queries from './Queries';
 import Selection from './Selection';
-import translate from './translate';
 
-interface Props extends AppProps, I18nProps {}
-
-function StorageApp ({ basePath }: Props): React.ReactElement<Props> {
+function StorageApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const [queue, setQueue] = useState<QueryTypes[]>([]);
 
   const _onAdd = (query: QueryTypes): void => setQueue([query, ...queue]);
   const _onRemove = (id: number): void => setQueue(queue.filter((item): boolean => item.id !== id));
 
   return (
-    <main className='storage--App'>
+    <main className={`storage--App ${className}`}>
       <Selection
         basePath={basePath}
         onAdd={_onAdd}
@@ -35,4 +31,33 @@ function StorageApp ({ basePath }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(StorageApp);
+export default styled(StorageApp)`
+  .storage--actionrow {
+    align-items: center;
+    display: flex;
+
+    .button {
+      margin: 0.25rem;
+    }
+
+    &.head {
+      flex: 1 1 100%;
+      margin: 0 auto;
+      max-width: 620px;
+    }
+  }
+
+  .storage--actionrow-value {
+    flex: 1;
+    min-width: 0;
+
+    .ui--output {
+      word-break: break-all;
+    }
+  }
+
+  .storage--actionrow-buttons {
+    flex: 0;
+    padding: 0 0.25rem;
+  }
+`;

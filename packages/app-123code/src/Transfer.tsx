@@ -37,6 +37,7 @@ export default function Transfer ({ accountId }: Props): React.ReactElement<Prop
               label='make transfer'
               params={[recipientId, amount]}
               tx='balances.transfer'
+              withSpinner
             />
           </Button.Group>
         </div>

@@ -5,6 +5,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Bids from './Bids';
 import Candidates from './Candidates';
 import Members from './Members';
 import Summary from './Summary';
@@ -19,6 +20,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       <Summary />
       <Members />
       <Candidates />
+      <Bids />
     </div>
   );
 }

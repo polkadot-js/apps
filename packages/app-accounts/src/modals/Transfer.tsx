@@ -7,7 +7,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 // import Checks from '@polkadot/react-signer/Checks';
@@ -87,7 +87,6 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
     <Modal
       className='app--accounts-Modal'
       header={t('Send funds')}
-      open
     >
       <Modal.Content>
         <div className={className}>
@@ -110,8 +109,10 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             type='allPlus'
           />
           <InputBalance
+            autoFocus
             help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
             isError={!hasAvailable}
+            isZeroable
             label={t('amount')}
             maxValue={maxBalance}
             onChange={setAmount}
@@ -125,26 +126,16 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
           /> */}
         </div>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={senderId}
-            extrinsic={extrinsic}
-            icon='send'
-            isDisabled={!hasAvailable}
-            isPrimary
-            label={t('Make Transfer')}
-            onStart={onClose}
-            withSpinner={false}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={senderId}
+          extrinsic={extrinsic}
+          icon='send'
+          isDisabled={!hasAvailable}
+          isPrimary
+          label={t('Make Transfer')}
+          onStart={onClose}
+        />
       </Modal.Actions>
     </Modal>
   );

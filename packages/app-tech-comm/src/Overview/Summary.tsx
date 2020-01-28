@@ -3,8 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ComponentProps } from '../types';
+import { ComponentProps as Props } from '../types';
 
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
@@ -12,11 +11,10 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends ComponentProps, I18nProps {}
-
-function Summary ({ className, members, proposals, t }: Props): React.ReactElement<Props> {
+export default function Summary ({ className, members, proposals }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const proposalCount = useCall<u32>(api.query.technicalCommittee.proposalCount, []);
 
@@ -36,5 +34,3 @@ function Summary ({ className, members, proposals, t }: Props): React.ReactEleme
     </SummaryBox>
   );
 }
-
-export default translate(Summary);

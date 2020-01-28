@@ -109,7 +109,7 @@ export default withMulti(
     ['query.elections.members', {
       propName: 'threshold',
       transform: (value: [AccountId, BlockNumber][]): number =>
-        1 + (value.length / 2)
+        Math.ceil(value.length * 0.5)
     }]
   )
 );

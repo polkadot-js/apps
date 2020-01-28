@@ -28,7 +28,6 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
       className='app--accounts-Modal'
       header={t('Confirm ABI removal')}
       onClose={onClose}
-      open
     >
       <Modal.Content>
         <CodeRow
@@ -39,22 +38,13 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
           <p>{t('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
         </CodeRow>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-            icon='cancel'
-          />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={_onRemove}
-            label={t('Remove')}
-            icon='trash'
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          isPrimary
+          onClick={_onRemove}
+          label={t('Remove')}
+          icon='trash'
+        />
       </Modal.Actions>
     </Modal>
   );

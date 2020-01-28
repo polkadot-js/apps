@@ -65,7 +65,6 @@ export default function Voting ({ councilProposals, isDisabled }: Props): React.
       {isOpen && (
         <Modal
           header={t('Vote on proposal')}
-          open
           size='small'
         >
           <Modal.Content>

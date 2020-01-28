@@ -4,35 +4,36 @@
 
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
-import useCheck from './useCheck';
 import Overview from './Overview';
 import { useTranslation } from './translate';
-
-export { useCheck };
 
 interface Props extends AppProps, BareProps {}
 
 export default function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Society overview')
+    }
+  ], [t]);
 
   return (
     <main className={className}>
       <header>
         <Tabs
           basePath={basePath}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Society overview')
-            }
-          ]}
+          items={items}
         />
       </header>
-      <Overview />
+      <Switch>
+        <Route component={Overview} />
+      </Switch>
     </main>
   );
 }

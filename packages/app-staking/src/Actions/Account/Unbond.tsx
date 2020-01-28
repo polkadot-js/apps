@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { Option } from '@polkadot/types';
-import { AddressInfo, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { AddressInfo, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
@@ -63,31 +63,22 @@ class Unbond extends TxComponent<Props, State> {
       <Modal
         className='staking--Unbond'
         header={t('Unbond funds')}
-        open
         size='small'
       >
         {this.renderContent()}
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              icon='cancel'
-            />
-            <Button.Or />
-            <TxButton
-              accountId={controllerId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Unbond')}
-              icon='sign-out'
-              onClick={onClose}
-              params={[maxUnbond]}
-              tx='staking.unbond'
-              ref={this.button}
-            />
-          </Button.Group>
+        <Modal.Actions onCancel={onClose}>
+          <TxButton
+            accountId={controllerId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Unbond')}
+            icon='sign-out'
+            onStart={onClose}
+            params={[maxUnbond]}
+            tx='staking.unbond'
+            ref={this.button}
+            withSpinner
+          />
         </Modal.Actions>
       </Modal>
     );

@@ -28,7 +28,7 @@ export default function TotalIssuance ({ children, className, label, style }: Pr
     >
       {label || ''}{
         totalIssuance
-          ? `${formatBalance(totalIssuance, false)}${formatBalance.calcSi(totalIssuance).value}`
+          ? `${formatBalance(totalIssuance, { withSi: false })}${formatBalance.calcSi(totalIssuance).value}`
           : '-'
       }{children}
     </div>

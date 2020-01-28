@@ -41,7 +41,7 @@ export default function Summary ({ approvalCount, proposalCount }: Props): React
       <section>
         {value && (
           <CardSummary label={t('available')}>
-            {formatBalance(value, false)}{formatBalance.calcSi(value).value}
+            {formatBalance(value, { withSi: false })}{formatBalance.calcSi(value).value}
           </CardSummary>
         )}
       </section>

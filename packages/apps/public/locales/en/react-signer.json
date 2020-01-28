@@ -27,5 +27,6 @@
   "FATAL": "FATAL",
   "Unable to render extrinsic, invalid": "Unable to render extrinsic, invalid",
   "Details": "Details",
-  "Fees of {{fees}} will be applied to the submission": "Fees of {{fees}} will be applied to the submission"
+  "Fees of {{fees}} will be applied to the submission": "Fees of {{fees}} will be applied to the submission",
+  "wrong password supplied": "wrong password supplied"
 }

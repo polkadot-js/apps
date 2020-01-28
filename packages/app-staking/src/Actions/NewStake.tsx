@@ -9,7 +9,7 @@ import { CalculateBalanceProps } from '../types';
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../translate';
@@ -59,7 +59,6 @@ class NewStake extends TxComponent<Props, State> {
       <Modal
         className='staking--Bonding'
         header={t('Bonding Preferences')}
-        open
         size='small'
       >
         <Modal.Content className='ui--signer-Signer-Content'>
@@ -114,26 +113,18 @@ class NewStake extends TxComponent<Props, State> {
             value={destination}
           />
         </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              icon='cancel'
-            />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Bond')}
-              icon='sign-in'
-              onClick={onClose}
-              extrinsic={extrinsic}
-              ref={this.button}
-            />
-          </Button.Group>
+        <Modal.Actions onCancel={onClose}>
+          <TxButton
+            accountId={stashId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Bond')}
+            icon='sign-in'
+            onStart={onClose}
+            extrinsic={extrinsic}
+            ref={this.button}
+            withSpinner
+          />
         </Modal.Actions>
       </Modal>
     );
