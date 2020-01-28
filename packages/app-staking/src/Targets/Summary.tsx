@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 
@@ -19,29 +19,18 @@ interface Props {
 
 interface StakeInfo {
   percentage: string;
-  staked: string | null;
 }
 
 export default function Summary ({ lastReward, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
-  const [{ percentage, staked }, setStakeInfo] = useState<StakeInfo>({ percentage: '-', staked: null });
-  const [total, setTotal] = useState<string | null>(null);
-
-  useEffect((): void => {
-    if (totalInsurance) {
-      setTotal(
-        `${formatBalance(totalInsurance, { withSi: false })}${formatBalance.calcSi(totalInsurance.toString()).value}`
-      );
-    }
-  }, [totalInsurance]);
+  const [{ percentage }, setStakeInfo] = useState<StakeInfo>({ percentage: '-' });
 
   useEffect((): void => {
     if (totalInsurance && totalStaked?.gtn(0)) {
       setStakeInfo({
-        percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`,
-        staked: `${formatBalance(totalStaked, { withSi: false })}${formatBalance.calcSi(totalStaked.toString()).value}`
+        percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
       });
     }
   }, [totalInsurance, totalStaked]);
@@ -50,22 +39,27 @@ export default function Summary ({ lastReward, totalStaked }: Props): React.Reac
     <SummaryBox>
       <section className='ui--media-small'>
         <CardSummary label={t('total staked')}>
-          {staked || '-'}
+          <FormatBalance
+            value={totalStaked}
+            withSi
+          />
         </CardSummary>
         <CardSummary label=''>/</CardSummary>
         <CardSummary label={t('total issuance')}>
-          {total || '-'}
+          <FormatBalance
+            value={totalInsurance}
+            withSi
+          />
         </CardSummary>
       </section>
       <CardSummary label={t('staked')}>
         {percentage}
       </CardSummary>
       <CardSummary label={t('last reward')}>
-        {
-          lastReward.gtn(0)
-            ? `${formatBalance(lastReward, { withSi: false })}`
-            : '-'
-        }
+        <FormatBalance
+          value={lastReward}
+          withSi
+        />
       </CardSummary>
     </SummaryBox>
   );

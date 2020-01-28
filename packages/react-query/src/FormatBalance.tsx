@@ -14,6 +14,7 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
   value?: Compact<any> | BN | string | null;
+  withSi?: boolean;
 }
 
 // for million, 2 * 3-grouping + comma
@@ -30,14 +31,28 @@ function format (value: Compact<any> | BN | string, currency: string): React.Rea
   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span> {currency}</>;
 }
 
-function FormatBalance ({ children, className, label, value }: Props): React.ReactElement<Props> {
+function formatSi (value: Compact<any> | BN | string): React.ReactNode {
+  const strValue = ((value as Compact<any>).toBn ? (value as Compact<any>).toBn() : value).toString();
+  const [prefix, postfix] = strValue === '0'
+    ? ['0', '0']
+    : formatBalance(value, { withSi: false }).split('.');
+  const unit = strValue === '0'
+    ? ''
+    : formatBalance.calcSi(strValue).value;
+
+  return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
+}
+
+function FormatBalance ({ children, className, label, value, withSi }: Props): React.ReactElement<Props> {
   const [currency] = useState(formatBalance.getDefaults().unit);
 
   return (
     <div className={`ui--FormatBalance ${className}`}>
       {label || ''}{
         value
-          ? format(value, currency)
+          ? withSi
+            ? formatSi(value)
+            : format(value, currency)
           : '-'
       }{children}
     </div>
