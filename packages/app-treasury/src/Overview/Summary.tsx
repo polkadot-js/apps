@@ -6,7 +6,8 @@ import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance, formatNumber, stringToU8a } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber, stringToU8a } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -41,7 +42,10 @@ export default function Summary ({ approvalCount, proposalCount }: Props): React
       <section>
         {value && (
           <CardSummary label={t('available')}>
-            {formatBalance(value, { withSi: false })}{formatBalance.calcSi(value).value}
+            <FormatBalance
+              value={value}
+              withSi
+            />
           </CardSummary>
         )}
       </section>
