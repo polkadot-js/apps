@@ -41,7 +41,7 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
       name: 'motions',
       text: t('Motions ({{count}})', { replace: { count: numMotions } })
     }
-  ], [t]);
+  ], [numMotions, t]);
 
   return (
     <main className={className}>
