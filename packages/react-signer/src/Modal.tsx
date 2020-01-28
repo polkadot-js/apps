@@ -685,44 +685,16 @@ class Signer extends React.PureComponent<Props, State> {
     { id, txFailedCb, txStartCb }: QueueTx,
     pair: KeyringPair
   ): Promise<void> {
-    const { api, queueSetTxStatus } = this.props;
+    const { queueSetTxStatus } = this.props;
     const { isV2, blocks, nonce, showTip, tip } = this.state;
 
     console.log('makeSignedTransaction: extrinsic ::', extrinsic.toHex());
-
-    const params: any[] = [];
 
     const {
       address,
       meta: { isExternal, isHardware, isInjected, source }
     } = pair;
-
-    const blocksNum = +blocks;
-    const nonceNum = +(nonce || 0);
     let signer: ApiSigner | undefined;
-    let blockNumber = 0;
-    let options: SubmittableSignerOptions;
-
-    if (blocksNum === 0) {
-      options = {
-        era: 0 as any,
-        blockHash: api.genesisHash,
-        nonce: nonceNum
-      };
-      blockNumber = 0;
-    } else {
-      // Get current block if we want to modify the number of blocks we have to sign
-      const signedBlock = await api.rpc.chain.getBlock();
-      options = {
-        blockHash: signedBlock.block.header.hash,
-        era: api.createType('ExtrinsicEra', {
-          current: signedBlock.block.header.number,
-          period: blocksNum
-        }),
-        nonce: nonceNum
-      };
-      blockNumber = signedBlock.block.header.number.toNumber();
-    }
 
     if (isFunction(txStartCb)) {
       txStartCb();
@@ -731,58 +703,32 @@ class Signer extends React.PureComponent<Props, State> {
     // set the signer
     if (isHardware) {
       signer = ledgerSigner;
-      params.push(address);
     } else if (isExternal) {
       queueSetTxStatus(id, 'qr');
       signer = { signPayload: this.signQrPayload };
-      params.push(address);
     } else if (isInjected) {
       const injected = await web3FromSource(source);
-
-      assert(injected, `Unable to find a signer for ${address}`);
-
-      signer = injected.signer;
-      params.push(address);
+      signer = injected?.signer;
     }
 
-    if (showTip && isV2 && tip) {
-      params.push({ tip } as Partial<SignerOptions>);
-    }
+    assert(signer, `Unable to find a signer for ${address}`);
 
-    const payload: SignerPayload = api.createType('SignerPayload', {
-      version: api.extrinsicVersion,
-      runtimeVersion: api.runtimeVersion,
-      genesisHash: api.genesisHash,
-      ...params,
-      ...options,
-      address,
-      method: extrinsic.method,
-      blockNumber
-    });
+    try {
+      await extrinsic.signAsync(address, {
+        era: +blocks,
+        nonce: +(nonce || 0),
+        signer,
+        tip: (showTip && isV2 && tip) ? tip : undefined
+      });
+      const signedTx = extrinsic.toJSON()?.toString();
 
-    const payloadJSON = (payload.toJSON() as any) as SignerPayloadJSON;
-    payloadJSON.era = payload.era.toHex();
-    payloadJSON.method = payload.method.toHex();
+      console.log('makeSignedTransaction: result ::', signedTx);
 
-    if (signer && signer.signPayload) {
-      try {
-        const signature = await signer.signPayload(payloadJSON);
-        extrinsic.addSignature(address, signature.signature, payload.toPayload());
-        const signedTx = extrinsic.toJSON()?.toString();
-
-        console.log('makeSignedTransaction: result ::', signedTx);
-
-        this.setState({ signedTx });
-      } catch (e) {
-        queueSetTxStatus(id, 'error', undefined, e);
-        if (isFunction(txFailedCb)) {
-          txFailedCb(e);
-        }
-      }
-    } else {
-      queueSetTxStatus(id, 'error');
+      this.setState({ signedTx });
+    } catch (e) {
+      queueSetTxStatus(id, 'error', undefined, e);
       if (isFunction(txFailedCb)) {
-        txFailedCb({} as any);
+        txFailedCb(e);
       }
     }
   }
