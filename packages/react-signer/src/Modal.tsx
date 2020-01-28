@@ -206,7 +206,7 @@ class Signer extends React.PureComponent<Props, State> {
     const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
 
     return (
-      <Modal.Actions cancelLabel={signedTx ? 'Close' : undefined} withOr={!signedTx} onCancel={isQrVisible ? this.onCancelQr : signedTx ? this.onCancelSign : this.onCancel}>
+      <Modal.Actions cancelLabel={signedTx ? t('Close') : undefined} withOr={!signedTx} onCancel={isQrVisible ? this.onCancelQr : signedTx ? this.onCancelSign : this.onCancel}>
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
             <Button.Or />
@@ -226,7 +226,7 @@ class Signer extends React.PureComponent<Props, State> {
                       : isExternal
                         ? t('Sign via Qr')
                         : currentItem.isSign
-                          ? 'Sign'
+                          ? t('Sign')
                           : t('Sign and Submit')
               }
               icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : isExternal ? 'qrcode' : 'sign-in'}
