@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AccountIndex, IdentityIcon, SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 
@@ -90,10 +90,10 @@ function Summary ({ className }: Props): React.ReactElement<Props> {
       )}
       <section>
         <CardSummary label={t('pot')}>
-          {pot
-            ? <>{formatBalance(pot, { withSi: false })}{formatBalance.calcSi(pot).value}</>
-            : '-'
-          }
+          <FormatBalance
+            value={pot}
+            withSi
+          />
         </CardSummary>
       </section>
     </SummaryBox>
