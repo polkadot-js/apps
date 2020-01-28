@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/app-parachains",
-  "version": "0.39.0-beta.106",
+  "version": "0.39.0-beta.107",
   "description": "Parachains",
   "main": "index.js",
   "scripts": {},
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.8.3",
-    "@polkadot/react-components": "^0.39.0-beta.106",
-    "@polkadot/react-query": "^0.39.0-beta.106"
+    "@polkadot/react-components": "^0.39.0-beta.107",
+    "@polkadot/react-query": "^0.39.0-beta.107"
   }
 }
