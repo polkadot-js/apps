@@ -83,8 +83,4 @@ export default styled(Proposal)`
       margin-bottom: 4px;
     }
   }
-
-  .seconding {
-    padding-top: 1.1rem;
-  }
 `;
