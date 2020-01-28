@@ -70,11 +70,7 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
         {allSkeptic.length !== 0 && (
           <details>
             <summary>
-              {t('Skeptics ({{count}})', {
-                replace: {
-                  count: allSkeptic.length
-                }
-              })}
+              {t('Skeptics ({{count}})', { replace: { count: allSkeptic.length } })}
             </summary>
             {allSkeptic.map(([who]): React.ReactNode =>
               <AddressMini
@@ -89,11 +85,7 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
         {allAye.length !== 0 && (
           <details>
             <summary>
-              {t('Approvals ({{count}})', {
-                replace: {
-                  count: allAye.length
-                }
-              })}
+              {t('Approvals ({{count}})', { replace: { count: allAye.length } })}
             </summary>
             {allAye.map(([who]): React.ReactNode =>
               <AddressMini
@@ -108,11 +100,7 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
         {allNay.length !== 0 && (
           <details>
             <summary>
-              {t('Rejections ({{count}})', {
-                replace: {
-                  count: allNay.length
-                }
-              })}
+              {t('Rejections ({{count}})', { replace: { count: allNay.length } })}
             </summary>
             {allNay.map(([who]): React.ReactNode =>
               <AddressMini
