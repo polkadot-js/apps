@@ -6,7 +6,7 @@ import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -52,6 +52,30 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const validators = stakingOverview?.validators;
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Staking overview')
+    },
+    {
+      name: 'waiting',
+      text: t('Waiting')
+    },
+    {
+      name: 'returns',
+      text: t('Returns')
+    },
+    {
+      name: 'actions',
+      text: t('Account actions')
+    },
+    {
+      hasParams: true,
+      name: 'query',
+      text: t('Validator stats')
+    }
+  ], [t]);
 
   useEffect((): void => {
     validators && setNext(
@@ -76,30 +100,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
                 : ['query']
               : ['actions', 'query']
           }
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Staking overview')
-            },
-            {
-              name: 'waiting',
-              text: t('Waiting')
-            },
-            {
-              name: 'returns',
-              text: t('Returns')
-            },
-            {
-              name: 'actions',
-              text: t('Account actions')
-            },
-            {
-              hasParams: true,
-              name: 'query',
-              text: t('Validator stats')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Summary

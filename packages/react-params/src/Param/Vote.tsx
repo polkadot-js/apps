@@ -12,11 +12,6 @@ import { Dropdown } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Bare from './Bare';
 
-interface Option {
-  text: string;
-  value: number;
-}
-
 function doChange (onChange?: (value: any) => void): (_: number) => void {
   return function (value: number): void {
     onChange && onChange({
@@ -28,13 +23,13 @@ function doChange (onChange?: (value: any) => void): (_: number) => void {
 
 export default function Vote ({ className, defaultValue: { value }, isDisabled, isError, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const optAye = useMemo((): Option[] => {
+  const optAye = useMemo(() => {
     return [
       { text: t('Nay'), value: 0 },
       { text: t('Aye'), value: -1 }
     ];
   }, [t]);
-  const optConv = useMemo((): Option[] => {
+  const optConv = useMemo(() => {
     return [
       { text: t('None'), value: 0 },
       { text: t('Locked1x'), value: 1 },
