@@ -4,7 +4,7 @@
 
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
@@ -19,6 +19,13 @@ interface Props extends AppProps, BareProps {}
 
 export default function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Treasury overview')
+    }
+  ], [t]);
 
   return (
     <main className='treasury--App'>
@@ -26,13 +33,7 @@ export default function TreasuryApp ({ basePath }: Props): React.ReactElement<Pr
       <header>
         <Tabs
           basePath={basePath}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Treasury overview')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

@@ -9,6 +9,7 @@ import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import useMembers from '../useMembers';
 import Candidate from './Candidate';
 
 interface Props {
@@ -19,6 +20,7 @@ export default function Candidates ({ className }: Props): React.ReactElement<Pr
   const { t } = useTranslation();
   const { api } = useApi();
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
+  const { allMembers, isMember, ownMembers } = useMembers();
 
   return (
     <div className={`overviewSection ${className}`}>
@@ -29,7 +31,10 @@ export default function Candidates ({ className }: Props): React.ReactElement<Pr
             <Table.Body>
               {candidates.map((candidate): React.ReactNode => (
                 <Candidate
+                  allMembers={allMembers}
+                  isMember={isMember}
                   key={candidate.accountId.toString()}
+                  ownMembers={ownMembers}
                   value={candidate}
                 />
               ))}

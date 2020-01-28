@@ -5,7 +5,7 @@
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useAccounts } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
@@ -19,6 +19,17 @@ export default function AccountsApp ({ basePath, onStatusChange }: Props): React
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [hidden, setHidden] = useState<string[]>(['vanity']);
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('My accounts')
+    },
+    {
+      name: 'vanity',
+      text: t('Vanity address')
+    }
+  ], [t]);
 
   useEffect((): void => {
     setHidden(
@@ -42,17 +53,7 @@ export default function AccountsApp ({ basePath, onStatusChange }: Props): React
         <Tabs
           basePath={basePath}
           hidden={hidden}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('My accounts')
-            },
-            {
-              name: 'vanity',
-              text: t('Vanity address')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

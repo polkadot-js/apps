@@ -3,37 +3,71 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { RawParams } from '@polkadot/react-params/types';
-import { ComponentProps, StorageEntryPromise } from '../types';
+import { ComponentProps as Props, StorageEntryPromise } from '../types';
 
 import React, { useState } from 'react';
-import { getTypeDef } from '@polkadot/types';
+import ApiPromise from '@polkadot/api/promise';
 import { Button, InputStorage } from '@polkadot/react-components';
-import Params from '@polkadot/react-params';
 import { useApi } from '@polkadot/react-hooks';
+import Params from '@polkadot/react-params';
+import { getTypeDef } from '@polkadot/types';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import translate from '../translate';
-
-interface Props extends ComponentProps, I18nProps {}
+import { useTranslation } from '../translate';
 
 type ParamsType = { type: TypeDef }[];
 
-function areParamsValid (values: RawParams): boolean {
-  return values.reduce(
-    (isValid: boolean, value): boolean => (
-      isValid &&
-      !isUndefined(value) &&
-      !isUndefined(value.value) &&
-      value.isValid),
-    true
-  );
+interface KeyState {
+  defaultValues: RawParams | undefined | null;
+  isIterable: boolean;
+  key: StorageEntryPromise;
+  params: ParamsType;
 }
 
-function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
+function areParamsValid ({ creator: { meta: { type } } }: StorageEntryPromise, values: RawParams): boolean {
+  return values.reduce((isValid: boolean, value): boolean => {
+    return isValid &&
+    !isUndefined(value) &&
+    !isUndefined(value.value) &&
+    value.isValid;
+  }, (
+    type.isDoubleMap
+      ? values.length === 2
+      : values.length === (type.isMap ? 1 : 0)
+  ));
+}
+
+function expandKey (api: ApiPromise, key: StorageEntryPromise): KeyState {
+  const { creator: { meta: { type }, section } } = key;
+
+  return {
+    defaultValues: section === 'session' && type.isDoubleMap
+      ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
+      : null,
+    isIterable: type.isMap && type.asMap.linked.isTrue,
+    key,
+    params: type.isDoubleMap
+      ? [
+        { type: getTypeDef(type.asDoubleMap.key1.toString()) },
+        { type: getTypeDef(type.asDoubleMap.key2.toString()) }
+      ]
+      : type.isMap
+        ? [{
+          type: getTypeDef(
+            type.asMap.linked.isTrue
+              ? `Option<${type.asMap.key.toString()}>`
+              : type.asMap.key.toString()
+          )
+        }]
+        : []
+  };
+}
+
+export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
-  const [{ defaultValues, isIterable, key, params }, setKey] = useState<{ defaultValues: RawParams | undefined | null; isIterable: boolean; key: StorageEntryPromise; params: ParamsType }>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
+  const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
   const [{ isValid, values }, setValues] = useState<{ isValid: boolean; values: RawParams }>({ isValid: true, values: [] });
 
   const _onAdd = (): void => {
@@ -43,42 +77,13 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
       params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
     });
   };
-  const _onChangeValues = (values: RawParams): void => {
+  const _onChangeValues = (values: RawParams): void =>
     setValues({
-      isValid: (
-        key.creator.meta.type.isDoubleMap
-          ? values.length === 2
-          : values.length === (key.creator.meta.type.isMap ? 1 : 0)
-      ) && areParamsValid(values),
+      isValid: areParamsValid(key, values),
       values
     });
-  };
   const _onChangeKey = (key: StorageEntryPromise): void => {
-    const asMap = key.creator.meta.type.isMap && key.creator.meta.type.asMap;
-    const isIterable = !!asMap && (asMap.kind.isLinkedMap || asMap.kind.isPrefixedMap);
-
-    setKey({
-      defaultValues: key.creator.section === 'session' && key.creator.meta.type.isDoubleMap
-        ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
-        : null,
-      isIterable,
-      key,
-      params: key.creator.meta.type.isDoubleMap
-        ? [
-          { type: getTypeDef(key.creator.meta.type.asDoubleMap.key1.toString()) },
-          { type: getTypeDef(key.creator.meta.type.asDoubleMap.key2.toString()) }
-        ]
-        : asMap
-          ? [{
-            type: getTypeDef(
-              isIterable
-                ? `Option<${asMap.key.toString()}>`
-                : asMap.key.toString()
-            )
-          }]
-          : []
-    });
-
+    setKey(expandKey(api, key));
     _onChangeValues([]);
   };
 
@@ -112,5 +117,3 @@ function Modules ({ onAdd, t }: Props): React.ReactElement<Props> {
     </section>
   );
 }
-
-export default translate(Modules);

@@ -5,7 +5,7 @@
 import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,27 +27,28 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { pathname } = useLocation();
   const numMotions = useCounter();
   const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals, []);
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Council overview')
+    },
+    {
+      name: 'candidates',
+      text: t('Candidates')
+    },
+    {
+      name: 'motions',
+      text: t('Motions ({{count}})', { replace: { count: numMotions } })
+    }
+  ], [numMotions, t]);
 
   return (
     <main className={className}>
       <header>
         <Tabs
           basePath={basePath}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Council overview')
-            },
-            {
-              name: 'candidates',
-              text: t('Candidates')
-            },
-            {
-              name: 'motions',
-              text: t('Motions ({{count}})', { replace: { count: numMotions } })
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

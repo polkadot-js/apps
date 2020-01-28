@@ -5,7 +5,7 @@
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 // import styled from 'styled-components';
 import Tabs from '@polkadot/react-components/Tabs';
@@ -28,6 +28,26 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   const { api } = useApi();
   const { lastHeaders } = useContext(BlockAuthorsContext);
   const events = useContext(EventsContext);
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'chain',
+      text: t('Chain info')
+    },
+    {
+      hasParams: true,
+      name: 'query',
+      text: t('Block details')
+    },
+    {
+      name: 'forks',
+      text: t('Forks')
+    },
+    {
+      name: 'node',
+      text: t('Node info')
+    }
+  ], [t]);
 
   return (
     <main className={className}>
@@ -39,26 +59,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
               ? api.query.babe ? [] : ['forks']
               : ['node', 'forks']
           }
-          items={[
-            {
-              isRoot: true,
-              name: 'chain',
-              text: t('Chain info')
-            },
-            {
-              hasParams: true,
-              name: 'query',
-              text: t('Block details')
-            },
-            {
-              name: 'forks',
-              text: t('Forks')
-            },
-            {
-              name: 'node',
-              text: t('Node info')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>
