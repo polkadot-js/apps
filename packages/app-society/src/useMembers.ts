@@ -8,24 +8,26 @@ import { useEffect, useState } from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 interface OwnMembers {
+  allMembers: string[];
   isMember: boolean;
   ownMembers: string[];
 }
 
-export default function useOwnMembers (): OwnMembers {
+export default function useMembers (): OwnMembers {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const members = useCall<DeriveSocietyMember[]>(api.derive.society.members, []);
-  const [ownState, setOwnState] = useState<OwnMembers>({ isMember: false, ownMembers: [] });
+  const [ownState, setOwnState] = useState<OwnMembers>({ allMembers: [], isMember: false, ownMembers: [] });
 
   useEffect((): void => {
     if (allAccounts && members) {
-      const ownMembers = members
+      const allMembers = members
         .filter((member): boolean => !member.isSuspended)
-        .map((member): string => member.accountId.toString())
+        .map((member): string => member.accountId.toString());
+      const ownMembers = allMembers
         .filter((address): boolean => allAccounts.includes(address));
 
-      setOwnState({ isMember: ownMembers.length !== 0, ownMembers });
+      setOwnState({ allMembers, isMember: ownMembers.length !== 0, ownMembers });
     }
   }, [allAccounts, members]);
 
