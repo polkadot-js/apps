@@ -6,39 +6,33 @@ import { Option } from '../types';
 
 export default [
   {
-    info: 'kusama',
-    text: 'Kusama (Polkadot Canary, hosted by Parity)',
-    value: 'wss://kusama-rpc.polkadot.io/',
+    info: 'flint',
+    text: 'Centrifuge Testnet Flint (Full Node, hosted by Centrifuge)',
+    value: 'ws://35.234.84.110:9944',
     withI18n: true
   },
   {
-    info: 'kusama',
-    text: 'Kusama (Polkadot Canary, hosted by Web3 Foundation)',
-    value: 'wss://cc3-5.kusama.network/',
+    info: 'flint',
+    text: 'Centrifuge Testnet Flint (Validator 0, hosted by Centrifuge)',
+    value: 'ws://35.246.244.114:9944',
     withI18n: true
   },
   {
-    info: 'westend',
-    text: 'Westend (Polkadot Testnet, hosted by Parity)',
-    value: 'wss://westend-rpc.polkadot.io',
+    info: 'flint',
+    text: 'Centrifuge Testnet Flint (Validator 1, hosted by Centrifuge)',
+    value: 'ws://34.89.148.219:9944',
     withI18n: true
   },
   {
-    info: 'edgeware',
-    text: 'Edgeware Testnet (Edgeware Testnet, hosted by Commonwealth Labs)',
-    value: 'wss://testnet4.edgewa.re',
+    info: 'fulvous',
+    text: 'Centrifuge Testnet Fulvous (Validator 0, hosted by Centrifuge)',
+    value: 'ws://35.246.140.178:9944',
     withI18n: true
   },
   {
-    info: 'substrate',
-    text: 'Flaming Fir (Substrate Testnet, hosted by Parity)',
-    value: 'wss://substrate-rpc.parity.io/',
-    withI18n: true
-  },
-  {
-    info: 'substrate',
-    text: 'Kulupu (Kulupu Mainnet, hosted by Kulupu)',
-    value: 'wss://rpc.kulupu.network/ws',
+    info: 'fulvous',
+    text: 'Centrifuge Testnet Fulvous (Validator 1, hosted by Centrifuge)',
+    value: 'ws://35.198.166.26:9944',
     withI18n: true
   },
   {
