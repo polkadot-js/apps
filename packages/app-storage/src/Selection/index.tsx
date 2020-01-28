@@ -4,10 +4,9 @@
 
 import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 
 import Consts from './Consts';
 import Modules from './Modules';
@@ -23,7 +22,22 @@ let id = -1;
 
 export default function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isSubstrateV2 } = useApi();
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'modules',
+      text: t('Storage')
+    },
+    {
+      name: 'constants',
+      text: t('Constants')
+    },
+    {
+      name: 'raw',
+      text: t('Raw storage')
+    }
+  ], [t]);
+
   const _onAdd = (query: ParitalQueryTypes): void => onAdd({ ...query, id: ++id });
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode =>
     // eslint-disable-next-line react/display-name
@@ -34,26 +48,7 @@ export default function Selection ({ basePath, onAdd }: Props): React.ReactEleme
       <header>
         <Tabs
           basePath={basePath}
-          hidden={
-            isSubstrateV2
-              ? []
-              : ['constants']
-          }
-          items={[
-            {
-              isRoot: true,
-              name: 'modules',
-              text: t('Storage')
-            },
-            {
-              name: 'constants',
-              text: t('Constants')
-            },
-            {
-              name: 'raw',
-              text: t('Raw storage')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

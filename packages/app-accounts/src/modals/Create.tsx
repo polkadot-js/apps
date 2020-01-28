@@ -8,7 +8,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
@@ -164,6 +164,14 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isSeedValid;
+  const seedOpt = useMemo(() => (
+    isDevelopment
+      ? [{ value: 'dev', text: t('Development') }]
+      : []
+  ).concat(
+    { value: 'bip', text: t('Mnemonic') },
+    { value: 'raw', text: t('Raw seed') }
+  ), [isDevelopment, t]);
 
   const _onChangePass = (password: string): void =>
     setPassword({ isPassValid: keyring.isPassValid(password), password });
@@ -245,16 +253,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
               isButton
               defaultValue={seedType}
               onChange={_selectSeedType}
-              options={
-                (
-                  isDevelopment
-                    ? [{ value: 'dev', text: t('Development') }]
-                    : []
-                ).concat(
-                  { value: 'bip', text: t('Mnemonic') },
-                  { value: 'raw', text: t('Raw seed') }
-                )
-              }
+              options={seedOpt}
             />
           </Input>
           <Password

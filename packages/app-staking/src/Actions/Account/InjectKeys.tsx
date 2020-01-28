@@ -2,18 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Button, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
 
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 
-interface Props extends I18nProps {
+interface Props {
   isOpen?: boolean;
   onClose: () => void;
 }
@@ -28,17 +27,25 @@ const CRYPTO_MAP: Record<string, KeypairType[]> = {
 
 const EMPTY_KEY = '0x';
 
-function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<Props> | null {
+export default function InjectKeys ({ isOpen = true, onClose }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { queueRpc } = useContext(StatusContext);
   // this needs to align with what is set as the first value in `type`
   const [crypto, setCrypto] = useState<KeypairType>('sr25519');
   const [publicKey, setPublicKey] = useState(EMPTY_KEY);
   const [suri, setSuri] = useState('');
-  const [type, setType] = useState('babe');
+  const [keyType, setKeyType] = useState('babe');
+  const keyTypeOpt = useMemo(() => [
+    { text: t('Aura'), value: 'aura' },
+    { text: t('Babe'), value: 'babe' },
+    { text: t('Grandpa'), value: 'gran' },
+    { text: t('I\'m Online'), value: 'imon' },
+    { text: t('Parachains'), value: 'para' }
+  ], [t]);
 
   useEffect((): void => {
-    setCrypto(CRYPTO_MAP[type][0]);
-  }, [type]);
+    setCrypto(CRYPTO_MAP[keyType][0]);
+  }, [keyType]);
 
   useEffect((): void => {
     try {
@@ -56,13 +63,12 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
     return null;
   }
 
-  const _onSubmit = (): void => {
+  const _onSubmit = (): void =>
     queueRpc({
       rpc: { section: 'author', method: 'insertKey' } as any,
-      values: [type, suri, publicKey]
+      values: [keyType, suri, publicKey]
     });
-  };
-  const _cryptoOptions = CRYPTO_MAP[type].map((value): { text: string; value: KeypairType } => ({
+  const _cryptoOptions = CRYPTO_MAP[keyType].map((value): { text: string; value: KeypairType } => ({
     text: value === 'ed25519'
       ? t('ed25519, Edwards')
       : t('sr15519, Schnorrkel'),
@@ -83,15 +89,9 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
         />
         <Dropdown
           label={t('key type to set')}
-          onChange={setType}
-          options={[
-            { text: t('Aura'), value: 'aura' },
-            { text: t('Babe'), value: 'babe' },
-            { text: t('Grandpa'), value: 'gran' },
-            { text: t('I\'m Online'), value: 'imon' },
-            { text: t('Parachains'), value: 'para' }
-          ]}
-          value={type}
+          onChange={setKeyType}
+          options={keyTypeOpt}
+          value={keyType}
         />
         <Dropdown
           isDisabled={_cryptoOptions.length === 1}
@@ -120,5 +120,3 @@ function InjectKeys ({ isOpen = true, onClose, t }: Props): React.ReactElement<P
     </Modal>
   );
 }
-
-export default translate(InjectKeys);

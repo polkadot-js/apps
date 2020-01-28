@@ -6,11 +6,10 @@ import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Option } from '@polkadot/types';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
@@ -25,43 +24,51 @@ import { MAX_SESSIONS } from './constants';
 import { useTranslation } from './translate';
 import useSessionRewards from './useSessionRewards';
 
-const EMPY_ACCOUNTS: string[] = [];
-const EMPTY_ALL: [string[], string[]] = [EMPY_ACCOUNTS, EMPY_ACCOUNTS];
-
-function transformStakingControllers ([stashes, controllers]: [AccountId[], Option<AccountId>[]]): [string[], string[]] {
-  return [
-    stashes.map((accountId): string => accountId.toString()),
-    controllers
-      .filter((optId): boolean => optId.isSome)
-      .map((accountId): string => accountId.unwrap().toString())
-  ];
-}
-
 function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isSubstrateV2 } = useApi();
+  const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [next, setNext] = useState<string[]>([]);
-  const [allStashes, allControllers] = (useCall<[string[], string[]]>(api.derive.staking.controllers, [], {
-    defaultValue: EMPTY_ALL,
-    transform: transformStakingControllers
-  }) as [string[], string[]]);
+  const allStashes = useCall<string[]>(api.derive.staking.controllers, [], {
+    defaultValue: [],
+    transform: ([stashes]: [AccountId[]]): string[] =>
+      stashes.map((accountId): string => accountId.toString())
+  }) as string[];
   const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
-  const validators = stakingOverview?.validators;
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Staking overview')
+    },
+    {
+      name: 'waiting',
+      text: t('Waiting')
+    },
+    {
+      name: 'returns',
+      text: t('Returns')
+    },
+    {
+      name: 'actions',
+      text: t('Account actions')
+    },
+    {
+      hasParams: true,
+      name: 'query',
+      text: t('Validator stats')
+    }
+  ], [t]);
 
   useEffect((): void => {
-    validators && setNext(
-      isSubstrateV2
-        // this is a V2 node currentValidators is a list of stashes
-        ? allStashes.filter((address): boolean => !validators.includes(address as any))
-        // this is a V1 node currentValidators is a list of controllers
-        : allControllers.filter((address): boolean => !validators.includes(address as any))
+    stakingOverview && setNext(
+      allStashes.filter((address): boolean => !stakingOverview.validators.includes(address as any))
     );
-  }, [allControllers, allStashes, validators]);
+  }, [allStashes, stakingOverview?.validators]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -76,30 +83,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
                 : ['query']
               : ['actions', 'query']
           }
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Staking overview')
-            },
-            {
-              name: 'waiting',
-              text: t('Waiting')
-            },
-            {
-              name: 'returns',
-              text: t('Returns')
-            },
-            {
-              name: 'actions',
-              text: t('Account actions')
-            },
-            {
-              hasParams: true,
-              name: 'query',
-              text: t('Validator stats')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Summary

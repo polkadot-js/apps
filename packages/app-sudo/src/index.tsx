@@ -6,7 +6,7 @@
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
 import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
@@ -22,6 +22,17 @@ export default function SudoApp ({ basePath }: Props): React.ReactElement<Props>
   const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
   const { allAccounts } = useAccounts();
   const [isMine, setIsMine] = useState(false);
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'index',
+      text: t('Sudo access')
+    },
+    {
+      name: 'key',
+      text: t('Set sudo key')
+    }
+  ], [t]);
 
   useEffect((): void => {
     setIsMine(!!sudoKey && allAccounts.some((key): boolean => key === sudoKey));
@@ -45,17 +56,7 @@ export default function SudoApp ({ basePath }: Props): React.ReactElement<Props>
       <header>
         <Tabs
           basePath={basePath}
-          items={[
-            {
-              isRoot: true,
-              name: 'index',
-              text: t('Sudo access')
-            },
-            {
-              name: 'key',
-              text: t('Set sudo key')
-            }
-          ]}
+          items={items}
         />
       </header>
       {isMine
