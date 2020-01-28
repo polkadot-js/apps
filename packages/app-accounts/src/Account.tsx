@@ -62,7 +62,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   useEffect((): void => {
     const { identity, nickname } = info || {};
 
-    if (api.api.query.identity?.identityOf) {
+    if (api.api.query.identity && api.api.query.identity.identityOf) {
       if (identity?.display) {
         setAccName(identity.display);
       }

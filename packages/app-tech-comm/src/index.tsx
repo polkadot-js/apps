@@ -5,7 +5,7 @@
 import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
 import { Proposals, Tabs } from '@polkadot/react-components';
@@ -21,24 +21,26 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
   const { t } = useTranslation();
   const { api } = useApi();
   const { members, isMember } = useMembers('technicalCommittee');
-  const proposals = useCall<DerivedCollectiveProposals>(api.derive.technicalCommittee.proposals);
+  const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
+  const proposals = useCall<DerivedCollectiveProposals>(api.derive.technicalCommittee.proposals, []);
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Tech. committee')
+    },
+    {
+      name: 'proposals',
+      text: t('Proposals ({{count}})', { replace: { count: proposals?.length || 0 } })
+    }
+  ], [proposals, t]);
 
   return (
     <main className={className}>
       <header>
         <Tabs
           basePath={basePath}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Tech. committee')
-            },
-            {
-              name: 'proposals',
-              text: t('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

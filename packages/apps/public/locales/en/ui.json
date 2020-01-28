@@ -844,5 +844,17 @@
   "Locked6x": "",
   "aye: bool": "",
   "conviction: Conviction": "",
-  "profit/era est.": ""
+  "profit/era est.": "",
+  "Skeptics ({{count}})": "",
+  "Approvals ({{count}})": "",
+  "Rejections ({{count}})": "",
+  "Vote for candidate": "",
+  "The address to vote from (must be a member)": "",
+  "vote from account": "",
+  "Approve this candidacy.": "",
+  "vote for andidate": "",
+  "defender": "",
+  "Vote for defender": "",
+  "Approve or reject this defneder.": "",
+  "vote for defender": ""
 }

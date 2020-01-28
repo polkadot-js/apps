@@ -9,12 +9,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { AccountIndex, IdentityIcon, SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  info?: DeriveSociety;
 }
 
 interface NameProps {
@@ -40,10 +41,9 @@ function Name ({ label, value }: NameProps): React.ReactElement<NameProps> | nul
   );
 }
 
-function Summary ({ className }: Props): React.ReactElement<Props> {
+function Summary ({ className, info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const info = useCall<DeriveSociety>(api.derive.society.info, []);
   const members = useCall<any[]>(api.derive.society.members, []);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
@@ -90,10 +90,10 @@ function Summary ({ className }: Props): React.ReactElement<Props> {
       )}
       <section>
         <CardSummary label={t('pot')}>
-          {pot
-            ? <>{formatBalance(pot, { withSi: false })}{formatBalance.calcSi(pot).value}</>
-            : '-'
-          }
+          <FormatBalance
+            value={pot}
+            withSi
+          />
         </CardSummary>
       </section>
     </SummaryBox>
