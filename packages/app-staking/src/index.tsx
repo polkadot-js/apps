@@ -65,7 +65,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   ], [t]);
 
   useEffect((): void => {
-    stakingOverview?.validators && setNext(
+    stakingOverview && setNext(
       allStashes.filter((address): boolean => !stakingOverview.validators.includes(address as any))
     );
   }, [allStashes, stakingOverview?.validators]);
