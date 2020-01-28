@@ -714,8 +714,8 @@ class Signer extends React.PureComponent<Props, State> {
     assert(signer, `Unable to find a signer for ${address}`);
 
     try {
-      await extrinsic.signAsync(address, {
-        era: +blocks,
+      await extrinsic.signAsync(address as any, {
+        era: +blocks as any,
         nonce: +(nonce || 0),
         signer,
         tip: (showTip && isV2 && tip) ? tip : undefined
