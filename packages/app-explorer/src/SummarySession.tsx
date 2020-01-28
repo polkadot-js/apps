@@ -4,7 +4,7 @@
 
 import { DerivedSessionInfo } from '@polkadot/api-derive/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -12,75 +12,63 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from './translate';
 
 interface Props {
-  sessionInfo?: DerivedSessionInfo;
   withEra?: boolean;
   withSession?: boolean;
 }
 
-function renderSession ({ sessionInfo, withSession = true }: Props, t: (input: string) => string): React.ReactNode {
-  if (!withSession || !sessionInfo) {
-    return null;
-  }
-
-  const label = sessionInfo.isEpoch && sessionInfo.sessionLength.gtn(1)
-    ? t('epoch')
-    : t('session');
-
-  return sessionInfo.sessionLength.gtn(0)
-    ? (
-      <CardSummary
-        label={label}
-        progress={{
-          total: sessionInfo.sessionLength,
-          value: sessionInfo.sessionProgress
-        }}
-      />
-    )
-    : (
-      <CardSummary label={label}>
-        {formatNumber(sessionInfo.currentIndex)}
-      </CardSummary>
-    );
-}
-
-function renderEra ({ sessionInfo, withEra = true }: Props, t: (input: string) => string): React.ReactNode {
-  if (!withEra || !sessionInfo) {
-    return null;
-  }
-
-  const label = t('era');
-
-  return sessionInfo.sessionLength.gtn(0)
-    ? (
-      <CardSummary
-        label={label}
-        progress={{
-          total: sessionInfo.eraLength,
-          value: sessionInfo.eraProgress
-        }}
-      />
-    )
-    : (
-      <CardSummary label={label}>
-        {formatNumber(sessionInfo.currentEra)}
-      </CardSummary>
-    );
-}
-
-export default function SummarySession (props: Props): React.ReactElement<Props> {
+export default function SummarySession ({ withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DerivedSessionInfo>(api.derive.session?.info, []);
-  const [expanded, setExpanded] = useState<Props>(props);
-
-  useEffect((): void => {
-    setExpanded({ ...props, sessionInfo });
-  }, [props, sessionInfo]);
+  const eraLabel = useMemo(() =>
+    t('era')
+  , [t]);
+  const sessionLabel = useMemo(() =>
+    sessionInfo?.isEpoch
+      ? t('epoch')
+      : t('session')
+  , [sessionInfo, t]);
 
   return (
     <>
-      {renderSession(expanded, t)}
-      {renderEra(expanded, t)}
+      {sessionInfo && (
+        <>
+          {withSession && (
+            sessionInfo.sessionLength.gtn(1)
+              ? (
+                <CardSummary
+                  label={sessionLabel}
+                  progress={{
+                    total: sessionInfo.sessionLength,
+                    value: sessionInfo.sessionProgress
+                  }}
+                />
+              )
+              : (
+                <CardSummary label={sessionLabel}>
+                  #{formatNumber(sessionInfo.currentIndex)}
+                </CardSummary>
+              )
+          )}
+          {withEra && (
+            sessionInfo.sessionLength.gtn(1)
+              ? (
+                <CardSummary
+                  label={eraLabel}
+                  progress={{
+                    total: sessionInfo.eraLength,
+                    value: sessionInfo.eraProgress
+                  }}
+                />
+              )
+              : (
+                <CardSummary label={eraLabel}>
+                  #{formatNumber(sessionInfo.currentEra)}
+                </CardSummary>
+              )
+          )}
+        </>
+      )}
     </>
   );
 }
