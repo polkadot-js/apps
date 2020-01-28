@@ -16,7 +16,7 @@ interface OwnMembers {
 export default function useMembers (): OwnMembers {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const members = useCall<DeriveSocietyMember[]>(api.derive.society.members, []);
+  const members = useCall<DeriveSocietyMember[]>(api.derive.society?.members, []);
   const [ownState, setOwnState] = useState<OwnMembers>({ allMembers: [], isMember: false, ownMembers: [] });
 
   useEffect((): void => {
