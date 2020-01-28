@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignerOptions, SignerResult, Signer as ApiSigner } from '@polkadot/api/types';
-import { SignerOptions as SubmittableSignerOptions } from '@polkadot/api/submittable/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps, BareProps } from '@polkadot/react-components/types';
@@ -17,7 +16,6 @@ import {
   QueueTxStatus
 } from '@polkadot/react-components/Status/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
-import { SignerPayload } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
