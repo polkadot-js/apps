@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
@@ -21,6 +21,17 @@ const hidden = uiSettings.uiMode === 'full'
 
 export default function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'general',
+      text: t('General')
+    },
+    {
+      name: 'developer',
+      text: t('Developer')
+    }
+  ], [t]);
 
   return (
     <main className='settings--App'>
@@ -29,17 +40,7 @@ export default function SettingsApp ({ basePath, onStatusChange }: Props): React
         <Tabs
           basePath={basePath}
           hidden={hidden}
-          items={[
-            {
-              isRoot: true,
-              name: 'general',
-              text: t('General')
-            },
-            {
-              name: 'developer',
-              text: t('Developer')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

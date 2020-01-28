@@ -4,7 +4,7 @@
 
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
@@ -23,6 +23,13 @@ const hidden = uiSettings.uiMode === 'full'
 
 export default function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Democracy overview')
+    }
+  ], [t]);
 
   return (
     <main className='democracy--App'>
@@ -31,13 +38,7 @@ export default function DemocracyApp ({ basePath }: Props): React.ReactElement<P
         <Tabs
           basePath={basePath}
           hidden={hidden}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Democracy overview')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>
