@@ -3,24 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
+import { OwnMembers } from '../types';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import useMembers from '../useMembers';
 import Candidate from './Candidate';
 
-interface Props {
+interface Props extends OwnMembers {
   className?: string;
 }
 
-export default function Candidates ({ className }: Props): React.ReactElement<Props> {
+export default function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
-  const { allMembers, isMember, ownMembers } = useMembers();
 
   return (
     <div className={`overviewSection ${className}`}>
