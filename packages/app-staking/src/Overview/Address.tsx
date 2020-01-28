@@ -8,6 +8,7 @@ import { ValidatorFilter } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
+import ApiPromise from '@polkadot/api/promise';
 import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -72,6 +73,46 @@ function expandInfo ({ controllerId, nextSessionIds, stakers, validatorPrefs }: 
   };
 }
 
+function checkFilter (filter: string, hasNominators: boolean, isElected: boolean, isNominatorMe: boolean, heartbeat?: DerivedHeartbeatAuthor): boolean {
+  return (filter === 'hasNominators' && !hasNominators) ||
+    (filter === 'noNominators' && hasNominators) ||
+    (filter === 'hasWarnings' && heartbeat?.isOnline) ||
+    (filter === 'noWarnings' && !heartbeat?.isOnline) ||
+    (filter === 'iNominated' && !isNominatorMe) ||
+    (filter === 'nextSet' && !isElected);
+}
+
+function checkVisibility (api: ApiPromise, address: string, filterName: string, info: DeriveAccountInfo | undefined): boolean {
+  let isVisible = false;
+  const filterLower = filterName.toLowerCase();
+
+  if (filterLower) {
+    if (info) {
+      const { identity, nickname, accountId, accountIndex } = info;
+
+      if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
+        isVisible = true;
+      } else if (api.query.identity && api.query.identity.identityOf && identity?.display) {
+        isVisible = identity.display.toLowerCase().includes(filterLower);
+      } else if (nickname) {
+        isVisible = nickname.toLowerCase().includes(filterLower);
+      }
+    }
+
+    if (!isVisible) {
+      const account = keyring.getAddress(address);
+
+      isVisible = account?.meta?.name
+        ? account.meta.name.toLowerCase().includes(filterLower)
+        : false;
+    }
+  } else {
+    isVisible = true;
+  }
+
+  return isVisible;
+}
+
 export default function Address ({ address, className, filter, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, lastBlock, myAccounts, points, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -83,45 +124,17 @@ export default function Address ({ address, className, filter, filterName, hasQu
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect((): void => {
-    if (stakingInfo) {
-      setStakingState(expandInfo(stakingInfo, myAccounts, withNominations));
-    }
+    stakingInfo && setStakingState(
+      expandInfo(stakingInfo, myAccounts, withNominations)
+    );
   }, [stakingInfo]);
 
   useEffect((): void => {
-    let isVisible = false;
-    const filterLower = filterName.toLowerCase();
-
-    if ((filter === 'hasNominators' && !hasNominators) || (filter === 'noNominators' && hasNominators) || (filter === 'hasWarnings' && heartbeat?.isOnline) || (filter === 'noWarnings' && !heartbeat?.isOnline) || (filter === 'iNominated' && !isNominatorMe) || (filter === 'nextSet' && !isElected)) {
-      isVisible = true;
-    } else if (filterLower) {
-      if (info) {
-        const { identity, nickname, accountId, accountIndex } = info;
-
-        if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
-          isVisible = true;
-        } else if (api.query.identity && api.query.identity.identityOf) {
-          if (identity?.display) {
-            isVisible = identity.display.toLowerCase().includes(filterLower);
-          }
-        } else if (nickname) {
-          isVisible = nickname.toLowerCase().includes(filterLower);
-        }
-      }
-
-      if (!isVisible) {
-        const account = keyring.getAddress(address);
-
-        isVisible = account?.meta?.name
-          ? account.meta.name.toLowerCase().includes(filterLower)
-          : false;
-      }
-    } else {
-      isVisible = true;
-    }
-
-    setIsVisible(isVisible);
-  }, [filter, filterName, heartbeat, info]);
+    setIsVisible(
+      checkFilter(filter, hasNominators, isElected, isNominatorMe, heartbeat) ||
+      checkVisibility(api, address, filterName, info)
+    );
+  }, [filter, filterName, heartbeat, info, hasNominators, isNominatorMe]);
 
   const _onFavorite = (): void => toggleFavorite(address);
   const _onQueryStats = (): void => {
