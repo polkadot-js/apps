@@ -135,9 +135,8 @@ export default styled(Table)`
           }
         }
 
-        &.toppad {
-          padding-top: 1.25rem;
-          vertical-align: top;
+        &.padtop {
+          padding-top: 1.1rem;
         }
       }
 

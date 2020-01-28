@@ -38,7 +38,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
         proposalHash={hash}
         proposal={proposal}
       />
-      <td className='top seconding'>
+      <td className='top padtop'>
         {seconding.length !== 0 && (
           <details>
             <summary>
@@ -82,9 +82,5 @@ export default styled(Proposal)`
     &:last-child {
       margin-bottom: 4px;
     }
-  }
-
-  .seconding {
-    padding-top: 1.1rem;
   }
 `;
