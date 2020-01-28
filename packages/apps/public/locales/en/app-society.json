@@ -16,5 +16,16 @@
   "No bids": "No bids",
   "rotation": "rotation",
   "challenge": "challenge",
-  "pot": "pot"
+  "pot": "pot",
+  "Skeptics ({{count}})": "Skeptics ({{count}})",
+  "Approvals ({{count}})": "Approvals ({{count}})",
+  "Rejections ({{count}})": "Rejections ({{count}})",
+  "Aye, I approve": "Aye, I approve",
+  "Nay, I do not approve": "Nay, I do not approve",
+  "Vote for candidate": "Vote for candidate",
+  "The address to vote from (must be a member)": "The address to vote from (must be a member)",
+  "vote from account": "vote from account",
+  "Approve this candidacy.": "Approve this candidacy.",
+  "vote for andidate": "vote for andidate",
+  "Vote": "Vote"
 }
