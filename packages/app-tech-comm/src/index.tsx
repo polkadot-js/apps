@@ -21,7 +21,6 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
   const { t } = useTranslation();
   const { api } = useApi();
   const { members, isMember } = useMembers('technicalCommittee');
-  const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
   const proposals = useCall<DerivedCollectiveProposals>(api.derive.technicalCommittee.proposals, []);
   const items = useMemo(() => [
     {
