@@ -28,7 +28,6 @@ export default function Voting ({ collective, hash, header, idNumber, isDisabled
   const [accountId, onChangeAccountId] = useAccountId();
   const { isOpen, onOpen, onClose } = useModal();
   const [voteValue, setVoteValue] = useState(true);
-
   const onSendRef = useRef<() => void>();
 
   if (!hasAccounts) {
@@ -48,38 +47,38 @@ export default function Voting ({ collective, hash, header, idNumber, isDisabled
           onClick={onOpen}
         />
       </div>
-      <Modal
-        header={header}
-        open={isOpen}
-        onClose={onClose}
-        small
-      >
-        <Modal.Content>
-          <ProposedAction
-            idNumber={idNumber}
-            isCollapsible
-            proposal={proposal}
-          />
-          <VoteAccount
-            filter={members}
-            onChange={onChangeAccountId}
-          />
-          <VoteToggle
-            onChange={_onChangeVote}
-            value={voteValue}
-          />
-        </Modal.Content>
-        <Modal.Actions onCancel={onClose}>
-          <TxButton
-            accountId={accountId}
-            isDisabled={!hash}
-            onClick={onClose}
-            onSendRef={onSendRef}
-            params={[hash, idNumber, voteValue]}
-            tx={`${collective}.vote`}
-          />
-        </Modal.Actions>
-      </Modal>
+      {isOpen && (
+        <Modal
+          header={header}
+          onClose={onClose}
+          small
+        >
+          <Modal.Content>
+            <ProposedAction
+              idNumber={idNumber}
+              proposal={proposal}
+            />
+            <VoteAccount
+              filter={members}
+              onChange={onChangeAccountId}
+            />
+            <VoteToggle
+              onChange={_onChangeVote}
+              value={voteValue}
+            />
+          </Modal.Content>
+          <Modal.Actions onCancel={onClose}>
+            <TxButton
+              accountId={accountId}
+              isDisabled={!hash}
+              onSendRef={onSendRef}
+              onStart={onClose}
+              params={[hash, idNumber, voteValue]}
+              tx={`${collective}.vote`}
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
     </>
   );
 }

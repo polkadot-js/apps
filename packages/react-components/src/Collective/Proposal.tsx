@@ -61,7 +61,7 @@ export default function Proposal ({ className, collective, members, proposal: { 
       <td className='number top together'>
         <Voting
           collective={collective}
-          header={collective === 'council' ? t('Vote for council motion') : t('Vote on technical committee proposal')}
+          header={t('Vote on proposal')}
           hash={hash}
           idNumber={index}
           members={members}

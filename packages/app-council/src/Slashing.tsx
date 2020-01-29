@@ -73,51 +73,52 @@ export default function Slashing ({ className, isMember, members = [] }: Props):
         label={t('Cancel slashes')}
         onClick={onOpen}
       />
-      <Modal
-        className={className}
-        header={t('Revert pending slashes')}
-        open={isOpen}
-        onClose={onClose}
-      >
-        <Modal.Content>
-          <TxAccount
-            help={t('Select the account you wish to make the proposal with.')}
-            label={t('propose from account')}
-            onChange={onChangeAccountId}
-          />
-          {eras.length
-            ? (
-              <Dropdown
-                defaultValue={eras[0].value}
-                help={t('The unapplied slashed era to cancel.')}
-                label={t('the era to cancel for')}
-                onChange={setSelectedEra}
-                options={eras}
-              />
-            )
-            : (
-              <Input
-                isDisabled
-                label={t('the era to cancel for')}
-                value={t('no unapplied slashes found')}
-              />
-            )
-          }
-        </Modal.Content>
-        <Modal.Actions onCancel={onClose}>
-          <TxButton
-            accountId={accountId}
-            icon='repeat'
-            isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
-            isPrimary
-            label={t('Revert')}
-            onClick={onClose}
-            onSendRef={onSendRef}
-            params={[threshold, proposal]}
-            tx='council.propose'
-          />
-        </Modal.Actions>
-      </Modal>
+      {isOpen && (
+        <Modal
+          className={className}
+          header={t('Revert pending slashes')}
+          onClose={onClose}
+        >
+          <Modal.Content>
+            <TxAccount
+              help={t('Select the account you wish to make the proposal with.')}
+              label={t('propose from account')}
+              onChange={onChangeAccountId}
+            />
+            {eras.length
+              ? (
+                <Dropdown
+                  defaultValue={eras[0].value}
+                  help={t('The unapplied slashed era to cancel.')}
+                  label={t('the era to cancel for')}
+                  onChange={setSelectedEra}
+                  options={eras}
+                />
+              )
+              : (
+                <Input
+                  isDisabled
+                  label={t('the era to cancel for')}
+                  value={t('no unapplied slashes found')}
+                />
+              )
+            }
+          </Modal.Content>
+          <Modal.Actions onCancel={onClose}>
+            <TxButton
+              accountId={accountId}
+              icon='repeat'
+              isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
+              isPrimary
+              label={t('Revert')}
+              onStart={onClose}
+              onSendRef={onSendRef}
+              params={[threshold, proposal]}
+              tx='council.propose'
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
     </>
   );
 }
