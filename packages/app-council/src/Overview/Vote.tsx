@@ -8,7 +8,7 @@ import { Codec } from '@polkadot/types/types';
 import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useMemo, useState } from 'react';
 import { useAccountId, useApi, useModal } from '@polkadot/react-hooks';
 import { InputAddressMulti, Button, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
 import VoteValue from './VoteValue';
@@ -34,11 +34,12 @@ export default function Vote ({ electionsInfo: { candidates, members, runnersUp 
 
   const [accountId, onChangeAccountId] = useAccountId(null, _fetchVotes);
   const onSendRef = useRef<() => void>();
-
-  const available = members
-    .map(([accountId]): string => accountId.toString())
-    .concat(runnersUp.map(([accountId]): string => accountId.toString()))
-    .concat(candidates.map((accountId): string => accountId.toString()));
+  const available = useMemo(() =>
+    members
+      .map(([accountId]): string => accountId.toString())
+      .concat(runnersUp.map(([accountId]): string => accountId.toString()))
+      .concat(candidates.map((accountId): string => accountId.toString()))
+  , [candidates, members, runnersUp]);
 
   return (
     <>
@@ -49,43 +50,44 @@ export default function Vote ({ electionsInfo: { candidates, members, runnersUp 
         icon='check'
         onClick={onOpen}
       />
-      <Modal
-        header={t('Vote for current candidates')}
-        open={isOpen}
-        onClose={onClose}
-        small
-      >
-        <Modal.Content>
-          <VoteAccount
-            filter={members.map(([accountId]): string => accountId.toString())}
-            onChange={onChangeAccountId}
-          />
-          <VoteValue
-            accountId={accountId}
-            onChange={setVoteValue}
-            onEnter={onSendRef.current}
-            onEscape={onClose}
-          />
-          <InputAddressMulti
-            available={available}
-            help={t('Filter available candidates based on name, address or short account index.')}
-            label={t('filter candidates')}
-            maxCount={MAX_VOTES}
-            onChange={setVotes}
-            value={votes}
-          />
-        </Modal.Content>
-        <Modal.Actions onCancel={onClose}>
-          <TxButton
-            accountId={accountId}
-            isDisabled={!votes.some((vote): boolean => !!vote)}
-            onClick={onClose}
-            onSendRef={onSendRef}
-            params={[votes, voteValue]}
-            tx={`${api.tx.electionPhragmen ? 'electionPhragmen' : 'elections'}.vote`}
-          />
-        </Modal.Actions>
-      </Modal>
+      {isOpen && (
+        <Modal
+          header={t('Vote for current candidates')}
+          onClose={onClose}
+          small
+        >
+          <Modal.Content>
+            <VoteAccount
+              filter={members.map(([accountId]): string => accountId.toString())}
+              onChange={onChangeAccountId}
+            />
+            <VoteValue
+              accountId={accountId}
+              onChange={setVoteValue}
+              onEnter={onSendRef.current}
+              onEscape={onClose}
+            />
+            <InputAddressMulti
+              available={available}
+              help={t('Filter available candidates based on name, address or short account index.')}
+              label={t('filter candidates')}
+              maxCount={MAX_VOTES}
+              onChange={setVotes}
+              value={votes}
+            />
+          </Modal.Content>
+          <Modal.Actions onCancel={onClose}>
+            <TxButton
+              accountId={accountId}
+              isDisabled={!votes.some((vote): boolean => !!vote)}
+              onStart={onClose}
+              onSendRef={onSendRef}
+              params={[votes, voteValue]}
+              tx={`${api.tx.electionPhragmen ? 'electionPhragmen' : 'elections'}.vote`}
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
     </>
   );
 }

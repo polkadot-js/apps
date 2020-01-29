@@ -4,7 +4,6 @@
 
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import { useMemo } from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 interface Result {
@@ -12,20 +11,27 @@ interface Result {
   members: string[];
 }
 
+function getResult (allAccounts: string[], members: string[]): Result {
+  return {
+    isMember: members.some((accountId): boolean => allAccounts.includes(accountId)),
+    members
+  };
+}
+
 export default function useMembers (collective: 'council' | 'technicalCommittee'): Result {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const isCouncil = collective === 'council';
-
-  const members = isCouncil
-    ? (useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members) || [])
-      .map(([accountId]) => accountId.toString())
-    : (useCall<AccountId[]>(api.query.technicalCommittee.members) || [])
-      ?.map(accountId => accountId.toString());
-  const isMember = useMemo(
-    (): boolean => members.some((accountId): boolean => allAccounts.includes(accountId)),
-    [members, allAccounts]
-  );
+  const { isMember, members } = (
+    collective === 'council'
+      ? useCall<Result>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
+        transform: (accounts: [AccountId, Balance][]): Result =>
+          getResult(allAccounts, accounts.map(([accountId]) => accountId.toString()))
+      })
+      : useCall<Result>(api.query.technicalCommittee.members, [], {
+        transform: (accounts: AccountId[]): Result =>
+          getResult(allAccounts, accounts.map(accountId => accountId.toString()))
+      })
+  ) || { isMember: false, members: [] };
 
   return { isMember, members };
 }

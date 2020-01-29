@@ -68,7 +68,7 @@ export default function Voting ({ proposal, referendumId }: Props): React.ReactE
             <TxButton
               accountId={accountId}
               label={t('Vote')}
-              onClick={toggleVoting}
+              onStart={toggleVoting}
               params={[referendumId, { aye, conviction }]}
               tx='democracy.vote'
             />

@@ -33,20 +33,6 @@ export default function Propose ({ collective, isMember = false, members = [], p
   const [[threshold, hasThreshold], setThreshold] = useState<[BN, boolean]>([new BN(Math.ceil(members.length * 0.5)), true]);
   const onSendRef = useRef<() => void>();
 
-  // const { isOpen, isSubmittable, onChangeAccountId, onClose, onOpen, sendTx } = useTxModal(
-  //   (): TxSource => ({
-  //     tx: ((): Call | null => {
-  //       try {
-  //         return api.tx[collective].propose(threshold, proposal);
-  //       } catch (e) {
-  //         return null;
-  //       }
-  //     })(),
-  //     isSubmittable: !!proposal && hasThreshold
-  //   }),
-  //   [members, proposal, threshold, hasThreshold]
-  // );
-
   useEffect((): void => {
     setThreshold(_hasThreshold(threshold));
   }, [members]);
@@ -55,20 +41,6 @@ export default function Propose ({ collective, isMember = false, members = [], p
     setProposal(method ? createType(registry, 'Proposal', method) : null);
   const _onChangeThreshold = (threshold?: BN): void =>
     setThreshold(_hasThreshold(threshold));
-
-  // let title: React.ReactNode;
-  // let help: React.ReactNode;
-  // switch (collective) {
-  //   case 'technicalCommittee':
-  //     title = t('Submit a technical committee proposal');
-  //     help = t('The minimum number of committee votes required to approve this proposal.');
-  //     break;
-  //   case 'council':
-  //   default:
-  //     title = t('Submit a council motion');
-  //     help = t('The minimum number of council votes required to approve this motion.');
-  //     break;
-  // }
 
   return (
     <>

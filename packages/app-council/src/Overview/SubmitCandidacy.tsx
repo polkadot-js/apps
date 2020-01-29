@@ -22,27 +22,28 @@ export default function SubmitCandidacy (): React.ReactElement {
         icon='add'
         onClick={onOpen}
       />
-      <Modal
-        header={t('Submit your council candidacy')}
-        open={isOpen}
-        onClose={onClose}
-        small
-      >
-        <Modal.Content>
-          <TxAccount
-            help={t('This account will be nominated to fill the council slot you specify.')}
-            label={t('candidate account')}
-            onChange={onChangeAccountId}
-          />
-        </Modal.Content>
-        <Modal.Actions onCancel={onClose}>
-          <TxButton
-            accountId={accountId}
-            onClick={onClose}
-            tx={`${api.tx.electionPhragmen ? 'electionPhragmen' : 'elections'}.submitCandidacy`}
-          />
-        </Modal.Actions>
-      </Modal>
+      {isOpen && (
+        <Modal
+          header={t('Submit your council candidacy')}
+          onClose={onClose}
+          small
+        >
+          <Modal.Content>
+            <TxAccount
+              help={t('This account will be nominated to fill the council slot you specify.')}
+              label={t('candidate account')}
+              onChange={onChangeAccountId}
+            />
+          </Modal.Content>
+          <Modal.Actions onCancel={onClose}>
+            <TxButton
+              accountId={accountId}
+              onStart={onClose}
+              tx={`${api.tx.electionPhragmen ? 'electionPhragmen' : 'elections'}.submitCandidacy`}
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
     </>
   );
 }

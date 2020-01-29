@@ -92,7 +92,7 @@ export default function Voting ({ councilProposals, isDisabled }: Props): React.
               accountId={accountId}
               isDisabled={!councilHash}
               label={t('Vote')}
-              onClick={toggleOpen}
+              onStart={toggleOpen}
               params={[councilHash, councilId, voteValue]}
               tx='council.vote'
             />
