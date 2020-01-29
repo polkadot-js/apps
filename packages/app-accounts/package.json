@@ -12,9 +12,9 @@
   "dependencies": {
     "@babel/runtime": "^7.8.3",
     "@polkadot/react-components": "^0.39.0-beta.112",
-    "@polkadot/react-qr": "^0.48.0-beta.17",
+    "@polkadot/react-qr": "^0.48.0-beta.18",
     "@types/file-saver": "^2.0.0",
-    "@types/yargs": "^15.0.1",
+    "@types/yargs": "^15.0.2",
     "detect-browser": "^4.8.0",
     "file-saver": "^2.0.0",
     "yargs": "^15.0.2"
