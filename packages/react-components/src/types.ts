@@ -77,7 +77,6 @@ export interface TxButtonProps extends TxProps, ApiProps {
   isNegative?: boolean;
   isPrimary?: boolean;
   isUnsigned?: boolean;
-  isSign?: boolean;
   label: React.ReactNode;
   onClick?: () => any;
   onFailed?: TxFailedCallback;
