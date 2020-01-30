@@ -732,10 +732,10 @@ class Signer extends React.PureComponent<Props, State> {
       signer = injected?.signer;
     }
 
-    assert(signer, `Unable to find a signer for ${address}`);
+    assert(signer || pair, `Unable to find a signer for ${address}`);
 
     try {
-      await extrinsic.signAsync(address as any, {
+      await extrinsic.signAsync((signer ? address : pair) as any, {
         era: +blocks as any,
         nonce: +(nonce || 0),
         signer,
