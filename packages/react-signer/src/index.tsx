@@ -66,4 +66,9 @@ export default styled(Signer)`
       margin-top: 0.75rem;
     }
   }
+
+  .signToggle {
+    position: absolute;
+    left: 1rem;
+  }
 `;

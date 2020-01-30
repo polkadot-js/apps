@@ -52,7 +52,7 @@ interface State {
   isQrVisible: boolean;
   isRenderError: boolean;
   isSendable: boolean;
-  isSign: boolean;
+  isSubmit: boolean;
   isV2?: boolean;
   nonce?: string;
   password: string;
@@ -116,7 +116,7 @@ const initialState: State = {
   isQrVisible: false,
   isRenderError: false,
   isSendable: false,
-  isSign: false,
+  isSubmit: true,
   nonce: undefined,
   password: '',
   qrAddress: '',
@@ -170,13 +170,13 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   public async componentDidUpdate (): Promise<void> {
-    const { accountNonce, currentItem, isSign } = this.state;
+    const { accountNonce, currentItem, isSubmit } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
       return this.sendRpc(currentItem);
     }
 
-    if (isSign && currentItem?.accountId && accountNonce == null) {
+    if (!isSubmit && currentItem?.accountId && accountNonce == null) {
       this.updateNonce();
     }
   }
@@ -199,7 +199,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, isQrScanning, isQrVisible, isRenderError, isSendable, isSign, signedTx } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isRenderError, isSendable, isSubmit, signedTx } = this.state;
 
     if (!currentItem) {
       return null;
@@ -211,39 +211,29 @@ class Signer extends React.PureComponent<Props, State> {
       <Modal.Actions cancelLabel={signedTx ? t('Close') : undefined} withOr={!signedTx} onCancel={isQrVisible ? this.onCancelQr : signedTx ? this.onCancelSign : this.onCancel}>
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
-            {!currentItem.isUnsigned && <Button
+            {!currentItem.isUnsigned && this.renderSignToggle()}
+            <Button.Or />
+            <Button
               className='ui--signer-Signer-Submit'
               isDisabled={!isSendable}
-              isPrimary={isSign}
-              onClick={this.onSign}
+              isPrimary
+              onClick={isQrVisible ? this.activateQrScanning : this.onSend}
               tabIndex={2}
-              label={t('Sign (no submission)')}
-              icon={'sign-in'}
-            />}
-            {!isSign &&
-            <>
-              <Button.Or />
-              <Button
-                className='ui--signer-Signer-Submit'
-                isDisabled={!isSendable}
-                isPrimary
-                onClick={isQrVisible ? this.activateQrScanning : this.onSend}
-                tabIndex={2}
-                label={
-                  isQrVisible
-                    ? t('Scan Signature Qr')
-                    : currentItem.isUnsigned
-                      ? t('Submit (no signature)')
-                      : isHardware
-                        ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
-                        : isExternal
-                          ? t('Sign via Qr')
-                          : t('Sign and Submit')
-                }
-                icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : isExternal ? 'qrcode' : 'sign-in'}
-              />
-            </>
-            }
+              label={
+                isQrVisible
+                  ? t('Scan Signature Qr')
+                  : currentItem.isUnsigned
+                    ? t('Submit (no signature)')
+                    : isHardware
+                      ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
+                      : isExternal
+                        ? t('Sign via Qr')
+                        : isSubmit
+                          ? t('Sign and Submit')
+                          : t('Sign (no submission)')
+              }
+              icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : isExternal ? 'qrcode' : 'sign-in'}
+            />
           </>
         )}
       </Modal.Actions>
@@ -251,7 +241,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { currentItem, isQrScanning, isQrVisible, isSendable, isSign, qrAddress, qrPayload, tip } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isSendable, isSubmit, qrAddress, qrPayload, tip } = this.state;
 
     if (!currentItem) {
       return null;
@@ -271,7 +261,7 @@ class Signer extends React.PureComponent<Props, State> {
           <>
             {this.renderTip()}
             {this.renderUnlock()}
-            {isSign && this.renderSignFields()}
+            {!isSubmit && this.renderSignFields()}
           </>
         )}
       </Transaction>
@@ -311,11 +301,27 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
+  private renderSignToggle (): React.ReactNode {
+    const { t } = this.props;
+    const { isSubmit } = this.state;
+
+    return <Toggle
+      className='signToggle'
+      label={
+        isSubmit
+          ? t('Sign and Submit')
+          : t('Sign (no submission)')
+      }
+      onChange={this.onToggleSign}
+      value={isSubmit}
+    />;
+  }
+
   private renderSignFields (): React.ReactNode {
     const { t } = this.props;
-    const { accountNonce, isSign, signedTx } = this.state;
+    const { accountNonce, isSubmit, signedTx } = this.state;
 
-    if (!isSign || accountNonce == null) {
+    if (isSubmit || accountNonce == null) {
       return null;
     }
 
@@ -341,20 +347,16 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState({ showTip });
   };
 
+  private onToggleSign = (isSubmit: boolean): void => {
+    this.setState({ isSubmit });
+  }
+
   private onChangeNonce = (value?: BN): void => {
     this.setState({ nonce: value ? value.toString() : '0' });
   }
 
   private onChangeBlocks = (value?: BN): void => {
     this.setState({ blocks: value ? value.toString() : '0' });
-  }
-
-  private onSign = (): void => {
-    if (this.state.isSign) {
-      this.onSend();
-    } else {
-      this.setState({ isSign: true });
-    }
   }
 
   private renderUnlock (): React.ReactNode {
@@ -542,7 +544,7 @@ class Signer extends React.PureComponent<Props, State> {
   };
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
-    const { isV2, isSign, showTip, tip } = this.state;
+    const { isV2, isSubmit, showTip, tip } = this.state;
 
     const { accountId, extrinsic, payload, isUnsigned } = queueTx;
 
@@ -574,8 +576,9 @@ class Signer extends React.PureComponent<Props, State> {
 
     return isUnsigned
       ? this.makeExtrinsicCall(submittable, queueTx, submittable.send.bind(submittable))
-      : isSign ? this.makeSignedTransaction(submittable, queueTx, keyring.getPair(accountId as string))
-        : this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend.bind(submittable), keyring.getPair(accountId as string));
+      : isSubmit
+        ? this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend.bind(submittable), keyring.getPair(accountId as string))
+        : this.makeSignedTransaction(submittable, queueTx, keyring.getPair(accountId as string));
   }
 
   private async submitRpc ({ method, section }: RpcMethod, values: any[]): Promise<QueueTxResult> {
