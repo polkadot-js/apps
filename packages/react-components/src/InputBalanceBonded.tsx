@@ -114,7 +114,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     const { freeBalance } = balances_all;
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
-    let extrinsic;
+    let extrinsic: any;
 
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
@@ -126,7 +126,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       } else if (extrinsicProp === 'staking.unbond') {
         extrinsic = api.tx.staking.unbond(prevMax);
       } else if (extrinsicProp === 'staking.bondExtra') {
-        extrinsic = api.tx.staking.bonExtra(prevMax);
+        extrinsic = api.tx.staking.bondExtra(prevMax);
       }
 
       const txLength = calcTxLength(extrinsic, balances_all.accountNonce);

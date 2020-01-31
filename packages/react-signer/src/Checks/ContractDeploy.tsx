@@ -23,7 +23,7 @@ export default function ContractDeploy ({ endowment, fees, onChange }: Props): R
   });
 
   useEffect((): void => {
-    const extraFees = new BN(fees.createBaseFee).add(fees.contractFee);
+    const extraFees = fees.contractFee;
     const extraAmount = endowment instanceof Compact
       ? endowment.toBn()
       : new BN(endowment || 0);
