@@ -28,5 +28,12 @@
   "Unable to render extrinsic, invalid": "Unable to render extrinsic, invalid",
   "Details": "Details",
   "Fees of {{fees}} will be applied to the submission": "Fees of {{fees}} will be applied to the submission",
-  "wrong password supplied": "wrong password supplied"
+  "wrong password supplied": "wrong password supplied",
+  "Close": "Close",
+  "Sign (no submission)": "Sign (no submission)",
+  "Nonce": "Nonce",
+  "Current account nonce: {{accountNonce}}": "Current account nonce: {{accountNonce}}",
+  "Lifetime (# of blocks)": "Lifetime (# of blocks)",
+  "Set to 0 to make transaction immortal": "Set to 0 to make transaction immortal",
+  "Signed transaction": "Signed transaction"
 }
