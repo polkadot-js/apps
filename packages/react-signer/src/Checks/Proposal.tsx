@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
 import { Icon } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -30,7 +30,7 @@ const ZERO = new BN(0);
 export default function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const minDeposit = api.consts.democracy.minimumDeposit || useCall<BN>(api.query.democracy.minimumDeposit, []);
+  const minDeposit = api.consts.democracy.minimumDeposit;
   const [{ extraAmount, isBelowMinimum }, setState] = useState<State>({
     extraFees: ZERO,
     extraAmount: ZERO,
