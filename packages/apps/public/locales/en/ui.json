@@ -856,5 +856,12 @@
   "defender": "",
   "Vote for defender": "",
   "Approve or reject this defneder.": "",
-  "vote for defender": ""
+  "vote for defender": "",
+  "Close": "",
+  "Sign (no submission)": "",
+  "Nonce": "",
+  "Current account nonce: {{accountNonce}}": "",
+  "Lifetime (# of blocks)": "",
+  "Set to 0 to make transaction immortal": "",
+  "Signed transaction": ""
 }
