@@ -35,7 +35,6 @@ const ZERO_FEES = ZERO_FEES_BALANCES;
 const ZERO_FEES_CONTRACT: DerivedContractFees = {
   callBaseFee: new BN(0),
   contractFee: new BN(0),
-  createBaseFee: new BN(0),
   creationFee: new BN(0),
   rentByteFee: new BN(0),
   rentDepositOffset: new BN(0),

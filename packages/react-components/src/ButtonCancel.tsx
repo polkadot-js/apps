@@ -10,11 +10,12 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   isDisabled?: boolean;
+  label?: string;
   onClick: () => void;
   tabIndex?: number;
 }
 
-export default function ButtonCancel ({ className, isDisabled, onClick, tabIndex }: Props): React.ReactElement<Props> {
+export default function ButtonCancel ({ className, isDisabled, label, onClick, tabIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -23,7 +24,7 @@ export default function ButtonCancel ({ className, isDisabled, onClick, tabIndex
       icon='cancel'
       isDisabled={isDisabled}
       isNegative
-      label={t('Cancel')}
+      label={label || t('Cancel')}
       onClick={onClick}
       tabIndex={tabIndex}
     />
