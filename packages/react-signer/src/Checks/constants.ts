@@ -2,17 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalancesAll, DerivedContractFees } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
 
-const ZERO_BALANCE: DerivedBalances = {
+const ZERO_BALANCE: DerivedBalancesAll = {
   accountId: createType(registry, 'AccountId'),
   accountNonce: createType(registry, 'Index'),
   availableBalance: createType(registry, 'Balance'),
   freeBalance: createType(registry, 'Balance'),
+  frozenFee: createType(registry, 'Balance'),
+  frozenMisc: createType(registry, 'Balance'),
   isVesting: false,
   lockedBalance: createType(registry, 'Balance'),
   lockedBreakdown: [],

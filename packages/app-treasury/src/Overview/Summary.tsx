@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { DerivedBalancesAccount } from '@polkadot/api-derive/types';
+import { Balance } from '@polkadot/types/interfaces';
+
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -21,12 +23,12 @@ interface Props {
 export default function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber as any, []);
+  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber as any, []);
   const spendPeriod = api.consts.treasury.spendPeriod;
-  const treasuryBalance = useCall<BN>(api.query.balances.freeBalance, [TREASURY_ACCOUNT]);
+  const treasuryBalance = useCall<DerivedBalancesAccount>(api.derive.balances.account as any, [TREASURY_ACCOUNT]);
 
-  const value = treasuryBalance?.gtn(0)
-    ? treasuryBalance.toString()
+  const value = treasuryBalance?.freeBalance.gtn(0)
+    ? treasuryBalance.freeBalance.toString()
     : null;
 
   return (
