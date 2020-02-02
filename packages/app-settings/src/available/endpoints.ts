@@ -6,6 +6,12 @@ import { Option } from '../types';
 
 export default [
   {
+    info: 'amber',
+    text: 'Centrifuge Testnet Amber (Full Node, hosted by Centrifuge)',
+    value: 'ws://35.246.192.167:9944',
+    withI18n: true
+  },
+  {
     info: 'flint',
     text: 'Centrifuge Testnet Flint (Full Node, hosted by Centrifuge)',
     value: 'ws://35.234.84.110:9944',
