@@ -8,7 +8,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs
 
 WORKDIR /app
-RUN git clone https://github.com/polkadot-js/apps
+COPY . .
 
 WORKDIR /app/apps
 RUN npm install yarn -g
