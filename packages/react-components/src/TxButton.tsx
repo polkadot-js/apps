@@ -62,7 +62,7 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
   }
 
   protected send = (): void => {
-    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = false } = this.props;
+    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = true } = this.props;
     let extrinsic: any;
 
     if (propsExtrinsic) {

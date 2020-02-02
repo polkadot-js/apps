@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveSocietyMember } from '@polkadot/api-derive/types';
+import { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -13,21 +13,29 @@ import Member from './Member';
 
 interface Props {
   className?: string;
+  info?: DeriveSociety;
 }
 
-export default function Members ({ className }: Props): React.ReactElement<Props> {
+export default function Members ({ className, info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<DeriveSocietyMember[]>(api.derive.society.members, []);
+  const [filtered, setFiltered] = useState<DeriveSocietyMember[]>([]);
+
+  useEffect((): void => {
+    members && setFiltered(
+      members.filter((member): boolean => !info || !info.hasDefender || !member.accountId.eq(info.defender))
+    );
+  }, [info, members]);
 
   return (
     <div className={`overviewSection ${className}`}>
       <h1>{t('members')}</h1>
-      {members?.length
+      {filtered.length
         ? (
           <Table>
             <Table.Body>
-              {members.map((member): React.ReactNode => (
+              {filtered.map((member): React.ReactNode => (
                 <Member
                   key={member.accountId.toString()}
                   value={member}

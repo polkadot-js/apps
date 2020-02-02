@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStakingAccount } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll, DerivedStakingAccount } from '@polkadot/api-derive/types';
 import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps } from './types';
 
@@ -46,7 +46,7 @@ const PERBILL = new BN(1000000000);
 
 interface Props extends BareProps {
   address: string;
-  balancesAll?: DerivedBalances;
+  balancesAll?: DerivedBalancesAll;
   children?: React.ReactNode;
   extraInfo?: [string, string][];
   stakingInfo?: DerivedStakingAccount;
