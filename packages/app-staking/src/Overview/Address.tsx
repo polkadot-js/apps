@@ -166,7 +166,7 @@ export default function Address ({ address, className, filter, filterName, hasQu
             type='next'
           />
         )}
-        {heartbeat && (
+        {heartbeat && (heartbeat.blockCount.gtn(0) || heartbeat.hasMessage) && (
           <Badge
             hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
               replace: {

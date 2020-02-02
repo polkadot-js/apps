@@ -1,3 +1,36 @@
+# 0.39.1
+
+- **Breaking** Drop support for V1 Substrate chains
+- Translation into Chinese (Thanks to https://github.com/dushaobindoudou)
+- Support for sign-only transactions (Thanks to https://github.com/mzolkiewski)
+- Add support for WestEnd testnet
+- Add support for social recovery in accounts
+- Add counters for all proposal-based apps
+- Disable spellcheck on all input fields (privacy)
+- Query the paymentInfo API to get weight fee information
+- Remove FF warning with https:// -> ws://localhost
+- Staking now supports where the controller or stash accounts are not local
+- Social app
+- Add support for identity setting (via identity module)
+- Add support for registrars to hand out identity judgements
+- Use both internal and lib hooks as applicable (refactoring)
+- Support QR codes (accounts) with optional names
+- Cleanup all Modals, simplify
+- Adjust balance display formats
+- Update to latest libraries (incl. util 2.0 & api 1.0)
+
+# 0.38.1
+
+- Fix summarybar in 123-code (Thanks to https://github.com/anakornk)
+- Update Edgeware with correct keys (Thanks to https://github.com/drewstone)
+- Add InputAddressMulti inputs, both to council and staking nominators
+- Rework all layouts, removing cards for table-ike-layouts
+- Technical comittee app
+- Allow for external proposal and queued for dispatch in democracy
+- Add pre-image support to democracy proposals (including imminent)
+- Improved staking page rendering (background)
+- Update to latest libraries
+
 # 0.37.1
 
 - Support for Kusama CC3

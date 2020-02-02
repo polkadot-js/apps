@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { DerivedFees, DerivedBalances, DerivedContractFees } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalancesAll, DerivedContractFees } from '@polkadot/api-derive/types';
 import { AccountId, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { ExtraFees } from './types';
@@ -37,7 +37,7 @@ interface State {
 
 interface Props {
   balances_fees?: DerivedFees;
-  balances_all?: DerivedBalances;
+  balances_all?: DerivedBalancesAll;
   contract_fees?: DerivedContractFees;
   accountId?: string | null;
   className?: string;
