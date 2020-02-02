@@ -3,23 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveProposal } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, AddressSmall } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Button } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
+import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Seconding from './Seconding';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   value: DeriveProposal;
 }
 
-function Proposal ({ className, t, value: { balance, hash, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
+function Proposal ({ className, value: { balance, hash, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const seconding = seconds.filter((_address, index): boolean => index !== 0);
 
   return (
@@ -36,7 +38,7 @@ function Proposal ({ className, t, value: { balance, hash, index, proposal, prop
         proposalHash={hash}
         proposal={proposal}
       />
-      <td className='top seconding'>
+      <td className='top padtop'>
         {seconding.length !== 0 && (
           <details>
             <summary>
@@ -55,29 +57,30 @@ function Proposal ({ className, t, value: { balance, hash, index, proposal, prop
         )}
       </td>
       <td className='together number top'>
-        <Seconding
-          depositors={seconds || []}
-          proposalId={index}
-        />
+        <Button.Group>
+          <Seconding
+            depositors={seconds || []}
+            proposalId={index}
+            proposal={proposal}
+          />
+          <PreImageButton
+            hash={hash}
+            proposal={proposal}
+          />
+        </Button.Group>
       </td>
     </tr>
   );
 }
 
-export default translate(
-  styled(Proposal)`
-    .identityIcon {
-      &:first-child {
-        padding-top: 0;
-      }
-
-      &:last-child {
-        margin-bottom: 4px;
-      }
+export default styled(Proposal)`
+  .identityIcon {
+    &:first-child {
+      padding-top: 0;
     }
 
-    .seconding {
-      padding-top: 1.1rem;
+    &:last-child {
+      margin-bottom: 4px;
     }
-  `
-);
+  }
+`;

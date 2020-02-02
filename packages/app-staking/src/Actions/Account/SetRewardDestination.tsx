@@ -5,7 +5,7 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
@@ -39,31 +39,22 @@ class SetRewardDestination extends TxComponent<Props, State> {
       <Modal
         className='staking--Bonding'
         header={t('Bonding Preferences')}
-        open
         size='small'
       >
         {this.renderContent()}
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              icon='cancel'
-            />
-            <Button.Or />
-            <TxButton
-              accountId={controllerId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Set reward destination')}
-              icon='sign-in'
-              onClick={onClose}
-              params={[destination]}
-              tx={'staking.setPayee'}
-              ref={this.button}
-            />
-          </Button.Group>
+        <Modal.Actions onCancel={onClose}>
+          <TxButton
+            accountId={controllerId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Set reward destination')}
+            icon='sign-in'
+            onStart={onClose}
+            params={[destination]}
+            tx={'staking.setPayee'}
+            ref={this.button}
+            withSpinner
+          />
         </Modal.Actions>
       </Modal>
     );

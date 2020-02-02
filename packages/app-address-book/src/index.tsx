@@ -5,7 +5,7 @@
 import { AppProps } from '@polkadot/react-components/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
@@ -21,6 +21,13 @@ interface Props extends AppProps {
 
 export default function AddressBookApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('My contacts')
+    }
+  ], [t]);
 
   return (
     <main className='address-book--App'>
@@ -28,13 +35,7 @@ export default function AddressBookApp ({ basePath, onStatusChange }: Props): Re
       <header>
         <Tabs
           basePath={basePath}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('My contacts')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

@@ -11,7 +11,9 @@ export default ([
     Component: TechComm,
     useCounter,
     display: {
-      needsApi: ['query.technicalCommittee.members']
+      needsApi: [
+        'query.technicalCommittee.members'
+      ]
     },
     i18n: {
       defaultValue: 'Tech. comm.'

@@ -8,7 +8,7 @@ import { ExtrinsicAndSenders, TxDef, TxDefs, TxSource, TxProps, TxState } from '
 
 import { useContext, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { StatusContext } from '@polkadot/react-components';
+import { StatusContext } from '@polkadot/react-components/Status';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { assert, isFunction } from '@polkadot/util';
 import useApi from './useApi';
@@ -43,11 +43,9 @@ function getExtrinsic<T extends TxDefs> (api: ApiPromise, txDef: T): Submittable
 }
 
 export default function useTx<T extends TxDef> (memoFn: (...args: any[]) => TxSource<T>, memoArr: any[], { accountId: anAccountId, onChangeAccountId, onStart, onSuccess, onFailed, onUpdate }: TxProps = {}): TxState {
-  const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
-
+  const { api } = useApi();
   const txSource = useMemo(memoFn, memoArr);
-
   const [accountId, setAccountId] = useState<StringOrNull>(anAccountId || null);
   const [isSending, setIsSending] = useState(false);
 

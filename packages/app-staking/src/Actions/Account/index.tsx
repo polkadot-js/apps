@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
@@ -89,13 +89,14 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
 
 function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isSubstrateV2 } = useApi();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
-  const balancesAll = useCall<DerivedBalances>(api.derive.balances.all as any, [stashId]);
+  const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
-  const inactives = useInactives(stashId, nominees);
+  const [activeNoms, setActiveNoms] = useState<string[]>([]);
+  const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
@@ -121,6 +122,12 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
       }
     }
   }, [allStashes, stakingAccount, stashId, validateInfo]);
+
+  useEffect((): void => {
+    if (nominees) {
+      setActiveNoms(nominees.filter((id): boolean => !inactiveNoms.includes(id)));
+    }
+  }, [inactiveNoms, nominees]);
 
   return (
     <tr className={className}>
@@ -209,30 +216,32 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
             <AddressInfo
               address={stashId}
               withBalance={false}
-              withHexSessionId={isSubstrateV2 && hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
+              withHexSessionId={hexSessionIdNext !== '0x' && [hexSessionIdQueue, hexSessionIdNext]}
               withValidatorPrefs
             />
           </td>
         )
         : (
           <td>
-            {isStashNominating && nominees && (
+            {isStashNominating && (
               <>
-                <details>
-                  <summary>{t('All Nominations ({{count}})', { replace: { count: nominees.length } })}</summary>
-                  {nominees.map((nomineeId, index): React.ReactNode => (
-                    <AddressMini
-                      key={index}
-                      value={nomineeId}
-                      withBalance={false}
-                      withBonded
-                    />
-                  ))}
-                </details>
-                {inactives.length !== 0 && (
+                {activeNoms.length !== 0 && (
                   <details>
-                    <summary>{t('Inactive nominations ({{count}})', { replace: { count: inactives.length } })}</summary>
-                    {inactives.map((nomineeId, index): React.ReactNode => (
+                    <summary>{t('Active nominations ({{count}})', { replace: { count: activeNoms.length } })}</summary>
+                    {activeNoms.map((nomineeId, index): React.ReactNode => (
+                      <AddressMini
+                        key={index}
+                        value={nomineeId}
+                        withBalance={false}
+                        withBonded
+                      />
+                    ))}
+                  </details>
+                )}
+                {inactiveNoms.length !== 0 && (
+                  <details>
+                    <summary>{t('Inactive nominations ({{count}})', { replace: { count: inactiveNoms.length } })}</summary>
+                    {inactiveNoms.map((nomineeId, index): React.ReactNode => (
                       <AddressMini
                         key={index}
                         value={nomineeId}
@@ -269,7 +278,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                 )
                 : (
                   <Button.Group>
-                    {(!sessionIds.length || (isSubstrateV2 && hexSessionIdNext === '0x'))
+                    {(!sessionIds.length || hexSessionIdNext === '0x')
                       ? (
                         <Button
                           isPrimary
@@ -356,7 +365,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       disabled={!isOwnController}
                       onClick={toggleSetSession}
                     >
-                      {isSubstrateV2 ? t('Change session keys') : t('Change session account')}
+                      {t('Change session keys')}
                     </Menu.Item>
                   }
                   {isStashNominating &&
@@ -367,7 +376,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       {t('Set nominees')}
                     </Menu.Item>
                   }
-                  {!isStashNominating && isSubstrateV2 &&
+                  {!isStashNominating &&
                     <Menu.Item onClick={toggleInject}>
                       {t('Inject session keys (advanced)')}
                     </Menu.Item>

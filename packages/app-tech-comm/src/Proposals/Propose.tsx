@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { TxSource, TxDef } from '@polkadot/react-hooks/types';
 import { Call, Proposal } from '@polkadot/types/interfaces';
 
@@ -13,17 +12,15 @@ import { Extrinsic, InputNumber, TxModalNew as TxModal } from '@polkadot/react-c
 import { useApi, useTx } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   memberCount?: number;
   onClose: () => void;
 }
 
-function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Props> {
-  const _hasThreshold = (threshold?: BN | null): boolean =>
-    !!threshold && !threshold.isZero() && threshold.lten(memberCount);
-
+export default function Propose ({ onClose, memberCount = 0 }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [proposal, setProposal] = useState<Proposal | null>(null);
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
@@ -43,6 +40,9 @@ function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Pr
     [memberCount, proposal, threshold, hasThreshold],
     {}
   );
+
+  const _hasThreshold = (threshold?: BN | null): boolean =>
+    !!threshold && !threshold.isZero() && threshold.lten(memberCount);
 
   useEffect((): void => {
     setThreshold([threshold, _hasThreshold(threshold)]);
@@ -79,5 +79,3 @@ function Propose ({ t, onClose, memberCount = 0 }: Props): React.ReactElement<Pr
     </TxModal>
   );
 }
-
-export default translate(Propose);

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
+import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import store from 'store';
@@ -11,14 +11,13 @@ import { registry } from '@polkadot/react-api';
 import { Button, Editor, InputFile } from '@polkadot/react-components';
 import { isJsonObject, stringToU8a, u8aToString } from '@polkadot/util';
 
-import translate from './translate';
-
-interface Props extends AppProps, I18nProps {}
+import { useTranslation } from './translate';
 
 const EMPTY_CODE = '{\n\n}';
 const EMPTY_TYPES = {};
 
-function Developer ({ className, onStatusChange, t }: Props): React.ReactElement<Props> {
+function Developer ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [code, setCode] = useState(EMPTY_CODE);
   const [isJsonValid, setIsJsonValid] = useState(true);
   const [isTypesValid, setIsTypesValid] = useState(true);
@@ -160,12 +159,10 @@ function Developer ({ className, onStatusChange, t }: Props): React.ReactElement
   );
 }
 
-export default translate(
-  styled(Developer)`
-    .editor {
-      height: 21rem;
-      margin-left: 2rem;
-      position: relative;
-    }
-  `
-);
+export default styled(Developer)`
+  .editor {
+    height: 21rem;
+    margin-left: 2rem;
+    position: relative;
+  }
+`;

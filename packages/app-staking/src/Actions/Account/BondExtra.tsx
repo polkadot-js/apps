@@ -9,7 +9,7 @@ import { CalculateBalanceProps } from '../../types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Available, Button, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { Available, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
@@ -68,30 +68,21 @@ class BondExtra extends TxComponent<Props, State> {
       <Modal
         className='staking--BondExtra'
         header= {t('Bond more funds')}
-        open
         size='small'
       >
         {this.renderContent()}
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={t('Cancel')}
-              icon='cancel'
-            />
-            <Button.Or />
-            <TxButton
-              accountId={stashId}
-              isDisabled={!canSubmit}
-              isPrimary
-              label={t('Bond more')}
-              icon='sign-in'
-              onClick={onClose}
-              extrinsic={extrinsic}
-              ref={this.button}
-            />
-          </Button.Group>
+        <Modal.Actions onCancel={onClose}>
+          <TxButton
+            accountId={stashId}
+            isDisabled={!canSubmit}
+            isPrimary
+            label={t('Bond more')}
+            icon='sign-in'
+            onStart={onClose}
+            extrinsic={extrinsic}
+            ref={this.button}
+            withSpinner
+          />
         </Modal.Actions>
       </Modal>
     );
@@ -100,7 +91,6 @@ class BondExtra extends TxComponent<Props, State> {
   private renderContent (): React.ReactNode {
     const { stashId, systemChain, t } = this.props;
     const { amountError, maxAdditional, maxBalance } = this.state;
-    const transferrable = <span className='label'>{t('transferrable')}</span>;
     const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
@@ -110,7 +100,7 @@ class BondExtra extends TxComponent<Props, State> {
           defaultValue={stashId}
           isDisabled
           label={t('stash account')}
-          labelExtra={<Available label={transferrable} params={stashId} />}
+          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={stashId} />}
         />
         <InputBalance
           autoFocus
@@ -136,7 +126,7 @@ class BondExtra extends TxComponent<Props, State> {
     this.setState((prevState: State): State => {
       const { api } = this.props;
       const { amountError = prevState.amountError, maxAdditional = prevState.maxAdditional, maxBalance = prevState.maxBalance } = newState;
-      const extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
+      const extrinsic: any = (maxAdditional && maxAdditional.gte(ZERO))
         ? api.tx.staking.bondExtra(maxAdditional)
         : null;
 
@@ -158,7 +148,7 @@ class BondExtra extends TxComponent<Props, State> {
 
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
-    let extrinsic;
+    let extrinsic: any;
 
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;

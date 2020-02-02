@@ -8,7 +8,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
@@ -37,6 +37,12 @@ interface AddressState {
   pairType: KeypairType;
   seed: string;
   seedType: SeedType;
+}
+
+interface CreateOptions {
+  genesisHash?: string;
+  name: string;
+  tags?: string[];
 }
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
@@ -129,12 +135,12 @@ export function downloadAccount ({ json, pair }: CreateResult): void {
   InputAddress.setLastValue('account', pair.address);
 }
 
-function createAccount (suri: string, pairType: KeypairType, name: string, password: string, success: string): ActionStatus {
+function createAccount (suri: string, pairType: KeypairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
-    const result = keyring.addUri(suri, password, { name: name.trim(), tags: [] }, pairType);
+    const result = keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
     const { address } = result.pair;
 
     status.account = address;
@@ -152,12 +158,20 @@ function createAccount (suri: string, pairType: KeypairType, name: string, passw
 
 function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isDevelopment } = useApi();
+  const { api, isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isSeedValid;
+  const seedOpt = useMemo(() => (
+    isDevelopment
+      ? [{ value: 'dev', text: t('Development') }]
+      : []
+  ).concat(
+    { value: 'bip', text: t('Mnemonic') },
+    { value: 'raw', text: t('Raw seed') }
+  ), [isDevelopment, t]);
 
   const _onChangePass = (password: string): void =>
     setPassword({ isPassValid: keyring.isPassValid(password), password });
@@ -180,7 +194,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
       return;
     }
 
-    const status = createAccount(`${seed}${derivePath}`, pairType, name, password, t('created account'));
+    const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+    const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t('created account'));
 
     _toggleConfirmation();
     onStatusChange(status);
@@ -191,7 +206,6 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
     <Modal
       className={className}
       header={t('Add an account via seed')}
-      open
     >
       {address && isConfirmationOpen && (
         <CreateConfirmation
@@ -239,16 +253,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
               isButton
               defaultValue={seedType}
               onChange={_selectSeedType}
-              options={
-                (
-                  isDevelopment
-                    ? [{ value: 'dev', text: t('Development') }]
-                    : []
-                ).concat(
-                  { value: 'bip', text: t('Mnemonic') },
-                  { value: 'raw', text: t('Raw seed') }
-                )
-              }
+              options={seedOpt}
             />
           </Input>
           <Password
@@ -288,23 +293,14 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
           </details>
         </AddressRow>
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            icon='cancel'
-            isNegative
-            label={t('Cancel')}
-            onClick={onClose}
-          />
-          <Button.Or />
-          <Button
-            icon='plus'
-            isDisabled={!isValid}
-            isPrimary
-            label={t('Save')}
-            onClick={_toggleConfirmation}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='plus'
+          isDisabled={!isValid}
+          isPrimary
+          label={t('Save')}
+          onClick={_toggleConfirmation}
+        />
       </Modal.Actions>
     </Modal>
   );

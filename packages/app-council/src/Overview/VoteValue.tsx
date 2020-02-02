@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -26,7 +26,7 @@ interface ValueState {
 export default function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
+  const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 
   // TODO This may be useful elsewhere, so figure out a way to make this a utility

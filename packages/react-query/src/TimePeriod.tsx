@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Moment } from '@polkadot/types/interfaces';
 import { BareProps } from '@polkadot/react-api/types';
 
 import React from 'react';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 interface Props extends BareProps {
@@ -16,7 +15,7 @@ interface Props extends BareProps {
 
 export default function TimePeriod ({ children, className, label, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const minimumPeriod = api.consts?.timestamp?.minimumPeriod || useCall<Moment>(api.query.timestamp.minimumPeriod, []);
+  const minimumPeriod = api.consts?.timestamp?.minimumPeriod;
 
   return (
     <div

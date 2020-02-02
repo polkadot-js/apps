@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { Hash } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Input, InputAddress, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, InputAddress, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -15,36 +16,41 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  isImminent?: boolean;
+  matchHash?: Hash;
   onClose: () => void;
 }
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [isImminent, setIsImminent] = useState(false);
-  const [{ hex, hash }, setHash] = useState<{ hex: string; hash: string }>({ hex: '', hash: ZERO_HASH });
+  const [isImminent, setIsImminent] = useState(propsIsImminent || false);
+  const [{ encodedProposal, encodedHash }, setHash] = useState<{ encodedProposal: string; encodedHash: string }>({ encodedProposal: '', encodedHash: ZERO_HASH });
   const [proposal, setProposal] = useState<any>();
 
   useEffect((): void => {
-    const hex = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
+    const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
 
-    setHash({ hex, hash: blake2AsHex(hex) });
+    setHash({ encodedProposal, encodedHash: blake2AsHex(encodedProposal) });
   }, [proposal]);
+
+  const isMatched = matchHash
+    ? matchHash.eq(encodedHash)
+    : true;
 
   return (
     <Modal
       className={className}
       header={t('Submit preimage')}
-      open
     >
       <Modal.Content>
         <InputAddress
           help={t('The account you want to register the preimage from')}
           label={t('send from account')}
-          labelExtra={<Available label={t('transferrable')} params={accountId} />}
+          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={accountId} />}
           onChange={setAccountId}
           type='account'
         />
@@ -56,8 +62,9 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
         <Input
           help={t('The hash of the selected proposal, use it for submitting the proposal')}
           isDisabled
+          isDisabledError={!isMatched}
           label={t('preimage hash')}
-          value={hash}
+          value={encodedHash}
         />
         <Toggle
           className='toggleImminent'
@@ -66,27 +73,17 @@ function PreImage ({ className, onClose }: Props): React.ReactElement<Props> {
           value={isImminent}
         />
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            label={t('Cancel')}
-            icon='add'
-            onClick={onClose}
-          />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            isDisabled={!proposal || !accountId}
-            isPrimary
-            label={t('Submit preimage')}
-            icon='add'
-            onStart={onClose}
-            params={[hex]}
-            tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
-            withSpinner={false}
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={accountId}
+          isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
+          isPrimary
+          label={t('Submit preimage')}
+          icon='add'
+          onStart={onClose}
+          params={[encodedProposal]}
+          tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}
+        />
       </Modal.Actions>
     </Modal>
   );

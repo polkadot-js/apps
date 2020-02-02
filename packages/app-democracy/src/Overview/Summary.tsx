@@ -18,7 +18,7 @@ function Summary ({ t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const activeProposals = useCall<any[]>(api.derive.democracy.proposals, []);
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber, []);
-  const nextActive = useCall<BN>(api.query.democracy?.lowestUnbaked || api.query.democracy.nextTally, []);
+  const nextActive = useCall<BN>(api.query.democracy.lowestUnbaked, []);
   const publicPropCount = useCall<BN>(api.query.democracy.publicPropCount, []);
   const referendumCount = useCall<BN>(api.query.democracy.referendumCount, []);
 

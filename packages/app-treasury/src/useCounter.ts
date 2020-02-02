@@ -9,7 +9,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const proposals = useCall<DerivedTreasuryProposals>(isApiReady ? api.derive.treasury.proposals : undefined, []);
+  const proposals = useCall<DerivedTreasuryProposals>(isApiReady ? api.derive.treasury?.proposals : undefined, []);
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {

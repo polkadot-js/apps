@@ -4,8 +4,6 @@
 
 import { Keys, ValidatorId } from '@polkadot/types/interfaces';
 
-import './Params.css';
-
 import React from 'react';
 import { classes } from '@polkadot/react-components/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
@@ -28,7 +26,7 @@ function div ({ key, className }: DivProps, ...values: React.ReactNode[]): React
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function valueToText (type: string, value: any, swallowError = true, contentShorten = true): React.ReactNode {
+export default function valueToText (type: string, value: any, swallowError = true, contentShorten = true): React.ReactNode {
   if (isNull(value) || isUndefined(value)) {
     return div({}, '<unknown>');
   }
@@ -63,5 +61,3 @@ function valueToText (type: string, value: any, swallowError = true, contentShor
       )
   );
 }
-
-export default valueToText;

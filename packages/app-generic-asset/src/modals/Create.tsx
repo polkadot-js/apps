@@ -2,22 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { InputNumber, Button, Input, Modal } from '@polkadot/react-components';
+import { Button, Input, InputNumber, Modal } from '@polkadot/react-components';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
 export interface ModalProps {
   onClose: () => void;
   onRegister: (id: BN, name: string) => void;
 }
 
-interface Props extends ModalProps, I18nProps {}
+interface Props extends ModalProps {
+  className?: string;
+}
 
-function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
+export default function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [assetId, setAssetId] = useState(new BN(0));
   const [name, setName] = useState('new asset');
 
@@ -28,10 +29,7 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <Modal
-      header={t('Register an Asset')}
-      open
-    >
+    <Modal header={t('Register an Asset')}>
       <Modal.Content>
         <InputNumber
           help={t('Enter the Asset ID of the token you want to manage.')}
@@ -50,26 +48,15 @@ function Create ({ onClose, onRegister, t }: Props): React.ReactElement<Props> {
           value={name}
         />
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-            icon='cancel'
-          />
-          <Button.Or />
-          <Button
-            isDisabled={!name}
-            isPrimary
-            onClick={onClose}
-            label={t('Register')}
-            icon='registered'
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          isDisabled={!name}
+          isPrimary
+          onClick={onClose}
+          label={t('Register')}
+          icon='registered'
+        />
       </Modal.Actions>
     </Modal>
   );
 }
-
-export default translate(Create);

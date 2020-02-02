@@ -5,7 +5,7 @@
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
@@ -21,21 +21,25 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
   const { t } = useTranslation();
   const { api } = useApi();
   const councilThreshold = useCall<number>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
-    transform: (value: any[]): number => (value.length / 2) + 1
+    transform: (value: any[]): number =>
+      Math.ceil(value.length * 0.5)
   });
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [councilType, setCouncilType] = useState('reject');
   const [hasProposals, setHasProposals] = useState(true);
+  const councilTypeOpt = useMemo(() => [
+    { value: 'accept', text: t('Acceptance proposal to council') },
+    { value: 'reject', text: t('Rejection proposal to council') }
+  ], [t]);
 
   useEffect((): void => {
-    const available = councilProposals
-      .map(({ votes }): number =>
-        votes ? votes?.index.toNumber() : -1
-      )
-      .filter((index): boolean => index !== -1);
-
-    setHasProposals(!!available.length);
+    setHasProposals(
+      !!councilProposals
+        .map(({ votes }): number => votes ? votes?.index.toNumber() : -1)
+        .filter((index): boolean => index !== -1)
+        .length
+    );
   }, [councilProposals]);
 
   if (hasProposals) {
@@ -47,7 +51,6 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
       {isOpen && (
         <Modal
           header={t('Submit to council')}
-          open
           size='small'
         >
           <Modal.Content>
@@ -62,38 +65,26 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
               help={t('The type of council proposal to submit.')}
               label={t('council proposal type')}
               onChange={setCouncilType}
-              options={[
-                { value: 'accept', text: t('Acceptance proposal to council') },
-                { value: 'reject', text: t('Rejection proposal to council') }
-              ]}
+              options={councilTypeOpt}
               value={councilType}
             />
           </Modal.Content>
-          <Modal.Actions>
-            <Button.Group>
-              <Button
-                icon='cancel'
-                isNegative
-                label={t('Cancel')}
-                onClick={toggleOpen}
-              />
-              <Button.Or />
-              <TxButton
-                accountId={accountId}
-                icon='check'
-                isDisabled={!accountId || !councilThreshold}
-                isPrimary
-                label={t('Send to council')}
-                onClick={toggleOpen}
-                params={[
-                  councilThreshold,
-                  councilType === 'reject'
-                    ? api.tx.treasury.rejectProposal(id)
-                    : api.tx.treasury.approveProposal(id)
-                ]}
-                tx='council.propose'
-              />
-            </Button.Group>
+          <Modal.Actions onCancel={toggleOpen}>
+            <TxButton
+              accountId={accountId}
+              icon='check'
+              isDisabled={!accountId || !councilThreshold}
+              isPrimary
+              label={t('Send to council')}
+              onStart={toggleOpen}
+              params={[
+                councilThreshold,
+                councilType === 'reject'
+                  ? api.tx.treasury.rejectProposal(id)
+                  : api.tx.treasury.approveProposal(id)
+              ]}
+              tx='council.propose'
+            />
           </Modal.Actions>
         </Modal>
       )}
