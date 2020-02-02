@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps, BitLength } from './types';
-import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -20,7 +20,7 @@ import { bnMax } from '@polkadot/util';
 interface Props extends BareProps, ApiProps {
   autoFocus?: boolean;
   balances_fees?: DerivedFees;
-  balances_all?: DerivedBalances;
+  balances_all?: DerivedBalancesAll;
   controllerId: string;
   defaultValue?: BN | string;
   destination?: number;

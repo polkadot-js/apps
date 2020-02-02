@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll } from '@polkadot/api-derive/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
@@ -20,7 +20,7 @@ interface Props extends I18nProps {
 
 function ValidateAmount ({ accountId, onError, value, t }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [accountId]);
+  const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [accountId]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
