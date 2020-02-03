@@ -75,6 +75,7 @@ export default function Externals ({ className }: Props): React.ReactElement<Pro
               <PreImageButton
                 hash={hash}
                 proposal={expanded?.proposal}
+                withoutOr
               />
             </td>
           </tr>
