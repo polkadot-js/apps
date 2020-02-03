@@ -12,6 +12,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { Bytes, Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
+import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 
 interface Props {
@@ -70,6 +71,13 @@ export default function Externals ({ className }: Props): React.ReactElement<Pro
               proposalHash={hash}
               proposal={expanded?.proposal}
             />
+            <td className='together number top'>
+              <PreImageButton
+                hash={hash}
+                proposal={expanded?.proposal}
+                withoutOr
+              />
+            </td>
           </tr>
         </Table.Body>
       </Table>
