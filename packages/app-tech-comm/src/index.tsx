@@ -31,7 +31,7 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
     },
     {
       name: 'proposals',
-      text: t('Proposals ({{count}})', { replace: { count: proposals?.length || 0 } })
+      text: t('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
     }
   ], [proposals, t]);
 
