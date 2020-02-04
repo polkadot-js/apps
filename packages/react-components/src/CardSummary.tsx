@@ -87,6 +87,10 @@ export default styled(CardSummary)`
   justify-content: flex-end;
   padding: 0rem 1.5rem 0.5rem 1.5rem;
 
+  .ui--FormatBalance .balance-postfix {
+    opacity: 1;
+  }
+
   > div {
     font-size: 2.1rem;
     font-weight: 100;

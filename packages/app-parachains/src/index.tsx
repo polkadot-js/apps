@@ -4,7 +4,7 @@
 
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
@@ -15,19 +15,20 @@ interface Props extends AppProps, BareProps {}
 
 export default function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const items = useMemo(() => [
+    {
+      isRoot: true,
+      name: 'overview',
+      text: t('Parachains overview')
+    }
+  ], [t]);
 
   return (
     <main>
       <header>
         <Tabs
           basePath={basePath}
-          items={[
-            {
-              isRoot: true,
-              name: 'overview',
-              text: t('Parachains overview')
-            }
-          ]}
+          items={items}
         />
       </header>
       <Switch>

@@ -7,8 +7,7 @@ import { Call, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
-import { registry } from '@polkadot/react-api';
-import { withCalls, withMulti } from '@polkadot/react-api/hoc';
+import { registry, withApi, withMulti } from '@polkadot/react-api';
 import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { createType } from '@polkadot/types';
@@ -17,7 +16,7 @@ import translate from '../translate';
 
 interface Props extends TxModalProps, ApiProps {
   isMember: boolean;
-  memberCount: number;
+  members: string[];
 }
 
 interface State extends TxModalState {
@@ -32,16 +31,14 @@ class Propose extends TxModal<Props, State> {
     this.defaultState = {
       ...this.defaultState,
       method: null,
-      threshold: props.memberCount ? new BN((props.memberCount / 2) + 1) : null
+      threshold: props.members.length ? new BN(Math.ceil(props.members.length * 0.5)) : null
     };
     this.state = this.defaultState;
   }
 
-  public static getDerivedStateFromProps ({ memberCount }: Props, { threshold }: State): Pick<State, never> | null {
-    if (!threshold && memberCount > 0) {
-      const simpleMajority = new BN((memberCount / 2) + 1);
-
-      return { threshold: simpleMajority };
+  public static getDerivedStateFromProps ({ members }: Props, { threshold }: State): Pick<State, never> | null {
+    if (!threshold && members.length) {
+      return { threshold: new BN(Math.ceil(members.length * 0.5)) };
     }
 
     return null;
@@ -61,10 +58,10 @@ class Propose extends TxModal<Props, State> {
   }
 
   protected isDisabled = (): boolean => {
-    const { memberCount = 0 } = this.props;
+    const { members } = this.props;
     const { accountId, method, threshold } = this.state;
 
-    const hasThreshold = !!threshold && threshold.gtn(0) && threshold.ltn(memberCount + 1);
+    const hasThreshold = !!threshold && threshold.gtn(0) && threshold.ltn(members.length + 1);
     const hasMethod = !!method;
 
     return !accountId || !hasMethod || !hasThreshold;
@@ -85,7 +82,7 @@ class Propose extends TxModal<Props, State> {
   }
 
   protected renderContent = (): React.ReactNode => {
-    const { apiDefaultTxSudo, memberCount = 0, t } = this.props;
+    const { apiDefaultTxSudo, members, t } = this.props;
     const { threshold } = this.state;
 
     return (
@@ -94,13 +91,13 @@ class Propose extends TxModal<Props, State> {
           className='medium'
           label={t('threshold')}
           help={t('The minimum number of council votes required to approve this motion')}
-          isError={!threshold || threshold.eqn(0) || threshold.gtn(memberCount)}
+          isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
           onChange={this.onChangeThreshold}
           onEnter={this.sendTx}
           placeholder={
             t(
               'Positive number between 1 and {{memberCount}}',
-              { replace: { memberCount } }
+              { replace: { memberCount: members.length } }
             )
           }
           value={threshold || new BN(0)}
@@ -116,10 +113,10 @@ class Propose extends TxModal<Props, State> {
   }
 
   private onChangeThreshold = (threshold: BN | null = null): void => {
-    const { memberCount = 0 } = this.props;
+    const { members } = this.props;
 
-    if (memberCount > 0 && !this.defaultState.threshold) {
-      this.defaultState.threshold = new BN((memberCount / 2) + 1);
+    if (members.length && !this.defaultState.threshold) {
+      this.defaultState.threshold = new BN(Math.ceil(members.length * 0.5));
     }
 
     this.setState({ threshold });
@@ -135,14 +132,6 @@ class Propose extends TxModal<Props, State> {
 }
 
 export default withMulti(
-  Propose,
-  translate,
-  withCalls(
-    ['query.electionsPhragmen.members', {
-      fallbacks: ['query.elections.members'],
-      propName: 'memberCount',
-      transform: (value: any[]): number =>
-        value.length
-    }]
-  )
+  translate(Propose),
+  withApi
 );

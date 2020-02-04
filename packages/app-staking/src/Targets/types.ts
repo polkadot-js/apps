@@ -18,7 +18,10 @@ export interface ValidatorInfo {
   isNominating: boolean;
   key: string;
   numNominators: number;
-  rankBonded: number;
+  rankBondOther: number;
+  rankBondOwn: number;
+  rankBondTotal: number;
+  rankComm: number;
   rankOverall: number;
   rankPayment: number;
   rankReward: number;

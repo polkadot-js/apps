@@ -45,7 +45,8 @@ const LOGOS: Record<string, any> = {
   alexander: polkadot,
   kusama: chainKusama,
   polkadot,
-  substrate
+  substrate,
+  westend: polkadot
 };
 
 interface Props {
