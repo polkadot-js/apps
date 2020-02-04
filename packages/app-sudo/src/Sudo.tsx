@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call } from '@polkadot/types/interfaces';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { ComponentProps } from './types';
@@ -20,7 +20,7 @@ interface Props extends I18nProps, ApiProps, ComponentProps {
 }
 
 interface State {
-  method: Call | null;
+  method: SubmittableExtrinsic<'promise'> | null;
   isValid: boolean;
 }
 
@@ -82,7 +82,7 @@ class Propose extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeExtrinsic = (method?: Call): void => {
+  private onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void => {
     if (!method) {
       return;
     }

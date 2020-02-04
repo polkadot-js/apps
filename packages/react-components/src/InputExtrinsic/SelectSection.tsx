@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CallFunction } from '@polkadot/types/types';
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
@@ -16,7 +16,7 @@ interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: string) => void;
   options: DropdownOptions;
-  value: CallFunction;
+  value: SubmittableExtrinsicFunction<'promise'>;
 }
 
 export default function SelectSection ({ className, defaultValue, isError, onChange, options, style, value }: Props): React.ReactElement<Props> {
