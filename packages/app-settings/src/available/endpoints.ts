@@ -5,42 +5,7 @@
 import { Option } from '../types';
 
 export default [
-  {
-    info: 'kusama',
-    text: 'Kusama (Polkadot Canary, hosted by Parity)',
-    value: 'wss://kusama-rpc.polkadot.io/',
-    withI18n: true
-  },
-  {
-    info: 'kusama',
-    text: 'Kusama (Polkadot Canary, hosted by Web3 Foundation)',
-    value: 'wss://cc3-5.kusama.network/',
-    withI18n: true
-  },
-  {
-    info: 'westend',
-    text: 'Westend (Polkadot Testnet, hosted by Parity)',
-    value: 'wss://westend-rpc.polkadot.io',
-    withI18n: true
-  },
-  {
-    info: 'edgeware',
-    text: 'Edgeware Testnet (Edgeware Testnet, hosted by Commonwealth Labs)',
-    value: 'wss://testnet4.edgewa.re',
-    withI18n: true
-  },
-  {
-    info: 'substrate',
-    text: 'Flaming Fir (Substrate Testnet, hosted by Parity)',
-    value: 'wss://substrate-rpc.parity.io/',
-    withI18n: true
-  },
-  {
-    info: 'substrate',
-    text: 'Kulupu (Kulupu Mainnet, hosted by Kulupu)',
-    value: 'wss://rpc.kulupu.network/ws',
-    withI18n: true
-  },
+  { text: 'Acala Alpha Testnet', value: 'wss://testnet-node-1.acala.laminar.one/ws', info: 'substrate' },
   {
     info: 'local',
     text: 'Local Node (Own, 127.0.0.1:9944)',
