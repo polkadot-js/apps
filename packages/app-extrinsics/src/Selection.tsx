@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
 import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React from 'react';
 import { Button, Extrinsic, InputAddress, TxButton, TxComponent } from '@polkadot/react-components';
@@ -22,7 +21,7 @@ interface Props extends ApiProps, I18nProps {
 interface State {
   isValid: boolean;
   isValidUnsigned: boolean;
-  method: Call | null;
+  method: SubmittableExtrinsic<'promise'> | null;
   accountId?: string | null;
 }
 
@@ -98,7 +97,7 @@ class Selection extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeExtrinsic = (method: Call | null = null): void => {
+  private onChangeExtrinsic = (method: SubmittableExtrinsic<'promise'> | null = null): void => {
     this.nextState({ method });
   }
 
@@ -106,7 +105,7 @@ class Selection extends TxComponent<Props, State> {
     this.nextState({ accountId });
   }
 
-  private getExtrinsic (): SubmittableExtrinsic | null {
+  private getExtrinsic (): SubmittableExtrinsic<'promise'> | null {
     const { api } = this.props;
     const { method } = this.state;
 

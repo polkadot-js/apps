@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Call } from '@polkadot/types/interfaces';
-import { CallFunction } from '@polkadot/types/types';
+import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
 import { BareProps } from '../types';
 
@@ -12,7 +11,7 @@ import React from 'react';
 import BaseExtrinsic from '../Extrinsic';
 
 interface Props extends BareProps {
-  defaultValue: CallFunction;
+  defaultValue: SubmittableExtrinsicFunction<'promise'>;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate: boolean;
@@ -23,8 +22,8 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function onChange ({ onChange }: Props): (method?: Call) => void {
-  return (method?: Call): void => {
+function onChange ({ onChange }: Props): (method?: SubmittableExtrinsic<'promise'>) => void {
+  return (method?: SubmittableExtrinsic<'promise'>): void => {
     onChange && onChange({
       isValid: !!method,
       value: method

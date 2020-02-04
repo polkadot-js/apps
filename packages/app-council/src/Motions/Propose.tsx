@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { ApiProps } from '@polkadot/react-api/types';
-import { Call, Proposal } from '@polkadot/types/interfaces';
+import { Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -20,7 +21,7 @@ interface Props extends TxModalProps, ApiProps {
 }
 
 interface State extends TxModalState {
-  method: Call | null;
+  method: SubmittableExtrinsic<'promise'> | null;
   threshold: BN | null;
 }
 
@@ -122,7 +123,7 @@ class Propose extends TxModal<Props, State> {
     this.setState({ threshold });
   }
 
-  private onChangeExtrinsic = (method?: Call): void => {
+  private onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void => {
     if (!method) {
       return;
     }
