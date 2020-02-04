@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps, BitLength } from './types';
-import { DerivedFees, DerivedBalances } from '@polkadot/api-derive/types';
+import { DerivedFees, DerivedBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -20,7 +20,7 @@ import { bnMax } from '@polkadot/util';
 interface Props extends BareProps, ApiProps {
   autoFocus?: boolean;
   balances_fees?: DerivedFees;
-  balances_all?: DerivedBalances;
+  balances_all?: DerivedBalancesAll;
   controllerId: string;
   defaultValue?: BN | string;
   destination?: number;
@@ -28,6 +28,7 @@ interface Props extends BareProps, ApiProps {
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
+  isFull?: boolean;
   isZeroable?: boolean;
   label?: any;
   onChange?: (value?: BN) => void;
@@ -62,7 +63,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { autoFocus, className, defaultValue, help, isDisabled, isError, isZeroable, label, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, isFull, isZeroable, label, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax } = this.props;
     const { maxBalance } = this.state;
 
     return (
@@ -74,6 +75,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
         help={help}
         isDisabled={isDisabled}
         isError={isError}
+        isFull={isFull}
         isSi
         isZeroable={isZeroable}
         label={label}
@@ -112,7 +114,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     const { freeBalance } = balances_all;
     let prevMax = new BN(0);
     let maxBalance = new BN(1);
-    let extrinsic;
+    let extrinsic: any;
 
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
@@ -124,7 +126,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       } else if (extrinsicProp === 'staking.unbond') {
         extrinsic = api.tx.staking.unbond(prevMax);
       } else if (extrinsicProp === 'staking.bondExtra') {
-        extrinsic = api.tx.staking.bonExtra(prevMax);
+        extrinsic = api.tx.staking.bondExtra(prevMax);
       }
 
       const txLength = calcTxLength(extrinsic, balances_all.accountNonce);

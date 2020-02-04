@@ -20,6 +20,7 @@ interface Props extends BareProps {
   icon?: React.ReactNode;
   isAction?: boolean;
   isDisabled?: boolean;
+  isDisabledError?: boolean;
   isEditable?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -88,7 +89,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isDisabledError = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = (): void => {
@@ -142,7 +143,7 @@ export default function Input ({ autoFocus = false, children, className, default
             : undefined
         }
         disabled={isDisabled}
-        error={!isDisabled && isError}
+        error={(!isDisabled && isError) || isDisabledError}
         hidden={isHidden}
         id={name}
         iconPosition={

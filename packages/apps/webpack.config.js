@@ -63,21 +63,6 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
               options: {
                 importLoaders: 1
               }
-            },
-            {
-              loader: require.resolve('postcss-loader'),
-              options: {
-                ident: 'postcss',
-                plugins: () => [
-                  require('precss'),
-                  require('autoprefixer'),
-                  require('postcss-simple-vars'),
-                  require('postcss-nested'),
-                  require('postcss-import'),
-                  require('postcss-clean')(),
-                  require('postcss-flexbugs-fixes')
-                ]
-              }
             }
           ]
         },

@@ -6,7 +6,7 @@ import { DerivedStakingOverview } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressMulti, Button, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddressMulti, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../../constants';
@@ -76,7 +76,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
           isDisabled
           label={t('stash account')}
         />
-        <AddressMulti
+        <InputAddressMulti
           available={available}
           className='medium'
           help={t('Filter available candidates based on name, address or short account index.')}
@@ -86,26 +86,17 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
           value={selection}
         />
       </Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-            icon='cancel'
-          />
-          <Button.Or />
-          <TxButton
-            accountId={controllerId}
-            isDisabled={!selection.length}
-            isPrimary
-            onClick={onClose}
-            params={[selection]}
-            label={t('Nominate')}
-            icon='hand paper outline'
-            tx='staking.nominate'
-          />
-        </Button.Group>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={controllerId}
+          isDisabled={!selection.length}
+          isPrimary
+          onStart={onClose}
+          params={[selection]}
+          label={t('Nominate')}
+          icon='hand paper outline'
+          tx='staking.nominate'
+        />
       </Modal.Actions>
     </Modal>
   );

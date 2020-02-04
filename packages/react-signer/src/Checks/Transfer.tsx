@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalances, DerivedFees } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll, DerivedFees } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { ExtraFees } from './types';
 
@@ -30,7 +30,7 @@ interface State extends ExtraFees {
 export default function Transfer ({ amount, fees, onChange, recipientId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const allBalances = useCall<DerivedBalances>(api.derive.balances.all as any, [recipientId]);
+  const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [recipientId]);
   const [{ isCreation, isNoEffect }, setState] = useState<State>({
     extraFees: new BN(0),
     extraAmount: new BN(0),

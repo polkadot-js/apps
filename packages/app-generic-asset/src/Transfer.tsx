@@ -118,7 +118,6 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           label={t('Make Transfer')}
           icon='send'
           onStart={onClose}
-          withSpinner={false}
         />
       </Button.Group>
     </div>

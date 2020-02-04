@@ -5,9 +5,10 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 
 export interface TxModalProps extends I18nProps {
+  filter?: string[];
   onSubmit?: () => void;
   onClose?: () => void;
   onSuccess?: () => void;
@@ -46,7 +47,7 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
             {this.renderInputAccount()}
             {this.renderContent()}
           </Modal.Content>
-          <Modal.Actions>
+          <Modal.Actions onCancel={this.hideModal}>
             {this.renderButtons()}
           </Modal.Actions>
         </Modal>
@@ -116,20 +117,17 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
   protected renderTrigger?: () => React.ReactNode = (): React.ReactNode => null;
 
   protected renderButtons: () => React.ReactNode = (): React.ReactNode => {
-    return (
-      <Button.Group>
-        {this.renderCancelButton()}
-        {this.renderTxButton()}
-      </Button.Group>
-    );
+    return this.renderTxButton();
   }
 
   protected renderInputAccount (): React.ReactNode {
+    const { filter } = this.props;
     const { accountId, isBusy } = this.state;
 
     return (
       <InputAddress
         defaultValue={accountId}
+        filter={filter}
         help={this.accountHelp()}
         isDisabled={isBusy}
         isInput={false}
@@ -162,22 +160,6 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         ref={this.button}
         tx={this.txMethod()}
       />
-    );
-  }
-
-  protected renderCancelButton (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <>
-        <Button
-          isNegative
-          onClick={this.hideModal}
-          label={t('Cancel')}
-          icon='cancel'
-        />
-        <Button.Or />
-      </>
     );
   }
 

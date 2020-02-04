@@ -101,7 +101,15 @@ export default styled(Table)`
       }
 
       td, th {
-        text-align: left;
+        padding: 0.5rem 0.75rem;
+
+        &.all {
+          width: 100%;
+
+          summary {
+            white-space: normal;
+          }
+        }
 
         &.all {
           width: 100%;
@@ -135,9 +143,8 @@ export default styled(Table)`
           }
         }
 
-        &.toppad {
-          padding-top: 1.25rem;
-          vertical-align: top;
+        &.padtop {
+          padding-top: 1.1rem;
         }
       }
 
@@ -146,7 +153,8 @@ export default styled(Table)`
         border: 1px solid #f2f2f2;
         border-left-width: 0;
         border-right-width: 0;
-        padding: 0.5rem 0.75rem;
+
+        text-align: left;
 
         label {
           display: block !important;
@@ -181,7 +189,7 @@ export default styled(Table)`
         color: #eee;
         font-family: sans-serif;
         font-weight: normal;
-        padding: 0.75rem;
+        text-align: right;
 
         &:first-child {
           border-top-left-radius: 0.25rem;
@@ -189,6 +197,14 @@ export default styled(Table)`
 
         &:last-child {
           border-top-right-radius: 0.25rem;
+        }
+
+        &.isClickable {
+          cursor: pointer;
+        }
+
+        &.isSelected {
+          background: #888;
         }
       }
     }

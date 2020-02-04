@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts } from '@polkadot/react-hooks';
@@ -18,7 +18,7 @@ import { useTranslation } from './translate';
 export default function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
-  const tabs = [
+  const items = useMemo(() => [
     {
       isRoot: true,
       name: 'rpc',
@@ -36,17 +36,19 @@ export default function ToolboxApp ({ basePath }: Props): React.ReactElement<Pro
       name: 'verify',
       text: t('Verify signature')
     }
-  ];
-  const filteredTabs = hasAccounts
-    ? tabs
-    : tabs.filter(({ name }): boolean => !['sign', 'verify'].includes(name));
+  ], [t]);
 
   return (
     <main className='toolbox--App'>
       <header>
         <Tabs
           basePath={basePath}
-          items={filteredTabs}
+          hidden={
+            hasAccounts
+              ? []
+              : ['sign', 'verify']
+          }
+          items={items}
         />
       </header>
       <Switch>
