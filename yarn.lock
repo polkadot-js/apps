@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@acala-network/types@^0.2.0-beta.10":
-  version "0.2.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@acala-network/types/-/types-0.2.0-beta.10.tgz#36cc353e0f2830bd43a03bab064c05b8a203757f"
-  integrity sha512-LdMb5s4LushL1gjBdp9D4teRajhO535TKukBQSVJ6ZZuwFsxFn3sXeKoDbHJERd4xf+Zcy9p7FIN5cEILSdo0A==
+"@acala-network/types@^0.2.0-beta.12":
+  version "0.2.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@acala-network/types/-/types-0.2.0-beta.12.tgz#2f3722f84814c32c0e1719d7791ae710f076bc53"
+  integrity sha512-JMJVwRXwiAzJXXrh2FbfGxsjqtacqxSyQJaXweDVlGmep/SmDkVfKC2E5wgdYVH8UAnX+RG08f92ejq4i6xswQ==
   dependencies:
     "@babel/runtime" "^7.8.0"
     "@orml/types" beta

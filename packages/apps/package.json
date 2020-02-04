@@ -12,7 +12,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@acala-network/types": "^0.2.0-beta.10",
+    "@acala-network/types": "^0.2.0-beta.12",
     "@babel/polyfill": "^7.8.3",
     "@babel/runtime": "^7.8.3",
     "@polkadot/react-components": "^0.40.0-beta.8",
