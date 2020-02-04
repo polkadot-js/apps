@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { TxSource, TxDef } from '@polkadot/react-hooks/types';
-import { Call, Proposal } from '@polkadot/types/interfaces';
+import { Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -48,7 +49,7 @@ export default function Propose ({ onClose, memberCount = 0 }: Props): React.Rea
     setThreshold([threshold, _hasThreshold(threshold)]);
   }, [memberCount]);
 
-  const _onChangeExtrinsic = (method?: Call): void =>
+  const _onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void =>
     setProposal(method ? createType(registry, 'Proposal', method) : null);
   const _onChangeThreshold = (threshold?: BN): void =>
     setThreshold([threshold || null, _hasThreshold(threshold)]);

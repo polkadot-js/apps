@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { BareProps } from '@polkadot/react-components/types';
 import { RawParam } from '@polkadot/react-params/types';
-import { Call } from '@polkadot/types/interfaces';
-import { CallFunction, TypeDef } from '@polkadot/types/types';
+import { TypeDef } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
 import { GenericCall, getTypeDef } from '@polkadot/types';
@@ -16,18 +16,18 @@ import { isUndefined } from '@polkadot/util';
 import paramComponents from './Params';
 
 interface Props extends BareProps {
-  defaultValue: CallFunction;
+  defaultValue: SubmittableExtrinsicFunction<'promise'>;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate?: boolean;
   label?: React.ReactNode;
-  onChange: (method?: Call) => void;
+  onChange: (method?: SubmittableExtrinsic<'promise'>) => void;
   onEnter?: () => void;
   onEscape?: () => void;
   withLabel?: boolean;
 }
 
-function getParams ({ meta }: CallFunction): { name: string; type: TypeDef }[] {
+function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
   return GenericCall.filterOrigin(meta).map((arg): { name: string; type: TypeDef } => ({
     name: arg.name.toString(),
     type: getTypeDef(arg.type.toString())
@@ -35,7 +35,7 @@ function getParams ({ meta }: CallFunction): { name: string; type: TypeDef }[] {
 }
 
 export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
-  const [extrinsic, setCall] = useState<{ fn: CallFunction; params: { name: string; type: TypeDef }[] }>({ fn: defaultValue, params: getParams(defaultValue) });
+  const [extrinsic, setCall] = useState<{ fn: SubmittableExtrinsicFunction<'promise'>; params: { name: string; type: TypeDef }[] }>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
 
   useEffect((): void => {
@@ -63,7 +63,7 @@ export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, i
     onChange(method);
   }, [extrinsic, values]);
 
-  const _onChangeMethod = (fn: CallFunction): void => setCall({ fn, params: getParams(fn) });
+  const _onChangeMethod = (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) });
 
   const { fn: { meta, method, section }, params } = extrinsic;
 
