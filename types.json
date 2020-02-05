@@ -12,5 +12,6 @@
     "inputs": "Vec<TransactionInput>",
     "outputs": "Vec<TransactionOutput>"
   },
-  "blah": "u32"
+  "blah": "u32",
+  "BalanceLock": "BalanceLockTo212"
 }
