@@ -5,7 +5,7 @@
 import { Option } from '../types';
 
 export default [
-  { text: 'Acala Alpha Testnet', value: 'wss://testnet-node-1.acala.laminar.one/ws', info: 'substrate' },
+  { text: 'Acala Mandala Testnet', value: 'wss://testnet-node-1.acala.laminar.one/ws', info: 'substrate' },
   {
     info: 'local',
     text: 'Local Node (Own, 127.0.0.1:9944)',
