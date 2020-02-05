@@ -6,7 +6,7 @@ import { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
 import React, { useMemo, useState } from 'react';
 import { Button, Dropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -18,20 +18,28 @@ interface Props {
 
 export default function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [conviction, setConviction] = useState(0);
   const [isVotingOpen, toggleVoting] = useToggle();
   const [aye, setVoteValue] = useState(true);
+  const [enact] = useState(
+    (api.consts.democracy.enactmentPeriod.toNumber() * api.consts.timestamp.minimumPeriod.toNumber() / 1000 * 2) / 60 / 60 / 24
+  );
   const convictionOpts = useMemo(() => [
-    { text: t('0.1x of voting balance, no lockup period'), value: 0 },
-    { text: t('1x of voting balance, locked for 1x enactment'), value: 1 },
-    { text: t('2x of voting balance, locked for 2x enactment'), value: 2 },
-    { text: t('3x of voting balance, locked for 4x enactment'), value: 3 },
-    { text: t('4x of voting balance, locked for 8x enactment'), value: 4 },
-    { text: t('5x of voting balance, locked for 16x enactment'), value: 5 },
-    { text: t('6x of voting balance, locked for 32x enactment'), value: 6 }
-  ], [t]);
+    { text: t('0.1x voting balance, no lockup period'), value: 0 },
+    ...[[1, 1], [2, 2], [3, 4], [4, 8], [5, 16], [6, 32]].map(([value, lock]): { text: string; value: number } => ({
+      text: t('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
+        replace: {
+          lock,
+          period: (enact * lock).toFixed(2),
+          value
+        }
+      }),
+      value
+    }))
+  ], [t, enact]);
 
   if (!hasAccounts) {
     return null;
