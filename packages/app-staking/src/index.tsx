@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
+import { DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
@@ -35,7 +35,9 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     transform: ([stashes]: [AccountId[]]): string[] =>
       stashes.map((accountId): string => accountId.toString())
   }) as string[];
-  const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
+  // FIXME: commented out beacuse im-online module isn't available
+  // const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
+  const recentlyOnline = undefined;
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
