@@ -16,6 +16,8 @@ interface Props {
   referendumId: PropIndex;
 }
 
+const CONVICTIONS: [number, number][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock]);
+
 export default function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -29,7 +31,7 @@ export default function Voting ({ proposal, referendumId }: Props): React.ReactE
   );
   const convictionOpts = useMemo(() => [
     { text: t('0.1x voting balance, no lockup period'), value: 0 },
-    ...[[1, 1], [2, 2], [3, 4], [4, 8], [5, 16], [6, 32]].map(([value, lock]): { text: string; value: number } => ({
+    ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
       text: t('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
