@@ -31,7 +31,7 @@ interface State extends StateUrl {
 const hijackSettings = (): void => {
   const ENDPOINT_DEFAULT = 'wss://testnet-node-1.acala.laminar.one/ws';
   const ENDPOINTS = [
-    { text: 'Acala Alpha Testnet', value: ENDPOINT_DEFAULT, info: 'substrate' },
+    { text: 'Acala Mandala Testnet', value: ENDPOINT_DEFAULT, info: 'substrate' },
     { text: 'Local Node (127.0.0.1:9944)', value: 'ws://127.0.0.1:9944/', info: 'substrate' }
   ];
   const storedSettings = store.get('settings') || {};
