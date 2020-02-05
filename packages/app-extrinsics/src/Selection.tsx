@@ -70,7 +70,6 @@ class Selection extends TxComponent<Props, State> {
             icon='sign-in'
             extrinsic={extrinsic}
             ref={this.button}
-            withSpinner
           />
         </Button.Group>
       </div>
