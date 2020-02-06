@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import settings from '@polkadot/ui-settings';
+import { availableEndpoints } from '@polkadot/app-settings/available';
 
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
@@ -26,7 +27,8 @@ const rootElement = document.getElementById(rootId);
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
 const urlOptions = queryString.parse(location.href.split('?')[1]);
-const _wsEndpoint = urlOptions.rpc || settings.apiUrl;
+const _wsEndpoint = urlOptions.rpc || availableEndpoints[0]?.value as string || settings.apiUrl || process.env.WS_URL
+  || "";
 
 if (Array.isArray(_wsEndpoint)) {
   throw new Error('Invalid WS endpoint specified');
