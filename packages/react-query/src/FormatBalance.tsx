@@ -10,10 +10,12 @@ import styled from 'styled-components';
 import { Compact } from '@polkadot/types';
 import { formatBalance } from '@polkadot/util';
 
+import { useTranslation } from './translate';
+
 interface Props extends BareProps {
   children?: React.ReactNode;
   label?: React.ReactNode;
-  value?: Compact<any> | BN | string | null;
+  value?: Compact<any> | BN | string | null | 'all';
   withSi?: boolean;
 }
 
@@ -44,15 +46,18 @@ function formatSi (value: Compact<any> | BN | string): React.ReactNode {
 }
 
 function FormatBalance ({ children, className, label, value, withSi }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [currency] = useState(formatBalance.getDefaults().unit);
 
   return (
     <div className={`ui--FormatBalance ${className}`}>
       {label || ''}{
         value
-          ? withSi
-            ? formatSi(value)
-            : format(value, currency)
+          ? value === 'all'
+            ? t('all available')
+            : withSi
+              ? formatSi(value)
+              : format(value, currency)
           : '-'
       }{children}
     </div>
