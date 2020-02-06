@@ -16,7 +16,7 @@
     "@babel/runtime": "^7.8.3",
     "@polkadot/react-components": "^0.40.0-beta.9",
     "@polkadot/react-signer": "^0.40.0-beta.9",
-    "@polkadot/ui-assets": "^0.49.0-beta.1",
+    "@polkadot/ui-assets": "^0.49.0-beta.2",
     "query-string": "^6.10.1"
   }
 }

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// import first, get the load done
 import settings from '@polkadot/ui-settings';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -27,7 +26,7 @@ const rootElement = document.getElementById(rootId);
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
 const urlOptions = queryString.parse(location.href.split('?')[1]);
-const _wsEndpoint = urlOptions.rpc || process.env.WS_URL || settings.apiUrl;
+const _wsEndpoint = urlOptions.rpc || settings.apiUrl;
 
 if (Array.isArray(_wsEndpoint)) {
   throw new Error('Invalid WS endpoint specified');
