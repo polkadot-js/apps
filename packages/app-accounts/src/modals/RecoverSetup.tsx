@@ -60,14 +60,14 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
         <InputNumber
           help={t('The threshold of vouches that is to be reached for the account to be recovered.')}
           isError={isErrorThreshold}
-          label={t('recoverey threshold')}
+          label={t('recovery threshold')}
           onChange={setThreshold}
         />
         <InputNumber
           help={t('The delay between vouching and the availability of the recovered account.')}
           isError={isErrorDelay}
           isZeroable
-          label={t('recoverey block delay')}
+          label={t('recovery block delay')}
           onChange={setDelay}
         />
       </Modal.Content>
