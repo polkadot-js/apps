@@ -92,5 +92,6 @@
   "1 judgement": "1 judgement",
   "{{count}} judgements": "{{count}} judgements",
   "no judgements": "no judgements",
-  " ({{count}} waiting)": " ({{count}} waiting)"
+  " ({{count}} waiting)": " ({{count}} waiting)",
+  "all available": "all available"
 }
