@@ -866,5 +866,6 @@
   "Signed transaction": "",
   "no addresses saved yet, add any existing address": "",
   "0.1x voting balance, no lockup period": "",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": ""
+  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "",
+  "all available": ""
 }
