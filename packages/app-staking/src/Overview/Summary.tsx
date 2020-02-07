@@ -16,11 +16,12 @@ interface Props {
   className?: string;
   isVisible: boolean;
   next: string[];
+  nominators: string[];
   stakingOverview?: DerivedStakingOverview;
   style?: any;
 }
 
-function Summary ({ className, isVisible, next, stakingOverview, style }: Props): React.ReactElement<Props> {
+function Summary ({ className, isVisible, next, nominators, stakingOverview, style }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
 
@@ -35,9 +36,14 @@ function Summary ({ className, isVisible, next, stakingOverview, style }: Props)
             {stakingOverview.validators.length}{`/${stakingOverview.validatorCount.toString()}`}
           </CardSummary>
         )}
-        {next && (
+        {next && next.length !== 0 && (
           <CardSummary label={t('waiting')}>
             {next.length}
+          </CardSummary>
+        )}
+        {nominators.length !== 0 && (
+          <CardSummary label={t('nominators')}>
+            {nominators.length}
           </CardSummary>
         )}
       </section>

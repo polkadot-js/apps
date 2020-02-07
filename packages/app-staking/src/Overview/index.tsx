@@ -16,10 +16,11 @@ interface Props extends BareProps {
   isVisible: boolean;
   recentlyOnline?: DerivedHeartbeats;
   next: string[];
+  setNominators: (nominators: string[]) => void;
   stakingOverview?: DerivedStakingOverview;
 }
 
-export default function Overview ({ hasQueries, isVisible, className, recentlyOnline, next, stakingOverview }: Props): React.ReactElement<Props> {
+export default function Overview ({ hasQueries, isVisible, className, recentlyOnline, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> {
   const { pathname } = useLocation();
   const { byAuthor, lastBlockAuthors } = useContext(BlockAuthorsContext);
   const isIntentions = pathname !== '/staking';
@@ -34,6 +35,7 @@ export default function Overview ({ hasQueries, isVisible, className, recentlyOn
         lastAuthors={lastBlockAuthors}
         next={next}
         recentlyOnline={recentlyOnline}
+        setNominators={setNominators}
         stakingOverview={stakingOverview}
       />
     </div>
