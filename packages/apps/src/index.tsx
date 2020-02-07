@@ -2,57 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import settings from '@polkadot/ui-settings';
-
+// setup these right at front
+import './initSettings';
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
 
-import queryString from 'query-string';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-import store from 'store';
 import { ThemeProvider } from 'styled-components';
-import { Api, registry } from '@polkadot/react-api';
+import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
+import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
-
-// we split here so that both these forms are allowed
-//  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
-//  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
-const urlOptions = queryString.parse(location.href.split('?')[1]);
-const _wsEndpoint = urlOptions.rpc || settings.apiUrl;
-
-if (Array.isArray(_wsEndpoint)) {
-  throw new Error('Invalid WS endpoint specified');
-}
-
-// on some combo of browsers/os, this https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
-// turns into ws://127.0.0.1:9944#/explorer (split these)
-const wsEndpoint = _wsEndpoint.split('#')[0];
-
-console.log('WS endpoint=', wsEndpoint);
-
-try {
-  const types = store.get('types') || {};
-  const names = Object.keys(types);
-
-  if (names.length) {
-    registry.register(types);
-    console.log('Type registration:', names.join(', '));
-  }
-} catch (error) {
-  console.error('Type registration failed', error);
-}
-
-const theme = {
-  theme: settings.uiTheme
-};
+const theme = { theme: settings.uiTheme };
 
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
@@ -62,7 +30,7 @@ ReactDOM.render(
   <Suspense fallback='...'>
     <ThemeProvider theme={theme}>
       <Queue>
-        <Api url={wsEndpoint}>
+        <Api url={settings.apiUrl}>
           <BlockAuthors>
             <Events>
               <HashRouter>
