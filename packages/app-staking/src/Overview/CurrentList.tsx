@@ -23,6 +23,7 @@ interface Props {
   lastAuthors?: string[];
   next: string[];
   recentlyOnline?: DerivedHeartbeats;
+  setNominators: (nominators: string[]) => void;
   stakingOverview?: DerivedStakingOverview;
 }
 
@@ -64,7 +65,7 @@ function reduceDetails (state: Record<string, AddressDetails>, _details: Address
   }, { ...state });
 }
 
-export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> | null {
+export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
@@ -137,6 +138,7 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
             ? addressDetails[address] && addressDetails[address].points
             : undefined
         }
+        setNominators={isIntentions ? undefined : setNominators}
         toggleFavorite={toggleFavorite}
       />
     ));

@@ -28,6 +28,7 @@ interface Props {
 }
 
 interface AllInfo {
+  nominators: string[];
   totalStaked: BN;
   validators: ValidatorInfo[];
 }
@@ -91,6 +92,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 }
 
 function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DerivedStakingElected, favorites: string[], lastReward: BN): AllInfo {
+  const nominators: string[] = [];
   let totalStaked = new BN(0);
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
   const validators = sortValidators(
@@ -114,7 +116,13 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
         ? amount.mul(rewardSplit).div(amount.add(bondTotal))
         : new BN(0);
       const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
-        return isNominating || allAccounts.includes(indv.who.toString());
+        const nominator = indv.who.toString();
+
+        if (!nominators.includes(nominator)) {
+          nominators.push(nominator);
+        }
+
+        return isNominating || allAccounts.includes(nominator);
       }, allAccounts.includes(key));
 
       totalStaked = totalStaked.add(bondTotal);
@@ -145,7 +153,7 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
     })
   );
 
-  return { totalStaked, validators };
+  return { nominators, totalStaked, validators };
 }
 
 function Targets ({ className, sessionRewards }: Props): React.ReactElement<Props> {
@@ -156,7 +164,7 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
   const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [lastReward, setLastReward] = useState(new BN(0));
-  const [{ validators, totalStaked }, setWorkable] = useState<AllInfo>({ totalStaked: new BN(0), validators: [] });
+  const [{ nominators, validators, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], totalStaked: new BN(0), validators: [] });
   const [{ sorted, sortBy, sortFromMax }, setSorted] = useState<{ sorted: ValidatorInfo[]; sortBy: SortBy; sortFromMax: boolean }>({ sorted: [], sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
 
@@ -196,9 +204,9 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
 
   useEffect((): void => {
     if (electedInfo) {
-      const { totalStaked, validators } = extractInfo(allAccounts, amount, electedInfo, favorites, lastReward);
+      const { nominators, totalStaked, validators } = extractInfo(allAccounts, amount, electedInfo, favorites, lastReward);
 
-      setWorkable({ totalStaked, validators });
+      setWorkable({ nominators, totalStaked, validators });
       _sort('rankOverall', validators, false);
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward]);
@@ -207,6 +215,8 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
     <div className={className}>
       <Summary
         lastReward={lastReward}
+        numNominators={nominators.length}
+        numValidators={validators.length}
         totalStaked={totalStaked}
       />
       {sorted.length
