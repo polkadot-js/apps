@@ -8,7 +8,7 @@ import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { DropdownOptions } from '../util/types';
 
 import React, { useState } from 'react';
-import map from '@polkadot/jsonrpc';
+import map from './rpc';
 import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
