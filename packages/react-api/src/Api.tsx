@@ -17,7 +17,7 @@ import { createType } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
-import { oracle } from '@orml/jsonrpc';
+import ormlRPC from '@orml/jsonrpc';
 
 import typesChain from './overrides/chain';
 import typesSpec from './overrides/spec';
@@ -122,7 +122,7 @@ export default function Api ({ children, url }: Props): React.ReactElement<Props
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     // FIXME: use a concrete type once polkadotjs fixes inconsistency.
-    const rpc: any = { oracle: Object.values(oracle.methods) };
+    const rpc: any = { oracle: Object.values(ormlRPC.oracle.methods) };
 
     api = new ApiPromise({ provider, registry, signer, typesChain, typesSpec, rpc });
 
