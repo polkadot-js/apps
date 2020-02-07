@@ -73,7 +73,8 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-export default function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name }, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+export default function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+  const { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name } = route;
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
@@ -87,7 +88,10 @@ export default function Item ({ route: { Modal, useCounter = DUMMY_COUNTER, disp
   }, [allAccounts, sudoKey]);
 
   useEffect((): void => {
-    setIsVisible(checkVisible(name, apiProps, hasAccounts, hasSudo, display));
+    const isVisible = checkVisible(name, apiProps, hasAccounts, hasSudo, display);
+
+    route.isIgnored = !isVisible;
+    setIsVisible(isVisible);
   }, [apiProps, hasAccounts, hasSudo]);
 
   if (!isVisible) {
