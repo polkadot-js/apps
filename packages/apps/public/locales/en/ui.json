@@ -870,5 +870,6 @@
   "all available": "",
   "recovery threshold": "",
   "recovery block delay": "",
-  "Uncaught error. Something went wrong with the query and rendering of this component.": ""
+  "Uncaught error. Something went wrong with the query and rendering of this component.": "",
+  "validators/nominators": ""
 }
