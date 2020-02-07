@@ -18,11 +18,11 @@ if (Array.isArray(urlOptions.rpc)) {
   throw new Error('Invalid WS endpoint specified');
 }
 
-const apiUrl = urlOptions.rpc
-  ? urlOptions.rpc.split('#')[0]
-  : [settings.apiUrl, process.env.WS_URL].includes(stored.apiUrl)
-    ? settings.apiUrl
-    : endpoints[0].value as string;
+const apiUrl = urlOptions.rpc // we have a supplied value
+  ? urlOptions.rpc.split('#')[0] // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
+  : [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl) // overridden, or stored
+    ? settings.apiUrl // keep as-is
+    : endpoints[0].value as string; // grab first available
 
 // set the default as retrieved here
 settings.set({ apiUrl });
