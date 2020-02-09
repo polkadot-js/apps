@@ -21,7 +21,7 @@
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
-    "build": "yarn run build:i18n && yarn run build:code",
+    "build": "yarn check-deps && yarn run build:i18n && yarn run build:code",
     "build:code": "NODE_ENV=production polkadot-dev-build-ts",
     "build:i18n": "i18next-scanner --config i18next-scanner.config.js",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && NODE_ENV=production webpack --config webpack.config.js",
@@ -32,12 +32,14 @@
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest packages/app-claims/src",
     "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
-    "start": "cd packages/apps && webpack --config webpack.config.js"
+    "start": "cd packages/apps && webpack --config webpack.config.js",
+    "check-deps": "./node_modules/@orml/util/scripts/check-deps.js yarn.lock @polkadot/ @orml/"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/register": "^7.7.7",
     "@babel/runtime": "^7.8.3",
+    "@orml/util": "beta",
     "@polkadot/dev-react": "^0.33.3",
     "@polkadot/ts": "^0.2.1",
     "autoprefixer": "^9.7.4",
