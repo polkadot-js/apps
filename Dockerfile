@@ -12,7 +12,7 @@ COPY . .
 
 RUN npm install yarn -g
 RUN yarn
-RUN NODE_ENV=production yarn build
+RUN NODE_ENV=production yarn build:www
 
 FROM ubuntu:18.04
 

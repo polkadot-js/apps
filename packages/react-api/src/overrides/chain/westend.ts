@@ -3,5 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export default {
+  BalanceLock: 'BalanceLockTo212',
   Keys: 'SessionKeys5'
 };

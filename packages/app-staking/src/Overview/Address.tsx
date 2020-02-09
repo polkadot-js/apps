@@ -31,6 +31,7 @@ interface Props {
   lastBlock?: string;
   myAccounts: string[];
   points?: Points;
+  setNominators?: (nominators: string[]) => void;
   toggleFavorite: (accountId: string) => void;
   withNominations?: boolean;
 }
@@ -113,7 +114,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-export default function Address ({ address, className, filter, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, lastBlock, myAccounts, points, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
+export default function Address ({ address, className, filter, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, lastBlock, myAccounts, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   // FIXME Any horrors, caused by derive type mismatches
@@ -124,9 +125,12 @@ export default function Address ({ address, className, filter, filterName, hasQu
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect((): void => {
-    stakingInfo && setStakingState(
-      expandInfo(stakingInfo, myAccounts, withNominations)
-    );
+    if (stakingInfo) {
+      const info = expandInfo(stakingInfo, myAccounts, withNominations);
+
+      setNominators && setNominators(info.nominators.map(([who]): string => who.toString()));
+      setStakingState(info);
+    }
   }, [stakingInfo]);
 
   useEffect((): void => {

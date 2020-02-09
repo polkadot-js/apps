@@ -84,7 +84,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             </Table>
           </>
         )
-        : t('no contracts yet, add an existing contact')
+        : t('no addresses saved yet, add any existing address')
       }
     </div>
   );
