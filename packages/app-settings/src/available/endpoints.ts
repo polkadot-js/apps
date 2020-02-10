@@ -5,7 +5,8 @@
 import { Option } from '../types';
 
 export default [
-  { text: 'Acala Mandala Testnet', value: 'wss://testnet-node-1.acala.laminar.one/ws', info: 'substrate' },
+  { text: 'Mandala Testnet (Hosted by OnFinality)', value: 'wss://node-6632097881473671168.au.onfinality.cloud/ws', info: 'substrate' },
+  { text: 'Mandala Testnet (Hosted by Acala)', value: 'wss://testnet-node-1.acala.laminar.one/ws', info: 'substrate' },
   {
     info: 'local',
     text: 'Local Node (Own, 127.0.0.1:9944)',

@@ -29,9 +29,10 @@ interface State extends StateUrl {
 }
 
 const hijackSettings = (): void => {
-  const ENDPOINT_DEFAULT = 'wss://testnet-node-1.acala.laminar.one/ws';
+  const ENDPOINT_DEFAULT = 'wss://node-6632097881473671168.au.onfinality.cloud/ws';
   const ENDPOINTS = [
-    { text: 'Acala Mandala Testnet', value: ENDPOINT_DEFAULT, info: 'substrate' },
+    { text: 'Mandala Testnet (Hosted by OnFinality)', value: ENDPOINT_DEFAULT, info: 'substrate' },
+    { text: 'Mandala Testnet (Hosted by Acala)', value: 'wss://testnet-node-1.acala.laminar.one/ws', info: 'substrate' },
     { text: 'Local Node (127.0.0.1:9944)', value: 'ws://127.0.0.1:9944/', info: 'substrate' }
   ];
   const storedSettings = store.get('settings') || {};

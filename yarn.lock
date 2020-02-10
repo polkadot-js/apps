@@ -2,7 +2,18 @@
 # yarn lockfile v1
 
 
-"@acala-network/types@^0.2.0-beta.14":
+"@acala-network/api@beta":
+  version "0.2.0-beta.14"
+  resolved "https://registry.yarnpkg.com/@acala-network/api/-/api-0.2.0-beta.14.tgz#4017d2e2fa6e570efd0c3eafc71d6aeea85a0fad"
+  integrity sha512-IJ+TVO+5BM4zfr5GxwF8SqpJ1dClbVkLT4up4iQ5DPAFdV+Nho2FuT7tRU8U3gPoDLWE8wQq8tIXMUT112OuXw==
+  dependencies:
+    "@acala-network/types" beta
+    "@babel/runtime" "^7.8.0"
+    "@orml/jsonrpc" beta
+    "@polkadot/api" beta
+    "@polkadot/types" beta
+
+"@acala-network/types@beta":
   version "0.2.0-beta.14"
   resolved "https://registry.yarnpkg.com/@acala-network/types/-/types-0.2.0-beta.14.tgz#16b53064c164ccc1956af945f5ec63159ffec5c6"
   integrity sha512-z1U+xXNJGx6W053Kq5tfPNkCAPdpCZqwfcLWHsdsVJ7kPNXH+znw7feTgb532p0bF1r99wcqSXWWqlYgtBbpjQ==
@@ -2220,6 +2231,15 @@
   dependencies:
     "@types/node" ">= 8"
 
+"@orml/jsonrpc@beta":
+  version "0.2.0-beta.18"
+  resolved "https://registry.yarnpkg.com/@orml/jsonrpc/-/jsonrpc-0.2.0-beta.18.tgz#49d679b01b43dd6dd6ae8a119e919968ef17c614"
+  integrity sha512-yTTEWiZMlZ6MHJFHbA8nd2clvXcvnbzejHgjoxg8diiG4vzrZmAIdEfxVIdVgkWs3E8SK+jT9aiKu3NxiYXO0Q==
+  dependencies:
+    "@babel/runtime" "^7.8.3"
+    "@polkadot/jsonrpc" beta
+    "@polkadot/rpc-core" beta
+
 "@orml/types@beta":
   version "0.2.0-beta.18"
   resolved "https://registry.yarnpkg.com/@orml/types/-/types-0.2.0-beta.18.tgz#ddaf8d7352e28da3997b6f6a2baaf8d5db372a7e"
@@ -2229,7 +2249,7 @@
     "@polkadot/metadata" beta
     "@polkadot/types" beta
 
-"@orml/util@^0.2.0-beta.18":
+"@orml/util@beta":
   version "0.2.0-beta.18"
   resolved "https://registry.yarnpkg.com/@orml/util/-/util-0.2.0-beta.18.tgz#e5c12158ce3d45ba9457590f698b786f30184ebf"
   integrity sha512-IV4uKKnHJJoqbx1cpNUULQM1E3SEpERQaDh6PryMrN/0SJL5DXxJXY9kyI2UD4UqsyFBG+CUEV5quWrj1HpT4Q==
@@ -2254,7 +2274,7 @@
     "@polkadot/api" "^1.2.0-beta.4"
     "@polkadot/types" "^1.2.0-beta.4"
 
-"@polkadot/api@^1.2.0-beta.1", "@polkadot/api@^1.2.0-beta.4":
+"@polkadot/api@^1.2.0-beta.1", "@polkadot/api@^1.2.0-beta.4", "@polkadot/api@beta":
   version "1.2.0-beta.4"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-1.2.0-beta.4.tgz#cf1bbc75066713d8830a5d0d137a9b474c4ac1e1"
   integrity sha512-4vg1N8FtQudWYv02/zw79AAMLuOJIXgcFvAY9MdPsFCkN0rozAUHkxRcdSFc76DLpidtodGEZ8cXya2/oK7BAQ==
@@ -2370,7 +2390,7 @@
   dependencies:
     "@babel/runtime" "^7.8.3"
 
-"@polkadot/jsonrpc@^1.2.0-beta.4":
+"@polkadot/jsonrpc@^1.2.0-beta.4", "@polkadot/jsonrpc@beta":
   version "1.2.0-beta.4"
   resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-1.2.0-beta.4.tgz#d7adc4b60fd14fba4ff42cd537aba71623371910"
   integrity sha512-1VCN+jOu9oCJ7sQILa9ShrKAzq7vb5YgwBalVTRkQOMrERLER2jxmF+RrQ4bB7lQo8AVp/vVgmZ5++SSht0cow==
@@ -2420,7 +2440,7 @@
     qrcode-generator "^1.4.4"
     react-qr-reader "^2.2.1"
 
-"@polkadot/rpc-core@^1.2.0-beta.4":
+"@polkadot/rpc-core@^1.2.0-beta.4", "@polkadot/rpc-core@beta":
   version "1.2.0-beta.4"
   resolved "https://registry.yarnpkg.com/@polkadot/rpc-core/-/rpc-core-1.2.0-beta.4.tgz#de6f90af051c83a23d0c752bcdfcf84153a5363a"
   integrity sha512-5M71Mia2s9bGgreWE5PfBqWRrqvfy9zItG8QjzofWEgOvTTx0pva89W6a+s+6AHzAY1BPIUwYUEj5eLCUZABOA==
