@@ -4,6 +4,7 @@
 
 export default {
   Address: 'GenericAddress',
+  BalanceLock: 'BalanceLockTo212',
   Difficulty: 'U256',
   DifficultyAndTimestamp: {
     difficulty: 'Difficulty',
