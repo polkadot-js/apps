@@ -6,5 +6,6 @@ import { EdgewareTypes } from 'edgeware-node-types/dist';
 
 export default {
   ...EdgewareTypes,
+  Address: 'GenericAddress',
   Keys: 'SessionKeys4'
 };
