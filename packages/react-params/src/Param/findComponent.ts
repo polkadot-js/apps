@@ -14,6 +14,7 @@ import Amount from './Amount';
 import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
+import Call from './Call';
 import Code from './Code';
 import DispatchError from './DispatchError';
 import Enum from './Enum';
@@ -22,7 +23,6 @@ import Hash512 from './Hash512';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import Moment from './Moment';
-import Proposal from './Proposal';
 import Null from './Null';
 import Option from './Option';
 import Raw from './Raw';
@@ -45,6 +45,7 @@ const components: ComponentMap = ([
   { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
+  { C: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
   { c: DispatchError, t: ['DispatchError'] },
   { c: Raw, t: ['Raw', 'Keys'] },
@@ -56,7 +57,6 @@ const components: ComponentMap = ([
   { c: Moment, t: ['Moment', 'MomentOf'] },
   { c: Null, t: ['Null'] },
   { c: Option, t: ['Option'] },
-  { c: Proposal, t: ['Proposal'] },
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },

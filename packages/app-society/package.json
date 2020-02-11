@@ -1,5 +1,6 @@
 {
   "name": "@polkadot/app-society",
+  "private": true,
   "version": "0.40.0-beta.19",
   "description": "A society",
   "main": "index.js",
