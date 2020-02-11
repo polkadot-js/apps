@@ -13,7 +13,7 @@ import { classes } from '@polkadot/react-components/util';
 import Bare from './Bare';
 import Unknown from './Unknown';
 
-export default function Proposal (props: Props): React.ReactElement<Props> {
+export default function CallDisplay (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = props;
 
   if (!isDisabled) {
@@ -22,8 +22,8 @@ export default function Proposal (props: Props): React.ReactElement<Props> {
     );
   }
 
-  const proposal = value as Extrinsic;
-  const { method, section } = registry.findMetaCall(proposal.callIndex);
+  const call = value as Extrinsic;
+  const { method, section } = registry.findMetaCall(call.callIndex);
 
   return (
     <Bare>
@@ -35,7 +35,7 @@ export default function Proposal (props: Props): React.ReactElement<Props> {
       >
         {section}.{method}
       </Static>
-      <Call value={proposal} />
+      <Call value={call} />
     </Bare>
   );
 }

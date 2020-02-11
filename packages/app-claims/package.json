@@ -1,5 +1,6 @@
 {
   "name": "@polkadot/app-claims",
+  "private": true,
   "version": "0.40.0-beta.19",
   "description": "An app for claiming Polkadot tokens",
   "main": "index.js",
