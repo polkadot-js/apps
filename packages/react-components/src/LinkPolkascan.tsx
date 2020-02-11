@@ -21,12 +21,9 @@ interface Props {
 const BASE = 'https://polkascan.io/pre/';
 
 const CHAINS: Record<string, string> = {
-  Alexander: 'alexander',
   Kulupu: 'kulupu',
-  Kusama: 'kusama-cc1', // old name via W3F nodes
-  'Kusama CC1': 'kusama-cc1',
-  'Kusama CC2': 'kusama-cc2',
-  'Kusama CC3': 'kusama-cc3',
+  Kusama: 'kusama',
+  'Kusama CC3': 'kusama',
   Westend: 'westend'
 };
 
