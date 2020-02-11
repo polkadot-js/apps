@@ -2241,14 +2241,14 @@
     "@polkadot/types" "^1.2.0-beta.7"
     "@polkadot/util-crypto" "^2.2.1"
 
-"@polkadot/dev-react@^0.33.4":
-  version "0.33.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.33.4.tgz#86b26f88f8552f5084b156b40c46acfb304a7dfb"
-  integrity sha512-lQyZaTP/DmXD5kJNPXXCH69bXtgyu7pG0E7gQpiRvvGko5odhNdfhPRNg0JpftV60d8hL0VJWZX2uPnMSkQgUA==
+"@polkadot/dev-react@^0.33.5":
+  version "0.33.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev-react/-/dev-react-0.33.5.tgz#746ddde0c0683901f27ace2da815f71d5a45bb39"
+  integrity sha512-tuvtMr+4FyBXuAiIDqwnYRWyGGBCXxxPSGgeemmPeDb67hk7GG383YLC6OdFdIahkB47U8CGZs77qAUGmb8p6w==
   dependencies:
     "@babel/core" "^7.8.3"
     "@babel/preset-react" "^7.8.3"
-    "@polkadot/dev" "^0.33.4"
+    "@polkadot/dev" "^0.33.5"
     "@types/react" "^16.9.19"
     "@types/react-dom" "^16.9.5"
     "@types/react-native" "^0.61.7"
@@ -2278,10 +2278,10 @@
     webpack-serve "^3.2.0"
     worker-loader "^2.0.0"
 
-"@polkadot/dev@^0.33.4":
-  version "0.33.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.33.4.tgz#68b34dda81fded696b3b41b91defb485d5e844dd"
-  integrity sha512-mBLYQxiIwT66c9DVwRudm23WBZGr8WnqX83otpzRJOYmriNJ5EApJRTvAk/FriM0/4gLQ7HBATJ1uaa1vVdqPA==
+"@polkadot/dev@^0.33.5":
+  version "0.33.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.33.5.tgz#3327a1ee996092aa3921c314c642cafc58fd9027"
+  integrity sha512-S03kn/WFj9bHFIQ9EN5aoyCk2jORsAU3Ux9pg+2FnK5vf4Et9fFfEp0TKjjxJ+AoItalUhjvV13YGBkLThnm9w==
   dependencies:
     "@babel/cli" "^7.8.3"
     "@babel/core" "^7.8.3"
