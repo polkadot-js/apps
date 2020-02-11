@@ -71,12 +71,10 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
       )}
       <Members
         allVotes={allVotes}
-        className={pathname === '/council' ? '' : 'council--hidden'}
         electionsInfo={electionsInfo}
       />
       <Candidates
         allVotes={allVotes}
-        className={pathname === '/council' ? 'council--hidden' : ''}
         electionsInfo={electionsInfo}
       />
     </div>
