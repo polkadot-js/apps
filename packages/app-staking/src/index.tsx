@@ -6,7 +6,7 @@ import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -24,6 +24,10 @@ import { MAX_SESSIONS } from './constants';
 import { useTranslation } from './translate';
 import useSessionRewards from './useSessionRewards';
 
+function reduceNominators (nominators: string[], additional: string[]): string[] {
+  return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
+}
+
 function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -39,6 +43,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
+  const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -89,6 +94,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       <Summary
         isVisible={pathname === basePath}
         next={next}
+        nominators={nominators}
         stakingOverview={stakingOverview}
       />
       <Switch>
@@ -111,6 +117,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         isVisible={[basePath, `${basePath}/waiting`].includes(pathname)}
         recentlyOnline={recentlyOnline}
         next={next}
+        setNominators={dispatchNominators}
         stakingOverview={stakingOverview}
       />
     </main>

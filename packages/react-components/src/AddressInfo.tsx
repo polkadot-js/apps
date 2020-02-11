@@ -159,7 +159,7 @@ function renderExtended ({ balancesAll, address, withExtended }: Props, t: (key:
   );
 }
 
-function renderUnlocking ({ stakingInfo }: Props, t: (key: string, data: any) => string): React.ReactNode {
+function renderUnlocking ({ address, stakingInfo }: Props, t: (key: string, data: any) => string): React.ReactNode {
   if (!stakingInfo || !stakingInfo.unlocking || !stakingInfo.unlocking.length) {
     return null;
   }
@@ -176,7 +176,7 @@ function renderUnlocking ({ stakingInfo }: Props, t: (key: string, data: any) =>
       <Icon
         name='info circle'
         data-tip
-        data-for='unlocking-trigger'
+        data-for={`${address}-unlocking-trigger`}
       />
       <Tooltip
         text={stakingInfo.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
@@ -189,7 +189,7 @@ function renderUnlocking ({ stakingInfo }: Props, t: (key: string, data: any) =>
             })}
           </div>
         ))}
-        trigger='unlocking-trigger'
+        trigger={`${address}-unlocking-trigger`}
       />
     </div>
   );
@@ -238,7 +238,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
 }
 
 function renderBalances (props: Props, allAccounts: string[], t: (key: string) => string): React.ReactNode {
-  const { balancesAll, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
+  const { address, balancesAll, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
@@ -249,6 +249,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const controllerId = stakingInfo?.controllerId?.toString();
+  const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount.isMax());
 
   const allItems = (
     <>
@@ -279,13 +280,30 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
           />
         </>
       )}
-      {balanceDisplay.locked && balancesAll?.lockedBalance?.gtn(0) && (
+      {balanceDisplay.locked && balancesAll && (isAllLocked || balancesAll.lockedBalance.gtn(0)) && (
         <>
           <Label label={t('locked')} />
           <FormatBalance
             className='result'
-            value={balancesAll.lockedBalance}
-          />
+            value={isAllLocked ? 'all' : balancesAll.lockedBalance}
+          >
+            <Icon
+              name='info circle'
+              data-tip
+              data-for={`${address}-locks-trigger`}
+            />
+            <Tooltip
+              text={balancesAll.lockedBreakdown.map(({ amount, reasons }, index): React.ReactNode => (
+                <div key={index}>
+                  {amount.isMax()
+                    ? t('all available')
+                    : formatBalance(amount, { forceUnit: '-' })
+                  }<div className='faded'>{reasons.toString()}</div>
+                </div>
+              ))}
+              trigger={`${address}-locks-trigger`}
+            />
+          </FormatBalance>
         </>
       )}
       {balanceDisplay.reserved && balancesAll?.reservedBalance?.gtn(0) && (

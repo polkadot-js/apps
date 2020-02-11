@@ -14,6 +14,8 @@ import { useTranslation } from '../translate';
 
 interface Props {
   lastReward: BN;
+  numNominators: number;
+  numValidators: number;
   totalStaked: BN;
 }
 
@@ -21,7 +23,7 @@ interface StakeInfo {
   percentage: string;
 }
 
-export default function Summary ({ lastReward, totalStaked }: Props): React.ReactElement<Props> {
+export default function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
@@ -54,6 +56,9 @@ export default function Summary ({ lastReward, totalStaked }: Props): React.Reac
       </section>
       <CardSummary label={t('staked')}>
         {percentage}
+      </CardSummary>
+      <CardSummary label={t('validators/nominators')}>
+        {numValidators}/{numNominators}
       </CardSummary>
       <CardSummary label={t('last reward')}>
         <FormatBalance

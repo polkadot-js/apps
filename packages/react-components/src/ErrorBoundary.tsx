@@ -46,7 +46,7 @@ class ErrorBoundary extends React.Component<Props> {
     return hasError
       ? (
         <article className='error'>
-          {t('Uncaught error. Something went wrong with the data extraction, resulting in an error log.')}
+          {t('Uncaught error. Something went wrong with the query and rendering of this component.')}
         </article>
       )
       : children;
