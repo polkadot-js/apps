@@ -34,10 +34,6 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
       text: t('Council overview')
     },
     {
-      name: 'candidates',
-      text: t('Candidates')
-    },
-    {
       name: 'motions',
       text: t('Motions ({{count}})', { replace: { count: numMotions } })
     }

@@ -6,7 +6,6 @@ import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { registry } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -51,32 +50,25 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
         return result;
       }, {})
   });
-  const { pathname } = useLocation();
   const electionsInfo = _electionsInfo || NULL_INFO;
 
   return (
     <div className={className}>
-      {pathname === '/council' && (
-        <>
-          <Summary
-            bestNumber={bestNumber}
-            electionsInfo={electionsInfo}
-          />
-          <Button.Group>
-            <SubmitCandidacy electionsInfo={electionsInfo} />
-            <Button.Or />
-            <Vote electionsInfo={electionsInfo} />
-          </Button.Group>
-        </>
-      )}
+      <Summary
+        bestNumber={bestNumber}
+        electionsInfo={electionsInfo}
+      />
+      <Button.Group>
+        <SubmitCandidacy electionsInfo={electionsInfo} />
+        <Button.Or />
+        <Vote electionsInfo={electionsInfo} />
+      </Button.Group>
       <Members
         allVotes={allVotes}
-        className={pathname === '/council' ? '' : 'council--hidden'}
         electionsInfo={electionsInfo}
       />
       <Candidates
         allVotes={allVotes}
-        className={pathname === '/council' ? 'council--hidden' : ''}
         electionsInfo={electionsInfo}
       />
     </div>
