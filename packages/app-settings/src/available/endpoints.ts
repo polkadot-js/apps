@@ -8,32 +8,32 @@ export default [
   {
     info: 'amber',
     text: 'Centrifuge Testnet Amber (Full Node, hosted by Centrifuge)',
-    value: 'ws://35.246.192.167:9944',
+    value: 'ws://35.246.192.167:9944'
   },
   {
     info: 'flint',
     text: 'Centrifuge Testnet Flint (Full Node, hosted by Centrifuge)',
-    value: 'ws://35.234.84.110:9944',
+    value: 'ws://35.234.84.110:9944'
   },
   {
     info: 'flint',
     text: 'Centrifuge Testnet Flint (Validator 0, hosted by Centrifuge)',
-    value: 'ws://35.246.244.114:9944',
+    value: 'ws://35.246.244.114:9944'
   },
   {
     info: 'flint',
     text: 'Centrifuge Testnet Flint (Validator 1, hosted by Centrifuge)',
-    value: 'ws://34.89.148.219:9944',
+    value: 'ws://34.89.148.219:9944'
   },
   {
     info: 'fulvous',
     text: 'Centrifuge Testnet Fulvous (Validator 0, hosted by Centrifuge)',
-    value: 'ws://35.246.140.178:9944',
+    value: 'ws://35.246.140.178:9944'
   },
   {
     info: 'fulvous',
     text: 'Centrifuge Testnet Fulvous (Validator 1, hosted by Centrifuge)',
-    value: 'ws://35.198.166.26:9944',
+    value: 'ws://35.198.166.26:9944'
   },
   {
     info: 'local',
