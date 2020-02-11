@@ -6,7 +6,7 @@ import React, { Suspense, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
-import { StatusContext } from '@polkadot/react-components';
+import { ErrorBoundary, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import Status from './Status';
@@ -18,10 +18,11 @@ interface Props {
 }
 
 const unknown = {
+  Component: NotFound,
   display: {
     needsApi: undefined
   },
-  Component: NotFound,
+  isIgnored: false,
   name: ''
 };
 
@@ -42,11 +43,13 @@ function Content ({ className }: Props): React.ReactElement<Props> {
         : (
           <>
             <Suspense fallback='...'>
-              <Component
-                basePath={`/${name}`}
-                location={location}
-                onStatusChange={queueAction}
-              />
+              <ErrorBoundary>
+                <Component
+                  basePath={`/${name}`}
+                  location={location}
+                  onStatusChange={queueAction}
+                />
+              </ErrorBoundary>
             </Suspense>
             <Status
               queueAction={queueAction}

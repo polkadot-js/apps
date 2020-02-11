@@ -28,11 +28,11 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
   const [validators, setValidators] = useState<string[]>([]);
-  const [selection, setSelection] = useState<string[]>([]);
+  const [selection, setSelection] = useState<string[] | undefined>();
   const [available, setAvailable] = useState<string[]>([]);
 
   useEffect((): void => {
-    if (!selection.length && nominees) {
+    if (!selection && nominees) {
       setSelection(nominees);
     }
   }, [selection, nominees]);
@@ -83,13 +83,13 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
           label={t('filter candidates')}
           maxCount={MAX_NOMINEES}
           onChange={setSelection}
-          value={selection}
+          value={selection || []}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
-          isDisabled={!selection.length}
+          isDisabled={!selection?.length}
           isPrimary
           onStart={onClose}
           params={[selection]}

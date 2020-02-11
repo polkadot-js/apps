@@ -133,5 +133,7 @@
   "The threshold of vouches that is to be reached for the account to be recovered.": "The threshold of vouches that is to be reached for the account to be recovered.",
   "recoverey threshold": "recoverey threshold",
   "The delay between vouching and the availability of the recovered account.": "The delay between vouching and the availability of the recovered account.",
-  "recoverey block delay": "recoverey block delay"
+  "recoverey block delay": "recoverey block delay",
+  "recovery threshold": "recovery threshold",
+  "recovery block delay": "recovery block delay"
 }

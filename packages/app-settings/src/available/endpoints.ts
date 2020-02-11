@@ -9,42 +9,35 @@ export default [
     info: 'amber',
     text: 'Centrifuge Testnet Amber (Full Node, hosted by Centrifuge)',
     value: 'ws://35.246.192.167:9944',
-    withI18n: true
   },
   {
     info: 'flint',
     text: 'Centrifuge Testnet Flint (Full Node, hosted by Centrifuge)',
     value: 'ws://35.234.84.110:9944',
-    withI18n: true
   },
   {
     info: 'flint',
     text: 'Centrifuge Testnet Flint (Validator 0, hosted by Centrifuge)',
     value: 'ws://35.246.244.114:9944',
-    withI18n: true
   },
   {
     info: 'flint',
     text: 'Centrifuge Testnet Flint (Validator 1, hosted by Centrifuge)',
     value: 'ws://34.89.148.219:9944',
-    withI18n: true
   },
   {
     info: 'fulvous',
     text: 'Centrifuge Testnet Fulvous (Validator 0, hosted by Centrifuge)',
     value: 'ws://35.246.140.178:9944',
-    withI18n: true
   },
   {
     info: 'fulvous',
     text: 'Centrifuge Testnet Fulvous (Validator 1, hosted by Centrifuge)',
     value: 'ws://35.198.166.26:9944',
-    withI18n: true
   },
   {
     info: 'local',
     text: 'Local Node (Own, 127.0.0.1:9944)',
-    value: 'ws://127.0.0.1:9944/',
-    withI18n: true
+    value: 'ws://127.0.0.1:9944/'
   }
-] as Option[];
+].map((option): Option => ({ ...option, withI18n: true }));

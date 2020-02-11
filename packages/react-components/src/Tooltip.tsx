@@ -76,4 +76,9 @@ export default styled(Tooltip)`
   table+div {
     margin-top: 0.75rem;
   }
+
+  .faded {
+    opacity: 0.75 !important;
+    font-size: 0.75em !important;
+  }
 `;

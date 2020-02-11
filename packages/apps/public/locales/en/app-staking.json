@@ -157,5 +157,7 @@
   "Inactive nominations ({{count}})": "Inactive nominations ({{count}})",
   "Set nominees": "Set nominees",
   "Active nominations ({{count}})": "Active nominations ({{count}})",
-  "profit/era est.": "profit/era est."
+  "profit/era est.": "profit/era est.",
+  "nominators": "nominators",
+  "validators/nominators": "validators/nominators"
 }
