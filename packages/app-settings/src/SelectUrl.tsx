@@ -49,7 +49,7 @@ function makeUrl (_url: string): StateUrl {
 // validation on-top of the values retrieved
 function getInitialState (): State {
   const url = uiSettings.get().apiUrl;
-  const isCustom = uiSettings.availableNodes.reduce((isCustom: boolean, { value }): boolean => {
+  const isCustom = availableEndpoints.reduce((isCustom: boolean, { value }): boolean => {
     return isCustom && value !== url;
   }, true);
   const isValid = isValidUrl(url);
@@ -79,7 +79,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
       ...makeUrl(
         isCustom
           ? info.url
-          : uiSettings.availableNodes[0].value as string
+          : availableEndpoints[0].value as string
       ),
       isCustom
     });
