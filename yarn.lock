@@ -2247,10 +2247,10 @@
     eventemitter3 "^4.0.0"
     rxjs "^6.5.4"
 
-"@polkadot/dev@^0.40.4":
-  version "0.40.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.40.4.tgz#c04af673aedc66d28a771c89288227c253c25aee"
-  integrity sha512-Uh+FgcAbvVoQmLBOJ5ksQovOVKMjxyDjIYDavPt7Lc4I2sC1mbOEJ/6PWoe9F/J5RiwFa4cTzICPLb214ONRFg==
+"@polkadot/dev@^0.40.5":
+  version "0.40.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.40.5.tgz#171b94a5b8200c1a4a58ec169bb7fbb7d30edcc7"
+  integrity sha512-MNsbdAnTqTIJupatFxnfExoXheGZrwzsArfv7hjRp1JWaqxRNrJYYKX8dfFosX+hRtslqO2tu1ZiwKDzAZ5RbQ==
   dependencies:
     "@babel/cli" "^7.8.4"
     "@babel/core" "^7.8.4"
