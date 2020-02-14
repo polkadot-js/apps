@@ -15,8 +15,8 @@ const unsub = await api.tx.balances
   .signAndSend(sender, ({ events = [], status }) => {
     console.log('Transaction status:', status.type);
 
-    if (status.isFinalized) {
-      console.log('Completed at block hash', status.asFinalized.toHex());
+    if (status.isInBlock) {
+      console.log('Completed at block hash', status.asInBlock.toHex());
       console.log('Events:');
 
       events.forEach(({ phase, event: { data, method, section } }) => {

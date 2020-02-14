@@ -46,16 +46,19 @@ function signerIconName (status: QueueTxStatus): any {
       return 'ban';
 
     case 'completed':
+    case 'inblock':
     case 'finalized':
     case 'sent':
       return 'check';
 
     case 'dropped':
+    case 'retracted':
     case 'invalid':
     case 'usurped':
       return 'arrow down';
 
     case 'error':
+    case 'finalitytimeout':
       return 'warning sign';
 
     case 'queued':
