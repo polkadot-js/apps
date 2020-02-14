@@ -263,18 +263,23 @@ export default styled(Status)`
       background: teal;
     }
 
-    &.completed > .wrapper > .container,
-    &.finalized > .wrapper > .container,
-    &.sent > .wrapper > .container,
-    &.success > .wrapper > .container {
-      background: green;
+    &.completed,
+    &.finalized,
+    &.inblock,
+    &.sent,
+    &.success {
+      & > .wrapper > .container {
+        background: green;
+      }
     }
 
-    &.dropped > .wrapper > .container,
-    &.error > .wrapper > .container,
-    &.invalid > .wrapper > .container,
-    &.usurped > .wrapper > .container {
-      background: red;
+    &.dropped,
+    &.error,
+    &.invalid,
+    &.usurped {
+      & > .wrapper > .container {
+        background: red;
+      }
     }
   }
 `;
