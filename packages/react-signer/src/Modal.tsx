@@ -678,7 +678,7 @@ class Signer extends React.PureComponent<Props, State> {
             txUpdateCb(result);
           }
 
-          if (result.status.isFinalized) {
+          if (result.status.isFinalized || result.status.isInBlock) {
             unsubscribe();
 
             result.events

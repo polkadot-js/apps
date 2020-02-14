@@ -46,16 +46,19 @@ function signerIconName (status: QueueTxStatus): any {
       return 'ban';
 
     case 'completed':
+    case 'inblock':
     case 'finalized':
     case 'sent':
       return 'check';
 
     case 'dropped':
+    case 'retracted':
     case 'invalid':
     case 'usurped':
       return 'arrow down';
 
     case 'error':
+    case 'finalitytimeout':
       return 'warning sign';
 
     case 'queued':
@@ -260,18 +263,25 @@ export default styled(Status)`
       background: teal;
     }
 
-    &.completed > .wrapper > .container,
-    &.finalized > .wrapper > .container,
-    &.sent > .wrapper > .container,
-    &.success > .wrapper > .container {
-      background: green;
+    &.completed,
+    &.finalized,
+    &.inblock,
+    &.sent,
+    &.success {
+      & > .wrapper > .container {
+        background: green;
+      }
     }
 
-    &.dropped > .wrapper > .container,
-    &.error > .wrapper > .container,
-    &.invalid > .wrapper > .container,
-    &.usurped > .wrapper > .container {
-      background: red;
+    &.dropped,
+    &.error,
+    &.finalitytimeout,
+    &.invalid,
+    &.retracted,
+    &.usurped {
+      & > .wrapper > .container {
+        background: red;
+      }
     }
   }
 `;
