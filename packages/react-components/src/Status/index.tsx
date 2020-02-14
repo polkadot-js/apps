@@ -275,7 +275,9 @@ export default styled(Status)`
 
     &.dropped,
     &.error,
+    &.finalitytimeout,
     &.invalid,
+    &.retracted,
     &.usurped {
       & > .wrapper > .container {
         background: red;

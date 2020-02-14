@@ -2308,18 +2308,18 @@
     webpack-cli "^3.3.11"
     yargs "^15.1.0"
 
-"@polkadot/extension-dapp@^0.22.0-beta.2":
-  version "0.22.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.22.0-beta.2.tgz#b52b46e2a8bdbbd0a3c4a60562e17d89a8dc8788"
-  integrity sha512-fP+8ZX3z1EykWkQUrwHvSXxZGomA0tn7kEN0mmNdb8Lt7cSrWUEYjqV5R25ZJz//c8/aPvD61gK436RJfEVUlw==
+"@polkadot/extension-dapp@^0.22.0-beta.3":
+  version "0.22.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.22.0-beta.3.tgz#fcde92f61b8d5c9aee145b5ad7ca6435820576a5"
+  integrity sha512-ah44tmEvwTho4ef9cd8tG89FYq7BWGoN14foQiow/FEWDVPV931ZDLcetNqz00xRBU9Gc2tRwvC/npm9S5vXXQ==
   dependencies:
     "@babel/runtime" "^7.8.4"
-    "@polkadot/extension-inject" "^0.22.0-beta.2"
+    "@polkadot/extension-inject" "^0.22.0-beta.3"
 
-"@polkadot/extension-inject@^0.22.0-beta.2":
-  version "0.22.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.22.0-beta.2.tgz#c16dbc69c20cd469aaf3b367165933aeb303f5d4"
-  integrity sha512-qMb7RgB4+Rz42oOyllkl81+U0g+qao2HsYP0sDlY8tQxPtFzVYfmkL2S7ivPe9DjQKB0C7hF5Tgre+gN8kgg3A==
+"@polkadot/extension-inject@^0.22.0-beta.3":
+  version "0.22.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/extension-inject/-/extension-inject-0.22.0-beta.3.tgz#62328196cac88867b06ba6bf6ac313eb58473e58"
+  integrity sha512-mepSPG8HYYXQTlG0q6IG7yFzJObX8Urgf4tuADers01112fG6AEMHvJFPebk+E8uhQBBM6lDblwxl6Uxgz4ZFQ==
   dependencies:
     "@babel/runtime" "^7.8.4"
 
@@ -2737,6 +2737,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-dom@^16.9.5":
+  version "16.9.5"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.5.tgz#5de610b04a35d07ffd8f44edad93a71032d9aaa7"
+  integrity sha512-BX6RQ8s9D+2/gDhxrj8OW+YD4R+8hj7FEM/OJHGNR0KipE1h1mSsf39YeyC81qafkq+N3rU3h3RFbLSwE5VqUg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-native@*":
   version "0.61.13"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.61.13.tgz#f285a766f6059a165d99dc60c03a542e9f3bf5ac"
@@ -2780,6 +2787,11 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
+
+"@types/store@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/store/-/store-2.0.2.tgz#6263d4f1aab225032ea55b17d94f3b725a21c943"
+  integrity sha512-ZPHnXkzmGMfk+pHqAGzTSpA9CbsHmJLgkvOl5w52LZ0XTxB1ZIHWZzQ7lEtjTNWScBbsQekg8TjApMXkMe4nkw==
 
 "@types/styled-components@*", "@types/styled-components@^4.4.2":
   version "4.4.3"
