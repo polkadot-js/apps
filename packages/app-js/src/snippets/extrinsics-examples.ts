@@ -21,8 +21,8 @@ const transfer = api.tx.balances.transfer(BOB, randomAmount);
 
 // Sign and Send the transaction
 transfer.signAndSend(ALICE, ({ events = [], status }) => {
-  if (status.isFinalized) {
-    console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asFinalized.toHex());
+  if (status.isInBlock) {
+    console.log('Successful transfer of ' + randomAmount + ' with hash ' + status.asInBlock.toHex());
   } else {
     console.log('Status of transfer: ' + status.type);
   }
