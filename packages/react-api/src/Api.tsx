@@ -15,6 +15,7 @@ import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
 import { createType } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
+import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import typesChain from './overrides/chain';
@@ -82,6 +83,7 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   TokenUnit.setAbbr(tokenSymbol);
 
   // finally load the keyring
+  setSS58Format(ss58Format);
   keyring.loadAll({
     genesisHash: api.genesisHash,
     isDevelopment,
