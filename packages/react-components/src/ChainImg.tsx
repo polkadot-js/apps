@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -32,6 +32,7 @@ const CHAINS: Record<string, any> = {
 // overrides based on the actual software node type
 const NODES: Record<string, any> = {
   'edgeware-node': edgeware,
+  'edgeware node': edgeware,
   'node-template': substrate,
   'parity-polkadot': polkadot,
   'polkadot-js': polkadotJs,
@@ -55,9 +56,11 @@ interface Props {
   onClick?: () => any;
 }
 
-function ChainImg ({ className, logo = '', onClick }: Props): React.ReactElement<Props> {
+function ChainImg ({ className, logo, onClick }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
-  const img = LOGOS[logo] || CHAINS[systemChain] || NODES[systemName] || EMPTY;
+  const img = useMemo((): any => {
+    return LOGOS[logo || ''] || CHAINS[systemChain?.toLowerCase()] || NODES[systemName?.toLowerCase()] || EMPTY;
+  }, [logo, systemChain, systemName]);
 
   return (
     <img
