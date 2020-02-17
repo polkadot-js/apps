@@ -83,7 +83,6 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
 
   // finally load the keyring
   keyring.loadAll({
-    addressPrefix: ss58Format,
     genesisHash: api.genesisHash,
     isDevelopment,
     ss58Format,
