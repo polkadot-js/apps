@@ -25,39 +25,34 @@ function div ({ key, className }: DivProps, ...values: React.ReactNode[]): React
   );
 }
 
+function formatKeys (keys: [ValidatorId, Keys][]): string {
+  return JSON.stringify(
+    keys.map(([validator, keys]): [string, string] => [
+      validator.toString(), keys.toHex()
+    ])
+  );
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function valueToText (type: string, value: any, swallowError = true, contentShorten = true): React.ReactNode {
   if (isNull(value) || isUndefined(value)) {
     return div({}, '<unknown>');
   }
 
-  // FIXME dont' even ask, nested ?: ... really?
   return div(
     {},
     ['Bytes', 'Raw', 'Option<Keys>', 'Keys'].includes(type)
       ? u8aToHex(value.toU8a(true), contentShorten ? 512 : -1)
-      : (
-        // HACK Handle Keys as hex-only (this should go away once the node value is
-        // consistently swapped to `Bytes`)
-        type === 'Vec<(ValidatorId,Keys)>'
-          ? JSON.stringify(
-            (value as ([ValidatorId, Keys])[]).map(([validator, keys]): [string, string] => [
-              validator.toString(), keys.toHex()
-            ])
-          )
-          : (
-            value instanceof Raw
-              ? (
-                value.isEmpty
-                  ? '<empty>'
-                  : value.toString()
-              )
-              : (
-                (value instanceof Option) && value.isNone
-                  ? '<none>'
-                  : value.toString()
-              )
-          )
-      )
+      // HACK Handle Keys as hex-only (this should go away once the node value is
+      // consistently swapped to `Bytes`)
+      : type === 'Vec<(ValidatorId,Keys)>'
+        ? JSON.stringify(formatKeys(value as [ValidatorId, Keys][]))
+        : value instanceof Raw
+          ? value.isEmpty
+            ? '<empty>'
+            : value.toString()
+          : (value instanceof Option) && value.isNone
+            ? '<none>'
+            : JSON.stringify(value.toHuman())
   );
 }
