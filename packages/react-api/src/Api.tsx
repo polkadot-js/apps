@@ -75,6 +75,9 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
 
   console.log('api: found chain', systemChain, JSON.stringify(properties));
 
+  // explicitly override the ss58Format as specified
+  registry.setChainProperties(createType(registry, 'ChainProperties', { ...properties, ss58Format }));
+
   // first setup the UI helpers
   formatBalance.setDefaults({
     decimals: tokenDecimals,
