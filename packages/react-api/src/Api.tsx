@@ -78,6 +78,9 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   // explicitly override the ss58Format as specified
   registry.setChainProperties(createType(registry, 'ChainProperties', { ...properties, ss58Format }));
 
+  // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
+  setSS58Format(ss58Format);
+
   // first setup the UI helpers
   formatBalance.setDefaults({
     decimals: tokenDecimals,
@@ -86,7 +89,6 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   TokenUnit.setAbbr(tokenSymbol);
 
   // finally load the keyring
-  setSS58Format(ss58Format);
   keyring.loadAll({
     genesisHash: api.genesisHash,
     isDevelopment,

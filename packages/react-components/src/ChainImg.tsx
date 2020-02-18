@@ -23,20 +23,19 @@ import substrate from '@polkadot/ui-assets/substrate-hexagon.svg';
 
 // overrides based on the actual matched chain name
 const CHAINS: Record<string, any> = {
-  Kusama: chainKusama, // old name, the W3F nodes still has these
-  'Kusama CC1': chainKusama,
-  'Kusama CC2': chainKusama,
-  'Kusama CC3': chainKusama
+  kusama: chainKusama, // old name, the W3F nodes still has these
+  'kusama cc1': chainKusama,
+  'kusama cc2': chainKusama,
+  'kusama cc3': chainKusama
 };
 
 // overrides based on the actual software node type
 const NODES: Record<string, any> = {
-  'edgeware-node': edgeware,
   'edgeware node': edgeware,
-  'node-template': substrate,
-  'parity-polkadot': polkadot,
-  'polkadot-js': polkadotJs,
-  'substrate-node': substrate
+  'node template': substrate,
+  'parity polkadot': polkadot,
+  'polkadot js': polkadotJs,
+  'substrate node': substrate
 };
 
 // overrides as specified
@@ -56,10 +55,14 @@ interface Props {
   onClick?: () => any;
 }
 
+function sanitize (value?: string): string {
+  return value?.toLowerCase().replace('-', ' ') || '';
+}
+
 function ChainImg ({ className, logo, onClick }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
   const img = useMemo((): any => {
-    return LOGOS[logo || ''] || CHAINS[systemChain?.toLowerCase()] || NODES[systemName?.toLowerCase()] || EMPTY;
+    return LOGOS[logo || ''] || CHAINS[sanitize(systemChain)] || NODES[sanitize(systemName)] || EMPTY;
   }, [logo, systemChain, systemName]);
 
   return (
