@@ -39,6 +39,7 @@ interface Props {
 interface StakeState {
   controllerId: string | null;
   destination: number;
+  exposure?: Exposure;
   hexSessionIdNext: string | null;
   hexSessionIdQueue: string | null;
   isLoading: boolean;
@@ -47,7 +48,6 @@ interface StakeState {
   isStashValidating: boolean;
   nominees?: string[];
   sessionIds: string[];
-  stakers?: Exposure;
   stakingLedger?: StakingLedger;
   validatorPrefs?: ValidatorPrefs;
 }
@@ -58,7 +58,7 @@ function toIdString (id?: AccountId | null): string | null {
     : null;
 }
 
-function getStakeState (allAccounts: string[], allStashes: string[] | undefined, { controllerId: _controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, validatorPrefs }: DerivedStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
+function getStakeState (allAccounts: string[], allStashes: string[] | undefined, { controllerId: _controllerId, exposure, nextSessionIds, nominators, rewardDestination, sessionIds, stakingLedger, validatorPrefs }: DerivedStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
   const isStashNominating = !!(nominators?.length);
   const isStashValidating = !validateInfo[1].isEmpty || !!allStashes?.includes(stashId);
   const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
@@ -68,6 +68,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   return {
     controllerId,
     destination: rewardDestination?.toNumber() || 0,
+    exposure,
     hexSessionIdNext: u8aToHex(nextConcat, 48),
     hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
     isLoading: false,
@@ -81,7 +82,6 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
         ? nextSessionIds
         : sessionIds
     ).map(toIdString) as string[],
-    stakers,
     stakingLedger,
     validatorPrefs
   };

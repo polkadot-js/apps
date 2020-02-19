@@ -100,14 +100,18 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
   }, [favorites, isVisible, next, stakingOverview?.currentElected, stakingOverview?.validators]);
 
   useEffect((): void => {
-    if (stakingOverview) {
+    if (stakingOverview?.eraPoints) {
+      const allPoints = stakingOverview.eraPoints
+        ? [...stakingOverview.eraPoints.individual.entries()]
+        : [];
+
       dispatchDetails(validators.map(([address]): AddressDetails => {
-        const electedIdx = allElected.indexOf(address);
+        const points = allPoints.find(([accountId]): boolean => accountId.eq(address));
 
         return {
           address,
-          points: electedIdx !== -1
-            ? stakingOverview.eraPoints?.individual[electedIdx]
+          points: points
+            ? points[1]
             : undefined
         };
       }));
