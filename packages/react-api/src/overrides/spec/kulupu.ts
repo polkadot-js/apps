@@ -15,5 +15,6 @@ export default {
   DispatchInfo: {
     weight: 'Weight',
     class: 'DispatchClass'
-  }
+  },
+  StakingLedger: 'StakingLedgerTo223'
 };
