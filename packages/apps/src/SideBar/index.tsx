@@ -176,7 +176,7 @@ export default styled(SideBar)`
 
   .apps--SideBar {
     align-items: center;
-    background: #3f3f3f;
+    background: #4f4f4f;
     display: flex;
     flex-flow: column;
     height: auto;
@@ -252,7 +252,7 @@ export default styled(SideBar)`
     }
 
     .apps--SideBar-collapse {
-      background: #3f3f3f;
+      background: #4f4f4f;
       bottom: 0;
       left: 0;
       padding: 0.75rem 0 .75rem 0.65rem;
