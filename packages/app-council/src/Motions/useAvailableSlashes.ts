@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { EraIndex, UnappliedSlash } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
@@ -13,7 +14,7 @@ type Unsub = () => void;
 
 export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
   const { api } = useApi();
-  const currentEra = useCall<EraIndex>(api.query.staking?.currentEra, []);
+  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes, []);
   const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash, []);
   const mounted = useIsMountedRef();
   const [slashes, setSlashes] = useState<[BN, UnappliedSlash[]][]>([]);
@@ -21,12 +22,12 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
 
-    if (mounted.current && currentEra && earliestSlash?.isSome) {
+    if (mounted.current && indexes && earliestSlash?.isSome) {
       const from = earliestSlash.unwrap();
       const range: BN[] = [];
       let start = new BN(from);
 
-      while (start.lt(currentEra)) {
+      while (start.lt(indexes.activeEra)) {
         range.push(start);
         start = start.addn(1);
       }
@@ -47,7 +48,7 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
     return (): void => {
       unsub && unsub();
     };
-  }, [currentEra, earliestSlash]);
+  }, [earliestSlash, indexes]);
 
   return slashes;
 }

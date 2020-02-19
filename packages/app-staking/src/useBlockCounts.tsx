@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SessionIndex } from '@polkadot/types/interfaces';
+import { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { SessionRewards } from './types';
 
 import { useEffect, useState } from 'react';
@@ -12,10 +12,11 @@ import { u32 } from '@polkadot/types';
 export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
   const mounted = useIsMountedRef();
+  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes, []);
+  const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [indexes?.currentIndex, accountId]);
   const [counts, setCounts] = useState<u32[]>([]);
   const [historic, setHistoric] = useState<u32[]>([]);
-  const sessionIndex = useCall<SessionIndex>(api.query.session.currentIndex, []);
-  const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [sessionIndex, accountId]);
+
 
   useEffect((): void => {
     if (api.query.imOnline?.authoredBlocks && sessionRewards?.length) {
