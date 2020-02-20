@@ -197,7 +197,7 @@ export default function Address ({ address, className, filter, filterName, hasQu
         )}
       </td>
       <td className={'toggle number'} colSpan={isExpanded ? 5 : 1} onClick={_toggleNominators}>
-        {stakeOther && (
+        {stakeOther?.gtn(0) && (
           isExpanded
             ? (
               <div>
@@ -229,7 +229,7 @@ export default function Address ({ address, className, filter, filterName, hasQu
             )}
           </td>
           <td className='number'>
-            {points && points.gtn(0) && (
+            {points?.gtn(0) && (
               <><label>{t('points')}</label>{formatNumber(points)}</>
             )}
           </td>
