@@ -104,7 +104,7 @@ export default styled(Apps)`
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
-      color: #eee;
+      color: #f5f5f5;
       display: block;
       padding: 0.75em 0.75em;
       white-space: nowrap;
