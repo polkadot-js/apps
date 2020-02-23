@@ -22,7 +22,7 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
   const { api } = useApi();
   const councilThreshold = useCall<number>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
     transform: (value: any[]): number =>
-      Math.ceil(value.length * 0.5)
+      Math.ceil(value.length * 0.6)
   });
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
