@@ -96,8 +96,8 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   let totalStaked = new BN(0);
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
   const validators = sortValidators(
-    electedInfo.info.map(({ accountId, stakers, validatorPrefs }): ValidatorInfo => {
-      const exposure = stakers || {
+    electedInfo.info.map(({ accountId, exposure: _exposure, validatorPrefs }): ValidatorInfo => {
+      const exposure = _exposure || {
         total: createType(registry, 'Compact<Balance>'),
         own: createType(registry, 'Compact<Balance>'),
         others: createType(registry, 'Vec<IndividualExposure>')

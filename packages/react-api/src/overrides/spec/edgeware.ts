@@ -8,5 +8,6 @@ import { EdgewareTypes } from './edgeware-node-types';
 export default {
   ...EdgewareTypes,
   Address: 'GenericAddress',
-  Keys: 'SessionKeys4'
+  Keys: 'SessionKeys4',
+  StakingLedger: 'StakingLedgerTo223'
 };

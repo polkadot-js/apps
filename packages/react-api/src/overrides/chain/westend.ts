@@ -5,5 +5,6 @@
 export default {
   Address: 'GenericAddress',
   BalanceLock: 'BalanceLockTo212',
-  Keys: 'SessionKeys5'
+  Keys: 'SessionKeys5',
+  StakingLedger: 'StakingLedgerTo223'
 };
