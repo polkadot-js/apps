@@ -22,7 +22,7 @@ export default function ProposalCell ({ className, proposal, proposalHash }: Pro
   if (!proposal) {
     return (
       <td className={`${className} all`}>
-        <label>{t('proposal hash')}</label>
+        <label>{t('preimage hash')}</label>
         {proposalHash.toString()}
       </td>
     );
