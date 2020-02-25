@@ -13,14 +13,10 @@ import { Option } from '@polkadot/types';
 
 import { useTranslation } from './translate';
 import { getAddressName } from './util';
+import AccountNameJudgement from './AccountNameJudgement';
 import AddressMini from './AddressMini';
 import Badge from './Badge';
-import Dropdown from './Dropdown';
 import Icon from './Icon';
-import Input from './Input';
-import InputAddress from './InputAddress';
-import Modal from './Modal';
-import TxButton from './TxButton';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -29,17 +25,9 @@ interface Props extends BareProps {
   onClick?: () => void;
   override?: React.ReactNode;
   toggle?: any;
-  value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
+  value: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-const JUDGEMENT_ENUM = [
-  { value: 0, text: 'Unknown' },
-  { value: 1, text: 'Fee paid' },
-  { value: 2, text: 'Reasonable' },
-  { value: 3, text: 'Known good' },
-  { value: 4, text: 'Out of date' },
-  { value: 5, text: 'Low quality' }
-];
 const DISPLAY_KEYS = ['display', 'legal', 'email', 'web', 'twitter', 'riot'];
 const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
@@ -89,9 +77,6 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   const registrars = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
   const [isRegistrar, setIsRegistrar] = useState(false);
-  const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
-  const [judgementEnum, setJudgementEnum] = useState(2); // Reasonable
-  const [registrarIndex, setRegistrarIndex] = useState(-1);
   const address = useMemo((): string => (value || '').toString(), [value]);
   const [name, setName] = useState<React.ReactNode>((): React.ReactNode => extractName((value || '').toString(), undefined, defaultName));
 
@@ -110,24 +95,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     }
   }, [allAccounts, registrars]);
 
-  // find the id of our registrar in the list
-  useEffect((): void => {
-    if (registrars && judgementAccountId) {
-      setRegistrarIndex(
-        registrars
-          .map((registrar): string| null =>
-            registrar.isSome
-              ? registrar.unwrap().account.toString()
-              : null
-          )
-          .indexOf(judgementAccountId)
-      );
-    } else {
-      setRegistrarIndex(-1);
-    }
-  }, [judgementAccountId, registrars]);
-
-  // set the actual nickname, localname, accountIndex, accountId
+  // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
 
@@ -227,39 +195,10 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   return (
     <>
       {isJudgementOpen && (
-        <Modal
-          header={t('Provide judgement')}
-          size='small'
-        >
-          <Modal.Content>
-            <InputAddress
-              label={t('registrar account')}
-              onChange={setJudgementAccountId}
-            />
-            <Input
-              isDisabled
-              label={t('registrar index')}
-              value={registrarIndex === -1 ? t('invalid/unknown registrar account') : registrarIndex}
-            />
-            <Dropdown
-              label={t('judgement')}
-              onChange={setJudgementEnum}
-              options={JUDGEMENT_ENUM}
-              value={judgementEnum}
-            />
-          </Modal.Content>
-          <Modal.Actions onCancel={toggleJudgement}>
-            <TxButton
-              accountId={judgementAccountId}
-              icon='check'
-              isDisabled={registrarIndex === -1}
-              label={t('Judge')}
-              onStart={toggleJudgement}
-              params={[registrarIndex, address, judgementEnum]}
-              tx='identity.provideJudgement'
-            />
-          </Modal.Actions>
-        </Modal>
+        <AccountNameJudgement
+          address={address}
+          toggleJudgement={toggleJudgement}
+        />
       )}
       <div
         className={`ui--AccountName ${className}`}
