@@ -30,7 +30,6 @@ interface Props extends BareProps {
   override?: React.ReactNode;
   toggle?: any;
   value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
-  withShort?: boolean;
 }
 
 const JUDGEMENT_ENUM = [
@@ -47,6 +46,11 @@ const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean] {
   const accountId = _address.toString();
   const accountIndex = (_accountIndex || '').toString();
+
+  if (!accountId) {
+    return [[defaultName, null], false, false];
+  }
+
   const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
   const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, [null, null]];
 
@@ -63,35 +67,33 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   return [[extracted, null], !isAddressExtracted, isAddressExtracted];
 }
 
-function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withShort }: Props): React.ReactElement<Props> {
+function extractName (address: AccountId | string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
+  const [[displayFirst, displaySecond], isLocal, isAddress] = defaultOrAddr(defaultName, address, accountIndex);
+
+  return (
+    <div className='via-identity'>
+      <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
+        displaySecond
+          ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
+          : displayFirst
+      }</span>
+    </div>
+  );
+}
+
+function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [isJudgementOpen, toggleJudgement] = useToggle();
   const registrars = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const [accountId, setAccountId] = useState<string | null>(null);
   const [isRegistrar, setIsRegistrar] = useState(false);
   const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
   const [judgementEnum, setJudgementEnum] = useState(2); // Reasonable
   const [registrarIndex, setRegistrarIndex] = useState(-1);
   const address = useMemo((): string => (value || '').toString(), [value]);
-
-  const _extractName = (accountId?: AccountId, accountIndex?: AccountIndex): React.ReactNode => {
-    const [[displayFirst, displaySecond], isLocal, isAddress] = defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex);
-
-    return (
-      <div className='via-identity'>
-        <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
-          displaySecond
-            ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
-            : displayFirst
-        }</span>
-      </div>
-    );
-  };
-
-  const [name, setName] = useState<React.ReactNode>((): React.ReactNode => _extractName());
+  const [name, setName] = useState<React.ReactNode>((): React.ReactNode => extractName((value || '').toString(), undefined, defaultName));
 
   // determine if we have a registrar or not - registrars are allowed to approve
   useEffect((): void => {
@@ -128,10 +130,6 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   // set the actual nickname, localname, accountIndex, accountId
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
-
-    if (accountId) {
-      setAccountId(accountId.toString());
-    }
 
     if (api.query.identity?.identityOf) {
       if (identity?.display) {
@@ -213,18 +211,18 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
           </div>
         );
 
-        nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
+        nameCache.set((accountId || address).toString(), [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
         setName((): React.ReactNode => name);
       } else {
-        setName((): React.ReactNode => _extractName(accountId, accountIndex));
+        setName((): React.ReactNode => extractName(accountId || address, accountIndex));
       }
     } else if (nickname) {
-      nameCache.set(address, [false, [nickname, null]]);
+      nameCache.set((accountId || address).toString(), [false, [nickname, null]]);
       setName(nickname);
     } else {
-      setName(defaultOrAddr(defaultName, accountId || address, withShort ? null : accountIndex));
+      setName(defaultOrAddr(defaultName, accountId || address, accountIndex));
     }
-  }, [info, toggle]);
+  }, [address, info, toggle]);
 
   return (
     <>
@@ -257,7 +255,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
               isDisabled={registrarIndex === -1}
               label={t('Judge')}
               onStart={toggleJudgement}
-              params={[registrarIndex, accountId, judgementEnum]}
+              params={[registrarIndex, address, judgementEnum]}
               tx='identity.provideJudgement'
             />
           </Modal.Actions>
