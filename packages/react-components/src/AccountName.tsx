@@ -25,7 +25,7 @@ interface Props extends BareProps {
   onClick?: () => void;
   override?: React.ReactNode;
   toggle?: any;
-  value: AccountId | AccountIndex | Address | string | Uint8Array | null;
+  value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
 }
 
 const DISPLAY_KEYS = ['display', 'legal', 'email', 'web', 'twitter', 'riot'];
