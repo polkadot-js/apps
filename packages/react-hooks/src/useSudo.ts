@@ -1,0 +1,28 @@
+// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { UseSudo } from './types';
+
+import { useEffect, useState } from 'react';
+
+import useAccounts from './useAccounts';
+import useApi from './useApi';
+import useCall from './useCall';
+
+export default function useSudo (allAccounts?: string[]): UseSudo {
+  const { api } = useApi();
+  const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
+
+  if (!allAccounts) {
+    allAccounts = useAccounts().allAccounts || [];
+  }
+
+  const [isMine, setIsMine] = useState(false);
+
+  useEffect((): void => {
+    setIsMine(!!sudoKey && !!allAccounts && allAccounts.some((key): boolean => key === sudoKey.toString()));
+  }, [allAccounts, sudoKey]);
+
+  return { sudoKey, isMine };
+}
