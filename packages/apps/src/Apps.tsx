@@ -13,7 +13,6 @@ import Signer from '@polkadot/react-signer';
 
 import AccountsOverlay from './overlays/Accounts';
 import ConnectingOverlay from './overlays/Connecting';
-import UpgradeOverlay from './overlays/Upgrade';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
@@ -90,7 +89,6 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         </Signer>
         <ConnectingOverlay />
         <AccountsOverlay />
-        <UpgradeOverlay />
       </div>
       <WarmUp />
     </>
@@ -106,7 +104,7 @@ export default styled(Apps)`
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
-      color: #eee;
+      color: #f5f5f5;
       display: block;
       padding: 0.75em 0.75em;
       white-space: nowrap;

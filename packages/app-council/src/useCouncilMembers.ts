@@ -15,12 +15,12 @@ interface Result {
 export default function useCouncilMembers (): Result {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const queryMembers = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
+  const queryMembers = useCall<[AccountId, Balance][]>(api.query.council.members, []);
   const [members, setMembers] = useState<Result>({ isMember: false, members: [] });
 
   useEffect((): void => {
     if (allAccounts && queryMembers) {
-      const members = queryMembers.map(([accountId]): string => accountId.toString());
+      const members = queryMembers.map((accountId): string => accountId.toString());
 
       setMembers({
         members,

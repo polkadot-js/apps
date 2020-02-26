@@ -15,6 +15,7 @@ import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
 import { createType } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
+import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import typesChain from './overrides/chain';
@@ -65,7 +66,7 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
-  const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
+  const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const systemChain = _systemChain
     ? _systemChain.toString()
@@ -73,6 +74,12 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   const isDevelopment = isTestChain(systemChain);
 
   console.log('api: found chain', systemChain, JSON.stringify(properties));
+
+  // explicitly override the ss58Format as specified
+  registry.setChainProperties(createType(registry, 'ChainProperties', { ...properties, ss58Format }));
+
+  // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
+  setSS58Format(ss58Format);
 
   // first setup the UI helpers
   formatBalance.setDefaults({
@@ -83,7 +90,6 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
 
   // finally load the keyring
   keyring.loadAll({
-    addressPrefix: ss58Format,
     genesisHash: api.genesisHash,
     isDevelopment,
     ss58Format,

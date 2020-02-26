@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export default {
+  // chain-specific
   AnchorData: {
     id: 'H256',
     docRoot: 'H256',
@@ -21,6 +22,7 @@ export default {
     leafHash: 'H256',
     sortedHashes: 'H256'
   },
-  // Workarounds
-  BalanceLock: 'BalanceLockTo212' // workaround for balances not showing up, see https://github.com/polkadot-js/apps/issues/2236
+  // Non-current Substrate types
+  BalanceLock: 'BalanceLockTo212',
+  StakingLedger: 'StakingLedgerTo223'
 };

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -16,6 +16,7 @@ import EMPTY from '@polkadot/ui-assets/empty.svg';
 import chainKusama from '@polkadot/ui-assets/chains/kusama-128.gif';
 
 // defaults for the node type, assuming we don't have a specific chain
+import centrifuge from '@polkadot/ui-assets/centrifuge.png';
 import edgeware from '@polkadot/ui-assets/edgeware-circle.svg';
 import polkadot from '@polkadot/ui-assets/polkadot-circle.svg';
 import polkadotJs from '@polkadot/ui-assets/polkadot-js.svg';
@@ -23,23 +24,25 @@ import substrate from '@polkadot/ui-assets/substrate-hexagon.svg';
 
 // overrides based on the actual matched chain name
 const CHAINS: Record<string, any> = {
-  Kusama: chainKusama, // old name, the W3F nodes still has these
-  'Kusama CC1': chainKusama,
-  'Kusama CC2': chainKusama,
-  'Kusama CC3': chainKusama
+  kusama: chainKusama, // old name, the W3F nodes still has these
+  'kusama cc1': chainKusama,
+  'kusama cc2': chainKusama,
+  'kusama cc3': chainKusama
 };
 
 // overrides based on the actual software node type
 const NODES: Record<string, any> = {
-  'edgeware-node': edgeware,
-  'node-template': substrate,
-  'parity-polkadot': polkadot,
-  'polkadot-js': polkadotJs,
-  'substrate-node': substrate
+  'centrifuge chain': centrifuge,
+  'edgeware node': edgeware,
+  'node template': substrate,
+  'parity polkadot': polkadot,
+  'polkadot js': polkadotJs,
+  'substrate node': substrate
 };
 
 // overrides as specified
 const LOGOS: Record<string, any> = {
+  centrifuge,
   empty: EMPTY,
   edgeware,
   alexander: polkadot,
@@ -55,9 +58,15 @@ interface Props {
   onClick?: () => any;
 }
 
-function ChainImg ({ className, logo = '', onClick }: Props): React.ReactElement<Props> {
+function sanitize (value?: string): string {
+  return value?.toLowerCase().replace('-', ' ') || '';
+}
+
+function ChainImg ({ className, logo, onClick }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
-  const img = LOGOS[logo] || CHAINS[systemChain] || NODES[systemName] || EMPTY;
+  const img = useMemo((): any => {
+    return LOGOS[logo || ''] || CHAINS[sanitize(systemChain)] || NODES[sanitize(systemName)] || EMPTY;
+  }, [logo, systemChain, systemName]);
 
   return (
     <img

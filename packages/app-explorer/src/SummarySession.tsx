@@ -63,7 +63,7 @@ export default function SummarySession ({ withEra = true, withSession = true }: 
               )
               : (
                 <CardSummary label={eraLabel}>
-                  #{formatNumber(sessionInfo.currentEra)}
+                  #{formatNumber(sessionInfo.activeEra)}
                 </CardSummary>
               )
           )}
