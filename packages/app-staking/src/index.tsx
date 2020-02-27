@@ -39,7 +39,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     transform: ([stashes]: [AccountId[]]): string[] =>
       stashes.map((accountId): string => accountId.toString())
   }) as string[];
-  const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline.receivedHeartbeats, []);
+  const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline?.receivedHeartbeats, []);
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
