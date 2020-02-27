@@ -16,6 +16,7 @@ import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
+import BN from 'bn.js';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -26,7 +27,9 @@ interface SidebarState {
 
 function WarmUp (): React.ReactElement {
   const { api, isApiReady } = useApi();
-  const fees = useCall<any>(isApiReady ? api.derive.balances?.fees : undefined, []);
+  // Commented for easy tracking while rebasing'
+  // const fees = useCall<any>(isApiReady ? api.derive.balances?.fees : undefined, []);
+  const fees = new BN(0);
   const indexes = useCall<any>(isApiReady ? api.derive.accounts?.indexes : undefined, []);
   const registrars = useCall<any>(isApiReady ? api.query.identity?.registrars : undefined, []);
   const staking = useCall<any>(isApiReady ? api.derive.staking?.overview : undefined, []);
