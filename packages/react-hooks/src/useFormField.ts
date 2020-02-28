@@ -16,7 +16,6 @@ function isTruthy<T> (value?: T | null): boolean {
 
 export default function useFormField<T> (defaultValue: T | null, validate: (_?: T | null) => boolean = (): boolean => true): FormField<T> {
   const [value, setValue] = useState<T | null>(defaultValue);
-
   const isValid = useMemo(
     (): boolean => isTruthy<T>(value) && validate(value),
     [value]

@@ -10,13 +10,10 @@ import useAccounts from './useAccounts';
 import useApi from './useApi';
 import useCall from './useCall';
 
-export default function useSudo (allAccounts?: string[]): UseSudo {
+export default function useSudo (): UseSudo {
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
-
-  if (!allAccounts) {
-    allAccounts = useAccounts().allAccounts || [];
-  }
 
   const [isMine, setIsMine] = useState(false);
 
@@ -24,5 +21,5 @@ export default function useSudo (allAccounts?: string[]): UseSudo {
     setIsMine(!!sudoKey && !!allAccounts && allAccounts.some((key): boolean => key === sudoKey.toString()));
   }, [allAccounts, sudoKey]);
 
-  return { sudoKey, isMine };
+  return { allAccounts, sudoKey, isMine };
 }

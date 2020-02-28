@@ -8,6 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
+import { parachainName, parachainOwner } from './util';
 
 interface Props {
   children?: React.ReactNode;
@@ -28,18 +29,16 @@ function ParachainInfo ({ children, className, isBig, info }: Props): React.Reac
               <img src={info.icon} />
             )
             : (
-              <i
-                className='icon chain fitted'
-              />
+              <i className='icon chain fitted' />
             )
         }
       </div>
       <div className='details'>
         <div className='name'>
-          {info?.name || t('Unknown Chain')}
+          {parachainName(t, info)}
         </div>
         <div className='owner'>
-          {info?.owner || t('Unknown Owner')}
+          {parachainOwner(t, info)}
         </div>
       </div>
       {children}

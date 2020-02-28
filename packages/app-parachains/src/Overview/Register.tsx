@@ -11,7 +11,7 @@ import { useApi, useFormField, useModal } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 
-import { Button, Dropdown, InputFile, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -30,15 +30,14 @@ const schedulingOptions = [{
   value: 'Dynamic'
 }];
 
-function isWasmValid (wasm: Uint8Array): boolean {
-  return wasm.subarray(0, 4).toString() === '0,97,115,109'; // '\0asm'
-}
+const ONE_THOUSAND = new BN(1000);
 
-export default function Register ({ nextFreeId = new BN(1000), sudoKey }: Props): React.ReactElement<Props> | null {
+export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isOpen, onOpen, onClose } = useModal();
   const onSendRef = useRef<() => void>();
+  const isWasmValidRef = useRef(false);
 
   const [id, isIdValid, setId] = useFormField<BN>(
     nextFreeId,
@@ -46,7 +45,7 @@ export default function Register ({ nextFreeId = new BN(1000), sudoKey }: Props)
   );
   const [code, isCodeValid, setCode] = useFormField<Uint8Array>(
     null,
-    (code): boolean => !!code && isWasmValid(code)
+    (code): boolean => !!code && isWasmValidRef.current
   );
   const [initialHeadState, isInitialHeadStateValid, setInitialHeadState] = useFormField<Uint8Array>(
     null
@@ -61,7 +60,6 @@ export default function Register ({ nextFreeId = new BN(1000), sudoKey }: Props)
   );
   const extrinsic = useMemo(
     (): SubmittableExtrinsic | null => {
-      console.log(id, info, code, initialHeadState);
       try {
         return api.tx.registrar.registerPara(
           id,
@@ -116,10 +114,10 @@ export default function Register ({ nextFreeId = new BN(1000), sudoKey }: Props)
               options={schedulingOptions}
               value={scheduling}
             />
-            <InputFile
-              accept='application/wasm'
+            <InputWasm
               help={t('The compiled runtime WASM for the parachain you wish to register.')}
               isError={!!code && code.length > 0 && !isCodeValid}
+              isValidRef={isWasmValidRef}
               label={t('code')}
               onChange={setCode}
               placeholder={

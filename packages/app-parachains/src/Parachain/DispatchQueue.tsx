@@ -22,7 +22,7 @@ function DispatchQueue ({ className, dispatchQueue = [] }: Props): React.ReactEl
     <div className={className}>
       <h1>{t('relay dispatch queue')}</h1>
       {
-        dispatchQueue.length <= 0
+        dispatchQueue.length === 0
           ? (
             <>
               {t('no messages')}

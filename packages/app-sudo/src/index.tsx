@@ -9,7 +9,7 @@ import { ComponentProps } from './types';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
-import { useAccounts, useSudo } from '@polkadot/react-hooks';
+import { useSudo } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
 import Sudo from './Sudo';
@@ -18,8 +18,7 @@ import { useTranslation } from './translate';
 
 export default function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
-  const { sudoKey, isMine } = useSudo(allAccounts);
+  const { allAccounts, sudoKey, isMine } = useSudo();
   const items = useMemo(() => [
     {
       isRoot: true,

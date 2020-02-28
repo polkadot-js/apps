@@ -8,7 +8,7 @@ import InputFile, { InputFileProps } from './InputFile';
 
 interface Props extends Omit<InputFileProps, 'accept'> {
   isValidRef: React.MutableRefObject<boolean>;
-  onChange: (contents: Uint8Array, name: string) => void;
+  onChange: (contents: Uint8Array, name?: string) => void;
 }
 
 export default function InputWasm ({ isValidRef, onChange, ...props }: Props): React.ReactElement<Props> {
@@ -23,7 +23,6 @@ export default function InputWasm ({ isValidRef, onChange, ...props }: Props): R
     <InputFile
       {...props}
       accept='application/wasm'
-      isError={isValidRef.current === false}
       onChange={_onChange}
     />
   );

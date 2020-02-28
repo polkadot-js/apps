@@ -131,12 +131,9 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
           )}
           <div className='short'>
             {icon === 'spinner'
-              ? (
-                <Spinner variant='push' />
-              )
-              : (
-                <Icon name={icon} />
-              )}
+              ? <Spinner variant='push' />
+              : <Icon name={icon} />
+            }
           </div>
           <div className='desc'>
             <div className='header'>
