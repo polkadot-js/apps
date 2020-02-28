@@ -35,7 +35,7 @@ class Selection extends TxComponent<Props, State> {
   public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
     const { isValid, isValidUnsigned, accountId } = this.state;
-    const extrinsic = this.getExtrinsic() || apiDefaultTxSudo();
+    const extrinsic = this.getExtrinsic() || apiDefaultTxSudo('0x00');
 
     return (
       <div className='extrinsics--Selection'>
