@@ -241,7 +241,6 @@ class Deploy extends ContractModal<Props, State> {
               : 'contracts.create' // V2 (old)
             : 'contract.create' // V1
         }
-        ref={this.button}
         withSpinner
       />
     );

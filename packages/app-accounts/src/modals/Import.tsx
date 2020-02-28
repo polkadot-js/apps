@@ -47,7 +47,6 @@ class Import extends TxComponent<Props, State> {
             isPrimary
             onClick={this.onSave}
             label={t('Restore')}
-            ref={this.button}
           />
         </Modal.Actions>
       </Modal>

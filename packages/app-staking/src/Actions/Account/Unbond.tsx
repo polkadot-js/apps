@@ -76,7 +76,6 @@ class Unbond extends TxComponent<Props, State> {
             onStart={onClose}
             params={[maxUnbond]}
             tx='staking.unbond'
-            ref={this.button}
             withSpinner
           />
         </Modal.Actions>

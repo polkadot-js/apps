@@ -90,7 +90,6 @@ class SetControllerAccount extends TxComponent<Props, State> {
             onStart={onClose}
             params={[controllerId]}
             tx='staking.setController'
-            ref={this.button}
             withSpinner
           />
         </Modal.Actions>

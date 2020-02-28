@@ -82,7 +82,6 @@ class Upload extends ContractModal<Props, State> {
         onFailed={this.toggleBusy(false)}
         params={[gasLimit, wasm]}
         tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
-        ref={this.button}
         withSpinner
       />
     );

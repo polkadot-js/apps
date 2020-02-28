@@ -2,67 +2,42 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { QueueTx, QueueTxExtrinsicAdd } from './Status/types';
 import { TxButtonProps as Props } from './types';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { withApi } from '@polkadot/react-api/hoc';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import { assert, isFunction, isUndefined } from '@polkadot/util';
 
 import Button from './Button';
-import { QueueConsumer } from './Status/Context';
+import { StatusContext } from './Status';
+import { useTranslation } from './translate';
 
-interface InjectedProps {
-  queueExtrinsic: QueueTxExtrinsicAdd;
-  txqueue: QueueTx[];
-}
+export default function TxButton (props: Props): React.ReactElement<Props> {
+  const { accountId, className, extrinsic: propsExtrinsic, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params = [], tx = '', tooltip, withSpinner = true } = props;
 
-type InnerProps = Props & InjectedProps;
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const { queueExtrinsic } = useContext(StatusContext);
 
-interface State {
-  extrinsic?: SubmittableExtrinsic;
-  isSending: boolean;
-}
+  const [isSending, , setIsSending] = useToggle(false);
+  const needsAccount = isUnsigned
+    ? false
+    : !accountId;
 
-class TxButtonInner extends React.PureComponent<InnerProps> {
-  public state: State = {
-    isSending: false
+  const _onFailed = (result: SubmittableResult | null): void => {
+    setIsSending(false);
+
+    onFailed && onFailed(result);
   };
 
-  public render (): React.ReactNode {
-    const { accountId, className, icon, iconSize, innerRef, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, tooltip } = this.props;
+  const _onSuccess = (result: SubmittableResult): void => {
+    setIsSending(false);
 
-    const { isSending } = this.state;
-    const needsAccount = isUnsigned
-      ? false
-      : !accountId;
+    onSuccess && onSuccess(result);
+  };
 
-    return (
-      <Button
-        className={className}
-        tooltip={tooltip}
-        icon={icon}
-        isBasic={isBasic}
-        isDisabled={isSending || isDisabled || needsAccount}
-        isLoading={isSending}
-        isNegative={isNegative}
-        isPrimary={
-          isUndefined(isPrimary)
-            ? (!isNegative && !isBasic)
-            : isPrimary
-        }
-        label={label}
-        onClick={this.send}
-        ref={innerRef}
-        size={iconSize}
-      />
-    );
-  }
-
-  protected send = (): void => {
-    const { accountId, api, extrinsic: propsExtrinsic, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params = [], queueExtrinsic, tx = '', withSpinner = true } = this.props;
+  const _onSend = (): void => {
     let extrinsic: any;
 
     if (propsExtrinsic) {
@@ -82,61 +57,43 @@ class TxButtonInner extends React.PureComponent<InnerProps> {
     assert(extrinsic, 'Expected generated extrinsic passed to TxButton');
 
     if (withSpinner) {
-      this.setState({ isSending: true });
+      setIsSending(true);
     }
 
     queueExtrinsic({
-      accountId,
+      accountId: accountId && accountId.toString(),
       extrinsic,
       isUnsigned,
-      txFailedCb: withSpinner ? this.onFailed : onFailed,
+      txFailedCb: withSpinner ? _onFailed : onFailed,
       txStartCb: onStart,
-      txSuccessCb: withSpinner ? this.onSuccess : onSuccess,
+      txSuccessCb: withSpinner ? _onSuccess : onSuccess,
       txUpdateCb: onUpdate
     });
 
     onClick && onClick();
+  };
+
+  if (onSendRef) {
+    onSendRef.current = _onSend;
   }
 
-  private onFailed = (result: SubmittableResult | null): void => {
-    const { onFailed } = this.props;
-
-    this.setState({ isSending: false });
-
-    onFailed && onFailed(result);
-  }
-
-  private onSuccess = (result: SubmittableResult): void => {
-    const { onSuccess } = this.props;
-
-    this.setState({ isSending: false });
-
-    onSuccess && onSuccess(result);
-  }
+  return (
+    <Button
+      className={className}
+      tooltip={tooltip}
+      icon={icon || 'check'}
+      isBasic={isBasic}
+      isDisabled={isSending || isDisabled || needsAccount}
+      isLoading={isSending}
+      isNegative={isNegative}
+      isPrimary={
+        isUndefined(isPrimary)
+          ? (!isNegative && !isBasic)
+          : isPrimary
+      }
+      label={label || t('Submit')}
+      onClick={_onSend}
+      size={iconSize}
+    />
+  );
 }
-
-class TxButton extends React.PureComponent<Props, State> {
-  protected button: any = React.createRef();
-
-  public render (): React.ReactNode {
-    const { innerRef, ...props } = this.props;
-    return (
-      <QueueConsumer>
-        {({ queueExtrinsic, txqueue }): React.ReactNode => (
-          <TxButtonInner
-            {...props}
-            queueExtrinsic={queueExtrinsic}
-            txqueue={txqueue}
-            innerRef={innerRef}
-          />
-        )}
-      </QueueConsumer>
-    );
-  }
-
-  protected send = (): void => {
-    this.button.current.send();
-  }
-}
-
-export default withApi(TxButton);
