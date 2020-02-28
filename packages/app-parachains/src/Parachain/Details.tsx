@@ -29,7 +29,7 @@ function Details ({ parachain: { heads, info, id } }: Props): React.ReactElement
           if (code.unwrap()) {
             const blob = new Blob([code.unwrap().toU8a().buffer], { type: 'application/wasm' });
 
-            FileSaver.saveAs(blob, `${id.toString()}: ${parachainName(t, info)}.wasm`);
+            FileSaver.saveAs(blob, `${id.toString()}_${parachainName(t, info)}.wasm`);
           }
         });
     } catch (error) {

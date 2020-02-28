@@ -32,7 +32,7 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
       onClick={_onClick}
     >
       <td className='number'>
-        <h1>{formatNumber(id)}</h1>
+        <h1>{id.toString()}</h1>
       </td>
       <td className='badges'>
         <div>
