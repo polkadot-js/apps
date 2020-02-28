@@ -18,6 +18,6 @@
     "@polkadot/react-components": "0.40.0-beta.57",
     "@polkadot/react-signer": "0.40.0-beta.57",
     "@polkadot/ui-assets": "^0.52.0-beta.3",
-    "query-string": "^6.10.1"
+    "query-string": "^6.11.0"
   }
 }
