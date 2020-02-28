@@ -14,6 +14,6 @@
     "@babel/runtime": "^7.8.4",
     "@polkadot/react-components": "0.40.0-beta.57",
     "@polkadot/react-query": "0.40.0-beta.57",
-    "query-string": "^6.10.1"
+    "query-string": "^6.11.0"
   }
 }
