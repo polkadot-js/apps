@@ -54,6 +54,8 @@ export default function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoK
     >
       <Modal.Content>
         <ParachainInfo info={info} />
+        <br />
+        <br />
         <Static
           className='full label-small'
           help={t('The id of the parachain to be deregistered.')}

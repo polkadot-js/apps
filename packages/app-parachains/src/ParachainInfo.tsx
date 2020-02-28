@@ -45,40 +45,6 @@ function ParachainInfo ({ children, className, isBig, info }: Props): React.Reac
       {children}
     </div>
   );
-  // return (
-  //   <Card className={className}>
-  //     <div className='ui--Row'>
-  //       <div className='ui--Row-base'>
-  //         <div className='ui--Row-details parachains--Item-header'>
-  //           <h3>#{formatNumber(id)}</h3>
-  //         </div>
-  //       </div>
-  //       <Static
-  //         help={t('the watermark block height of this parachain')}
-  //         label={t('watermark')}
-  //         value={(
-  //           <h1>
-  //             #{formatNumber(watermarks)}
-  //           </h1>
-  //         )}
-  //       />
-  //       <Static
-  //         help={t('the last heads of this parachain')}
-  //         label={t('heads')}
-  //         value={heads?.toHex() || t('<unknown>')}
-  //       />
-  //       <Static
-  //         help={t('the relay dispatch queue size')}
-  //         label={t('relay queue')}
-  //         value={
-  //           relayDispatchQueue
-  //             ? formatNumber(relayDispatchQueue.length)
-  //             : '-'
-  //         }
-  //       />
-  //     </div>
-  //   </Card>
-  // );
 }
 
 export default styled(ParachainInfo)`
