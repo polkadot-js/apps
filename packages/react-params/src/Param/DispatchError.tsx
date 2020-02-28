@@ -25,12 +25,11 @@ export default function ErrorDisplay (props: Props): React.ReactElement<Props> {
   useEffect((): void => {
     if (details !== null && props.defaultValue?.value?.isModule) {
       try {
-        const mod = (props.defaultValue.value as DispatchError).asModule;
-        const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
+        const { documentation, name, section } = registry.findMetaError((props.defaultValue.value as DispatchError).asModule);
 
         setDetails({
-          details: error.documentation.join(', '),
-          type: `${error.section}.${error.name}`
+          details: documentation.join(', '),
+          type: `${section}.${name}`
         });
       } catch (error) {
         // Errors may not actually be exposed, in this case, just return the default representation
