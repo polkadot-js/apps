@@ -26,7 +26,7 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: lint
       run: |
-        yarn install --frozen-lockfile
+        yarn install | grep -v 'YN0013'
         yarn lint
 
   test:
@@ -53,7 +53,7 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: test
       run: |
-        yarn install --frozen-lockfile
+        yarn install | grep -v 'YN0013'
         yarn test
 
   build_code:
@@ -80,7 +80,7 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: build
       run: |
-        yarn install --frozen-lockfile
+        yarn install | grep -v 'YN0013'
         yarn build:code
 
   build_i18n:
@@ -107,5 +107,5 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: build
       run: |
-        yarn install --frozen-lockfile
+        yarn install | grep -v 'YN0013'
         yarn build:i18n
