@@ -18,9 +18,10 @@ interface Props {
   isMember: boolean;
   proposal: DerivedTreasuryProposal;
   onRespond: () => void;
+  withSend: boolean;
 }
 
-export default function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal } }: Props): React.ReactElement<Props> | null {
+export default function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
@@ -50,15 +51,19 @@ export default function ProposalDisplay ({ className, isMember, proposal: { coun
         />
       </td>
       <td className='top number together'>
-        <Submission
-          councilProposals={council}
-          id={id}
-          isDisabled={!isMember}
-        />
-        <Voting
-          councilProposals={council}
-          isDisabled={!isMember}
-        />
+        {withSend && (
+          <>
+            <Submission
+              councilProposals={council}
+              id={id}
+              isDisabled={!isMember}
+            />
+            <Voting
+              councilProposals={council}
+              isDisabled={!isMember}
+            />
+          </>
+        )}
       </td>
     </tr>
   );

@@ -55,6 +55,7 @@ export default function ProposalsBase ({ className, isApprovals, proposals }: Pr
               onRespond={_onRespond}
               proposal={proposal}
               key={proposal.id.toString()}
+              withSend={!isApprovals}
             />
           ))}
         </Table.Body>
