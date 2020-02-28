@@ -148,7 +148,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
         />
         <Button.Or />
         <Button
-          isDisabled={!isTypesValid || !isJsonValid || typesHasNoEntries}
+          isDisabled={!isTypesValid || !isJsonValid}
           isPrimary
           onClick={_saveDeveloper}
           label={t('Save')}
