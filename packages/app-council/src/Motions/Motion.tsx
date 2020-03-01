@@ -5,7 +5,7 @@
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, LinkExternal } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
 
@@ -67,6 +67,10 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
           isDisabled={!isMember}
           members={members}
           proposal={proposal}
+        />
+        <LinkExternal
+          data={index}
+          type='council'
         />
       </td>
     </tr>

@@ -60,7 +60,7 @@ export { default as Inset } from './Inset';
 export { default as Label } from './Label';
 export { default as LabelHelp } from './LabelHelp';
 export { default as Labelled } from './Labelled';
-export { default as LinkPolkascan } from './LinkPolkascan';
+export { default as LinkExternal } from './LinkExternal';
 export { default as LockedVote } from './LockedVote';
 export { default as Menu } from './Menu';
 export { default as Messages } from './Messages';

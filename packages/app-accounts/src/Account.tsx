@@ -9,7 +9,7 @@ import { RecoveryConfig } from '@polkadot/types/interfaces';
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Forget, Icon, IdentityIcon, InputTags, LinkPolkascan, Menu, Popup, Input } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Forget, Icon, IdentityIcon, InputTags, LinkExternal, Menu, Popup, Input } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -414,7 +414,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         </Popup>
       </td>
       <td className='mini top'>
-        <LinkPolkascan
+        <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}
           type='address'
