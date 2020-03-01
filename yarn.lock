@@ -3030,7 +3030,6 @@ __metadata:
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
     "@babel/runtime": ^7.8.4
-    "@polkadot/ui-assets": ^0.52.0-beta.4
     edgeware-node-types: ^1.2.0
   languageName: unknown
   linkType: soft
