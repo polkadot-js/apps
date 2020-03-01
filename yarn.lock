@@ -3199,7 +3199,6 @@ __metadata:
     "@babel/runtime": ^7.8.4
     "@polkadot/api": ^1.5.0-beta.17
     "@polkadot/extension-dapp": ^0.22.0-beta.9
-    edgeware-node-types: ^1.2.0
     rxjs-compat: ^6.5.4
   languageName: unknown
   linkType: soft
@@ -8325,13 +8324,6 @@ __metadata:
     jsbn: ~0.1.0
     safer-buffer: ^2.1.0
   checksum: 2/5b4dd05f24b2b94c1bb882488dba2b878bb5b83182669aa71fbdf53c6941618180cb226c4eb9a3e2fa51ad11f87b5edb0a7d7289cdef468ba2e6024542f73f07
-  languageName: node
-  linkType: hard
-
-"edgeware-node-types@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "edgeware-node-types@npm:1.2.0"
-  checksum: 2/2d04eb58ba2cef6bbe7d39726e3665e16579c42122a2e2da378977eafe07e2c615a86e95bc33293fcd25b008b64700d16ed7055faf50d3ddbaaa2a95bcbe17d9
   languageName: node
   linkType: hard
 
