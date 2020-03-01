@@ -10,9 +10,7 @@ import { useTranslation } from './translate';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
 
-export type LinkTypes = 'address' | 'block' | 'extrinsic';
-
-type ExplorerNames = 'Polkascan' | 'Subscan';
+export type LinkTypes = 'address' | 'block' | 'council' | 'extrinsic' | 'proposal' | 'referendum' | 'treasury';
 
 interface Props {
   className?: string;
@@ -24,11 +22,27 @@ interface Props {
 interface Explorer {
   isActive: boolean;
   chains: Record<string, string>;
-  paths: Record<string, string>;
+  paths: Partial<Record<LinkTypes, string>>;
   create: (chain: string, path: string, data: string) => string;
 }
 
-const EXPLORERS: Record<ExplorerNames, Explorer> = {
+const EXPLORERS: Record<string, Explorer> = {
+  Commonwealth: {
+    isActive: true,
+    chains: {
+      Edgeware: 'edgeware',
+      Kusama: 'kusama',
+      'Kusama CC3': 'kusama'
+    },
+    paths: {
+      council: 'proposal/councilmotion',
+      proposal: 'proposal/democracyproposal',
+      referendum: 'proposal/referendum',
+      treasury: 'roposal/treasuryproposal'
+    },
+    create: (chain: string, path: string, data: string): string =>
+      `https://commonwealth.im/${chain}/${path}/${data}`
+  },
   Polkascan: {
     isActive: true,
     chains: {
@@ -41,7 +55,11 @@ const EXPLORERS: Record<ExplorerNames, Explorer> = {
     paths: {
       address: 'module/account',
       block: 'system/block',
-      extrinsic: 'system/extrinsic'
+      council: 'council/motion',
+      extrinsic: 'system/extrinsic',
+      proposal: 'democracy/proposal',
+      referendum: 'democracy/referendum',
+      treasury: 'treasury/proposal'
     },
     create: (chain: string, path: string, data: string): string =>
       `https://polkascan.io/pre/${chain}/${path}/${data}`
@@ -100,7 +118,7 @@ function genLinks (systemChain: string, { data, type, withShort }: Props): React
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExplorer ({ className, data, type, withShort }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className, data, type, withShort }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo((): React.ReactNode[] => {
@@ -118,7 +136,7 @@ function LinkExplorer ({ className, data, type, withShort }: Props): React.React
   );
 }
 
-export default styled(LinkExplorer)`
+export default styled(LinkExternal)`
   margin-top: 1rem;
   text-align: right;
 
