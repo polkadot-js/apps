@@ -6,6 +6,7 @@ import { AccountId, Balance, BlockNumber, Hash, Proposal, ReferendumIndex } from
 import { ITuple } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
+import { LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Bytes, Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
@@ -53,6 +54,10 @@ export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: P
           hash={hash}
           isImminent
           proposal={proposal}
+        />
+        <LinkExternal
+          data={referendumIndex}
+          type='referendum'
         />
       </td>
     </tr>

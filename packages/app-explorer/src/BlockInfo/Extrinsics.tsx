@@ -8,7 +8,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { AddressMini, Call, Column, LinkPolkascan } from '@polkadot/react-components';
+import { AddressMini, Call, Column, LinkExternal } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import translate from '../translate';
@@ -73,7 +73,7 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number): Re
       </details>
       {
         extrinsic.isSigned
-          ? <LinkPolkascan data={extrinsic.hash.toHex()} type='extrinsic' />
+          ? <LinkExternal data={extrinsic.hash.toHex()} type='extrinsic' />
           : null
       }
     </article>
