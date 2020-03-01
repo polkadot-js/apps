@@ -1,0 +1,15 @@
+{
+  "Your Ethereum account": "Your Ethereum account",
+  "has a valid claim for": "has a valid claim for",
+  "does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.": "does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.",
+  "Redeem": "Redeem",
+  "1. Select your {{chain}} account": "1. Select your {{chain}} account",
+  "The account you want to claim to.": "The account you want to claim to.",
+  "claim to account": "claim to account",
+  "Continue": "Continue",
+  "2. Sign ETH transaction": "2. Sign ETH transaction",
+  "copied": "copied",
+  "click to copy": "click to copy",
+  "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below": "Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below",
+  "Confirm claim": "Confirm claim"
+}
