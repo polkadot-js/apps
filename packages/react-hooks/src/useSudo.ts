@@ -13,8 +13,10 @@ import useCall from './useCall';
 export default function useSudo (): UseSudo {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
-
+  const sudoKey = useCall<string>(api.query.sudo?.key, [], {
+    transform: (k): string =>
+      k.toString()
+  });
   const [isMine, setIsMine] = useState(false);
 
   useEffect((): void => {
