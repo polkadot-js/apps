@@ -64,11 +64,11 @@ class Selection extends TxComponent<Props, State> {
           <Button.Or />
           <TxButton
             accountId={accountId}
+            icon='sign-in'
             isDisabled={!isValid}
             isPrimary
-            label={t('Submit Transaction')}
-            icon='sign-in'
             extrinsic={extrinsic}
+            label={t('Submit Transaction')}
           />
         </Button.Group>
       </div>
