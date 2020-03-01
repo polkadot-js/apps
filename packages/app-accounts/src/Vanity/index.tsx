@@ -108,7 +108,6 @@ class VanityApp extends TxComponent<Props, State> {
               ? t('Stop generation')
               : t('Start generation')
           }
-          ref={this.button}
         />
       </Button.Group>
     );

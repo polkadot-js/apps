@@ -94,7 +94,6 @@ class Validate extends TxComponent<Props, State> {
           onStart={onClose}
           params={[{ commission }]}
           tx='staking.validate'
-          ref={this.button}
           withSpinner
         />
       </Modal.Actions>
