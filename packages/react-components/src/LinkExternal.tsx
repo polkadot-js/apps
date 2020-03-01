@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -14,7 +15,7 @@ export type LinkTypes = 'address' | 'block' | 'council' | 'extrinsic' | 'proposa
 
 interface Props {
   className?: string;
-  data: string;
+  data: BN | number | string;
   type: LinkTypes;
   withShort?: boolean;
 }
@@ -23,7 +24,7 @@ interface Explorer {
   isActive: boolean;
   chains: Record<string, string>;
   paths: Partial<Record<LinkTypes, string>>;
-  create: (chain: string, path: string, data: string) => string;
+  create: (chain: string, path: string, data: BN | number | string) => string;
 }
 
 const EXPLORERS: Record<string, Explorer> = {
@@ -38,10 +39,10 @@ const EXPLORERS: Record<string, Explorer> = {
       council: 'proposal/councilmotion',
       proposal: 'proposal/democracyproposal',
       referendum: 'proposal/referendum',
-      treasury: 'roposal/treasuryproposal'
+      treasury: 'proposal/treasuryproposal'
     },
-    create: (chain: string, path: string, data: string): string =>
-      `https://commonwealth.im/${chain}/${path}/${data}`
+    create: (chain: string, path: string, data: BN | number | string): string =>
+      `https://commonwealth.im/${chain}/${path}/${data.toString()}`
   },
   Polkascan: {
     isActive: true,
@@ -61,11 +62,11 @@ const EXPLORERS: Record<string, Explorer> = {
       referendum: 'democracy/referendum',
       treasury: 'treasury/proposal'
     },
-    create: (chain: string, path: string, data: string): string =>
-      `https://polkascan.io/pre/${chain}/${path}/${data}`
+    create: (chain: string, path: string, data: BN | number | string): string =>
+      `https://polkascan.io/pre/${chain}/${path}/${data.toString()}`
   },
   Subscan: {
-    isActive: true,
+    isActive: false,
     chains: {
       Kusama: 'kusama',
       'Kusama CC3': 'kusama'
@@ -75,8 +76,8 @@ const EXPLORERS: Record<string, Explorer> = {
       block: 'block',
       extrinsic: 'extrinsic'
     },
-    create: (chain: string, path: string, data: string): string =>
-      `https://${chain}.subscan.io/${path}/${data}`
+    create: (chain: string, path: string, data: BN | number | string): string =>
+      `https://${chain}.subscan.io/${path}/${data.toString()}`
   }
 };
 
@@ -131,16 +132,21 @@ function LinkExternal ({ className, data, type, withShort }: Props): React.React
 
   return (
     <div className={`${className} ${withShort ? 'withShort' : ''}`}>
-      {withShort ? '' : t('View on')}<>{links.map((link, index) => <span key={index}>{link}</span>)}</>
+      {!withShort && <div>{t('View this externally')}</div>}<div>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>
   );
 }
 
 export default styled(LinkExternal)`
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   text-align: right;
 
-  > span {
-    margin-left: 0.3rem;
+  > div {
+    display: block;
+    whitespace: nowrap;
+
+    > span+span {
+      margin-left: 0.3rem;
+    }
   }
 `;

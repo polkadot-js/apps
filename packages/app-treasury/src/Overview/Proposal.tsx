@@ -5,7 +5,7 @@
 import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { AddressMini, AddressSmall } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -29,7 +29,7 @@ export default function ProposalDisplay ({ className, isMember, proposal: { coun
       <td className='number top'>
         <h1>{formatNumber(id)}</h1>
       </td>
-      <td>
+      <td className='top'>
         <AddressSmall value={proposal.proposer} />
       </td>
       <td className='top'>
@@ -64,6 +64,10 @@ export default function ProposalDisplay ({ className, isMember, proposal: { coun
             />
           </>
         )}
+        <LinkExternal
+          data={id}
+          type='treasury'
+        />
       </td>
     </tr>
   );
