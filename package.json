@@ -29,8 +29,8 @@
     "clean:i18n": "rm -rf packages/apps/public/locales/en && mkdir -p packages/apps/public/locales/en",
     "lint": "polkadot-dev-run-lint",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "polkadot-dev-run-test packages/app-claims/src",
-    "vanitygen": "node packages/app-accounts/scripts/vanitygen.js",
+    "test": "polkadot-dev-run-test packages/page-claims/src",
+    "vanitygen": "node packages/page-accounts/scripts/vanitygen.js",
     "start": "cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {

@@ -1,13 +1,15 @@
 {
-  "name": "@polkadot/react-params",
+  "name": "@polkadot/app-sudo",
+  "private": true,
   "version": "0.40.0-beta.64",
+  "description": "A basic app that shows the ropes on customisation",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "scripts": {},
+  "author": "Keith Ingram <keith@parity.io>",
   "maintainers": [
+    "Keith Ingram <keith@parity.io>",
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.8.4",

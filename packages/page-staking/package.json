@@ -1,17 +1,19 @@
 {
-  "name": "@polkadot/react-signer",
+  "name": "@polkadot/app-staking",
+  "private": true,
   "version": "0.40.0-beta.64",
+  "description": "A basic staking app",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
+  "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
   ],
-  "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.8.4",
+    "@polkadot/app-explorer": "0.40.0-beta.64",
     "@polkadot/react-components": "0.40.0-beta.64",
-    "@polkadot/react-qr": "^0.52.0-beta.4"
+    "@polkadot/react-query": "0.40.0-beta.64"
   }
 }
