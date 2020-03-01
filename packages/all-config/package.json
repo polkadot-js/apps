@@ -1,0 +1,18 @@
+{
+  "name": "@polkadot/apps-config",
+  "private": true,
+  "version": "0.40.0-beta.62",
+  "main": "index.js",
+  "repository": "https://github.com/polkadot-js/apps.git",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.8.4",
+    "@polkadot/ui-assets": "^0.52.0-beta.4",
+    "edgeware-node-types": "^1.2.0"
+  }
+}

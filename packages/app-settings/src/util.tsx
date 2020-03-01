@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Option } from '@polkadot/apps-config/settings/types';
 import { SettingsStruct } from '@polkadot/ui-settings/types';
-import { Option } from './types';
 
 import React from 'react';
 import { ChainImg, IdentityIcon } from '@polkadot/react-components';

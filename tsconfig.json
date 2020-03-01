@@ -51,6 +51,7 @@
       "@polkadot/app-transfer/*": [ "packages/app-transfer/src/*" ],
       "@polkadot/app-treasury": [ "packages/app-treasury/src" ],
       "@polkadot/app-treasury/*": [ "packages/app-treasury/src/*" ],
+      "@polkadot/apps-config/*": [ "packages/all-config/src/*" ],
       "@polkadot/apps-routing": [ "packages/apps-routing/src" ],
       "@polkadot/apps-routing/*": [ "packages/apps-routing/src/*" ],
       "@polkadot/react-api": [ "packages/react-api/src" ],
