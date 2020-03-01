@@ -28,7 +28,7 @@ export interface TabItem {
 
 interface Props extends BareProps {
   basePath: string;
-  hidden?: string[];
+  hidden?: (string | boolean | undefined)[];
   items: TabItem[];
   isSequence?: boolean;
 }
@@ -69,10 +69,9 @@ export default function Tabs (props: Props): React.ReactElement<Props> {
       className={classes('ui--Menu ui menu tabular', className)}
       style={style}
     >
-      {
-        items
-          .filter(({ name }): boolean => !hidden.includes(name))
-          .map(renderItem(props))
+      {items
+        .filter(({ name }): boolean => !hidden.includes(name))
+        .map(renderItem(props))
       }
     </div>
   );

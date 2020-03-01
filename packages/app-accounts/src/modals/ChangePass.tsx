@@ -57,7 +57,6 @@ class ChangePass extends TxComponent<Props, State> {
           isPrimary
           label={t('Change')}
           onClick={this.doChange}
-          ref={this.button}
         />
       </Modal.Actions>
     );

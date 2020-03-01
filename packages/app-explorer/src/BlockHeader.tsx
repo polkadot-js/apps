@@ -8,7 +8,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { AddressMini, LinkPolkascan } from '@polkadot/react-components';
+import { AddressMini, LinkExternal } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props extends BareProps {
@@ -75,7 +75,7 @@ function BlockHeader ({ className, isSummary, value, withExplorer, withLink }: P
       }
       {
         withExplorer
-          ? <LinkPolkascan data={hashHex} type='block' />
+          ? <LinkExternal data={hashHex} type='block' />
           : undefined
       }
     </article>

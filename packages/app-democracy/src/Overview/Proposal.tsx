@@ -6,7 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, AddressSmall, Button } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Button, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -68,6 +68,10 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
             proposal={proposal}
           />
         </Button.Group>
+        <LinkExternal
+          data={index}
+          type='proposal'
+        />
       </td>
     </tr>
   );

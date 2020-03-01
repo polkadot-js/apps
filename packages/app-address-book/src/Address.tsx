@@ -9,7 +9,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import React, { useEffect, useState } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkPolkascan, Forget, Menu, Popup } from '@polkadot/react-components';
+import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkExternal, Forget, Menu, Popup } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -295,7 +295,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         </Popup>
       </td>
       <td className='mini top'>
-        <LinkPolkascan
+        <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}
           type='address'

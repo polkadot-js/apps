@@ -13,17 +13,12 @@ import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
-export default function TxButton (props: Props): React.ReactElement<Props> {
-  const { accountId, className, extrinsic: propsExtrinsic, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params = [], tx = '', tooltip, withSpinner = true } = props;
-
+export default function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tx, tooltip, withSpinner }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
-
   const [isSending, , setIsSending] = useToggle(false);
-  const needsAccount = isUnsigned
-    ? false
-    : !accountId;
+  const needsAccount = !isUnsigned && !accountId;
 
   const _onFailed = (result: SubmittableResult | null): void => {
     setIsSending(false);
@@ -43,14 +38,14 @@ export default function TxButton (props: Props): React.ReactElement<Props> {
     if (propsExtrinsic) {
       extrinsic = propsExtrinsic;
     } else {
-      const [section, method] = tx.split('.');
+      const [section, method] = (tx || '').split('.');
 
       assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
       extrinsic = api.tx[section][method](...(
         isFunction(params)
           ? params()
-          : params
+          : (params || [])
       ));
     }
 

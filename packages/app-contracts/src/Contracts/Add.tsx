@@ -81,7 +81,6 @@ class Add extends ContractModal<Props, State> {
         isPrimary
         label={t('Save')}
         onClick={this.onAdd}
-        ref={this.button}
       />
     );
   }

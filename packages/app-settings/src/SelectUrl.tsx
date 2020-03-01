@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Option } from './types';
+import { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { availableEndpoints } from '@polkadot/apps-config/settings';
 import { Dropdown, Input, Toggle } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
-import { availableEndpoints } from './available';
 import { useTranslation } from './translate';
 import { createOption } from './util';
 

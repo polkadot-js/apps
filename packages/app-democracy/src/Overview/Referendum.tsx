@@ -9,7 +9,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button } from '@polkadot/react-components';
+import { Button, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -126,6 +126,10 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
             proposal={value.proposal}
           />
         </Button.Group>
+        <LinkExternal
+          data={value.index}
+          type='referendum'
+        />
       </td>
     </tr>
   );

@@ -28,6 +28,12 @@ export type I18nProps = BareProps & WithTranslation;
 
 export type ConstructTxFn = () => any[];
 
+export type TxTrigger = React.ComponentType<TxTriggerProps>;
+
+export interface TxTriggerProps {
+  onOpen: () => void;
+}
+
 export interface TxProps {
   extrinsic?: IExtrinsic | SubmittableExtrinsic | null;
   tx?: string;
