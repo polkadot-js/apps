@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { LinkTypes } from '@polkadot/apps-config/links/types';
+
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import linked from '@polkadot/apps-config/links';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
-
-export type LinkTypes = 'address' | 'block' | 'council' | 'extrinsic' | 'proposal' | 'referendum' | 'treasury';
 
 interface Props {
   className?: string;
@@ -20,70 +21,9 @@ interface Props {
   withShort?: boolean;
 }
 
-interface Explorer {
-  isActive: boolean;
-  chains: Record<string, string>;
-  paths: Partial<Record<LinkTypes, string>>;
-  create: (chain: string, path: string, data: BN | number | string) => string;
-}
-
-const EXPLORERS: Record<string, Explorer> = {
-  Commonwealth: {
-    isActive: true,
-    chains: {
-      Edgeware: 'edgeware',
-      Kusama: 'kusama',
-      'Kusama CC3': 'kusama'
-    },
-    paths: {
-      council: 'proposal/councilmotion',
-      proposal: 'proposal/democracyproposal',
-      referendum: 'proposal/referendum',
-      treasury: 'proposal/treasuryproposal'
-    },
-    create: (chain: string, path: string, data: BN | number | string): string =>
-      `https://commonwealth.im/${chain}/${path}/${data.toString()}`
-  },
-  Polkascan: {
-    isActive: true,
-    chains: {
-      Edgeware: 'edgeware',
-      Kulupu: 'kulupu',
-      Kusama: 'kusama',
-      'Kusama CC3': 'kusama',
-      Westend: 'westend'
-    },
-    paths: {
-      address: 'module/account',
-      block: 'system/block',
-      council: 'council/motion',
-      extrinsic: 'system/extrinsic',
-      proposal: 'democracy/proposal',
-      referendum: 'democracy/referendum',
-      treasury: 'treasury/proposal'
-    },
-    create: (chain: string, path: string, data: BN | number | string): string =>
-      `https://polkascan.io/pre/${chain}/${path}/${data.toString()}`
-  },
-  Subscan: {
-    isActive: false,
-    chains: {
-      Kusama: 'kusama',
-      'Kusama CC3': 'kusama'
-    },
-    paths: {
-      address: 'account',
-      block: 'block',
-      extrinsic: 'extrinsic'
-    },
-    create: (chain: string, path: string, data: BN | number | string): string =>
-      `https://${chain}.subscan.io/${path}/${data.toString()}`
-  }
-};
-
 function genLinks (systemChain: string, { data, type, withShort }: Props): React.ReactNode[] {
   return Object
-    .entries(EXPLORERS)
+    .entries(linked)
     .map(([name, { isActive, chains, paths, create }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];

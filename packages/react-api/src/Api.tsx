@@ -6,6 +6,7 @@ import { ApiState } from './types';
 
 import React, { useContext, useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
+import { typesChain, typesSpec } from '@polkadot/apps-config/api';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -18,8 +19,6 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
-import typesChain from './overrides/chain';
-import typesSpec from './overrides/spec';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 
