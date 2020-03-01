@@ -67,7 +67,8 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
     // In order to modify the parameters which are used to render the default component, we can use this method
     refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> =>
       renderHelper(
-        (value: any): React.ReactNode => valueToText(type, value, swallowErrors, contentShorten),
+        (value: any): React.ReactNode =>
+          <pre>{valueToText(type, value, swallowErrors, contentShorten)}</pre>,
         defaultProps
       )
   };
@@ -115,7 +116,8 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
     const defaultProps = { className: 'ui--output' };
     const Component = renderHelper(
       // By default we render a simple div node component with the query results in it
-      (value: any): React.ReactNode => valueToText(type, value, true, true),
+      (value: any): React.ReactNode =>
+        <pre>{valueToText(type, value, true, true)}</pre>,
       defaultProps
     );
 
@@ -227,5 +229,9 @@ export default styled(Query)`
   .ui--IdentityIcon {
     margin: -10px 0;
     vertical-align: middle;
+  }
+
+  pre {
+    margin: 0;
   }
 `;

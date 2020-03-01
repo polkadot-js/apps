@@ -34,7 +34,7 @@ export default function Results ({ queue = [] }: Props): React.ReactElement<Prop
           value={
             error
               ? error.message
-              : <pre>{JSON.stringify(result.toHuman(), null, 2)}</pre>
+              : <pre>{JSON.stringify(result.toHuman(), null, 2).replace(/"/g, '')}</pre>
           }
         />
       ))}
