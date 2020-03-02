@@ -49,7 +49,7 @@ function InputFloat ({ autoFocus, className, defaultValue: inDefault, help, isDi
       isError={isError}
       isFull={isFull}
       isZeroable={isZeroable}
-      isSi
+      isSi={false}
       label={label}
       labelExtra={labelExtra}
       maxValue={maxValue}
@@ -69,10 +69,5 @@ function InputFloat ({ autoFocus, className, defaultValue: inDefault, help, isDi
 export default styled(InputFloat)`
   &&:not(.label-small) .labelExtra {
     right: 6.5rem;
-  }
-
-  .ui.action.input.ui--Input .ui.primary.buttons .ui.disabled.button.compact.floating.selection.dropdown.ui--SiDropdown {
-    border-style: solid;
-    opacity: 1 !important;
   }
 `;
