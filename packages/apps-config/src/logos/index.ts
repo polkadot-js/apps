@@ -2,21 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// the imports here as a bit all-over, non-aphabetical as a whole - since we expect this to grow,
-// rather organize based on type, grouping chains and nodes as opposed to location
-
-// last-resort fallback, just something empty
-import emptyLogo from '@polkadot/ui-assets/empty.svg';
-
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
-import chainKusama from '@polkadot/ui-assets/chains/kusama-128.gif';
+import chainKusama from './chains/kusama-128.gif';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
-import nodeCentrifuge from '@polkadot/ui-assets/centrifuge.png';
-import nodeEdgeware from '@polkadot/ui-assets/edgeware-circle.svg';
-import nodePolkadot from '@polkadot/ui-assets/polkadot-circle.svg';
-import nodePolkadotJs from '@polkadot/ui-assets/polkadot-js.svg';
-import nodeSubstrate from '@polkadot/ui-assets/substrate-hexagon.svg';
+import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeEdgeware from './nodes/edgeware-circle.svg';
+import nodePolkadot from './nodes/polkadot-circle.svg';
+import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeSubstrate from './nodes/substrate-hexagon.svg';
+
+// last-resort fallback, just something empty
+import emptyLogo from './empty.svg';
 
 // overrides based on the actual matched chain name
 const chainLogos: Record<string, any> = {
