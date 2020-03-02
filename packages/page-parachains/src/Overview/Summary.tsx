@@ -5,7 +5,6 @@
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { BestNumber } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
