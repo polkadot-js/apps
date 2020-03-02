@@ -23,7 +23,8 @@ function transform (file, enc, done) {
 
     const parserHandler = (key, options) => {
       options.defaultValue = key;
-      options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1];
+      options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1].replace('page-', 'app-');
+
       this.parser.set(key, options);
     };
 
@@ -53,7 +54,7 @@ module.exports = {
     },
     lngs: ['en'],
     defaultLng: 'en',
-    ns: findPackages().map(({ dir }) => dir),
+    ns: findPackages().map(({ dir }) => dir.replace('page-', 'app-')),
     defaultNs: 'ui',
     resource: {
       loadPath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
