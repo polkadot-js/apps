@@ -4,6 +4,10 @@
 
 import { Option } from './types';
 
+// Definitions here are with the following values -
+//   info: the name of a logo as defined in ../logos, specifically in namedLogos
+//   text: The text you wish to display in the dropdown
+//   value: The actual ss5Format value (as registered)
 export default [
   {
     info: 'default',
