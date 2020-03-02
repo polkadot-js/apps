@@ -1,0 +1,30 @@
+name: Publish Docker Image
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - 'develop'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out from Git
+        uses: actions/checkout@master
+      - name: Check if Git tag exists
+        run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
+      - name: Runs only if Git tag exists
+        if: env.HEAD_TAG != ''
+        run: |
+          echo "This runs because Git tag points at HEAD ..."
+          echo "release version: ${{env.HEAD_TAG}}"
+          echo ${{env.HEAD_TAG}}
+          echo "... $HEAD_TAG"
+          echo GITHUB_REF
+          echo GITHUB_RUN_ID
+      - name: Publish to DockerHub
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: benxgao/polkadot-apps
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tags: 'latest, ${{env.HEAD_TAG}}'
