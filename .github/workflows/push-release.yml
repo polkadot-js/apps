@@ -16,4 +16,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: 'latest'
+      - name: Publish to DockerHub with tag
+        uses: elgohr/Publish-Docker-Github-Action@master
+        if: contains(github.ref, 'refs/tags/**')
+        with:
+          name: benxgao/polkadot-apps
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           tag_names: true
