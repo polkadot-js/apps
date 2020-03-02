@@ -5,7 +5,7 @@
 import { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { availableLanguages } from '@polkadot/apps-config/settings';
+import { availableLanguages, availableSs58 } from '@polkadot/apps-config/settings';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, ButtonCancel, Dropdown } from '@polkadot/react-components';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
@@ -31,7 +31,7 @@ export default function General ({ className, isModalContent, onClose }: Props):
     return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
   }, [t]);
   const prefixOptions = useMemo((): Option[] => {
-    return uiSettings.availablePrefixes.map((o): Option => createOption(t, o, ['default']));
+    return availableSs58.map((o): Option => createOption(t, o, ['default']));
   }, [t]);
   const translateLanguages = useMemo((): Option[] => {
     return availableLanguages.map(({ text, value, withI18n }) => ({

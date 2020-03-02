@@ -18,10 +18,4 @@ export default [
     text: '汉语',
     value: 'zh'
   }
-  // For ja, we only have the settings page, remove until comprehensive
-  // ,
-  // {
-  //   text: '日本語',
-  //   value: 'ja'
-  // }
-] as Option[];
+].map((option): Option => ({ ...option, withI18n: false }));
