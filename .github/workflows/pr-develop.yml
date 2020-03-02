@@ -10,16 +10,22 @@ jobs:
     steps:
       - name: Check out from Git
         uses: actions/checkout@master
-      - name: Check if Git tag exists
-        run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
+      - name: Check HEAD_TAG1
+        run: echo "::set-env name=HEAD_TAG1::$(git describe --tags `git rev-list --tags --max-count=1)"
+      - name: Check HEAD_TAG2
+        run: echo "::set-env name=HEAD_TAG2::$(git tag --points-at HEAD)"
+      - name: Check HEAD_TAG3
+        run: echo "::set-output name=HEAD_TAG3::${GITHUB_REF:10}"
       - name: Get vars
         run: |
           echo ${{env.ref}}
-          echo ${{env.HEAD_TAG}}
+          echo ${{env.HEAD_TAG1}}
+          echo ${{env.HEAD_TAG2}}
+          echo ${{env.HEAD_TAG3}}
           echo ${GITHUB_REF#refs/heads/}
-          echo GITHUB_REF
-          echo GITHUB_RUN_ID
-          echo "::set-output name=BEN::${GITHUB_REF:10}"
+          echo ${GITHUB_REF}
+          echo ${GITHUB_RUN_ID}
+
       # - name: Runs only if condition check passed
       #   if: env.HEAD_TAG != ''
       #   run: |
