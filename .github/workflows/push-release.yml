@@ -9,13 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Publish to DockerHub
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: benxgao/polkadot-apps
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: 'latest'
       - name: Publish to DockerHub with tag
         uses: elgohr/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/**')
@@ -24,3 +17,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tag_names: true
+      - name: Publish to DockerHub
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: benxgao/polkadot-apps
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tags: 'latest'
