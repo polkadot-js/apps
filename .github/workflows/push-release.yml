@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      # - name: Set output
+      #   id: vars
+      #   run: echo ${GITHUB_RUN_ID}
       - name: Set output
         id: vars
-        run: |
-          echo ::set-output name=tag::${GITHUB_REF:10}
-          echo 'run id: ${{GITHUB_RUN_ID}}'
+        run: echo ::set-output name=tag::${GITHUB_REF:10}
       - name: Check output
         env:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
