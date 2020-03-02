@@ -11,7 +11,7 @@ import { InputFloat } from '@polkadot/react-components';
 import Bare from './Bare';
 
 export default function Float ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
-  const defaultValue = new BN((value as BN || '0.0').toString()).toString(10);
+  const defaultValue = new BN((value as BN || '0').toString()).toString(10);
   const _onChange = (value?: BN): void =>
     onChange && onChange({
       isValid: !isError && !!value,

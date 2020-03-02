@@ -22,6 +22,7 @@ interface Props extends BareProps {
   autoFocus?: boolean;
   bitLength?: BitLength;
   defaultValue?: BN | string;
+  defaultSi?: SiDef;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
@@ -195,7 +196,7 @@ function isNewPropsValue (propsValue: BN | string, value: string, valueBn: BN): 
 
 export default function InputNumber (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = ZERO, help, isDecimal, isFull, isSi, isDisabled, isError = false, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, style, value: propsValue } = props;
+  const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = ZERO, defaultSi, help, isDecimal, isFull, isSi, isDisabled, isError = false, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, style, value: propsValue } = props;
 
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
@@ -252,6 +253,11 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
     }
   };
 
+  useEffect((): void => {
+    if (defaultSi) {
+      setSi(defaultSi);
+    }
+  }, [defaultSi]);
   const _onSelectSiUnit = (siUnit: string): void => {
     setSi(formatBalance.findSi(siUnit));
   };
@@ -292,7 +298,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
           {t('Max')}
         </Button>
       ) */}
-      {!!si && (
+      {isSi && !!si && (
         <Dropdown
           dropdownClassName='ui--SiDropdown'
           isButton

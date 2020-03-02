@@ -37,12 +37,15 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 function InputFloat ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const defaultValue = inDefault;
 
+  const multiplier = formatBalance.findSi("giga");
+
   return (
     <InputNumber
       autoFocus={autoFocus}
       className={`ui--InputFloat ${className}`}
       bitLength={DEFAULT_BITLENGTH}
       defaultValue={defaultValue}
+      defaultSi={multiplier}
       help={help}
       isDecimal={true}
       isDisabled={isDisabled}

@@ -51,7 +51,7 @@ const componentDef: TypeToComponent[] = [
   { c: DispatchError, t: ['DispatchError'] },
   { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
-  { c: Float, t: ['Perbill', 'Percent', 'Fixed64', 'f32', 'f64'] },
+  { c: Float, t: ['Perbill', 'Fixed64'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
