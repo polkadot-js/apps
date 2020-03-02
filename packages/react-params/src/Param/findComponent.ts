@@ -18,6 +18,7 @@ import Call from './Call';
 import Code from './Code';
 import DispatchError from './DispatchError';
 import Enum from './Enum';
+import Float from './Float';
 import Hash256 from './Hash256';
 import Hash512 from './Hash512';
 import KeyValue from './KeyValue';
@@ -50,6 +51,7 @@ const componentDef: TypeToComponent[] = [
   { c: DispatchError, t: ['DispatchError'] },
   { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
+  { c: Float, t: ['Perbill', 'Percent', 'Fixed64', 'f32', 'f64'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
   { c: Hash512, t: ['H512', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
@@ -60,7 +62,7 @@ const componentDef: TypeToComponent[] = [
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
-  { c: Vector, t: ['Vec'] },
+  { c: Vector, t: ['Vec', 'VecDeque'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
   { c: Unknown, t: ['Unknown'] }
@@ -137,7 +139,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       // console.error(error.message);
     }
 
-    // we only want to want once, not spam
+    // we only want to warn once, not spam
     if (!warnList.includes(type)) {
       warnList.push(type);
       console.info(`params: No pre-defined component for type ${type} from ${JSON.stringify(def)}, using defaults`);
