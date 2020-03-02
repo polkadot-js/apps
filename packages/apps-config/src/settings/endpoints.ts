@@ -4,6 +4,11 @@
 
 import { Option } from './types';
 
+// The available endpoints that will show in the dropdown. For the most part (with the exception of
+// Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
+//   info: The chain logo name as defined in ../logos, specifically in namedLogos
+//   text: The text to display on teh dropdown
+//   value: The actual hosted secure websocket endpoint
 export default [
   {
     info: 'kusama',

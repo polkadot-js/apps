@@ -24,14 +24,17 @@ const chainLogos: Record<string, any> = {
 };
 
 // overrides based on the actual software node type (all '-' converted to ' ')
-const nodeLogos: Record<string, any> = {
-  'centrifuge chain': nodeCentrifuge,
-  'edgeware node': nodeEdgeware,
-  'node template': nodeSubstrate,
-  'parity polkadot': nodePolkadot,
-  'polkadot js': nodePolkadotJs,
-  'substrate node': nodeSubstrate
-};
+const nodeLogos: Record<string, any> = [
+  ['centrifuge chain', nodeCentrifuge],
+  ['edgeware node', nodeEdgeware],
+  ['node template', nodeSubstrate],
+  ['parity polkadot', nodePolkadot],
+  ['polkadot js', nodePolkadotJs],
+  ['substrate node', nodeSubstrate]
+].reduce((logos, [node, logo]): Record<string, any> => ({
+  ...logos,
+  [node.toLowerCase().replace(/-/g, ' ')]: logo
+}), {});
 
 // overrides when we pass an explicit logo name
 const namedLogos: Record<string, any> = {
