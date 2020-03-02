@@ -1,0 +1,54 @@
+version: '3'
+services:
+  node_alice:
+    container_name: node_alice
+    image: parity/substrate:latest
+    command:
+      - --chain=dev
+      - --base-path=/mnt/node
+      - --alice
+      - --validator
+      - --unsafe-ws-external
+      - --unsafe-rpc-external
+      - --telemetry-url=ws://telemetry.polkadot.io:1024
+      - --rpc-cors=all
+    ports:
+      - '9933:9933'
+      - '9944:9944'
+      - '30333:30333'
+    networks:
+      - apps_testnet
+
+  # node_bob:
+  #   container_name: node_bob
+  #   image: cennznet/cennznet:rc1
+  #   command:
+  #     - --chain=dev
+  #     - --base-path=/mnt/node
+  #     - --bob
+  #     - --validator
+  #     - --ws-external
+  #     - --rpc-external
+  #     - --telemetry-url=ws://telemetry.polkadot.io:1024
+  #     - --rpc-cors=all
+  #   ports:
+  #     - '9934:9933'
+  #     - '9945:9944'
+  #     - '30334:30333'
+  #   networks:
+  #     - apps_testnet
+
+  cennznet_apps:
+    container_name: cennznet_apps
+    build:
+      context: ../.
+      dockerfile: Dockerfile
+    ports:
+      - '3000:80'
+    networks:
+      - apps_testnet
+
+networks:
+  apps_testnet:
+    external:
+      name: custom_apps_testnet
