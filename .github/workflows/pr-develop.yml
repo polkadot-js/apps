@@ -12,6 +12,23 @@ jobs:
         uses: actions/checkout@master
       - name: Check if Git tag exists
         run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
+      - name: Get vars
+        run: |
+          echo ${{env.ref}}
+          echo ${{env.HEAD_TAG}}
+          echo ${GITHUB_REF#refs/heads/}
+          echo GITHUB_REF
+          echo GITHUB_RUN_ID
+          echo "::set-output name=BEN::${GITHUB_REF:10}"
+      # - name: Runs only if condition check passed
+      #   if: env.HEAD_TAG != ''
+      #   run: |
+      #     echo "This runs because Git tag points at HEAD ..."
+      #     echo "release version: ${{env.HEAD_TAG}}"
+      #     echo ${{env.HEAD_TAG}}
+      #     echo "... $HEAD_TAG"
+      #     echo GITHUB_REF
+      #     echo GITHUB_RUN_ID
       - name: Runs only if Git tag exists
         if: env.HEAD_TAG != ''
         run: |
