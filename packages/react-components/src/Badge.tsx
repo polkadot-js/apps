@@ -11,6 +11,7 @@ interface Props {
   className?: string;
   hover?: React.ReactNode;
   info: React.ReactNode;
+  isGray?: boolean;
   isInline?: boolean;
   isSmall?: boolean;
   isTooltip?: boolean;
@@ -20,12 +21,12 @@ interface Props {
 
 let badgeId = 0;
 
-function Badge ({ className, hover, info, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
+function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
   const [key] = useState(`${Date.now()}-${badgeId++}`);
 
   return (
     <div
-      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
+      className={`ui--Badge ${isGray && 'isGray'} ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
       data-for={`badge-status-${key}`}
       data-tip={true}
       data-tip-disable={!isTooltip}
@@ -57,6 +58,7 @@ export default styled(Badge)`
   padding: 0 4px;
   text-align: center;
   width: 22px;
+  min-width: 22px;
 
   i.icon {
     cursor: inherit !important;
@@ -103,8 +105,8 @@ export default styled(Badge)`
     vertical-align: middle;
   }
 
-  &.gray {
-    background: #eee;
+  &.gray, &.isGray {
+    background: #eee !important;
     color: #aaa;
   }
 

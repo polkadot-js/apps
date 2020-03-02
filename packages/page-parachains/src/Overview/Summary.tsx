@@ -2,37 +2,43 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/react-components/types';
-
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatNumber } from '@polkadot/util';
+import { BestNumber } from '@polkadot/react-query';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-function Summary ({ t }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const nextFreeId = useCall<BN>(api.query.parachains.nextFreeId, []);
-  const parachains = useCall<BN[]>(api.query.registrar.parachains || api.query.parachains.parachains, []);
+interface Props {
+  parachainCount: number;
+  nextFreeId?: BN;
+}
+
+function Summary ({ nextFreeId, parachainCount }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
 
   return (
     <SummaryBox>
       <section>
         <CardSummary label={t('parachains')}>
-          {formatNumber(parachains?.length)}
+          {parachainCount.toString()}
+        </CardSummary>
+        {nextFreeId && (
+          <CardSummary label={t('next id')}>
+            {nextFreeId.toString()}
+          </CardSummary>
+        )}
+      </section>
+      <section>
+        <CardSummary
+          className='ui--media-small'
+          label={t('best block')}
+        >
+          <BestNumber withPound />
         </CardSummary>
       </section>
-      {nextFreeId && (
-        <section>
-          <CardSummary label={t('next id')}>
-            {formatNumber(nextFreeId)}
-          </CardSummary>
-        </section>
-      )}
     </SummaryBox>
   );
 }
 
-export default translate(Summary);
+export default Summary;

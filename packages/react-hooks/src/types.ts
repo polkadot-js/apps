@@ -65,3 +65,9 @@ export interface TxState extends ExtrinsicAndSenders {
   accountId?: StringOrNull;
   onChangeAccountId: (_: StringOrNull) => void;
 }
+
+export interface UseSudo {
+  allAccounts: string[];
+  sudoKey?: string;
+  isMine: boolean;
+}

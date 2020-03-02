@@ -6,10 +6,10 @@
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
-import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
+import { useSudo } from '@polkadot/react-hooks';
 
 import SetKey from './SetKey';
 import Sudo from './Sudo';
@@ -18,10 +18,7 @@ import { useTranslation } from './translate';
 
 export default function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const sudoKey = useCall<string>(api.query.sudo.key, [], { transform: (k): string => k.toString() });
-  const { allAccounts } = useAccounts();
-  const [isMine, setIsMine] = useState(false);
+  const { allAccounts, sudoKey, isMine } = useSudo();
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -33,10 +30,6 @@ export default function SudoApp ({ basePath }: Props): React.ReactElement<Props>
       text: t('Set sudo key')
     }
   ], [t]);
-
-  useEffect((): void => {
-    setIsMine(!!sudoKey && allAccounts.some((key): boolean => key === sudoKey));
-  }, [allAccounts, sudoKey]);
 
   const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
     // eslint-disable-next-line react/display-name

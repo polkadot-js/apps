@@ -11,6 +11,7 @@ import { registry } from '@polkadot/react-api';
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
+import Spinner from '../Spinner';
 import { useTranslation } from '../translate';
 import { classes } from '../util';
 import StatusContext from './Context';
@@ -129,10 +130,10 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
             />
           )}
           <div className='short'>
-            <Icon
-              loading={icon === 'spinner'}
-              name={icon}
-            />
+            {icon === 'spinner'
+              ? <Spinner variant='push' />
+              : <Icon name={icon} />
+            }
           </div>
           <div className='desc'>
             <div className='header'>
