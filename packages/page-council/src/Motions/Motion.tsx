@@ -70,6 +70,7 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
         />
         <LinkExternal
           data={index}
+          hash={hash.toString()}
           type='council'
         />
       </td>
