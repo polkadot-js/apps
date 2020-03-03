@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
-import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
@@ -26,6 +26,7 @@ import useInactives from './useInactives';
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]>;
 
 interface Props {
+  activeEra?: EraIndex;
   allStashes?: string[];
   className?: string;
   isOwnStash: boolean;
@@ -87,7 +88,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+function Account ({ activeEra, allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -97,7 +98,9 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
+  const [hasUnclaimedRewards, setHasUnclaimedRewards] = useState(false);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
+  const [, toggleClaimRewards] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
@@ -128,6 +131,12 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
       setActiveNoms(nominees.filter((id): boolean => !inactiveNoms.includes(id)));
     }
   }, [inactiveNoms, nominees]);
+
+  useEffect((): void => {
+    if (activeEra?.gtn(0) && stakingAccount?.stakingLedger?.isSome) {
+      setHasUnclaimedRewards(stakingAccount.stakingLedger.lastReward.unwrap().lt(activeEra));
+    }
+  }, [activeEra, stakingAccount]);
 
   return (
     <tr className={className}>
@@ -326,20 +335,27 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                   text
                   onClick={toggleSettings}
                 >
-                  {balancesAll?.freeBalance.gtn(0) && (
+                  {api.query.staking.activeEra && (
                     <Menu.Item
-                      disabled={!isOwnStash}
-                      onClick={toggleBondExtra}
+                      disabled={!hasUnclaimedRewards}
+                      onClick={toggleClaimRewards}
                     >
-                      {t('Bond more funds')}
+                      {t('Claim rewards {{period}}', { replace: { period: '()' } })}
                     </Menu.Item>
                   )}
+                  <Menu.Item
+                    disabled={!isOwnStash && !balancesAll?.freeBalance.gtn(0)}
+                    onClick={toggleBondExtra}
+                  >
+                    {t('Bond more funds')}
+                  </Menu.Item>
                   <Menu.Item
                     disabled={!isOwnController}
                     onClick={toggleUnbond}
                   >
                     {t('Unbond funds')}
                   </Menu.Item>
+                  <Menu.Divider />
                   <Menu.Item
                     disabled={!isOwnStash}
                     onClick={toggleSetController}
@@ -360,6 +376,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       {t('Change validator preferences')}
                     </Menu.Item>
                   }
+                  <Menu.Divider />
                   {!isStashNominating &&
                     <Menu.Item
                       disabled={!isOwnController}
