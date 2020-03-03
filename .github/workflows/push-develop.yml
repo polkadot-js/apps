@@ -1,0 +1,29 @@
+name: Publish Docker Image tagged as latest
+on:
+  push:
+    branches:
+      - 'develop'
+env:
+  DOCKERHUB_REPOSITORY: 'cennznet/ui'
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out from Git
+        uses: actions/checkout@master
+      - name: Publish Docker image
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: ${{env.DOCKERHUB_REPOSITORY}}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_PASSWORD }}
+          tags: 'latest'
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2.1.0
+        env:
+          DOCKERHUB_REPOSITORY: ${{env.DOCKERHUB_REPOSITORY}}
+          DOCKERHUB_USERNAME: ${{ env.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ env.DOCKERHUB_PASSWORD }}
+          README_FILEPATH: ./cennznet/README.md
