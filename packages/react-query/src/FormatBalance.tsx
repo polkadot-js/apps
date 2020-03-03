@@ -21,29 +21,31 @@ interface Props extends BareProps {
 
 // for million, 2 * 3-grouping + comma
 const M_LENGTH = 6 + 1;
+const K_LENGTH = 3 + 1;
 
-function format (value: Compact<any> | BN | string, currency: string): React.ReactNode {
+function format (value: Compact<any> | BN | string, currency: string, withSi?: boolean): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
+  const isShort = withSi && prefix.length >= K_LENGTH;
 
   if (prefix.length > M_LENGTH) {
     // TODO Format with balance-postfix
     return formatBalance(value);
   }
 
-  return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span> {currency}</>;
+  return <>{prefix}{!isShort && (<>.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {currency}</>;
 }
 
-function formatSi (value: Compact<any> | BN | string): React.ReactNode {
-  const strValue = ((value as Compact<any>).toBn ? (value as Compact<any>).toBn() : value).toString();
-  const [prefix, postfix] = strValue === '0'
-    ? ['0', '0']
-    : formatBalance(value, { withSi: false }).split('.');
-  const unit = strValue === '0'
-    ? ''
-    : formatBalance.calcSi(strValue).value;
+// function formatSi (value: Compact<any> | BN | string): React.ReactNode {
+//   const strValue = ((value as Compact<any>).toBn ? (value as Compact<any>).toBn() : value).toString();
+//   const [prefix, postfix] = strValue === '0'
+//     ? ['0', '0']
+//     : formatBalance(value, { withSi: false }).split('.');
+//   const unit = strValue === '0'
+//     ? ''
+//     : formatBalance.calcSi(strValue).value;
 
-  return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
-}
+//   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
+// }
 
 function FormatBalance ({ children, className, label, value, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -55,9 +57,7 @@ function FormatBalance ({ children, className, label, value, withSi }: Props): R
         value
           ? value === 'all'
             ? t('all available')
-            : withSi
-              ? formatSi(value)
-              : format(value, currency)
+            : format(value, currency, withSi)
           : '-'
       }{children}
     </div>
