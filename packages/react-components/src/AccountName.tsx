@@ -8,8 +8,10 @@ import { AccountId, AccountIndex, Address, RegistrarInfo } from '@polkadot/types
 
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import registry from '@polkadot/react-api/typeRegistry';
 import { useCall, useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
+import { stringToU8a } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import { getAddressName } from './util';
@@ -28,15 +30,26 @@ interface Props extends BareProps {
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
 }
 
+const KNOWN: [AccountId, string][] = [
+  [registry.createType('AccountId', stringToU8a('modlpy/socie'.padEnd(32, '\0'))), 'Society'],
+  [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Treasury']
+];
+
 const DISPLAY_KEYS = ['display', 'legal', 'email', 'web', 'twitter', 'riot'];
 const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean, boolean] {
+  const known = KNOWN.find(([known]) => known.eq(_address));
+
+  if (known) {
+    return [[known[1], null], false, false, true];
+  }
+
   const accountId = _address.toString();
   const accountIndex = (_accountIndex || '').toString();
 
   if (!accountId) {
-    return [[defaultName, null], false, false];
+    return [[defaultName, null], false, false, false];
   }
 
   const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
@@ -45,22 +58,30 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   if (extracted && isAddressCached && !isAddressExtracted) {
     // skip, default return
   } else if (nameCached[0]) {
-    return [nameCached, false, isAddressCached];
+    return [nameCached, false, isAddressCached, false];
   } else if (isAddressExtracted && accountIndex) {
     nameCache.set(accountId, [true, [accountIndex, null]]);
 
-    return [[accountIndex, null], false, true];
+    return [[accountIndex, null], false, true, false];
   }
 
-  return [[extracted, null], !isAddressExtracted, isAddressExtracted];
+  return [[extracted, null], !isAddressExtracted, isAddressExtracted, false];
 }
 
 function extractName (address: AccountId | string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
-  const [[displayFirst, displaySecond], isLocal, isAddress] = defaultOrAddr(defaultName, address, accountIndex);
+  const [[displayFirst, displaySecond], isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
     <div className='via-identity'>
-      <span className={`name ${isLocal ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
+      {isSpecial && (
+        <Badge
+          info={<Icon name='simplybuilt' />}
+          isInline
+          isSmall
+          type='green'
+        />
+      )}
+      <span className={`name ${(isLocal || isSpecial) ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
         displaySecond
           ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
           : displayFirst
