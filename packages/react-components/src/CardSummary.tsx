@@ -92,10 +92,10 @@ export default styled(CardSummary)`
   }
 
   > div {
-    font-size: 2.1rem;
+    font-size: 1.85rem;
     font-weight: 100;
     position: relative;
-    line-height: 2.1rem;
+    line-height: 1.85rem;
     text-align: right;
 
     > * {
