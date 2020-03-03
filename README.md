@@ -1,3 +1,20 @@
+# CENNZnet ui
+
+[Get started to run cennznet-ui in your local](cennznet/README.md)
+[Developement: How to publish cennznet-ui docker image](cennznet/docs/PUBLISH.md)
+
+## cennznet-ui dependencies
+
+`cennznet/ui:latest` docker image contains latest changes in `cennznet/apps develop branch`, which depends on:
+
+- @cennznet/types: 1.0.0-beta.1
+- @cennznet/cennznet: 1.0.0-rc2
+- @polkadot/apps: 0.40.0-beta.45
+- @polkadot/api.js: ^1.1.1
+- @polkadot/types: ^1.1.1
+
+---
+
 [![polkadotjs](https://img.shields.io/badge/polkadot-js-orange?style=flat-square)](https://polkadot.js.org)
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
 [![npm](https://img.shields.io/npm/v/@polkadot/apps?logo=npm&style=flat-square)](https://www.npmjs.com/package/@polkadot/apps)
@@ -60,10 +77,10 @@ Be sure to follow the [app-123code/README.md](packages/app-123code/README.md) in
 
 You can run a docker container via -
 
-  docker run --rm -it --name polkadot-ui -p 80:80 chevdor/polkadot-ui:latest
+docker run --rm -it --name polkadot-ui -p 80:80 chevdor/polkadot-ui:latest
 
 To build a docker container containing local changes -
 
-  docker build -t chevdor/polkadot-ui:latest .
+docker build -t chevdor/polkadot-ui:latest .
 
 When using these Docker commands, you can access the UI via http://localhost:80 (or just http://localhost)

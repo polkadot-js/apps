@@ -19,11 +19,3 @@ jobs:
           name: ${{ env.DOCKERHUB_REPOSITORY }}
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_PASSWORD }}
-          tags: 'latest'
-      - name: Update Docker Hub Description
-        uses: peter-evans/dockerhub-description@v2.1.0
-        env:
-          DOCKERHUB_REPOSITORY: ${{env.DOCKERHUB_REPOSITORY}}
-          DOCKERHUB_USERNAME: ${{ env.DOCKERHUB_USERNAME }}
-          DOCKERHUB_PASSWORD: ${{ env.DOCKERHUB_PASSWORD }}
-          README_FILEPATH: ./cennznet/README.md
