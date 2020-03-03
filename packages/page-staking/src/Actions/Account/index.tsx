@@ -133,7 +133,7 @@ function Account ({ activeEra, allStashes, className, isOwnStash, next, onUpdate
   }, [inactiveNoms, nominees]);
 
   useEffect((): void => {
-    if (activeEra?.gtn(0) && stakingAccount?.stakingLedger?.isSome) {
+    if (activeEra?.gtn(0) && stakingAccount?.stakingLedger?.lastReward?.isSome) {
       setHasUnclaimedRewards(stakingAccount.stakingLedger.lastReward.unwrap().lt(activeEra));
     }
   }, [activeEra, stakingAccount]);
