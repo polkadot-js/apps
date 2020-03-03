@@ -49,7 +49,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.3, @babel/core@npm:^7.8.4, @babel/core@npm:^7.8.6":
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.4, @babel/core@npm:^7.8.6":
   version: 7.8.6
   resolution: "@babel/core@npm:7.8.6"
   dependencies:
@@ -1234,7 +1234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/register@npm:^7.8.3, @babel/register@npm:^7.8.6":
+"@babel/register@npm:^7.8.6":
   version: 7.8.6
   resolution: "@babel/register@npm:7.8.6"
   dependencies:
@@ -3356,31 +3356,6 @@ __metadata:
   dependencies:
     "@types/chrome": ^0.0.98
   checksum: 2/ca84455c3372d3f6ccb4762dee49cc8e6947b2a18f5b2a676aa10b710cab4dafcd32894c0f8d0851eff394b76169eda72c5f44c16ad5bbd2885db1eca525546b
-  languageName: node
-  linkType: hard
-
-"@polkadot/typegen@npm:^1.5.0-beta.29":
-  version: 1.5.0-beta.29
-  resolution: "@polkadot/typegen@npm:1.5.0-beta.29"
-  dependencies:
-    "@babel/core": ^7.8.3
-    "@babel/register": ^7.8.3
-    "@babel/runtime": ^7.8.4
-    "@polkadot/api": 1.5.0-beta.29
-    "@polkadot/jsonrpc": 1.5.0-beta.29
-    "@polkadot/metadata": 1.5.0-beta.29
-    "@polkadot/rpc-provider": 1.5.0-beta.29
-    "@polkadot/types": 1.5.0-beta.29
-    "@polkadot/util": ^2.6.1
-    websocket: ^1.0.31
-    yargs: ^15.1.0
-  bin:
-    polkadot-types-chain-info: scripts/polkadot-types-chain-info.js
-    polkadot-types-from-chain: scripts/polkadot-types-from-chain.js
-    polkadot-types-from-defs: scripts/polkadot-types-from-defs.js
-    polkadot-types-internal-interfaces: scripts/polkadot-types-internal-interfaces.js
-    polkadot-types-internal-metadata: scripts/polkadot-types-internal-metadata.js
-  checksum: 2/e0061e2ed4b1ac36764c08467f8af8f42fcab680be64b83d0e3316dd57fc579805ef997c92e02298ae066c40391e8e1cd85065bf10735bbc7ba125e268cd81c8
   languageName: node
   linkType: hard
 
@@ -17876,7 +17851,6 @@ __metadata:
     "@babel/runtime": ^7.8.4
     "@polkadot/dev": ^0.50.16
     "@polkadot/ts": ^0.3.6
-    "@polkadot/typegen": ^1.5.0-beta.29
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.14
     "@types/file-saver": ^2.0.1
