@@ -16,7 +16,7 @@ interface Props {
   isSmall?: boolean;
   isTooltip?: boolean;
   onClick?: () => void;
-  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray';
+  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray' | 'purple';
 }
 
 let badgeId = 0;
@@ -119,6 +119,10 @@ export default styled(Badge)`
   &.selected,
   &.green {
     background: green;
+  }
+
+  &.purple {
+    background: indigo;
   }
 
   & > * {
