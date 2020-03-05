@@ -279,18 +279,28 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
   }
 
   return (
-    <article
-      className={[className, 'ui--Checks', 'normal', 'padded'].join(' ')}
-      key='txinfo'
-    >
-      <div>
-        <Icon name='arrow right' />
+    <details className={className}>
+      <summary>
         {t('Fees of {{fees}} will be applied to the submission', {
           replace: {
             fees: formatBalance(dispatchInfo.partialFee, { withSiFull: true })
           }
         })}
-      </div>
-    </article>
+      </summary>
+    </details>
   );
+  //   <article
+  //     className={[className, 'ui--Checks', 'normal', 'padded'].join(' ')}
+  //     key='txinfo'
+  //   >
+  //     <div>
+  //       <Icon name='arrow right' />
+  //       {t('Fees of {{fees}} will be applied to the submission', {
+  //         replace: {
+  //           fees: formatBalance(dispatchInfo.partialFee, { withSiFull: true })
+  //         }
+  //       })}
+  //     </div>
+  //   </article>
+  // );
 }
