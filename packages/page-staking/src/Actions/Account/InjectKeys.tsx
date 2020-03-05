@@ -13,7 +13,6 @@ import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
 import { useTranslation } from '../../translate';
 
 interface Props {
-  isOpen?: boolean;
   onClose: () => void;
 }
 
@@ -27,7 +26,7 @@ const CRYPTO_MAP: Record<string, KeypairType[]> = {
 
 const EMPTY_KEY = '0x';
 
-export default function InjectKeys ({ isOpen = true, onClose }: Props): React.ReactElement<Props> | null {
+export default function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueRpc } = useContext(StatusContext);
   // this needs to align with what is set as the first value in `type`
@@ -58,10 +57,6 @@ export default function InjectKeys ({ isOpen = true, onClose }: Props): React.Re
       setPublicKey(EMPTY_KEY);
     }
   }, [crypto, suri]);
-
-  if (!isOpen) {
-    return null;
-  }
 
   const _onSubmit = (): void =>
     queueRpc({

@@ -122,7 +122,6 @@ class NewStake extends TxComponent<Props, State> {
             icon='sign-in'
             onStart={onClose}
             extrinsic={extrinsic}
-            withSpinner
           />
         </Modal.Actions>
       </Modal>

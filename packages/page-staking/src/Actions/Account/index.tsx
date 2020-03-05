@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DeriveStakerReward, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
+import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, TxButton } from '@polkadot/react-components';
@@ -14,6 +15,7 @@ import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
+import ClaimRewards from './ClaimRewards';
 import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
@@ -88,19 +90,22 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ activeEra, allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
+  const stakingRewardsAll = useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [stashId]);
+  const [stakingRewards, setStakingRewards] = useState<DeriveStakerReward[]>([]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
-  const [hasUnclaimedRewards, setHasUnclaimedRewards] = useState(false);
+  const [payoutEras, setPayoutEras] = useState<[EraIndex[], EraIndex[]]>([[], []]);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
-  const [, toggleClaimRewards] = useToggle();
+  const [isPayNomOpen, togglePayNom] = useToggle();
+  const [isPayValOpen, togglePayVal] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
@@ -133,10 +138,17 @@ function Account ({ activeEra, allStashes, className, isOwnStash, next, onUpdate
   }, [inactiveNoms, nominees]);
 
   useEffect((): void => {
-    if (activeEra?.gtn(0) && stakingAccount?.stakingLedger?.lastReward?.isSome) {
-      setHasUnclaimedRewards(stakingAccount.stakingLedger.lastReward.unwrap().lt(activeEra));
+    if (stakingRewardsAll && stakingAccount?.stakingLedger?.lastReward) {
+      const lastClaim = stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1));
+      const stakingRewards = stakingRewardsAll.filter(({ era }): boolean => era.gt(lastClaim));
+
+      setStakingRewards(stakingRewards);
+      setPayoutEras([
+        stakingRewards.filter(({ isValidator }): boolean => !isValidator).map(({ era }): EraIndex => era),
+        stakingRewards.filter(({ isValidator }): boolean => isValidator).map(({ era }): EraIndex => era)
+      ]);
     }
-  }, [activeEra, stakingAccount]);
+  }, [stakingAccount, stakingRewardsAll]);
 
   return (
     <tr className={className}>
@@ -160,6 +172,24 @@ function Account ({ activeEra, allStashes, className, isOwnStash, next, onUpdate
           stashId={stashId}
           validatorPrefs={validatorPrefs}
         />
+        {isPayNomOpen && controllerId && (
+          <ClaimRewards
+            controllerId={controllerId}
+            isValidator={false}
+            onClose={togglePayNom}
+            stashId={stashId}
+            stakingRewards={stakingRewards}
+          />
+        )}
+        {isPayValOpen && controllerId && (
+          <ClaimRewards
+            controllerId={controllerId}
+            isValidator={true}
+            onClose={togglePayVal}
+            stashId={stashId}
+            stakingRewards={stakingRewards}
+          />
+        )}
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
         )}
@@ -188,13 +218,10 @@ function Account ({ activeEra, allStashes, className, isOwnStash, next, onUpdate
             onClose={toggleRewardDestination}
           />
         )}
-        {controllerId && (
+        {isSetSessionOpen && controllerId && (
           <SetSessionKey
             controllerId={controllerId}
-            isOpen={isSetSessionOpen}
             onClose={toggleSetSession}
-            sessionIds={sessionIds}
-            stashId={stashId}
           />
         )}
         <AddressSmall value={stashId} />
@@ -336,12 +363,40 @@ function Account ({ activeEra, allStashes, className, isOwnStash, next, onUpdate
                   onClick={toggleSettings}
                 >
                   {api.query.staking.activeEra && (
-                    <Menu.Item
-                      disabled={!hasUnclaimedRewards}
-                      onClick={toggleClaimRewards}
-                    >
-                      {t('Claim rewards {{period}}', { replace: { period: '()' } })}
-                    </Menu.Item>
+                    <>
+                      {(isStashNominating || (payoutEras[0].length !== 0)) && (
+                        <Menu.Item
+                          disabled={payoutEras[0].length === 0}
+                          onClick={togglePayNom}
+                        >
+                          {t('Payout nominator {{period}}', {
+                            replace: {
+                              period: payoutEras[0].length
+                                ? payoutEras[0].length === 1
+                                  ? `(${payoutEras[0][0].toHuman()})`
+                                  : `(${payoutEras[0][0].toHuman()}-${payoutEras[0][payoutEras[0].length - 1].toHuman()})`
+                                : ''
+                            }
+                          })}
+                        </Menu.Item>
+                      )}
+                      {(isStashValidating || (payoutEras[1].length !== 0)) && (
+                        <Menu.Item
+                          disabled={payoutEras[1].length === 0}
+                          onClick={togglePayVal}
+                        >
+                          {t('Payout validator {{period}}', {
+                            replace: {
+                              period: payoutEras[1].length
+                                ? payoutEras[1].length === 1
+                                  ? `(${payoutEras[1][0].toHuman()})`
+                                  : `(${payoutEras[1][0].toHuman()}-${payoutEras[1][payoutEras[1].length - 1].toHuman()})`
+                                : ''
+                            }
+                          })}
+                        </Menu.Item>
+                      )}
+                    </>
                   )}
                   <Menu.Item
                     disabled={!isOwnStash && !balancesAll?.freeBalance.gtn(0)}
