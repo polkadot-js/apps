@@ -11,6 +11,7 @@ import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
+import { Trans } from 'react-i18next';
 import { Compact, UInt } from '@polkadot/types';
 import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -262,7 +263,7 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
 // );
 
 export default function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
@@ -281,11 +282,9 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
   return (
     <details className={className}>
       <summary>
-        {t('Fees of {{fees}} will be applied to the submission', {
-          replace: {
-            fees: formatBalance(dispatchInfo.partialFee, { withSiFull: true })
-          }
-        })}
+        <Trans i18nKey='feesForSubmission'>
+          Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission
+        </Trans>
       </summary>
     </details>
   );

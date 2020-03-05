@@ -48,11 +48,11 @@ function Transaction ({ children, className, hideDetails, isSendable, onError, v
           )}
           <details className='tx-details'>
             <summary>
-              {t('Sending transaction')} {section}.{method}({
+              {t('Sending transaction')} <span className='highlight'>{section}.{method}({
                 meta
                   ? meta.args.map(({ name }) => name).join(', ')
                   : ''
-              })
+              })</span>
             </summary>
             {meta && (
               <div className='meta'>{meta?.documentation[0]}</div>
@@ -86,6 +86,10 @@ export default styled(Transaction)`
     summary {
       font-size: 1.1rem;
       margin: 0.5rem 0;
+    }
+
+    .highlight {
+      font-weight: 600;
     }
 
     .meta {
