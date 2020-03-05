@@ -2,20 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DeriveStakerReward, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
-import ClaimRewards from './ClaimRewards';
+// import ClaimRewards from './ClaimRewards';
 import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
@@ -92,6 +93,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
 
 function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
@@ -103,7 +105,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
-  const [isPayoutOpen, togglePayout] = useToggle();
+  // const [isPayoutOpen, togglePayout] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
@@ -147,6 +149,23 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
     }
   }, [stakingAccount, stakingRewardsAll]);
 
+  const _doPayout = (): void => {
+    queueExtrinsic({
+      accountId: controllerId,
+      extrinsic: stakingRewards.length === 1
+        ? stakingRewards[0].isValidator
+          ? api.tx.staking.payoutValidator(stakingRewards[0].era)
+          : api.tx.staking.payoutNominator(stakingRewards[0].era, stakingRewards[0].nominating)
+        : api.tx.utility.batch(
+          stakingRewards.map(({ era, isValidator, nominating }): SubmittableExtrinsic<'promise'> =>
+            isValidator
+              ? api.tx.staking.payoutValidator(era)
+              : api.tx.staking.payoutNominator(era, nominating)
+          )
+        )
+    });
+  };
+
   return (
     <tr className={className}>
       <td className='top'>
@@ -169,13 +188,13 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
           stashId={stashId}
           validatorPrefs={validatorPrefs}
         />
-        {isPayoutOpen && controllerId && (
+        {/* {isPayoutOpen && controllerId && (
           <ClaimRewards
             controllerId={controllerId}
             onClose={togglePayout}
             stakingRewards={stakingRewards}
           />
-        )}
+        )} */}
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
         )}
@@ -351,7 +370,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                   {api.query.staking.activeEra && (
                     <Menu.Item
                       disabled={payoutEras.length === 0}
-                      onClick={togglePayout}
+                      onClick={_doPayout}
                     >
                       {t('Payout era rewards {{period}}', {
                         replace: {

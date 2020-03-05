@@ -48,7 +48,7 @@ export default function ClaimRewards ({ controllerId, onClose, stakingRewards }:
 
   return (
     <Modal
-      header={t('Payout rewards')}
+      header={t('Payout era rewards')}
       size='small'
     >
       <Modal.Content>
