@@ -35,5 +35,7 @@
   "Current account nonce: {{accountNonce}}": "Current account nonce: {{accountNonce}}",
   "Lifetime (# of blocks)": "Lifetime (# of blocks)",
   "Set to 0 to make transaction immortal": "Set to 0 to make transaction immortal",
-  "Signed transaction": "Signed transaction"
+  "Signed transaction": "Signed transaction",
+  "Authorize transaction": "Authorize transaction",
+  "Sending transaction": "Sending transaction"
 }

@@ -182,7 +182,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className } = this.props;
+    const { className, t } = this.props;
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -190,7 +190,10 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Modal className={`ui--signer-Signer ${className}`}>
+      <Modal
+        className={`ui--signer-Signer ${className}`}
+        header={t('Authorize transaction')}
+      >
         <ErrorBoundary onError={this.onRenderError}>{this.renderContent()}</ErrorBoundary>
         {this.renderButtons()}
       </Modal>
