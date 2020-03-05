@@ -98,14 +98,12 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
   const stakingRewardsAll = useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [stashId]);
-  const [stakingRewards, setStakingRewards] = useState<DeriveStakerReward[]>([]);
+  const [[stakingRewards, payoutEras], setStakingRewards] = useState<[DeriveStakerReward[], EraIndex[]]>([[], []]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
-  const [payoutEras, setPayoutEras] = useState<[EraIndex[], EraIndex[]]>([[], []]);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
-  const [isPayNomOpen, togglePayNom] = useToggle();
-  const [isPayValOpen, togglePayVal] = useToggle();
+  const [isPayoutOpen, togglePayout] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
@@ -142,10 +140,9 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
       const lastClaim = stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1));
       const stakingRewards = stakingRewardsAll.filter(({ era }): boolean => era.gt(lastClaim));
 
-      setStakingRewards(stakingRewards);
-      setPayoutEras([
-        stakingRewards.filter(({ isValidator }): boolean => !isValidator).map(({ era }): EraIndex => era),
-        stakingRewards.filter(({ isValidator }): boolean => isValidator).map(({ era }): EraIndex => era)
+      setStakingRewards([
+        stakingRewards,
+        stakingRewards.map(({ era }): EraIndex => era)
       ]);
     }
   }, [stakingAccount, stakingRewardsAll]);
@@ -172,21 +169,10 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
           stashId={stashId}
           validatorPrefs={validatorPrefs}
         />
-        {isPayNomOpen && controllerId && (
+        {isPayoutOpen && controllerId && (
           <ClaimRewards
             controllerId={controllerId}
-            isValidator={false}
-            onClose={togglePayNom}
-            stashId={stashId}
-            stakingRewards={stakingRewards}
-          />
-        )}
-        {isPayValOpen && controllerId && (
-          <ClaimRewards
-            controllerId={controllerId}
-            isValidator={true}
-            onClose={togglePayVal}
-            stashId={stashId}
+            onClose={togglePayout}
             stakingRewards={stakingRewards}
           />
         )}
@@ -363,40 +349,20 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                   onClick={toggleSettings}
                 >
                   {api.query.staking.activeEra && (
-                    <>
-                      {(isStashNominating || (payoutEras[0].length !== 0)) && (
-                        <Menu.Item
-                          disabled={payoutEras[0].length === 0}
-                          onClick={togglePayNom}
-                        >
-                          {t('Payout nominator {{period}}', {
-                            replace: {
-                              period: payoutEras[0].length
-                                ? payoutEras[0].length === 1
-                                  ? `(${payoutEras[0][0].toHuman()})`
-                                  : `(${payoutEras[0][0].toHuman()}-${payoutEras[0][payoutEras[0].length - 1].toHuman()})`
-                                : ''
-                            }
-                          })}
-                        </Menu.Item>
-                      )}
-                      {(isStashValidating || (payoutEras[1].length !== 0)) && (
-                        <Menu.Item
-                          disabled={payoutEras[1].length === 0}
-                          onClick={togglePayVal}
-                        >
-                          {t('Payout validator {{period}}', {
-                            replace: {
-                              period: payoutEras[1].length
-                                ? payoutEras[1].length === 1
-                                  ? `(${payoutEras[1][0].toHuman()})`
-                                  : `(${payoutEras[1][0].toHuman()}-${payoutEras[1][payoutEras[1].length - 1].toHuman()})`
-                                : ''
-                            }
-                          })}
-                        </Menu.Item>
-                      )}
-                    </>
+                    <Menu.Item
+                      disabled={payoutEras.length === 0}
+                      onClick={togglePayout}
+                    >
+                      {t('Payout era rewards {{period}}', {
+                        replace: {
+                          period: payoutEras.length
+                            ? payoutEras.length === 1
+                              ? `(${payoutEras[0].toHuman()})`
+                              : `(${payoutEras[0].toHuman()}-${payoutEras[payoutEras.length - 1].toHuman()})`
+                            : ''
+                        }
+                      })}
+                    </Menu.Item>
                   )}
                   <Menu.Item
                     disabled={!isOwnStash && !balancesAll?.freeBalance.gtn(0)}

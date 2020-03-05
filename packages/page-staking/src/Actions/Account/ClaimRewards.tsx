@@ -4,45 +4,64 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveStakerReward } from '@polkadot/api-derive/types';
+import { EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import { Modal, TxButton } from '@polkadot/react-components';
+import { Modal, Table, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 
 interface Props {
   controllerId: string;
-  isValidator: boolean;
   onClose: () => void;
-  stashId: string;
   stakingRewards: DeriveStakerReward[];
 }
 
-export default function ClaimRewards ({ controllerId, isValidator, onClose, stakingRewards }: Props): React.ReactElement<Props> | null {
+export default function ClaimRewards ({ controllerId, onClose, stakingRewards }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const payoutTxs = useMemo((): SubmittableExtrinsic<'promise'>[] => {
-    return stakingRewards
-      .filter(({ isValidator: check }): boolean => check === isValidator)
-      .map(({ era, nominating }): SubmittableExtrinsic<'promise'> =>
-        isValidator
-          ? api.tx.staking.payoutValidator(era)
-          : api.tx.staking.payoutNominator(era, nominating)
-      );
-  }, [isValidator, stakingRewards]);
+  const [tx, params] = useMemo((): [string, [SubmittableExtrinsic<'promise'>[]] | [EraIndex] | [EraIndex, [string, number][]]] => {
+    if (stakingRewards.length === 1) {
+      const { era, isValidator, nominating } = stakingRewards[0];
+
+      return isValidator
+        ? ['staking.payoutValidator', [era]]
+        : ['staking.payoutNominator', [era, nominating]];
+    }
+
+    return ['utility.batch', [stakingRewards.map(({ era, isValidator, nominating }): SubmittableExtrinsic<'promise'> =>
+      isValidator
+        ? api.tx.staking.payoutValidator(era)
+        : api.tx.staking.payoutNominator(era, nominating)
+    )]];
+  }, [stakingRewards]);
+  const payoutInfo = useMemo((): [EraIndex, boolean, number][] => {
+    return stakingRewards.map(({ era, isValidator, nominating }) => [
+      era,
+      isValidator,
+      isValidator
+        ? 1
+        : nominating.length
+    ]);
+  }, [stakingRewards]);
 
   return (
     <Modal
-      header={
-        isValidator
-          ? t('Payout validator')
-          : t('Payout nominator')
-      }
+      header={t('Payout rewards')}
       size='small'
     >
       <Modal.Content>
-        {JSON.stringify(stakingRewards)}
+        <Table>
+          {payoutInfo.map(([era,, count], index): React.ReactNode =>
+            <tr key={index}>
+              <td className='number together'>{era.toHuman()}</td>
+              <td className='number together'>{t('{{count}} rewards', {
+                replace: { count }
+              })}</td>
+            </tr>
+          )}
+        </Table>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
@@ -51,8 +70,8 @@ export default function ClaimRewards ({ controllerId, isValidator, onClose, stak
           label={t('Payout')}
           icon='sign-in'
           onStart={onClose}
-          params={[payoutTxs]}
-          tx='utility.batch'
+          params={[params]}
+          tx={tx}
         />
       </Modal.Actions>
     </Modal>
