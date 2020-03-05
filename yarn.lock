@@ -3048,15 +3048,16 @@ __metadata:
   dependencies:
     "@babel/polyfill": ^7.8.3
     "@babel/runtime": ^7.8.4
+    "@polkadot/dev": ^0.50.27
     "@polkadot/react-components": 0.40.0-beta.71
     "@polkadot/react-signer": 0.40.0-beta.71
     query-string: ^6.11.0
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.50.26":
-  version: 0.50.26
-  resolution: "@polkadot/dev@npm:0.50.26"
+"@polkadot/dev@npm:^0.50.27":
+  version: 0.50.27
+  resolution: "@polkadot/dev@npm:0.50.27"
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.8.6
@@ -3082,6 +3083,7 @@ __metadata:
     "@types/node": ^13.7.7
     "@typescript-eslint/eslint-plugin": 2.22.0
     "@typescript-eslint/parser": 2.22.0
+    "@vue/component-compiler-utils": ^3.1.1
     "@yarnpkg/pnpify": ^2.0.0-rc.18
     babel-core: ^7.0.0-bridge.0
     babel-jest: ^25.1.0
@@ -3136,8 +3138,8 @@ __metadata:
     polkadot-exec-tsc: scripts/polkadot-exec-tsc.js
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
-    polkadot-exec-webpack: scripts/polkadot-exe-webpackc.js
-  checksum: 2/0b46810d10b50e62aa8c9efd07c22e59f9c6f66ca05dc34355890b2a2cde806301c872b27e56ffeddb23bcc4848f4748aa0c52431da8f90f560e5c4dfee5f329
+    polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
+  checksum: 2/6198f095e351835d0491d0a9ea881add1e2eacb9b4ea342cf954d476ec11ef97faf54dac032b57f011d7074af2e891806b2c7ed21953e9208781450ae103faba
   languageName: node
   linkType: hard
 
@@ -4100,7 +4102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/component-compiler-utils@npm:^3.1.0":
+"@vue/component-compiler-utils@npm:^3.1.0, @vue/component-compiler-utils@npm:^3.1.1":
   version: 3.1.1
   resolution: "@vue/component-compiler-utils@npm:3.1.1"
   dependencies:
@@ -17935,7 +17937,7 @@ __metadata:
     "@babel/core": ^7.8.6
     "@babel/register": ^7.8.6
     "@babel/runtime": ^7.8.4
-    "@polkadot/dev": ^0.50.26
+    "@polkadot/dev": ^0.50.27
     "@polkadot/ts": ^0.3.7
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.14
