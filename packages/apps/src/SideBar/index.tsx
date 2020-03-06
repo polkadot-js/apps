@@ -5,9 +5,10 @@
 import { RuntimeVersion } from '@polkadot/types/interfaces';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
+import { chainColors, emptyColor, nodeColors } from '@polkadot/apps-config/ui/general';
 import routing from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
@@ -28,9 +29,16 @@ interface Props {
   toggleMenu: () => void;
 }
 
+function sanitize (value?: string): string {
+  return value?.toLowerCase().replace('-', ' ') || '';
+}
+
 function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, systemChain, systemName } = useApi();
+  const borderRightColor = useMemo((): any => {
+    return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)] || emptyColor;
+  }, [systemChain, systemName]);
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
   const [modals, setModals] = useState<Record<string, boolean>>(
     routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
@@ -69,7 +77,10 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
       {modals.network && (
         <NetworkModal onClose={_toggleModal('network')}/>
       )}
-      <div className='apps--SideBar'>
+      <div
+        className='apps--SideBar'
+        style={{ borderRightColor }}
+      >
         <Menu
           secondary
           vertical
@@ -177,6 +188,8 @@ export default styled(SideBar)`
   .apps--SideBar {
     align-items: center;
     background: #4f4f4f;
+    border-right: 0.25rem solid transparent;
+    box-sizing: border-box;
     display: flex;
     flex-flow: column;
     height: auto;

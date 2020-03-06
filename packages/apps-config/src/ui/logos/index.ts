@@ -16,21 +16,24 @@ import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import emptyLogo from './empty.svg';
 
 // overrides based on the actual matched chain name
-const chainLogos: Record<string, any> = {
-  kusama: chainKusama, // new name after CC3
-  'kusama cc1': chainKusama,
-  'kusama cc2': chainKusama,
-  'kusama cc3': chainKusama
-};
+const chainLogos: Record<string, any> = [
+  ['Kusama', chainKusama], // new name after CC3
+  ['Kusama CC1', chainKusama],
+  ['Kusama CC2', chainKusama],
+  ['Kusama CC3', chainKusama]
+].reduce((logos, [chain, logo]): Record<string, any> => ({
+  ...logos,
+  [chain.toLowerCase()]: logo
+}), {});
 
 // overrides based on the actual software node type (all '-' converted to ' ')
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
-  ['edgeware node', nodeEdgeware],
-  ['node template', nodeSubstrate],
-  ['parity polkadot', nodePolkadot],
-  ['polkadot js', nodePolkadotJs],
-  ['substrate node', nodeSubstrate]
+  ['Edgeware Node', nodeEdgeware],
+  ['node-template', nodeSubstrate],
+  ['parity-polkadot', nodePolkadot],
+  ['polkadot-js', nodePolkadotJs],
+  ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
   [node.toLowerCase().replace(/-/g, ' ')]: logo
