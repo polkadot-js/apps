@@ -113,6 +113,7 @@ export default styled(Apps)`
         background: #5f5f5f;
         border-radius: 0.28571429rem 0 0 0.28571429rem;
         color: #eee;
+        margin-right: 0.25rem;
       }
     }
 
@@ -124,6 +125,7 @@ export default styled(Apps)`
       &:hover {
         background: #fafafa;
         color: #3f3f3f;
+        margin-right: 0;
       }
     }
   }

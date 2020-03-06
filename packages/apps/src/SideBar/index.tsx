@@ -36,7 +36,7 @@ function sanitize (value?: string): string {
 function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, systemChain, systemName } = useApi();
-  const borderRightColor = useMemo((): any => {
+  const borderColor = useMemo((): any => {
     return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)] || emptyColor;
   }, [systemChain, systemName]);
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
@@ -77,10 +77,11 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
       {modals.network && (
         <NetworkModal onClose={_toggleModal('network')}/>
       )}
-      <div
-        className='apps--SideBar'
-        style={{ borderRightColor }}
-      >
+      <div className='apps--SideBar'>
+        <div
+          className='apps--SideBar-border'
+          style={{ background: borderColor }}
+        />
         <Menu
           secondary
           vertical
@@ -149,8 +150,9 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
             }
           </div>
           <Responsive
-            minWidth={SIDEBAR_MENU_THRESHOLD}
             className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
+            minWidth={SIDEBAR_MENU_THRESHOLD}
+            style={{ borderRightColor: borderColor }}
           >
             <Button
               icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
@@ -188,7 +190,6 @@ export default styled(SideBar)`
   .apps--SideBar {
     align-items: center;
     background: #4f4f4f;
-    border-right: 0.25rem solid transparent;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
@@ -196,6 +197,14 @@ export default styled(SideBar)`
     position: relative;
     transition: left 0.3s linear;
     width: 100%;
+
+    .apps--SideBar-border {
+      bottom: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 0.25rem;
+    }
 
     .ui.vertical.menu {
       display: flex;
@@ -266,6 +275,7 @@ export default styled(SideBar)`
 
     .apps--SideBar-collapse {
       background: #4f4f4f;
+      border-right: 0.25rem solid transparent;
       bottom: 0;
       left: 0;
       padding: 0.75rem 0 .75rem 0.65rem;
