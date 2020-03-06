@@ -17,8 +17,8 @@ interface Props {
 }
 
 export default createGlobalStyle<Props>`
-  .ui--highlight--all,
-  .theme--default .ui.blue.progress > .bar {
+  .ui--highlight--all {
+    /* .theme--default .ui.blue.progress > .bar */
     background: ${(props): string => (props.uiHighlight || '#999')} !important;
     border-color: ${(props): string => (props.uiHighlight || '#999')} !important;
     color: ${(props): string => (props.uiHighlight || '#999')} !important;
@@ -28,8 +28,8 @@ export default createGlobalStyle<Props>`
     background: ${(props): string => (props.uiHighlight || '#999')} !important;
   }
 
-  .ui--highlight--border,
-  .theme--default .ui.menu.tabular > .item.active {
+  .ui--highlight--border {
+    /* .theme--default .ui.menu.tabular > .item.active */
     border-color: ${(props): string => (props.uiHighlight || '#999')} !important;
   }
 

@@ -129,6 +129,7 @@ export default styled(Apps)`
     a.apps--SideBar-Item-NavLink-active {
       background: #fafafa;
       border-radius: 0.28571429rem 0 0 0.28571429rem;
+      // border-bottom: 2px solid transparent;
       color: #3f3f3f;
 
       &:hover {
@@ -199,7 +200,7 @@ export default styled(Apps)`
   }
 
   .apps--Menu-bg {
-    background: rgba(0,0,0,0.6);
+    background: transparent;
     height: 100%;
     left: 0;
     position: absolute;

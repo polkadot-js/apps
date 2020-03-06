@@ -139,7 +139,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
             }
           </div>
           <Responsive
-            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'} ui--highlight--border`}
+            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
             minWidth={SIDEBAR_MENU_THRESHOLD}
           >
             <Button
@@ -160,6 +160,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
     </Responsive>
   );
 }
+
+const sideBorderWidth = '0.125rem';
 
 export default styled(SideBar)`
   display: flex;
@@ -187,12 +189,11 @@ export default styled(SideBar)`
     width: 100%;
 
     .apps--SideBar-border {
-      bottom: 0;
-      border-right: 0.25rem solid transparent;
-      position: absolute;
+      border-top: ${sideBorderWidth} solid transparent;
+      position: fixed;
+      left: 0;
       right: 0;
       top: 0;
-      width: 0.25rem;
     }
 
     .ui.vertical.menu {
@@ -264,7 +265,6 @@ export default styled(SideBar)`
 
     .apps--SideBar-collapse {
       background: #4f4f4f;
-      border-right: 0.25rem solid transparent;
       bottom: 0;
       left: 0;
       padding: 0.75rem 0 .75rem 0.65rem;

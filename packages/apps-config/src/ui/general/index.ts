@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-const defaultColor = '#f19135';
+const defaultColor = undefined; // '#f19135'
 const emptyColor = '#999';
+
 const chainKulupu = '#003366';
 const chainKusama = '#d32e79';
 const chainWestend = '#da68a7';
+
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
 
@@ -29,7 +31,6 @@ const nodeColors: Record<string, any> = [
   ['edgeware node', nodeEdgeware],
   ['node template', emptyColor],
   ['parity polkadot', emptyColor],
-  ['polkadot js', emptyColor],
   ['substrate node', emptyColor]
 ].reduce((colors, [node, color]): Record<string, any> => ({
   ...colors,
