@@ -37,8 +37,6 @@ interface Props {
 interface StakingState {
   commission?: string;
   controllerId?: string;
-  hasNominators: boolean;
-  isNominatorMe: boolean;
   nominators: [AccountId, Balance][];
   sessionId?: string;
   stakeTotal?: BN;
@@ -60,10 +58,6 @@ function expandInfo ({ controllerId, exposure, nextSessionIds, validatorPrefs }:
       ? `${(commission.toNumber() / 10000000).toFixed(2)}%`
       : undefined,
     controllerId: controllerId?.toString(),
-    hasNominators: nominators.length !== 0,
-    isNominatorMe: nominators.some(([who]): boolean =>
-      myAccounts.includes(who.toString())
-    ),
     nominators,
     sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
     stakeOther,
@@ -108,7 +102,7 @@ export default function Address ({ address, className, filterName, hasQueries, h
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const stakingInfo = useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]);
-  const [{ commission, hasNominators, isNominatorMe, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ hasNominators: false, isNominatorMe: false, nominators: [] });
+  const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -125,7 +119,7 @@ export default function Address ({ address, className, filterName, hasQueries, h
     setIsVisible(
       checkVisibility(api, address, filterName, info)
     );
-  }, [filterName, heartbeat, info, hasNominators, isNominatorMe]);
+  }, [address, filterName, info]);
 
   const _onFavorite = (): void => toggleFavorite(address);
   const _onQueryStats = (): void => {
