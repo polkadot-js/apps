@@ -78,12 +78,13 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
         />
         <InputAddressMulti
           available={available}
+          availableLabel={t('candidate accounts')}
           className='medium'
           help={t('Filter available candidates based on name, address or short account index.')}
-          label={t('filter candidates')}
           maxCount={MAX_NOMINEES}
           onChange={setSelection}
           value={selection || []}
+          valueLabel={t('nominated accounts')}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

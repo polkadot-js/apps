@@ -15,12 +15,13 @@ import Toggle from './Toggle';
 interface Props {
   address: string;
   className?: string;
+  isHidden?: boolean;
   filter?: string;
   onChange?: (isChecked: boolean) => void;
   value: boolean;
 }
 
-function AddressToggle ({ address, className, filter, onChange, value }: Props): React.ReactElement<Props> | null {
+function AddressToggle ({ address, className, filter, isHidden = false, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -48,15 +49,11 @@ function AddressToggle ({ address, className, filter, onChange, value }: Props):
     setIsFiltered(isFiltered);
   }, [filter, info, value]);
 
-  if (isFiltered) {
-    return null;
-  }
-
   const _onClick = (): void => onChange && onChange(!value);
 
   return (
     <div
-      className={`ui--AddressToggle ${className} ${value ? 'isAye' : 'isNay'}`}
+      className={`ui--AddressToggle ${className} ${value ? 'isAye' : 'isNay'} ${isHidden || isFiltered ? 'isHidden' : ''}`}
       onClick={_onClick}
     >
       <AddressMini
@@ -66,7 +63,6 @@ function AddressToggle ({ address, className, filter, onChange, value }: Props):
       <div className='ui--AddressToggle-toggle'>
         <Toggle
           label=''
-          onChange={onChange}
           value={value}
         />
       </div>
@@ -96,7 +92,17 @@ export default styled(AddressToggle)`
     border-color: #ccc;
   }
 
+  &.isHidden {
+    display: none;
+  }
+
+  &.isDragging {
+    background: white;
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+  }
+
   &.isAye {
+    cursor: move;
     .ui--AddressToggle-address {
       filter: none;
       opacity: 1;

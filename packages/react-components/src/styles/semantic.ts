@@ -55,7 +55,7 @@ export default css`
   .ui.input {
     width: 100%;
 
-    &.disabled {
+    &.disabled:not(.retain-appearance) {
       opacity: 1;
 
       input {

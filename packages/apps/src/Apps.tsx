@@ -24,6 +24,8 @@ interface SidebarState {
   transition: SideBarTransition;
 }
 
+export const PORTAL_ID = 'portals';
+
 function WarmUp (): React.ReactElement {
   const { api, isApiReady } = useApi();
   const fees = useCall<any>(isApiReady ? api.derive.balances?.fees : undefined, []);
@@ -89,6 +91,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         </Signer>
         <ConnectingOverlay />
         <AccountsOverlay />
+        <div id={PORTAL_ID} />
       </div>
       <WarmUp />
     </>
