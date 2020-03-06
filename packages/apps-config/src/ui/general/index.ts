@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+const defaultColor = '#f19135';
 const emptyColor = '#999';
 const chainKulupu = '#003366';
 const chainKusama = '#d32e79';
@@ -36,6 +37,7 @@ const nodeColors: Record<string, any> = [
 }), {});
 
 export {
+  defaultColor,
   chainColors,
   emptyColor,
   nodeColors

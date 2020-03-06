@@ -75,17 +75,17 @@ export default css`
       }
     }
 
-    .ui.blue.progress .bar {
-      background-color: ${colorBtnHighlight};
-    }
+    // .ui.blue.progress .bar {
+    //   background-color: ${colorBtnHighlight};
+    // }
 
     .ui.modal > .header:not(.ui) {
       border-bottom-color: ${colorBtnHighlight};
     }
 
-    .ui.menu.tabular .item.active {
-      border-bottom-color: ${colorBtnHighlight};
-    }
+    // .ui.menu.tabular .item.active {
+    //   border-bottom-color: ${colorBtnHighlight};
+    // }
 
     /* this is for dropdown buttons */
     .ui.buttons .ui.button.selection.visible.dropdown {

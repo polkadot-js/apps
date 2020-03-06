@@ -157,7 +157,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite && 'isSelected'}`}
+          className={`${isFavorite && 'ui--highlight--color'}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />

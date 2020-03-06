@@ -5,10 +5,9 @@
 import { RuntimeVersion } from '@polkadot/types/interfaces';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
-import { chainColors, emptyColor, nodeColors } from '@polkadot/apps-config/ui/general';
 import routing from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
@@ -29,16 +28,9 @@ interface Props {
   toggleMenu: () => void;
 }
 
-function sanitize (value?: string): string {
-  return value?.toLowerCase().replace('-', ' ') || '';
-}
-
 function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, systemChain, systemName } = useApi();
-  const borderColor = useMemo((): any => {
-    return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)] || emptyColor;
-  }, [systemChain, systemName]);
+  const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
   const [modals, setModals] = useState<Record<string, boolean>>(
     routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
@@ -78,10 +70,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
         <NetworkModal onClose={_toggleModal('network')}/>
       )}
       <div className='apps--SideBar'>
-        <div
-          className='apps--SideBar-border'
-          style={{ background: borderColor }}
-        />
+        <div className='apps--SideBar-border ui--highlight--border' />
         <Menu
           secondary
           vertical
@@ -150,9 +139,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
             }
           </div>
           <Responsive
-            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
+            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'} ui--highlight--border`}
             minWidth={SIDEBAR_MENU_THRESHOLD}
-            style={{ borderRightColor: borderColor }}
           >
             <Button
               icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
@@ -200,6 +188,7 @@ export default styled(SideBar)`
 
     .apps--SideBar-border {
       bottom: 0;
+      border-right: 0.25rem solid transparent;
       position: absolute;
       right: 0;
       top: 0;
