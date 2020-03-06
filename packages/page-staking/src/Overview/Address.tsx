@@ -4,7 +4,6 @@
 
 import { AccountId, Balance, RewardPoint } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo, DerivedStakingQuery, DerivedHeartbeatAuthor } from '@polkadot/api-derive/types';
-import { ValidatorFilter } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -21,7 +20,6 @@ interface Props {
   address: string;
   className?: string;
   defaultName: string;
-  filter: ValidatorFilter;
   filterName: string;
   hasQueries: boolean;
   heartbeat?: DerivedHeartbeatAuthor;
@@ -39,8 +37,6 @@ interface Props {
 interface StakingState {
   commission?: string;
   controllerId?: string;
-  hasNominators: boolean;
-  isNominatorMe: boolean;
   nominators: [AccountId, Balance][];
   sessionId?: string;
   stakeTotal?: BN;
@@ -62,25 +58,12 @@ function expandInfo ({ controllerId, exposure, nextSessionIds, validatorPrefs }:
       ? `${(commission.toNumber() / 10000000).toFixed(2)}%`
       : undefined,
     controllerId: controllerId?.toString(),
-    hasNominators: nominators.length !== 0,
-    isNominatorMe: nominators.some(([who]): boolean =>
-      myAccounts.includes(who.toString())
-    ),
     nominators,
     sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
     stakeOther,
     stakeOwn,
     stakeTotal
   };
-}
-
-function checkFilter (filter: string, hasNominators: boolean, isElected: boolean, isNominatorMe: boolean, heartbeat?: DerivedHeartbeatAuthor): boolean {
-  return (filter === 'hasNominators' && !hasNominators) ||
-    (filter === 'noNominators' && hasNominators) ||
-    (filter === 'hasWarnings' && heartbeat?.isOnline) ||
-    (filter === 'noWarnings' && !heartbeat?.isOnline) ||
-    (filter === 'iNominated' && !isNominatorMe) ||
-    (filter === 'nextSet' && !isElected);
 }
 
 function checkVisibility (api: ApiPromise, address: string, filterName: string, info: DeriveAccountInfo | undefined): boolean {
@@ -114,13 +97,12 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-export default function Address ({ address, className, filter, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, lastBlock, myAccounts, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
+export default function Address ({ address, className, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, lastBlock, myAccounts, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  // FIXME Any horrors, caused by derive type mismatches
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const stakingInfo = useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]);
-  const [{ commission, hasNominators, isNominatorMe, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ hasNominators: false, isNominatorMe: false, nominators: [] });
+  const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -135,10 +117,9 @@ export default function Address ({ address, className, filter, filterName, hasQu
 
   useEffect((): void => {
     setIsVisible(
-      checkFilter(filter, hasNominators, isElected, isNominatorMe, heartbeat) ||
       checkVisibility(api, address, filterName, info)
     );
-  }, [filter, filterName, heartbeat, info, hasNominators, isNominatorMe]);
+  }, [address, filterName, info]);
 
   const _onFavorite = (): void => toggleFavorite(address);
   const _onQueryStats = (): void => {
