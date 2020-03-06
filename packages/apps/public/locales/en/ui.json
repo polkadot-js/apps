@@ -903,5 +903,11 @@
   "data": "",
   "pending swap id": "",
   "Unknown Chain": "",
-  "Unknown Owner": ""
+  "Unknown Owner": "",
+  "Payout era rewards": "",
+  "{{count}} rewards": "",
+  "Payout": "",
+  "Payout era rewards {{period}}": "",
+  "Authorize transaction": "",
+  "Sending transaction": ""
 }

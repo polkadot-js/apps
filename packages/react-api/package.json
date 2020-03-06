@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-api",
-  "version": "0.40.0-beta.71",
+  "version": "0.40.0-beta.77",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -31,7 +31,7 @@
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
   "dependencies": {
     "@babel/runtime": "^7.8.4",
-    "@polkadot/api": "^1.5.0-beta.29",
+    "@polkadot/api": "^1.6.0-beta.3",
     "@polkadot/extension-dapp": "^0.22.1",
     "rxjs-compat": "^6.5.4"
   }

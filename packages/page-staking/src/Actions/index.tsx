@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
-import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
+import { AccountId, ActiveEraInfo, EraIndex, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from '@polkadot/react-components';
@@ -51,6 +51,12 @@ export default function Actions ({ allStashes, className, isVisible, next, recen
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const activeEra = useCall<EraIndex | undefined>(api.query.staking.activeEra, [], {
+    transform: (activeEra: Option<ActiveEraInfo>): EraIndex | undefined =>
+      activeEra.isSome
+        ? activeEra.unwrap().index
+        : undefined
+  });
   const queryBonded = useCall<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
   const queryLedger = useCall<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
@@ -92,6 +98,7 @@ export default function Actions ({ allStashes, className, isVisible, next, recen
             <Table.Body>
               {foundStashes.map(([stashId, isOwnStash]): React.ReactNode => (
                 <Account
+                  activeEra={activeEra}
                   allStashes={allStashes}
                   isOwnStash={isOwnStash}
                   key={stashId}

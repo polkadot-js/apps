@@ -17,7 +17,6 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
   const [counts, setCounts] = useState<u32[]>([]);
   const [historic, setHistoric] = useState<u32[]>([]);
 
-
   useEffect((): void => {
     if (api.query.imOnline?.authoredBlocks && sessionRewards?.length) {
       const filtered = sessionRewards.filter(({ sessionIndex }): boolean => sessionIndex.gtn(0));

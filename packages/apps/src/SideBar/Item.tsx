@@ -130,7 +130,7 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
         )
         : (
           <NavLink
-            activeClassName='apps--SideBar-Item-NavLink-active'
+            activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
             className='apps--SideBar-Item-NavLink'
             data-for={`nav-${name}`}
             data-tip

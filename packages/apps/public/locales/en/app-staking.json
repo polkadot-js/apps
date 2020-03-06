@@ -159,5 +159,9 @@
   "Active nominations ({{count}})": "Active nominations ({{count}})",
   "profit/era est.": "profit/era est.",
   "nominators": "nominators",
-  "validators/nominators": "validators/nominators"
+  "validators/nominators": "validators/nominators",
+  "Payout era rewards": "Payout era rewards",
+  "{{count}} rewards": "{{count}} rewards",
+  "Payout": "Payout",
+  "Payout era rewards {{period}}": "Payout era rewards {{period}}"
 }
