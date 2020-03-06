@@ -4,7 +4,7 @@
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { chainLogos, emptyLogo, namedLogos, nodeLogos } from '@polkadot/apps-config/logos';
+import { chainLogos, emptyLogo, namedLogos, nodeLogos } from '@polkadot/apps-config/ui/logos';
 import { useApi } from '@polkadot/react-hooks';
 
 interface Props {

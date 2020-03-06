@@ -170,10 +170,6 @@ export default styled(Table)`
           border-right-width: 1px;
           border-radius: 0 0.25rem 0.25rem 0;
         }
-
-        &.favorite i.icon.isSelected {
-          color: darkorange;
-        }
       }
 
       th {

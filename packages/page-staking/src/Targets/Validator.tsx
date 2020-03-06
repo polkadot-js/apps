@@ -27,7 +27,7 @@ export default function Validator ({ info: { accountId, bondOther, bondOwn, bond
     <tr className={`${isNominating && 'isHighlight'}`}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite && 'isSelected'}`}
+          className={`${isFavorite && 'ui--highlight--color'}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />

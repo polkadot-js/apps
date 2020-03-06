@@ -12,7 +12,31 @@ import cssRx from './rx';
 import cssSemantic from './semantic';
 import cssTheme from './theme';
 
-export default createGlobalStyle`
+interface Props {
+  uiHighlight?: string;
+}
+
+export default createGlobalStyle<Props>`
+  .ui--highlight--all {
+    /* .theme--default .ui.blue.progress > .bar */
+    background: ${(props): string => (props.uiHighlight || '#999')} !important;
+    border-color: ${(props): string => (props.uiHighlight || '#999')} !important;
+    color: ${(props): string => (props.uiHighlight || '#999')} !important;
+  }
+
+  .ui--highlight--bg {
+    background: ${(props): string => (props.uiHighlight || '#999')} !important;
+  }
+
+  .ui--highlight--border {
+    /* .theme--default .ui.menu.tabular > .item.active */
+    border-color: ${(props): string => (props.uiHighlight || '#999')} !important;
+  }
+
+  .ui--highlight--color {
+    color: ${(props): string => (props.uiHighlight || '#999')} !important;
+  }
+
   #root {
     color: #4e4e4e;
     font-family: sans-serif;

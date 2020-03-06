@@ -70,6 +70,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
         <NetworkModal onClose={_toggleModal('network')}/>
       )}
       <div className='apps--SideBar'>
+        <div className='apps--SideBar-border ui--highlight--border' />
         <Menu
           secondary
           vertical
@@ -138,8 +139,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
             }
           </div>
           <Responsive
-            minWidth={SIDEBAR_MENU_THRESHOLD}
             className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
+            minWidth={SIDEBAR_MENU_THRESHOLD}
           >
             <Button
               icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
@@ -160,6 +161,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
   );
 }
 
+const sideBorderWidth = '0.125rem';
+
 export default styled(SideBar)`
   display: flex;
   position: relative;
@@ -177,12 +180,21 @@ export default styled(SideBar)`
   .apps--SideBar {
     align-items: center;
     background: #4f4f4f;
+    box-sizing: border-box;
     display: flex;
     flex-flow: column;
     height: auto;
     position: relative;
     transition: left 0.3s linear;
     width: 100%;
+
+    .apps--SideBar-border {
+      border-top: ${sideBorderWidth} solid transparent;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+    }
 
     .ui.vertical.menu {
       display: flex;
