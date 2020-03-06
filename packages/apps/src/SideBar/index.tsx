@@ -161,7 +161,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
   );
 }
 
-const sideBorderWidth = '0.125rem';
+const sideBorderWidth = '0.65rem';
 
 export default styled(SideBar)`
   display: flex;
@@ -190,7 +190,7 @@ export default styled(SideBar)`
 
     .apps--SideBar-border {
       border-top: ${sideBorderWidth} solid transparent;
-      position: fixed;
+      position: absolute;
       left: 0;
       right: 0;
       top: 0;
