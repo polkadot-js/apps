@@ -73,7 +73,8 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
               label={t('rotation')}
               progress={{
                 total: api.consts.society.rotationPeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber)
+                value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber),
+                withTime: true
               }}
             />
           </section>
@@ -82,7 +83,8 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
               label={t('challenge')}
               progress={{
                 total: api.consts.society.challengePeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber)
+                value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber),
+                withTime: true
               }}
             />
           </section>

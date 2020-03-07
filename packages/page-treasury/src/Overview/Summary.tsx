@@ -57,7 +57,8 @@ export default function Summary ({ approvalCount, proposalCount }: Props): React
             label={t('spend period')}
             progress={{
               total: spendPeriod,
-              value: bestNumber.mod(spendPeriod)
+              value: bestNumber.mod(spendPeriod),
+              withTime: true
             }}
           />
         </section>
