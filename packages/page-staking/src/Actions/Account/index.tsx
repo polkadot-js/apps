@@ -140,7 +140,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   useEffect((): void => {
     if (stakingRewardsAll && stakingAccount?.stakingLedger?.lastReward) {
       const lastClaim = stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1));
-      const stakingRewards = stakingRewardsAll.filter(({ era }): boolean => era.gt(lastClaim));
+      const stakingRewards = stakingRewardsAll.filter(({ era, isEmpty }): boolean => !isEmpty && era.gt(lastClaim));
 
       setStakingRewards([
         stakingRewards,
