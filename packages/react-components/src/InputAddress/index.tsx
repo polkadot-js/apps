@@ -222,7 +222,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return !optionsAll
       ? []
-      : optionsAll[type].filter(({ value }): boolean => !!value && (!filter || filter.includes(value)));
+      : optionsAll[type].filter(({ value }): boolean => !filter || (!!value && filter.includes(value)));
   }
 
   private onChange = (address: string): void => {
@@ -250,17 +250,13 @@ class InputAddress extends React.PureComponent<Props, State> {
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item): boolean =>
-      item.value !== null && (
+      !!item.value && (
         (item.name.toLowerCase && item.name.toLowerCase().includes(queryLower)) ||
         item.value.toLowerCase().includes(queryLower)
       )
     );
 
-    const valueMatches = matches.filter((item): boolean =>
-      item.value !== null
-    );
-
-    if (isInput && valueMatches.length === 0) {
+    if (isInput && matches.length === 0) {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
