@@ -5,17 +5,11 @@
 
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
-<<<<<<< HEAD
 import { DragDropContext, Droppable, Draggable, DraggableLocation, DraggableProvided, DraggableStateSnapshot, DroppableProvided, DropResult } from 'react-beautiful-dnd';
-=======
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
->>>>>>> master
 import styled from 'styled-components';
 import { useDebounce } from '@polkadot/react-hooks';
 import { PORTAL_ID } from '../../apps/src/Apps';
 
-// FIXME :()
-import { PORTAL_ID } from '../../apps/src/Apps';
 import { useTranslation } from './translate';
 import AddressToggle from './AddressToggle';
 import Input from './Input';
@@ -60,11 +54,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
     [value, available]
   );
 
-<<<<<<< HEAD
   const onReorder = (source: DraggableLocation, destination: DraggableLocation): void => {
-=======
-  const onReorder = (source: any, destination: any): void => {
->>>>>>> master
     const result = Array.from(value);
     const [removed] = result.splice(source.index, 1);
     result.splice(destination.index, 0, removed);
@@ -100,17 +90,10 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
     };
   };
 
-<<<<<<< HEAD
   const onDragEnd = (result: DropResult): void => {
     const { source, destination } = result;
 
     !!destination && onReorder(source, destination);
-=======
-  const onDragEnd = (result: any): void => {
-    const { source, destination } = result;
-
-    onReorder(source, destination);
->>>>>>> master
   };
 
   return (
@@ -131,13 +114,8 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
               filter={filter}
               isHidden={isSelected[address]}
               key={address}
-<<<<<<< HEAD
               onChange={onSelect(address)}
               value={false}
-=======
-              noToggle
-              onChange={onSelect(address)}
->>>>>>> master
             />
           ))}
         </div>
@@ -156,11 +134,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
         />
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='available'>
-<<<<<<< HEAD
             {(provided: DroppableProvided): React.ReactElement => (
-=======
-            {(provided: any): React.ReactNode => (
->>>>>>> master
               <div
                 className='ui--InputAddressMulti-items'
                 ref={provided.innerRef}
@@ -171,11 +145,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
                     draggableId={address}
                     index={index}
                   >
-<<<<<<< HEAD
                     {(provided: DraggableProvided, snapshot: DraggableStateSnapshot): React.ReactElement => {
-=======
-                    {(provided: any, snapshot: any): React.ReactNode => {
->>>>>>> master
                       const element = (
                         <div
                           ref={provided.innerRef}
@@ -185,14 +155,9 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
                           <AddressToggle
                             address={address}
                             className={snapshot.isDragging ? 'isDragging' : ''}
-<<<<<<< HEAD
                             filter={filter}
                             onChange={onDeselect(index)}
                             value={true}
-=======
-                            noToggle
-                            onChange={onDeselect(index)}
->>>>>>> master
                           />
                         </div>
                       );
@@ -235,7 +200,6 @@ export default styled(InputAddressMulti)`
     }
   }
 
-<<<<<<< HEAD
   & {
     background: white;
     border-top-width: 0px;
@@ -261,23 +225,6 @@ export default styled(InputAddressMulti)`
         flex: 1;
         overflow-y: auto;
       }
-=======
-  .ui--InputAddressMulti-column {
-    display: flex;
-    flex-direction: column;
-    min-height: 15rem;
-    max-height: 15rem;
-    width: 50%;
-    padding: 0.25rem 0.5rem;
-
-    .ui--InputAddressMulti-items {
-      background: white;
-      border: 1px solid rgba(34,36,38,0.15);
-      border-top-width: 0;
-      border-radius: 0 0 0.286rem 0.286rem;
-      flex: 1;
-      overflow-y: auto;
->>>>>>> master
     }
   }
 `;
