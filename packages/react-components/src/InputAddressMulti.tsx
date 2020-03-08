@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+/* eslint-disable @typescript-eslint/unbound-method */
 
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { DragDropContext, Droppable, Draggable /* DraggableProvided, DraggableStateSnapshot, DroppableProvided, DroppableStateSnapshot */ } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DraggableLocation, DraggableProvided, DraggableStateSnapshot, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { useDebounce } from '@polkadot/react-hooks';
 import { PORTAL_ID } from '../../apps/src/Apps';
@@ -53,7 +54,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
     [value, available]
   );
 
-  const onReorder = (source: any, destination: any): void => {
+  const onReorder = (source: DraggableLocation, destination: DraggableLocation): void => {
     const result = Array.from(value);
     const [removed] = result.splice(source.index, 1);
     result.splice(destination.index, 0, removed);
@@ -89,10 +90,10 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
     };
   };
 
-  const onDragEnd = (result: any): void => {
+  const onDragEnd = (result: DropResult): void => {
     const { source, destination } = result;
 
-    onReorder(source, destination);
+    !!destination && onReorder(source, destination);
   };
 
   return (
@@ -133,7 +134,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
         />
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='available'>
-            {(provided: any): React.ReactNode => (
+            {(provided: DroppableProvided): React.ReactElement => (
               <div
                 className='ui--InputAddressMulti-items'
                 ref={provided.innerRef}
@@ -144,7 +145,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
                     draggableId={address}
                     index={index}
                   >
-                    {(provided: any, snapshot: any): React.ReactNode => {
+                    {(provided: DraggableProvided, snapshot: DraggableStateSnapshot): React.ReactElement => {
                       const element = (
                         <div
                           ref={provided.innerRef}
