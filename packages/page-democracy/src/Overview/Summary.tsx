@@ -46,7 +46,8 @@ function Summary ({ t }: Props): React.ReactElement<Props> {
             label={t('launch period')}
             progress={{
               value: bestNumber.mod(api.consts.democracy.launchPeriod).addn(1),
-              total: api.consts.democracy.launchPeriod
+              total: api.consts.democracy.launchPeriod,
+              withTime: true
             }}
           />
         </section>

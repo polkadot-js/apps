@@ -909,5 +909,13 @@
   "Payout": "",
   "Payout era rewards {{period}}": "",
   "Authorize transaction": "",
-  "Sending transaction": ""
+  "Sending transaction": "",
+  "{{d}} days": "",
+  "1 day": "",
+  "{{h}} hrs": "",
+  "1 hr": "",
+  "{{m}} mins": "",
+  "1 min": "",
+  "{{s}} s": "",
+  "1 s": ""
 }
