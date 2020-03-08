@@ -30,8 +30,8 @@ export default function General ({ className, isModalContent, onClose }: Props):
   const iconOptions = useMemo((): Option[] => {
     return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
   }, [t]);
-  const prefixOptions = useMemo((): Option[] => {
-    return availableSs58.map((o): Option => createOption(t, o, ['default']));
+  const prefixOptions = useMemo((): (Option | React.ReactNode)[] => {
+    return availableSs58.map((o): Option | React.ReactNode => createOption(t, o, ['default']));
   }, [t]);
   const translateLanguages = useMemo((): Option[] => {
     return availableLanguages.map(({ text, value, withI18n }) => ({

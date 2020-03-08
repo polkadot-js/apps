@@ -6,10 +6,16 @@ import { Option } from '@polkadot/apps-config/settings/types';
 import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
-import { ChainImg, IdentityIcon } from '@polkadot/react-components';
+import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
-export function createOption (t: (input: any) => string, { info, text, value, withI18n }: Option, overrides: string[] = [], override = 'empty'): Option {
+export function createOption (t: (input: any) => string, { info, isHeader, text, value, withI18n }: Option, overrides: string[] = [], override = 'empty'): Option | React.ReactNode {
+  if (isHeader) {
+    return (
+      <Dropdown.Header content={withI18n ? t(text) : text} />
+    );
+  }
+
   return {
     text: (
       <div

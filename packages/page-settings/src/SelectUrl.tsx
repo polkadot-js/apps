@@ -64,7 +64,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
   const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
   const label = t('remote node/endpoint to connect to');
   const translatedEndpoints = useMemo(() => {
-    return availableEndpoints.map((option): Option => createOption(t, option, ['local']));
+    return availableEndpoints.map((option): Option | React.ReactNode => createOption(t, option, ['local']));
   }, [t]);
 
   useEffect((): void => {

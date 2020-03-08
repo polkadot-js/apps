@@ -13,7 +13,7 @@ import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
-import { isUndefined } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 import { classes, getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';
@@ -277,7 +277,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       const nextItem = matches[index + 1];
       const hasNext = nextItem && nextItem.value;
 
-      return item.value !== null || (!isLast && !!hasNext);
+      return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
     });
   }
 }
@@ -314,9 +314,9 @@ const ExportedComponent = withMulti(
   `,
   withObservable(keyringOption.optionsSubject, {
     propName: 'optionsAll',
-    transform: (optionsAll: KeyringOptions): Record<string, Option[]> =>
-      Object.entries(optionsAll).reduce((result: Record<string, Option[]>, [type, options]): Record<string, Option[]> => {
-        result[type] = options.map((option): Option =>
+    transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
+      Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {
+        result[type] = options.map((option): Option | React.ReactNode =>
           option.value === null
             ? createHeader(option)
             : createItem(option)
