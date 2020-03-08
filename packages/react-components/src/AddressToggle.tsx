@@ -22,9 +22,6 @@ interface Props {
   value?: boolean;
 }
 
-<<<<<<< HEAD
-function AddressToggle ({ address, className, filter, isHidden = false, onChange, value }: Props): React.ReactElement<Props> | null {
-=======
 function getIsFiltered (address: string, filter?: string, info?: DeriveAccountInfo): boolean {
   if (!filter || address.includes(filter)) {
     return false;
@@ -49,62 +46,25 @@ function getIsFiltered (address: string, filter?: string, info?: DeriveAccountIn
 }
 
 function AddressToggle ({ address, className, filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
->>>>>>> master
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect((): void => {
-<<<<<<< HEAD
-    let isFiltered = true;
-
-    if (!filter || address.includes(filter)) {
-      isFiltered = false;
-    } else if (info) {
-      const [,, extracted] = getAddressName(address);
-      const filterLower = filter.toLowerCase();
-
-      if (extracted.toLowerCase().includes(filterLower)) {
-        isFiltered = false;
-      } else if (info) {
-        const { accountId, accountIndex, identity, nickname } = info;
-
-        if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
-          isFiltered = false;
-        }
-      }
-    }
-
-    setIsFiltered(isFiltered);
-  }, [filter, info, value]);
-=======
     setIsFiltered(getIsFiltered(address, filter, info));
   }, [address, filter, info]);
->>>>>>> master
 
   const _onClick = (): void => onChange && onChange(!value);
 
   return (
     <div
-<<<<<<< HEAD
-      className={`ui--AddressToggle ${className} ${value ? 'isAye' : 'isNay'} ${isHidden || isFiltered ? 'isHidden' : ''}`}
-=======
       className={`ui--AddressToggle ${className} ${(value || noToggle) ? 'isAye' : 'isNay'} ${isHidden || isFiltered ? 'isHidden' : ''}`}
->>>>>>> master
       onClick={_onClick}
     >
       <AddressMini
         className='ui--AddressToggle-address'
         value={address}
       />
-<<<<<<< HEAD
-      <div className='ui--AddressToggle-toggle'>
-        <Toggle
-          label=''
-          value={value}
-        />
-      </div>
-=======
       {!noToggle && (
         <div className='ui--AddressToggle-toggle'>
           <Toggle
@@ -113,7 +73,6 @@ function AddressToggle ({ address, className, filter, isHidden, noToggle, onChan
           />
         </div>
       )}
->>>>>>> master
     </div>
   );
 }
