@@ -15,61 +15,64 @@ import Toggle from './Toggle';
 interface Props {
   address: string;
   className?: string;
+  isHidden?: boolean;
   filter?: string;
+  noToggle?: boolean;
   onChange?: (isChecked: boolean) => void;
-  value: boolean;
+  value?: boolean;
 }
 
-function AddressToggle ({ address, className, filter, onChange, value }: Props): React.ReactElement<Props> | null {
+function getIsFiltered (address: string, filter?: string, info?: DeriveAccountInfo): boolean {
+  if (!filter || address.includes(filter)) {
+    return false;
+  }
+
+  const [,, extracted] = getAddressName(address);
+  const filterLower = filter.toLowerCase();
+
+  if (extracted.toLowerCase().includes(filterLower)) {
+    return false;
+  }
+
+  if (info) {
+    const { accountId, accountIndex, identity, nickname } = info;
+
+    if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function AddressToggle ({ address, className, filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect((): void => {
-    let isFiltered = true;
-
-    if (!filter || address.includes(filter)) {
-      isFiltered = false;
-    } else if (info) {
-      const [,, extracted] = getAddressName(address);
-      const filterLower = filter.toLowerCase();
-
-      if (extracted.toLowerCase().includes(filterLower)) {
-        isFiltered = false;
-      } else if (info) {
-        const { accountId, accountIndex, identity, nickname } = info;
-
-        if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
-          isFiltered = false;
-        }
-      }
-    }
-
-    setIsFiltered(isFiltered);
-  }, [filter, info, value]);
-
-  if (isFiltered) {
-    return null;
-  }
+    setIsFiltered(getIsFiltered(address, filter, info));
+  }, [address, filter, info]);
 
   const _onClick = (): void => onChange && onChange(!value);
 
   return (
     <div
-      className={`ui--AddressToggle ${className} ${value ? 'isAye' : 'isNay'}`}
+      className={`ui--AddressToggle ${className} ${(value || noToggle) ? 'isAye' : 'isNay'} ${isHidden || isFiltered ? 'isHidden' : ''}`}
       onClick={_onClick}
     >
       <AddressMini
         className='ui--AddressToggle-address'
         value={address}
       />
-      <div className='ui--AddressToggle-toggle'>
-        <Toggle
-          label=''
-          onChange={onChange}
-          value={value}
-        />
-      </div>
+      {!noToggle && (
+        <div className='ui--AddressToggle-toggle'>
+          <Toggle
+            label=''
+            value={value}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -96,7 +99,17 @@ export default styled(AddressToggle)`
     border-color: #ccc;
   }
 
+  &.isHidden {
+    display: none;
+  }
+
+  &.isDragging {
+    background: white;
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+  }
+
   &.isAye {
+    cursor: move;
     .ui--AddressToggle-address {
       filter: none;
       opacity: 1;

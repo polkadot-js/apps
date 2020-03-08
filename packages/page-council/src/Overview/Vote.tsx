@@ -58,9 +58,9 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected isDisabled = (): boolean => {
-    const { accountId, votes } = this.state;
+    const { accountId, votes, voteValue } = this.state;
 
-    return !accountId || votes.length === 0;
+    return !accountId || votes.length === 0 || voteValue.lten(0);
   }
 
   protected renderTrigger = (): React.ReactNode => {
@@ -97,11 +97,12 @@ class Vote extends TxModal<Props, State> {
         />
         <InputAddressMulti
           available={available}
-          help={t('Filter available candidates based on name, address or short account index.')}
-          label={t('filter candidates')}
+          availableLabel={t('council candidates')}
+          help={t('Select and order council candidates you wish to vote for.')}
           maxCount={MAX_VOTES}
           onChange={this.onChangeVotes}
           value={votes}
+          valueLabel={t('my ordered votes')}
         />
       </>
     );

@@ -39,8 +39,6 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
     );
   }
 
-  console.log(parachain);
-
   if (!id || isNull(parachain)) {
     return (
       <>

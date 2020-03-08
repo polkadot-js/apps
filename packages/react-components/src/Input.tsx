@@ -18,6 +18,7 @@ interface Props extends BareProps {
   defaultValue?: any;
   help?: React.ReactNode;
   icon?: React.ReactNode;
+  inputClassName?: string;
   isAction?: boolean;
   isDisabled?: boolean;
   isDisabledError?: boolean;
@@ -89,7 +90,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, isEditable = false, isAction = false, isDisabled = false, isDisabledError = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isEditable = false, isAction = false, isDisabled = false, isDisabledError = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = (): void => {
@@ -133,9 +134,12 @@ export default function Input ({ autoFocus = false, children, className, default
         action={isAction}
         autoFocus={autoFocus}
         className={
-          isEditable
-            ? 'ui--Input edit icon'
-            : 'ui--Input'
+          [
+            isEditable
+              ? 'ui--Input edit icon'
+              : 'ui--Input',
+            inputClassName || ''
+          ].join(' ')
         }
         defaultValue={
           isUndefined(value)

@@ -51,11 +51,12 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
         />
         <InputAddressMulti
           available={availableHelpers}
+          availableLabel={t('available social recovery helpers')}
           help={t('The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS } })}
-          label={t('trusted social recovery helpers')}
           onChange={setHelpers}
           maxCount={MAX_HELPERS}
           value={helpers}
+          valueLabel={t('trusted social recovery helpers')}
         />
         <InputNumber
           help={t('The threshold of vouches that is to be reached for the account to be recovered.')}

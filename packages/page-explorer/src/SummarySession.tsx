@@ -40,7 +40,8 @@ export default function SummarySession ({ withEra = true, withSession = true }: 
                   label={sessionLabel}
                   progress={{
                     total: sessionInfo.sessionLength,
-                    value: sessionInfo.sessionProgress
+                    value: sessionInfo.sessionProgress,
+                    withTime: true
                   }}
                 />
               )
@@ -57,7 +58,8 @@ export default function SummarySession ({ withEra = true, withSession = true }: 
                   label={eraLabel}
                   progress={{
                     total: sessionInfo.eraLength,
-                    value: sessionInfo.eraProgress
+                    value: sessionInfo.eraProgress,
+                    withTime: true
                   }}
                 />
               )
