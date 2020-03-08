@@ -42,8 +42,10 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline?.receivedHeartbeats, []);
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const sessionRewards = useSessionRewards(MAX_SESSIONS);
-  const hasQueries = hasAccounts && !!(api.query.imOnline?.authoredBlocks);
   const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
+  const hasQueries = useMemo((): boolean => {
+    return hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra);
+  }, [api, hasAccounts]);
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -68,6 +70,13 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       text: t('Validator stats')
     }
   ], [t]);
+  const hiddenTabs = useMemo((): string[] => {
+    return hasAccounts
+      ? hasQueries
+        ? []
+        : ['query']
+      : ['actions', 'query'];
+  }, [hasAccounts, hasQueries]);
 
   useEffect((): void => {
     stakingOverview && setNext(
@@ -81,13 +90,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       <header>
         <Tabs
           basePath={basePath}
-          hidden={
-            hasAccounts
-              ? hasQueries
-                ? []
-                : ['query']
-              : ['actions', 'query']
-          }
+          hidden={hiddenTabs}
           items={items}
         />
       </header>
