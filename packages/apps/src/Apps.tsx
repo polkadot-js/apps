@@ -4,9 +4,10 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
+import { defaultColor, chainColors, emptyColor, nodeColors } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -22,6 +23,10 @@ interface SidebarState {
   isMenu: boolean;
   isMenuOpen: boolean;
   transition: SideBarTransition;
+}
+
+function sanitize (value?: string): string {
+  return value?.toLowerCase().replace('-', ' ') || '';
 }
 
 function WarmUp (): React.ReactElement {
@@ -42,6 +47,7 @@ function WarmUp (): React.ReactElement {
 }
 
 function Apps ({ className }: Props): React.ReactElement<Props> {
+  const { systemChain, systemName } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
     isMenuOpen: false,
@@ -49,6 +55,9 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     ...store.get('sidebar', {}),
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
+  const uiHighlight = useMemo((): string => {
+    return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)] || emptyColor;
+  }, [systemChain, systemName]);
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
   const _setSidebar = (update: Partial<SidebarState>): void =>
@@ -71,7 +80,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
         <div
           className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
@@ -113,17 +122,20 @@ export default styled(Apps)`
         background: #5f5f5f;
         border-radius: 0.28571429rem 0 0 0.28571429rem;
         color: #eee;
+        margin-right: 0.25rem;
       }
     }
 
     a.apps--SideBar-Item-NavLink-active {
       background: #fafafa;
       border-radius: 0.28571429rem 0 0 0.28571429rem;
+      // border-bottom: 2px solid transparent;
       color: #3f3f3f;
 
       &:hover {
         background: #fafafa;
         color: #3f3f3f;
+        margin-right: 0;
       }
     }
   }
@@ -188,7 +200,7 @@ export default styled(Apps)`
   }
 
   .apps--Menu-bg {
-    background: rgba(0,0,0,0.6);
+    background: transparent;
     height: 100%;
     left: 0;
     position: absolute;

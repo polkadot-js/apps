@@ -43,7 +43,6 @@ function Unlock ({ autoFocus, className, error, onChange, onEnter, password, tab
       <Password
         autoFocus={autoFocus}
         isError={!!error}
-        isFull
         label={t('unlock account with password')}
         labelExtra={error && <div className='errorLabel'>{t('wrong password supplied')}</div>}
         onChange={onChange}

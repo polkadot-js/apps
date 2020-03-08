@@ -45,7 +45,8 @@ export default function Summary ({ bestNumber, className, electionsInfo: { membe
             label={t('term progress')}
             progress={{
               total: termDuration,
-              value: bestNumber.mod(termDuration)
+              value: bestNumber.mod(termDuration),
+              withTime: true
             }}
           />
         </section>

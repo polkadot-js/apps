@@ -2,18 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
-import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DeriveStakerReward, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
-import React, { useEffect, useState } from 'react';
+import BN from 'bn.js';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
+// import ClaimRewards from './ClaimRewards';
 import InjectKeys from './InjectKeys';
 import Nominate from './Nominate';
 import SetControllerAccount from './SetControllerAccount';
@@ -26,6 +29,7 @@ import useInactives from './useInactives';
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]>;
 
 interface Props {
+  activeEra?: EraIndex;
   allStashes?: string[];
   className?: string;
   isOwnStash: boolean;
@@ -89,15 +93,19 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
 
 function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
+  const stakingRewardsAll = useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [stashId]);
+  const [[stakingRewards, payoutEras], setStakingRewards] = useState<[DeriveStakerReward[], EraIndex[]]>([[], []]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
+  // const [isPayoutOpen, togglePayout] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
@@ -129,6 +137,35 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
     }
   }, [inactiveNoms, nominees]);
 
+  useEffect((): void => {
+    if (stakingRewardsAll && stakingAccount?.stakingLedger?.lastReward) {
+      const lastClaim = stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1));
+      const stakingRewards = stakingRewardsAll.filter(({ era }): boolean => era.gt(lastClaim));
+
+      setStakingRewards([
+        stakingRewards,
+        stakingRewards.map(({ era }): EraIndex => era)
+      ]);
+    }
+  }, [stakingAccount, stakingRewardsAll]);
+
+  const _doPayout = (): void => {
+    queueExtrinsic({
+      accountId: controllerId,
+      extrinsic: stakingRewards.length === 1
+        ? stakingRewards[0].isValidator
+          ? api.tx.staking.payoutValidator(stakingRewards[0].era)
+          : api.tx.staking.payoutNominator(stakingRewards[0].era, stakingRewards[0].nominating)
+        : api.tx.utility.batch(
+          stakingRewards.map(({ era, isValidator, nominating }): SubmittableExtrinsic<'promise'> =>
+            isValidator
+              ? api.tx.staking.payoutValidator(era)
+              : api.tx.staking.payoutNominator(era, nominating)
+          )
+        )
+    });
+  };
+
   return (
     <tr className={className}>
       <td className='top'>
@@ -151,6 +188,13 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
           stashId={stashId}
           validatorPrefs={validatorPrefs}
         />
+        {/* {isPayoutOpen && controllerId && (
+          <ClaimRewards
+            controllerId={controllerId}
+            onClose={togglePayout}
+            stakingRewards={stakingRewards}
+          />
+        )} */}
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
         )}
@@ -179,13 +223,10 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
             onClose={toggleRewardDestination}
           />
         )}
-        {controllerId && (
+        {isSetSessionOpen && controllerId && (
           <SetSessionKey
             controllerId={controllerId}
-            isOpen={isSetSessionOpen}
             onClose={toggleSetSession}
-            sessionIds={sessionIds}
-            stashId={stashId}
           />
         )}
         <AddressSmall value={stashId} />
@@ -326,20 +367,35 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                   text
                   onClick={toggleSettings}
                 >
-                  {balancesAll?.freeBalance.gtn(0) && (
+                  {api.query.staking.activeEra && (
                     <Menu.Item
-                      disabled={!isOwnStash}
-                      onClick={toggleBondExtra}
+                      disabled={payoutEras.length === 0}
+                      onClick={_doPayout}
                     >
-                      {t('Bond more funds')}
+                      {t('Payout era rewards {{period}}', {
+                        replace: {
+                          period: payoutEras.length
+                            ? payoutEras.length === 1
+                              ? `(${payoutEras[0].toHuman()})`
+                              : `(${payoutEras[0].toHuman()}-${payoutEras[payoutEras.length - 1].toHuman()})`
+                            : ''
+                        }
+                      })}
                     </Menu.Item>
                   )}
+                  <Menu.Item
+                    disabled={!isOwnStash && !balancesAll?.freeBalance.gtn(0)}
+                    onClick={toggleBondExtra}
+                  >
+                    {t('Bond more funds')}
+                  </Menu.Item>
                   <Menu.Item
                     disabled={!isOwnController}
                     onClick={toggleUnbond}
                   >
                     {t('Unbond funds')}
                   </Menu.Item>
+                  <Menu.Divider />
                   <Menu.Item
                     disabled={!isOwnStash}
                     onClick={toggleSetController}
@@ -360,6 +416,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       {t('Change validator preferences')}
                     </Menu.Item>
                   }
+                  <Menu.Divider />
                   {!isStashNominating &&
                     <Menu.Item
                       disabled={!isOwnController}

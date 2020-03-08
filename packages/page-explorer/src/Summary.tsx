@@ -4,12 +4,15 @@
 
 import { I18nProps as Props } from '@polkadot/react-components/types';
 
+import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { BestFinalized, BestNumber, TimeNow, TimePeriod, TotalIssuance } from '@polkadot/react-query';
+import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance } from '@polkadot/react-query';
 
 import SummarySession from './SummarySession';
 import translate from './translate';
+
+const ONE_BLOCK = new BN(1);
 
 function Summary ({ t }: Props): React.ReactElement<Props> {
   return (
@@ -22,7 +25,7 @@ function Summary ({ t }: Props): React.ReactElement<Props> {
           className='ui--media-small'
           label={t('target')}
         >
-          <TimePeriod />
+          <BlockToTime blocks={ONE_BLOCK} />
         </CardSummary>
         <CardSummary
           className='ui--media-small'

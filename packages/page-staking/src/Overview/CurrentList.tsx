@@ -4,11 +4,10 @@
 
 import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
-import { ValidatorFilter } from '../types';
 import { AddressDetails } from './types';
 
-import React, { useEffect, useMemo, useReducer, useState } from 'react';
-import { Dropdown, FilterOverlay, Input, Table } from '@polkadot/react-components';
+import React, { useEffect, useReducer, useState } from 'react';
+import { Input, Table } from '@polkadot/react-components';
 import { useAccounts, useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
@@ -69,19 +68,9 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [filter, setFilter] = useState<ValidatorFilter>('all');
   const [{ allElected, elected, validators, waiting }, setFiltered] = useState<{ allElected: string[]; elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ allElected: [], elected: [], validators: [], waiting: [] });
   const [nameFilter, setNameFilter] = useState<string>('');
   const [addressDetails, dispatchDetails] = useReducer(reduceDetails, {});
-  const filterOpts = useMemo(() => [
-    { text: t('Show all validators and intentions'), value: 'all' },
-    { text: t('Show only my nominations'), value: 'iNominated' },
-    { text: t('Show only with nominators'), value: 'hasNominators' },
-    { text: t('Show only without nominators'), value: 'noNominators' },
-    { text: t('Show only with warnings'), value: 'hasWarnings' },
-    { text: t('Show only without warnings'), value: 'noWarnings' },
-    { text: t('Show only elected for next session'), value: 'nextSet' }
-  ], [t]);
 
   useEffect((): void => {
     if (isVisible && stakingOverview) {
@@ -123,7 +112,6 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
       <Address
         address={address}
         defaultName={defaultName}
-        filter={filter}
         filterName={nameFilter}
         hasQueries={hasQueries}
         heartbeat={
@@ -149,14 +137,6 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
 
   return (
     <div className={`${!isVisible && 'staking--hidden'}`}>
-      <FilterOverlay>
-        <Dropdown
-          onChange={setFilter}
-          options={filterOpts}
-          value={filter}
-          withLabel={false}
-        />
-      </FilterOverlay>
       <Input
         autoFocus
         isFull
