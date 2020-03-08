@@ -61,5 +61,8 @@
   "no unapplied slashes found": "no unapplied slashes found",
   "Cancel": "Cancel",
   "Revert": "Revert",
-  "Vote on proposal": "Vote on proposal"
+  "Vote on proposal": "Vote on proposal",
+  "council candidates": "council candidates",
+  "Select and order council candidates you wish to vote for.": "Select and order council candidates you wish to vote for.",
+  "my ordered votes": "my ordered votes"
 }

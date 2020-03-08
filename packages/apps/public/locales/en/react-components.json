@@ -95,5 +95,7 @@
   " ({{count}} waiting)": " ({{count}} waiting)",
   "all available": "all available",
   "Uncaught error. Something went wrong with the query and rendering of this component.": "Uncaught error. Something went wrong with the query and rendering of this component.",
-  "View this externally": "View this externally"
+  "View this externally": "View this externally",
+  "filter by name, address, or account index": "filter by name, address, or account index",
+  "drag and drop to reorder": "drag and drop to reorder"
 }

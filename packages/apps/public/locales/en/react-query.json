@@ -4,5 +4,13 @@
   "email": "email",
   "www": "www",
   "riot": "riot",
-  "all available": "all available"
+  "all available": "all available",
+  "{{d}} days": "{{d}} days",
+  "1 day": "1 day",
+  "{{h}} hrs": "{{h}} hrs",
+  "1 hr": "1 hr",
+  "{{m}} mins": "{{m}} mins",
+  "1 min": "1 min",
+  "{{s}} s": "{{s}} s",
+  "1 s": "1 s"
 }
