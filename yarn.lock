@@ -3239,6 +3239,7 @@ __metadata:
     i18next-browser-languagedetector: ^4.0.2
     i18next-xhr-backend: ^3.2.2
     react: ^16.13.0
+    react-beautiful-dnd: ^13.0.0
     react-chartjs-2: ^2.9.0
     react-copy-to-clipboard: ^5.0.2
     react-dom: ^16.13.0
@@ -3785,6 +3786,15 @@ __metadata:
   version: 1.5.2
   resolution: "@types/q@npm:1.5.2"
   checksum: 2/e3d8fcf9aaf9e0c597b9279a7ffe8f0b96f71a7e921bf986ee735e7f698e88f629414d759ab401a71dc38cee7f88ef2d15e4811fec14c37aab3f9f7abe3b1371
+  languageName: node
+  linkType: hard
+
+"@types/react-beautiful-dnd@npm:^12.1.1":
+  version: 12.1.1
+  resolution: "@types/react-beautiful-dnd@npm:12.1.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: 2/976a6b6642f5ff19a9f427b014974be36f4c2a4d67d8e92d17b803245401e08c603180a91f17f736f8019a3560139029290f5757cbae9ff1509767e5cb9ce11b
   languageName: node
   linkType: hard
 
@@ -7243,6 +7253,15 @@ __metadata:
   version: 2.0.0
   resolution: "crypto-random-string@npm:2.0.0"
   checksum: 2/7bc19f6cafe3194a434198c9414941cc36d874e1f85b6fcba573b5623f77a440c0a10a94c0d0da26d7d23d85b6fe07354e589ef1a0fe2d7b32e0bab9e70ca4c1
+  languageName: node
+  linkType: hard
+
+"css-box-model@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "css-box-model@npm:1.2.0"
+  dependencies:
+    tiny-invariant: ^1.0.6
+  checksum: 2/5ad584c36128969604a150e5447de64979d48f7dd1c8e113c069895c859f20746103786509d282ca74126252e7ba54baa04f1b2484c8d8641591c13bf3f977e9
   languageName: node
   linkType: hard
 
@@ -14075,6 +14094,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"memoize-one@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "memoize-one@npm:5.1.1"
+  checksum: 2/e7c4a9cceca71334bf09c38818c375a280dc6e8ec03a92701c16199763269ce756b7b0b370f4b464c071045349fb7b3e4a3cc7460a3f46a277f394d8634a6eb5
+  languageName: node
+  linkType: hard
+
 "memoizee@npm:^0.4.14":
   version: 0.4.14
   resolution: "memoizee@npm:0.4.14"
@@ -17099,6 +17125,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"raf-schd@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "raf-schd@npm:4.0.2"
+  checksum: 2/28ad12b28814dc1b145a518e5ec6011e12aaf4b490cc7548ee0f8f2e26a7ac2168b62281588320a61743f7c4f70966c2db947aae60021f17546cb721a8d45821
+  languageName: node
+  linkType: hard
+
 "ramda@npm:^0.26":
   version: 0.26.1
   resolution: "ramda@npm:0.26.1"
@@ -17169,6 +17202,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-beautiful-dnd@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "react-beautiful-dnd@npm:13.0.0"
+  dependencies:
+    "@babel/runtime": ^7.8.4
+    css-box-model: ^1.2.0
+    memoize-one: ^5.1.1
+    raf-schd: ^4.0.2
+    react-redux: ^7.1.1
+    redux: ^4.0.4
+    use-memo-one: ^1.1.1
+  peerDependencies:
+    react: ^16.8.5
+    react-dom: ^16.8.5
+  checksum: 2/0ce5027375308139c04f6fd1c429591fdd17b175903a63bf238d2e0b2c3db1260272870b24ee50262fc7718db914416274740e50f19eaf0e8bbd03a9cf0cd556
+  languageName: node
+  linkType: hard
+
 "react-chartjs-2@npm:^2.9.0":
   version: 2.9.0
   resolution: "react-chartjs-2@npm:2.9.0"
@@ -17235,7 +17286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.12.0, react-is@npm:^16.13.0, react-is@npm:^16.6.0, react-is@npm:^16.6.3, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.6":
+"react-is@npm:^16.12.0, react-is@npm:^16.13.0, react-is@npm:^16.6.0, react-is@npm:^16.6.3, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.6, react-is@npm:^16.9.0":
   version: 16.13.0
   resolution: "react-is@npm:16.13.0"
   checksum: 2/122f38efe00aca3f8c391a90513cb5e2ef2710db164730c9c6125f2f089b5cd413f22669e06606c5d84df08086c9a6b50fae90efa532baa82bc3a7c5c3b8b5da
@@ -17288,6 +17339,29 @@ __metadata:
     react: ~16
     react-dom: ~16
   checksum: 2/c16fc3e2ebd42738f3d5630562235142019fe79d9ba7c82df600a8982d89d0405b3609770a3d802efc6786baca410e6d715b1e13d9bc392ce35b61c7d0268b9c
+  languageName: node
+  linkType: hard
+
+"react-redux@npm:^7.1.1":
+  version: 7.2.0
+  resolution: "react-redux@npm:7.2.0"
+  dependencies:
+    "@babel/runtime": ^7.5.5
+    hoist-non-react-statics: ^3.3.0
+    loose-envify: ^1.4.0
+    prop-types: ^15.7.2
+    react-is: ^16.9.0
+  peerDependencies:
+    react: ^16.8.3
+    react-dom: "*"
+    react-native: "*"
+    redux: ^2.0.0 || ^3.0.0 || ^4.0.0-0
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 2/e4beaa6064a5354f65bdeaf22c90fb8bf3df1ec0bcecf7c568321c6eba0cdf4b432236a828cb53801c5815a83d5090f38738f67ed14fb8cfddd21abe5fba317c
   languageName: node
   linkType: hard
 
@@ -17588,6 +17662,16 @@ __metadata:
   dependencies:
     object-keys: ^1.1.0
   checksum: 2/782c3f1e81d1dce1f5223f205cddfd9d64c0ac9cfc7500ddff368c7f9750b61f24f80f40d0201dccac02c57019d32fe55cd15c3446206892f82a816d2f03537d
+  languageName: node
+  linkType: hard
+
+"redux@npm:^4.0.4":
+  version: 4.0.5
+  resolution: "redux@npm:4.0.5"
+  dependencies:
+    loose-envify: ^1.4.0
+    symbol-observable: ^1.2.0
+  checksum: 2/112739c2fb83ae2e18335d942a883b3ee14ebada31ff3a7924511a1f38a4278a762f5823491f3eb5083492de601ed76cb2687295c7d5db9a6e098c2542cdc05b
   languageName: node
   linkType: hard
 
@@ -18165,6 +18249,7 @@ __metadata:
     "@types/chart.js": ^2.9.15
     "@types/file-saver": ^2.0.1
     "@types/i18next": ^13.0.0
+    "@types/react-beautiful-dnd": ^12.1.1
     "@types/react-copy-to-clipboard": ^4.3.0
     "@types/react-dom": ^16.9.5
     "@types/react-router-dom": ^5.1.3
@@ -19672,6 +19757,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"symbol-observable@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "symbol-observable@npm:1.2.0"
+  checksum: 2/268834a1d4cba19d40f367e5c2755f612969c8418e43a3be17408e392802a667f8bb542893440d58a080a8ea8da05ea98e27e472b9f4ff6fbda78a21a1a41c53
+  languageName: node
+  linkType: hard
+
 "symbol-tree@npm:^3.2.2":
   version: 3.2.4
   resolution: "symbol-tree@npm:3.2.4"
@@ -19963,7 +20055,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-invariant@npm:^1.0.2":
+"tiny-invariant@npm:^1.0.2, tiny-invariant@npm:^1.0.6":
   version: 1.1.0
   resolution: "tiny-invariant@npm:1.1.0"
   checksum: 2/64318fbd77c451cfff23b57b9f3aef56594d9cea051a87dc538c9b371f97e8d474eaa2a7cbd60b8aa23f852393152495e8651b197607465fdf9c8ff134043b1b
@@ -20812,6 +20904,15 @@ __metadata:
     node-gyp: latest
     prebuild-install: ^5.3.3
   checksum: 2/66427f0e5ebe3a53264e39896a3e5306f4966dbac1d1494da976e66baa7bfd802f4271e60654153c4936fc909787aba1a340ab766ce3ca96da56b7879e86a68f
+  languageName: node
+  linkType: hard
+
+"use-memo-one@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "use-memo-one@npm:1.1.1"
+  peerDependencies:
+    react: ^16.8.0
+  checksum: 2/691a41156a966ec83246b0c684f9ce84dcf9fe1d6441d136d3a2cf681d84f5be510265e1e3a5951b1f2f45a760a3492e3c389392c1e66240d5430150148383df
   languageName: node
   linkType: hard
 
@@ -21811,8 +21912,8 @@ __metadata:
   linkType: hard
 
 "ws@npm:^7.0.0, ws@npm:^7.1.0":
-  version: 7.2.1
-  resolution: "ws@npm:7.2.1"
+  version: 7.2.2
+  resolution: "ws@npm:7.2.2"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ^5.0.2
@@ -21821,7 +21922,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 2/097beba4b2722f097b8bcf92b1da6e81838c389b5e7f0246eb622a1949083fc6868aed0f51bc4c520d2d37f983e45134f903ee98b0881b0d7d51e25a1446753d
+  checksum: 2/fe66f98e07cdb832d6161edd147e6bdec13cf7e811cd34b11d85fdc7b7c17eaf9498c1656dc4786c9d2207dc1cd86aef0060706af8c756ef86e9b5e9421ef566
   languageName: node
   linkType: hard
 

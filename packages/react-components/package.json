@@ -23,6 +23,7 @@
     "i18next-browser-languagedetector": "^4.0.2",
     "i18next-xhr-backend": "^3.2.2",
     "react": "^16.13.0",
+    "react-beautiful-dnd": "^13.0.0",
     "react-chartjs-2": "^2.9.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.0",

@@ -25,6 +25,8 @@ interface SidebarState {
   transition: SideBarTransition;
 }
 
+export const PORTAL_ID = 'portals';
+
 function sanitize (value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || '';
 }
@@ -98,6 +100,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         </Signer>
         <ConnectingOverlay />
         <AccountsOverlay />
+        <div id={PORTAL_ID} />
       </div>
       <WarmUp />
     </>
