@@ -29,7 +29,7 @@ interface Serialized {
   treasury: string;
 }
 
-const MAX_BLOCKS = 2500;
+const MAX_BLOCKS = 250;
 
 function fromJSON (sessions: Serialized[]): SessionRewards[] {
   let keepAll = false;
