@@ -3,12 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringSectionOption } from '@polkadot/ui-keyring/options/types';
-import { Option } from './types';
 
-export default function createHeader (option: KeyringSectionOption): Option {
-  return {
-    ...option,
-    className: 'header disabled',
-    text: option.name
-  };
+import React from 'react';
+
+import Dropdown from '../Dropdown';
+
+export default function createHeader (option: KeyringSectionOption): React.ReactNode {
+  return (
+    <Dropdown.Header content={option.name} />
+  );
 }
