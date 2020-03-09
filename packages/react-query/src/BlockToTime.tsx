@@ -70,8 +70,8 @@ export default function BlockToTime ({ blocks, children, className, label, style
       time[2] ? (time[2] > 1) ? t('{{m}} mins', { replace: { m: time[2] } }) : t('1 min') : null,
       time[3] ? (time[3] > 1) ? t('{{s}} s', { replace: { s: time[3] } }) : t('1 s') : null
     ].filter((value): value is string => !!value)
-      .join(', ');
-  }, [api, t]);
+      .join(' ');
+  }, [api, blocks, t]);
 
   return (
     <div
