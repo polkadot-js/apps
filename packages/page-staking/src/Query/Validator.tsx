@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakerReward } from '@polkadot/api-derive/types';
-import { SessionRewards } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -15,7 +14,6 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  sessionRewards: SessionRewards[];
   validatorId: string;
 }
 

@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SessionRewards } from '../types';
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, InputAddressSimple } from '@polkadot/react-components';
@@ -13,10 +11,9 @@ import Validator from './Validator';
 
 interface Props {
   className?: string;
-  sessionRewards: SessionRewards[];
 }
 
-export default function Query ({ className, sessionRewards }: Props): React.ReactElement<Props> {
+export default function Query ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { value } = useParams();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
@@ -44,10 +41,7 @@ export default function Query ({ className, sessionRewards }: Props): React.Reac
         />
       </InputAddressSimple>
       {value && (
-        <Validator
-          sessionRewards={sessionRewards}
-          validatorId={value}
-        />
+        <Validator validatorId={value} />
       )}
     </div>
   );

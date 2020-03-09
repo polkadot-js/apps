@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingElected } from '@polkadot/api-derive/types';
-import { ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import { SessionRewards } from '../types';
+import { DerivedStakingElected, DeriveSessionIndexes } from '@polkadot/api-derive/types';
+import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
@@ -12,8 +11,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { Icon, InputBalance, Table } from '@polkadot/react-components';
-import { useAccounts, useApi, useDebounce, useFavorites, useCall } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
+import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
+import { createType, Option } from '@polkadot/types';
 
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
@@ -24,7 +23,6 @@ const PERBILL = new BN(1000000000);
 
 interface Props {
   className?: string;
-  sessionRewards: SessionRewards[];
 }
 
 interface AllInfo {
@@ -156,14 +154,23 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   return { nominators, totalStaked, validators };
 }
 
-function Targets ({ className, sessionRewards }: Props): React.ReactElement<Props> {
+function Targets ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const lastEra = useCall<BN>(api.derive.session.indexes as any, [], {
+    defaultValue: new BN(0),
+    transform: ({ activeEra }: DeriveSessionIndexes) =>
+      activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
+  }) || new BN(0);
+  const lastReward = useCall<BN>(api.query.staking.erasValidatorReward, [lastEra], {
+    defaultValue: new BN(1),
+    transform: (optBalance: Option<Balance>) =>
+      optBalance.unwrapOrDefault()
+  }) || new BN(1);
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1000));
   const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [lastReward, setLastReward] = useState(new BN(0));
   const [{ nominators, validators, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], totalStaked: new BN(0), validators: [] });
   const [{ sorted, sortBy, sortFromMax }, setSorted] = useState<{ sorted: ValidatorInfo[]; sortBy: SortBy; sortFromMax: boolean }>({ sorted: [], sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
@@ -189,18 +196,6 @@ function Targets ({ className, sessionRewards }: Props): React.ReactElement<Prop
         )
     });
   };
-
-  useEffect((): void => {
-    if (sessionRewards && sessionRewards.length) {
-      const lastRewardSession = sessionRewards.filter(({ reward }): boolean => reward.gtn(0));
-
-      setLastReward(
-        lastRewardSession.length
-          ? lastRewardSession[lastRewardSession.length - 1].reward
-          : new BN(0)
-      );
-    }
-  }, [sessionRewards]);
 
   useEffect((): void => {
     if (electedInfo) {

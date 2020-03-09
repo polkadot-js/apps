@@ -20,9 +20,7 @@ import Overview from './Overview';
 import Summary from './Overview/Summary';
 import Query from './Query';
 import Targets from './Targets';
-import { MAX_SESSIONS } from './constants';
 import { useTranslation } from './translate';
-import useSessionRewards from './useSessionRewards';
 
 function reduceNominators (nominators: string[], additional: string[]): string[] {
   return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
@@ -41,7 +39,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   }) as string[];
   const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline?.receivedHeartbeats, []);
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
-  const sessionRewards = useSessionRewards(MAX_SESSIONS);
   const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
   const hasQueries = useMemo((): boolean => {
     return hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra);
@@ -74,7 +71,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     return hasAccounts
       ? hasQueries
         ? []
-        : ['query']
+        : ['returns', 'query']
       : ['actions', 'query'];
   }, [hasAccounts, hasQueries]);
 
@@ -102,10 +99,10 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       />
       <Switch>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
-          <Query sessionRewards={sessionRewards} />
+          <Query />
         </Route>
         <Route path={`${basePath}/returns`}>
-          <Targets sessionRewards={sessionRewards} />
+          <Targets />
         </Route>
       </Switch>
       <Actions
