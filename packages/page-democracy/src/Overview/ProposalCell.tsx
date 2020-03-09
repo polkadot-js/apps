@@ -31,7 +31,7 @@ export default function ProposalCell ({ className, proposal, proposalHash }: Pro
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   return (
-    <td className={`${className} all`}>
+    <td className={`${className} all top`}>
       <div>{section}.{method}</div>
       <details>
         <summary>{meta?.documentation.join(' ') || t('Details')}</summary>
