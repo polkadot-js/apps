@@ -77,6 +77,12 @@ export default styled(Spinner)`
     }
   }
 
+  &.mini {
+    .loader {
+      width: 22px;
+    }
+  }
+
   &.push {
     .loader {
       width: 40px;
