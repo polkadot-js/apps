@@ -114,8 +114,8 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
               filter={filter}
               isHidden={isSelected[address]}
               key={address}
+              noToggle
               onChange={onSelect(address)}
-              value={false}
             />
           ))}
         </div>
@@ -155,9 +155,8 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
                           <AddressToggle
                             address={address}
                             className={snapshot.isDragging ? 'isDragging' : ''}
-                            filter={filter}
+                            noToggle
                             onChange={onDeselect(index)}
-                            value={true}
                           />
                         </div>
                       );
@@ -200,31 +199,20 @@ export default styled(InputAddressMulti)`
     }
   }
 
-  & {
-    background: white;
-    border-top-width: 0px;
-    margin-left: 2rem;
-    width: calc(100% - 2rem);
-    display: inline-flex;
-    justify-content: space-between;
+  .ui--InputAddressMulti-column {
+    display: flex;
+    flex-direction: column;
+    min-height: 15rem;
+    max-height: 15rem;
+    width: 50%;
+    padding: 0.25rem 0.5rem;
 
-    .ui--AddressToggle {}
-
-    .ui--InputAddressMulti-column {
-      display: flex;
-      flex-direction: column;
-      min-height: 15rem;
-      max-height: 15rem;
-      width: 50%;
-      padding: 0.25rem 0.5rem;
-
-      .ui--InputAddressMulti-items {
-        border: 1px solid rgba(34,36,38,0.15);
-        border-top-width: 0;
-        border-radius: 0 0 0.286rem 0.286rem;
-        flex: 1;
-        overflow-y: auto;
-      }
+    .ui--InputAddressMulti-items {
+      border: 1px solid rgba(34,36,38,0.15);
+      border-top-width: 0;
+      border-radius: 0 0 0.286rem 0.286rem;
+      flex: 1;
+      overflow-y: auto;
     }
   }
 `;
