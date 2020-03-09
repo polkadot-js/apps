@@ -12,7 +12,10 @@ import uiSettings from '@polkadot/ui-settings';
 export function createOption (t: (input: any) => string, { info, isHeader, text, value, withI18n }: Option, overrides: string[] = [], override = 'empty'): Option | React.ReactNode {
   if (isHeader) {
     return (
-      <Dropdown.Header content={withI18n ? t(text) : text} />
+      <Dropdown.Header
+        key={text as string}
+        content={withI18n ? t(text) : text}
+      />
     );
   }
 
