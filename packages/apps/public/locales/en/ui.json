@@ -926,5 +926,6 @@
   "nominated accounts": "",
   "filter by name, address, or account index": "",
   "drag and drop to reorder": "",
-  "payouts for {{count}} eras pending": ""
+  "payouts for {{count}} eras pending": "",
+  "{{currency}} rewards": ""
 }
