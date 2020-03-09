@@ -8,8 +8,9 @@ import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable, DraggableLocation, DraggableProvided, DraggableStateSnapshot, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { useDebounce } from '@polkadot/react-hooks';
-import { PORTAL_ID } from '../../apps/src/Apps';
 
+// FIXME :()
+import { PORTAL_ID } from '../../apps/src/Apps';
 import { useTranslation } from './translate';
 import AddressToggle from './AddressToggle';
 import Input from './Input';
