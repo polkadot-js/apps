@@ -30,7 +30,7 @@ function formatMeta (meta?: FunctionMetadataLatest): React.ReactNode | null {
   }
 
   const strings = meta.documentation.map((doc): string => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc): boolean => doc.length === 0);
+  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
 
   if (!firstEmpty) {
     return null;
