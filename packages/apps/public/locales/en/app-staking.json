@@ -165,5 +165,6 @@
   "Payout": "Payout",
   "Payout era rewards {{period}}": "Payout era rewards {{period}}",
   "candidate accounts": "candidate accounts",
-  "nominated accounts": "nominated accounts"
+  "nominated accounts": "nominated accounts",
+  "payouts for {{count}} eras pending": "payouts for {{count}} eras pending"
 }
