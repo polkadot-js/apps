@@ -14996,11 +14996,11 @@ __metadata:
   linkType: hard
 
 "node-releases@npm:^1.1.50":
-  version: 1.1.50
-  resolution: "node-releases@npm:1.1.50"
+  version: 1.1.51
+  resolution: "node-releases@npm:1.1.51"
   dependencies:
     semver: ^6.3.0
-  checksum: 2/c869ec131953a0fcc29c0d1fa180820c66a4d515e6b2d7a1ee4ad53839d7af3ce0516f0fdf43029f73f8d90f3551846056af5119b7bca89c24154eae57878925
+  checksum: 2/9977f8b19e4a98a186d051c36b19994e75101b5b63f0308fcf5fbad92dc87bd4a6429553d7bbd7a1d7bc7c8675f01a275771e4bbe2c8ba8adc8508fcb25055ca
   languageName: node
   linkType: hard
 
@@ -22046,13 +22046,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^17.1.0":
-  version: 17.1.0
-  resolution: "yargs-parser@npm:17.1.0"
+"yargs-parser@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "yargs-parser@npm:18.1.0"
   dependencies:
     camelcase: ^5.0.0
     decamelize: ^1.2.0
-  checksum: 2/8e5cc4b16b9558b2cba63b45e574dd72680f44c064623bacfc1fa9805d4f7b9a2008cd261de6b8d78f6cedb1597e5d81728828714e3b5ec897eb1854e31eb0b8
+  checksum: 2/7997373a42b8512628787b52371b1e1f635c20f7b6273c217d8b4a1befa9778573279c702612ebcf4c05fae3846bf11d440f05fef7f09ebd5e45e0539a31544a
   languageName: node
   linkType: hard
 
@@ -22115,8 +22115,8 @@ __metadata:
   linkType: hard
 
 "yargs@npm:^15.0.0, yargs@npm:^15.1.0, yargs@npm:^15.2.0":
-  version: 15.2.0
-  resolution: "yargs@npm:15.2.0"
+  version: 15.3.0
+  resolution: "yargs@npm:15.3.0"
   dependencies:
     cliui: ^6.0.0
     decamelize: ^1.2.0
@@ -22128,8 +22128,8 @@ __metadata:
     string-width: ^4.2.0
     which-module: ^2.0.0
     y18n: ^4.0.0
-    yargs-parser: ^17.1.0
-  checksum: 2/809333561040bc4e7b752289098b652a0deb101c3903000d5cf198d6699c350bd4934baba440e707a784dcfaf0e72342c5bf28440e72626fe033b6b9efb03778
+    yargs-parser: ^18.1.0
+  checksum: 2/4fdf0dfa72c6e1db152e435040c53ab7acbb9e9b24b6c977f019eea0dce14075a9db949bb4b565e30c9a0acae9ac4b16f549ccea9bee594bb32ae1fc25f49996
   languageName: node
   linkType: hard
 
