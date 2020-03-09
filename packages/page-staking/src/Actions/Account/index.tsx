@@ -10,7 +10,7 @@ import { Codec, ITuple } from '@polkadot/types/types';
 import BN from 'bn.js';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -168,6 +168,17 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
 
   return (
     <tr className={className}>
+      <td>
+        {payoutEras.length !== 0 && (
+          <Badge
+            hover={t('payouts for {{count}} eras pending', { replace: { count: payoutEras.length } })}
+            info={payoutEras.length}
+            isInline
+            isTooltip
+            type='counter'
+          />
+        )}
+      </td>
       <td className='top'>
         <BondExtra
           controllerId={controllerId}
