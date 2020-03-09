@@ -18,7 +18,7 @@ if (Array.isArray(urlOptions.rpc)) {
   throw new Error('Invalid WS endpoint specified');
 }
 
-const fallbackUrl = availableEndpoints.find(({ value }) => !!value) || { value: 'http://127.0.0.1:9944' };
+const fallbackUrl = availableEndpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' };
 const apiUrl = urlOptions.rpc // we have a supplied value
   ? urlOptions.rpc.split('#')[0] // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
   : [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl) // overridden, or stored
