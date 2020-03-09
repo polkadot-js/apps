@@ -208,6 +208,7 @@ export default styled(InputAddressMulti)`
     padding: 0.25rem 0.5rem;
 
     .ui--InputAddressMulti-items {
+      background: white;
       border: 1px solid rgba(34,36,38,0.15);
       border-top-width: 0;
       border-radius: 0 0 0.286rem 0.286rem;
