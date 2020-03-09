@@ -21,69 +21,80 @@ type LineDataEntry = (BN | number)[];
 
 type LineData = LineDataEntry[];
 
-interface BlockChart {
-  blockChart: LineData;
-  blockLabels: string[];
+interface ChartInfo {
+  chart: LineData;
+  labels: string[];
 }
 
-interface StakeChart {
-  stakeChart: LineData;
-  stakeLabels: string[];
-}
+// interface SplitEntry {
+//   colors: string[];
+//   label: string;
+//   tooltip: string;
+//   value: number;
+// }
+
+// type SplitData = SplitEntry[];
 
 // const COLORS_MINE = ['#ff8c00'];
 // const COLORS_OTHER = ['#acacac'];
-// const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
+
+const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 const COLORS_BLOCKS = [undefined, '#acacac'];
 
 function balanceToNumber (amount: BN, divisor: BN): number {
   return amount.muln(1000).div(divisor).toNumber() / 1000;
 }
 
-function extractBlocks (validatorId: string, rewards: DeriveStakerReward[] = []): BlockChart {
-  const blockLabels: string[] = [];
-  const avgSet: number[] = [];
-  const idxSet: number[] = [];
-  let total = 0;
+function extractCharts (validatorId: string, divisor: BN, rewards: DeriveStakerReward[] = []): [ChartInfo, ChartInfo, ChartInfo] {
+  const labels: string[] = [];
+  const blockAvgSet: LineDataEntry = [];
+  const blockIdxSet: LineDataEntry = [];
+  const slashSet: LineDataEntry = [];
+  const rewardSet: LineDataEntry = [];
+  const rewardAvgSet: LineDataEntry = [];
+  const stakeSet: LineDataEntry = [];
+  let blockTotal = 0;
+  let rewardTotal = 0;
 
-  rewards.forEach(({ era, validators }, index): void => {
-    const points = validators[validatorId]?.points.toNumber() || 0;
+  rewards.forEach(({ era, eraPoints, eraReward, validators }, index): void => {
+    const points = validators[validatorId]?.points || new BN(0);
+    const myReward = eraPoints.gtn(0)
+      ? balanceToNumber(
+        points
+          .mul(eraReward)
+          .div(eraPoints),
+        divisor
+      )
+      : 0;
 
-    total += points;
+    blockTotal += points.toNumber();
+    rewardTotal += myReward;
 
-    blockLabels.push(era.toHuman());
-    avgSet.push(Math.ceil(total / (index + 1) * 100) / 100);
-    idxSet.push(points);
-  });
+    labels.push(era.toHuman());
 
-  return {
-    blockChart: [idxSet, avgSet],
-    blockLabels
-  };
-}
+    blockAvgSet.push(Math.ceil(blockTotal * 100 / (index + 1)) / 100);
+    blockIdxSet.push(points);
 
-function extractStake (validatorId: string, divisor: BN, rewards: DeriveStakerReward[] = []): StakeChart {
-  const stakeLabels: string[] = [];
-  const stakeChart: LineDataEntry = [];
+    rewardSet.push(myReward);
+    rewardAvgSet.push(Math.ceil(rewardTotal * 100 / (index + 1)) / 100);
+    slashSet.push(0); // TODO
 
-  rewards.forEach(({ era, validators }): void => {
-    stakeLabels.push(era.toHuman());
-    stakeChart.push(
+    stakeSet.push(
       balanceToNumber(validators[validatorId]?.exposure.total.toBn() || new BN(0), divisor)
     );
   });
 
-  return {
-    stakeChart: [stakeChart],
-    stakeLabels
-  };
+  return [
+    { chart: [blockIdxSet, blockAvgSet], labels },
+    { chart: [slashSet, rewardSet, rewardAvgSet], labels },
+    { chart: [stakeSet], labels }
+  ];
 }
 
 export default function Validator ({ className, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ blockChart, blockLabels }, setBlockChart] = useState<BlockChart>({ blockChart: [], blockLabels: [] });
-  const [{ stakeChart, stakeLabels }, setStakeChart] = useState<StakeChart>({ stakeChart: [], stakeLabels: [] });
+  const [[{ chart: blockChart, labels: blockLabels }, { chart: rewardChart, labels: rewardLabels }, { chart: stakeChart, labels: stakeLabels }], setCharts] = useState<[ChartInfo, ChartInfo, ChartInfo]>([{ chart: [], labels: [] }, { chart: [], labels: [] }, { chart: [], labels: [] }]);
   const stakerRewards = useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [validatorId, true]);
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
@@ -91,8 +102,7 @@ export default function Validator ({ className, validatorId }: Props): React.Rea
   }), [formatBalance]);
 
   useEffect((): void => {
-    setBlockChart(extractBlocks(validatorId, stakerRewards));
-    setStakeChart(extractStake(validatorId, divisor, stakerRewards));
+    setCharts(extractCharts(validatorId, divisor, stakerRewards));
   }, [stakerRewards, validatorId]);
 
   return (
@@ -106,6 +116,17 @@ export default function Validator ({ className, validatorId }: Props): React.Rea
               labels={blockLabels}
               legends={[t('blocks'), t('average')]}
               values={blockChart}
+            />
+          </div>
+        )}
+        {!!rewardChart.length && (
+          <div className='staking--Chart'>
+            <h1>{t('rewards & slashes')}</h1>
+            <Chart.Line
+              colors={COLORS_REWARD}
+              labels={rewardLabels}
+              legends={[t('{{currency}} slashed', { replace: { currency } }), t('{{currency}} rewards', { replace: { currency } }), t('{{currency}} average', { replace: { currency } })]}
+              values={rewardChart}
             />
           </div>
         )}
