@@ -164,8 +164,18 @@ function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean
 function getValuesFromString (value: string, si: SiDef | null, props: Props): [string, BN, boolean] {
   const [valueBn, isValid] = inputToBn(value, si, props);
 
+  let formatedValue = value;
+  // Sometimes the value is already formatted, avoid formatting in those cases
+  const regex = RegExp('^\\d{1,3}(,\\d{3})*(\\.\\d+)?$');
+  // Format only if required
+  if (!regex.exec(value)) {
+    const defaultValue = valueBn
+      ? formatBalance(valueBn, { forceUnit: '-', withSi: false }).replace(',', ',')
+      : valueBn;
+    formatedValue = defaultValue.split('.')[0];
+  }
   return [
-    value,
+    formatedValue,
     valueBn,
     isValid
   ];
@@ -231,8 +241,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
     if (event.key.length === 1 && !isPreKeyDown) {
       const { selectionStart: i, selectionEnd: j, value } = event.target as HTMLInputElement;
       const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
-
-      if (!getRegex(isDecimal || !!si).test(newValue)) {
+      if (!getRegex(isDecimal || !!si).test(newValue.replace(/,/g, ''))) {
         event.preventDefault();
       }
     }
@@ -246,8 +255,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
 
   const _onPaste = (event: React.ClipboardEvent<Element>): void => {
     const { value: newValue } = event.target as HTMLInputElement;
-
-    if (!getRegex(isDecimal || !!si).test(newValue)) {
+    if (!getRegex(isDecimal || !!si).test(newValue.replace(/,/g, ''))) {
       event.preventDefault();
     }
   };
