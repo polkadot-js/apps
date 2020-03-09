@@ -102,7 +102,7 @@ export default function Address ({ address, className, filterName, hasQueries, h
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
-  const stakingInfo = isMain ? useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]) : undefined;
+  const stakingInfo = useCall<DerivedStakingQuery>(isMain && api.derive.staking.query as any, [address]);
   const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);

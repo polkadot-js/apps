@@ -99,8 +99,8 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
-  const stakingAccount = isVisible ? useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]) : undefined;
-  const stakingRewardsAll = isVisible ? useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [stashId]) : undefined;
+  const stakingAccount = useCall<DerivedStakingAccount>(isVisible && api.derive.staking.account as any, [stashId]);
+  const stakingRewardsAll = useCall<DeriveStakerReward[]>(isVisible && api.derive.staking.stakerRewards as any, [stashId]);
   const [[stakingRewards, payoutEras], setStakingRewards] = useState<[DeriveStakerReward[], EraIndex[]]>([[], []]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
