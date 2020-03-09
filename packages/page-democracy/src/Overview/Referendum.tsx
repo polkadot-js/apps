@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -90,6 +90,7 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
   }
 
   const enactBlock = value.info.end.add(value.info.delay);
+  const remainBlock = value.info.end.sub(bestNumber).subn(1);
 
   return (
     <tr className={className}>
@@ -101,10 +102,12 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
       />
       <td className='number together top'>
         <label>{t('remaining')}</label>
-        {formatNumber(value.info.end.sub(bestNumber).subn(1))} blocks
+        <BlockToTime blocks={remainBlock} />
+        {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together top'>
         <label>{t('activate at')}</label>
+        <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         {formatNumber(enactBlock)}
       </td>
       <td className='number together top'>
