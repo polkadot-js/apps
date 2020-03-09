@@ -98,6 +98,15 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         stakingOverview={stakingOverview}
       />
       <Switch>
+        <Route path={`${basePath}/actions`}>
+          <Actions
+            allStashes={allStashes}
+            isVisible={pathname === `${basePath}/actions`}
+            recentlyOnline={recentlyOnline}
+            next={next}
+            stakingOverview={stakingOverview}
+          />
+        </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
         </Route>
@@ -105,13 +114,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
           <Targets />
         </Route>
       </Switch>
-      <Actions
-        allStashes={allStashes}
-        isVisible={pathname === `${basePath}/actions`}
-        recentlyOnline={recentlyOnline}
-        next={next}
-        stakingOverview={stakingOverview}
-      />
       <Overview
         hasQueries={hasQueries}
         isVisible={[basePath, `${basePath}/waiting`].includes(pathname)}

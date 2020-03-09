@@ -10,7 +10,7 @@ export default function WarmUp (): React.ReactElement {
   const fees = useCall<any>(isApiReady ? api.derive.balances?.fees : undefined, []);
   const indexes = useCall<any>(isApiReady ? api.derive.accounts?.indexes : undefined, []);
   const registrars = useCall<any>(isApiReady ? api.query.identity?.registrars : undefined, []);
-  const staking = useCall<any>(isApiReady ? api.derive.staking?.overview : undefined, []);
+  const staking = null; // useCall<any>(isApiReady ? api.derive.staking?.overview : undefined, []);
   const [hasValues, setHasValues] = useState(false);
 
   useEffect((): void => {

@@ -7,7 +7,6 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
-import AccountIndex from './AccountIndex';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 
@@ -36,7 +35,6 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
           toggle={toggle}
           value={value}
         />
-        <AccountIndex value={value} />
       </div>
     </div>
   );
