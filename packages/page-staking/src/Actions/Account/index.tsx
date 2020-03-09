@@ -33,6 +33,7 @@ interface Props {
   allStashes?: string[];
   className?: string;
   isOwnStash: boolean;
+  isVisible: boolean;
   next: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
   recentlyOnline?: DerivedHeartbeats;
@@ -91,15 +92,15 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
-  const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
-  const stakingRewardsAll = useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [stashId]);
+  const stakingAccount = isVisible ? useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]) : undefined;
+  const stakingRewardsAll = isVisible ? useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [stashId]) : undefined;
   const [[stakingRewards, payoutEras], setStakingRewards] = useState<[DeriveStakerReward[], EraIndex[]]>([[], []]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);

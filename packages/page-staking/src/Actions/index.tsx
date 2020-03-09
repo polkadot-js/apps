@@ -101,6 +101,7 @@ export default function Actions ({ allStashes, className, isVisible, next, recen
                   activeEra={activeEra}
                   allStashes={allStashes}
                   isOwnStash={isOwnStash}
+                  isVisible={isVisible}
                   key={stashId}
                   next={next}
                   onUpdateType={_onUpdateType}
