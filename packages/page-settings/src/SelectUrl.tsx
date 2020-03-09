@@ -79,7 +79,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
       ...makeUrl(
         isCustom
           ? info.url
-          : availableEndpoints[0].value as string
+          : (availableEndpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
       ),
       isCustom
     });
