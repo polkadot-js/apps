@@ -113,7 +113,7 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
         address={address}
         defaultName={defaultName}
         filterName={nameFilter}
-        hasQueries={hasQueries}
+        hasQueries={false && hasQueries}
         heartbeat={
           isMain && recentlyOnline
             ? recentlyOnline[address]
@@ -122,6 +122,7 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
         isAuthor={lastAuthors && lastAuthors.includes(address)}
         isElected={isElected}
         isFavorite={isFavorite}
+        isMain={isMain}
         key={address}
         lastBlock={authorsMap[address]}
         myAccounts={allAccounts}

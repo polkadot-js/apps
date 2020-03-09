@@ -70,7 +70,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const hiddenTabs = useMemo((): string[] => {
     return hasAccounts
       ? hasQueries
-        ? []
+        ? ['query']
         : ['returns', 'query']
       : ['actions', 'query'];
   }, [hasAccounts, hasQueries]);

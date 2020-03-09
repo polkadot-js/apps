@@ -26,6 +26,7 @@ interface Props {
   isAuthor?: boolean;
   isElected: boolean;
   isFavorite: boolean;
+  isMain?: boolean;
   lastBlock?: string;
   myAccounts: string[];
   points?: RewardPoint;
@@ -97,11 +98,11 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-export default function Address ({ address, className, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, lastBlock, myAccounts, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
+export default function Address ({ address, className, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, isMain, lastBlock, myAccounts, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
-  const stakingInfo = useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]);
+  const stakingInfo = isMain ? useCall<DerivedStakingQuery>(api.derive.staking.query as any, [address]) : undefined;
   const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
