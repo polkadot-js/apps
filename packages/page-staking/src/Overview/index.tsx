@@ -15,7 +15,7 @@ interface Props extends BareProps {
   hasQueries: boolean;
   isVisible: boolean;
   recentlyOnline?: DerivedHeartbeats;
-  next: string[];
+  next?: string[];
   setNominators: (nominators: string[]) => void;
   stakingOverview?: DerivedStakingOverview;
 }

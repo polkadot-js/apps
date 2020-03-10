@@ -13,21 +13,21 @@ import { FormatBalance } from '@polkadot/react-query';
 import { useTranslation } from '../translate';
 
 interface Props {
-  lastReward: BN;
+  lastReward?: BN;
   numNominators: number;
   numValidators: number;
-  totalStaked: BN;
+  totalStaked?: BN;
 }
 
 interface StakeInfo {
-  percentage: string;
+  percentage?: string;
 }
 
 export default function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
-  const [{ percentage }, setStakeInfo] = useState<StakeInfo>({ percentage: '-' });
+  const [{ percentage }, setStakeInfo] = useState<StakeInfo>({});
 
   useEffect((): void => {
     if (totalInsurance && totalStaked?.gtn(0)) {
@@ -40,32 +40,42 @@ export default function Summary ({ lastReward, numNominators, numValidators, tot
   return (
     <SummaryBox>
       <section className='ui--media-small'>
-        <CardSummary label={t('total staked')}>
-          <FormatBalance
-            value={totalStaked}
-            withSi
-          />
-        </CardSummary>
-        <CardSummary label=''>/</CardSummary>
-        <CardSummary label={t('total issuance')}>
-          <FormatBalance
-            value={totalInsurance}
-            withSi
-          />
-        </CardSummary>
+        {totalStaked && (
+          <CardSummary label={t('total staked')}>
+            <FormatBalance
+              value={totalStaked}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {totalStaked && totalInsurance && (
+          <CardSummary label=''>/</CardSummary>
+        )}
+        {totalStaked && (
+          <CardSummary label={t('total issuance')}>
+            <FormatBalance
+              value={totalInsurance}
+              withSi
+            />
+          </CardSummary>
+        )}
       </section>
-      <CardSummary label={t('staked')}>
-        {percentage}
-      </CardSummary>
+      {percentage && (
+        <CardSummary label={t('staked')}>
+          {percentage}
+        </CardSummary>
+      )}
       <CardSummary label={t('validators/nominators')}>
         {numValidators}/{numNominators}
       </CardSummary>
-      <CardSummary label={t('last reward')}>
-        <FormatBalance
-          value={lastReward}
-          withSi
-        />
-      </CardSummary>
+      {lastReward && (
+        <CardSummary label={t('last reward')}>
+          <FormatBalance
+            value={lastReward}
+            withSi
+          />
+        </CardSummary>
+      )}
     </SummaryBox>
   );
 }

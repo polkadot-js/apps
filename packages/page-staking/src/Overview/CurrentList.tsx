@@ -7,7 +7,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { AddressDetails } from './types';
 
 import React, { useEffect, useReducer, useState } from 'react';
-import { Input, Table } from '@polkadot/react-components';
+import { Input, Spinner, Table } from '@polkadot/react-components';
 import { useAccounts, useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
@@ -20,7 +20,7 @@ interface Props {
   isIntentions: boolean;
   isVisible: boolean;
   lastAuthors?: string[];
-  next: string[];
+  next?: string[];
   recentlyOnline?: DerivedHeartbeats;
   setNominators: (nominators: string[]) => void;
   stakingOverview?: DerivedStakingOverview;
@@ -68,7 +68,7 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [{ allElected, elected, validators, waiting }, setFiltered] = useState<{ allElected: string[]; elected: AccountExtend[]; validators: AccountExtend[]; waiting: AccountExtend[] }>({ allElected: [], elected: [], validators: [], waiting: [] });
+  const [{ allElected, elected, validators, waiting }, setFiltered] = useState<{ allElected: string[]; elected: AccountExtend[]; validators: AccountExtend[]; waiting?: AccountExtend[] }>({ allElected: [], elected: [], validators: [] });
   const [nameFilter, setNameFilter] = useState<string>('');
   const [addressDetails, dispatchDetails] = useReducer(reduceDetails, {});
 
@@ -136,6 +136,10 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
       />
     ));
 
+  if (!stakingOverview) {
+    return <Spinner />;
+  }
+
   return (
     <div className={`${!isVisible && 'staking--hidden'}`}>
       <Input
@@ -150,12 +154,17 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
           {_renderRows(validators, t('validators'), true)}
         </Table.Body>
       </Table>
-      <Table className={isIntentions ? '' : 'staking--hidden'}>
-        <Table.Body>
-          {_renderRows(elected, t('intention'), false)}
-          {_renderRows(waiting, t('intention'), false)}
-        </Table.Body>
-      </Table>
+      {waiting
+        ? (
+          <Table className={isIntentions ? '' : 'staking--hidden'}>
+            <Table.Body>
+              {_renderRows(elected, t('intention'), false)}
+              {_renderRows(waiting, t('intention'), false)}
+            </Table.Body>
+          </Table>
+        )
+        : <Spinner className={isIntentions ? '' : 'staking--hidden'} />
+      }
     </div>
   );
 }

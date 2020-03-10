@@ -15,7 +15,7 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   isVisible: boolean;
-  next: string[];
+  next?: string[];
   nominators: string[];
   stakingOverview?: DerivedStakingOverview;
   style?: any;
@@ -36,12 +36,12 @@ function Summary ({ className, isVisible, next, nominators, stakingOverview, sty
             {stakingOverview.validators.length}{`/${stakingOverview.validatorCount.toString()}`}
           </CardSummary>
         )}
-        {next && next.length !== 0 && (
+        {!!next?.length && (
           <CardSummary label={t('waiting')}>
             {next.length}
           </CardSummary>
         )}
-        {nominators.length !== 0 && (
+        {!!nominators.length && (
           <CardSummary label={t('nominators')}>
             {nominators.length}
           </CardSummary>
