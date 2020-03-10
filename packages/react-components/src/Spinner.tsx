@@ -5,21 +5,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { useTranslation } from './translate';
+
 interface Props {
   className?: string;
   variant?: 'app' | 'push' | 'mini';
 }
 
 function Spinner ({ className, variant = 'app' }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const strokeWidth = variant === 'app' ? 2 : 4;
 
   return (
-    <div className={[className, 'ui--Spinner', variant].join(' ')}>
-      <div className="loader">
+    <div className={`${className} ui--Spinner ${variant}`}>
+      <div className='loader'>
         <svg className="circular" viewBox="25 25 50 50">
           <circle className="path" cx="50" cy="50" r="20" fill="none" strokeWidth={strokeWidth} strokeMiterlimit="10"/>
         </svg>
       </div>
+      {variant === 'app' && (
+        <div className='text'>{t('Retrieving data')}</div>
+      )}
     </div>
   );
 }
@@ -29,11 +35,18 @@ export default styled(Spinner)`
     position: relative;
     margin: 0 auto;
     width: 64px;
+
     &:before {
       content: '';
       display: block;
       padding-top: 100%;
     }
+  }
+
+  .text {
+    margin: 0.25rem auto 1.5rem auto;
+    opacity: 0.6;
+    text-align: center;
   }
 
   .circular {

@@ -67,7 +67,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     }
   ], [t]);
   const hiddenTabs = useMemo((): string[] => {
-    const result = next ? ['query'] : ['waiting', 'query'];
+    const result = next ? [] : ['waiting'];
 
     if (!hasAccounts) {
       result.push('actions', 'query');

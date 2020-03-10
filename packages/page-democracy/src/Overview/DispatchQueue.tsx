@@ -5,7 +5,7 @@
 import { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { Table } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -27,22 +27,24 @@ export default function DispatchQueue ({ className }: Props): React.ReactElement
   return (
     <div className={className}>
       <h1>{t('dispatch queue')}</h1>
-      {queued?.length
-        ? (
-          <Table>
-            <Table.Body>
-              {queued.map(([blockNumber, hash, referendumIndex]): React.ReactNode => (
-                <DispatchEntry
-                  blockNumber={blockNumber}
-                  hash={hash}
-                  key={referendumIndex.toString()}
-                  referendumIndex={referendumIndex}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('nothing queued to be executed')
+      {queued
+        ? queued.length
+          ? (
+            <Table>
+              <Table.Body>
+                {queued.map(([blockNumber, hash, referendumIndex]): React.ReactNode => (
+                  <DispatchEntry
+                    blockNumber={blockNumber}
+                    hash={hash}
+                    key={referendumIndex.toString()}
+                    referendumIndex={referendumIndex}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('nothing queued to be executed')
+        : <Spinner />
       }
     </div>
   );

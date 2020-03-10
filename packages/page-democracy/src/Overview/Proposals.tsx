@@ -5,7 +5,7 @@
 import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { Table } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import ProposalDisplay from './Proposal';
@@ -23,20 +23,22 @@ export default function Proposals ({ className }: Props): React.ReactElement<Pro
   return (
     <div className={`proposalSection ${className}`}>
       <h1>{t('proposals')}</h1>
-      {proposals?.length
-        ? (
-          <Table>
-            <Table.Body>
-              {proposals.map((proposal): React.ReactNode => (
-                <ProposalDisplay
-                  key={proposal.index.toString()}
-                  value={proposal}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No active proposals')
+      {proposals
+        ? proposals.length
+          ? (
+            <Table>
+              <Table.Body>
+                {proposals.map((proposal): React.ReactNode => (
+                  <ProposalDisplay
+                    key={proposal.index.toString()}
+                    value={proposal}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('No active proposals')
+        : <Spinner />
       }
     </div>
   );
