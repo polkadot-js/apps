@@ -163,7 +163,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
-  const isValid = !!address && !deriveError && isNameValid && isPassValid && isSeedValid;
+  const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
+  const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid && isSeedValid;
   const seedOpt = useMemo(() => (
     isDevelopment
       ? [{ value: 'dev', text: t('Development') }]
@@ -175,6 +176,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
 
   const _onChangePass = (password: string): void =>
     setPassword({ isPassValid: keyring.isPassValid(password), password });
+  const _onChangePass2 = (password2: string): void =>
+    setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 });
   const _onChangeDerive = (newDerivePath: string): void =>
     setAddress(updateAddress(seed, newDerivePath, seedType, pairType));
   const _onChangeSeed = (newSeed: string): void =>
@@ -264,6 +267,15 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
             onChange={_onChangePass}
             onEnter={_onCommit}
             value={password}
+          />
+          <Password
+            className='full'
+            help={t('Verify the password entered above.')}
+            isError={!isPass2Valid}
+            label={t('password (repeat)')}
+            onChange={_onChangePass2}
+            onEnter={_onCommit}
+            value={password2}
           />
           <details
             className='accounts--Creator-advanced'

@@ -7,9 +7,9 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function WarmUp (): React.ReactElement {
   const { api, isApiReady } = useApi();
-  const fees = useCall<any>(isApiReady ? api.derive.balances?.fees : undefined, []);
-  const indexes = useCall<any>(isApiReady ? api.derive.accounts?.indexes : undefined, []);
-  const registrars = useCall<any>(isApiReady ? api.query.identity?.registrars : undefined, []);
+  const fees = useCall<any>(isApiReady && api.derive.balances?.fees, []);
+  const indexes = useCall<any>(isApiReady && api.derive.accounts?.indexes, []);
+  const registrars = useCall<any>(isApiReady && api.query.identity?.registrars, []);
   const staking = null; // useCall<any>(isApiReady ? api.derive.staking?.overview : undefined, []);
   const [hasValues, setHasValues] = useState(false);
 
