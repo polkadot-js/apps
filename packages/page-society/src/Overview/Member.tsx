@@ -5,19 +5,31 @@
 import { DeriveSocietyMember } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, Badge, Icon } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
 interface Props {
+  isHead?: boolean;
   value: DeriveSocietyMember;
 }
 
-export default function Member ({ value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+export default function Member ({ isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <tr>
+      <td className={`${isHead && 'head-icon'}`}>
+        {isHead && (
+          <Badge
+            hover={t('Current head')}
+            info={<Icon name='check' />}
+            isInline
+            isTooltip
+            type='green'
+          />
+        )}
+      </td>
       <td className='top'>
         <AddressSmall value={accountId} />
       </td>

@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSociety } from '@polkadot/api-derive/types';
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AccountIndex, IdentityIcon, SummaryBox, CardSummary } from '@polkadot/react-components';
+import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -16,29 +16,6 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   info?: DeriveSociety;
-}
-
-interface NameProps {
-  label: string;
-  value?: AccountId;
-}
-
-function Name ({ label, value }: NameProps): React.ReactElement<NameProps> | null {
-  if (!value) {
-    return null;
-  }
-
-  return (
-    <CardSummary label={label}>
-      <div className='society--header--account'>
-        <IdentityIcon
-          size={24}
-          value={value}
-        />
-        <AccountIndex value={value} />
-      </div>
-    </CardSummary>
-  );
 }
 
 function Summary ({ className, info }: Props): React.ReactElement<Props> {
@@ -53,12 +30,6 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <section>
-        <Name
-          label={t('head')}
-          value={info?.head}
-        />
-      </section>
       <section className='ui--media-medium'>
         {info && members && (
           <CardSummary label={t('members')}>
@@ -106,7 +77,7 @@ export default styled(Summary)`
   .society--header--account {
     white-space: nowrap;
 
-    .ui--AccountIndex,
+    .ui--AccountName,
     .ui--IdentityIcon {
       display: inline-block;
     }

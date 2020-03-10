@@ -76,10 +76,11 @@ export default function Derive ({ className, from, onClose }: Props): React.Reac
   const [isLocked, setIsLocked] = useState(source.isLocked);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
+  const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
   const [rootPass, setRootPass] = useState('');
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
-  const isValid = !!address && !deriveError && isNameValid && isPassValid;
+  const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid;
 
   useEffect((): void => {
     setIsLocked(source.isLocked);
@@ -100,8 +101,12 @@ export default function Derive ({ className, from, onClose }: Props): React.Reac
     });
   }, [debouncedSuri]);
 
-  const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
-  const _onChangePass = (password: string): void => setPassword({ isPassValid: keyring.isPassValid(password), password });
+  const _onChangeName = (name: string): void =>
+    setName({ isNameValid: !!name.trim(), name });
+  const _onChangePass = (password: string): void =>
+    setPassword({ isPassValid: keyring.isPassValid(password), password });
+  const _onChangePass2 = (password2: string): void =>
+    setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 });
   const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
   const _onUnlock = (): void => {
     try {
@@ -192,6 +197,15 @@ export default function Derive ({ className, from, onClose }: Props): React.Reac
               onChange={_onChangePass}
               onEnter={_onCommit}
               value={password}
+            />
+            <Password
+              className='full'
+              help={t('Verify the password entered above.')}
+              isError={!isPass2Valid}
+              label={t('password (repeat)')}
+              onChange={_onChangePass2}
+              onEnter={_onCommit}
+              value={password2}
             />
           </AddressRow>
         )}
