@@ -930,5 +930,8 @@
   "{{currency}} rewards": "",
   "{{blocks}} blocks": "",
   "Pending payouts for {{count}} eras": "",
-  "Retrieving data": ""
+  "Retrieving data": "",
+  "Verify the password entered above.": "",
+  "password (repeat)": "",
+  "Current head": ""
 }
