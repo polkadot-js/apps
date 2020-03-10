@@ -2,10 +2,10 @@
 
 General config for various services, including settings, external links & types. This is a central source of all the configuration settings that can be tweaked. This also means that it can be customized (via PR) to support any additional chains. The internals are split into a number of settings -
 
-- [api](./api) - Here you can add any chain or node-type specific types configuration. When added, it means that when the UI connects to either a runtime with a spec name, or a chain with a specific name, the types will be automatically added to the API as used in the app.
-- [links](./links) - These are all links to external providers such as explorers. This information is used anywhere where there is an external lik to determine the providers for these links.
-- [settings](./settings) - These are used in dropdowns, specifically under the settings page.
-- [ui](./ui) - Logos & color settings for chain and node spec specific overrides. This means that when the runtime/chain is detected, the specific logo would be used.
+- [api](./src/api) - Here you can add any chain or node-type specific types configuration. When added, it means that when the UI connects to either a runtime with a spec name, or a chain with a specific name, the types will be automatically added to the API as used in the app.
+- [links](./src/links) - These are all links to external providers such as explorers. This information is used anywhere where there is an external lik to determine the providers for these links.
+- [settings](./src/settings) - These are used in dropdowns, specifically under the settings page.
+- [ui](./src/ui) - Logos & color settings for chain and node spec specific overrides. This means that when the runtime/chain is detected, the specific logo would be used.
 
 Customization for each of these are discussed next.
 
