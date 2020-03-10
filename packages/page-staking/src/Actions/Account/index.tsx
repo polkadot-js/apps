@@ -179,25 +179,15 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
         <td>
           {!stakerExposures
             ? <Spinner variant='mini' />
-            : payoutEras.length
-              ? (
-                <Badge
-                  hover={t('Pending payouts for {{count}} eras', { replace: { count: payoutEras.length } })}
-                  info={payoutEras.length}
-                  isInline
-                  isTooltip
-                  type='counter'
-                />
-              )
-              : (
-                <Badge
-                  hover={t('No outstanding payouts')}
-                  info={<Icon name='check' />}
-                  isInline
-                  isTooltip
-                  type='green'
-                />
-              )
+            : !!payoutEras.length && (
+              <Badge
+                hover={t('Pending payouts for {{count}} eras', { replace: { count: payoutEras.length } })}
+                info={payoutEras.length}
+                isInline
+                isTooltip
+                type='counter'
+              />
+            )
           }
         </td>
       )}
