@@ -44,7 +44,7 @@ const buildNetworkSpecs = async (api: ApiPromise): Promise<any> => {
     title,
     color: getRandomColor(),
     genesisHash: blockHash.toString(),
-    metadata: metadata.toString(),
+    // metadata: metadata.toString(),
   };
   console.log('networkSpecs is', networkSpecs);
   return networkSpecs;
