@@ -16,6 +16,7 @@
   "default interface language": "默认接口语言",
   "Cancel": "取消",
   "Save & Reload": "保存并重载",
+  "Export Network Specs": "导出网络配置",
   "General": "通用",
   "Developer": "开发者",
   "Select the remote endpoint, either from the dropdown on manual entered via the custom toggle": "选择远程终端，或者通过自定义切换输入的手动下拉菜单中的任意一个",

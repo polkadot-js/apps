@@ -13,6 +13,7 @@ import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
 import { useTranslation } from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
+import NetworkSpecs from './modals/NetworkSpecs';
 
 interface Props {
   className?: string;
@@ -26,6 +27,7 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
+  const [isQrOpen, setQrOpen] = useState<boolean>(false);
   const [settings, setSettings] = useState(uiSettings.get());
   const iconOptions = useMemo((): Option[] => {
     return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
@@ -68,6 +70,8 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
     },
     [settings]
   );
+  const _showNetworkSpecsQr = (): void => setQrOpen(true);
+  const _closeNetworkSpecsQr = (): void => setQrOpen(false);
 
   const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
@@ -131,6 +135,14 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
             <Button.Or />
           </>
         )}
+        <Button
+          isDisabled={changed !== null}
+          isPrimary
+          onClick={_showNetworkSpecsQr}
+          label={t('Export Network Specs')}
+          icon='external'
+        />
+        {isQrOpen && <NetworkSpecs onClose={_closeNetworkSpecsQr}/>}
         <Button
           isDisabled={changed === null}
           isPrimary={isModalContent}
