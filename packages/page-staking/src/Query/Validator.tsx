@@ -2,12 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakerReward } from '@polkadot/api-derive/types';
-
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Chart, Columar, Column } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+// import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -45,7 +43,7 @@ function balanceToNumber (amount: BN, divisor: BN): number {
   return amount.muln(1000).div(divisor).toNumber() / 1000;
 }
 
-function extractCharts (validatorId: string, divisor: BN, rewards: DeriveStakerReward[] = []): [ChartInfo, ChartInfo, ChartInfo] {
+function extractCharts (validatorId: string, divisor: BN, rewards: any[] = []): [ChartInfo, ChartInfo, ChartInfo] {
   const labels: string[] = [];
   const blockAvgSet: LineDataEntry = [];
   const blockIdxSet: LineDataEntry = [];
@@ -93,9 +91,9 @@ function extractCharts (validatorId: string, divisor: BN, rewards: DeriveStakerR
 
 export default function Validator ({ className, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  // const { api } = useApi();
   const [[{ chart: blockChart, labels: blockLabels }, { chart: rewardChart, labels: rewardLabels }, { chart: stakeChart, labels: stakeLabels }], setCharts] = useState<[ChartInfo, ChartInfo, ChartInfo]>([{ chart: [], labels: [] }, { chart: [], labels: [] }, { chart: [], labels: [] }]);
-  const stakerRewards = useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [validatorId, true]);
+  const stakerRewards = undefined; // useCall<DeriveStakerReward[]>(api.derive.staking.stakerRewards as any, [validatorId, true]);
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))

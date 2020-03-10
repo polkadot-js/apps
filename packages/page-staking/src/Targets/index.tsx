@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { Icon, InputBalance, Table } from '@polkadot/react-components';
+import { Icon, InputBalance, Spinner, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
 import { createType, Option } from '@polkadot/types';
 
@@ -27,7 +27,7 @@ interface Props {
 
 interface AllInfo {
   nominators: string[];
-  totalStaked: BN;
+  totalStaked?: BN;
   validators: ValidatorInfo[];
 }
 
@@ -89,7 +89,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     });
 }
 
-function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DerivedStakingElected, favorites: string[], lastReward: BN): AllInfo {
+function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DerivedStakingElected, favorites: string[], lastReward = new BN(1)): AllInfo {
   const nominators: string[] = [];
   let totalStaked = new BN(0);
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
@@ -164,15 +164,14 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
       activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
   }) || new BN(0);
   const lastReward = useCall<BN>(api.query.staking.erasValidatorReward, [lastEra], {
-    defaultValue: new BN(1),
     transform: (optBalance: Option<Balance>) =>
       optBalance.unwrapOrDefault()
-  }) || new BN(1);
+  });
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1000));
   const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [{ nominators, validators, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], totalStaked: new BN(0), validators: [] });
-  const [{ sorted, sortBy, sortFromMax }, setSorted] = useState<{ sorted: ValidatorInfo[]; sortBy: SortBy; sortFromMax: boolean }>({ sorted: [], sortBy: 'rankOverall', sortFromMax: true });
+  const [{ nominators, validators, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
+  const [{ sorted, sortBy, sortFromMax }, setSorted] = useState<{ sorted?: ValidatorInfo[]; sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
 
   const _sort = (newSortBy: SortBy, unsorted = validators, isAdjust = true): void => {
@@ -205,6 +204,10 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
       _sort('rankOverall', validators, false);
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward]);
+
+  if (!sorted) {
+    return <Spinner />;
+  }
 
   return (
     <div className={className}>
@@ -251,11 +254,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
             </Table>
           </>
         )
-        : (
-          <div className='tableContainer'>
-            {t('Validator info not available')}
-          </div>
-        )
+        : <Spinner />
       }
     </div>
   );

@@ -31,12 +31,11 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
-  const [next, setNext] = useState<string[]>([]);
+  const [next, setNext] = useState<string[] | undefined>();
   const allStashes = useCall<string[]>(api.derive.staking.controllers, [], {
-    defaultValue: [],
     transform: ([stashes]: [AccountId[]]): string[] =>
       stashes.map((accountId): string => accountId.toString())
-  }) as string[];
+  });
   const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline?.receivedHeartbeats, []);
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
@@ -68,15 +67,19 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     }
   ], [t]);
   const hiddenTabs = useMemo((): string[] => {
-    return hasAccounts
-      ? hasQueries
-        ? ['query']
-        : ['returns', 'query']
-      : ['actions', 'query'];
-  }, [hasAccounts, hasQueries]);
+    const result = next ? ['query'] : ['waiting', 'query'];
+
+    if (!hasAccounts) {
+      result.push('actions', 'query');
+    } else if (!hasQueries) {
+      result.push('returns', 'query');
+    }
+
+    return result;
+  }, [hasAccounts, hasQueries, next]);
 
   useEffect((): void => {
-    stakingOverview && setNext(
+    allStashes && stakingOverview && setNext(
       allStashes.filter((address): boolean => !stakingOverview.validators.includes(address as any))
     );
   }, [allStashes, stakingOverview?.validators]);

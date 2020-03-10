@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DeriveStakerReward, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DeriveStakerExpoure, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
@@ -34,7 +34,7 @@ interface Props {
   className?: string;
   isOwnStash: boolean;
   isVisible: boolean;
-  next: string[];
+  next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
   recentlyOnline?: DerivedHeartbeats;
   stakingOverview?: DerivedStakingOverview;
@@ -97,11 +97,12 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
   const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const [lastClaim, setLastClaim] = useState<BN | undefined>();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(isVisible && api.derive.staking.account as any, [stashId]);
-  const stakingRewardsAll = useCall<DeriveStakerReward[]>(isVisible && api.derive.staking.stakerRewards as any, [stashId]);
-  const [[stakingRewards, payoutEras], setStakingRewards] = useState<[DeriveStakerReward[], EraIndex[]]>([[], []]);
+  const stakerExposures = useCall<DeriveStakerExpoure[]>(lastClaim && isVisible && api.derive.staking.stakerExposure as any, [stashId, lastClaim]);
+  const [[stakingRewards, payoutEras], setStakingRewards] = useState<[DeriveStakerExpoure[], EraIndex[]]>([[], []]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
@@ -115,6 +116,12 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
+
+  useEffect((): void => {
+    if (stakingAccount?.stakingLedger?.lastReward) {
+      setLastClaim(stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1)));
+    }
+  }, [stakingAccount]);
 
   useEffect((): void => {
     if (stakingAccount && validateInfo) {
@@ -139,16 +146,17 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
   }, [inactiveNoms, nominees]);
 
   useEffect((): void => {
-    if (stakingRewardsAll && stakingAccount?.stakingLedger?.lastReward) {
-      const lastClaim = stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1));
-      const stakingRewards = stakingRewardsAll.filter(({ era, isEmpty }): boolean => !isEmpty && era.gt(lastClaim));
+    if (stakerExposures && lastClaim) {
+      const stakingRewards = stakerExposures.filter(({ era, isEmpty }): boolean =>
+        !isEmpty && era.gt(lastClaim)
+      );
 
       setStakingRewards([
         stakingRewards,
         stakingRewards.map(({ era }): EraIndex => era)
       ]);
     }
-  }, [stakingAccount, stakingRewardsAll]);
+  }, [lastClaim, stakingAccount, stakerExposures]);
 
   const _doPayout = (): void => {
     queueExtrinsic({
@@ -170,7 +178,7 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
   return (
     <tr className={className}>
       <td>
-        {!stakingRewardsAll
+        {!stakerExposures
           ? <Spinner variant='mini' />
           : (payoutEras.length !== 0 && (
             <Badge

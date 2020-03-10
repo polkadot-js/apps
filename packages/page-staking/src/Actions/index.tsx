@@ -15,11 +15,11 @@ import StartStaking from './NewStake';
 import { useTranslation } from '../translate';
 
 interface Props {
-  allStashes: string[];
+  allStashes?: string[];
   className?: string;
   isVisible: boolean;
   recentlyOnline?: DerivedHeartbeats;
-  next: string[];
+  next?: string[];
   stakingOverview?: DerivedStakingOverview;
 }
 
