@@ -97,11 +97,11 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
   const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [lastClaim, setLastClaim] = useState<BN | undefined>();
+  const [firstClaim, setFirstClaim] = useState<BN | undefined>();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
-  const stakingAccount = useCall<DerivedStakingAccount>(isVisible && api.derive.staking.account as any, [stashId]);
-  const stakerExposures = useCall<DeriveStakerExpoure[]>(lastClaim && isVisible && api.derive.staking.stakerExposure as any, [stashId, lastClaim]);
+  const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
+  const stakerExposures = useCall<DeriveStakerExpoure[]>(firstClaim && isVisible && api.derive.staking.stakerExposure as any, [stashId, firstClaim]);
   const [[stakingRewards, payoutEras], setStakingRewards] = useState<[DeriveStakerExpoure[], EraIndex[]]>([[], []]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
@@ -119,7 +119,7 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
 
   useEffect((): void => {
     if (stakingAccount?.stakingLedger?.lastReward) {
-      setLastClaim(stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1)));
+      setFirstClaim(stakingAccount.stakingLedger.lastReward.unwrapOr(new BN(-1)).addn(1));
     }
   }, [stakingAccount]);
 
@@ -146,17 +146,15 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
   }, [inactiveNoms, nominees]);
 
   useEffect((): void => {
-    if (stakerExposures && lastClaim) {
-      const stakingRewards = stakerExposures.filter(({ era, isEmpty }): boolean =>
-        !isEmpty && era.gt(lastClaim)
-      );
+    if (stakerExposures && firstClaim) {
+      const stakingRewards = stakerExposures.filter(({ isEmpty }): boolean => !isEmpty);
 
       setStakingRewards([
         stakingRewards,
         stakingRewards.map(({ era }): EraIndex => era)
       ]);
     }
-  }, [lastClaim, stakingAccount, stakerExposures]);
+  }, [firstClaim, stakingAccount, stakerExposures]);
 
   const _doPayout = (): void => {
     queueExtrinsic({
@@ -177,20 +175,22 @@ function Account ({ allStashes, className, isOwnStash, isVisible, next, onUpdate
 
   return (
     <tr className={className}>
-      <td>
-        {!stakerExposures
-          ? <Spinner variant='mini' />
-          : (payoutEras.length !== 0 && (
-            <Badge
-              hover={t('payouts for {{count}} eras pending', { replace: { count: payoutEras.length } })}
-              info={payoutEras.length}
-              isInline
-              isTooltip
-              type='counter'
-            />
-          ))
-        }
-      </td>
+      {api.query.staking.activeEra && (
+        <td>
+          {!stakerExposures
+            ? <Spinner variant='mini' />
+            : !!payoutEras.length && (
+              <Badge
+                hover={t('Pending payouts for {{count}} eras', { replace: { count: payoutEras.length } })}
+                info={payoutEras.length}
+                isInline
+                isTooltip
+                type='counter'
+              />
+            )
+          }
+        </td>
+      )}
       <td>
         <BondExtra
           controllerId={controllerId}

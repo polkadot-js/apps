@@ -5,7 +5,7 @@
 import { DerivedReferendum } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { Table } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Referendum from './Referendum';
@@ -23,21 +23,23 @@ export default function Referendums ({ className }: Props): React.ReactElement<P
   return (
     <div className={`proposalSection ${className}`}>
       <h1>{t('referenda')}</h1>
-      {referendums?.length
-        ? (
-          <Table>
-            <Table.Body>
-              {referendums.map((referendum): React.ReactNode => (
-                <Referendum
-                  idNumber={referendum.index}
-                  key={referendum.index.toString()}
-                  value={referendum}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No active referendums')
+      {referendums
+        ? referendums.length
+          ? (
+            <Table>
+              <Table.Body>
+                {referendums.map((referendum): React.ReactNode => (
+                  <Referendum
+                    idNumber={referendum.index}
+                    key={referendum.index.toString()}
+                    value={referendum}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('No active referendums')
+        : <Spinner />
       }
     </div>
   );

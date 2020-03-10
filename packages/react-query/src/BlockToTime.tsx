@@ -69,8 +69,7 @@ export default function BlockToTime ({ blocks, children, className, label, style
       time[1] ? (time[1] > 1) ? t('{{h}} hrs', { replace: { h: time[1] } }) : t('1 hr') : null,
       time[2] ? (time[2] > 1) ? t('{{m}} mins', { replace: { m: time[2] } }) : t('1 min') : null,
       time[3] ? (time[3] > 1) ? t('{{s}} s', { replace: { s: time[3] } }) : t('1 s') : null
-    ].filter((value): value is string => !!value)
-      .join(' ');
+    ].filter((value): value is string => !!value).slice(0, 2).join(' ');
   }, [api, blocks, t]);
 
   return (

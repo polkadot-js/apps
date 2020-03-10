@@ -113,7 +113,7 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
         address={address}
         defaultName={defaultName}
         filterName={nameFilter}
-        hasQueries={false && hasQueries}
+        hasQueries={hasQueries}
         heartbeat={
           isMain && recentlyOnline
             ? recentlyOnline[address]
