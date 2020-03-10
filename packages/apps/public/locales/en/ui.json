@@ -928,5 +928,7 @@
   "drag and drop to reorder": "",
   "payouts for {{count}} eras pending": "",
   "{{currency}} rewards": "",
-  "{{blocks}} blocks": ""
+  "{{blocks}} blocks": "",
+  "Pending payouts for {{count}} eras": "",
+  "Retrieving data": ""
 }

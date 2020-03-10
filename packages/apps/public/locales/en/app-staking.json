@@ -167,5 +167,6 @@
   "candidate accounts": "candidate accounts",
   "nominated accounts": "nominated accounts",
   "payouts for {{count}} eras pending": "payouts for {{count}} eras pending",
-  "{{currency}} rewards": "{{currency}} rewards"
+  "{{currency}} rewards": "{{currency}} rewards",
+  "Pending payouts for {{count}} eras": "Pending payouts for {{count}} eras"
 }
