@@ -4,11 +4,12 @@
 
 import { Routes } from './types';
 
-import Staking from '@polkadot/app-staking';
+import Staking, { useCounter } from '@polkadot/app-staking';
 
 export default ([
   {
     Component: Staking,
+    useCounter,
     display: {
       needsApi: [
         [

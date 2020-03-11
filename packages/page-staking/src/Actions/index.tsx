@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
-import { AccountId, ActiveEraInfo, EraIndex, StakingLedger } from '@polkadot/types/interfaces';
+import { DerivedHeartbeats, DerivedStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
+import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from '@polkadot/react-components';
-import { useCall, useApi, useAccounts } from '@polkadot/react-hooks';
+import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import Account from './Account';
@@ -15,66 +15,38 @@ import StartStaking from './NewStake';
 import { useTranslation } from '../translate';
 
 interface Props {
+  allRewards?: Record<string, DeriveStakerReward[]>;
   allStashes?: string[];
   className?: string;
   isVisible: boolean;
   recentlyOnline?: DerivedHeartbeats;
   next?: string[];
   stakingOverview?: DerivedStakingOverview;
-  onUpdatePending: (count: number) => void;
 }
 
-function getStashes (allAccounts: string[], stashTypes: Record<string, number>, queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): [string, boolean][] | null {
-  const result: [string, boolean][] = [];
-
-  if (!queryBonded || !queryLedger) {
-    return null;
-  }
-
-  queryBonded.forEach((value, index): void => {
-    value.isSome && result.push([allAccounts[index], true]);
-  });
-
-  queryLedger.forEach((ledger): void => {
-    if (ledger.isSome) {
-      const stashId = ledger.unwrap().stash.toString();
-
-      !result.some(([accountId]): boolean => accountId === stashId) && result.push([stashId, false]);
-    }
-  });
-
-  return result.sort((a, b): number =>
-    (stashTypes[a[0]] || 99) - (stashTypes[b[0]] || 99)
-  );
-}
-
-export default function Actions ({ allStashes, className, isVisible, next, onUpdatePending, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
+export default function Actions ({ allRewards, allStashes, className, isVisible, next, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
-  const activeEra = useCall<EraIndex | undefined>(api.query.staking.activeEra, [], {
+  const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
     transform: (activeEra: Option<ActiveEraInfo>): EraIndex | undefined =>
       activeEra.isSome
         ? activeEra.unwrap().index
         : undefined
   });
-  const queryBonded = useCall<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
-  const queryLedger = useCall<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
-  const [pendingPayouts, setPendingPayouts] = useState<Record<string, number>>({});
+  const ownStashes = useOwnStashes();
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
 
   useEffect((): void => {
-    setFoundStashes(getStashes(allAccounts, stashTypes, queryBonded, queryLedger));
-  }, [allAccounts, queryBonded, queryLedger, stashTypes]);
-
-  useEffect((): void => {
-    onUpdatePending(Object.values(pendingPayouts).filter((count) => !!count).length);
-  }, [pendingPayouts]);
+    ownStashes && setFoundStashes(
+      ownStashes.sort((a, b): number =>
+        (stashTypes[a[0]] || 99) - (stashTypes[b[0]] || 99)
+      )
+    );
+  }, [ownStashes, stashTypes]);
 
   const _toggleNewStake = (): void => setIsNewStateOpen(!isNewStakeOpen);
-  const _onUpdatePayout = (stashId: string, count: number): void => setPendingPayouts({ ...pendingPayouts, [stashId]: count });
   const _onUpdateType = (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
     setStashTypes({
       ...stashTypes,
@@ -111,9 +83,9 @@ export default function Actions ({ allStashes, className, isVisible, next, onUpd
                   isVisible={isVisible}
                   key={stashId}
                   next={next}
-                  onUpdatePayout={_onUpdatePayout}
                   onUpdateType={_onUpdateType}
                   recentlyOnline={recentlyOnline}
+                  rewards={allRewards && allRewards[stashId]}
                   stakingOverview={stakingOverview}
                   stashId={stashId}
                 />
