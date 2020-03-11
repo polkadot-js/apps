@@ -14,6 +14,8 @@ export { default as useFavorites } from './useFavorites';
 export { default as useIsMountedRef } from './useIsMountedRef';
 export { default as useMembers } from './useMembers';
 export { default as useModal } from './useModal';
+export { default as useOwnEraRewards } from './useOwnEraRewards';
+export { default as useOwnStashes, useOwnStashIds } from './useOwnStashes';
 export { default as usePassword } from './usePassword';
 export { default as useSudo } from './useSudo';
 export { default as useToggle } from './useToggle';

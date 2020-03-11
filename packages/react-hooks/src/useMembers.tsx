@@ -29,7 +29,7 @@ export default function useMembers (collective: 'council' | 'technicalCommittee'
       })
       : useCall<Result>(api.query.technicalCommittee.members, [], {
         transform: (accounts: AccountId[]): Result =>
-          getResult(allAccounts, accounts.map(accountId => accountId.toString()))
+          getResult(allAccounts, accounts.map((accountId) => accountId.toString()))
       })
   ) || { isMember: false, members: [] };
 

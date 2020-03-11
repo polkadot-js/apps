@@ -59,13 +59,15 @@ function unsubscribe (tracker: TrackerRef): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {
-    tracker.current.subscriber.then((unsubFn): void => unsubFn());
+    tracker.current.subscriber.then((unsubFn): void => {
+      setTimeout(unsubFn, 0);
+    });
     tracker.current.subscriber = null;
   }
 }
 
-// subscribe, tyring to play nice with the browser threads
-function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity }: CallOptions<T>): void {
+// subscribe, trying to play nice with the browser threads
+function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T>): void {
   const validParams = params.filter((p): boolean => !isUndefined(p));
 
   unsubscribe(tracker);
@@ -84,7 +86,10 @@ function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | 
           // since .subscriber may not be set on immeditae callback)
           if (mounted.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {
             tracker.current.count++;
-            setValue(transform(value));
+
+            ((transformed: any): void => {
+              setTimeout(() => setValue(transformed), 0);
+            })(withParams ? [params, transform(value)] : transform(value));
           }
         });
       } else {
@@ -103,10 +108,10 @@ export default function useCall <T> (fn: TrackFn | undefined | null | false, par
   const tracker = useRef<Tracker>({ isActive: false, count: 0, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>(options.defaultValue);
 
-  // initial effect, we need an unsubscription
+  // initial effect, we need an un-subscription
   useEffect((): () => void => {
     return (): void => {
-      unsubscribe(tracker);
+      setTimeout(() => unsubscribe(tracker), 0);
     };
   }, []);
 
