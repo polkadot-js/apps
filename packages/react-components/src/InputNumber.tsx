@@ -7,7 +7,7 @@ import { BareProps, BitLength } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { classes } from './util';
 import { BitLengthOption } from './constants';
@@ -62,8 +62,8 @@ function getGlobalMaxValue (bitLength?: number): BN {
 function getRegex (isDecimal: boolean): RegExp {
   return new RegExp(
     isDecimal
-      ? `^(0|[1-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$`
-      : '^(0|[1-9]\\d*)$'
+      ? `^([0-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$`
+      : '^([0-9]\\d*)$'
   );
 }
 
@@ -161,19 +161,31 @@ function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean
 //   }`;
 // }
 
-function getValuesFromString (value: string, si: SiDef | null, props: Props): [string, BN, boolean] {
-  const [valueBn, isValid] = inputToBn(value, si, props);
-
+export function formatInput (value: string) {
   let formatedValue = value;
   // Sometimes the value is already formatted, avoid formatting in those cases
   const regex = RegExp('^\\d{1,3}(,\\d{3})*(\\.\\d+)?$');
   // Format only if required
-  if (!regex.exec(value)) {
-    const defaultValue = valueBn
-      ? formatBalance(valueBn, { forceUnit: '-', withSi: false }).replace(',', ',')
-      : valueBn;
-    formatedValue = defaultValue.split('.')[0];
+  if (value && !regex.exec(value)) {
+    let decimalValue;
+    if (value.includes('.')) {
+      decimalValue = value.split('.');
+      value = decimalValue[0];
+    }
+    formatedValue = formatNumber(new BN(value.replace(/,/g, '')));
+    formatedValue = decimalValue ? `${formatedValue}.${decimalValue[1]}` : formatedValue;
   }
+
+  const regexCheckZero = RegExp('^(0\\d)');
+  // The following will just remove the 0 on the left, example 01 -> 1
+  formatedValue = regexCheckZero.exec(value) ? new BN(value).toString() : formatedValue;
+  return formatedValue;
+}
+
+function getValuesFromString (value: string, si: SiDef | null, props: Props): [string, BN, boolean] {
+  const [valueBn, isValid] = inputToBn(value, si, props);
+
+  const formatedValue = formatInput(value);
   return [
     formatedValue,
     valueBn,
