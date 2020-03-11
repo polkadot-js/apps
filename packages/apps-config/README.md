@@ -33,6 +33,11 @@ There are 2 general areas of interest here -
 
 These are self-explanatory and config here actually does get used in other parts such as well. Basically the information here is broken down into a couple of catagories -
 
-- chains - Specific logos when connecting to a specific chain
-- nodes - Logos that are used when connecting to a specific runtime spec type (catch-all)
-- named - These logos are used [settings](./settings)
+- general
+  - color configuration based on chain
+- identityIcon
+  - specific identityIcon to use based on node name
+- logos
+  - chains - Specific logos when connecting to a specific chain
+  - nodes - Logos that are used when connecting to a specific runtime spec type (catch-all)
+  - named - These logos are used [settings](./settings)
