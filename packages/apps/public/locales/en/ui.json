@@ -933,5 +933,8 @@
   "Retrieving data": "",
   "Verify the password entered above.": "",
   "password (repeat)": "",
-  "Current head": ""
+  "Current head": "",
+  "Pending payouts for {{count}} eras:": "",
+  "Payout reward": "",
+  "Account actions{{count}}": ""
 }
