@@ -32,6 +32,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [next, setNext] = useState<string[] | undefined>();
+  const [payoutCount, setPayoutCount] = useState(0);
   const allStashes = useCall<string[]>(api.derive.staking.controllers, [], {
     transform: ([stashes]: [AccountId[]]): string[] =>
       stashes.map((accountId): string => accountId.toString())
@@ -58,14 +59,20 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     },
     {
       name: 'actions',
-      text: t('Account actions')
+      text: t('Account actions{{count}}', {
+        replace: {
+          count: payoutCount
+            ? ` (${payoutCount})`
+            : ''
+        }
+      })
     },
     {
       hasParams: true,
       name: 'query',
       text: t('Validator stats')
     }
-  ], [t]);
+  ], [payoutCount, t]);
   const hiddenTabs = useMemo((): string[] => {
     const result = next ? [] : ['waiting'];
 
@@ -113,6 +120,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         isVisible={pathname === `${basePath}/actions`}
         recentlyOnline={recentlyOnline}
         next={next}
+        onUpdatePending={setPayoutCount}
         stakingOverview={stakingOverview}
       />
       <Overview
