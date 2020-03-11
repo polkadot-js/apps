@@ -24,6 +24,12 @@ export type TxDefs = SubmittableExtrinsic | IExtrinsic | Call | TxDef | null;
 
 export type TxSource<T extends TxDefs> = [T, boolean];
 
+export interface ModalState {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}
+
 export interface Slash {
   accountId: AccountId;
   amount: Balance;
@@ -58,4 +64,10 @@ export interface TxState extends ExtrinsicAndSenders {
   isSending: boolean;
   accountId?: StringOrNull;
   onChangeAccountId: (_: StringOrNull) => void;
+}
+
+export interface UseSudo {
+  allAccounts: string[];
+  sudoKey?: string;
+  isMine: boolean;
 }

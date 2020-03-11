@@ -157,7 +157,6 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         onFailed={this.onFailed}
         onSuccess={this.onSuccess}
         params={this.txParams()}
-        ref={this.button}
         tx={this.txMethod()}
       />
     );

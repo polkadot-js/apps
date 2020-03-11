@@ -13,7 +13,7 @@ import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
-import { isUndefined } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 import { classes, getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';
@@ -222,7 +222,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return !optionsAll
       ? []
-      : optionsAll[type].filter(({ value }): boolean => !!value && (!filter || filter.includes(value)));
+      : optionsAll[type].filter(({ value }): boolean => !filter || (!!value && filter.includes(value)));
   }
 
   private onChange = (address: string): void => {
@@ -250,17 +250,13 @@ class InputAddress extends React.PureComponent<Props, State> {
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item): boolean =>
-      item.value !== null && (
+      !!item.value && (
         (item.name.toLowerCase && item.name.toLowerCase().includes(queryLower)) ||
         item.value.toLowerCase().includes(queryLower)
       )
     );
 
-    const valueMatches = matches.filter((item): boolean =>
-      item.value !== null
-    );
-
-    if (isInput && valueMatches.length === 0) {
+    if (isInput && matches.length === 0) {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
@@ -277,7 +273,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       const nextItem = matches[index + 1];
       const hasNext = nextItem && nextItem.value;
 
-      return item.value !== null || (!isLast && !!hasNext);
+      return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
     });
   }
 }
@@ -314,9 +310,9 @@ const ExportedComponent = withMulti(
   `,
   withObservable(keyringOption.optionsSubject, {
     propName: 'optionsAll',
-    transform: (optionsAll: KeyringOptions): Record<string, Option[]> =>
-      Object.entries(optionsAll).reduce((result: Record<string, Option[]>, [type, options]): Record<string, Option[]> => {
-        result[type] = options.map((option): Option =>
+    transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
+      Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {
+        result[type] = options.map((option): Option | React.ReactNode =>
           option.value === null
             ? createHeader(option)
             : createItem(option)

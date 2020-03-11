@@ -83,7 +83,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
-              options: require('@polkadot/dev-react/config/babel')
+              options: require('@polkadot/dev/config/babel')
             }
           ]
         },
@@ -184,7 +184,10 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           static: path.join(process.cwd(), '/build')
         })
     ]).filter((plugin) => plugin),
-    watch: !isProd
+    watch: !isProd,
+    watchOptions: {
+      ignored: ['.yarn', /build/, /node_modules/]
+    }
   };
 }
 

@@ -42,11 +42,11 @@ const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
 function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][], jsonValues: string): State {
-  const chartData = values.reduce((config, values, index): Config => {
+  const chartData = values.reduce((chartData, values, index): Config => {
     const color = colors[index] || alphaColor(COLORS[index]);
     const data = values.map((value): number => BN.isBN(value) ? value.toNumber() : value);
 
-    config.datasets.push({
+    chartData.datasets.push({
       data,
       fill: false,
       label: legends[index],
@@ -55,7 +55,7 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
       hoverBackgroundColor: color
     });
 
-    return config;
+    return chartData;
   }, {
     labels,
     datasets: [] as Dataset[]

@@ -103,5 +103,11 @@ export default css`
     .ui.toggle.checkbox input:checked~label:before {
       background-color: ${colorBtnHighlight} !important;
     }
+
+    .ui--Spinner {
+      .loader svg {
+        stroke: ${colorBtnPrimary};
+      }
+    }
   }
 `;

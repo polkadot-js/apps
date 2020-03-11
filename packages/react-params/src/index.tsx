@@ -23,6 +23,7 @@ interface Props extends I18nProps {
   overrides?: ComponentMap;
   params: ParamDef[];
   values?: RawParams | null;
+  withBorder?: boolean;
 }
 
 interface State {
@@ -73,7 +74,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, onEnter, onEscape, overrides, params, style } = this.props;
+    const { className, isDisabled, onEnter, onEscape, overrides, params, style, withBorder = true } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -82,7 +83,7 @@ class Params extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className={classes('ui--Params', className)}
+        className={classes('ui--Params', className, withBorder ? 'withBorder' : 'withoutBorder')}
         style={style}
       >
         <ErrorBoundary onError={this.onRenderError}>
@@ -148,7 +149,14 @@ class Params extends React.PureComponent<Props, State> {
 
 export default translate(
   styled(Params as React.ComponentClass<Props>)`
-    border-left: 0.25rem solid #f2f2f2;
+    &.withBorder {
+      border-left: 0.25rem solid #f2f2f2;
+    }
+
+    &.withoutBorder {
+      margin-left: -1.75rem;
+      padding: 0;
+    }
 
     .ui--Param .ui--Labelled label {
       text-transform: none !important;

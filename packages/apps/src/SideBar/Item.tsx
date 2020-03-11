@@ -103,7 +103,11 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
       <Icon name={icon} />
       <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
       {count !== 0 && (
-        <Badge isInline info={count} type='counter' />
+        <Badge
+          isInline
+          info={count}
+          type='counter'
+        />
       )}
       <Tooltip
         offset={TOOLTIP_OFFSET}
@@ -130,7 +134,7 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
         )
         : (
           <NavLink
-            activeClassName='apps--SideBar-Item-NavLink-active'
+            activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
             className='apps--SideBar-Item-NavLink'
             data-for={`nav-${name}`}
             data-tip

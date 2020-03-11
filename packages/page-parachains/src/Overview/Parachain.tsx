@@ -1,0 +1,121 @@
+// Copyright 2017-2020 @polkadot/app-parachains authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { DeriveParachain } from '@polkadot/api-derive/types';
+
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+import { formatNumber } from '@polkadot/util';
+import { Badge, Icon } from '@polkadot/react-components';
+import ParachainInfo from '../ParachainInfo';
+
+import { useTranslation } from '../translate';
+
+interface Props {
+  className?: string;
+  parachain: DeriveParachain;
+}
+
+function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0, watermark } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const history = useHistory();
+
+  const _onClick = (): void => {
+    history.push(`/parachains/${id.toString()}`);
+  };
+
+  return (
+    <tr
+      className={className}
+      onClick={_onClick}
+    >
+      <td className='number'>
+        <h1>{id.toString()}</h1>
+      </td>
+      <td className='badges'>
+        <div>
+          <Badge
+            className='did-update'
+            hover={t(didUpdate ? 'Updated in the latest block' : 'Not updated in the last block')}
+            info={
+              <Icon name='check' />
+            }
+            isGray={!didUpdate}
+            isTooltip
+            type='online'
+          />
+          <Badge
+            className='pending-messages'
+            hover={t(
+              '{{relayDispatchQueueSize}} dispatch messages pending',
+              {
+                replace: {
+                  relayDispatchQueueSize
+                }
+              }
+            )}
+            info={relayDispatchQueueSize}
+            isGray={relayDispatchQueueSize <= 0}
+            isTooltip
+            type='counter'
+          />
+        </div>
+      </td>
+      <td className='all info'>
+        <div>
+          <ParachainInfo info={info} />
+        </div>
+      </td>
+      <td className='all'></td>
+      <td className='top number pending-swap-id ui--media-small'>
+        {pendingSwapId && (
+          <>
+            <label>{t('will swap to id')}</label>
+            <b>{pendingSwapId.toString()}</b>
+          </>
+        )}
+      </td>
+      <td className='top ui--media-small'>
+        <label>{t('scheduling')}</label>
+        {info?.scheduling?.toString() || t('<unknown>')}
+      </td>
+      <td className='top number together'>
+        <label>{t('watermark')}</label>
+        <h1>#{formatNumber(watermark)}</h1>
+      </td>
+    </tr>
+  );
+}
+
+export default styled(Parachain)`
+  & {
+    cursor: pointer !important;
+  }
+
+  h1 {
+    margin-top: 0 !important;
+  }
+
+  td.badges > div {
+    width: 3rem;
+    display: flex;
+    align-items: center;
+  }
+
+  td.info > div {
+    display: flex;
+    align-items: center;
+  }
+
+  td.pending-swap-id {
+    &, & * {
+      color: red !important;
+    }
+  }
+
+  .did-update {
+    margin-bottom: 0;
+  }
+`;

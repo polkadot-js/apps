@@ -1,3 +1,1 @@
-module.exports = {
-  extends: '@polkadot/dev-react/config/babel'
-};
+module.exports = require('@polkadot/dev/config/babel');

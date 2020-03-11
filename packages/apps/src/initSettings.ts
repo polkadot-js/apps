@@ -4,9 +4,9 @@
 
 import queryString from 'query-string';
 import store from 'store';
+import { availableEndpoints } from '@polkadot/apps-config/settings';
 import { registry } from '@polkadot/react-api';
 import settings from '@polkadot/ui-settings';
-import endpoints from '@polkadot/app-settings/available/endpoints';
 
 // we split here so that both these forms are allowed
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
@@ -18,11 +18,12 @@ if (Array.isArray(urlOptions.rpc)) {
   throw new Error('Invalid WS endpoint specified');
 }
 
+const fallbackUrl = availableEndpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' };
 const apiUrl = urlOptions.rpc // we have a supplied value
   ? urlOptions.rpc.split('#')[0] // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
   : [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl) // overridden, or stored
     ? settings.apiUrl // keep as-is
-    : endpoints[0].value as string; // grab first available
+    : fallbackUrl.value as string; // grab the fallback
 
 // set the default as retrieved here
 settings.set({ apiUrl });

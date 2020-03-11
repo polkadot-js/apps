@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RuntimeVersion } from '@polkadot/types/interfaces';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
 import React, { useState } from 'react';
@@ -10,14 +9,13 @@ import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
-import { useCall, useApi } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
-import { BestNumber, Chain } from '@polkadot/react-query';
 
+import NetworkModal from '../modals/Network';
 import { useTranslation } from '../translate';
+import ChainInfo from './ChainInfo';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
-import NetworkModal from '../modals/Network';
 
 interface Props {
   className?: string;
@@ -30,8 +28,6 @@ interface Props {
 
 function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
   const [modals, setModals] = useState<Record<string, boolean>>(
     routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
@@ -75,19 +71,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
           vertical
         >
           <div className='apps--SideBar-Scroll'>
-            <div
-              className='apps--SideBar-logo'
-              onClick={_toggleModal('network')}
-            >
-              <ChainImg />
-              <div className='info'>
-                <Chain className='chain' />
-                {runtimeVersion && (
-                  <div className='runtimeVersion'>{t('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
-                )}
-                <BestNumber label='#' />
-              </div>
-            </div>
+            <ChainInfo onClick={_toggleModal('network')} />
             {routing.routes.map((route, index): React.ReactNode => (
               route
                 ? (
@@ -138,8 +122,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
             }
           </div>
           <Responsive
-            minWidth={SIDEBAR_MENU_THRESHOLD}
             className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
+            minWidth={SIDEBAR_MENU_THRESHOLD}
           >
             <Button
               icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
@@ -160,6 +144,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
   );
 }
 
+const sideBorderWidth = '0.65rem';
+
 export default styled(SideBar)`
   display: flex;
   position: relative;
@@ -176,13 +162,22 @@ export default styled(SideBar)`
 
   .apps--SideBar {
     align-items: center;
-    background: #3f3f3f;
+    background: #4f4f4f;
+    box-sizing: border-box;
     display: flex;
     flex-flow: column;
     height: auto;
     position: relative;
     transition: left 0.3s linear;
     width: 100%;
+
+    .apps--SideBar-border {
+      border-top: ${sideBorderWidth} solid transparent;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+    }
 
     .ui.vertical.menu {
       display: flex;
@@ -219,40 +214,8 @@ export default styled(SideBar)`
       }
     }
 
-    .apps--SideBar-logo {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0.5rem 1rem 1.5rem 0;
-      padding-top: 0.75em;
-      width: 10rem;
-
-      img {
-        height: 2.75rem;
-        width: 2.75rem;
-      }
-
-      > div.info {
-        color: white;
-        opacity: 0.75;
-        text-align: right;
-        vertical-align: middle;
-
-        > div.chain {
-          font-size: 0.9rem;
-          line-height: 1rem;
-        }
-
-        > div.runtimeVersion {
-          font-size: 0.75rem;
-          line-height: 1rem;
-        }
-      }
-    }
-
     .apps--SideBar-collapse {
-      background: #3f3f3f;
+      background: #4f4f4f;
       bottom: 0;
       left: 0;
       padding: 0.75rem 0 .75rem 0.65rem;

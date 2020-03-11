@@ -11,6 +11,7 @@ import { registry } from '@polkadot/react-api';
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
+import Spinner from '../Spinner';
 import { useTranslation } from '../translate';
 import { classes } from '../util';
 import StatusContext from './Context';
@@ -46,16 +47,19 @@ function signerIconName (status: QueueTxStatus): any {
       return 'ban';
 
     case 'completed':
+    case 'inblock':
     case 'finalized':
     case 'sent':
       return 'check';
 
     case 'dropped':
+    case 'retracted':
     case 'invalid':
     case 'usurped':
       return 'arrow down';
 
     case 'error':
+    case 'finalitytimeout':
       return 'warning sign';
 
     case 'queued':
@@ -126,10 +130,10 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
             />
           )}
           <div className='short'>
-            <Icon
-              loading={icon === 'spinner'}
-              name={icon}
-            />
+            {icon === 'spinner'
+              ? <Spinner variant='push' />
+              : <Icon name={icon} />
+            }
           </div>
           <div className='desc'>
             <div className='header'>
@@ -260,18 +264,25 @@ export default styled(Status)`
       background: teal;
     }
 
-    &.completed > .wrapper > .container,
-    &.finalized > .wrapper > .container,
-    &.sent > .wrapper > .container,
-    &.success > .wrapper > .container {
-      background: green;
+    &.completed,
+    &.finalized,
+    &.inblock,
+    &.sent,
+    &.success {
+      & > .wrapper > .container {
+        background: green;
+      }
     }
 
-    &.dropped > .wrapper > .container,
-    &.error > .wrapper > .container,
-    &.invalid > .wrapper > .container,
-    &.usurped > .wrapper > .container {
-      background: red;
+    &.dropped,
+    &.error,
+    &.finalitytimeout,
+    &.invalid,
+    &.retracted,
+    &.usurped {
+      & > .wrapper > .container {
+        background: red;
+      }
     }
   }
 `;

@@ -55,7 +55,7 @@ function parseFile (raw: Uint8Array): Parsed {
 
 export default function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [placeholder, setPlaceholder] = useState(t(EMPTY_PLACEHOLDER));
+  const [placeholder, setPlaceholder] = useState<string>(t(EMPTY_PLACEHOLDER));
 
   if (isDisabled) {
     const pairs = defaultValue.value as Vec<Pair>;
