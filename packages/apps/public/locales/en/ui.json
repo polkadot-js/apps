@@ -936,5 +936,6 @@
   "Current head": "",
   "Pending payouts for {{count}} eras:": "",
   "Payout reward": "",
-  "Account actions{{count}}": ""
+  "Account actions{{count}}": "",
+  "everything": ""
 }
