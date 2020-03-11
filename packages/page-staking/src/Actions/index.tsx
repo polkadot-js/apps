@@ -21,6 +21,7 @@ interface Props {
   recentlyOnline?: DerivedHeartbeats;
   next?: string[];
   stakingOverview?: DerivedStakingOverview;
+  onUpdatePending: (count: number) => void;
 }
 
 function getStashes (allAccounts: string[], stashTypes: Record<string, number>, queryBonded?: Option<AccountId>[], queryLedger?: Option<StakingLedger>[]): [string, boolean][] | null {
@@ -47,7 +48,7 @@ function getStashes (allAccounts: string[], stashTypes: Record<string, number>, 
   );
 }
 
-export default function Actions ({ allStashes, className, isVisible, next, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
+export default function Actions ({ allStashes, className, isVisible, next, onUpdatePending, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -59,6 +60,7 @@ export default function Actions ({ allStashes, className, isVisible, next, recen
   });
   const queryBonded = useCall<Option<AccountId>[]>(api.query.staking.bonded.multi as any, [allAccounts]);
   const queryLedger = useCall<Option<StakingLedger>[]>(api.query.staking.ledger.multi as any, [allAccounts]);
+  const [pendingPayouts, setPendingPayouts] = useState<Record<string, number>>({});
   const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
@@ -67,7 +69,12 @@ export default function Actions ({ allStashes, className, isVisible, next, recen
     setFoundStashes(getStashes(allAccounts, stashTypes, queryBonded, queryLedger));
   }, [allAccounts, queryBonded, queryLedger, stashTypes]);
 
+  useEffect((): void => {
+    onUpdatePending(Object.values(pendingPayouts).filter((count) => !!count).length);
+  }, [pendingPayouts]);
+
   const _toggleNewStake = (): void => setIsNewStateOpen(!isNewStakeOpen);
+  const _onUpdatePayout = (stashId: string, count: number): void => setPendingPayouts({ ...pendingPayouts, [stashId]: count });
   const _onUpdateType = (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
     setStashTypes({
       ...stashTypes,
@@ -104,6 +111,7 @@ export default function Actions ({ allStashes, className, isVisible, next, recen
                   isVisible={isVisible}
                   key={stashId}
                   next={next}
+                  onUpdatePayout={_onUpdatePayout}
                   onUpdateType={_onUpdateType}
                   recentlyOnline={recentlyOnline}
                   stakingOverview={stakingOverview}

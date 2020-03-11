@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveEraRewards, DeriveStakerExpoure, DeriveStakerPoints } from '@polkadot/api-derive/types';
+import { DeriveEraRewards, DeriveStakerExposure, DeriveStakerPoints } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -92,7 +92,7 @@ function extractRewards (erasRewards: DeriveEraRewards[], allPoints: DeriveStake
   };
 }
 
-function extractStake (exposures: DeriveStakerExpoure[], divisor: BN): ChartInfo {
+function extractStake (exposures: DeriveStakerExposure[], divisor: BN): ChartInfo {
   const labels: string[] = [];
   const stakeSet: LineDataEntry = [];
 
@@ -122,7 +122,7 @@ export default function Validator ({ className, validatorId }: Props): React.Rea
   const [{ chart: stakeChart, labels: stakeLabels }, setStakeCharts] = useState<ChartInfo>({ chart: [], labels: [] });
   const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards as any, []);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints as any, [validatorId, true]);
-  const stakerExposure = useCall<DeriveStakerExpoure[]>(api.derive.staking.stakerExposure as any, [validatorId, true]);
+  const stakerExposure = useCall<DeriveStakerExposure[]>(api.derive.staking.stakerExposure as any, [validatorId, true]);
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))

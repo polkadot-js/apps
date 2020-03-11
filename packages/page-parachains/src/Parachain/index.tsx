@@ -10,7 +10,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, CardSummary, Columar, Column, Icon, Menu, Popup, Spinner, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall, useModal, useToggle } from '@polkadot/react-hooks';
-import { formatNumber, isNull, isUndefined } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 import ParachainInfo from '../ParachainInfo';
 import Deregister from './Deregister';
@@ -108,11 +108,6 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
           {parachain.pendingSwapId && (
             <CardSummary label={t('pending swap id')}>
               {parachain.pendingSwapId.toString()}
-            </CardSummary>
-          )}
-          {parachain.watermark && (
-            <CardSummary label={t('watermark')}>
-              #{formatNumber(parachain.watermark)}
             </CardSummary>
           )}
         </section>
