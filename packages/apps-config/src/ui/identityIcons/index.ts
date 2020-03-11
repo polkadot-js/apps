@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // overrides based on the actual software node type
-const identityIcons: Record<string, string> = [
+const identityNodes: Record<string, string> = [
   ['edgeware-node', 'substrate'],
   ['joystream-node', 'beachball'],
   ['node-template', 'substrate'],
@@ -16,5 +16,5 @@ const identityIcons: Record<string, string> = [
 }), {});
 
 export {
-  identityIcons
+  identityNodes
 };

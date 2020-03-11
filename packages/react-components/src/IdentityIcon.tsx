@@ -6,7 +6,7 @@ import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { IdentityProps as Props } from '@polkadot/react-identicon/types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import { identityIcons } from '@polkadot/apps-config/ui/identityIcons';
+import { identityNodes } from '@polkadot/apps-config/ui/identityIcons';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
@@ -16,7 +16,7 @@ import StatusContext from './Status/Context';
 import { useTranslation } from './translate';
 
 export function getIdentityTheme (systemName: string): 'empty' {
-  return ((uiSettings.icon === 'default' && identityIcons[systemName.toLowerCase().replace(/-/g, ' ')]) || uiSettings.icon) as 'empty';
+  return ((uiSettings.icon === 'default' && identityNodes[systemName.toLowerCase().replace(/-/g, ' ')]) || uiSettings.icon) as 'empty';
 }
 
 export default function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }: Props): React.ReactElement<Props> {
