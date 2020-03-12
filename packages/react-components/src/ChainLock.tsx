@@ -66,6 +66,6 @@ function ChainLock ({ className, genesisHash, isDisabled, onChange, preventDefau
   );
 }
 
-export default styled(ChainLock)`
+export default React.memo(styled(ChainLock)`
   text-align: right;
-`;
+`);

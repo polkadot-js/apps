@@ -4,22 +4,28 @@
 
 import { ModalState } from './types';
 
+import { useCallback } from 'react';
+
 import useToggle from './useToggle';
 
 export default function useModal (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {
   const [isOpen, , setIsOpen] = useToggle(defaultIsOpen || false);
-
-  return {
-    isOpen,
-    onOpen: (): void => {
+  const _onOpen = useCallback(
+    (): void => {
       setIsOpen(true);
 
       onOpen && onOpen();
     },
-    onClose: (): void => {
+    []
+  );
+  const _onClose = useCallback(
+    (): void => {
       setIsOpen(false);
 
       onClose && onClose();
-    }
-  };
+    },
+    []
+  );
+
+  return { isOpen, onClose: _onClose, onOpen: _onOpen };
 }

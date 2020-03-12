@@ -63,7 +63,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Content)`
+export default React.memo(styled(Content)`
   background: #fafafa;
   display: flex;
   flex-direction: column;
@@ -82,4 +82,4 @@ export default styled(Content)`
   .connecting {
     padding: 1rem 0;
   }
-`;
+`);

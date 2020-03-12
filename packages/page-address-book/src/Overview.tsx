@@ -90,7 +90,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   );
 }
 
-export default styled(Overview)`
+export default React.memo(styled(Overview)`
   .filter--tags {
     .ui--Dropdown {
       padding-left: 0;
@@ -100,4 +100,4 @@ export default styled(Overview)`
       }
     }
   }
-`;
+`);

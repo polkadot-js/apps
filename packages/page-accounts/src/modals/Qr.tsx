@@ -101,9 +101,9 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
   );
 }
 
-export default styled(QrModal)`
+export default React.memo(styled(QrModal)`
   .qr-wrapper {
     margin: 0 auto;
     max-width: 30rem;
   }
-`;
+`);

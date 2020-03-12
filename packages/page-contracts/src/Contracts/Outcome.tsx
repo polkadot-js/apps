@@ -55,7 +55,7 @@ function Outcome (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default styled(Outcome)`
+export default React.memo(styled(Outcome)`
   & {
     .info {
       display: inline-flex;
@@ -101,4 +101,4 @@ export default styled(Outcome)`
       }
     }
   }
-`;
+`);

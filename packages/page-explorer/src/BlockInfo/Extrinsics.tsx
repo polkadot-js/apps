@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -11,16 +10,17 @@ import { registry } from '@polkadot/react-api';
 import { AddressMini, Call, Column, LinkExternal } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   blockNumber?: BlockNumber;
+  className?: string;
   label?: React.ReactNode;
   value?: Extrinsic[] | null;
 }
 
-function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number): React.ReactNode {
-  const { blockNumber, t } = props;
+function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number, t: (s: string, opt?: any) => string): React.ReactNode {
+  const { blockNumber } = props;
   const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
   const isMortal = extrinsic.era.isMortalEra;
   let eraEnd;
@@ -81,7 +81,8 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number): Re
 }
 
 function Extrinsics (props: Props): React.ReactElement<Props> {
-  const { className, label, t, value } = props;
+  const { t } = useTranslation();
+  const { className, label, value } = props;
 
   return (
     <Column
@@ -91,18 +92,18 @@ function Extrinsics (props: Props): React.ReactElement<Props> {
     >
       {value?.map((extrinsic, index): React.ReactNode => {
         try {
-          return renderExtrinsic(props, extrinsic, index);
+          return renderExtrinsic(props, extrinsic, index, t);
         } catch (error) {
           console.error(error);
 
-          return props.t('Unable to render extrinsic');
+          return t('Unable to render extrinsic');
         }
       })}
     </Column>
   );
 }
 
-export default translate(styled(Extrinsics)`
+export default React.memo(styled(Extrinsics)`
   .explorer--BlockByHash-header {
     position: absolute;
     top: 0.25rem;

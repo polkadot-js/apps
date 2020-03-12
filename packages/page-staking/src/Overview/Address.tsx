@@ -6,7 +6,7 @@ import { AccountId, Balance, RewardPoint } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo, DerivedStakingQuery, DerivedHeartbeatAuthor } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -122,16 +122,25 @@ function Address ({ address, className, filterName, hasQueries, heartbeat, isAut
     );
   }, [address, filterName, info]);
 
-  const _onFavorite = (): void => toggleFavorite(address);
-  const _onQueryStats = (): void => {
-    window.location.hash = `/staking/query/${address}`;
-  };
-  const _toggleNominators = (event: React.SyntheticEvent): void => {
-    event.preventDefault();
-    event.stopPropagation();
+  const _onFavorite = useCallback(
+    (): void => toggleFavorite(address),
+    [address]
+  );
+  const _onQueryStats = useCallback(
+    (): void => {
+      window.location.hash = `/staking/query/${address}`;
+    },
+    [address]
+  );
+  const _toggleNominators = useCallback(
+    (event: React.SyntheticEvent): void => {
+      event.preventDefault();
+      event.stopPropagation();
 
-    setIsExpanded(!isExpanded);
-  };
+      setIsExpanded((isExpanded: boolean) => !isExpanded);
+    },
+    []
+  );
 
   return (
     <tr className={`${className} ${isAuthor && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>

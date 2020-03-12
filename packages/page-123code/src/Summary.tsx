@@ -22,7 +22,7 @@ function Summary ({ children, className, style }: Props): React.ReactElement<Pro
   );
 }
 
-export default styled(Summary)`
+export default React.memo(styled(Summary)`
   opacity: 0.5;
   padding: 1rem 1.5rem;
-`;
+`);

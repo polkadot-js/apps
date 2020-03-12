@@ -44,8 +44,8 @@ function AccountIndex ({ children, className, defaultValue, label, style, value 
   );
 }
 
-export default styled(AccountIndex)`
+export default React.memo(styled(AccountIndex)`
   .account-index {
     font-family: monospace;
   }
-`;
+`);

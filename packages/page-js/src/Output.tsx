@@ -51,7 +51,7 @@ function Output ({ children, className, logs }: Props): React.ReactElement<Props
   );
 }
 
-export default styled(Output)`
+export default React.memo(styled(Output)`
   background-color: #4e4e4e;
   color: #ffffff;
   display: flex;
@@ -89,4 +89,4 @@ export default styled(Output)`
       color: #f88;
     }
   }
-`;
+`);

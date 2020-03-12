@@ -180,7 +180,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
   );
 }
 
-export default styled(InputAddressMulti)`
+export default React.memo(styled(InputAddressMulti)`
   border-top-width: 0px;
   margin-left: 2rem;
   width: calc(100% - 2rem);
@@ -217,4 +217,4 @@ export default styled(InputAddressMulti)`
       overflow-y: auto;
     }
   }
-`;
+`);

@@ -30,7 +30,7 @@ function Spinner ({ className, variant = 'app' }: Props): React.ReactElement<Pro
   );
 }
 
-export default styled(Spinner)`
+export default React.memo(styled(Spinner)`
   .loader {
     position: relative;
     margin: 0 auto;
@@ -105,4 +105,4 @@ export default styled(Spinner)`
       stroke: #eee !important;
     }
   }
-`;
+`);

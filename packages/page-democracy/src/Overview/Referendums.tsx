@@ -15,7 +15,7 @@ interface Props {
   className?: string;
 }
 
-export default function Referendums ({ className }: Props): React.ReactElement<Props> {
+function Referendums ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const referendums = useCall<DerivedReferendum[]>(api.derive.democracy.referendums, []);
@@ -44,3 +44,5 @@ export default function Referendums ({ className }: Props): React.ReactElement<P
     </div>
   );
 }
+
+export default React.memo(Referendums);

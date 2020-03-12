@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { useCallback } from 'react';
+
 import store from 'store';
 import useApi from './useApi';
 
@@ -9,9 +11,8 @@ import useApi from './useApi';
 export default function useCacheKey <T> (storageKeyBase: string): [(defaultValue?: T) => T | undefined, (value: T) => T] {
   const { api, isDevelopment } = useApi();
   const STORAGE_KEY = `${storageKeyBase}:${isDevelopment ? 'development' : api.genesisHash}`;
+  const getter = useCallback((): T | undefined => store.get(STORAGE_KEY), []);
+  const setter = useCallback((value: T): T => store.set(STORAGE_KEY, value), []);
 
-  return [
-    (): T | undefined => store.get(STORAGE_KEY),
-    (value: T): T => store.set(STORAGE_KEY, value)
-  ];
+  return [getter, setter];
 }

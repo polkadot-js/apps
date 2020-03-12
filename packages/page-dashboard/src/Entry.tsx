@@ -34,8 +34,8 @@ function Entry ({ className, route: { i18n, icon, name } }: Props): React.ReactE
   );
 }
 
-export default styled(Entry)`
+export default React.memo(styled(Entry)`
   .name {
     margin-top: 0.75rem;
   }
-`;
+`);

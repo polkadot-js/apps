@@ -51,7 +51,7 @@ function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter,
   );
 }
 
-export default styled(Option)`
+export default React.memo(styled(Option)`
   position: relative;
 
   .ui--Param-Option-toggle {
@@ -59,4 +59,4 @@ export default styled(Option)`
     right: 3.5rem;
     top: 0.5rem;
   }
-`;
+`);

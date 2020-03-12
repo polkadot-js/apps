@@ -50,10 +50,7 @@ function Table ({ children, className }: TableProps): React.ReactElement<TablePr
   );
 }
 
-Table.Body = Body;
-Table.Head = Head;
-
-export default styled(Table)`
+const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
 
   table {
@@ -201,4 +198,9 @@ export default styled(Table)`
       }
     }
   }
-` as any as TableImpl;
+`) as unknown as TableImpl;
+
+Memo.Body = Body;
+Memo.Head = Head;
+
+export default Memo;

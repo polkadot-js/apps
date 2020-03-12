@@ -110,4 +110,4 @@ function ProposedAction ({ className, asInset, idNumber, insetProps, isCollapsib
   );
 }
 
-export default styled(ProposedAction)`${styles}`;
+export default React.memo(styled(ProposedAction)`${styles}`);

@@ -87,7 +87,7 @@ function CardSummary ({ children, className, help, label, progress }: Props): Re
   );
 }
 
-export default styled(CardSummary)`
+export default React.memo(styled(CardSummary)`
   align-items: center;
   background: transparent !important;
   border: none !important;
@@ -150,4 +150,4 @@ export default styled(CardSummary)`
       line-height: 1.4rem;
     }
   }
-`;
+`);

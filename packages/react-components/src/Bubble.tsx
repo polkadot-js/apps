@@ -36,7 +36,7 @@ function Bubble ({ color, children, className, icon, label }: Props): React.Reac
   );
 }
 
-export default styled(Bubble)`
+export default React.memo(styled(Bubble)`
   font-weight: normal;
   margin: 0.25rem;
   padding: 0;
@@ -75,4 +75,4 @@ export default styled(Bubble)`
       padding: 0 0 0 0.25rem;
     }
   }
-`;
+`);

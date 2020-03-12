@@ -13,7 +13,7 @@ interface Props {
   onError: (error: string | null) => void;
 }
 
-export default function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props): React.ReactElement<Props> | null {
+function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
 
@@ -44,3 +44,5 @@ export default function InputValidationUnstakeThreshold ({ onError, unstakeThres
     </article>
   );
 }
+
+export default React.memo(InputValidationUnstakeThreshold);

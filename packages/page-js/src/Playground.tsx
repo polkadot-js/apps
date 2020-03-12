@@ -238,7 +238,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Playground)`
+export default React.memo(styled(Playground)`
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -334,4 +334,4 @@ export default styled(Playground)`
       margin: 0;
     }
   }
-`;
+`);
