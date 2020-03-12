@@ -3,22 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedBalancesAll } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 
-interface Props extends I18nProps {
+interface Props {
   accountId: string | null;
   onError: (error: string | null) => void;
   value?: BN | null;
 }
 
-function ValidateAmount ({ accountId, onError, value, t }: Props): React.ReactElement<Props> | null {
+function ValidateAmount ({ accountId, onError, value }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [accountId]);
   const [error, setError] = useState<string | null>(null);
@@ -51,4 +51,4 @@ function ValidateAmount ({ accountId, onError, value, t }: Props): React.ReactEl
   );
 }
 
-export default translate(ValidateAmount);
+export default React.memo(ValidateAmount);

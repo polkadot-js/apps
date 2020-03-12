@@ -13,7 +13,7 @@ interface Props {
   className?: string;
 }
 
-export default function Query ({ className }: Props): React.ReactElement<Props> {
+function Query ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { value } = useParams();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
@@ -49,3 +49,5 @@ export default function Query ({ className }: Props): React.ReactElement<Props> 
     </div>
   );
 }
+
+export default React.memo(Query);
