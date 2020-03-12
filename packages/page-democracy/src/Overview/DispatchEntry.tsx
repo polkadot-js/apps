@@ -32,7 +32,7 @@ export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: P
   const [proposal, setProposal] = useState<Proposal | undefined>();
 
   useEffect((): void => {
-    preimage?.isSome &&setProposal(api.createType('Proposal', preimage.unwrap()[0].toU8a(true)));
+    preimage?.isSome && setProposal(api.createType('Proposal', preimage.unwrap()[0].toU8a(true)));
   }, [preimage]);
 
   return (
