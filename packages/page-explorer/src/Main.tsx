@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
 import React from 'react';
@@ -13,14 +12,16 @@ import BlockHeaders from './BlockHeaders';
 import Events from './Events';
 import Query from './Query';
 import Summary from './Summary';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   events: KeyedEvent[];
   headers: HeaderExtended[];
 }
 
-function Main ({ events, headers, t }: Props): React.ReactElement<Props> {
+function Main ({ events, headers }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <>
       <Query />
@@ -37,4 +38,4 @@ function Main ({ events, headers, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(Main);
+export default React.memo(Main);

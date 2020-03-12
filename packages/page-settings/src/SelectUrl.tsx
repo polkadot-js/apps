@@ -4,7 +4,7 @@
 
 import { Option } from '@polkadot/apps-config/settings/types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { availableEndpoints } from '@polkadot/apps-config/settings';
 import { Dropdown, Input, Toggle } from '@polkadot/react-components';
@@ -49,12 +49,14 @@ function makeUrl (_url: string): StateUrl {
 // validation on-top of the values retrieved
 function getInitialState (): State {
   const url = uiSettings.get().apiUrl;
-  const isCustom = availableEndpoints.reduce((isCustom: boolean, { value }): boolean => {
-    return isCustom && value !== url;
-  }, true);
-  const isValid = isValidUrl(url);
 
-  return { isCustom, isValid, url };
+  return {
+    isCustom: availableEndpoints.reduce((isCustom: boolean, { value }): boolean => {
+      return isCustom && value !== url;
+    }, true),
+    isValid: isValidUrl(url),
+    url
+  };
 }
 
 function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
@@ -71,16 +73,22 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
     onChange && info.isValid && onChange(info.url);
   }, [info]);
 
-  const _onChangeUrl = (url: string): void => setInfo({ ...info, ...makeUrl(url) });
-  const _onChangeCustom = (isCustom: boolean): void =>
-    setInfo({
+  const _onChangeUrl = useCallback(
+    (url: string): void =>
+      setInfo((info: State) => ({ ...info, ...makeUrl(url) })),
+    []
+  );
+  const _onChangeCustom = useCallback(
+    (isCustom: boolean): void => setInfo({
       ...makeUrl(
         isCustom
           ? info.url
           : (availableEndpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
       ),
       isCustom
-    });
+    }),
+    []
+  );
 
   return (
     <div className={className}>
@@ -111,7 +119,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(SelectUrl)`
+export default React.memo(styled(SelectUrl)`
   position: relative;
 
   .settings--customToggle {
@@ -119,4 +127,4 @@ export default styled(SelectUrl)`
     top: .5rem;
     right: 3.5rem;
   }
-`;
+`);

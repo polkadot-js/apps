@@ -27,7 +27,7 @@ function TopBar ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(TopBar)`
+export default React.memo(styled(TopBar)`
   background: #f2f2f2;
   font-size: 0.85rem;
   line-height: 1rem;
@@ -53,4 +53,4 @@ export default styled(TopBar)`
       border-width: 0;
     }
   }
-`;
+`);

@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { PeerInfo } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
 
-import translate from './translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   peers?: PeerInfo[] | null;
 }
 
@@ -28,7 +28,9 @@ const renderPeer = (peer: PeerInfo): React.ReactNode => {
   );
 };
 
-function Peers ({ className, peers, t }: Props): React.ReactElement<Props> {
+function Peers ({ className, peers }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <section className={`status--Peers ${className}`}>
       <h1>{t('connected peers')}</h1>
@@ -63,7 +65,7 @@ function Peers ({ className, peers, t }: Props): React.ReactElement<Props> {
   );
 }
 
-export default translate(
+export default React.memo(
   styled(Peers)`
     table {
       width: 100%;

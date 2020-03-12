@@ -86,7 +86,7 @@ function Banner ({ className }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default styled(Banner)`
+export default React.memo(styled(Banner)`
   padding: 0 0.5rem 0.5rem;
 
   .box {
@@ -100,4 +100,4 @@ export default styled(Banner)`
       max-width: 50rem;
     }
   }
-`;
+`);

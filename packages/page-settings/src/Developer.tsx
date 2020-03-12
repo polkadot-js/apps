@@ -164,7 +164,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
   );
 }
 
-export default styled(Developer)`
+export default React.memo(styled(Developer)`
   .editor {
     height: 21rem;
     margin-left: 2rem;
@@ -174,4 +174,4 @@ export default styled(Developer)`
   .help {
     padding: 0.5rem 2rem;
   }
-`;
+`);

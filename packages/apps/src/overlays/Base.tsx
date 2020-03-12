@@ -46,7 +46,7 @@ function BaseOverlay ({ children, className, icon, type }: Props): React.ReactEl
   );
 }
 
-export default styled(BaseOverlay)`
+export default React.memo(styled(BaseOverlay)`
   border-bottom: 1px solid transparent;
   left: 0;
   line-height: 1.5em;
@@ -95,4 +95,4 @@ export default styled(BaseOverlay)`
     right: 0.75em;
     top: 0.75em;
   }
-`;
+`);

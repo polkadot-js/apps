@@ -74,7 +74,7 @@ function SetKey ({ allAccounts, className, isMine, sudoKey }: Props): React.Reac
   );
 }
 
-export default styled(SetKey)`
+export default React.memo(styled(SetKey)`
   align-items: flex-end;
   justify-content: center;
 
@@ -89,4 +89,4 @@ export default styled(SetKey)`
   .sudoLabelled {
     align-items: center;
   }
-`;
+`);

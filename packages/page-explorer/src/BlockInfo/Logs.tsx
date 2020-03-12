@@ -4,16 +4,15 @@
 
 import { DigestItem } from '@polkadot/types/interfaces';
 import { Codec, TypeDef } from '@polkadot/types/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
 import { Column } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   value?: DigestItem[];
 }
 
@@ -86,7 +85,7 @@ function formatVector (vector: Vec<any>): React.ReactNode {
   );
 }
 
-function renderItem ({ t }: Props): (item: DigestItem, index: number) => React.ReactNode {
+function renderItem (t: (s: string, opt?: any) => string): (item: DigestItem, index: number) => React.ReactNode {
   return function LogItem (item: DigestItem, index: number): React.ReactNode {
     let content: React.ReactNode;
 
@@ -122,7 +121,8 @@ function renderItem ({ t }: Props): (item: DigestItem, index: number) => React.R
 }
 
 function Logs (props: Props): React.ReactElement<Props> | null {
-  const { t, value } = props;
+  const { value } = props;
+  const { t } = useTranslation();
 
   if (!value || !value.length) {
     return null;
@@ -130,9 +130,9 @@ function Logs (props: Props): React.ReactElement<Props> | null {
 
   return (
     <Column headerText={t('logs')}>
-      {value.map(renderItem(props))}
+      {value.map(renderItem(t))}
     </Column>
   );
 }
 
-export default translate(Logs);
+export default React.memo(Logs);

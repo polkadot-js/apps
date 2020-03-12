@@ -7,7 +7,6 @@ import { Bytes, Option } from '@polkadot/types';
 
 import FileSaver from 'file-saver';
 import React from 'react';
-import styled from 'styled-components';
 import { Card, IconLink, Labelled, Output, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -81,5 +80,4 @@ function Details ({ parachain: { heads, info, id } }: Props): React.ReactElement
   );
 }
 
-export default styled(Details)`
-`;
+export default React.memo(Details);

@@ -23,6 +23,6 @@ function Bare ({ children, className, style }: Props): React.ReactElement<Props>
   );
 }
 
-export default styled(Bare)`
+export default React.memo(styled(Bare)`
   position: relative;
-`;
+`);

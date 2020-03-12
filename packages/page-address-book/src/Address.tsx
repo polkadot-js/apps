@@ -306,7 +306,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   );
 }
 
-export default styled(Address)`
+export default React.memo(styled(Address)`
   .addresses--Address-buttons {
     text-align: right;
   }
@@ -324,4 +324,4 @@ export default styled(Address)`
   .name--input {
     width: 16rem;
   }
-`;
+`);

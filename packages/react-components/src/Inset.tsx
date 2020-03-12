@@ -71,7 +71,7 @@ function Inset ({ children, className, header, href, isCollapsible, isError, isS
   );
 }
 
-export default styled(Inset)`
+export default React.memo(styled(Inset)`
   & {
     box-shadow: 0 3px 3px rgba(0,0,0,.2);
     position: relative;
@@ -149,4 +149,4 @@ export default styled(Inset)`
       }
     }
   }
-`;
+`);

@@ -77,7 +77,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
   );
 }
 
-export default styled(Proposal)`
+export default React.memo(styled(Proposal)`
   .identityIcon {
     &:first-child {
       padding-top: 0;
@@ -87,4 +87,4 @@ export default styled(Proposal)`
       margin-bottom: 4px;
     }
   }
-`;
+`);

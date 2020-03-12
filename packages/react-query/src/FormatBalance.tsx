@@ -64,7 +64,7 @@ function FormatBalance ({ children, className, label, value, withSi }: Props): R
   );
 }
 
-export default styled(FormatBalance)`
+export default React.memo(styled(FormatBalance)`
   display: inline-block;
   vertical-align: baseline;
 
@@ -84,4 +84,4 @@ export default styled(FormatBalance)`
     opacity: 0.75;
     vertical-align: baseline;
   }
-`;
+`);

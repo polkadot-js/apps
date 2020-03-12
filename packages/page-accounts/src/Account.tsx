@@ -428,7 +428,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   );
 }
 
-export default styled(Account)`
+export default React.memo(styled(Account)`
   .accounts--Account-buttons {
     text-align: right;
   }
@@ -446,4 +446,4 @@ export default styled(Account)`
   .name--input {
     width: 16rem;
   }
-`;
+`);

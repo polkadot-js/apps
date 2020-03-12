@@ -23,7 +23,7 @@ interface Props {
   stakingOverview?: DerivedStakingOverview;
 }
 
-export default function Actions ({ allRewards, allStashes, className, isVisible, next, stakingOverview }: Props): React.ReactElement<Props> {
+function Actions ({ allRewards, allStashes, className, isVisible, next, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
@@ -104,3 +104,5 @@ export default function Actions ({ allRewards, allStashes, className, isVisible,
     </div>
   );
 }
+
+export default React.memo(Actions);

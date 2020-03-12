@@ -42,7 +42,7 @@ function Toggle ({ className, asSwitch = true, defaultValue, isDisabled, onChang
   );
 }
 
-export default styled(Toggle)`
+export default React.memo(styled(Toggle)`
   > label {
     display: inline-block;
     margin: 0 0.5rem;
@@ -56,4 +56,4 @@ export default styled(Toggle)`
   .ui.checkbox + label {
     color: rgba(78, 78, 78, 0.75);
   }
-`;
+`);

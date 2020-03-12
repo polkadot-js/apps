@@ -139,7 +139,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   );
 }
 
-export default styled(Transfer)`
+export default React.memo(styled(Transfer)`
   article.padded {
     box-shadow: none;
     margin-left: 2rem;
@@ -158,4 +158,4 @@ export default styled(Transfer)`
   label.with-help {
     flex-basis: 10rem;
   }
-`;
+`);

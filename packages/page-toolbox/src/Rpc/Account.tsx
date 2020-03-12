@@ -59,7 +59,7 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
   );
 }
 
-export default styled(Account)`
+export default React.memo(styled(Account)`
   box-sizing: border-box;
   padding-left: 2em;
-`;
+`);

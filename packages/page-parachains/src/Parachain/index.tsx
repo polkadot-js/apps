@@ -134,10 +134,10 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
   );
 }
 
-export default styled(Parachain)`
+export default React.memo(styled(Parachain)`
   & {
     .menu-button {
       margin-left: 1.4rem;
     }
   }
-`;
+`);

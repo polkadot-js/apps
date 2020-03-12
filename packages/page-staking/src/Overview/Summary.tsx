@@ -70,7 +70,7 @@ function Summary ({ className, isVisible, next, nominators, stakingOverview, sty
   );
 }
 
-export default styled(Summary)`
+export default React.memo(styled(Summary)`
   .validator--Account-block-icon {
     margin-right: 0.75rem;
     margin-top: -0.25rem;
@@ -82,4 +82,4 @@ export default styled(Summary)`
       margin-left: -1.5rem;
     }
   }
-`;
+`);
