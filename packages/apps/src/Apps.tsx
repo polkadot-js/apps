@@ -103,7 +103,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Apps)`
+export default React.memo(styled(Apps)`
   align-items: stretch;
   box-sizing: border-box;
   display: flex;
@@ -219,4 +219,4 @@ export default styled(Apps)`
       opacity: 1;
     }
   }
-`;
+`);

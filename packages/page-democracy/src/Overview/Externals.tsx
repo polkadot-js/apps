@@ -19,7 +19,7 @@ interface Props {
   className?: string;
 }
 
-export default function Externals ({ className }: Props): React.ReactElement<Props> | null {
+function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const external = useCall<Option<ITuple<[Hash, VoteThreshold]>>>(api.query.democracy.nextExternal, []);
@@ -84,3 +84,5 @@ export default function Externals ({ className }: Props): React.ReactElement<Pro
     </div>
   );
 }
+
+export default React.memo(Externals);

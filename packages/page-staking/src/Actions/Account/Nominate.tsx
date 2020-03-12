@@ -101,7 +101,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   );
 }
 
-export default styled(Nominate)`
+export default React.memo(styled(Nominate)`
   .shortlist {
     display: flex;
     flex-wrap: wrap;
@@ -148,4 +148,4 @@ export default styled(Nominate)`
       }
     }
   }
-`;
+`);

@@ -152,7 +152,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
 
 const sideBorderWidth = '0.65rem';
 
-export default styled(SideBar)`
+export default React.memo(styled(SideBar)`
   display: flex;
   position: relative;
   transition: width 0.3s linear;
@@ -287,4 +287,4 @@ export default styled(SideBar)`
       top: -2.9rem !important;
     `}
   }
-`;
+`);

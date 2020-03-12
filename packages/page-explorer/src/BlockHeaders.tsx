@@ -11,7 +11,7 @@ interface Props {
   headers: HeaderExtended[];
 }
 
-export default function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
+function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   return (
     <>
       {headers.map((header, index): React.ReactNode => (
@@ -25,3 +25,5 @@ export default function BlockHeaders ({ headers }: Props): React.ReactElement<Pr
     </>
   );
 }
+
+export default React.memo(BlockHeaders);

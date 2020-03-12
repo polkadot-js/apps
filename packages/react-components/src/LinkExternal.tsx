@@ -77,7 +77,7 @@ function LinkExternal ({ className, data, type, withShort }: Props): React.React
   );
 }
 
-export default styled(LinkExternal)`
+export default React.memo(styled(LinkExternal)`
   margin-top: 0.75rem;
   text-align: right;
 
@@ -89,4 +89,4 @@ export default styled(LinkExternal)`
       margin-left: 0.3rem;
     }
   }
-`;
+`);

@@ -24,7 +24,7 @@ interface Entry {
   referendumIndex: ReferendumIndex;
 }
 
-export default function DispatchBlock ({ entries, keyPrefix, storageKey }: Props): React.ReactElement<Props> | null {
+function DispatchBlock ({ entries, keyPrefix, storageKey }: Props): React.ReactElement<Props> | null {
   const [blockNumber, setBlockNumber] = useState<BlockNumber | undefined>();
   const [expanded, setExpanded] = useState<Entry[]>([]);
 
@@ -67,3 +67,5 @@ export default function DispatchBlock ({ entries, keyPrefix, storageKey }: Props
     </>
   );
 }
+
+export default React.memo(DispatchBlock);

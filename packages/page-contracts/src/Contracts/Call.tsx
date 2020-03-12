@@ -252,7 +252,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default styled(Call)`
+export default React.memo(styled(Call)`
   .rpc-toggle {
     margin-top: 1rem;
     display: flex;
@@ -262,4 +262,4 @@ export default styled(Call)`
   .clear-all {
     float: right;
   }
-`;
+`);

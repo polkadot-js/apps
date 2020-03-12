@@ -15,7 +15,7 @@ interface Props {
   className?: string;
 }
 
-export default function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null {
+function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const queued = useCall<[BlockNumber, Hash, ReferendumIndex][]>(api.query.democracy.dispatchQueue, []);
@@ -49,3 +49,5 @@ export default function DispatchQueue ({ className }: Props): React.ReactElement
     </div>
   );
 }
+
+export default React.memo(DispatchQueue);

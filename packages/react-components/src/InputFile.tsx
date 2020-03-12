@@ -124,7 +124,7 @@ function InputFile ({ accept, className, clearContent, convertHex, help, isDisab
     : dropZone;
 }
 
-export default styled(InputFile)`
+export default React.memo(styled(InputFile)`
   background: #fff;
   border: 1px solid rgba(34, 36, 38, 0.15);
   border-radius: 0.28571429rem;
@@ -146,4 +146,4 @@ export default styled(InputFile)`
   .label {
     color: rgba(0, 0, 0, .6);
   }
-`;
+`);

@@ -31,7 +31,7 @@ function formatDocs (meta?: FunctionMetadataLatest): React.ReactNode | null {
   return strings.slice(0, firstEmpty).join(' ');
 }
 
-export default function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   if (!proposal) {
@@ -59,3 +59,5 @@ export default function ProposalCell ({ className, proposal, proposalHash }: Pro
     </td>
   );
 }
+
+export default React.memo(ProposalCell);

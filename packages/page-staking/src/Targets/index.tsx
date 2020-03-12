@@ -263,6 +263,6 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Targets)`
+export default React.memo(styled(Targets)`
   text-align: center;
-`;
+`);

@@ -62,7 +62,7 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
   );
 }
 
-export default styled(Match)`
+export default React.memo(styled(Match)`
   text-align: center;
 
   &:hover {
@@ -101,4 +101,4 @@ export default styled(Match)`
     opacity: 0.45;
     padding: 0 1rem;
   }
-`;
+`);

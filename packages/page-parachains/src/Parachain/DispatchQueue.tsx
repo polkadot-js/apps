@@ -66,8 +66,8 @@ function DispatchQueue ({ className, dispatchQueue = [] }: Props): React.ReactEl
   );
 }
 
-export default styled(DispatchQueue)`
+export default React.memo(styled(DispatchQueue)`
   .queue-message {
     margin-bottom: 2rem;
   }
-`;
+`);

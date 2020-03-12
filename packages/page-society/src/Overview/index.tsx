@@ -44,7 +44,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Overview)`
+export default React.memo(styled(Overview)`
   .overviewSection {
     margin-bottom: 1.5rem;
 
@@ -54,4 +54,4 @@ export default styled(Overview)`
       width: 1rem;
     }
   }
-`;
+`);

@@ -138,7 +138,7 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
   );
 }
 
-export default styled(Referendum)`
+export default React.memo(styled(Referendum)`
   .democracy--Referendum-results {
     margin-bottom: 1em;
 
@@ -146,4 +146,4 @@ export default styled(Referendum)`
       text-align: center;
     }
   }
-`;
+`);

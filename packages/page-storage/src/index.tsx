@@ -5,7 +5,7 @@
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { QueryTypes } from './types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import Queries from './Queries';
@@ -14,8 +14,18 @@ import Selection from './Selection';
 function StorageApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const [queue, setQueue] = useState<QueryTypes[]>([]);
 
-  const _onAdd = (query: QueryTypes): void => setQueue([query, ...queue]);
-  const _onRemove = (id: number): void => setQueue(queue.filter((item): boolean => item.id !== id));
+  const _onAdd = useCallback(
+    (query: QueryTypes): void => setQueue((queue: QueryTypes[]) =>
+      [query, ...queue]
+    ),
+    []
+  );
+  const _onRemove = useCallback(
+    (id: number): void => setQueue((queue: QueryTypes[]) =>
+      queue.filter((item): boolean => item.id !== id)
+    ),
+    []
+  );
 
   return (
     <main className={`storage--App ${className}`}>
@@ -31,7 +41,7 @@ function StorageApp ({ basePath, className }: Props): React.ReactElement<Props> 
   );
 }
 
-export default styled(StorageApp)`
+export default React.memo(styled(StorageApp)`
   .storage--actionrow {
     align-items: center;
     display: flex;
@@ -60,4 +70,4 @@ export default styled(StorageApp)`
     flex: 0;
     padding: 0 0.25rem;
   }
-`;
+`);

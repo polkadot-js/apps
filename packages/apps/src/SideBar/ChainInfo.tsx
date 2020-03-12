@@ -41,7 +41,7 @@ function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(ChainInfo)`
+export default React.memo(styled(ChainInfo)`
   border-top: 0.5rem solid transparent;
   cursor: pointer;
   padding: 0.75rem 1rem;
@@ -75,4 +75,4 @@ export default styled(ChainInfo)`
       }
     }
   }
-`;
+`);
