@@ -47,5 +47,11 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
 export default styled(Overview)`
   .overviewSection {
     margin-bottom: 1.5rem;
+
+    .head-icon {
+      padding-left: 1.5rem;
+      text-align: center;
+      width: 1rem;
+    }
   }
 `;

@@ -37,6 +37,10 @@ export default createGlobalStyle<Props>`
     color: ${(props): string => (props.uiHighlight || '#999')} !important;
   }
 
+  .ui--highlight--gradient {
+    background: ${(props): string => `linear-gradient(90deg, ${props.uiHighlight}, transparent)`};
+  }
+
   #root {
     color: #4e4e4e;
     font-family: sans-serif;

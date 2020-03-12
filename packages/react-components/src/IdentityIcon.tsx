@@ -6,6 +6,7 @@ import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { IdentityProps as Props } from '@polkadot/react-identicon/types';
 
 import React, { useContext, useEffect, useState } from 'react';
+import { identityNodes } from '@polkadot/apps-config/ui/identityIcons';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
@@ -14,18 +15,8 @@ import { ValidatorsContext } from '@polkadot/react-query';
 import StatusContext from './Status/Context';
 import { useTranslation } from './translate';
 
-// overrides based on the actual software node type
-const NODES: Record<string, string> = {
-  'edgeware-node': 'substrate',
-  'joystream-node': 'beachball',
-  'node-template': 'substrate',
-  'parity-polkadot': 'polkadot',
-  'polkadot-js': 'polkadot',
-  'substrate-node': 'substrate'
-};
-
 export function getIdentityTheme (systemName: string): 'empty' {
-  return ((uiSettings.icon === 'default' && NODES[systemName]) || uiSettings.icon) as 'empty';
+  return ((uiSettings.icon === 'default' && identityNodes[systemName.toLowerCase().replace(/-/g, ' ')]) || uiSettings.icon) as 'empty';
 }
 
 export default function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }: Props): React.ReactElement<Props> {

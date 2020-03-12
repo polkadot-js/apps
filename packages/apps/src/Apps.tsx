@@ -4,12 +4,12 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import { defaultColor, chainColors, emptyColor, nodeColors } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
 import AccountsOverlay from './overlays/Accounts';
@@ -17,6 +17,7 @@ import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
+import WarmUp from './WarmUp';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -29,23 +30,6 @@ export const PORTAL_ID = 'portals';
 
 function sanitize (value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || '';
-}
-
-function WarmUp (): React.ReactElement {
-  const { api, isApiReady } = useApi();
-  const fees = useCall<any>(isApiReady ? api.derive.balances?.fees : undefined, []);
-  const indexes = useCall<any>(isApiReady ? api.derive.accounts?.indexes : undefined, []);
-  const registrars = useCall<any>(isApiReady ? api.query.identity?.registrars : undefined, []);
-  const staking = useCall<any>(isApiReady ? api.derive.staking?.overview : undefined, []);
-  const [hasValues, setHasValues] = useState(false);
-
-  useEffect((): void => {
-    setHasValues(!!fees || !!indexes || !!registrars || !!staking);
-  }, []);
-
-  return (
-    <div className={`apps--api-warm ${hasValues}`} />
-  );
 }
 
 function Apps ({ className }: Props): React.ReactElement<Props> {
@@ -159,16 +143,18 @@ export default styled(Apps)`
     }
 
     .apps--SideBar-logo {
-      margin: 0.875rem auto;
-      padding: 0;
-      width: 3rem;
+      .apps--SideBar-logo-inner {
+        margin: auto;
+        padding: 0;
+        width: 3rem;
 
-      img {
-        margin: 0 0.25rem 0 0;
-      }
+        img {
+          margin: 0 0.4rem;
+        }
 
-      > div.info {
-        display: none;
+        > div.info {
+          display: none;
+        }
       }
     }
 

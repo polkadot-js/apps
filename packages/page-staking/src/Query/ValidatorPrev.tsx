@@ -14,7 +14,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import useBlockCounts from '../useBlockCounts';
+import useBlockCounts from './useBlockCounts';
 
 interface Props {
   className?: string;

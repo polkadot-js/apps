@@ -57,7 +57,11 @@ export default function BlockToTime ({ blocks, children, className, label, style
   const { t } = useTranslation();
   const { api } = useApi();
   const time = useMemo((): string => {
-    const blockTime = (api.consts.babe?.expectedBlockTime || (api.consts.timestamp.minimumPeriod.muln(2))).divn(1000);
+    const blockTime = (
+      api.consts.babe?.expectedBlockTime ||
+      api.consts.timestamp?.minimumPeriod.muln(2) ||
+      new BN(6000)
+    ).divn(1000);
     const time = extractTime(blocks?.mul(blockTime).toNumber());
 
     return [
@@ -65,9 +69,8 @@ export default function BlockToTime ({ blocks, children, className, label, style
       time[1] ? (time[1] > 1) ? t('{{h}} hrs', { replace: { h: time[1] } }) : t('1 hr') : null,
       time[2] ? (time[2] > 1) ? t('{{m}} mins', { replace: { m: time[2] } }) : t('1 min') : null,
       time[3] ? (time[3] > 1) ? t('{{s}} s', { replace: { s: time[3] } }) : t('1 s') : null
-    ].filter((value): value is string => !!value)
-      .join(', ');
-  }, [api, t]);
+    ].filter((value): value is string => !!value).slice(0, 2).join(' ');
+  }, [api, blocks, t]);
 
   return (
     <div

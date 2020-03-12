@@ -9,13 +9,14 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 export type CallParam = any;
 
-export type CallParams = [] | [CallParam] | [CallParam, CallParam] | [CallParam, CallParam, CallParam];
+export type CallParams = [] | [CallParam] | [CallParam, CallParam] | [CallParam, CallParam, CallParam] | any[];
 
 export interface CallOptions <T> {
   defaultValue?: T;
   isSingle?: boolean;
   paramMap?: (params: any) => CallParams;
   transform?: (value: any) => T;
+  withParams?: boolean;
 }
 
 export type TxDef = [string, any[] | ConstructTxFn];

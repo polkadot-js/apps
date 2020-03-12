@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Proposal } from '@polkadot/types/interfaces';
+import { FunctionMetadataLatest, Hash, Proposal } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
@@ -16,12 +16,27 @@ interface Props {
   proposalHash: Hash | string;
 }
 
+function formatDocs (meta?: FunctionMetadataLatest): React.ReactNode | null {
+  if (!meta) {
+    return null;
+  }
+
+  const strings = meta.documentation.map((doc): string => doc.toString().trim());
+  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
+
+  if (!firstEmpty) {
+    return null;
+  }
+
+  return strings.slice(0, firstEmpty).join(' ');
+}
+
 export default function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   if (!proposal) {
     return (
-      <td className={`${className} all`}>
+      <td className={`${className} all top`}>
         <label>{t('preimage hash')}</label>
         {proposalHash.toString()}
       </td>
@@ -31,10 +46,10 @@ export default function ProposalCell ({ className, proposal, proposalHash }: Pro
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   return (
-    <td className={`${className} all`}>
+    <td className={`${className} all top`}>
       <div>{section}.{method}</div>
       <details>
-        <summary>{meta?.documentation.join(' ') || t('Details')}</summary>
+        <summary>{formatDocs(meta) || t('Details')}</summary>
         <Call
           labelHash={t('proposal hash')}
           value={proposal}

@@ -37,6 +37,7 @@ export default function Members ({ className, info }: Props): React.ReactElement
             <Table.Body>
               {filtered.map((member): React.ReactNode => (
                 <Member
+                  isHead={info?.head?.eq(member.accountId)}
                   key={member.accountId.toString()}
                   value={member}
                 />

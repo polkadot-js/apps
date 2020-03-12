@@ -136,5 +136,7 @@
   "recoverey block delay": "recoverey block delay",
   "recovery threshold": "recovery threshold",
   "recovery block delay": "recovery block delay",
-  "available social recovery helpers": "available social recovery helpers"
+  "available social recovery helpers": "available social recovery helpers",
+  "Verify the password entered above.": "Verify the password entered above.",
+  "password (repeat)": "password (repeat)"
 }

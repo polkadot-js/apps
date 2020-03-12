@@ -5,9 +5,11 @@
 import { AccountId, Balance, BlockNumber, Hash, Proposal, ReferendumIndex } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
+import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
 import { Bytes, Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
@@ -24,6 +26,7 @@ interface Props {
 export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
   const preimage = useCall<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>
   >(api.query.democracy.preimages, [hash]);
   const [proposal, setProposal] = useState<Proposal | undefined>();
@@ -37,10 +40,11 @@ export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: P
   return (
     <tr>
       <td className='number top'><h1>{formatNumber(referendumIndex)}</h1></td>
-      <td className='number top'>
+      <td className='number together top'>
         {blockNumber && (
           <>
             <label>{t('enact at')}</label>
+            <BlockToTime blocks={blockNumber.sub(bestNumber)} />
             {formatNumber(blockNumber)}
           </>
         )}

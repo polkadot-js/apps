@@ -15,7 +15,7 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   controllerId: string;
-  next: string[];
+  next?: string[];
   nominees?: string[];
   onClose: () => void;
   stakingOverview?: DerivedStakingOverview;
@@ -46,7 +46,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   useEffect((): void => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc): boolean => validators.includes(acc) || next.includes(acc)),
+      ...favorites.filter((acc): boolean => validators.includes(acc) || (next || []).includes(acc)),
       // make sure the nominee is not in our favorites already
       ...(nominees || []).filter((acc): boolean => !favorites.includes(acc))
     ];
@@ -54,7 +54,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
     setAvailable([
       ...shortlist,
       ...validators.filter((acc): boolean => !shortlist.includes(acc)),
-      ...next.filter((acc): boolean => !shortlist.includes(acc))
+      ...(next || []).filter((acc): boolean => !shortlist.includes(acc))
     ]);
   }, [favorites, next, nominees, validators]);
 

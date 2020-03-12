@@ -296,7 +296,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
               text={balancesAll.lockedBreakdown.map(({ amount, reasons }, index): React.ReactNode => (
                 <div key={index}>
                   {amount.isMax()
-                    ? t('all available')
+                    ? t('everything')
                     : formatBalance(amount, { forceUnit: '-' })
                   }<div className='faded'>{reasons.toString()}</div>
                 </div>

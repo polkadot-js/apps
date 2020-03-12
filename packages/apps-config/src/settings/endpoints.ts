@@ -62,19 +62,19 @@ export default [
   {
     isHeader: true,
     text: 'Live networks',
-    value: -1
+    value: ''
   },
   ...LIVE,
   {
     isHeader: true,
     text: 'Test networks',
-    value: -1
+    value: ''
   },
   ...TEST,
   {
     isHeader: true,
     text: 'Development',
-    value: -1
+    value: ''
   },
   ...DEV
 ].map((option): Option => ({ ...option, withI18n: true }));

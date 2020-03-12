@@ -925,5 +925,17 @@
   "candidate accounts": "",
   "nominated accounts": "",
   "filter by name, address, or account index": "",
-  "drag and drop to reorder": ""
+  "drag and drop to reorder": "",
+  "payouts for {{count}} eras pending": "",
+  "{{currency}} rewards": "",
+  "{{blocks}} blocks": "",
+  "Pending payouts for {{count}} eras": "",
+  "Retrieving data": "",
+  "Verify the password entered above.": "",
+  "password (repeat)": "",
+  "Current head": "",
+  "Pending payouts for {{count}} eras:": "",
+  "Payout reward": "",
+  "Account actions{{count}}": "",
+  "everything": ""
 }
