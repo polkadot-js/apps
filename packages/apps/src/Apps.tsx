@@ -4,7 +4,7 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import { defaultColor, chainColors, emptyColor, nodeColors } from '@polkadot/apps-config/ui/general';
@@ -46,23 +46,35 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   }, [systemChain, systemName]);
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
-  const _setSidebar = (update: Partial<SidebarState>): void =>
-    setSidebar(store.set('sidebar', { ...sidebar, ...update }));
-  const _collapse = (): void =>
-    _setSidebar({ isCollapsed: !isCollapsed });
-  const _toggleMenu = (): void =>
-    _setSidebar({ isCollapsed: false, isMenuOpen: true });
-  const _handleResize = (): void => {
-    const transition = window.innerWidth < SIDEBAR_MENU_THRESHOLD
-      ? SideBarTransition.MINIMISED_AND_EXPANDED
-      : SideBarTransition.EXPANDED_AND_MAXIMISED;
+  const _setSidebar = useCallback(
+    (update: Partial<SidebarState>): void =>
+      setSidebar((sidebar: SidebarState) =>
+        store.set('sidebar', { ...sidebar, ...update })
+      ),
+    []
+  );
+  const _collapse = useCallback(
+    (): void => _setSidebar({ isCollapsed: !isCollapsed }),
+    [isCollapsed]
+  );
+  const _toggleMenu = useCallback(
+    (): void => _setSidebar({ isCollapsed: false, isMenuOpen: true }),
+    []
+  );
+  const _handleResize = useCallback(
+    (): void => {
+      const transition = window.innerWidth < SIDEBAR_MENU_THRESHOLD
+        ? SideBarTransition.MINIMISED_AND_EXPANDED
+        : SideBarTransition.EXPANDED_AND_MAXIMISED;
 
-    _setSidebar({
-      isMenu: transition === SideBarTransition.MINIMISED_AND_EXPANDED,
-      isMenuOpen: false,
-      transition
-    });
-  };
+      _setSidebar({
+        isMenu: transition === SideBarTransition.MINIMISED_AND_EXPANDED,
+        isMenuOpen: false,
+        transition
+      });
+    },
+    []
+  );
 
   return (
     <>

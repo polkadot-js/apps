@@ -6,7 +6,7 @@ import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Forget, Icon, IdentityIcon, InputTags, LinkExternal, Menu, Popup, Input } from '@polkadot/react-components';
@@ -57,7 +57,10 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
 
-  const _setTags = (tags: string[]): void => setTags(tags.sort());
+  const _setTags = useCallback(
+    (tags: string[]): void => setTags(tags.sort()),
+    []
+  );
 
   useEffect((): void => {
     const { identity, nickname } = info || {};

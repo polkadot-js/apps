@@ -4,7 +4,7 @@
 
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
@@ -38,8 +38,14 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
     }, { network: false })
   );
 
-  const _toggleModal = (name: string): () => void =>
-    (): void => setModals({ ...modals, [name]: !modals[name] });
+  const _toggleModal = useCallback(
+    (name: string): () => void =>
+      (): void => setModals((modals: Record<string, boolean>) => ({
+        ...modals,
+        [name]: !modals[name]
+      })),
+    []
+  );
 
   return (
     <Responsive
@@ -51,7 +57,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
         onClick={toggleMenu}
       />
       {routing.routes.map((route): React.ReactNode => (
-        route && route.Modal
+        route?.Modal
           ? route.Modal && modals[route.name]
             ? (
               <route.Modal
@@ -207,10 +213,19 @@ export default styled(SideBar)`
       align-self: flex-end;
       flex-grow: 0;
       padding: 0 !important;
+      position: relative;
       width: inherit;
 
       .text {
         padding-left: 0.5rem;
+      }
+
+      .ui--Badge {
+        margin: 0;
+        position: absolute;
+        right: 0.5rem;
+        top: 0.55rem;
+        z-index: 1;
       }
     }
 
