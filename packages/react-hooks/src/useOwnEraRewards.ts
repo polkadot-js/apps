@@ -21,23 +21,23 @@ function useNextPayouts (): [string, EraIndex][] | undefined {
   const { api } = useApi();
   const stashIds = useOwnStashIds();
   const allInfo = useCall<DerivedStakingQuery[]>(stashIds && api.derive.staking?.queryMulti, stashIds);
-  const [rewards, setRewards] = useState<[string, EraIndex][] | undefined>();
+  const [nextPayouts, setNextPayouts] = useState<[string, EraIndex][] | undefined>();
 
   useEffect((): void => {
-    stashIds && allInfo && setRewards(
+    stashIds && allInfo && setNextPayouts(
       allInfo
         .map(({ stakingLedger }, index) => [stashIds[index], stakingLedger?.lastReward?.unwrapOr(new BN(-1)).addn(1)])
         .filter((value): value is [string, EraIndex] => !!value[1])
     );
   }, [allInfo, stashIds]);
 
-  return rewards;
+  return nextPayouts;
 }
 
-function getRewards ([theseParams, theseRewards]: [[string, EraIndex][], DeriveStakerReward[][]], nextParams: [string, EraIndex][]): OwnRewards {
+function getRewards ([thesePayouts, theseRewards]: [[string, EraIndex][], DeriveStakerReward[][]], nextPayouts: [string, EraIndex][]): OwnRewards {
   const allRewards = theseRewards.reduce((result: Record<string, DeriveStakerReward[]>, rewards, index): Record<string, DeriveStakerReward[]> => {
-    const [stashId] = theseParams[index];
-    const nextPayout = nextParams.find(([thisId]) => thisId === stashId);
+    const [stashId] = thesePayouts[index];
+    const nextPayout = nextPayouts.find(([thisId]) => thisId === stashId);
 
     if (nextPayout) {
       result[stashId] = rewards.filter(({ era, isEmpty }) => !isEmpty && era.gte(nextPayout[1]));
@@ -54,15 +54,15 @@ function getRewards ([theseParams, theseRewards]: [[string, EraIndex][], DeriveS
 
 export default function useOwnEraRewards (): OwnRewards {
   const { api } = useApi();
-  const nextParams = useNextPayouts();
-  const available = useCall<[[string, EraIndex][], DeriveStakerReward[][]]>(nextParams && api.derive.staking?.stakerRewardsMulti, nextParams, { withParams: true });
+  const nextPayouts = useNextPayouts();
+  const available = useCall<[[string, EraIndex][], DeriveStakerReward[][]]>(nextPayouts && api.derive.staking?.stakerRewardsMulti as any, nextPayouts, { withParams: true });
   const [state, setState] = useState<OwnRewards>({ rewardCount: 0 });
 
   useEffect((): void => {
-    available && nextParams && setState(
-      getRewards(available, nextParams)
+    available && nextPayouts && setState(
+      getRewards(available, nextPayouts)
     );
-  }, [available, nextParams]);
+  }, [available, nextPayouts]);
 
   return state;
 }
