@@ -20,6 +20,7 @@ export default ([
       defaultValue: 'Treasury'
     },
     icon: 'gem',
-    name: 'treasury'
+    name: 'treasury',
+    isAdvanced: true
   }
 ] as Routes);

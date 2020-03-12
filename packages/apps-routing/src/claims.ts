@@ -18,6 +18,7 @@ export default ([
       defaultValue: 'Claim Tokens'
     },
     icon: 'star',
-    name: 'claims'
+    name: 'claims',
+    isAdvanced: false
   }
 ] as Routes);

@@ -18,6 +18,7 @@ export default ([
       defaultValue: 'Parachains'
     },
     icon: 'chain',
-    name: 'parachains'
+    name: 'parachains',
+    isAdvanced: false
   }
 ] as Routes);

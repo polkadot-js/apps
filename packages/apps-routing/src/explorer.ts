@@ -16,6 +16,7 @@ export default ([
       defaultValue: 'Explorer'
     },
     icon: 'braille',
-    name: 'explorer'
+    name: 'explorer',
+    isAdvanced: false
   }
 ] as Routes);

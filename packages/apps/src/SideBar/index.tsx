@@ -88,8 +88,9 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                 <BestNumber label='#' />
               </div>
             </div>
+
             {routing.routes.map((route, index): React.ReactNode => (
-              route
+              route && !route.isAdvanced
                 ? (
                   <Item
                     isCollapsed={isCollapsed}
@@ -102,34 +103,51 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                     }
                   />
                 )
-                : (
-                  <Menu.Divider
-                    hidden
-                    key={index}
-                  />
-                )
+                : null
             ))}
-            <Menu.Divider hidden />
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://github.com/polkadot-js/apps'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon name='github' /><span className='text'>{t('GitHub')}</span>
-              </a>
-            </Menu.Item>
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://wiki.polkadot.network'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon name='book' /><span className='text'>{t('Wiki')}</span>
-              </a>
-            </Menu.Item>
+            <Menu.Divider hidden={false}/>
+            <details
+              className='apps--SideBar-Advanced'
+            >
+              <summary>{t('  Advanced')}</summary>
+              <Menu.Divider hidden/>
+              {routing.routes.map((route, index): React.ReactNode => (
+                route && route.isAdvanced
+                  ? (
+                    <Item
+                      isCollapsed={isCollapsed}
+                      key={route.name}
+                      route={route}
+                      onClick={
+                        route.Modal
+                          ? _toggleModal(route.name)
+                          : handleResize
+                      }
+                    />
+                  )
+                  : null
+              ))}
+              <Menu.Item className='apps--SideBar-Item'>
+                <a
+                  className='apps--SideBar-Item-NavLink'
+                  href='https://github.com/polkadot-js/apps'
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  <Icon name='github' /><span className='text'>{t('GitHub')}</span>
+                </a>
+              </Menu.Item>
+              <Menu.Item className='apps--SideBar-Item'>
+                <a
+                  className='apps--SideBar-Item-NavLink'
+                  href='https://wiki.polkadot.network'
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  <Icon name='book' /><span className='text'>{t('Wiki')}</span>
+                </a>
+              </Menu.Item>
+            </details>
             <Menu.Divider hidden />
             {
               isCollapsed
@@ -161,6 +179,10 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
 }
 
 export default styled(SideBar)`
+.apps--SideBar-Advanced {
+    margin-top: 1rem;
+    color: #f5f5f5;
+  }
   display: flex;
   position: relative;
   transition: width 0.3s linear;

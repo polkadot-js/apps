@@ -11,9 +11,9 @@ import accounts from './accounts';
 import addressbook from './addressbook';
 import claims from './claims';
 import contracts from './contracts';
-import council from './council';
+// import council from './council';
 // import dashboard from './dashboard';
-import democracy from './democracy';
+// import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import genericAsset from './generic-asset';
@@ -21,13 +21,13 @@ import js from './js';
 import parachains from './parachains';
 import settings from './settings';
 import society from './society';
-import staking from './staking';
+// import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
-import techcomm from './techcomm';
+// import techcomm from './techcomm';
 import toolbox from './toolbox';
 import transfer from './transfer';
-import treasury from './treasury';
+// import treasury from './treasury';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
@@ -39,9 +39,9 @@ const routes: Routes = appSettings.uiMode === 'light'
     transfer,
     genericAsset,
     null,
-    staking,
-    democracy,
-    council,
+    // staking,
+    // democracy,
+    // council,
     // TODO Not sure about the inclusion of treasury, parachains & society here
     null,
     settings
@@ -55,11 +55,12 @@ const routes: Routes = appSettings.uiMode === 'light'
     transfer,
     genericAsset,
     null,
-    staking,
-    democracy,
-    council,
-    treasury,
-    techcomm,
+    // staking,
+    // democracy,
+    // council,
+    // treasury,
+    // techcomm,
+
     parachains,
     society,
     null,

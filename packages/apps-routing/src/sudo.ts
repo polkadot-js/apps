@@ -20,6 +20,7 @@ export default ([
       defaultValue: 'Sudo'
     },
     icon: 'unlock',
-    name: 'sudo'
+    name: 'sudo',
+    isAdvanced: true
   }
 ] as Routes);

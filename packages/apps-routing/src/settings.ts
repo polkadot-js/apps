@@ -14,6 +14,7 @@ export default ([
       defaultValue: 'Settings'
     },
     icon: 'settings',
-    name: 'settings'
+    name: 'settings',
+    isAdvanced: true
   }
 ] as Routes);

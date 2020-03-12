@@ -16,6 +16,7 @@ export default ([
       defaultValue: 'Address book'
     },
     icon: 'address book',
-    name: 'addressbook'
+    name: 'addressbook',
+    isAdvanced: false
   }
 ] as Routes);

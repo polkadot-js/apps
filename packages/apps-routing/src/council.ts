@@ -22,6 +22,7 @@ export default ([
       defaultValue: 'Council'
     },
     icon: 'building',
-    name: 'council'
+    name: 'council',
+    isAdvanced: false
   }
 ] as Routes);

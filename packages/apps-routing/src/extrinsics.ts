@@ -17,6 +17,7 @@ export default ([
       defaultValue: 'Extrinsics'
     },
     icon: 'sync',
-    name: 'extrinsics'
+    name: 'extrinsics',
+    isAdvanced: true
   }
 ] as Routes);

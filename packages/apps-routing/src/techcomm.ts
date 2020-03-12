@@ -19,6 +19,7 @@ export default ([
       defaultValue: 'Tech. comm.'
     },
     icon: 'microchip',
-    name: 'techcomm'
+    name: 'techcomm',
+    isAdvanced: false
   }
 ] as Routes);

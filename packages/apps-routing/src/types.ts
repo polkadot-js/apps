@@ -27,6 +27,7 @@ export interface Route {
   };
   icon: SemanticICONS;
   name: string;
+  isAdvanced?: boolean;
 }
 
 export type Routes = (Route | null)[];

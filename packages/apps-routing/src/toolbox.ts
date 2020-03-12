@@ -16,6 +16,7 @@ export default ([
       defaultValue: 'Toolbox'
     },
     icon: 'configure',
-    name: 'toolbox'
+    name: 'toolbox',
+    isAdvanced: true
   }
 ] as Routes);

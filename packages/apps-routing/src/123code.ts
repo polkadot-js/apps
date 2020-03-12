@@ -20,6 +20,7 @@ export default ([
       defaultValue: 'Template'
     },
     icon: 'th',
-    name: '123code'
+    name: '123code',
+    isAdvanced: false
   }
 ] as Routes);

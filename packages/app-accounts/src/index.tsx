@@ -24,10 +24,10 @@ export default function AccountsApp ({ basePath, onStatusChange }: Props): React
       isRoot: true,
       name: 'overview',
       text: t('My accounts')
-    },
-    {
-      name: 'vanity',
-      text: t('Vanity address')
+    // },
+    // {
+    //   name: 'vanity',
+    //   text: t('Vanity address')
     }
   ], [t]);
 

@@ -16,6 +16,7 @@ export default ([
       defaultValue: 'Dashboard'
     },
     icon: 'th',
-    name: 'dashboard'
+    name: 'dashboard',
+    isAdvanced: false
   }
 ] as Routes);

@@ -22,6 +22,7 @@ export default ([
       defaultValue: 'Transfer'
     },
     icon: 'send',
-    name: 'transfer'
+    name: 'transfer',
+    isAdvanced: true
   }
 ] as Routes);

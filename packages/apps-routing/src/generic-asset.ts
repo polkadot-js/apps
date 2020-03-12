@@ -20,6 +20,7 @@ export default ([
       defaultValue: 'Generic Asset'
     },
     icon: 'cubes',
-    name: 'generic-asset'
+    name: 'generic-asset',
+    isAdvanced: false
   }
 ] as Routes);

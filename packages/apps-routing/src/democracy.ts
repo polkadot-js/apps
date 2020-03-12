@@ -19,6 +19,7 @@ export default ([
       defaultValue: 'Democracy'
     },
     icon: 'calendar check',
-    name: 'democracy'
+    name: 'democracy',
+    isAdvanced: false
   }
 ] as Routes);

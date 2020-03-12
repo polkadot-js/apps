@@ -22,6 +22,7 @@ export default ([
       defaultValue: 'Contracts'
     },
     icon: 'compress',
-    name: 'contracts'
+    name: 'contracts',
+    isAdvanced: true
   }
 ] as Routes);

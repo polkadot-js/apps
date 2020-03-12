@@ -39,10 +39,10 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       name: 'query',
       text: t('Block details')
     },
-    {
-      name: 'forks',
-      text: t('Forks')
-    },
+    // {
+    //   name: 'forks',
+    //   text: t('Forks')
+    // },
     {
       name: 'node',
       text: t('Node info')

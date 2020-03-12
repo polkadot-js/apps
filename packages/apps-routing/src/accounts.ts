@@ -16,6 +16,7 @@ export default ([
       defaultValue: 'Accounts'
     },
     icon: 'users',
-    name: 'accounts'
+    name: 'accounts',
+    isAdvanced: false
   }
 ] as Routes);

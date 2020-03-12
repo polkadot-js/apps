@@ -16,6 +16,7 @@ export default ([
       defaultValue: 'Javascript'
     },
     icon: 'code',
-    name: 'js'
+    name: 'js',
+    isAdvanced: true
   }
 ] as Routes);

@@ -16,6 +16,7 @@ export default ([
       defaultValue: 'Chain state'
     },
     icon: 'database',
-    name: 'chainstate'
+    name: 'chainstate',
+    isAdvanced: true
   }
 ] as Routes);

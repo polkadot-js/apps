@@ -18,6 +18,7 @@ export default ([
       defaultValue: 'Society'
     },
     icon: 'grab',
-    name: 'society'
+    name: 'society',
+    isAdvanced: true
   }
 ] as Routes);
