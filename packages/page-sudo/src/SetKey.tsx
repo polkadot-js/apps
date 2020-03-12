@@ -18,9 +18,7 @@ function SetKey ({ allAccounts, className, isMine, sudoKey }: Props): React.Reac
   const [selected, setSelected] = useState<string | null>(null);
 
   useEffect((): void => {
-    if (sudoKey && !selected) {
-      setSelected(sudoKey);
-    }
+    sudoKey && !selected && setSelected(sudoKey);
   }, [selected, sudoKey]);
 
   const willLose = isMine &&

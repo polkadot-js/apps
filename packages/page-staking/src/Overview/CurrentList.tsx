@@ -154,17 +154,18 @@ export default function CurrentList ({ authorsMap, hasQueries, isIntentions, isV
           {_renderRows(validators, t('validators'), true)}
         </Table.Body>
       </Table>
-      {waiting
-        ? (
-          <Table className={isIntentions ? '' : 'staking--hidden'}>
-            <Table.Body>
-              {_renderRows(elected, t('intention'), false)}
-              {_renderRows(waiting, t('intention'), false)}
-            </Table.Body>
-          </Table>
-        )
-        : <Spinner className={isIntentions ? '' : 'staking--hidden'} />
-      }
+      {isIntentions && (
+        waiting
+          ? (
+            <Table>
+              <Table.Body>
+                {_renderRows(elected, t('intention'), false)}
+                {_renderRows(waiting, t('intention'), false)}
+              </Table.Body>
+            </Table>
+          )
+          : <Spinner />
+      )}
     </div>
   );
 }

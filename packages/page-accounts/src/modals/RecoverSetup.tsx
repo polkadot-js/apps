@@ -27,11 +27,9 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
   const [threshold, setThreshold] = useState<BN | undefined>();
 
   useEffect((): void => {
-    if (allAccounts && allAddresses) {
-      setAvailableHelpers(
-        [...allAccounts, ...allAddresses].filter((a): boolean => a !== address)
-      );
-    }
+    allAccounts && allAddresses && setAvailableHelpers(
+      [...allAccounts, ...allAddresses].filter((a): boolean => a !== address)
+    );
   }, [address, allAccounts, allAddresses]);
 
   const isErrorDelay = !delay;

@@ -28,13 +28,11 @@ export default function ProposalsBase ({ className, isApprovals, proposals }: Pr
   const history = useHistory();
 
   useEffect((): void => {
-    if (allAccounts && members) {
-      setIsMember(
-        members
-          .map(([accountId]): string => accountId.toString())
-          .some((accountId): boolean => allAccounts.includes(accountId))
-      );
-    }
+    allAccounts && members && setIsMember(
+      members
+        .map(([accountId]): string => accountId.toString())
+        .some((accountId): boolean => allAccounts.includes(accountId))
+    );
   }, [allAccounts, members]);
 
   const _onRespond = (): void => {

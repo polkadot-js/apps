@@ -40,7 +40,7 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
   );
 }
 
-export default styled(AddressSmall)`
+export default React.memo(styled(AddressSmall)`
   vertical-align: middle;
   white-space: nowrap;
 
@@ -65,4 +65,4 @@ export default styled(AddressSmall)`
       text-overflow: ellipsis;
     }
   }
-`;
+`);

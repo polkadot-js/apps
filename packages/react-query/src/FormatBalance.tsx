@@ -56,7 +56,7 @@ function FormatBalance ({ children, className, label, value, withSi }: Props): R
       {label || ''}{
         value
           ? value === 'all'
-            ? t('all available')
+            ? t('everything')
             : format(value, currency, withSi)
           : '-'
       }{children}

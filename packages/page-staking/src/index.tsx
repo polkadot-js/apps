@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useCall, useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 
 import basicMd from './md/basic.md';
 import Actions from './Actions';
@@ -21,6 +21,8 @@ import Summary from './Overview/Summary';
 import Query from './Query';
 import Targets from './Targets';
 import { useTranslation } from './translate';
+
+export { default as useCounter } from './useCounter';
 
 function reduceNominators (nominators: string[], additional: string[]): string[] {
   return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
@@ -31,6 +33,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
+  const { allRewards, rewardCount } = useOwnEraRewards();
   const [next, setNext] = useState<string[] | undefined>();
   const allStashes = useCall<string[]>(api.derive.staking.controllers, [], {
     transform: ([stashes]: [AccountId[]]): string[] =>
@@ -58,14 +61,20 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     },
     {
       name: 'actions',
-      text: t('Account actions')
+      text: t('Account actions{{count}}', {
+        replace: {
+          count: rewardCount
+            ? ` (${rewardCount})`
+            : ''
+        }
+      })
     },
     {
       hasParams: true,
       name: 'query',
       text: t('Validator stats')
     }
-  ], [t]);
+  ], [rewardCount, t]);
   const hiddenTabs = useMemo((): string[] => {
     const result = next ? [] : ['waiting'];
 
@@ -109,9 +118,9 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         </Route>
       </Switch>
       <Actions
+        allRewards={allRewards}
         allStashes={allStashes}
         isVisible={pathname === `${basePath}/actions`}
-        recentlyOnline={recentlyOnline}
         next={next}
         stakingOverview={stakingOverview}
       />

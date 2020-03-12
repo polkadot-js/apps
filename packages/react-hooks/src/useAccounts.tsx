@@ -27,7 +27,7 @@ export default function useAccounts (): UseAccounts {
     });
 
     return (): void => {
-      subscription.unsubscribe();
+      setTimeout(() => subscription.unsubscribe(), 0);
     };
   }, []);
 

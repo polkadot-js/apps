@@ -25,9 +25,7 @@ export default function Params ({ isDisabled, onChange, onEnter, params: propPar
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
-    if (propParams) {
-      setParams(propParams);
-    }
+    propParams && setParams(propParams);
   }, [propParams]);
 
   if (!params.length) {

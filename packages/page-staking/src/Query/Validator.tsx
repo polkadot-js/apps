@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveEraRewards, DeriveStakerExpoure, DeriveStakerPoints } from '@polkadot/api-derive/types';
+import { DeriveEraRewards, DeriveStakerExposure, DeriveStakerPoints } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -40,6 +40,7 @@ interface ChartInfo {
 
 const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 const COLORS_POINTS = [undefined, '#acacac'];
+const COLORS_STAKE = COLORS_POINTS;
 
 function balanceToNumber (amount: BN, divisor: BN): number {
   return amount.muln(1000).div(divisor).toNumber() / 1000;
@@ -49,13 +50,18 @@ function extractPoints (points: DeriveStakerPoints[]): ChartInfo {
   const labels: string[] = [];
   const avgSet: LineDataEntry = [];
   const idxSet: LineDataEntry = [];
+  let avgCount = 0;
   let total = 0;
 
-  points.forEach(({ era, points }, index): void => {
+  points.forEach(({ era, points }): void => {
     total += points.toNumber();
     labels.push(era.toHuman());
 
-    avgSet.push(Math.ceil(total * 100 / (index + 1)) / 100);
+    if (total > 0) {
+      avgCount++;
+    }
+
+    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
     idxSet.push(points);
   });
 
@@ -70,19 +76,24 @@ function extractRewards (erasRewards: DeriveEraRewards[], allPoints: DeriveStake
   const slashSet: LineDataEntry = [];
   const rewardSet: LineDataEntry = [];
   const avgSet: LineDataEntry = [];
+  let avgCount = 0;
   let total = 0;
 
-  erasRewards.forEach(({ era, eraReward }, index): void => {
+  erasRewards.forEach(({ era, eraReward }): void => {
     const points = allPoints.find((points) => points.era.eq(era));
     const reward = points?.eraPoints.gtn(0)
       ? balanceToNumber(points.points.mul(eraReward).div(points.eraPoints), divisor)
       : 0;
 
     total += reward;
-    labels.push(era.toHuman());
 
+    if (total > 0) {
+      avgCount++;
+    }
+
+    labels.push(era.toHuman());
     rewardSet.push(reward);
-    avgSet.push(Math.ceil(total * 100 / (index + 1)) / 100);
+    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
     slashSet.push(0); // TODO
   });
 
@@ -92,24 +103,34 @@ function extractRewards (erasRewards: DeriveEraRewards[], allPoints: DeriveStake
   };
 }
 
-function extractStake (exposures: DeriveStakerExpoure[], divisor: BN): ChartInfo {
+function extractStake (exposures: DeriveStakerExposure[], divisor: BN): ChartInfo {
   const labels: string[] = [];
   const stakeSet: LineDataEntry = [];
+  const avgSet: LineDataEntry = [];
+  let avgCount = 0;
+  let total = 0;
 
   exposures.forEach(({ era, isValidator, validators }): void => {
-    labels.push(era.toHuman());
-    stakeSet.push(
-      balanceToNumber(
-        isValidator
-          ? Object.values(validators)[0].total.toBn()
-          : new BN(0),
-        divisor
-      )
+    const value = balanceToNumber(
+      isValidator
+        ? Object.values(validators)[0].total.toBn()
+        : new BN(0),
+      divisor
     );
+
+    total += value;
+
+    if (total > 0) {
+      avgCount++;
+    }
+
+    avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
+    labels.push(era.toHuman());
+    stakeSet.push(value);
   });
 
   return {
-    chart: [stakeSet],
+    chart: [stakeSet, avgSet],
     labels
   };
 }
@@ -122,22 +143,28 @@ export default function Validator ({ className, validatorId }: Props): React.Rea
   const [{ chart: stakeChart, labels: stakeLabels }, setStakeCharts] = useState<ChartInfo>({ chart: [], labels: [] });
   const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards as any, []);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints as any, [validatorId, true]);
-  const stakerExposure = useCall<DeriveStakerExpoure[]>(api.derive.staking.stakerExposure as any, [validatorId, true]);
+  const stakerExposure = useCall<DeriveStakerExposure[]>(api.derive.staking.stakerExposure as any, [validatorId, true]);
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
   }), [formatBalance]);
 
   useEffect((): void => {
-    stakerPoints && setPointChart(extractPoints(stakerPoints));
+    stakerPoints && setPointChart(
+      extractPoints(stakerPoints)
+    );
   }, [stakerPoints]);
 
   useEffect((): void => {
-    erasRewards && stakerPoints && setRewardChart(extractRewards(erasRewards, stakerPoints, divisor));
+    erasRewards && stakerPoints && setRewardChart(
+      extractRewards(erasRewards, stakerPoints, divisor)
+    );
   }, [erasRewards, stakerPoints]);
 
   useEffect((): void => {
-    stakerExposure && setStakeCharts(extractStake(stakerExposure, divisor));
+    stakerExposure && setStakeCharts(
+      extractStake(stakerExposure, divisor)
+    );
   }, [stakerExposure]);
 
   return (
@@ -178,8 +205,9 @@ export default function Validator ({ className, validatorId }: Props): React.Rea
           {stakeChart && !!stakeChart[0]?.length
             ? (
               <Chart.Line
+                colors={COLORS_STAKE}
                 labels={stakeLabels}
-                legends={[t('{{currency}} total', { replace: { currency } }), t('{{currency}} own', { replace: { currency } }), t('{{currency}} other', { replace: { currency } })]}
+                legends={[t('{{currency}} total', { replace: { currency } }), t('{{currency}} average', { replace: { currency } })]}
                 values={stakeChart}
               />
             )
