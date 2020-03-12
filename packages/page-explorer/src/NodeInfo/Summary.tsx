@@ -25,17 +25,15 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
   const [peerBest, setPeerBest] = useState(ZERO);
 
   useEffect((): void => {
-    if (!peers) {
-      return;
+    if (peers) {
+      const bestPeer = peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
+
+      setPeerBest(
+        bestPeer
+          ? bestPeer.bestNumber
+          : new BN(0)
+      );
     }
-
-    const bestPeer = peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
-
-    setPeerBest(
-      bestPeer
-        ? bestPeer.bestNumber
-        : new BN(0)
-    );
   }, [peers]);
 
   return (

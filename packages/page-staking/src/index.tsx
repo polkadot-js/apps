@@ -121,7 +121,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         allRewards={allRewards}
         allStashes={allStashes}
         isVisible={pathname === `${basePath}/actions`}
-        recentlyOnline={recentlyOnline}
         next={next}
         stakingOverview={stakingOverview}
       />

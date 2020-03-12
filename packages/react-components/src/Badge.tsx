@@ -48,7 +48,7 @@ function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, 
   );
 }
 
-export default styled(Badge)`
+export default React.memo(styled(Badge)`
   border-radius: 16px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
@@ -150,4 +150,4 @@ export default styled(Badge)`
       width: auto;
     }
   }
-`;
+`);

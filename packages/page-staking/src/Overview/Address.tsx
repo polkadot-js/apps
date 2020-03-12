@@ -98,7 +98,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-export default function Address ({ address, className, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, isMain, lastBlock, myAccounts, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, isMain, lastBlock, myAccounts, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
@@ -233,3 +233,5 @@ export default function Address ({ address, className, filterName, hasQueries, h
     </tr>
   );
 }
+
+export default React.memo(Address);

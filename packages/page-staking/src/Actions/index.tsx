@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats, DerivedStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
+import { DerivedStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
@@ -19,12 +19,11 @@ interface Props {
   allStashes?: string[];
   className?: string;
   isVisible: boolean;
-  recentlyOnline?: DerivedHeartbeats;
   next?: string[];
   stakingOverview?: DerivedStakingOverview;
 }
 
-export default function Actions ({ allRewards, allStashes, className, isVisible, next, recentlyOnline, stakingOverview }: Props): React.ReactElement<Props> {
+export default function Actions ({ allRewards, allStashes, className, isVisible, next, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
@@ -84,7 +83,6 @@ export default function Actions ({ allRewards, allStashes, className, isVisible,
                   key={stashId}
                   next={next}
                   onUpdateType={_onUpdateType}
-                  recentlyOnline={recentlyOnline}
                   rewards={allRewards && allRewards[stashId]}
                   stakingOverview={stakingOverview}
                   stashId={stashId}
