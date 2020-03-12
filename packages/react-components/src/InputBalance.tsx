@@ -67,7 +67,7 @@ function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, is
   );
 }
 
-export default styled(InputBalance)`
+export default React.memo(styled(InputBalance)`
   &&:not(.label-small) .labelExtra {
     right: 6.5rem;
   }
@@ -76,4 +76,4 @@ export default styled(InputBalance)`
     border-style: solid;
     opacity: 1 !important;
   }
-`;
+`);

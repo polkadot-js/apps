@@ -21,7 +21,7 @@ interface Props {
 
 const DISTINCT = 'Distinct stash and controller accounts are recommended to ensure fund security.';
 
-export default function ValidateController ({ accountId, controllerId, defaultController, isUnsafeChain, onError }: Props): React.ReactElement<Props> | null {
+function ValidateController ({ accountId, controllerId, defaultController, isUnsafeChain, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedId = useCall<string | null>(api.query.staking.bonded, [controllerId], {
@@ -71,3 +71,5 @@ export default function ValidateController ({ accountId, controllerId, defaultCo
     </article>
   );
 }
+
+export default React.memo(ValidateController);

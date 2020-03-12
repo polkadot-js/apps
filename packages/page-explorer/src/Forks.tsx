@@ -4,7 +4,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { Header } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -13,7 +12,7 @@ import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-component
 import { useApi } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
 interface LinkHeader {
   author: string | null;
@@ -33,7 +32,7 @@ interface Link {
   hdr: LinkHeader;
 }
 
-interface Props extends ApiProps, I18nProps {
+interface Props extends ApiProps {
   className?: string;
   finHead?: Header;
   newHead?: Header;
@@ -203,7 +202,8 @@ function renderRows (rows: Row[]): React.ReactNode[] {
   });
 }
 
-function Forks ({ className, t }: Props): React.ReactElement<Props> | null {
+function Forks ({ className }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const [tree, setTree] = useState<Link | null>(null);
   const childrenRef = useRef<Map<string, string[]>>(new Map([['root', []]]));
@@ -375,103 +375,101 @@ function Forks ({ className, t }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default translate(
-  styled(Forks)`
-    margin-bottom: 1.5rem;
+export default React.memo(styled(Forks)`
+  margin-bottom: 1.5rem;
 
-    table {
-      border-collapse: separate;
-      border-spacing: 0.25rem;
-      font-family: monospace;
+  table {
+    border-collapse: separate;
+    border-spacing: 0.25rem;
+    font-family: monospace;
 
-      /* tr {
-        opacity: 0.05;
+    /* tr {
+      opacity: 0.05;
 
-        &:nth-child(1) { opacity: 1; }
-        &:nth-child(2) { opacity: 0.95; }
-        &:nth-child(3) { opacity: 0.9; }
-        &:nth-child(4) { opacity: 0.85; }
-        &:nth-child(5) { opacity: 0.8; }
-        &:nth-child(6) { opacity: 0.75; }
-        &:nth-child(7) { opacity: 0.70; }
-        &:nth-child(8) { opacity: 0.65; }
-        &:nth-child(9) { opacity: 0.6; }
-        &:nth-child(10) { opacity: 0.55; }
-        &:nth-child(11) { opacity: 0.6; }
-        &:nth-child(12) { opacity: 0.55; }
-        &:nth-child(13) { opacity: 0.5; }
-        &:nth-child(14) { opacity: 0.45; }
-        &:nth-child(15) { opacity: 0.4; }
-        &:nth-child(16) { opacity: 0.35; }
-        &:nth-child(17) { opacity: 0.3; }
-        &:nth-child(18) { opacity: 0.25; }
-        &:nth-child(19) { opacity: 0.2; }
-        &:nth-child(20) { opacity: 0.15; }
-        &:nth-child(21) { opacity: 0.1; }
-      } */
+      &:nth-child(1) { opacity: 1; }
+      &:nth-child(2) { opacity: 0.95; }
+      &:nth-child(3) { opacity: 0.9; }
+      &:nth-child(4) { opacity: 0.85; }
+      &:nth-child(5) { opacity: 0.8; }
+      &:nth-child(6) { opacity: 0.75; }
+      &:nth-child(7) { opacity: 0.70; }
+      &:nth-child(8) { opacity: 0.65; }
+      &:nth-child(9) { opacity: 0.6; }
+      &:nth-child(10) { opacity: 0.55; }
+      &:nth-child(11) { opacity: 0.6; }
+      &:nth-child(12) { opacity: 0.55; }
+      &:nth-child(13) { opacity: 0.5; }
+      &:nth-child(14) { opacity: 0.45; }
+      &:nth-child(15) { opacity: 0.4; }
+      &:nth-child(16) { opacity: 0.35; }
+      &:nth-child(17) { opacity: 0.3; }
+      &:nth-child(18) { opacity: 0.25; }
+      &:nth-child(19) { opacity: 0.2; }
+      &:nth-child(20) { opacity: 0.15; }
+      &:nth-child(21) { opacity: 0.1; }
+    } */
 
-      td {
-        padding: 0.25rem 0.5rem;
-        text-align: center;
+    td {
+      padding: 0.25rem 0.5rem;
+      text-align: center;
 
-        .author,
-        .contents {
-          display: inline-block;
-          vertical-align: middle;
+      .author,
+      .contents {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .author {
+        margin-right: 0.25rem;
+      }
+
+      .contents {
+        .hash, .parent {
+          margin: 0 auto;
+          max-width: 6rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
-        .author {
-          margin-right: 0.25rem;
+        .parent {
+          font-size: 0.75rem;
+          line-height: 0.75rem;
+          max-width: 4.5rem;
+        }
+      }
+
+      &.blockNumber {
+        font-size: 1.25rem;
+      }
+
+      &.header {
+        background: #f5f5f5;
+        border: 1px solid #eee;
+        border-radius: 0.25rem;
+
+        &.isEmpty {
+          background: transparent;
+          border-color: transparent;
         }
 
-        .contents {
-          .hash, .parent {
-            margin: 0 auto;
-            max-width: 6rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-
-          .parent {
-            font-size: 0.75rem;
-            line-height: 0.75rem;
-            max-width: 4.5rem;
-          }
+        &.isFinalized {
+          background: rgba(0, 255, 0, 0.1);
+          border-color: rgba(0, 255, 0, 0.17);
         }
 
-        &.blockNumber {
-          font-size: 1.25rem;
+        &.isLink {
+          background: transparent;
+          border-color: transparent;
+          line-height: 1rem;
+          padding: 0;
         }
 
-        &.header {
-          background: #f5f5f5;
-          border: 1px solid #eee;
-          border-radius: 0.25rem;
-
-          &.isEmpty {
-            background: transparent;
-            border-color: transparent;
-          }
-
-          &.isFinalized {
-            background: rgba(0, 255, 0, 0.1);
-            border-color: rgba(0, 255, 0, 0.17);
-          }
-
-          &.isLink {
-            background: transparent;
-            border-color: transparent;
-            line-height: 1rem;
-            padding: 0;
-          }
-
-          &.isMissing {
-            background: rgba(255, 0, 0, 0.05);
-            border-color: rgba(255, 0, 0, 0.06);
-          }
+        &.isMissing {
+          background: rgba(255, 0, 0, 0.05);
+          border-color: rgba(255, 0, 0, 0.06);
         }
       }
     }
-  `
-);
+  }
+`);

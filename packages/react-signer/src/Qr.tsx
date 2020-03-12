@@ -34,7 +34,7 @@ function Qr ({ address, className, isScanning, onSignature, payload }: Props): R
   );
 }
 
-export default styled(Qr)`
+export default React.memo(styled(Qr)`
   margin: 0 auto;
   max-width: 30rem;
-`;
+`);

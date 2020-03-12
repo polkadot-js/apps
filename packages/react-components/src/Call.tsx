@@ -101,7 +101,7 @@ function Call ({ children, className, labelHash, mortality, onError, style, tip,
   );
 }
 
-export default styled(Call)`
+export default React.memo(styled(Call)`
   .hash .ui--Static {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -120,4 +120,4 @@ export default styled(Call)`
       }
     }
   }
-`;
+`);

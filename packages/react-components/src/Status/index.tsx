@@ -185,7 +185,7 @@ function Status ({ className, stqueue = [], txqueue = [] }: Props): React.ReactE
   );
 }
 
-export default styled(Status)`
+export default React.memo(styled(Status)`
   display: inline-block;
   position: fixed;
   right: 0.25rem;
@@ -285,4 +285,4 @@ export default styled(Status)`
       }
     }
   }
-`;
+`);

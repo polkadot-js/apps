@@ -35,7 +35,7 @@ function LinkedWrapper ({ children, className, help, label, style, withLabel }: 
   );
 }
 
-export default styled(LinkedWrapper)`
+export default React.memo(styled(LinkedWrapper)`
   .ui--DropdownLinked-Items {
     .text {
       box-sizing: border-box;
@@ -72,4 +72,4 @@ export default styled(LinkedWrapper)`
     text-align: right;
     text-overflow: ellipsis;
   }
-`;
+`);

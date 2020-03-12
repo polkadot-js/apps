@@ -135,7 +135,7 @@ function extractStake (exposures: DeriveStakerExposure[], divisor: BN): ChartInf
   };
 }
 
-export default function Validator ({ className, validatorId }: Props): React.ReactElement<Props> {
+function Validator ({ className, validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ chart: pointChart, labels: pointLabels }, setPointChart] = useState<ChartInfo>({ chart: [], labels: [] });
@@ -218,3 +218,5 @@ export default function Validator ({ className, validatorId }: Props): React.Rea
     </Columar>
   );
 }
+
+export default React.memo(Validator);

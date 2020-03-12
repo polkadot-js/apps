@@ -78,7 +78,7 @@ function Claim ({ button, className, ethereumAddress }: Props): React.ReactEleme
   );
 }
 
-export default styled(Claim)`
+export default React.memo(styled(Claim)`
   font-size: 1.15rem;
   display: flex;
   flex-direction: column;
@@ -103,4 +103,4 @@ export default styled(Claim)`
     font-size: 2.5rem;
     font-weight: 200;
   }
-`;
+`);

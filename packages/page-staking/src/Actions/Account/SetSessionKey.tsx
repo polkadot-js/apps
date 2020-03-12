@@ -14,7 +14,7 @@ interface Props {
 
 const EMPTY_PROOF = new Uint8Array();
 
-export default function SetSessionKey ({ controllerId, onClose }: Props): React.ReactElement<Props> | null {
+function SetSessionKey ({ controllerId, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [keys, setKeys] = useState<string | null>(null);
 
@@ -54,3 +54,5 @@ export default function SetSessionKey ({ controllerId, onClose }: Props): React.
     </Modal>
   );
 }
+
+export default React.memo(SetSessionKey);

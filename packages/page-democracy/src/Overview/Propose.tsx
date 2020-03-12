@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { Available } from '@polkadot/react-query';
 import { isHex } from '@polkadot/util';
@@ -15,16 +15,16 @@ interface Props {
   onClose: () => void;
 }
 
-export default function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
+function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
   const [{ isHashValid, hash }, setHash] = useState<{ isHashValid: boolean; hash?: string }>({ isHashValid: false, hash: '' });
 
-  const _onChangeHash = (hash?: string): void => setHash({
-    isHashValid: isHex(hash, 256),
-    hash
-  });
+  const _onChangeHash = useCallback(
+    (hash?: string): void => setHash({ isHashValid: isHex(hash, 256), hash }),
+    []
+  );
 
   return (
     <Modal
@@ -67,3 +67,5 @@ export default function Propose ({ className, onClose }: Props): React.ReactElem
     </Modal>
   );
 }
+
+export default React.memo(Propose);

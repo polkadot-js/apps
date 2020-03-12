@@ -8,7 +8,7 @@ import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@p
 import { Codec, ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
@@ -162,11 +162,13 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
     ]);
   }, [rewards]);
 
-  const _doPayout = (): void =>
-    queueExtrinsic({
+  const _doPayout = useCallback(
+    (): void => queueExtrinsic({
       accountId: controllerId,
       extrinsic: createPayout(api, payoutRewards)
-    });
+    }),
+    [api, controllerId, payoutRewards]
+  );
 
   return (
     <tr className={className}>

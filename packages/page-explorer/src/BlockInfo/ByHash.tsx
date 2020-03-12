@@ -4,7 +4,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -13,12 +12,12 @@ import { Columar } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import BlockHeader from '../BlockHeader';
-import translate from '../translate';
 import Events from './Events';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   value: string;
 }
 
@@ -53,7 +52,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> | 
   );
 }
 
-export default translate(
+export default React.memo(
   styled(BlockByHash)`
     .exporer--BlockByHash-BlockHeader {
       border: none;

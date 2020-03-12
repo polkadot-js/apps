@@ -23,7 +23,7 @@ function Card ({ children, className, isError, isSuccess, withBottomMargin }: Pr
   );
 }
 
-export default styled(Card)`
+export default React.memo(styled(Card)`
   position: relative;
   flex: 1 1;
   min-width: 24%;
@@ -84,4 +84,4 @@ export default styled(Card)`
       margin-left: 0.2em;
     }
   }
-`;
+`);

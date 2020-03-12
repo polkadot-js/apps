@@ -44,7 +44,7 @@ function HelpOverlay ({ className, md }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(HelpOverlay)`
+export default React.memo(styled(HelpOverlay)`
   .help-button {
     cursor: pointer;
     font-size: 2rem;
@@ -82,4 +82,4 @@ export default styled(HelpOverlay)`
       right: 0;
     }
   }
-`;
+`);

@@ -20,7 +20,7 @@ function SummaryBox ({ children, className }: Props): React.ReactElement<Props> 
   );
 }
 
-export default styled(SummaryBox)`
+export default React.memo(styled(SummaryBox)`
   align-items: stretch;
   border-radius: 4px;
   display: flex;
@@ -66,4 +66,4 @@ export default styled(SummaryBox)`
     padding-right: 0;
     padding-top: 0;
   }
-`;
+`);

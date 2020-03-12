@@ -77,7 +77,7 @@ function AddressToggle ({ address, className, filter, isHidden, noToggle, onChan
   );
 }
 
-export default styled(AddressToggle)`
+export default React.memo(styled(AddressToggle)`
   align-items: flex-start;
   border: 1px solid transparent; /* #eee */
   border-radius: 0.25rem;
@@ -114,7 +114,6 @@ export default styled(AddressToggle)`
       filter: none;
       opacity: 1;
     }
-    /* border-color: #ccc; */
   }
 
   .ui--AddressToggle-address,
@@ -127,4 +126,4 @@ export default styled(AddressToggle)`
     margin-top: 0.1rem;
     text-align: right;
   }
-`;
+`);

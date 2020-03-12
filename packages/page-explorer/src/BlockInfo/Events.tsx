@@ -3,19 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Column } from '@polkadot/react-components';
 
 import EventsDisplay from '../Events';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   value?: EventRecord[];
 }
 
-function Events ({ value, t }: Props): React.ReactElement<Props> | null {
+function Events ({ value }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+
   if (!value || !value.length) {
     return null;
   }
@@ -34,4 +35,4 @@ function Events ({ value, t }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default translate(Events);
+export default React.memo(Events);

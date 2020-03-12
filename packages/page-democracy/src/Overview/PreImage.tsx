@@ -89,9 +89,9 @@ function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose 
   );
 }
 
-export default styled(PreImage)`
+export default React.memo(styled(PreImage)`
   .toggleImminent {
     margin: 0.5rem 0;
     text-align: right;
   }
-`;
+`);

@@ -23,7 +23,7 @@ interface Props {
   referendumIndex: ReferendumIndex;
 }
 
-export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.ReactElement<Props> {
+function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
@@ -65,3 +65,5 @@ export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: P
     </tr>
   );
 }
+
+export default React.memo(DispatchEntry);

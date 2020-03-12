@@ -37,7 +37,7 @@ function KeyPair ({ address, className, style }: Props): React.ReactElement<Prop
   );
 }
 
-export default styled(KeyPair)`
+export default React.memo(styled(KeyPair)`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -72,4 +72,4 @@ export default styled(KeyPair)`
       text-transform: uppercase;
     }
   }
-`;
+`);

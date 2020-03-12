@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import DispatchQueue from './DispatchQueue';
@@ -21,11 +22,8 @@ interface Props {
 
 function Overview ({ className }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const [isPreimageOpen, setIsPreimageOpen] = useState(false);
-  const [isProposeOpen, setIsProposeOpen] = useState(false);
-
-  const _togglePreimage = (): void => setIsPreimageOpen(!isPreimageOpen);
-  const _togglePropose = (): void => setIsProposeOpen(!isProposeOpen);
+  const [isPreimageOpen, togglePreimage] = useToggle();
+  const [isProposeOpen, togglePropose] = useToggle();
 
   return (
     <div className={className}>
@@ -35,21 +33,21 @@ function Overview ({ className }: Props): React.ReactElement {
           icon='add'
           isPrimary
           label={t('Submit preimage')}
-          onClick={_togglePreimage}
+          onClick={togglePreimage}
         />
         <Button.Or />
         <Button
           icon='add'
           isPrimary
           label={t('Submit proposal')}
-          onClick={_togglePropose}
+          onClick={togglePropose}
         />
       </Button.Group>
       {isPreimageOpen && (
-        <PreImage onClose={_togglePreimage} />
+        <PreImage onClose={togglePreimage} />
       )}
       {isProposeOpen && (
-        <Propose onClose={_togglePropose} />
+        <Propose onClose={togglePropose} />
       )}
       <Referendums />
       <Proposals />
@@ -59,8 +57,8 @@ function Overview ({ className }: Props): React.ReactElement {
   );
 }
 
-export default styled(Overview)`
+export default React.memo(styled(Overview)`
   .proposalSection {
     margin-bottom: 1.5rem;
   }
-`;
+`);
