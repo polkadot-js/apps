@@ -10,8 +10,10 @@ import { useTranslation } from '../translate';
 import BaseOverlay from './Base';
 
 const wsUrl = settings.apiUrl;
-const isWs = wsUrl.startsWith('ws://');
-const isWsLocal = wsUrl.includes('127.0.0.1');
+console.log(settings);
+console.log(wsUrl);
+const isWs = typeof wsUrl === 'string' && wsUrl.startsWith('ws://');
+const isWsLocal = typeof wsUrl === 'string' && wsUrl.includes('127.0.0.1');
 const isHttps = window.location.protocol.startsWith('https:');
 
 interface Props {

@@ -19,6 +19,7 @@ import Vote from './Vote';
 
 interface Props {
   className?: string;
+  prime?: AccountId | null;
 }
 
 const NULL_INFO: DerivedElectionsInfo = {
@@ -30,7 +31,7 @@ const NULL_INFO: DerivedElectionsInfo = {
   termDuration: createType(registry, 'BlockNumber')
 };
 
-export default function Overview ({ className }: Props): React.ReactElement<Props> {
+export default function Overview ({ className, prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const _electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
@@ -66,6 +67,7 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
       <Members
         allVotes={allVotes}
         electionsInfo={electionsInfo}
+        prime={prime}
       />
       <Candidates
         allVotes={allVotes}

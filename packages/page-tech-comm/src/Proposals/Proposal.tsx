@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+import { AccountId, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
@@ -17,9 +17,10 @@ import Voting from './Voting';
 interface Props {
   className?: string;
   hash: string;
+  prime?: AccountId | null;
 }
 
-export default function Proposal ({ className, hash }: Props): React.ReactElement<Props> | null {
+export default function Proposal ({ className, hash, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
@@ -67,6 +68,7 @@ export default function Proposal ({ className, hash }: Props): React.ReactElemen
       <td className='number top together'>
         <Voting
           hash={hash}
+          prime={prime}
           proposalId={index}
         />
       </td>

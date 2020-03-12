@@ -5,6 +5,7 @@
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
+import styled from 'styled-components';
 import { AddressSmall, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -12,9 +13,10 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   members?: AccountId[];
+  prime?: AccountId | null;
 }
 
-export default function Members ({ className, members }: Props): React.ReactElement<Props> {
+function Members ({ className, members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -23,13 +25,25 @@ export default function Members ({ className, members }: Props): React.ReactElem
         ? (
           <Table>
             <Table.Body>
-              {members.map((accountId): React.ReactNode => (
-                <tr key={accountId.toString()}>
-                  <td>
-                    <AddressSmall value={accountId} />
-                  </td>
-                </tr>
-              ))}
+              {members.map((accountId): React.ReactNode => {
+                const isPrime = prime?.toString() === accountId.toString();
+
+                return (
+                  <tr
+                    className={isPrime ? 'techcomm--isPrime' : ''}
+                    key={accountId.toString()}
+                  >
+                    <td className='all'>
+                      <AddressSmall value={accountId} />
+                    </td>
+                    <td className='right top techcomm--prime'>
+                      {isPrime && (
+                        t('prime voter')
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </Table.Body>
           </Table>
         )
@@ -38,3 +52,13 @@ export default function Members ({ className, members }: Props): React.ReactElem
     </div>
   );
 }
+
+export default styled(Members)`
+  .techcomm--isPrime td {
+    background: rgba(239, 255, 239, 0.8);
+  }
+  .techcomm--prime {
+    white-space: nowrap;
+    color: green;
+  }
+`;

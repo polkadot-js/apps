@@ -14,9 +14,10 @@ import Candidate from './Candidate';
 interface Props extends ComponentProps {
   allVotes?: Record<string, AccountId[]>;
   className?: string;
+  prime?: AccountId | null;
 }
 
-export default function Members ({ allVotes = {}, className, electionsInfo: { members } }: Props): React.ReactElement<Props> {
+export default function Members ({ allVotes = {}, className, electionsInfo: { members }, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -25,14 +26,19 @@ export default function Members ({ allVotes = {}, className, electionsInfo: { me
         ? (
           <Table>
             <Table.Body>
-              {members.map(([accountId, balance]): React.ReactNode => (
-                <Candidate
-                  address={accountId}
-                  balance={balance}
-                  key={accountId.toString()}
-                  voters={allVotes[accountId.toString()]}
-                />
-              ))}
+              {members.map(([accountId, balance]): React.ReactNode => {
+                const isPrime = prime?.toString() === accountId.toString();
+
+                return (
+                  <Candidate
+                    address={accountId}
+                    balance={balance}
+                    isPrime={isPrime}
+                    key={accountId.toString()}
+                    voters={allVotes[accountId.toString()]}
+                  />
+                );
+              })}
             </Table.Body>
           </Table>
         )
