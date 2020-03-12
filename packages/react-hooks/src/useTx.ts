@@ -22,6 +22,7 @@ function getExtrinsic<T extends TxDefs> (api: ApiPromise, txDef: T): Submittable
     const [section, method] = txDef[0].split('.');
 
     assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
+
     try {
       return api.tx[section][method](...(
         isFunction(txDef[1])

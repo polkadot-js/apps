@@ -5,7 +5,7 @@
 import { DerivedStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -45,16 +45,24 @@ export default function Actions ({ allRewards, allStashes, className, isVisible,
     );
   }, [ownStashes, stashTypes]);
 
-  const _toggleNewStake = (): void => setIsNewStateOpen(!isNewStakeOpen);
-  const _onUpdateType = (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
-    setStashTypes({
-      ...stashTypes,
-      [stashId]: type === 'validator'
-        ? 1
-        : type === 'nominator'
-          ? 5
-          : 9
-    });
+  const _toggleNewStake = useCallback(
+    (): void => setIsNewStateOpen(
+      (isNewStakeOpen: boolean) => !isNewStakeOpen
+    ),
+    []
+  );
+  const _onUpdateType = useCallback(
+    (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
+      setStashTypes((stashTypes: Record<string, number>) => ({
+        ...stashTypes,
+        [stashId]: type === 'validator'
+          ? 1
+          : type === 'nominator'
+            ? 5
+            : 9
+      })),
+    []
+  );
 
   return (
     <div className={`${className} ${!isVisible && 'staking--hidden'}`}>

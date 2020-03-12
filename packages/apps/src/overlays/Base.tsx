@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
 
@@ -16,11 +16,14 @@ interface Props {
 function BaseOverlay ({ children, className, icon, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, setIsHidden] = useState(false);
 
+  const _onClose = useCallback(
+    (): void => setIsHidden(true),
+    []
+  );
+
   if (isHidden) {
     return null;
   }
-
-  const _onClose = (): void => setIsHidden(true);
 
   return (
     <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>

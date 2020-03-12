@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
-import { useAccounts, useFavorites } from '@polkadot/react-hooks';
+import { useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
 import { Button, Input, Table } from '@polkadot/react-components';
 
 import CreateModal from './modals/Create';
@@ -39,9 +39,9 @@ async function queryLedger (): Promise<void> {
 function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isImportOpen, setIsImportOpen] = useState(false);
-  const [isQrOpen, setIsQrOpen] = useState(false);
+  const [isCreateOpen, toggleCreate] = useToggle();
+  const [isImportOpen, toggleImport] = useToggle();
+  const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
   const [filter, setFilter] = useState<string>('');
@@ -66,28 +66,24 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     );
   }, [allAccounts, favorites]);
 
-  const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
-  const _toggleImport = (): void => setIsImportOpen(!isImportOpen);
-  const _toggleQr = (): void => setIsQrOpen(!isQrOpen);
-
   return (
     <div className={className}>
       <Banner />
       {isCreateOpen && (
         <CreateModal
-          onClose={_toggleCreate}
+          onClose={toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
       {isImportOpen && (
         <ImportModal
-          onClose={_toggleImport}
+          onClose={toggleImport}
           onStatusChange={onStatusChange}
         />
       )}
       {isQrOpen && (
         <QrModal
-          onClose={_toggleQr}
+          onClose={toggleQr}
           onStatusChange={onStatusChange}
         />
       )}
@@ -96,21 +92,21 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           icon='add'
           isPrimary
           label={t('Add account')}
-          onClick={_toggleCreate}
+          onClick={toggleCreate}
         />
         <Button.Or />
         <Button
           icon='sync'
           isPrimary
           label={t('Restore JSON')}
-          onClick={_toggleImport}
+          onClick={toggleImport}
         />
         <Button.Or />
         <Button
           icon='qrcode'
           isPrimary
           label={t('Add via Qr')}
-          onClick={_toggleQr}
+          onClick={toggleQr}
         />
         {isLedger() && (
           <>

@@ -7,7 +7,7 @@ import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/in
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { Icon, InputBalance, Spinner, Table } from '@polkadot/react-components';
@@ -174,27 +174,30 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const [{ sorted, sortBy, sortFromMax }, setSorted] = useState<{ sorted?: ValidatorInfo[]; sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
 
-  const _sort = (newSortBy: SortBy, unsorted = validators, isAdjust = true): void => {
-    const newSortFromMax = isAdjust && newSortBy === sortBy ? !sortFromMax : true;
+  const _sort = useCallback(
+    (newSortBy: SortBy, unsorted: ValidatorInfo[] = validators, isAdjust = true): void => {
+      const newSortFromMax = isAdjust && newSortBy === sortBy ? !sortFromMax : true;
 
-    setSorted({
-      sortBy: newSortBy,
-      sortFromMax: newSortFromMax,
-      sorted: unsorted
-        .sort((a, b): number =>
-          newSortFromMax
-            ? a[newSortBy] - b[newSortBy]
-            : b[newSortBy] - a[newSortBy]
-        )
-        .sort((a, b): number =>
-          a.isFavorite === b.isFavorite
-            ? 0
-            : a.isFavorite
-              ? -1
-              : 1
-        )
-    });
-  };
+      setSorted({
+        sortBy: newSortBy,
+        sortFromMax: newSortFromMax,
+        sorted: unsorted
+          .sort((a, b): number =>
+            newSortFromMax
+              ? a[newSortBy] - b[newSortBy]
+              : b[newSortBy] - a[newSortBy]
+          )
+          .sort((a, b): number =>
+            a.isFavorite === b.isFavorite
+              ? 0
+              : a.isFavorite
+                ? -1
+                : 1
+          )
+      });
+    },
+    [validators]
+  );
 
   useEffect((): void => {
     if (electedInfo) {

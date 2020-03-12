@@ -59,9 +59,9 @@ export default function useOwnEraRewards (): OwnRewards {
   const [state, setState] = useState<OwnRewards>({ rewardCount: 0 });
 
   useEffect((): void => {
-    if (available && nextParams) {
-      setState(getRewards(available, nextParams));
-    }
+    available && nextParams && setState(
+      getRewards(available, nextParams)
+    );
   }, [available, nextParams]);
 
   return state;
