@@ -68,9 +68,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
   }, [t]);
 
   useEffect((): void => {
-    if (onChange && info.isValid) {
-      onChange(info.url);
-    }
+    onChange && info.isValid && onChange(info.url);
   }, [info]);
 
   const _onChangeUrl = (url: string): void => setInfo({ ...info, ...makeUrl(url) });

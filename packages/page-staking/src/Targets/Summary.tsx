@@ -30,11 +30,9 @@ export default function Summary ({ lastReward, numNominators, numValidators, tot
   const [{ percentage }, setStakeInfo] = useState<StakeInfo>({});
 
   useEffect((): void => {
-    if (totalInsurance && totalStaked?.gtn(0)) {
-      setStakeInfo({
-        percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
-      });
-    }
+    totalInsurance && totalStaked?.gtn(0) && setStakeInfo({
+      percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
+    });
   }, [totalInsurance, totalStaked]);
 
   return (

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DeriveStakerReward, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
@@ -39,7 +39,6 @@ interface Props {
   isVisible: boolean;
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
-  recentlyOnline?: DerivedHeartbeats;
   rewards?: DeriveStakerReward[];
   stakingOverview?: DerivedStakingOverview;
   stashId: string;
@@ -474,7 +473,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
   );
 }
 
-export default styled(Account)`
+export default React.memo(styled(Account)`
   .ui--Button-Group {
     display: inline-block;
     margin-right: 0.25rem;
@@ -484,4 +483,4 @@ export default styled(Account)`
   .mini-nopad {
     padding: 0;
   }
-`;
+`);

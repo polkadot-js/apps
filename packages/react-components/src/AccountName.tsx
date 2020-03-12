@@ -103,17 +103,15 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
   // determine if we have a registrar or not - registrars are allowed to approve
   useEffect((): void => {
-    if (allAccounts && registrars) {
-      setIsRegistrar(
-        registrars
-          .map((registrar): string| null =>
-            registrar.isSome
-              ? registrar.unwrap().account.toString()
-              : null
-          )
-          .some((regId): boolean => !!regId && allAccounts.includes(regId))
-      );
-    }
+    allAccounts && registrars && setIsRegistrar(
+      registrars
+        .map((registrar): string| null =>
+          registrar.isSome
+            ? registrar.unwrap().account.toString()
+            : null
+        )
+        .some((regId): boolean => !!regId && allAccounts.includes(regId))
+    );
   }, [allAccounts, registrars]);
 
   // set the actual nickname, local name, accountIndex, accountId
@@ -236,7 +234,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
   );
 }
 
-export default styled(AccountName)`
+export default React.memo(styled(AccountName)`
   .via-identity {
     display: inline-block;
     overflow: hidden;
@@ -279,4 +277,4 @@ export default styled(AccountName)`
       margin-top: -2px;
     }
   }
-`;
+`);

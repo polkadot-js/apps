@@ -71,14 +71,12 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
 
   useEffect((): void => {
-    if (senderId && recipientId) {
-      setExtrinsic(api.tx.balances.transfer(recipientId, amount || ZERO));
+    senderId && recipientId && setExtrinsic(api.tx.balances.transfer(recipientId, amount || ZERO));
 
-      // We currently have not enabled the max functionality - we don't take care of weights
-      // calcMax(api, balances_fees, senderId, recipientId)
-      //   .then(([maxBalance]): void => setMaxBalance(maxBalance))
-      //   .catch((error: Error): void => console.error(error));
-    }
+    // We currently have not enabled the max functionality - we don't take care of weights
+    // calcMax(api, balances_fees, senderId, recipientId)
+    //   .then(([maxBalance]): void => setMaxBalance(maxBalance))
+    //   .catch((error: Error): void => console.error(error));
   }, [amount, recipientId, senderId]);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;

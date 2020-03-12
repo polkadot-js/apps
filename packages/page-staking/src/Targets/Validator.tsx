@@ -16,7 +16,7 @@ interface Props {
   toggleFavorite: (accountId: string) => void;
 }
 
-export default function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const _onFavorite = (): void => toggleFavorite(key);
   const _onQueryStats = (): void => {
@@ -57,3 +57,5 @@ export default function Validator ({ info: { accountId, bondOther, bondOwn, bond
     </tr>
   );
 }
+
+export default React.memo(Validator);

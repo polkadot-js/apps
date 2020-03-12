@@ -32,15 +32,13 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   const [available, setAvailable] = useState<string[]>([]);
 
   useEffect((): void => {
-    if (!selection && nominees) {
-      setSelection(nominees);
-    }
+    !selection && nominees && setSelection(nominees);
   }, [selection, nominees]);
 
   useEffect((): void => {
-    if (stakingOverview) {
-      setValidators(stakingOverview.validators.map((acc): string => acc.toString()));
-    }
+    stakingOverview && setValidators(
+      stakingOverview.validators.map((acc): string => acc.toString())
+    );
   }, [stakingOverview]);
 
   useEffect((): void => {

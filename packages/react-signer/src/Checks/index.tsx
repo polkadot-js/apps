@@ -26,11 +26,10 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
   useEffect((): void => {
-    if (accountId && extrinsic?.paymentInfo && api.rpc.payment?.queryInfo) {
+    accountId && extrinsic?.paymentInfo && api.rpc.payment?.queryInfo &&
       extrinsic
         .paymentInfo(accountId)
         .then(setDispatchInfo);
-    }
   }, [api, accountId, extrinsic]);
 
   if (!dispatchInfo) {
