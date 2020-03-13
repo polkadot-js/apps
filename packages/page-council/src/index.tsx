@@ -29,7 +29,7 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { pathname } = useLocation();
   const numMotions = useCounter();
   const prime = useCall<AccountId | null>(api.query.council.prime, [], {
-    transform: (result: Option<AccountId>): AccountId | null => result?.unwrapOr(null) || null
+    transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
   }) || null;
   const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals);
 
