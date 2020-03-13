@@ -111,22 +111,26 @@ function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean
   const [siPower, basePower, siUnitPower] = getSiPowers(si);
 
   // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-  const isDecimalValue = input.match(/^(\d+)\.(\d+)$/);
+  const decimalMatch = input.match(/^(\d+)[\.,](\d+)$/);
 
   let result;
 
-  if (isDecimalValue) {
-    if (siUnitPower - isDecimalValue[2].length < -basePower) {
+  if (decimalMatch) {
+    const intString = decimalMatch[1];
+    const fractionString = decimalMatch[2];
+    if (siUnitPower - fractionString.length < -basePower) {
       result = new BN(-1);
     }
 
-    const div = new BN(input.replace(/\.\d*$/, ''));
-    const modString = input.replace(/^\d+\./, '');
-    const mod = new BN(modString);
+    const div = new BN(intString);
+    const mod = new BN(fractionString);
 
-    result = div
-      .mul(TEN.pow(siPower))
-      .add(mod.mul(TEN.pow(new BN(basePower + siUnitPower - modString.length))));
+    // multiply whole number part with 10^SI
+    const divMul = div.mul(TEN.pow(new BN(siUnitPower)));
+    // multiply the fractional part with 10^(SI-length)
+    const modMul = mod.mul(TEN.pow(new BN(siUnitPower - fractionString.length)));
+
+    result = divMul.add(modMul);
   } else {
     result = new BN(input.replace(/[^\d]/g, ''))
       .mul(TEN.pow(siPower));
