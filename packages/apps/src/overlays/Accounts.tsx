@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
@@ -18,11 +18,6 @@ function Accounts ({ className }: Props): React.ReactElement<Props> | null {
   const { hasAccounts } = useAccounts();
   const { isApiReady } = useApi();
   const [isHidden, toggleHidden] = useToggle();
-
-  const _onClose = useCallback(
-    (): void => setIsHidden(true),
-    []
-  );
 
   if (!isApiReady || hasAccounts || isHidden) {
     return null;
