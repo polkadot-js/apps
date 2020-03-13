@@ -18,7 +18,7 @@ interface Props {
   withoutOr?: boolean;
 }
 
-export default function PreImageButton ({ hash, isImminent, proposal, withoutOr }: Props): React.ReactElement<Props> | null {
+function PreImageButton ({ hash, isImminent, proposal, withoutOr }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isPreimageOpen, togglePreimage] = useToggle();
 
@@ -45,3 +45,5 @@ export default function PreImageButton ({ hash, isImminent, proposal, withoutOr 
     </>
   );
 }
+
+export default React.memo(PreImageButton);

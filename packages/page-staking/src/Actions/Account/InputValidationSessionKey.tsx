@@ -7,7 +7,7 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 
 interface Props extends I18nProps {
   controllerId: string;
@@ -16,7 +16,8 @@ interface Props extends I18nProps {
   stashId: string;
 }
 
-function ValidateSessionEd25519 ({ onError, sessionId, stashId, t }: Props): React.ReactElement<Props> | null {
+function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
@@ -43,4 +44,4 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId, t }: Props): Rea
   );
 }
 
-export default translate(ValidateSessionEd25519);
+export default React.memo(ValidateSessionEd25519);

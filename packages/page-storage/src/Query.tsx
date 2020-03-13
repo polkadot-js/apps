@@ -214,7 +214,7 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
   );
 }
 
-export default styled(Query)`
+export default React.memo(styled(Query)`
   margin-bottom: 0.25em;
 
   label {
@@ -234,4 +234,4 @@ export default styled(Query)`
   pre {
     margin: 0;
   }
-`;
+`);

@@ -88,7 +88,9 @@ function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | 
             tracker.current.count++;
 
             ((transformed: any): void => {
-              setTimeout(() => setValue(transformed), 0);
+              setTimeout((): void => {
+                mounted.current && tracker.current.isActive && setValue(transformed);
+              }, 0);
             })(withParams ? [params, transform(value)] : transform(value));
           }
         });

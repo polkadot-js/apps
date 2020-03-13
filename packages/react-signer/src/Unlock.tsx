@@ -54,9 +54,9 @@ function Unlock ({ autoFocus, className, error, onChange, onEnter, password, tab
   );
 }
 
-export default styled(Unlock)`
+export default React.memo(styled(Unlock)`
   .errorLabel {
     margin-right: 2rem;
     color: #9f3a38 !important;
   }
-`;
+`);

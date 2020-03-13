@@ -29,9 +29,10 @@ function Parachains ({ parachains }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Parachains)`
-tbody {
-  tr {
-    cursor: pointer;
+export default React.memo(styled(Parachains)`
+  tbody {
+    tr {
+      cursor: pointer;
+    }
   }
-}`;
+`);

@@ -23,18 +23,16 @@ interface StakeInfo {
   percentage?: string;
 }
 
-export default function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
   const [{ percentage }, setStakeInfo] = useState<StakeInfo>({});
 
   useEffect((): void => {
-    if (totalInsurance && totalStaked?.gtn(0)) {
-      setStakeInfo({
-        percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
-      });
-    }
+    totalInsurance && totalStaked?.gtn(0) && setStakeInfo({
+      percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
+    });
   }, [totalInsurance, totalStaked]);
 
   return (
@@ -79,3 +77,5 @@ export default function Summary ({ lastReward, numNominators, numValidators, tot
     </SummaryBox>
   );
 }
+
+export default React.memo(Summary);

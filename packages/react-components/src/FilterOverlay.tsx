@@ -21,7 +21,7 @@ function FilterOverlay ({ children, className }: Props): React.ReactElement<Prop
   );
 }
 
-export default styled(FilterOverlay)`
+export default React.memo(styled(FilterOverlay)`
   display: none;
 
   .ui--Labelled label {
@@ -47,4 +47,4 @@ export default styled(FilterOverlay)`
       white-space: nowrap;
     }
   `}
-`;
+`);

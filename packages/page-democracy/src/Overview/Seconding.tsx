@@ -18,7 +18,7 @@ interface Props {
   proposalId: BN | number;
 }
 
-export default function Seconding ({ depositors, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+function Seconding ({ depositors, proposal, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -73,3 +73,5 @@ export default function Seconding ({ depositors, proposal, proposalId }: Props):
     </>
   );
 }
+
+export default React.memo(Seconding);

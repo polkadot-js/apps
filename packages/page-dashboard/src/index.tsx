@@ -52,7 +52,7 @@ function DashboardApp ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(DashboardApp)`
+export default React.memo(styled(DashboardApp)`
   .routes {
     display: flex;
     flex-direction: row;
@@ -65,4 +65,4 @@ export default styled(DashboardApp)`
       text-align: center;
     }
   }
-`;
+`);

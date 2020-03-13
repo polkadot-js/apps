@@ -14,7 +14,7 @@ interface Props {
   value: string;
 }
 
-export default function BlockByNumber ({ value }: Props): React.ReactElement<Props> | null {
+function BlockByNumber ({ value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const getBlockHash = useCall<Hash>(api.rpc.chain.getBlockHash as any, [value]);
 
@@ -26,3 +26,5 @@ export default function BlockByNumber ({ value }: Props): React.ReactElement<Pro
     <BlockByHash value={getBlockHash.toHex()} />
   );
 }
+
+export default React.memo(BlockByNumber);

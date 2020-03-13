@@ -95,7 +95,7 @@ function Transaction ({ children, className, hideDetails, isSendable, onError, v
   );
 }
 
-export default styled(Transaction)`
+export default React.memo(styled(Transaction)`
   .tx-details {
     margin-left: 2rem;
 
@@ -117,4 +117,4 @@ export default styled(Transaction)`
       opacity: 0.6;
     }
   }
-`;
+`);

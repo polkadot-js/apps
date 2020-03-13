@@ -18,13 +18,11 @@ export default function VoteDisplay ({ votes }: Props): React.ReactElement<Props
   const [{ allAye, allNay, allSkeptic }, setVoteSplit] = useState<VoteSplit>({ allAye: [], allNay: [], allSkeptic: [] });
 
   useEffect((): void => {
-    if (votes) {
-      setVoteSplit({
-        allAye: votes.filter(([, vote]): boolean => vote.isApprove),
-        allNay: votes.filter(([, vote]): boolean => vote.isReject),
-        allSkeptic: votes.filter(([, vote]): boolean => vote.isSkeptic)
-      });
-    }
+    votes && setVoteSplit({
+      allAye: votes.filter(([, vote]): boolean => vote.isApprove),
+      allNay: votes.filter(([, vote]): boolean => vote.isReject),
+      allSkeptic: votes.filter(([, vote]): boolean => vote.isSkeptic)
+    });
   }, [votes]);
 
   return (

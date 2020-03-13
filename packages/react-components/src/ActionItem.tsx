@@ -47,4 +47,4 @@ function ActionItem ({ className, children, accessory, idNumber, proposal, expan
   );
 }
 
-export default styled(ActionItem)`${styles}`;
+export default React.memo(styled(ActionItem)`${styles}`);

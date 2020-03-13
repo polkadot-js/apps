@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, InputAddressSimple } from '@polkadot/react-components';
 
@@ -13,16 +13,19 @@ interface Props {
   className?: string;
 }
 
-export default function Query ({ className }: Props): React.ReactElement<Props> {
+function Query ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { value } = useParams();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
-  const _onQuery = (): void => {
-    if (validatorId) {
-      window.location.hash = `/staking/query/${validatorId}`;
-    }
-  };
+  const _onQuery = useCallback(
+    (): void => {
+      if (validatorId) {
+        window.location.hash = `/staking/query/${validatorId}`;
+      }
+    },
+    [validatorId]
+  );
 
   return (
     <div className={className}>
@@ -46,3 +49,5 @@ export default function Query ({ className }: Props): React.ReactElement<Props> 
     </div>
   );
 }
+
+export default React.memo(Query);

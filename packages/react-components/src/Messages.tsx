@@ -150,7 +150,7 @@ function Messages (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Messages)`
+export default React.memo(styled(Messages)`
   font-size: 0.9rem;
   padding: 0;
   margin: 0;
@@ -226,4 +226,4 @@ export default styled(Messages)`
       color: #555 !important;
     }
   }
-`;
+`);

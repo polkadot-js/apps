@@ -24,16 +24,16 @@ interface Entry {
   referendumIndex: ReferendumIndex;
 }
 
-export default function DispatchBlock ({ entries, keyPrefix, storageKey }: Props): React.ReactElement<Props> | null {
+function DispatchBlock ({ entries, keyPrefix, storageKey }: Props): React.ReactElement<Props> | null {
   const [blockNumber, setBlockNumber] = useState<BlockNumber | undefined>();
   const [expanded, setExpanded] = useState<Entry[]>([]);
 
   useEffect((): void => {
-    if (keyPrefix && storageKey) {
-      setBlockNumber(createType(registry, 'BlockNumber', hexToU8a(
+    keyPrefix && storageKey && setBlockNumber(
+      createType(registry, 'BlockNumber', hexToU8a(
         `0x${storageKey.toHex().replace(keyPrefix, '').substr(16)}`)
-      ));
-    }
+      )
+    );
   }, [keyPrefix, storageKey]);
 
   useEffect((): void => {
@@ -67,3 +67,5 @@ export default function DispatchBlock ({ entries, keyPrefix, storageKey }: Props
     </>
   );
 }
+
+export default React.memo(DispatchBlock);

@@ -205,9 +205,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
   );
 
   useEffect((): void => {
-    if (propsValue && isNewPropsValue(propsValue, value, valueBn)) {
-      setValues(getValues(propsValue, si, props));
-    }
+    propsValue && isNewPropsValue(propsValue, value, valueBn) && setValues(getValues(propsValue, si, props));
   }, [propsValue]);
 
   useEffect((): void => {

@@ -23,7 +23,7 @@ interface Props {
   referendumIndex: ReferendumIndex;
 }
 
-export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.ReactElement<Props> {
+function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
@@ -32,9 +32,7 @@ export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: P
   const [proposal, setProposal] = useState<Proposal | undefined>();
 
   useEffect((): void => {
-    if (preimage?.isSome) {
-      setProposal(api.createType('Proposal', preimage.unwrap()[0].toU8a(true)));
-    }
+    preimage?.isSome && setProposal(api.createType('Proposal', preimage.unwrap()[0].toU8a(true)));
   }, [preimage]);
 
   return (
@@ -67,3 +65,5 @@ export default function DispatchEntry ({ blockNumber, hash, referendumIndex }: P
     </tr>
   );
 }
+
+export default React.memo(DispatchEntry);

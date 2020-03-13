@@ -205,7 +205,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Sign)`
+export default React.memo(styled(Sign)`
   .toolbox--Sign-input {
     position: relative;
     width: 100%;
@@ -237,4 +237,4 @@ export default styled(Sign)`
       }
     }
   }
-`;
+`);

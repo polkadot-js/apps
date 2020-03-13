@@ -84,7 +84,7 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
   );
 }
 
-export default styled(Parachain)`
+export default React.memo(styled(Parachain)`
   & {
     cursor: pointer !important;
   }
@@ -113,4 +113,4 @@ export default styled(Parachain)`
   .did-update {
     margin-bottom: 0;
   }
-`;
+`);

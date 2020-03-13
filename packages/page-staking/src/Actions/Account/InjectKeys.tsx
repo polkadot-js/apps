@@ -4,7 +4,7 @@
 
 import { KeypairType } from '@polkadot/util-crypto/types';
 
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Button, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
@@ -26,7 +26,7 @@ const CRYPTO_MAP: Record<string, KeypairType[]> = {
 
 const EMPTY_KEY = '0x';
 
-export default function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
+function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueRpc } = useContext(StatusContext);
   // this needs to align with what is set as the first value in `type`
@@ -58,17 +58,22 @@ export default function InjectKeys ({ onClose }: Props): React.ReactElement<Prop
     }
   }, [crypto, suri]);
 
-  const _onSubmit = (): void =>
-    queueRpc({
+  const _onSubmit = useCallback(
+    (): void => queueRpc({
       rpc: { section: 'author', method: 'insertKey' } as any,
       values: [keyType, suri, publicKey]
-    });
-  const _cryptoOptions = CRYPTO_MAP[keyType].map((value): { text: string; value: KeypairType } => ({
-    text: value === 'ed25519'
-      ? t('ed25519, Edwards')
-      : t('sr15519, Schnorrkel'),
-    value
-  }));
+    }),
+    [keyType, publicKey, suri]
+  );
+  const _cryptoOptions = useMemo(
+    () => CRYPTO_MAP[keyType].map((value): { text: string; value: KeypairType } => ({
+      text: value === 'ed25519'
+        ? t('ed25519, Edwards')
+        : t('sr15519, Schnorrkel'),
+      value
+    })),
+    [keyType, t]
+  );
 
   return (
     <Modal
@@ -115,3 +120,5 @@ export default function InjectKeys ({ onClose }: Props): React.ReactElement<Prop
     </Modal>
   );
 }
+
+export default React.memo(InjectKeys);

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps as Props } from '@polkadot/react-components/types';
 import { Info } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -10,9 +9,9 @@ import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 import Extrinsics from '../BlockInfo/Extrinsics';
+import { useTranslation } from '../translate';
 import Peers from './Peers';
 import Summary from './Summary';
-import translate from './translate';
 
 const POLL_TIMEOUT = 9900;
 
@@ -31,7 +30,8 @@ async function retrieveInfo (api: ApiPromise): Promise<Partial<Info>> {
   }
 }
 
-function NodeInfo ({ t }: Props): React.ReactElement<Props> {
+export default function NodeInfo (): React.ReactElement<{}> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const [info, setInfo] = useState<Partial<Info>>({});
   const [nextRefresh, setNextRefresh] = useState(Date.now());
@@ -68,5 +68,3 @@ function NodeInfo ({ t }: Props): React.ReactElement<Props> {
     </>
   );
 }
-
-export default translate(NodeInfo);

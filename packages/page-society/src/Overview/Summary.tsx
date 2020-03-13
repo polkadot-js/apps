@@ -77,7 +77,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Summary)`
+export default React.memo(styled(Summary)`
   .society--header--account {
     white-space: nowrap;
 
@@ -90,4 +90,4 @@ export default styled(Summary)`
       margin-right: 0.5rem;
     }
   }
-`;
+`);

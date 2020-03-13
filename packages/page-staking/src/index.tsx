@@ -121,7 +121,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         allRewards={allRewards}
         allStashes={allStashes}
         isVisible={pathname === `${basePath}/actions`}
-        recentlyOnline={recentlyOnline}
         next={next}
         stakingOverview={stakingOverview}
       />
@@ -137,7 +136,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   );
 }
 
-export default styled(StakingApp)`
+export default React.memo(styled(StakingApp)`
   .staking--hidden {
     display: none;
   }
@@ -153,4 +152,4 @@ export default styled(StakingApp)`
   .staking--Chart+.staking--Chart {
     margin-top: 1.5rem;
   }
-`;
+`);

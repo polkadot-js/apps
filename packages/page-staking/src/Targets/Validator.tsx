@@ -4,7 +4,7 @@
 
 import { ValidatorInfo } from './types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { AddressSmall, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -16,12 +16,19 @@ interface Props {
   toggleFavorite: (accountId: string) => void;
 }
 
-export default function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const _onFavorite = (): void => toggleFavorite(key);
-  const _onQueryStats = (): void => {
-    window.location.hash = `/staking/query/${key}`;
-  };
+
+  const _onFavorite = useCallback(
+    (): void => toggleFavorite(key),
+    [key]
+  );
+  const _onQueryStats = useCallback(
+    (): void => {
+      window.location.hash = `/staking/query/${key}`;
+    },
+    [key]
+  );
 
   return (
     <tr className={`${isNominating && 'isHighlight'}`}>
@@ -57,3 +64,5 @@ export default function Validator ({ info: { accountId, bondOther, bondOwn, bond
     </tr>
   );
 }
+
+export default React.memo(Validator);
