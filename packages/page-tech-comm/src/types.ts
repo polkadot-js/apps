@@ -6,6 +6,7 @@ import { AccountId, Hash } from '@polkadot/types/interfaces';
 
 export interface ComponentProps {
   className?: string;
+  prime?: AccountId | null;
   proposals?: Hash[];
   members?: AccountId[];
 }

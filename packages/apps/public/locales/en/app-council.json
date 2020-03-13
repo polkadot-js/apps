@@ -64,5 +64,8 @@
   "Vote on proposal": "Vote on proposal",
   "council candidates": "council candidates",
   "Select and order council candidates you wish to vote for.": "Select and order council candidates you wish to vote for.",
-  "my ordered votes": "my ordered votes"
+  "my ordered votes": "my ordered votes",
+  "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.",
+  "Prime member": "Prime member",
+  "prime voter": "prime voter"
 }
