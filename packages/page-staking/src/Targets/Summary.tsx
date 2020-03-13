@@ -66,7 +66,7 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
       <CardSummary label={t('validators/nominators')}>
         {numValidators}/{numNominators}
       </CardSummary>
-      {lastReward && (
+      {lastReward?.gtn(0) && (
         <CardSummary label={t('last reward')}>
           <FormatBalance
             value={lastReward}

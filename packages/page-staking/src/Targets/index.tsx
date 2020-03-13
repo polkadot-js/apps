@@ -176,27 +176,27 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
 
   const _sort = useCallback(
     (newSortBy: SortBy, unsorted: ValidatorInfo[] = validators, isAdjust = true): void => {
-      const newSortFromMax = isAdjust && newSortBy === sortBy ? !sortFromMax : true;
+      const newSortFromMax = isAdjust && newSortBy === sortBy
+        ? !sortFromMax
+        : true;
 
       setSorted({
         sortBy: newSortBy,
         sortFromMax: newSortFromMax,
         sorted: unsorted
-          .sort((a, b): number =>
-            newSortFromMax
-              ? a[newSortBy] - b[newSortBy]
-              : b[newSortBy] - a[newSortBy]
+          .sort((a, b): number => newSortFromMax
+            ? a[newSortBy] - b[newSortBy]
+            : b[newSortBy] - a[newSortBy]
           )
-          .sort((a, b): number =>
-            a.isFavorite === b.isFavorite
-              ? 0
-              : a.isFavorite
-                ? -1
-                : 1
+          .sort((a, b): number => a.isFavorite === b.isFavorite
+            ? 0
+            : a.isFavorite
+              ? -1
+              : 1
           )
       });
     },
-    [validators]
+    [sortBy, sortFromMax, validators]
   );
 
   useEffect((): void => {
