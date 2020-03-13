@@ -18,7 +18,7 @@ interface Props {
   isMember: boolean;
   members: string[];
   motion: DerivedCollectiveProposal;
-  prime?: AccountId | null;
+  prime: AccountId | null;
 }
 
 export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {

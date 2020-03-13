@@ -6,7 +6,7 @@ import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, Badge, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -28,8 +28,17 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
       <td className='top'>
         <AddressSmall value={address} />
       </td>
-      <td className='top council--prime'>
-        {isPrime && t('prime voter')}
+      <td className='council--prime'>
+        {isPrime && (
+          <div>
+            <Badge
+              info={<Icon name='chess king' />}
+              isInline
+              type='green'
+            />
+            <span>{' '}{t('prime voter')}</span>
+          </div>
+        )}
       </td>
       <td className='top together right'>
         {balance && balance.gtn(0) && (
@@ -52,8 +61,13 @@ export default styled(Candidate)`
     }
   }
 
-  .council--prime {
+  .council--prime > div {
+    display: inline-flex;
+    align-items: center;
     white-space: nowrap;
-    color: green;
+
+    > span {
+      color: green;
+    }
   }
 `;

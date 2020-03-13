@@ -6,7 +6,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressSmall, Table } from '@polkadot/react-components';
+import { AddressSmall, Badge, Icon, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -36,9 +36,16 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
                     <td className='all'>
                       <AddressSmall value={accountId} />
                     </td>
-                    <td className='right top techcomm--prime'>
+                    <td className='right techcomm--prime'>
                       {isPrime && (
-                        t('prime voter')
+                        <div>
+                          <Badge
+                            info={<Icon name='chess king' />}
+                            isInline
+                            type='green'
+                          />
+                          <span>{' '}{t('prime voter')}</span>
+                        </div>
                       )}
                     </td>
                   </tr>
@@ -57,8 +64,13 @@ export default styled(Members)`
   .techcomm--isPrime td {
     background: rgba(239, 255, 239, 0.8);
   }
-  .techcomm--prime {
+  .techcomm--prime > div {
+    display: inline-flex;
+    align-items: center;
     white-space: nowrap;
-    color: green;
+
+    > span {
+      color: green;
+    }
   }
 `;

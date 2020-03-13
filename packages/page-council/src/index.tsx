@@ -28,8 +28,11 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const { pathname } = useLocation();
   const numMotions = useCounter();
-  const prime = useCall<Option<AccountId>>(api.query.council.prime);
-  const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals, []);
+  const prime = useCall<AccountId | null>(api.query.council.prime, [], {
+    transform: (result: Option<AccountId>): AccountId | null => result?.unwrapOr(null) || null
+  }) || null;
+  const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals);
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -54,13 +57,13 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={`${basePath}/motions`}>
           <Motions
             motions={motions}
-            prime={prime?.unwrapOr(null)}
+            prime={prime}
           />
         </Route>
       </Switch>
       <Overview
         className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'}
-        prime={prime?.unwrapOr(null)}
+        prime={prime}
       />
     </main>
   );

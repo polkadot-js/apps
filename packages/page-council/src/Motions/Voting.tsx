@@ -16,7 +16,7 @@ interface Props {
   idNumber: ProposalIndex;
   isDisabled: boolean;
   members: string[];
-  prime?: AccountId | null;
+  prime: AccountId | null;
   proposal: Proposal;
 }
 

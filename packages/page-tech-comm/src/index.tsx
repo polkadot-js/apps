@@ -23,7 +23,9 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<AccountId[]>(api.query.technicalCommittee.members);
-  const prime = useCall<Option<AccountId>>(api.query.technicalCommittee.prime);
+  const prime = useCall<AccountId | null>(api.query.council.prime, [], {
+    transform: (result: Option<AccountId>): AccountId | null => result?.unwrapOr(null) || null
+  }) || null;
   const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals);
   const items = useMemo(() => [
     {
@@ -49,14 +51,14 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
         <Route path={`${basePath}/proposals`}>
           <Proposals
             members={members}
-            prime={prime?.unwrapOr(null)}
+            prime={prime}
             proposals={proposals}
           />
         </Route>
         <Route path={basePath}>
           <Overview
             members={members}
-            prime={prime?.unwrapOr(null)}
+            prime={prime}
             proposals={proposals}
           />
         </Route>
