@@ -14,10 +14,9 @@ import { useTranslation } from '../translate';
 interface Props {
   info: ValidatorInfo;
   toggleFavorite: (accountId: string) => void;
-  withProfit?: boolean;
 }
 
-function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite, withProfit }: Props): React.ReactElement<Props> {
+function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const _onFavorite = useCallback(
@@ -54,9 +53,7 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
       <td className='number together'><FormatBalance label={<label>{t('total stake')}</label>} value={bondTotal} /></td>
       <td className='number together'><FormatBalance label={<label>{t('own stake')}</label>} value={bondOwn} /></td>
       <td className='number together'><FormatBalance label={<label>{t('other stake')}</label>} value={bondOther} >&nbsp;({formatNumber(numNominators)})</FormatBalance></td>
-      {withProfit && (
-        <td className='number together'><FormatBalance label={<label>{t('profit/era est.')}</label>} value={rewardPayout} /></td>
-      )}
+      <td className='number together'><FormatBalance label={<label>{t('profit/era est.')}</label>} value={rewardPayout} /></td>
       <td>
         <Icon
           className='staking--stats'

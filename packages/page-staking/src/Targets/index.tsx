@@ -251,7 +251,6 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
                     info={info}
                     key={info.key}
                     toggleFavorite={toggleFavorite}
-                    withProfit={lastReward?.gtn(0)}
                   />
                 )}
               </Table.Body>
