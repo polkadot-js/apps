@@ -937,5 +937,9 @@
   "Pending payouts for {{count}} eras:": "",
   "Payout reward": "",
   "Account actions{{count}}": "",
-  "everything": ""
+  "everything": "",
+  "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "",
+  "Prime member": "",
+  "prime voter": "",
+  "society head": ""
 }

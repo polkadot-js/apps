@@ -15,5 +15,7 @@
   "Positive number between 1 and {{memberCount}}": "Positive number between 1 and {{memberCount}}",
   "proposal": "proposal",
   "Vote on proposal": "Vote on proposal",
-  "Vote": "Vote"
+  "Vote": "Vote",
+  "prime voter": "prime voter",
+  "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions."
 }
