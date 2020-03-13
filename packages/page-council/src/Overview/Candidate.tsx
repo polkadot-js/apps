@@ -32,11 +32,13 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
         {isPrime && (
           <div>
             <Badge
+              hover={t('Prime member')}
               info={<Icon name='chess king' />}
               isInline
+              isTooltip
               type='green'
             />
-            <span>{' '}{t('prime voter')}</span>
+            <span>&nbsp;{t('prime voter')}</span>
           </div>
         )}
       </td>
@@ -54,7 +56,7 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
   );
 }
 
-export default styled(Candidate)`
+export default React.memo(styled(Candidate)`
   &.council--isPrime {
     td {
       background-color: rgba(239, 255, 239, 0.8) !important;
@@ -70,4 +72,4 @@ export default styled(Candidate)`
       color: green;
     }
   }
-`;
+`);

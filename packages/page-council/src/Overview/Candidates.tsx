@@ -7,7 +7,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { Table } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Candidate from './Candidate';
@@ -17,46 +17,52 @@ interface Props extends ComponentProps {
   className?: string;
 }
 
-export default function Candidates ({ allVotes = {}, className, electionsInfo: { candidates, runnersUp } }: Props): React.ReactElement<Props> {
+function Candidates ({ allVotes = {}, className, electionsInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <div className={className}>
       <h1>{t('runners up')}</h1>
-      {runnersUp.length
-        ? (
-          <Table>
-            <Table.Body>
-              {runnersUp.map(([accountId, balance]): React.ReactNode => (
-                <Candidate
-                  address={accountId}
-                  balance={balance}
-                  key={accountId.toString()}
-                  voters={allVotes[accountId.toString()]}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No runners up found')
+      {electionsInfo
+        ? electionsInfo.runnersUp.length
+          ? (
+            <Table>
+              <Table.Body>
+                {electionsInfo.runnersUp.map(([accountId, balance]): React.ReactNode => (
+                  <Candidate
+                    address={accountId}
+                    balance={balance}
+                    key={accountId.toString()}
+                    voters={allVotes[accountId.toString()]}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('No runners up found')
+        : <Spinner />
       }
       <h1>{t('candidates')}</h1>
-      {candidates.length
-        ? (
-          <Table>
-            <Table.Body>
-              {candidates.map((accountId): React.ReactNode => (
-                <Candidate
-                  address={accountId}
-                  key={accountId.toString()}
-                  voters={allVotes[accountId.toString()]}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No candidates found')
+      {electionsInfo
+        ? electionsInfo.candidates.length
+          ? (
+            <Table>
+              <Table.Body>
+                {electionsInfo.candidates.map((accountId): React.ReactNode => (
+                  <Candidate
+                    address={accountId}
+                    key={accountId.toString()}
+                    voters={allVotes[accountId.toString()]}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('No candidates found')
+        : <Spinner />
       }
     </div>
   );
 }
+
+export default React.memo(Candidates);

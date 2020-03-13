@@ -6,7 +6,7 @@ import { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
 import { OwnMembers } from '../types';
 
 import React from 'react';
-import { Table } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -24,23 +24,25 @@ export default function Candidates ({ allMembers, className, isMember, ownMember
   return (
     <div className={`overviewSection ${className}`}>
       <h1>{t('candidates')}</h1>
-      {candidates?.length
-        ? (
-          <Table>
-            <Table.Body>
-              {candidates.map((candidate): React.ReactNode => (
-                <Candidate
-                  allMembers={allMembers}
-                  isMember={isMember}
-                  key={candidate.accountId.toString()}
-                  ownMembers={ownMembers}
-                  value={candidate}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No candidates')
+      {candidates
+        ? candidates.length
+          ? (
+            <Table>
+              <Table.Body>
+                {candidates.map((candidate): React.ReactNode => (
+                  <Candidate
+                    allMembers={allMembers}
+                    isMember={isMember}
+                    key={candidate.accountId.toString()}
+                    ownMembers={ownMembers}
+                    value={candidate}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('No candidates')
+        : <Spinner />
       }
     </div>
   );

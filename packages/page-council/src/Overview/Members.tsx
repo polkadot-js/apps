@@ -6,7 +6,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { Table } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Candidate from './Candidate';
@@ -17,33 +17,38 @@ interface Props extends ComponentProps {
   prime?: AccountId | null;
 }
 
-export default function Members ({ allVotes = {}, className, electionsInfo: { members }, prime }: Props): React.ReactElement<Props> {
+function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <div className={className}>
-      {members.length
-        ? (
-          <Table>
-            <Table.Body>
-              {members.map(([accountId, balance]): React.ReactNode => {
-                const isPrime = prime?.toString() === accountId.toString();
+      <h1>{t('members')}</h1>
+      {electionsInfo
+        ? electionsInfo.members.length
+          ? (
+            <Table>
+              <Table.Body>
+                {electionsInfo.members.map(([accountId, balance]): React.ReactNode => {
+                  const isPrime = prime?.toString() === accountId.toString();
 
-                return (
-                  <Candidate
-                    address={accountId}
-                    balance={balance}
-                    isPrime={isPrime}
-                    key={accountId.toString()}
-                    voters={allVotes[accountId.toString()]}
-                  />
-                );
-              })}
-            </Table.Body>
-          </Table>
-        )
-        : t('No members found')
+                  return (
+                    <Candidate
+                      address={accountId}
+                      balance={balance}
+                      isPrime={isPrime}
+                      key={accountId.toString()}
+                      voters={allVotes[accountId.toString()]}
+                    />
+                  );
+                })}
+              </Table.Body>
+            </Table>
+          )
+          : t('No members found')
+        : <Spinner />
       }
     </div>
   );
 }
+
+export default React.memo(Members);

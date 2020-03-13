@@ -10,8 +10,6 @@ import { useTranslation } from '../translate';
 import BaseOverlay from './Base';
 
 const wsUrl = settings.apiUrl;
-console.log(settings);
-console.log(wsUrl);
 const isWs = typeof wsUrl === 'string' && wsUrl.startsWith('ws://');
 const isWsLocal = typeof wsUrl === 'string' && wsUrl.includes('127.0.0.1');
 const isHttps = window.location.protocol.startsWith('https:');
@@ -20,7 +18,7 @@ interface Props {
   className?: string;
 }
 
-export default function Connecting ({ className }: Props): React.ReactElement<Props> | null {
+function Connecting ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { isApiConnected, isWaitingInjected } = useApi();
 
@@ -53,3 +51,5 @@ export default function Connecting ({ className }: Props): React.ReactElement<Pr
 
   return null;
 }
+
+export default React.memo(Connecting);

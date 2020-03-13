@@ -69,8 +69,8 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   );
 }
 
-export default styled(CouncilApp)`
+export default React.memo(styled(CouncilApp)`
   .council--hidden {
     display: none;
   }
-`;
+`);

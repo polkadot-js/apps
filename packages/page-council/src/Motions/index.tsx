@@ -20,7 +20,7 @@ interface Props {
   prime: AccountId | null;
 }
 
-export default function Proposals ({ className, motions, prime }: Props): React.ReactElement<Props> {
+function Proposals ({ className, motions, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isMember, members } = useCouncilMembers();
 
@@ -59,3 +59,5 @@ export default function Proposals ({ className, motions, prime }: Props): React.
     </div>
   );
 }
+
+export default React.memo(Proposals);

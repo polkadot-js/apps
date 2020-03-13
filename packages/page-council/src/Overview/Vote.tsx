@@ -64,17 +64,22 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderTrigger = (): React.ReactNode => {
-    const { electionsInfo: { candidates, members, runnersUp }, t } = this.props;
-    const available = members
-      .map(([accountId]): AccountId => accountId)
-      .concat(runnersUp.map(([accountId]): AccountId => accountId))
-      .concat(candidates);
+    let available: AccountId[] = [];
+
+    if (this.props.electionsInfo) {
+      const { electionsInfo: { candidates, members, runnersUp } } = this.props;
+
+      available = members
+        .map(([accountId]): AccountId => accountId)
+        .concat(runnersUp.map(([accountId]): AccountId => accountId))
+        .concat(candidates);
+    }
 
     return (
       <Button
         isDisabled={available.length === 0}
         isPrimary
-        label={t('Vote')}
+        label={this.props.t('Vote')}
         icon='check'
         onClick={this.showModal}
       />
@@ -82,6 +87,10 @@ class Vote extends TxModal<Props, State> {
   }
 
   protected renderContent = (): React.ReactNode => {
+    if (!this.props.electionsInfo) {
+      return null;
+    }
+
     const { electionsInfo: { candidates, members, runnersUp }, t } = this.props;
     const { accountId, votes } = this.state;
     const available = members
@@ -121,6 +130,10 @@ class Vote extends TxModal<Props, State> {
       (api.query.electionsPhragmen || api.query.elections)
         .votesOf<[AccountId[]] & Codec>(accountId)
         .then(([existingVotes]): void => {
+          if (!this.props.electionsInfo) {
+            return;
+          }
+
           const { electionsInfo: { candidates, members, runnersUp } } = this.props;
           const available = members
             .map(([accountId]): string => accountId.toString())
