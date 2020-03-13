@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   children: React.ReactNode;
@@ -14,12 +15,7 @@ interface Props {
 }
 
 function BaseOverlay ({ children, className, icon, type }: Props): React.ReactElement<Props> | null {
-  const [isHidden, setIsHidden] = useState(false);
-
-  const _onClose = useCallback(
-    (): void => setIsHidden(true),
-    []
-  );
+  const [isHidden, toggleHidden] = useToggle();
 
   if (isHidden) {
     return null;
@@ -39,7 +35,7 @@ function BaseOverlay ({ children, className, icon, type }: Props): React.ReactEl
         <Icon
           className='closeIcon'
           name='close'
-          onClick={_onClose}
+          onClick={toggleHidden}
         />
       </div>
     </div>

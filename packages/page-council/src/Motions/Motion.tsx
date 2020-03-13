@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
@@ -17,9 +18,10 @@ interface Props {
   isMember: boolean;
   members: string[];
   motion: DerivedCollectiveProposal;
+  prime: AccountId | null;
 }
 
-export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes } }: Props): React.ReactElement<Props> | null {
+export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!votes) {
@@ -66,6 +68,7 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
           idNumber={index}
           isDisabled={!isMember}
           members={members}
+          prime={prime}
           proposal={proposal}
         />
         <LinkExternal

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedCollectiveProposals, DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Button, Table } from '@polkadot/react-components';
@@ -16,9 +17,10 @@ import Slashing from './Slashing';
 interface Props {
   className?: string;
   motions?: DerivedCollectiveProposals;
+  prime: AccountId | null;
 }
 
-export default function Proposals ({ className, motions }: Props): React.ReactElement<Props> {
+function Proposals ({ className, motions, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isMember, members } = useCouncilMembers();
 
@@ -46,6 +48,7 @@ export default function Proposals ({ className, motions }: Props): React.ReactEl
                   key={motion.hash.toHex()}
                   members={members}
                   motion={motion}
+                  prime={prime}
                 />
               ))}
             </Table.Body>
@@ -56,3 +59,5 @@ export default function Proposals ({ className, motions }: Props): React.ReactEl
     </div>
   );
 }
+
+export default React.memo(Proposals);

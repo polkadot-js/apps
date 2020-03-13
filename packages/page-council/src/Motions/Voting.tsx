@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
+import { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
-import { Button, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
+import { Button, Icon, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
@@ -16,10 +16,11 @@ interface Props {
   idNumber: ProposalIndex;
   isDisabled: boolean;
   members: string[];
+  prime: AccountId | null;
   proposal: Proposal;
 }
 
-export default function Voting ({ hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
+export default function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
@@ -31,6 +32,7 @@ export default function Voting ({ hash, idNumber, isDisabled, members, proposal 
   }
 
   const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
+  const isPrime = prime?.toString() === accountId;
 
   return (
     <>
@@ -52,6 +54,11 @@ export default function Voting ({ hash, idNumber, isDisabled, members, proposal 
               onChange={_onChangeVote}
               value={voteValue}
             />
+            {isPrime && (
+              <article className='warning'>
+                <div><Icon name='warning sign' />{t('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
+              </article>
+            )}
           </Modal.Content>
           <VoteActions
             accountId={accountId}

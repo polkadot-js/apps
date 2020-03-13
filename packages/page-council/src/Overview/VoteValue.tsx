@@ -5,7 +5,7 @@
 import { DerivedBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { InputBalance } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
@@ -23,7 +23,7 @@ interface ValueState {
   value?: BN | string;
 }
 
-export default function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [accountId]);
@@ -56,7 +56,10 @@ export default function VoteValue ({ accountId, onChange }: Props): React.ReactE
     isBn(value) && onChange(value);
   }, [value]);
 
-  const _setValue = (value?: BN): void => setValue({ selectedId, value });
+  const _setValue = useCallback(
+    (value?: BN): void => setValue({ selectedId, value }),
+    [selectedId]
+  );
 
   return (
     <InputBalance
@@ -69,3 +72,5 @@ export default function VoteValue ({ accountId, onChange }: Props): React.ReactE
     />
   );
 }
+
+export default React.memo(VoteValue);
