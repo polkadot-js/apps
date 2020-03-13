@@ -111,7 +111,7 @@ function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean
   const [siPower, basePower, siUnitPower] = getSiPowers(si);
 
   // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-  const decimalMatch = input.match(/^(\d+)[\.,](\d+)$/);
+  const decimalMatch = input.match(/^(\d+)[.,](\d+)$/);
 
   let result;
 
