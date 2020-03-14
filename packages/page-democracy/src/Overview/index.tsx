@@ -31,14 +31,12 @@ function Overview ({ className }: Props): React.ReactElement {
       <Button.Group>
         <Button
           icon='add'
-          isPrimary
           label={t('Submit preimage')}
           onClick={togglePreimage}
         />
         <Button.Or />
         <Button
           icon='add'
-          isPrimary
           label={t('Submit proposal')}
           onClick={togglePropose}
         />

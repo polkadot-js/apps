@@ -27,7 +27,6 @@ export default function Proposals ({ className, members, prime, proposals }: Pro
       )}
       <Button.Group>
         <Button
-          isPrimary
           label={t('Submit proposal')}
           icon='add'
           onClick={togglePropose}

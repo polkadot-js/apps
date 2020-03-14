@@ -46,7 +46,6 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       <Button.Group>
         <Button
           icon='add'
-          isPrimary
           label={t('Add contact')}
           onClick={_toggleCreate}
         />

@@ -68,7 +68,6 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
     <div className={`${className} ${!isVisible && 'staking--hidden'}`}>
       <Button.Group>
         <Button
-          isPrimary
           key='new-stake'
           label={t('New stake')}
           icon='add'

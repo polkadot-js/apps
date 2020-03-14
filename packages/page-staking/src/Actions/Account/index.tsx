@@ -332,12 +332,8 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                   <TxButton
                     accountId={controllerId}
                     isDisabled={!isOwnController}
-                    isNegative
-                    label={
-                      isStashNominating
-                        ? t('Stop Nominating')
-                        : t('Stop Validating')
-                    }
+                    isPrimary={false}
+                    label={t('Stop')}
                     icon='stop'
                     key='stop'
                     tx='staking.chill'
@@ -349,7 +345,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                       ? (
                         <Button
                           isDisabled={!isOwnController}
-                          isPrimary
                           key='set'
                           onClick={toggleSetSession}
                           label={t('Session Key')}
@@ -359,7 +354,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                       : (
                         <Button
                           isDisabled={!isOwnController}
-                          isPrimary
                           key='validate'
                           onClick={toggleValidate}
                           label={t('Validate')}
@@ -370,7 +364,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                     <Button.Or key='nominate.or' />
                     <Button
                       isDisabled={!isOwnController}
-                      isPrimary
                       key='nominate'
                       onClick={toggleNominate}
                       label={t('Nominate')}
