@@ -133,6 +133,7 @@ export default function General ({ className, isModalContent, onClose }: Props):
         )}
         <Button
           isDisabled={changed === null}
+          isPrimary={isModalContent}
           onClick={
             changed
               ? _saveAndReload

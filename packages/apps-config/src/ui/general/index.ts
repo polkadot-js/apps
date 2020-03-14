@@ -28,10 +28,10 @@ const chainColors: Record<string, any> = [
 // overrides based on the actual software node type (all '-' converted to ' ')
 const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
-  ['edgeware node', nodeEdgeware],
-  ['node template', emptyColor],
-  ['parity polkadot', emptyColor],
-  ['substrate node', emptyColor]
+  ['edgeware node', nodeEdgeware]
+  // ['node template', emptyColor],
+  // ['parity polkadot', emptyColor],
+  // ['substrate node', emptyColor]
 ].reduce((colors, [node, color]): Record<string, any> => ({
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color
