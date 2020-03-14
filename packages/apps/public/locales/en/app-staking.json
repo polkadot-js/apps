@@ -171,5 +171,6 @@
   "Pending payouts for {{count}} eras": "Pending payouts for {{count}} eras",
   "Pending payouts for {{count}} eras:": "Pending payouts for {{count}} eras:",
   "Payout reward": "Payout reward",
-  "Account actions{{count}}": "Account actions{{count}}"
+  "Account actions{{count}}": "Account actions{{count}}",
+  "Stop": "Stop"
 }
