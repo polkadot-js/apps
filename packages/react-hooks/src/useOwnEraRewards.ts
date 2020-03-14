@@ -21,7 +21,7 @@ function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
   const { api, isApiReady } = useApi();
   const stashIds = useOwnStashIds();
   const allInfo = useCall<DerivedStakingQuery[]>(isApiReady && stashIds && api.derive.staking?.queryMulti, stashIds);
-  const indexes = useCall<DeriveSessionIndexes>(isApiReady && api.derive.session.indexes, []);
+  const indexes = useCall<DeriveSessionIndexes>(isApiReady && api.derive.session?.indexes, []);
   const [nextPayouts, setNextPayouts] = useState<[string, BN][] | undefined>();
 
   useEffect((): void => {

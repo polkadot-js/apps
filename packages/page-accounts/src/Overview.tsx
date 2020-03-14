@@ -90,21 +90,18 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       <Button.Group>
         <Button
           icon='add'
-          isPrimary
           label={t('Add account')}
           onClick={toggleCreate}
         />
         <Button.Or />
         <Button
           icon='sync'
-          isPrimary
           label={t('Restore JSON')}
           onClick={toggleImport}
         />
         <Button.Or />
         <Button
           icon='qrcode'
-          isPrimary
           label={t('Add via Qr')}
           onClick={toggleQr}
         />
@@ -113,7 +110,6 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             <Button.Or />
             <Button
               icon='question'
-              isPrimary
               label={t('Query Ledger')}
               onClick={queryLedger}
             />

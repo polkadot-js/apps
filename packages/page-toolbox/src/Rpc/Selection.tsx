@@ -62,7 +62,6 @@ class Selection extends TxComponent<Props, State> {
         <Button.Group>
           <Button
             isDisabled={!isValid}
-            isPrimary
             onClick={this.onSubmit}
             label={t('Submit RPC call')}
             icon='sign-in'

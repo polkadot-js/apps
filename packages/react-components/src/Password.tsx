@@ -68,7 +68,6 @@ export default function Password ({ autoFocus, children, className, defaultValue
             ? 'hide'
             : 'unhide'
         }
-        isPrimary
         onClick={_toggleVisible}
       />
       {children}

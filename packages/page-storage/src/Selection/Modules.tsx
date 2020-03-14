@@ -110,7 +110,6 @@ export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
         <Button
           icon='plus'
           isDisabled={!isValid}
-          isPrimary
           onClick={_onAdd}
         />
       </div>

@@ -66,7 +66,7 @@ class Selection extends TxComponent<Props, State> {
             accountId={accountId}
             icon='sign-in'
             isDisabled={!isValid}
-            isPrimary
+            isPrimary={false}
             extrinsic={extrinsic}
             label={t('Submit Transaction')}
           />

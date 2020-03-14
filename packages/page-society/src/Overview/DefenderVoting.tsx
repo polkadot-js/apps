@@ -57,7 +57,6 @@ export default function DefenderVoting ({ isMember, ownMembers }: Props): React.
       <Button
         icon='check'
         isDisabled={!isMember}
-        isPrimary
         label={t('Vote')}
         onClick={toggleVisible}
       />

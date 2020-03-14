@@ -74,7 +74,6 @@ class Propose extends TxModal<Props, State> {
     return (
       <Button
         isDisabled={!isMember}
-        isPrimary
         label={t('Propose motion')}
         icon='add'
         onClick={this.showModal}

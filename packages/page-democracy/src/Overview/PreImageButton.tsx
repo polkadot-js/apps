@@ -31,7 +31,6 @@ function PreImageButton ({ hash, isImminent, proposal, withoutOr }: Props): Reac
       {!withoutOr && <Button.Or />}
       <Button
         icon='plus'
-        isPrimary
         label={t('Preimage')}
         onClick={togglePreimage}
       />

@@ -78,7 +78,6 @@ class Vote extends TxModal<Props, State> {
     return (
       <Button
         isDisabled={available.length === 0}
-        isPrimary
         label={this.props.t('Vote')}
         icon='check'
         onClick={this.showModal}

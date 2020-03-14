@@ -79,7 +79,6 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
               <>
                 <Button
                   icon='cloud upload'
-                  isPrimary
                   label={t('Deploy a code hash')}
                   onClick={showDeploy()}
                 />
@@ -88,7 +87,6 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
             )}
             <Button
               icon='add'
-              isPrimary
               label={t('Add an existing contract')}
               onClick={_toggleAdd}
             />
