@@ -12,18 +12,18 @@ import { registry } from '@polkadot/react-api';
 import { ClassOf } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {
-  private _queuePayload: QueueTxPayloadAdd;
+  readonly #queuePayload: QueueTxPayloadAdd;
 
-  private _queueSetTxStatus: QueueTxMessageSetStatus;
+  readonly #queueSetTxStatus: QueueTxMessageSetStatus;
 
   constructor (queuePayload: QueueTxPayloadAdd, queueSetTxStatus: QueueTxMessageSetStatus) {
-    this._queuePayload = queuePayload;
-    this._queueSetTxStatus = queueSetTxStatus;
+    this.#queuePayload = queuePayload;
+    this.#queueSetTxStatus = queueSetTxStatus;
   }
 
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     return new Promise((resolve, reject): void => {
-      this._queuePayload(payload, (id: number, result: SignerResult | null): void => {
+      this.#queuePayload(payload, (id: number, result: SignerResult | null): void => {
         if (result) {
           resolve(result);
         } else {
@@ -35,9 +35,9 @@ export default class ApiSigner implements Signer {
 
   public update (id: number, result: Hash | SubmittableResult): void {
     if (result instanceof ClassOf(registry, 'Hash')) {
-      this._queueSetTxStatus(id, 'sent', result.toHex());
+      this.#queueSetTxStatus(id, 'sent', result.toHex());
     } else {
-      this._queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);
+      this.#queueSetTxStatus(id, result.status.type.toLowerCase() as QueueTxStatus, status);
     }
   }
 }

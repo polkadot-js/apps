@@ -71,7 +71,6 @@ export default function Voting ({ hash, idNumber, isDisabled, members, prime, pr
       <Button
         icon='check'
         isDisabled={isDisabled}
-        isPrimary
         label={t('Vote')}
         onClick={toggleVoting}
       />
