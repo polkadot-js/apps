@@ -15,7 +15,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@babel/runtime": "^7.8.7",
-    "@polkadot/dev": "^0.50.32",
+    "@polkadot/dev": "^0.50.33",
     "@polkadot/react-components": "0.40.0-beta.122",
     "@polkadot/react-signer": "0.40.0-beta.122",
     "query-string": "^6.11.1"
