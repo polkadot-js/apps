@@ -9,7 +9,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const motions = useCall<DerivedCollectiveProposals>(isApiReady ? api.derive.council?.proposals : undefined, []);
+  const motions = useCall<DerivedCollectiveProposals>(isApiReady && api.derive.council?.proposals, []);
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {
