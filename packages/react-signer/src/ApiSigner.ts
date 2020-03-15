@@ -12,9 +12,9 @@ import { registry } from '@polkadot/react-api';
 import { ClassOf } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {
-  #queuePayload: QueueTxPayloadAdd;
+  readonly #queuePayload: QueueTxPayloadAdd;
 
-  #queueSetTxStatus: QueueTxMessageSetStatus;
+  readonly #queueSetTxStatus: QueueTxMessageSetStatus;
 
   constructor (queuePayload: QueueTxPayloadAdd, queueSetTxStatus: QueueTxMessageSetStatus) {
     this.#queuePayload = queuePayload;
