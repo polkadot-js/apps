@@ -4,7 +4,7 @@
 
 import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 
@@ -151,36 +151,43 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
 
 function Status ({ className, stqueue = [], txqueue = [] }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const allst: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
-  const alltx: QueueTx[] = txqueue.filter(({ status }): boolean =>
+  const allSt: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
+  const allTx: QueueTx[] = txqueue.filter(({ status }): boolean =>
     !['completed', 'incomplete'].includes(status)
   );
-  const completedTx = alltx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status));
+  const completedTx = useMemo(
+    (): QueueTx[] =>
+      allTx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status)),
+    [allTx]
+  );
 
-  if (!allst.length && !alltx.length) {
+  const _onDismiss = useCallback(
+    (): void => {
+      allSt.map((s): void => s.removeItem());
+      completedTx.map((t): void => t.removeItem());
+    },
+    [allSt, completedTx]
+  );
+
+  if (!allSt.length && !allTx.length) {
     return null;
   }
 
-  const _onDismiss = (): void => {
-    allst.map((s): void => s.removeItem());
-    completedTx.map((t): void => t.removeItem());
-  };
-
   return (
     <div className={`ui--Status ${className}`}>
-      {(allst.length + completedTx.length) > 1 && (
+      {(allSt.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
             isFluid
-            isNegative
+            isPrimary
             onClick={_onDismiss}
             label={t('Dismiss all notifications')}
             icon='cancel'
           />
         </div>
       )}
-      {alltx.map(renderItem)}
-      {allst.map(renderStatus)}
+      {allTx.map(renderItem)}
+      {allSt.map(renderStatus)}
     </div>
   );
 }

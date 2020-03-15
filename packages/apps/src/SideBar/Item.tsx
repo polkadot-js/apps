@@ -73,7 +73,7 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-export default function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
   const { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name } = route;
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -149,3 +149,5 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
     </Menu.Item>
   );
 }
+
+export default React.memo(Item);
