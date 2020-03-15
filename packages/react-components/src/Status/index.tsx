@@ -149,18 +149,26 @@ function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx)
   );
 }
 
-function Status ({ className, stqueue = [], txqueue = [] }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-  const allSt: QueueStatus[] = stqueue.filter(({ isCompleted }): boolean => !isCompleted);
-  const allTx: QueueTx[] = txqueue.filter(({ status }): boolean =>
-    !['completed', 'incomplete'].includes(status)
-  );
-  const completedTx = useMemo(
-    (): QueueTx[] =>
-      allTx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status)),
-    [allTx]
-  );
+function filterSt (stqueue?: QueueStatus[]): QueueStatus[] {
+  return (stqueue || []).filter(({ isCompleted }): boolean => !isCompleted);
+}
 
+function filterTx (txqueue?: QueueTx[]): [QueueTx[], QueueTx[]] {
+  const allTx = (txqueue || []).filter(({ status }): boolean => !['completed', 'incomplete'].includes(status));
+
+  return [allTx, allTx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status))];
+}
+
+function Status ({ className, stqueue, txqueue }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const allSt = useMemo(
+    (): QueueStatus[] => filterSt(stqueue),
+    [stqueue]
+  );
+  const [allTx, completedTx] = useMemo(
+    (): [QueueTx[], QueueTx[]] => filterTx(txqueue),
+    [txqueue]
+  );
   const _onDismiss = useCallback(
     (): void => {
       allSt.map((s): void => s.removeItem());
