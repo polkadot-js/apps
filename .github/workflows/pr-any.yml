@@ -5,15 +5,11 @@ jobs:
   lint:
     name: Linting
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
     - name: lint
       run: |
         yarn install --immutable | grep -v 'YN0013'
@@ -22,15 +18,11 @@ jobs:
   test:
     name: Testing
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
     - name: test
       run: |
         yarn install --immutable | grep -v 'YN0013'
@@ -39,15 +31,11 @@ jobs:
   build_code:
     name: Build Code
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
     - name: build
       run: |
         yarn install --immutable | grep -v 'YN0013'
@@ -56,15 +44,11 @@ jobs:
   build_i18n:
     name: Build i18n
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
     - name: build
       run: |
         yarn install --immutable | grep -v 'YN0013'
