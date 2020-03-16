@@ -75,10 +75,6 @@ const Memo = React.memo(styled(Table)`
         label {
           opacity: 1;
         }
-
-        td {
-          border-color: #ccc;
-        }
       }
 
       &:not(:hover) {
