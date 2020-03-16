@@ -88,8 +88,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   }, [hasAccounts, hasQueries, next]);
 
   useEffect((): void => {
-    console.log(allStashes);
-
     allStashes && stakingOverview && setNext(
       allStashes.filter((address): boolean => !stakingOverview.validators.includes(address as any))
     );
