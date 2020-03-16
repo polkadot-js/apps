@@ -5,8 +5,11 @@ on:
       - master
 
 jobs:
-  build_code:
-    name: Build Code
+  master:
+    strategy:
+      matrix:
+        step: ['build:release']
+    name: ${{ matrix.step }}
     if: "! contains(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
     steps:
@@ -16,7 +19,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - name: build
+    - name: ${{ matrix.step }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         GH_PAGES_SRC: packages/apps/build
@@ -24,8 +27,7 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn install --immutable | grep -v 'YN0013'
-        yarn polkadot-ci-ghact-build
-        yarn polkadot-ci-ghact-docs
+        yarn ${{ matrix.step }}
 
   dummy:
     name: Dummy
