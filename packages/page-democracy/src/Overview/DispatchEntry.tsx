@@ -41,9 +41,9 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.Re
       <td className='number together top'>
         {blockNumber && (
           <>
-            <label>{t('enact at')}</label>
+            <label>{t('enact')}</label>
             <BlockToTime blocks={blockNumber.sub(bestNumber)} />
-            {formatNumber(blockNumber)}
+            #{formatNumber(blockNumber)}
           </>
         )}
       </td>

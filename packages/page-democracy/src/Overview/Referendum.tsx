@@ -106,9 +106,9 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
         {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together top'>
-        <label>{t('activate at')}</label>
+        <label>{t('activate')}</label>
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
-        {formatNumber(enactBlock)}
+        #{formatNumber(enactBlock)}
       </td>
       <td className='number together top'>
         <label>{t('Aye ({{count}})', { replace: { count: formatNumber(voteCountAye) } })}</label>
