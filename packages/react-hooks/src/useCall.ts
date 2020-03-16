@@ -59,9 +59,7 @@ function unsubscribe (tracker: TrackerRef): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {
-    tracker.current.subscriber.then((unsubFn): void => {
-      setTimeout(unsubFn, 0);
-    });
+    tracker.current.subscriber.then((unsubFn): void => unsubFn());
     tracker.current.subscriber = null;
   }
 }
@@ -87,11 +85,11 @@ function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | 
           if (mounted.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {
             tracker.current.count++;
 
-            ((transformed: any): void => {
-              setTimeout((): void => {
-                mounted.current && tracker.current.isActive && setValue(transformed);
-              }, 0);
-            })(withParams ? [params, transform(value)] : transform(value));
+            mounted.current && tracker.current.isActive && setValue(
+              withParams
+                ? [params, transform(value)] as any
+                : transform(value)
+            );
           }
         });
       } else {
@@ -112,9 +110,7 @@ export default function useCall <T> (fn: TrackFn | undefined | null | false, par
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
-    return (): void => {
-      setTimeout(() => unsubscribe(tracker), 0);
-    };
+    return (): void => unsubscribe(tracker);
   }, []);
 
   // on changes, re-subscribe
