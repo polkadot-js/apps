@@ -10,8 +10,9 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { AddressRow, Button, Card, Forget, Messages } from '@polkadot/react-components';
+import { AddressRow, Button, Card, Forget } from '@polkadot/react-components';
 
+import Messages from '../Messages';
 import { useTranslation } from '../translate';
 
 interface Props extends RouteComponentProps {
@@ -61,17 +62,15 @@ function Contract (props: Props): React.ReactElement<Props> | null {
 
   return (
     <ContractCard>
-      {
-        isForgetOpen && (
-          <Forget
-            address={address.toString()}
-            mode='contract'
-            onForget={_onForget}
-            key='modal-forget-contract'
-            onClose={_toggleForget}
-          />
-        )
-      }
+      {isForgetOpen && (
+        <Forget
+          address={address.toString()}
+          mode='contract'
+          onForget={_onForget}
+          key='modal-forget-contract'
+          onClose={_toggleForget}
+        />
+      )}
       <AddressRow
         buttons={
           <div className='contracts--Contract-buttons'>
