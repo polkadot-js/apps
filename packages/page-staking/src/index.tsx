@@ -35,8 +35,8 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { pathname } = useLocation();
   const { allRewards, rewardCount } = useOwnEraRewards();
   const [next, setNext] = useState<string[] | undefined>();
-  const allStashes = useCall<string[]>(api.derive.staking.controllers, [], {
-    transform: ([stashes]: [AccountId[]]): string[] =>
+  const allStashes = useCall<string[]>(api.derive.staking.stashes, [], {
+    transform: (stashes: AccountId[]): string[] =>
       stashes.map((accountId): string => accountId.toString())
   });
   const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline?.receivedHeartbeats, []);
@@ -88,6 +88,8 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   }, [hasAccounts, hasQueries, next]);
 
   useEffect((): void => {
+    console.log(allStashes);
+
     allStashes && stakingOverview && setNext(
       allStashes.filter((address): boolean => !stakingOverview.validators.includes(address as any))
     );
