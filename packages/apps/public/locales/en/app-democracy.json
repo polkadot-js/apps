@@ -76,5 +76,7 @@
   "conviction": "conviction",
   "0.1x voting balance, no lockup period": "0.1x voting balance, no lockup period",
   "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)",
-  "{{blocks}} blocks": "{{blocks}} blocks"
+  "{{blocks}} blocks": "{{blocks}} blocks",
+  "enact": "enact",
+  "activate": "activate"
 }
