@@ -62,7 +62,7 @@ const componentDef: TypeToComponent[] = [
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
-  { c: Vector, t: ['Vec', 'VecDeque'] },
+  { c: Vector, t: ['Vec'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
   { c: Unknown, t: ['Unknown'] }
