@@ -2,12 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { AddressMini, LinkExternal } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
+import { AddressMini, LinkExternal } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -23,12 +26,14 @@ interface Props {
 
 export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
 
   if (!votes) {
     return null;
   }
 
-  const { ayes, index, nays, threshold } = votes;
+  const { ayes, end, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>
@@ -61,6 +66,15 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
             withBalance={false}
           />
         ))}
+      </td>
+      <td className='number together top'>
+        {end && (
+          <>
+            <label>{t('voting end')}</label>
+            <BlockToTime blocks={end.sub(bestNumber)} />
+            #{formatNumber(end)}
+          </>
+        )}
       </td>
       <td className='number top together'>
         <Voting
