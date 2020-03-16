@@ -14,7 +14,6 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
-import detectUnsafe from '../../unsafeChains';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
@@ -72,9 +71,8 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { stashId, systemChain, t } = this.props;
+    const { stashId, t } = this.props;
     const { amountError, maxAdditional, maxBalance } = this.state;
-    const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
       <Modal.Content className='ui--signer-Signer-Content'>
@@ -94,7 +92,6 @@ class BondExtra extends TxComponent<Props, State> {
           maxValue={maxBalance}
           onChange={this.onChangeValue}
           onEnter={this.sendTx}
-          withMax={!isUnsafeChain}
         />
         <ValidateAmount
           accountId={stashId}
