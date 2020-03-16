@@ -18,11 +18,11 @@ interface Props extends AppProps, BareProps {}
 export default function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
-    {
-      isRoot: true,
-      name: 'assets',
-      text: t('Assets')
-    },
+    // {
+    //   isRoot: true,
+    //   name: 'assets',
+    //   text: t('Assets')
+    // },
     {
       name: 'transfer',
       text: t('Transfer')

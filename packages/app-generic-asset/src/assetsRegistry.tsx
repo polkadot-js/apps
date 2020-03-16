@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BehaviorSubject } from 'rxjs';
+import { reservedAssets } from '@polkadot/app-generic-asset/asset-util';
 
 const ASSETS_KEY = 'polkadot-app-generic-asset-assets';
 
@@ -14,6 +15,8 @@ try {
   const storedAsset = localStorage.getItem(ASSETS_KEY);
   if (storedAsset) {
     initalAssets = JSON.parse(storedAsset);
+  } else {
+    initalAssets = reservedAssets;
   }
 } catch (e) {
   // ignore error
