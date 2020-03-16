@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveEraRewards, DeriveStakerExposure, DeriveStakerPoints } from '@polkadot/api-derive/types';
+import { DeriveEraRewards, DeriveOwnExposure, DeriveOwnSlashes, DeriveStakerPoints } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -26,21 +26,9 @@ interface ChartInfo {
   labels: string[];
 }
 
-// interface SplitEntry {
-//   colors: string[];
-//   label: string;
-//   tooltip: string;
-//   value: number;
-// }
-
-// type SplitData = SplitEntry[];
-
-// const COLORS_MINE = ['#ff8c00'];
-// const COLORS_OTHER = ['#acacac'];
-
 const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 const COLORS_POINTS = [undefined, '#acacac'];
-const COLORS_STAKE = COLORS_POINTS;
+const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
 function balanceToNumber (amount: BN, divisor: BN): number {
   return amount.muln(1000).div(divisor).toNumber() / 1000;
@@ -71,7 +59,7 @@ function extractPoints (points: DeriveStakerPoints[]): ChartInfo {
   };
 }
 
-function extractRewards (erasRewards: DeriveEraRewards[], allPoints: DeriveStakerPoints[], divisor: BN): ChartInfo {
+function extractRewards (erasRewards: DeriveEraRewards[], ownSlashes: DeriveOwnSlashes[], allPoints: DeriveStakerPoints[], divisor: BN): ChartInfo {
   const labels: string[] = [];
   const slashSet: LineDataEntry = [];
   const rewardSet: LineDataEntry = [];
@@ -81,8 +69,12 @@ function extractRewards (erasRewards: DeriveEraRewards[], allPoints: DeriveStake
 
   erasRewards.forEach(({ era, eraReward }): void => {
     const points = allPoints.find((points) => points.era.eq(era));
+    const slashed = ownSlashes.find((slash) => slash.era.eq(era));
     const reward = points?.eraPoints.gtn(0)
       ? balanceToNumber(points.points.mul(eraReward).div(points.eraPoints), divisor)
+      : 0;
+    const slash = slashed
+      ? balanceToNumber(slashed.total, divisor)
       : 0;
 
     total += reward;
@@ -94,7 +86,7 @@ function extractRewards (erasRewards: DeriveEraRewards[], allPoints: DeriveStake
     labels.push(era.toHuman());
     rewardSet.push(reward);
     avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
-    slashSet.push(0); // TODO
+    slashSet.push(slash);
   });
 
   return {
@@ -103,22 +95,19 @@ function extractRewards (erasRewards: DeriveEraRewards[], allPoints: DeriveStake
   };
 }
 
-function extractStake (exposures: DeriveStakerExposure[], divisor: BN): ChartInfo {
+function extractStake (exposures: DeriveOwnExposure[], divisor: BN): ChartInfo {
   const labels: string[] = [];
-  const stakeSet: LineDataEntry = [];
+  const cliSet: LineDataEntry = [];
+  const expSet: LineDataEntry = [];
   const avgSet: LineDataEntry = [];
   let avgCount = 0;
   let total = 0;
 
-  exposures.forEach(({ era, isValidator, validators }): void => {
-    const value = balanceToNumber(
-      isValidator
-        ? Object.values(validators)[0].total.toBn()
-        : new BN(0),
-      divisor
-    );
+  exposures.forEach(({ clipped, era, exposure }): void => {
+    const cli = balanceToNumber(clipped.total.unwrap(), divisor);
+    const exp = balanceToNumber(exposure.total.unwrap(), divisor);
 
-    total += value;
+    total += cli;
 
     if (total > 0) {
       avgCount++;
@@ -126,11 +115,12 @@ function extractStake (exposures: DeriveStakerExposure[], divisor: BN): ChartInf
 
     avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
     labels.push(era.toHuman());
-    stakeSet.push(value);
+    cliSet.push(cli);
+    expSet.push(exp);
   });
 
   return {
-    chart: [stakeSet, avgSet],
+    chart: [cliSet, expSet, avgSet],
     labels
   };
 }
@@ -141,13 +131,17 @@ function Validator ({ className, validatorId }: Props): React.ReactElement<Props
   const [{ chart: pointChart, labels: pointLabels }, setPointChart] = useState<ChartInfo>({ chart: [], labels: [] });
   const [{ chart: rewardChart, labels: rewardLabels }, setRewardChart] = useState<ChartInfo>({ chart: [], labels: [] });
   const [{ chart: stakeChart, labels: stakeLabels }, setStakeCharts] = useState<ChartInfo>({ chart: [], labels: [] });
+  const ownExposure = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposure as any, [validatorId, true]);
+  const ownSlashes = useCall<DeriveOwnSlashes[]>(api.derive.staking.ownSlashes as any, [validatorId, true]);
   const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards as any, []);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints as any, [validatorId, true]);
-  const stakerExposure = useCall<DeriveStakerExposure[]>(api.derive.staking.stakerExposure as any, [validatorId, true]);
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
   }), [formatBalance]);
+  const legExpose = useMemo(() => [t('{{currency}} clipped', { replace: { currency } }), t('{{currency}} total', { replace: { currency } }), t('{{currency}} average', { replace: { currency } })], [currency, t]);
+  const legPoints = useMemo(() => [t('points'), t('average')], [t]);
+  const legReward = useMemo(() => [t('{{currency}} slashed', { replace: { currency } }), t('{{currency}} rewards', { replace: { currency } }), t('{{currency}} average', { replace: { currency } })], [currency, t]);
 
   useEffect((): void => {
     stakerPoints && setPointChart(
@@ -156,16 +150,16 @@ function Validator ({ className, validatorId }: Props): React.ReactElement<Props
   }, [stakerPoints]);
 
   useEffect((): void => {
-    erasRewards && stakerPoints && setRewardChart(
-      extractRewards(erasRewards, stakerPoints, divisor)
+    erasRewards && ownSlashes && stakerPoints && setRewardChart(
+      extractRewards(erasRewards, ownSlashes, stakerPoints, divisor)
     );
   }, [erasRewards, stakerPoints]);
 
   useEffect((): void => {
-    stakerExposure && setStakeCharts(
-      extractStake(stakerExposure, divisor)
+    ownExposure && setStakeCharts(
+      extractStake(ownExposure, divisor)
     );
-  }, [stakerExposure]);
+  }, [ownExposure]);
 
   return (
     <Columar className={className}>
@@ -177,7 +171,7 @@ function Validator ({ className, validatorId }: Props): React.ReactElement<Props
               <Chart.Line
                 colors={COLORS_POINTS}
                 labels={pointLabels}
-                legends={[t('points'), t('average')]}
+                legends={legPoints}
                 values={pointChart}
               />
             )
@@ -191,7 +185,7 @@ function Validator ({ className, validatorId }: Props): React.ReactElement<Props
               <Chart.Line
                 colors={COLORS_REWARD}
                 labels={rewardLabels}
-                legends={[t('{{currency}} slashed', { replace: { currency } }), t('{{currency}} rewards', { replace: { currency } }), t('{{currency}} average', { replace: { currency } })]}
+                legends={legReward}
                 values={rewardChart}
               />
             )
@@ -207,7 +201,7 @@ function Validator ({ className, validatorId }: Props): React.ReactElement<Props
               <Chart.Line
                 colors={COLORS_STAKE}
                 labels={stakeLabels}
-                legends={[t('{{currency}} total', { replace: { currency } }), t('{{currency}} average', { replace: { currency } })]}
+                legends={legExpose}
                 values={stakeChart}
               />
             )
