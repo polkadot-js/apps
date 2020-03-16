@@ -13,11 +13,13 @@ import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components'
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { BestNumber, Chain } from '@polkadot/react-query';
-
 import { useTranslation } from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 import NetworkModal from '../modals/Network';
+
+import SideBar from './SideBar';
+import { SideBarItem, SideBarItemLink } from './SideBarItem';
 
 interface Props {
   className?: string;
@@ -28,7 +30,7 @@ interface Props {
   toggleMenu: () => void;
 }
 
-function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
+function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
@@ -69,7 +71,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
       {modals.network && (
         <NetworkModal onClose={_toggleModal('network')}/>
       )}
-      <div className='apps--SideBar'>
+      <SideBar>
         <Menu
           secondary
           vertical
@@ -127,26 +129,24 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                   )
                   : null
               ))}
-              <Menu.Item className='apps--SideBar-Item'>
-                <a
-                  className='apps--SideBar-Item-NavLink'
+              <SideBarItem>
+                <SideBarItemLink
                   href='https://github.com/polkadot-js/apps'
                   rel='noopener noreferrer'
                   target='_blank'
                 >
                   <Icon name='github' /><span className='text'>{t('GitHub')}</span>
-                </a>
-              </Menu.Item>
-              <Menu.Item className='apps--SideBar-Item'>
-                <a
-                  className='apps--SideBar-Item-NavLink'
+                </SideBarItemLink>
+              </SideBarItem>
+              <SideBarItem>
+                <SideBarItemLink
                   href='https://wiki.polkadot.network'
                   rel='noopener noreferrer'
                   target='_blank'
                 >
                   <Icon name='book' /><span className='text'>{t('Wiki')}</span>
-                </a>
-              </Menu.Item>
+                </SideBarItemLink>
+              </SideBarItem>
             </details>
             <Menu.Divider hidden />
             {
@@ -173,12 +173,12 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
             onClick={collapse}
           />
         </Responsive>
-      </div>
+      </SideBar>
     </Responsive>
   );
 }
 
-export default styled(SideBar)`
+export default styled(SideBarContainer)`
 .apps--SideBar-Advanced {
     margin-top: 1rem;
     color: #f5f5f5;
@@ -197,14 +197,14 @@ export default styled(SideBar)`
   }
 
   .apps--SideBar {
-    align-items: center;
+    /* align-items: center;
     background: #4f4f4f;
     display: flex;
     flex-flow: column;
     height: auto;
     position: relative;
     transition: left 0.3s linear;
-    width: 100%;
+    width: 100%; */
 
     .ui.vertical.menu {
       display: flex;
@@ -231,10 +231,10 @@ export default styled(SideBar)`
     }
 
     .apps--SideBar-Item {
-      align-self: flex-end;
+      /* align-self: flex-end;
       flex-grow: 0;
       padding: 0 !important;
-      width: inherit;
+      width: inherit; */
 
       .text {
         padding-left: 0.5rem;
