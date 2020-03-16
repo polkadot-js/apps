@@ -6,10 +6,9 @@ import { ContractABIMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
+import { Icon, Tooltip } from '@polkadot/react-components';
 import { displayType } from '@polkadot/types';
 
-import Icon from './Icon';
-import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
 const MAX_PARAM_LENGTH = 20;

@@ -12,13 +12,11 @@ import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
 import { withMulti } from '@polkadot/react-api/hoc';
 import { classes, toShortAddress } from '@polkadot/react-components/util';
-import contracts from '@polkadot/app-contracts/store';
+import Row, { RowProps, RowState, styles } from '@polkadot/react-components/Row';
+import { CopyButton, Icon } from '@polkadot/react-components';
 
-import CopyButton from './CopyButton';
-import Icon from './Icon';
+import contracts from './store';
 import Messages from './Messages';
-
-import Row, { RowProps, RowState, styles } from './Row';
 import translate from './translate';
 
 interface Props extends I18nProps, RowProps {
