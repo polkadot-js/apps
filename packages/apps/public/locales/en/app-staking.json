@@ -173,5 +173,6 @@
   "Payout reward": "Payout reward",
   "Account actions{{count}}": "Account actions{{count}}",
   "Stop": "Stop",
-  "{{currency}} clipped": "{{currency}} clipped"
+  "{{currency}} clipped": "{{currency}} clipped",
+  "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.": "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period."
 }
