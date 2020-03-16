@@ -9,17 +9,13 @@ jobs:
     name: Build Code
     if: "! contains(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
       with:
         token: ${{ secrets.GH_PAT }}
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
     - name: build
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
@@ -35,9 +31,6 @@ jobs:
     name: Dummy
     if: "contains(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - name: dummy
       run: |
