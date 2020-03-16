@@ -15,7 +15,7 @@ interface Props extends BareProps {
   isError?: boolean;
   label?: React.ReactNode;
   onChange?: (contents: Uint8Array) => void;
-  placeholder?: string;
+  placeholder?: string | any;
   withLabel?: boolean;
 }
 
