@@ -550,9 +550,10 @@ class Signer extends React.PureComponent<Props, State> {
   };
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
+    const { queueSetTxStatus } = this.props;
     const { isV2, isSubmit, showTip, tip } = this.state;
 
-    const { accountId, extrinsic, payload, isUnsigned } = queueTx;
+    const { accountId, extrinsic, id, payload, isUnsigned } = queueTx;
 
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
@@ -566,6 +567,8 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     if (payload) {
+      queueSetTxStatus(id, 'completed');
+
       return makeExtrinsicSignature(
         {
           ...payload,
