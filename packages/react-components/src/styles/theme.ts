@@ -103,7 +103,7 @@ export default css`
 
     .ui.toggle.checkbox input:checked~.box:before,
     .ui.toggle.checkbox input:checked~label:before {
-      background-color: ${colorBtnHighlight} !important;
+      // background-color: ${colorBtnHighlight} !important;
     }
   }
 `;
