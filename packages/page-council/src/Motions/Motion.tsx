@@ -47,6 +47,15 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
         <label>{t('threshold')}</label>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
+      <td className='number together top'>
+        {end && (
+          <>
+            <label>{t('voting end')}</label>
+            <BlockToTime blocks={end.sub(bestNumber)} />
+            #{formatNumber(end)}
+          </>
+        )}
+      </td>
       <td className='top'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
@@ -66,15 +75,6 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
             withBalance={false}
           />
         ))}
-      </td>
-      <td className='number together top'>
-        {end && (
-          <>
-            <label>{t('voting end')}</label>
-            <BlockToTime blocks={end.sub(bestNumber)} />
-            #{formatNumber(end)}
-          </>
-        )}
       </td>
       <td className='number top together'>
         <Voting

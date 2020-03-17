@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
@@ -48,20 +48,23 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<any>();
 
-  const _setStored = (value: any): void => {
-    const json = JSON.stringify({ v: value });
+  const _setStored = useCallback(
+    (value: any): void => {
+      const json = JSON.stringify({ v: value });
 
-    if (lastUpdate.current !== json) {
-      lastUpdate.current = json;
+      if (lastUpdate.current !== json) {
+        lastUpdate.current = json;
 
-      setStored(value);
-      onChange && onChange(
-        transform
-          ? transform(value)
-          : value
-      );
-    }
-  };
+        setStored(value);
+        onChange && onChange(
+          transform
+            ? transform(value)
+            : value
+        );
+      }
+    },
+    [onChange, transform]
+  );
 
   useEffect((): void => {
     _setStored(isUndefined(value) ? defaultValue : value);
@@ -119,7 +122,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
     );
 }
 
-const Dropdown = styled(BaseDropdown)`
+const Dropdown = React.memo(styled(BaseDropdown)`
   .ui--Dropdown-item {
     position: relative;
     white-space: nowrap;
@@ -155,7 +158,7 @@ const Dropdown = styled(BaseDropdown)`
       }
     }
   }
-` as unknown as IDropdown<any>;
+`) as unknown as IDropdown<any>;
 
 (Dropdown as any).Header = SUIDropdown.Header;
 
