@@ -13,9 +13,9 @@
   "dependencies": {
     "@babel/runtime": "^7.8.7",
     "@polkadot/react-components": "0.40.0-beta.133",
-    "@polkadot/react-qr": "^0.52.0-beta.14",
+    "@polkadot/react-qr": "^0.52.0-beta.16",
     "detect-browser": "^5.0.0",
     "file-saver": "^2.0.2",
-    "yargs": "^15.3.0"
+    "yargs": "^15.3.1"
   }
 }
