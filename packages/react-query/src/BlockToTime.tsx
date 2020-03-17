@@ -53,7 +53,7 @@ function extractTime (value?: number): Time {
   return addTime([round, 0, 0, 0], extractTime(value - (round * DAY)));
 }
 
-export default function BlockToTime ({ blocks, children, className, label, style }: Props): React.ReactElement<Props> {
+function BlockToTime ({ blocks, children, className, label, style }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const time = useMemo((): string => {
@@ -81,3 +81,5 @@ export default function BlockToTime ({ blocks, children, className, label, style
     </div>
   );
 }
+
+export default React.memo(BlockToTime);

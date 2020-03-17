@@ -57,7 +57,7 @@ function getDisplayValue (now = 0, value: BN | Date | number = 0): string {
 
 tick();
 
-export default function Elapsed ({ className, style, value }: Props): React.ReactElement<Props> {
+function Elapsed ({ className, style, value }: Props): React.ReactElement<Props> {
   const [now, setNow] = useState(lastNow);
 
   useEffect((): () => void => {
@@ -79,3 +79,5 @@ export default function Elapsed ({ className, style, value }: Props): React.Reac
     </div>
   );
 }
+
+export default React.memo(Elapsed);

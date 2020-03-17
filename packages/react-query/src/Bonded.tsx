@@ -16,7 +16,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-export default function BondedDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
+function BondedDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const controllerId = useCall<AccountId | null>(api.query.staking.bonded, [params], {
     transform: (value): AccountId | null =>
@@ -37,3 +37,5 @@ export default function BondedDisplay ({ children, className, label, params }: P
     </FormatBalance>
   );
 }
+
+export default React.memo(BondedDisplay);
