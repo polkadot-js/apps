@@ -3061,7 +3061,19 @@ __metadata:
     "@polkadot/dev": ^0.51.5
     "@polkadot/react-components": 0.40.0-beta.135
     "@polkadot/react-signer": 0.40.0-beta.135
+    babel-loader: ^8.0.6
+    copy-webpack-plugin: ^5.1.1
+    css-loader: ^3.4.2
+    empty: ^0.10.1
+    file-loader: ^5.1.0
+    html-loader: ^0.5.5
+    html-webpack-plugin: ^3.2.0
+    markdown-loader: ^5.1.0
+    mini-css-extract-plugin: ^0.9.0
     query-string: ^6.11.1
+    style-loader: ^1.1.3
+    thread-loader: ^2.1.3
+    url-loader: ^3.0.0
   languageName: unknown
   linkType: soft
 
@@ -3721,6 +3733,16 @@ __metadata:
     "@types/istanbul-lib-coverage": "*"
     "@types/istanbul-lib-report": "*"
   checksum: 2/30445a3b32a8fae4623b5798c17f1e675e58e0deb01b66557c4a15a0f7e25e06039f37287bb3b36ed7c33c4d4f025322315fbb1f6fbf3907c677a7f69841f143
+  languageName: node
+  linkType: hard
+
+"@types/jest@npm:^25.1.4":
+  version: 25.1.4
+  resolution: "@types/jest@npm:25.1.4"
+  dependencies:
+    jest-diff: ^25.1.0
+    pretty-format: ^25.1.0
+  checksum: 2/1a60d1c9a3a964f08732bd46735fda513a4b4743554fbd3b7aa63f39e47a80353d0967cd138db412b3008cca6c4fe82e60f90f2bb272c0750069966d694f3177
   languageName: node
   linkType: hard
 
@@ -18054,6 +18076,7 @@ __metadata:
     "@types/chart.js": ^2.9.15
     "@types/file-saver": ^2.0.1
     "@types/i18next": ^13.0.0
+    "@types/jest": ^25.1.4
     "@types/react-beautiful-dnd": ^12.1.2
     "@types/react-copy-to-clipboard": ^4.3.0
     "@types/react-dom": ^16.9.5
@@ -18063,22 +18086,10 @@ __metadata:
     "@types/styled-components": ^5.0.1
     "@types/styled-theming": ^2.2.2
     "@types/yargs": ^15.0.4
-    babel-loader: ^8.0.6
-    copy-webpack-plugin: ^5.1.1
-    css-loader: ^3.4.2
-    empty: ^0.10.1
-    file-loader: ^5.1.0
-    html-loader: ^0.5.5
-    html-webpack-plugin: ^3.2.0
     i18next-scanner: ^2.11.0
-    markdown-loader: ^5.1.0
-    mini-css-extract-plugin: ^0.9.0
     react: ^16.13.0
     react-dom: ^16.13.0
     source-map-explorer: ^2.4.0
-    style-loader: ^1.1.3
-    thread-loader: ^2.1.3
-    url-loader: ^3.0.0
     webpack: ^4.42.0
     webpack-cli: ^3.3.11
     webpack-plugin-serve: ^0.12.1
