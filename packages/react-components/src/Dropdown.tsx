@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
