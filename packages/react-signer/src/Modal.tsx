@@ -53,7 +53,6 @@ interface State {
   isRenderError: boolean;
   isSendable: boolean;
   isSubmit: boolean;
-  isV2?: boolean;
   nonce?: string;
   password: string;
   qrAddress: string;
@@ -129,17 +128,7 @@ const initialState: State = {
 class Signer extends React.PureComponent<Props, State> {
   public state: State = initialState;
 
-  public static getDerivedStateFromProps (
-    { allAccounts, api, queue }: Props,
-    { currentItem, password, unlockError }: State
-  ): Partial<State> {
-    let isV2: boolean;
-    try {
-      isV2 = !!api.tx.session.setKeys;
-    } catch (e) {
-      isV2 = false;
-    }
-
+  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): Partial<State> {
     const nextItem = queue.find(({ status }): boolean => ['queued', 'qr'].includes(status));
     const isSame =
       !!nextItem &&
@@ -147,7 +136,6 @@ class Signer extends React.PureComponent<Props, State> {
       ((!nextItem.accountId && !currentItem.accountId) ||
         (nextItem.accountId && nextItem.accountId.toString()) ===
           (currentItem.accountId && currentItem.accountId.toString()));
-
     let isSendable = !!nextItem && !!nextItem.isUnsigned;
 
     if (!isSendable && nextItem && nextItem.accountId && allAccounts) {
@@ -163,7 +151,6 @@ class Signer extends React.PureComponent<Props, State> {
     return {
       currentItem: nextItem,
       isSendable,
-      isV2,
       password: isSame ? password : '',
       unlockError: isSame ? unlockError : null
     };
@@ -273,9 +260,9 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderTip (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, isSendable, isV2, showTip, signedTx } = this.state;
+    const { currentItem, isSendable, showTip, signedTx } = this.state;
 
-    if (!isV2 || !isSendable || !currentItem || currentItem.isUnsigned) {
+    if (!isSendable || !currentItem || currentItem.isUnsigned) {
       return null;
     }
 
@@ -367,8 +354,9 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderUnlock (): React.ReactNode {
     const { currentItem, isSendable, password, unlockError } = this.state;
-
-    const { isExternal } = currentItem ? extractExternal(currentItem.accountId) : { isExternal: false };
+    const { isExternal } = currentItem
+      ? extractExternal(currentItem.accountId)
+      : { isExternal: false };
 
     if (!isSendable || !currentItem || currentItem.isUnsigned || isExternal) {
       return null;
@@ -427,25 +415,20 @@ class Signer extends React.PureComponent<Props, State> {
   };
 
   private onCancelQr = (): void => {
-    this.setState(
-      {
-        isQrScanning: false,
-        isQrVisible: false
-      },
-      (): void => {
-        const { qrReject } = this.state;
+    this.setState({ isQrScanning: false, isQrVisible: false }, (): void => {
+      const { qrReject } = this.state;
 
-        qrReject && qrReject(new Error('cancelled'));
+      qrReject && qrReject(new Error('cancelled'));
 
-        this.onCancel();
-      }
-    );
+      this.onCancel();
+    });
   };
 
   private onCancelSign = (): void => {
     const { queueSetTxStatus } = this.props;
     const { currentItem } = this.state;
     const { id, txSuccessCb } = currentItem as QueueTx;
+
     queueSetTxStatus(id, 'completed');
 
     if (isFunction(txSuccessCb)) {
@@ -493,6 +476,7 @@ class Signer extends React.PureComponent<Props, State> {
   private updateNonce = async (): Promise<void> => {
     const { currentItem } = this.state;
     let accountNonce: string | undefined;
+
     if (currentItem?.accountId) {
       accountNonce = (await this.props.api.rpc.account.nextIndex(currentItem.accountId)).toString();
     } else {
@@ -551,8 +535,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
     const { queueSetTxStatus } = this.props;
-    const { isV2, isSubmit, showTip, tip } = this.state;
-
+    const { isSubmit, showTip, tip } = this.state;
     const { accountId, extrinsic, id, payload, isUnsigned } = queueTx;
 
     if (!isUnsigned) {
@@ -572,7 +555,7 @@ class Signer extends React.PureComponent<Props, State> {
       return makeExtrinsicSignature(
         {
           ...payload,
-          ...(isV2 && showTip && tip && !payload.tip ? { tip: tip.toString() } : {})
+          ...(showTip && tip && !payload.tip ? { tip: tip.toString() } : {})
         },
         queueTx,
         keyring.getPair(accountId as string)
@@ -617,24 +600,16 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (
-    extrinsic: SubmittableExtrinsic,
-    { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx,
-    extrinsicCall: (...params: any[]) => any,
-    pair?: KeyringPair
-  ): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
-    const { isV2, showTip, tip } = this.state;
+    const { showTip, tip } = this.state;
 
     console.log('makeExtrinsicCall: extrinsic ::', extrinsic.toHex());
 
     const params = [];
 
     if (pair) {
-      const {
-        address,
-        meta: { isExternal, isHardware, isInjected, source }
-      } = pair;
+      const { address, meta: { isExternal, isHardware, isInjected, source } } = pair;
 
       queueSetTxStatus(id, 'signing');
 
@@ -658,7 +633,7 @@ class Signer extends React.PureComponent<Props, State> {
       }
     }
 
-    if (showTip && isV2 && tip) {
+    if (showTip && tip) {
       params.push({ tip } as Partial<SignerOptions>);
     }
 
@@ -719,14 +694,11 @@ class Signer extends React.PureComponent<Props, State> {
     pair: KeyringPair
   ): Promise<void> {
     const { queueSetTxStatus } = this.props;
-    const { isV2, blocks, nonce, showTip, tip } = this.state;
+    const { blocks, nonce, showTip, tip } = this.state;
 
     console.log('makeSignedTransaction: extrinsic ::', extrinsic.toHex());
 
-    const {
-      address,
-      meta: { isExternal, isHardware, isInjected, source }
-    } = pair;
+    const { address, meta: { isExternal, isHardware, isInjected, source } } = pair;
     let signer: ApiSigner | undefined;
 
     if (isFunction(txStartCb)) {
@@ -751,7 +723,7 @@ class Signer extends React.PureComponent<Props, State> {
         era: +blocks as any,
         nonce: +(nonce || 0),
         signer,
-        tip: (showTip && isV2 && tip) ? tip : undefined
+        tip: (showTip && tip) ? tip : undefined
       });
       const signedTx = extrinsic.toJSON()?.toString();
 
