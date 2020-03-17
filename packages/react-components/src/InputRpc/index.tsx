@@ -28,7 +28,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+export default function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -77,5 +77,3 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
     </LinkedWrapper>
   );
 }
-
-export default React.memo(InputRpc);

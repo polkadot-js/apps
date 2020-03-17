@@ -5,7 +5,7 @@
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from './LinkedWrapper';
@@ -33,31 +33,25 @@ function InputExtrinsic ({ className, defaultValue, help, label, onChange, style
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<SubmittableExtrinsicFunction<'promise'>>((): SubmittableExtrinsicFunction<'promise'> => defaultValue);
 
-  const _onKeyChange = useCallback(
-    (newValue: SubmittableExtrinsicFunction<'promise'>): void => {
-      if (!newValue || (value.section === newValue.section && value.method === newValue.method)) {
-        return;
-      }
+  const _onKeyChange = (newValue: SubmittableExtrinsicFunction<'promise'>): void => {
+    if (value.section === newValue.section && value.method === newValue.method) {
+      return;
+    }
 
-      // set this via callback, since the we are setting a function (alternatively... we have issues)
-      setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
-      onChange(newValue);
-    },
-    [value]
-  );
-  const _onSectionChange = useCallback(
-    (section: string): void => {
-      if (section === value.section) {
-        return;
-      }
+    // set this via callback, since the we are setting a function (alternatively... we have issues)
+    setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
+    onChange(newValue);
+  };
+  const _onSectionChange = (section: string): void => {
+    if (section === value.section) {
+      return;
+    }
 
-      const optionsMethod = methodOptions(api, section);
+    const optionsMethod = methodOptions(api, section);
 
-      setOptionsMethod(optionsMethod);
-      _onKeyChange(api.tx[section][optionsMethod[0].value]);
-    },
-    [value]
-  );
+    setOptionsMethod(optionsMethod);
+    _onKeyChange(api.tx[section][optionsMethod[0].value]);
+  };
 
   return (
     <LinkedWrapper

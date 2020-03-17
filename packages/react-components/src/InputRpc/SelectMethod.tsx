@@ -26,7 +26,7 @@ function transform ({ value }: Props): (method: string) => RpcMethod {
   };
 }
 
-function SelectMethod (props: Props): React.ReactElement<Props> | null {
+export default function SelectMethod (props: Props): React.ReactElement<Props> | null {
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {
@@ -46,5 +46,3 @@ function SelectMethod (props: Props): React.ReactElement<Props> | null {
     />
   );
 }
-
-export default React.memo(SelectMethod);

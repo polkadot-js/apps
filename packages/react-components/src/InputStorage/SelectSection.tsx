@@ -19,7 +19,7 @@ interface Props extends BareProps {
   value: StorageEntryPromise;
 }
 
-function SelectSection ({ className, defaultValue, isError, onChange, options, style, value: { creator: { section } } }: Props): React.ReactElement<Props> {
+export default function SelectSection ({ className, defaultValue, isError, onChange, options, style, value: { creator: { section } } }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}
@@ -33,5 +33,3 @@ function SelectSection ({ className, defaultValue, isError, onChange, options, s
     />
   );
 }
-
-export default React.memo(SelectSection);

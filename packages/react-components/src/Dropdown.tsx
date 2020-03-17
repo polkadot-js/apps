@@ -48,23 +48,20 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<any>();
 
-  const _setStored = useCallback(
-    (value: any): void => {
-      const json = JSON.stringify({ v: value });
+  const _setStored = (value: any): void => {
+    const json = JSON.stringify({ v: value });
 
-      if (lastUpdate.current !== json) {
-        lastUpdate.current = json;
+    if (lastUpdate.current !== json) {
+      lastUpdate.current = json;
 
-        setStored(value);
-        onChange && onChange(
-          transform
-            ? transform(value)
-            : value
-        );
-      }
-    },
-    []
-  );
+      setStored(value);
+      onChange && onChange(
+        transform
+          ? transform(value)
+          : value
+      );
+    }
+  };
 
   useEffect((): void => {
     _setStored(isUndefined(value) ? defaultValue : value);
@@ -122,7 +119,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
     );
 }
 
-const Dropdown = React.memo(styled(BaseDropdown)`
+const Dropdown = styled(BaseDropdown)`
   .ui--Dropdown-item {
     position: relative;
     white-space: nowrap;
@@ -158,7 +155,7 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       }
     }
   }
-`) as unknown as IDropdown<any>;
+` as unknown as IDropdown<any>;
 
 (Dropdown as any).Header = SUIDropdown.Header;
 

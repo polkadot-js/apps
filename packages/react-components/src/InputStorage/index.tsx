@@ -27,7 +27,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function InputStorage ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+export default function InputStorage ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.creator.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -76,5 +76,3 @@ function InputStorage ({ className, defaultValue, help, label, onChange, style, 
     </LinkedWrapper>
   );
 }
-
-export default React.memo(InputStorage);

@@ -6,7 +6,7 @@ import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
 
 import Dropdown from '../Dropdown';
@@ -20,16 +20,13 @@ interface Props extends BareProps {
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
+export default function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
   if (!options.length) {
     return null;
   }
 
-  const transform = useCallback(
-    (method: string): SubmittableExtrinsicFunction<'promise'> =>
-      api.tx[value.section][method],
-    [value]
-  );
+  const transform = (method: string): SubmittableExtrinsicFunction<'promise'> =>
+    api.tx[value.section][method];
 
   return (
     <Dropdown
@@ -44,5 +41,3 @@ function SelectMethod ({ api, className, isError, onChange, options, style, valu
     />
   );
 }
-
-export default React.memo(SelectMethod);
