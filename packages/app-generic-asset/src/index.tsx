@@ -24,6 +24,7 @@ export default function AssetApp ({ basePath }: Props): React.ReactElement<Props
     //   text: t('Assets')
     // },
     {
+      isRoot: true,
       name: 'transfer',
       text: t('Transfer')
     }
@@ -38,7 +39,7 @@ export default function AssetApp ({ basePath }: Props): React.ReactElement<Props
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/transfer`} component={Transfer} />
+        <Route path={`${basePath}`} component={Transfer} />
         <Route component={Assets} />
       </Switch>
     </main>
