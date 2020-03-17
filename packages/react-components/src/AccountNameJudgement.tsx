@@ -30,7 +30,7 @@ const JUDGEMENT_ENUM = [
   { value: 5, text: 'Low quality' }
 ];
 
-export default function AccountNameJudgement ({ address, toggleJudgement }: Props): React.ReactElement<Props> {
+function AccountNameJudgement ({ address, toggleJudgement }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const registrars = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
@@ -91,3 +91,5 @@ export default function AccountNameJudgement ({ address, toggleJudgement }: Prop
     </Modal>
   );
 }
+
+export default React.memo(AccountNameJudgement);

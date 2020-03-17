@@ -13,7 +13,7 @@ import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
-export default function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tx, tooltip, withSpinner }: Props): React.ReactElement<Props> {
+function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tx, tooltip, withSpinner }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -92,3 +92,5 @@ export default function TxButton ({ accountId, className, extrinsic: propsExtrin
     />
   );
 }
+
+export default React.memo(TxButton);

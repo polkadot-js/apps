@@ -13,7 +13,7 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-export default function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
     basic: isBasic,
@@ -60,3 +60,5 @@ export default function Button ({ children, className, floated, icon, isBasic = 
     </>
   );
 }
+
+export default React.memo(Button);

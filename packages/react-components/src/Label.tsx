@@ -14,7 +14,7 @@ interface Props extends BareProps {
   withEllipsis?: boolean;
 }
 
-export default function Label ({ className, help, label, withEllipsis }: Props): React.ReactElement<Props> {
+function Label ({ className, help, label, withEllipsis }: Props): React.ReactElement<Props> {
   return (
     <label className={className}>
       {
@@ -25,3 +25,5 @@ export default function Label ({ className, help, label, withEllipsis }: Props):
     </label>
   );
 }
+
+export default React.memo(Label);

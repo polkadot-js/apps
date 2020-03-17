@@ -27,7 +27,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-export default function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -77,3 +77,5 @@ export default function InputExtrinsic ({ className, defaultValue, help, label, 
     </LinkedWrapper>
   );
 }
+
+export default React.memo(InputExtrinsic);

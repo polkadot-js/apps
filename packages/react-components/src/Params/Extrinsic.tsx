@@ -31,7 +31,7 @@ function onChange ({ onChange }: Props): (method?: SubmittableExtrinsic<'promise
   };
 }
 
-export default function ExtrinsicDisplay (props: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay (props: Props): React.ReactElement<Props> {
   const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, onEscape, style, withLabel } = props;
 
   return (
@@ -50,3 +50,5 @@ export default function ExtrinsicDisplay (props: Props): React.ReactElement<Prop
     />
   );
 }
+
+export default React.memo(ExtrinsicDisplay);

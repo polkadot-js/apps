@@ -75,6 +75,13 @@ export default createGlobalStyle<Props>`
         background-color: ${(props): string => (props.uiHighlight || defaultHighlight)};
       }
     }
+
+    .ui.toggle.checkbox {
+      input:checked~.box:before,
+      input:checked~label:before {
+        background-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+      }
+    }
   }
 
   #root {
@@ -109,9 +116,11 @@ export default createGlobalStyle<Props>`
         color: #555 !important;
       }
 
-      .ui.toggle.checkbox input:checked~.box:before,
-      .ui.toggle.checkbox input:checked~label:before {
-        background-color: #eee !important;
+      .ui.toggle.checkbox {
+        input:checked~.box:before,
+        input:checked~label:before {
+          background-color: #eee !important;
+        }
       }
 
       .ui.button.mini {

@@ -2,16 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '../types';
+import { BaseProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
 
 import { classes } from '../util';
-
-interface Props extends BareProps {
-  children: React.ReactNode;
-}
 
 const Wrapper = styled.div`
   position: relative;
@@ -21,7 +17,7 @@ const Wrapper = styled.div`
   width: 15vw;
 `;
 
-export default function BaseChart ({ children, className, style }: Props): React.ReactElement<Props> {
+function BaseChart ({ children, className, style }: BaseProps): React.ReactElement<BaseProps> {
   return (
     <Wrapper
       className={classes('ui--Chart', className)}
@@ -31,3 +27,5 @@ export default function BaseChart ({ children, className, style }: Props): React
     </Wrapper>
   );
 }
+
+export default React.memo(BaseChart);

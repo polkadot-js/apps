@@ -20,7 +20,7 @@ interface Props extends BareProps {
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-export default function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
+function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
   if (!options.length) {
     return null;
   }
@@ -40,3 +40,5 @@ export default function SelectMethod ({ api, className, isError, onChange, optio
     />
   );
 }
+
+export default React.memo(SelectMethod);

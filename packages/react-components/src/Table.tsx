@@ -16,10 +16,9 @@ type HeadProps = BaseProps;
 
 type TableProps = BaseProps;
 
-interface TableImpl {
-  (props: TableProps): React.ReactElement<TableProps>;
-  Body: (props: BodyProps) => React.ReactElement<BodyProps>;
-  Head: (props: HeadProps) => React.ReactElement<HeadProps>;
+type TableImpl = React.FC<TableProps> & {
+  Body: React.FC<BodyProps>;
+  Head: React.FC<HeadProps>;
 }
 
 function Head ({ children, className }: HeadProps): React.ReactElement<HeadProps> {
@@ -196,7 +195,7 @@ const Memo = React.memo(styled(Table)`
   }
 `) as unknown as TableImpl;
 
-Memo.Body = Body;
-Memo.Head = Head;
+Memo.Body = React.memo(Body);
+Memo.Head = React.memo(Head);
 
 export default Memo;

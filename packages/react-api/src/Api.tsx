@@ -118,7 +118,7 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   } as State;
 }
 
-export default function Api ({ children, url }: Props): React.ReactElement<Props> | null {
+function Api ({ children, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<State>({ isApiReady: false } as Partial<State> as State);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -159,3 +159,5 @@ export default function Api ({ children, url }: Props): React.ReactElement<Props
     </ApiContext.Provider>
   );
 }
+
+export default React.memo(Api);
