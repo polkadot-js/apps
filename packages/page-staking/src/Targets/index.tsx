@@ -135,7 +135,7 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
         isFavorite: favorites.includes(key),
         isNominating,
         key,
-        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).muln(10000).div(PERBILL).toNumber() / 100),
+        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).toNumber() / 10_000_000),
         numNominators: exposure.others.length,
         rankBondOther: 0,
         rankBondOwn: 0,
