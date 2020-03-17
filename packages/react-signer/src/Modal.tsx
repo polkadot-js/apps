@@ -651,7 +651,7 @@ class Signer extends React.PureComponent<Props, State> {
         api.setSigner(injected.signer);
         params.push(address);
       } else {
-        params.push(pair);
+        params.push(pair, { genesisHash: '0x00' });
       }
     }
 
