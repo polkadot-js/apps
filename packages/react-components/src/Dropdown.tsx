@@ -44,7 +44,7 @@ export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<any>();
 
@@ -119,9 +119,7 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
     );
 }
 
-Dropdown.Header = SUIDropdown.Header;
-
-export default React.memo(styled(Dropdown)`
+const Dropdown = React.memo(styled(BaseDropdown)`
   .ui--Dropdown-item {
     position: relative;
     white-space: nowrap;
@@ -157,4 +155,8 @@ export default React.memo(styled(Dropdown)`
       }
     }
   }
-`);
+`) as unknown as IDropdown<any>;
+
+(Dropdown as any).Header = SUIDropdown.Header;
+
+export default Dropdown;
