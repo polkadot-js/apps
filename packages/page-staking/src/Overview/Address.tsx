@@ -56,7 +56,7 @@ function expandInfo ({ controllerId, exposure, nextSessionIds, validatorPrefs }:
 
   return {
     commission: commission
-      ? `${(commission.toNumber() / 10000000).toFixed(2)}%`
+      ? `${(commission.toNumber() / 10_000_000).toFixed(2)}%`
       : undefined,
     controllerId: controllerId?.toString(),
     nominators,

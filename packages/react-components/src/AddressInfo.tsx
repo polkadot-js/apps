@@ -42,8 +42,6 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
-const PERBILL = new BN(1000000000);
-
 interface Props extends BareProps {
   address: string;
   balancesAll?: DerivedBalancesAll;
@@ -229,7 +227,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
           : (
             <>
               <Label label={t('commission')} />
-              <span>{(stakingInfo.validatorPrefs.commission.unwrap().muln(10000).div(PERBILL).toNumber() / 100).toFixed(2)}%</span>
+              <span>{(stakingInfo.validatorPrefs.commission.unwrap().toNumber() / 10_000_000).toFixed(2)}%</span>
             </>
           )
       )}
