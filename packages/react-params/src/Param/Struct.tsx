@@ -5,7 +5,7 @@
 import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { createType, getTypeDef } from '@polkadot/types';
 
@@ -13,7 +13,7 @@ import Params from '../';
 import Base from './Base';
 import Static from './Static';
 
-export default function StructParam (props: Props): React.ReactElement<Props> {
+function StructParam (props: Props): React.ReactElement<Props> {
   const { className, isDisabled, label, onChange, overrides, style, type, withLabel } = props;
   const [params, setParams] = useState<ParamDef[]>([]);
 
@@ -33,16 +33,19 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
     return <Static {...props} />;
   }
 
-  const _onChangeParams = (values: RawParam[]): void => {
-    onChange && onChange({
-      isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
-      value: params.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
-        value[name as string] = values[index].value;
+  const _onChangeParams = useCallback(
+    (values: RawParam[]): void => {
+      onChange && onChange({
+        isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
+        value: params.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
+          value[name as string] = values[index].value;
 
-        return value;
-      }, {})
-    });
-  };
+          return value;
+        }, {})
+      });
+    },
+    [params]
+  );
 
   return (
     <div className='ui--Params-Struct'>
@@ -60,3 +63,5 @@ export default function StructParam (props: Props): React.ReactElement<Props> {
     </div>
   );
 }
+
+export default React.memo(StructParam);

@@ -33,7 +33,7 @@ function onChange ({ onChange }: Props): (_: RawParamOnChangeValue) => void {
   };
 }
 
-export default function Code (props: Props): React.ReactElement<Props> {
+function Moment (props: Props): React.ReactElement<Props> {
   const { className, defaultValue, isDisabled, isError, label, onEnter, onEscape, style, type, withLabel } = props;
 
   if (isDisabled) {
@@ -60,3 +60,5 @@ export default function Code (props: Props): React.ReactElement<Props> {
     />
   );
 }
+
+export default React.memo(Moment);
