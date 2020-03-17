@@ -15,7 +15,7 @@ interface Props extends BareProps {
   label?: string;
 }
 
-export default function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
+function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
   const [type, setType] = useState('unknown');
 
   useEffect((): void => {
@@ -46,3 +46,5 @@ export default function CryptoType ({ accountId, className, label = '' }: Props)
     </div>
   );
 }
+
+export default React.memo(CryptoType);

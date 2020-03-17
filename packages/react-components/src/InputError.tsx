@@ -17,7 +17,7 @@ const defaultLabel: React.ReactNode = (
   <div>&nbsp;</div>
 );
 
-export default function InputError ({ className, label = defaultLabel, style }: Props): React.ReactElement<Props> {
+function InputError ({ className, label = defaultLabel, style }: Props): React.ReactElement<Props> {
   return (
     <div
       className={classes('ui--InputError', className)}
@@ -27,3 +27,5 @@ export default function InputError ({ className, label = defaultLabel, style }: 
     </div>
   );
 }
+
+export default React.memo(InputError);

@@ -80,7 +80,7 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
   };
 }
 
-export default function LineChart ({ className, colors, labels, legends, style, values }: Props): React.ReactElement<Props> | null {
+function LineChart ({ className, colors, labels, legends, style, values }: Props): React.ReactElement<Props> | null {
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
@@ -107,3 +107,5 @@ export default function LineChart ({ className, colors, labels, legends, style, 
     </div>
   );
 }
+
+export default React.memo(LineChart);

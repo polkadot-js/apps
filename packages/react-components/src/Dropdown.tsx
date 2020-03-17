@@ -121,7 +121,7 @@ function Dropdown<Option> ({ allowAdd = false, className, defaultValue, dropdown
 
 Dropdown.Header = SUIDropdown.Header;
 
-export default styled(Dropdown)`
+export default React.memo(styled(Dropdown)`
   .ui--Dropdown-item {
     position: relative;
     white-space: nowrap;
@@ -157,4 +157,4 @@ export default styled(Dropdown)`
       }
     }
   }
-`;
+`);

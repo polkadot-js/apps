@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   width: 15vw;
 `;
 
-export default function BaseChart ({ children, className, style }: Props): React.ReactElement<Props> {
+function BaseChart ({ children, className, style }: Props): React.ReactElement<Props> {
   return (
     <Wrapper
       className={classes('ui--Chart', className)}
@@ -31,3 +31,5 @@ export default function BaseChart ({ children, className, style }: Props): React
     </Wrapper>
   );
 }
+
+export default React.memo(BaseChart);

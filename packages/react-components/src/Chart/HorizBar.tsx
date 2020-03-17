@@ -94,7 +94,7 @@ function calculateOptions (aspectRatio: number, values: Value[], jsonValues: str
   };
 }
 
-export default function ChartHorizBar ({ aspectRatio = 8, className, max = 100, showLabels = false, style, values }: Props): React.ReactElement<Props> | null {
+function ChartHorizBar ({ aspectRatio = 8, className, max = 100, showLabels = false, style, values }: Props): React.ReactElement<Props> | null {
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
@@ -124,3 +124,5 @@ export default function ChartHorizBar ({ aspectRatio = 8, className, max = 100, 
     </div>
   );
 }
+
+export default React.memo(ChartHorizBar);

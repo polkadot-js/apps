@@ -26,7 +26,7 @@ let nextId = 0;
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
 
-export default function Queue ({ children }: Props): React.ReactElement<Props> {
+function Queue ({ children }: Props): React.ReactElement<Props> {
   const [_stqueue, _setStQueue] = useState<QueueStatus[]>([]);
   const [_txqueue, _setTxQueue] = useState<QueueTx[]>([]);
   const stRef = useRef(_stqueue);
@@ -183,3 +183,5 @@ export default function Queue ({ children }: Props): React.ReactElement<Props> {
     </QueueProvider>
   );
 }
+
+export default React.memo(Queue);

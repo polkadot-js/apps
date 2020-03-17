@@ -29,7 +29,7 @@ interface Options {
   labels: string[];
 }
 
-export default function ChartDoughnut ({ className, size = 100, style, values }: Props): React.ReactElement<Props> {
+function ChartDoughnut ({ className, size = 100, style, values }: Props): React.ReactElement<Props> {
   const options: Options = {
     colorNormal: [],
     colorHover: [],
@@ -69,3 +69,5 @@ export default function ChartDoughnut ({ className, size = 100, style, values }:
     </Base>
   );
 }
+
+export default React.memo(ChartDoughnut);
