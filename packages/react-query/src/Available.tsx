@@ -17,7 +17,7 @@ interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export default function AvailableDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
+function AvailableDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [params]);
 
@@ -31,3 +31,5 @@ export default function AvailableDisplay ({ children, className, label, params }
     </FormatBalance>
   );
 }
+
+export default React.memo(AvailableDisplay);
