@@ -7,13 +7,14 @@ import { Route } from '@polkadot/apps-routing/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import { ApiPromise } from '@polkadot/api';
-import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
+import { Badge, Icon, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { SideBarItem, SideBarItemLink, SideBarItemNavLink } from './SideBarItem';
 
 const DUMMY_COUNTER = (): number => 0;
 
@@ -115,23 +116,20 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
   );
 
   return (
-    <Menu.Item className='apps--SideBar-Item'>
+    <SideBarItem>
       {Modal
         ? (
-          <a
-            className='apps--SideBar-Item-NavLink'
+          <SideBarItemLink
             data-for={`nav-${name}`}
             data-tip
             data-tip-disable={!isCollapsed}
             onClick={onClick}
           >
             {body}
-          </a>
+          </SideBarItemLink>
         )
         : (
-          <NavLink
-            activeClassName='apps--SideBar-Item-NavLink-active'
-            className='apps--SideBar-Item-NavLink'
+          <SideBarItemNavLink
             data-for={`nav-${name}`}
             data-tip
             data-tip-disable={!isCollapsed}
@@ -139,9 +137,9 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
             to={`/${name}`}
           >
             {body}
-          </NavLink>
+          </SideBarItemNavLink>
         )
       }
-    </Menu.Item>
+    </SideBarItem>
   );
 }

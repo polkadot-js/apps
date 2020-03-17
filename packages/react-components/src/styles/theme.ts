@@ -17,16 +17,16 @@ const colorBtnPrimary = '#2e86ab';
 const colorBtnText = '#f9f9f9';
 
 export default css`
-  .theme--default {
-    a {
+  a {
+    color: ${colorBtnPrimary};
+
+    &:hover,
+    a:visited {
       color: ${colorBtnPrimary};
-
-      &:hover,
-      a:visited {
-        color: ${colorBtnPrimary};
-      }
     }
+  }
 
+  .theme--default {
     .ui.button,
     .ui.buttons .button {
       background-color: ${colorBtnDefault};

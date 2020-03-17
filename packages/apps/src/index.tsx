@@ -17,10 +17,11 @@ import { BlockAuthors, Events } from '@polkadot/react-query';
 import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';
+import theme from '../../../styled-theming';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
-const theme = { theme: settings.uiTheme };
+// const theme = { theme: settings.uiTheme };
 
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
