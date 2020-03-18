@@ -32,7 +32,7 @@ export default function useInactives (stashId: string, nominees?: string[]): str
               }
             });
 
-            setInactives(inactives);
+            mountedRef.current && setInactives(inactives);
           }
         )
         .then((_unsub): void => {

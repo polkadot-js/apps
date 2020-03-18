@@ -8,7 +8,7 @@ import { AddressDetails } from './types';
 
 import React, { useEffect, useReducer, useState } from 'react';
 import { Input, Spinner, Table } from '@polkadot/react-components';
-import { useAccounts, useFavorites } from '@polkadot/react-hooks';
+import { useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
@@ -28,10 +28,10 @@ interface Props {
 
 type AccountExtend = [string, boolean, boolean];
 
-function sortByFav ([,, isFavA]: AccountExtend, [,, isFavB]: AccountExtend): number {
-  return isFavA === isFavB
-    ? 0
-    : (isFavA ? -1 : 1);
+interface Filtered {
+  elected: AccountExtend[];
+  validators: AccountExtend[];
+  waiting?: AccountExtend[];
 }
 
 function filterAccounts (accounts: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
@@ -42,7 +42,11 @@ function filterAccounts (accounts: string[] = [], elected: string[], favorites: 
       elected.includes(accountId),
       favorites.includes(accountId)
     ])
-    .sort(sortByFav);
+    .sort(([,, isFavA]: AccountExtend, [,, isFavB]: AccountExtend): number =>
+      isFavA === isFavB
+        ? 0
+        : (isFavA ? -1 : 1)
+    );
 }
 
 function accountsToString (accounts: AccountId[]): string[] {
@@ -64,48 +68,53 @@ function reduceDetails (state: Record<string, AddressDetails>, _details: Address
   }, { ...state });
 }
 
+function getDetails (stakingOverview: DerivedStakingOverview, validators: AccountExtend[]): AddressDetails[] {
+  const allPoints = [...stakingOverview.eraPoints.individual.entries()];
+
+  return validators.map(([address]): AddressDetails => {
+    const points = allPoints.find(([accountId]): boolean => accountId.eq(address));
+
+    return {
+      address,
+      points: points
+        ? points[1]
+        : undefined
+    };
+  });
+}
+
+function getFiltered (stakingOverview: DerivedStakingOverview, favorites: string[], next?: string[]): Filtered {
+  const allElected = accountsToString(stakingOverview.nextElected);
+  const validatorIds = accountsToString(stakingOverview.validators);
+  const validators = filterAccounts(validatorIds, allElected, favorites, []);
+  const elected = filterAccounts(allElected, allElected, favorites, validatorIds);
+  const waiting = filterAccounts(next, [], favorites, allElected);
+
+  return {
+    elected,
+    validators,
+    waiting
+  };
+}
+
 function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [{ allElected, elected, validators, waiting }, setFiltered] = useState<{ allElected: string[]; elected: AccountExtend[]; validators: AccountExtend[]; waiting?: AccountExtend[] }>({ allElected: [], elected: [], validators: [] });
+  const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({ elected: [], validators: [] });
   const [nameFilter, setNameFilter] = useState<string>('');
   const [addressDetails, dispatchDetails] = useReducer(reduceDetails, {});
 
   useEffect((): void => {
-    if (isVisible && stakingOverview) {
-      const allElected = accountsToString(stakingOverview.nextElected);
-      const _validators = accountsToString(stakingOverview.validators);
-      const validators = filterAccounts(_validators, allElected, favorites, []);
-      const elected = filterAccounts(allElected, allElected, favorites, _validators);
-
-      setFiltered({
-        allElected,
-        elected,
-        validators,
-        waiting: filterAccounts(next, [], favorites, allElected)
-      });
-    }
-  }, [favorites, isVisible, next, stakingOverview?.nextElected, stakingOverview?.validators]);
+    isVisible && stakingOverview && setFiltered(
+      getFiltered(stakingOverview, favorites, next)
+    );
+  }, [favorites, isVisible, next, stakingOverview]);
 
   useEffect((): void => {
-    if (stakingOverview?.eraPoints) {
-      const allPoints = stakingOverview.eraPoints
-        ? [...stakingOverview.eraPoints.individual.entries()]
-        : [];
-
-      dispatchDetails(validators.map(([address]): AddressDetails => {
-        const points = allPoints.find(([accountId]): boolean => accountId.eq(address));
-
-        return {
-          address,
-          points: points
-            ? points[1]
-            : undefined
-        };
-      }));
-    }
-  }, [stakingOverview?.eraPoints, allElected, validators]);
+    stakingOverview && dispatchDetails(
+      getDetails(stakingOverview, validators)
+    );
+  }, [stakingOverview, validators]);
 
   const _renderRows = (addresses: AccountExtend[], defaultName: string, isMain: boolean): React.ReactNode =>
     addresses.map(([address, isElected, isFavorite]): React.ReactNode => (
@@ -114,24 +123,15 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
         defaultName={defaultName}
         filterName={nameFilter}
         hasQueries={hasQueries}
-        heartbeat={
-          isMain && recentlyOnline
-            ? recentlyOnline[address]
-            : undefined
-        }
+        heartbeat={isMain && recentlyOnline && recentlyOnline[address]}
         isAuthor={lastAuthors && lastAuthors.includes(address)}
         isElected={isElected}
         isFavorite={isFavorite}
         isMain={isMain}
         key={address}
         lastBlock={authorsMap[address]}
-        myAccounts={allAccounts}
-        points={
-          isMain
-            ? addressDetails[address] && addressDetails[address].points
-            : undefined
-        }
-        setNominators={isIntentions ? undefined : setNominators}
+        points={isMain && addressDetails[address] && addressDetails[address].points}
+        setNominators={isIntentions && setNominators}
         toggleFavorite={toggleFavorite}
       />
     ));

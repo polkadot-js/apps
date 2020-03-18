@@ -42,22 +42,16 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const recentlyOnline = useCall<DerivedHeartbeats>(api.derive.imOnline?.receivedHeartbeats, []);
   const stakingOverview = useCall<DerivedStakingOverview>(api.derive.staking.overview, []);
   const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
-  const hasQueries = useMemo((): boolean => {
-    return hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra);
-  }, [api, hasAccounts]);
+  const hasQueries = useMemo(
+    (): boolean =>
+      hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
+    [api, hasAccounts]
+  );
   const items = useMemo(() => [
     {
       isRoot: true,
       name: 'overview',
       text: t('Staking overview')
-    },
-    {
-      name: 'waiting',
-      text: t('Waiting')
-    },
-    {
-      name: 'returns',
-      text: t('Returns')
     },
     {
       name: 'actions',
@@ -70,28 +64,36 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       })
     },
     {
+      name: 'waiting',
+      text: t('Waiting')
+    },
+    {
+      name: 'returns',
+      text: t('Returns')
+    },
+    {
       hasParams: true,
       name: 'query',
       text: t('Validator stats')
     }
   ], [rewardCount, t]);
-  const hiddenTabs = useMemo((): string[] => {
-    const result = next ? [] : ['waiting'];
-
-    if (!hasAccounts) {
-      result.push('actions', 'query');
-    } else if (!hasQueries) {
-      result.push('returns', 'query');
-    }
-
-    return result;
-  }, [hasAccounts, hasQueries, next]);
+  const hiddenTabs = useMemo(
+    (): string[] =>
+      !hasAccounts
+        ? ['actions', 'query']
+        : !hasQueries
+          ? ['returns', 'query']
+          : [],
+    [hasAccounts, hasQueries]
+  );
 
   useEffect((): void => {
     allStashes && stakingOverview && setNext(
-      allStashes.filter((address): boolean => !stakingOverview.validators.includes(address as any))
+      allStashes.filter((address): boolean =>
+        !stakingOverview.validators.includes(address as any)
+      )
     );
-  }, [allStashes, stakingOverview?.validators]);
+  }, [allStashes, stakingOverview]);
 
   return (
     <main className={`staking--App ${className}`}>
