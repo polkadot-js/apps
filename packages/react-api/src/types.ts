@@ -19,7 +19,6 @@ export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
   isApiReady: boolean;
-  isApiInitialized: boolean;
   isDevelopment: boolean;
   isSubstrateV2: boolean;
   systemChain: string;
@@ -29,8 +28,9 @@ export interface ApiState {
 
 export interface ApiProps extends ApiState {
   api: ApiPromise;
-  isWaitingInjected: boolean;
   isApiConnected: boolean;
+  isApiInitialized: boolean;
+  isWaitingInjected: boolean;
 }
 
 export interface OnChangeCbObs {

@@ -27,10 +27,6 @@ interface Props {
   url?: string;
 }
 
-interface State extends ApiState {
-  chain?: string | null;
-}
-
 interface InjectedAccountExt {
   address: string;
   meta: {
@@ -92,7 +88,7 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   };
 }
 
-async function loadOnReady (api: ApiPromise): Promise<State> {
+async function loadOnReady (api: ApiPromise): Promise<ApiState> {
   const { injectedAccounts, properties, systemChain, systemName, systemVersion } = await retrieve(api);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
@@ -139,15 +135,15 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
     systemChain,
     systemName,
     systemVersion
-  } as State;
+  };
 }
 
 function Api ({ children, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
-  const [state, setState] = useState<State>({ isApiReady: false } as Partial<State> as State);
+  const [state, setState] = useState<ApiState>({ isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
-  const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
+  const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
   const props = useMemo<ApiProps>(
     () => ({ ...state, api, isApiConnected, isApiInitialized, isWaitingInjected }),
     [isApiConnected, isApiInitialized, isWaitingInjected, state]
