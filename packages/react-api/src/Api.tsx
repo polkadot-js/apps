@@ -57,15 +57,22 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
     api.rpc.system.chain(),
     api.rpc.system.name(),
     api.rpc.system.version(),
-    web3Accounts().then((accounts): InjectedAccountExt[] =>
-      accounts.map(({ address, meta }): InjectedAccountExt => ({
-        address,
-        meta: {
-          ...meta,
-          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
-        }
-      }))
-    )
+    injectedPromise
+      .then(() => web3Accounts())
+      .then((accounts): InjectedAccountExt[] =>
+        accounts.map(({ address, meta }): InjectedAccountExt => ({
+          address,
+          meta: {
+            ...meta,
+            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+          }
+        }))
+      )
+      .catch((error): InjectedAccountExt[] => {
+        console.error('Extension init', error);
+
+        return [];
+      })
   ]);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
