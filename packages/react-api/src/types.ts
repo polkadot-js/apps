@@ -19,6 +19,7 @@ export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
   isApiReady: boolean;
+  isApiInitialized: boolean;
   isDevelopment: boolean;
   isSubstrateV2: boolean;
   systemChain: string;
