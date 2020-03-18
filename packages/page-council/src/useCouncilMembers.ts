@@ -24,7 +24,7 @@ function transform (allAccounts: string[]): (queryMembers: [AccountId, Balance][
 export default function useCouncilMembers (): Result {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const members = useCall<Result>(api.query.council.members, [], {
+  const members = useCall<Result>(!!allAccounts.length && api.query.council.members, [], {
     transform: transform(allAccounts)
   }) || { isMember: false, members: [] };
 

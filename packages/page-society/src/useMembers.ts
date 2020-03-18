@@ -22,7 +22,7 @@ function transform (allAccounts: string[]): (members: DeriveSocietyMember[]) => 
 export default function useMembers (): OwnMembers {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const state = useCall<OwnMembers>(api.derive.society?.members, [], {
+  const state = useCall<OwnMembers>(!!allAccounts.length && api.derive.society?.members, [], {
     transform: transform(allAccounts)
   }) || { allMembers: [], isMember: false, ownMembers: [] };
 
