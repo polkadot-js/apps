@@ -127,8 +127,8 @@ class Vote extends TxModal<Props, State> {
 
     if (accountId) {
       (api.query.electionsPhragmen || api.query.elections)
-        .votesOf<[AccountId[]] & Codec>(accountId)
-        .then(([existingVotes]): void => {
+        .votesOf<([AccountId[]] & Codec) | AccountId[]>(accountId)
+        .then((existingVotes): void => {
           if (!this.props.electionsInfo) {
             return;
           }
@@ -140,7 +140,11 @@ class Vote extends TxModal<Props, State> {
             .concat(candidates.map((accountId): string => accountId.toString()));
 
           this.setState({
-            votes: existingVotes
+            votes: (
+              Array.isArray(existingVotes[0])
+                ? existingVotes[0]
+                : (existingVotes as AccountId[])
+            )
               .map((accountId): string => accountId.toString())
               .filter((accountId): boolean => available.includes(accountId))
           });

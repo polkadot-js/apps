@@ -8,6 +8,7 @@ import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { StorageKey } from '@polkadot/types';
 
 import Candidates from './Candidates';
 import Members from './Members';
@@ -20,9 +21,27 @@ interface Props {
   prime: AccountId | null;
 }
 
-function transformVotes ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> {
+function transformVotesPrev ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> {
   return voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
     casted[index].forEach((candidate): void => {
+      const address = candidate.toString();
+
+      if (!result[address]) {
+        result[address] = [];
+      }
+
+      result[address].push(voter);
+    });
+
+    return result;
+  }, {});
+}
+
+function transformVotes (entries: [StorageKey, AccountId[]][]): Record<string, AccountId[]> {
+  return entries.reduce((result: Record<string, AccountId[]>, [key, casted]): Record<string, AccountId[]> => {
+    const voter = key.args[0] as AccountId;
+
+    casted.forEach((candidate): void => {
       const address = candidate.toString();
 
       if (!result[address]) {
@@ -40,9 +59,13 @@ function Overview ({ className, prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
-  const allVotes = useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
-    transform: transformVotes
-  });
+  const allVotes = api.query.electionsPhragmen?.votesOf.creator.meta.type.asMap.linked.isTrue
+    ? useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
+      transform: transformVotesPrev
+    })
+    : useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf.entries as any, [], {
+      transform: transformVotes
+    });
 
   return (
     <div className={className}>
