@@ -29,12 +29,13 @@ function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
       const prevEra = indexes.activeEra.subn(1);
       const lastPayouts = allInfo
         .map(({ stakingLedger }, index) => [stashIds[index], stakingLedger?.lastReward?.unwrapOr(new BN(-1)).addn(1)])
-        .filter((value): value is [string, EraIndex] => !!value[1])
-        .filter(([, era]) => !onlyLatest || era.lt(prevEra));
+        .filter((value): value is [string, EraIndex] => !!value[1]);
 
       setNextPayouts(
         onlyLatest
-          ? lastPayouts.map(([stashId]) => [stashId, indexes.activeEra.subn(1)])
+          ? lastPayouts
+            .filter(([, era]) => era.lte(prevEra))
+            .map(([stashId]) => [stashId, prevEra])
           : lastPayouts
       );
     }
