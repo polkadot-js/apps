@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import BN from 'bn.js';
 import useApi from './useApi';
 import useCall from './useCall';
+import useIsMountedRef from './useIsMountedRef';
 import { useOwnStashIds } from './useOwnStashes';
 
 interface OwnRewards {
@@ -19,13 +20,14 @@ interface OwnRewards {
 
 function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
   const { api, isApiReady } = useApi();
+  const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
   const allInfo = useCall<DerivedStakingQuery[]>(isApiReady && stashIds && api.derive.staking?.queryMulti, stashIds);
   const indexes = useCall<DeriveSessionIndexes>(isApiReady && api.derive.session?.indexes, []);
   const [nextPayouts, setNextPayouts] = useState<[string, BN][] | undefined>();
 
   useEffect((): void => {
-    if (stashIds && allInfo && indexes) {
+    if (mountedRef.current && stashIds && allInfo && indexes) {
       const prevEra = indexes.activeEra.subn(1);
       const lastPayouts = allInfo
         .map(({ stakingLedger }, index) => [stashIds[index], stakingLedger?.lastReward?.unwrapOr(new BN(-1)).addn(1)])
@@ -64,12 +66,13 @@ function getRewards ([thesePayouts, theseRewards]: [[string, EraIndex][], Derive
 
 export default function useOwnEraRewards (onlyLatest?: boolean): OwnRewards {
   const { api } = useApi();
+  const mountedRef = useIsMountedRef();
   const nextPayouts = useNextPayouts(onlyLatest);
   const available = useCall<[[string, EraIndex][], DeriveStakerReward[][]]>(nextPayouts && api.derive.staking?.stakerRewardsMulti as any, nextPayouts, { withParams: true });
   const [state, setState] = useState<OwnRewards>({ rewardCount: 0 });
 
   useEffect((): void => {
-    available && nextPayouts && setState(
+    mountedRef.current && available && nextPayouts && setState(
       getRewards(available, nextPayouts)
     );
   }, [available, nextPayouts]);

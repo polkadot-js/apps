@@ -10,6 +10,7 @@ import { Option } from '@polkadot/types';
 import useAccounts from './useAccounts';
 import useApi from './useApi';
 import useCall from './useCall';
+import useIsMountedRef from './useIsMountedRef';
 
 type IsInKeyring = boolean;
 
@@ -33,13 +34,14 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
 
 export default function useOwnStashes (): [string, IsInKeyring][] | undefined {
   const { allAccounts } = useAccounts();
+  const mountedRef = useIsMountedRef();
   const { api } = useApi();
   const ownBonded = useCall<Option<AccountId>[]>(api.query.staking?.bonded.multi as any, [allAccounts]);
   const ownLedger = useCall<Option<StakingLedger>[]>(api.query.staking?.ledger.multi as any, [allAccounts]);
   const [state, setState] = useState<[string, IsInKeyring][] | undefined>();
 
   useEffect((): void => {
-    allAccounts && ownBonded && ownLedger && setState(
+    mountedRef.current && allAccounts && ownBonded && ownLedger && setState(
       getStashes(allAccounts, ownBonded, ownLedger)
     );
   }, [allAccounts, ownBonded, ownLedger]);
@@ -48,11 +50,12 @@ export default function useOwnStashes (): [string, IsInKeyring][] | undefined {
 }
 
 export function useOwnStashIds (): string[] | undefined {
+  const mountedRef = useIsMountedRef();
   const ownStashes = useOwnStashes();
   const [stashIds, setStashIds] = useState<string[] | undefined>();
 
   useEffect((): void => {
-    ownStashes && setStashIds(
+    mountedRef.current && ownStashes && setStashIds(
       ownStashes.map(([stashId]) => stashId)
     );
   }, [ownStashes]);

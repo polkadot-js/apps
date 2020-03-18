@@ -65,13 +65,13 @@ function unsubscribe (tracker: TrackerRef): void {
 }
 
 // subscribe, trying to play nice with the browser threads
-function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T>): void {
+function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T>): void {
   const validParams = params.filter((p): boolean => !isUndefined(p));
 
   unsubscribe(tracker);
 
   setTimeout((): void => {
-    if (mounted.current) {
+    if (mountedRef.current) {
       if (fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)) {
         // swap to acive mode and reset our count
         tracker.current.isActive = true;
@@ -82,10 +82,10 @@ function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | 
         tracker.current.subscriber = fn(...params, (value: any): void => {
           // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
           // since .subscriber may not be set on immeditae callback)
-          if (mounted.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {
+          if (mountedRef.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {
             tracker.current.count++;
 
-            mounted.current && tracker.current.isActive && setValue(
+            mountedRef.current && tracker.current.isActive && setValue(
               withParams
                 ? [params, transform(value)] as any
                 : transform(value)
@@ -104,7 +104,7 @@ function subscribe <T> (mounted: MountedRef, tracker: TrackerRef, fn: TrackFn | 
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
 export default function useCall <T> (fn: TrackFn | undefined | null | false, params: CallParams = [], options: CallOptions<T> = {}): T | undefined {
-  const mounted = useIsMountedRef();
+  const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ isActive: false, count: 0, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>(options.defaultValue);
 
@@ -116,13 +116,13 @@ export default function useCall <T> (fn: TrackFn | undefined | null | false, par
   // on changes, re-subscribe
   useEffect((): void => {
     // check if we have a function & that we are mounted
-    if (mounted.current && fn) {
+    if (mountedRef.current && fn) {
       const [serialized, mappedParams] = extractParams(fn, params, options.paramMap || transformIdentity);
 
       if (mappedParams && serialized !== tracker.current.serialized) {
         tracker.current.serialized = serialized;
 
-        subscribe(mounted, tracker, fn, mappedParams, setValue, options);
+        subscribe(mountedRef, tracker, fn, mappedParams, setValue, options);
       }
     }
   }, [fn, params]);

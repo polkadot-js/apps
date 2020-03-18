@@ -19,7 +19,7 @@ import { useTranslation } from '../translate';
 import Summary from './Summary';
 import Validator from './Validator';
 
-const PERBILL = new BN(1000000000);
+const PERBILL = new BN(1_000_000_000);
 
 interface Props {
   className?: string;
@@ -167,7 +167,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
     transform: (optBalance: Option<Balance>) =>
       optBalance.unwrapOrDefault()
   });
-  const [_amount, setAmount] = useState<BN | undefined>(new BN(1000));
+  const [_amount, setAmount] = useState<BN | undefined>(new BN(1_000));
   const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [{ nominators, validators, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
@@ -190,9 +190,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
           )
           .sort((a, b): number => a.isFavorite === b.isFavorite
             ? 0
-            : a.isFavorite
-              ? -1
-              : 1
+            : (a.isFavorite ? -1 : 1)
           )
       });
     },

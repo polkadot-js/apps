@@ -21,7 +21,7 @@ function getResult (allAccounts: string[], members: string[]): Result {
 export default function useMembers (collective: 'council' | 'technicalCommittee'): Result {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const { isMember, members } = (
+  const state = (
     collective === 'council'
       ? useCall<Result>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
         transform: (accounts: [AccountId, Balance][]): Result =>
@@ -33,5 +33,5 @@ export default function useMembers (collective: 'council' | 'technicalCommittee'
       })
   ) || { isMember: false, members: [] };
 
-  return { isMember, members };
+  return state;
 }
