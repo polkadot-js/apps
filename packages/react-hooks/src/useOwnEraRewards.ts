@@ -44,8 +44,6 @@ function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
 }
 
 function getRewards ([thesePayouts, theseRewards]: [[string, EraIndex][], DeriveStakerReward[][]], nextPayouts: [string, BN][]): OwnRewards {
-  console.error(JSON.stringify(theseRewards));
-
   const allRewards = theseRewards.reduce((result: Record<string, DeriveStakerReward[]>, rewards, index): Record<string, DeriveStakerReward[]> => {
     const [stashId] = thesePayouts[index];
     const nextPayout = nextPayouts.find(([thisId]) => thisId === stashId);
