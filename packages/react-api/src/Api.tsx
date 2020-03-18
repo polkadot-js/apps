@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiState } from './types';
+import { ChainProperties } from '@polkadot/types/interfaces';
+import { ApiProps, ApiState } from './types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { typesChain, typesSpec } from '@polkadot/apps-config/api';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
@@ -14,7 +15,6 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
-import { createType } from '@polkadot/types';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
@@ -27,10 +27,6 @@ interface Props {
   url?: string;
 }
 
-interface State extends ApiState {
-  chain?: string | null;
-}
-
 interface InjectedAccountExt {
   address: string;
   meta: {
@@ -39,20 +35,28 @@ interface InjectedAccountExt {
   };
 }
 
+interface ChainData {
+  injectedAccounts: InjectedAccountExt[];
+  properties: ChainProperties;
+  systemChain: string;
+  systemName: string;
+  systemVersion: string;
+}
+
 const injectedPromise = new Promise((resolve): void => {
   window.addEventListener('load', (): void => {
     resolve(web3Enable('polkadot-js/apps'));
   });
 });
 
-const DEFAULT_DECIMALS = createType(registry, 'u32', 12);
-const DEFAULT_SS58 = createType(registry, 'u32', addressDefaults.prefix);
+const DEFAULT_DECIMALS = registry.createType('u32', 12);
+const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 let api: ApiPromise;
 
 export { api };
 
-async function loadOnReady (api: ApiPromise): Promise<State> {
-  const [properties, _systemChain, _systemName, _systemVersion, injectedAccounts] = await Promise.all([
+async function retrieve (api: ApiPromise): Promise<ChainData> {
+  const [properties, systemChain, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
     api.rpc.system.name(),
@@ -69,25 +73,34 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
         }))
       )
       .catch((error): InjectedAccountExt[] => {
-        console.error('Extension init', error);
+        console.error('web3Enable', error);
 
         return [];
       })
   ]);
+
+  return {
+    injectedAccounts,
+    properties,
+    systemChain: (systemChain || '<unknown>').toString(),
+    systemName: systemName.toString(),
+    systemVersion: systemVersion.toString()
+  };
+}
+
+async function loadOnReady (api: ApiPromise): Promise<ApiState> {
+  const { injectedAccounts, properties, systemChain, systemName, systemVersion } = await retrieve(api);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-  const systemChain = _systemChain
-    ? _systemChain.toString()
-    : '<unknown>';
   const isDevelopment = isTestChain(systemChain);
 
   console.log('api: found chain', systemChain, JSON.stringify(properties));
 
   // explicitly override the ss58Format as specified
-  registry.setChainProperties(createType(registry, 'ChainProperties', { ...properties, ss58Format }));
+  registry.setChainProperties(registry.createType('ChainProperties', { ...properties, ss58Format }));
 
   // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
   setSS58Format(ss58Format);
@@ -120,17 +133,21 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
     isDevelopment,
     isSubstrateV2,
     systemChain,
-    systemName: _systemName.toString(),
-    systemVersion: _systemVersion.toString()
-  } as State;
+    systemName,
+    systemVersion
+  };
 }
 
 function Api ({ children, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
-  const [state, setState] = useState<State>({ isApiReady: false } as Partial<State> as State);
+  const [state, setState] = useState<ApiState>({ isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
+  const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const props = useMemo<ApiProps>(
+    () => ({ ...state, api, isApiConnected, isApiInitialized, isWaitingInjected }),
+    [isApiConnected, isApiInitialized, isWaitingInjected, state]
+  );
 
   // initial initialization
   useEffect((): void => {
@@ -153,15 +170,15 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
       .then((): void => setIsWaitingInjected(false))
       .catch((error: Error) => console.error(error));
 
-    setIsInitialized(true);
+    setIsApiInitialized(true);
   }, []);
 
-  if (!isInitialized) {
+  if (!props.isApiInitialized) {
     return null;
   }
 
   return (
-    <ApiContext.Provider value={{ ...state, api, isApiConnected, isWaitingInjected }}>
+    <ApiContext.Provider value={props}>
       {children}
     </ApiContext.Provider>
   );

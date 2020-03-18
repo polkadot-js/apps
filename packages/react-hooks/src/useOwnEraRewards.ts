@@ -25,18 +25,18 @@ function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
   const [nextPayouts, setNextPayouts] = useState<[string, BN][] | undefined>();
 
   useEffect((): void => {
-    if (stashIds) {
-      if (onlyLatest) {
-        indexes && setNextPayouts(
-          stashIds.map((stashId) => [stashId, indexes.activeEra.subn(1)])
-        );
-      } else if (allInfo) {
-        setNextPayouts(
-          allInfo
-            .map(({ stakingLedger }, index) => [stashIds[index], stakingLedger?.lastReward?.unwrapOr(new BN(-1)).addn(1)])
-            .filter((value): value is [string, EraIndex] => !!value[1])
-        );
-      }
+    if (stashIds && allInfo && indexes) {
+      const prevEra = indexes.activeEra.subn(1);
+      const lastPayouts = allInfo
+        .map(({ stakingLedger }, index) => [stashIds[index], stakingLedger?.lastReward?.unwrapOr(new BN(-1)).addn(1)])
+        .filter((value): value is [string, EraIndex] => !!value[1])
+        .filter(([, era]) => era.lt(prevEra));
+
+      setNextPayouts(
+        onlyLatest
+          ? lastPayouts.map(([stashId]) => [stashId, indexes.activeEra.subn(1)])
+          : lastPayouts
+      );
     }
   }, [allInfo, indexes, onlyLatest, stashIds]);
 
