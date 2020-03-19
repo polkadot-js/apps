@@ -14,6 +14,8 @@ jobs:
       with:
         node-version: '12.x'
     - name: ${{ matrix.step }}
+      env:
+        NODE_ENV: development
       run: |
         yarn install --immutable | grep -v 'YN0013'
         yarn ${{ matrix.step }}
