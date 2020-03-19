@@ -11,7 +11,7 @@ import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, 
 import React, { useRef, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
-import jsonrpc from '@polkadot/jsonrpc';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { createType } from '@polkadot/types';
 
 import { QueueProvider } from './Context';
@@ -24,7 +24,7 @@ export interface Props extends BareProps {
 let nextId = 0;
 
 const REMOVE_TIMEOUT = 7500;
-const SUBMIT_RPC = jsonrpc.author.methods.submitAndWatchExtrinsic;
+const SUBMIT_RPC = jsonrpc.author.submitAndWatchExtrinsic;
 
 function Queue ({ children }: Props): React.ReactElement<Props> {
   const [_stqueue, _setStQueue] = useState<QueueStatus[]>([]);

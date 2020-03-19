@@ -5,9 +5,8 @@
 import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { SignerResult } from '@polkadot/api/types';
-import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types/interfaces';
-import { SignerPayloadJSON } from '@polkadot/types/types';
+import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
@@ -38,7 +37,7 @@ export interface QueueTx extends AccountInfo {
   payload?: SignerPayloadJSON;
   result?: any;
   removeItem: () => void;
-  rpc: RpcMethod;
+  rpc: DefinitionRpcExt;
   signerCb?: SignerCallback;
   txFailedCb?: TxFailedCallback;
   txSuccessCb?: TxCallback;
@@ -65,7 +64,7 @@ export interface QueueTxExtrinsic extends AccountInfo {
 }
 
 export interface QueueTxRpc extends AccountInfo {
-  rpc: RpcMethod;
+  rpc: DefinitionRpcExt;
   values: any[];
 }
 
@@ -85,7 +84,7 @@ export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
 }
 
 export interface PartialQueueTxRpc extends PartialAccountInfo {
-  rpc: RpcMethod;
+  rpc: DefinitionRpcExt;
   values: any[];
 }
 

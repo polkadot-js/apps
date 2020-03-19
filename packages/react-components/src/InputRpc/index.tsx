@@ -4,12 +4,12 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
 
 import React, { useState } from 'react';
-import map from '@polkadot/jsonrpc';
 import { useApi } from '@polkadot/react-hooks';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectMethod from './SelectMethod';
@@ -19,11 +19,11 @@ import sectionOptions from './options/section';
 
 interface Props {
   className?: string;
-  defaultValue: RpcMethod;
+  defaultValue: DefinitionRpcExt;
   help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
-  onChange?: (value: RpcMethod) => void;
+  onChange?: (value: DefinitionRpcExt) => void;
   style?: any;
   withLabel?: boolean;
 }
@@ -32,15 +32,15 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
-  const [value, setValue] = useState<RpcMethod>((): RpcMethod => defaultValue);
+  const [value, setValue] = useState<DefinitionRpcExt>((): DefinitionRpcExt => defaultValue);
 
-  const _onMethodChange = (newValue: RpcMethod): void => {
+  const _onMethodChange = (newValue: DefinitionRpcExt): void => {
     if (value.section === newValue.section && value.method === newValue.method) {
       return;
     }
 
     // set via callback since the method is a function itself
-    setValue((): RpcMethod => newValue);
+    setValue((): DefinitionRpcExt => newValue);
     onChange && onChange(newValue);
   };
   const _onSectionChange = (section: string): void => {
@@ -51,7 +51,7 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
     const optionsMethod = methodOptions(api, section);
 
     setOptionsMethod(optionsMethod);
-    _onMethodChange(map[section].methods[optionsMethod[0].value]);
+    _onMethodChange(jsonrpc[section][optionsMethod[0].value]);
   };
 
   return (
