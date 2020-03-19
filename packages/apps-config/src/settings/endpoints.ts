@@ -84,14 +84,14 @@ let endpoints = [
 ];
 
 if (ENV.length > 0) {
-  endpoints = endpoints.concat([
+  endpoints = [
     {
       isHeader: true,
-      text: 'ENV',
+      text: 'Custom ENV',
       value: ''
     },
     ...ENV
-  ]);
+  ].concat(endpoints);
 }
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
