@@ -174,17 +174,15 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash:8].css'
       }),
-      isProd
-        ? null
-        : new WebpackPluginServe({
-          hmr: false, // switch off, Chrome WASM memory leak
-          liveReload: false, // explict off, overrides hmr
-          progress: false, // since we have hmr off, disable
-          port: 3000,
-          static: path.join(process.cwd(), '/build')
-        })
+      new WebpackPluginServe({
+        hmr: false, // switch off, Chrome WASM memory leak
+        liveReload: false, // explict off, overrides hmr
+        progress: false, // since we have hmr off, disable
+        port: isProd ? 80 : 3000,
+        static: path.join(process.cwd(), '/build')
+      })
     ]).filter((plugin) => plugin),
-    watch: !isProd,
+    watch: true,
     watchOptions: {
       ignored: ['.yarn', /build/, /node_modules/]
     }

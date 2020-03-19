@@ -1,25 +1,13 @@
-FROM ubuntu:18.04 as builder
+FROM node:alpine
 
-# Install any needed packages
-RUN apt-get update && apt-get install -y curl git gnupg
-
-# install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y nodejs
+ENV NODE_ENV=production
+ENV WS_URL=ws://localhost:9944
 
 WORKDIR /apps
 COPY . .
 
-RUN npm install yarn -g
-RUN yarn
-RUN NODE_ENV=production yarn build:www
-
-FROM ubuntu:18.04
-
-RUN apt-get update && apt-get -y install nginx
-
-COPY --from=builder /apps/packages/apps/build /var/www/html
+RUN yarn && yarn cache clean
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["yarn", "start"]
