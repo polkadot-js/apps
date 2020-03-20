@@ -46,7 +46,7 @@ const TEST: Option[] = [
     info: 'fulvous',
     text: 'Centrifuge Testnet Fulvous (Validator 1, hosted by Centrifuge)',
     value: 'ws://35.198.166.26:9944'
-  },
+  }
 ];
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
