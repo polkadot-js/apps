@@ -63,10 +63,9 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
             proposalId={index}
             proposal={proposal}
           />
-          <PreImageButton
-            hash={hash}
-            proposal={proposal}
-          />
+          {!proposal && (
+            <PreImageButton hash={hash} />
+          )}
         </Button.Group>
         <LinkExternal
           data={index}

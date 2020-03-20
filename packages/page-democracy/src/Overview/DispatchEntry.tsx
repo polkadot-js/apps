@@ -52,11 +52,12 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.Re
         proposal={proposal}
       />
       <td className='together number top'>
-        <PreImageButton
-          hash={hash}
-          isImminent
-          proposal={proposal}
-        />
+        {!proposal && (
+          <PreImageButton
+            hash={hash}
+            isImminent
+          />
+        )}
         <LinkExternal
           data={referendumIndex}
           type='referendum'

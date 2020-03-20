@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -34,6 +33,35 @@ interface State {
   votedTotal: BN;
 }
 
+function calcState (votesFor: DerivedReferendumVote[]): State {
+  return votesFor.reduce((state, { balance, vote }): State => {
+    const isDefault = vote.conviction.index === 0;
+    const counted = balance
+      .muln(isDefault ? 1 : vote.conviction.index)
+      .divn(isDefault ? 10 : 1);
+
+    if (vote.isAye) {
+      state.voteCountAye++;
+      state.votedAye = state.votedAye.add(counted);
+    } else {
+      state.voteCountNay++;
+      state.votedNay = state.votedNay.add(counted);
+    }
+
+    state.voteCount++;
+    state.votedTotal = state.votedTotal.add(counted);
+
+    return state;
+  }, {
+    voteCount: 0,
+    voteCountAye: 0,
+    voteCountNay: 0,
+    votedAye: new BN(0),
+    votedNay: new BN(0),
+    votedTotal: new BN(0)
+  });
+}
+
 function Referendum ({ className, idNumber, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -49,40 +77,9 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
   });
 
   useEffect((): void => {
-    if (votesFor) {
-      const newState: State = votesFor.reduce((state, { balance, vote }): State => {
-        const isDefault = vote.conviction.index === 0;
-        const counted = balance
-          .muln(isDefault ? 1 : vote.conviction.index)
-          .divn(isDefault ? 10 : 1);
-
-        if (vote.isAye) {
-          state.voteCountAye++;
-          state.votedAye = state.votedAye.add(counted);
-        } else {
-          state.voteCountNay++;
-          state.votedNay = state.votedNay.add(counted);
-        }
-
-        state.voteCount++;
-        state.votedTotal = state.votedTotal.add(counted);
-
-        return state;
-      }, {
-        voteCount: 0,
-        voteCountAye: 0,
-        voteCountNay: 0,
-        votedAye: new BN(0),
-        votedNay: new BN(0),
-        votedTotal: new BN(0)
-      });
-
-      if (newState.votedAye.eq(votedNay) && newState.votedNay.eq(votedNay)) {
-        return;
-      }
-
-      setState(newState);
-    }
+    votesFor && setState(
+      calcState(votesFor)
+    );
   }, [votesFor]);
 
   if (!bestNumber || value.info.end.sub(bestNumber).lten(0)) {
@@ -124,10 +121,9 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
             proposal={value.proposal}
             referendumId={value.index}
           />
-          <PreImageButton
-            hash={value.hash}
-            proposal={value.proposal}
-          />
+          {!value.proposal && (
+            <PreImageButton hash={value.hash} />
+          )}
         </Button.Group>
         <LinkExternal
           data={value.index}
