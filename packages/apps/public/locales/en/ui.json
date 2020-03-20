@@ -950,5 +950,12 @@
   "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.": "",
   "Propose external": "",
   "Propose external (majority)": "",
-  "Propose": ""
+  "Propose": "",
+  "Fast track proposal": "",
+  "The external proposal to send to the technical committee": "",
+  "external hash": "",
+  "The voting period to apply in blocks": "",
+  "voting period": "",
+  "The delay period to apply in blocks": "",
+  "Fast track": ""
 }
