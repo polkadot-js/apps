@@ -6,16 +6,10 @@ import { SignerOptions, SignerResult, Signer as ApiSigner } from '@polkadot/api/
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps, BareProps } from '@polkadot/react-components/types';
-import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-import {
-  QueueTx,
-  QueueTxMessageSetStatus,
-  QueueTxResult,
-  QueueTxStatus
-} from '@polkadot/react-components/Status/types';
-import { SignerPayloadJSON } from '@polkadot/types/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -573,7 +567,7 @@ class Signer extends React.PureComponent<Props, State> {
         : this.makeSignedTransaction(submittable, queueTx, keyring.getPair(accountId as string));
   }
 
-  private async submitRpc ({ method, section }: RpcMethod, values: any[]): Promise<QueueTxResult> {
+  private async submitRpc ({ method, section }: DefinitionRpcExt, values: any[]): Promise<QueueTxResult> {
     const { api } = this.props;
 
     try {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
 
@@ -16,7 +16,7 @@ interface Props extends BareProps {
   isError?: boolean;
   onChange: (value: string) => void;
   options: DropdownOptions;
-  value: RpcMethod;
+  value: DefinitionRpcExt;
 }
 function SelectSection ({ className, defaultValue, isError, onChange, options, style, value }: Props): React.ReactElement<Props> {
   return (

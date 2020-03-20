@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { ParamDef, RawParam } from '@polkadot/react-params/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
+import { DefinitionRpcExt } from '@polkadot/types/types';
 
 import React from 'react';
-import rpc from '@polkadot/jsonrpc';
 import { Button, InputRpc, TxComponent } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { getTypeDef } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
 
@@ -23,11 +23,11 @@ interface Props extends I18nProps {
 interface State {
   isValid: boolean;
   accountId?: string | null;
-  rpc: RpcMethod;
+  rpc: DefinitionRpcExt;
   values: RawParam[];
 }
 
-const defaultMethod = rpc.author.methods.submitExtrinsic;
+const defaultMethod = jsonrpc.author.submitExtrinsic;
 
 class Selection extends TxComponent<Props, State> {
   public state: State = {
@@ -91,7 +91,7 @@ class Selection extends TxComponent<Props, State> {
     );
   }
 
-  private onChangeMethod = (rpc: RpcMethod): void => {
+  private onChangeMethod = (rpc: DefinitionRpcExt): void => {
     this.nextState({
       rpc,
       values: [] as RawParam[]
