@@ -6,7 +6,7 @@ import { AccountId, Balance, BlockNumber, Hash, Proposal, VoteThreshold } from '
 import { ITuple } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
-import { AddressSmall, Table } from '@polkadot/react-components';
+import { AddressSmall, Table, Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Bytes, Option } from '@polkadot/types';
@@ -14,6 +14,7 @@ import { Bytes, Option } from '@polkadot/types';
 import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
+import Fasttrack from './Fasttrack';
 
 interface Props {
   className?: string;
@@ -23,15 +24,15 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const external = useCall<Option<ITuple<[Hash, VoteThreshold]>>>(api.query.democracy.nextExternal, []);
-  const [hash, setHash] = useState<Hash | null>(null);
+  const [[hash, threshold], setInfo] = useState<[Hash | null, VoteThreshold | null]>([null, null]);
   const [expanded, setExpanded] = useState<{ at: BlockNumber; balance: Balance; proposer: AccountId; proposal: Proposal } | null>(null);
   const preimage = useCall<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>>(api.query.democracy.preimages, [hash]);
 
   useEffect((): void => {
-    setHash(
-      external?.isSome
-        ? external.unwrap()[0]
-        : null
+    setInfo(
+      external
+        ? external.unwrapOr([null, null])
+        : [null, null]
     );
   }, [external]);
 
@@ -72,11 +73,21 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
               proposal={expanded?.proposal}
             />
             <td className='together number top'>
-              <PreImageButton
-                hash={hash}
-                proposal={expanded?.proposal}
-                withoutOr
-              />
+              {!expanded?.proposal && (
+                <>
+                  <PreImageButton
+                    hash={hash}
+                    withoutOr
+                  />
+                  <Button.Or />
+                </>
+              )}
+              {hash && threshold && (
+                <Fasttrack
+                  hash={hash}
+                  threshold={threshold}
+                />
+              )}
             </td>
           </tr>
         </Table.Body>
