@@ -7,7 +7,7 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { defaultColor, chainColors, emptyColor, nodeColors } from '@polkadot/apps-config/ui/general';
+import { defaultColor, chainColors, nodeColors } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -41,8 +41,8 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     ...store.get('sidebar', {}),
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
-  const uiHighlight = useMemo((): string => {
-    return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)] || emptyColor;
+  const uiHighlight = useMemo((): string | undefined => {
+    return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)];
   }, [systemChain, systemName]);
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 

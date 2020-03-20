@@ -3,16 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
-import { Button } from '@polkadot/react-components';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
+import { classes } from '@polkadot/react-components/util';
+import { Button, IconLink } from '@polkadot/react-components';
 
-import IconLink from './IconLink';
 import MessageSignature from './MessageSignature';
 import { useTranslation } from './translate';
-import { classes } from './util';
 
 export interface Props {
   address?: string;

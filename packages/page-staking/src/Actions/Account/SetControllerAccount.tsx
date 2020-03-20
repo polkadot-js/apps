@@ -10,7 +10,6 @@ import { Icon, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/reac
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
-import detectUnsafe from '../../unsafeChains';
 import InputValidationController from '../Account/InputValidationController';
 
 interface Props extends ApiProps, I18nProps {
@@ -36,10 +35,9 @@ class SetControllerAccount extends TxComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { defaultControllerId, isValidating, onClose, stashId, systemChain, t } = this.props;
-    const { controllerError, controllerId } = this.state;
-    const isUnsafeChain = detectUnsafe(systemChain);
-    const canSubmit = isUnsafeChain || (!controllerError && !!controllerId && (defaultControllerId !== controllerId));
+    const { defaultControllerId, isValidating, onClose, stashId, t } = this.props;
+    const { controllerId } = this.state;
+    const canSubmit = !!controllerId;
 
     return (
       <Modal
@@ -66,7 +64,6 @@ class SetControllerAccount extends TxComponent<Props, State> {
             className='medium'
             defaultValue={defaultControllerId}
             help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            isError={!isUnsafeChain && !!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
             type='account'
@@ -76,7 +73,6 @@ class SetControllerAccount extends TxComponent<Props, State> {
             accountId={stashId}
             defaultController={defaultControllerId}
             controllerId={controllerId}
-            isUnsafeChain={isUnsafeChain}
             onError={this.onControllerError}
           />
         </Modal.Content>

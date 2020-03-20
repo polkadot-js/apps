@@ -20,7 +20,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function Static ({ className, children, defaultValue, help, isHidden, label, style, value, withLabel }: Props): React.ReactElement<Props> {
+function Static ({ className, children, defaultValue, help, isHidden, label, style, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
@@ -37,3 +37,5 @@ export default function Static ({ className, children, defaultValue, help, isHid
     </Labelled>
   );
 }
+
+export default React.memo(Static);

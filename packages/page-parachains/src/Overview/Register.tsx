@@ -79,7 +79,6 @@ export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props)
     <>
       <div className='ui--Row-buttons'>
         <Button
-          isPrimary
           label={t('Register a parachain')}
           icon='add'
           onClick={onOpen}

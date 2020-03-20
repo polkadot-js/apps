@@ -25,7 +25,7 @@ const MAX_EVENTS = 25;
 
 const EventsContext: React.Context<Events> = React.createContext<Events>([]);
 
-function Events ({ children }: Props): React.ReactElement<Props> {
+function EventsBase ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [state, setState] = useState<Events>([]);
 
@@ -56,5 +56,7 @@ function Events ({ children }: Props): React.ReactElement<Props> {
     </EventsContext.Provider>
   );
 }
+
+const Events = React.memo(EventsBase);
 
 export { EventsContext, Events };

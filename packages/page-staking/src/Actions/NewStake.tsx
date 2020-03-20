@@ -13,7 +13,6 @@ import { Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponen
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../translate';
-import detectUnsafe from '../unsafeChains';
 import InputValidateAmount from './Account/InputValidateAmount';
 import InputValidationController from './Account/InputValidationController';
 import { rewardDestinationOptions } from './constants';
@@ -49,11 +48,10 @@ class NewStake extends TxComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { onClose, systemChain, t } = this.props;
-    const { amountError, bondValue, controllerError, controllerId, destination, extrinsic, stashId } = this.state;
+    const { onClose, t } = this.props;
+    const { amountError, bondValue, controllerId, destination, extrinsic, stashId } = this.state;
     const hasValue = !!bondValue && bondValue.gtn(0);
-    const isUnsafeChain = detectUnsafe(systemChain);
-    const canSubmit = (hasValue && (isUnsafeChain || (!controllerError && !!controllerId)));
+    const canSubmit = hasValue && !!controllerId;
 
     return (
       <Modal
@@ -72,7 +70,6 @@ class NewStake extends TxComponent<Props, State> {
           <InputAddress
             className='medium'
             help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            isError={!isUnsafeChain && !!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
             type='account'
@@ -81,7 +78,6 @@ class NewStake extends TxComponent<Props, State> {
           <InputValidationController
             accountId={stashId}
             controllerId={controllerId}
-            isUnsafeChain={isUnsafeChain}
             onError={this.onControllerError}
           />
           <InputBalanceBonded
@@ -96,7 +92,6 @@ class NewStake extends TxComponent<Props, State> {
             onChange={this.onChangeValue}
             onEnter={this.sendTx}
             stashId={stashId}
-            withMax={!isUnsafeChain}
           />
           <InputValidateAmount
             accountId={stashId}

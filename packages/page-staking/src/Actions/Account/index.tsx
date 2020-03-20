@@ -29,7 +29,7 @@ import Unbond from './Unbond';
 import Validate from './Validate';
 import useInactives from './useInactives';
 
-type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]>;
+type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 
 interface Props {
   activeEra?: EraIndex;
@@ -68,7 +68,7 @@ function toIdString (id?: AccountId | null): string | null {
 
 function getStakeState (allAccounts: string[], allStashes: string[] | undefined, { controllerId: _controllerId, exposure, nextSessionIds, nominators, rewardDestination, sessionIds, stakingLedger, validatorPrefs }: DerivedStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
   const isStashNominating = !!(nominators?.length);
-  const isStashValidating = !validateInfo[1].isEmpty || !!allStashes?.includes(stashId);
+  const isStashValidating = !(Array.isArray(validateInfo) ? validateInfo[1].isEmpty : validateInfo.isEmpty) || !!allStashes?.includes(stashId);
   const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
   const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
   const controllerId = toIdString(_controllerId);
@@ -332,12 +332,8 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                   <TxButton
                     accountId={controllerId}
                     isDisabled={!isOwnController}
-                    isNegative
-                    label={
-                      isStashNominating
-                        ? t('Stop Nominating')
-                        : t('Stop Validating')
-                    }
+                    isPrimary={false}
+                    label={t('Stop')}
                     icon='stop'
                     key='stop'
                     tx='staking.chill'
@@ -349,7 +345,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                       ? (
                         <Button
                           isDisabled={!isOwnController}
-                          isPrimary
                           key='set'
                           onClick={toggleSetSession}
                           label={t('Session Key')}
@@ -359,7 +354,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                       : (
                         <Button
                           isDisabled={!isOwnController}
-                          isPrimary
                           key='validate'
                           onClick={toggleValidate}
                           label={t('Validate')}
@@ -370,7 +364,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                     <Button.Or key='nominate.or' />
                     <Button
                       isDisabled={!isOwnController}
-                      isPrimary
                       key='nominate'
                       onClick={toggleNominate}
                       label={t('Nominate')}

@@ -2,19 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '../types';
+import { LineProps } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import ChartJs from 'chart.js';
 import { Line } from 'react-chartjs-2';
-
-interface Props extends BareProps {
-  colors?: (string | undefined)[];
-  labels: string[];
-  legends: string[];
-  values: (number | BN)[][];
-}
 
 interface State {
   chartData?: ChartJs.ChartData;
@@ -80,7 +73,7 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
   };
 }
 
-export default function LineChart ({ className, colors, labels, legends, style, values }: Props): React.ReactElement<Props> | null {
+function LineChart ({ className, colors, labels, legends, style, values }: LineProps): React.ReactElement<LineProps> | null {
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
@@ -107,3 +100,5 @@ export default function LineChart ({ className, colors, labels, legends, style, 
     </div>
   );
 }
+
+export default React.memo(LineChart);

@@ -5,7 +5,7 @@
 import { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useState } from 'react';
-import { Table } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -31,21 +31,23 @@ export default function Members ({ className, info }: Props): React.ReactElement
   return (
     <div className={`overviewSection ${className}`}>
       <h1>{t('members')}</h1>
-      {filtered.length
-        ? (
-          <Table>
-            <Table.Body>
-              {filtered.map((member): React.ReactNode => (
-                <Member
-                  isHead={info?.head?.eq(member.accountId)}
-                  key={member.accountId.toString()}
-                  value={member}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No active members')
+      {info
+        ? filtered.length
+          ? (
+            <Table>
+              <Table.Body>
+                {filtered.map((member): React.ReactNode => (
+                  <Member
+                    isHead={info?.head?.eq(member.accountId)}
+                    key={member.accountId.toString()}
+                    value={member}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('No active members')
+        : <Spinner />
       }
     </div>
   );

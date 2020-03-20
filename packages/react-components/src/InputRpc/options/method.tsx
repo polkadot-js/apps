@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import map from '@polkadot/jsonrpc';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
-  const section = map[sectionName];
+  const section = jsonrpc[sectionName];
 
   if (!section || Object.keys((api.rpc as any)[sectionName]).length === 0) {
     return [];
@@ -18,33 +19,30 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
   return Object
     .keys((api.rpc as any)[sectionName])
     .sort()
-    .filter((value): boolean => {
-      const { isDeprecated, isHidden, isSubscription } = section.methods[value];
-
-      return !isDeprecated && !isHidden && !isSubscription;
-    })
-    .map((value): DropdownOption => {
-      const { description, params } = section.methods[value];
+    .map((methodName) => section[methodName])
+    .filter((ext): ext is DefinitionRpcExt => !!ext)
+    .filter(({ isSubscription }): boolean => !isSubscription)
+    .map(({ description, method, params }): DropdownOption => {
       const inputs = params.map(({ name }): string => name).join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',
-        key: `${sectionName}_${value}`,
+        key: `${sectionName}_${method}`,
         text: [
           <div
             className='ui--DropdownLinked-Item-call'
-            key={`${sectionName}_${value}:call`}
+            key={`${sectionName}_${method}:call`}
           >
-            {value}({inputs})
+            {method}({inputs})
           </div>,
           <div
             className='ui--DropdownLinked-Item-text'
-            key={`${sectionName}_${value}:text`}
+            key={`${sectionName}_${method}:text`}
           >
-            {description || value}
+            {description || method}
           </div>
         ],
-        value
+        value: method
       };
     });
 }

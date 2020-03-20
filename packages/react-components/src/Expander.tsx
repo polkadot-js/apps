@@ -4,22 +4,25 @@
 
 import { BareProps } from './types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 export interface Props extends BareProps {
   children: React.ReactNode;
   summary: React.ReactNode;
 }
 
-export default function Expanded ({ children, className, summary }: Props): React.ReactElement<Props> {
+function Expander ({ children, className, summary }: Props): React.ReactElement<Props> {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const _toggle = (event: React.SyntheticEvent): void => {
-    event.preventDefault();
-    event.stopPropagation();
+  const _toggle = useCallback(
+    (event: React.SyntheticEvent): void => {
+      event.preventDefault();
+      event.stopPropagation();
 
-    setIsExpanded(!isExpanded);
-  };
+      setIsExpanded((isExpanded) => !isExpanded);
+    },
+    []
+  );
 
   return (
     <details
@@ -31,3 +34,5 @@ export default function Expanded ({ children, className, summary }: Props): Reac
     </details>
   );
 }
+
+export default React.memo(Expander);

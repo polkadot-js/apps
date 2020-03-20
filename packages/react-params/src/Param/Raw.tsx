@@ -20,7 +20,7 @@ function onChange ({ onChange }: Props): (_: string) => void {
   };
 }
 
-export default function Raw (props: Props): React.ReactElement<Props> {
+function Raw (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
   const defaultValue = value
     ? (value.toHex ? value.toHex() : value)
@@ -47,3 +47,5 @@ export default function Raw (props: Props): React.ReactElement<Props> {
     </Bare>
   );
 }
+
+export default React.memo(Raw);

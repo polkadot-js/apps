@@ -9,14 +9,17 @@ import React from 'react';
 import Members from './Members';
 import Summary from './Summary';
 
-export default function Overview ({ className, members, proposals }: Props): React.ReactElement<Props> {
+export default function Overview ({ className, members, prime, proposals }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
         members={members}
         proposals={proposals}
       />
-      <Members members={members} />
+      <Members
+        members={members}
+        prime={prime}
+      />
     </div>
   );
 }

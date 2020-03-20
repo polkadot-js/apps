@@ -6,8 +6,10 @@ import Doughnut from './Doughnut';
 import HorizBar from './HorizBar';
 import Line from './Line';
 
-export default {
+const Chart = {
   Doughnut,
   HorizBar,
   Line
 };
+
+export default Chart;

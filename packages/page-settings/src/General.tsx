@@ -4,7 +4,7 @@
 
 import { Option } from '@polkadot/apps-config/settings/types';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { availableLanguages, availableSs58 } from '@polkadot/apps-config/settings';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, ButtonCancel, Dropdown } from '@polkadot/react-components';
@@ -52,14 +52,22 @@ export default function General ({ className, isModalContent, onClose }: Props):
     );
   }, [settings]);
 
-  const _handleChange = (key: keyof SettingsStruct) => <T extends string | number>(value: T): void => {
-    setSettings({ ...settings, [key]: value });
-  };
-  const _saveAndReload = (): void => saveAndReload(settings);
-  const _save = (): void => {
-    save(settings);
-    setChanged(null);
-  };
+  const _handleChange = useCallback(
+    (key: keyof SettingsStruct) => <T extends string | number>(value: T): void =>
+      setSettings((settings) => ({ ...settings, [key]: value })),
+    []
+  );
+  const _saveAndReload = useCallback(
+    (): void => saveAndReload(settings),
+    [settings]
+  );
+  const _save = useCallback(
+    (): void => {
+      save(settings);
+      setChanged(null);
+    },
+    [settings]
+  );
 
   const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
@@ -125,7 +133,7 @@ export default function General ({ className, isModalContent, onClose }: Props):
         )}
         <Button
           isDisabled={changed === null}
-          isPrimary
+          isPrimary={isModalContent}
           onClick={
             changed
               ? _saveAndReload

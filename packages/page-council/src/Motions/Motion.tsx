@@ -2,11 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { AddressMini, LinkExternal } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
+import { AddressMini, LinkExternal } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -17,16 +21,19 @@ interface Props {
   isMember: boolean;
   members: string[];
   motion: DerivedCollectiveProposal;
+  prime: AccountId | null;
 }
 
-export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes } }: Props): React.ReactElement<Props> | null {
+export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
 
   if (!votes) {
     return null;
   }
 
-  const { ayes, index, nays, threshold } = votes;
+  const { ayes, end, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>
@@ -39,6 +46,15 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
       <td className='number top'>
         <label>{t('threshold')}</label>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
+      </td>
+      <td className='number together top'>
+        {end && (
+          <>
+            <label>{t('voting end')}</label>
+            <BlockToTime blocks={end.sub(bestNumber)} />
+            #{formatNumber(end)}
+          </>
+        )}
       </td>
       <td className='top'>
         {ayes.map((address, index): React.ReactNode => (
@@ -66,10 +82,12 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
           idNumber={index}
           isDisabled={!isMember}
           members={members}
+          prime={prime}
           proposal={proposal}
         />
         <LinkExternal
           data={index}
+          hash={hash.toString()}
           type='council'
         />
       </td>

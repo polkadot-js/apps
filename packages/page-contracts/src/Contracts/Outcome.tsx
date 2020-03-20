@@ -6,7 +6,9 @@ import { ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, Button, MessageSignature, Output } from '@polkadot/react-components';
+import { AddressMini, Button, Output } from '@polkadot/react-components';
+
+import MessageSignature from '../MessageSignature';
 
 interface Props {
   className?: string;

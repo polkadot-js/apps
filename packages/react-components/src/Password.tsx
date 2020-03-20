@@ -30,7 +30,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
+function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
   const [isVisible, setIsVisible] = useState(false);
 
   const _toggleVisible = (): void => setIsVisible(!isVisible);
@@ -68,10 +68,11 @@ export default function Password ({ autoFocus, children, className, defaultValue
             ? 'hide'
             : 'unhide'
         }
-        isPrimary
         onClick={_toggleVisible}
       />
       {children}
     </Input>
   );
 }
+
+export default React.memo(Password);

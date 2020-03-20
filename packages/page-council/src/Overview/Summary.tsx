@@ -16,8 +16,14 @@ interface Props extends ComponentProps {
   className?: string;
 }
 
-export default function Summary ({ bestNumber, className, electionsInfo: { members, candidateCount, desiredSeats, runnersUp, termDuration, voteCount } }: Props): React.ReactElement<Props> {
+function Summary ({ bestNumber, className, electionsInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+
+  if (!electionsInfo) {
+    return null;
+  }
+
+  const { members, candidateCount, desiredSeats, runnersUp, termDuration, voteCount } = electionsInfo;
 
   return (
     <SummaryBox className={className}>
@@ -54,3 +60,5 @@ export default function Summary ({ bestNumber, className, electionsInfo: { membe
     </SummaryBox>
   );
 }
+
+export default React.memo(Summary);

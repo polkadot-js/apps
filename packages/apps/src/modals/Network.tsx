@@ -13,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function NetworkModal ({ className, onClose }: Props): React.ReactElement<Props> {
+function NetworkModal ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -30,3 +30,5 @@ export default function NetworkModal ({ className, onClose }: Props): React.Reac
     </Modal>
   );
 }
+
+export default React.memo(NetworkModal);

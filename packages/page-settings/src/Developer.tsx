@@ -146,7 +146,6 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       </div>
       <Button.Group>
         <Button
-          isNegative
           onClick={_clearTypes}
           label={t('Reset')}
           icon='sync'
@@ -154,7 +153,6 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
         <Button.Or />
         <Button
           isDisabled={!isTypesValid || !isJsonValid}
-          isPrimary
           onClick={_saveDeveloper}
           label={t('Save')}
           icon='save'
