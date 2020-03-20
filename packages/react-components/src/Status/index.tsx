@@ -53,7 +53,6 @@ function signerIconName (status: QueueTxStatus): any {
       return 'check';
 
     case 'dropped':
-    case 'retracted':
     case 'invalid':
     case 'usurped':
       return 'arrow down';
@@ -63,6 +62,7 @@ function signerIconName (status: QueueTxStatus): any {
       return 'warning sign';
 
     case 'queued':
+    // case 'retracted':
       return 'random';
 
     default:
@@ -293,7 +293,6 @@ export default React.memo(styled(Status)`
     &.error,
     &.finalitytimeout,
     &.invalid,
-    &.retracted,
     &.usurped {
       & > .wrapper > .container {
         background: red;
