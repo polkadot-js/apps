@@ -11,7 +11,8 @@ import { Button, Table } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import useCouncilMembers from '../useCouncilMembers';
 import Motion from './Motion';
-import Propose from './Propose';
+import ProposeMotion from './ProposeMotion';
+import ProposeExternal from './ProposeExternal';
 import Slashing from './Slashing';
 
 interface Props {
@@ -27,8 +28,13 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
   return (
     <div className={className}>
       <Button.Group>
-        <Propose
+        <ProposeMotion
           filter={members}
+          isMember={isMember}
+          members={members}
+        />
+        <Button.Or />
+        <ProposeExternal
           isMember={isMember}
           members={members}
         />
