@@ -77,7 +77,7 @@ function getDetails (stakingOverview: DerivedStakingOverview, validators: Accoun
     return {
       address,
       points: points
-        ? points[1]
+        ? points[1].toNumber()
         : undefined
     };
   });
@@ -123,13 +123,14 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
         defaultName={defaultName}
         filterName={nameFilter}
         hasQueries={hasQueries}
-        heartbeat={isMain && recentlyOnline && recentlyOnline[address]}
         isAuthor={lastAuthors && lastAuthors.includes(address)}
         isElected={isElected}
         isFavorite={isFavorite}
         isMain={isMain}
         key={address}
         lastBlock={authorsMap[address]}
+        onlineCount={isMain && recentlyOnline?.[address]?.blockCount.toNumber()}
+        onlineMessage={isMain && recentlyOnline?.[address]?.hasMessage}
         points={isMain && addressDetails[address] && addressDetails[address].points}
         setNominators={isIntentions && setNominators}
         toggleFavorite={toggleFavorite}

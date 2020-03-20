@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, RewardPoint } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo, DerivedStakingQuery, DerivedHeartbeatAuthor } from '@polkadot/api-derive/types';
+import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { DeriveAccountInfo, DerivedStakingQuery } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -22,13 +22,14 @@ interface Props {
   defaultName: string;
   filterName: string;
   hasQueries: boolean;
-  heartbeat?: false | DerivedHeartbeatAuthor;
   isAuthor?: boolean;
   isElected: boolean;
   isFavorite: boolean;
   isMain?: boolean;
   lastBlock?: string;
-  points?: false | RewardPoint;
+  onlineCount?: false | number;
+  onlineMessage?: boolean;
+  points?: false | number;
   setNominators?: false | ((nominators: string[]) => void);
   toggleFavorite: (accountId: string) => void;
   withNominations?: boolean;
@@ -97,7 +98,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-function Address ({ address, className, filterName, hasQueries, heartbeat, isAuthor, isElected, isFavorite, isMain, lastBlock, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
@@ -160,12 +161,12 @@ function Address ({ address, className, filterName, hasQueries, heartbeat, isAut
             type='next'
           />
         )}
-        {heartbeat && (heartbeat.blockCount.gtn(0) || heartbeat.hasMessage) && (
+        {(!!onlineCount || onlineMessage) && (
           <Badge
             hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
               replace: {
-                blocks: formatNumber(heartbeat.blockCount),
-                hasMessage: heartbeat.hasMessage ? ' and a' : ', no'
+                blocks: formatNumber(onlineCount || 0),
+                hasMessage: onlineMessage ? ' and a' : ', no'
               }
             })}
             info={<Icon name='check' />}
@@ -219,7 +220,7 @@ function Address ({ address, className, filterName, hasQueries, heartbeat, isAut
             )}
           </td>
           <td className='number'>
-            {points && points.gtn(0) && (
+            {points && (
               <><label>{t('points')}</label>{formatNumber(points)}</>
             )}
           </td>

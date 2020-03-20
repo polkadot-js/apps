@@ -27,6 +27,7 @@ interface Props {
 
 interface AllInfo {
   nominators: string[];
+  sorted?: ValidatorInfo[];
   totalStaked?: BN;
   validators: ValidatorInfo[];
 }
@@ -154,6 +155,18 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   return { nominators, totalStaked, validators };
 }
 
+function sort (sortBy: SortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
+  return validators
+    .sort((a, b): number => sortFromMax
+      ? a[sortBy] - b[sortBy]
+      : b[sortBy] - a[sortBy]
+    )
+    .sort((a, b): number => a.isFavorite === b.isFavorite
+      ? 0
+      : (a.isFavorite ? -1 : 1)
+    );
+}
+
 function Targets ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -170,41 +183,29 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1_000));
   const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [{ nominators, validators, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
-  const [{ sorted, sortBy, sortFromMax }, setSorted] = useState<{ sorted?: ValidatorInfo[]; sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [{ nominators, validators, sorted, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
 
   const _sort = useCallback(
-    (newSortBy: SortBy, unsorted: ValidatorInfo[] = validators, isAdjust = true): void => {
-      const newSortFromMax = isAdjust && newSortBy === sortBy
-        ? !sortFromMax
-        : true;
-
-      setSorted({
+    (newSortBy: SortBy): void =>
+      setSortBy(({ sortBy, sortFromMax }) => ({
         sortBy: newSortBy,
-        sortFromMax: newSortFromMax,
-        sorted: unsorted
-          .sort((a, b): number => newSortFromMax
-            ? a[newSortBy] - b[newSortBy]
-            : b[newSortBy] - a[newSortBy]
-          )
-          .sort((a, b): number => a.isFavorite === b.isFavorite
-            ? 0
-            : (a.isFavorite ? -1 : 1)
-          )
-      });
-    },
-    [sortBy, sortFromMax, validators]
+        sortFromMax: newSortBy === sortBy
+          ? !sortFromMax
+          : true
+      })),
+    [sortBy]
   );
 
   useEffect((): void => {
     if (electedInfo) {
       const { nominators, totalStaked, validators } = extractInfo(allAccounts, amount, electedInfo, favorites, lastReward);
+      const sorted = sort(sortBy, sortFromMax, validators);
 
-      setWorkable({ nominators, totalStaked, validators });
-      _sort('rankOverall', validators, false);
+      setWorkable({ nominators, totalStaked, sorted, validators });
     }
-  }, [allAccounts, amount, electedInfo, favorites, lastReward]);
+  }, [allAccounts, amount, electedInfo, favorites, lastReward, sortBy, sortFromMax]);
 
   if (!sorted) {
     return <Spinner />;
