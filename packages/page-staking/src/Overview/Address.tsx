@@ -161,11 +161,11 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
             type='next'
           />
         )}
-        {onlineCount && ((onlineCount > 0) || onlineMessage) && (
+        {(!!onlineCount || onlineMessage) && (
           <Badge
             hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
               replace: {
-                blocks: formatNumber(onlineCount),
+                blocks: formatNumber(onlineCount || 0),
                 hasMessage: onlineMessage ? ' and a' : ', no'
               }
             })}
