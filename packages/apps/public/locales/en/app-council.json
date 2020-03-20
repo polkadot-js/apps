@@ -68,5 +68,10 @@
   "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.",
   "Prime member": "Prime member",
   "prime voter": "prime voter",
-  "voting end": "voting end"
+  "voting end": "voting end",
+  "Propose external": "Propose external",
+  "Propose external (majority)": "Propose external (majority)",
+  "The preimage hash of the proposal": "The preimage hash of the proposal",
+  "preimage hash": "preimage hash",
+  "Propose": "Propose"
 }
