@@ -8,14 +8,14 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.8.0-beta.6",
-    "@polkadot/api-contract": "^1.8.0-beta.6",
+    "@polkadot/api": "^1.8.0-beta.8",
+    "@polkadot/api-contract": "^1.8.0-beta.8",
     "@polkadot/keyring": "^2.6.2",
-    "@polkadot/types": "^1.8.0-beta.6",
+    "@polkadot/types": "^1.8.0-beta.8",
     "@polkadot/util": "^2.6.2",
     "@polkadot/util-crypto": "^2.6.2",
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
@@ -34,13 +34,13 @@
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/register": "^7.8.6",
-    "@babel/runtime": "^7.8.7",
-    "@polkadot/dev": "^0.51.5",
-    "@polkadot/ts": "^0.3.13",
+    "@babel/core": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "@babel/runtime": "^7.9.0",
+    "@polkadot/dev": "^0.51.7",
+    "@polkadot/ts": "^0.3.14",
     "@types/bn.js": "^4.11.6",
-    "@types/chart.js": "^2.9.15",
+    "@types/chart.js": "^2.9.16",
     "@types/file-saver": "^2.0.1",
     "@types/i18next": "^13.0.0",
     "@types/jest": "^25.1.4",
@@ -54,9 +54,8 @@
     "@types/styled-theming": "^2.2.2",
     "@types/yargs": "^15.0.4",
     "i18next-scanner": "^2.11.0",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "source-map-explorer": "^2.4.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",
     "webpack-plugin-serve": "^0.12.1"
