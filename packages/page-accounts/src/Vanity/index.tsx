@@ -4,19 +4,19 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '../vanitygen/types';
+import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/vanitygen/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Input, TxComponent } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
+import generator from '@polkadot/vanitygen/generator';
+import matchRegex from '@polkadot/vanitygen/regex';
+import generatorSort from '@polkadot/vanitygen/sort';
 
 import CreateModal from '../modals/Create';
 import translate from '../translate';
-import generator from '../vanitygen';
-import matchRegex from '../vanitygen/regex';
-import generatorSort from '../vanitygen/sort';
 import Match from './Match';
 
 interface Props extends ComponentProps, I18nProps {}

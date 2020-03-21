@@ -4,7 +4,7 @@
 
 import { BareProps } from '@polkadot/react-components/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, IdentityIcon } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
@@ -19,8 +19,10 @@ interface Props extends BareProps {
 }
 
 function Match ({ address, className, count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
-  const [hexSeed, setHexSeed] = useState('');
-
+  const hexSeed = useMemo(
+    () => u8aToHex(seed),
+    [seed]
+  );
   const _onCreate = useCallback(
     (): void => onCreateToggle(hexSeed),
     [hexSeed]
@@ -29,10 +31,6 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
     (): void => onRemove(address),
     [address]
   );
-
-  useEffect((): void => {
-    setHexSeed(u8aToHex(seed));
-  }, [seed]);
 
   return (
     <div className={className}>

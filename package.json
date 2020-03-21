@@ -30,7 +30,6 @@
     "lint": "polkadot-dev-run-lint",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "polkadot-dev-run-test packages/page-claims/src",
-    "vanitygen": "node packages/page-accounts/scripts/vanitygen.js",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {
@@ -52,7 +51,6 @@
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.0.1",
     "@types/styled-theming": "^2.2.2",
-    "@types/yargs": "^15.0.4",
     "i18next-scanner": "^2.11.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

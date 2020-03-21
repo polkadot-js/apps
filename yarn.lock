@@ -2886,9 +2886,9 @@ __metadata:
     "@babel/runtime": ^7.9.0
     "@polkadot/react-components": 0.40.0-beta.160
     "@polkadot/react-qr": ^0.52.0-beta.17
+    "@polkadot/vanitygen": ^0.11.0-beta.11
     detect-browser: ^5.0.0
     file-saver: ^2.0.2
-    yargs: ^15.3.1
   languageName: unknown
   linkType: soft
 
@@ -3527,6 +3527,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/vanitygen@npm:^0.11.0-beta.11":
+  version: 0.11.0-beta.11
+  resolution: "@polkadot/vanitygen@npm:0.11.0-beta.11"
+  dependencies:
+    "@babel/core": ^7.9.0
+    "@babel/runtime": ^7.9.0
+    "@polkadot/util": ^2.6.2
+    "@polkadot/util-crypto": ^2.6.2
+    chalk: ^3.0.0
+    yargs: ^15.3.1
+  bin:
+    polkadot-js-vanitygen: index.js
+  checksum: 2/c37a6f919cb31773dcb293af64a71030a0513593d0b137a038b7db52de1af67b9b4eca71762aec234e2e987e01cd6669c39a944e77612e2012c7db86a6b37d7c
+  languageName: node
+  linkType: hard
+
 "@polkadot/wasm-crypto@npm:^1.2.1":
   version: 1.2.1
   resolution: "@polkadot/wasm-crypto@npm:1.2.1"
@@ -3968,7 +3984,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs@npm:^15.0.0, @types/yargs@npm:^15.0.4":
+"@types/yargs@npm:^15.0.0":
   version: 15.0.4
   resolution: "@types/yargs@npm:15.0.4"
   dependencies:
@@ -18248,7 +18264,6 @@ __metadata:
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.0.1
     "@types/styled-theming": ^2.2.2
-    "@types/yargs": ^15.0.4
     i18next-scanner: ^2.11.0
     react: ^16.13.1
     react-dom: ^16.13.1
