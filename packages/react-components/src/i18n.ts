@@ -80,11 +80,12 @@ i18n
     console.log('i18n: failure', error)
   );
 
-uiSettings.on('change', settings => {
-  const lang = settings.i18nLang === LANGUAGE_DEFAULT
-    ? i18n.services.languageDetector.detect()
-    : settings.i18nLang;
-  i18n.changeLanguage(lang);
+uiSettings.on('change', (settings) => {
+  i18n.changeLanguage(
+    settings.i18nLang === LANGUAGE_DEFAULT
+      ? i18n.services.languageDetector.detect()
+      : settings.i18nLang
+  );
 });
 
 export default i18n;
