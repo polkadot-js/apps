@@ -22,7 +22,7 @@ export default {
     leafHash: 'H256',
     sortedHashes: 'H256'
   },
-  // Non-current Substrate types
-  BalanceLock: 'BalanceLockTo212',
-  StakingLedger: 'StakingLedgerTo223'
+  // Overwrites to Substrate types
+  Address: 'AccountId',
+  LookupSource: 'AccountId'
 };
