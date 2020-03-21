@@ -14,6 +14,6 @@
   "dependencies": {
     "@babel/runtime": "^7.9.0",
     "@polkadot/react-components": "0.40.0-beta.158",
-    "secp256k1": "^4.0.0"
+    "secp256k1": "^3.8.0"
   }
 }
