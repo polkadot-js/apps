@@ -10,11 +10,10 @@ import { ComponentProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import { withApi } from '@polkadot/react-api/hoc';
-import { InputAddressMulti, Button } from '@polkadot/react-components';
+import { Button, InputAddressMulti, VoteValue } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
-import VoteValue from './VoteValue';
 
 interface Props extends ApiProps, ComponentProps, TxModalProps {}
 

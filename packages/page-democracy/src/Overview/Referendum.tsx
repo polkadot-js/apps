@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
+import { DerivedReferendum } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Button, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -17,77 +16,25 @@ import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Voting from './Voting';
+import useVotes from './useVotes';
 
 interface Props {
   className?: string;
-  idNumber: BN;
   value: DerivedReferendum;
 }
 
-interface State {
-  voteCount: number;
-  voteCountAye: number;
-  voteCountNay: number;
-  votedAye: BN;
-  votedNay: BN;
-  votedTotal: BN;
-}
-
-function calcState (votesFor: DerivedReferendumVote[]): State {
-  return votesFor.reduce((state, { balance, vote }): State => {
-    const isDefault = vote.conviction.index === 0;
-    const counted = balance
-      .muln(isDefault ? 1 : vote.conviction.index)
-      .divn(isDefault ? 10 : 1);
-
-    if (vote.isAye) {
-      state.voteCountAye++;
-      state.votedAye = state.votedAye.add(counted);
-    } else {
-      state.voteCountNay++;
-      state.votedNay = state.votedNay.add(counted);
-    }
-
-    state.voteCount++;
-    state.votedTotal = state.votedTotal.add(counted);
-
-    return state;
-  }, {
-    voteCount: 0,
-    voteCountAye: 0,
-    voteCountNay: 0,
-    votedAye: new BN(0),
-    votedNay: new BN(0),
-    votedTotal: new BN(0)
-  });
-}
-
-function Referendum ({ className, idNumber, value }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const votesFor = useCall<DerivedReferendumVote[]>(api.derive.democracy.referendumVotesFor as any, [idNumber]);
-  const [{ voteCountAye, voteCountNay, votedAye, votedNay }, setState] = useState<State>({
-    voteCount: 0,
-    voteCountAye: 0,
-    voteCountNay: 0,
-    votedAye: new BN(0),
-    votedNay: new BN(0),
-    votedTotal: new BN(0)
-  });
+  const { voteCountAye, voteCountNay, votedAye, votedNay } = useVotes(value);
 
-  useEffect((): void => {
-    votesFor && setState(
-      calcState(votesFor)
-    );
-  }, [votesFor]);
-
-  if (!bestNumber || value.info.end.sub(bestNumber).lten(0)) {
+  if (!bestNumber || value.status.end.sub(bestNumber).lten(0)) {
     return null;
   }
 
-  const enactBlock = value.info.end.add(value.info.delay);
-  const remainBlock = value.info.end.sub(bestNumber).subn(1);
+  const enactBlock = value.status.end.add(value.status.delay);
+  const remainBlock = value.status.end.sub(bestNumber).subn(1);
 
   return (
     <tr className={className}>
@@ -108,11 +55,11 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
         #{formatNumber(enactBlock)}
       </td>
       <td className='number together top'>
-        <label>{t('Aye ({{count}})', { replace: { count: formatNumber(voteCountAye) } })}</label>
+        <label>{t('Aye {{count}}', { replace: { count: voteCountAye ? `(${formatNumber(voteCountAye)})` : '' } })}</label>
         <FormatBalance value={votedAye} />
       </td>
       <td className='number together top'>
-        <label>{t('Nay ({{count}})', { replace: { count: formatNumber(voteCountNay) } })}</label>
+        <label>{t('Nay {{count}}', { replace: { count: voteCountNay ? `(${formatNumber(voteCountNay)})` : '' } })}</label>
         <FormatBalance value={votedNay} />
       </td>
       <td className='number together top'>
