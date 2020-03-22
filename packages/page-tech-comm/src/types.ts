@@ -8,5 +8,5 @@ export interface ComponentProps {
   className?: string;
   prime?: AccountId | null;
   proposals?: Hash[];
-  members?: AccountId[];
+  members: string[];
 }

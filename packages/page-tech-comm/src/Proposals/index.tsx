@@ -21,7 +21,7 @@ export default function Proposals ({ className, members, prime, proposals }: Pro
     <div className={className}>
       {isProposeOpen && (
         <Propose
-          memberCount={members?.length}
+          memberCount={members.length}
           onClose={togglePropose}
         />
       )}

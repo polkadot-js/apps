@@ -8,7 +8,7 @@ import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
 import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
@@ -22,9 +22,9 @@ interface Props extends AppProps, BareProps {}
 export default function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const members = useCall<AccountId[]>(api.query.technicalCommittee.members);
-  const prime = useCall<AccountId | null>(api.query.council.prime, [], {
-    transform: (result: Option<AccountId>): AccountId | null => result?.unwrapOr(null) || null
+  const { members } = useMembers('technicalCommittee');
+  const prime = useCall<AccountId | null>(api.query.technicalCommittee.prime, [], {
+    transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
   }) || null;
   const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals);
   const items = useMemo(() => [

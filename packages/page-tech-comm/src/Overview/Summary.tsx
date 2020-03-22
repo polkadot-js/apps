@@ -21,7 +21,7 @@ export default function Summary ({ className, members, proposals }: Props): Reac
   return (
     <SummaryBox className={className}>
       <CardSummary label={t('members')}>
-        {formatNumber(members?.length)}
+        {formatNumber(members.length)}
       </CardSummary>
       <section>
         <CardSummary label={t('proposals')}>
