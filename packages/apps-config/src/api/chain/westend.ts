@@ -4,7 +4,9 @@
 
 export default {
   Address: 'GenericAddress',
-  BalanceLock: 'BalanceLockTo212',
   Keys: 'SessionKeys5',
+  // previous substrate versions
+  BalanceLock: 'BalanceLockTo212',
+  ReferendumInfo: 'ReferendumInfoTo239',
   StakingLedger: 'StakingLedgerTo223'
 };
