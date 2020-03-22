@@ -73,21 +73,25 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
               proposal={expanded?.proposal}
             />
             <td className='together number top'>
-              {!expanded?.proposal && (
-                <>
+              <Button.Group>
+                {!expanded?.proposal && (
                   <PreImageButton
                     hash={hash}
                     withoutOr
                   />
-                  <Button.Or />
-                </>
-              )}
-              {hash && threshold && (
-                <Fasttrack
-                  hash={hash}
-                  threshold={threshold}
-                />
-              )}
+                )}
+                {hash && threshold && (
+                  <>
+                    {!expanded?.proposal && (
+                      <Button.Or />
+                    )}
+                    <Fasttrack
+                      hash={hash}
+                      threshold={threshold}
+                    />
+                  </>
+                )}
+              </Button.Group>
             </td>
           </tr>
         </Table.Body>
