@@ -12,7 +12,6 @@ import keyring from '@polkadot/ui-keyring';
 import { useTranslation } from './translate';
 
 interface Props {
-  autoFocus?: boolean;
   className?: string;
   error?: string;
   onChange: (password: string) => void;
@@ -30,7 +29,7 @@ function getPair (address?: string | null): KeyringPair | null {
   }
 }
 
-function Unlock ({ autoFocus, className, error, onChange, onEnter, password, tabIndex, value }: Props): React.ReactElement<Props> | null {
+function Unlock ({ className, error, onChange, onEnter, password, tabIndex, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [pair] = useState<KeyringPair | null>(getPair(value));
 
@@ -41,7 +40,7 @@ function Unlock ({ autoFocus, className, error, onChange, onEnter, password, tab
   return (
     <div className={`ui--signer-Signer-Unlock ${className}`}>
       <Password
-        autoFocus={autoFocus}
+        autoFocus
         isError={!!error}
         label={t('unlock account with password')}
         labelExtra={error && <div className='errorLabel'>{t('wrong password supplied')}</div>}
