@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  members?: AccountId[];
+  members: string[];
   prime?: AccountId | null;
 }
 
@@ -21,7 +21,7 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
 
   return (
     <div className={className}>
-      {members?.length
+      {members.length
         ? (
           <Table>
             <Table.Body>
