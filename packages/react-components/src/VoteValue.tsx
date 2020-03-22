@@ -42,7 +42,6 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
       //   - if < 0, display the 3 decimal formatted value
       const value = allBalances.lockedBalance.gtn(0)
         ? formatted.split('.')[0]
-        // if =
         : allBalances.lockedBalance.eqn(0)
           ? '0'
           : formatted;
