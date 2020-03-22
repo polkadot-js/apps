@@ -957,5 +957,7 @@
   "The voting period to apply in blocks": "",
   "voting period": "",
   "The delay period to apply in blocks": "",
-  "Fast track": ""
+  "Fast track": "",
+  "Aye {{count}}": "",
+  "Nay {{count}}": ""
 }
