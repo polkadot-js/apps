@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,15 +6,16 @@ import { DerivedBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
-import { InputBalance } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
 import { formatBalance, isBn } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import InputBalance from './InputBalance';
+import { useTranslation } from './translate';
 
 interface Props {
   accountId?: string | null;
+  autoFocus?: boolean;
   onChange: (value: BN) => void;
 }
 
@@ -23,7 +24,7 @@ interface ValueState {
   value?: BN | string;
 }
 
-function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [accountId]);
@@ -41,7 +42,6 @@ function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> |
       //   - if < 0, display the 3 decimal formatted value
       const value = allBalances.lockedBalance.gtn(0)
         ? formatted.split('.')[0]
-        // if =
         : allBalances.lockedBalance.eqn(0)
           ? '0'
           : formatted;
@@ -63,7 +63,9 @@ function VoteValue ({ accountId, onChange }: Props): React.ReactElement<Props> |
 
   return (
     <InputBalance
+      autoFocus={autoFocus}
       help={t('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
+      isZeroable
       label={t('vote value')}
       labelExtra={<BalanceVoting label={<label>{t('voting balance')}</label>} params={accountId} />}
       maxValue={allBalances?.votingBalance}

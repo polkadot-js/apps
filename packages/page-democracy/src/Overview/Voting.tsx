@@ -4,8 +4,9 @@
 
 import { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
-import { Button, Dropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
+import { Button, Dropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
@@ -23,9 +24,14 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [balance, setBalance] = useState<BN | undefined>();
   const [conviction, setConviction] = useState(0);
   const [isVotingOpen, toggleVoting] = useToggle();
   const [aye, setVoteValue] = useState(true);
+  const isCurrentVote = useMemo(
+    () => !!api.query.democracy.votingOf,
+    [api]
+  );
   const [enact] = useState(
     (api.consts.democracy.enactmentPeriod.toNumber() * api.consts.timestamp.minimumPeriod.toNumber() / 1000 * 2) / 60 / 60 / 24
   );
@@ -65,6 +71,13 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               proposal={proposal}
             />
             <VoteAccount onChange={setAccountId} />
+            {isCurrentVote && (
+              <VoteValue
+                accountId={accountId}
+                autoFocus
+                onChange={setBalance}
+              />
+            )}
             <VoteToggle
               onChange={_onChangeVote}
               value={aye}
@@ -80,7 +93,11 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
           <VoteActions
             accountId={accountId}
             onClick={toggleVoting}
-            params={[referendumId, { aye, conviction }]}
+            isDisabled={isCurrentVote ? !balance : false}
+            params={
+              isCurrentVote
+                ? [referendumId, { Standard: { balance, vote: { aye, conviction } } }]
+                : [referendumId, { aye, conviction }]}
             tx='democracy.vote'
           />
         </Modal>

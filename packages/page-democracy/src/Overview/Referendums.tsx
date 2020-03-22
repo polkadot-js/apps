@@ -30,7 +30,6 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
               <Table.Body>
                 {referendums.map((referendum): React.ReactNode => (
                   <Referendum
-                    idNumber={referendum.index}
                     key={referendum.index.toString()}
                     value={referendum}
                   />
