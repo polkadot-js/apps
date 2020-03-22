@@ -24,5 +24,7 @@ export default {
   },
   // Overwrites to Substrate types
   Address: 'AccountId',
-  LookupSource: 'AccountId'
+  LookupSource: 'AccountId',
+  // previous substrate versions
+  ReferendumInfo: 'ReferendumInfoTo239'
 };

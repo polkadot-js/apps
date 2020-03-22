@@ -8,5 +8,7 @@ export default {
   ...EdgewareTypes,
   Address: 'GenericAddress',
   Keys: 'SessionKeys4',
+  // previous substrate versions
+  ReferendumInfo: 'ReferendumInfoTo239',
   StakingLedger: 'StakingLedgerTo223'
 };
