@@ -5,17 +5,18 @@
 import { DerivedReferendum } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { AddressMini, Button, Expander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Badge, Button, Expander, Icon, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Voting from './Voting';
+import useIsPassing from './useIsPassing';
 import useVotes from './useVotes';
 
 interface Props {
@@ -27,7 +28,12 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const isPassing = useIsPassing(value);
   const { allAye, allNay, voteCountAye, voteCountNay, votedAye, votedNay } = useVotes(value);
+  const threshold = useMemo(
+    () => value.status.threshold.type.toString().replace('majority', ' majority '),
+    [value]
+  );
 
   if (!bestNumber || value.status.end.sub(bestNumber).lten(0)) {
     return null;
@@ -75,6 +81,17 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
             />
           )}
         </Expander>
+      </td>
+      <td className='padtop top'>
+        {isBoolean(isPassing) && (
+          <Badge
+            hover={isPassing ? t('{{threshold}}, passing', { replace: { threshold } }) : t('{{threshold}}, not passing', { replace: { threshold } })}
+            info={<Icon name={isPassing ? 'check' : 'cancel'} />}
+            isInline
+            isTooltip
+            type={isPassing ? 'green' : 'brown'}
+          />
+        )}
       </td>
       <td className='number together top'>
         <Button.Group>
