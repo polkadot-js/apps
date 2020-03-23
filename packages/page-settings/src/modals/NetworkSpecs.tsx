@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {BareProps} from '@polkadot/react-components/types';
-import {Button, Modal} from '@polkadot/react-components';
+import {Button, Dropdown, Input, Modal} from '@polkadot/react-components';
 import {useTranslation} from '../translate';
 import styled from "styled-components";
 import { useApi } from '@polkadot/react-hooks';
@@ -8,10 +8,20 @@ import ApiPromise from "@polkadot/api/promise";
 import registry from "@polkadot/react-api/typeRegistry";
 import { createType } from '@polkadot/types';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
-import uiSettings from "@polkadot/ui-settings";
 
 interface Props extends BareProps {
   onClose: () => void;
+}
+
+interface NetworkSpecs {
+  color: string;
+  decimals: number;
+  genesisHash: string;
+  // logo: number;
+  pathId: string;
+  prefix: number;
+  title: string;
+  unit: string;
 }
 
 function getRandomColor(): string {
@@ -23,7 +33,7 @@ function getRandomColor(): string {
   return color;
 }
 
-const buildNetworkSpecs = async (api: ApiPromise): Promise<any> => {
+const buildNetworkSpecs = async (api: ApiPromise): Promise<NetworkSpecs> => {
   const [properties, systemChain, systemName, systemVersion, metadata, blockHash] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
@@ -50,17 +60,75 @@ const buildNetworkSpecs = async (api: ApiPromise): Promise<any> => {
   return networkSpecs;
 };
 
-function NetworkSpecs ({ onClose }: Props): React.ReactElement<Props> {
+function NetworkSpecs ({ onClose }: Props): React.ReactNode<Props> {
   const {t} = useTranslation();
+  const [title, setTitle] = useState<string>('');
+  const [pathId, setPathId] = useState<string>('');
+  const [colorCode, setColorCode] = useState<string>('');
   const apiProps = useApi();
   if (!apiProps.isApiReady) return null;
-  const networkSpecs = buildNetworkSpecs(apiProps.api);
+
+  useEffect((): void => {
+    const getNetworkSpec = async (): Promise<void> => {
+      const networkSpecs = await buildNetworkSpecs(apiProps.api);
+      setTitle(networkSpecs.title);
+      setColorCode(networkSpecs.color);
+      setPathId(networkSpecs.pathId);
+    };
+    getNetworkSpec();
+  }, [apiProps]);
+
+  const _onChangeTitle = (v: string): void => setTitle(v);
+  const _onChangePathId = (v: string): void => setPathId(v);
+  const _onChangeColorCode = (v: string): void => setColorCode(v);
+  const _checkPathIdValid = (): boolean => /^[\w-.]+$/.test(pathId);
+  const _checkColorCodeValid = (): boolean => /^#[\da-fA-F]{6}|#[\da-fA-F]{3}$/.test(colorCode);
+  const _onSetRandomColor = (): void => setColorCode(getRandomColor());
+
   return <Modal
     className='settings--networkSpecs-modal'
     header={t('Export Network Specs')}
   >
     <Modal.Content>
-
+      <Input
+        autoFocus
+        className='full'
+        help={t('Name of the network. You can change it, it only for display purpose.')}
+        label={t('name')}
+        onChange={_onChangeTitle}
+        placeholder={t('')}
+        value={title}
+      />
+      <Input
+        autoFocus
+        className='full'
+        help={t('the path id used as the path prefix when deriving new account, all the accounts under this network will have the same prefix')}
+        isError={!_checkPathIdValid()}
+        label={t('pathId')}
+        onChange={_onChangePathId}
+        placeholder={t('')}
+        value={pathId}
+      />
+      <Input
+        autoFocus
+        className='full'
+        help={t('the color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
+        isError={!_checkColorCodeValid()}
+        label={t('color')}
+        onChange={_onChangeColorCode}
+        placeholder={t('#ffffff')}
+        value={colorCode}
+      >
+        <div className='settings--networkSpecs-colorButton'>
+          <Button
+            label={t('Generate Random Color')}
+            icon='add'
+            key='spread'
+            onClick={_onSetRandomColor}
+          />
+          <div className='settings--networkSpecs-colorDisplay' color={colorCode}/>
+        </div>
+      </Input>
     </Modal.Content>
     <Modal.Actions onCancel={onClose}>
       <Button
@@ -72,7 +140,7 @@ function NetworkSpecs ({ onClose }: Props): React.ReactElement<Props> {
   </Modal>;
 }
 
-export default styled(NetworkSpecs)`
+export default React.memo(styled(NetworkSpecs)`
   position: relative;
 
   .settings--networkSpecs-modal {
@@ -80,4 +148,16 @@ export default styled(NetworkSpecs)`
     top: .5rem;
     right: 3.5rem;
   }
-`;
+  
+  .settings--networkSpecs-colorButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    .settings--networkSpecs-colorDisplay {
+      color: palevioletred;
+      flex: 1;
+    }
+  }
+`);
