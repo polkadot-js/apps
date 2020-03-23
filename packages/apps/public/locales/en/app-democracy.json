@@ -90,5 +90,7 @@
   "delay": "delay",
   "Fast track": "Fast track",
   "Aye {{count}}": "Aye {{count}}",
-  "Nay {{count}}": "Nay {{count}}"
+  "Nay {{count}}": "Nay {{count}}",
+  "{{threshold}}, passing": "{{threshold}}, passing",
+  "{{threshold}}, not passing": "{{threshold}}, not passing"
 }

@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-tech-comm",
   "private": true,
-  "version": "0.40.0-beta.174",
+  "version": "0.40.0-beta.175",
   "description": "Council",
   "main": "index.js",
   "scripts": {},
@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "@polkadot/react-components": "0.40.0-beta.174",
-    "@polkadot/react-query": "0.40.0-beta.174"
+    "@polkadot/react-components": "0.40.0-beta.175",
+    "@polkadot/react-query": "0.40.0-beta.175"
   }
 }
