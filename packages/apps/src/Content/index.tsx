@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { Suspense, useContext } from 'react';
+import { Route } from '@polkadot/apps-routing/types';
+
+import React, { Suspense, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import routing from '@polkadot/apps-routing';
-import { ErrorBoundary, StatusContext } from '@polkadot/react-components';
+import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import Status from './Status';
@@ -17,11 +19,15 @@ interface Props {
   className?: string;
 }
 
-const unknown = {
+const NOT_FOUND: Route = {
   Component: NotFound,
   display: {
     needsApi: undefined
   },
+  i18n: {
+    defaultValue: 'Unknown'
+  },
+  icon: 'cancel',
   isIgnored: false,
   name: ''
 };
@@ -31,15 +37,24 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isApiConnected, isApiReady } = useApi();
   const { queueAction, stqueue, txqueue } = useContext(StatusContext);
-  const app = location.pathname.slice(1) || '';
-  const { Component, display: { needsApi }, name } = routing.routes.find((route): boolean =>
-    !!(route && app.startsWith(route.name))
-  ) || unknown;
+  const { Component, display: { needsApi }, name } = useMemo(
+    (): Route => {
+      const app = location.pathname.slice(1) || '';
+      const found = routing.routes.find((route) => !!(route && app.startsWith(route.name)));
+
+      return found || NOT_FOUND;
+    },
+    [location]
+  );
 
   return (
     <div className={className}>
       {needsApi && (!isApiReady || !isApiConnected)
-        ? <div className='connecting'>{t('Waiting for API to be connected and ready.')}</div>
+        ? (
+          <div className='connecting'>
+            <Spinner label={t('Waiting for API to be connected and ready')} />
+          </div>
+        )
         : (
           <>
             <Suspense fallback='...'>
@@ -80,6 +95,6 @@ export default React.memo(styled(Content)`
   }
 
   .connecting {
-    padding: 1rem 0;
+    padding: 3.5rem 0;
   }
 `);

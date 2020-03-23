@@ -2,29 +2,44 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+  label?: React.ReactNode;
   variant?: 'app' | 'push' | 'mini';
 }
 
-function Spinner ({ className, variant = 'app' }: Props): React.ReactElement<Props> | null {
+function Spinner ({ className, label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const strokeWidth = variant === 'app' ? 2 : 4;
+  const strokeWidth = useMemo(
+    () => variant === 'app' ? 2 : 4,
+    [variant]
+  );
 
   return (
     <div className={`${className} ui--Spinner ${variant}`}>
       <div className='loader'>
-        <svg className='circular ui--highlight--stroke' viewBox='25 25 50 50'>
-          <circle className='path' cx='50' cy='50' r='20' fill='none' strokeWidth={strokeWidth} strokeMiterlimit='10' />
+        <svg
+          className='circular ui--highlight--stroke'
+          viewBox='25 25 50 50'
+        >
+          <circle
+            className='path'
+            cx='50'
+            cy='50'
+            r='20'
+            fill='none'
+            strokeWidth={strokeWidth}
+            strokeMiterlimit='10'
+          />
         </svg>
       </div>
       {variant === 'app' && (
-        <div className='text'>{t('Retrieving data')}</div>
+        <div className='text'>{label || t('Retrieving data')}</div>
       )}
     </div>
   );
