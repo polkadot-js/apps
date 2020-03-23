@@ -7,7 +7,7 @@ import { Codec, TypeDef } from '@polkadot/types/types';
 
 import React from 'react';
 import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
-import { Column } from '@polkadot/react-components';
+import { Column, Expander } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 
 import { useTranslation } from '../translate';
@@ -110,10 +110,9 @@ function renderItem (t: (s: string, opt?: any) => string): (item: DigestItem, in
           <div className='header'>
             <h3>{item.type.toString()}</h3>
           </div>
-          <details>
-            <summary>{t('Details')}</summary>
+          <Expander summary={t('Details')}>
             {content}
-          </details>
+          </Expander>
         </article>
       </div>
     );

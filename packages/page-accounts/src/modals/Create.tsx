@@ -11,7 +11,7 @@ import FileSaver from 'file-saver';
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, Dropdown, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -277,11 +277,11 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
             onEnter={_onCommit}
             value={password2}
           />
-          <details
+          <Expander
             className='accounts--Creator-advanced'
-            open
+            isOpen
+            summary={t('Advanced creation options')}
           >
-            <summary>{t('Advanced creation options')}</summary>
             <Dropdown
               defaultValue={pairType}
               help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
@@ -302,7 +302,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
             {deriveError && (
               <article className='error'>{deriveError}</article>
             )}
-          </details>
+          </Expander>
         </AddressRow>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

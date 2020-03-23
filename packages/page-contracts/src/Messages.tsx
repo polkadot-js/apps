@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
 import { classes } from '@polkadot/react-components/util';
-import { Button, IconLink } from '@polkadot/react-components';
+import { Button, Expander, IconLink } from '@polkadot/react-components';
 
 import MessageSignature from './MessageSignature';
 import { useTranslation } from './translate';
@@ -66,24 +66,23 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
           message={message}
           withTooltip
         />
-        <details className='docs'>
-          <summary>
-            {
-              docs && docs.length > 0
-                ? docs
-                  .filter((line) => line !== '')
-                  .map((line, index) => ((
-                    <React.Fragment key={`${name}-docs-${index}`}>
-                      <span>{line}</span>
-                      <br />
-                    </React.Fragment>
-                  )))
-                : (
-                  <i>{t('No documentation provided')}</i>
-                )
-            }
-          </summary>
-        </details>
+        <Expander
+          className='docs'
+          summary={
+            docs && docs.length > 0
+              ? docs
+                .filter((line) => line !== '')
+                .map((line, index) => ((
+                  <React.Fragment key={`${name}-docs-${index}`}>
+                    <span>{line}</span>
+                    <br />
+                  </React.Fragment>
+                )))
+              : (
+                <i>{t('No documentation provided')}</i>
+              )
+          }
+        />
       </div>
       {!asConstructor && props.onSelect && (
         <div className='accessory'>

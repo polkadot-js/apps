@@ -10,7 +10,7 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { AddressRow, Button, Card, Forget } from '@polkadot/react-components';
+import { AddressRow, Button, Card, Expander, Forget } from '@polkadot/react-components';
 
 import Messages from '../Messages';
 import { useTranslation } from '../translate';
@@ -99,15 +99,14 @@ function Contract (props: Props): React.ReactElement<Props> | null {
         withNonce={false}
         withTags
       >
-        <details>
-          <summary>{t('Messages')}</summary>
+        <Expander summary={t('Messages')}>
           <Messages
             address={address.toString()}
             contractAbi={abi}
             isRemovable={false}
             onSelect={onCall}
           />
-        </details>
+        </Expander>
       </AddressRow>
     </ContractCard>
   );

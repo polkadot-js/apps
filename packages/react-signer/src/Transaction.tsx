@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { Call, InputAddress, Modal } from '@polkadot/react-components';
+import { Call, InputAddress, Expander, Modal } from '@polkadot/react-components';
 
 import Checks from './Checks';
 import { useTranslation } from './translate';
@@ -66,19 +66,23 @@ function Transaction ({ children, className, hideDetails, isSendable, onError, v
               withLabel
             />
           )}
-          <details className='tx-details'>
-            <summary>
-              {t('Sending transaction')} <span className='highlight'>{section}.{method}({
-                meta?.args.map(({ name }) => name).join(', ') || ''
-              })</span>
-            </summary>
+          <Expander
+            className='tx-details'
+            summary={
+              <>
+                {t('Sending transaction')} <span className='highlight'>{section}.{method}({
+                  meta?.args.map(({ name }) => name).join(', ') || ''
+                })</span>
+              </>
+            }
+          >
             {formatMeta(meta)}
             <Call
               onError={onError}
               value={extrinsic}
               withBorder={false}
             />
-          </details>
+          </Expander>
         </>
       )}
       {!hideDetails && !isUnsigned && (
@@ -99,7 +103,7 @@ export default React.memo(styled(Transaction)`
   .tx-details {
     margin-left: 2rem;
 
-    summary {
+    .ui--Expander-summary {
       font-size: 1.1rem;
       margin: 0.5rem 0;
     }

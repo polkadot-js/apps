@@ -14,10 +14,11 @@ export interface Props extends BareProps {
   children?: React.ReactNode;
   isOpen?: boolean;
   summary: React.ReactNode;
+  withDot?: boolean;
   withHidden?: boolean;
 }
 
-function Expander ({ children, className, isOpen, summary, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className, isOpen, summary, withDot, withHidden }: Props): React.ReactElement<Props> {
   const [isExpanded, toggleExpanded] = useToggle(isOpen);
   const hasContent = useMemo(
     (): boolean => !!children && (!Array.isArray(children) || children.length !== 0),
@@ -26,13 +27,16 @@ function Expander ({ children, className, isOpen, summary, withHidden }: Props):
 
   return (
     <div
-      className={`ui--Expander ${isExpanded && 'isExpanded'} ${className}`}
+      className={`ui--Expander ${isExpanded && 'isExpanded'} ${hasContent && 'hasContent'} ${className}`}
       onClick={toggleExpanded}
     >
       <div className='ui--Expander-summary'>
-        {hasContent && (
-          <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
-        )}{summary}
+        {hasContent
+          ? <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
+          : withDot
+            ? <Icon name='circle outline' />
+            : undefined
+        }{summary}
       </div>
       {hasContent && (isExpanded || withHidden) && (
         <div className='ui--Expander-contents'>{children}</div>
@@ -46,9 +50,15 @@ export default React.memo(styled(Expander)`
     display: none;
   }
 
-  .ui--Expander-summary {
+  &.hasContent .ui--Expander-summary {
     cursor: pointer;
+  }
+
+  .ui--Expander-summary {
     display: block;
+    margin: 0 0 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 
     i.icon {

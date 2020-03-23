@@ -6,7 +6,7 @@ import { FunctionMetadataLatest, Hash, Proposal } from '@polkadot/types/interfac
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
-import { Call } from '@polkadot/react-components';
+import { Call, Expander } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -48,14 +48,13 @@ function ProposalCell ({ className, proposal, proposalHash }: Props): React.Reac
   return (
     <td className={`${className} all top`}>
       <div>{section}.{method}</div>
-      <details>
-        <summary>{formatDocs(meta) || t('Details')}</summary>
+      <Expander summary={formatDocs(meta) || t('Details')}>
         <Call
           labelHash={t('proposal hash')}
           value={proposal}
           withHash
         />
-      </details>
+      </Expander>
     </td>
   );
 }
