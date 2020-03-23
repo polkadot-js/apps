@@ -11,10 +11,11 @@ function WarmUp (): React.ReactElement {
   const indexes = useCall<unknown>(isApiReady && api.derive.accounts?.indexes, []);
   const registrars = useCall<unknown>(isApiReady && api.query.identity?.registrars, []);
   const staking = null; // useCall<unknown>(isApiReady && api.derive.staking?.overview, []);
+  const issuance = useCall<unknown>(isApiReady && api.query.balances?.totalIssuance, []);
   const [hasValues, setHasValues] = useState(false);
 
   useEffect((): void => {
-    setHasValues(!!fees || !!indexes || !!registrars || !!staking);
+    setHasValues(!!fees || !!indexes || !!issuance || !!registrars || !!staking);
   }, []);
 
   return (
