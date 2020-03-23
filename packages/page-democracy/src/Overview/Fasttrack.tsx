@@ -21,7 +21,7 @@ const ONE_MIN = (1 * 60) / 6;
 const DEF_DELAY = new BN(ONE_MIN);
 const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
 
-function Fasttrack ({ hash }: Props): React.ReactElement<Props> | null {
+function Fasttrack ({ hash, threshold }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers('technicalCommittee');
@@ -37,8 +37,8 @@ function Fasttrack ({ hash }: Props): React.ReactElement<Props> | null {
   );
 
   useEffect((): void => {
-    setAllowFast(isMember); // && threshold.isSimplemajority);
-  }, [isMember]);
+    setAllowFast(isMember && threshold.isSimplemajority);
+  }, [isMember, threshold]);
 
   useEffect((): void => {
     setProposal(

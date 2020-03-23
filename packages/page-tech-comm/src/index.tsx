@@ -19,10 +19,10 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps {}
 
-export default function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { members } = useMembers('technicalCommittee');
+  const { isMember, members } = useMembers('technicalCommittee');
   const prime = useCall<AccountId | null>(api.query.technicalCommittee.prime, [], {
     transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
   }) || null;
@@ -50,6 +50,7 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
       <Switch>
         <Route path={`${basePath}/proposals`}>
           <Proposals
+            isMember={isMember}
             members={members}
             prime={prime}
             proposals={proposals}
@@ -57,6 +58,7 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
         </Route>
         <Route path={basePath}>
           <Overview
+            isMember={isMember}
             members={members}
             prime={prime}
             proposals={proposals}
@@ -66,3 +68,5 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
     </main>
   );
 }
+
+export default React.memo(TechCommApp);
