@@ -8,13 +8,16 @@ import { DeriveAccountInfo, DerivedStakingQuery } from '@polkadot/api-derive/typ
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import { AddressMini, AddressSmall, Badge, Expander, Icon } from '@polkadot/react-components';
+import { AddressSmall, Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
+import Favorite from './Favorite';
+import Status from './Status';
+import StakeOther from './StakeOther';
 
 interface Props {
   address: string;
@@ -121,10 +124,6 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
     );
   }, [address, filterName, info]);
 
-  const _onFavorite = useCallback(
-    (): void => toggleFavorite(address),
-    [address]
-  );
   const _onQueryStats = useCallback(
     (): void => {
       window.location.hash = `/staking/query/${address}`;
@@ -134,38 +133,16 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
 
   return (
     <tr className={`${className} ${isAuthor && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>
-      <td className='favorite'>
-        <Icon
-          className={`${isFavorite && 'isSelected isColorHighlight'}`}
-          name={isFavorite ? 'star' : 'star outline'}
-          onClick={_onFavorite}
-        />
-      </td>
-      <td className='together'>
-        {isElected && (
-          <Badge
-            hover={t('Selected for the next session')}
-            info={<Icon name='chevron right' />}
-            isInline
-            isTooltip
-            type='next'
-          />
-        )}
-        {(!!onlineCount || onlineMessage) && (
-          <Badge
-            hover={t('Active with {{blocks}} blocks authored{{hasMessage}} heartbeat message', {
-              replace: {
-                blocks: formatNumber(onlineCount || 0),
-                hasMessage: onlineMessage ? ' and a' : ', no'
-              }
-            })}
-            info={<Icon name='check' />}
-            isInline
-            isTooltip
-            type='online'
-          />
-        )}
-      </td>
+      <Favorite
+        address={address}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
+      />
+      <Status
+        isElected={isElected}
+        onlineCount={onlineCount}
+        onlineMessage={onlineMessage}
+      />
       <td>
         <AddressSmall value={address} />
       </td>
@@ -177,27 +154,10 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
           />
         )}
       </td>
-      <td className='top'>
-        {stakeOther?.gtn(0) && (
-          <>
-            <label>{t('other stake')}</label>
-            <Expander summary={
-              <FormatBalance value={stakeOther}>
-                &nbsp;({formatNumber(nominators.length)})
-              </FormatBalance>
-            }>
-              {nominators.map(([who, bonded]): React.ReactNode =>
-                <AddressMini
-                  bonded={bonded}
-                  key={who.toString()}
-                  value={who}
-                  withBonded
-                />
-              )}
-            </Expander>
-          </>
-        )}
-      </td>
+      <StakeOther
+        nominators={nominators}
+        stakeOther={stakeOther}
+      />
       <td className='number top'>
         {commission && (
           <><label>{t('commission')}</label>{commission}</>
@@ -214,7 +174,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         )}
       </td>
       <td>
-        {hasQueries && api.query.imOnline?.authoredBlocks && (
+        {hasQueries && (
           <Icon
             name='line graph'
             onClick={_onQueryStats}
