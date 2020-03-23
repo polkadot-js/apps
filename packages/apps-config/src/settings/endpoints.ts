@@ -12,6 +12,16 @@ const DEV: Option[] = [
   }
 ];
 
+const ENV: Option[] = [];
+
+if (process.env.WS_URL) {
+  ENV.push({
+    info: 'WS_URL',
+    text: 'WS_URL: ' + process.env.WS_URL,
+    value: process.env.WS_URL
+  });
+}
+
 const LIVE: Option[] = [
   {
     info: 'kusama',
@@ -53,12 +63,7 @@ const TEST: Option[] = [
   }
 ];
 
-// The available endpoints that will show in the dropdown. For the most part (with the exception of
-// Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
-//   info: The chain logo name as defined in ../logos, specifically in namedLogos
-//   text: The text to display on teh dropdown
-//   value: The actual hosted secure websocket endpoint
-export default [
+let endpoints = [
   {
     isHeader: true,
     text: 'Live networks',
@@ -77,4 +82,22 @@ export default [
     value: ''
   },
   ...DEV
-].map((option): Option => ({ ...option, withI18n: true }));
+];
+
+if (ENV.length > 0) {
+  endpoints = [
+    {
+      isHeader: true,
+      text: 'Custom ENV',
+      value: ''
+    },
+    ...ENV
+  ].concat(endpoints);
+}
+
+// The available endpoints that will show in the dropdown. For the most part (with the exception of
+// Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
+//   info: The chain logo name as defined in ../logos, specifically in namedLogos
+//   text: The text to display on teh dropdown
+//   value: The actual hosted secure websocket endpoint
+export default endpoints.map((option): Option => ({ ...option, withI18n: true }));
