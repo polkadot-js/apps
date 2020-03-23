@@ -10,6 +10,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Favorite from '../Overview/Address/Favorite';
 
 interface Props {
   info: ValidatorInfo;
@@ -19,10 +20,6 @@ interface Props {
 function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const _onFavorite = useCallback(
-    (): void => toggleFavorite(key),
-    [key]
-  );
   const _onQueryStats = useCallback(
     (): void => {
       window.location.hash = `/staking/query/${key}`;
@@ -32,13 +29,11 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
 
   return (
     <tr className={`${isNominating && 'isHighlight'}`}>
-      <td className='favorite'>
-        <Icon
-          className={`${isFavorite && 'isSelected isColorHighlight'}`}
-          name={isFavorite ? 'star' : 'star outline'}
-          onClick={_onFavorite}
-        />
-      </td>
+      <Favorite
+        address={key}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
+      />
       <td className='number'>{formatNumber(rankOverall)}</td>
       <td className='address'>
         <AddressSmall value={accountId} />
