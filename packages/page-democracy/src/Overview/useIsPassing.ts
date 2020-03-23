@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DerivedReferendum } from '@polkadot/api-derive/types';
-import { ReferendumStatus } from '@polkadot/types/interfaces';
+import { Balance, ReferendumStatus } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useState, useEffect } from 'react';
@@ -36,9 +36,32 @@ function compareRationals (n1: BN, d1: BN, n2: BN, d2: BN): boolean {
   }
 }
 
+function newtonIteration (n: BN, x0: BN): BN {
+  const x1 = n.div(x0).add(x0).shrn(1);
+
+  if (x0.eq(x1) || x0.eq(x1.subn(1))) {
+    return x0;
+  }
+
+  return newtonIteration(n, x1);
+}
+
+// https://golb.hplar.ch/2018/09/javascript-bigint.html
+function sqrt (value: BN): BN {
+  if (value.ltn(0)) {
+    throw new Error('square root of negative numbers is not supported');
+  }
+
+  if (value.ltn(2)) {
+    return value;
+  }
+
+  return newtonIteration(value, new BN(1));
+}
+
 export default function useIsPassing (referendum: DerivedReferendum): boolean | undefined {
   const { api } = useApi();
-  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance, []);
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
   const [isPassing, setIsPassing] = useState<boolean | undefined>(undefined);
 
   useEffect((): void => {
@@ -46,9 +69,9 @@ export default function useIsPassing (referendum: DerivedReferendum): boolean | 
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const { tally, threshold } = (referendum.status as ReferendumStatus);
 
-      if (totalIssuance?.gtn(0) && tally?.turnout.gtn(0)) {
-        const sqrtVoters = tally.turnout.toRed(BN.red('k256')).redSqrt().fromRed();
-        const sqrtElectorate = totalIssuance.toRed(BN.red('k256')).redSqrt().fromRed();
+      if (totalIssuance && tally) {
+        const sqrtVoters = sqrt(tally.turnout);
+        const sqrtElectorate = sqrt(totalIssuance);
 
         setIsPassing(
           sqrtVoters.isZero()
