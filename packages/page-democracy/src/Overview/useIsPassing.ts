@@ -42,22 +42,26 @@ export default function useIsPassing (referendum: DerivedReferendum): boolean | 
   const [isPassing, setIsPassing] = useState<boolean | undefined>(undefined);
 
   useEffect((): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const { tally, threshold } = (referendum.status as ReferendumStatus);
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      const { tally, threshold } = (referendum.status as ReferendumStatus);
 
-    if (totalIssuance && tally) {
-      const sqrtVoters = tally.turnout.toRed(BN.red('k256')).redSqrt().fromRed();
-      const sqrtElectorate = totalIssuance.toRed(BN.red('k256')).redSqrt().fromRed();
+      if (totalIssuance?.gtn(0) && tally?.turnout.gtn(0)) {
+        const sqrtVoters = tally.turnout.toRed(BN.red('k256')).redSqrt().fromRed();
+        const sqrtElectorate = totalIssuance.toRed(BN.red('k256')).redSqrt().fromRed();
 
-      setIsPassing(
-        sqrtVoters.isZero()
-          ? false
-          : threshold.isSimplemajority
-            ? tally.ayes.gt(tally.nays)
-            : threshold.isSupermajorityapproval
-              ? compareRationals(tally.nays, sqrtVoters, tally.ayes, sqrtElectorate)
-              : compareRationals(tally.nays, sqrtElectorate, tally.ayes, sqrtVoters)
-      );
+        setIsPassing(
+          sqrtVoters.isZero()
+            ? false
+            : threshold.isSimplemajority
+              ? tally.ayes.gt(tally.nays)
+              : threshold.isSupermajorityapproval
+                ? compareRationals(tally.nays, sqrtVoters, tally.ayes, sqrtElectorate)
+                : compareRationals(tally.nays, sqrtElectorate, tally.ayes, sqrtVoters)
+        );
+      }
+    } catch (error) {
+      console.error(error);
     }
   }, [referendum, totalIssuance]);
 
