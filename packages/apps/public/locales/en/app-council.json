@@ -73,5 +73,7 @@
   "Propose external (majority)": "Propose external (majority)",
   "The preimage hash of the proposal": "The preimage hash of the proposal",
   "preimage hash": "preimage hash",
-  "Propose": "Propose"
+  "Propose": "Propose",
+  "Select the account you wish to submit for candidacy.": "Select the account you wish to submit for candidacy.",
+  "candidate account": "candidate account"
 }

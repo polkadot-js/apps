@@ -960,5 +960,8 @@
   "Fast track": "",
   "Aye {{count}}": "",
   "Nay {{count}}": "",
-  "Waiting for API to be connected and ready": ""
+  "Waiting for API to be connected and ready": "",
+  "Select the account you wish to submit for candidacy.": "",
+  "candidate account": "",
+  "Positive number between 1 and {{count}}": ""
 }

@@ -17,5 +17,8 @@
   "Vote on proposal": "Vote on proposal",
   "Vote": "Vote",
   "prime voter": "prime voter",
-  "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions."
+  "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.",
+  "Select the account you wish to make the proposal with.": "Select the account you wish to make the proposal with.",
+  "propose from account": "propose from account",
+  "Positive number between 1 and {{count}}": "Positive number between 1 and {{count}}"
 }
