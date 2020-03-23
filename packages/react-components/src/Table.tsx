@@ -145,6 +145,11 @@ const Memo = React.memo(styled(Table)`
           white-space: nowrap;
         }
 
+        details > summary,
+        details[open] > summary {
+          white-space: nowrap;
+        }
+
         i.icon {
           cursor: pointer;
         }
