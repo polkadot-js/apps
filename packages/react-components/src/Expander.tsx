@@ -4,35 +4,55 @@
 
 import { BareProps } from './types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
+
+import Icon from './Icon';
 
 export interface Props extends BareProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  isOpen?: boolean;
   summary: React.ReactNode;
+  withHidden?: boolean;
 }
 
-function Expander ({ children, className, summary }: Props): React.ReactElement<Props> {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const _toggle = useCallback(
-    (event: React.SyntheticEvent): void => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      setIsExpanded((isExpanded) => !isExpanded);
-    },
-    []
+function Expander ({ children, className, isOpen, summary, withHidden }: Props): React.ReactElement<Props> {
+  const [isExpanded, toggleExpanded] = useToggle(isOpen);
+  const hasContent = useMemo(
+    (): boolean => !!children && (!Array.isArray(children) || children.length !== 0),
+    [children]
   );
 
   return (
-    <details
-      className={`ui--Expander ${className}`}
-      open={isExpanded}
+    <div
+      className={`ui--Expander ${isExpanded && 'isExpanded'} ${className}`}
+      onClick={toggleExpanded}
     >
-      <summary onClick={_toggle}>{summary}</summary>
-      {isExpanded && children}
-    </details>
+      <div className='ui--Expander-summary'>
+        {hasContent && (
+          <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
+        )}{summary}
+      </div>
+      {hasContent && (isExpanded || withHidden) && (
+        <div className='ui--Expander-contents'>{children}</div>
+      )}
+    </div>
   );
 }
 
-export default React.memo(Expander);
+export default React.memo(styled(Expander)`
+  &:not(.isExpanded) .ui--Expander-contents {
+    display: none;
+  }
+
+  .ui--Expander-summary {
+    cursor: pointer;
+    display: block;
+    white-space: nowrap;
+
+    i.icon {
+      margin-right: 0.5rem;
+    }
+  }
+`);

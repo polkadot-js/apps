@@ -12,7 +12,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, Spinner, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Expander, Menu, Popup, Spinner, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
@@ -292,8 +292,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
             {isStashNominating && (
               <>
                 {activeNoms.length !== 0 && (
-                  <details>
-                    <summary>{t('Active nominations ({{count}})', { replace: { count: activeNoms.length } })}</summary>
+                  <Expander summary={t('Active nominations ({{count}})', { replace: { count: activeNoms.length } })}>
                     {activeNoms.map((nomineeId, index): React.ReactNode => (
                       <AddressMini
                         key={index}
@@ -302,11 +301,10 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                         withBonded
                       />
                     ))}
-                  </details>
+                  </Expander>
                 )}
                 {inactiveNoms.length !== 0 && (
-                  <details>
-                    <summary>{t('Inactive nominations ({{count}})', { replace: { count: inactiveNoms.length } })}</summary>
+                  <Expander summary={t('Inactive nominations ({{count}})', { replace: { count: inactiveNoms.length } })}>
                     {inactiveNoms.map((nomineeId, index): React.ReactNode => (
                       <AddressMini
                         key={index}
@@ -315,7 +313,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                         withBonded
                       />
                     ))}
-                  </details>
+                  </Expander>
                 )}
               </>
             )}

@@ -7,7 +7,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, Button, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Expander, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -54,35 +54,27 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
       </td>
-      <td className='number top'>
+      <td className='top'>
         <label>{t('Aye {{count}}', { replace: { count: voteCountAye ? `(${formatNumber(voteCountAye)})` : '' } })}</label>
-        <details>
-          <summary><FormatBalance value={votedAye} /></summary>
-          {allAye.length
-            ? allAye.map(({ accountId }) =>
-              <AddressMini
-                key={accountId.toString()}
-                value={accountId}
-              />
-            )
-            : t('No details available')
-          }
-        </details>
+        <Expander summary={<FormatBalance value={votedAye} />}>
+          {allAye.map(({ accountId }) =>
+            <AddressMini
+              key={accountId.toString()}
+              value={accountId}
+            />
+          )}
+        </Expander>
       </td>
-      <td className='number top'>
+      <td className='top'>
         <label>{t('Nay {{count}}', { replace: { count: voteCountNay ? `(${formatNumber(voteCountNay)})` : '' } })}</label>
-        <details>
-          <summary><FormatBalance value={votedNay} /></summary>
-          {allNay.length
-            ? allNay.map(({ accountId }) =>
-              <AddressMini
-                key={accountId.toString()}
-                value={accountId}
-              />
-            )
-            : t('No details available')
-          }
-        </details>
+        <Expander summary={<FormatBalance value={votedNay} />}>
+          {allNay.map(({ accountId }) =>
+            <AddressMini
+              key={accountId.toString()}
+              value={accountId}
+            />
+          )}
+        </Expander>
       </td>
       <td className='number together top'>
         <Button.Group>
