@@ -15,7 +15,7 @@ interface Props {
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
-  toggle?: any;
+  toggle?: boolean;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 

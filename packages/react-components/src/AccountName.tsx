@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import { BareProps } from '@polkadot/react-api/types';
-import { AccountId, AccountIndex, Address, RegistrarInfo } from '@polkadot/types/interfaces';
+import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
-import { useCall, useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
+import { useCall, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -26,7 +25,8 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onClick?: () => void;
   override?: React.ReactNode;
-  toggle?: any;
+  // this is used by app-account/addresses to toggle editing
+  toggle?: boolean;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
 }
 
@@ -68,7 +68,7 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   return [[extracted, null], !isAddressExtracted, isAddressExtracted, false];
 }
 
-function extractName (address: AccountId | string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
+function extractName (address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
   const [[displayFirst, displaySecond], isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
@@ -90,132 +90,123 @@ function extractName (address: AccountId | string, accountIndex?: AccountIndex, 
   );
 }
 
+function extractIdentity (address: string, identity: DeriveAccountRegistration, onJudge: undefined | (() => void), t: (key: string, opts?: object) => string): React.ReactNode {
+  const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
+  const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
+  const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
+  const waitCount = identity.judgements.length - judgements.length;
+  const hover = (
+    <div>
+      <div>
+        {
+          judgements.length
+            ? (judgements.length === 1
+              ? t('1 judgement')
+              : t('{{count}} judgements', { replace: { count: judgements.length } })
+            )
+            : t('no judgements')
+        }{judgements.length ? ': ' : ''}{judgements.map(([, judgement]): string => judgement.toString()).join(', ')}{
+          waitCount
+            ? t(' ({{count}} waiting)', { replace: { count: waitCount } })
+            : ''
+        }
+      </div>
+      <table>
+        <tbody>
+          {identity.parent && (
+            <tr>
+              <td>{t('parent')}</td>
+              <td><AddressMini value={identity.parent} /></td>
+            </tr>
+          )}
+          {DISPLAY_KEYS
+            .filter((key): boolean => !!identity[key as 'web'])
+            .map((key): React.ReactNode => (
+              <tr key={key}>
+                <td>{t(key)}</td>
+                <td>{identity[key as 'web']}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  );
+
+  const displayName = isGood
+    ? identity.display
+    : (identity.display || '').replace(/[^\x20-\x7E]/g, '');
+  const displayParent = identity.displayParent
+    ? (
+      isGood
+        ? identity.displayParent
+        : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
+    )
+    : undefined;
+
+  nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
+
+  return (
+    <div className='via-identity'>
+      <Badge
+        hover={hover}
+        info={<Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />}
+        isInline
+        isSmall
+        isTooltip
+        onClick={onJudge}
+        type={
+          isGood
+            ? 'green'
+            : isBad
+              ? 'brown'
+              : 'gray'
+        }
+      />
+      {
+        displayParent
+          ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
+          : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
+      }
+    </div>
+  );
+}
+
 function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
+  const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleJudgement] = useToggle();
-  const registrars = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const [isRegistrar, setIsRegistrar] = useState(false);
   const address = useMemo((): string => (value || '').toString(), [value]);
   const [name, setName] = useState<React.ReactNode>((): React.ReactNode => extractName((value || '').toString(), undefined, defaultName));
-
-  // determine if we have a registrar or not - registrars are allowed to approve
-  useEffect((): void => {
-    allAccounts && registrars && setIsRegistrar(
-      registrars
-        .map((registrar): string| null =>
-          registrar.isSome
-            ? registrar.unwrap().account.toString()
-            : null
-        )
-        .some((regId): boolean => !!regId && allAccounts.includes(regId))
-    );
-  }, [allAccounts, registrars]);
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
+    const cacheAddr = (accountId || address).toString();
 
     if (api.query.identity?.identityOf) {
-      if (identity?.display) {
-        const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
-        const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
-        const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
-        const waitCount = identity.judgements.length - judgements.length;
-        const hover = (
-          <div>
-            <div>
-              {
-                judgements.length
-                  ? (judgements.length === 1
-                    ? t('1 judgement')
-                    : t('{{count}} judgements', { replace: { count: judgements.length } })
-                  )
-                  : t('no judgements')
-              }{judgements.length ? ': ' : ''}{judgements.map(([, judgement]): string => judgement.toString()).join(', ')}{
-                waitCount
-                  ? t(' ({{count}} waiting)', { replace: { count: waitCount } })
-                  : ''
-              }
-            </div>
-            <table>
-              <tbody>
-                {identity.parent && (
-                  <tr>
-                    <td>{t('parent')}</td>
-                    <td><AddressMini value={identity.parent} /></td>
-                  </tr>
-                )}
-                {DISPLAY_KEYS
-                  .filter((key): boolean => !!identity[key as 'web'])
-                  .map((key): React.ReactNode => (
-                    <tr key={key}>
-                      <td>{t(key)}</td>
-                      <td>{identity[key as 'web']}</td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-          </div>
-        );
-
-        const displayName = isGood
-          ? identity.display
-          : identity.display.replace(/[^\x20-\x7E]/g, '');
-        const displayParent = identity.displayParent
-          ? (
-            isGood
-              ? identity.displayParent
-              : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
-          )
-          : undefined;
-
-        const name = (
-          <div className='via-identity'>
-            <Badge
-              hover={hover}
-              info={<Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />}
-              isInline
-              isSmall
-              isTooltip
-              onClick={isRegistrar ? toggleJudgement : undefined}
-              type={
-                isGood
-                  ? 'green'
-                  : isBad
-                    ? 'brown'
-                    : 'gray'
-              }
-            />
-            {
-              displayParent
-                ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
-                : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
-            }
-          </div>
-        );
-
-        nameCache.set((accountId || address).toString(), [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
-        setName((): React.ReactNode => name);
-      } else {
-        setName((): React.ReactNode => extractName(accountId || address, accountIndex));
-      }
+      setName((): React.ReactNode =>
+        identity?.display
+          ? extractIdentity(cacheAddr, identity, isRegistrar ? toggleJudgement : undefined, t)
+          : extractName(cacheAddr, accountIndex)
+      );
     } else if (nickname) {
-      nameCache.set((accountId || address).toString(), [false, [nickname, null]]);
+      nameCache.set(cacheAddr, [false, [nickname, null]]);
+
       setName(nickname);
     } else {
-      setName(defaultOrAddr(defaultName, accountId || address, accountIndex));
+      setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
     }
-  }, [address, info, toggle]);
+  }, [address, info, isRegistrar, toggle]);
 
   return (
     <>
       {isJudgementOpen && (
         <AccountNameJudgement
           address={address}
+          registrars={registrars}
           toggleJudgement={toggleJudgement}
         />
       )}
