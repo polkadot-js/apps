@@ -7,7 +7,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Expander, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -27,7 +27,7 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const { voteCountAye, voteCountNay, votedAye, votedNay } = useVotes(value);
+  const { allAye, allNay, voteCountAye, voteCountNay, votedAye, votedNay } = useVotes(value);
 
   if (!bestNumber || value.status.end.sub(bestNumber).lten(0)) {
     return null;
@@ -54,13 +54,27 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
       </td>
-      <td className='number together top'>
+      <td className='top'>
         <label>{t('Aye {{count}}', { replace: { count: voteCountAye ? `(${formatNumber(voteCountAye)})` : '' } })}</label>
-        <FormatBalance value={votedAye} />
+        <Expander summary={<FormatBalance value={votedAye} />}>
+          {allAye.map(({ accountId }) =>
+            <AddressMini
+              key={accountId.toString()}
+              value={accountId}
+            />
+          )}
+        </Expander>
       </td>
-      <td className='number together top'>
+      <td className='top'>
         <label>{t('Nay {{count}}', { replace: { count: voteCountNay ? `(${formatNumber(voteCountNay)})` : '' } })}</label>
-        <FormatBalance value={votedNay} />
+        <Expander summary={<FormatBalance value={votedNay} />}>
+          {allNay.map(({ accountId }) =>
+            <AddressMini
+              key={accountId.toString()}
+              value={accountId}
+            />
+          )}
+        </Expander>
       </td>
       <td className='number together top'>
         <Button.Group>

@@ -8,7 +8,7 @@ import { DeriveAccountInfo, DerivedStakingQuery } from '@polkadot/api-derive/typ
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import { AddressMini, AddressSmall, Badge, Icon } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Expander, Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
@@ -104,7 +104,6 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const stakingInfo = useCall<DerivedStakingQuery>(isMain && api.derive.staking.query as any, [address]);
   const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect((): void => {
@@ -131,15 +130,6 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
       window.location.hash = `/staking/query/${address}`;
     },
     [address]
-  );
-  const _toggleNominators = useCallback(
-    (event: React.SyntheticEvent): void => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      setIsExpanded((isExpanded: boolean) => !isExpanded);
-    },
-    []
   );
 
   return (
@@ -179,7 +169,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
       <td>
         <AddressSmall value={address} />
       </td>
-      <td className='number'>
+      <td className='top'>
         {stakeOwn && (
           <FormatBalance
             label={<label>{t('own stake')}</label>}
@@ -187,58 +177,50 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
           />
         )}
       </td>
-      <td className={'toggle number'} colSpan={isExpanded ? 5 : 1} onClick={_toggleNominators}>
+      <td className='top'>
         {stakeOther?.gtn(0) && (
-          isExpanded
-            ? (
-              <div>
-                {nominators.map(([who, bonded]): React.ReactNode =>
-                  <AddressMini
-                    bonded={bonded}
-                    key={who.toString()}
-                    value={who}
-                    withBonded
-                  />
-                )}
-              </div>
-            )
-            : (
-              <FormatBalance
-                label={<label>{t('other stake')}</label>}
-                value={stakeOther}
-              >
-                &nbsp;({formatNumber(nominators.length)})&nbsp;<Icon name='angle double right' />
+          <>
+            <label>{t('other stake')}</label>
+            <Expander summary={
+              <FormatBalance value={stakeOther}>
+                &nbsp;({formatNumber(nominators.length)})
               </FormatBalance>
-            )
+            }>
+              {nominators.map(([who, bonded]): React.ReactNode =>
+                <AddressMini
+                  bonded={bonded}
+                  key={who.toString()}
+                  value={who}
+                  withBonded
+                />
+              )}
+            </Expander>
+          </>
         )}
       </td>
-      {!isExpanded && (
-        <>
-          <td className='number'>
-            {commission && (
-              <><label>{t('commission')}</label>{commission}</>
-            )}
-          </td>
-          <td className='number'>
-            {points && (
-              <><label>{t('points')}</label>{formatNumber(points)}</>
-            )}
-          </td>
-          <td className='number'>
-            {lastBlock && (
-              <><label>{t('last #')}</label>{lastBlock}</>
-            )}
-          </td>
-          <td>
-            {hasQueries && api.query.imOnline?.authoredBlocks && (
-              <Icon
-                name='line graph'
-                onClick={_onQueryStats}
-              />
-            )}
-          </td>
-        </>
-      )}
+      <td className='number top'>
+        {commission && (
+          <><label>{t('commission')}</label>{commission}</>
+        )}
+      </td>
+      <td className='number top'>
+        {points && (
+          <><label>{t('points')}</label>{formatNumber(points)}</>
+        )}
+      </td>
+      <td className='number top'>
+        {lastBlock && (
+          <><label>{t('last #')}</label>{lastBlock}</>
+        )}
+      </td>
+      <td>
+        {hasQueries && api.query.imOnline?.authoredBlocks && (
+          <Icon
+            name='line graph'
+            onClick={_onQueryStats}
+          />
+        )}
+      </td>
     </tr>
   );
 }

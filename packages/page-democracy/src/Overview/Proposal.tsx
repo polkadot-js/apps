@@ -6,7 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, AddressSmall, Button, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Button, Expander, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -40,10 +40,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
       />
       <td className='top padtop'>
         {seconding.length !== 0 && (
-          <details>
-            <summary>
-              {t('Seconds ({{count}})', { replace: { count: seconding.length } })}
-            </summary>
+          <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (
               <AddressMini
                 className='identityIcon'
@@ -53,7 +50,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
                 withShrink
               />
             ))}
-          </details>
+          </Expander>
         )}
       </td>
       <td className='together number top'>
