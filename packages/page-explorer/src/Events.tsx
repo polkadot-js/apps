@@ -5,7 +5,7 @@
 import { KeyedEvent } from './types';
 
 import React from 'react';
-import { Event as EventDisplay } from '@polkadot/react-components';
+import { Event as EventDisplay, Expander } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -53,19 +53,18 @@ function Events ({ emptyLabel, eventClassName, events, withoutIndex }: Props): R
                 }
               </h3>
             </div>
-            <details>
-              <summary>
-                {
-                  event.meta && event.meta.documentation
-                    ? event.meta.documentation.join(' ')
-                    : 'Details'
-                }
-              </summary>
+            <Expander
+              summary={
+                event.meta && event.meta.documentation
+                  ? event.meta.documentation.join(' ')
+                  : 'Details'
+              }
+            >
               <EventDisplay
                 className='details'
                 value={event}
               />
-            </details>
+            </Expander>
           </article>
         );
       })}

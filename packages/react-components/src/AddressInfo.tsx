@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber, isObject } from '@polkadot/util';
-import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
+import { Expander, Icon, Tooltip, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -366,16 +366,11 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
     return (
       <>
         <label>{t('balances')}</label>
-        <details>
-          <summary>
-            <div className='body'>
-              <FormatBalance value={balancesAll?.votingBalance} />
-            </div>
-          </summary>
+        <Expander summary={<FormatBalance className='summary' value={balancesAll?.votingBalance} />}>
           <div className='body column'>
             {allItems}
           </div>
-        </details>
+        </Expander>
       </>
     );
   }
@@ -457,16 +452,16 @@ export default withMulti(
         text-align: left;
         width: 15rem;
 
-        details[open] summary {
-          .body {
+        .ui--Expander.isExpanded {
+          .summary {
             opacity: 0;
           }
         }
 
-        details summary {
+        .ui--Expander {
           width: 100%;
 
-          .body {
+          .summary {
             display: inline-block;
             text-align: right;
             min-width: 12rem;

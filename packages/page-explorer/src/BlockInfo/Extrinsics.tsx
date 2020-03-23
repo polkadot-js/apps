@@ -7,7 +7,7 @@ import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { AddressMini, Call, Column, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Call, Column, Expander, LinkExternal } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -50,8 +50,7 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number, t: 
           </div>
         )}
       </div>
-      <details>
-        <summary>{meta?.documentation.join(' ') || t('Details')}</summary>
+      <Expander summary={meta?.documentation.join(' ') || t('Details')}>
         <Call
           className='details'
           mortality={
@@ -70,7 +69,7 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number, t: 
           value={extrinsic}
           withHash
         />
-      </details>
+      </Expander>
       {
         extrinsic.isSigned
           ? <LinkExternal data={extrinsic.hash.toHex()} type='extrinsic' />

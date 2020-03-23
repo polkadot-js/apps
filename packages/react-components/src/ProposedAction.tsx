@@ -11,6 +11,7 @@ import { registry } from '@polkadot/react-api';
 import { formatNumber, isString } from '@polkadot/util';
 
 import Call from './Call';
+import Expander from './Expander';
 import Inset, { InsetProps } from './Inset';
 import TreasuryProposal from './TreasuryProposal';
 import { isTreasuryProposalVote } from './util';
@@ -93,16 +94,16 @@ function ProposedAction ({ className, asInset, idNumber, insetProps, isCollapsib
       <h3>{header}</h3>
       {isCollapsible
         ? (
-          <details>
+          <Expander>
             {documentation}
             {params}
-          </details>
+          </Expander>
         )
         : (
           <>
-            <details>
+            <Expander>
               {documentation}
-            </details>
+            </Expander>
             {params}
           </>
         )}

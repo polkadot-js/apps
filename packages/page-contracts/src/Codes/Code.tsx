@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Button, Card, Forget } from '@polkadot/react-components';
+import { Button, Card, Expander, Forget } from '@polkadot/react-components';
 
 import ABI from '../ABI';
 import CodeRow from '../CodeRow';
@@ -66,13 +66,13 @@ class Code extends React.PureComponent<Props, State> {
         >
           {contractAbi
             ? (
-              <details
+              <Expander
                 onClick={this.toggleAbi}
-                open={isAbiOpen}
+                isOpen={isAbiOpen}
+                summary={t('ABI')}
               >
-                <summary>{t('ABI')}</summary>
                 {abi}
-              </details>
+              </Expander>
             )
             : abi
           }
