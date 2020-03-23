@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Option } from '@polkadot/apps-config/settings/types';
+import { useApi } from '@polkadot/react-hooks';
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { availableLanguages, availableSs58 } from '@polkadot/apps-config/settings';
@@ -29,6 +30,7 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
   const [changed, setChanged] = useState<boolean | null>(null);
   const [isQrOpen, setQrOpen] = useState<boolean>(false);
   const [settings, setSettings] = useState(uiSettings.get());
+  const apiProps = useApi();
   const iconOptions = useMemo((): Option[] => {
     return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
   }, [t]);
@@ -135,14 +137,15 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
             <Button.Or />
           </>
         )}
+        {isQrOpen && <NetworkSpecs onClose={_closeNetworkSpecsQr}/>}
         <Button
-          isDisabled={changed !== null}
-          isPrimary
+          isDisabled={!apiProps.isApiReady}
+          isPrimary={isModalContent}
           onClick={_showNetworkSpecsQr}
           label={t('Export Network Specs')}
           icon='external'
         />
-        {isQrOpen && <NetworkSpecs onClose={_closeNetworkSpecsQr}/>}
+        <Button.Or/>
         <Button
           isDisabled={changed === null}
           isPrimary={isModalContent}

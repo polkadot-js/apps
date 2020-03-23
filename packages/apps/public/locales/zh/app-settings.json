@@ -22,5 +22,6 @@
   "Select the remote endpoint, either from the dropdown on manual entered via the custom toggle": "选择远程终端，或者通过自定义切换输入的手动下拉菜单中的任意一个",
   "remote node/endpoint to connect to": "远程节点/终端连接到",
   "custom endpoint": "自定义终端",
-  "Default browser language (auto-detect)": "默认浏览器语言 (自动检测)"
+  "Default browser language (auto-detect)": "默认浏览器语言 (自动检测)",
+  "Generate Random Color": "随机生成颜色"
 }
