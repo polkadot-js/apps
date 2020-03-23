@@ -1,82 +1,93 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { TxSource, TxDef } from '@polkadot/react-hooks/types';
-import { Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
-import { registry } from '@polkadot/react-api';
-import { Extrinsic, InputNumber, TxModalNew as TxModal } from '@polkadot/react-components';
-import { useApi, useTx } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
+import React, { useCallback, useState } from 'react';
+import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useModal } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
 interface Props {
-  memberCount?: number;
-  onClose: () => void;
+  isMember: boolean;
+  members: string[];
 }
 
-export default function Propose ({ onClose, memberCount = 0 }: Props): React.ReactElement<Props> {
+function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
-  const [proposal, setProposal] = useState<Proposal | null>(null);
+  const { isOpen, onOpen, onClose } = useModal();
+  const [accountId, setAcountId] = useState<string | null>(null);
+  const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
-    new BN(memberCount / 2 + 1),
+    new BN(members.length / 2 + 1),
     true
   ]);
 
-  // FIXME Rework this, unless you know, you can never figure out what all these options mean here
-  const txState = useTx(
-    (): TxSource<TxDef> => [
-      [
-        'technicalCommittee.propose',
-        [threshold, proposal]
-      ],
-      !!proposal && hasThreshold
-    ],
-    [memberCount, proposal, threshold, hasThreshold],
-    {}
+  const _hasThreshold = useCallback(
+    (threshold?: BN | null): boolean =>
+      !!threshold && !threshold.isZero() && threshold.lten(members.length),
+    [members]
   );
 
-  const _hasThreshold = (threshold?: BN | null): boolean =>
-    !!threshold && !threshold.isZero() && threshold.lten(memberCount);
-
-  useEffect((): void => {
-    setThreshold([threshold, _hasThreshold(threshold)]);
-  }, [memberCount]);
-
   const _onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void =>
-    setProposal(method ? createType(registry, 'Proposal', method) : null);
+    setProposal(() => method || null);
   const _onChangeThreshold = (threshold?: BN): void =>
     setThreshold([threshold || null, _hasThreshold(threshold)]);
 
   return (
-    <TxModal
-      isOpen
-      onClose={onClose}
-      {...txState}
-      header={t('Propose a committee motion')}
-    >
-      <InputNumber
-        className='medium'
-        label={t('threshold')}
-        help={t('The minimum number of committee votes required to approve this motion')}
-        isError={!hasThreshold}
-        onChange={_onChangeThreshold}
-        onEnter={txState.sendTx}
-        placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount } })}
-        value={threshold || undefined}
+    <>
+      {isOpen && (
+        <Modal
+          onClose={onClose}
+          header={t('Propose a committee motion')}
+        >
+          <Modal.Content>
+            <InputAddress
+              filter={members}
+              help={t('Select the account you wish to make the proposal with.')}
+              label={t('propose from account')}
+              onChange={setAcountId}
+              type='account'
+              withLabel
+            />
+            <InputNumber
+              className='medium'
+              label={t('threshold')}
+              help={t('The minimum number of committee votes required to approve this motion')}
+              isError={!hasThreshold}
+              onChange={_onChangeThreshold}
+              placeholder={t('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
+              value={threshold || undefined}
+            />
+            <Extrinsic
+              defaultValue={apiDefaultTxSudo}
+              label={t('proposal')}
+              onChange={_onChangeExtrinsic}
+            />
+          </Modal.Content>
+          <Modal.Actions onCancel={onClose}>
+            <TxButton
+              accountId={accountId}
+              isDisabled={!hasThreshold || !proposal}
+              onStart={onClose}
+              params={[threshold, proposal]}
+              tx='technicalCommittee.propose'
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
+      <Button
+        icon='plus'
+        isDisabled={!isMember}
+        label={t('Submit proposal')}
+        onClick={onOpen}
       />
-      <Extrinsic
-        defaultValue={apiDefaultTxSudo}
-        label={t('proposal')}
-        onChange={_onChangeExtrinsic}
-        onEnter={txState.sendTx}
-      />
-    </TxModal>
+    </>
   );
 }
+
+export default React.memo(Propose);
