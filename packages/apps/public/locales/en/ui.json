@@ -959,5 +959,6 @@
   "The delay period to apply in blocks": "",
   "Fast track": "",
   "Aye {{count}}": "",
-  "Nay {{count}}": ""
+  "Nay {{count}}": "",
+  "Waiting for API to be connected and ready": ""
 }

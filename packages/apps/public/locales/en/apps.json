@@ -12,5 +12,6 @@
   "version {{version}}": "version {{version}}",
   "GitHub": "GitHub",
   "Wiki": "Wiki",
-  "Reload": "Reload"
+  "Reload": "Reload",
+  "Waiting for API to be connected and ready": "Waiting for API to be connected and ready"
 }
