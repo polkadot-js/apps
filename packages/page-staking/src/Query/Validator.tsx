@@ -45,7 +45,7 @@ function extractPoints (points: DeriveStakerPoints[]): ChartInfo {
     total += points.toNumber();
     labels.push(era.toHuman());
 
-    if (total > 0) {
+    if (points.gtn(0)) {
       avgCount++;
     }
 
@@ -79,7 +79,7 @@ function extractRewards (erasRewards: DeriveEraRewards[], ownSlashes: DeriveOwnS
 
     total += reward;
 
-    if (total > 0) {
+    if (reward > 0) {
       avgCount++;
     }
 
@@ -109,7 +109,7 @@ function extractStake (exposures: DeriveOwnExposure[], divisor: BN): ChartInfo {
 
     total += cli;
 
-    if (total > 0) {
+    if (cli > 0) {
       avgCount++;
     }
 
