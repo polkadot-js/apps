@@ -13,6 +13,7 @@ const DEV: Option[] = [
 ];
 
 const ENV: Option[] = [];
+
 if (process.env.WS_URL) {
   ENV.push({
     info: 'WS_URL',
