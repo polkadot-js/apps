@@ -19,7 +19,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function Base ({ children, className, isOuter, label, size = 'full', style, withLabel }: Props): React.ReactElement<Props> {
+function Base ({ children, className, isOuter, label, size = 'full', style, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Bare
       className={className}
@@ -38,3 +38,5 @@ export default function Base ({ children, className, isOuter, label, size = 'ful
     </Bare>
   );
 }
+
+export default React.memo(Base);

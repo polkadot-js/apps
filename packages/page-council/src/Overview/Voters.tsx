@@ -13,7 +13,7 @@ interface Props {
   voters: AccountId[];
 }
 
-export default function Voters ({ voters }: Props): React.ReactElement<Props> | null {
+function Voters ({ voters }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
@@ -35,3 +35,5 @@ export default function Voters ({ voters }: Props): React.ReactElement<Props> | 
     </details>
   );
 }
+
+export default React.memo(Voters);

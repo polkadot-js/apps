@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Option } from '@polkadot/types';
+import { AccountId } from '@polkadot/types/interfaces';
 import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
@@ -26,7 +28,11 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const { pathname } = useLocation();
   const numMotions = useCounter();
-  const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals, []);
+  const prime = useCall<AccountId | null>(api.query.council.prime, [], {
+    transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
+  }) || null;
+  const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals);
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -49,10 +55,16 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
       </header>
       <Switch>
         <Route path={`${basePath}/motions`}>
-          <Motions motions={motions} />
+          <Motions
+            motions={motions}
+            prime={prime}
+          />
         </Route>
       </Switch>
-      <Overview className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'} />
+      <Overview
+        className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'}
+        prime={prime}
+      />
     </main>
   );
 }

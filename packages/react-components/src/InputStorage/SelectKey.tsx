@@ -28,7 +28,7 @@ function transform (api: ApiPromise, { value }: Props): (method: string) => Stor
   };
 }
 
-export default function SelectKey (props: Props): React.ReactElement<Props> | null {
+function SelectKey (props: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { className, isError, onChange, options, style, value } = props;
 
@@ -49,3 +49,5 @@ export default function SelectKey (props: Props): React.ReactElement<Props> | nu
     />
   );
 }
+
+export default React.memo(SelectKey);

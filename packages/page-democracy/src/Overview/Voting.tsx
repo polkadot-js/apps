@@ -87,7 +87,6 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
       )}
       <Button
         icon='check'
-        isPrimary
         label={t('Vote')}
         onClick={toggleVoting}
       />

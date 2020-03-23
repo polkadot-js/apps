@@ -8,12 +8,12 @@ import useIsMountedRef from './useIsMountedRef';
 
 // Debounces inputs
 export default function useDebounce <T> (value: T, delay = 250): T {
-  const mounted = useIsMountedRef();
+  const mountedRef = useIsMountedRef();
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect((): () => void => {
     const handler = setTimeout(() => {
-      mounted.current && setDebouncedValue(value);
+      mountedRef.current && setDebouncedValue(value);
     }, delay);
 
     // each time it renders, it clears

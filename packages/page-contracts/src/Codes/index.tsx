@@ -40,7 +40,6 @@ class Codes extends React.PureComponent<Props, State> {
             <Button.Group>
               <Button
                 icon='upload'
-                isPrimary
                 label={t('Upload WASM')}
                 onClick={this.showUpload}
               />

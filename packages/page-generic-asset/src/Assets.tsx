@@ -32,7 +32,6 @@ function Assets ({ assets, t }: Props): React.ReactElement<Props> {
       buttons={
         <Button.Group>
           <Button
-            isPrimary
             label={t('Register Asset')}
             icon='registered'
             onClick={_toggleCreate}

@@ -32,6 +32,7 @@ function SetSessionKey ({ controllerId, onClose }: Props): React.ReactElement<Pr
           label={t('controller account')}
         />
         <Input
+          autoFocus
           className='medium'
           help={t('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
           isError={!keys}

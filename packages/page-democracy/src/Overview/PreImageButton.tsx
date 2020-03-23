@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Proposal, Hash } from '@polkadot/types/interfaces';
+import { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Button } from '@polkadot/react-components';
@@ -14,24 +14,18 @@ import PreImage from './PreImage';
 interface Props {
   hash: Hash;
   isImminent?: boolean;
-  proposal?: Proposal;
   withoutOr?: boolean;
 }
 
-function PreImageButton ({ hash, isImminent, proposal, withoutOr }: Props): React.ReactElement<Props> | null {
+function PreImageButton ({ hash, isImminent, withoutOr }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isPreimageOpen, togglePreimage] = useToggle();
-
-  if (proposal) {
-    return null;
-  }
 
   return (
     <>
       {!withoutOr && <Button.Or />}
       <Button
         icon='plus'
-        isPrimary
         label={t('Preimage')}
         onClick={togglePreimage}
       />

@@ -41,9 +41,9 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.Re
       <td className='number together top'>
         {blockNumber && (
           <>
-            <label>{t('enact at')}</label>
+            <label>{t('enact')}</label>
             <BlockToTime blocks={blockNumber.sub(bestNumber)} />
-            {formatNumber(blockNumber)}
+            #{formatNumber(blockNumber)}
           </>
         )}
       </td>
@@ -52,11 +52,12 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.Re
         proposal={proposal}
       />
       <td className='together number top'>
-        <PreImageButton
-          hash={hash}
-          isImminent
-          proposal={proposal}
-        />
+        {!proposal && (
+          <PreImageButton
+            hash={hash}
+            isImminent
+          />
+        )}
         <LinkExternal
           data={referendumIndex}
           type='referendum'

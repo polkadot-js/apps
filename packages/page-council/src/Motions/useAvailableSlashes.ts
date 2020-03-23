@@ -16,13 +16,13 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
   const { api } = useApi();
   const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes, []);
   const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash, []);
-  const mounted = useIsMountedRef();
+  const mountedRef = useIsMountedRef();
   const [slashes, setSlashes] = useState<[BN, UnappliedSlash[]][]>([]);
 
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
 
-    if (mounted.current && indexes && earliestSlash?.isSome) {
+    if (mountedRef.current && indexes && earliestSlash?.isSome) {
       const from = earliestSlash.unwrap();
       const range: BN[] = [];
       let start = new BN(from);
@@ -34,13 +34,13 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
 
       if (range.length) {
         (async (): Promise<void> => {
-          unsub = await api.query.staking.unappliedSlashes.multi<Vec<UnappliedSlash>>(range, (values): void =>
-            setSlashes(
+          unsub = await api.query.staking.unappliedSlashes.multi<Vec<UnappliedSlash>>(range, (values): void => {
+            mountedRef.current && setSlashes(
               values
                 .map((value, index): [BN, UnappliedSlash[]] => [from.addn(index), value])
                 .filter(([, slashes]): boolean => slashes.length !== 0)
-            )
-          );
+            );
+          });
         })();
       }
     }

@@ -26,14 +26,14 @@ interface StakeInfo {
 function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
   const [{ percentage }, setStakeInfo] = useState<StakeInfo>({});
 
   useEffect((): void => {
-    totalInsurance && totalStaked?.gtn(0) && setStakeInfo({
-      percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
+    totalIssuance && totalStaked?.gtn(0) && setStakeInfo({
+      percentage: `${(totalStaked.muln(10000).div(totalIssuance).toNumber() / 100).toFixed(2)}%`
     });
-  }, [totalInsurance, totalStaked]);
+  }, [totalIssuance, totalStaked]);
 
   return (
     <SummaryBox>
@@ -46,13 +46,13 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
             />
           </CardSummary>
         )}
-        {totalStaked && totalInsurance && (
+        {totalStaked && totalIssuance && (
           <CardSummary label=''>/</CardSummary>
         )}
-        {totalStaked && (
+        {totalIssuance && (
           <CardSummary label={t('total issuance')}>
             <FormatBalance
-              value={totalInsurance}
+              value={totalIssuance}
               withSi
             />
           </CardSummary>
@@ -66,7 +66,7 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
       <CardSummary label={t('validators/nominators')}>
         {numValidators}/{numNominators}
       </CardSummary>
-      {lastReward && (
+      {lastReward?.gtn(0) && (
         <CardSummary label={t('last reward')}>
           <FormatBalance
             value={lastReward}

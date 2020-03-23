@@ -26,7 +26,7 @@ function onChange ({ onChange }: Props): (_: RawParam) => void {
   };
 }
 
-export default function ProposalDisplay (props: Props): React.ReactElement<Props> {
+function ProposalDisplay (props: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();
   const { className, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
 
@@ -46,3 +46,5 @@ export default function ProposalDisplay (props: Props): React.ReactElement<Props
     />
   );
 }
+
+export default React.memo(ProposalDisplay);

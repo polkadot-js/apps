@@ -22,7 +22,7 @@ function onChange ({ onChange }: Props): (_: string) => void {
   };
 }
 
-export default function Amount (props: Props): React.ReactElement<Props> {
+function Amount (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
   const defaultValue = isDisabled
     ? (
@@ -57,3 +57,5 @@ export default function Amount (props: Props): React.ReactElement<Props> {
     </Bare>
   );
 }
+
+export default React.memo(Amount);

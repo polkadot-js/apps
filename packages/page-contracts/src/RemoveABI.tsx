@@ -5,8 +5,9 @@
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { Button, CodeRow, Modal } from '@polkadot/react-components';
+import { Button, Modal } from '@polkadot/react-components';
 
+import CodeRow from './CodeRow';
 import { useTranslation } from './translate';
 
 interface Props {

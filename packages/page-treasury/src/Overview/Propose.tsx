@@ -68,7 +68,6 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
       )}
       <Button
         icon='check'
-        isPrimary
         label={t('Submit proposal')}
         onClick={togglePropose}
       />

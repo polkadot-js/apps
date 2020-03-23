@@ -6,10 +6,9 @@ import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { registry } from '@polkadot/react-api';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { createType } from '@polkadot/types';
+import { StorageKey } from '@polkadot/types';
 
 import Candidates from './Candidates';
 import Members from './Members';
@@ -19,38 +18,54 @@ import Vote from './Vote';
 
 interface Props {
   className?: string;
+  prime: AccountId | null;
 }
 
-const NULL_INFO: DerivedElectionsInfo = {
-  candidates: [],
-  candidateCount: createType(registry, 'u32'),
-  desiredSeats: createType(registry, 'u32'),
-  members: [],
-  runnersUp: [],
-  termDuration: createType(registry, 'BlockNumber')
-};
+function transformVotesPrev ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> {
+  return voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
+    casted[index].forEach((candidate): void => {
+      const address = candidate.toString();
 
-export default function Overview ({ className }: Props): React.ReactElement<Props> {
+      if (!result[address]) {
+        result[address] = [];
+      }
+
+      result[address].push(voter);
+    });
+
+    return result;
+  }, {});
+}
+
+function transformVotes (entries: [StorageKey, AccountId[]][]): Record<string, AccountId[]> {
+  return entries.reduce((result: Record<string, AccountId[]>, [key, casted]): Record<string, AccountId[]> => {
+    const voter = key.args[0] as AccountId;
+
+    casted.forEach((candidate): void => {
+      const address = candidate.toString();
+
+      if (!result[address]) {
+        result[address] = [];
+      }
+
+      result[address].push(voter);
+    });
+
+    return result;
+  }, {});
+}
+
+function Overview ({ className, prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const _electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
-  const allVotes = useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
-    transform: ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> =>
-      voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
-        casted[index].forEach((candidate): void => {
-          const address = candidate.toString();
-
-          if (!result[address]) {
-            result[address] = [];
-          }
-
-          result[address].push(voter);
-        });
-
-        return result;
-      }, {})
-  });
-  const electionsInfo = _electionsInfo || NULL_INFO;
+  const electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
+  const allVotes = api.query.electionsPhragmen?.votesOf.creator.meta.type.asMap.linked.isTrue
+    ? useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
+      transform: transformVotesPrev
+    })
+    : useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf.entries as any, [], {
+      transform: transformVotes
+    });
 
   return (
     <div className={className}>
@@ -66,6 +81,7 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
       <Members
         allVotes={allVotes}
         electionsInfo={electionsInfo}
+        prime={prime}
       />
       <Candidates
         allVotes={allVotes}
@@ -74,3 +90,5 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
     </div>
   );
 }
+
+export default React.memo(Overview);

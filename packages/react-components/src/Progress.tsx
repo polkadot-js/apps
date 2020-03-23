@@ -22,7 +22,7 @@ interface Props extends BareProps {
   value?: UInt | BN | number;
 }
 
-export default function Progress ({ className, color = 'blue', percent, total, style, value }: Props): React.ReactElement<Props> | null {
+function Progress ({ className, color = 'blue', percent, total, style, value }: Props): React.ReactElement<Props> | null {
   let calculated: number | undefined;
   const _total = bnToBn(total);
   const _value = bnToBn(value);
@@ -61,3 +61,5 @@ export default function Progress ({ className, color = 'blue', percent, total, s
     />
   );
 }
+
+export default React.memo(Progress);

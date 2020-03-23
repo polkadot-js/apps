@@ -10,5 +10,5 @@ export interface ExternalDef {
   isActive: boolean;
   chains: Record<string, string>;
   paths: Partial<Record<LinkTypes, string>>;
-  create: (chain: string, path: string, data: BN | number | string) => string;
+  create: (chain: string, path: string, data: BN | number | string, hash?: string) => string;
 }

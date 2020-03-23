@@ -21,6 +21,7 @@ export default {
     leafHash: 'H256',
     sortedHashes: 'H256'
   },
-  // Workarounds
-  BalanceLock: 'BalanceLockTo212' // workaround for balances not showing up, see https://github.com/polkadot-js/apps/issues/2236
+  // Overwrites to Substrate types
+  Address: 'AccountId',
+  LookupSource: 'AccountId'
 };

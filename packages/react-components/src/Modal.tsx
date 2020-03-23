@@ -25,7 +25,14 @@ interface ActionsProps extends BareProps {
   onCancel: () => void;
 }
 
-function Modal (props: ModalProps): React.ReactElement<ModalProps> {
+type ModalType = React.FC<ModalProps> & {
+  Actions: React.FC<ActionsProps>;
+  Content: typeof SUIModal.Content;
+  Header: typeof SUIModal.Header;
+  Description: typeof SUIModal.Description;
+};
+
+function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
   const { className, children, header, open = true } = props;
 
   return (
@@ -56,7 +63,9 @@ function Actions ({ cancelLabel, className, children, withOr = true, onCancel }:
   );
 }
 
-Modal.Actions = Actions;
+const Modal = React.memo(ModalBase) as unknown as ModalType;
+
+Modal.Actions = React.memo(Actions);
 Modal.Content = SUIModal.Content;
 Modal.Header = SUIModal.Header;
 Modal.Description = SUIModal.Description;

@@ -13,11 +13,11 @@ import { Button, Dropdown, Input, TxComponent } from '@polkadot/react-components
 import uiSettings from '@polkadot/ui-settings';
 
 import CreateModal from '../modals/Create';
+import translate from '../translate';
 import generator from '../vanitygen';
 import matchRegex from '../vanitygen/regex';
 import generatorSort from '../vanitygen/sort';
 import Match from './Match';
-import translate from './translate';
 
 interface Props extends ComponentProps, I18nProps {}
 
@@ -101,7 +101,6 @@ class VanityApp extends TxComponent<Props, State> {
               : 'sign-in'
           }
           isDisabled={!isMatchValid}
-          isPrimary={!isRunning}
           onClick={this.toggleStart}
           label={
             isRunning

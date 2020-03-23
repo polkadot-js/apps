@@ -5,7 +5,7 @@
 import { DeriveSociety } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -24,9 +24,11 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
   const members = useCall<any[]>(api.derive.society.members, []);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
-  const pot = info?.pot.gtn(0)
-    ? info.pot.toString()
-    : null;
+  const pot = useMemo((): string | null => {
+    return info?.pot.gtn(0)
+      ? info.pot.toString()
+      : null;
+  }, [info]);
 
   return (
     <SummaryBox className={className}>
@@ -62,12 +64,14 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
         </>
       )}
       <section>
-        <CardSummary label={t('pot')}>
-          <FormatBalance
-            value={pot}
-            withSi
-          />
-        </CardSummary>
+        {pot && (
+          <CardSummary label={t('pot')}>
+            <FormatBalance
+              value={pot}
+              withSi
+            />
+          </CardSummary>
+        )}
       </section>
     </SummaryBox>
   );

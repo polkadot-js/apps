@@ -14,9 +14,10 @@ import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import { Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
+import { Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
 
+import MessageSignature from './MessageSignature';
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';

@@ -5,6 +5,7 @@
 import { detect } from 'detect-browser';
 import React from 'react';
 import styled from 'styled-components';
+import { availableExtensions } from '@polkadot/apps-config/extensions';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
 import { stringUpperFirst } from '@polkadot/util';
 
@@ -13,39 +14,13 @@ import { useTranslation } from './translate';
 // it would have been really good to import this from detect, however... not exported
 type Browser = 'chrome' | 'firefox';
 
-interface Extension {
-  desc: string;
-  link: string;
-  name: string;
-}
-
 interface Props {
   className?: string;
 }
 
-const available: Record<Browser, Extension[]> = {
-  chrome: [],
-  firefox: []
-};
-
-[
-  {
-    browsers: {
-      chrome: 'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd',
-      firefox: 'https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/'
-    },
-    desc: 'Basic account injection and signer',
-    name: 'polkadot-js extension'
-  }
-].forEach(({ browsers, desc, name }): void => {
-  Object.entries(browsers).forEach(([browser, link]): void => {
-    available[browser as Browser].push({ link, desc, name });
-  });
-});
-
 const browserInfo = detect();
 const browserName: Browser | null = (browserInfo && (browserInfo.name as Browser)) || null;
-const isSupported = browserName && Object.keys(available).includes(browserName);
+const isSupported = browserName && Object.keys(availableExtensions).includes(browserName);
 
 function Banner ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -63,7 +38,7 @@ function Banner ({ className }: Props): React.ReactElement<Props> | null {
               yourBrowser: stringUpperFirst(browserName)
             }
           })}</p>
-          <ul>{available[browserName].map(({ desc, name, link }): React.ReactNode => (
+          <ul>{availableExtensions[browserName].map(({ desc, name, link }): React.ReactNode => (
             <li key={name}>
               <a
                 href={link}
@@ -71,7 +46,7 @@ function Banner ({ className }: Props): React.ReactElement<Props> | null {
                 target='_blank'
               >
                 {name}
-              </a> ({desc})
+              </a> ({t(desc)})
             </li>
           ))
           }</ul>

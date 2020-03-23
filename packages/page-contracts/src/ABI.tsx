@@ -8,9 +8,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
 import { registry } from '@polkadot/react-api';
-import { InputFile, Labelled, Messages } from '@polkadot/react-components';
+import { InputFile, Labelled } from '@polkadot/react-components';
 import { u8aToString } from '@polkadot/util';
 
+import Messages from './Messages';
 import translate from './translate';
 
 interface Props extends I18nProps {

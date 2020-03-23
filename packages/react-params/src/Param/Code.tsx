@@ -35,7 +35,7 @@ function onChange ({ onChange }: Props): (_: Uint8Array) => void {
   };
 }
 
-export default function Code (props: Props): React.ReactElement<Props> {
+function Code (props: Props): React.ReactElement<Props> {
   const { className, defaultValue, isDisabled, isError, label, style, withLabel } = props;
 
   if (isDisabled) {
@@ -58,3 +58,5 @@ export default function Code (props: Props): React.ReactElement<Props> {
     />
   );
 }
+
+export default React.memo(Code);

@@ -13,7 +13,7 @@ import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 import Propose from './Propose';
 
-export default function Proposals ({ className, members, proposals }: Props): React.ReactElement<Props> {
+export default function Proposals ({ className, members, prime, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isProposeOpen, togglePropose] = useToggle(false);
 
@@ -27,7 +27,6 @@ export default function Proposals ({ className, members, proposals }: Props): Re
       )}
       <Button.Group>
         <Button
-          isPrimary
           label={t('Submit proposal')}
           icon='add'
           onClick={togglePropose}
@@ -41,6 +40,7 @@ export default function Proposals ({ className, members, proposals }: Props): Re
                 <Proposal
                   hash={hash.toHex()}
                   key={hash.toHex()}
+                  prime={prime}
                 />
               ))}
             </Table.Body>

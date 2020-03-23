@@ -248,7 +248,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       <td className='number top'>
         <Button
           icon='paper plane'
-          isPrimary
           key='deposit'
           label={t('deposit')}
           onClick={_toggleTransfer}

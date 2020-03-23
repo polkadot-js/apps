@@ -60,5 +60,12 @@
   "constructor ": "constructor ",
   "send as RPC call": "send as RPC call",
   "send as transaction": "send as transaction",
-  "Clear all": "Clear all"
+  "Clear all": "Clear all",
+  "You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.": "You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.",
+  "This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.": "This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.",
+  "No documentation provided": "No documentation provided",
+  "Call this message": "Call this message",
+  "Deploy with this constructor": "Deploy with this constructor",
+  "Remove ABI": "Remove ABI",
+  "Mutates contract state": "Mutates contract state"
 }

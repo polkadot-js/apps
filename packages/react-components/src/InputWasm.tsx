@@ -11,7 +11,7 @@ interface Props extends Omit<InputFileProps, 'accept'> {
   onChange: (contents: Uint8Array, name?: string) => void;
 }
 
-export default function InputWasm ({ isValidRef, onChange, ...props }: Props): React.ReactElement<Props> {
+function InputWasm ({ isValidRef, onChange, ...props }: Props): React.ReactElement<Props> {
   const _onChange = (wasm: Uint8Array, name: string): void => {
     const isWasmValid = wasm.subarray(0, 4).toString() === '0,97,115,109'; // '\0asm'
 
@@ -27,3 +27,5 @@ export default function InputWasm ({ isValidRef, onChange, ...props }: Props): R
     />
   );
 }
+
+export default React.memo(InputWasm);

@@ -91,7 +91,6 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
       <Button
         icon='check'
         isDisabled={isDisabled}
-        isPrimary
         label={t('Send to council')}
         onClick={toggleOpen}
       />
