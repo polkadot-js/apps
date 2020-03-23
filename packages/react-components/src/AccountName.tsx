@@ -25,6 +25,8 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onClick?: () => void;
   override?: React.ReactNode;
+  // this is used by app-account/addresses to toggle editing
+  toggle?: boolean;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
 }
 
@@ -170,7 +172,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration, 
   );
 }
 
-function AccountName ({ children, className, defaultName, label, onClick, override, style, value }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
@@ -197,7 +199,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     } else {
       setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
     }
-  }, [address, info, isRegistrar]);
+  }, [address, info, isRegistrar, toggle]);
 
   return (
     <>
