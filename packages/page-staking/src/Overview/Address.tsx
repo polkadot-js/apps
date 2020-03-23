@@ -179,7 +179,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
       <td>
         <AddressSmall value={address} />
       </td>
-      <td className='number'>
+      <td className='number top'>
         {stakeOwn && (
           <FormatBalance
             label={<label>{t('own stake')}</label>}
@@ -187,10 +187,14 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
           />
         )}
       </td>
-      <td className={'toggle number'} colSpan={isExpanded ? 5 : 1} onClick={_toggleNominators}>
+      <td className='toggle number top' onClick={_toggleNominators}>
         {stakeOther?.gtn(0) && (
-          isExpanded
-            ? (
+          <>
+            <label>{t('other stake')}</label>
+            <FormatBalance value={stakeOther}>
+              &nbsp;({formatNumber(nominators.length)})&nbsp;<Icon name={isExpanded ? 'angle double left' : 'angle double right'} />
+            </FormatBalance>
+            {isExpanded && (
               <div>
                 {nominators.map(([who, bonded]): React.ReactNode =>
                   <AddressMini
@@ -201,44 +205,33 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
                   />
                 )}
               </div>
-            )
-            : (
-              <FormatBalance
-                label={<label>{t('other stake')}</label>}
-                value={stakeOther}
-              >
-                &nbsp;({formatNumber(nominators.length)})&nbsp;<Icon name='angle double right' />
-              </FormatBalance>
-            )
+            )}
+          </>
         )}
       </td>
-      {!isExpanded && (
-        <>
-          <td className='number'>
-            {commission && (
-              <><label>{t('commission')}</label>{commission}</>
-            )}
-          </td>
-          <td className='number'>
-            {points && (
-              <><label>{t('points')}</label>{formatNumber(points)}</>
-            )}
-          </td>
-          <td className='number'>
-            {lastBlock && (
-              <><label>{t('last #')}</label>{lastBlock}</>
-            )}
-          </td>
-          <td>
-            {hasQueries && api.query.imOnline?.authoredBlocks && (
-              <Icon
-                name='line graph'
-                onClick={_onQueryStats}
-              />
-            )}
-          </td>
-        </>
-      )}
+      <td className='number top'>
+        {commission && (
+          <><label>{t('commission')}</label>{commission}</>
+        )}
+      </td>
+      <td className='number top'>
+        {points && (
+          <><label>{t('points')}</label>{formatNumber(points)}</>
+        )}
+      </td>
+      <td className='number top'>
+        {lastBlock && (
+          <><label>{t('last #')}</label>{lastBlock}</>
+        )}
+      </td>
+      <td>
+        {hasQueries && api.query.imOnline?.authoredBlocks && (
+          <Icon
+            name='line graph'
+            onClick={_onQueryStats}
+          />
+        )}
+      </td>
     </tr>
   );
 }
