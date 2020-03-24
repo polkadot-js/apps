@@ -3,19 +3,18 @@
 # This script is used when the docker container starts and does the magic to
 # bring the ENV variables to the generated static UI.
 
-# Recreate config file
-echo -n > ./env-config.js
+TARGET=./env-config.js
 
-# Add assignment
-echo "window.process_env = {" >> ./env-config.js
+# Recreate config file
+echo -n > $TARGET
 
 declare -a vars=(
   "WS_URL"
   "SAMPLE"
 )
 
+echo "window.process_env = {" >> $TARGET
 for VAR in ${vars[@]}; do
-  echo "  $VAR: \"${!VAR}\"," >> ./env-config.js
+  echo "  $VAR: \"${!VAR}\"," >> $TARGET
 done
-
-echo "}" >> ./env-config.js
+echo "}" >> $TARGET
