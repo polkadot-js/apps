@@ -8,7 +8,6 @@ import appSettings from '@polkadot/ui-settings';
 
 import template from './123code';
 import accounts from './accounts';
-import addressbook from './addressbook';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
@@ -34,7 +33,6 @@ const routes: Routes = appSettings.uiMode === 'light'
     // dashboard,
     explorer,
     accounts,
-    addressbook,
     claims,
     transfer,
     genericAsset,
@@ -50,7 +48,6 @@ const routes: Routes = appSettings.uiMode === 'light'
     // dashboard,
     explorer,
     accounts,
-    addressbook,
     claims,
     transfer,
     genericAsset,

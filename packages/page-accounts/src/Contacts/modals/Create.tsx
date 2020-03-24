@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @polkadot/app-address-book authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps as Props } from '../types';
+import { ModalProps as Props } from '../../types';
 
 import React, { useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 
-export default function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
+function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState<{ isNameValid: boolean; name: string }>({ isNameValid: false, name: '' });
   const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<{ address: string; isAddressExisting: boolean; isAddressValid: boolean }>({ address: '', isAddressExisting: false, isAddressValid: false });
@@ -116,3 +116,5 @@ export default function Create ({ onClose, onStatusChange }: Props): React.React
     </Modal>
   );
 }
+
+export default React.memo(Create);

@@ -14,6 +14,7 @@ import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Derive from './modals/Derive';
@@ -21,7 +22,6 @@ import Identity from './modals/Identity';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
-import { useTranslation } from './translate';
 
 interface Props {
   address: string;

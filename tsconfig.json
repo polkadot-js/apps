@@ -14,8 +14,6 @@
       "@polkadot/app-123code/*": [ "packages/page-123code/src/*" ],
       "@polkadot/app-accounts": [ "packages/page-accounts/src" ],
       "@polkadot/app-accounts/*": [ "packages/page-accounts/src/*" ],
-      "@polkadot/app-address-book": [ "packages/page-address-book/src" ],
-      "@polkadot/app-address-book/*": [ "packages/page-address-book/src/*" ],
       "@polkadot/app-claims": [ "packages/page-claims/src" ],
       "@polkadot/app-claims/*": [ "packages/page-claims/src/*" ],
       "@polkadot/app-contracts": [ "packages/page-contracts/src" ],

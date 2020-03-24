@@ -12,7 +12,7 @@ import { useDebounce } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 import { downloadAccount } from './Create';
 import CreateConfirmation from './CreateConfirmation';
 

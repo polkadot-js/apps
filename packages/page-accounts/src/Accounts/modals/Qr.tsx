@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModalProps } from '../types';
+import { ModalProps } from '../../types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -10,7 +10,7 @@ import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-
 import { QrScanAddress } from '@polkadot/react-qr';
 import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 
 interface Scanned {
   address: string;

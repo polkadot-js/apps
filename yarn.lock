@@ -2901,15 +2901,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-address-book@workspace:packages/page-address-book":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-address-book@workspace:packages/page-address-book"
-  dependencies:
-    "@babel/runtime": ^7.9.2
-    "@polkadot/react-components": 0.40.0-beta.181
-  languageName: unknown
-  linkType: soft
-
 "@polkadot/app-claims@workspace:packages/page-claims":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-claims@workspace:packages/page-claims"

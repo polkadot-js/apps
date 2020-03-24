@@ -9,7 +9,7 @@ import React, { useState, useMemo } from 'react';
 import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 
 interface Props extends BareProps {
   onClose: () => void;

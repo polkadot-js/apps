@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
-import { ComponentProps as Props } from './types';
+import { ComponentProps as Props } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -12,12 +12,12 @@ import { getLedger, isLedger } from '@polkadot/react-api';
 import { useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
 import { Button, Input, Table } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
-import { useTranslation } from './translate';
 
 type SortedAccount = { address: string; isFavorite: boolean };
 
