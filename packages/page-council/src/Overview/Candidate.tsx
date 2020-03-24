@@ -5,8 +5,7 @@
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
-import { AddressSmall, Badge, Icon } from '@polkadot/react-components';
+import { AddressSmall, Tag } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -24,22 +23,17 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
   const { t } = useTranslation();
 
   return (
-    <tr className={`${className} ${isPrime ? 'council--isPrime' : ''}`}>
+    <tr className={className}>
       <td className='address'>
         <AddressSmall value={address} />
       </td>
-      <td className='council--prime'>
+      <td className='together top padtop'>
         {isPrime && (
-          <div>
-            <Badge
-              hover={t('Prime member')}
-              info={<Icon name='chess king' />}
-              isInline
-              isTooltip
-              type='green'
-            />
-            <span>&nbsp;{t('prime voter')}</span>
-          </div>
+          <Tag
+            color='green'
+            hover={t('Current prime member, default voting')}
+            label={t('prime voter')}
+          />
         )}
       </td>
       <td className='top together right'>
@@ -56,20 +50,4 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
   );
 }
 
-export default React.memo(styled(Candidate)`
-  &.council--isPrime {
-    td {
-      background-color: rgba(239, 255, 239, 0.8) !important;
-    }
-  }
-
-  .council--prime > div {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-
-    > span {
-      color: green;
-    }
-  }
-`);
+export default React.memo(Candidate);

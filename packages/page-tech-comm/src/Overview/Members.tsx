@@ -5,8 +5,7 @@
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
-import { AddressSmall, Badge, Icon, Table } from '@polkadot/react-components';
+import { AddressSmall, Table, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -25,32 +24,23 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
         ? (
           <Table>
             <Table.Body>
-              {members.map((accountId): React.ReactNode => {
-                const isPrime = prime?.toString() === accountId.toString();
-
-                return (
-                  <tr
-                    className={isPrime ? 'techcomm--isPrime' : ''}
-                    key={accountId.toString()}
-                  >
-                    <td className='all address'>
-                      <AddressSmall value={accountId} />
-                    </td>
-                    <td className='right techcomm--prime'>
-                      {isPrime && (
-                        <div>
-                          <Badge
-                            info={<Icon name='chess king' />}
-                            isInline
-                            type='green'
-                          />
-                          <span>{' '}{t('prime voter')}</span>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+              {members.map((accountId): React.ReactNode => (
+                <tr key={accountId.toString()}>
+                  <td className='all address'>
+                    <AddressSmall value={accountId} />
+                  </td>
+                  <td className='together top padtop'>
+                    {prime?.eq(accountId) && (
+                      <Tag
+                        color='green'
+                        hover={t('Committee prime member, default voting')}
+                        label={t('prime member')}
+                      />
+                    )}
+                  </td>
+                  <td className='all'>&nbsp;</td>
+                </tr>
+              ))}
             </Table.Body>
           </Table>
         )
@@ -60,17 +50,4 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
   );
 }
 
-export default React.memo(styled(Members)`
-  .techcomm--isPrime td {
-    background: rgba(239, 255, 239, 0.8);
-  }
-  .techcomm--prime > div {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-
-    > span {
-      color: green;
-    }
-  }
-`);
+export default React.memo(Members);
