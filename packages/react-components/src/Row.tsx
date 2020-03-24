@@ -5,7 +5,6 @@
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { Label } from 'semantic-ui-react';
 import React from 'react';
 
 import Button from './Button';
@@ -13,6 +12,7 @@ import { classes, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import Input from './Input';
 import InputTags from './InputTags';
+import Tag from './Tag';
 
 export const styles = `
   text-align: left;
@@ -354,7 +354,7 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
             !tags.length
               ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
               : tags.map((tag): React.ReactNode => (
-                <Label key={tag} size='tiny' color='grey'>{tag}</Label>
+                <Tag key={tag} label={tag} />
               ))
           }
           {isEditable && this.renderEditIcon()}

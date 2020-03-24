@@ -46,17 +46,11 @@ function newtonIteration (n: BN, x0: BN): BN {
   return newtonIteration(n, x1);
 }
 
-// https://golb.hplar.ch/2018/09/javascript-bigint.html
-function sqrt (value: BN): BN {
-  if (value.ltn(0)) {
-    throw new Error('square root of negative numbers is not supported');
-  }
-
-  if (value.ltn(2)) {
-    return value;
-  }
-
-  return newtonIteration(value, new BN(1));
+// TODO Replace with bnSqrt from @polkadot/util once that hits 2.7
+function bnSqrt (value: BN): BN {
+  return value.ltn(2)
+    ? value
+    : newtonIteration(value, new BN(1));
 }
 
 export default function useIsPassing (referendum: DerivedReferendum): boolean | undefined {
@@ -65,26 +59,22 @@ export default function useIsPassing (referendum: DerivedReferendum): boolean | 
   const [isPassing, setIsPassing] = useState<boolean | undefined>(undefined);
 
   useEffect((): void => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      const { tally, threshold } = (referendum.status as ReferendumStatus);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    const { tally, threshold } = (referendum.status as ReferendumStatus);
 
-      if (totalIssuance && tally) {
-        const sqrtVoters = sqrt(tally.turnout);
-        const sqrtElectorate = sqrt(totalIssuance);
+    if (totalIssuance && tally) {
+      const sqrtVoters = bnSqrt(tally.turnout);
+      const sqrtElectorate = bnSqrt(totalIssuance);
 
-        setIsPassing(
-          sqrtVoters.isZero()
-            ? false
-            : threshold.isSimplemajority
-              ? tally.ayes.gt(tally.nays)
-              : threshold.isSupermajorityapproval
-                ? compareRationals(tally.nays, sqrtVoters, tally.ayes, sqrtElectorate)
-                : compareRationals(tally.nays, sqrtElectorate, tally.ayes, sqrtVoters)
-        );
-      }
-    } catch (error) {
-      console.error(error);
+      setIsPassing(
+        sqrtVoters.isZero()
+          ? false
+          : threshold.isSimplemajority
+            ? tally.ayes.gt(tally.nays)
+            : threshold.isSupermajorityapproval
+              ? compareRationals(tally.nays, sqrtVoters, tally.ayes, sqrtElectorate)
+              : compareRationals(tally.nays, sqrtElectorate, tally.ayes, sqrtVoters)
+      );
     }
   }, [referendum, totalIssuance]);
 
