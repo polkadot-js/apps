@@ -7,7 +7,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { AddressMini, Badge, Button, Expander, Icon, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Expander, LinkExternal, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isBoolean } from '@polkadot/util';
@@ -84,12 +84,10 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
       </td>
       <td className='padtop top'>
         {isBoolean(isPassing) && (
-          <Badge
+          <Tag
+            color={isPassing ? 'green' : 'red'}
             hover={isPassing ? t('{{threshold}}, passing', { replace: { threshold } }) : t('{{threshold}}, not passing', { replace: { threshold } })}
-            info={<Icon name={isPassing ? 'check' : 'cancel'} />}
-            isInline
-            isTooltip
-            type={isPassing ? 'green' : 'brown'}
+            label={isPassing ? t('passing') : t('failing')}
           />
         )}
       </td>
