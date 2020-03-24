@@ -193,7 +193,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
           }
         </td>
       )}
-      <td className='top padtop'>
+      <td className='address'>
         <BondExtra
           controllerId={controllerId}
           isOpen={isBondExtraOpen}

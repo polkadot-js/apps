@@ -29,7 +29,7 @@ function ProposalDisplay ({ className, isMember, proposal: { council, id, propos
       <td className='number top'>
         <h1>{formatNumber(id)}</h1>
       </td>
-      <td className='top padtop'>
+      <td className='address'>
         <AddressSmall value={proposal.proposer} />
       </td>
       <td className='top'>

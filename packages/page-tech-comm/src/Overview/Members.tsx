@@ -33,7 +33,7 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
                     className={isPrime ? 'techcomm--isPrime' : ''}
                     key={accountId.toString()}
                   >
-                    <td className='all top padtop'>
+                    <td className='all address'>
                       <AddressSmall value={accountId} />
                     </td>
                     <td className='right techcomm--prime'>

@@ -142,7 +142,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
-      <td className='top padtop'>
+      <td className='address'>
         <AddressSmall value={address} />
       </td>
       <td className='top'>
