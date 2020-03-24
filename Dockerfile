@@ -13,12 +13,28 @@ COPY . .
 RUN npm install yarn -g
 RUN yarn
 RUN NODE_ENV=production yarn build:www
+CMD ["ls", "-al", "build"]
 
-FROM ubuntu:18.04
+# ===========================================================
 
-RUN apt-get update && apt-get -y install nginx
+FROM nginx:stable-alpine
 
-COPY --from=builder /apps/packages/apps/build /var/www/html
+ENV WS_URL=ws://localhost:9944
+
+WORKDIR /usr/share/nginx/html
+
+COPY env.sh .
+COPY .env-example .env
+
+# Add bash, useful for troubleshooting
+RUN apk add --no-cache bash
+
+# Run script which initializes env vars to fs
+RUN chmod +x env.sh
+RUN ./env.sh
+
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /apps/packages/apps/build /usr/share/nginx/html
 
 EXPOSE 80
 

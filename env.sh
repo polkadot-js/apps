@@ -29,4 +29,8 @@ do
   echo "  $varname: \"$value\"," >> ./env-config.js
 done < .env
 
+# Here we target specific ENV that may come as ENV variables
+# and not through the .env file
+echo "  WS_URL: \"$WS_URL\"," >> ./env-config.js
+
 echo "}" >> ./env-config.js
