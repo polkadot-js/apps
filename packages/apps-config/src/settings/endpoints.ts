@@ -13,12 +13,13 @@ const DEV: Option[] = [
 ];
 
 const ENV: Option[] = [];
+const WS_URL = process.env.WS_URL || (window as any).process_env.WS_URL;
 
-if (process.env.WS_URL) {
+if (WS_URL) {
   ENV.push({
     info: 'WS_URL',
-    text: 'WS_URL: ' + process.env.WS_URL,
-    value: process.env.WS_URL
+    text: 'WS_URL: ' + WS_URL,
+    value: WS_URL
   });
 }
 
