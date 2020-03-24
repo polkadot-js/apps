@@ -9,7 +9,7 @@
   "Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.": "Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.",
   "Learn more...": "Learn more...",
   "My accounts": "My accounts",
-  "Vanity address": "Vanity address",
+  "Vanity generator": "Vanity generator",
   "account backed up": "account backed up",
   "Backup account": "Backup account",
   "Cancel": "Cancel",

@@ -9,7 +9,7 @@
   "Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.": "从这些扩展程序中的任何一个注入的帐户都将出现在此应用程序中并可供使用。 随着更多具有外部签名功能的扩展可用，上面列表将会自动更新.",
   "Learn more...": "了解更多...",
   "My accounts": "我的账户",
-  "Vanity address": "地址美化",
+  "Vanity generator": "地址美化",
   "account backed up": "账号已备份",
   "Backup account": "备份账户",
   "Cancel": "取消",
