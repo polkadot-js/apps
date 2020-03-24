@@ -4,29 +4,21 @@
 
 import { Button, Input, Modal } from '@polkadot/react-components';
 import { BareProps } from '@polkadot/react-components/types';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useDebounce } from '@polkadot/react-hooks';
 import registry from '@polkadot/react-api/typeRegistry';
 import ApiPromise from '@polkadot/api/promise';
 import { createType } from '@polkadot/types';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
+import { QRNetworkSpecs } from '@polkadot/react-qr'
+import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
-import React, { useEffect, useReducer } from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from '../translate';
 
 interface Props extends BareProps {
   onClose: () => void;
-}
-
-interface NetworkSpecs {
-  color: string;
-  decimals: number;
-  genesisHash: string;
-  pathId: string;
-  prefix: number;
-  title: string;
-  unit: string;
 }
 
 function getRandomColor (): string {
@@ -38,7 +30,7 @@ function getRandomColor (): string {
   return color;
 }
 
-const buildNetworkSpecs = async (api: ApiPromise): Promise<Partial<NetworkSpecs>> => {
+const buildNetworkSpecs = async (api: ApiPromise): Promise<Partial<NetworkSpecsStruct>> => {
   const [properties, systemChain, blockHash] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
@@ -56,7 +48,6 @@ const buildNetworkSpecs = async (api: ApiPromise): Promise<Partial<NetworkSpecs>
     title,
     genesisHash: blockHash.toString()
   };
-  console.log('networkSpecs is', networkSpecs);
   return networkSpecs;
 };
 
@@ -71,24 +62,34 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
     color: getRandomColor(),
     genesisHash: ''
   };
-  const reducer = (state: NetworkSpecs, delta: Partial<NetworkSpecs>): NetworkSpecs => ({
-    ...state,
-    ...delta
-  });
+  const [qrData, setQrData] = useState<NetworkSpecsStruct>(initialState);
+  const debouncedQrData = useDebounce(qrData, 500);
+  const reducer = (state: NetworkSpecsStruct, delta: Partial<NetworkSpecsStruct>): NetworkSpecsStruct => {
+    const newState = {
+      ...state,
+      ...delta
+    };
+    setQrData(newState);
+    return newState;
+  };
   const [networkSpecs, setNetworkSpecs] = useReducer(reducer, initialState);
+
   const apiProps = useApi();
   if (!apiProps.isApiReady) return null;
 
   useEffect((): void => {
     const getNetworkSpec = async (): Promise<void> => {
-      const networkSpecs = await buildNetworkSpecs(apiProps.api);
-      setNetworkSpecs(networkSpecs);
+      const defaultNetworkSpecs = await buildNetworkSpecs(apiProps.api);
+      setNetworkSpecs(defaultNetworkSpecs);
     };
     getNetworkSpec();
   }, [apiProps]);
 
+  useEffect((): void => {
+  });
+
   type inputListener = (v: string) => void;
-  const _onChangeValue = (k: keyof NetworkSpecs): inputListener => (v: string): void => setNetworkSpecs({ [k]: v });
+  const _onChangeValue = (k: keyof NetworkSpecsStruct): inputListener => (v: string): void => setNetworkSpecs({ [k]: v });
   const _onSetRandomColor = (): void => setNetworkSpecs({ color: getRandomColor() });
   const _checkPathIdValid = (): boolean => /^[\w-.]+$/.test(networkSpecs.pathId);
   const _checkColorValid = (): boolean => /^#[\da-fA-F]{6}|#[\da-fA-F]{3}$/.test(networkSpecs.color);
@@ -160,6 +161,7 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
         label={t('Decimals')}
         value={networkSpecs.decimals}
       />
+      <QRNetworkSpecs className='settings--networkSpecs-qr' networkSpecs={debouncedQrData}/>
     </Modal.Content>
     <Modal.Actions onCancel={onClose} withOr={false}>
     </Modal.Actions>
@@ -184,5 +186,10 @@ export default React.memo(styled(NetworkSpecs)`
   .settings--networkSpecs-colorButton {
     display: flex;
     flex-direction: row;
+  }
+  
+  .settings--networkSpecs-qr {
+    max-width: 30rem;
+    margin: 0 auto;
   }
 `);
