@@ -21,7 +21,7 @@ interface Props {
   withSend: boolean;
 }
 
-export default function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
+function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
@@ -29,7 +29,7 @@ export default function ProposalDisplay ({ className, isMember, proposal: { coun
       <td className='number top'>
         <h1>{formatNumber(id)}</h1>
       </td>
-      <td className='top'>
+      <td className='top padtop'>
         <AddressSmall value={proposal.proposer} />
       </td>
       <td className='top'>
@@ -72,3 +72,5 @@ export default function ProposalDisplay ({ className, isMember, proposal: { coun
     </tr>
   );
 }
+
+export default React.memo(ProposalDisplay);

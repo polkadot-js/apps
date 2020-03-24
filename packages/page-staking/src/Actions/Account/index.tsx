@@ -193,7 +193,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
           }
         </td>
       )}
-      <td>
+      <td className='top padtop'>
         <BondExtra
           controllerId={controllerId}
           isOpen={isBondExtraOpen}
@@ -256,7 +256,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
         )}
         <AddressSmall value={stashId} />
       </td>
-      <td className='top '>
+      <td className='top'>
         <AddressMini
           className='mini-nopad'
           label={t('controller')}

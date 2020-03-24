@@ -161,7 +161,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           onClick={_onFavorite}
         />
       </td>
-      <td className='top'>
+      <td className='top padtop'>
         <AddressSmall
           overrideName={
             isEditingName

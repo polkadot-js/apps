@@ -36,7 +36,7 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
 
   return (
     <tr>
-      <td className='top'>
+      <td className='top padtop'>
         <AddressSmall value={accountId} />
       </td>
       <td className='number top'>

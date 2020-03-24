@@ -116,11 +116,10 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
     );
   }, [stakingOverview, validators]);
 
-  const _renderRows = (addresses: AccountExtend[], defaultName: string, isMain: boolean): React.ReactNode =>
+  const _renderRows = (addresses: AccountExtend[], isMain: boolean): React.ReactNode =>
     addresses.map(([address, isElected, isFavorite]): React.ReactNode => (
       <Address
         address={address}
-        defaultName={defaultName}
         filterName={nameFilter}
         hasQueries={hasQueries}
         isAuthor={lastAuthors && lastAuthors.includes(address)}
@@ -152,7 +151,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
       />
       <Table className={isIntentions ? 'staking--hidden' : ''}>
         <Table.Body>
-          {_renderRows(validators, t('validators'), true)}
+          {_renderRows(validators, true)}
         </Table.Body>
       </Table>
       {isIntentions && (
@@ -160,8 +159,8 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
           ? (
             <Table>
               <Table.Body>
-                {_renderRows(elected, t('intention'), false)}
-                {_renderRows(waiting, t('intention'), false)}
+                {_renderRows(elected, false)}
+                {_renderRows(waiting, false)}
               </Table.Body>
             </Table>
           )

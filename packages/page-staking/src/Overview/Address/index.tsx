@@ -22,7 +22,6 @@ import StakeOther from './StakeOther';
 interface Props {
   address: string;
   className?: string;
-  defaultName: string;
   filterName: string;
   hasQueries: boolean;
   isAuthor?: boolean;
@@ -143,7 +142,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
-      <td>
+      <td className='top padtop'>
         <AddressSmall value={address} />
       </td>
       <td className='top'>

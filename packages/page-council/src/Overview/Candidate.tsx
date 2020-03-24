@@ -25,7 +25,7 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
 
   return (
     <tr className={`${className} ${isPrime ? 'council--isPrime' : ''}`}>
-      <td className='top'>
+      <td className='top padtop'>
         <AddressSmall value={address} />
       </td>
       <td className='council--prime'>

@@ -35,7 +35,7 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
         toggleFavorite={toggleFavorite}
       />
       <td className='number'>{formatNumber(rankOverall)}</td>
-      <td className='address'>
+      <td className='top padtop'>
         <AddressSmall value={accountId} />
       </td>
       <td className='number'>

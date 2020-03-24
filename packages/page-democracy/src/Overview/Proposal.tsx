@@ -27,7 +27,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <td className='top'>
+      <td className='top padtop'>
         <AddressSmall value={proposer} />
       </td>
       <td className='number together top'>

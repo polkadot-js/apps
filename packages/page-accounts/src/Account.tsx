@@ -211,7 +211,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           />
         )}
       </td>
-      <td className='top'>
+      <td className='top padtop'>
         <AddressSmall
           overrideName={
             isEditingName

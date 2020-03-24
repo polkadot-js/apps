@@ -33,7 +33,7 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
                     className={isPrime ? 'techcomm--isPrime' : ''}
                     key={accountId.toString()}
                   >
-                    <td className='all'>
+                    <td className='all top padtop'>
                       <AddressSmall value={accountId} />
                     </td>
                     <td className='right techcomm--prime'>
@@ -60,7 +60,7 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
   );
 }
 
-export default styled(Members)`
+export default React.memo(styled(Members)`
   .techcomm--isPrime td {
     background: rgba(239, 255, 239, 0.8);
   }
@@ -73,4 +73,4 @@ export default styled(Members)`
       color: green;
     }
   }
-`;
+`);

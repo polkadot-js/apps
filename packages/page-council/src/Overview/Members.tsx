@@ -28,19 +28,15 @@ function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): Re
           ? (
             <Table>
               <Table.Body>
-                {electionsInfo.members.map(([accountId, balance]): React.ReactNode => {
-                  const isPrime = prime?.toString() === accountId.toString();
-
-                  return (
-                    <Candidate
-                      address={accountId}
-                      balance={balance}
-                      isPrime={isPrime}
-                      key={accountId.toString()}
-                      voters={allVotes[accountId.toString()]}
-                    />
-                  );
-                })}
+                {electionsInfo.members.map(([accountId, balance]): React.ReactNode => (
+                  <Candidate
+                    address={accountId}
+                    balance={balance}
+                    isPrime={prime?.eq(accountId)}
+                    key={accountId.toString()}
+                    voters={allVotes[accountId.toString()]}
+                  />
+                ))}
               </Table.Body>
             </Table>
           )
