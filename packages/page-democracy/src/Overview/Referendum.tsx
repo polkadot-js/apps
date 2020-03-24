@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedReferendum } from '@polkadot/api-derive/types';
+import { DerivedReferendumExt } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -16,20 +16,16 @@ import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Voting from './Voting';
-import useIsPassing from './useIsPassing';
-import useVotes from './useVotes';
 
 interface Props {
   className?: string;
-  value: DerivedReferendum;
+  value: DerivedReferendumExt;
 }
 
 function Referendum ({ className, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const isPassing = useIsPassing(value);
-  const { allAye, allNay, voteCountAye, voteCountNay, votedAye, votedNay } = useVotes(value);
   const threshold = useMemo(
     () => value.status.threshold.type.toString().replace('majority', ' majority '),
     [value]
@@ -41,6 +37,7 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
 
   const enactBlock = value.status.end.add(value.status.delay);
   const remainBlock = value.status.end.sub(bestNumber).subn(1);
+  const { allAye, allNay, isPassing, voteCountAye, voteCountNay, votedAye, votedNay } = value;
 
   return (
     <tr className={className}>
