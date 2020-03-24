@@ -179,9 +179,8 @@ const ColoredComponent = React.memo(styled(({ color, className }: ColoredCompone
 `);
 
 export default React.memo(styled(NetworkSpecs)`
-    position: absolute;
-    top: .5rem;
-    right: 3.5rem;
+  position: absolute;
+  top: .3rem;
   
   .settings--networkSpecs-colorButton {
     display: flex;
@@ -189,7 +188,7 @@ export default React.memo(styled(NetworkSpecs)`
   }
   
   .settings--networkSpecs-qr {
-    max-width: 30rem;
     margin: 0 auto;
+    max-width: 30rem;
   }
 `);
