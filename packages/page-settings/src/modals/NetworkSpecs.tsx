@@ -9,7 +9,7 @@ import registry from '@polkadot/react-api/typeRegistry';
 import ApiPromise from '@polkadot/api/promise';
 import { createType } from '@polkadot/types';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
-import { QRNetworkSpecs } from '@polkadot/react-qr'
+import { QrNetworkSpecs } from '@polkadot/react-qr'
 import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
 import React, {useEffect, useReducer, useState} from 'react';
@@ -161,7 +161,7 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
         label={t('Decimals')}
         value={networkSpecs.decimals}
       />
-      <QRNetworkSpecs className='settings--networkSpecs-qr' networkSpecs={debouncedQrData}/>
+      <QrNetworkSpecs className='settings--networkSpecs-qr' networkSpecs={debouncedQrData}/>
     </Modal.Content>
     <Modal.Actions onCancel={onClose} withOr={false}>
     </Modal.Actions>
