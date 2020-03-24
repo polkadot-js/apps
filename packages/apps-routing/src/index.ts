@@ -28,10 +28,12 @@ import sudo from './sudo';
 import toolbox from './toolbox';
 import transfer from './transfer';
 // import treasury from './treasury';
+import landing from './landing';
 
 const routes: Routes = appSettings.uiMode === 'light'
   ? ([] as Routes).concat(
     // dashboard,
+    landing,
     explorer,
     accounts,
     addressbook,
@@ -48,6 +50,7 @@ const routes: Routes = appSettings.uiMode === 'light'
   )
   : ([] as Routes).concat(
     // dashboard,
+    landing,
     explorer,
     accounts,
     addressbook,

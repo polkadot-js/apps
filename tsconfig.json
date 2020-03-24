@@ -31,6 +31,8 @@
       "@polkadot/app-generic-asset/*": [ "packages/app-generic-asset/src/*" ],
       "@polkadot/app-js": [ "packages/app-js/src" ],
       "@polkadot/app-js/*": [ "packages/app-js/src/*" ],
+      "@cennznet/app-landing": [ "packages/app-landing/src" ],
+      "@cennznet/app-landing/*": [ "packages/app-landing/src/*" ],
       "@polkadot/app-parachains": [ "packages/app-parachains/src" ],
       "@polkadot/app-parachains/*": [ "packages/app-parachains/src/*" ],
       "@polkadot/app-settings": [ "packages/app-settings/src" ],

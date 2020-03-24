@@ -18,12 +18,15 @@ import Content from './Content';
 import MenuOverlay from './MenuOverlay';
 import SideBar from './SideBar';
 import BN from 'bn.js';
+import routing from '@polkadot/apps-routing';
+import { useLocation } from 'react-router-dom';
 
 interface SidebarState {
   isCollapsed: boolean;
   isMenu: boolean;
   isMenuOpen: boolean;
   transition: SideBarTransition;
+  isAdvanceOpen: boolean; // This is used when user from landing page choses is open advanced option (expand it), we need to pass the information to sidebar about it
 }
 
 function WarmUp (): React.ReactElement {
@@ -51,10 +54,21 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     isMenuOpen: false,
     transition: SideBarTransition.COLLAPSED,
     ...store.get('sidebar', {}),
-    isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
+    isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD,
+    isAdvanceOpen: false
   });
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
+  const location = useLocation();
+  const app = location.pathname.slice(1) || '';
+  let openAdvance : boolean;
 
+  const element = routing.routes.find(route => route && route.name === app);
+  if (element && element.isAdvanced) {
+    openAdvance = element.isAdvanced
+  } else {
+    openAdvance = false;
+  }
+  // const advancedInput = useRef(null);
   const _setSidebar = (update: Partial<SidebarState>): void =>
     setSidebar(store.set('sidebar', { ...sidebar, ...update }));
   const _collapse = (): void =>
@@ -84,6 +98,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
           isCollapsed={isCollapsed}
           isMenuOpen={isMenuOpen}
           toggleMenu={_toggleMenu}
+          isAdvanceOpen={openAdvance}
         />
         <Signer>
           <Content />

@@ -29,9 +29,10 @@ interface Props {
   isCollapsed: boolean;
   isMenuOpen: boolean;
   toggleMenu: () => void;
+  isAdvanceOpen: boolean;
 }
 
-function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
+function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu, isAdvanceOpen }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion | undefined>(api.rpc.state.subscribeRuntimeVersion, []);
@@ -44,6 +45,11 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
       return result;
     }, { network: false })
   );
+
+  const [isOpen, setIsOpen] = useState(false);
+  if (!isOpen && isAdvanceOpen) {
+    setIsOpen(true);
+  }
 
   const _toggleModal = (name: string): () => void =>
     (): void => setModals({ ...modals, [name]: !modals[name] });
@@ -91,7 +97,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
                 : null
             ))}
             <SideBarItemDivider />
-            <SideBarAdvancedContainer>
+            <SideBarAdvancedContainer open={isOpen}>
               <SideBarAdvancedSummary><span>{t('Advanced')}</span></SideBarAdvancedSummary>
               {routing.routes.map((route, index): React.ReactNode => (
                 route && route.isAdvanced
