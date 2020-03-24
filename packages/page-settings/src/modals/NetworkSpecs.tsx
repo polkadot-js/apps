@@ -102,7 +102,7 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
       <Input
         className='full'
         help={t('Name of the network. It only for display purpose.')}
-        label={t('Name')}
+        label={t('Network Name')}
         onChange={_onChangeValue('title')}
         value={networkSpecs.title}
       />
@@ -111,7 +111,7 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
         className='full'
         help={t('the path id used as the path prefix when deriving new account, all the accounts under this network will have the same prefix')}
         isError={!_checkPathIdValid()}
-        label={t('Path Id')}
+        label={t('Path ID')}
         onChange={_onChangeValue('pathId')}
         value={networkSpecs.pathId}
       />
@@ -141,7 +141,7 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
         value={networkSpecs.genesisHash}
       />
       <Input
-        className='full'
+        classNtame='full'
         help={t('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
         isDisabled
         label={t('Unit')}
@@ -149,9 +149,9 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
       />
       <Input
         className='full'
-        help={t('Prefix indicates the address format in this network, is a number between 0 ~ 255 describes the precise format of the bytes of the address')}
+        help={t('Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address')}
         isDisabled
-        label={t('Prefix')}
+        label={t('Address Prefix')}
         value={networkSpecs.prefix}
       />
       <Input
