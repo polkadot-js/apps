@@ -7,9 +7,8 @@ import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useEffect, useState } from 'react';
-import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkExternal, Forget, Menu, Popup } from '@polkadot/react-components';
+import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkExternal, Forget, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
@@ -222,7 +221,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
             <div className='tags--toggle' onClick={_toggleEditTags}>
               {tags.length
                 ? tags.map((tag): React.ReactNode => (
-                  <Label key={tag} size='tiny' color='grey'>{tag}</Label>
+                  <Tag key={tag} label={tag} />
                 ))
                 : <label>{t('no tags')}</label>
               }
