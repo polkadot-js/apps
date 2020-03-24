@@ -117,7 +117,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
               ))}
               <SideBarItem>
                 <SideBarItemLink
-                  href='https://github.com/polkadot-js/apps'
+                  href='https://github.com/cennznet/api.js'
                   rel='noopener noreferrer'
                   target='_blank'
                 >
@@ -127,7 +127,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
               </SideBarItem>
               <SideBarItem>
                 <SideBarItemLink
-                  href='https://wiki.polkadot.network'
+                  href='https://github.com/cennznet/api.js/wiki'
                   rel='noopener noreferrer'
                   target='_blank'
                 >
