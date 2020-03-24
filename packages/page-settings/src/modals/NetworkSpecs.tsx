@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { getSystemChainColor } from '@polkadot/apps-config/ui/general';
 import { Button, Input, Modal } from '@polkadot/react-components';
 import { BareProps } from '@polkadot/react-components/types';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
@@ -9,10 +10,10 @@ import registry from '@polkadot/react-api/typeRegistry';
 import ApiPromise from '@polkadot/api/promise';
 import { createType } from '@polkadot/types';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
-import { QrNetworkSpecs } from '@polkadot/react-qr'
+import { QrNetworkSpecs } from '@polkadot/react-qr';
 import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
-import React, {useEffect, useReducer, useState} from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from '../translate';
@@ -30,17 +31,18 @@ function getRandomColor (): string {
   return color;
 }
 
-const buildNetworkSpecs = async (api: ApiPromise): Promise<Partial<NetworkSpecsStruct>> => {
-  const [properties, systemChain, blockHash] = await Promise.all([
+const buildNetworkSpecs = async (api: ApiPromise, systemChain: string, systemName: string): Promise<Partial<NetworkSpecsStruct>> => {
+  const [properties, blockHash] = await Promise.all([
     api.rpc.system.properties(),
-    api.rpc.system.chain(),
     api.rpc.chain.getBlockHash(0)
   ]);
   const DEFAULT_DECIMALS = createType(registry, 'u32', 12);
   const DEFAULT_SS58 = createType(registry, 'u32', addressDefaults.prefix);
   const title = systemChain.toString();
   const defaultPathId = title.replace(/\s/g, '_').toLowerCase();
-  const networkSpecs = {
+  const chainColor = getSystemChainColor(systemChain, systemName) || getRandomColor();
+  return {
+    color: chainColor,
     decimals: properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber(),
     prefix: properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber(),
     unit: properties.tokenSymbol.toString(),
@@ -48,7 +50,6 @@ const buildNetworkSpecs = async (api: ApiPromise): Promise<Partial<NetworkSpecsS
     title,
     genesisHash: blockHash.toString()
   };
-  return networkSpecs;
 };
 
 function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props> | null {
@@ -74,19 +75,16 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
   };
   const [networkSpecs, setNetworkSpecs] = useReducer(reducer, initialState);
 
-  const apiProps = useApi();
-  if (!apiProps.isApiReady) return null;
+  const { api, systemChain, systemName, isApiReady } = useApi();
+  if (!isApiReady) return null;
 
   useEffect((): void => {
     const getNetworkSpec = async (): Promise<void> => {
-      const defaultNetworkSpecs = await buildNetworkSpecs(apiProps.api);
+      const defaultNetworkSpecs = await buildNetworkSpecs(api, systemChain, systemName);
       setNetworkSpecs(defaultNetworkSpecs);
     };
     getNetworkSpec();
-  }, [apiProps]);
-
-  useEffect((): void => {
-  });
+  }, [api]);
 
   type inputListener = (v: string) => void;
   const _onChangeValue = (k: keyof NetworkSpecsStruct): inputListener => (v: string): void => setNetworkSpecs({ [k]: v });
