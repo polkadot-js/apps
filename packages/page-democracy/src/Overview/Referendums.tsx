@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedReferendum } from '@polkadot/api-derive/types';
+import { DerivedReferendumExt } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import { Spinner, Table } from '@polkadot/react-components';
@@ -18,7 +18,7 @@ interface Props {
 function Referendums ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const referendums = useCall<DerivedReferendum[]>(api.derive.democracy.referendums, []);
+  const referendums = useCall<DerivedReferendumExt[]>(api.derive.democracy.referendums, []);
 
   return (
     <div className={`proposalSection ${className}`}>
