@@ -21,69 +21,68 @@ export const N900 = '#1E2022';
 export const N1000 = '#000000';
 
 /** Red */
-export const R100 = '#FBD2D3';
-export const R200 = '#F7A3A6';
-export const R300 = '#F37479';
-export const R400 = '#EF454B';
-export const R500 = '#EB161E';
-export const R600 = '#BE1017';
-export const R700 = '#8F0C11';
-export const R800 = '#60080C';
-export const R900 = '#310406';
+export const R50 = '#FFECEC';
+export const R100 = '#FECECE';
+export const R200 = '#FDB0B1';
+export const R300 = '#F87A7C';
+export const R400 = '#F04E50'; // Base Red
+export const R500 = '#E52C2F';
+export const R600 = '#D51B1E';
+export const R700 = '#C01114';
+export const R800 = '#A70C0E';
+export const R900 = '#8C0A0C';
 
 /** Yellow */
-export const Y100 = '#FFF3CC';
-export const Y200 = '#FFE899';
-export const Y300 = '#FFDC66';
-export const Y400 = '#FFD133';
-export const Y500 = '#FFC500';
-export const Y600 = '#CC9E00';
-export const Y700 = '#997600';
-export const Y800 = '#664F00';
-export const Y900 = '#332700';
+export const Y50 = '#FFFAE4';
+export const Y100 = '#FEF3C7';
+export const Y200 = '#FEEDA9';
+export const Y300 = '#FCDF71';
+export const Y400 = '#F8D143';
+export const Y500 = '#F3C321'; // Base Yellow
+export const Y600 = '#EBB509';
+export const Y700 = '#E2A700';
+export const Y800 = '#D69A00';
+export const Y900 = '#C98D00';
 
 /** Green */
-export const G100 = '#CDECD6';
-export const G200 = '#A9DDB8';
-export const G300 = '#84CF9A';
-export const G400 = '#5FC17C';
-export const G500 = '#42AB61';
-export const G600 = '#34864C';
-export const G700 = '#266137';
-export const G800 = '#173D22';
-export const G900 = '#09180D';
+export const G50 = '#E8FFF2';
+export const G100 = '#D4FEE6';
+export const G200 = '#C0FCDA';
+export const G300 = '#9AF7C2';
+export const G400 = '#7AF0AC';
+export const G500 = '#60E497'; // Base Green
+export const G600 = '#4CD483';
+export const G700 = '#3DBF70';
+export const G800 = '#30A55C';
+export const G900 = '#268A4B';
 
 /** Blue */
-export const B100 = '#C8E6FF';
-export const B200 = '#95CEFF';
-export const B300 = '#63B6FE';
-export const B400 = '#309FFE';
-export const B500 = '#0187FA';
-export const B600 = '#016CC7';
-export const B700 = '#015094';
-export const B800 = '#003562';
-export const B900 = '#00192F';
+export const B50 = '#E6F6FF';
+export const B100 = '#C5E9FD';
+export const B200 = '#A4DBFC';
+export const B300 = '#66C0F6';
+export const B400 = '#34A7EC';
+export const B500 = '#118FDE'; // Base Blue
+export const B600 = '#007BCB';
+export const B700 = '#0069B1';
+export const B800 = '#005492';
+export const B900 = '#004070';
 
-/** Violet */
-export const V100 = '#725EFF';
-export const V200 = '#725EFF';
-export const V300 = '#725EFF';
-export const V400 = '#725EFF';
-export const V500 = '#1130FF';
-export const V600 = '#0000CA';
-export const V700 = '#08187F';
-export const V800 = '#040C40';
-export const V900 = '#020835';
+export const red = '#F04E50';
+export const yellow = '#F3C321';
+export const green = '#60E497';
+export const blue = '#118FDE';
+
 
 export const brandPrimary = rgba(17, 48, 255, 0.9);
 export const brandSecondary = Y400;
 
 export const primary = rgba(17, 48, 255, 0.9);
-export const secondary = V800;
-export const background = V900;
-export const success = G400;
-export const warning = Y400;
-export const danger = R400;
+export const secondary = B800;
+export const background = N50;
+export const success = green;
+export const warning = yellow;
+export const danger = red;
 export const info = N100;
 export const nuetral = N500;
 export const border = rgba(255, 255, 255, 0.3);
