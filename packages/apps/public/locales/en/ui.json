@@ -968,5 +968,9 @@
   "{{threshold}}, not passing": "",
   "passing": "",
   "failing": "",
-  "Vanity generator": ""
+  "Vanity generator": "",
+  "Current prime member, default voting": "",
+  "Current society head, exempt": "",
+  "Committee prime member, default voting": "",
+  "prime member": ""
 }

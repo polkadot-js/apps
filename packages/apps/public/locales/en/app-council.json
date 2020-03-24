@@ -75,5 +75,6 @@
   "preimage hash": "preimage hash",
   "Propose": "Propose",
   "Select the account you wish to submit for candidacy.": "Select the account you wish to submit for candidacy.",
-  "candidate account": "candidate account"
+  "candidate account": "candidate account",
+  "Current prime member, default voting": "Current prime member, default voting"
 }
