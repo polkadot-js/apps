@@ -128,7 +128,7 @@ const Memo = React.memo(styled(Table)`
         }
 
         &.padtop {
-          padding-top: 1.1rem;
+          padding: 0.75rem;
         }
       }
 

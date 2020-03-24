@@ -21,7 +21,7 @@ function Member ({ className, isHead, value: { accountId, strikes } }: Props): R
 
   return (
     <tr className={`${className} ${isHead && 'society--isHead'}`}>
-      <td className='top'>
+      <td className='top padtop'>
         <AddressSmall value={accountId} />
       </td>
       <td className='society--head'>
