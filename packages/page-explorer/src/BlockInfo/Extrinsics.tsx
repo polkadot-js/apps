@@ -50,7 +50,7 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number, t: 
           </div>
         )}
       </div>
-      <Expander summary={meta?.documentation.join(' ') || t('Details')}>
+      <Expander summaryMeta={meta}>
         <Call
           className='details'
           mortality={

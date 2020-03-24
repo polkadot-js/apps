@@ -53,13 +53,7 @@ function Events ({ emptyLabel, eventClassName, events, withoutIndex }: Props): R
                 }
               </h3>
             </div>
-            <Expander
-              summary={
-                event.meta && event.meta.documentation
-                  ? event.meta.documentation.join(' ')
-                  : 'Details'
-              }
-            >
+            <Expander summaryMeta={event.meta}>
               <EventDisplay
                 className='details'
                 value={event}

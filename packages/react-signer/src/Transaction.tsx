@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataLatest } from '@polkadot/types/interfaces';
 import { QueueTx } from '@polkadot/react-components/Status/types';
 
 import BN from 'bn.js';
@@ -22,25 +21,6 @@ interface Props {
   onError: () => void;
   tip?: BN;
   value: QueueTx;
-}
-
-function formatMeta (meta?: FunctionMetadataLatest): React.ReactNode | null {
-  if (!meta) {
-    return null;
-  }
-
-  const strings = meta.documentation.map((doc): string => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
-
-  if (!firstEmpty) {
-    return null;
-  }
-
-  return (
-    <div className='meta'>
-      {strings.slice(0, firstEmpty).join(' ')}
-    </div>
-  );
 }
 
 function Transaction ({ children, className, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, tip }: Props): React.ReactElement<Props> | null {
@@ -75,8 +55,8 @@ function Transaction ({ children, className, hideDetails, isSendable, onError, v
                 })</span>
               </>
             }
+            summaryMeta={meta}
           >
-            {formatMeta(meta)}
             <Call
               onError={onError}
               value={extrinsic}

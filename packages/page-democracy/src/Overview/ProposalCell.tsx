@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataLatest, Hash, Proposal } from '@polkadot/types/interfaces';
+import { Hash, Proposal } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
@@ -14,21 +14,6 @@ interface Props {
   className?: string;
   proposal?: Proposal | null;
   proposalHash: Hash | string;
-}
-
-function formatDocs (meta?: FunctionMetadataLatest): React.ReactNode | null {
-  if (!meta) {
-    return null;
-  }
-
-  const strings = meta.documentation.map((doc): string => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
-
-  if (!firstEmpty) {
-    return null;
-  }
-
-  return strings.slice(0, firstEmpty).join(' ');
 }
 
 function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
@@ -48,7 +33,7 @@ function ProposalCell ({ className, proposal, proposalHash }: Props): React.Reac
   return (
     <td className={`${className} all top`}>
       <div>{section}.{method}</div>
-      <Expander summary={formatDocs(meta) || t('Details')}>
+      <Expander summaryMeta={meta}>
         <Call
           labelHash={t('proposal hash')}
           value={proposal}
