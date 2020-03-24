@@ -79,7 +79,7 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
           )}
         </Expander>
       </td>
-      <td className='padtop top'>
+      <td className='together top padtop'>
         {isBoolean(isPassing) && (
           <Tag
             color={isPassing ? 'green' : 'red'}
