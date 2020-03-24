@@ -39,7 +39,7 @@ export default function Defender ({ className, info, isMember, ownMembers }: Pro
       <Table>
         <Table.Body>
           <tr>
-            <td className='top padtop'>
+            <td className='address'>
               <AddressSmall value={info.defender} />
             </td>
             <VoteDisplay votes={votes} />
