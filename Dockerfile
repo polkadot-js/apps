@@ -22,4 +22,4 @@ COPY --from=builder /apps/packages/apps/build /var/www/html
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
