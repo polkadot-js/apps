@@ -9,7 +9,7 @@ import { availableExtensions } from '@polkadot/apps-config/extensions';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
 import { stringUpperFirst } from '@polkadot/util';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 // it would have been really good to import this from detect, however... not exported
 type Browser = 'chrome' | 'firefox';

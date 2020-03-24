@@ -41,7 +41,6 @@ i18n
     ns: [
       'app-123code',
       'app-accounts',
-      'app-address-book',
       'app-claims',
       'app-contracts',
       'app-council',

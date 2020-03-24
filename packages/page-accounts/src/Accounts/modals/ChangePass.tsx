@@ -9,7 +9,7 @@ import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/reac
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 interface Props extends I18nProps {
   address: string;

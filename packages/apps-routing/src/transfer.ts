@@ -5,7 +5,7 @@
 import { Routes } from './types';
 
 import Transfer from '@polkadot/app-transfer';
-import TransferModal from '@polkadot/app-accounts/modals/Transfer';
+import TransferModal from '@polkadot/app-accounts/Accounts/modals/Transfer';
 
 export default ([
   {

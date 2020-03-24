@@ -10,9 +10,8 @@ import styled from 'styled-components';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-// import Checks from '@polkadot/react-signer/Checks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
@@ -22,43 +21,6 @@ interface Props {
 }
 
 const ZERO = new BN(0);
-
-// TODO Re-enable when we have proper fee calculation (incl. weights)
-// async function calcMax (api: ApiPromise, balances_fees: DerivedFees | undefined, senderId: string, recipientId: string): Promise<BN> {
-//   let maxBalance = new BN(1);
-
-//   if (!balances_fees) {
-//     return maxBalance;
-//   }
-
-//   const { transferFee, transactionBaseFee, transactionByteFee, creationFee } = balances_fees;
-
-//   const [senderNonce, senderBalances, recipientBalances] = await Promise.all([
-//     api.query.system.accountNonce<Index>(senderId),
-//     api.derive.balances.all(senderId),
-//     api.derive.balances.all(recipientId)
-//   ]);
-
-//   let prevMax = new BN(0);
-
-//   // something goes screwy here when we move this out of the component :(
-//   let extrinsic: any;
-
-//   while (!prevMax.eq(maxBalance)) {
-//     prevMax = maxBalance;
-//     extrinsic = api.tx.balances.transfer(senderNonce, prevMax);
-
-//     const txLength = calcTxLength(extrinsic, senderNonce);
-//     const fees = transactionBaseFee
-//       .add(transactionByteFee.mul(txLength))
-//       .add(transferFee)
-//       .add(recipientBalances.availableBalance.isZero() ? creationFee : ZERO);
-
-//     maxBalance = bnMax(senderBalances.availableBalance.sub(fees), ZERO);
-//   }
-
-//   return maxBalance;
-// }
 
 function Transfer ({ className, onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -71,12 +33,9 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
 
   useEffect((): void => {
-    senderId && recipientId && setExtrinsic(api.tx.balances.transfer(recipientId, amount || ZERO));
-
-    // We currently have not enabled the max functionality - we don't take care of weights
-    // calcMax(api, balances_fees, senderId, recipientId)
-    //   .then(([maxBalance]): void => setMaxBalance(maxBalance))
-    //   .catch((error: Error): void => console.error(error));
+    senderId && recipientId && setExtrinsic(
+      () => api.tx.balances.transfer(recipientId, amount || ZERO)
+    );
   }, [amount, recipientId, senderId]);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;
@@ -116,12 +75,6 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
             onChange={setAmount}
             withMax
           />
-          {/* <Checks
-            accountId={senderId}
-            extrinsic={extrinsic}
-            isSendable
-            onChange={setHasAvailable}
-          /> */}
         </div>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

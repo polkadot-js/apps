@@ -5,14 +5,14 @@
 import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps } from '../types';
+import { ModalProps } from '../../types';
 
 import React from 'react';
 import { AddressRow, Button, InputAddress, InputFile, Modal, Password, TxComponent } from '@polkadot/react-components';
 import { isHex, isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../translate';
+import translate from '../../translate';
 
 interface Props extends ModalProps, I18nProps {}
 

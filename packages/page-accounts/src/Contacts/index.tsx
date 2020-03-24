@@ -1,17 +1,17 @@
-// Copyright 2017-2020 @polkadot/app-address-book authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ComponentProps as Props } from './types';
+import { ComponentProps as Props } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Input, Table } from '@polkadot/react-components';
-import { useAddresses, useFavorites } from '@polkadot/react-hooks';
+import { useAddresses, useFavorites, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 type SortedAddress = { address: string; isFavorite: boolean };
 
@@ -20,7 +20,7 @@ const STORE_FAVS = 'accounts:favorites';
 function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { hasAddresses, allAddresses } = useAddresses();
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isCreateOpen, toggleCreate] = useToggle(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
   const [filter, setFilter] = useState<string>('');
@@ -39,20 +39,18 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     );
   }, [allAddresses, favorites]);
 
-  const _toggleCreate = (): void => setIsCreateOpen(!isCreateOpen);
-
   return (
     <div className={className}>
       <Button.Group>
         <Button
           icon='add'
           label={t('Add contact')}
-          onClick={_toggleCreate}
+          onClick={toggleCreate}
         />
       </Button.Group>
       {isCreateOpen && (
         <CreateModal
-          onClose={_toggleCreate}
+          onClose={toggleCreate}
           onStatusChange={onStatusChange}
         />
       )}
