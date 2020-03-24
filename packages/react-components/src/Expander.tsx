@@ -50,13 +50,17 @@ export default React.memo(styled(Expander)`
     display: none;
   }
 
+  &.isExpanded .ui--Expander-contents {
+    margin-top: 0.5rem;
+  }
+
   &.hasContent .ui--Expander-summary {
     cursor: pointer;
   }
 
   .ui--Expander-summary {
     display: block;
-    margin: 0 0 0.5rem 0;
+    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
