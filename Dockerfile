@@ -18,19 +18,13 @@ CMD ["ls", "-al", "build"]
 FROM nginx:stable-alpine
 
 # The following is mainly for doc purpose to show which ENV is supported
-# ENV WS_URL=ws://localhost:9944
 ENV WS_URL=
 
 WORKDIR /usr/share/nginx/html
 
 COPY env.sh .
-COPY .env-example .env
 
-# Add bash, useful for troubleshooting
-# RUN apk add --no-cache bash
-
-# Run script which initializes env vars to fs
-RUN chmod +x env.sh
+RUN apk add --no-cache bash; chmod +x env.sh
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /apps/packages/apps/build /usr/share/nginx/html

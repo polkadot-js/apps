@@ -62,10 +62,10 @@ Be sure to follow the [page-123code/README.md](packages/page-123code/README.md) 
 
 You can run a docker container via -
 
-  docker run --rm -it --name polkadot-ui -p 80:80 chevdor/polkadot-ui:latest
+  docker run --rm -it --name polkadot-ui -e WS_URL=ws://someip:9944 -p 80:80 chevdor/polkadot-ui:latest
 
 To build a docker container containing local changes -
 
-  docker build -t chevdor/polkadot-ui:latest .
+  docker build -t chevdor/polkadot-ui .
 
 When using these Docker commands, you can access the UI via http://localhost:80 (or just http://localhost)
