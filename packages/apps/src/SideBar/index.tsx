@@ -3,23 +3,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RuntimeVersion } from '@polkadot/types/interfaces';
-import { SIDEBAR_MENU_THRESHOLD } from '../constants';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Responsive } from 'semantic-ui-react';
 import routing from '@polkadot/apps-routing';
-import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
+import { Icon, Menu, media } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
-import { classes } from '@polkadot/react-components/util';
-import { BestNumber, Chain } from '@polkadot/react-query';
 import { useTranslation } from '../translate';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 import NetworkModal from '../modals/Network';
 
 import SideBar from './SideBar';
-import { SideBarItem, SideBarItemLink } from './SideBarItem';
+import { SideBarItem, SideBarItemDivider, SideBarItemLink } from './SideBarItem';
+import SideBarCollapseButton from './SideBarCollapseButton';
+import { SideBarAdvancedContainer, SideBarAdvancedSummary } from './SideBarAdvanced';
+import SideBarHeader from './SideBarHeader';
+import SideBarScroll from './SideBarScroll';
+import SideBarToggle from './SideBarToggle';
+import SideBarWrapper from './SideBarWrapper';
 
 interface Props {
   className?: string;
@@ -33,7 +34,7 @@ interface Props {
 function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
+  const runtimeVersion = useCall<RuntimeVersion | undefined>(api.rpc.state.subscribeRuntimeVersion, []);
   const [modals, setModals] = useState<Record<string, boolean>>(
     routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
@@ -48,14 +49,9 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
     (): void => setModals({ ...modals, [name]: !modals[name] });
 
   return (
-    <Responsive
-      onUpdate={handleResize}
-      className={classes(className, 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
-    >
-      <ChainImg
-        className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
-        onClick={toggleMenu}
-      />
+    <SideBarWrapper {...{ className, handleResize, isCollapsed }}>
+      <SideBarCollapseButton {...{ collapse, isCollapsed }} />
+      <SideBarToggle {...{ isMenuOpen, toggleMenu }} />
       {routing.routes.map((route): React.ReactNode => (
         route && route.Modal
           ? route.Modal && modals[route.name]
@@ -76,21 +72,8 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
           secondary
           vertical
         >
-          <div className='apps--SideBar-Scroll'>
-            <div
-              className='apps--SideBar-logo'
-              onClick={_toggleModal('network')}
-            >
-              <ChainImg />
-              <div className='info'>
-                <Chain className='chain' />
-                {runtimeVersion && (
-                  <div className='runtimeVersion'>{t('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
-                )}
-                <BestNumber label='#' />
-              </div>
-            </div>
-
+          <SideBarScroll>
+            {runtimeVersion && <SideBarHeader {...{ _toggleModal, runtimeVersion }} />}
             {routing.routes.map((route, index): React.ReactNode => (
               route && !route.isAdvanced
                 ? (
@@ -107,12 +90,9 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
                 )
                 : null
             ))}
-            <Menu.Divider hidden={false}/>
-            <details
-              className='apps--SideBar-Advanced'
-            >
-              <summary>{t('  Advanced')}</summary>
-              <Menu.Divider hidden/>
+            <SideBarItemDivider />
+            <SideBarAdvancedContainer>
+              <SideBarAdvancedSummary><span>{t('Advanced')}</span></SideBarAdvancedSummary>
               {routing.routes.map((route, index): React.ReactNode => (
                 route && route.isAdvanced
                   ? (
@@ -135,7 +115,8 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
                   rel='noopener noreferrer'
                   target='_blank'
                 >
-                  <Icon name='github' /><span className='text'>{t('GitHub')}</span>
+                  <Icon name='github' />
+                  <span className='text'>{t('GitHub')}</span>
                 </SideBarItemLink>
               </SideBarItem>
               <SideBarItem>
@@ -144,67 +125,38 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
                   rel='noopener noreferrer'
                   target='_blank'
                 >
-                  <Icon name='book' /><span className='text'>{t('Wiki')}</span>
+                  <Icon name='book' />
+                  <span className='text'>{t('Wiki')}</span>
                 </SideBarItemLink>
               </SideBarItem>
-            </details>
-            <Menu.Divider hidden />
+            </SideBarAdvancedContainer>
             {
               isCollapsed
                 ? undefined
                 : <NodeInfo />
             }
-          </div>
-          <Responsive
-            minWidth={SIDEBAR_MENU_THRESHOLD}
-            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
-          >
-            <Button
-              icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
-              isBasic
-              isCircular
-              onClick={collapse}
-            />
-          </Responsive>
+          </SideBarScroll>
         </Menu>
-        <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
-          <div
-            className='apps--SideBar-toggle'
-            onClick={collapse}
-          />
-        </Responsive>
       </SideBar>
-    </Responsive>
+    </SideBarWrapper>
   );
 }
 
 export default styled(SideBarContainer)`
-.apps--SideBar-Advanced {
-    margin-top: 1rem;
-    color: #f5f5f5;
-  }
-  display: flex;
+  /* display: flex;
   position: relative;
   transition: width 0.3s linear;
   z-index: 300;
 
-  &.collapsed {
-    width: 4.2rem;
-  }
-
-  &.expanded {
-    width: 12rem;
-  }
-
   .apps--SideBar {
-    /* align-items: center;
+    align-items: center;
     background: #4f4f4f;
     display: flex;
     flex-flow: column;
     height: auto;
     position: relative;
     transition: left 0.3s linear;
-    width: 100%; */
+    width: 100%;
 
     .ui.vertical.menu {
       display: flex;
@@ -231,10 +183,10 @@ export default styled(SideBarContainer)`
     }
 
     .apps--SideBar-Item {
-      /* align-self: flex-end;
+      align-self: flex-end;
       flex-grow: 0;
       padding: 0 !important;
-      width: inherit; */
+      width: inherit;
 
       .text {
         padding-left: 0.5rem;
@@ -330,5 +282,5 @@ export default styled(SideBarContainer)`
       opacity: 0 !important;
       top: -2.9rem !important;
     `}
-  }
+  } */
 `;

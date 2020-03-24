@@ -44,14 +44,14 @@ export default css`
     margin: 0;
   }
 
-  button.ui.icon.icon-button {
+  /* button.ui.icon.icon-button {
     padding-top: 0;
     padding-right: 0;
     padding-bottom: 0.3em;
     padding-left: 0.3em;
     color: #2e86ab  !important;
     background: none  !important;
-  }
+  } */
 
   .editable {
     cursor: pointer;

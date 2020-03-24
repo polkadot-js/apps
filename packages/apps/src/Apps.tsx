@@ -15,6 +15,7 @@ import AccountsOverlay from './overlays/Accounts';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
+import MenuOverlay from './MenuOverlay';
 import SideBar from './SideBar';
 import BN from 'bn.js';
 
@@ -76,10 +77,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     <>
       <GlobalStyle />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
-        <div
-          className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
-          onClick={_handleResize}
-        />
+        <MenuOverlay {...{ _handleResize, isMenuOpen }} />
         <SideBar
           collapse={_collapse}
           handleResize={_handleResize}
@@ -105,7 +103,7 @@ export default styled(Apps)`
   flex-direction: row;
   min-height: 100vh;
 
-  &.theme--default {
+  /* &.theme--default {
     a.apps--SideBar-Item-NavLink {
       color: #f5f5f5;
       display: block;
@@ -171,9 +169,9 @@ export default styled(Apps)`
     .apps--SideBar-Scroll {
       padding-left: 0.75rem;
     }
-  }
+  } */
 
-  &.fixed {
+  /* &.fixed {
     .apps--SideBar-Wrapper {
       position: absolute;
       width: 0px;
@@ -208,5 +206,5 @@ export default styled(Apps)`
     &.open {
       opacity: 1;
     }
-  }
+  }*/
 `;

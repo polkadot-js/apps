@@ -14,16 +14,23 @@ const pkgJson = require('../../package.json');
 
 const uiInfo = `apps v${pkgJson.version}`;
 
+const NodeTag = styled.div`
+  display: flex;
+
+  div {
+    margin-right: 0.5rem;
+  }
+`;
+
 function NodeInfo ({ className }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
   return (
     <div className={className}>
       {isApiReady && (
-        <div>
-          <NodeName />&nbsp;
-          <NodeVersion label='v' />
-        </div>
+        <NodeTag>
+          <NodeName /><NodeVersion label='v' />
+        </NodeTag>
       )}
       <div>{api.libraryInfo.replace('@polkadot/', '')}</div>
       <div>{uiInfo}</div>
@@ -32,21 +39,6 @@ function NodeInfo ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default styled(NodeInfo)`
-  background: transparent;
-  color: white;
-  font-size: 0.75rem;
-  opacity: 0.5;
-  padding: 0 1.5rem 0 1.5rem;
-  text-align: right;
-
-  > div {
-    margin-bottom: -0.125em;
-    > div {
-      display: inline-block;
-    }
-
-    &.spacer {
-      margin-bottom: 0.5rem;
-    }
-  }
+  font-size: 12px;
+  width: 100%;
 `;
