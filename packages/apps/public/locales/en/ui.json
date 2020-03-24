@@ -965,5 +965,7 @@
   "candidate account": "",
   "Positive number between 1 and {{count}}": "",
   "{{threshold}}, passing": "",
-  "{{threshold}}, not passing": ""
+  "{{threshold}}, not passing": "",
+  "passing": "",
+  "failing": ""
 }
