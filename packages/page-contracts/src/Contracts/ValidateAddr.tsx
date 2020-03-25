@@ -17,7 +17,7 @@ interface Props {
   onChange: (isValid: boolean) => void;
 }
 
-export default function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> | null {
+function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const contractInfo = useCall<Option<ContractInfo>>(api.query.contracts.contractInfoOf, [address]);
@@ -54,3 +54,5 @@ export default function ValidateAddr ({ address, onChange }: Props): React.React
     </InfoForInput>
   );
 }
+
+export default React.memo(ValidateAddr);

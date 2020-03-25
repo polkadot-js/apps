@@ -4,12 +4,11 @@
 
 import { Routes } from './types';
 
-import Transfer from '@polkadot/app-transfer';
 import TransferModal from '@polkadot/app-accounts/Accounts/modals/Transfer';
 
 export default ([
   {
-    Component: Transfer,
+    Component: TransferModal,
     Modal: TransferModal,
     display: {
       isHidden: false,

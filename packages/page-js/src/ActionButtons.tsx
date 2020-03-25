@@ -20,7 +20,7 @@ interface Props extends BareProps {
   stopJs: () => void;
 }
 
-export default function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
+function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [snippetName, setSnippetName] = useState('');
@@ -115,3 +115,5 @@ export default function ActionButtons ({ className, isCustomExample, isRunning, 
     </div>
   );
 }
+
+export default React.memo(ActionButtons);

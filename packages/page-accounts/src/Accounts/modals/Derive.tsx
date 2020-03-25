@@ -67,7 +67,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
   return status;
 }
 
-export default function Derive ({ className, from, onClose }: Props): React.ReactElement {
+function Derive ({ className, from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
@@ -235,3 +235,5 @@ export default function Derive ({ className, from, onClose }: Props): React.Reac
     </Modal>
   );
 }
+
+export default React.memo(Derive);

@@ -24,7 +24,7 @@ interface Props {
   prime: AccountId | null;
 }
 
-export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
+function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
@@ -94,3 +94,5 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
     </tr>
   );
 }
+
+export default React.memo(Motion);

@@ -30,7 +30,7 @@ async function retrieveInfo (api: ApiPromise): Promise<Partial<Info>> {
   }
 }
 
-export default function NodeInfo (): React.ReactElement<{}> {
+function NodeInfo (): React.ReactElement<{}> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [info, setInfo] = useState<Partial<Info>>({});
@@ -68,3 +68,5 @@ export default function NodeInfo (): React.ReactElement<{}> {
     </>
   );
 }
+
+export default React.memo(NodeInfo);

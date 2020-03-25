@@ -4,29 +4,33 @@
 
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
+import { useEffect, useState } from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 interface Result {
   isMember: boolean;
   members: string[];
 }
-function transform (allAccounts: string[]): (queryMembers: [AccountId, Balance][]) => Result {
-  return (queryMembers: [AccountId, Balance][]): Result => {
-    const members = queryMembers.map((accountId): string => accountId.toString());
+function transform (allAccounts: string[], queryMembers: [AccountId, Balance][]): Result {
+  const members = queryMembers.map((accountId): string => accountId.toString());
 
-    return {
-      members,
-      isMember: members.some((accountId): boolean => allAccounts.includes(accountId))
-    };
+  return {
+    members,
+    isMember: members.some((accountId): boolean => allAccounts.includes(accountId))
   };
 }
 
 export default function useCouncilMembers (): Result {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const members = useCall<Result>(!!allAccounts.length && api.query.council.members, [], {
-    transform: transform(allAccounts)
-  }) || { isMember: false, members: [] };
+  const [state, setState] = useState<Result>({ isMember: false, members: [] });
+  const queryMembers = useCall<[AccountId, Balance][]>(api.query.council.members, []);
 
-  return members;
+  useEffect((): void => {
+    allAccounts && queryMembers && setState(
+      transform(allAccounts, queryMembers)
+    );
+  }, [allAccounts, queryMembers]);
+
+  return state;
 }

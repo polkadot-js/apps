@@ -22,7 +22,7 @@ interface Props {
 
 const ledgerConnOptions = uiSettings.availableLedgerConn;
 
-export default function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
+function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
@@ -150,3 +150,5 @@ export default function General ({ className, isModalContent, onClose }: Props):
     </div>
   );
 }
+
+export default React.memo(General);

@@ -16,7 +16,7 @@ interface Props extends OwnMembers {
   className?: string;
 }
 
-export default function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
@@ -47,3 +47,5 @@ export default function Candidates ({ allMembers, className, isMember, ownMember
     </div>
   );
 }
+
+export default React.memo(Candidates);

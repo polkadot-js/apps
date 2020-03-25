@@ -14,7 +14,7 @@ interface Props extends BareProps {
   params?: any;
 }
 
-export default function BalanceDisplay ({ className, label, params, style }: Props): React.ReactElement<Props> {
+function BalanceDisplay ({ className, label, params, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [params]);
 
@@ -28,3 +28,5 @@ export default function BalanceDisplay ({ className, label, params, style }: Pro
     />
   );
 }
+
+export default React.memo(BalanceDisplay);

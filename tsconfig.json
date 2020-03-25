@@ -48,8 +48,6 @@
       "@polkadot/app-tech-comm/*": [ "packages/page-tech-comm/src/*" ],
       "@polkadot/app-toolbox": [ "packages/page-toolbox/src" ],
       "@polkadot/app-toolbox/*": [ "packages/page-toolbox/src/*" ],
-      "@polkadot/app-transfer": [ "packages/page-transfer/src" ],
-      "@polkadot/app-transfer/*": [ "packages/page-transfer/src/*" ],
       "@polkadot/app-treasury": [ "packages/page-treasury/src" ],
       "@polkadot/app-treasury/*": [ "packages/page-treasury/src/*" ],
       "@polkadot/react-api": [ "packages/react-api/src" ],

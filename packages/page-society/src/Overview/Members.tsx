@@ -16,7 +16,7 @@ interface Props {
   info?: DeriveSociety;
 }
 
-export default function Members ({ className, info }: Props): React.ReactElement<Props> {
+function Members ({ className, info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<DeriveSocietyMember[]>(api.derive.society.members, []);
@@ -52,3 +52,5 @@ export default function Members ({ className, info }: Props): React.ReactElement
     </div>
   );
 }
+
+export default React.memo(Members);

@@ -19,7 +19,7 @@ interface Props {
   proposals?: DerivedTreasuryProposal[];
 }
 
-export default function ProposalsBase ({ className, isApprovals, proposals }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ className, isApprovals, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -61,3 +61,5 @@ export default function ProposalsBase ({ className, isApprovals, proposals }: Pr
     </div>
   );
 }
+
+export default React.memo(ProposalsBase);

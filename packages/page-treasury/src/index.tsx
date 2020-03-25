@@ -17,7 +17,7 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps {}
 
-export default function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
+function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -42,3 +42,5 @@ export default function TreasuryApp ({ basePath }: Props): React.ReactElement<Pr
     </main>
   );
 }
+
+export default React.memo(TreasuryApp);

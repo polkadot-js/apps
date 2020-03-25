@@ -58,7 +58,6 @@ i18n
       'app-sudo',
       'app-tech-comm',
       'app-toolbox',
-      'app-transfer',
       'app-treasury',
       'apps',
       'apps-routing',
