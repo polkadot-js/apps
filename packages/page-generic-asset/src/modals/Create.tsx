@@ -17,7 +17,7 @@ interface Props extends ModalProps {
   className?: string;
 }
 
-export default function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
+function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [assetId, setAssetId] = useState(new BN(0));
   const [name, setName] = useState('new asset');
@@ -60,3 +60,5 @@ export default function Create ({ onClose, onRegister }: Props): React.ReactElem
     </Modal>
   );
 }
+
+export default React.memo(Create);

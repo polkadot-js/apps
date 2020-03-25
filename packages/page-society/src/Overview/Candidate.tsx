@@ -23,7 +23,7 @@ interface Props {
   value: DeriveSocietyCandidate;
 }
 
-export default function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
+function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const votes = useCall<VoteType[]>(api.query.society.votes.multi as any, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])] as any, {
@@ -60,3 +60,5 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
     </tr>
   );
 }
+
+export default React.memo(Candidate);

@@ -18,7 +18,7 @@ import { parachainName } from './util';
 
 interface Props extends AppProps, BareProps {}
 
-export default function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
+function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const sudoState = useSudo();
   const paraInfoRef = useRef<DeriveParachainInfo | null>(null);
@@ -65,3 +65,5 @@ export default function ParachainsApp ({ basePath }: Props): React.ReactElement<
     </main>
   );
 }
+
+export default React.memo(ParachainsApp);

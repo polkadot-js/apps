@@ -13,7 +13,7 @@ import { useTranslation } from './translate';
 
 interface Props extends AppProps, BareProps {}
 
-export default function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -37,3 +37,5 @@ export default function SocietyApp ({ basePath, className }: Props): React.React
     </main>
   );
 }
+
+export default React.memo(SocietyApp);

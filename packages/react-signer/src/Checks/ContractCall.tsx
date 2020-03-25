@@ -15,7 +15,7 @@ interface Props {
   onChange: (fees: State) => void;
 }
 
-export default function ContractCall ({ endowment, fees, onChange }: Props): React.ReactElement<Props> | null {
+function ContractCall ({ endowment, fees, onChange }: Props): React.ReactElement<Props> | null {
   const [state, setState] = useState<State>({
     extraFees: new BN(0),
     extraAmount: new BN(0),
@@ -43,3 +43,5 @@ export default function ContractCall ({ endowment, fees, onChange }: Props): Rea
 
   return null;
 }
+
+export default React.memo(ContractCall);

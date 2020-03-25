@@ -33,7 +33,7 @@ const AlignedIcon = styled(Icon)`
   }
 `;
 
-export default function Verify (): React.ReactElement<{}> {
+function Verify (): React.ReactElement<{}> {
   const { t } = useTranslation();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
@@ -157,3 +157,5 @@ export default function Verify (): React.ReactElement<{}> {
     </div>
   );
 }
+
+export default React.memo(Verify);

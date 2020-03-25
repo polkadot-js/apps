@@ -23,7 +23,7 @@ interface Props {
   sudoKey: string;
 }
 
-export default function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): React.ReactElement<Props> | null {
+function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const onSendRef = useRef<() => void>();
@@ -77,3 +77,5 @@ export default function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoK
     </Modal>
   );
 }
+
+export default React.memo(Deregister);

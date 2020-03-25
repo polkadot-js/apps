@@ -13,7 +13,7 @@ interface Props extends BareProps {
   queue: QueueTx[];
 }
 
-export default function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
+function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
   const filtered = queue
     .filter(({ error, result }): boolean =>
       !isUndefined(error) || !isUndefined(result)
@@ -41,3 +41,5 @@ export default function Results ({ queue = [] }: Props): React.ReactElement<Prop
     </section>
   );
 }
+
+export default React.memo(Results);

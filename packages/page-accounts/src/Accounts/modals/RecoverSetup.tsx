@@ -17,7 +17,7 @@ interface Props {
 
 const MAX_HELPERS = 16;
 
-export default function RecoverSetup ({ address, className, onClose }: Props): React.ReactElement {
+function RecoverSetup ({ address, className, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const { allAddresses } = useAddresses();
@@ -84,3 +84,5 @@ export default function RecoverSetup ({ address, className, onClose }: Props): R
     </Modal>
   );
 }
+
+export default React.memo(RecoverSetup);

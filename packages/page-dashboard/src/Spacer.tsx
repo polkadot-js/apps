@@ -6,8 +6,10 @@ import React from 'react';
 
 type Props = {};
 
-export default function Spacer (): React.ReactElement<Props> {
+function Spacer (): React.ReactElement<Props> {
   return (
     <div />
   );
 }
+
+export default React.memo(Spacer);

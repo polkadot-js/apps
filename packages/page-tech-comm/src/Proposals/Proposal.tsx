@@ -20,7 +20,7 @@ interface Props {
   prime?: AccountId | null;
 }
 
-export default function Proposal ({ className, hash, prime }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className, hash, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
@@ -75,3 +75,5 @@ export default function Proposal ({ className, hash, prime }: Props): React.Reac
     </tr>
   );
 }
+
+export default React.memo(Proposal);

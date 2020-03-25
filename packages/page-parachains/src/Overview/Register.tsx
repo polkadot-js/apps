@@ -32,7 +32,7 @@ const schedulingOptions = [{
 
 const ONE_THOUSAND = new BN(1000);
 
-export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
+function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isOpen, onOpen, onClose } = useModal();
@@ -152,3 +152,5 @@ export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props)
     </>
   );
 }
+
+export default React.memo(Register);

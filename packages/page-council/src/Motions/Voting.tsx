@@ -20,7 +20,7 @@ interface Props {
   proposal: Proposal;
 }
 
-export default function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
@@ -77,3 +77,5 @@ export default function Voting ({ hash, idNumber, isDisabled, members, prime, pr
     </>
   );
 }
+
+export default React.memo(Voting);

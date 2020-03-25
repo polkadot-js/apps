@@ -18,7 +18,7 @@ interface Props {
   proposalId: BN | number;
 }
 
-export default function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -68,3 +68,5 @@ export default function Voting ({ hash, prime, proposalId }: Props): React.React
     </>
   );
 }
+
+export default React.memo(Voting);

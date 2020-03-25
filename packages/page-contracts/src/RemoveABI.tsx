@@ -16,7 +16,7 @@ interface Props {
   onRemove: () => void;
 }
 
-export default function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Props> {
+function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const _onRemove = (): void => {
@@ -50,3 +50,5 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
     </Modal>
   );
 }
+
+export default React.memo(RemoveABI);

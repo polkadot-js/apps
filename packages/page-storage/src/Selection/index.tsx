@@ -20,7 +20,7 @@ interface Props {
 
 let id = -1;
 
-export default function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
+function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -59,3 +59,5 @@ export default function Selection ({ basePath, onAdd }: Props): React.ReactEleme
     </>
   );
 }
+
+export default React.memo(Selection);

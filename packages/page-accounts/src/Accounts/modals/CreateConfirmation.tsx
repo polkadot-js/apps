@@ -14,7 +14,7 @@ interface Props {
   onCommit: () => void;
 }
 
-export default function CreateConfirmation ({ address, name, onClose, onCommit }: Props): React.ReactElement<Props> | null {
+function CreateConfirmation ({ address, name, onClose, onCommit }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
@@ -41,3 +41,5 @@ export default function CreateConfirmation ({ address, name, onClose, onCommit }
     </Modal>
   );
 }
+
+export default React.memo(CreateConfirmation);

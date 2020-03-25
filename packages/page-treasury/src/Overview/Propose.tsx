@@ -13,7 +13,7 @@ interface Props {
   className?: string;
 }
 
-export default function Propose ({ className }: Props): React.ReactElement<Props> | null {
+function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [beneficiary, setBeneficiary] = useState<string | null>(null);
@@ -74,3 +74,5 @@ export default function Propose ({ className }: Props): React.ReactElement<Props
     </>
   );
 }
+
+export default React.memo(Propose);

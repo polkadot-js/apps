@@ -25,7 +25,7 @@ interface ContentProps {
   password: string;
 }
 
-export default function ({ address, onClose }: Props): React.ReactElement<Props> {
+function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [isPassTouched, setIsPassTouched] = useState(false);
@@ -110,3 +110,5 @@ function Content ({ address, doBackup, isPassTouched, isPassValid, onChangePass,
     </Modal.Content>
   );
 }
+
+export default React.memo(Backup);

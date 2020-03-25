@@ -13,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function RecoverAccount ({ address, className, onClose }: Props): React.ReactElement {
+function RecoverAccount ({ address, className, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [recover, setRecover] = useState<string | null>(null);
 
@@ -49,3 +49,5 @@ export default function RecoverAccount ({ address, className, onClose }: Props):
     </Modal>
   );
 }
+
+export default React.memo(RecoverAccount);

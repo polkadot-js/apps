@@ -22,7 +22,7 @@ interface Props {
   tip?: BN;
 }
 
-export default function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
+function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
@@ -49,3 +49,5 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
     />
   );
 }
+
+export default React.memo(Checks);

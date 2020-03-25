@@ -19,7 +19,7 @@ const hidden = uiSettings.uiMode === 'full'
   ? []
   : ['developer'];
 
-export default function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -55,3 +55,5 @@ export default function SettingsApp ({ basePath, onStatusChange }: Props): React
     </main>
   );
 }
+
+export default React.memo(SettingsApp);
