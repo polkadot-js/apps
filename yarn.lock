@@ -3067,16 +3067,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-transfer@workspace:packages/page-transfer":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-transfer@workspace:packages/page-transfer"
-  dependencies:
-    "@babel/runtime": ^7.9.2
-    "@polkadot/react-components": 0.40.0-beta.184
-    "@polkadot/react-query": 0.40.0-beta.184
-  languageName: unknown
-  linkType: soft
-
 "@polkadot/app-treasury@workspace:packages/page-treasury":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-treasury@workspace:packages/page-treasury"
