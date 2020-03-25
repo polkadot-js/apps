@@ -39,14 +39,12 @@ const buildNetworkSpecs = async (api: ApiPromise, systemChain: string, systemNam
   const DEFAULT_DECIMALS = createType(registry, 'u32', 12);
   const DEFAULT_SS58 = createType(registry, 'u32', addressDefaults.prefix);
   const title = systemChain.toString();
-  const defaultPathId = title.replace(/\s/g, '_').toLowerCase();
   const chainColor = getSystemChainColor(systemChain, systemName) || getRandomColor();
   return {
     color: chainColor,
     decimals: properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber(),
     prefix: properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber(),
     unit: properties.tokenSymbol.toString(),
-    pathId: defaultPathId,
     title,
     genesisHash: blockHash.toString()
   };
@@ -58,7 +56,6 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
     decimals: 0,
     prefix: 0,
     unit: 'UNIT',
-    pathId: '',
     title: '',
     color: getRandomColor(),
     genesisHash: ''
@@ -89,7 +86,6 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
   type inputListener = (v: string) => void;
   const _onChangeValue = (k: keyof NetworkSpecsStruct): inputListener => (v: string): void => setNetworkSpecs({ [k]: v });
   const _onSetRandomColor = (): void => setNetworkSpecs({ color: getRandomColor() });
-  const _checkPathIdValid = (): boolean => /^[\w-.]+$/.test(networkSpecs.pathId);
   const _checkColorValid = (): boolean => /^#[\da-fA-F]{6}|#[\da-fA-F]{3}$/.test(networkSpecs.color);
 
   return <Modal
@@ -98,20 +94,12 @@ function NetworkSpecs ({ className, onClose }: Props): React.ReactElement<Props>
   >
     <Modal.Content>
       <Input
+        autoFocus
         className='full'
         help={t('Name of the network. It only for display purpose.')}
         label={t('Network Name')}
         onChange={_onChangeValue('title')}
         value={networkSpecs.title}
-      />
-      <Input
-        autoFocus
-        className='full'
-        help={t('the path id used as the path prefix when deriving new account, all the accounts under this network will have the same prefix')}
-        isError={!_checkPathIdValid()}
-        label={t('Path ID')}
-        onChange={_onChangeValue('pathId')}
-        value={networkSpecs.pathId}
       />
       <Input
         className='full'

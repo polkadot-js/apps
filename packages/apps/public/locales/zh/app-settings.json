@@ -29,8 +29,6 @@
   "Generate Random Color": "随机生成颜色",
   "Network Name": "网络名称",
   "Name of the network. It only for display purpose.": "网络名称，仅作为显示用",
-  "Path ID": "路径名",
-  "the path id used as the path prefix when deriving new account, all the accounts under this network will have the same prefix": "路径名是所有派生账户的前缀，此网络下的所有账号都有相同的路径前缀",
   "Color": "颜色",
   "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"": "颜色用来和其他网络相区别，用3位或者6位的16进制码表示，比如#FFF或#111111",
   "Genesis Hash": "创世区块哈希",

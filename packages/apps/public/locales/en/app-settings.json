@@ -30,8 +30,6 @@
   "Generate Random Color": "Generate Random Color",
   "Network Name": "Network Name",
   "Name of the network. It only for display purpose.": "Name of the network. It only for display purpose.",
-  "Path ID": "Path ID",
-  "the path id used as the path prefix when deriving new account, all the accounts under this network will have the same prefix": "the path id used as the path prefix when deriving new account, all the accounts under this network will have the same prefix",
   "Color": "Color",
   "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"": "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"",
   "Genesis Hash": "Genesis Hash",
