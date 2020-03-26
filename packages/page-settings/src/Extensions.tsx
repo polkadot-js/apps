@@ -14,7 +14,7 @@ import useExtensions from './useExtensions';
 function Extensions (): React.ReactElement {
   const { api, systemChain, systemName } = useApi();
   const { t } = useTranslation();
-  const extensions = useExtensions();
+  const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isBusy, toggleBusy] = useToggle();
   const options = useMemo(

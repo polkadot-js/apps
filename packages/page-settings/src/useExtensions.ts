@@ -18,7 +18,21 @@ interface ExtensionInfo extends ExtensionKnown {
   current: InjectedMetadataKnown | null;
 }
 
-async function getExtensionInfo (extension: InjectedExtension, trigger: () => void): Promise<ExtensionKnown | null> {
+interface Extensions {
+  count: number;
+  extensions?: ExtensionInfo[];
+}
+
+type TriggerFn = (counter: number) => void;
+
+let triggerCount = 0;
+const triggers = new Map<string, TriggerFn>();
+
+function triggerAll (): void {
+  [...triggers.values()].forEach((trigger) => trigger(Date.now()));
+}
+
+async function getExtensionInfo (extension: InjectedExtension): Promise<ExtensionKnown | null> {
   if (!extension.metadata) {
     return null;
   }
@@ -36,7 +50,7 @@ async function getExtensionInfo (extension: InjectedExtension, trigger: () => vo
         try {
           result = await metadata.provide(def);
 
-          trigger();
+          triggerAll();
         } catch (error) {
           // ignore
         }
@@ -49,18 +63,14 @@ async function getExtensionInfo (extension: InjectedExtension, trigger: () => vo
   }
 }
 
-async function getKnown (extensions: InjectedExtension[], trigger: () => void): Promise<ExtensionKnown[]> {
-  const all = await Promise.all(
-    extensions.map((extension) =>
-      getExtensionInfo(extension, trigger)
-    )
-  );
+async function getKnown (extensions: InjectedExtension[]): Promise<ExtensionKnown[]> {
+  const all = await Promise.all(extensions.map(getExtensionInfo));
 
   return all.filter((info): info is ExtensionKnown => !!info);
 }
 
-function filterAll (api: ApiPromise, all: ExtensionKnown[]): ExtensionInfo[] {
-  return all
+function filterAll (api: ApiPromise, all: ExtensionKnown[]): Extensions {
+  const extensions = all
     .map((info): ExtensionInfo | null => {
       const current = info.known.find(({ genesisHash }) => api.genesisHash.eq(genesisHash)) || null;
       const isUpgradable = !current || api.runtimeVersion.specVersion.gtn(current.specVersion);
@@ -70,16 +80,31 @@ function filterAll (api: ApiPromise, all: ExtensionKnown[]): ExtensionInfo[] {
         : null;
     })
     .filter((info): info is ExtensionInfo => !!info);
+
+  return {
+    count: extensions.length,
+    extensions
+  };
 }
 
-export default function useExtensions (): ExtensionInfo[] | undefined {
+export default function useExtensions (): Extensions {
   const { api, isApiReady, isDevelopment, extensions } = useApi();
   const [all, setAll] = useState<ExtensionKnown[] | undefined>();
-  const [state, setState] = useState<ExtensionInfo[] | undefined>();
+  const [state, setState] = useState<Extensions>({ count: 0 });
   const [trigger, setTrigger] = useState(0);
 
+  useEffect((): () => void => {
+    const myId = `${++triggerCount}-${Date.now()}`;
+
+    triggers.set(myId, setTrigger);
+
+    return (): void => {
+      triggers.delete(myId);
+    };
+  }, []);
+
   useEffect((): void => {
-    extensions && getKnown(extensions, () => setTrigger(Date.now())).then(setAll);
+    extensions && getKnown(extensions).then(setAll);
   }, [extensions, trigger]);
 
   useEffect((): void => {
