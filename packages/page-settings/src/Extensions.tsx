@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { getSystemIcon } from '@polkadot/apps-config/ui/identityIcons';
+import { getSystemIcon } from '@polkadot/apps-config/ui';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
