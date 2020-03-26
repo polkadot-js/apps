@@ -976,5 +976,20 @@
   "No upgradable extensions found": "",
   "upgradable extensions": "",
   "Update metadata": "",
-  "Extensions {{count}}": ""
+  "Extensions {{count}}": "",
+  "Metadata": "",
+  "Chain Specifications as a QR Code": "",
+  "Name of the network. It only for display purpose.": "",
+  "Network Name": "",
+  "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"": "",
+  "Color": "",
+  "Generate Random Color": "",
+  "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched": "",
+  "Genesis Hash": "",
+  "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot": "",
+  "Unit": "",
+  "Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address": "",
+  "Address Prefix": "",
+  "Decimals decides the smallest unit of the token, which is 1/10^decimals": "",
+  "Decimals": ""
 }
