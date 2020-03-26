@@ -3206,26 +3206,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.23.0-beta.9":
-  version: 0.23.0-beta.9
-  resolution: "@polkadot/extension-dapp@npm:0.23.0-beta.9"
+"@polkadot/extension-dapp@npm:^0.23.0-beta.10":
+  version: 0.23.0-beta.10
+  resolution: "@polkadot/extension-dapp@npm:0.23.0-beta.10"
   dependencies:
     "@babel/runtime": ^7.9.2
-    "@polkadot/extension-inject": 0.23.0-beta.9
+    "@polkadot/extension-inject": 0.23.0-beta.10
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: 2/38f13ee9e432e3ae579e3002e4b7f12291403a414fd993f6529bb316ceaa7659c3ba2ca265789ad23dd9ab0185fac9307bfe1c6a1a282f679b35e83d12da4bf6
+  checksum: 2/169045bbdafeb323bd1fee010e43d3534b7bc90662ab9fedafdc6dd7b14ac41b08a9578cd61cfa330331ae1cf827baad5042644d433edbb67ca5e78659776f85
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:0.23.0-beta.9":
-  version: 0.23.0-beta.9
-  resolution: "@polkadot/extension-inject@npm:0.23.0-beta.9"
+"@polkadot/extension-inject@npm:0.23.0-beta.10":
+  version: 0.23.0-beta.10
+  resolution: "@polkadot/extension-inject@npm:0.23.0-beta.10"
   dependencies:
     "@babel/runtime": ^7.9.2
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: 2/08566bef15c971cd209313e6165d33513b960af3a73718b09217df04e5e2cfb4f194508ddde9f0b6f7b53ffb68b94dea3f1e9e4c7a9716fa1a44b6dd15be04fc
+  checksum: 2/425672cf6e0d7ba3973f06f0b5cb863d297de6892eb4d4c4b175db90a7cf267d58c8210a54059d2ca56d8de50376778f160f71b32058d10d35124d2a299f3966
   languageName: node
   linkType: hard
 
@@ -3259,7 +3259,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.2
     "@polkadot/api": ^1.9.0-beta.7
-    "@polkadot/extension-dapp": ^0.23.0-beta.9
+    "@polkadot/extension-dapp": ^0.23.0-beta.10
     rxjs-compat: ^6.5.4
   languageName: unknown
   linkType: soft
