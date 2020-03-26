@@ -3,17 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { getChainTypes } from '@polkadot/apps-config/api';
-import { getSystemIcon } from '@polkadot/apps-config/ui';
 import { Button, Dropdown } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
+import useChainInfo from './useChainInfo';
 import useExtensions from './useExtensions';
 
 function Extensions (): React.ReactElement {
-  const { api, systemChain, systemName } = useApi();
   const { t } = useTranslation();
+  const metaDef = useChainInfo();
   const { extensions } = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isBusy, toggleBusy] = useToggle();
@@ -23,26 +22,16 @@ function Extensions (): React.ReactElement {
   );
   const _updateMeta = useCallback(
     (): void => {
-      if (extensions && extensions[selectedIndex]) {
+      if (metaDef && extensions?.[selectedIndex]) {
         toggleBusy();
 
         extensions[selectedIndex]
-          .update({
-            chain: systemChain,
-            genesisHash: api.genesisHash.toHex(),
-            icon: getSystemIcon(systemName),
-            metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
-            specVersion: api.runtimeVersion.specVersion.toNumber(),
-            ss58Format: api.registry.chainSS58 || 42,
-            tokenDecimals: api.registry.chainDecimals || 12,
-            tokenSymbol: api.registry.chainToken || 'Unit',
-            types: getChainTypes(api.runtimeVersion.specName.toString(), systemChain)
-          })
+          .update(metaDef)
           .catch(() => false)
           .then(() => toggleBusy());
       }
     },
-    [api, extensions, selectedIndex, systemChain, systemName]
+    [extensions, metaDef, selectedIndex]
   );
 
   if (!options.length) {
