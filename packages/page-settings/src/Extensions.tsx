@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback, useMemo, useState } from 'react';
+import { getSystemIcon } from '@polkadot/apps-config/ui/identityIcons';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
@@ -10,7 +11,7 @@ import { useTranslation } from './translate';
 import useExtensions from './useExtensions';
 
 function Extensions (): React.ReactElement {
-  const { api, systemChain } = useApi();
+  const { api, systemChain, systemName } = useApi();
   const { t } = useTranslation();
   const extensions = useExtensions();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -29,7 +30,7 @@ function Extensions (): React.ReactElement {
           .update({
             chain: systemChain,
             genesisHash: api.genesisHash.toHex(),
-            icon: 'polkadot',
+            icon: getSystemIcon(systemName),
             specVersion: api.runtimeVersion.specVersion.toNumber(),
             ss58Format: api.registry.chainSS58 || 42,
             tokenDecimals: api.registry.chainDecimals || 12,
@@ -40,7 +41,7 @@ function Extensions (): React.ReactElement {
           .then(() => toggleBusy());
       }
     },
-    [extensions, selectedIndex, systemChain]
+    [extensions, selectedIndex, systemChain, systemName]
   );
 
   if (!options.length) {
