@@ -25,5 +25,19 @@
   "No upgradable extensions found": "No upgradable extensions found",
   "upgradable extensions": "upgradable extensions",
   "Update metadata": "Update metadata",
-  "Extensions {{count}}": "Extensions {{count}}"
+  "Extensions {{count}}": "Extensions {{count}}",
+  "Chain Specifications as a QR Code": "Chain Specifications as a QR Code",
+  "Generate Random Color": "Generate Random Color",
+  "Network Name": "Network Name",
+  "Name of the network. It only for display purpose.": "Name of the network. It only for display purpose.",
+  "Color": "Color",
+  "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"": "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"",
+  "Genesis Hash": "Genesis Hash",
+  "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched": "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched",
+  "Unit": "Unit",
+  "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot": "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot",
+  "Address Prefix": "Address Prefix",
+  "Prefix indicates the ss58 address format in this network, is a number between 0 ~ 255 describes the precise format of the bytes of the address": "Prefix indicates the ss58 address format in this network, is a number between 0 ~ 255 describes the precise format of the bytes of the address",
+  "Decimals": "Decimals",
+  "Decimals decides the smallest unit of the token, which is 1/10^decimals": "Decimals decides the smallest unit of the token, which is 1/10^decimals"
 }

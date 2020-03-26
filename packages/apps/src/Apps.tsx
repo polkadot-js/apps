@@ -7,7 +7,8 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { defaultColor, chainColors, nodeColors } from '@polkadot/apps-config/ui/general';
+import { getSystemChainColor } from '@polkadot/apps-config/ui';
+import { defaultColor } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -28,10 +29,6 @@ interface SidebarState {
 
 export const PORTAL_ID = 'portals';
 
-function sanitize (value?: string): string {
-  return value?.toLowerCase().replace('-', ' ') || '';
-}
-
 function Apps ({ className }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
@@ -41,9 +38,9 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     ...store.get('sidebar', {}),
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
-  const uiHighlight = useMemo((): string | undefined => {
-    return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)];
-  }, [systemChain, systemName]);
+  const uiHighlight = useMemo((): string | undefined =>
+    getSystemChainColor(systemChain, systemName), [systemChain, systemName]
+  );
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
   const _setSidebar = useCallback(

@@ -4,21 +4,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { MetadataDef } from '@polkadot/extension-inject/types';
-
-import { useEffect, useState } from 'react';
 import { getChainTypes } from '@polkadot/apps-config/api';
-import { getSystemIcon } from '@polkadot/apps-config/ui';
+import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config/ui';
 import { useApi } from '@polkadot/react-hooks';
 
-interface ChainInfo extends MetadataDef {}
+import { useEffect, useState } from 'react';
+
+interface ChainInfo extends MetadataDef {
+  color: string | undefined;
+}
 
 export default function useChainInfo (): ChainInfo | null {
   const { api, isApiReady, systemChain, systemName } = useApi();
-  const [state, setState] = useState<MetadataDef | null>(null);
+  const [state, setState] = useState<ChainInfo | null>(null);
 
   useEffect((): void => {
     isApiReady && setState({
       chain: systemChain,
+      color: getSystemChainColor(systemChain, systemName),
       genesisHash: api.genesisHash.toHex(),
       icon: getSystemIcon(systemName),
       metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
