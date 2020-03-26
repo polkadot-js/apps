@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback, useMemo, useState } from 'react';
+import { getChainTypes } from '@polkadot/apps-config/api';
 import { getSystemIcon } from '@polkadot/apps-config/ui';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -17,10 +18,9 @@ function Extensions (): React.ReactElement {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isBusy, toggleBusy] = useToggle();
   const options = useMemo(
-    () => extensions ? extensions.map(({ extension: { name, version } }, value) => ({ text: `${name} ${version}`, value })) : [],
+    () => (extensions || []).map(({ extension: { name, version } }, value) => ({ text: `${name} ${version}`, value })),
     [extensions]
   );
-
   const _updateMeta = useCallback(
     (): void => {
       if (extensions && extensions[selectedIndex]) {
@@ -31,17 +31,18 @@ function Extensions (): React.ReactElement {
             chain: systemChain,
             genesisHash: api.genesisHash.toHex(),
             icon: getSystemIcon(systemName),
+            metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
             specVersion: api.runtimeVersion.specVersion.toNumber(),
             ss58Format: api.registry.chainSS58 || 42,
             tokenDecimals: api.registry.chainDecimals || 12,
             tokenSymbol: api.registry.chainToken || 'Unit',
-            types: {}
+            types: getChainTypes(api.runtimeVersion.specName.toString(), systemChain)
           })
           .catch(() => false)
           .then(() => toggleBusy());
       }
     },
-    [extensions, selectedIndex, systemChain, systemName]
+    [api, extensions, selectedIndex, systemChain, systemName]
   );
 
   if (!options.length) {
@@ -51,7 +52,7 @@ function Extensions (): React.ReactElement {
   return (
     <div>
       <Dropdown
-        label={t('available extensions')}
+        label={t('upgradable extensions')}
         onChange={setSelectedIndex}
         options={options}
         value={selectedIndex}
