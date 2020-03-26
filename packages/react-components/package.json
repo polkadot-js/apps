@@ -27,7 +27,7 @@
     "react-chartjs-2": "^2.9.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
-    "react-dropzone": "^10.2.1",
+    "react-dropzone": "^10.2.2",
     "react-i18next": "^11.3.4",
     "react-is": "^16.13.1",
     "react-markdown": "^4.3.1",
