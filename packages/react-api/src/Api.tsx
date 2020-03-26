@@ -178,8 +178,6 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  console.error(props);
-
   return (
     <ApiContext.Provider value={props}>
       {children}

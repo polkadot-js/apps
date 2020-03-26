@@ -7,16 +7,23 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import uiSettings from '@polkadot/ui-settings';
 
 import md from './md/basics.md';
 import { useTranslation } from './translate';
 import Developer from './Developer';
 import Extensions from './Extensions';
 import General from './General';
+import useCounter from './useCounter';
+
+export { useCounter };
+
+const hidden = uiSettings.uiMode === 'full'
+  ? []
+  : ['developer'];
 
 function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
-  const { extensions } = useApi();
+  const numExtensions = useCounter();
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -26,17 +33,19 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     },
     {
       name: 'extensions',
-      text: t('Extensions')
+      text: t('Extensions {{count}}', {
+        replace: {
+          count: numExtensions
+            ? `(${numExtensions})`
+            : ''
+        }
+      })
     },
     {
       name: 'developer',
       text: t('Developer')
     }
-  ], [t]);
-  const hidden = useMemo(
-    () => extensions?.length ? [] : ['extensions'],
-    [extensions]
-  );
+  ], [numExtensions, t]);
 
   return (
     <main className='settings--App'>
