@@ -5,11 +5,13 @@
 import centrifugeChain from './centrifuge-chain';
 import edgeware from './edgeware';
 import kulupu from './kulupu';
+import kusama from './kusama';
 import nodeTemplate from './node-template';
 
 export default {
   'centrifuge-chain': centrifugeChain,
   edgeware,
   kulupu,
+  kusama,
   'node-template': nodeTemplate
 };
