@@ -972,5 +972,9 @@
   "Current prime member, default voting": "",
   "Current society head, exempt": "",
   "Committee prime member, default voting": "",
-  "prime member": ""
+  "prime member": "",
+  "No upgradable extensions found": "",
+  "upgradable extensions": "",
+  "Update metadata": "",
+  "Extensions {{count}}": ""
 }
