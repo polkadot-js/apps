@@ -11,8 +11,9 @@ import { useApi } from '@polkadot/react-hooks';
 
 // last-resort fallback, just something empty
 import EMPTY from '@polkadot/ui-assets/empty.svg';
-import cennznetLogoDark from '../../apps/assets/cennznet-logo-dark.svg';
+//import cennznetLogoDark from '../../apps/assets/cennznet-logo-dark.svg';
 import cennznetLogoLight from '../../apps/assets/cennznet-logo-light.svg';
+import hamburgerMenu from '../../apps/assets/hamburger_menu.svg';
 
 // anything fopr a specific chain, most items will probably go in here
 import chainKusama from '@polkadot/ui-assets/chains/kusama-128.gif';
@@ -45,7 +46,7 @@ const NODES: Record<string, any> = {
 // overrides as specified
 const LOGOS: Record<string, any> = {
   // centrifuge,
-  cennznetDark: cennznetLogoDark,
+  cennznetDark: hamburgerMenu,
   cennznetLight: cennznetLogoLight,
   empty: EMPTY
   // edgeware,
@@ -83,6 +84,6 @@ function ChainImg ({ className, logo, onClick }: Props): React.ReactElement<Prop
 }
 
 export default styled(ChainImg)`
-  border-radius: 50%;
-  box-sizing: border-box;
+ // border-radius: 50%;
+ // box-sizing: border-box;
 `;
