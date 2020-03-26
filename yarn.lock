@@ -3285,7 +3285,7 @@ __metadata:
     react-chartjs-2: ^2.9.0
     react-copy-to-clipboard: ^5.0.2
     react-dom: ^16.13.1
-    react-dropzone: ^10.2.1
+    react-dropzone: ^10.2.2
     react-i18next: ^11.3.4
     react-is: ^16.13.1
     react-markdown: ^4.3.1
@@ -17486,16 +17486,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^10.2.1":
-  version: 10.2.1
-  resolution: "react-dropzone@npm:10.2.1"
+"react-dropzone@npm:^10.2.2":
+  version: 10.2.2
+  resolution: "react-dropzone@npm:10.2.2"
   dependencies:
     attr-accept: ^2.0.0
     file-selector: ^0.1.12
     prop-types: ^15.7.2
   peerDependencies:
     react: ">= 16.8"
-  checksum: 2/1124d996961da8f2dbfac97d0627d142610a0dc428538da90719375575c2c0ed1e9b83cb14139b63b6f4ad69fb804d5d3d3a1c2249305636ac5cad386dd2891e
+  checksum: 2/25d38168ffcaa2247b3469bd51e32732f8c470a5f0cecd4f1223d12eee016d905333b0391dfa3997908b78a74ea83cf992f4616861fed923c3996917971a7ea2
   languageName: node
   linkType: hard
 
