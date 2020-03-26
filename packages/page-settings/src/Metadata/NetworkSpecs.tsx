@@ -70,65 +70,65 @@ function NetworkSpecs ({ className }: BareProps): React.ReactElement<BareProps> 
   const _onSetRandomColor = (): void => setNetworkSpecs({ color: getRandomColor() });
   const _checkColorValid = (): boolean => /^#[\da-fA-F]{6}|#[\da-fA-F]{3}$/.test(networkSpecs.color);
 
-  return <div
-    className={className}
-  >
-    <Input
-      autoFocus
-      className='full'
-      help={t('Name of the network. It only for display purpose.')}
-      label={t('Network Name')}
-      onChange={_onChangeValue('title')}
-      value={networkSpecs.title}
-    />
-    <Input
-      className='full'
-      help={t('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
-      isError={!_checkColorValid()}
-      label={t('Color')}
-      onChange={_onChangeValue('color')}
-      value={networkSpecs.color}
-    >
-      <div className='settings--networkSpecs-colorButton'>
-        <Button
-          label={t('Generate Random Color')}
-          icon='sync'
-          key='spread'
-          onClick={_onSetRandomColor}
-        />
-        <ChainColorIndicator color={networkSpecs.color}/>
-      </div>
-    </Input>
-    <Input
-      className='full'
-      help={t('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
-      isDisabled
-      label={t('Genesis Hash')}
-      value={networkSpecs.genesisHash}
-    />
-    <Input
-      className='full'
-      help={t('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
-      isDisabled
-      label={t('Unit')}
-      value={networkSpecs.unit}
-    />
-    <Input
-      className='full'
-      help={t('Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address')}
-      isDisabled
-      label={t('Address Prefix')}
-      value={networkSpecs.prefix}
-    />
-    <Input
-      className='full'
-      help={t('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
-      isDisabled
-      label={t('Decimals')}
-      value={networkSpecs.decimals}
-    />
-    <QrNetworkSpecs className='settings--networkSpecs-qr' networkSpecs={debouncedQrData}/>
-  </div>;
+  return (
+    <div className={className}>
+      <Input
+        autoFocus
+        className='full'
+        help={t('Name of the network. It only for display purpose.')}
+        label={t('Network Name')}
+        onChange={_onChangeValue('title')}
+        value={networkSpecs.title}
+      />
+      <Input
+        className='full'
+        help={t('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
+        isError={!_checkColorValid()}
+        label={t('Color')}
+        onChange={_onChangeValue('color')}
+        value={networkSpecs.color}
+      >
+        <div className='settings--networkSpecs-colorButton'>
+          <Button
+            label={t('Generate Random Color')}
+            icon='sync'
+            key='spread'
+            onClick={_onSetRandomColor}
+          />
+          <ChainColorIndicator color={networkSpecs.color}/>
+        </div>
+      </Input>
+      <Input
+        className='full'
+        help={t('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
+        isDisabled
+        label={t('Genesis Hash')}
+        value={networkSpecs.genesisHash}
+      />
+      <Input
+        className='full'
+        help={t('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
+        isDisabled
+        label={t('Unit')}
+        value={networkSpecs.unit}
+      />
+      <Input
+        className='full'
+        help={t('Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address')}
+        isDisabled
+        label={t('Address Prefix')}
+        value={networkSpecs.prefix}
+      />
+      <Input
+        className='full'
+        help={t('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
+        isDisabled
+        label={t('Decimals')}
+        value={networkSpecs.decimals}
+      />
+      <QrNetworkSpecs className='settings--networkSpecs-qr' networkSpecs={debouncedQrData}/>
+    </div>
+  );
 }
 
 export default React.memo(styled(NetworkSpecs)`
