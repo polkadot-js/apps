@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { InjectedExtension } from '@polkadot/extension-inject/types';
 import { ChainProperties } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { typesChain, typesSpec } from '@polkadot/apps-config/api';
-import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
@@ -43,7 +44,7 @@ interface ChainData {
   systemVersion: string;
 }
 
-const injectedPromise = new Promise((resolve): void => {
+const injectedPromise = new Promise<InjectedExtension[]>((resolve): void => {
   window.addEventListener('load', (): void => {
     resolve(web3Enable('polkadot-js/apps'));
   });
@@ -143,10 +144,10 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
   const [state, setState] = useState<ApiState>({ isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
-  const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
+  const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
   const props = useMemo<ApiProps>(
-    () => ({ ...state, api, isApiConnected, isApiInitialized, isWaitingInjected }),
-    [isApiConnected, isApiInitialized, isWaitingInjected, state]
+    () => ({ ...state, api, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    [extensions, isApiConnected, isApiInitialized, state]
   );
 
   // initial initialization
@@ -156,8 +157,8 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
 
     api = new ApiPromise({ provider, registry, signer, typesChain, typesSpec });
 
-    api.on('connected', (): void => setIsApiConnected(true));
-    api.on('disconnected', (): void => setIsApiConnected(false));
+    api.on('connected', () => setIsApiConnected(true));
+    api.on('disconnected', () => setIsApiConnected(false));
     api.on('ready', async (): Promise<void> => {
       try {
         setState(await loadOnReady(api));
@@ -167,8 +168,8 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
     });
 
     injectedPromise
-      .then((): void => setIsWaitingInjected(false))
-      .catch((error: Error) => console.error(error));
+      .then(setExtensions)
+      .catch((error) => console.error(error));
 
     setIsApiInitialized(true);
   }, []);

@@ -4,7 +4,7 @@
 
 import { Routes } from './types';
 
-import Settings from '@polkadot/app-settings';
+import Settings, { useCounter } from '@polkadot/app-settings';
 
 export default ([
   {
@@ -14,6 +14,7 @@ export default ([
       defaultValue: 'Settings'
     },
     icon: 'settings',
-    name: 'settings'
+    name: 'settings',
+    useCounter
   }
 ] as Routes);

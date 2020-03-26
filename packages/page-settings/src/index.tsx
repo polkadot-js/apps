@@ -6,20 +6,24 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
 import md from './md/basics.md';
 import { useTranslation } from './translate';
 import Developer from './Developer';
+import Extensions from './Extensions';
 import General from './General';
+import useCounter from './useCounter';
+
+export { useCounter };
 
 const hidden = uiSettings.uiMode === 'full'
   ? []
   : ['developer'];
 
 function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+  const numExtensions = useCounter();
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -28,10 +32,20 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       text: t('General')
     },
     {
+      name: 'extensions',
+      text: t('Extensions {{count}}', {
+        replace: {
+          count: numExtensions
+            ? `(${numExtensions})`
+            : ''
+        }
+      })
+    },
+    {
       name: 'developer',
       text: t('Developer')
     }
-  ], [t]);
+  ], [numExtensions, t]);
 
   return (
     <main className='settings--App'>
@@ -49,6 +63,9 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
             basePath={basePath}
             onStatusChange={onStatusChange}
           />
+        </Route>
+        <Route path={`${basePath}/extensions`}>
+          <Extensions />
         </Route>
         <Route component={General} />
       </Switch>
