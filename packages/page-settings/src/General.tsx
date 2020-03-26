@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Option } from '@polkadot/apps-config/settings/types';
-import { useApi } from '@polkadot/react-hooks';
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { availableLanguages, availableSs58 } from '@polkadot/apps-config/settings';
@@ -14,7 +13,6 @@ import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
 import { useTranslation } from './translate';
 import { createIdenticon, createOption, save, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
-import NetworkSpecs from './modals/NetworkSpecs';
 
 interface Props {
   className?: string;
@@ -28,9 +26,7 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
-  const [isQrOpen, setQrOpen] = useState<boolean>(false);
   const [settings, setSettings] = useState(uiSettings.get());
-  const apiProps = useApi();
   const iconOptions = useMemo((): Option[] => {
     return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
   }, [t]);
@@ -72,8 +68,6 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
     },
     [settings]
   );
-  const _showNetworkSpecsQr = (): void => setQrOpen(true);
-  const _closeNetworkSpecsQr = (): void => setQrOpen(false);
 
   const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
@@ -137,15 +131,6 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
             <Button.Or />
           </>
         )}
-        {isQrOpen && <NetworkSpecs onClose={_closeNetworkSpecsQr}/>}
-        <Button
-          isDisabled={!apiProps.isApiReady}
-          isPrimary={isModalContent}
-          onClick={_showNetworkSpecsQr}
-          label={t('Export Network Specs')}
-          icon='external'
-        />
-        <Button.Or/>
         <Button
           isDisabled={changed === null}
           isPrimary={isModalContent}

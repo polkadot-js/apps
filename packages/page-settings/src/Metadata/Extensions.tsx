@@ -6,9 +6,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Button, Dropdown } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
-import useChainInfo from './useChainInfo';
-import useExtensions from './useExtensions';
+import { useTranslation } from '../translate';
+import useChainInfo from '../useChainInfo';
+import useExtensions from '../useExtensions';
 
 function Extensions (): React.ReactElement {
   const { t } = useTranslation();

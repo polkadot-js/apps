@@ -37,14 +37,6 @@ const nodeColors: Record<string, any> = [
   [node.toLowerCase().replace(/-/g, ' ')]: color
 }), {});
 
-function sanitize (value?: string): string {
-  return value?.toLowerCase().replace('-', ' ') || '';
-}
-
-export const getSystemChainColor = (systemChain: string, systemName: string): string | undefined => {
-  return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)];
-};
-
 export {
   defaultColor,
   chainColors,
