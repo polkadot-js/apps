@@ -12,7 +12,7 @@ import { formatBalance, formatNumber } from '@polkadot/util';
 import { classes } from './util';
 import { BitLengthOption } from './constants';
 // import Button from './Button';
-import Dropdown from './Dropdown';
+// import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
 
@@ -67,15 +67,15 @@ function getRegex (isDecimal: boolean): RegExp {
   );
 }
 
-function getSiOptions (): { text: string; value: string }[] {
-  return formatBalance.getOptions()
-    .map(({ power, text, value }): { text: string; value: string } => ({
-      value,
-      text: power === 0
-        ? TokenUnit.abbr
-        : text
-    }));
-}
+// function getSiOptions (): { text: string; value: string }[] {
+//   return formatBalance.getOptions()
+//     .map(({ power, text, value }): { text: string; value: string } => ({
+//       value,
+//       text: power === 0
+//         ? TokenUnit.abbr
+//         : text
+//     }));
+// }
 
 function getSiPowers (si: SiDef | null): [BN, number, number] {
   if (!si) {
@@ -219,7 +219,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = ZERO, help, isDecimal, isFull, isSi, isDisabled, isError = false, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, style, value: propsValue } = props;
 
-  const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
+  const [si] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
 
   const [[value, valueBn, isValid], setValues] = useState<[string, BN, boolean]>(
@@ -272,9 +272,9 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
     }
   };
 
-  const _onSelectSiUnit = (siUnit: string): void => {
-    setSi(formatBalance.findSi(siUnit));
-  };
+  // const _onSelectSiUnit = (siUnit: string): void => {
+  //   setSi(formatBalance.findSi(siUnit));
+  // };
 
   // const _onClickMaxButton = (): void => {
   //   !!maxValue && setValue(bnToInput(maxValue, si));
@@ -287,7 +287,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
       {...props}
       className={classes('ui--InputNumber', className)}
       help={help}
-      isAction={isSi}
+      // isAction={isSi}
       isDisabled={isDisabled}
       isError={!isValid || isError}
       isFull={isFull}
@@ -312,7 +312,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
           {t('Max')}
         </Button>
       ) */}
-      {!!si && (
+      {/* {!!si && (
         <Dropdown
           dropdownClassName='ui--SiDropdown'
           isButton
@@ -320,7 +320,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
           onChange={_onSelectSiUnit}
           options={getSiOptions()}
         />
-      )}
+      )} */}
     </Input>
   );
 }
