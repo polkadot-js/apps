@@ -42,9 +42,9 @@ function LabelHelp ({ className, help, style }: Props): React.ReactElement<Props
   );
 }
 
-export default styled(LabelHelp)`
+export default React.memo(styled(LabelHelp)`
   cursor: help;
   display: inline-block;
   line-height: 1rem;
   margin: 0 0 0 0.25rem;
-`;
+`);

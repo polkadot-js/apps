@@ -5,7 +5,7 @@
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AddressMini } from '@polkadot/react-components';
+import { AddressMini, Expander } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -13,18 +13,11 @@ interface Props {
   voters: AccountId[];
 }
 
-export default function Voters ({ voters }: Props): React.ReactElement<Props> | null {
+function Voters ({ voters }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
-    <details>
-      <summary>
-        {t('Voters ({{count}})', {
-          replace: {
-            count: voters.length
-          }
-        })}
-      </summary>
+    <Expander summary={t('Voters ({{count}})', { replace: { count: voters.length } })}>
       {voters.map((who): React.ReactNode =>
         <AddressMini
           key={who.toString()}
@@ -32,6 +25,8 @@ export default function Voters ({ voters }: Props): React.ReactElement<Props> | 
           withLockedVote
         />
       )}
-    </details>
+    </Expander>
   );
 }
+
+export default React.memo(Voters);

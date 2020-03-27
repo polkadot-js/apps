@@ -16,7 +16,7 @@ import Sudo from './Sudo';
 
 import { useTranslation } from './translate';
 
-export default function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
+function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts, sudoKey, isMine } = useSudo();
   const items = useMemo(() => [
@@ -71,3 +71,5 @@ export default function SudoApp ({ basePath }: Props): React.ReactElement<Props>
     </main>
   );
 }
+
+export default React.memo(SudoApp);

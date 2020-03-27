@@ -14,7 +14,7 @@ interface Props {
   value: Bid;
 }
 
-export default function BidRow ({ value: { who, kind, value } }: Props): React.ReactElement<Props> {
+function BidRow ({ value: { who, kind, value } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -35,3 +35,5 @@ export default function BidRow ({ value: { who, kind, value } }: Props): React.R
     </tr>
   );
 }
+
+export default React.memo(BidRow);

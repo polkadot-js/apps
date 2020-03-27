@@ -61,5 +61,20 @@
   "no unapplied slashes found": "no unapplied slashes found",
   "Cancel": "Cancel",
   "Revert": "Revert",
-  "Vote on proposal": "Vote on proposal"
+  "Vote on proposal": "Vote on proposal",
+  "council candidates": "council candidates",
+  "Select and order council candidates you wish to vote for.": "Select and order council candidates you wish to vote for.",
+  "my ordered votes": "my ordered votes",
+  "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.",
+  "Prime member": "Prime member",
+  "prime voter": "prime voter",
+  "voting end": "voting end",
+  "Propose external": "Propose external",
+  "Propose external (majority)": "Propose external (majority)",
+  "The preimage hash of the proposal": "The preimage hash of the proposal",
+  "preimage hash": "preimage hash",
+  "Propose": "Propose",
+  "Select the account you wish to submit for candidacy.": "Select the account you wish to submit for candidacy.",
+  "candidate account": "candidate account",
+  "Current prime member, default voting": "Current prime member, default voting"
 }

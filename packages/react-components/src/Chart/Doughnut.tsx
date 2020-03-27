@@ -2,25 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '../types';
+import { DoughnutProps } from './types';
 
-import BN from 'bn.js';
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { bnToBn } from '@polkadot/util';
 
 import Base from './Base';
-
-interface Value {
-  colors: string[];
-  label: string;
-  value: number | BN;
-}
-
-interface Props extends BareProps {
-  size?: number;
-  values: Value[];
-}
 
 interface Options {
   colorNormal: string[];
@@ -29,7 +17,7 @@ interface Options {
   labels: string[];
 }
 
-export default function ChartDoughnut ({ className, size = 100, style, values }: Props): React.ReactElement<Props> {
+function ChartDoughnut ({ className, size = 100, style, values }: DoughnutProps): React.ReactElement<DoughnutProps> {
   const options: Options = {
     colorNormal: [],
     colorHover: [],
@@ -69,3 +57,5 @@ export default function ChartDoughnut ({ className, size = 100, style, values }:
     </Base>
   );
 }
+
+export default React.memo(ChartDoughnut);

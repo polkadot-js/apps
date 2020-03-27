@@ -13,7 +13,7 @@ interface Props extends BareProps, CallProps {
   label?: React.ReactNode;
 }
 
-export default function BestHash ({ className, label, style }: Props): React.ReactElement<Props> {
+function BestHash ({ className, label, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const newHead = useCall<Header>(api.rpc.chain.subscribeNewHeads, []);
 
@@ -26,3 +26,5 @@ export default function BestHash ({ className, label, style }: Props): React.Rea
     </div>
   );
 }
+
+export default React.memo(BestHash);

@@ -4,17 +4,16 @@
 
 import { Routes } from './types';
 
-import Staking from '@polkadot/app-staking';
+// import Staking from '@polkadot/app-staking';
+import Staking, { useCounter } from '@polkadot/app-staking';
 
 export default ([
   {
     Component: Staking,
+    useCounter,
     display: {
       needsApi: [
-        [
-          'tx.staking.bond' // current bonding API
-          // 'tx.staking.stake' // previous staking API
-        ]
+        ['tx.staking.bond']
       ]
     },
     i18n: {

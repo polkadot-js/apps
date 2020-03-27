@@ -8,7 +8,7 @@ import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 
 export interface ComponentProps {
-  electionsInfo: DerivedElectionsInfo;
+  electionsInfo?: DerivedElectionsInfo;
 }
 
 export interface VoterPosition {

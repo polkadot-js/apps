@@ -15,7 +15,7 @@ import Propose from './Propose';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-export default function Overview ({ className }: Props): React.ReactElement<Props> {
+function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DerivedTreasuryProposals>(api.derive.treasury.proposals, []);
 
@@ -33,3 +33,5 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
     </div>
   );
 }
+
+export default React.memo(Overview);

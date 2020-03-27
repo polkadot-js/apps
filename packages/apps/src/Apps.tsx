@@ -4,11 +4,13 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
+import { getSystemChainColor } from '@polkadot/apps-config/ui';
+import { defaultColor } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
 import AccountsOverlay from './overlays/Accounts';
@@ -16,6 +18,7 @@ import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
+import WarmUp from './WarmUp';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -24,24 +27,10 @@ interface SidebarState {
   transition: SideBarTransition;
 }
 
-function WarmUp (): React.ReactElement {
-  const { api, isApiReady } = useApi();
-  const fees = useCall<any>(isApiReady ? api.derive.balances?.fees : undefined, []);
-  const indexes = useCall<any>(isApiReady ? api.derive.accounts?.indexes : undefined, []);
-  const registrars = useCall<any>(isApiReady ? api.query.identity?.registrars : undefined, []);
-  const staking = useCall<any>(isApiReady ? api.derive.staking?.overview : undefined, []);
-  const [hasValues, setHasValues] = useState(false);
-
-  useEffect((): void => {
-    setHasValues(!!fees || !!indexes || !!registrars || !!staking);
-  }, []);
-
-  return (
-    <div className={`apps--api-warm ${hasValues}`} />
-  );
-}
+export const PORTAL_ID = 'portals';
 
 function Apps ({ className }: Props): React.ReactElement<Props> {
+  const { systemChain, systemName } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
     isMenuOpen: false,
@@ -49,29 +38,44 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     ...store.get('sidebar', {}),
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
+  const uiHighlight = useMemo((): string | undefined =>
+    getSystemChainColor(systemChain, systemName), [systemChain, systemName]
+  );
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
-  const _setSidebar = (update: Partial<SidebarState>): void =>
-    setSidebar(store.set('sidebar', { ...sidebar, ...update }));
-  const _collapse = (): void =>
-    _setSidebar({ isCollapsed: !isCollapsed });
-  const _toggleMenu = (): void =>
-    _setSidebar({ isCollapsed: false, isMenuOpen: true });
-  const _handleResize = (): void => {
-    const transition = window.innerWidth < SIDEBAR_MENU_THRESHOLD
-      ? SideBarTransition.MINIMISED_AND_EXPANDED
-      : SideBarTransition.EXPANDED_AND_MAXIMISED;
+  const _setSidebar = useCallback(
+    (update: Partial<SidebarState>): void =>
+      setSidebar((sidebar: SidebarState) =>
+        store.set('sidebar', { ...sidebar, ...update })
+      ),
+    []
+  );
+  const _collapse = useCallback(
+    (): void => _setSidebar({ isCollapsed: !isCollapsed }),
+    [isCollapsed]
+  );
+  const _toggleMenu = useCallback(
+    (): void => _setSidebar({ isCollapsed: false, isMenuOpen: true }),
+    []
+  );
+  const _handleResize = useCallback(
+    (): void => {
+      const transition = window.innerWidth < SIDEBAR_MENU_THRESHOLD
+        ? SideBarTransition.MINIMISED_AND_EXPANDED
+        : SideBarTransition.EXPANDED_AND_MAXIMISED;
 
-    _setSidebar({
-      isMenu: transition === SideBarTransition.MINIMISED_AND_EXPANDED,
-      isMenuOpen: false,
-      transition
-    });
-  };
+      _setSidebar({
+        isMenu: transition === SideBarTransition.MINIMISED_AND_EXPANDED,
+        isMenuOpen: false,
+        transition
+      });
+    },
+    []
+  );
 
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
         <div
           className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
@@ -89,13 +93,14 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         </Signer>
         <ConnectingOverlay />
         <AccountsOverlay />
+        <div id={PORTAL_ID} />
       </div>
       <WarmUp />
     </>
   );
 }
 
-export default styled(Apps)`
+export default React.memo(styled(Apps)`
   align-items: stretch;
   box-sizing: border-box;
   display: flex;
@@ -113,17 +118,20 @@ export default styled(Apps)`
         background: #5f5f5f;
         border-radius: 0.28571429rem 0 0 0.28571429rem;
         color: #eee;
+        margin-right: 0.25rem;
       }
     }
 
     a.apps--SideBar-Item-NavLink-active {
       background: #fafafa;
       border-radius: 0.28571429rem 0 0 0.28571429rem;
+      // border-bottom: 2px solid transparent;
       color: #3f3f3f;
 
       &:hover {
         background: #fafafa;
         color: #3f3f3f;
+        margin-right: 0;
       }
     }
   }
@@ -144,16 +152,18 @@ export default styled(Apps)`
     }
 
     .apps--SideBar-logo {
-      margin: 0.875rem auto;
-      padding: 0;
-      width: 3rem;
+      .apps--SideBar-logo-inner {
+        margin: auto;
+        padding: 0;
+        width: 3rem;
 
-      img {
-        margin: 0 0.25rem 0 0;
-      }
+        img {
+          margin: 0 0.4rem;
+        }
 
-      > div.info {
-        display: none;
+        > div.info {
+          display: none;
+        }
       }
     }
 
@@ -188,7 +198,7 @@ export default styled(Apps)`
   }
 
   .apps--Menu-bg {
-    background: rgba(0,0,0,0.6);
+    background: transparent;
     height: 100%;
     left: 0;
     position: absolute;
@@ -206,4 +216,4 @@ export default styled(Apps)`
       opacity: 1;
     }
   }
-`;
+`);

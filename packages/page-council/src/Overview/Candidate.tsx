@@ -5,25 +5,36 @@
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AddressSmall } from '@polkadot/react-components';
+import { AddressSmall, Tag } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 import Voters from './Voters';
 
 interface Props {
+  className?: string;
   address: AccountId;
   balance?: Balance;
+  isPrime?: boolean;
   voters?: AccountId[];
 }
 
-export default function Candidate ({ address, balance, voters }: Props): React.ReactElement<Props> {
+function Candidate ({ className, address, balance, isPrime, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <tr>
-      <td className='top'>
+    <tr className={className}>
+      <td className='address'>
         <AddressSmall value={address} />
+      </td>
+      <td className='together top padtop'>
+        {isPrime && (
+          <Tag
+            color='green'
+            hover={t('Current prime member, default voting')}
+            label={t('prime voter')}
+          />
+        )}
       </td>
       <td className='top together right'>
         {balance && balance.gtn(0) && (
@@ -38,3 +49,5 @@ export default function Candidate ({ address, balance, voters }: Props): React.R
     </tr>
   );
 }
+
+export default React.memo(Candidate);

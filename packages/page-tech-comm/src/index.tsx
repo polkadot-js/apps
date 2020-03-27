@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Option } from '@polkadot/types';
 import { AccountId, Hash } from '@polkadot/types/interfaces';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
 import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
@@ -18,11 +19,14 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps {}
 
-export default function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const members = useCall<AccountId[]>(api.query.technicalCommittee.members, []);
-  const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals, []);
+  const { isMember, members } = useMembers('technicalCommittee');
+  const prime = useCall<AccountId | null>(api.query.technicalCommittee.prime, [], {
+    transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
+  }) || null;
+  const proposals = useCall<Hash[]>(api.query.technicalCommittee.proposals);
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -46,13 +50,17 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
       <Switch>
         <Route path={`${basePath}/proposals`}>
           <Proposals
+            isMember={isMember}
             members={members}
+            prime={prime}
             proposals={proposals}
           />
         </Route>
         <Route path={basePath}>
           <Overview
+            isMember={isMember}
             members={members}
+            prime={prime}
             proposals={proposals}
           />
         </Route>
@@ -60,3 +68,5 @@ export default function TechCommApp ({ basePath, className }: Props): React.Reac
     </main>
   );
 }
+
+export default React.memo(TechCommApp);

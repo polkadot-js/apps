@@ -7,7 +7,6 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
-import AccountIndex from './AccountIndex';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 
@@ -16,7 +15,7 @@ interface Props {
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
-  toggle?: any;
+  toggle?: boolean;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
@@ -36,13 +35,12 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
           toggle={toggle}
           value={value}
         />
-        <AccountIndex value={value} />
       </div>
     </div>
   );
 }
 
-export default styled(AddressSmall)`
+export default React.memo(styled(AddressSmall)`
   vertical-align: middle;
   white-space: nowrap;
 
@@ -67,4 +65,4 @@ export default styled(AddressSmall)`
       text-overflow: ellipsis;
     }
   }
-`;
+`);

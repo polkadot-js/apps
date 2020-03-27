@@ -56,7 +56,7 @@ function InputAddressSimple ({ children, className, defaultValue, help, isFull, 
   );
 }
 
-export default styled(InputAddressSimple)`
+export default React.memo(styled(InputAddressSimple)`
   position: relative;
 
   .ui--InputAddressSimpleIcon {
@@ -67,4 +67,4 @@ export default styled(InputAddressSimple)`
     position: absolute;
     top: 1rem;
   }
-`;
+`);

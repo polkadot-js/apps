@@ -22,7 +22,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function Output ({ className, children, help, isError, isHidden, isMonospace, label, style, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ className, children, help, isError, isHidden, isMonospace, label, style, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
@@ -49,3 +49,5 @@ export default function Output ({ className, children, help, isError, isHidden, 
     </Labelled>
   );
 }
+
+export default React.memo(Output);

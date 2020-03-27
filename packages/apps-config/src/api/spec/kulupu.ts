@@ -4,17 +4,19 @@
 
 export default {
   Address: 'GenericAddress',
-  BalanceLock: 'BalanceLockTo212',
   Difficulty: 'U256',
   DifficultyAndTimestamp: {
     difficulty: 'Difficulty',
     timestamp: 'Moment'
   },
+  // previous substrate versions
+  BalanceLock: 'BalanceLockTo212',
   DispatchError: 'DispatchErrorTo198',
   DispatchResult: 'DispatchResultTo198',
   DispatchInfo: {
     weight: 'Weight',
     class: 'DispatchClass'
   },
+  ReferendumInfo: 'ReferendumInfoTo239',
   StakingLedger: 'StakingLedgerTo223'
 };

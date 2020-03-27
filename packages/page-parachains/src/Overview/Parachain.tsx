@@ -7,7 +7,6 @@ import { DeriveParachain } from '@polkadot/api-derive/types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { formatNumber } from '@polkadot/util';
 import { Badge, Icon } from '@polkadot/react-components';
 import ParachainInfo from '../ParachainInfo';
 
@@ -18,7 +17,7 @@ interface Props {
   parachain: DeriveParachain;
 }
 
-function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0, watermark } }: Props): React.ReactElement<Props> {
+function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -81,15 +80,11 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
         <label>{t('scheduling')}</label>
         {info?.scheduling?.toString() || t('<unknown>')}
       </td>
-      <td className='top number together'>
-        <label>{t('watermark')}</label>
-        <h1>#{formatNumber(watermark)}</h1>
-      </td>
     </tr>
   );
 }
 
-export default styled(Parachain)`
+export default React.memo(styled(Parachain)`
   & {
     cursor: pointer !important;
   }
@@ -118,4 +113,4 @@ export default styled(Parachain)`
   .did-update {
     margin-bottom: 0;
   }
-`;
+`);

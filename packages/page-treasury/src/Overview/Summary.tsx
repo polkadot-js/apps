@@ -20,7 +20,7 @@ interface Props {
   proposalCount?: number;
 }
 
-export default function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
+function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<Balance>(api.derive.chain.bestNumber as any, []);
@@ -57,7 +57,8 @@ export default function Summary ({ approvalCount, proposalCount }: Props): React
             label={t('spend period')}
             progress={{
               total: spendPeriod,
-              value: bestNumber.mod(spendPeriod)
+              value: bestNumber.mod(spendPeriod),
+              withTime: true
             }}
           />
         </section>
@@ -65,3 +66,5 @@ export default function Summary ({ approvalCount, proposalCount }: Props): React
     </SummaryBox>
   );
 }
+
+export default React.memo(Summary);

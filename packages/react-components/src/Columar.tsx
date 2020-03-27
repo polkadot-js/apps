@@ -18,7 +18,7 @@ function Columar ({ children, className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Columar)`
+export default React.memo(styled(Columar)`
   display: flex;
   flex-wrap: wrap;
 
@@ -28,4 +28,4 @@ export default styled(Columar)`
       min-width: 50%;
     }
   }
-`;
+`);

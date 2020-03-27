@@ -4,7 +4,7 @@
 
 import { Option } from '@polkadot/apps-config/settings/types';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { availableLanguages, availableSs58 } from '@polkadot/apps-config/settings';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, ButtonCancel, Dropdown } from '@polkadot/react-components';
@@ -22,7 +22,7 @@ interface Props {
 
 const ledgerConnOptions = uiSettings.availableLedgerConn;
 
-export default function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
+function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
@@ -30,8 +30,8 @@ export default function General ({ className, isModalContent, onClose }: Props):
   const iconOptions = useMemo((): Option[] => {
     return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
   }, [t]);
-  const prefixOptions = useMemo((): Option[] => {
-    return availableSs58.map((o): Option => createOption(t, o, ['default']));
+  const prefixOptions = useMemo((): (Option | React.ReactNode)[] => {
+    return availableSs58.map((o): Option | React.ReactNode => createOption(t, o, ['default']));
   }, [t]);
   const translateLanguages = useMemo((): Option[] => {
     return availableLanguages.map(({ text, value, withI18n }) => ({
@@ -52,14 +52,22 @@ export default function General ({ className, isModalContent, onClose }: Props):
     );
   }, [settings]);
 
-  const _handleChange = (key: keyof SettingsStruct) => <T extends string | number>(value: T): void => {
-    setSettings({ ...settings, [key]: value });
-  };
-  const _saveAndReload = (): void => saveAndReload(settings);
-  const _save = (): void => {
-    save(settings);
-    setChanged(null);
-  };
+  const _handleChange = useCallback(
+    (key: keyof SettingsStruct) => <T extends string | number>(value: T): void =>
+      setSettings((settings) => ({ ...settings, [key]: value })),
+    []
+  );
+  const _saveAndReload = useCallback(
+    (): void => saveAndReload(settings),
+    [settings]
+  );
+  const _save = useCallback(
+    (): void => {
+      save(settings);
+      setChanged(null);
+    },
+    [settings]
+  );
 
   const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
 
@@ -125,7 +133,7 @@ export default function General ({ className, isModalContent, onClose }: Props):
         )}
         <Button
           isDisabled={changed === null}
-          isPrimary
+          isPrimary={isModalContent}
           onClick={
             changed
               ? _saveAndReload
@@ -142,3 +150,5 @@ export default function General ({ className, isModalContent, onClose }: Props):
     </div>
   );
 }
+
+export default React.memo(General);

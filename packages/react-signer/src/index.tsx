@@ -31,7 +31,7 @@ function Signer ({ children, className, style }: Props): React.ReactElement<Prop
   );
 }
 
-export default styled(Signer)`
+export default React.memo(styled(Signer)`
   .ui--signer-Signer-Content {
     .modal-Text {
       margin-bottom: 1em;
@@ -71,4 +71,4 @@ export default styled(Signer)`
     position: absolute;
     left: 1rem;
   }
-`;
+`);

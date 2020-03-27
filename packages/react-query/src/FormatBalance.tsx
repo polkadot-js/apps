@@ -21,29 +21,31 @@ interface Props extends BareProps {
 
 // for million, 2 * 3-grouping + comma
 const M_LENGTH = 6 + 1;
+const K_LENGTH = 3 + 1;
 
-function format (value: Compact<any> | BN | string, currency: string): React.ReactNode {
+function format (value: Compact<any> | BN | string, currency: string, withSi?: boolean): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
+  const isShort = withSi && prefix.length >= K_LENGTH;
 
   if (prefix.length > M_LENGTH) {
     // TODO Format with balance-postfix
     return formatBalance(value);
   }
 
-  return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span> {currency}</>;
+  return <>{prefix}{!isShort && (<>.<span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {currency}</>;
 }
 
-function formatSi (value: Compact<any> | BN | string): React.ReactNode {
-  const strValue = ((value as Compact<any>).toBn ? (value as Compact<any>).toBn() : value).toString();
-  const [prefix, postfix] = strValue === '0'
-    ? ['0', '0']
-    : formatBalance(value, { withSi: false }).split('.');
-  const unit = strValue === '0'
-    ? ''
-    : formatBalance.calcSi(strValue).value;
+// function formatSi (value: Compact<any> | BN | string): React.ReactNode {
+//   const strValue = ((value as Compact<any>).toBn ? (value as Compact<any>).toBn() : value).toString();
+//   const [prefix, postfix] = strValue === '0'
+//     ? ['0', '0']
+//     : formatBalance(value, { withSi: false }).split('.');
+//   const unit = strValue === '0'
+//     ? ''
+//     : formatBalance.calcSi(strValue).value;
 
-  return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
-}
+//   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
+// }
 
 function FormatBalance ({ children, className, label, value, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -51,22 +53,21 @@ function FormatBalance ({ children, className, label, value, withSi }: Props): R
 
   return (
     <div className={`ui--FormatBalance ${className}`}>
-      {label || ''}{
+      {label || ''}<span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
-            ? t('all available')
-            : withSi
-              ? formatSi(value)
-              : format(value, currency)
+            ? t('everything')
+            : format(value, currency, withSi)
           : '-'
-      }{children}
+      }</span>{children}
     </div>
   );
 }
 
-export default styled(FormatBalance)`
+export default React.memo(styled(FormatBalance)`
   display: inline-block;
   vertical-align: baseline;
+  white-space: nowrap;
 
   * {
     vertical-align: baseline !important;
@@ -79,9 +80,13 @@ export default styled(FormatBalance)`
     vertical-align: baseline;
   }
 
-  > .balance-postfix {
-    font-weight: 100;
-    opacity: 0.75;
-    vertical-align: baseline;
+  .ui--FormatBalance-value {
+    text-align: right;
+
+    > .ui--FormatBalance-postfix {
+      font-weight: 100;
+      opacity: 0.75;
+      vertical-align: baseline;
+    }
   }
-`;
+`);

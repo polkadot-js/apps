@@ -14,7 +14,7 @@ interface Props extends BareProps {
   value?: QueryTypes[];
 }
 
-export default function Queries ({ onRemove, value }: Props): React.ReactElement<Props> | null {
+function Queries ({ onRemove, value }: Props): React.ReactElement<Props> | null {
   if (!value || !value.length) {
     return null;
   }
@@ -31,3 +31,5 @@ export default function Queries ({ onRemove, value }: Props): React.ReactElement
     </section>
   );
 }
+
+export default React.memo(Queries);

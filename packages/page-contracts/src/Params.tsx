@@ -21,13 +21,11 @@ interface ParamDef {
   type: TypeDef;
 }
 
-export default function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
+function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
-    if (propParams) {
-      setParams(propParams);
-    }
+    propParams && setParams(propParams);
   }, [propParams]);
 
   if (!params.length) {
@@ -47,3 +45,5 @@ export default function Params ({ isDisabled, onChange, onEnter, params: propPar
     />
   );
 }
+
+export default React.memo(Params);

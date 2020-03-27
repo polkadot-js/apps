@@ -14,7 +14,7 @@ import AccountSelector from './AccountSelector';
 import SummaryBar from './SummaryBar';
 import Transfer from './Transfer';
 
-export default function TemplateApp ({ className }: Props): React.ReactElement<Props> {
+function TemplateApp ({ className }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
 
   return (
@@ -27,3 +27,5 @@ export default function TemplateApp ({ className }: Props): React.ReactElement<P
     </main>
   );
 }
+
+export default React.memo(TemplateApp);

@@ -10,7 +10,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, CardSummary, Columar, Column, Icon, Menu, Popup, Spinner, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall, useModal, useToggle } from '@polkadot/react-hooks';
-import { formatNumber, isNull, isUndefined } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 import ParachainInfo from '../ParachainInfo';
 import Deregister from './Deregister';
@@ -38,8 +38,6 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
       <Spinner />
     );
   }
-
-  console.log(parachain);
 
   if (!id || isNull(parachain)) {
     return (
@@ -112,11 +110,6 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
               {parachain.pendingSwapId.toString()}
             </CardSummary>
           )}
-          {parachain.watermark && (
-            <CardSummary label={t('watermark')}>
-              #{formatNumber(parachain.watermark)}
-            </CardSummary>
-          )}
         </section>
       </SummaryBox>
       <Columar>
@@ -141,10 +134,10 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
   );
 }
 
-export default styled(Parachain)`
+export default React.memo(styled(Parachain)`
   & {
     .menu-button {
       margin-left: 1.4rem;
     }
   }
-`;
+`);

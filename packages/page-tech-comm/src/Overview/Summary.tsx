@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -13,7 +12,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-export default function Summary ({ className, members, proposals }: Props): React.ReactElement<Props> {
+function Summary ({ className, members, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const proposalCount = useCall<u32>(api.query.technicalCommittee.proposalCount, []);
@@ -21,7 +20,7 @@ export default function Summary ({ className, members, proposals }: Props): Reac
   return (
     <SummaryBox className={className}>
       <CardSummary label={t('members')}>
-        {formatNumber(members?.length)}
+        {formatNumber(members.length)}
       </CardSummary>
       <section>
         <CardSummary label={t('proposals')}>
@@ -34,3 +33,5 @@ export default function Summary ({ className, members, proposals }: Props): Reac
     </SummaryBox>
   );
 }
+
+export default React.memo(Summary);

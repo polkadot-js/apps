@@ -4,34 +4,41 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router';
-
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
 import md from './md/basics.md';
 import { useTranslation } from './translate';
 import Developer from './Developer';
+import Metadata from './Metadata';
 import General from './General';
+import useCounter from './useCounter';
+
+export { useCounter };
 
 const hidden = uiSettings.uiMode === 'full'
   ? []
   : ['developer'];
 
-export default function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const items = useMemo(() => [
+  const items = [
     {
       isRoot: true,
       name: 'general',
       text: t('General')
     },
     {
+      name: 'metadata',
+      text: t('Metadata')
+    },
+    {
       name: 'developer',
       text: t('Developer')
     }
-  ], [t]);
+  ];
 
   return (
     <main className='settings--App'>
@@ -50,8 +57,13 @@ export default function SettingsApp ({ basePath, onStatusChange }: Props): React
             onStatusChange={onStatusChange}
           />
         </Route>
+        <Route path={`${basePath}/metadata`}>
+          <Metadata />
+        </Route>
         <Route component={General} />
       </Switch>
     </main>
   );
 }
+
+export default React.memo(SettingsApp);

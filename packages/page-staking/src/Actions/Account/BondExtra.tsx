@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,14 +10,10 @@ import { CalculateBalanceProps } from '../../types';
 import BN from 'bn.js';
 import React from 'react';
 import { Available, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { calcTxLength } from '@polkadot/react-signer/Checks';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
-import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
-import { bnMax } from '@polkadot/util';
 
 import translate from '../../translate';
-import detectUnsafe from '../../unsafeChains';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
@@ -41,19 +37,6 @@ class BondExtra extends TxComponent<Props, State> {
     amountError: null,
     extrinsic: null
   };
-
-  public componentDidUpdate (prevProps: Props, prevState: State): void {
-    const { balances_fees } = this.props;
-    const { extrinsic } = this.state;
-
-    const hasLengthChanged = ((extrinsic && extrinsic.encodedLength) || 0) !== ((prevState.extrinsic && prevState.extrinsic.encodedLength) || 0);
-
-    if ((balances_fees !== prevProps.balances_fees) ||
-      hasLengthChanged
-    ) {
-      this.setMaxBalance();
-    }
-  }
 
   public render (): React.ReactNode {
     const { isOpen, onClose, stashId, t } = this.props;
@@ -88,9 +71,8 @@ class BondExtra extends TxComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { stashId, systemChain, t } = this.props;
+    const { stashId, t } = this.props;
     const { amountError, maxAdditional, maxBalance } = this.state;
-    const isUnsafeChain = detectUnsafe(systemChain);
 
     return (
       <Modal.Content className='ui--signer-Signer-Content'>
@@ -110,7 +92,6 @@ class BondExtra extends TxComponent<Props, State> {
           maxValue={maxBalance}
           onChange={this.onChangeValue}
           onEnter={this.sendTx}
-          withMax={!isUnsafeChain}
         />
         <ValidateAmount
           accountId={stashId}
@@ -135,36 +116,6 @@ class BondExtra extends TxComponent<Props, State> {
         maxAdditional,
         maxBalance
       };
-    });
-  }
-
-  private setMaxBalance = (): void => {
-    const { api, balances_fees = ZERO_FEES, balances_all = ZERO_BALANCE } = this.props;
-    const { maxAdditional } = this.state;
-
-    const { transactionBaseFee, transactionByteFee } = balances_fees;
-    const { accountNonce, freeBalance } = balances_all;
-
-    let prevMax = new BN(0);
-    let maxBalance = new BN(1);
-    let extrinsic: any;
-
-    while (!prevMax.eq(maxBalance)) {
-      prevMax = maxBalance;
-      extrinsic = (maxAdditional && maxAdditional.gte(ZERO))
-        ? api.tx.staking.bondExtra(maxAdditional)
-        : null;
-
-      const txLength = calcTxLength(extrinsic, accountNonce);
-      const fees = transactionBaseFee.add(transactionByteFee.mul(txLength));
-
-      maxBalance = bnMax(freeBalance.sub(fees), ZERO);
-    }
-
-    this.nextState({
-      extrinsic,
-      maxAdditional,
-      maxBalance
     });
   }
 

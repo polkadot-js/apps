@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSociety } from '@polkadot/api-derive/types';
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { BlockNumber } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { AccountIndex, IdentityIcon, SummaryBox, CardSummary } from '@polkadot/react-components';
+import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -18,47 +18,20 @@ interface Props {
   info?: DeriveSociety;
 }
 
-interface NameProps {
-  label: string;
-  value?: AccountId;
-}
-
-function Name ({ label, value }: NameProps): React.ReactElement<NameProps> | null {
-  if (!value) {
-    return null;
-  }
-
-  return (
-    <CardSummary label={label}>
-      <div className='society--header--account'>
-        <IdentityIcon
-          size={24}
-          value={value}
-        />
-        <AccountIndex value={value} />
-      </div>
-    </CardSummary>
-  );
-}
-
 function Summary ({ className, info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<any[]>(api.derive.society.members, []);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
-  const pot = info?.pot.gtn(0)
-    ? info.pot.toString()
-    : null;
+  const pot = useMemo((): string | null => {
+    return info?.pot.gtn(0)
+      ? info.pot.toString()
+      : null;
+  }, [info]);
 
   return (
     <SummaryBox className={className}>
-      <section>
-        <Name
-          label={t('head')}
-          value={info?.head}
-        />
-      </section>
       <section className='ui--media-medium'>
         {info && members && (
           <CardSummary label={t('members')}>
@@ -73,7 +46,8 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
               label={t('rotation')}
               progress={{
                 total: api.consts.society.rotationPeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber)
+                value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber),
+                withTime: true
               }}
             />
           </section>
@@ -82,29 +56,32 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
               label={t('challenge')}
               progress={{
                 total: api.consts.society.challengePeriod as BlockNumber,
-                value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber)
+                value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber),
+                withTime: true
               }}
             />
           </section>
         </>
       )}
       <section>
-        <CardSummary label={t('pot')}>
-          <FormatBalance
-            value={pot}
-            withSi
-          />
-        </CardSummary>
+        {pot && (
+          <CardSummary label={t('pot')}>
+            <FormatBalance
+              value={pot}
+              withSi
+            />
+          </CardSummary>
+        )}
       </section>
     </SummaryBox>
   );
 }
 
-export default styled(Summary)`
+export default React.memo(styled(Summary)`
   .society--header--account {
     white-space: nowrap;
 
-    .ui--AccountIndex,
+    .ui--AccountName,
     .ui--IdentityIcon {
       display: inline-block;
     }
@@ -113,4 +90,4 @@ export default styled(Summary)`
       margin-right: 0.5rem;
     }
   }
-`;
+`);

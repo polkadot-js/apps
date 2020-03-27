@@ -14,7 +14,7 @@ interface Props {
   text?: string;
 }
 
-export default function ButtonOr ({ className, style, text }: Props): React.ReactElement<Props> {
+function ButtonOr ({ className, style, text }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -29,3 +29,5 @@ export default function ButtonOr ({ className, style, text }: Props): React.Reac
     />
   );
 }
+
+export default React.memo(ButtonOr);

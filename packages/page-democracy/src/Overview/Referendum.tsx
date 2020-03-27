@@ -1,18 +1,16 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
+import { DerivedReferendumExt } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Expander, LinkExternal, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { FormatBalance, BlockToTime } from '@polkadot/react-query';
+import { formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
@@ -21,75 +19,25 @@ import Voting from './Voting';
 
 interface Props {
   className?: string;
-  idNumber: BN;
-  value: DerivedReferendum;
+  value: DerivedReferendumExt;
 }
 
-interface State {
-  voteCount: number;
-  voteCountAye: number;
-  voteCountNay: number;
-  votedAye: BN;
-  votedNay: BN;
-  votedTotal: BN;
-}
-
-function Referendum ({ className, idNumber, value }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const votesFor = useCall<DerivedReferendumVote[]>(api.derive.democracy.referendumVotesFor as any, [idNumber]);
-  const [{ voteCountAye, voteCountNay, votedAye, votedNay }, setState] = useState<State>({
-    voteCount: 0,
-    voteCountAye: 0,
-    voteCountNay: 0,
-    votedAye: new BN(0),
-    votedNay: new BN(0),
-    votedTotal: new BN(0)
-  });
+  const threshold = useMemo(
+    () => value.status.threshold.type.toString().replace('majority', ' majority '),
+    [value]
+  );
 
-  useEffect((): void => {
-    if (votesFor) {
-      const newState: State = votesFor.reduce((state, { balance, vote }): State => {
-        const isDefault = vote.conviction.index === 0;
-        const counted = balance
-          .muln(isDefault ? 1 : vote.conviction.index)
-          .divn(isDefault ? 10 : 1);
-
-        if (vote.isAye) {
-          state.voteCountAye++;
-          state.votedAye = state.votedAye.add(counted);
-        } else {
-          state.voteCountNay++;
-          state.votedNay = state.votedNay.add(counted);
-        }
-
-        state.voteCount++;
-        state.votedTotal = state.votedTotal.add(counted);
-
-        return state;
-      }, {
-        voteCount: 0,
-        voteCountAye: 0,
-        voteCountNay: 0,
-        votedAye: new BN(0),
-        votedNay: new BN(0),
-        votedTotal: new BN(0)
-      });
-
-      if (newState.votedAye.eq(votedNay) && newState.votedNay.eq(votedNay)) {
-        return;
-      }
-
-      setState(newState);
-    }
-  }, [votesFor]);
-
-  if (!bestNumber || value.info.end.sub(bestNumber).lten(0)) {
+  if (!bestNumber || value.status.end.sub(bestNumber).lten(0)) {
     return null;
   }
 
-  const enactBlock = value.info.end.add(value.info.delay);
+  const enactBlock = value.status.end.add(value.status.delay);
+  const remainBlock = value.status.end.sub(bestNumber).subn(1);
+  const { allAye, allNay, isPassing, voteCountAye, voteCountNay, votedAye, votedNay } = value;
 
   return (
     <tr className={className}>
@@ -101,19 +49,44 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
       />
       <td className='number together top'>
         <label>{t('remaining')}</label>
-        {formatNumber(value.info.end.sub(bestNumber).subn(1))} blocks
+        <BlockToTime blocks={remainBlock} />
+        {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together top'>
-        <label>{t('activate at')}</label>
-        {formatNumber(enactBlock)}
+        <label>{t('activate')}</label>
+        <BlockToTime blocks={enactBlock.sub(bestNumber)} />
+        #{formatNumber(enactBlock)}
       </td>
-      <td className='number together top'>
-        <label>{t('Aye ({{count}})', { replace: { count: formatNumber(voteCountAye) } })}</label>
-        <FormatBalance value={votedAye} />
+      <td className='top'>
+        <label>{t('Aye {{count}}', { replace: { count: voteCountAye ? `(${formatNumber(voteCountAye)})` : '' } })}</label>
+        <Expander summary={<FormatBalance value={votedAye} />}>
+          {allAye.map(({ accountId }) =>
+            <AddressMini
+              key={accountId.toString()}
+              value={accountId}
+            />
+          )}
+        </Expander>
       </td>
-      <td className='number together top'>
-        <label>{t('Nay ({{count}})', { replace: { count: formatNumber(voteCountNay) } })}</label>
-        <FormatBalance value={votedNay} />
+      <td className='top'>
+        <label>{t('Nay {{count}}', { replace: { count: voteCountNay ? `(${formatNumber(voteCountNay)})` : '' } })}</label>
+        <Expander summary={<FormatBalance value={votedNay} />}>
+          {allNay.map(({ accountId }) =>
+            <AddressMini
+              key={accountId.toString()}
+              value={accountId}
+            />
+          )}
+        </Expander>
+      </td>
+      <td className='together top padtop'>
+        {isBoolean(isPassing) && (
+          <Tag
+            color={isPassing ? 'green' : 'red'}
+            hover={isPassing ? t('{{threshold}}, passing', { replace: { threshold } }) : t('{{threshold}}, not passing', { replace: { threshold } })}
+            label={isPassing ? t('passing') : t('failing')}
+          />
+        )}
       </td>
       <td className='number together top'>
         <Button.Group>
@@ -121,10 +94,9 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
             proposal={value.proposal}
             referendumId={value.index}
           />
-          <PreImageButton
-            hash={value.hash}
-            proposal={value.proposal}
-          />
+          {!value.proposal && (
+            <PreImageButton hash={value.hash} />
+          )}
         </Button.Group>
         <LinkExternal
           data={value.index}
@@ -135,7 +107,7 @@ function Referendum ({ className, idNumber, value }: Props): React.ReactElement<
   );
 }
 
-export default styled(Referendum)`
+export default React.memo(styled(Referendum)`
   .democracy--Referendum-results {
     margin-bottom: 1em;
 
@@ -143,4 +115,4 @@ export default styled(Referendum)`
       text-align: center;
     }
   }
-`;
+`);

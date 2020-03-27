@@ -15,7 +15,7 @@ interface State {
   isHexData: boolean;
 }
 
-export default function Hash (): React.ReactElement<{}> {
+function Hash (): React.ReactElement<{}> {
   const { t } = useTranslation();
   const [{ data, hash, isHexData }, setState] = useState<State>({
     data: '',
@@ -76,3 +76,5 @@ export default function Hash (): React.ReactElement<{}> {
     </div>
   );
 }
+
+export default React.memo(Hash);

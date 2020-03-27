@@ -17,6 +17,9 @@ export default {
     referendum: 'proposal/referendum',
     treasury: 'proposal/treasuryproposal'
   },
-  create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://commonwealth.im/${chain}/${path}/${data.toString()}`
+  create: (chain: string, path: string, data: BN | number | string, hash?: string): string => {
+    const withHash = path === 'proposal/councilmotion';
+
+    return `https://commonwealth.im/${chain}/${path}/${withHash ? hash : data.toString()}`;
+  }
 };

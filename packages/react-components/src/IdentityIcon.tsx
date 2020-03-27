@@ -6,6 +6,7 @@ import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { IdentityProps as Props } from '@polkadot/react-identicon/types';
 
 import React, { useContext, useEffect, useState } from 'react';
+import { getSystemIcon } from '@polkadot/apps-config/ui';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
@@ -14,24 +15,14 @@ import { ValidatorsContext } from '@polkadot/react-query';
 import StatusContext from './Status/Context';
 import { useTranslation } from './translate';
 
-// overrides based on the actual software node type
-const NODES: Record<string, string> = {
-  'edgeware-node': 'substrate',
-  'joystream-node': 'beachball',
-  'node-template': 'substrate',
-  'parity-polkadot': 'polkadot',
-  'polkadot-js': 'polkadot',
-  'substrate-node': 'substrate'
-};
-
-export function getIdentityTheme (systemName: string): 'empty' {
-  return ((uiSettings.icon === 'default' && NODES[systemName]) || uiSettings.icon) as 'empty';
+export function getIdentityTheme (systemName: string): 'substrate' {
+  return ((uiSettings.icon === 'default' && getSystemIcon(systemName)) || uiSettings.icon) as 'substrate';
 }
 
-export default function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }: Props): React.ReactElement<Props> {
+function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }: Props): React.ReactElement<Props> {
   const { api, isApiReady, systemName } = useApi();
   const { t } = useTranslation();
-  const info = useCall<DeriveAccountInfo>(isApiReady ? api.derive.accounts.info as any : undefined, [value]);
+  const info = useCall<DeriveAccountInfo>(isApiReady && api.derive.accounts.info as any, [value]);
   const { queueAction } = useContext(StatusContext);
   const validators = useContext(ValidatorsContext);
   const [isValidator, setIsValidator] = useState(false);
@@ -39,15 +30,11 @@ export default function IdentityIcon ({ className, onCopy, prefix, size, style, 
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
-    if (value) {
-      setIsValidator(validators.includes(value.toString()));
-    }
+    value && setIsValidator(validators.includes(value.toString()));
   }, [value, validators]);
 
   useEffect((): void => {
-    if (info) {
-      setAddress(info.accountId?.toString());
-    }
+    info && setAddress(info.accountId?.toString());
   }, [info]);
 
   const _onCopy = (account: string): void => {
@@ -73,3 +60,5 @@ export default function IdentityIcon ({ className, onCopy, prefix, size, style, 
     />
   );
 }
+
+export default React.memo(IdentityIcon);

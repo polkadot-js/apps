@@ -15,7 +15,7 @@ import Sign from './Sign';
 import Verify from './Verify';
 import { useTranslation } from './translate';
 
-export default function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
+function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const items = useMemo(() => [
@@ -60,3 +60,5 @@ export default function ToolboxApp ({ basePath }: Props): React.ReactElement<Pro
     </main>
   );
 }
+
+export default React.memo(ToolboxApp);

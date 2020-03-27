@@ -15,7 +15,7 @@ import { useTranslation } from './translate';
 
 interface Props extends AppProps, BareProps {}
 
-export default function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
+function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -44,3 +44,5 @@ export default function AssetApp ({ basePath }: Props): React.ReactElement<Props
     </main>
   );
 }
+
+export default React.memo(AssetApp);

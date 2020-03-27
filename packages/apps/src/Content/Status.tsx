@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -24,54 +23,58 @@ interface Props {
 
 let prevEventHash: string;
 
-export default function Status ({ optionsAll, queueAction, stqueue, txqueue }: Props): React.ReactElement<Props> {
+function filterEvents (allAccounts: string[], t: (key: string, opts?: object) => string, optionsAll?: KeyringOptions, events?: EventRecord[]): ActionStatus[] | null {
+  const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(events)));
+
+  if (!optionsAll || !events || eventHash === prevEventHash) {
+    return null;
+  }
+
+  prevEventHash = eventHash;
+
+  return events
+    .map(({ event: { data, method, section } }): ActionStatus | null => {
+      if (section === 'balances' && method === 'Transfer') {
+        const account = data[1].toString();
+
+        if (allAccounts.includes(account)) {
+          return {
+            account,
+            action: `${section}.${method}`,
+            status: 'event',
+            message: t('transfer received')
+          };
+        }
+      } else if (section === 'democracy') {
+        const index = data[0].toString();
+
+        return {
+          action: `${section}.${method}`,
+          status: 'event',
+          message: t('update on #{{index}}', {
+            replace: {
+              index
+            }
+          })
+        };
+      }
+
+      return null;
+    })
+    .filter((item): item is ActionStatus => !!item);
+}
+
+function Status ({ optionsAll, queueAction, stqueue, txqueue }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
-  const events = useCall<EventRecord[]>(isApiReady ? api.query.system?.events : undefined, []);
+  const events = useCall<EventRecord[]>(isApiReady && api.query.system?.events, []);
 
   useEffect((): void => {
-    const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(events)));
+    const filtered = filterEvents(allAccounts, t, optionsAll, events);
 
-    if (!optionsAll || eventHash === prevEventHash) {
-      return;
-    }
-
-    prevEventHash = eventHash;
-
-    const statusses = events && events
-      .map(({ event: { data, method, section } }): ActionStatus | null => {
-        if (section === 'balances' && method === 'Transfer') {
-          const account = data[1].toString();
-
-          if (allAccounts.includes(account)) {
-            return {
-              account,
-              action: `${section}.${method}`,
-              status: 'event',
-              message: t('transfer received')
-            };
-          }
-        } else if (section === 'democracy') {
-          const index = data[0].toString();
-
-          return {
-            action: `${section}.${method}`,
-            status: 'event',
-            message: t('update on #{{index}}', {
-              replace: {
-                index
-              }
-            })
-          };
-        }
-
-        return null;
-      })
-      .filter((item): boolean => !!item) as ActionStatus[];
-
-    statusses && statusses.length && queueAction(statusses);
-  }, [events]);
+    filtered && queueAction(filtered);
+  }, [allAccounts, events, optionsAll]);
 
   return (
     <StatusDisplay
@@ -80,3 +83,5 @@ export default function Status ({ optionsAll, queueAction, stqueue, txqueue }: P
     />
   );
 }
+
+export default React.memo(Status);

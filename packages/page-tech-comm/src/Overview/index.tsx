@@ -9,14 +9,20 @@ import React from 'react';
 import Members from './Members';
 import Summary from './Summary';
 
-export default function Overview ({ className, members, proposals }: Props): React.ReactElement<Props> {
+function Overview ({ className, isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
+        isMember={isMember}
         members={members}
         proposals={proposals}
       />
-      <Members members={members} />
+      <Members
+        members={members}
+        prime={prime}
+      />
     </div>
   );
 }
+
+export default React.memo(Overview);

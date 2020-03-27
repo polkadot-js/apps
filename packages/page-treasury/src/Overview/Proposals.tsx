@@ -19,7 +19,7 @@ interface Props {
   proposals?: DerivedTreasuryProposal[];
 }
 
-export default function ProposalsBase ({ className, isApprovals, proposals }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ className, isApprovals, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -28,13 +28,11 @@ export default function ProposalsBase ({ className, isApprovals, proposals }: Pr
   const history = useHistory();
 
   useEffect((): void => {
-    if (allAccounts && members) {
-      setIsMember(
-        members
-          .map(([accountId]): string => accountId.toString())
-          .some((accountId): boolean => allAccounts.includes(accountId))
-      );
-    }
+    allAccounts && members && setIsMember(
+      members
+        .map(([accountId]): string => accountId.toString())
+        .some((accountId): boolean => allAccounts.includes(accountId))
+    );
   }, [allAccounts, members]);
 
   const _onRespond = (): void => {
@@ -63,3 +61,5 @@ export default function ProposalsBase ({ className, isApprovals, proposals }: Pr
     </div>
   );
 }
+
+export default React.memo(ProposalsBase);

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,13 +15,10 @@ interface Props {
   accountId: string | null;
   controllerId: string | null;
   defaultController?: string;
-  isUnsafeChain?: boolean;
   onError: (error: string | null) => void;
 }
 
-const DISTINCT = 'Distinct stash and controller accounts are recommended to ensure fund security.';
-
-export default function ValidateController ({ accountId, controllerId, defaultController, isUnsafeChain, onError }: Props): React.ReactElement<Props> | null {
+function ValidateController ({ accountId, controllerId, defaultController, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bondedId = useCall<string | null>(api.query.staking.bonded, [controllerId], {
@@ -45,9 +42,7 @@ export default function ValidateController ({ accountId, controllerId, defaultCo
       let newError: string | null = null;
 
       if (controllerId === accountId) {
-        newError = isUnsafeChain
-          ? t(`${DISTINCT} You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.`)
-          : t(DISTINCT);
+        newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
       } else if (bondedId) {
         newError = t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
@@ -71,3 +66,5 @@ export default function ValidateController ({ accountId, controllerId, defaultCo
     </article>
   );
 }
+
+export default React.memo(ValidateController);

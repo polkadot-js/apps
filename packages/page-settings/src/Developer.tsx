@@ -5,6 +5,7 @@
 import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import store from 'store';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
@@ -138,10 +139,13 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
           />
         </div>
       </div>
+      <div className='ui--row'>
+        <div className='full'>
+          <Trans i18nKey='devConfig'><div className='help'>If you are a development team with at least a test network available, consider adding the types directly <a href='https://github.com/polkadot-js/apps/tree/master/packages/apps-config' rel='noopener noreferrer' target='_blank'>to the apps-config</a>, allowing out of the box operation for your spec &amp; chains, both for you and anybody trying to connect to it. This is not a replacement for your chain-specific UI, however doing so does help in allowing users to easily discover and use with zero-config.</div></Trans>
+        </div>
+      </div>
       <Button.Group>
         <Button
-          isDisabled={typesHasNoEntries}
-          isNegative
           onClick={_clearTypes}
           label={t('Reset')}
           icon='sync'
@@ -149,7 +153,6 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
         <Button.Or />
         <Button
           isDisabled={!isTypesValid || !isJsonValid}
-          isPrimary
           onClick={_saveDeveloper}
           label={t('Save')}
           icon='save'
@@ -159,10 +162,14 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
   );
 }
 
-export default styled(Developer)`
+export default React.memo(styled(Developer)`
   .editor {
     height: 21rem;
     margin-left: 2rem;
     position: relative;
   }
-`;
+
+  .help {
+    padding: 0.5rem 2rem;
+  }
+`);

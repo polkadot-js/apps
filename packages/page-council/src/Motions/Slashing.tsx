@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -22,7 +22,7 @@ interface Option {
   value: number;
 }
 
-export default function Slashing ({ className, isMember, members }: Props): React.ReactElement<Props> {
+function Slashing ({ className, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const slashes = useAvailableSlashes();
@@ -65,8 +65,7 @@ export default function Slashing ({ className, isMember, members }: Props): Reac
     <>
       <Button
         icon='cancel'
-        isDisabled={!isMember || !members.length || !slashes.length}
-        isPrimary
+        isDisabled={!isMember || !slashes.length}
         label={t('Cancel slashes')}
         onClick={toggleVisible}
       />
@@ -120,3 +119,5 @@ export default function Slashing ({ className, isMember, members }: Props): Reac
     </>
   );
 }
+
+export default React.memo(Slashing);

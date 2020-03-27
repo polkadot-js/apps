@@ -18,7 +18,7 @@ interface Details {
   type?: string;
 }
 
-export default function ErrorDisplay (props: Props): React.ReactElement<Props> {
+function ErrorDisplay (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ details, type }, setDetails] = useState<Details>({});
 
@@ -63,3 +63,5 @@ export default function ErrorDisplay (props: Props): React.ReactElement<Props> {
     </Static>
   );
 }
+
+export default React.memo(ErrorDisplay);

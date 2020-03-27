@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,7 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   controllerId: string;
-  next: string[];
+  next?: string[];
   nominees?: string[];
   onClose: () => void;
   stakingOverview?: DerivedStakingOverview;
@@ -32,21 +32,19 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   const [available, setAvailable] = useState<string[]>([]);
 
   useEffect((): void => {
-    if (!selection && nominees) {
-      setSelection(nominees);
-    }
+    !selection && nominees && setSelection(nominees);
   }, [selection, nominees]);
 
   useEffect((): void => {
-    if (stakingOverview) {
-      setValidators(stakingOverview.validators.map((acc): string => acc.toString()));
-    }
+    stakingOverview && setValidators(
+      stakingOverview.validators.map((acc): string => acc.toString())
+    );
   }, [stakingOverview]);
 
   useEffect((): void => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc): boolean => validators.includes(acc) || next.includes(acc)),
+      ...favorites.filter((acc): boolean => validators.includes(acc) || (next || []).includes(acc)),
       // make sure the nominee is not in our favorites already
       ...(nominees || []).filter((acc): boolean => !favorites.includes(acc))
     ];
@@ -54,7 +52,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
     setAvailable([
       ...shortlist,
       ...validators.filter((acc): boolean => !shortlist.includes(acc)),
-      ...next.filter((acc): boolean => !shortlist.includes(acc))
+      ...(next || []).filter((acc): boolean => !shortlist.includes(acc))
     ]);
   }, [favorites, next, nominees, validators]);
 
@@ -78,12 +76,13 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
         />
         <InputAddressMulti
           available={available}
+          availableLabel={t('candidate accounts')}
           className='medium'
           help={t('Filter available candidates based on name, address or short account index.')}
-          label={t('filter candidates')}
           maxCount={MAX_NOMINEES}
           onChange={setSelection}
           value={selection || []}
+          valueLabel={t('nominated accounts')}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
@@ -102,7 +101,7 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
   );
 }
 
-export default styled(Nominate)`
+export default React.memo(styled(Nominate)`
   .shortlist {
     display: flex;
     flex-wrap: wrap;
@@ -149,4 +148,4 @@ export default styled(Nominate)`
       }
     }
   }
-`;
+`);

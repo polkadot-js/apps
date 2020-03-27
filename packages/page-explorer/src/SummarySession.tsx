@@ -16,7 +16,7 @@ interface Props {
   withSession?: boolean;
 }
 
-export default function SummarySession ({ withEra = true, withSession = true }: Props): React.ReactElement<Props> {
+function SummarySession ({ withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DerivedSessionInfo>(api.derive.session?.info, []);
@@ -40,7 +40,8 @@ export default function SummarySession ({ withEra = true, withSession = true }: 
                   label={sessionLabel}
                   progress={{
                     total: sessionInfo.sessionLength,
-                    value: sessionInfo.sessionProgress
+                    value: sessionInfo.sessionProgress,
+                    withTime: true
                   }}
                 />
               )
@@ -57,7 +58,8 @@ export default function SummarySession ({ withEra = true, withSession = true }: 
                   label={eraLabel}
                   progress={{
                     total: sessionInfo.eraLength,
-                    value: sessionInfo.eraProgress
+                    value: sessionInfo.eraProgress,
+                    withTime: true
                   }}
                 />
               )
@@ -72,3 +74,5 @@ export default function SummarySession ({ withEra = true, withSession = true }: 
     </>
   );
 }
+
+export default React.memo(SummarySession);

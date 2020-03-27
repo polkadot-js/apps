@@ -23,6 +23,7 @@ export interface Props extends BareProps {
   mortality?: string;
   onError?: () => void;
   value: IExtrinsic | IMethod;
+  withBorder?: boolean;
   withHash?: boolean;
   tip?: BN;
 }
@@ -37,7 +38,7 @@ interface Value {
   value: Codec;
 }
 
-function Call ({ children, className, labelHash, mortality, onError, style, tip, value, withHash }: Props): React.ReactElement<Props> {
+function Call ({ children, className, labelHash, mortality, onError, style, tip, value, withBorder, withHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ hash, params, values }, setExtracted] = useState<{ hash: Hash | null; params: Param[]; values: Value[] }>({ hash: null, params: [], values: [] });
 
@@ -67,6 +68,7 @@ function Call ({ children, className, labelHash, mortality, onError, style, tip,
         onError={onError}
         params={params}
         values={values}
+        withBorder={withBorder}
       />
       {children}
       <div className='ui--Extrinsic--toplevel'>
@@ -99,7 +101,7 @@ function Call ({ children, className, labelHash, mortality, onError, style, tip,
   );
 }
 
-export default styled(Call)`
+export default React.memo(styled(Call)`
   .hash .ui--Static {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,4 +120,4 @@ export default styled(Call)`
       }
     }
   }
-`;
+`);

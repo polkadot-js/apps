@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { Info } from './types';
 
 import BN from 'bn.js';
@@ -11,9 +10,9 @@ import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 import { BestNumber, Elapsed } from '@polkadot/react-query';
 
-import translate from './translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   nextRefresh: number;
   info: Info;
 }
@@ -21,21 +20,20 @@ interface Props extends I18nProps {
 const ZERO = new BN(0);
 const EMPTY_INFO = { extrinsics: null, health: null, peers: null };
 
-function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefresh, t }: Props): React.ReactElement<Props> {
+function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefresh }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [peerBest, setPeerBest] = useState(ZERO);
 
   useEffect((): void => {
-    if (!peers) {
-      return;
+    if (peers) {
+      const bestPeer = peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
+
+      setPeerBest(
+        bestPeer
+          ? bestPeer.bestNumber
+          : new BN(0)
+      );
     }
-
-    const bestPeer = peers.sort((a, b): number => b.bestNumber.cmp(a.bestNumber))[0];
-
-    setPeerBest(
-      bestPeer
-        ? bestPeer.bestNumber
-        : new BN(0)
-    );
   }, [peers]);
 
   return (
@@ -90,4 +88,4 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
   );
 }
 
-export default translate(Summary);
+export default React.memo(Summary);

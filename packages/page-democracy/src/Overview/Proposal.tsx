@@ -6,7 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, AddressSmall, Button, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Button, Expander, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -27,7 +27,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <td className='top'>
+      <td className='address'>
         <AddressSmall value={proposer} />
       </td>
       <td className='number together top'>
@@ -40,10 +40,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
       />
       <td className='top padtop'>
         {seconding.length !== 0 && (
-          <details>
-            <summary>
-              {t('Seconds ({{count}})', { replace: { count: seconding.length } })}
-            </summary>
+          <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (
               <AddressMini
                 className='identityIcon'
@@ -53,7 +50,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
                 withShrink
               />
             ))}
-          </details>
+          </Expander>
         )}
       </td>
       <td className='together number top'>
@@ -63,10 +60,9 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
             proposalId={index}
             proposal={proposal}
           />
-          <PreImageButton
-            hash={hash}
-            proposal={proposal}
-          />
+          {!proposal && (
+            <PreImageButton hash={hash} />
+          )}
         </Button.Group>
         <LinkExternal
           data={index}
@@ -77,7 +73,7 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
   );
 }
 
-export default styled(Proposal)`
+export default React.memo(styled(Proposal)`
   .identityIcon {
     &:first-child {
       padding-top: 0;
@@ -87,4 +83,4 @@ export default styled(Proposal)`
       margin-bottom: 4px;
     }
   }
-`;
+`);

@@ -16,7 +16,7 @@ import Summary from './Summary';
 
 import { useTranslation } from '../translate';
 
-export default function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
+function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const parachains = useCall<DeriveParachain[]>(api.derive.parachains.overview) || null;
@@ -66,3 +66,5 @@ export default function Overview ({ isMine, sudoKey }: Props): React.ReactElemen
     </>
   );
 }
+
+export default React.memo(Overview);

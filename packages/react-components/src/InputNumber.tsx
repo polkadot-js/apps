@@ -198,7 +198,7 @@ function isNewPropsValue (propsValue: BN | string, value: string, valueBn: BN): 
   return BN.isBN(propsValue) ? !propsValue.eq(valueBn) : propsValue !== value;
 }
 
-export default function InputNumber (props: Props): React.ReactElement<Props> {
+function InputNumber (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = ZERO, defaultSi, help, isDecimal, isFull, isSi, isDisabled, isError = false, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, style, value: propsValue } = props;
 
@@ -210,9 +210,7 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
   );
 
   useEffect((): void => {
-    if (propsValue && isNewPropsValue(propsValue, value, valueBn)) {
-      setValues(getValues(propsValue, si, props));
-    }
+    propsValue && isNewPropsValue(propsValue, value, valueBn) && setValues(getValues(propsValue, si, props));
   }, [propsValue]);
 
   useEffect((): void => {
@@ -314,3 +312,5 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
     </Input>
   );
 }
+
+export default React.memo(InputNumber);

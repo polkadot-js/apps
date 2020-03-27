@@ -6,31 +6,21 @@ import { Hash } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from '../types';
 
 import React from 'react';
-import { Button, Table } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { Table, Button } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 import Propose from './Propose';
 
-export default function Proposals ({ className, members, proposals }: Props): React.ReactElement<Props> {
+function Proposals ({ className, isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isProposeOpen, togglePropose] = useToggle(false);
 
   return (
     <div className={className}>
-      {isProposeOpen && (
-        <Propose
-          memberCount={members?.length}
-          onClose={togglePropose}
-        />
-      )}
       <Button.Group>
-        <Button
-          isPrimary
-          label={t('Submit proposal')}
-          icon='add'
-          onClick={togglePropose}
+        <Propose
+          isMember={isMember}
+          members={members}
         />
       </Button.Group>
       {proposals?.length
@@ -41,6 +31,7 @@ export default function Proposals ({ className, members, proposals }: Props): Re
                 <Proposal
                   hash={hash.toHex()}
                   key={hash.toHex()}
+                  prime={prime}
                 />
               ))}
             </Table.Body>
@@ -51,3 +42,5 @@ export default function Proposals ({ className, members, proposals }: Props): Re
     </div>
   );
 }
+
+export default React.memo(Proposals);

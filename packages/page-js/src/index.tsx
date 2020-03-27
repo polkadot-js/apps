@@ -8,6 +8,8 @@ import React from 'react';
 
 import Playground from './Playground';
 
-export default function JsApp (props: Props): React.ReactElement<Props> {
+function JsApp (props: Props): React.ReactElement<Props> {
   return <Playground {...props} />;
 }
+
+export default React.memo(JsApp);

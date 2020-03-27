@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { formatBalance, formatNumber, isObject } from '@polkadot/util';
-import { Icon, Tooltip, TxButton } from '@polkadot/react-components';
+import { Expander, Icon, Tooltip, TxButton } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -41,8 +41,6 @@ export interface ValidatorPrefsType {
   unstakeThreshold?: boolean;
   validatorPayment?: boolean;
 }
-
-const PERBILL = new BN(1000000000);
 
 interface Props extends BareProps {
   address: string;
@@ -229,7 +227,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
           : (
             <>
               <Label label={t('commission')} />
-              <span>{(stakingInfo.validatorPrefs.commission.unwrap().muln(10000).div(PERBILL).toNumber() / 100).toFixed(2)}%</span>
+              <span>{(stakingInfo.validatorPrefs.commission.unwrap().toNumber() / 10_000_000).toFixed(2)}%</span>
             </>
           )
       )}
@@ -296,7 +294,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
               text={balancesAll.lockedBreakdown.map(({ amount, reasons }, index): React.ReactNode => (
                 <div key={index}>
                   {amount.isMax()
-                    ? t('all available')
+                    ? t('everything')
                     : formatBalance(amount, { forceUnit: '-' })
                   }<div className='faded'>{reasons.toString()}</div>
                 </div>
@@ -368,16 +366,11 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
     return (
       <>
         <label>{t('balances')}</label>
-        <details>
-          <summary>
-            <div className='body'>
-              <FormatBalance value={balancesAll?.votingBalance} />
-            </div>
-          </summary>
+        <Expander summary={<FormatBalance className='summary' value={balancesAll?.votingBalance} />}>
           <div className='body column'>
             {allItems}
           </div>
-        </details>
+        </Expander>
       </>
     );
   }
@@ -459,16 +452,16 @@ export default withMulti(
         text-align: left;
         width: 15rem;
 
-        details[open] summary {
-          .body {
+        .ui--Expander.isExpanded {
+          .summary {
             opacity: 0;
           }
         }
 
-        details summary {
+        .ui--Expander {
           width: 100%;
 
-          .body {
+          .summary {
             display: inline-block;
             text-align: right;
             min-width: 12rem;

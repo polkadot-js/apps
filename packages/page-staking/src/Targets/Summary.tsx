@@ -13,59 +13,69 @@ import { FormatBalance } from '@polkadot/react-query';
 import { useTranslation } from '../translate';
 
 interface Props {
-  lastReward: BN;
+  lastReward?: BN;
   numNominators: number;
   numValidators: number;
-  totalStaked: BN;
+  totalStaked?: BN;
 }
 
 interface StakeInfo {
-  percentage: string;
+  percentage?: string;
 }
 
-export default function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
-  const [{ percentage }, setStakeInfo] = useState<StakeInfo>({ percentage: '-' });
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const [{ percentage }, setStakeInfo] = useState<StakeInfo>({});
 
   useEffect((): void => {
-    if (totalInsurance && totalStaked?.gtn(0)) {
-      setStakeInfo({
-        percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
-      });
-    }
-  }, [totalInsurance, totalStaked]);
+    totalIssuance && totalStaked?.gtn(0) && setStakeInfo({
+      percentage: `${(totalStaked.muln(10000).div(totalIssuance).toNumber() / 100).toFixed(2)}%`
+    });
+  }, [totalIssuance, totalStaked]);
 
   return (
     <SummaryBox>
       <section className='ui--media-small'>
-        <CardSummary label={t('total staked')}>
-          <FormatBalance
-            value={totalStaked}
-            withSi
-          />
-        </CardSummary>
-        <CardSummary label=''>/</CardSummary>
-        <CardSummary label={t('total issuance')}>
-          <FormatBalance
-            value={totalInsurance}
-            withSi
-          />
-        </CardSummary>
+        {totalStaked && (
+          <CardSummary label={t('total staked')}>
+            <FormatBalance
+              value={totalStaked}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {totalStaked && totalIssuance && (
+          <CardSummary label=''>/</CardSummary>
+        )}
+        {totalIssuance && (
+          <CardSummary label={t('total issuance')}>
+            <FormatBalance
+              value={totalIssuance}
+              withSi
+            />
+          </CardSummary>
+        )}
       </section>
-      <CardSummary label={t('staked')}>
-        {percentage}
-      </CardSummary>
+      {percentage && (
+        <CardSummary label={t('staked')}>
+          {percentage}
+        </CardSummary>
+      )}
       <CardSummary label={t('validators/nominators')}>
         {numValidators}/{numNominators}
       </CardSummary>
-      <CardSummary label={t('last reward')}>
-        <FormatBalance
-          value={lastReward}
-          withSi
-        />
-      </CardSummary>
+      {lastReward?.gtn(0) && (
+        <CardSummary label={t('last reward')}>
+          <FormatBalance
+            value={lastReward}
+            withSi
+          />
+        </CardSummary>
+      )}
     </SummaryBox>
   );
 }
+
+export default React.memo(Summary);

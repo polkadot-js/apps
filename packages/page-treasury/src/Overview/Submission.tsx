@@ -17,7 +17,7 @@ interface Props {
   isDisabled: boolean;
 }
 
-export default function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactElement<Props> | null {
+function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const councilThreshold = useCall<number>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
@@ -91,10 +91,11 @@ export default function Submission ({ councilProposals, id, isDisabled }: Props)
       <Button
         icon='check'
         isDisabled={isDisabled}
-        isPrimary
         label={t('Send to council')}
         onClick={toggleOpen}
       />
     </>
   );
 }
+
+export default React.memo(Submission);

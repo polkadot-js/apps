@@ -14,7 +14,7 @@ interface Props {
   ownMembers: string[];
 }
 
-export default function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isVisible, toggleVisible] = useToggle();
   const [vote, setVote] = useState(true);
@@ -65,3 +65,5 @@ export default function CandidateVoting ({ candidateId, isMember, ownMembers }: 
     </>
   );
 }
+
+export default React.memo(CandidateVoting);

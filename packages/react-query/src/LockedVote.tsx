@@ -16,7 +16,7 @@ interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export default function LockedVote ({ children, className, label, params }: Props): React.ReactElement<Props> {
+function LockedVote ({ children, className, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const stakeOf = useCall<BalanceOf>(api.query.electionsPhragmen.stakeOf, [params]);
 
@@ -30,3 +30,5 @@ export default function LockedVote ({ children, className, label, params }: Prop
     </FormatBalance>
   );
 }
+
+export default React.memo(LockedVote);

@@ -5,7 +5,7 @@
 import { TypeDef } from '@polkadot/types/types';
 import { ComponentMap, RawParam, RawParams, RawParamOnChangeValue } from './types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Param from './Param';
 
@@ -22,9 +22,11 @@ interface Props {
   values?: RawParams | null;
 }
 
-export default function ParamComp ({ defaultValue, index, isDisabled, name, onChange, onEnter, onEscape, overrides, type }: Props): React.ReactElement<Props> {
-  const _onChange = (value: RawParamOnChangeValue): void =>
-    onChange(index, value);
+function ParamComp ({ defaultValue, index, isDisabled, name, onChange, onEnter, onEscape, overrides, type }: Props): React.ReactElement<Props> {
+  const _onChange = useCallback(
+    (value: RawParamOnChangeValue): void => onChange(index, value),
+    [index]
+  );
 
   return (
     <div className='ui--Param-composite'>
@@ -42,3 +44,5 @@ export default function ParamComp ({ defaultValue, index, isDisabled, name, onCh
     </div>
   );
 }
+
+export default React.memo(ParamComp);

@@ -4,7 +4,7 @@
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { chainLogos, emptyLogo, namedLogos, nodeLogos } from '@polkadot/apps-config/logos';
+import { chainLogos, emptyLogo, namedLogos, nodeLogos } from '@polkadot/apps-config/ui/logos';
 import { useApi } from '@polkadot/react-hooks';
 
 interface Props {
@@ -33,7 +33,7 @@ function ChainImg ({ className, logo, onClick }: Props): React.ReactElement<Prop
   );
 }
 
-export default styled(ChainImg)`
+export default React.memo(styled(ChainImg)`
   border-radius: 50%;
   box-sizing: border-box;
-`;
+`);

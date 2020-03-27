@@ -4,34 +4,36 @@
 
 import { ValidatorInfo } from './types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { AddressSmall, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Favorite from '../Overview/Address/Favorite';
 
 interface Props {
   info: ValidatorInfo;
   toggleFavorite: (accountId: string) => void;
 }
 
-export default function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const _onFavorite = (): void => toggleFavorite(key);
-  const _onQueryStats = (): void => {
-    window.location.hash = `/staking/query/${key}`;
-  };
+
+  const _onQueryStats = useCallback(
+    (): void => {
+      window.location.hash = `/staking/query/${key}`;
+    },
+    [key]
+  );
 
   return (
     <tr className={`${isNominating && 'isHighlight'}`}>
-      <td className='favorite'>
-        <Icon
-          className={`${isFavorite && 'isSelected'}`}
-          name={isFavorite ? 'star' : 'star outline'}
-          onClick={_onFavorite}
-        />
-      </td>
+      <Favorite
+        address={key}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
+      />
       <td className='number'>{formatNumber(rankOverall)}</td>
       <td className='address'>
         <AddressSmall value={accountId} />
@@ -57,3 +59,5 @@ export default function Validator ({ info: { accountId, bondOther, bondOwn, bond
     </tr>
   );
 }
+
+export default React.memo(Validator);

@@ -64,7 +64,7 @@ function expandKey (api: ApiPromise, key: StorageEntryPromise): KeyState {
   };
 }
 
-export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
@@ -110,10 +110,11 @@ export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
         <Button
           icon='plus'
           isDisabled={!isValid}
-          isPrimary
           onClick={_onAdd}
         />
       </div>
     </section>
   );
 }
+
+export default React.memo(Modules);

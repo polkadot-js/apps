@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   children: React.ReactNode;
@@ -14,13 +15,11 @@ interface Props {
 }
 
 function BaseOverlay ({ children, className, icon, type }: Props): React.ReactElement<Props> | null {
-  const [isHidden, setIsHidden] = useState(false);
+  const [isHidden, toggleHidden] = useToggle();
 
   if (isHidden) {
     return null;
   }
-
-  const _onClose = (): void => setIsHidden(true);
 
   return (
     <div className={`${className} ${type === 'error' ? 'isError' : 'isInfo'}`}>
@@ -36,14 +35,14 @@ function BaseOverlay ({ children, className, icon, type }: Props): React.ReactEl
         <Icon
           className='closeIcon'
           name='close'
-          onClick={_onClose}
+          onClick={toggleHidden}
         />
       </div>
     </div>
   );
 }
 
-export default styled(BaseOverlay)`
+export default React.memo(styled(BaseOverlay)`
   border-bottom: 1px solid transparent;
   left: 0;
   line-height: 1.5em;
@@ -92,4 +91,4 @@ export default styled(BaseOverlay)`
     right: 0.75em;
     top: 0.75em;
   }
-`;
+`);

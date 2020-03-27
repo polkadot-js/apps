@@ -22,7 +22,7 @@ interface Option {
   value: number;
 }
 
-export default function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Props> | null {
+function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
@@ -106,3 +106,5 @@ export default function Voting ({ councilProposals, isDisabled }: Props): React.
     </>
   );
 }
+
+export default React.memo(Voting);

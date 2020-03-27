@@ -16,10 +16,9 @@ type HeadProps = BaseProps;
 
 type TableProps = BaseProps;
 
-interface TableImpl {
-  (props: TableProps): React.ReactElement<TableProps>;
-  Body: (props: BodyProps) => React.ReactElement<BodyProps>;
-  Head: (props: HeadProps) => React.ReactElement<HeadProps>;
+type TableImpl = React.FC<TableProps> & {
+  Body: React.FC<BodyProps>;
+  Head: React.FC<HeadProps>;
 }
 
 function Head ({ children, className }: HeadProps): React.ReactElement<HeadProps> {
@@ -50,10 +49,7 @@ function Table ({ children, className }: TableProps): React.ReactElement<TablePr
   );
 }
 
-Table.Body = Body;
-Table.Head = Head;
-
-export default styled(Table)`
+const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
 
   table {
@@ -77,10 +73,6 @@ export default styled(Table)`
       &:hover {
         label {
           opacity: 1;
-        }
-
-        td {
-          border-color: #ccc;
         }
       }
 
@@ -111,6 +103,11 @@ export default styled(Table)`
           }
         }
 
+        &.address {
+          padding: 0.85rem 1rem;
+          vertical-align: top;
+        }
+
         &.number {
           text-align: right;
         }
@@ -130,7 +127,7 @@ export default styled(Table)`
             margin-top: -0.25rem;
 
             .ui--AddressMini-label {
-              margin-bottom: 0.25rem;
+              margin-bottom: 0rem;
             }
           }
         }
@@ -150,6 +147,11 @@ export default styled(Table)`
 
         label {
           display: block !important;
+          white-space: nowrap;
+        }
+
+        details > summary,
+        details[open] > summary {
           white-space: nowrap;
         }
 
@@ -201,4 +203,9 @@ export default styled(Table)`
       }
     }
   }
-` as any as TableImpl;
+`) as unknown as TableImpl;
+
+Memo.Body = React.memo(Body);
+Memo.Head = React.memo(Head);
+
+export default Memo;

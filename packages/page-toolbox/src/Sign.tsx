@@ -162,7 +162,6 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
                 {t('You need to unlock this account to be able to sign data.')}<br/>
                 <Button.Group>
                   <Button
-                    isPrimary
                     onClick={_toggleUnlock}
                     label={t('Unlock account')}
                     icon='unlock'
@@ -196,7 +195,6 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
         <Button
           icon='privacy'
           isDisabled={!(isUsable && !isLocked)}
-          isPrimary
           label={t('Sign message')}
           onClick={_onSign}
         />
@@ -205,7 +203,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(Sign)`
+export default React.memo(styled(Sign)`
   .toolbox--Sign-input {
     position: relative;
     width: 100%;
@@ -237,4 +235,4 @@ export default styled(Sign)`
       }
     }
   }
-`;
+`);

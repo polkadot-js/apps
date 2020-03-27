@@ -82,7 +82,7 @@ function BlockHeader ({ className, isSummary, value, withExplorer, withLink }: P
   );
 }
 
-export default styled(BlockHeader)`
+export default React.memo(styled(BlockHeader)`
   .author {
     font-size: 1rem;
     text-align: right;
@@ -162,4 +162,4 @@ export default styled(BlockHeader)`
       }
     }
   }
-`;
+`);

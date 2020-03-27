@@ -23,7 +23,7 @@ function onChange ({ onChange }: Props): (_: boolean) => void {
   };
 }
 
-export default function BoolParam (props: Props): React.ReactElement<Props> {
+function BoolParam (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
   const defaultValue = value instanceof Boolean
     ? value.valueOf()
@@ -48,3 +48,5 @@ export default function BoolParam (props: Props): React.ReactElement<Props> {
     </Bare>
   );
 }
+
+export default React.memo(BoolParam);

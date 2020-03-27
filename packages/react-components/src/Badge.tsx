@@ -16,18 +16,18 @@ interface Props {
   isSmall?: boolean;
   isTooltip?: boolean;
   onClick?: () => void;
-  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray';
+  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray' | 'purple';
 }
 
 let badgeId = 0;
 
 function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
-  const [key] = useState(`${Date.now()}-${badgeId++}`);
+  const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
 
   return (
     <div
       className={`ui--Badge ${isGray && 'isGray'} ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
-      data-for={`badge-status-${key}`}
+      data-for={trigger}
       data-tip={true}
       data-tip-disable={!isTooltip}
       onClick={onClick}
@@ -40,7 +40,7 @@ function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, 
       </div>
       {hover && (
         <Tooltip
-          trigger={`badge-status-${key}`}
+          trigger={trigger}
           text={hover}
         />
       )}
@@ -48,7 +48,7 @@ function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, 
   );
 }
 
-export default styled(Badge)`
+export default React.memo(styled(Badge)`
   border-radius: 16px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
@@ -121,6 +121,10 @@ export default styled(Badge)`
     background: green;
   }
 
+  &.purple {
+    background: indigo;
+  }
+
   & > * {
     line-height: 22px;
     overflow: hidden;
@@ -146,4 +150,4 @@ export default styled(Badge)`
       width: auto;
     }
   }
-`;
+`);

@@ -10,8 +10,10 @@ type Props = {};
 
 const defaultTo = `/${routing.default}`;
 
-export default function NotFound (): React.ReactElement<Props> {
+function NotFound (): React.ReactElement<Props> {
   return (
     <Redirect to={defaultTo} />
   );
 }
+
+export default React.memo(NotFound);

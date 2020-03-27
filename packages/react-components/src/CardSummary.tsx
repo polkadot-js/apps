@@ -12,6 +12,7 @@ import { formatNumber, isUndefined } from '@polkadot/util';
 
 import Progress, { Colors as ProgressColors } from './Progress';
 import Labelled from './Labelled';
+import { BlockToTime } from '@polkadot/react-query';
 
 interface ProgressProps {
   color?: ProgressColors;
@@ -19,6 +20,7 @@ interface ProgressProps {
   isPercent?: boolean;
   total?: BN | UInt;
   value?: BN | UInt;
+  withTime?: boolean;
 }
 
 interface Props extends BareProps {
@@ -51,6 +53,8 @@ function CardSummary ({ children, className, help, label, progress }: Props): Re
     return null;
   }
 
+  const isTimed = progress && progress.withTime && !isUndefined(progress.total);
+
   return (
     <article className={className}>
       <Labelled
@@ -60,13 +64,21 @@ function CardSummary ({ children, className, help, label, progress }: Props): Re
       >
         {children}{
           progress && !progress.hideValue && (
-            !left || isUndefined(progress.total)
-              ? '-'
-              : `${left}${progress.isPercent ? '' : '/'}${
-                progress.isPercent
-                  ? '%'
-                  : formatNumber(progress.total)
-              }`
+            <>
+              {isTimed && (
+                <BlockToTime blocks={progress.total} />
+              )}
+              <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
+                {!left || isUndefined(progress.total)
+                  ? '-'
+                  : `${left}${progress.isPercent ? '' : '/'}${
+                    progress.isPercent
+                      ? '%'
+                      : formatNumber(progress.total)
+                  }`
+                }
+              </div>
+            </>
           )
         }
         {progress && <Progress {...progress} />}
@@ -75,7 +87,7 @@ function CardSummary ({ children, className, help, label, progress }: Props): Re
   );
 }
 
-export default styled(CardSummary)`
+export default React.memo(styled(CardSummary)`
   align-items: center;
   background: transparent !important;
   border: none !important;
@@ -92,14 +104,14 @@ export default styled(CardSummary)`
   }
 
   > div {
-    font-size: 2.1rem;
+    font-size: 1.85rem;
     font-weight: 100;
     position: relative;
-    line-height: 2.1rem;
+    line-height: 1.85rem;
     text-align: right;
 
     > * {
-      margin: 0.6rem 0;
+      margin: 0.5rem 0;
 
       &:first-child {
         margin-top: 0;
@@ -120,6 +132,13 @@ export default styled(CardSummary)`
       margin: 0.2rem 0 -0.5rem !important;
       background: rgba(0,0,0,0.05);
     }
+
+    .isSecondary {
+      font-size: 1.1rem;
+      font-weight: normal;
+      line-height: 1.1rem;
+      margin-top: 0.25rem;
+    }
   }
 
   @media(max-width: 767px) {
@@ -131,4 +150,4 @@ export default styled(CardSummary)`
       line-height: 1.4rem;
     }
   }
-`;
+`);

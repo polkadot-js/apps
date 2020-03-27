@@ -73,12 +73,12 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-export default function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
   const { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name } = route;
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
-  const sudoKey = useCall<AccountId>(apiProps.isApiReady ? apiProps.api.query.sudo?.key : undefined, []);
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const count = useCounter();
@@ -103,7 +103,11 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
       <Icon name={icon} />
       <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
       {count !== 0 && (
-        <Badge isInline info={count} type='counter' />
+        <Badge
+          isInline
+          info={count}
+          type='counter'
+        />
       )}
       <Tooltip
         offset={TOOLTIP_OFFSET}
@@ -130,7 +134,7 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
         )
         : (
           <NavLink
-            activeClassName='apps--SideBar-Item-NavLink-active'
+            activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
             className='apps--SideBar-Item-NavLink'
             data-for={`nav-${name}`}
             data-tip
@@ -145,3 +149,5 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
     </Menu.Item>
   );
 }
+
+export default React.memo(Item);

@@ -25,7 +25,7 @@ const byAuthor: Record<string, string> = {};
 const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, lastHeaders: [] });
 const ValidatorsContext: React.Context<string[]> = React.createContext<string[]>([]);
 
-function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
+function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [state, setState] = useState<Authors>({ byAuthor, lastHeaders: [] });
   const [validators, setValidators] = useState<string[]>([]);
@@ -84,5 +84,7 @@ function BlockAuthors ({ children }: Props): React.ReactElement<Props> {
     </ValidatorsContext.Provider>
   );
 }
+
+const BlockAuthors = React.memo(BlockAuthorsBase);
 
 export { BlockAuthorsContext, BlockAuthors, ValidatorsContext };

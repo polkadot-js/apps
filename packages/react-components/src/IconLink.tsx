@@ -27,7 +27,7 @@ function IconLink ({ className, icon, label, onClick }: Props): React.ReactEleme
   );
 }
 
-export default styled(IconLink)`
+export default React.memo(styled(IconLink)`
   font-size: 0.9rem !important;
 
   &:hover {
@@ -37,4 +37,4 @@ export default styled(IconLink)`
       text-decoration: none;
     }
   }
-`;
+`);
