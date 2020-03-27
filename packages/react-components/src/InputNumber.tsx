@@ -206,15 +206,19 @@ function InputNumber (props: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     propsValue && isNewPropsValue(propsValue, value, valueBn) && setValues(getValues(propsValue, si, props));
+  // ummmm...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsValue]);
 
   useEffect((): void => {
     setValues(getValues(value, si, props));
+  // ummmm...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, si, bitLength, maxValue]);
 
   useEffect((): void => {
     onChange && onChange(valueBn);
-  }, [valueBn]);
+  }, [onChange, valueBn]);
 
   const _onChange = (input: string): void => {
     setValues(getValuesFromString(input, si, props));

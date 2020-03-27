@@ -46,6 +46,7 @@ function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, tr
         rootElement.removeChild(tooltipContainer);
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return ReactDOM.createPortal(

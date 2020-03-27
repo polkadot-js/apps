@@ -36,7 +36,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
     senderId && recipientId && setExtrinsic(
       () => api.tx.balances.transfer(recipientId, amount || ZERO)
     );
-  }, [amount, recipientId, senderId]);
+  }, [api, amount, recipientId, senderId]);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;
 

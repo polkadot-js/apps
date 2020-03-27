@@ -146,7 +146,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
         onUpdateType(stashId, 'other');
       }
     }
-  }, [allStashes, stakingAccount, stashId, validateInfo]);
+  }, [allAccounts, allStashes, onUpdateType, stakingAccount, stashId, validateInfo]);
 
   useEffect((): void => {
     nominees && setActiveNoms(
@@ -167,7 +167,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
       accountId: controllerId,
       extrinsic: createPayout(api, payoutRewards)
     }),
-    [api, controllerId, payoutRewards]
+    [api, controllerId, payoutRewards, queueExtrinsic]
   );
 
   return (

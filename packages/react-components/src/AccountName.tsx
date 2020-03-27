@@ -199,7 +199,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     } else {
       setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
     }
-  }, [address, info, isRegistrar, toggle]);
+  }, [api, address, defaultName, info, isRegistrar, t, toggle, toggleJudgement]);
 
   return (
     <>

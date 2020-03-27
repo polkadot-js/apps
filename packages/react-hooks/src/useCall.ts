@@ -125,7 +125,7 @@ export default function useCall <T> (fn: TrackFn | undefined | null | false, par
         subscribe(mountedRef, tracker, fn, mappedParams, setValue, options);
       }
     }
-  }, [fn, params]);
+  }, [fn, options, mountedRef, params]);
 
   return value;
 }

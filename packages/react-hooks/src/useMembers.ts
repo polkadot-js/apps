@@ -18,10 +18,12 @@ export default function useMembers (collective: 'council' | 'technicalCommittee'
   const [state, setState] = useState<Result>({ isMember: false, members: [] });
   const retrieved = (
     collective === 'council'
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       ? useCall<string[]>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
         transform: (accounts: [AccountId, Balance][]): string[] =>
           accounts.map(([accountId]) => accountId.toString())
       })
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       : useCall<string[]>(api.query.technicalCommittee.members, [], {
         transform: (accounts: AccountId[]): string[] =>
           accounts.map((accountId) => accountId.toString())

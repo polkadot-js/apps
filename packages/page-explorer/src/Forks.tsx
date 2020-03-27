@@ -352,6 +352,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
       _subFinHead && _subFinHead();
       _subNewHead && _subNewHead();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!tree) {

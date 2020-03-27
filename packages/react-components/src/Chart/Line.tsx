@@ -82,7 +82,7 @@ function LineChart ({ className, colors, labels, legends, style, values }: LineP
     if (newJsonValues !== jsonValues) {
       setState(calculateOptions(colors, legends, labels, values, newJsonValues));
     }
-  }, [labels, legends, values]);
+  }, [colors, jsonValues, labels, legends, values]);
 
   if (!chartData) {
     return null;

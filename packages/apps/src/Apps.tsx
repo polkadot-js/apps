@@ -52,11 +52,11 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   );
   const _collapse = useCallback(
     (): void => _setSidebar({ isCollapsed: !isCollapsed }),
-    [isCollapsed]
+    [isCollapsed, _setSidebar]
   );
   const _toggleMenu = useCallback(
     (): void => _setSidebar({ isCollapsed: false, isMenuOpen: true }),
-    []
+    [_setSidebar]
   );
   const _handleResize = useCallback(
     (): void => {
@@ -70,7 +70,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         transition
       });
     },
-    []
+    [_setSidebar]
   );
 
   return (

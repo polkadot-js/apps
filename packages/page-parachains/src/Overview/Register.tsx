@@ -56,7 +56,7 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
     (): ParaInfo => {
       return createType(api.registry, 'ParaInfo', { scheduling });
     },
-    [scheduling]
+    [api, scheduling]
   );
   const extrinsic = useMemo(
     (): SubmittableExtrinsic | null => {
@@ -72,7 +72,7 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
         return null;
       }
     },
-    [id, info, code, initialHeadState]
+    [api, id, info, code, initialHeadState]
   );
 
   return (

@@ -70,7 +70,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
         value: { [current[0].name as string]: value }
       });
     },
-    [current]
+    [current, onChange]
   );
 
   if (isDisabled) {

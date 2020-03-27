@@ -55,7 +55,7 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
         ? api.tx.genericAsset.transfer(assetId, recipientId, amount)
         : null
     );
-  }, [amount, assetId, recipientId, senderId]);
+  }, [api, amount, assetId, recipientId, senderId]);
 
   const _onAddAssetId = (id: string): void => {
     // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec

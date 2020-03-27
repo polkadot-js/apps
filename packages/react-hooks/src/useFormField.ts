@@ -18,7 +18,7 @@ export default function useFormField<T> (defaultValue: T | null, validate: (_?: 
   const [value, setValue] = useState<T | null>(defaultValue);
   const isValid = useMemo(
     (): boolean => isTruthy<T>(value) && validate(value),
-    [value]
+    [validate, value]
   );
   const setter = useCallback((value?: T | null): void => setValue(value || null), []);
 

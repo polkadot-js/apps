@@ -61,7 +61,7 @@ function Transfer ({ amount, fees, onChange, recipientId }: Props): React.ReactE
         isNoEffect
       });
     }
-  }, [amount, allBalances, fees]);
+  }, [amount, allBalances, fees, onChange]);
 
   return (
     <>

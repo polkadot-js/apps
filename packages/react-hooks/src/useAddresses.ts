@@ -29,6 +29,7 @@ export default function useAccounts (): UseAccounts {
     return (): void => {
       setTimeout(() => subscription.unsubscribe(), 0);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return state;

@@ -51,6 +51,7 @@ function NodeInfo (): React.ReactElement<{}> {
     return (): void => {
       window.clearInterval(timerId);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

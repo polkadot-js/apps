@@ -115,13 +115,13 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
       setNominators && setNominators(info.nominators.map(([who]): string => who.toString()));
       setStakingState(info);
     }
-  }, [stakingInfo]);
+  }, [setNominators, stakingInfo, withNominations]);
 
   useEffect((): void => {
     setIsVisible(
       checkVisibility(api, address, filterName, info)
     );
-  }, [address, filterName, info]);
+  }, [address, api, filterName, info]);
 
   const _onQueryStats = useCallback(
     (): void => {

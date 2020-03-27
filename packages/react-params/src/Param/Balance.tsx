@@ -18,7 +18,7 @@ function Balance ({ className, defaultValue: { value }, isDisabled, isError, lab
         isValid: !isError && !!value,
         value
       }),
-    [isError]
+    [isError, onChange]
   );
 
   return (

@@ -41,7 +41,7 @@ function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
           : lastPayouts
       );
     }
-  }, [allInfo, indexes, onlyLatest, stashIds]);
+  }, [allInfo, indexes, mountedRef, onlyLatest, stashIds]);
 
   return nextPayouts;
 }
@@ -75,7 +75,7 @@ export default function useOwnEraRewards (onlyLatest?: boolean): OwnRewards {
     mountedRef.current && available && nextPayouts && setState(
       getRewards(available, nextPayouts)
     );
-  }, [available, nextPayouts]);
+  }, [available, mountedRef, nextPayouts]);
 
   return state;
 }

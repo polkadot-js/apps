@@ -92,14 +92,14 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
       const deriveError = deriveValidate(debouncedSuri, source.type);
 
       if (!deriveError) {
-        const result = source.derive(suri);
+        const result = source.derive(debouncedSuri);
 
         address = result.address;
       }
 
       return { address, deriveError };
     });
-  }, [debouncedSuri]);
+  }, [debouncedSuri, source]);
 
   const _onChangeName = (name: string): void =>
     setName({ isNameValid: !!name.trim(), name });

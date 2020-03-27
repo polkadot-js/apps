@@ -87,7 +87,7 @@ function ChartHorizBar ({ aspectRatio = 8, className, max = 100, showLabels = fa
     if (newJsonValues !== jsonValues) {
       setState(calculateOptions(aspectRatio, values, newJsonValues, max, showLabels));
     }
-  }, [values]);
+  }, [aspectRatio, jsonValues, max, showLabels, values]);
 
   if (!chartData) {
     return null;

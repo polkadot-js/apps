@@ -61,7 +61,7 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
     }
 
     onChange(method);
-  }, [extrinsic, values]);
+  }, [extrinsic, onChange, values]);
 
   const _onChangeMethod = (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) });
 

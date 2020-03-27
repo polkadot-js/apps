@@ -54,7 +54,7 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
     isBn(value) && onChange(value);
-  }, [value]);
+  }, [onChange, value]);
 
   const _setValue = useCallback(
     (value?: BN): void => setValue({ selectedId, value }),

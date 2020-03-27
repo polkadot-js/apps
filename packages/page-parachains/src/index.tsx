@@ -39,7 +39,7 @@ function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
         }]
         : []
     )
-  ], [location, paraInfoRef.current, t]);
+  ], [match, t]);
 
   return (
     <main>

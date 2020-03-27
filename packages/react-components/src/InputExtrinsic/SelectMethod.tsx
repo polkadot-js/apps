@@ -21,15 +21,15 @@ interface Props extends BareProps {
 }
 
 function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
-  if (!options.length) {
-    return null;
-  }
-
   const transform = useCallback(
     (method: string): SubmittableExtrinsicFunction<'promise'> =>
       api.tx[value.section][method],
-    [value]
+    [api, value]
   );
+
+  if (!options.length) {
+    return null;
+  }
 
   return (
     <Dropdown

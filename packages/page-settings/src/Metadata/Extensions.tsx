@@ -31,7 +31,7 @@ function Extensions (): React.ReactElement {
           .then(() => toggleBusy());
       }
     },
-    [extensions, metaDef, selectedIndex]
+    [extensions, metaDef, selectedIndex, toggleBusy]
   );
 
   if (!options.length) {

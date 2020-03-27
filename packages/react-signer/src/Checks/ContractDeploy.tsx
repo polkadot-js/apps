@@ -16,7 +16,7 @@ interface Props {
 }
 
 function ContractDeploy ({ endowment, fees, onChange }: Props): React.ReactElement<Props> | null {
-  const [state, setState] = useState<State>({
+  const [, setState] = useState<State>({
     extraFees: new BN(0),
     extraAmount: new BN(0),
     extraWarn: false
@@ -34,12 +34,14 @@ function ContractDeploy ({ endowment, fees, onChange }: Props): React.ReactEleme
       extraWarn: false
     };
 
-    if (!update.extraAmount.eq(state.extraAmount) || !update.extraFees.eq(state.extraFees)) {
-      onChange(update);
-    }
+    setState((state): State => {
+      if (!update.extraAmount.eq(state.extraAmount) || !update.extraFees.eq(state.extraFees)) {
+        onChange(update);
+      }
 
-    setState(update);
-  }, [endowment, fees]);
+      return update;
+    });
+  }, [endowment, fees, onChange]);
 
   return null;
 }

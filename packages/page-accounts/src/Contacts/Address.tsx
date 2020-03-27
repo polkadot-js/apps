@@ -46,6 +46,14 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const _setTags = (tags: string[]): void => setTags(tags.sort());
 
   useEffect((): void => {
+    const current = keyring.getAddress(address);
+
+    setCurrent(current || null);
+    setGenesisHash((current && current.meta.genesisHash) || null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect((): void => {
     const { identity, nickname } = info || {};
 
     if (api.api.query.identity && api.api.query.identity.identityOf) {
@@ -55,14 +63,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     } else if (nickname) {
       setAccName(nickname);
     }
-  }, [info]);
-
-  useEffect((): void => {
-    const current = keyring.getAddress(address);
-
-    setCurrent(current || null);
-    setGenesisHash((current && current.meta.genesisHash) || null);
-  }, []);
+  }, [api, info]);
 
   useEffect((): void => {
     const account = keyring.getAddress(address);

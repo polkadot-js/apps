@@ -71,7 +71,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     onChange && info.isValid && onChange(info.url);
-  }, [info]);
+  }, [info, onChange]);
 
   const _onChangeUrl = useCallback(
     (url: string): void =>
@@ -79,14 +79,16 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
     []
   );
   const _onChangeCustom = useCallback(
-    (isCustom: boolean): void => setInfo({
-      ...makeUrl(
+    (isCustom: boolean): void => setInfo(
+      (info) => ({
+        ...makeUrl(
+          isCustom
+            ? info.url
+            : (availableEndpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
+        ),
         isCustom
-          ? info.url
-          : (availableEndpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
-      ),
-      isCustom
-    }),
+      })
+    ),
     []
   );
 

@@ -35,13 +35,9 @@ function Contracts (props: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     setContracts(filterContracts(api, props));
-  }, [accounts, api, keyringContracts]);
+  }, [accounts, api, keyringContracts, props]);
 
-  let callContract = contracts[callContractIndex] || null;
-
-  useEffect((): void => {
-    callContract = contracts[callContractIndex];
-  }, [callContractIndex]);
+  const callContract = contracts[callContractIndex] || null;
 
   const _toggleAdd = (): void => setIsAddOpen(!isAddOpen);
   const _toggleCall = (): void => setIsCallOpen(!isCallOpen);

@@ -44,7 +44,7 @@ export default function useOwnStashes (): [string, IsInKeyring][] | undefined {
     mountedRef.current && allAccounts && ownBonded && ownLedger && setState(
       getStashes(allAccounts, ownBonded, ownLedger)
     );
-  }, [allAccounts, ownBonded, ownLedger]);
+  }, [allAccounts, mountedRef, ownBonded, ownLedger]);
 
   return state;
 }
@@ -58,7 +58,7 @@ export function useOwnStashIds (): string[] | undefined {
     mountedRef.current && ownStashes && setStashIds(
       ownStashes.map(([stashId]) => stashId)
     );
-  }, [ownStashes]);
+  }, [mountedRef, ownStashes]);
 
   return stashIds;
 }

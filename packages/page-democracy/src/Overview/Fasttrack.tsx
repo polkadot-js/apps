@@ -46,7 +46,7 @@ function Fasttrack ({ hash, threshold }: Props): React.ReactElement<Props> | nul
         ? api.tx.democracy.fastTrack(hash, votingBlocks, delayBlocks)
         : null
     );
-  }, [delayBlocks, hash, votingBlocks]);
+  }, [api, delayBlocks, hash, votingBlocks]);
 
   return (
     <>

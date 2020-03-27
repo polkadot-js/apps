@@ -38,7 +38,7 @@ function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, 
     } else {
       setProposal(proposal || null);
     }
-  }, [proposal, proposalId]);
+  }, [api, proposal, proposalId]);
 
   if (!stateProposal) {
     return null;

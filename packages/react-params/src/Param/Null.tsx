@@ -12,7 +12,7 @@ function Null ({ onChange }: Props): React.ReactElement<Props> | null {
       isValid: true,
       value: null
     });
-  }, []);
+  }, [onChange]);
 
   return null;
 }

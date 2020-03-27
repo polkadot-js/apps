@@ -20,4 +20,3 @@ export { default as usePassword } from './usePassword';
 export { default as useRegistrars } from './useRegistrars';
 export { default as useSudo } from './useSudo';
 export { default as useToggle } from './useToggle';
-export { default as useTx } from './useTx';

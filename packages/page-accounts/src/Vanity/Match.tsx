@@ -25,11 +25,11 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
   );
   const _onCreate = useCallback(
     (): void => onCreateToggle(hexSeed),
-    [hexSeed]
+    [hexSeed, onCreateToggle]
   );
   const _onRemove = useCallback(
     (): void => onRemove(address),
-    [address]
+    [address, onRemove]
   );
 
   return (

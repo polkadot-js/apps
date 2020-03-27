@@ -48,7 +48,7 @@ function KeyValue ({ className, isDisabled, label, onChange, onEnter, style, wit
         value.u8a
       )
     });
-  }, [key, value]);
+  }, [key, onChange, value]);
 
   const _onChangeKey = useCallback(
     (key: string): void => setKey(createParam(key)),

@@ -49,7 +49,7 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
     } else {
       setEras([]);
     }
-  }, [slashes]);
+  }, [slashes, t]);
 
   useEffect((): void => {
     const actioned = selectedEra && slashes?.find(([era]): boolean => era.eqn(selectedEra));
@@ -59,7 +59,7 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
         ? api.tx.staking.cancelDeferredSlash(actioned[0], actioned[1].map((_, index): number => index))
         : null
     );
-  }, [selectedEra, slashes]);
+  }, [api, selectedEra, slashes]);
 
   return (
     <>
