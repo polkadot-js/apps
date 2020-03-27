@@ -195,7 +195,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
           ? !sortFromMax
           : true
       })),
-    [sortBy]
+    []
   );
 
   useEffect((): void => {

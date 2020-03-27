@@ -20,11 +20,13 @@ function Entry (): React.ReactElement<{}> | null {
   const [stateValue, setStateValue] = useState<string | undefined>(value);
 
   useEffect((): void => {
-    if (value && value !== stateValue) {
-      setStateValue(value);
-    } else if (!stateValue && bestNumber) {
-      setStateValue(bestNumber.toString());
-    }
+    setStateValue((stateValue) =>
+      value && value !== stateValue
+        ? value
+        : !stateValue && bestNumber
+          ? bestNumber.toString()
+          : stateValue
+    );
   }, [bestNumber, value]);
 
   if (!stateValue) {

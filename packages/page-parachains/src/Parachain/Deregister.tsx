@@ -37,7 +37,7 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
         return null;
       }
     },
-    [id]
+    [api, id]
   );
 
   const onStart = (): void => {

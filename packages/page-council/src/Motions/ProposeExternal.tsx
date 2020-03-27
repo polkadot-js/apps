@@ -37,7 +37,7 @@ function ProposeExternal ({ className, isMember, members }: Props): React.ReactE
     } else {
       setProposal(null);
     }
-  }, [hash, isHashValid]);
+  }, [api, hash, isHashValid]);
 
   return (
     <>

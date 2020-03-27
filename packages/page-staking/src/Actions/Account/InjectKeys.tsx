@@ -63,7 +63,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       rpc: { section: 'author', method: 'insertKey' } as any,
       values: [keyType, suri, publicKey]
     }),
-    [keyType, publicKey, suri]
+    [keyType, publicKey, queueRpc, suri]
   );
   const _cryptoOptions = useMemo(
     () => CRYPTO_MAP[keyType].map((value): { text: string; value: KeypairType } => ({

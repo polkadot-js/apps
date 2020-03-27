@@ -39,7 +39,7 @@ function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> 
 
   useEffect((): void => {
     onChange(isAddress && isStored);
-  }, [isAddress, isStored]);
+  }, [isAddress, isStored, onChange]);
 
   if (isStored || !isAddress) {
     return null;

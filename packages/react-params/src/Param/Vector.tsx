@@ -78,7 +78,7 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
       isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
       value: values.map(({ value }): any => value)
     });
-  }, [values]);
+  }, [values, onChange]);
 
   const _rowAdd = useCallback(
     (): void => setCount((count) => count + 1),

@@ -29,6 +29,10 @@ interface SidebarState {
 
 export const PORTAL_ID = 'portals';
 
+function saveSidebar (sidebar: SidebarState): SidebarState {
+  return store.set('sidebar', sidebar);
+}
+
 function Apps ({ className }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
@@ -38,24 +42,17 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     ...store.get('sidebar', {}),
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
-  const uiHighlight = useMemo((): string | undefined =>
-    getSystemChainColor(systemChain, systemName), [systemChain, systemName]
+  const uiHighlight = useMemo(
+    (): string | undefined => getSystemChainColor(systemChain, systemName),
+    [systemChain, systemName]
   );
-  const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
-  const _setSidebar = useCallback(
-    (update: Partial<SidebarState>): void =>
-      setSidebar((sidebar: SidebarState) =>
-        store.set('sidebar', { ...sidebar, ...update })
-      ),
+  const _collapse = useCallback(
+    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: !sidebar.isCollapsed })),
     []
   );
-  const _collapse = useCallback(
-    (): void => _setSidebar({ isCollapsed: !isCollapsed }),
-    [isCollapsed]
-  );
   const _toggleMenu = useCallback(
-    (): void => _setSidebar({ isCollapsed: false, isMenuOpen: true }),
+    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: false, isMenuOpen: true })),
     []
   );
   const _handleResize = useCallback(
@@ -64,14 +61,17 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         ? SideBarTransition.MINIMISED_AND_EXPANDED
         : SideBarTransition.EXPANDED_AND_MAXIMISED;
 
-      _setSidebar({
+      setSidebar((sidebar: SidebarState) => saveSidebar({
+        ...sidebar,
         isMenu: transition === SideBarTransition.MINIMISED_AND_EXPANDED,
         isMenuOpen: false,
         transition
-      });
+      }));
     },
     []
   );
+
+  const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
   return (
     <>

@@ -71,7 +71,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     } else if (nickname) {
       setAccName(nickname);
     }
-  }, [info]);
+  }, [api, info]);
 
   useEffect((): void => {
     const account = keyring.getAccount(address);
@@ -84,7 +84,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     });
     _setTags(account?.meta.tags || []);
     setAccName(account?.meta.name || '');
-  }, [address]);
+  }, [address, _setTags]);
 
   useEffect((): void => {
     if (filter.length === 0) {

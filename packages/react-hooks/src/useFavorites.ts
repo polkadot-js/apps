@@ -10,6 +10,7 @@ import useCacheKey from './useCacheKey';
 export default function useFavorites (storageKeyBase: string): [string[], (address: string) => void] {
   const [getCache, setCache] = useCacheKey<string[]>(storageKeyBase);
   const [favorites, setFavorites] = useState<string[]>(getCache() || []);
+
   const toggleFavorite = useCallback(
     (address: string): void => setFavorites(
       (favorites: string[]) => setCache(
@@ -18,7 +19,7 @@ export default function useFavorites (storageKeyBase: string): [string[], (addre
           : [...favorites, address]
       )
     ),
-    []
+    [setCache]
   );
 
   return [favorites, toggleFavorite];

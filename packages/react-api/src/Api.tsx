@@ -172,6 +172,7 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
       .catch((error) => console.error(error));
 
     setIsApiInitialized(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!props.isApiInitialized) {

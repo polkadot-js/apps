@@ -62,7 +62,7 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
-  }), [formatBalance]);
+  }), []);
   const legends = useMemo(() => [
     t('{{currency}} slashed', { replace: { currency } }),
     t('{{currency}} rewards', { replace: { currency } }),
@@ -73,7 +73,7 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
     erasRewards && ownSlashes && stakerPoints && setChart(
       extractRewards(erasRewards, ownSlashes, stakerPoints, divisor)
     );
-  }, [erasRewards, stakerPoints]);
+  }, [divisor, erasRewards, ownSlashes, stakerPoints]);
 
   return (
     <div className='staking--Chart'>

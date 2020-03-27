@@ -77,7 +77,7 @@ function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, o
 
       onChange && onChange(encoded);
     },
-    []
+    [onChange, t]
   );
 
   if (isDisabled) {

@@ -33,12 +33,10 @@ function ValidateAmount ({ accountId, onError, value }: Props): React.ReactEleme
         newError = t('The specified value is greater than your free balance. The node will bond the maximum amount available.');
       }
 
-      if (error !== newError) {
-        onError(newError);
-        setError(newError);
-      }
+      onError(newError);
+      setError((error) => error !== newError ? newError : error);
     }
-  }, [allBalances, value]);
+  }, [allBalances, onError, t, value]);
 
   if (!error) {
     return null;

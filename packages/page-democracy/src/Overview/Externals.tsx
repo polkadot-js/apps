@@ -49,7 +49,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
     } else {
       setExpanded(null);
     }
-  }, [preimage]);
+  }, [api, preimage]);
 
   if (!hash) {
     return null;

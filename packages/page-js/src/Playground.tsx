@@ -106,6 +106,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     setIsCustomExample((selected && selected.type === 'custom') || false);
     setOptions(options);
     setSelected(selected || snippets[0]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect((): void => {

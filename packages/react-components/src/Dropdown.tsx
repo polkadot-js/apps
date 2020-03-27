@@ -56,6 +56,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
         lastUpdate.current = json;
 
         setStored(value);
+
         onChange && onChange(
           transform
             ? transform(value)
@@ -68,7 +69,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
 
   useEffect((): void => {
     _setStored(isUndefined(value) ? defaultValue : value);
-  }, [defaultValue, value]);
+  }, [_setStored, defaultValue, value]);
 
   const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
     onAdd && onAdd(value);

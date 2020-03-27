@@ -74,7 +74,7 @@ function Status ({ optionsAll, queueAction, stqueue, txqueue }: Props): React.Re
     const filtered = filterEvents(allAccounts, t, optionsAll, events);
 
     filtered && queueAction(filtered);
-  }, [allAccounts, events, optionsAll]);
+  }, [allAccounts, events, optionsAll, queueAction, t]);
 
   return (
     <StatusDisplay

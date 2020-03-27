@@ -43,7 +43,7 @@ export default function useInactives (stashId: string, nominees?: string[]): str
     return (): void => {
       unsub && unsub();
     };
-  }, [indexes, nominees, stashId]);
+  }, [api, indexes, mountedRef, nominees, stashId]);
 
   return inactives;
 }

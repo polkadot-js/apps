@@ -60,9 +60,11 @@ function Overview ({ className, prime }: Props): React.ReactElement<Props> {
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
   const allVotes = api.query.electionsPhragmen?.votesOf.creator.meta.type.asMap.linked.isTrue
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     ? useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
       transform: transformVotesPrev
     })
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     : useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf.entries as any, [], {
       transform: transformVotes
     });

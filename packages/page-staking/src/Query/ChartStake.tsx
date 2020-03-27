@@ -54,7 +54,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
-  }), [formatBalance]);
+  }), []);
   const legends = useMemo(() => [
     t('{{currency}} clipped', { replace: { currency } }),
     t('{{currency}} total', { replace: { currency } }),
@@ -65,7 +65,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
     ownExposure && setChart(
       extractStake(ownExposure, divisor)
     );
-  }, [ownExposure]);
+  }, [divisor, ownExposure]);
 
   return (
     <div className='staking--Chart'>

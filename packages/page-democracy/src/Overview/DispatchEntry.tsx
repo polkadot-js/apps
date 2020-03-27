@@ -33,7 +33,7 @@ function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.Re
 
   useEffect((): void => {
     preimage?.isSome && setProposal(api.createType('Proposal', preimage.unwrap()[0].toU8a(true)));
-  }, [preimage]);
+  }, [api, preimage]);
 
   return (
     <tr>

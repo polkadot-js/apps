@@ -33,13 +33,8 @@ interface Props extends BareProps {
 function Call (props: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
-
-  if (isNull(callContract) || isNull(callMessageIndex)) {
-    return null;
-  }
-
-  const hasRpc = callContract.hasRpcContractsCall;
-  let callMessage = callContract.getMessage(callMessageIndex);
+  const hasRpc = callContract?.hasRpcContractsCall;
+  const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
 
   const { api } = useApi();
   const [accountId, setAccountId] = useState<StringOrNull>(null);
@@ -51,22 +46,28 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
 
   useEffect((): void => {
-    callMessage = callContract.getMessage(callMessageIndex);
+    if (callContract && callMessageIndex) {
+      const callMessage = callContract.getMessage(callMessageIndex);
 
-    setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
+      setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
 
-    if (hasRpc) {
-      if (!callMessage || callMessage.def.mutates) {
-        setUseRpc(false);
-      } else {
-        setUseRpc(true);
+      if (hasRpc) {
+        if (!callMessage || callMessage.def.mutates) {
+          setUseRpc(false);
+        } else {
+          setUseRpc(true);
+        }
       }
     }
-  }, [callContract, callMessageIndex]);
+  }, [callContract, callMessageIndex, hasRpc]);
 
   useEffect((): void => {
     setOutcomes([]);
   }, [callContract]);
+
+  if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
+    return null;
+  }
 
   const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
 
@@ -91,7 +92,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   };
 
   const _onSubmitRpc = (): void => {
-    if (!accountId) return;
+    if (!accountId || !callMessage) return;
 
     callContract
       .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)

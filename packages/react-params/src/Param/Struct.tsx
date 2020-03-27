@@ -29,10 +29,6 @@ function StructParam (props: Props): React.ReactElement<Props> {
     setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
   }, [type]);
 
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
-
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
       onChange && onChange({
@@ -44,8 +40,12 @@ function StructParam (props: Props): React.ReactElement<Props> {
         }, {})
       });
     },
-    [params]
+    [params, onChange]
   );
+
+  if (isDisabled) {
+    return <Static {...props} />;
+  }
 
   return (
     <div className='ui--Params-Struct'>

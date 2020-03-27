@@ -74,6 +74,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
         }
       });
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -57,7 +57,7 @@ function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
         isBelowMinimum
       });
     }
-  }, [minDeposit]);
+  }, [deposit, minDeposit, onChange]);
 
   return (
     <>
