@@ -65,7 +65,7 @@ function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number, t: 
                 : t('mortal')
               : t('immortal')
           }
-          tip={extrinsic.tip.toBn()}
+          tip={extrinsic.tip?.toBn()}
           value={extrinsic}
           withHash
         />
