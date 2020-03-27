@@ -12,12 +12,12 @@ import { useTranslation } from '../translate';
 import PreImage from './PreImage';
 
 interface Props {
-  hash: Hash;
+  imageHash: Hash;
   isImminent?: boolean;
   withoutOr?: boolean;
 }
 
-function PreImageButton ({ hash, isImminent, withoutOr }: Props): React.ReactElement<Props> | null {
+function PreImageButton ({ imageHash, isImminent, withoutOr }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isPreimageOpen, togglePreimage] = useToggle();
 
@@ -32,7 +32,7 @@ function PreImageButton ({ hash, isImminent, withoutOr }: Props): React.ReactEle
       {isPreimageOpen && (
         <PreImage
           isImminent={isImminent}
-          matchHash={hash}
+          imageHash={imageHash}
           onClose={togglePreimage}
         />
       )}

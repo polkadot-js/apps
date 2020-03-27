@@ -12,18 +12,18 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  imageHash: Hash | string;
   proposal?: Proposal | null;
-  proposalHash: Hash | string;
 }
 
-function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   if (!proposal) {
     return (
       <td className={`${className} all top`}>
         <label>{t('preimage hash')}</label>
-        {proposalHash.toString()}
+        {imageHash.toString()}
       </td>
     );
   }

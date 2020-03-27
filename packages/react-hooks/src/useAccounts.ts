@@ -13,12 +13,12 @@ interface UseAccounts {
 }
 
 export default function useAccounts (): UseAccounts {
-  const mounted = useIsMountedRef();
+  const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseAccounts>({ allAccounts: [], hasAccounts: false });
 
   useEffect((): () => void => {
     const subscription = accountObservable.subject.subscribe((accounts): void => {
-      if (mounted.current) {
+      if (mountedRef.current) {
         const allAccounts = accounts ? Object.keys(accounts) : [];
         const hasAccounts = allAccounts.length !== 0;
 

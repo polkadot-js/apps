@@ -22,30 +22,29 @@ interface Props {
   value: DeriveReferendumExt;
 }
 
-function Referendum ({ className, value }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className, value: { allAye, allNay, image, imageHash, index, status, isPassing, voteCountAye, voteCountNay, votedAye, votedNay } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const threshold = useMemo(
-    () => value.status.threshold.type.toString().replace('majority', ' majority '),
-    [value]
+    () => status.threshold.type.toString().replace('majority', ' majority '),
+    [status]
   );
 
-  if (!bestNumber || value.status.end.sub(bestNumber).lten(0)) {
+  if (!bestNumber || status.end.sub(bestNumber).lten(0)) {
     return null;
   }
 
-  const enactBlock = value.status.end.add(value.status.delay);
-  const remainBlock = value.status.end.sub(bestNumber).subn(1);
-  const { allAye, allNay, isPassing, voteCountAye, voteCountNay, votedAye, votedNay } = value;
+  const enactBlock = status.end.add(status.delay);
+  const remainBlock = status.end.sub(bestNumber).subn(1);
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(value.index)}</h1></td>
+      <td className='number top'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         className='top'
-        proposalHash={value.hash}
-        proposal={value.proposal}
+        imageHash={imageHash}
+        proposal={image?.proposal}
       />
       <td className='number together top'>
         <label>{t('remaining')}</label>
@@ -91,15 +90,15 @@ function Referendum ({ className, value }: Props): React.ReactElement<Props> | n
       <td className='number together top'>
         <Button.Group>
           <Voting
-            proposal={value.proposal}
-            referendumId={value.index}
+            proposal={image?.proposal}
+            referendumId={index}
           />
-          {!value.proposal && (
-            <PreImageButton hash={value.hash} />
+          {!image?.proposal && (
+            <PreImageButton imageHash={imageHash} />
           )}
         </Button.Group>
         <LinkExternal
-          data={value.index}
+          data={index}
           type='referendum'
         />
       </td>

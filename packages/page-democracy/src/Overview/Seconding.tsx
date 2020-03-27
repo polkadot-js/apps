@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Proposal } from '@polkadot/types/interfaces';
+import { DeriveProposalImage } from '@polkadot/api-derive/types';
+import { AccountId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
@@ -14,11 +15,11 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   depositors: AccountId[];
-  proposal?: Proposal;
+  image?: DeriveProposalImage;
   proposalId: BN | number;
 }
 
-function Seconding ({ depositors, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+function Seconding ({ depositors, image, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -40,7 +41,7 @@ function Seconding ({ depositors, proposal, proposalId }: Props): React.ReactEle
           <Modal.Content>
             <ProposedAction
               idNumber={proposalId}
-              proposal={proposal}
+              proposal={image?.proposal}
             />
             <InputAddress
               help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}

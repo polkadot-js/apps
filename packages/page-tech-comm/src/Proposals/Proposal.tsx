@@ -16,15 +16,15 @@ import Voting from './Voting';
 
 interface Props {
   className?: string;
-  hash: string;
+  imageHash: string;
   prime?: AccountId | null;
 }
 
-function Proposal ({ className, hash, prime }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
-  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
+  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [imageHash]);
+  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [imageHash]);
 
   if (!optProposal?.isSome || !votes?.isSome) {
     return null;
@@ -38,7 +38,7 @@ function Proposal ({ className, hash, prime }: Props): React.ReactElement<Props>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         className='top'
-        proposalHash={hash}
+        imageHash={imageHash}
         proposal={proposal}
       />
       <td className='number top'>
@@ -67,7 +67,7 @@ function Proposal ({ className, hash, prime }: Props): React.ReactElement<Props>
       </td>
       <td className='number top together'>
         <Voting
-          hash={hash}
+          hash={imageHash}
           prime={prime}
           proposalId={index}
         />

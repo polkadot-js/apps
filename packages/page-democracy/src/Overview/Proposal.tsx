@@ -20,7 +20,7 @@ interface Props {
   value: DeriveProposal;
 }
 
-function Proposal ({ className, value: { balance, hash, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
+function Proposal ({ className, value: { balance, index, image, imageHash, proposer, seconds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const seconding = seconds.filter((_address, index): boolean => index !== 0);
 
@@ -35,8 +35,8 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
       </td>
       <ProposalCell
         className='top'
-        proposalHash={hash}
-        proposal={proposal}
+        imageHash={imageHash}
+        proposal={image?.proposal}
       />
       <td className='top padtop'>
         {seconding.length !== 0 && (
@@ -57,11 +57,11 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
         <Button.Group>
           <Seconding
             depositors={seconds || []}
+            image={image}
             proposalId={index}
-            proposal={proposal}
           />
-          {!proposal && (
-            <PreImageButton hash={hash} />
+          {!image?.proposal && (
+            <PreImageButton imageHash={imageHash} />
           )}
         </Button.Group>
         <LinkExternal
