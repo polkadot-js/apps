@@ -69,14 +69,14 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
             </td>
             <ProposalCell
               className='top'
-              proposalHash={hash}
+              imageHash={hash}
               proposal={expanded?.proposal}
             />
             <td className='together number top'>
               <Button.Group>
                 {!expanded?.proposal && (
                   <PreImageButton
-                    hash={hash}
+                    imageHash={hash}
                     withoutOr
                   />
                 )}
@@ -86,7 +86,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
                       <Button.Or />
                     )}
                     <Fasttrack
-                      hash={hash}
+                      imageHash={hash}
                       threshold={threshold}
                     />
                   </>

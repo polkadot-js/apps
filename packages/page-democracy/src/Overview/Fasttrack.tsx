@@ -13,7 +13,7 @@ import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
-  hash: Hash;
+  imageHash: Hash;
   threshold: VoteThreshold;
 }
 
@@ -21,7 +21,7 @@ const ONE_MIN = (1 * 60) / 6;
 const DEF_DELAY = new BN(ONE_MIN);
 const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
 
-function Fasttrack ({ hash, threshold }: Props): React.ReactElement<Props> | null {
+function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers('technicalCommittee');
@@ -43,10 +43,10 @@ function Fasttrack ({ hash, threshold }: Props): React.ReactElement<Props> | nul
   useEffect((): void => {
     setProposal(
       () => delayBlocks?.gtn(0) && votingBlocks?.gtn(0)
-        ? api.tx.democracy.fastTrack(hash, votingBlocks, delayBlocks)
+        ? api.tx.democracy.fastTrack(imageHash, votingBlocks, delayBlocks)
         : null
     );
-  }, [api, delayBlocks, hash, votingBlocks]);
+  }, [api, delayBlocks, imageHash, votingBlocks]);
 
   return (
     <>
@@ -67,8 +67,8 @@ function Fasttrack ({ hash, threshold }: Props): React.ReactElement<Props> | nul
             <Input
               help={t('The external proposal to send to the technical committee')}
               isDisabled
-              label={t('external hash')}
-              value={hash}
+              label={t('preimage hash')}
+              value={imageHash}
             />
             <InputNumber
               autoFocus

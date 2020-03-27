@@ -17,13 +17,13 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   isImminent?: boolean;
-  matchHash?: Hash;
+  imageHash?: Hash;
   onClose: () => void;
 }
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className, isImminent: propsIsImminent, imageHash, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -37,8 +37,8 @@ function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose 
     setHash({ encodedProposal, encodedHash: blake2AsHex(encodedProposal) });
   }, [proposal]);
 
-  const isMatched = matchHash
-    ? matchHash.eq(encodedHash)
+  const isMatched = imageHash
+    ? imageHash.eq(encodedHash)
     : true;
 
   return (

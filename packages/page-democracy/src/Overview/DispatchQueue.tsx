@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, Hash, ReferendumIndex } from '@polkadot/types/interfaces';
+import { DeriveDispatch } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import { Spinner, Table } from '@polkadot/react-components';
@@ -18,11 +18,7 @@ interface Props {
 function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const queued = useCall<[BlockNumber, Hash, ReferendumIndex][]>(api.query.democracy.dispatchQueue, []);
-
-  if (!queued?.length) {
-    return null;
-  }
+  const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue as any, []);
 
   return (
     <div className={className}>
@@ -32,18 +28,16 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
           ? (
             <Table>
               <Table.Body>
-                {queued.map(([blockNumber, hash, referendumIndex]): React.ReactNode => (
+                {queued.map((entry): React.ReactNode => (
                   <DispatchEntry
-                    blockNumber={blockNumber}
-                    hash={hash}
-                    key={referendumIndex.toString()}
-                    referendumIndex={referendumIndex}
+                    key={entry.index.toString()}
+                    value={entry}
                   />
                 ))}
               </Table.Body>
             </Table>
           )
-          : t('nothing queued to be executed')
+          : t('nothing queued for execution')
         : <Spinner />
       }
     </div>

@@ -40,7 +40,7 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         className='top'
-        proposalHash={hash}
+        imageHash={hash}
         proposal={proposal}
       />
       <td className='number top'>
