@@ -9,7 +9,7 @@ import { RecoveryConfig } from '@polkadot/types/interfaces';
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Forget, Icon, IdentityIcon, InputTags, LinkPolkascan, Menu, Popup, Input } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Forget, Icon, IdentityIcon, InputTags, LinkPolkascan, Input } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -42,8 +42,6 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   });
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
-  const [genesisHash, setGenesisHash] = useState<string | null>(null);
-  const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
   const [isVisible, setIsVisible] = useState(true);
   const [isEditingName, toggleEditName] = useToggle();
   const [isEditingTags, toggleEditTags] = useToggle();
@@ -54,7 +52,6 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
-  const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
 
   const _setTags = (tags: string[]): void => setTags(tags.sort());
@@ -74,12 +71,6 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   useEffect((): void => {
     const account = keyring.getAccount(address);
 
-    setGenesisHash(account?.meta.genesisHash || null);
-    setFlags({
-      isDevelopment: account?.meta.isTesting || false,
-      isEditable: (account && !(account.meta.isInjected || account.meta.isHardware)) || false,
-      isExternal: account?.meta.isExternal || false
-    });
     _setTags(account?.meta.tags || []);
     setAccName(account?.meta.name || '');
   }, [address]);
@@ -151,13 +142,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       status.message = error.message;
     }
   };
-  const _onGenesisChange = (genesisHash: string | null): void => {
-    const account = keyring.getPair(address);
 
-    account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
-
-    setGenesisHash(genesisHash);
-  };
   const _onFavorite = (): void => toggleFavorite(address);
 
   return (
@@ -328,90 +313,6 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           withBalance={false}
           withExtended
         />
-      </td>
-      <td className='number top'>
-        <Button
-          icon='paper plane'
-          isPrimary
-          label={t('send')}
-          onClick={toggleTransfer}
-          size='small'
-          tooltip={t('Send funds from this account')}
-        />
-        <Popup
-          className='theme--default'
-          onClose={toggleSettings}
-          open={isSettingsOpen}
-          position='bottom right'
-          trigger={
-            <Button
-              icon='setting'
-              onClick={toggleSettings}
-              size='small'
-            />
-          }
-        >
-          <Menu
-            vertical
-            text
-            onClick={toggleSettings}
-          >
-            <Menu.Item
-              disabled={!api.api.tx.identity?.setIdentity}
-              onClick={toggleIdentity}
-            >
-              {t('Set on-chain identity')}
-            </Menu.Item>
-            <Menu.Item
-              disabled={!isEditable || isExternal}
-              onClick={toggleDerive}
-            >
-              {t('Derive account via derivation path')}
-            </Menu.Item>
-            <Menu.Item
-              disabled={!isEditable || isExternal || isDevelopment}
-              onClick={toggleBackup}
-            >
-              {t('Create a backup file for this account')}
-            </Menu.Item>
-            <Menu.Item
-              disabled={!isEditable || isExternal || isDevelopment}
-              onClick={togglePassword}
-            >
-              {t("Change this account's password")}
-            </Menu.Item>
-            <Menu.Item
-              disabled={!isEditable || isDevelopment}
-              onClick={toggleForget}
-            >
-              {t('Forget this account')}
-            </Menu.Item>
-            {api.api.tx.recovery?.createRecovery && (
-              <>
-                <Menu.Divider />
-                {!recoveryInfo && (
-                  <Menu.Item onClick={toggleRecoverSetup}>
-                    {t('Make recoverable')}
-                  </Menu.Item>
-                )}
-                <Menu.Item onClick={toggleRecoverAccount}>
-                  {t('Initiate recovery for another')}
-                </Menu.Item>
-              </>
-            )}
-            {!api.isDevelopment && (
-              <>
-                <Menu.Divider />
-                <ChainLock
-                  className='accounts--network-toggle'
-                  genesisHash={genesisHash}
-                  onChange={_onGenesisChange}
-                  preventDefault
-                />
-              </>
-            )}
-          </Menu>
-        </Popup>
       </td>
       <td className='mini top'>
         <LinkPolkascan
