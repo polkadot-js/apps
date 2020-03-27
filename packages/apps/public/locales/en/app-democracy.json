@@ -94,5 +94,8 @@
   "{{threshold}}, passing": "{{threshold}}, passing",
   "{{threshold}}, not passing": "{{threshold}}, not passing",
   "passing": "passing",
-  "failing": "failing"
+  "failing": "failing",
+  "nothing queued for execution": "nothing queued for execution",
+  "external": "external",
+  "No external proposal": "No external proposal"
 }

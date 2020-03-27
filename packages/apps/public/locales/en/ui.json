@@ -991,5 +991,8 @@
   "Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address": "",
   "Address Prefix": "",
   "Decimals decides the smallest unit of the token, which is 1/10^decimals": "",
-  "Decimals": ""
+  "Decimals": "",
+  "nothing queued for execution": "",
+  "external": "",
+  "No external proposal": ""
 }
