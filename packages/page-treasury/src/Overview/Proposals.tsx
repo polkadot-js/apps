@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
+import { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   isApprovals?: boolean;
-  proposals?: DerivedTreasuryProposal[];
+  proposals?: DeriveTreasuryProposal[];
 }
 
 function ProposalsBase ({ className, isApprovals, proposals }: Props): React.ReactElement<Props> {

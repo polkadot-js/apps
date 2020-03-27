@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedContractFees } from '@polkadot/api-derive/types';
+import { DeriveContractFees } from '@polkadot/api-derive/types';
 import { ExtraFees as State } from './types';
 
 import BN from 'bn.js';
@@ -11,7 +11,7 @@ import { Compact, UInt } from '@polkadot/types';
 
 interface Props {
   endowment: BN | Compact<UInt>;
-  fees: DerivedContractFees;
+  fees: DeriveContractFees;
   onChange: (fees: State) => void;
 }
 

@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees, DerivedBalancesAll } from '@polkadot/api-derive/types';
+import { DeriveFees, DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { AccountId, Balance, BlockNumber, Hash, SessionIndex } from '@polkadot/types/interfaces';
 
 export type Nominators = Record<string, string[]>;
 
 export interface CalculateBalanceProps {
-  balances_fees?: DerivedFees;
-  balances_all?: DerivedBalancesAll;
+  balances_fees?: DeriveFees;
+  balances_all?: DeriveBalancesAll;
 }
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';

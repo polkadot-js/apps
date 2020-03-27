@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
-import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -20,7 +20,7 @@ interface Props {
   className?: string;
   isMember: boolean;
   members: string[];
-  motion: DerivedCollectiveProposal;
+  motion: DeriveCollectiveProposal;
   prime: AccountId | null;
 }
 

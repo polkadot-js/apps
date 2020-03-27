@@ -31,36 +31,6 @@ class Validate extends TxComponent<Props, State> {
     commission: new BN(0)
   };
 
-  // FIXME Borken with new InputBalance
-  // inject the preferences returned via RPC once into the state (from this
-  // point forward it will be entirely managed by the actual inputs)
-  // public static getDerivedStateFromProps ({ isSubstrateV2, validatorPrefs }: Props, state: State): Pick<State, never> | null {
-  //   if (state.unstakeThreshold && state.validatorPayment) {
-  //     return null;
-  //   }
-
-  //   if (validatorPrefs) {
-  //     // 1.x, it has both values
-  //     if (isSubstrateV2) {
-  //       const { validatorPayment } = validatorPrefs as ValidatorPrefs;
-
-  //       return {
-  //         validatorPayment: validatorPayment.toBn()
-  //       };
-  //     } else {
-  //       const { unstakeThreshold, validatorPayment } = validatorPrefs as ValidatorPrefs0to145;
-
-  //       return {
-  //         unstakeThreshold: unstakeThreshold.toBn(),
-  //         unstakeThresholdError: null,
-  //         validatorPayment: validatorPayment.toBn()
-  //       };
-  //     }
-  //   }
-
-  //   return null;
-  // }
-
   public render (): React.ReactNode {
     const { isOpen, t } = this.props;
 

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -12,7 +12,7 @@ import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
-  councilProposals: DerivedCollectiveProposal[];
+  councilProposals: DeriveCollectiveProposal[];
   id: ProposalIndex;
   isDisabled: boolean;
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingOverview } from '@polkadot/api-derive/types';
+import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -18,7 +18,7 @@ interface Props {
   next?: string[];
   nominees?: string[];
   onClose: () => void;
-  stakingOverview?: DerivedStakingOverview;
+  stakingOverview?: DeriveStakingOverview;
   stashId: string;
 }
 

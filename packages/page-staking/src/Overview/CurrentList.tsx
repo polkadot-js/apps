@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
+import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { AddressDetails } from './types';
 
@@ -21,9 +21,9 @@ interface Props {
   isVisible: boolean;
   lastAuthors?: string[];
   next?: string[];
-  recentlyOnline?: DerivedHeartbeats;
+  recentlyOnline?: DeriveHeartbeats;
   setNominators: (nominators: string[]) => void;
-  stakingOverview?: DerivedStakingOverview;
+  stakingOverview?: DeriveStakingOverview;
 }
 
 type AccountExtend = [string, boolean, boolean];
@@ -68,7 +68,7 @@ function reduceDetails (state: Record<string, AddressDetails>, _details: Address
   }, { ...state });
 }
 
-function getDetails (stakingOverview: DerivedStakingOverview, validators: AccountExtend[]): AddressDetails[] {
+function getDetails (stakingOverview: DeriveStakingOverview, validators: AccountExtend[]): AddressDetails[] {
   const allPoints = [...stakingOverview.eraPoints.individual.entries()];
 
   return validators.map(([address]): AddressDetails => {
@@ -83,7 +83,7 @@ function getDetails (stakingOverview: DerivedStakingOverview, validators: Accoun
   });
 }
 
-function getFiltered (stakingOverview: DerivedStakingOverview, favorites: string[], next?: string[]): Filtered {
+function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[], next?: string[]): Filtered {
   const allElected = accountsToString(stakingOverview.nextElected);
   const validatorIds = accountsToString(stakingOverview.validators);
   const validators = filterAccounts(validatorIds, allElected, favorites, []);

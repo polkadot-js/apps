@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedCollectiveProposals, DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { DeriveCollectiveProposals, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -17,7 +17,7 @@ import Slashing from './Slashing';
 
 interface Props {
   className?: string;
-  motions?: DerivedCollectiveProposals;
+  motions?: DeriveCollectiveProposals;
   prime: AccountId | null;
 }
 
@@ -48,7 +48,7 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
         ? (
           <Table>
             <Table.Body>
-              {motions?.map((motion: DerivedCollectiveProposal): React.ReactNode => (
+              {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
                 <Motion
                   isMember={isMember}
                   key={motion.hash.toHex()}

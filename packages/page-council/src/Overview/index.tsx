@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
+import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -58,7 +58,7 @@ function transformVotes (entries: [StorageKey, AccountId[]][]): Record<string, A
 function Overview ({ className, prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
+  const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info, []);
   const allVotes = api.query.electionsPhragmen?.votesOf.creator.meta.type.asMap.linked.isTrue
     // eslint-disable-next-line react-hooks/rules-of-hooks
     ? useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {

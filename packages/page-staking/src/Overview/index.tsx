@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedHeartbeats, DerivedStakingOverview } from '@polkadot/api-derive/types';
+import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useContext } from 'react';
@@ -14,10 +14,10 @@ import CurrentList from './CurrentList';
 interface Props extends BareProps {
   hasQueries: boolean;
   isVisible: boolean;
-  recentlyOnline?: DerivedHeartbeats;
+  recentlyOnline?: DeriveHeartbeats;
   next?: string[];
   setNominators: (nominators: string[]) => void;
-  stakingOverview?: DerivedStakingOverview;
+  stakingOverview?: DeriveStakingOverview;
 }
 
 function Overview ({ hasQueries, isVisible, className, recentlyOnline, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> {
