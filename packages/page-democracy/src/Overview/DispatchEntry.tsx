@@ -38,8 +38,8 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
         )}
       </td>
       <ProposalCell
-        image={image}
         imageHash={imageHash}
+        proposal={image?.proposal}
       />
       <td className='together number top'>
         {!image?.proposal && (

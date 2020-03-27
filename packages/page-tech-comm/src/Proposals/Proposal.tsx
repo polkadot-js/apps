@@ -23,8 +23,8 @@ interface Props {
 function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
-  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
+  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [imageHash]);
+  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [imageHash]);
 
   if (!optProposal?.isSome || !votes?.isSome) {
     return null;
@@ -38,7 +38,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         className='top'
-        imageHash={hash}
+        imageHash={imageHash}
         proposal={proposal}
       />
       <td className='number top'>

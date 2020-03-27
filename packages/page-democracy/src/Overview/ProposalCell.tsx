@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveProposalImage } from '@polkadot/api-derive/types';
-import { Hash } from '@polkadot/types/interfaces';
+import { Hash, Proposal } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
@@ -13,14 +12,14 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  image?: DeriveProposalImage | null;
   imageHash: Hash | string;
+  proposal?: Proposal | null;
 }
 
-function ProposalCell ({ className, image, imageHash }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  if (!image?.proposal) {
+  if (!proposal) {
     return (
       <td className={`${className} all top`}>
         <label>{t('preimage hash')}</label>
@@ -29,7 +28,7 @@ function ProposalCell ({ className, image, imageHash }: Props): React.ReactEleme
     );
   }
 
-  const { meta, method, section } = registry.findMetaCall(image.proposal.callIndex);
+  const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   return (
     <td className={`${className} all top`}>
@@ -37,7 +36,7 @@ function ProposalCell ({ className, image, imageHash }: Props): React.ReactEleme
       <Expander summaryMeta={meta}>
         <Call
           labelHash={t('proposal hash')}
-          value={image.proposal}
+          value={proposal}
           withHash
         />
       </Expander>

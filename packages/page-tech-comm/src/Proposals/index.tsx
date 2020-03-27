@@ -6,7 +6,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from '../types';
 
 import React from 'react';
-import { Table, Button } from '@polkadot/react-components';
+import { Button, Spinner, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Proposal from './Proposal';
@@ -23,21 +23,23 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
           members={members}
         />
       </Button.Group>
-      {proposals?.length
-        ? (
-          <Table>
-            <Table.Body>
-              {proposals?.map((hash: Hash): React.ReactNode => (
-                <Proposal
-                  hash={hash.toHex()}
-                  key={hash.toHex()}
-                  prime={prime}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No committee proposals')
+      {proposals
+        ? proposals.length
+          ? (
+            <Table>
+              <Table.Body>
+                {proposals?.map((hash: Hash): React.ReactNode => (
+                  <Proposal
+                    imageHash={hash.toHex()}
+                    key={hash.toHex()}
+                    prime={prime}
+                  />
+                ))}
+              </Table.Body>
+            </Table>
+          )
+          : t('No committee proposals')
+        : <Spinner />
       }
     </div>
   );

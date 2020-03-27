@@ -43,8 +43,8 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         className='top'
-        image={image}
         imageHash={imageHash}
+        proposal={image?.proposal}
       />
       <td className='number together top'>
         <label>{t('remaining')}</label>

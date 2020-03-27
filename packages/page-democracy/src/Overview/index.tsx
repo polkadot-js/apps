@@ -49,8 +49,8 @@ function Overview ({ className }: Props): React.ReactElement {
       )}
       <Referendums />
       <Proposals />
-      <Externals />
       <DispatchQueue />
+      <Externals />
     </div>
   );
 }

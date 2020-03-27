@@ -35,8 +35,8 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
       </td>
       <ProposalCell
         className='top'
-        image={image}
         imageHash={imageHash}
+        proposal={image?.proposal}
       />
       <td className='top padtop'>
         {seconding.length !== 0 && (
