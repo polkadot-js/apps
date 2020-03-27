@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedReferendumExt } from '@polkadot/api-derive/types';
+import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -19,7 +19,7 @@ import Voting from './Voting';
 
 interface Props {
   className?: string;
-  value: DerivedReferendumExt;
+  value: DeriveReferendumExt;
 }
 
 function Referendum ({ className, value }: Props): React.ReactElement<Props> | null {

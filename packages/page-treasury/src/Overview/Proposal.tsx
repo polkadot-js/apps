@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedTreasuryProposal } from '@polkadot/api-derive/types';
+import { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-components';
@@ -16,7 +16,7 @@ import Voting from './Voting';
 interface Props {
   className?: string;
   isMember: boolean;
-  proposal: DerivedTreasuryProposal;
+  proposal: DeriveTreasuryProposal;
   onRespond: () => void;
   withSend: boolean;
 }

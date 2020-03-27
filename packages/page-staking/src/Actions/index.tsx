@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
+import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -20,7 +20,7 @@ interface Props {
   className?: string;
   isVisible: boolean;
   next?: string[];
-  stakingOverview?: DerivedStakingOverview;
+  stakingOverview?: DeriveStakingOverview;
 }
 
 function Actions ({ allRewards, allStashes, className, isVisible, next, stakingOverview }: Props): React.ReactElement<Props> {

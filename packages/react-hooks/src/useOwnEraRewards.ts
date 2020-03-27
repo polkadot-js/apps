@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveSessionIndexes, DerivedStakingQuery, DeriveStakerReward } from '@polkadot/api-derive/types';
+import { DeriveSessionIndexes, DeriveStakingQuery, DeriveStakerReward } from '@polkadot/api-derive/types';
 import { EraIndex } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -22,7 +22,7 @@ function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
   const { api, isApiReady } = useApi();
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
-  const allInfo = useCall<DerivedStakingQuery[]>(isApiReady && stashIds && api.derive.staking?.queryMulti, stashIds);
+  const allInfo = useCall<DeriveStakingQuery[]>(isApiReady && stashIds && api.derive.staking?.queryMulti, stashIds);
   const indexes = useCall<DeriveSessionIndexes>(isApiReady && api.derive.session?.indexes, []);
   const [nextPayouts, setNextPayouts] = useState<[string, BN][] | undefined>();
 

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingElected, DeriveSessionIndexes } from '@polkadot/api-derive/types';
+import { DeriveStakingElected, DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { ValidatorInfo } from './types';
 
@@ -90,7 +90,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     });
 }
 
-function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DerivedStakingElected, favorites: string[], lastReward = new BN(1)): AllInfo {
+function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DeriveStakingElected, favorites: string[], lastReward = new BN(1)): AllInfo {
   const nominators: string[] = [];
   let totalStaked = new BN(0);
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
@@ -181,7 +181,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
       optBalance.unwrapOrDefault()
   });
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1_000));
-  const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
+  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [{ nominators, validators, sorted, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
   const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });

@@ -22,7 +22,7 @@ interface Props {
   onClose: () => void;
 }
 
-interface DerivedAddress {
+interface DeriveAddress {
   address: string | null;
   deriveError: string | null;
 }
@@ -71,7 +71,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
-  const [{ address, deriveError }, setDerived] = useState<DerivedAddress>({ address: null, deriveError: null });
+  const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLocked, setIsLocked] = useState(source.isLocked);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
@@ -87,7 +87,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
   }, [source]);
 
   useEffect((): void => {
-    setDerived((): DerivedAddress => {
+    setDerive((): DeriveAddress => {
       let address: string | null = null;
       const deriveError = deriveValidate(debouncedSuri, source.type);
 

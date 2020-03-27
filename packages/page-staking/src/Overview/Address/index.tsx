@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Balance } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo, DerivedStakingQuery } from '@polkadot/api-derive/types';
+import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -47,7 +47,7 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-function expandInfo ({ controllerId, exposure, nextSessionIds, validatorPrefs }: DerivedStakingQuery, withNominations = true): StakingState {
+function expandInfo ({ controllerId, exposure, nextSessionIds, validatorPrefs }: DeriveStakingQuery, withNominations = true): StakingState {
   const nominators = withNominations && exposure
     ? exposure.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
     : [];
@@ -104,7 +104,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
-  const stakingInfo = useCall<DerivedStakingQuery>(isMain && api.derive.staking.query as any, [address]);
+  const stakingInfo = useCall<DeriveStakingQuery>(isMain && api.derive.staking.query as any, [address]);
   const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
 
