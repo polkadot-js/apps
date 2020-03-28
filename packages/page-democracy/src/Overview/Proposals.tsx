@@ -27,6 +27,12 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
         ? proposals.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <th>{t('proposer')}</th>
+                <th>{t('locked')}</th>
+                <th colSpan={3}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {proposals.map((proposal): React.ReactNode => (
                   <ProposalDisplay
@@ -37,7 +43,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
               </Table.Body>
             </Table>
           )
-          : t('No active proposals')
+          : <div>{t('No active proposals')}</div>
         : <Spinner />
       }
     </div>

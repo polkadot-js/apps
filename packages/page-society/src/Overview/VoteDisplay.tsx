@@ -27,7 +27,7 @@ function VoteDisplay ({ votes }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <td className='top padtop'>
+      <td>
         {allSkeptic.length !== 0 && (
           <Expander summary={t('Skeptics ({{count}})', { replace: { count: allSkeptic.length } })}>
             {allSkeptic.map(([who]): React.ReactNode =>
@@ -39,7 +39,7 @@ function VoteDisplay ({ votes }: Props): React.ReactElement<Props> {
           </Expander>
         )}
       </td>
-      <td className='top padtop'>
+      <td>
         {allAye.length !== 0 && (
           <Expander summary={t('Approvals ({{count}})', { replace: { count: allAye.length } })}>
             {allAye.map(([who]): React.ReactNode =>
@@ -51,7 +51,7 @@ function VoteDisplay ({ votes }: Props): React.ReactElement<Props> {
           </Expander>
         )}
       </td>
-      <td className='top padtop'>
+      <td>
         {allNay.length !== 0 && (
           <Expander summary={t('Rejections ({{count}})', { replace: { count: allNay.length } })}>
             {allNay.map(([who]): React.ReactNode =>

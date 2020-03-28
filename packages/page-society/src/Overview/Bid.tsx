@@ -8,29 +8,21 @@ import React from 'react';
 import { AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
-
 interface Props {
   value: Bid;
 }
 
 function BidRow ({ value: { who, kind, value } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
   return (
     <tr>
-      <td className='top'>
+      <td className='all top'>
         <AddressSmall value={who} />
       </td>
       <td className='number top'>
-        <label>{t('kind')}</label>
         {kind.type}
       </td>
       <td className='number top'>
-        <FormatBalance
-          label={<label>{t('value')}</label>}
-          value={value}
-        />
+        <FormatBalance value={value} />
       </td>
     </tr>
   );

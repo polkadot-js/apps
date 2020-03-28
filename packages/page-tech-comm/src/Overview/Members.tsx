@@ -23,13 +23,16 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
       {members.length
         ? (
           <Table>
+            <Table.Head>
+              <th colSpan={3}>&nbsp;</th>
+            </Table.Head>
             <Table.Body>
               {members.map((accountId): React.ReactNode => (
                 <tr key={accountId.toString()}>
-                  <td className='all address'>
+                  <td className='address'>
                     <AddressSmall value={accountId} />
                   </td>
-                  <td className='together top padtop'>
+                  <td>
                     {prime?.eq(accountId) && (
                       <Tag
                         color='green'
@@ -44,7 +47,7 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
             </Table.Body>
           </Table>
         )
-        : t('No members found')
+        : <div>{t('No members found')}</div>
       }
     </div>
   );

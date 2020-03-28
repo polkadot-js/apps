@@ -27,6 +27,13 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
         ? proposals.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <td>{t('threshold')}</td>
+                <td>{t('aye')}</td>
+                <td>{t('nay')}</td>
+                <th>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {proposals?.map((hash: Hash): React.ReactNode => (
                   <Proposal
@@ -38,7 +45,7 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
               </Table.Body>
             </Table>
           )
-          : t('No committee proposals')
+          : <div>{t('No committee proposals')}</div>
         : <Spinner />
       }
     </div>

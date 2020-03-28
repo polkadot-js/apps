@@ -12,7 +12,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import ProposalCell from './ProposalCell';
 import PreImageButton from './PreImageButton';
 
@@ -21,36 +20,37 @@ interface Props {
 }
 
 function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
 
   return (
     <tr>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         imageHash={imageHash}
         proposal={image?.proposal}
       />
-      <td className='number together top'>
+      <td className='number together'>
         {bestNumber && (
           <>
-            <label>{t('enact')}</label>
             <BlockToTime blocks={at.sub(bestNumber)} />
             #{formatNumber(at)}
           </>
         )}
       </td>
-      <td className='together number top'>
+      <td className='button'>
         {!image?.proposal && (
           <PreImageButton
             imageHash={imageHash}
             isImminent
           />
         )}
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           type='referendum'
+          withShort
         />
       </td>
     </tr>

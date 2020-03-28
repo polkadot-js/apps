@@ -9,7 +9,6 @@ import { AddressSmall, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import Favorite from '../Overview/Address/Favorite';
 
 interface Props {
@@ -18,8 +17,6 @@ interface Props {
 }
 
 function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment }, toggleFavorite }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
   const _onQueryStats = useCallback(
     (): void => {
       window.location.hash = `/staking/query/${key}`;
@@ -41,14 +38,14 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
       <td className='number'>
         {
           isCommission
-            ? <><label>{t('commission')}</label>{`${commissionPer.toFixed(2)}%`}</>
-            : <FormatBalance label={<label>{t('commission')}</label>} value={validatorPayment} />
+            ? `${commissionPer.toFixed(2)}%`
+            : <FormatBalance value={validatorPayment} />
         }
       </td>
-      <td className='number together'><FormatBalance label={<label>{t('total stake')}</label>} value={bondTotal} /></td>
-      <td className='number together'><FormatBalance label={<label>{t('own stake')}</label>} value={bondOwn} /></td>
-      <td className='number together'><FormatBalance label={<label>{t('other stake')}</label>} value={bondOther} >&nbsp;({formatNumber(numNominators)})</FormatBalance></td>
-      <td className='number together'><FormatBalance label={<label>{t('profit/era est.')}</label>} value={rewardPayout} /></td>
+      <td className='number together'><FormatBalance value={bondTotal} /></td>
+      <td className='number together'><FormatBalance value={bondOwn} /></td>
+      <td className='number together'><FormatBalance value={bondOther} >&nbsp;({formatNumber(numNominators)})</FormatBalance></td>
+      <td className='number together'><FormatBalance value={rewardPayout} /></td>
       <td>
         <Icon
           className='staking--stats'

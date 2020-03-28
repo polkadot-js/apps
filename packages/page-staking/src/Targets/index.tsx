@@ -7,7 +7,7 @@ import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/in
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { Icon, InputBalance, Spinner, Table } from '@polkadot/react-components';
@@ -186,6 +186,10 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const [{ nominators, validators, sorted, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
   const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
+  const labels = useMemo(
+    (): Record<string, string> => ({ rankComm: t('commission'), rankBondTotal: t('total stake'), rankBondOwn: t('own stake'), rankBondOther: t('other stake'), rankOverall: t('profit/era est') }),
+    [t]
+  );
 
   const _sort = useCallback(
     (newSortBy: SortBy): void =>
@@ -232,15 +236,13 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
             />
             <Table>
               <Table.Head>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
+                <th colSpan={3}>&nbsp;</th>
                 {['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header): React.ReactNode => (
                   <th
-                    className={`isClickable ${sortBy === header && 'isSelected'}`}
+                    className={`isClickable ${sortBy === header && 'ui--highlight--border'} number`}
                     key={header}
                     onClick={(): void => _sort(header as 'rankComm')}
-                  ><Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></th>
+                  >{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></th>
                 ))}
                 <th>&nbsp;</th>
               </Table.Head>
@@ -264,4 +266,10 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Targets)`
   text-align: center;
+
+  th {
+    i.icon {
+      margin-left: 0.5rem;
+    }
+  }
 `);

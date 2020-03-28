@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkExternal, Forget, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
+import { formatNumber } from '@polkadot/util';
 
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
@@ -24,7 +25,6 @@ interface Props {
 }
 
 const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, reserved: true, total: true };
-const WITH_EXTENDED = { nonce: true };
 
 const isEditable = true;
 
@@ -32,6 +32,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const { t } = useTranslation();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all as any, [address]);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
@@ -204,7 +205,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           </>
         )}
       </td>
-      <td>
+      <td className='all'>
         {isEditingTags
           ? (
             <InputTags
@@ -230,7 +231,10 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           )
         }
       </td>
-      <td className='top'>
+      <td className='number'>
+        {balancesAll && formatNumber(balancesAll.accountNonce)}
+      </td>
+      <td className='number'>
         <AddressInfo
           address={address}
           withBalance={WITH_BALANCE}
@@ -238,14 +242,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           withExtended={false}
         />
       </td>
-      <td className='top'>
-        <AddressInfo
-          address={address}
-          withBalance={false}
-          withExtended={WITH_EXTENDED}
-        />
-      </td>
-      <td className='number top'>
+      <td className='button'>
         <Button
           icon='paper plane'
           key='deposit'
@@ -293,7 +290,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           </Menu>
         </Popup>
       </td>
-      <td className='mini top'>
+      <td className='mini'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

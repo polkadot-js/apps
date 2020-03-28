@@ -27,6 +27,10 @@ function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): Re
         ? electionsInfo.members.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <th>{t('backing')}</th>
+              </Table.Head>
               <Table.Body>
                 {electionsInfo.members.map(([accountId, balance]): React.ReactNode => (
                   <Candidate
@@ -40,7 +44,7 @@ function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): Re
               </Table.Body>
             </Table>
           )
-          : t('No members found')
+          : <div>{t('No members found')}</div>
         : <Spinner />
       }
     </div>

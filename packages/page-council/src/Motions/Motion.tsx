@@ -13,7 +13,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import Voting from './Voting';
 
 interface Props {
@@ -25,7 +24,6 @@ interface Props {
 }
 
 function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
 
@@ -37,46 +35,41 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
-        className='top'
         imageHash={hash}
         proposal={proposal}
       />
-      <td className='number top'>
-        <label>{t('threshold')}</label>
+      <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
-      <td className='number together top'>
+      <td className='number together'>
         {end && (
           <>
-            <label>{t('voting end')}</label>
             <BlockToTime blocks={end.sub(bestNumber)} />
             #{formatNumber(end)}
           </>
         )}
       </td>
-      <td className='top'>
+      <td className='number'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
-            label={index === 0 ? t('Aye') : undefined}
             value={address}
             withBalance={false}
           />
         ))}
       </td>
-      <td className='top'>
+      <td className='number'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
-            label={index === 0 ? t('Nay') : undefined}
             value={address}
             withBalance={false}
           />
         ))}
       </td>
-      <td className='number top together'>
+      <td className='button'>
         <Voting
           hash={hash}
           idNumber={index}

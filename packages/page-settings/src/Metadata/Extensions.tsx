@@ -61,7 +61,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
               </Button.Group>
             </>
           )
-          : t('No upgradable extensions found')
+          : <div>{t('No upgradable extensions found')}</div>
         : <Spinner />
       }
     </div>

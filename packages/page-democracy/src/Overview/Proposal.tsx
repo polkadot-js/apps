@@ -26,18 +26,18 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         imageHash={imageHash}
         proposal={image?.proposal}
       />
       <td className='address'>
-        <AddressMini label={t('proposer')} value={proposer} />
+        <AddressMini value={proposer} />
       </td>
-      <td className='number together top'>
-        <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
+      <td className='number together'>
+        <FormatBalance value={balance} />
       </td>
-      <td className='top padtop'>
+      <td>
         {seconding.length !== 0 && (
           <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (
@@ -52,7 +52,7 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
           </Expander>
         )}
       </td>
-      <td className='together number top'>
+      <td className='button'>
         <Button.Group>
           <Seconding
             depositors={seconds || []}
@@ -63,9 +63,12 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
             <PreImageButton imageHash={imageHash} />
           )}
         </Button.Group>
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           type='proposal'
+          withShort
         />
       </td>
     </tr>

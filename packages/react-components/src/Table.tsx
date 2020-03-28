@@ -53,9 +53,27 @@ const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
 
   table {
-    border-collapse: separate;
-    border-spacing: 0 0.25rem;
+    border: 1px solid #f2f2f2;
+    border-radius: 0.25rem;
+    border-spacing: 0;
+    overflow: hidden;
     width: 100%;
+
+    tr+tr td {
+      border-top: 1px solid #f2f2f2;
+    }
+
+    thead tr {
+      background: #f5f5f5;
+    }
+
+    tbody tr {
+      background: white;
+
+      &:first-child td {
+        border-top: 1px solid #e6e6e6;
+      }
+    }
 
     tr {
       width: 100%;
@@ -94,6 +112,7 @@ const Memo = React.memo(styled(Table)`
 
       td, th {
         padding: 0.5rem 0.75rem;
+        vertical-align: middle;
 
         &.all {
           width: 100%;
@@ -105,7 +124,6 @@ const Memo = React.memo(styled(Table)`
 
         &.address {
           padding: 0.85rem 1rem;
-          vertical-align: top;
 
           > .ui--AddressMini,
           > .ui--AddressMini.padded {
@@ -119,6 +137,12 @@ const Memo = React.memo(styled(Table)`
           }
         }
 
+        &.button {
+          text-align: right;
+          vertical-align: middle;
+          white-space: nowrap;
+        }
+
         &.number {
           text-align: right;
         }
@@ -130,39 +154,13 @@ const Memo = React.memo(styled(Table)`
         &.toggle {
           cursor: pointer;
         }
-
-        &.top {
-          vertical-align: top;
-
-          >.ui--AddressMini.padded:first-child {
-            margin-top: -0.25rem;
-
-            .ui--AddressMini-label {
-              margin-bottom: 0rem;
-            }
-          }
-        }
-
-        &.padtop {
-          padding-top: 1.1rem;
-        }
       }
 
       td {
-        background: white;
-        border: 1px solid #f2f2f2;
-        border-left-width: 0;
-        border-right-width: 0;
-
         text-align: left;
 
         label {
           display: block !important;
-          white-space: nowrap;
-        }
-
-        details > summary,
-        details[open] > summary {
           white-space: nowrap;
         }
 
@@ -172,16 +170,7 @@ const Memo = React.memo(styled(Table)`
 
         &.mini {
           padding: 0 0.75rem 0 0;
-        }
-
-        &:first-child {
-          border-left-width: 1px;
-          border-radius: 0.25rem 0 0 0.25rem;
-        }
-
-        &:last-child {
-          border-right-width: 1px;
-          border-radius: 0 0.25rem 0.25rem 0;
+          white-space: nowrap;
         }
 
         &.favorite i.icon.isSelected {
@@ -190,11 +179,11 @@ const Memo = React.memo(styled(Table)`
       }
 
       th {
-        background: #666;
-        color: #eee;
+        color: #888;
         font-family: sans-serif;
-        font-weight: normal;
+        font-weight: 600;
         text-align: right;
+        white-space: nowrap;
 
         &:first-child {
           border-top-left-radius: 0.25rem;
@@ -206,10 +195,11 @@ const Memo = React.memo(styled(Table)`
 
         &.isClickable {
           cursor: pointer;
+          border-bottom: 2px solid transparent;
         }
 
-        &.isSelected {
-          background: #888;
+        &.start {
+          text-align: left;
         }
       }
     }

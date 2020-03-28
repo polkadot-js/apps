@@ -37,13 +37,18 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
     <div className={`overviewSection ${className}`}>
       <h1>{t('defender')}</h1>
       <Table>
+        <Table.Head>
+          <th>&nbsp;</th>
+          <th colSpan={3}>{t('votes')}</th>
+          <th>&nbsp;</th>
+        </Table.Head>
         <Table.Body>
           <tr>
-            <td className='address'>
+            <td className='address all'>
               <AddressSmall value={info.defender} />
             </td>
             <VoteDisplay votes={votes} />
-            <td className='top together number'>
+            <td className='button'>
               <DefenderVoting
                 isMember={isMember}
                 ownMembers={ownMembers}

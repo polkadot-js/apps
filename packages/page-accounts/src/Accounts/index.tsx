@@ -129,6 +129,13 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
               />
             </div>
             <Table>
+              <Table.Head>
+                <th colSpan={4}>&nbsp;</th>
+                <th>{t('transactions')}</th>
+                <th>{t('balances')}</th>
+                <th>{t('type')}</th>
+                <th colSpan={2}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
                   <Account

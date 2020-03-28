@@ -12,7 +12,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 
-import { useTranslation } from '../translate';
 import CandidateVoting from './CandidateVoting';
 import VoteDisplay from './VoteDisplay';
 
@@ -24,7 +23,6 @@ interface Props {
 }
 
 function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api } = useApi();
   const votes = useCall<VoteType[]>(api.query.society.votes.multi as any, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])] as any, {
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
@@ -36,21 +34,17 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
 
   return (
     <tr>
-      <td className='address'>
+      <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number top'>
-        <label>{t('kind')}</label>
+      <td className='number'>
         {kind.type}
       </td>
-      <td className='number top'>
-        <FormatBalance
-          label={<label>{t('value')}</label>}
-          value={value}
-        />
+      <td className='number'>
+        <FormatBalance value={value} />
       </td>
       <VoteDisplay votes={votes} />
-      <td className='number together top'>
+      <td className='button'>
         <CandidateVoting
           candidateId={accountId.toString()}
           isMember={isMember}

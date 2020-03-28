@@ -21,7 +21,7 @@ function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactEl
 
   if (!proposal) {
     return (
-      <td className={`${className} all top`}>
+      <td className={`${className} all`}>
         <label>{t('preimage hash')}</label>
         {imageHash.toString()}
       </td>
@@ -31,7 +31,7 @@ function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactEl
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   return (
-    <td className={`${className} all top`}>
+    <td className={`${className} all`}>
       <div>{section}.{method}</div>
       <Expander summaryMeta={meta}>
         <Call

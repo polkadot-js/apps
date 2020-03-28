@@ -5,7 +5,7 @@
 import { DeriveProposalExternal } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { Spinner } from '@polkadot/react-components';
+import { Spinner, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -23,11 +23,23 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
   return (
     <div className={`proposalSection ${className}`}>
       <h1>{t('external')}</h1>
-      {!external
-        ? external === null
-          ? t('No external proposal')
+      {external
+        ? (
+          <Table>
+            <Table.Head>
+              <th>&nbsp;</th>
+              <th>{t('proposer')}</th>
+              <th>{t('locked')}</th>
+              <th>&nbsp;</th>
+            </Table.Head>
+            <Table.Body>
+              <External value={external} />
+            </Table.Body>
+          </Table>
+        )
+        : external === null
+          ? <div>{t('No external proposal')}</div>
           : <Spinner />
-        : <External value={external} />
       }
     </div>
   );

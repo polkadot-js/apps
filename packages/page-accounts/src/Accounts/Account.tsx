@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressSmall, Badge, Button, ChainLock, Forget, Icon, IdentityIcon, Input, InputTags, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, Input, InputTags, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -35,6 +35,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const { t } = useTranslation();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all as any, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>): RecoveryConfig | null =>
       opt.unwrapOr(null)
@@ -305,7 +306,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           />
         )}
       </td>
-      <td>
+      <td className='all'>
         {isEditingTags
           ? (
             <InputTags
@@ -331,7 +332,10 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           )
         }
       </td>
-      <td className='top'>
+      <td className='number'>
+        {balancesAll && formatNumber(balancesAll.accountNonce)}
+      </td>
+      <td className='number'>
         <AddressInfo
           address={address}
           withBalance
@@ -339,14 +343,10 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           withExtended={false}
         />
       </td>
-      <td className='top'>
-        <AddressInfo
-          address={address}
-          withBalance={false}
-          withExtended
-        />
+      <td className='number'>
+        <CryptoType accountId={address} />
       </td>
-      <td className='number top'>
+      <td className='button'>
         <Button
           icon='paper plane'
           label={t('send')}
@@ -429,7 +429,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           </Menu>
         </Popup>
       </td>
-      <td className='mini top'>
+      <td className='mini'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

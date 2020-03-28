@@ -8,7 +8,6 @@ import React from 'react';
 import { AddressMini, Button } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import Fasttrack from './Fasttrack';
@@ -19,8 +18,6 @@ interface Props {
 }
 
 function External ({ className, value: { image, imageHash, threshold } }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-
   return (
     <tr className={className}>
       <ProposalCell
@@ -28,12 +25,12 @@ function External ({ className, value: { image, imageHash, threshold } }: Props)
         proposal={image?.proposal}
       />
       <td className='address'>
-        {image && <AddressMini label={t('proposer')} value={image.proposer} />}
+        {image && <AddressMini value={image.proposer} />}
       </td>
       <td className='number together top'>
-        {image && <FormatBalance label={<label>{t('locked')}</label>} value={image.balance} />}
+        {image && <FormatBalance value={image.balance} />}
       </td>
-      <td className='together number top'>
+      <td className='button'>
         <Button.Group>
           {!image?.proposal && (
             <PreImageButton

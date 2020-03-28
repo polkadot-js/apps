@@ -9,7 +9,6 @@ import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-compone
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import Submission from './Submission';
 import Voting from './Voting';
 
@@ -22,35 +21,24 @@ interface Props {
 }
 
 function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-
   return (
     <tr className={className}>
-      <td className='number top'>
+      <td className='number'>
         <h1>{formatNumber(id)}</h1>
       </td>
       <td className='address'>
         <AddressSmall value={proposal.proposer} />
       </td>
-      <td className='top'>
-        <FormatBalance
-          label={<label>{t('bond')}</label>}
-          value={proposal.bond}
-        />
+      <td className='number'>
+        <FormatBalance value={proposal.bond} />
       </td>
       <td className='address'>
-        <AddressMini
-          label={t('beneficiary')}
-          value={proposal.beneficiary}
-        />
+        <AddressMini value={proposal.beneficiary} />
       </td>
-      <td className='top'>
-        <FormatBalance
-          label={<label>{t('value')}</label>}
-          value={proposal.value}
-        />
+      <td>
+        <FormatBalance value={proposal.value} />
       </td>
-      <td className='top number together'>
+      <td className='button'>
         {withSend && (
           <>
             <Submission

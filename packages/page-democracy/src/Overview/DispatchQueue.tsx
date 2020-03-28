@@ -27,6 +27,11 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
         ? queued.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <th>{t('enact')}</th>
+                <th colSpan={2}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {queued.map((entry): React.ReactNode => (
                   <DispatchEntry
@@ -37,7 +42,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
               </Table.Body>
             </Table>
           )
-          : t('Nothing queued for execution')
+          : <div>{t('Nothing queued for execution')}</div>
         : <Spinner />
       }
     </div>

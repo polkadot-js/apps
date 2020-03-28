@@ -27,6 +27,10 @@ function Candidates ({ allVotes = {}, className, electionsInfo }: Props): React.
         ? electionsInfo.runnersUp.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <th>{t('backing')}</th>
+              </Table.Head>
               <Table.Body>
                 {electionsInfo.runnersUp.map(([accountId, balance]): React.ReactNode => (
                   <Candidate
@@ -39,7 +43,7 @@ function Candidates ({ allVotes = {}, className, electionsInfo }: Props): React.
               </Table.Body>
             </Table>
           )
-          : t('No runners up found')
+          : <div>{t('No runners up found')}</div>
         : <Spinner />
       }
       <h1>{t('candidates')}</h1>
@@ -47,6 +51,10 @@ function Candidates ({ allVotes = {}, className, electionsInfo }: Props): React.
         ? electionsInfo.candidates.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <th>{t('backing')}</th>
+              </Table.Head>
               <Table.Body>
                 {electionsInfo.candidates.map((accountId): React.ReactNode => (
                   <Candidate
@@ -58,7 +66,7 @@ function Candidates ({ allVotes = {}, className, electionsInfo }: Props): React.
               </Table.Body>
             </Table>
           )
-          : t('No candidates found')
+          : <div>{t('No candidates found')}</div>
         : <Spinner />
       }
     </div>

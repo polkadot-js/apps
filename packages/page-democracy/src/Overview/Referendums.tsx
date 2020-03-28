@@ -27,6 +27,14 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
         ? referendums.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <th>{t('remaining')}</th>
+                <th>{t('activate')}</th>
+                <th>{t('aye')}</th>
+                <th>{t('nay')}</th>
+                <th colSpan={3}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {referendums.map((referendum): React.ReactNode => (
                   <Referendum
@@ -37,7 +45,7 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
               </Table.Body>
             </Table>
           )
-          : t('No active referendums')
+          : <div>{t('No active referendums')}</div>
         : <Spinner />
       }
     </div>

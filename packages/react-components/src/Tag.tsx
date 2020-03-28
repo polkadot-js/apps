@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { Label } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 import Tooltip from './Tooltip';
 
@@ -39,4 +40,6 @@ function Tag ({ className, color, hover, label }: Props): React.ReactElement<Pro
   );
 }
 
-export default React.memo(Tag);
+export default React.memo(styled(Tag)`
+  white-space: nowrap;
+`);

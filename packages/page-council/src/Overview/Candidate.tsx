@@ -6,7 +6,6 @@ import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { AddressSmall, Tag } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 import Voters from './Voters';
@@ -27,7 +26,7 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
       <td className='address'>
         <AddressSmall value={address} />
       </td>
-      <td className='together top padtop'>
+      <td>
         {isPrime && (
           <Tag
             color='green'
@@ -36,15 +35,11 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
           />
         )}
       </td>
-      <td className='top together right'>
-        {balance && balance.gtn(0) && (
-          <FormatBalance label={<label>{t('backing')}</label>} value={balance} />
-        )}
-      </td>
-      <td className='all'>
-        {voters && voters.length !== 0 && (
-          <Voters voters={voters} />
-        )}
+      <td className='all number'>
+        <Voters
+          balance={balance}
+          voters={voters}
+        />
       </td>
     </tr>
   );
