@@ -35,6 +35,9 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
         ? filtered.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={1}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {filtered.map((member): React.ReactNode => (
                   <Member

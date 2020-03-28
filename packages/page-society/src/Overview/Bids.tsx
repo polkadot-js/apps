@@ -27,6 +27,11 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
         ? bids.length
           ? (
             <Table>
+              <Table.Head>
+                <th>&nbsp;</th>
+                <th>{t('kind')}</th>
+                <th>{t('value')}</th>
+              </Table.Head>
               <Table.Body>
                 {bids.map((bid): React.ReactNode => (
                   <BidRow

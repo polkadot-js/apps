@@ -8,6 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Table } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Parachain from './Parachain';
 
 interface Props {
@@ -15,8 +16,15 @@ interface Props {
 }
 
 function Parachains ({ parachains }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <Table>
+      <Table.Head>
+        <th colSpan={4}>&nbsp;</th>
+        <th>{t('swap to id')}</th>
+        <th>{t('scheduling')}</th>
+      </Table.Head>
       <Table.Body>
         {parachains.map((parachain): React.ReactNode => (
           <Parachain

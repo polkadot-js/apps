@@ -28,6 +28,15 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
         ? candidates.length
           ? (
             <Table>
+              <Table.Head>
+                <th>&nbsp;</th>
+                <th>{t('kind')}</th>
+                <th>{t('value')}</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {candidates.map((candidate): React.ReactNode => (
                   <Candidate
