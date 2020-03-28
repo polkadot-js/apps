@@ -63,9 +63,12 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
             <PreImageButton imageHash={imageHash} />
           )}
         </Button.Group>
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           type='proposal'
+          withShort
         />
       </td>
     </tr>

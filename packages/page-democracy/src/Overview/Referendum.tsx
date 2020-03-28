@@ -92,9 +92,12 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
             <PreImageButton imageHash={imageHash} />
           )}
         </Button.Group>
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           type='referendum'
+          withShort
         />
       </td>
     </tr>

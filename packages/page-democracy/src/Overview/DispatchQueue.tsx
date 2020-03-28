@@ -30,7 +30,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
               <Table.Head>
                 <th colSpan={2}>&nbsp;</th>
                 <th>{t('enact')}</th>
-                <th>&nbsp;</th>
+                <th colSpan={2}>&nbsp;</th>
               </Table.Head>
               <Table.Body>
                 {queued.map((entry): React.ReactNode => (

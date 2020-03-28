@@ -45,9 +45,12 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
             isImminent
           />
         )}
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           type='referendum'
+          withShort
         />
       </td>
     </tr>

@@ -33,7 +33,7 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
                 <th>{t('activate')}</th>
                 <th>{t('aye')}</th>
                 <th>{t('nay')}</th>
-                <th colSpan={2}>&nbsp;</th>
+                <th colSpan={3}>&nbsp;</th>
               </Table.Head>
               <Table.Body>
                 {referendums.map((referendum): React.ReactNode => (

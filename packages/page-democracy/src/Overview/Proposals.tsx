@@ -31,7 +31,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
                 <th colSpan={2}>&nbsp;</th>
                 <th>{t('proposer')}</th>
                 <th>{t('locked')}</th>
-                <th colSpan={2}>&nbsp;</th>
+                <th colSpan={3}>&nbsp;</th>
               </Table.Head>
               <Table.Body>
                 {proposals.map((proposal): React.ReactNode => (

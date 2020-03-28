@@ -170,6 +170,7 @@ const Memo = React.memo(styled(Table)`
 
         &.mini {
           padding: 0 0.75rem 0 0;
+          white-space: nowrap;
         }
 
         &.favorite i.icon.isSelected {
@@ -180,7 +181,7 @@ const Memo = React.memo(styled(Table)`
       th {
         color: #888;
         font-family: sans-serif;
-        font-weight: 500;
+        font-weight: 600;
         text-align: right;
         white-space: nowrap;
 
