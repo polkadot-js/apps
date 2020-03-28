@@ -58,7 +58,6 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
       <Button
         icon='check'
         isDisabled={!isMember}
-        isPrimary
         label={t('Vote')}
         onClick={toggleVisible}
       />
