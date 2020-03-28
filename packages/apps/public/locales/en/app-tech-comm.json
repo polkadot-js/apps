@@ -22,5 +22,7 @@
   "propose from account": "propose from account",
   "Positive number between 1 and {{count}}": "Positive number between 1 and {{count}}",
   "Committee prime member, default voting": "Committee prime member, default voting",
-  "prime member": "prime member"
+  "prime member": "prime member",
+  "aye": "aye",
+  "nay": "nay"
 }

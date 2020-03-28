@@ -152,5 +152,8 @@
   "new address": "new address",
   "no addresses yet add and existring contact": "no addresses yet add and existring contact",
   "no contracts yet, add an existing contact": "no contracts yet, add an existing contact",
-  "no addresses saved yet, add any existing address": "no addresses saved yet, add any existing address"
+  "no addresses saved yet, add any existing address": "no addresses saved yet, add any existing address",
+  "transactions": "transactions",
+  "balances": "balances",
+  "type": "type"
 }
