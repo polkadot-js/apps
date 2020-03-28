@@ -333,15 +333,15 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         }
       </td>
       <td className='number'>
+        {balancesAll && formatNumber(balancesAll.accountNonce)}
+      </td>
+      <td className='number'>
         <AddressInfo
           address={address}
           withBalance
           withBalanceToggle
           withExtended={false}
         />
-      </td>
-      <td className='number'>
-        {balancesAll && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
         <CryptoType accountId={address} />

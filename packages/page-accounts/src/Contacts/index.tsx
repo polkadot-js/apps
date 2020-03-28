@@ -69,8 +69,8 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             <Table>
               <Table.Head>
                 <th colSpan={3}>&nbsp;</th>
-                <th>{t('balances')}</th>
                 <th>{t('transactions')}</th>
+                <th>{t('balances')}</th>
                 <th colSpan={2}>&nbsp;</th>
               </Table.Head>
               <Table.Body>

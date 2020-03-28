@@ -232,15 +232,15 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         }
       </td>
       <td className='number'>
+        {balancesAll && formatNumber(balancesAll.accountNonce)}
+      </td>
+      <td className='number'>
         <AddressInfo
           address={address}
           withBalance={WITH_BALANCE}
           withBalanceToggle
           withExtended={false}
         />
-      </td>
-      <td className='number'>
-        {balancesAll && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='button'>
         <Button
