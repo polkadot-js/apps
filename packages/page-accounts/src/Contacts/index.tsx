@@ -68,7 +68,10 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             </div>
             <Table>
               <Table.Head>
-                <th colSpan={8}>&nbsp;</th>
+                <th colSpan={3}>&nbsp;</th>
+                <th>{t('balances')}</th>
+                <th>{t('transactions')}</th>
+                <th colSpan={2}>&nbsp;</th>
               </Table.Head>
               <Table.Body>
                 {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (

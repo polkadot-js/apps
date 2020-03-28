@@ -448,7 +448,6 @@ export default withMulti(
       justify-content: start;
 
       &.column--expander {
-        text-align: left;
         width: 15rem;
 
         .ui--Expander.isExpanded {
