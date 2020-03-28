@@ -1,18 +1,14 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataDef } from '@polkadot/extension-inject/types';
+import { ChainInfo } from './types';
+
 import { getChainTypes } from '@polkadot/apps-config/api';
 import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config/ui';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useEffect, useState } from 'react';
-
-interface ChainInfo extends MetadataDef {
-  color: string | undefined;
-}
 
 export default function useChainInfo (): ChainInfo | null {
   const { api, isApiReady, systemChain, systemName } = useApi();

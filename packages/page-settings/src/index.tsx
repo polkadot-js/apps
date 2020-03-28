@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
@@ -24,7 +24,8 @@ const hidden = uiSettings.uiMode === 'full'
 
 function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const items = [
+  const numExtensions = useCounter();
+  const items = useMemo(() => [
     {
       isRoot: true,
       name: 'general',
@@ -32,13 +33,17 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     },
     {
       name: 'metadata',
-      text: t('Metadata')
+      text: t('Metadata {{count}}', {
+        replace: {
+          count: numExtensions ? `(${numExtensions})` : ''
+        }
+      })
     },
     {
       name: 'developer',
       text: t('Developer')
     }
-  ];
+  ], [numExtensions, t]);
 
   return (
     <main className='settings--App'>
