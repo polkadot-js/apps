@@ -6,7 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, AddressSmall, Button, Expander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Expander, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -27,17 +27,16 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
   return (
     <tr className={className}>
       <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <ProposalCell
+        imageHash={imageHash}
+        proposal={image?.proposal}
+      />
       <td className='address'>
-        <AddressSmall value={proposer} />
+        <AddressMini label={t('proposer')} value={proposer} />
       </td>
       <td className='number together top'>
         <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
       </td>
-      <ProposalCell
-        className='top'
-        imageHash={imageHash}
-        proposal={image?.proposal}
-      />
       <td className='top padtop'>
         {seconding.length !== 0 && (
           <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>

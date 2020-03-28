@@ -2,30 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useTranslation } from '@polkadot/app-settings/translate';
-import useCounter from '@polkadot/app-settings/useCounter';
-import React, { useMemo } from 'react';
+import React from 'react';
+import useChainInfo from '../useChainInfo';
 
+import { useTranslation } from '../translate';
 import Extensions from './Extensions';
 import NetworkSpecs from './NetworkSpecs';
 
 export default function Metadata (): React.ReactElement {
   const { t } = useTranslation();
-  const numExtensions = useCounter();
-  const extensionsTitle = useMemo(() => t('Extensions {{count}}', {
-    replace: {
-      count: numExtensions
-        ? `(${numExtensions})`
-        : ''
-    }
-  }), [numExtensions, t]);
+  const chainInfo = useChainInfo();
 
   return (
     <>
-      <h1>{extensionsTitle}</h1>
-      <Extensions />
-      <h1>{t('Chain Specifications as a QR Code')}</h1>
-      <NetworkSpecs />
+      <h1>{t('Extensions')}</h1>
+      <Extensions chainInfo={chainInfo} />
+      <h1>{t('Chain specifications')}</h1>
+      <NetworkSpecs chainInfo={chainInfo} />
     </>
   );
 }

@@ -5,7 +5,7 @@
 import { DeriveProposalExternal } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { AddressSmall, Button } from '@polkadot/react-components';
+import { AddressMini, Button } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -23,17 +23,16 @@ function External ({ className, value: { image, imageHash, threshold } }: Props)
 
   return (
     <tr className={className}>
-      <td className='top'>
-        {image && <AddressSmall value={image.proposer} />}
+      <ProposalCell
+        imageHash={imageHash}
+        proposal={image?.proposal}
+      />
+      <td className='address'>
+        {image && <AddressMini label={t('proposer')} value={image.proposer} />}
       </td>
       <td className='number together top'>
         {image && <FormatBalance label={<label>{t('locked')}</label>} value={image.balance} />}
       </td>
-      <ProposalCell
-        className='top'
-        imageHash={imageHash}
-        proposal={image?.proposal}
-      />
       <td className='together number top'>
         <Button.Group>
           {!image?.proposal && (

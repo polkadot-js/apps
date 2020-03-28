@@ -106,6 +106,17 @@ const Memo = React.memo(styled(Table)`
         &.address {
           padding: 0.85rem 1rem;
           vertical-align: top;
+
+          > .ui--AddressMini,
+          > .ui--AddressMini.padded {
+            padding: 0;
+            margin-bottom: -0.85rem;
+            margin-top: -0.25rem;
+
+            label.ui--AddressMini-label {
+              margin-bottom: -0.3rem;
+            }
+          }
         }
 
         &.number {
