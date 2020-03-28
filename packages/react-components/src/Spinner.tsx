@@ -49,7 +49,7 @@ export default React.memo(styled(Spinner)`
   .loader {
     position: relative;
     margin: 0 auto;
-    width: 64px;
+    width: 56px;
 
     &:before {
       content: '';

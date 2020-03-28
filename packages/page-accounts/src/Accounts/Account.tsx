@@ -100,67 +100,82 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     }
   }, [accName, filter, tags]);
 
+  const _onFavorite = useCallback(
+    (): void => toggleFavorite(address),
+    [address, toggleFavorite]
+  );
+  const _onGenesisChange = useCallback(
+    (genesisHash: string | null): void => {
+      const account = keyring.getPair(address);
+
+      account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
+
+      setGenesisHash(genesisHash);
+    },
+    [address]
+  );
+  const _saveName = useCallback(
+    (): void => {
+      toggleEditName();
+
+      const meta = { name: accName, whenEdited: Date.now() };
+
+      if (address) {
+        try {
+          const currentKeyring = keyring.getPair(address);
+
+          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+        } catch (error) {
+          keyring.saveAddress(address, meta);
+        }
+      }
+    },
+    [accName, address, toggleEditName]
+  );
+  const _saveTags = useCallback(
+    (): void => {
+      toggleEditTags();
+
+      const meta = { tags, whenEdited: Date.now() };
+
+      if (address) {
+        try {
+          const currentKeyring = keyring.getPair(address);
+
+          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+        } catch (error) {
+          keyring.saveAddress(address, meta);
+        }
+      }
+    },
+    [address, tags, toggleEditTags]
+  );
+  const _onForget = useCallback(
+    (): void => {
+      if (!address) {
+        return;
+      }
+
+      const status: Partial<ActionStatus> = {
+        account: address,
+        action: 'forget'
+      };
+
+      try {
+        keyring.forgetAccount(address);
+        status.status = 'success';
+        status.message = t('account forgotten');
+      } catch (error) {
+        status.status = 'error';
+        status.message = error.message;
+      }
+    },
+    [address, t]
+  );
+
   if (!isVisible) {
     return null;
   }
-
-  const _saveName = (): void => {
-    toggleEditName();
-
-    const meta = { name: accName, whenEdited: Date.now() };
-
-    if (address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
-      }
-    }
-  };
-  const _saveTags = (): void => {
-    toggleEditTags();
-
-    const meta = { tags, whenEdited: Date.now() };
-
-    if (address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
-      }
-    }
-  };
-  const _onForget = (): void => {
-    if (!address) {
-      return;
-    }
-
-    const status: Partial<ActionStatus> = {
-      account: address,
-      action: 'forget'
-    };
-
-    try {
-      keyring.forgetAccount(address);
-      status.status = 'success';
-      status.message = t('account forgotten');
-    } catch (error) {
-      status.status = 'error';
-      status.message = error.message;
-    }
-  };
-  const _onGenesisChange = (genesisHash: string | null): void => {
-    const account = keyring.getPair(address);
-
-    account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
-
-    setGenesisHash(genesisHash);
-  };
-  const _onFavorite = (): void => toggleFavorite(address);
 
   return (
     <tr className={className}>
@@ -290,7 +305,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           />
         )}
       </td>
-      <td className='top'>
+      <td>
         {isEditingTags
           ? (
             <InputTags

@@ -204,7 +204,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           </>
         )}
       </td>
-      <td className='top'>
+      <td>
         {isEditingTags
           ? (
             <InputTags

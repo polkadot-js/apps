@@ -8,7 +8,7 @@ import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { Columar } from '@polkadot/react-components';
+import { Columar, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import BlockHeader from '../BlockHeader';
@@ -21,14 +21,14 @@ interface Props {
   value: string;
 }
 
-function BlockByHash ({ className, value }: Props): React.ReactElement<Props> | null {
+function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const events = useCall<EventRecord[]>(api.query.system.events.at as any, [value], { isSingle: true });
   const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock as any, [value], { isSingle: true });
   const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader as any, [value]);
 
   if (!getBlock || getBlock.isEmpty || !getHeader || getHeader.isEmpty) {
-    return null;
+    return <Spinner />;
   }
 
   return (
