@@ -29,7 +29,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
             <Table>
               <Table.Head>
                 <th colSpan={2}>&nbsp;</th>
-                <th>{t('proposer')}</th>
+                <th className='address'>{t('proposer')}</th>
                 <th>{t('locked')}</th>
                 <th colSpan={3}>&nbsp;</th>
               </Table.Head>

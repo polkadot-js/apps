@@ -96,7 +96,7 @@ export default createGlobalStyle<Props>`
 
   article {
     background: white;
-    border: 1px solid #f2f2f2;
+    border: 1px solid #eee;
     border-radius: 0.25rem;
     box-sizing: border-box;
     margin: 0.25rem;

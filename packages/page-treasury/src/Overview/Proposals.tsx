@@ -49,7 +49,7 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
               <Table.Head>
                 <th colSpan={2}>&nbsp;</th>
                 <td>{t('bond')}</td>
-                <td className='start'>{t('beneficiary')}</td>
+                <td className='address'>{t('beneficiary')}</td>
                 <td>{t('value')}</td>
                 <th>&nbsp;</th>
               </Table.Head>
