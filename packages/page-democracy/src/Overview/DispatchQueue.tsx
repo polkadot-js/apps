@@ -21,7 +21,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue as any, []);
 
   return (
-    <div className={className}>
+    <div className={`proposalSection ${className}`}>
       <h1>{t('dispatch queue')}</h1>
       {queued
         ? queued.length
