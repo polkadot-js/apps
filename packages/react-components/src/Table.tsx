@@ -51,6 +51,7 @@ function Table ({ children, className }: TableProps): React.ReactElement<TablePr
 
 const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
+  margin-top: 0.25rem;
 
   table {
     border: 1px solid #f2f2f2;
@@ -59,20 +60,12 @@ const Memo = React.memo(styled(Table)`
     overflow: hidden;
     width: 100%;
 
-    tr+tr td {
-      border-top: 1px solid #f2f2f2;
-    }
-
     thead tr {
-      background: #f5f5f5;
+      background: #fafafa;
     }
 
     tbody tr {
       background: white;
-
-      &:first-child td {
-        border-top: 1px solid #e6e6e6;
-      }
     }
 
     tr {
@@ -121,6 +114,20 @@ const Memo = React.memo(styled(Table)`
             white-space: normal;
           }
         }
+      }
+
+      td {
+        border-top: 1px solid #f2f2f2;
+        text-align: left;
+
+        label {
+          display: block !important;
+          white-space: nowrap;
+        }
+
+        i.icon {
+          cursor: pointer;
+        }
 
         &.address {
           padding: 0.85rem 1rem;
@@ -151,23 +158,6 @@ const Memo = React.memo(styled(Table)`
           white-space: nowrap;
         }
 
-        &.toggle {
-          cursor: pointer;
-        }
-      }
-
-      td {
-        text-align: left;
-
-        label {
-          display: block !important;
-          white-space: nowrap;
-        }
-
-        i.icon {
-          cursor: pointer;
-        }
-
         &.mini {
           padding: 0 0.75rem 0 0;
           white-space: nowrap;
@@ -179,9 +169,9 @@ const Memo = React.memo(styled(Table)`
       }
 
       th {
-        color: #888;
+        color: #999;
         font-family: sans-serif;
-        font-weight: 600;
+        font-weight: 500;
         text-align: right;
         white-space: nowrap;
 
@@ -198,8 +188,17 @@ const Memo = React.memo(styled(Table)`
           border-bottom: 2px solid transparent;
         }
 
+        &.address {
+          text-align: left;
+          padding-left: 3rem;
+        }
+
         &.start {
           text-align: left;
+        }
+
+        &.toggle {
+          cursor: pointer;
         }
       }
     }
