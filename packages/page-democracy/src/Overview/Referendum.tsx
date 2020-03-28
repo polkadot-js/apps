@@ -83,7 +83,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           />
         )}
       </td>
-      <td className='number together top'>
+      <td className='button'>
         <Button.Group>
           <Voting
             proposal={image?.proposal}

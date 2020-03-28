@@ -38,7 +38,7 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
           </>
         )}
       </td>
-      <td className='together number top'>
+      <td className='button'>
         {!image?.proposal && (
           <PreImageButton
             imageHash={imageHash}

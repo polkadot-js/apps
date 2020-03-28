@@ -70,7 +70,7 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
           />
         ))}
       </td>
-      <td className='number top together'>
+      <td className='button'>
         <Voting
           hash={hash}
           idNumber={index}

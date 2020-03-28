@@ -39,9 +39,7 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
       <Table>
         <Table.Head>
           <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
+          <th colSpan={3}>{t('votes')}</th>
           <th>&nbsp;</th>
         </Table.Head>
         <Table.Body>
@@ -50,7 +48,7 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
               <AddressSmall value={info.defender} />
             </td>
             <VoteDisplay votes={votes} />
-            <td className='top together number'>
+            <td className='button'>
               <DefenderVoting
                 isMember={isMember}
                 ownMembers={ownMembers}

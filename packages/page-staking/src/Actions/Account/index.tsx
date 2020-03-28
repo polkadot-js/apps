@@ -257,10 +257,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
         <AddressSmall value={stashId} />
       </td>
       <td className='address'>
-        <AddressMini
-          label={t('controller')}
-          value={controllerId}
-        />
+        <AddressMini value={controllerId} />
       </td>
       <td className='top'>
         <AddressInfo

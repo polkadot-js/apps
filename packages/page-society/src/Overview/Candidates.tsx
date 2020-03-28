@@ -32,9 +32,7 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
                 <th>&nbsp;</th>
                 <th>{t('kind')}</th>
                 <th>{t('value')}</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
+                <th colSpan={3}>{t('votes')}</th>
                 <th>&nbsp;</th>
               </Table.Head>
               <Table.Body>

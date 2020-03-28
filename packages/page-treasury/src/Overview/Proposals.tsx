@@ -46,6 +46,13 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
         isApprovals ? t('No approved proposals') : t('No pending proposals')
       )}
       <Table>
+        <Table.Head>
+          <th colSpan={2}>&nbsp;</th>
+          <td>{t('bond')}</td>
+          <td className='start'>{t('beneficiary')}</td>
+          <td>{t('value')}</td>
+          <th>&nbsp;</th>
+        </Table.Head>
         <Table.Body>
           {proposals?.map((proposal): React.ReactNode => (
             <Proposal

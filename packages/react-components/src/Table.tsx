@@ -136,6 +136,12 @@ const Memo = React.memo(styled(Table)`
           }
         }
 
+        &.button {
+          text-align: right;
+          vertical-align: top;
+          white-space: nowrap;
+        }
+
         &.number {
           text-align: right;
         }
@@ -209,6 +215,10 @@ const Memo = React.memo(styled(Table)`
         &.isClickable {
           cursor: pointer;
           border-bottom: 2px solid transparent;
+        }
+
+        &.start {
+          text-align: left;
         }
       }
     }

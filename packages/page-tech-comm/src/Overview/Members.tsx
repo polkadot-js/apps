@@ -23,10 +23,13 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
       {members.length
         ? (
           <Table>
+            <Table.Head>
+              <th colSpan={3}>&nbsp;</th>
+            </Table.Head>
             <Table.Body>
               {members.map((accountId): React.ReactNode => (
                 <tr key={accountId.toString()}>
-                  <td className='all address'>
+                  <td className='address'>
                     <AddressSmall value={accountId} />
                   </td>
                   <td className='tag'>

@@ -36,7 +36,8 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
           ? (
             <Table>
               <Table.Head>
-                <th colSpan={1}>&nbsp;</th>
+                <th colSpan={3}>&nbsp;</th>
+                <th>{t('strikes')}</th>
               </Table.Head>
               <Table.Body>
                 {filtered.map((member): React.ReactNode => (

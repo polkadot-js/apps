@@ -52,7 +52,7 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
           </Expander>
         )}
       </td>
-      <td className='together number top'>
+      <td className='button'>
         <Button.Group>
           <Seconding
             depositors={seconds || []}

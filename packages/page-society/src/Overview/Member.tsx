@@ -34,7 +34,6 @@ function Member ({ className, isHead, value: { accountId, strikes } }: Props): R
       </td>
       <td className='all'>&nbsp;</td>
       <td className='number top'>
-        <label>{t('strikes')}</label>
         {strikes.toString()}
       </td>
     </tr>

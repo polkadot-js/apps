@@ -30,7 +30,7 @@ function External ({ className, value: { image, imageHash, threshold } }: Props)
       <td className='number together top'>
         {image && <FormatBalance value={image.balance} />}
       </td>
-      <td className='together number top'>
+      <td className='button'>
         <Button.Group>
           {!image?.proposal && (
             <PreImageButton
