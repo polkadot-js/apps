@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { Balance } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
@@ -34,35 +34,36 @@ interface Props {
   points?: false | number;
   setNominators?: false | ((nominators: string[]) => void);
   toggleFavorite: (accountId: string) => void;
-  withNominations?: boolean;
 }
 
 interface StakingState {
   commission?: string;
-  controllerId?: string;
-  nominators: [AccountId, Balance][];
-  sessionId?: string;
+  nominators: [string, Balance][];
   stakeTotal?: BN;
   stakeOther?: BN;
   stakeOwn?: BN;
 }
 
-function expandInfo ({ controllerId, exposure, nextSessionIds, validatorPrefs }: DeriveStakingQuery, withNominations = true): StakingState {
-  const nominators = withNominations && exposure
-    ? exposure.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
-    : [];
-  const stakeTotal = (exposure && !exposure.total.isEmpty && exposure.total.unwrap()) || undefined;
-  const stakeOwn = (exposure && !exposure.own.isEmpty && exposure.own.unwrap()) || undefined;
-  const stakeOther = (stakeTotal && stakeOwn) ? stakeTotal.sub(stakeOwn) : undefined;
+function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
+  let nominators: [string, Balance][] = [];
+  let stakeTotal: BN | undefined;
+  let stakeOther: BN | undefined;
+  let stakeOwn: BN | undefined;
+
+  if (exposure) {
+    nominators = exposure.others.map(({ who, value }): [string, Balance] => [who.toString(), value.unwrap()]);
+    stakeTotal = exposure.total.unwrap();
+    stakeOwn = exposure.own.unwrap();
+    stakeOther = stakeTotal.sub(stakeOwn);
+  }
+
   const commission = validatorPrefs?.commission?.unwrap();
 
   return {
     commission: commission
       ? `${(commission.toNumber() / 10_000_000).toFixed(2)}%`
       : undefined,
-    controllerId: controllerId?.toString(),
     nominators,
-    sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
     stakeOther,
     stakeOwn,
     stakeTotal
@@ -100,7 +101,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
@@ -110,12 +111,12 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
 
   useEffect((): void => {
     if (stakingInfo) {
-      const info = expandInfo(stakingInfo, withNominations);
+      const info = expandInfo(stakingInfo);
 
       setNominators && setNominators(info.nominators.map(([who]): string => who.toString()));
       setStakingState(info);
     }
-  }, [setNominators, stakingInfo, withNominations]);
+  }, [setNominators, stakingInfo]);
 
   useEffect((): void => {
     setIsVisible(

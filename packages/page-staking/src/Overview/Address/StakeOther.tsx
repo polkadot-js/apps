@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -14,7 +14,7 @@ import { useTranslation } from '../../translate';
 
 interface Props {
   stakeOther?: BN;
-  nominators: [AccountId, Balance][];
+  nominators: [string, Balance][];
 }
 
 function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Props> {
@@ -33,7 +33,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
             {nominators.map(([who, bonded]): React.ReactNode =>
               <AddressMini
                 bonded={bonded}
-                key={who.toString()}
+                key={who}
                 value={who}
                 withBonded
               />
