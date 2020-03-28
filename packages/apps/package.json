@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/apps",
   "private": true,
-  "version": "0.40.0-beta.201",
+  "version": "0.40.0-beta.202",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -16,8 +16,8 @@
     "@babel/polyfill": "^7.8.7",
     "@babel/runtime": "^7.9.2",
     "@polkadot/dev": "^0.51.9",
-    "@polkadot/react-components": "0.40.0-beta.201",
-    "@polkadot/react-signer": "0.40.0-beta.201",
+    "@polkadot/react-components": "0.40.0-beta.202",
+    "@polkadot/react-signer": "0.40.0-beta.202",
     "query-string": "^6.11.1"
   },
   "devDependencies": {
