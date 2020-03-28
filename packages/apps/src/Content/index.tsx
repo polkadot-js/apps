@@ -52,7 +52,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       {needsApi && (!isApiReady || !isApiConnected)
         ? (
           <div className='connecting'>
-            <Spinner label={t('Waiting for API to be connected and ready')} />
+            <Spinner label={t('Initializing connection')} />
           </div>
         )
         : (
