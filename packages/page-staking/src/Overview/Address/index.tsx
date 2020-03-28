@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { Balance } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
@@ -38,20 +38,20 @@ interface Props {
 
 interface StakingState {
   commission?: string;
-  nominators: [AccountId, Balance][];
+  nominators: [string, Balance][];
   stakeTotal?: BN;
   stakeOther?: BN;
   stakeOwn?: BN;
 }
 
 function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
-  let nominators: [AccountId, Balance][] = [];
+  let nominators: [string, Balance][] = [];
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
   let stakeOwn: BN | undefined;
 
   if (exposure) {
-    nominators = exposure.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()]);
+    nominators = exposure.others.map(({ who, value }): [string, Balance] => [who.toString(), value.unwrap()]);
     stakeTotal = exposure.total.unwrap();
     stakeOwn = exposure.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
