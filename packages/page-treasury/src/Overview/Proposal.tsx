@@ -23,19 +23,19 @@ interface Props {
 function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
   return (
     <tr className={className}>
-      <td className='number top'>
+      <td className='number'>
         <h1>{formatNumber(id)}</h1>
       </td>
       <td className='address'>
         <AddressSmall value={proposal.proposer} />
       </td>
-      <td className='top number padtop'>
+      <td className='number'>
         <FormatBalance value={proposal.bond} />
       </td>
       <td className='address'>
         <AddressMini value={proposal.beneficiary} />
       </td>
-      <td className='top padtop'>
+      <td>
         <FormatBalance value={proposal.value} />
       </td>
       <td className='button'>

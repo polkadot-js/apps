@@ -25,12 +25,12 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
 
   return (
     <tr>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         imageHash={imageHash}
         proposal={image?.proposal}
       />
-      <td className='number together top'>
+      <td className='number together'>
         {bestNumber && (
           <>
             <BlockToTime blocks={at.sub(bestNumber)} />

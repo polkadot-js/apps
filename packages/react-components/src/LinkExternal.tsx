@@ -79,8 +79,11 @@ function LinkExternal ({ className, data, hash, type, withShort }: Props): React
 }
 
 export default React.memo(styled(LinkExternal)`
-  margin-top: 0.75rem;
   text-align: right;
+
+  &:not(.withShort) {
+    margin-top: 0.75rem;
+  }
 
   > div {
     display: block;

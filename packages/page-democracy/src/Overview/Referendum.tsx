@@ -40,21 +40,20 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
-        className='top'
         imageHash={imageHash}
         proposal={image?.proposal}
       />
-      <td className='number together top'>
+      <td className='number together'>
         <BlockToTime blocks={remainBlock} />
         {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
-      <td className='number together top'>
+      <td className='number together'>
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
       </td>
-      <td className='number top padtop'>
+      <td className='number'>
         <Expander summary={<><FormatBalance value={votedAye} />{voteCountAye ? ` (${formatNumber(voteCountAye)})` : '' }</>}>
           {allAye.map(({ accountId }) =>
             <AddressMini
@@ -64,7 +63,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           )}
         </Expander>
       </td>
-      <td className='number top padtop'>
+      <td className='number'>
         <Expander summary={<><FormatBalance value={votedNay} />{voteCountNay ? ` (${formatNumber(voteCountNay)})` : '' }</>}>
           {allNay.map(({ accountId }) =>
             <AddressMini
@@ -74,7 +73,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           )}
         </Expander>
       </td>
-      <td className='tag'>
+      <td>
         {isBoolean(isPassing) && (
           <Tag
             color={isPassing ? 'green' : 'red'}

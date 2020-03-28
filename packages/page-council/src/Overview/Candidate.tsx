@@ -26,7 +26,7 @@ function Candidate ({ className, address, balance, isPrime, voters }: Props): Re
       <td className='address'>
         <AddressSmall value={address} />
       </td>
-      <td className='tag'>
+      <td>
         {isPrime && (
           <Tag
             color='green'

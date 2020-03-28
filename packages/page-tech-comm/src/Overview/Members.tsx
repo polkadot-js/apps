@@ -32,7 +32,7 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
                   <td className='address'>
                     <AddressSmall value={accountId} />
                   </td>
-                  <td className='tag'>
+                  <td>
                     {prime?.eq(accountId) && (
                       <Tag
                         color='green'

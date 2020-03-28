@@ -112,6 +112,7 @@ const Memo = React.memo(styled(Table)`
 
       td, th {
         padding: 0.5rem 0.75rem;
+        vertical-align: middle;
 
         &.all {
           width: 100%;
@@ -138,17 +139,12 @@ const Memo = React.memo(styled(Table)`
 
         &.button {
           text-align: right;
-          vertical-align: top;
+          vertical-align: middle;
           white-space: nowrap;
         }
 
         &.number {
           text-align: right;
-        }
-
-        &.tag {
-          padding-top: 0.85rem;
-          vertical-align: top;
         }
 
         &.together {
@@ -157,22 +153,6 @@ const Memo = React.memo(styled(Table)`
 
         &.toggle {
           cursor: pointer;
-        }
-
-        &.top {
-          vertical-align: top;
-
-          >.ui--AddressMini.padded:first-child {
-            margin-top: -0.25rem;
-
-            .ui--AddressMini-label {
-              margin-bottom: 0rem;
-            }
-          }
-        }
-
-        &.padtop {
-          padding-top: 1rem;
         }
       }
 

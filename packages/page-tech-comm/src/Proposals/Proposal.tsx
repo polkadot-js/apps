@@ -33,16 +33,15 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
-        className='top'
         imageHash={imageHash}
         proposal={proposal}
       />
-      <td className='number top'>
+      <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
-      <td className='top number'>
+      <td className='number'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
@@ -51,7 +50,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
           />
         ))}
       </td>
-      <td className='top number'>
+      <td className='number'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}

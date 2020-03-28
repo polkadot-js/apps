@@ -37,14 +37,14 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number top padtop'>
+      <td className='number'>
         {kind.type}
       </td>
-      <td className='number top padtop'>
+      <td className='number'>
         <FormatBalance value={value} />
       </td>
       <VoteDisplay votes={votes} />
-      <td className='number together top'>
+      <td className='button'>
         <CandidateVoting
           candidateId={accountId.toString()}
           isMember={isMember}

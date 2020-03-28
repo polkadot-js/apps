@@ -26,18 +26,18 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         imageHash={imageHash}
         proposal={image?.proposal}
       />
-      <td className='address top'>
+      <td className='address'>
         <AddressMini value={proposer} />
       </td>
-      <td className='number together top padtop'>
+      <td className='number together'>
         <FormatBalance value={balance} />
       </td>
-      <td className='top padtop'>
+      <td>
         {seconding.length !== 0 && (
           <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (

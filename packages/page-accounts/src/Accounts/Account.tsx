@@ -306,7 +306,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           />
         )}
       </td>
-      <td className='tag all'>
+      <td className='all'>
         {isEditingTags
           ? (
             <InputTags
@@ -340,10 +340,10 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           withExtended={false}
         />
       </td>
-      <td className='top number padtop'>
+      <td className='number'>
         {balancesAll && formatNumber(balancesAll.accountNonce)}
       </td>
-      <td className='top number padtop'>
+      <td className='number'>
         <CryptoType accountId={address} />
       </td>
       <td className='button'>
@@ -429,7 +429,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           </Menu>
         </Popup>
       </td>
-      <td className='mini top'>
+      <td className='mini'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

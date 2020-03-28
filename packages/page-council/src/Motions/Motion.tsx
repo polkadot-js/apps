@@ -35,16 +35,15 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
-        className='top'
         imageHash={hash}
         proposal={proposal}
       />
-      <td className='number top'>
+      <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
-      <td className='number together top'>
+      <td className='number together'>
         {end && (
           <>
             <BlockToTime blocks={end.sub(bestNumber)} />
@@ -52,7 +51,7 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
           </>
         )}
       </td>
-      <td className='top number'>
+      <td className='number'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
@@ -61,7 +60,7 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
           />
         ))}
       </td>
-      <td className='top number'>
+      <td className='number'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}

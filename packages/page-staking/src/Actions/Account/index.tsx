@@ -259,7 +259,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
       <td className='address'>
         <AddressMini value={controllerId} />
       </td>
-      <td className='top'>
+      <td>
         <AddressInfo
           address={stashId}
           withBalance={{
@@ -274,7 +274,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
       </td>
       {isStashValidating
         ? (
-          <td className='top'>
+          <td>
             <AddressInfo
               address={stashId}
               withBalance={false}
@@ -316,7 +316,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
           </td>
         )
       }
-      <td className='top number together'>
+      <td className='button'>
         {isLoading
           ? null
           : (
