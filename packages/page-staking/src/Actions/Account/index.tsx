@@ -256,9 +256,8 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
         )}
         <AddressSmall value={stashId} />
       </td>
-      <td className='top'>
+      <td className='address'>
         <AddressMini
-          className='mini-nopad'
           label={t('controller')}
           value={controllerId}
         />
@@ -471,9 +470,5 @@ export default React.memo(styled(Account)`
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
-  }
-
-  .mini-nopad {
-    padding: 0;
   }
 `);
