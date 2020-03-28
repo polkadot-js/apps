@@ -97,5 +97,6 @@
   "failing": "failing",
   "nothing queued for execution": "nothing queued for execution",
   "external": "external",
-  "No external proposal": "No external proposal"
+  "No external proposal": "No external proposal",
+  "Nothing queued for execution": "Nothing queued for execution"
 }
