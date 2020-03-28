@@ -42,7 +42,7 @@ function Peers ({ className, peers }: Props): React.ReactElement<Props> {
                 <tr>
                   <th className='roles'>{t('role')}</th>
                   <th className='peerid ui--media-medium'>{t('peer id')}</th>
-                  <th className='number'>{t('best #')}</th>
+                  <th>{t('best #')}</th>
                   <th className='hash'>{t('best hash')}</th>
                 </tr>
               </thead>

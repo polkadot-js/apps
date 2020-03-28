@@ -31,11 +31,11 @@ function Proposal ({ className, value: { balance, index, image, imageHash, propo
         imageHash={imageHash}
         proposal={image?.proposal}
       />
-      <td className='address'>
-        <AddressMini label={t('proposer')} value={proposer} />
+      <td className='address top'>
+        <AddressMini value={proposer} />
       </td>
-      <td className='number together top'>
-        <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
+      <td className='number together top padtop'>
+        <FormatBalance value={balance} />
       </td>
       <td className='top padtop'>
         {seconding.length !== 0 && (

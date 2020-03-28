@@ -305,7 +305,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           />
         )}
       </td>
-      <td>
+      <td className='tag'>
         {isEditingTags
           ? (
             <InputTags
@@ -331,7 +331,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           )
         }
       </td>
-      <td className='top'>
+      <td className='number all'>
         <AddressInfo
           address={address}
           withBalance
@@ -339,14 +339,14 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           withExtended={false}
         />
       </td>
-      <td className='top'>
+      <td>
         <AddressInfo
           address={address}
           withBalance={false}
           withExtended
         />
       </td>
-      <td className='number top'>
+      <td className='number together top'>
         <Button
           icon='paper plane'
           label={t('send')}

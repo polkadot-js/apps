@@ -53,9 +53,27 @@ const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
 
   table {
-    border-collapse: separate;
-    border-spacing: 0 0.25rem;
+    border: 1px solid #f2f2f2;
+    border-radius: 0.25rem;
+    border-spacing: 0;
+    overflow: hidden;
     width: 100%;
+
+    tr+tr td {
+      border-top: 1px solid #f2f2f2;
+    }
+
+    thead tr {
+      background: #f2f2f2;
+    }
+
+    tbody tr {
+      background: white;
+
+      &:first-child td {
+        border-top: 1px solid #e6e6e6;
+      }
+    }
 
     tr {
       width: 100%;
@@ -105,7 +123,6 @@ const Memo = React.memo(styled(Table)`
 
         &.address {
           padding: 0.85rem 1rem;
-          vertical-align: top;
 
           > .ui--AddressMini,
           > .ui--AddressMini.padded {
@@ -121,6 +138,11 @@ const Memo = React.memo(styled(Table)`
 
         &.number {
           text-align: right;
+        }
+
+        &.tag {
+          padding-top: 0.85rem;
+          vertical-align: top;
         }
 
         &.together {
@@ -144,25 +166,15 @@ const Memo = React.memo(styled(Table)`
         }
 
         &.padtop {
-          padding-top: 1.1rem;
+          padding-top: 1rem;
         }
       }
 
       td {
-        background: white;
-        border: 1px solid #f2f2f2;
-        border-left-width: 0;
-        border-right-width: 0;
-
         text-align: left;
 
         label {
           display: block !important;
-          white-space: nowrap;
-        }
-
-        details > summary,
-        details[open] > summary {
           white-space: nowrap;
         }
 
@@ -174,27 +186,17 @@ const Memo = React.memo(styled(Table)`
           padding: 0 0.75rem 0 0;
         }
 
-        &:first-child {
-          border-left-width: 1px;
-          border-radius: 0.25rem 0 0 0.25rem;
-        }
-
-        &:last-child {
-          border-right-width: 1px;
-          border-radius: 0 0.25rem 0.25rem 0;
-        }
-
         &.favorite i.icon.isSelected {
           color: darkorange;
         }
       }
 
       th {
-        background: #666;
-        color: #eee;
+        color: #888;
         font-family: sans-serif;
-        font-weight: normal;
+        font-weight: 500;
         text-align: right;
+        white-space: nowrap;
 
         &:first-child {
           border-top-left-radius: 0.25rem;
@@ -206,10 +208,7 @@ const Memo = React.memo(styled(Table)`
 
         &.isClickable {
           cursor: pointer;
-        }
-
-        &.isSelected {
-          background: #888;
+          border-bottom: 2px solid transparent;
         }
       }
     }

@@ -23,7 +23,7 @@ function Member ({ className, isHead, value: { accountId, strikes } }: Props): R
       <td className='address'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='together top padtop'>
+      <td className='tag'>
         {isHead && (
           <Tag
             color='green'

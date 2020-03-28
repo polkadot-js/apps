@@ -67,6 +67,9 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
               />
             </div>
             <Table>
+              <Table.Head>
+                <th colSpan={8}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
                   <Address

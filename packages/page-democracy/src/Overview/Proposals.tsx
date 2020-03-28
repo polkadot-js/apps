@@ -27,6 +27,12 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
         ? proposals.length
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={2}>&nbsp;</th>
+                <th>{t('proposer')}</th>
+                <th>{t('locked')}</th>
+                <th colSpan={2}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {proposals.map((proposal): React.ReactNode => (
                   <ProposalDisplay

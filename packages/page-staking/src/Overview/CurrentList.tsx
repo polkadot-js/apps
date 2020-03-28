@@ -150,6 +150,15 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
         value={nameFilter}
       />
       <Table className={isIntentions ? 'staking--hidden' : ''}>
+        <Table.Head>
+          <th colSpan={3}>&nbsp;</th>
+          <th>{t('other stake')}</th>
+          <th>{t('own stake')}</th>
+          <th>{t('commission')}</th>
+          <th>{t('points')}</th>
+          <th>{t('last #')}</th>
+          <th>&nbsp;</th>
+        </Table.Head>
         <Table.Body>
           {_renderRows(validators, true)}
         </Table.Body>
@@ -158,6 +167,9 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
         waiting
           ? (
             <Table>
+              <Table.Head>
+                <th colSpan={9}>&nbsp;</th>
+              </Table.Head>
               <Table.Body>
                 {_renderRows(elected, false)}
                 {_renderRows(waiting, false)}

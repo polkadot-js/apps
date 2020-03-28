@@ -365,7 +365,6 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
   if (withBalanceToggle) {
     return (
       <>
-        <label>{t('balances')}</label>
         <Expander summary={<FormatBalance className='summary' value={balancesAll?.votingBalance} />}>
           <div className='body column'>
             {allItems}

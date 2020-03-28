@@ -12,7 +12,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import ProposalCell from './ProposalCell';
 import PreImageButton from './PreImageButton';
 
@@ -21,7 +20,6 @@ interface Props {
 }
 
 function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
 
@@ -35,7 +33,6 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
       <td className='number together top'>
         {bestNumber && (
           <>
-            <label>{t('enact')}</label>
             <BlockToTime blocks={at.sub(bestNumber)} />
             #{formatNumber(at)}
           </>

@@ -14,7 +14,6 @@ import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
 import Favorite from './Favorite';
 import Status from './Status';
 import StakeOther from './StakeOther';
@@ -102,7 +101,6 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
 }
 
 function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const stakingInfo = useCall<DeriveStakingQuery>(isMain && api.derive.staking.query as any, [address]);
@@ -146,32 +144,23 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
       <td className='address'>
         <AddressSmall value={address} />
       </td>
-      <td className='top'>
-        {stakeOwn && (
-          <FormatBalance
-            label={<label>{t('own stake')}</label>}
-            value={stakeOwn}
-          />
-        )}
-      </td>
       <StakeOther
         nominators={nominators}
         stakeOther={stakeOther}
       />
-      <td className='number top'>
-        {commission && (
-          <><label>{t('commission')}</label>{commission}</>
+      <td className='number'>
+        {stakeOwn && (
+          <FormatBalance value={stakeOwn} />
         )}
       </td>
-      <td className='number top'>
-        {points && (
-          <><label>{t('points')}</label>{formatNumber(points)}</>
-        )}
+      <td className='number'>
+        {commission}
       </td>
-      <td className='number top'>
-        {lastBlock && (
-          <><label>{t('last #')}</label>{lastBlock}</>
-        )}
+      <td className='number'>
+        {points && formatNumber(points)}
+      </td>
+      <td className='number'>
+        {lastBlock}
       </td>
       <td>
         {hasQueries && (
