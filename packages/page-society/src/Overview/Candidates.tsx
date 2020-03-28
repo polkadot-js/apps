@@ -48,7 +48,7 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
               </Table.Body>
             </Table>
           )
-          : t('No candidates')
+          : <div>{t('No candidates')}</div>
         : <Spinner />
       }
     </div>

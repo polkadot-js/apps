@@ -44,7 +44,7 @@ function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): Re
               </Table.Body>
             </Table>
           )
-          : t('No members found')
+          : <div>{t('No members found')}</div>
         : <Spinner />
       }
     </div>

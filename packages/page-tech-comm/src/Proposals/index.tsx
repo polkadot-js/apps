@@ -45,7 +45,7 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
               </Table.Body>
             </Table>
           )
-          : t('No committee proposals')
+          : <div>{t('No committee proposals')}</div>
         : <Spinner />
       }
     </div>

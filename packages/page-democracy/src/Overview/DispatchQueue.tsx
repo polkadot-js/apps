@@ -42,7 +42,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
               </Table.Body>
             </Table>
           )
-          : t('Nothing queued for execution')
+          : <div>{t('Nothing queued for execution')}</div>
         : <Spinner />
       }
     </div>

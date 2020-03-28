@@ -38,7 +38,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
           </Table>
         )
         : external === null
-          ? t('No external proposal')
+          ? <div>{t('No external proposal')}</div>
           : <Spinner />
       }
     </div>

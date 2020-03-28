@@ -42,7 +42,7 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
               </Table.Body>
             </Table>
           )
-          : t('No bids')
+          : <div>{t('No bids')}</div>
         : <Spinner />
       }
     </div>

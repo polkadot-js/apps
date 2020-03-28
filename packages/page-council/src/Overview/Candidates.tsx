@@ -43,7 +43,7 @@ function Candidates ({ allVotes = {}, className, electionsInfo }: Props): React.
               </Table.Body>
             </Table>
           )
-          : t('No runners up found')
+          : <div>{t('No runners up found')}</div>
         : <Spinner />
       }
       <h1>{t('candidates')}</h1>
@@ -66,7 +66,7 @@ function Candidates ({ allVotes = {}, className, electionsInfo }: Props): React.
               </Table.Body>
             </Table>
           )
-          : t('No candidates found')
+          : <div>{t('No candidates found')}</div>
         : <Spinner />
       }
     </div>

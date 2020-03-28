@@ -103,7 +103,7 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
             </Table.Body>
           </Table>
         )
-        : t('No funds staked yet. Bond funds to validate or nominate a validator.')
+        : <div>{t('No funds staked yet. Bond funds to validate or nominate a validator.')}</div>
       }
     </div>
   );

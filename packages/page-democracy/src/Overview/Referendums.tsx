@@ -45,7 +45,7 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
               </Table.Body>
             </Table>
           )
-          : t('No active referendums')
+          : <div>{t('No active referendums')}</div>
         : <Spinner />
       }
     </div>

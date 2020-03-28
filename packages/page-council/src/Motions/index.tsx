@@ -68,7 +68,7 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
             </Table.Body>
           </Table>
         )
-        : t('No council motions')
+        : <div>{t('No council motions')}</div>
       }
     </div>
   );

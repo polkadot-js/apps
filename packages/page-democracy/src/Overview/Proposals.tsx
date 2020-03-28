@@ -43,7 +43,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
               </Table.Body>
             </Table>
           )
-          : t('No active proposals')
+          : <div>{t('No active proposals')}</div>
         : <Spinner />
       }
     </div>

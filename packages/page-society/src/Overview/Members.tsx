@@ -50,7 +50,7 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
               </Table.Body>
             </Table>
           )
-          : t('No active members')
+          : <div>{t('No active members')}</div>
         : <Spinner />
       }
     </div>

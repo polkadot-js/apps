@@ -47,7 +47,7 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
             </Table.Body>
           </Table>
         )
-        : t('No members found')
+        : <div>{t('No members found')}</div>
       }
     </div>
   );

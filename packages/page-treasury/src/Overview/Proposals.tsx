@@ -67,8 +67,8 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
             </Table>
           )
           : isApprovals
-            ? t('No approved proposals')
-            : t('No pending proposals')
+            ? <div>{t('No approved proposals')}</div>
+            : <div>{t('No pending proposals')}</div>
         : <Spinner />
       }
     </div>
