@@ -54,14 +54,14 @@ const Memo = React.memo(styled(Table)`
   margin-top: 0.25rem;
 
   table {
-    border: 1px solid #eee;
+    border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     border-spacing: 0;
     overflow: hidden;
     width: 100%;
 
     thead tr {
-      background: #f9f9f9;
+      background: #fafafa;
     }
 
     tbody tr {
