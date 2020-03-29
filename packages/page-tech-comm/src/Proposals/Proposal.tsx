@@ -41,7 +41,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
       <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
-      <td className='number'>
+      <td className='address'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
@@ -50,7 +50,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
           />
         ))}
       </td>
-      <td className='number'>
+      <td className='address'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}

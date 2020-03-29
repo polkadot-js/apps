@@ -51,9 +51,9 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
               <th colSpan={2}>&nbsp;</th>
               <th>{t('threshold')}</th>
               <th>{t('voting end')}</th>
-              <th>{t('aye')}</th>
-              <th>{t('nay')}</th>
-              <th>&nbsp;</th>
+              <th className='address'>{t('aye')}</th>
+              <th className='address'>{t('nay')}</th>
+              <th colSpan={2}>&nbsp;</th>
             </Table.Head>
             <Table.Body>
               {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (

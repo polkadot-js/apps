@@ -33,10 +33,14 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
     [members]
   );
 
-  const _onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void =>
-    setProposal(() => method || null);
-  const _onChangeThreshold = (threshold?: BN): void =>
-    setThreshold([threshold || null, _hasThreshold(threshold)]);
+  const _onChangeExtrinsic = useCallback(
+    (method?: SubmittableExtrinsic<'promise'>): void => setProposal(() => method || null),
+    []
+  );
+  const _onChangeThreshold = useCallback(
+    (threshold?: BN): void => setThreshold([threshold || null, _hasThreshold(threshold)]),
+    [_hasThreshold]
+  );
 
   return (
     <>

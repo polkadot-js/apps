@@ -51,7 +51,7 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
           </>
         )}
       </td>
-      <td className='number'>
+      <td className='address'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
@@ -60,7 +60,7 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
           />
         ))}
       </td>
-      <td className='number'>
+      <td className='address'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
@@ -78,10 +78,13 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
           prime={prime}
           proposal={proposal}
         />
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           hash={hash.toString()}
           type='council'
+          withShort
         />
       </td>
     </tr>

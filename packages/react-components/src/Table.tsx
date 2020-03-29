@@ -130,14 +130,11 @@ const Memo = React.memo(styled(Table)`
         }
 
         &.address {
+          min-width: 11rem;
           padding: 0.85rem 1rem;
 
           > .ui--AddressMini,
           > .ui--AddressMini.padded {
-            padding: 0;
-            margin-bottom: -0.85rem;
-            margin-top: -0.25rem;
-
             label.ui--AddressMini-label {
               margin-bottom: -0.3rem;
             }

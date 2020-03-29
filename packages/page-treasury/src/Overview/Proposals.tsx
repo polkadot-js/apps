@@ -48,10 +48,10 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
             <Table>
               <Table.Head>
                 <th colSpan={2}>&nbsp;</th>
-                <td>{t('bond')}</td>
-                <td className='address'>{t('beneficiary')}</td>
-                <td>{t('value')}</td>
-                <th>&nbsp;</th>
+                <th className='address'>{t('beneficiary')}</th>
+                <th>{t('payment')}</th>
+                <th>{t('bond')}</th>
+                <th colSpan={2}>&nbsp;</th>
               </Table.Head>
               <Table.Body>
                 {proposals.map((proposal): React.ReactNode => (
