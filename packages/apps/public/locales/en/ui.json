@@ -1006,5 +1006,16 @@
   "swap to id": "",
   "votes": "",
   "profit/era est": "",
-  "payment": ""
+  "payment": "",
+  "accounts": "",
+  "contacts": "",
+  "No blocks available": "",
+  "hash": "",
+  "state": "",
+  "No events available": "",
+  "stashes": "",
+  "No active validators found": "",
+  "intentions": "",
+  "No waiting validators found": "",
+  "No active validators to check for rewards available": ""
 }

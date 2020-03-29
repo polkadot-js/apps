@@ -155,5 +155,7 @@
   "no addresses saved yet, add any existing address": "no addresses saved yet, add any existing address",
   "transactions": "transactions",
   "balances": "balances",
-  "type": "type"
+  "type": "type",
+  "accounts": "accounts",
+  "contacts": "contacts"
 }

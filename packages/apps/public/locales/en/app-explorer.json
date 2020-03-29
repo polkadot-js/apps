@@ -41,5 +41,10 @@
   "epoch": "epoch",
   "session": "session",
   "era": "era",
-  "Unable to render extrinsic": "Unable to render extrinsic"
+  "Unable to render extrinsic": "Unable to render extrinsic",
+  "No blocks available": "No blocks available",
+  "hash": "hash",
+  "parent": "parent",
+  "state": "state",
+  "No events available": "No events available"
 }

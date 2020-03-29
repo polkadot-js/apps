@@ -175,5 +175,10 @@
   "Stop": "Stop",
   "{{currency}} clipped": "{{currency}} clipped",
   "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.": "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.",
-  "profit/era est": "profit/era est"
+  "profit/era est": "profit/era est",
+  "stashes": "stashes",
+  "No active validators found": "No active validators found",
+  "intentions": "intentions",
+  "No waiting validators found": "No waiting validators found",
+  "No active validators to check for rewards available": "No active validators to check for rewards available"
 }
