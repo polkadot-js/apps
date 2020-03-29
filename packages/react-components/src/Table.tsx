@@ -50,7 +50,7 @@ function Body ({ children, className, empty }: BodyProps): React.ReactElement<Bo
     <tbody className={className}>
       {isEmpty
         ? (
-          <tr><td className='middle' colSpan={100}>{
+          <tr><td colSpan={100}>{
             isString(empty)
               ? <div className='empty'>{empty}</div>
               : empty || <Spinner />
@@ -77,6 +77,7 @@ const Memo = React.memo(styled(Table)`
   margin-top: 0.25rem;
 
   table {
+    // border: 1px solid #f5f5f5;
     // border: 1px solid #f2f2f2;
     border: 1px solid #eee;
     border-radius: 0.25rem;
@@ -85,7 +86,8 @@ const Memo = React.memo(styled(Table)`
     width: 100%;
 
     thead tr {
-      // background: #f5f5f5;
+      background: #f5f5f5;
+      // background: #f2f2f2;
       text-transform: lowercase;
 
       &.filter th {
@@ -146,6 +148,7 @@ const Memo = React.memo(styled(Table)`
       }
 
       td {
+        // border-top: 1px solid #f5f5f5;
         border-top: 1px solid #f2f2f2;
         text-align: left;
 
