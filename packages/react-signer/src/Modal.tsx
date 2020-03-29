@@ -192,7 +192,11 @@ class Signer extends React.PureComponent<Props, State> {
     const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
 
     return (
-      <Modal.Actions cancelLabel={signedTx ? t('Close') : undefined} withOr={!signedTx} onCancel={isQrVisible ? this.onCancelQr : signedTx ? this.onCancelSign : this.onCancel}>
+      <Modal.Actions
+        cancelLabel={signedTx ? t('Close') : undefined}
+        withOr={!signedTx}
+        onCancel={isQrVisible ? this.onCancelQr : signedTx ? this.onCancelSign : this.onCancel}
+      >
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
             {!currentItem.isUnsigned && this.renderSignToggle()}
@@ -239,15 +243,22 @@ class Signer extends React.PureComponent<Props, State> {
         tip={tip}
         value={currentItem}
       >
-        {isQrVisible ? (
-          <Qr address={qrAddress} isScanning={isQrScanning} onSignature={this.addQrSignature} payload={qrPayload} />
-        ) : (
-          <>
-            {this.renderTip()}
-            {this.renderUnlock()}
-            {!isSubmit && this.renderSignFields()}
-          </>
-        )}
+        {isQrVisible
+          ? (
+            <Qr
+              address={qrAddress}
+              isScanning={isQrScanning}
+              onSignature={this.addQrSignature}
+              payload={qrPayload}
+            />
+          )
+          : (
+            <>
+              {this.renderTip()}
+              {this.renderUnlock()}
+              {!isSubmit && this.renderSignFields()}
+            </>
+          )}
       </Transaction>
     );
   }

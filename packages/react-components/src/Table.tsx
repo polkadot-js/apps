@@ -61,7 +61,7 @@ const Memo = React.memo(styled(Table)`
     width: 100%;
 
     thead tr {
-      background: #fafafa;
+      background: #f5f5f5;
     }
 
     tbody tr {
@@ -169,9 +169,9 @@ const Memo = React.memo(styled(Table)`
       }
 
       th {
-        color: #999;
+        color: #888;
         font-family: sans-serif;
-        font-weight: 500;
+        font-weight: 400;
         text-align: right;
         white-space: nowrap;
 

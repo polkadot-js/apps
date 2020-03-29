@@ -12,8 +12,8 @@ import useCall from './useCall';
 
 export default function useSudo (): UseSudo {
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
-  const sudoKey = useCall<string>(api.query.sudo?.key, [], {
+  const { allAccounts, hasAccounts } = useAccounts();
+  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, [], {
     transform: (k): string =>
       k.toString()
   });
