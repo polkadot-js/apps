@@ -29,13 +29,13 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
             <Table>
               <Table.Head>
                 <th colSpan={2}>&nbsp;</th>
-                <td>{t('threshold')}</td>
-                <td>{t('aye')}</td>
-                <td>{t('nay')}</td>
+                <th>{t('threshold')}</th>
+                <th className='address'>{t('aye')}</th>
+                <th className='address'>{t('nay')}</th>
                 <th>&nbsp;</th>
               </Table.Head>
               <Table.Body>
-                {proposals?.map((hash: Hash): React.ReactNode => (
+                {proposals.map((hash: Hash): React.ReactNode => (
                   <Proposal
                     imageHash={hash.toHex()}
                     key={hash.toHex()}

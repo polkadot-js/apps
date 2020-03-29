@@ -26,17 +26,17 @@ function ProposalDisplay ({ className, isMember, proposal: { council, id, propos
       <td className='number'>
         <h1>{formatNumber(id)}</h1>
       </td>
-      <td className='address'>
+      <td className='address all'>
         <AddressSmall value={proposal.proposer} />
-      </td>
-      <td className='number'>
-        <FormatBalance value={proposal.bond} />
       </td>
       <td className='address'>
         <AddressMini value={proposal.beneficiary} />
       </td>
-      <td>
+      <td className='number'>
         <FormatBalance value={proposal.value} />
+      </td>
+      <td className='number'>
+        <FormatBalance value={proposal.bond} />
       </td>
       <td className='button'>
         {withSend && (
@@ -52,9 +52,12 @@ function ProposalDisplay ({ className, isMember, proposal: { council, id, propos
             />
           </>
         )}
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={id}
           type='treasury'
+          withShort
         />
       </td>
     </tr>

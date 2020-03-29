@@ -18,8 +18,8 @@ interface State {
 
 export default function useRegistrars (): State {
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
-  const query = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
+  const { allAccounts, hasAccounts } = useAccounts();
+  const query = useCall<Option<RegistrarInfo>[]>(hasAccounts && api.query.identity?.registrars, []);
   const [state, setState] = useState<State>({ isRegistrar: false, registrars: [] });
 
   // determine if we have a registrar or not - registrars are allowed to approve

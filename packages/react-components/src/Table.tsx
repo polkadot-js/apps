@@ -61,7 +61,7 @@ const Memo = React.memo(styled(Table)`
     width: 100%;
 
     thead tr {
-      background: #fafafa;
+      background: #f5f5f5;
     }
 
     tbody tr {
@@ -130,14 +130,11 @@ const Memo = React.memo(styled(Table)`
         }
 
         &.address {
+          min-width: 11rem;
           padding: 0.85rem 1rem;
 
           > .ui--AddressMini,
           > .ui--AddressMini.padded {
-            padding: 0;
-            margin-bottom: -0.85rem;
-            margin-top: -0.25rem;
-
             label.ui--AddressMini-label {
               margin-bottom: -0.3rem;
             }
@@ -169,9 +166,9 @@ const Memo = React.memo(styled(Table)`
       }
 
       th {
-        color: #999;
+        color: #888;
         font-family: sans-serif;
-        font-weight: 500;
+        font-weight: 400;
         text-align: right;
         white-space: nowrap;
 
