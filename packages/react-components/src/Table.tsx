@@ -220,6 +220,10 @@ const Memo = React.memo(styled(Table)`
           text-align: right;
         }
 
+        &.relative {
+          position: relative;
+        }
+
         &.overflow {
           max-width: 0;
           overflow: hidden;
