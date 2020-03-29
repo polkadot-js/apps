@@ -26,7 +26,6 @@ export default React.memo(styled(SummaryBox)`
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
-  margin-bottom: 1.4rem;
 
   > section {
     display: flex;
@@ -58,7 +57,7 @@ export default React.memo(styled(SummaryBox)`
   }
 
   @media(min-width: 768px) {
-    margin-bottom: 2.8rem;
+    margin-bottom: 1.5rem;
   }
 
   .ui.label {

@@ -4,7 +4,6 @@
 
 import { createGlobalStyle } from 'styled-components';
 
-import media from '../media';
 import cssComponents from './components';
 import cssForm from './form';
 import cssMedia from './media';
@@ -210,12 +209,8 @@ export default createGlobalStyle<Props>`
   }
 
   header {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.5rem;
     text-align: center;
-
-    ${media.TABLET`
-      margin-bottom: 2rem;
-   `}
 
     > article {
       background: transparent;
