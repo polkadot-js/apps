@@ -104,10 +104,10 @@ export default React.memo(styled(CardSummary)`
   }
 
   > div {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
     font-weight: 100;
     position: relative;
-    line-height: 1.85rem;
+    line-height: 1.75rem;
     text-align: right;
 
     > * {

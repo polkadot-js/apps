@@ -11,7 +11,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  members: string[];
+  members?: string[];
   prime?: AccountId | null;
 }
 
@@ -19,37 +19,30 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
 
   return (
-    <div className={className}>
-      {members.length
-        ? (
-          <Table>
-            <Table.Head>
-              <th colSpan={3}>&nbsp;</th>
-            </Table.Head>
-            <Table.Body>
-              {members.map((accountId): React.ReactNode => (
-                <tr key={accountId.toString()}>
-                  <td className='address'>
-                    <AddressSmall value={accountId} />
-                  </td>
-                  <td>
-                    {prime?.eq(accountId) && (
-                      <Tag
-                        color='green'
-                        hover={t('Committee prime member, default voting')}
-                        label={t('prime member')}
-                      />
-                    )}
-                  </td>
-                  <td className='all'>&nbsp;</td>
-                </tr>
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : <div>{t('No members found')}</div>
-      }
-    </div>
+    <Table className={className}>
+      <Table.Head>
+        <th className='start' colSpan={3}><h1>{t('members')}</h1></th>
+      </Table.Head>
+      <Table.Body empty={members && t('No members found')}>
+        {members?.map((accountId): React.ReactNode => (
+          <tr key={accountId.toString()}>
+            <td className='address'>
+              <AddressSmall value={accountId} />
+            </td>
+            <td>
+              {prime?.eq(accountId) && (
+                <Tag
+                  color='green'
+                  hover={t('Committee prime member, default voting')}
+                  label={t('prime member')}
+                />
+              )}
+            </td>
+            <td className='all'>&nbsp;</td>
+          </tr>
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 

@@ -44,32 +44,27 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
           members={members}
         />
       </Button.Group>
-      {motions?.length
-        ? (
-          <Table>
-            <Table.Head>
-              <th colSpan={2}>&nbsp;</th>
-              <th>{t('threshold')}</th>
-              <th>{t('voting end')}</th>
-              <th className='address'>{t('aye')}</th>
-              <th className='address'>{t('nay')}</th>
-              <th colSpan={2}>&nbsp;</th>
-            </Table.Head>
-            <Table.Body>
-              {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
-                <Motion
-                  isMember={isMember}
-                  key={motion.hash.toHex()}
-                  members={members}
-                  motion={motion}
-                  prime={prime}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : <div>{t('No council motions')}</div>
-      }
+      <Table>
+        <Table.Head>
+          <th colSpan={2}>&nbsp;</th>
+          <th>{t('threshold')}</th>
+          <th>{t('voting end')}</th>
+          <th className='address'>{t('aye')}</th>
+          <th className='address'>{t('nay')}</th>
+          <th colSpan={2}>&nbsp;</th>
+        </Table.Head>
+        <Table.Body empty={motions && t('No council motions')}>
+          {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
+            <Motion
+              isMember={isMember}
+              key={motion.hash.toHex()}
+              members={members}
+              motion={motion}
+              prime={prime}
+            />
+          ))}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

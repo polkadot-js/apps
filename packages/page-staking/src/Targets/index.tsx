@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { Icon, InputBalance, Spinner, Table } from '@polkadot/react-components';
+import { Icon, InputBalance, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
 import { createType, Option } from '@polkadot/types';
 
@@ -211,10 +211,6 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward, sortBy, sortFromMax]);
 
-  if (!sorted) {
-    return <Spinner />;
-  }
-
   return (
     <div className={className}>
       <Summary
@@ -223,43 +219,37 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
         numValidators={validators.length}
         totalStaked={totalStaked}
       />
-      {sorted.length
-        ? (
-          <>
-            <InputBalance
-              className='balanceInput'
-              help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
-              isFull
-              label={t('amount to use for estimation')}
-              onChange={setAmount}
-              value={_amount}
+      <Table>
+        <Table.Head filter={
+          <InputBalance
+            className='balanceInput'
+            help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
+            isFull
+            label={t('amount to use for estimation')}
+            onChange={setAmount}
+            value={_amount}
+          />
+        }>
+          <th className='start' colSpan={3}><h1>{t('validators')}</h1></th>
+          {['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header): React.ReactNode => (
+            <th
+              className={`isClickable ${sortBy === header && 'ui--highlight--border'} number`}
+              key={header}
+              onClick={(): void => _sort(header as 'rankComm')}
+            >{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></th>
+          ))}
+          <th>&nbsp;</th>
+        </Table.Head>
+        <Table.Body empty={sorted && t('No active validators to check for rewards available')}>
+          {sorted?.map((info): React.ReactNode =>
+            <Validator
+              info={info}
+              key={info.key}
+              toggleFavorite={toggleFavorite}
             />
-            <Table>
-              <Table.Head>
-                <th colSpan={3}>&nbsp;</th>
-                {['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header): React.ReactNode => (
-                  <th
-                    className={`isClickable ${sortBy === header && 'ui--highlight--border'} number`}
-                    key={header}
-                    onClick={(): void => _sort(header as 'rankComm')}
-                  >{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></th>
-                ))}
-                <th>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {sorted.map((info): React.ReactNode =>
-                  <Validator
-                    info={info}
-                    key={info.key}
-                    toggleFavorite={toggleFavorite}
-                  />
-                )}
-              </Table.Body>
-            </Table>
-          </>
-        )
-        : <Spinner />
-      }
+          )}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

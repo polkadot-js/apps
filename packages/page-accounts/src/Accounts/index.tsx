@@ -38,7 +38,7 @@ async function queryLedger (): Promise<void> {
 
 function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts, hasAccounts } = useAccounts();
+  const { allAccounts } = useAccounts();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
@@ -116,42 +116,36 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           </>
         )}
       </Button.Group>
-      {hasAccounts
-        ? (
-          <>
-            <div className='filter--tags'>
-              <Input
-                autoFocus
-                isFull
-                label={t('filter by name or tags')}
-                onChange={setFilter}
-                value={filter}
-              />
-            </div>
-            <Table>
-              <Table.Head>
-                <th colSpan={4}>&nbsp;</th>
-                <th>{t('transactions')}</th>
-                <th>{t('balances')}</th>
-                <th>{t('type')}</th>
-                <th colSpan={2}>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
-                  <Account
-                    address={address}
-                    filter={filter}
-                    isFavorite={isFavorite}
-                    key={address}
-                    toggleFavorite={toggleFavorite}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          </>
-        )
-        : t('no accounts yet, create or import an existing')
-      }
+      <Table>
+        <Table.Head filter={
+          <div className='filter--tags'>
+            <Input
+              autoFocus
+              isFull
+              label={t('filter by name or tags')}
+              onChange={setFilter}
+              value={filter}
+            />
+          </div>
+        }>
+          <th className='start' colSpan={4}><h1>{t('accounts')}</h1></th>
+          <th>{t('transactions')}</th>
+          <th>{t('balances')}</th>
+          <th>{t('type')}</th>
+          <th colSpan={2}>&nbsp;</th>
+        </Table.Head>
+        <Table.Body empty={t('no accounts yet, create or import an existing')}>
+          {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
+            <Account
+              address={address}
+              filter={filter}
+              isFavorite={isFavorite}
+              key={address}
+              toggleFavorite={toggleFavorite}
+            />
+          ))}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

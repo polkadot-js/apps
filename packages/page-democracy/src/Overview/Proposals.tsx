@@ -5,7 +5,7 @@
 import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import ProposalDisplay from './Proposal';
@@ -21,32 +21,22 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals, []);
 
   return (
-    <div className={`proposalSection ${className}`}>
-      <h1>{t('proposals')}</h1>
-      {proposals
-        ? proposals.length
-          ? (
-            <Table>
-              <Table.Head>
-                <th colSpan={2}>&nbsp;</th>
-                <th className='address'>{t('proposer')}</th>
-                <th>{t('locked')}</th>
-                <th colSpan={3}>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {proposals.map((proposal): React.ReactNode => (
-                  <ProposalDisplay
-                    key={proposal.index.toString()}
-                    value={proposal}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : <div>{t('No active proposals')}</div>
-        : <Spinner />
-      }
-    </div>
+    <Table className={className}>
+      <Table.Head>
+        <th className='start' colSpan={2}><h1>{t('proposals')}</h1></th>
+        <th className='address'>{t('proposer')}</th>
+        <th>{t('locked')}</th>
+        <th colSpan={3}>&nbsp;</th>
+      </Table.Head>
+      <Table.Body empty={proposals && t('No active proposals')}>
+        {proposals?.map((proposal): React.ReactNode => (
+          <ProposalDisplay
+            key={proposal.index.toString()}
+            value={proposal}
+          />
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 

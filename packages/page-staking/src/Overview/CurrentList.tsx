@@ -7,7 +7,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { AddressDetails } from './types';
 
 import React, { useEffect, useReducer, useState } from 'react';
-import { Input, Spinner, Table } from '@polkadot/react-components';
+import { Input, Table } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
 
 import { STORE_FAVS_BASE } from '../constants';
@@ -116,8 +116,8 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
     );
   }, [stakingOverview, validators]);
 
-  const _renderRows = (addresses: AccountExtend[], isMain: boolean): React.ReactNode =>
-    addresses.map(([address, isElected, isFavorite]): React.ReactNode => (
+  const _renderRows = (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode =>
+    addresses?.map(([address, isElected, isFavorite]): React.ReactNode => (
       <Address
         address={address}
         filterName={nameFilter}
@@ -136,22 +136,19 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
       />
     ));
 
-  if (!stakingOverview) {
-    return <Spinner />;
-  }
-
   return (
     <div className={`${!isVisible && 'staking--hidden'}`}>
-      <Input
-        autoFocus
-        isFull
-        label={t('filter by name, address or index')}
-        onChange={setNameFilter}
-        value={nameFilter}
-      />
       <Table className={isIntentions ? 'staking--hidden' : ''}>
-        <Table.Head>
-          <th colSpan={3}>&nbsp;</th>
+        <Table.Head filter={
+          <Input
+            autoFocus
+            isFull
+            label={t('filter by name, address or index')}
+            onChange={setNameFilter}
+            value={nameFilter}
+          />
+        }>
+          <th colSpan={3} className='start'><h1>{t('validators')}</h1></th>
           <th>{t('other stake')}</th>
           <th>{t('own stake')}</th>
           <th>{t('commission')}</th>
@@ -159,24 +156,20 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
           <th>{t('last #')}</th>
           <th>&nbsp;</th>
         </Table.Head>
-        <Table.Body>
+        <Table.Body empty={stakingOverview && t('No active validators found')}>
           {_renderRows(validators, true)}
         </Table.Body>
       </Table>
       {isIntentions && (
-        waiting
-          ? (
-            <Table>
-              <Table.Head>
-                <th colSpan={9}>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {_renderRows(elected, false)}
-                {_renderRows(waiting, false)}
-              </Table.Body>
-            </Table>
-          )
-          : <Spinner />
+        <Table>
+          <Table.Head>
+            <th colSpan={9}className='start'><h1>{t('intentions')}</h1></th>
+          </Table.Head>
+          <Table.Body empty={waiting && t('No waiting validators found')}>
+            {_renderRows(elected, false)}
+            {_renderRows(waiting, false)}
+          </Table.Body>
+        </Table>
       )}
     </div>
   );

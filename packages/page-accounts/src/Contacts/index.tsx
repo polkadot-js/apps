@@ -19,7 +19,7 @@ const STORE_FAVS = 'accounts:favorites';
 
 function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { hasAddresses, allAddresses } = useAddresses();
+  const { allAddresses } = useAddresses();
   const [isCreateOpen, toggleCreate] = useToggle(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
@@ -54,41 +54,35 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           onStatusChange={onStatusChange}
         />
       )}
-      {hasAddresses
-        ? (
-          <>
-            <div className='filter--tags'>
-              <Input
-                autoFocus
-                isFull
-                label={t('filter by name or tags')}
-                onChange={setFilter}
-                value={filter}
-              />
-            </div>
-            <Table>
-              <Table.Head>
-                <th colSpan={3}>&nbsp;</th>
-                <th>{t('transactions')}</th>
-                <th>{t('balances')}</th>
-                <th colSpan={2}>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
-                  <Address
-                    address={address}
-                    filter={filter}
-                    isFavorite={isFavorite}
-                    key={address}
-                    toggleFavorite={toggleFavorite}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          </>
-        )
-        : t('no addresses saved yet, add any existing address')
-      }
+      <Table>
+        <Table.Head filter={
+          <div className='filter--tags'>
+            <Input
+              autoFocus
+              isFull
+              label={t('filter by name or tags')}
+              onChange={setFilter}
+              value={filter}
+            />
+          </div>
+        }>
+          <th className='start' colSpan={3}><h1>{t('contacts')}</h1></th>
+          <th>{t('transactions')}</th>
+          <th>{t('balances')}</th>
+          <th colSpan={2}>&nbsp;</th>
+        </Table.Head>
+        <Table.Body empty={t('no addresses saved yet, add any existing address')}>
+          {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
+            <Address
+              address={address}
+              filter={filter}
+              isFavorite={isFavorite}
+              key={address}
+              toggleFavorite={toggleFavorite}
+            />
+          ))}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

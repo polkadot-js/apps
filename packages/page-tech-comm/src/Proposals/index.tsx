@@ -6,7 +6,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from '../types';
 
 import React from 'react';
-import { Button, Spinner, Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Proposal from './Proposal';
@@ -23,31 +23,24 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
           members={members}
         />
       </Button.Group>
-      {proposals
-        ? proposals.length
-          ? (
-            <Table>
-              <Table.Head>
-                <th colSpan={2}>&nbsp;</th>
-                <th>{t('threshold')}</th>
-                <th className='address'>{t('aye')}</th>
-                <th className='address'>{t('nay')}</th>
-                <th>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {proposals.map((hash: Hash): React.ReactNode => (
-                  <Proposal
-                    imageHash={hash.toHex()}
-                    key={hash.toHex()}
-                    prime={prime}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : <div>{t('No committee proposals')}</div>
-        : <Spinner />
-      }
+      <Table>
+        <Table.Head>
+          <th className='start' colSpan={2}><h1>{t('proposals')}</h1></th>
+          <th>{t('threshold')}</th>
+          <th className='address'>{t('aye')}</th>
+          <th className='address'>{t('nay')}</th>
+          <th>&nbsp;</th>
+        </Table.Head>
+        <Table.Body empty={proposals && t('No committee proposals')}>
+          {proposals?.map((hash: Hash): React.ReactNode => (
+            <Proposal
+              imageHash={hash.toHex()}
+              key={hash.toHex()}
+              prime={prime}
+            />
+          ))}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

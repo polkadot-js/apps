@@ -5,7 +5,7 @@
 import { DeriveDispatch } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -21,31 +21,21 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue as any, []);
 
   return (
-    <div className={`proposalSection ${className}`}>
-      <h1>{t('dispatch queue')}</h1>
-      {queued
-        ? queued.length
-          ? (
-            <Table>
-              <Table.Head>
-                <th colSpan={2}>&nbsp;</th>
-                <th>{t('enact')}</th>
-                <th colSpan={2}>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {queued.map((entry): React.ReactNode => (
-                  <DispatchEntry
-                    key={entry.index.toString()}
-                    value={entry}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : <div>{t('Nothing queued for execution')}</div>
-        : <Spinner />
-      }
-    </div>
+    <Table className={className}>
+      <Table.Head>
+        <th className='start' colSpan={2}><h1>{t('dispatch queue')}</h1></th>
+        <th>{t('enact')}</th>
+        <th colSpan={2}>&nbsp;</th>
+      </Table.Head>
+      <Table.Body empty={queued && t('Nothing queued for execution')}>
+        {queued?.map((entry): React.ReactNode => (
+          <DispatchEntry
+            key={entry.index.toString()}
+            value={entry}
+          />
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 

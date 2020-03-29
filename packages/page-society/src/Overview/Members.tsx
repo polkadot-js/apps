@@ -5,7 +5,7 @@
 import { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useState } from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -29,31 +29,21 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
   }, [info, members]);
 
   return (
-    <div className={`overviewSection ${className}`}>
-      <h1>{t('members')}</h1>
-      {info
-        ? filtered.length
-          ? (
-            <Table>
-              <Table.Head>
-                <th colSpan={3}>&nbsp;</th>
-                <th>{t('strikes')}</th>
-              </Table.Head>
-              <Table.Body>
-                {filtered.map((member): React.ReactNode => (
-                  <Member
-                    isHead={info?.head?.eq(member.accountId)}
-                    key={member.accountId.toString()}
-                    value={member}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : <div>{t('No active members')}</div>
-        : <Spinner />
-      }
-    </div>
+    <Table className={className}>
+      <Table.Head>
+        <th colSpan={3} className='start'><h1>{t('members')}</h1></th>
+        <th>{t('strikes')}</th>
+      </Table.Head>
+      <Table.Body empty={info && t('No active members')}>
+        {filtered.map((member): React.ReactNode => (
+          <Member
+            isHead={info?.head?.eq(member.accountId)}
+            key={member.accountId.toString()}
+            value={member}
+          />
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 

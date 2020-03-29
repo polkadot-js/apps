@@ -22,7 +22,7 @@ function Events ({ value }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <Column headerText={t('events')}>
+    <Column>
       <EventsDisplay
         eventClassName='explorer--BlockByHash-block'
         events={
@@ -30,6 +30,7 @@ function Events ({ value }: Props): React.ReactElement<Props> | null {
             key: `${index}`, record
           }))
         }
+        label={t('events')}
       />
     </Column>
   );

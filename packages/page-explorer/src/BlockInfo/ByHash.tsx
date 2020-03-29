@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -6,12 +5,13 @@
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { Columar, Spinner } from '@polkadot/react-components';
+import { AddressMini, Columar, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { formatNumber } from '@polkadot/util';
 
-import BlockHeader from '../BlockHeader';
+import { useTranslation } from '../translate';
 import Events from './Events';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
@@ -22,41 +22,52 @@ interface Props {
 }
 
 function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const events = useCall<EventRecord[]>(api.query.system.events.at as any, [value], { isSingle: true });
   const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock as any, [value], { isSingle: true });
   const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader as any, [value]);
 
-  if (!getBlock || getBlock.isEmpty || !getHeader || getHeader.isEmpty) {
-    return <Spinner />;
-  }
-
   return (
     <div className={className}>
-      <header>
-        <BlockHeader
-          className='exporer--BlockByHash-BlockHeader'
-          value={getHeader}
-          withExplorer
-        />
-      </header>
-      <Columar>
-        <Extrinsics
-          blockNumber={getHeader.number.unwrap()}
-          value={getBlock.block.extrinsics}
-        />
-        <Events value={events} />
-        <Logs value={getHeader.digest.logs} />
-      </Columar>
+      <Table isFixed>
+        <Table.Head>
+          <th className='start'><h1>{getHeader ? formatNumber(getHeader.number.unwrap()) : '-'}</h1></th>
+          {getHeader && (
+            <>
+              <th className='start'>{t('hash')}</th>
+              <th className='start'>{t('parent')}</th>
+              <th className='start'>{t('extrinsics')}</th>
+              <th className='start'>{t('state')}</th>
+              <th>&nbsp;</th>
+            </>
+          )}
+        </Table.Head>
+        <Table.Body>
+          {getBlock && !getBlock.isEmpty && getHeader && !getHeader.isEmpty && (
+            <tr>
+              <td className='address'>{getHeader.author && <AddressMini value={getHeader.author} />}</td>
+              <td className='hash overflow'>{getHeader.hash.toHex()}</td>
+              <td className='hash overflow'><Link to={`/explorer/query/${getHeader.parentHash.toHex()}`}>{getHeader.parentHash.toHex()}</Link></td>
+              <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
+              <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
+              <td><LinkExternal data={value} type='block' /></td>
+            </tr>
+          )}
+        </Table.Body>
+      </Table>
+      {getBlock && getHeader && (
+        <Columar>
+          <Extrinsics
+            blockNumber={getHeader.number.unwrap()}
+            value={getBlock.block.extrinsics}
+          />
+          <Events value={events} />
+          <Logs value={getHeader.digest.logs} />
+        </Columar>
+      )}
     </div>
   );
 }
 
-export default React.memo(
-  styled(BlockByHash)`
-    .exporer--BlockByHash-BlockHeader {
-      border: none;
-      box-shadow: none;
-    }
-  `
-);
+export default React.memo(BlockByHash);

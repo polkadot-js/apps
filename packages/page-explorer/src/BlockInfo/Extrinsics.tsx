@@ -7,7 +7,7 @@ import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { AddressMini, Call, Column, Expander, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Call, Column, Expander, LinkExternal, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -19,85 +19,75 @@ interface Props {
   value?: Extrinsic[] | null;
 }
 
-function renderExtrinsic (props: Props, extrinsic: Extrinsic, index: number, t: (s: string, opt?: any) => string): React.ReactNode {
-  const { blockNumber } = props;
-  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
-  const isMortal = extrinsic.era.isMortalEra;
-  let eraEnd;
-  let eraStart;
+function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number] | null {
+  if (blockNumber && era.isMortalEra) {
+    const mortalEra = era.asMortalEra;
 
-  if (blockNumber && isMortal) {
-    const mortalEra = extrinsic.era.asMortalEra;
-
-    eraEnd = mortalEra.death(blockNumber.toNumber());
-    eraStart = mortalEra.birth(blockNumber.toNumber());
+    return [mortalEra.birth(blockNumber.toNumber()), mortalEra.death(blockNumber.toNumber())];
   }
 
-  return (
-    <article key={`extrinsic:${index}`}>
-      <div className='header'>
-        <h3>
-          {section}.{method}&nbsp;(#{formatNumber(index)})
-        </h3>
-        {extrinsic.isSigned && (
-          <div className='explorer--BlockByHash-header'>
-            <div>
-              <AddressMini value={extrinsic.signer} />
-            </div>
-            <div className='explorer--BlockByHash-nonce'>
-              {t('index')} {formatNumber(extrinsic.nonce)}
-            </div>
-          </div>
-        )}
-      </div>
-      <Expander summaryMeta={meta}>
-        <Call
-          className='details'
-          mortality={
-            isMortal
-              ? blockNumber
-                ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
-                  replace: {
-                    endsAt: formatNumber(eraEnd),
-                    startAt: formatNumber(eraStart)
-                  }
-                })
-                : t('mortal')
-              : t('immortal')
-          }
-          tip={extrinsic.tip?.toBn()}
-          value={extrinsic}
-          withHash
-        />
-      </Expander>
-      {
-        extrinsic.isSigned
-          ? <LinkExternal data={extrinsic.hash.toHex()} type='extrinsic' />
-          : null
-      }
-    </article>
-  );
+  return null;
 }
 
-function Extrinsics (props: Props): React.ReactElement<Props> {
+function Extrinsics ({ className, blockNumber, label, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className, label, value } = props;
 
   return (
-    <Column
-      className={className}
-      emptyText={t('No pending extrinsics are in the queue')}
-      headerText={label || t('extrinsics')}
-    >
-      {value?.map((extrinsic, index): React.ReactNode => {
-        try {
-          return renderExtrinsic(props, extrinsic, index, t);
-        } catch (error) {
-          console.error(error);
+    <Column className={className}>
+      <Table>
+        <Table.Head>
+          <th className='start'><h1>{label || t('extrinsics')}</h1></th>
+        </Table.Head>
+        <Table.Body empty={t('No pending extrinsics are in the queue')}>
+          {value?.map((extrinsic, index): React.ReactNode => {
+            const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+            const era = getEra(extrinsic, blockNumber);
 
-          return t('Unable to render extrinsic');
-        }
-      })}
+            return (
+              <tr key={`extrinsic:${index}`}>
+                <td className='relative overflow'>
+                  <div>{section}.{method}&nbsp;(#{formatNumber(index)})</div>
+                  {extrinsic.isSigned && (
+                    <div className='explorer--BlockByHash-header'>
+                      <div>
+                        <AddressMini value={extrinsic.signer} />
+                      </div>
+                      <div className='explorer--BlockByHash-nonce'>
+                        {t('index')} {formatNumber(extrinsic.nonce)}
+                      </div>
+                    </div>
+                  )}
+                  <Expander summaryMeta={meta}>
+                    <Call
+                      className='details'
+                      mortality={
+                        era
+                          ? blockNumber
+                            ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+                              replace: {
+                                endsAt: formatNumber(era[1]),
+                                startAt: formatNumber(era[0])
+                              }
+                            })
+                            : t('mortal')
+                          : t('immortal')
+                      }
+                      tip={extrinsic.tip?.toBn()}
+                      value={extrinsic}
+                      withHash
+                    />
+                  </Expander>
+                  {
+                    extrinsic.isSigned
+                      ? <LinkExternal data={extrinsic.hash.toHex()} type='extrinsic' />
+                      : null
+                  }
+                </td>
+              </tr>
+            );
+          })}
+        </Table.Body>
+      </Table>
     </Column>
   );
 }
@@ -105,7 +95,7 @@ function Extrinsics (props: Props): React.ReactElement<Props> {
 export default React.memo(styled(Extrinsics)`
   .explorer--BlockByHash-header {
     position: absolute;
-    top: 0.25rem;
+    top: 0.75rem;
     right: 0.75rem;
   }
 

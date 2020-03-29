@@ -5,7 +5,7 @@
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Referendum from './Referendum';
@@ -21,34 +21,24 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
   const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums, []);
 
   return (
-    <div className={`proposalSection ${className}`}>
-      <h1>{t('referenda')}</h1>
-      {referendums
-        ? referendums.length
-          ? (
-            <Table>
-              <Table.Head>
-                <th colSpan={2}>&nbsp;</th>
-                <th>{t('remaining')}</th>
-                <th>{t('activate')}</th>
-                <th>{t('aye')}</th>
-                <th>{t('nay')}</th>
-                <th colSpan={3}>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {referendums.map((referendum): React.ReactNode => (
-                  <Referendum
-                    key={referendum.index.toString()}
-                    value={referendum}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : <div>{t('No active referendums')}</div>
-        : <Spinner />
-      }
-    </div>
+    <Table className={className}>
+      <Table.Head>
+        <th className='start' colSpan={2}><h1>{t('referenda')}</h1></th>
+        <th>{t('remaining')}</th>
+        <th>{t('activate')}</th>
+        <th>{t('aye')}</th>
+        <th>{t('nay')}</th>
+        <th colSpan={3}>&nbsp;</th>
+      </Table.Head>
+      <Table.Body empty={referendums && t('No active referendums')}>
+        {referendums?.map((referendum): React.ReactNode => (
+          <Referendum
+            key={referendum.index.toString()}
+            value={referendum}
+          />
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 

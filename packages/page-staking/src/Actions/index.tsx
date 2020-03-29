@@ -77,34 +77,29 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       {isNewStakeOpen && (
         <StartStaking onClose={_toggleNewStake} />
       )}
-      {foundStashes?.length
-        ? (
-          <Table>
-            <Table.Head>
-              <th colSpan={2}>&nbsp;</th>
-              <th className='address'>{t('controller')}</th>
-              <th colSpan={3}>&nbsp;</th>
-            </Table.Head>
-            <Table.Body>
-              {foundStashes.map(([stashId, isOwnStash]): React.ReactNode => (
-                <Account
-                  activeEra={activeEra}
-                  allStashes={allStashes}
-                  isOwnStash={isOwnStash}
-                  isVisible={isVisible}
-                  key={stashId}
-                  next={next}
-                  onUpdateType={_onUpdateType}
-                  rewards={allRewards && allRewards[stashId]}
-                  stakingOverview={stakingOverview}
-                  stashId={stashId}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : <div>{t('No funds staked yet. Bond funds to validate or nominate a validator.')}</div>
-      }
+      <Table>
+        <Table.Head>
+          <th className='start' colSpan={2}><h1>{t('stashes')}</h1></th>
+          <th className='address'>{t('controller')}</th>
+          <th colSpan={3}>&nbsp;</th>
+        </Table.Head>
+        <Table.Body empty={t('No funds staked yet. Bond funds to validate or nominate a validator.')}>
+          {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
+            <Account
+              activeEra={activeEra}
+              allStashes={allStashes}
+              isOwnStash={isOwnStash}
+              isVisible={isVisible}
+              key={stashId}
+              next={next}
+              onUpdateType={_onUpdateType}
+              rewards={allRewards && allRewards[stashId]}
+              stakingOverview={stakingOverview}
+              stashId={stashId}
+            />
+          ))}
+        </Table.Body>
+      </Table>
     </div>
   );
 }

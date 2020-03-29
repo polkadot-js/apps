@@ -4,25 +4,34 @@
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
+import { Table } from '@polkadot/react-components';
 
 import BlockHeader from './BlockHeader';
+import { useTranslation } from './translate';
 
 interface Props {
   headers: HeaderExtended[];
 }
 
 function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
-    <>
-      {headers.map((header, index): React.ReactNode => (
-        <BlockHeader
-          isSummary={!!index}
-          key={header.number.toString()}
-          value={header}
-          withLink={!header.number.isEmpty}
-        />
-      ))}
-    </>
+    <Table>
+      <Table.Head>
+        <th className='start' colSpan={3}><h1>{t('recent blocks')}</h1></th>
+      </Table.Head>
+      <Table.Body empty={t('No blocks available')}>
+        {headers
+          .filter((header) => !!header)
+          .map((header): React.ReactNode => (
+            <BlockHeader
+              key={header.number.toString()}
+              value={header}
+            />
+          ))}
+      </Table.Body>
+    </Table>
   );
 }
 

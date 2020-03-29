@@ -123,13 +123,13 @@ export default React.memo(styled(Apps)`
     }
 
     a.apps--SideBar-Item-NavLink-active {
-      background: #fafafa;
+      background: #f2f2f2;
       border-radius: 0.28571429rem 0 0 0.28571429rem;
       // border-bottom: 2px solid transparent;
       color: #3f3f3f;
 
       &:hover {
-        background: #fafafa;
+        background: #f2f2f2;
         color: #3f3f3f;
         margin-right: 0;
       }

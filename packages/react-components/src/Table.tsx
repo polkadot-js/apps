@@ -4,26 +4,40 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { isString } from '@polkadot/util';
+
+import Spinner from './Spinner';
 
 interface BaseProps {
   children: React.ReactNode;
   className?: string;
 }
 
-type BodyProps = BaseProps;
+interface BodyProps extends BaseProps {
+  empty?: React.ReactNode;
+}
 
-type HeadProps = BaseProps;
+interface HeadProps extends BaseProps {
+  filter?: React.ReactNode;
+}
 
-type TableProps = BaseProps;
+interface TableProps extends BaseProps {
+  isFixed?: boolean;
+}
 
 type TableImpl = React.FC<TableProps> & {
   Body: React.FC<BodyProps>;
   Head: React.FC<HeadProps>;
 }
 
-function Head ({ children, className }: HeadProps): React.ReactElement<HeadProps> {
+function Head ({ children, className, filter }: HeadProps): React.ReactElement<HeadProps> {
   return (
     <thead className={className}>
+      {filter && (
+        <tr className='filter'>
+          <th colSpan={100}>{filter}</th>
+        </tr>
+      )}
       <tr>
         {children}
       </tr>
@@ -31,17 +45,28 @@ function Head ({ children, className }: HeadProps): React.ReactElement<HeadProps
   );
 }
 
-function Body ({ children, className }: BodyProps): React.ReactElement<BodyProps> {
+function Body ({ children, className, empty }: BodyProps): React.ReactElement<BodyProps> {
+  const isEmpty = !children || (Array.isArray(children) && children.length === 0);
+
   return (
     <tbody className={className}>
-      {children}
+      {isEmpty
+        ? (
+          <tr><td colSpan={100}>{
+            isString(empty)
+              ? <div className='empty'>{empty}</div>
+              : empty || <Spinner />
+          }</td></tr>
+        )
+        : children
+      }
     </tbody>
   );
 }
 
-function Table ({ children, className }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className, isFixed }: TableProps): React.ReactElement<TableProps> {
   return (
-    <div className={`ui--Table ${className}`}>
+    <div className={`ui--Table ${isFixed && 'isFixed'} ${className}`}>
       <table>
         {children}
       </table>
@@ -51,21 +76,33 @@ function Table ({ children, className }: TableProps): React.ReactElement<TablePr
 
 const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
-  margin-top: 0.25rem;
+
+  &.isFixed table {
+    table-layout: fixed;
+  }
 
   table {
-    border: 1px solid #f2f2f2;
+    border: 1px solid #eee;
     border-radius: 0.25rem;
     border-spacing: 0;
     overflow: hidden;
     width: 100%;
 
     thead tr {
-      background: #f5f5f5;
+      background: #f9f9f9;
+      text-transform: lowercase;
+
+      &.filter th {
+        padding: 0.25rem 0.5rem 0;
+      }
     }
 
     tbody tr {
       background: white;
+
+      td {
+        border-top: 1px solid #f2f2f2;
+      }
     }
 
     tr {
@@ -104,8 +141,13 @@ const Memo = React.memo(styled(Table)`
       }
 
       td, th {
-        padding: 0.5rem 0.75rem;
-        vertical-align: middle;
+        &:first-child {
+          padding-left: 1.5rem;
+        }
+
+        &:last-child {
+          padding-right: 1.5rem;
+        }
 
         &.all {
           width: 100%;
@@ -117,8 +159,10 @@ const Memo = React.memo(styled(Table)`
       }
 
       td {
-        border-top: 1px solid #f2f2f2;
+        // border-top: 1px solid #f2f2f2;
+        padding: 0.75rem 1rem;
         text-align: left;
+        vertical-align: middle;
 
         label {
           display: block !important;
@@ -127,6 +171,19 @@ const Memo = React.memo(styled(Table)`
 
         i.icon {
           cursor: pointer;
+        }
+
+        div.empty {
+          opacity: 0.6;
+          padding: 0.25rem;
+        }
+
+        .ui--Spinner {
+          margin: auto 0.5rem;
+
+          .text {
+            margin-bottom: 0;
+          }
         }
 
         &.address {
@@ -147,12 +204,38 @@ const Memo = React.memo(styled(Table)`
           white-space: nowrap;
         }
 
+        &.combined {
+          border-top-width: 0;
+        }
+
+        &.empty {
+          opacity: 0.6;
+        }
+
+        &.hash {
+          font-family: monospace;
+        }
+
         &.number {
           text-align: right;
         }
 
+        &.relative {
+          position: relative;
+        }
+
+        &.overflow {
+          max-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         &.together {
           white-space: nowrap;
+        }
+
+        &.middle {
+          text-align: center;
         }
 
         &.mini {
@@ -166,11 +249,18 @@ const Memo = React.memo(styled(Table)`
       }
 
       th {
-        color: #888;
+        color: rgba(0, 0, 0, 0.6);
         font-family: sans-serif;
         font-weight: 400;
         text-align: right;
+        padding: 0.75rem 1rem 0.25rem;
+        vertical-align: baseline;
         white-space: nowrap;
+
+        h1, h2 {
+          color: inherit;
+          font-size: 1.75rem;
+        }
 
         &:first-child {
           border-top-left-radius: 0.25rem;

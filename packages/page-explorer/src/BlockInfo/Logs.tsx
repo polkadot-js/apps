@@ -7,7 +7,7 @@ import { Codec, TypeDef } from '@polkadot/types/types';
 
 import React from 'react';
 import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
-import { Column, Expander } from '@polkadot/react-components';
+import { Column, Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 
 import { useTranslation } from '../translate';
@@ -85,38 +85,18 @@ function formatVector (vector: Vec<any>): React.ReactNode {
   );
 }
 
-function renderItem (t: (s: string, opt?: any) => string): (item: DigestItem, index: number) => React.ReactNode {
-  return function LogItem (item: DigestItem, index: number): React.ReactNode {
-    let content: React.ReactNode;
+function formatItem (item: DigestItem): React.ReactNode {
+  if (item.value instanceof Struct) {
+    return formatStruct(item.value);
+  } else if (item.value instanceof Tuple) {
+    return formatTuple(item.value);
+  } else if (item.value instanceof Vec) {
+    return formatVector(item.value);
+  } else if (item.value instanceof Raw) {
+    return formatU8a(item.value);
+  }
 
-    if (item.value instanceof Struct) {
-      content = formatStruct(item.value);
-    } else if (item.value instanceof Tuple) {
-      content = formatTuple(item.value);
-    } else if (item.value instanceof Vec) {
-      content = formatVector(item.value);
-    } else if (item.value instanceof Raw) {
-      content = formatU8a(item.value);
-    } else {
-      content = <div>{item.value.toString().split(',').join(', ')}</div>;
-    }
-
-    return (
-      <div
-        className='explorer--BlockByHash-block'
-        key={index}
-      >
-        <article className='explorer--Container'>
-          <div className='header'>
-            <h3>{item.type.toString()}</h3>
-          </div>
-          <Expander summary={t('Details')}>
-            {content}
-          </Expander>
-        </article>
-      </div>
-    );
-  };
+  return <div>{item.value.toString().split(',').join(', ')}</div>;
 }
 
 function Logs (props: Props): React.ReactElement<Props> | null {
@@ -128,8 +108,24 @@ function Logs (props: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <Column headerText={t('logs')}>
-      {value.map(renderItem(t))}
+    <Column>
+      <Table>
+        <Table.Head>
+          <th className='start'><h1>{t('logs')}</h1></th>
+        </Table.Head>
+        <Table.Body>
+          {value.map((log, index) => (
+            <tr key={`log:${index}`}>
+              <td className='overflow'>
+                <div>{log.type.toString()}</div>
+                <Expander summary={t('Details')}>
+                  {formatItem(log)}
+                </Expander>
+              </td>
+            </tr>
+          ))}
+        </Table.Body>
+      </Table>
     </Column>
   );
 }

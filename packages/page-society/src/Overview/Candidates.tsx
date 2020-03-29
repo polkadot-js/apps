@@ -6,7 +6,7 @@ import { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
 import { OwnMembers } from '../types';
 
 import React from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -22,36 +22,26 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
 
   return (
-    <div className={`overviewSection ${className}`}>
-      <h1>{t('candidates')}</h1>
-      {candidates
-        ? candidates.length
-          ? (
-            <Table>
-              <Table.Head>
-                <th>&nbsp;</th>
-                <th>{t('kind')}</th>
-                <th>{t('value')}</th>
-                <th colSpan={3}>{t('votes')}</th>
-                <th>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {candidates.map((candidate): React.ReactNode => (
-                  <Candidate
-                    allMembers={allMembers}
-                    isMember={isMember}
-                    key={candidate.accountId.toString()}
-                    ownMembers={ownMembers}
-                    value={candidate}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : <div>{t('No candidates')}</div>
-        : <Spinner />
-      }
-    </div>
+    <Table className={className}>
+      <Table.Head>
+        <th className='start'><h1>{t('candidates')}</h1></th>
+        <th>{t('kind')}</th>
+        <th>{t('value')}</th>
+        <th className='start'>{t('votes')}</th>
+        <th>&nbsp;</th>
+      </Table.Head>
+      <Table.Body empty={candidates && t('No candidates')}>
+        {candidates?.map((candidate): React.ReactNode => (
+          <Candidate
+            allMembers={allMembers}
+            isMember={isMember}
+            key={candidate.accountId.toString()}
+            ownMembers={ownMembers}
+            value={candidate}
+          />
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 
