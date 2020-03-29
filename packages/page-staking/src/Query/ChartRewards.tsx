@@ -77,7 +77,7 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <div className='staking--Chart'>
-      <h1>{t('rewards & slashes')}</h1>
+      <h2>{t('rewards & slashes')}</h2>
       {chart.length
         ? (
           <Chart.Line

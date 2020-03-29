@@ -4,15 +4,22 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { isString } from '@polkadot/util';
+
+import Spinner from './Spinner';
 
 interface BaseProps {
   children: React.ReactNode;
   className?: string;
 }
 
-type BodyProps = BaseProps;
+interface BodyProps extends BaseProps {
+  empty?: React.ReactNode;
+}
 
-type HeadProps = BaseProps;
+interface HeadProps extends BaseProps {
+  filter?: React.ReactNode;
+}
 
 type TableProps = BaseProps;
 
@@ -21,9 +28,14 @@ type TableImpl = React.FC<TableProps> & {
   Head: React.FC<HeadProps>;
 }
 
-function Head ({ children, className }: HeadProps): React.ReactElement<HeadProps> {
+function Head ({ children, className, filter }: HeadProps): React.ReactElement<HeadProps> {
   return (
     <thead className={className}>
+      {filter && (
+        <tr className='filter'>
+          <th colSpan={100}>{filter}</th>
+        </tr>
+      )}
       <tr>
         {children}
       </tr>
@@ -31,10 +43,21 @@ function Head ({ children, className }: HeadProps): React.ReactElement<HeadProps
   );
 }
 
-function Body ({ children, className }: BodyProps): React.ReactElement<BodyProps> {
+function Body ({ children, className, empty }: BodyProps): React.ReactElement<BodyProps> {
+  const isEmpty = !children || (Array.isArray(children) && children.length === 0);
+
   return (
     <tbody className={className}>
-      {children}
+      {isEmpty
+        ? (
+          <tr><td className='middle' colSpan={100}>{
+            isString(empty)
+              ? <div className='empty'>{empty}</div>
+              : empty || <Spinner />
+          }</td></tr>
+        )
+        : children
+      }
     </tbody>
   );
 }
@@ -54,14 +77,20 @@ const Memo = React.memo(styled(Table)`
   margin-top: 0.25rem;
 
   table {
-    border: 1px solid #f2f2f2;
+    // border: 1px solid #f2f2f2;
+    border: 1px solid #eee;
     border-radius: 0.25rem;
     border-spacing: 0;
     overflow: hidden;
     width: 100%;
 
     thead tr {
-      background: #f5f5f5;
+      // background: #f5f5f5;
+      text-transform: lowercase;
+
+      &.filter th {
+        padding: 0.25rem 0.5rem 0;
+      }
     }
 
     tbody tr {
@@ -129,6 +158,19 @@ const Memo = React.memo(styled(Table)`
           cursor: pointer;
         }
 
+        div.empty {
+          opacity: 0.6;
+          padding: 0.25rem;
+        }
+
+        .ui--Spinner {
+          margin: auto 0.5rem;
+
+          .text {
+            margin-bottom: 0;
+          }
+        }
+
         &.address {
           min-width: 11rem;
           padding: 0.85rem 1rem;
@@ -147,12 +189,20 @@ const Memo = React.memo(styled(Table)`
           white-space: nowrap;
         }
 
+        &.empty {
+          opacity: 0.6;
+        }
+
         &.number {
           text-align: right;
         }
 
         &.together {
           white-space: nowrap;
+        }
+
+        &.middle {
+          text-align: center;
         }
 
         &.mini {
@@ -166,11 +216,15 @@ const Memo = React.memo(styled(Table)`
       }
 
       th {
-        color: #888;
+        color: rgba(0, 0, 0, 0.6);
         font-family: sans-serif;
         font-weight: 400;
         text-align: right;
         white-space: nowrap;
+
+        h2 {
+          color: inherit;
+        }
 
         &:first-child {
           border-top-left-radius: 0.25rem;

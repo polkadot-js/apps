@@ -69,7 +69,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <div className='staking--Chart'>
-      <h1>{t('elected stake')}</h1>
+      <h2>{t('elected stake')}</h2>
       {chart && !!chart[0]?.length
         ? (
           <Chart.Line

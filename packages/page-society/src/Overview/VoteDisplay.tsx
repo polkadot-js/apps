@@ -5,15 +5,17 @@
 import { VoteSplit, VoteType } from '../types';
 
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { AddressMini, Expander } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
 interface Props {
+  className?: string;
   votes?: VoteType[];
 }
 
-function VoteDisplay ({ votes }: Props): React.ReactElement<Props> {
+function VoteDisplay ({ className, votes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ allAye, allNay, allSkeptic }, setVoteSplit] = useState<VoteSplit>({ allAye: [], allNay: [], allSkeptic: [] });
 
@@ -26,45 +28,43 @@ function VoteDisplay ({ votes }: Props): React.ReactElement<Props> {
   }, [votes]);
 
   return (
-    <>
-      <td>
-        {allSkeptic.length !== 0 && (
-          <Expander summary={t('Skeptics ({{count}})', { replace: { count: allSkeptic.length } })}>
-            {allSkeptic.map(([who]): React.ReactNode =>
-              <AddressMini
-                key={who.toString()}
-                value={who}
-              />
-            )}
-          </Expander>
-        )}
-      </td>
-      <td>
-        {allAye.length !== 0 && (
-          <Expander summary={t('Approvals ({{count}})', { replace: { count: allAye.length } })}>
-            {allAye.map(([who]): React.ReactNode =>
-              <AddressMini
-                key={who.toString()}
-                value={who}
-              />
-            )}
-          </Expander>
-        )}
-      </td>
-      <td>
-        {allNay.length !== 0 && (
-          <Expander summary={t('Rejections ({{count}})', { replace: { count: allNay.length } })}>
-            {allNay.map(([who]): React.ReactNode =>
-              <AddressMini
-                key={who.toString()}
-                value={who}
-              />
-            )}
-          </Expander>
-        )}
-      </td>
-    </>
+    <td className={className}>
+      {allSkeptic.length !== 0 && (
+        <Expander summary={t('Skeptics ({{count}})', { replace: { count: allSkeptic.length } })}>
+          {allSkeptic.map(([who]): React.ReactNode =>
+            <AddressMini
+              key={who.toString()}
+              value={who}
+            />
+          )}
+        </Expander>
+      )}
+      {allAye.length !== 0 && (
+        <Expander summary={t('Approvals ({{count}})', { replace: { count: allAye.length } })}>
+          {allAye.map(([who]): React.ReactNode =>
+            <AddressMini
+              key={who.toString()}
+              value={who}
+            />
+          )}
+        </Expander>
+      )}
+      {allNay.length !== 0 && (
+        <Expander summary={t('Rejections ({{count}})', { replace: { count: allNay.length } })}>
+          {allNay.map(([who]): React.ReactNode =>
+            <AddressMini
+              key={who.toString()}
+              value={who}
+            />
+          )}
+        </Expander>
+      )}
+    </td>
   );
 }
 
-export default React.memo(VoteDisplay);
+export default React.memo(styled(VoteDisplay)`
+  .ui--Expander+ui--Expander {
+    margin-left: 0.5rem;
+  }
+`);

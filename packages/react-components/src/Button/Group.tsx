@@ -43,6 +43,10 @@ const Memo = React.memo(styled(ButtonGroup)`
     margin-bottom: 0.5rem;
     text-align: center;
   }
+
+  &+.ui--Table {
+    margin-top: 1.5rem;
+  }
 `) as unknown as GroupType;
 
 Memo.Divider = Divider;

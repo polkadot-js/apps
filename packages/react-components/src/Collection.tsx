@@ -84,7 +84,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
 
     return (
       <div className='ui--Collection-header'>
-        <h1>{headerText}</h1>
+        <h2>{headerText}</h2>
         {buttons && (
           <div className='ui--Collection-buttons'>
             {buttons}

@@ -56,7 +56,7 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <div className='staking--Chart'>
-      <h1>{t('era points')}</h1>
+      <h2>{t('era points')}</h2>
       {chart.length
         ? (
           <Chart.Line

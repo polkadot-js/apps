@@ -100,7 +100,7 @@ export default React.memo(styled(AddressMini)`
 
   &.padded {
     display: inline-block;
-    padding: 0.25rem 1rem 0 0;
+    padding: 0 1rem 0 0;
   }
 
   &.summary {
