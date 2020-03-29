@@ -34,7 +34,7 @@ function Events ({ emptyLabel, eventClassName, events, label, withoutIndex }: Pr
               className={eventClassName}
               key={key}
             >
-              <td className='all'>
+              <td className='overflow'>
                 <h3>
                   {event.section}.{event.method}&nbsp;{
                     !withoutIndex && phase.isApplyExtrinsic

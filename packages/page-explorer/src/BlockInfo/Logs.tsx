@@ -116,7 +116,7 @@ function Logs (props: Props): React.ReactElement<Props> | null {
         <Table.Body>
           {value.map((log, index) => (
             <tr key={`log:${index}`}>
-              <td>
+              <td className='overflow'>
                 <h3>{log.type.toString()}</h3>
                 <Expander summary={t('Details')}>
                   {formatItem(log)}

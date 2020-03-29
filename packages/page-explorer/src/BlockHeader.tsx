@@ -6,158 +6,33 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { AddressMini, LinkExternal } from '@polkadot/react-components';
+import { AddressMini } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 interface Props extends BareProps {
-  isSummary?: boolean;
-  value?: HeaderExtended;
-  withExplorer?: boolean;
-  withLink?: boolean;
+  value: HeaderExtended;
 }
 
-function BlockHeader ({ className, isSummary, value, withExplorer, withLink }: Props): React.ReactElement<Props> | null {
+function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   const hashHex = value.hash.toHex();
-  // const parentHex = value.parentHash.toHex();
   const textNumber = formatNumber(value.number);
 
   return (
-    <>
-      <tr>
-        <td className='number'>
-          <h2>{withLink
-            ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
-            : textNumber
-          }</h2>
-        </td>
-        <td className='all hash overflow'>{hashHex}</td>
-        <td className='address'>
-          {value.author
-            ? <AddressMini value={value.author} />
-            : undefined
-          }
-        </td>
-      </tr>
-      {/* {
-        withExplorer
-          ? <LinkExternal data={hashHex} type='block' />
-          : undefined
-      } */}
-      {/* {!isSummary && (
-        <tr>
-          <td
-            className='combined hash number'
-            colSpan={3}
-          >
-            <div className='contains'>
-              <div className='info'>
-                <label>parentHash</label>
-                <span className='hash'>{
-                  value.number.unwrap().gtn(1)
-                    ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
-                    : parentHex
-                }</span>
-              </div>
-              <div className='info'>
-                <label>extrinsicsRoot</label>
-                <span className='hash'>{value.extrinsicsRoot.toHex()}</span>
-              </div>
-              <div className='info'>
-                <label>stateRoot</label>
-                <span className='hash'>{value.stateRoot.toHex()}</span>
-              </div>
-            </div>
-          </td>
-        </tr>
-      )} */}
-    </>
+    <tr>
+      <td className='number'>
+        <h2><Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link></h2>
+      </td>
+      <td className='all hash overflow'>{hashHex}</td>
+      <td className='address'>
+        {value.author && <AddressMini value={value.author} />}
+      </td>
+    </tr>
   );
 }
 
-export default React.memo(styled(BlockHeader)`
-  .author {
-    font-size: 1rem;
-    text-align: right;
-    vertical-align: middle;
-
-    > .ui--AddressMini.padded {
-      padding: 0;
-    }
-  }
-
-  .header {
-    color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    vertical-align: middle;
-
-    > div {
-      display: inline-block;
-      font-weight: 100;
-      vertical-align: middle;
-      white-space: nowrap;
-    }
-
-    > .number {
-      font-size: 2.25rem;
-    }
-
-    .hash {
-      font-size: 1.5rem;
-      font-family: sans-serif;
-    }
-  }
-
-  .hash {
-    font-family: monospace;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .number {
-    align-items: center;
-    box-sizing: border-box;
-  }
-
-  .contains {
-    border: 0;
-    margin-top: 0.5rem;
-    text-align: center;
-
-    > .info {
-      margin-bottom: 0.125em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      .ui--Labelled {
-        text-align: center;
-      }
-
-      > label {
-        display: inline-block;
-      }
-
-      > span,
-      > label {
-        vertical-align: middle;
-      }
-
-      label {
-        margin-right: 0.5rem;
-        min-width: 10rem;
-        text-align: right;
-      }
-    }
-  }
-`);
+export default React.memo(BlockHeader);

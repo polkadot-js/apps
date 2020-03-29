@@ -24,12 +24,10 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
       <Table.Body empty={t('No blocks available')}>
         {headers
           .filter((header) => !!header)
-          .map((header, index): React.ReactNode => (
+          .map((header): React.ReactNode => (
             <BlockHeader
-              isSummary={!!index}
               key={header.number.toString()}
               value={header}
-              withLink={!header.number.isEmpty}
             />
           ))}
       </Table.Body>

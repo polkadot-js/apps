@@ -21,7 +21,9 @@ interface HeadProps extends BaseProps {
   filter?: React.ReactNode;
 }
 
-type TableProps = BaseProps;
+interface TableProps extends BaseProps {
+  isFixed?: boolean;
+}
 
 type TableImpl = React.FC<TableProps> & {
   Body: React.FC<BodyProps>;
@@ -62,9 +64,9 @@ function Body ({ children, className, empty }: BodyProps): React.ReactElement<Bo
   );
 }
 
-function Table ({ children, className }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className, isFixed }: TableProps): React.ReactElement<TableProps> {
   return (
-    <div className={`ui--Table ${className}`}>
+    <div className={`ui--Table ${isFixed && 'isFixed'} ${className}`}>
       <table>
         {children}
       </table>
@@ -74,6 +76,10 @@ function Table ({ children, className }: TableProps): React.ReactElement<TablePr
 
 const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
+
+  &.isFixed table {
+    table-layout: fixed;
+  }
 
   table {
     border: 1px solid #eee;
@@ -93,6 +99,10 @@ const Memo = React.memo(styled(Table)`
 
     tbody tr {
       background: white;
+
+      td {
+        border-top: 1px solid #f2f2f2;
+      }
     }
 
     tr {
@@ -131,6 +141,14 @@ const Memo = React.memo(styled(Table)`
       }
 
       td, th {
+        &:first-child {
+          padding-left: 1.5rem;
+        }
+
+        &:last-child {
+          padding-right: 1.5rem;
+        }
+
         &.all {
           width: 100%;
 
@@ -141,7 +159,7 @@ const Memo = React.memo(styled(Table)`
       }
 
       td {
-        border-top: 1px solid #f2f2f2;
+        // border-top: 1px solid #f2f2f2;
         padding: 0.75rem 1rem;
         text-align: left;
         vertical-align: middle;
