@@ -23,7 +23,7 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start'><h2>{t('bids')}</h2></th>
+        <th className='start'><h1>{t('bids')}</h1></th>
         <th>{t('kind')}</th>
         <th>{t('value')}</th>
       </Table.Head>

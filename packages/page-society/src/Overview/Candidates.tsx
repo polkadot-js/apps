@@ -24,7 +24,7 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start'><h2>{t('candidates')}</h2></th>
+        <th className='start'><h1>{t('candidates')}</h1></th>
         <th>{t('kind')}</th>
         <th>{t('value')}</th>
         <th className='start'>{t('votes')}</th>

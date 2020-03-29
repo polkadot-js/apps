@@ -74,11 +74,8 @@ function Table ({ children, className }: TableProps): React.ReactElement<TablePr
 
 const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
-  margin-top: 0.25rem;
 
   table {
-    // border: 1px solid #f5f5f5;
-    // border: 1px solid #f2f2f2;
     border: 1px solid #eee;
     border-radius: 0.25rem;
     border-spacing: 0;
@@ -86,8 +83,7 @@ const Memo = React.memo(styled(Table)`
     width: 100%;
 
     thead tr {
-      background: #f5f5f5;
-      // background: #f2f2f2;
+      background: #f9f9f9;
       text-transform: lowercase;
 
       &.filter th {
@@ -135,9 +131,6 @@ const Memo = React.memo(styled(Table)`
       }
 
       td, th {
-        padding: 0.5rem 0.75rem;
-        vertical-align: middle;
-
         &.all {
           width: 100%;
 
@@ -148,9 +141,10 @@ const Memo = React.memo(styled(Table)`
       }
 
       td {
-        // border-top: 1px solid #f5f5f5;
         border-top: 1px solid #f2f2f2;
+        padding: 0.75rem 1rem;
         text-align: left;
+        vertical-align: middle;
 
         label {
           display: block !important;
@@ -192,12 +186,26 @@ const Memo = React.memo(styled(Table)`
           white-space: nowrap;
         }
 
+        &.combined {
+          border-top-width: 0;
+        }
+
         &.empty {
           opacity: 0.6;
         }
 
+        &.hash {
+          font-family: monospace;
+        }
+
         &.number {
           text-align: right;
+        }
+
+        &.overflow {
+          max-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         &.together {
@@ -223,9 +231,11 @@ const Memo = React.memo(styled(Table)`
         font-family: sans-serif;
         font-weight: 400;
         text-align: right;
+        padding: 0.5rem 1rem 0.25rem;
+        vertical-align: baseline;
         white-space: nowrap;
 
-        h2 {
+        h1, h2 {
           color: inherit;
         }
 

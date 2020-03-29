@@ -23,7 +23,7 @@ function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): Re
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={2}><h2>{t('members')}</h2></th>
+        <th className='start' colSpan={2}><h1>{t('members')}</h1></th>
         <th>{t('backing')}</th>
       </Table.Head>
       <Table.Body empty={electionsInfo && t('No members found')}>

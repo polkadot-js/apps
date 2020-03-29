@@ -43,7 +43,7 @@ const Payload = styled.pre`
   cursor: copy;
   font-family: monospace;
   border: 1px dashed #c2c2c2;
-  background: #fafafa;
+  background: #f2f2f2;
   padding: 1rem;
   width: 100%;
   margin: 1rem 0;

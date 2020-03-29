@@ -12,7 +12,6 @@ import BlockHeaders from './BlockHeaders';
 import Events from './Events';
 import Query from './Query';
 import Summary from './Summary';
-import { useTranslation } from './translate';
 
 interface Props {
   events: KeyedEvent[];
@@ -20,17 +19,15 @@ interface Props {
 }
 
 function Main ({ events, headers }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
   return (
     <>
       <Query />
       <Summary />
       <Columar>
-        <Column headerText={t('recent blocks')}>
+        <Column>
           <BlockHeaders headers={headers} />
         </Column>
-        <Column headerText={t('recent events')}>
+        <Column>
           <Events events={events} />
         </Column>
       </Columar>

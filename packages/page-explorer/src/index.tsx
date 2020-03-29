@@ -67,12 +67,12 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Route path={`${basePath}/query/:value`} component={BlockInfo} />
         <Route path={`${basePath}/query`} component={BlockInfo} />
         <Route path={`${basePath}/node`} component={NodeInfo} />
-        <Route render={(): React.ReactElement<{}> => (
+        <Route>
           <Main
             events={events}
             headers={lastHeaders}
           />
-        )} />
+        </Route>
       </Switch>
     </main>
   );

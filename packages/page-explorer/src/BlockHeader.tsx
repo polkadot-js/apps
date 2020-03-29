@@ -18,67 +18,65 @@ interface Props extends BareProps {
   withLink?: boolean;
 }
 
-const renderDetails = ({ number: blockNumber, extrinsicsRoot, parentHash, stateRoot }: HeaderExtended): React.ReactNode => {
-  const parentHex = parentHash.toHex();
-
-  return (
-    <div className='contains'>
-      <div className='info'>
-        <label>parentHash</label>
-        <span className='hash'>{
-          blockNumber.unwrap().gtn(1)
-            ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
-            : parentHex
-        }</span>
-      </div>
-      <div className='info'>
-        <label>extrinsicsRoot</label>
-        <span className='hash'>{extrinsicsRoot.toHex()}</span>
-      </div>
-      <div className='info'>
-        <label>stateRoot</label>
-        <span className='hash'>{stateRoot.toHex()}</span>
-      </div>
-    </div>
-  );
-};
-
 function BlockHeader ({ className, isSummary, value, withExplorer, withLink }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   const hashHex = value.hash.toHex();
+  // const parentHex = value.parentHash.toHex();
   const textNumber = formatNumber(value.number);
 
   return (
-    <article className={`explorer--BlockHeader ${className}`}>
-      <div className='header-outer'>
-        <div className='header'>
-          <div className='number'>{
-            withLink
-              ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
-              : textNumber
-          }&nbsp;</div>
-          <div className='hash'>{hashHex}</div>
-          <div className='author ui--media-small'>{
-            value.author
-              ? <AddressMini value={value.author} />
-              : undefined
-          }</div>
-        </div>
-      </div>
-      {
-        isSummary
-          ? undefined
-          : renderDetails(value)
-      }
-      {
+    <>
+      <tr>
+        <td className='number'>
+          <h2>{withLink
+            ? <Link to={`/explorer/query/${hashHex}`}>{textNumber}</Link>
+            : textNumber
+          }</h2>
+        </td>
+        <td className='all hash overflow'>{hashHex}</td>
+        <td className='address'>
+          {value.author
+            ? <AddressMini value={value.author} />
+            : undefined
+          }
+        </td>
+      </tr>
+      {/* {
         withExplorer
           ? <LinkExternal data={hashHex} type='block' />
           : undefined
-      }
-    </article>
+      } */}
+      {/* {!isSummary && (
+        <tr>
+          <td
+            className='combined hash number'
+            colSpan={3}
+          >
+            <div className='contains'>
+              <div className='info'>
+                <label>parentHash</label>
+                <span className='hash'>{
+                  value.number.unwrap().gtn(1)
+                    ? <Link to={`/explorer/query/${parentHex}`}>{parentHex}</Link>
+                    : parentHex
+                }</span>
+              </div>
+              <div className='info'>
+                <label>extrinsicsRoot</label>
+                <span className='hash'>{value.extrinsicsRoot.toHex()}</span>
+              </div>
+              <div className='info'>
+                <label>stateRoot</label>
+                <span className='hash'>{value.stateRoot.toHex()}</span>
+              </div>
+            </div>
+          </td>
+        </tr>
+      )} */}
+    </>
   );
 }
 

@@ -23,7 +23,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={2}><h2>{t('dispatch queue')}</h2></th>
+        <th className='start' colSpan={2}><h1>{t('dispatch queue')}</h1></th>
         <th>{t('enact')}</th>
         <th colSpan={2}>&nbsp;</th>
       </Table.Head>

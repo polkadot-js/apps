@@ -42,7 +42,7 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={2}><h2>{isApprovals ? t('Approved') : t('Proposals')}</h2></th>
+        <th className='start' colSpan={2}><h1>{isApprovals ? t('Approved') : t('Proposals')}</h1></th>
         <th className='address'>{t('beneficiary')}</th>
         <th>{t('payment')}</th>
         <th>{t('bond')}</th>

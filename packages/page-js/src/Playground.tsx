@@ -306,7 +306,7 @@ export default React.memo(styled(Playground)`
     }
 
     .codeflask__lines {
-      background: #fafafa;
+      background: #f2f2f2;
       line-height: 18px;
       padding-top: 50px;
       z-index: 100;

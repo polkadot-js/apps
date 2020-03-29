@@ -79,7 +79,7 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       )}
       <Table>
         <Table.Head>
-          <th className='start' colSpan={2}><h2>{t('stashes')}</h2></th>
+          <th className='start' colSpan={2}><h1>{t('stashes')}</h1></th>
           <th className='address'>{t('controller')}</th>
           <th colSpan={3}>&nbsp;</th>
         </Table.Head>

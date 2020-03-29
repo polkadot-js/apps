@@ -148,7 +148,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
             value={nameFilter}
           />
         }>
-          <th colSpan={3} className='start'><h2>{t('active validators')}</h2></th>
+          <th colSpan={3} className='start'><h1>{t('active validators')}</h1></th>
           <th>{t('other stake')}</th>
           <th>{t('own stake')}</th>
           <th>{t('commission')}</th>
@@ -163,7 +163,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
       {isIntentions && (
         <Table>
           <Table.Head>
-            <th colSpan={9}className='start'><h2>{t('waiting validators')}</h2></th>
+            <th colSpan={9}className='start'><h1>{t('waiting validators')}</h1></th>
           </Table.Head>
           <Table.Body empty={waiting && t('No waiting validators found')}>
             {_renderRows(elected, false)}

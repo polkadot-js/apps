@@ -5,7 +5,7 @@
 import { KeyedEvent } from './types';
 
 import React from 'react';
-import { Event as EventDisplay, Expander } from '@polkadot/react-components';
+import { Event as EventDisplay, Expander, Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -14,55 +14,46 @@ interface Props {
   emptyLabel?: React.ReactNode;
   events: KeyedEvent[];
   eventClassName?: string;
+  label?: React.ReactNode;
   withoutIndex?: boolean;
 }
 
-function Events ({ emptyLabel, eventClassName, events, withoutIndex }: Props): React.ReactElement<Props> {
+function Events ({ emptyLabel, eventClassName, events, label, withoutIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  if (!events || events.length === 0) {
-    return (
-      <article>
-        {emptyLabel || t('no events available')}
-      </article>
-    );
-  }
-
   return (
-    <>
-      {events.map(({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => {
-        const extIndex = !withoutIndex && phase.isApplyExtrinsic
-          ? phase.asApplyExtrinsic
-          : -1;
-
-        if (!event.method || !event.section) {
-          return null;
+    <Table>
+      <Table.Head>
+        <th className='start'><h1>{label || t('recent events')}</h1></th>
+      </Table.Head>
+      <Table.Body empty={emptyLabel || t('No events available')}>
+        {events
+          .filter(({ record: { event: { method, section } } }): boolean => !!method && !!section)
+          .map(({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => (
+            <tr
+              className={eventClassName}
+              key={key}
+            >
+              <td className='all'>
+                <h3>
+                  {event.section}.{event.method}&nbsp;{
+                    !withoutIndex && phase.isApplyExtrinsic
+                      ? `(#${formatNumber(phase.asApplyExtrinsic)})`
+                      : ''
+                  }
+                </h3>
+                <Expander summaryMeta={event.meta}>
+                  <EventDisplay
+                    className='details'
+                    value={event}
+                  />
+                </Expander>
+              </td>
+            </tr>
+          ))
         }
-
-        return (
-          <article
-            className={`explorer--Container ${eventClassName}`}
-            key={key}
-          >
-            <div className='header'>
-              <h3>
-                {event.section}.{event.method}&nbsp;{
-                  extIndex !== -1
-                    ? `(#${formatNumber(extIndex)})`
-                    : ''
-                }
-              </h3>
-            </div>
-            <Expander summaryMeta={event.meta}>
-              <EventDisplay
-                className='details'
-                value={event}
-              />
-            </Expander>
-          </article>
-        );
-      })}
-    </>
+      </Table.Body>
+    </Table>
   );
 }
 

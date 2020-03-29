@@ -128,7 +128,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             />
           </div>
         }>
-          <th className='start' colSpan={4}><h2>{t('accounts')}</h2></th>
+          <th className='start' colSpan={4}><h1>{t('accounts')}</h1></th>
           <th>{t('transactions')}</th>
           <th>{t('balances')}</th>
           <th>{t('type')}</th>

@@ -24,7 +24,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
     <div className={`proposalSection ${className}`}>
       <Table>
         <Table.Head>
-          <th className='start'><h2>{t('external')}</h2></th>
+          <th className='start'><h1>{t('external')}</h1></th>
           <th className='address'>{t('proposer')}</th>
           <th>{t('locked')}</th>
           <th>&nbsp;</th>

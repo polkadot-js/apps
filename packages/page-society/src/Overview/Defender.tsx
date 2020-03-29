@@ -36,7 +36,7 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start'><h2>{t('defender')}</h2></th>
+        <th className='start'><h1>{t('defender')}</h1></th>
         <th className='start'>{t('votes')}</th>
         <th>&nbsp;</th>
       </Table.Head>
