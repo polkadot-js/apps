@@ -82,18 +82,18 @@ const Memo = React.memo(styled(Table)`
   }
 
   table {
-    border: 1px solid #eee;
+    // border: 1px solid #e6e6e6;
     border-radius: 0.25rem;
     border-spacing: 0;
     overflow: hidden;
     width: 100%;
 
     thead tr {
-      background: #f9f9f9;
+      background: #f5f5f5;
       text-transform: lowercase;
 
       &.filter th {
-        padding: 0.25rem 0.5rem 0;
+        padding: 0;
       }
     }
 
@@ -101,7 +101,37 @@ const Memo = React.memo(styled(Table)`
       background: white;
 
       td {
-        border-top: 1px solid #f2f2f2;
+        border-top: 1px solid #e6e6e6;
+
+        &:first-child {
+          border-left: 1px solid #e6e6e6;
+        }
+
+        &:last-child {
+          border-right: 1px solid #e6e6e6;
+        }
+      }
+
+      &:first-child td {
+        &:first-child {
+          border-radius: 0.25rem 0 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0.25rem 0 0;
+        }
+      }
+
+      &:last-child td {
+        border-bottom: 1px solid #e6e6e6;
+
+        &:first-child {
+          border-radius: 0 0 0 0.25rem;
+        }
+
+        &:last-child {
+          border-radius: 0 0 0.25rem 0;
+        }
       }
     }
 

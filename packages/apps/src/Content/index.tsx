@@ -79,7 +79,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #f2f2f2;
+  background: #f5f5f5;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
