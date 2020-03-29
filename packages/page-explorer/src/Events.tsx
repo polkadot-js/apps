@@ -35,13 +35,11 @@ function Events ({ emptyLabel, eventClassName, events, label, withoutIndex }: Pr
               key={key}
             >
               <td className='overflow'>
-                <h3>
-                  {event.section}.{event.method}&nbsp;{
-                    !withoutIndex && phase.isApplyExtrinsic
-                      ? `(#${formatNumber(phase.asApplyExtrinsic)})`
-                      : ''
-                  }
-                </h3>
+                <div>{event.section}.{event.method}&nbsp;{
+                  !withoutIndex && phase.isApplyExtrinsic
+                    ? `(#${formatNumber(phase.asApplyExtrinsic)})`
+                    : ''
+                }</div>
                 <Expander summaryMeta={event.meta}>
                   <EventDisplay
                     className='details'

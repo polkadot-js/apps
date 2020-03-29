@@ -253,12 +253,13 @@ const Memo = React.memo(styled(Table)`
         font-family: sans-serif;
         font-weight: 400;
         text-align: right;
-        padding: 0.5rem 1rem 0.25rem;
+        padding: 0.75rem 1rem 0.25rem;
         vertical-align: baseline;
         white-space: nowrap;
 
         h1, h2 {
           color: inherit;
+          font-size: 1.75rem;
         }
 
         &:first-child {

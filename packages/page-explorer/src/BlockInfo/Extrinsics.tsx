@@ -46,7 +46,7 @@ function Extrinsics ({ className, blockNumber, label, value }: Props): React.Rea
             return (
               <tr key={`extrinsic:${index}`}>
                 <td className='relative overflow'>
-                  <h3>{section}.{method}&nbsp;(#{formatNumber(index)})</h3>
+                  <div>{section}.{method}&nbsp;(#{formatNumber(index)})</div>
                   {extrinsic.isSigned && (
                     <div className='explorer--BlockByHash-header'>
                       <div>
