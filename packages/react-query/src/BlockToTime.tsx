@@ -20,6 +20,7 @@ type Time = [number, number, number, number];
 
 const HRS = 60 * 60;
 const DAY = HRS * 24;
+const DEFAULT_TIME = new BN(6000);
 
 function addTime (a: Time, b: Time): Time {
   return [a[0] + b[0], a[1] + b[1], a[2] + b[2], a[3] + b[3]];
@@ -60,7 +61,7 @@ function BlockToTime ({ blocks, children, className, label, style }: Props): Rea
     const blockTime = (
       api.consts.babe?.expectedBlockTime ||
       api.consts.timestamp?.minimumPeriod.muln(2) ||
-      new BN(6000)
+      DEFAULT_TIME
     ).divn(1000);
     const time = extractTime(blocks?.mul(blockTime).toNumber());
 
