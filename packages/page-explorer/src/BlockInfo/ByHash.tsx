@@ -28,11 +28,14 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
   const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock as any, [value], { isSingle: true });
   const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader as any, [value]);
 
+  const blockNumber = getHeader?.number.unwrap();
+  const parentHash = getHeader?.parentHash.toHex();
+
   return (
     <div className={className}>
       <Table isFixed>
         <Table.Head>
-          <th className='start'><h1>{getHeader ? formatNumber(getHeader.number.unwrap()) : '-'}</h1></th>
+          <th className='start' colSpan={getHeader ? 1 : 6}><h1>{formatNumber(blockNumber)}</h1></th>
           {getHeader && (
             <>
               <th className='start'>{t('hash')}</th>
@@ -48,7 +51,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
             <tr>
               <td className='address'>{getHeader.author && <AddressMini value={getHeader.author} />}</td>
               <td className='hash overflow'>{getHeader.hash.toHex()}</td>
-              <td className='hash overflow'><Link to={`/explorer/query/${getHeader.parentHash.toHex()}`}>{getHeader.parentHash.toHex()}</Link></td>
+              <td className='hash overflow'><Link to={`/explorer/query/${parentHash}`}>{parentHash}</Link></td>
               <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
               <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
               <td><LinkExternal data={value} type='block' /></td>
@@ -59,7 +62,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
       {getBlock && getHeader && (
         <Columar>
           <Extrinsics
-            blockNumber={getHeader.number.unwrap()}
+            blockNumber={blockNumber}
             value={getBlock.block.extrinsics}
           />
           <Events value={events} />

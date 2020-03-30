@@ -29,8 +29,8 @@ interface Props {
 type AccountExtend = [string, boolean, boolean];
 
 interface Filtered {
-  elected: AccountExtend[];
-  validators: AccountExtend[];
+  elected?: AccountExtend[];
+  validators?: AccountExtend[];
   waiting?: AccountExtend[];
 }
 
@@ -100,7 +100,7 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
 function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({ elected: [], validators: [] });
+  const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
   const [addressDetails, dispatchDetails] = useReducer(reduceDetails, {});
 
@@ -111,7 +111,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
   }, [favorites, isVisible, next, stakingOverview]);
 
   useEffect((): void => {
-    stakingOverview && dispatchDetails(
+    stakingOverview && validators && dispatchDetails(
       getDetails(stakingOverview, validators)
     );
   }, [stakingOverview, validators]);
@@ -156,7 +156,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
           <th>{t('last #')}</th>
           <th>&nbsp;</th>
         </Table.Head>
-        <Table.Body empty={stakingOverview && t('No active validators found')}>
+        <Table.Body empty={validators && t('No active validators found')}>
           {_renderRows(validators, true)}
         </Table.Body>
       </Table>

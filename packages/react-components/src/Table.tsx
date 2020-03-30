@@ -82,8 +82,6 @@ const Memo = React.memo(styled(Table)`
   }
 
   table {
-    // border: 1px solid #e6e6e6;
-    border-radius: 0.25rem;
     border-spacing: 0;
     overflow: hidden;
     width: 100%;
@@ -138,20 +136,16 @@ const Memo = React.memo(styled(Table)`
     tr {
       width: 100%;
 
-      &.isHighlight {
-        td {
-          background: #ffffed;
-        }
+      &.isHighlight td {
+        background: #ffffed;
       }
 
       label {
         opacity: 0.42;
       }
 
-      &:hover {
-        label {
-          opacity: 1;
-        }
+      &:hover label {
+        opacity: 1;
       }
 
       &:not(:hover) {
@@ -189,7 +183,6 @@ const Memo = React.memo(styled(Table)`
       }
 
       td {
-        // border-top: 1px solid #f2f2f2;
         padding: 0.75rem 1rem;
         text-align: left;
         vertical-align: middle;
@@ -209,7 +202,7 @@ const Memo = React.memo(styled(Table)`
         }
 
         .ui--Spinner {
-          margin: auto 0.5rem;
+          margin: 0.5rem auto;
 
           .text {
             margin-bottom: 0;
@@ -219,13 +212,6 @@ const Memo = React.memo(styled(Table)`
         &.address {
           min-width: 11rem;
           padding: 0.85rem 1rem;
-
-          > .ui--AddressMini,
-          > .ui--AddressMini.padded {
-            label.ui--AddressMini-label {
-              margin-bottom: -0.3rem;
-            }
-          }
         }
 
         &.button {
@@ -236,10 +222,6 @@ const Memo = React.memo(styled(Table)`
 
         &.combined {
           border-top-width: 0;
-        }
-
-        &.empty {
-          opacity: 0.6;
         }
 
         &.hash {
@@ -279,25 +261,16 @@ const Memo = React.memo(styled(Table)`
       }
 
       th {
-        color: rgba(0, 0, 0, 0.6);
+        color: rgba(78, 78, 78, .66);
         font-family: sans-serif;
-        font-weight: 400;
+        font-weight: 100;
         text-align: right;
         padding: 0.75rem 1rem 0.25rem;
         vertical-align: baseline;
         white-space: nowrap;
 
         h1, h2 {
-          color: inherit;
           font-size: 1.75rem;
-        }
-
-        &:first-child {
-          border-top-left-radius: 0.25rem;
-        }
-
-        &:last-child {
-          border-top-right-radius: 0.25rem;
         }
 
         &.isClickable {
