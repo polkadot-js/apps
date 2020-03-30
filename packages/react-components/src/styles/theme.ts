@@ -45,6 +45,12 @@ export default css`
       &:hover {
         filter: brightness(120%);
       }
+
+      &.isIcon {
+        i.icon {
+          color: ${colorLink};
+        }
+      }
     }
 
     .ui.basic.negative.button {

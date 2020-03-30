@@ -16,6 +16,7 @@ export interface ButtonProps extends BareProps {
   isCircular?: boolean;
   isDisabled?: boolean;
   isFluid?: boolean;
+  isIcon?: boolean;
   isLoading?: boolean;
   isNegative?: boolean;
   isPositive?: boolean;

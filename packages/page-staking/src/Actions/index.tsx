@@ -81,7 +81,9 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
         <Table.Head>
           <th className='start' colSpan={2}><h1>{t('stashes')}</h1></th>
           <th className='address'>{t('controller')}</th>
-          <th colSpan={3}>&nbsp;</th>
+          <th className='number'>{t('rewards')}</th>
+          <th className='number'>{t('bonded')}</th>
+          <th colSpan={2}>&nbsp;</th>
         </Table.Head>
         <Table.Body empty={t('No funds staked yet. Bond funds to validate or nominate a validator.')}>
           {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (

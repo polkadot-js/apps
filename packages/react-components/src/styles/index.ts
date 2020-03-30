@@ -45,6 +45,12 @@ export default createGlobalStyle<Props>`
     background: ${(props): string => `linear-gradient(90deg, ${props.uiHighlight}, transparent)`};
   }
 
+  .ui--highlight--icon {
+    i.icon {
+      color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    }
+  }
+
   .ui--highlight--stroke {
     stroke: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
   }

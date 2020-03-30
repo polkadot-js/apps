@@ -12,7 +12,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Expander, Menu, Popup, Spinner, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Expander, Menu, Popup, Spinner, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
@@ -46,7 +46,8 @@ interface Props {
 
 interface StakeState {
   controllerId: string | null;
-  destination: number;
+  destination?: string;
+  destinationId: number;
   exposure?: Exposure;
   hexSessionIdNext: string | null;
   hexSessionIdQueue: string | null;
@@ -75,7 +76,8 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
 
   return {
     controllerId,
-    destination: rewardDestination?.toNumber() || 0,
+    destination: rewardDestination?.toString().toLowerCase(),
+    destinationId: rewardDestination?.toNumber() || 0,
     exposure,
     hexSessionIdNext: u8aToHex(nextConcat, 48),
     hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
@@ -118,7 +120,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account as any, [stashId]);
   const [[payoutRewards, payoutEras, payoutTotal], setStakingRewards] = useState<[DeriveStakerReward[], EraIndex[], BN]>([[], [], new BN(0)]);
-  const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
+  const [{ controllerId, destination, destinationId, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
@@ -244,7 +246,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
         {isRewardDestinationOpen && controllerId && (
           <SetRewardDestination
             controllerId={controllerId}
-            defaultDestination={destination}
+            defaultDestination={destinationId}
             onClose={toggleRewardDestination}
           />
         )}
@@ -259,18 +261,11 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
       <td className='address'>
         <AddressMini value={controllerId} />
       </td>
-      <td>
-        <AddressInfo
-          address={stashId}
-          withBalance={{
-            available: false,
-            bonded: true,
-            free: false,
-            redeemable: true,
-            unlocking: true
-          }}
-          withRewardDestination
-        />
+      <td className='number'>{destination}</td>
+      <td className='number'>
+        <StakingBonded stakingInfo={stakingAccount} />
+        <StakingUnbonding stakingInfo={stakingAccount} />
+        <StakingRedeemable stakingInfo={stakingAccount} />
       </td>
       {isStashValidating
         ? (
