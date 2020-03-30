@@ -34,7 +34,7 @@ function StakingRedeemable ({ className, stakingInfo }: Props): React.ReactEleme
             isIcon
             key='unlock'
             params={[]}
-            tooltip={t('Redeem these funds')}
+            tooltip={t('Withdraw these unlocked funds')}
             tx='staking.withdrawUnbonded'
           />
         )}
