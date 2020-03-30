@@ -227,28 +227,26 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
   // adds children for a specific header, retrieving based on matching parent
   const _addChildren = useCallback(
     (base: LinkHeader, children: LinkArray): LinkArray => {
-      const hdrs = (childrenRef.current.get(base.hash) || [])
-        .map((hash): LinkHeader | null => headersRef.current.get(hash) || null)
-        .filter((hdr): boolean => !!hdr) as LinkHeader[];
+      // add the children
+      (childrenRef.current.get(base.hash) || [])
+        .map((hash): LinkHeader | undefined => headersRef.current.get(hash))
+        .filter((hdr): hdr is LinkHeader => !!hdr)
+        .forEach((hdr): void => {
+          children.push({ arr: _addChildren(hdr, []), hdr });
+        });
 
-      hdrs.forEach((hdr): void => {
-        children.push({ arr: _addChildren(hdr, []), hdr });
-      });
-
-      // caclulate the max height/width for this entry
+      // calculate the max height/width for this entry
       base.height = calcHeight(children);
       base.width = calcWidth(children);
 
       // place the active (larger, finalized) columns first for the pyramid display
-      children.sort((a, b): number => {
-        if (a.hdr.width > b.hdr.width || a.hdr.height > b.hdr.height || a.hdr.isFinalized) {
-          return -1;
-        } else if (a.hdr.width < b.hdr.width || a.hdr.height < b.hdr.height || b.hdr.isFinalized) {
-          return 1;
-        }
-
-        return 0;
-      });
+      children.sort((a, b): number =>
+        (a.hdr.width > b.hdr.width || a.hdr.height > b.hdr.height || a.hdr.isFinalized)
+          ? -1
+          : (a.hdr.width < b.hdr.width || a.hdr.height < b.hdr.height || b.hdr.isFinalized)
+            ? 1
+            : 0
+      );
 
       return children;
     },
@@ -262,7 +260,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
 
       // add all the root entries first, we iterate from these
       // We add the root entry explicitly, it exists as per init
-      (childrenRef.current.get('root') as string[]).forEach((hash): void => {
+      (childrenRef.current.get('root') || []).forEach((hash): void => {
         const hdr = headersRef.current.get(hash);
 
         // if this fails, well, we have a bigger issue :(
