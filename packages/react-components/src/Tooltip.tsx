@@ -83,4 +83,8 @@ export default React.memo(styled(Tooltip)`
     opacity: 0.75 !important;
     font-size: 0.75em !important;
   }
+
+  .row+.row {
+    margin-top: 0.5rem;
+  }
 `);
