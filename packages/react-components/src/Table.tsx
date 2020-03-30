@@ -149,7 +149,7 @@ const Memo = React.memo(styled(Table)`
       }
 
       &:not(:hover) {
-        .ui.button:not(.disabled) {
+        .ui.button:not(.isIcon):not(.disabled) {
           background: #eee !important;
           color: #555 !important;
         }

@@ -31,7 +31,7 @@ function Button ({ children, className, floated, icon, isBasic = false, isCircul
     onClick,
     positive: isPositive,
     primary: isPrimary,
-    size,
+    size: size || (isIcon ? 'tiny' : undefined),
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
     style,
     tabIndex
@@ -44,7 +44,7 @@ function Button ({ children, className, floated, icon, isBasic = false, isCircul
         : (
           <SUIButton {...props}>
             {icon && (
-              <><Icon className={icon} />{'  '}</>
+              <><Icon className={icon} />{isIcon ? '' : '  '}</>
             )}
             {label}
             {children}
@@ -63,7 +63,17 @@ function Button ({ children, className, floated, icon, isBasic = false, isCircul
 }
 
 export default React.memo(styled(Button)`
+  &:not(.isIcon) > i.icon {
+    margin-left: 0.25rem;
+  }
+
   &.isIcon {
     background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    i.icon {
+      margin: 0 0 0 0.25rem !important;
+    }
   }
 `);

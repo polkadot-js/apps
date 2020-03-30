@@ -25,24 +25,21 @@ function StakingRedeemable ({ className, stakingInfo }: Props): React.ReactEleme
   }
 
   return (
-    <FormatBalance
-      className={className}
-      value={stakingInfo.redeemable}
-    >
-      {allAccounts.includes((stakingInfo.controllerId || '').toString()) && (
-        <TxButton
-          accountId={stakingInfo.controllerId}
-          icon='lock'
-          size='small'
-          isIcon
-          isPrimary
-          key='unlock'
-          params={[]}
-          tooltip={t('Redeem these funds')}
-          tx='staking.withdrawUnbonded'
-        />
-      )}
-    </FormatBalance>
+    <div className={className}>
+      <FormatBalance value={stakingInfo.redeemable}>
+        {allAccounts.includes((stakingInfo.controllerId || '').toString()) && (
+          <TxButton
+            accountId={stakingInfo.controllerId}
+            icon='lock'
+            isIcon
+            key='unlock'
+            params={[]}
+            tooltip={t('Redeem these funds')}
+            tx='staking.withdrawUnbonded'
+          />
+        )}
+      </FormatBalance>
+    </div>
   );
 }
 

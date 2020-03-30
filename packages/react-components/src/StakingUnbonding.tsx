@@ -6,6 +6,7 @@ import { DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
@@ -44,7 +45,7 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
       <Tooltip
         text={stakingInfo.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
           <div key={index}>
-            {t('{{value}}, {{remaining}} blocks left', {
+            {t('Unbonding {{value}}, {{remaining}} blocks left', {
               replace: {
                 remaining: formatNumber(remainingBlocks),
                 value: formatBalance(value, { forceUnit: '-' })
@@ -58,4 +59,9 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
   );
 }
 
-export default React.memo(StakingUnbonding);
+export default React.memo(styled(StakingUnbonding)`
+  i.icon {
+    margin-left: 0.25rem;
+    margin-right: 0;
+  }
+`);
