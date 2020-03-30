@@ -55,11 +55,11 @@ function Expander ({ children, className, isOpen, summary, summaryMeta, withDot,
   );
 
   return (
-    <div
-      className={`ui--Expander ${isExpanded && 'isExpanded'} ${hasContent && 'hasContent'} ${className}`}
-      onClick={toggleExpanded}
-    >
-      <div className='ui--Expander-summary'>
+    <div className={`ui--Expander ${isExpanded && 'isExpanded'} ${hasContent && 'hasContent'} ${className}`}>
+      <div
+        className='ui--Expander-summary'
+        onClick={toggleExpanded}
+      >
         <div className='ui--Expander-summary-header'>
           {hasContent
             ? <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
