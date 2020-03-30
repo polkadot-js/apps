@@ -141,7 +141,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
-      <td className='address'>
+      <td className='address all'>
         <AddressSmall value={address} />
       </td>
       <StakeOther

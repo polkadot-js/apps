@@ -67,10 +67,10 @@ function reduceDetails (state: Record<string, AddressDetails>, _details: Address
   }, { ...state });
 }
 
-function getDetails (stakingOverview: DeriveStakingOverview, validators: AccountExtend[]): AddressDetails[] {
+function getDetails (stakingOverview: DeriveStakingOverview, validators?: AccountExtend[]): AddressDetails[] {
   const allPoints = [...stakingOverview.eraPoints.individual.entries()];
 
-  return validators.map(([address]): AddressDetails => {
+  return (validators || []).map(([address]): AddressDetails => {
     const points = allPoints.find(([accountId]): boolean => accountId.eq(address));
 
     return {
@@ -104,19 +104,18 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
   const [addressDetails, dispatchDetails] = useReducer(reduceDetails, {});
 
   useEffect((): void => {
-    stakingOverview && setFiltered(
-      getFiltered(stakingOverview, favorites, next)
-    );
+    if (stakingOverview) {
+      const filtered = getFiltered(stakingOverview, favorites, next);
+
+      setFiltered(filtered);
+      dispatchDetails(
+        getDetails(stakingOverview, filtered.validators)
+      );
+    }
   }, [favorites, next, stakingOverview]);
 
-  useEffect((): void => {
-    stakingOverview && validators && dispatchDetails(
-      getDetails(stakingOverview, validators)
-    );
-  }, [stakingOverview, validators]);
-
-  const _renderRows = (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode =>
-    addresses?.map(([address, isElected, isFavorite]): React.ReactNode => (
+  const _renderRows = (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
+    (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
       <Address
         address={address}
         filterName={nameFilter}
@@ -142,8 +141,8 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
           <th colSpan={9}className='start'><h1>{t('intentions')}</h1></th>
         </Table.Head>
         <Table.Body empty={waiting && t('No waiting validators found')}>
-          {_renderRows(elected, false)}
-          {_renderRows(waiting, false)}
+          {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
+          {}
         </Table.Body>
       </Table>
     )
