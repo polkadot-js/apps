@@ -105,5 +105,8 @@
   "voting balance": "voting balance",
   "Details": "Details",
   "Withdraw these unlocked funds": "Withdraw these unlocked funds",
-  "Unbonding {{value}}, {{remaining}} blocks left": "Unbonding {{value}}, {{remaining}} blocks left"
+  "Unbonding {{value}}, {{remaining}} blocks left": "Unbonding {{value}}, {{remaining}} blocks left",
+  "Withdraw these unbonded funds": "Withdraw these unbonded funds",
+  "Unbonding {{value}}, ": "Unbonding {{value}}, ",
+  "{{blocks}} blocks": "{{blocks}} blocks"
 }
