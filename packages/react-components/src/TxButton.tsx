@@ -13,7 +13,7 @@ import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
-function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, iconSize, isBasic, isDisabled, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tx, tooltip, withSpinner }: Props): React.ReactElement<Props> {
+function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, iconSize, isBasic, isDisabled, isIcon, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tx, tooltip, withSpinner }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -79,6 +79,7 @@ function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, icon
       icon={icon || 'check'}
       isBasic={isBasic}
       isDisabled={isSending || isDisabled || needsAccount}
+      isIcon={isIcon}
       isLoading={isSending}
       isNegative={isNegative}
       isPrimary={

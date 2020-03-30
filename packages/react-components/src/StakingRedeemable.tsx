@@ -1,0 +1,49 @@
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { DeriveStakingAccount } from '@polkadot/api-derive/types';
+
+import React from 'react';
+import { useAccounts } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
+
+import TxButton from './TxButton';
+import { useTranslation } from './translate';
+
+interface Props {
+  className?: string;
+  stakingInfo?: DeriveStakingAccount;
+}
+
+function StakingRedeemable ({ className, stakingInfo }: Props): React.ReactElement<Props> | null {
+  const { allAccounts } = useAccounts();
+  const { t } = useTranslation();
+
+  if (!stakingInfo?.redeemable?.gtn(0)) {
+    return null;
+  }
+
+  return (
+    <FormatBalance
+      className={className}
+      value={stakingInfo.redeemable}
+    >
+      {allAccounts.includes((stakingInfo.controllerId || '').toString()) && (
+        <TxButton
+          accountId={stakingInfo.controllerId}
+          icon='lock'
+          size='small'
+          isIcon
+          isPrimary
+          key='unlock'
+          params={[]}
+          tooltip={t('Redeem these funds')}
+          tx='staking.withdrawUnbonded'
+        />
+      )}
+    </FormatBalance>
+  );
+}
+
+export default React.memo(StakingRedeemable);

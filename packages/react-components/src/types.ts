@@ -58,6 +58,7 @@ export interface TxButtonProps extends TxProps {
   iconSize?: Button$Sizes;
   isBasic?: boolean;
   isDisabled?: boolean;
+  isIcon?: boolean;
   isNegative?: boolean;
   isPrimary?: boolean;
   isUnsigned?: boolean;
