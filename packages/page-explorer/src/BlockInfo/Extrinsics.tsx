@@ -46,7 +46,6 @@ function Extrinsics ({ className, blockNumber, label, value }: Props): React.Rea
             return (
               <tr key={`extrinsic:${index}`}>
                 <td className='relative overflow'>
-                  <div>{section}.{method}&nbsp;(#{formatNumber(index)})</div>
                   {extrinsic.isSigned && (
                     <div className='explorer--BlockByHash-header'>
                       <div>
@@ -57,7 +56,10 @@ function Extrinsics ({ className, blockNumber, label, value }: Props): React.Rea
                       </div>
                     </div>
                   )}
-                  <Expander summaryMeta={meta}>
+                  <Expander
+                    summary={`${section}.${method} (#${formatNumber(index)})`}
+                    summaryMeta={meta}
+                  >
                     <Call
                       className='details'
                       mortality={
