@@ -5,6 +5,7 @@
 import { Routes } from './types';
 
 import GenericAsset from '@polkadot/app-generic-asset';
+import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default ([
   {
@@ -17,10 +18,10 @@ export default ([
       ]
     },
     i18n: {
-      defaultValue: 'Generic Asset'
+      defaultValue: 'Send assets'
     },
-    icon: 'cubes',
-    name: 'generic-asset',
+    icon: faExchangeAlt,
+    name: 'send-assets',
     isAdvanced: false
   }
 ] as Routes);

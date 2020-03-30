@@ -87,6 +87,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
                     isCollapsed={isCollapsed}
                     key={route.name}
                     route={route}
+                    supportFontAwesomeIcon={true}
                     onClick={
                       route.Modal
                         ? _toggleModal(route.name)
@@ -106,6 +107,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
                       isCollapsed={isCollapsed}
                       key={route.name}
                       route={route}
+                      supportFontAwesomeIcon={false}
                       onClick={
                         route.Modal
                           ? _toggleModal(route.name)

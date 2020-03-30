@@ -5,6 +5,7 @@
 import { Routes } from './types';
 
 import Accounts from '@polkadot/app-accounts';
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
 
 export default ([
   {
@@ -15,7 +16,7 @@ export default ([
     i18n: {
       defaultValue: 'Accounts'
     },
-    icon: 'users',
+    icon: faUsers,
     name: 'accounts',
     isAdvanced: false
   }

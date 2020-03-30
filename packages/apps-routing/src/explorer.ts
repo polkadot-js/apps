@@ -5,6 +5,7 @@
 import { Routes } from './types';
 
 import Explorer from '@polkadot/app-explorer';
+import { faCompass } from '@fortawesome/free-solid-svg-icons';
 
 export default ([
   {
@@ -15,7 +16,7 @@ export default ([
     i18n: {
       defaultValue: 'Explorer'
     },
-    icon: 'braille',
+    icon: faCompass,
     name: 'explorer',
     isAdvanced: false
   }

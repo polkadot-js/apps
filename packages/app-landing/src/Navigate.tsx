@@ -52,7 +52,7 @@ function Navigate({ className }: Props): React.ReactElement<Props> {
             Send your CENNZnet assets between addresses.
           </div>
           <div className='action'>
-            <Link to='/generic-asset'>
+            <Link to='/send-assets'>
               <button className='button'>Go to Send assets</button>
             </Link>
           </div>

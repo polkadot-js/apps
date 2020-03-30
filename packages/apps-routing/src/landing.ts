@@ -5,6 +5,7 @@
 import { Routes } from './types';
 
 import LandingPage from '@cennznet/app-landing';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default ([
   {
@@ -15,7 +16,7 @@ export default ([
     i18n: {
       defaultValue: 'Getting started'
     },
-    icon: 'info',
+    icon: faInfoCircle,
     name: 'landing',
     isAdvanced: false
   }

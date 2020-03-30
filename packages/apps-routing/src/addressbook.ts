@@ -5,6 +5,7 @@
 import { Routes } from './types';
 
 import AddressBook from '@polkadot/app-address-book';
+import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 
 export default ([
   {
@@ -15,7 +16,7 @@ export default ([
     i18n: {
       defaultValue: 'Address book'
     },
-    icon: 'address book',
+    icon: faAddressBook,
     name: 'addressbook',
     isAdvanced: false
   }

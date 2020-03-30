@@ -15,11 +15,13 @@ import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import { SideBarItem, SideBarItemLink, SideBarItemNavLink } from './SideBarItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DUMMY_COUNTER = (): number => 0;
 
 interface Props {
   isCollapsed: boolean;
+  supportFontAwesomeIcon: boolean;
   onClick: () => void;
   route: Route;
 }
@@ -74,7 +76,7 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-export default function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+export default function Item ({ route, isCollapsed, supportFontAwesomeIcon, onClick }: Props): React.ReactElement<Props> | null {
   const { Modal, useCounter = DUMMY_COUNTER, display, i18n, icon, name } = route;
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -101,7 +103,7 @@ export default function Item ({ route, isCollapsed, onClick }: Props): React.Rea
 
   const body = (
     <>
-      <Icon name={icon} />
+      {supportFontAwesomeIcon ? <FontAwesomeIcon icon={icon}/> : <Icon name={icon} />}
       <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
       {count !== 0 && (
         <Badge isInline info={count} type='counter' />

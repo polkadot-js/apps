@@ -25,7 +25,7 @@ export interface Route {
   i18n: {
     defaultValue: string;
   };
-  icon: SemanticICONS;
+  icon: SemanticICONS | any;
   name: string;
   isAdvanced?: boolean;
 }
