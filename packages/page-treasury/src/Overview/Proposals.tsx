@@ -23,7 +23,7 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const members = useCall<[AccountId, Balance][]>(api.query.electionsPhragmen?.members || api.query.elections.members, []);
+  const members = useCall<[AccountId, Balance][]>((api.query.electionsPhragmen || api.query.elections).members, []);
   const [isMember, setIsMember] = useState(false);
   const history = useHistory();
 
