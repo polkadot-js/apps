@@ -180,5 +180,7 @@
   "No active validators found": "No active validators found",
   "intentions": "intentions",
   "No waiting validators found": "No waiting validators found",
-  "No active validators to check for rewards available": "No active validators to check for rewards available"
+  "No active validators to check for rewards available": "No active validators to check for rewards available",
+  "rewards": "rewards",
+  "bonded": "bonded"
 }

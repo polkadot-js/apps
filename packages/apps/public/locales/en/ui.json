@@ -1017,5 +1017,7 @@
   "No active validators found": "",
   "intentions": "",
   "No waiting validators found": "",
-  "No active validators to check for rewards available": ""
+  "No active validators to check for rewards available": "",
+  "Withdraw these unlocked funds": "",
+  "Unbonding {{value}}, {{remaining}} blocks left": ""
 }

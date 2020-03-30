@@ -103,5 +103,7 @@
   "The amount that is associated with this vote. This value is is locked for the duration of the vote.": "The amount that is associated with this vote. This value is is locked for the duration of the vote.",
   "vote value": "vote value",
   "voting balance": "voting balance",
-  "Details": "Details"
+  "Details": "Details",
+  "Withdraw these unlocked funds": "Withdraw these unlocked funds",
+  "Unbonding {{value}}, {{remaining}} blocks left": "Unbonding {{value}}, {{remaining}} blocks left"
 }
