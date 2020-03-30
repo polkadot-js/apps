@@ -4,7 +4,6 @@
 
 import { ApiProps } from '@polkadot/react-api/types';
 import { AccountId, VoteIndex } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
 import { ComponentProps } from './types';
 
 import BN from 'bn.js';
@@ -125,9 +124,9 @@ class Vote extends TxModal<Props, State> {
     this.setState({ accountId });
 
     if (accountId) {
-      (api.query.electionsPhragmen || api.query.elections)
-        .votesOf<([AccountId[]] & Codec) | AccountId[]>(accountId)
-        .then((existingVotes): void => {
+      api.derive.council
+        .votesOf(accountId)
+        .then(({ votes }): void => {
           if (!this.props.electionsInfo) {
             return;
           }
@@ -139,11 +138,7 @@ class Vote extends TxModal<Props, State> {
             .concat(candidates.map((accountId): string => accountId.toString()));
 
           this.setState({
-            votes: (
-              Array.isArray(existingVotes[0])
-                ? existingVotes[0]
-                : (existingVotes as AccountId[])
-            )
+            votes: votes
               .map((accountId): string => accountId.toString())
               .filter((accountId): boolean => available.includes(accountId))
           });

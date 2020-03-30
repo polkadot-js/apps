@@ -20,7 +20,7 @@ interface Props {
 function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const councilThreshold = useCall<number>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
+  const councilThreshold = useCall<number>((api.query.electionsPhragmen || api.query.elections).members, [], {
     transform: (value: any[]): number =>
       Math.ceil(value.length * 0.6)
   });
