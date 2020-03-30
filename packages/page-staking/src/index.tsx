@@ -118,6 +118,16 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={`${basePath}/returns`}>
           <Targets />
         </Route>
+        <Route path={`${basePath}/waiting`}>
+          <Overview
+            hasQueries={hasQueries}
+            isIntentions
+            recentlyOnline={recentlyOnline}
+            next={next}
+            setNominators={dispatchNominators}
+            stakingOverview={stakingOverview}
+          />
+        </Route>
       </Switch>
       <Actions
         allRewards={allRewards}
@@ -127,8 +137,8 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         stakingOverview={stakingOverview}
       />
       <Overview
+        className={basePath === pathname ? '' : 'staking--hidden'}
         hasQueries={hasQueries}
-        isVisible={[basePath, `${basePath}/waiting`].includes(pathname)}
         recentlyOnline={recentlyOnline}
         next={next}
         setNominators={dispatchNominators}
@@ -141,10 +151,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
 export default React.memo(styled(StakingApp)`
   .staking--hidden {
     display: none;
-  }
-
-  .staking--queryInput {
-    margin-bottom: 1.5rem;
   }
 
   .staking--Chart h1 {

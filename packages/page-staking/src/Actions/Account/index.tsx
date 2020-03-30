@@ -269,7 +269,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
       </td>
       {isStashValidating
         ? (
-          <td>
+          <td className='all'>
             <AddressInfo
               address={stashId}
               withBalance={false}
@@ -279,7 +279,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
           </td>
         )
         : (
-          <td>
+          <td className='all'>
             {isStashNominating && (
               <>
                 {activeNoms.length !== 0 && (

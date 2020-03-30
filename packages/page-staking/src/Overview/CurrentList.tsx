@@ -17,8 +17,7 @@ import Address from './Address';
 interface Props {
   authorsMap: Record<string, string>;
   hasQueries: boolean;
-  isIntentions: boolean;
-  isVisible: boolean;
+  isIntentions?: boolean;
   lastAuthors?: string[];
   next?: string[];
   recentlyOnline?: DeriveHeartbeats;
@@ -68,10 +67,10 @@ function reduceDetails (state: Record<string, AddressDetails>, _details: Address
   }, { ...state });
 }
 
-function getDetails (stakingOverview: DeriveStakingOverview, validators: AccountExtend[]): AddressDetails[] {
+function getDetails (stakingOverview: DeriveStakingOverview, validators?: AccountExtend[]): AddressDetails[] {
   const allPoints = [...stakingOverview.eraPoints.individual.entries()];
 
-  return validators.map(([address]): AddressDetails => {
+  return (validators || []).map(([address]): AddressDetails => {
     const points = allPoints.find(([accountId]): boolean => accountId.eq(address));
 
     return {
@@ -97,7 +96,7 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
-function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAuthors, next, recentlyOnline, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next, recentlyOnline, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
@@ -105,19 +104,18 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
   const [addressDetails, dispatchDetails] = useReducer(reduceDetails, {});
 
   useEffect((): void => {
-    isVisible && stakingOverview && setFiltered(
-      getFiltered(stakingOverview, favorites, next)
-    );
-  }, [favorites, isVisible, next, stakingOverview]);
+    if (stakingOverview) {
+      const filtered = getFiltered(stakingOverview, favorites, next);
 
-  useEffect((): void => {
-    stakingOverview && validators && dispatchDetails(
-      getDetails(stakingOverview, validators)
-    );
-  }, [stakingOverview, validators]);
+      setFiltered(filtered);
+      dispatchDetails(
+        getDetails(stakingOverview, filtered.validators)
+      );
+    }
+  }, [favorites, next, stakingOverview]);
 
-  const _renderRows = (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode =>
-    addresses?.map(([address, isElected, isFavorite]): React.ReactNode => (
+  const _renderRows = (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
+    (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
       <Address
         address={address}
         filterName={nameFilter}
@@ -136,9 +134,20 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
       />
     ));
 
-  return (
-    <div className={`${!isVisible && 'staking--hidden'}`}>
-      <Table className={isIntentions ? 'staking--hidden' : ''}>
+  return isIntentions
+    ? (
+      <Table>
+        <Table.Head>
+          <th colSpan={9}className='start'><h1>{t('intentions')}</h1></th>
+        </Table.Head>
+        <Table.Body empty={waiting && t('No waiting validators found')}>
+          {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
+          {}
+        </Table.Body>
+      </Table>
+    )
+    : (
+      <Table>
         <Table.Head filter={
           <Input
             autoFocus
@@ -160,19 +169,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, isVisible, lastAut
           {_renderRows(validators, true)}
         </Table.Body>
       </Table>
-      {isIntentions && (
-        <Table>
-          <Table.Head>
-            <th colSpan={9}className='start'><h1>{t('intentions')}</h1></th>
-          </Table.Head>
-          <Table.Body empty={waiting && t('No waiting validators found')}>
-            {_renderRows(elected, false)}
-            {_renderRows(waiting, false)}
-          </Table.Body>
-        </Table>
-      )}
-    </div>
-  );
+    );
 }
 
 export default React.memo(CurrentList);
