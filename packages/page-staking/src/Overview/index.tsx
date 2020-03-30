@@ -6,32 +6,28 @@ import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/ty
 import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import CurrentList from './CurrentList';
 
 interface Props extends BareProps {
   hasQueries: boolean;
-  isVisible: boolean;
+  isIntentions?: boolean;
   recentlyOnline?: DeriveHeartbeats;
   next?: string[];
   setNominators: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
 }
 
-function Overview ({ hasQueries, isVisible, className, recentlyOnline, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> {
-  const { pathname } = useLocation();
+function Overview ({ className, hasQueries, isIntentions, recentlyOnline, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> {
   const { byAuthor, lastBlockAuthors } = useContext(BlockAuthorsContext);
-  const isIntentions = pathname !== '/staking';
 
   return (
-    <div className={`staking--Overview ${className} ${!isVisible && 'staking--hidden'}`}>
+    <div className={`staking--Overview ${className}`}>
       <CurrentList
         authorsMap={byAuthor}
         hasQueries={hasQueries}
         isIntentions={isIntentions}
-        isVisible={isVisible}
         lastAuthors={lastBlockAuthors}
         next={next}
         recentlyOnline={recentlyOnline}
