@@ -102,19 +102,13 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
 
 export default React.memo(styled(ExtrinsicDisplay)`
   .explorer--BlockByHash-event+.explorer--BlockByHash-event {
-    margin-top: 0.5rem;
-  }
-
-  .explorer--BlockByHash-header {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
+    margin-top: 0.75rem;
   }
 
   .explorer--BlockByHash-nonce {
     font-size: 0.75rem;
     margin-left: 2.25rem;
-    margin-top: -0.625rem;
+    margin-top: -0.5rem;
     opacity: 0.45;
     text-align: left;
   }
