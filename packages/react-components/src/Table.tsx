@@ -131,22 +131,6 @@ const Memo = React.memo(styled(Table)`
           border-radius: 0 0 0.25rem 0;
         }
       }
-    }
-
-    tr {
-      width: 100%;
-
-      &.isHighlight td {
-        background: #ffffed;
-      }
-
-      label {
-        opacity: 0.42;
-      }
-
-      &:hover label {
-        opacity: 1;
-      }
 
       &:not(:hover) {
         .ui.button:not(.isIcon):not(.disabled) {
@@ -158,10 +142,18 @@ const Memo = React.memo(styled(Table)`
         .ui.toggle.checkbox input:checked~label:before {
           background-color: #eee !important;
         }
+      }
+    }
 
-        .ui.button.mini {
-          visibility: hidden;
-        }
+    tr {
+      width: 100%;
+
+      &.isHighlight td {
+        background: #ffffed;
+      }
+
+      label {
+        opacity: 0.42;
       }
 
       td, th {
@@ -207,6 +199,10 @@ const Memo = React.memo(styled(Table)`
           .text {
             margin-bottom: 0;
           }
+        }
+
+        &:hover label {
+          opacity: 1;
         }
 
         &.address {
@@ -285,10 +281,6 @@ const Memo = React.memo(styled(Table)`
 
         &.start {
           text-align: left;
-        }
-
-        &.toggle {
-          cursor: pointer;
         }
       }
     }

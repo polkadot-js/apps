@@ -69,13 +69,13 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
   };
 }
 
-function checkVisibility (api: ApiPromise, address: string, filterName: string, info: DeriveAccountInfo | undefined): boolean {
+function checkVisibility (api: ApiPromise, address: string, filterName: string, accountInfo?: DeriveAccountInfo): boolean {
   let isVisible = false;
   const filterLower = filterName.toLowerCase();
 
   if (filterLower) {
-    if (info) {
-      const { identity, nickname, accountId, accountIndex } = info;
+    if (accountInfo) {
+      const { identity, nickname, accountId, accountIndex } = accountInfo;
 
       if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
         isVisible = true;
@@ -102,7 +102,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
 
 function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
+  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const stakingInfo = useCall<DeriveStakingQuery>(isMain && api.derive.staking.query as any, [address]);
   const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
@@ -118,9 +118,9 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
 
   useEffect((): void => {
     setIsVisible(
-      checkVisibility(api, address, filterName, info)
+      checkVisibility(api, address, filterName, accountInfo)
     );
-  }, [address, api, filterName, info]);
+  }, [api, accountInfo, address, filterName]);
 
   const _onQueryStats = useCallback(
     (): void => {

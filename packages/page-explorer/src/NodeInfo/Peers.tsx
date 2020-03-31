@@ -21,16 +21,17 @@ function Peers ({ className, peers }: Props): React.ReactElement<Props> {
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={2}><h1>{t('connected peers')}</h1></th>
+        <th className='start'><h1>{t('connected peers')}</h1></th>
+        <th className='start'>{t('role')}</th>
         <th className='number'>{t('best #')}</th>
         <th className='start'>{t('best hash')}</th>
       </Table.Head>
       <Table.Body empty={t('no peers connected')}>
         {peers?.sort((a, b): number => b.bestNumber.cmp(a.bestNumber)).map((peer) => (
           <tr key={peer.peerId.toString()}>
-            <td>{peer.roles.toString().toLowerCase()}</td>
             <td className='hash'>{peer.peerId.toString()}</td>
-            <td className='number'>{formatNumber(peer.bestNumber)}</td>
+            <td>{peer.roles.toString().toLowerCase()}</td>
+            <td className='number all'>{formatNumber(peer.bestNumber)}</td>
             <td className='hash'>{peer.bestHash.toHex()}</td>
           </tr>
         ))}
