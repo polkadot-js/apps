@@ -7,12 +7,12 @@ import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { AddressMini, Columar, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressMini, Columar, Column, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import Events from './Events';
+import Events from '../Events';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 
@@ -60,14 +60,25 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
         </Table.Body>
       </Table>
       {getBlock && getHeader && (
-        <Columar>
+        <>
           <Extrinsics
             blockNumber={blockNumber}
+            events={events}
             value={getBlock.block.extrinsics}
           />
-          <Events value={events} />
-          <Logs value={getHeader.digest.logs} />
-        </Columar>
+          <Columar>
+            <Column>
+              <Events
+                eventClassName='explorer--BlockByHash-block'
+                events={(events || []).filter(({ phase }) => !phase.isApplyExtrinsic)}
+                label={t('system events')}
+              />
+            </Column>
+            <Column>
+              <Logs value={getHeader.digest.logs} />
+            </Column>
+          </Columar>
+        </>
       )}
     </div>
   );

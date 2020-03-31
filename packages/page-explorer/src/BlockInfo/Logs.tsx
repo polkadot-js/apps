@@ -7,7 +7,7 @@ import { Codec, TypeDef } from '@polkadot/types/types';
 
 import React from 'react';
 import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
-import { Column, Expander, Table } from '@polkadot/react-components';
+import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 
 import { useTranslation } from '../translate';
@@ -103,29 +103,23 @@ function Logs (props: Props): React.ReactElement<Props> | null {
   const { value } = props;
   const { t } = useTranslation();
 
-  if (!value || !value.length) {
-    return null;
-  }
-
   return (
-    <Column>
-      <Table>
-        <Table.Head>
-          <th className='start'><h1>{t('logs')}</h1></th>
-        </Table.Head>
-        <Table.Body>
-          {value.map((log, index) => (
-            <tr key={`log:${index}`}>
-              <td className='overflow'>
-                <Expander summary={log.type.toString()}>
-                  {formatItem(log)}
-                </Expander>
-              </td>
-            </tr>
-          ))}
-        </Table.Body>
-      </Table>
-    </Column>
+    <Table>
+      <Table.Head>
+        <th className='start'><h1>{t('logs')}</h1></th>
+      </Table.Head>
+      <Table.Body>
+        {value?.map((log, index) => (
+          <tr key={`log:${index}`}>
+            <td className='overflow'>
+              <Expander summary={log.type.toString()}>
+                {formatItem(log)}
+              </Expander>
+            </td>
+          </tr>
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 

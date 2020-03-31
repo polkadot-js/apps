@@ -246,6 +246,10 @@ const Memo = React.memo(styled(Table)`
           white-space: nowrap;
         }
 
+        &.top {
+          vertical-align: top;
+        }
+
         &.middle {
           text-align: center;
         }

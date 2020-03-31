@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyedEvent } from './types';
+import { EventRecord } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Table } from '@polkadot/react-components';
@@ -12,13 +12,12 @@ import { useTranslation } from './translate';
 
 interface Props {
   emptyLabel?: React.ReactNode;
-  events: KeyedEvent[];
+  events: EventRecord[];
   eventClassName?: string;
   label?: React.ReactNode;
-  withoutIndex?: boolean;
 }
 
-function Events ({ emptyLabel, eventClassName, events, label, withoutIndex }: Props): React.ReactElement<Props> {
+function Events ({ emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -28,17 +27,14 @@ function Events ({ emptyLabel, eventClassName, events, label, withoutIndex }: Pr
       </Table.Head>
       <Table.Body empty={emptyLabel || t('No events available')}>
         {events
-          .filter(({ record: { event: { method, section } } }): boolean => !!method && !!section)
-          .map((event: KeyedEvent): React.ReactNode => (
+          .filter(({ event: { method, section } }): boolean => !!method && !!section)
+          .map((event: EventRecord, index): React.ReactNode => (
             <tr
               className={eventClassName}
-              key={event.key}
+              key={`event:${index}`}
             >
               <td className='overflow'>
-                <Event
-                  event={event}
-                  withoutIndex={withoutIndex}
-                />
+                <Event value={event} />
               </td>
             </tr>
           ))
