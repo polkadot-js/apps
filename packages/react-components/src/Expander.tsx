@@ -95,9 +95,14 @@ export default React.memo(styled(Expander)`
   .ui--Expander-summary {
     display: block;
     margin: 0;
+    min-width: 12rem;
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     i.icon {
       margin-right: 0.5rem;
