@@ -34,6 +34,7 @@ function Extrinsics ({ className, blockNumber, events, label, value }: Props): R
             blockNumber={blockNumber}
             events={events}
             index={index}
+            key={`extrinsic:${index}`}
             value={extrinsic}
           />
         )}

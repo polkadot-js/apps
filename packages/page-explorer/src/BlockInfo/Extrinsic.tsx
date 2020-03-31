@@ -48,7 +48,7 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
     >
       <td className='top'>
         <Expander
-          summary={`${section}.${method} (#${formatNumber(index)})`}
+          summary={`${section}.${method}`}
           summaryMeta={meta}
         >
           <Call
