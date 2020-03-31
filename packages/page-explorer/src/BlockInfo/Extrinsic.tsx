@@ -85,7 +85,8 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
               </div>
             </>
           )
-          : <label>{t('not signed')}</label>}
+          : <div className='explorer--BlockByHash-unsigned'>{t('not signed')}</div>
+        }
       </td>
       <td className='all top'>
         {thisEvents.map((event, index) =>
@@ -109,7 +110,12 @@ export default React.memo(styled(ExtrinsicDisplay)`
     font-size: 0.75rem;
     margin-left: 2.25rem;
     margin-top: -0.5rem;
-    opacity: 0.45;
+    opacity: 0.6;
     text-align: left;
+  }
+
+  .explorer--BlockByHash-unsigned {
+    opacity: 0.6;
+    font-weight: 100;
   }
 `);
