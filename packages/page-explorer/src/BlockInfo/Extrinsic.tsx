@@ -46,7 +46,7 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
       className={className}
       key={`extrinsic:${index}`}
     >
-      <td className='top'>
+      <td colSpan={2} className='top'>
         <Expander
           summary={`${section}.${method}`}
           summaryMeta={meta}
@@ -55,14 +55,12 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
             className='details'
             mortality={
               era
-                ? blockNumber
-                  ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
-                    replace: {
-                      endsAt: formatNumber(era[1]),
-                      startAt: formatNumber(era[0])
-                    }
-                  })
-                  : t('mortal')
+                ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+                  replace: {
+                    endsAt: formatNumber(era[1]),
+                    startAt: formatNumber(era[0])
+                  }
+                })
                 : t('immortal')
             }
             tip={value.tip?.toBn()}
@@ -70,10 +68,15 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
             withHash
           />
         </Expander>
-        {value.isSigned
-          ? <LinkExternal data={value.hash.toHex()} type='extrinsic' />
-          : null
-        }
+      </td>
+      <td colSpan={2} className='top'>
+        {thisEvents.map((event, index) =>
+          <Event
+            className='explorer--BlockByHash-event'
+            key={`event:${index}`}
+            value={event}
+          />
+        )}
       </td>
       <td className='top'>
         {value.isSigned
@@ -83,19 +86,11 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
               <div className='explorer--BlockByHash-nonce'>
                 {t('index')} {formatNumber(value.nonce)}
               </div>
+              <LinkExternal data={value.hash.toHex()} type='extrinsic' />
             </>
           )
           : <div className='explorer--BlockByHash-unsigned'>{t('not signed')}</div>
         }
-      </td>
-      <td className='all top'>
-        {thisEvents.map((event, index) =>
-          <Event
-            className='explorer--BlockByHash-event'
-            key={`event:${index}`}
-            value={event}
-          />
-        )}
       </td>
     </tr>
   );

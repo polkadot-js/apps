@@ -73,18 +73,23 @@ function Expander ({ children, className, isOpen, summary, summaryMeta, withDot,
         )}
       </div>
       {hasContent && (isExpanded || withHidden) && (
-        <div className='ui--Expander-contents'>{children}</div>
+        <div className='ui--Expander-content'>{children}</div>
       )}
     </div>
   );
 }
 
 export default React.memo(styled(Expander)`
-  &:not(.isExpanded) .ui--Expander-contents {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  &:not(.isExpanded) .ui--Expander-content {
     display: none;
   }
 
-  &.isExpanded .ui--Expander-contents {
+  &.isExpanded .ui--Expander-content {
     margin-top: 0.5rem;
   }
 
@@ -93,15 +98,14 @@ export default React.memo(styled(Expander)`
   }
 
   .ui--Expander-summary {
-    display: block;
     margin: 0;
     min-width: 12rem;
     overflow: hidden;
-    white-space: nowrap;
 
     > div {
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     i.icon {

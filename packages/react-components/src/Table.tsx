@@ -76,6 +76,8 @@ function Table ({ children, className, isFixed }: TableProps): React.ReactElemen
 
 const Memo = React.memo(styled(Table)`
   margin-bottom: 1.5rem;
+  max-width: 100%;
+  width: 100%;
 
   &.isFixed table {
     table-layout: fixed;
@@ -83,11 +85,12 @@ const Memo = React.memo(styled(Table)`
 
   table {
     border-spacing: 0;
+    max-width: 100%;
     overflow: hidden;
     width: 100%;
 
     thead tr {
-      background: #f5f5f5;
+      background: transparent;
       text-transform: lowercase;
 
       &.filter th {
@@ -146,6 +149,7 @@ const Memo = React.memo(styled(Table)`
     }
 
     tr {
+      max-width: 100%;
       width: 100%;
 
       &.isHighlight td {
