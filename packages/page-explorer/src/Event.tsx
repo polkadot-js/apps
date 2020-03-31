@@ -2,25 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyedEvent } from './types';
+import { EventRecord } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Event as EventDisplay, Expander } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
 
 interface Props {
-  event: KeyedEvent;
-  withoutIndex?: boolean;
+  className?: string;
+  value: EventRecord;
 }
 
-function Event ({ event: { record: { event, phase } }, withoutIndex }: Props): React.ReactElement<Props> {
+function Event ({ className, value: { event } }: Props): React.ReactElement<Props> {
   return (
     <Expander
-      summary={`${event.section}.${event.method} ${
-        !withoutIndex && phase.isApplyExtrinsic
-          ? `(#${formatNumber(phase.asApplyExtrinsic)})`
-          : ''
-      }`}
+      className={className}
+      summary={`${event.section}.${event.method}`}
       summaryMeta={event.meta}
     >
       <EventDisplay
