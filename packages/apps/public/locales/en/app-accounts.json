@@ -157,5 +157,6 @@
   "balances": "balances",
   "type": "type",
   "accounts": "accounts",
-  "contacts": "contacts"
+  "contacts": "contacts",
+  "tags": "tags"
 }

@@ -1021,5 +1021,9 @@
   "Withdraw these unlocked funds": "",
   "Unbonding {{value}}, {{remaining}} blocks left": "",
   "Withdraw these unbonded funds": "",
-  "Unbonding {{value}}, ": ""
+  "Unbonding {{value}}, ": "",
+  "tags": "",
+  "system events": "",
+  "not signed": "",
+  "signer": ""
 }

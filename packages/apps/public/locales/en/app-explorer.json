@@ -46,5 +46,8 @@
   "hash": "hash",
   "parent": "parent",
   "state": "state",
-  "No events available": "No events available"
+  "No events available": "No events available",
+  "system events": "system events",
+  "not signed": "not signed",
+  "signer": "signer"
 }
