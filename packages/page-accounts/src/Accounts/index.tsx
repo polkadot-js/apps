@@ -128,10 +128,11 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             />
           </div>
         }>
-          <th className='start' colSpan={4}><h1>{t('accounts')}</h1></th>
+          <th className='start' colSpan={3}><h1>{t('accounts')}</h1></th>
+          <th>{t('type')}</th>
+          <th className='start'>{t('tags')}</th>
           <th>{t('transactions')}</th>
           <th>{t('balances')}</th>
-          <th>{t('type')}</th>
           <th colSpan={2}>&nbsp;</th>
         </Table.Head>
         <Table.Body empty={t('no accounts yet, create or import an existing')}>

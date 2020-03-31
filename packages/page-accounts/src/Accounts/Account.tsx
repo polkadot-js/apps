@@ -306,6 +306,9 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           />
         )}
       </td>
+      <td className='number'>
+        <CryptoType accountId={address} />
+      </td>
       <td className='all'>
         {isEditingTags
           ? (
@@ -342,9 +345,6 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           withBalanceToggle
           withExtended={false}
         />
-      </td>
-      <td className='number'>
-        <CryptoType accountId={address} />
       </td>
       <td className='button'>
         <Button
