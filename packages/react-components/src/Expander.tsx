@@ -83,7 +83,6 @@ export default React.memo(styled(Expander)`
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
 
   &:not(.isExpanded) .ui--Expander-content {
     display: none;
