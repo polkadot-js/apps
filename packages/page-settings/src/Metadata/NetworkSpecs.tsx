@@ -130,7 +130,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         />
         <Input
           className='full'
-          help={t('Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address')}
+          help={t('Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address')}
           isDisabled
           label={t('Address Prefix')}
           value={networkSpecs.prefix}
