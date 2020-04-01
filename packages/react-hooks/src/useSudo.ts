@@ -23,5 +23,5 @@ export default function useSudo (): UseSudo {
     setIsMine(!!sudoKey && !!allAccounts && allAccounts.some((key): boolean => key === sudoKey));
   }, [allAccounts, sudoKey]);
 
-  return { allAccounts, sudoKey, isMine };
+  return { allAccounts, isMine, sudoKey };
 }

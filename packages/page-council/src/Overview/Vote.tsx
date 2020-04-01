@@ -29,8 +29,8 @@ class Vote extends TxModal<Props, State> {
 
     this.defaultState = {
       ...this.defaultState,
-      votes: [],
-      voteValue: new BN(0)
+      voteValue: new BN(0),
+      votes: []
     };
 
     this.state = {
@@ -50,13 +50,13 @@ class Vote extends TxModal<Props, State> {
       : 'elections.vote';
 
   protected txParams = (): [boolean[] | null, VoteIndex, BN | null] | [string[], BN] => {
-    const { votes, voteValue } = this.state;
+    const { voteValue, votes } = this.state;
 
     return [votes, voteValue];
   }
 
   protected isDisabled = (): boolean => {
-    const { accountId, votes, voteValue } = this.state;
+    const { accountId, voteValue, votes } = this.state;
 
     return !accountId || votes.length === 0 || voteValue.lten(0);
   }

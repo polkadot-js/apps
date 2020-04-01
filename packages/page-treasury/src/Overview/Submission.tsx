@@ -29,8 +29,8 @@ function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactEl
   const [councilType, setCouncilType] = useState('reject');
   const [hasProposals, setHasProposals] = useState(true);
   const councilTypeOpt = useMemo(() => [
-    { value: 'accept', text: t('Acceptance proposal to council') },
-    { value: 'reject', text: t('Rejection proposal to council') }
+    { text: t('Acceptance proposal to council'), value: 'accept' },
+    { text: t('Rejection proposal to council'), value: 'reject' }
   ], [t]);
 
   useEffect((): void => {

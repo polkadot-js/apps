@@ -75,15 +75,15 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
 
           return {
             action: `${section}.${method}`,
-            status: 'error',
-            message
+            message,
+            status: 'error'
           };
         }
 
         return {
           action: `${section}.${method}`,
-          status: 'event',
-          message: 'extrinsic event'
+          message: 'extrinsic event',
+          status: 'event'
         };
       })
   );

@@ -24,8 +24,8 @@ interface Parsed {
 }
 
 const BYTES_TYPE = {
-  type: 'Bytes',
-  info: 0
+  info: 0,
+  type: 'Bytes'
 };
 
 const EMPTY_PLACEHOLDER = 'click to select or drag and drop JSON key/value (hex-encoded) file';

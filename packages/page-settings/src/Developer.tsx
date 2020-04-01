@@ -100,15 +100,15 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       store.set('types', types);
       setIsTypesValid(true);
       onStatusChange({
-        status: 'success',
-        action: t('Your custom types have been added')
+        action: t('Your custom types have been added'),
+        status: 'success'
       });
     } catch (error) {
       console.error(error);
       setIsTypesValid(false);
       onStatusChange({
-        status: 'error',
-        action: t(`Error saving your custom types. ${error.message}`)
+        action: t(`Error saving your custom types. ${error.message}`),
+        status: 'error'
       });
     }
   };

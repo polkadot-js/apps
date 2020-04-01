@@ -8,7 +8,7 @@ export const STORE_EXAMPLES = 'polkadot-app-js-examples';
 export const STORE_SELECTED = 'polkadot-app-js-selected';
 
 export const CUSTOM_LABEL: StrictLabelProps = {
-  color: 'orange',
   children: 'Custom',
+  color: 'orange',
   size: 'tiny'
 };

@@ -9,7 +9,6 @@ import TechComm, { useCounter } from '@polkadot/app-tech-comm';
 export default ([
   {
     Component: TechComm,
-    useCounter,
     display: {
       needsApi: [
         'query.technicalCommittee.members'
@@ -19,6 +18,7 @@ export default ([
       defaultValue: 'Tech. comm.'
     },
     icon: 'microchip',
-    name: 'techcomm'
+    name: 'techcomm',
+    useCounter
   }
 ] as Routes);

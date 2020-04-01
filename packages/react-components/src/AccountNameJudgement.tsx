@@ -20,12 +20,12 @@ interface Props extends BareProps {
 }
 
 const JUDGEMENT_ENUM = [
-  { value: 0, text: 'Unknown' },
-  { value: 1, text: 'Fee paid' },
-  { value: 2, text: 'Reasonable' },
-  { value: 3, text: 'Known good' },
-  { value: 4, text: 'Out of date' },
-  { value: 5, text: 'Low quality' }
+  { text: 'Unknown', value: 0 },
+  { text: 'Fee paid', value: 1 },
+  { text: 'Reasonable', value: 2 },
+  { text: 'Known good', value: 3 },
+  { text: 'Out of date', value: 4 },
+  { text: 'Low quality', value: 5 }
 ];
 
 function AccountNameJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {

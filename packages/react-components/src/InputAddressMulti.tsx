@@ -92,7 +92,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
   };
 
   const onDragEnd = (result: DropResult): void => {
-    const { source, destination } = result;
+    const { destination, source } = result;
 
     !!destination && onReorder(source, destination);
   };

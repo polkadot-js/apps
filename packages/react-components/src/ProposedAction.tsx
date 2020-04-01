@@ -40,7 +40,7 @@ export const styles = `
   }
 `;
 
-function ProposedAction ({ className, asInset, idNumber, insetProps, proposal, withLinks, expandNested }: Props): React.ReactElement<Props> {
+function ProposedAction ({ asInset, className, expandNested, idNumber, insetProps, proposal, withLinks }: Props): React.ReactElement<Props> {
   const stringId = isString(idNumber)
     ? idNumber
     : formatNumber(idNumber);
@@ -64,8 +64,8 @@ function ProposedAction ({ className, asInset, idNumber, insetProps, proposal, w
       <TreasuryProposal
         asInset={withLinks}
         insetProps={{
-          withTopMargin: true,
           withBottomMargin: true,
+          withTopMargin: true,
           ...(withLinks ? { href: '/treasury' } : {})
         }}
         proposalId={proposal.args[0].toString()}

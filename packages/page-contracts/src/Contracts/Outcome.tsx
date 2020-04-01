@@ -17,7 +17,7 @@ interface Props {
 }
 
 function Outcome (props: Props): React.ReactElement<Props> | null {
-  const { className, onClear, outcome: { message, origin, output, params, isSuccess, time } } = props;
+  const { className, onClear, outcome: { isSuccess, message, origin, output, params, time } } = props;
   const dateTime = new Date(time);
 
   return (

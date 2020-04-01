@@ -42,8 +42,8 @@ function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }:
     queueAction && queueAction({
       account,
       action: t('clipboard'),
-      status: 'queued',
-      message: t('address copied')
+      message: t('address copied'),
+      status: 'queued'
     });
   };
 

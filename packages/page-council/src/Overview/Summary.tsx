@@ -23,7 +23,7 @@ function Summary ({ bestNumber, className, electionsInfo }: Props): React.ReactE
     return null;
   }
 
-  const { members, candidateCount, desiredSeats, runnersUp, termDuration, voteCount } = electionsInfo;
+  const { candidateCount, desiredSeats, members, runnersUp, termDuration, voteCount } = electionsInfo;
 
   return (
     <SummaryBox className={className}>

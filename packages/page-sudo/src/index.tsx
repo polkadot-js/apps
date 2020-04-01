@@ -16,7 +16,7 @@ import { useTranslation } from './translate';
 
 function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts, sudoKey, isMine } = useSudo();
+  const { allAccounts, isMine, sudoKey } = useSudo();
   const items = useMemo(() => [
     {
       isRoot: true,

@@ -31,12 +31,12 @@ function getRandomColor (): string {
 }
 
 const initialState = {
-  decimals: 0,
-  prefix: 0,
-  unit: 'UNIT',
-  title: '',
   color: '#FFFFFF',
-  genesisHash: ''
+  decimals: 0,
+  genesisHash: '',
+  prefix: 0,
+  title: '',
+  unit: 'UNIT'
 };
 
 function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Props> {
@@ -58,10 +58,10 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
     chainInfo && setNetworkSpecs({
       color: chainInfo.color || getRandomColor(),
       decimals: chainInfo.tokenDecimals,
+      genesisHash: chainInfo.genesisHash,
       prefix: chainInfo.ss58Format,
-      unit: chainInfo.tokenSymbol,
       title: systemChain,
-      genesisHash: chainInfo.genesisHash
+      unit: chainInfo.tokenSymbol
     });
   }, [chainInfo, systemChain]);
 

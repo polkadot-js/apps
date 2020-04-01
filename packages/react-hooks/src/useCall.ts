@@ -105,7 +105,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 // FIXME The typings here need some serious TLC
 export default function useCall <T> (fn: TrackFn | undefined | null | false, params: CallParams = [], options: CallOptions<T> = {}): T | undefined {
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ isActive: false, count: 0, serialized: null, subscriber: null });
+  const tracker = useRef<Tracker>({ count: 0, isActive: false, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>(options.defaultValue);
 
   // initial effect, we need an un-subscription

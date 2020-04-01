@@ -34,7 +34,7 @@ class Selection extends TxComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
-    const { isValid, isValidUnsigned, accountId } = this.state;
+    const { accountId, isValid, isValidUnsigned } = this.state;
     const extrinsic = this.getExtrinsic() || apiDefaultTxSudo('0x00');
 
     return (
@@ -91,10 +91,10 @@ class Selection extends TxComponent<Props, State> {
         );
 
         return {
-          method,
+          accountId,
           isValid,
           isValidUnsigned: !!method,
-          accountId
+          method
         };
       }
     );

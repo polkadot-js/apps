@@ -23,11 +23,11 @@ function ProposeExternal ({ className, isMember, members }: Props): React.ReactE
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [{ isHashValid, hash }, setHash] = useState<{ isHashValid: boolean; hash?: string }>({ isHashValid: false, hash: '' });
+  const [{ hash, isHashValid }, setHash] = useState<{ hash?: string; isHashValid: boolean }>({ hash: '', isHashValid: false });
   const threshold = Math.ceil((members.length || 0) * 0.5);
 
   const _onChangeHash = useCallback(
-    (hash?: string): void => setHash({ isHashValid: isHex(hash, 256), hash }),
+    (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
     []
   );
 

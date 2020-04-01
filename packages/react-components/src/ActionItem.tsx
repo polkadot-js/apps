@@ -26,7 +26,7 @@ export const styles = `
   ${proposedActionStyles}
 `;
 
-function ActionItem ({ className, children, accessory, idNumber, proposal, expandNested }: Props): React.ReactElement<Props> {
+function ActionItem ({ accessory, children, className, expandNested, idNumber, proposal }: Props): React.ReactElement<Props> {
   return (
     <Card className={className}>
       <div className='ui--Row'>

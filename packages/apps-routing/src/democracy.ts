@@ -9,7 +9,6 @@ import Democracy, { useCounter } from '@polkadot/app-democracy';
 export default ([
   {
     Component: Democracy,
-    useCounter,
     display: {
       needsApi: [
         'tx.democracy.notePreimage'
@@ -19,6 +18,7 @@ export default ([
       defaultValue: 'Democracy'
     },
     icon: 'calendar check',
-    name: 'democracy'
+    name: 'democracy',
+    useCounter
   }
 ] as Routes);

@@ -9,7 +9,6 @@ import Treasury, { useCounter } from '@polkadot/app-treasury';
 export default ([
   {
     Component: Treasury,
-    useCounter,
     display: {
       needsAccounts: true,
       needsApi: [
@@ -20,6 +19,7 @@ export default ([
       defaultValue: 'Treasury'
     },
     icon: 'gem',
-    name: 'treasury'
+    name: 'treasury',
+    useCounter
   }
 ] as Routes);

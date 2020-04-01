@@ -19,8 +19,8 @@ interface Options {
 
 function ChartDoughnut ({ className, size = 100, style, values }: DoughnutProps): React.ReactElement<DoughnutProps> {
   const options: Options = {
-    colorNormal: [],
     colorHover: [],
+    colorNormal: [],
     data: [],
     labels: []
   };
@@ -39,12 +39,12 @@ function ChartDoughnut ({ className, size = 100, style, values }: DoughnutProps)
     >
       <Doughnut
         data={{
-          labels: options.labels,
           datasets: [{
-            data: options.data,
             backgroundColor: options.colorNormal,
+            data: options.data,
             hoverBackgroundColor: options.colorHover
-          }]
+          }],
+          labels: options.labels
         }}
         height={size}
         width={size}

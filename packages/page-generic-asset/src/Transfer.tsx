@@ -42,9 +42,9 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
 
   // build up our list of options via assets
   useEffect((): void => {
-    setOptions(Object.entries(assets || {}).map(([id, name]): Option => ({
-      value: id,
-      text: `${name} (${id})`
+    setOptions(Object.entries(assets || {}).map(([value, name]): Option => ({
+      text: `${name} (${value})`,
+      value
     })));
   }, [assets]);
 

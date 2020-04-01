@@ -17,7 +17,7 @@ export interface Props extends BareProps {
 }
 
 function LockedVoteDisplay (props: Props): React.ReactElement<Props> | null {
-  const { params, className, label, style } = props;
+  const { className, label, params, style } = props;
 
   if (!params) {
     return null;

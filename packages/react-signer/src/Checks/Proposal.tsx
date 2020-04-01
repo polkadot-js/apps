@@ -32,8 +32,8 @@ function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const minDeposit = api.consts.democracy.minimumDeposit;
   const [{ extraAmount, isBelowMinimum }, setState] = useState<State>({
-    extraFees: ZERO,
     extraAmount: ZERO,
+    extraFees: ZERO,
     extraWarn: false,
     isBelowMinimum: false
   });

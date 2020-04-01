@@ -35,7 +35,7 @@ const ONE_THOUSAND = new BN(1000);
 function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen, onClose, onOpen } = useModal();
   const onSendRef = useRef<() => void>();
   const isWasmValidRef = useRef(false);
 

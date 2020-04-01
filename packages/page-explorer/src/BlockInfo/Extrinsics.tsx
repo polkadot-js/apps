@@ -18,7 +18,7 @@ interface Props {
   value?: Extrinsic[] | null;
 }
 
-function Extrinsics ({ className, blockNumber, events, label, value }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className, events, label, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

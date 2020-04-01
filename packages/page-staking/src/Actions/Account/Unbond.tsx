@@ -122,8 +122,8 @@ class Unbond extends TxComponent<Props, State> {
       const { maxUnbond = prevState.maxUnbond, maxBalance = prevState.maxBalance } = newState;
 
       return {
-        maxUnbond,
-        maxBalance
+        maxBalance,
+        maxUnbond
       };
     });
   }

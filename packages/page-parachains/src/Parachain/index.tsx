@@ -24,13 +24,13 @@ interface Props extends ComponentProps {
   paraInfoRef: React.MutableRefObject<DeriveParachainInfo | null>;
 }
 
-function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
+function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
   const { api } = useApi();
   const { id } = useParams();
   const [isMenuOpen, toggleMenu] = useToggle();
-  const { isOpen: isDeregisterOpen, onOpen: onDeregisterOpen, onClose: onDeregisterClose } = useModal();
+  const { isOpen: isDeregisterOpen, onClose: onDeregisterClose, onOpen: onDeregisterOpen } = useModal();
   const parachain = useCall<DeriveParachainFull | null>(api.derive.parachains.info as any, [id || null]);
 
   if (isUndefined(parachain)) {

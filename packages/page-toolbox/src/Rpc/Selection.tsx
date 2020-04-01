@@ -31,8 +31,8 @@ const defaultMethod = jsonrpc.author.submitExtrinsic;
 
 class Selection extends TxComponent<Props, State> {
   public state: State = {
-    isValid: false,
     accountId: null,
+    isValid: false,
     rpc: defaultMethod,
     values: []
   };
@@ -75,16 +75,16 @@ class Selection extends TxComponent<Props, State> {
   private nextState (newState: Partial<State>): void {
     this.setState(
       (prevState: State): State => {
-        const { rpc = prevState.rpc, accountId = prevState.accountId, values = prevState.values } = newState;
+        const { accountId = prevState.accountId, rpc = prevState.rpc, values = prevState.values } = newState;
         const reqCount = rpc.params.reduce((count, { isOptional }): number => count + (isOptional ? 0 : 1), 0);
         const isValid = values.reduce((isValid, value): boolean => {
           return isValid && value.isValid === true;
         }, reqCount <= values.length);
 
         return {
+          accountId,
           isValid,
           rpc,
-          accountId,
           values
         };
       }

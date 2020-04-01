@@ -17,7 +17,7 @@ interface Props {
   isBig?: boolean;
 }
 
-function ParachainInfo ({ children, className, isBig, info }: Props): React.ReactElement<Props> {
+function ParachainInfo ({ children, className, info, isBig }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

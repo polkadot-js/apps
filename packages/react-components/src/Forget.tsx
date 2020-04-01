@@ -81,7 +81,7 @@ function renderContent (props: Props, t: (key: string) => string): React.ReactNo
 
 function Forget (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { children, mode = 'account', onForget, onClose } = props;
+  const { children, mode = 'account', onClose, onForget } = props;
 
   return (
     <Modal

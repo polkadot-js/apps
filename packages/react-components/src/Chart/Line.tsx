@@ -67,19 +67,16 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
     const data = values.map((value): number => BN.isBN(value) ? value.toNumber() : value);
 
     chartData.datasets.push({
-      data,
-      fill: false,
-      label: legends[index],
       backgroundColor: color,
       borderColor: color,
-      hoverBackgroundColor: color
+      data,
+      fill: false,
+      hoverBackgroundColor: color,
+      label: legends[index]
     });
 
     return chartData;
-  }, {
-    labels,
-    datasets: [] as Dataset[]
-  });
+  }, { datasets: [] as Dataset[], labels });
 
   return {
     chartData,

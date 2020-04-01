@@ -285,7 +285,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
       }
 
       public render (): React.ReactNode {
-        const { callUpdated, callUpdatedAt, callResult } = this.state;
+        const { callResult, callUpdated, callUpdatedAt } = this.state;
         const _props = {
           ...this.props,
           callUpdated,

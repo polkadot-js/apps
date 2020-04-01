@@ -191,7 +191,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
   }
 
   protected onChangeName = (name: string): void => {
-    this.setState({ name, isNameValid: name.length !== 0 });
+    this.setState({ isNameValid: name.length !== 0, name });
   }
 
   protected onChangeGas = (gasLimit: BN | undefined): void => {
