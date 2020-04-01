@@ -230,7 +230,12 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
             value={_amount}
           />
         }>
-          <th className='start' colSpan={3}><h1>{t('validators')}</h1></th>
+          <th
+            className='start'
+            colSpan={3}
+          >
+            <h1>{t('validators')}</h1>
+          </th>
           {['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header): React.ReactNode => (
             <th
               className={`isClickable ${sortBy === header && 'ui--highlight--border'} number`}

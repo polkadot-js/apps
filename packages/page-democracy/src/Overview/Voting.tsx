@@ -92,8 +92,8 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
           </Modal.Content>
           <VoteActions
             accountId={accountId}
-            onClick={toggleVoting}
             isDisabled={isCurrentVote ? !balance : false}
+            onClick={toggleVoting}
             params={
               isCurrentVote
                 ? [referendumId, { Standard: { balance, vote: { aye, conviction } } }]

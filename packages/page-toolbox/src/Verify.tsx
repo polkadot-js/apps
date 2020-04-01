@@ -119,7 +119,10 @@ function Verify (): React.ReactElement<{}> {
         />
       </div>
       <div className='ui--row'>
-        <div className="ui--AlignedIconContainer" style={{ position: 'absolute', zIndex: 1 }}>
+        <div
+          className='ui--AlignedIconContainer'
+          style={{ position: 'absolute', zIndex: 1 }}
+        >
           <AlignedIcon
             color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
             name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
@@ -128,8 +131,8 @@ function Verify (): React.ReactElement<{}> {
         </div>
         <Input
           className='full'
-          isError={!isValidSignature}
           help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
+          isError={!isValidSignature}
           label={t('the supplied signature')}
           onChange={_onChangeSignature}
           value={signature}

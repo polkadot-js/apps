@@ -130,15 +130,15 @@ class ABI extends React.PureComponent<Props, State> {
 
     return (
       <Labelled
-        label={label}
         help={help}
+        label={label}
         withLabel={!!label}
       >
         <Messages
           contractAbi={contractAbi}
-          onRemove={onRemove || this.onRemove}
           isLabelled={!!label}
           isRemovable={!isDisabled}
+          onRemove={onRemove || this.onRemove}
           onSelectConstructor={onSelectConstructor}
           withConstructors
         />

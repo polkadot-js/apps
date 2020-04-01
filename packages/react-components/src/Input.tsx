@@ -149,12 +149,12 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
         disabled={isDisabled}
         error={(!isDisabled && isError) || isDisabledError}
         hidden={isHidden}
-        id={name}
         iconPosition={
           isUndefined(icon)
             ? undefined
             : 'left'
         }
+        id={name}
         max={max}
         maxLength={maxLength}
         min={min}
@@ -170,15 +170,15 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
         value={value}
       >
         <input
+          autoCapitalize='off'
           autoComplete={
             type === 'password'
               ? 'new-password'
               : 'off'
           }
-          autoCapitalize='off'
           autoCorrect='off'
-          spellCheck={false}
           onPaste={_onPaste}
+          spellCheck={false}
         />
         {isEditable && (
           <i className='edit icon' />

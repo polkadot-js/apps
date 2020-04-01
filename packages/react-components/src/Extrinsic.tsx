@@ -71,13 +71,13 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
+        help={meta?.documentation.join(' ')}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
         label={label}
         onChange={_onChangeMethod}
         withLabel={withLabel}
-        help={meta?.documentation.join(' ')}
       />
       <Params
         key={`${section}.${method}:params` /* force re-render on change */}

@@ -41,10 +41,10 @@ function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Prop
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          isPrimary
-          onClick={_onRemove}
-          label={t('Remove')}
           icon='trash'
+          isPrimary
+          label={t('Remove')}
+          onClick={_onRemove}
         />
       </Modal.Actions>
     </Modal>

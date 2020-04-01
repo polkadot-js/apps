@@ -25,8 +25,8 @@ function VoteToggle ({ className, onChange, value }: Props): React.ReactElement<
       className={className}
       help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
       label={t('record my vote as')}
-      options={voteOpts}
       onChange={onChange}
+      options={voteOpts}
       value={value}
     />
   );

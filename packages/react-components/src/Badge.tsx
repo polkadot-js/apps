@@ -40,8 +40,8 @@ function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, 
       </div>
       {hover && (
         <Tooltip
-          trigger={trigger}
           text={hover}
+          trigger={trigger}
         />
       )}
     </div>

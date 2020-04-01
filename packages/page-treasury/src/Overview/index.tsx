@@ -29,7 +29,10 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         <Propose />
       </Button.Group>
       <Proposals proposals={info?.proposals} />
-      <Proposals proposals={info?.approvals} isApprovals />
+      <Proposals
+        isApprovals
+        proposals={info?.approvals}
+      />
     </div>
   );
 }

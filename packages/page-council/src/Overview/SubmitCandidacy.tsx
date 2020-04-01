@@ -43,8 +43,8 @@ function SubmitCandidacy (): React.ReactElement {
         </Modal>
       )}
       <Button
-        label={t('Submit candidacy')}
         icon='add'
+        label={t('Submit candidacy')}
         onClick={onOpen}
       />
     </>

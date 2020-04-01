@@ -33,9 +33,9 @@ function Balance ({ className, defaultValue: { value }, isDisabled, isError, lab
         isError={isError}
         label={label}
         onChange={_onChange}
-        withEllipsis
         onEnter={onEnter}
         onEscape={onEscape}
+        withEllipsis
         withLabel={withLabel}
       />
     </Bare>

@@ -61,10 +61,10 @@ class Selection extends TxComponent<Props, State> {
         />
         <Button.Group>
           <Button
-            isDisabled={!isValid}
-            onClick={this.onSubmit}
-            label={t('Submit RPC call')}
             icon='sign-in'
+            isDisabled={!isValid}
+            label={t('Submit RPC call')}
+            onClick={this.onSubmit}
             ref={this.button}
           />
         </Button.Group>

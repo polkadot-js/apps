@@ -68,7 +68,6 @@ function Contracts (props: Props): React.ReactElement<Props> {
   return (
     <>
       <CardGrid
-        emptyText={t('No contracts available')}
         buttons={
           <Button.Group>
             {hasCode && (
@@ -88,6 +87,7 @@ function Contracts (props: Props): React.ReactElement<Props> {
             />
           </Button.Group>
         }
+        emptyText={t('No contracts available')}
       >
         {contracts.map((contract: ApiContract, index): React.ReactNode => (
           <ContractCard

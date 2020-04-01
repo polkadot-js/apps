@@ -33,8 +33,8 @@ function Toggle ({ className, asSwitch = true, defaultValue, isDisabled, onChang
       <label>{label}</label>
       <SUICheckbox
         checked={value}
-        disabled={isDisabled}
         defaultChecked={defaultValue}
+        disabled={isDisabled}
         onChange={_onChange}
         toggle={asSwitch}
       />

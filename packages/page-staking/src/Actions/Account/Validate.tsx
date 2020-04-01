@@ -58,9 +58,9 @@ class Validate extends TxComponent<Props, State> {
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
+          icon='check circle outline'
           isPrimary
           label={t('Validate')}
-          icon='check circle outline'
           onStart={onClose}
           params={[{ commission }]}
           tx='staking.validate'

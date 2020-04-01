@@ -94,9 +94,9 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={api.query.timestamp.now}
+          help={meta?.documentation.join(' ')}
           label={t('selected state query')}
           onChange={_onChangeKey}
-          help={meta?.documentation.join(' ')}
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}

@@ -23,7 +23,12 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={2}><h1>{t('proposals')}</h1></th>
+        <th
+          className='start'
+          colSpan={2}
+        >
+          <h1>{t('proposals')}</h1>
+        </th>
         <th className='address'>{t('proposer')}</th>
         <th>{t('locked')}</th>
         <th colSpan={3}>&nbsp;</th>

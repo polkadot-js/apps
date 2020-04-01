@@ -50,7 +50,12 @@ function PreImage ({ className, isImminent: propsIsImminent, imageHash, onClose 
         <InputAddress
           help={t('The account you want to register the preimage from')}
           label={t('send from account')}
-          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={accountId} />}
+          labelExtra={
+            <Available
+              label={<span className='label'>{t('transferrable')}</span>}
+              params={accountId}
+            />
+          }
           onChange={setAccountId}
           type='account'
         />
@@ -76,10 +81,10 @@ function PreImage ({ className, isImminent: propsIsImminent, imageHash, onClose 
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
+          icon='add'
           isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
           isPrimary
           label={t('Submit preimage')}
-          icon='add'
           onStart={onClose}
           params={[encodedProposal]}
           tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}

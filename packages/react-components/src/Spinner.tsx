@@ -31,10 +31,10 @@ function Spinner ({ className, label, variant = 'app' }: Props): React.ReactElem
             className='path'
             cx='50'
             cy='50'
-            r='20'
             fill='none'
-            strokeWidth={strokeWidth}
+            r='20'
             strokeMiterlimit='10'
+            strokeWidth={strokeWidth}
           />
         </svg>
       </div>

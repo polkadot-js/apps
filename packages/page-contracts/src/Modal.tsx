@@ -85,14 +85,14 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
             ? 'The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.'
             : 'The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.'
         )}
+        isDisabled={isBusy}
+        isRequired={this.isContract}
         label={t(
           this.isContract
             ? 'contract ABI'
             : 'contract ABI (optional)'
         )}
         onChange={this.onAddAbi}
-        isDisabled={isBusy}
-        isRequired={this.isContract}
       />
     );
   }

@@ -46,11 +46,11 @@ function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, tr
 
   return ReactDOM.createPortal(
     <ReactTooltip
-      id={trigger}
+      className={classes('ui--Tooltip', className)}
       effect={effect}
+      id={trigger}
       offset={offset}
       place={place}
-      className={classes('ui--Tooltip', className)}
     >
       {text}
     </ReactTooltip>,

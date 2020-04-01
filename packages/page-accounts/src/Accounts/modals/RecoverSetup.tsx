@@ -51,8 +51,8 @@ function RecoverSetup ({ address, className, onClose }: Props): React.ReactEleme
           available={availableHelpers}
           availableLabel={t('available social recovery helpers')}
           help={t('The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS } })}
-          onChange={setHelpers}
           maxCount={MAX_HELPERS}
+          onChange={setHelpers}
           value={helpers}
           valueLabel={t('trusted social recovery helpers')}
         />

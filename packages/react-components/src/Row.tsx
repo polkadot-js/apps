@@ -266,9 +266,9 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
         <Button
           className='icon-button'
           icon='edit'
-          size='mini'
           isPrimary
           key='unlock'
+          size='mini'
         />
       </span>
 
@@ -335,11 +335,11 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
       ? (
         <InputTags
           className='ui--Row-tags-input'
+          defaultValue={tags}
           onBlur={this.saveTags}
           onChange={this.onChangeTags}
           onClose={this.saveTags}
           openOnFocus
-          defaultValue={tags}
           searchInput={{ autoFocus: true }}
           value={tags}
           withLabel={false}
@@ -354,7 +354,10 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
             !tags.length
               ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
               : tags.map((tag): React.ReactNode => (
-                <Tag key={tag} label={tag} />
+                <Tag
+                  key={tag}
+                  label={tag}
+                />
               ))
           }
           {isEditable && this.renderEditIcon()}

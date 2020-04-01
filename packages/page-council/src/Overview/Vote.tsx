@@ -75,9 +75,9 @@ class Vote extends TxModal<Props, State> {
 
     return (
       <Button
+        icon='check'
         isDisabled={available.length === 0}
         label={this.props.t('Vote')}
-        icon='check'
         onClick={this.showModal}
       />
     );

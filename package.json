@@ -8,10 +8,10 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.9.0-beta.26",
-    "@polkadot/api-contract": "^1.9.0-beta.26",
+    "@polkadot/api": "^1.9.1",
+    "@polkadot/api-contract": "^1.9.1",
     "@polkadot/keyring": "^2.7.1",
-    "@polkadot/types": "^1.9.0-beta.26",
+    "@polkadot/types": "^1.9.1",
     "@polkadot/util": "^2.7.1",
     "@polkadot/util-crypto": "^2.7.1",
     "babel-core": "^7.0.0-bridge.0",
@@ -36,7 +36,7 @@
     "@babel/core": "^7.9.0",
     "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.2",
-    "@polkadot/dev": "^0.51.9",
+    "@polkadot/dev": "^0.52.1",
     "@polkadot/ts": "^0.3.14",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.16",

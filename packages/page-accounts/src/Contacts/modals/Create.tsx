@@ -109,8 +109,8 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           icon='save'
           isDisabled={!isValid}
           isPrimary
-          onClick={_onCommit}
           label={t('Save')}
+          onClick={_onCommit}
         />
       </Modal.Actions>
     </Modal>

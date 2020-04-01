@@ -20,8 +20,8 @@ function Button ({ children, className, floated, icon, isBasic = false, isCircul
     basic: isBasic,
     circular: isCircular,
     className: `${className} ${isIcon && 'isIcon'}`,
-    'data-tip': !!tooltip,
     'data-for': triggerId,
+    'data-tip': !!tooltip,
     disabled: isDisabled,
     floated,
     fluid: isFluid,
@@ -40,7 +40,12 @@ function Button ({ children, className, floated, icon, isBasic = false, isCircul
   return (
     <>
       {isUndefined(label) && isUndefined(children)
-        ? <SUIButton {...props} icon={icon} />
+        ? (
+          <SUIButton
+            {...props}
+            icon={icon}
+          />
+        )
         : (
           <SUIButton {...props}>
             {icon && (

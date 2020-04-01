@@ -45,8 +45,8 @@ class Import extends TxComponent<Props, State> {
             icon='sync'
             isDisabled={!isFileValid || !isPassValid}
             isPrimary
-            onClick={this.onSave}
             label={t('Restore')}
+            onClick={this.onSave}
           />
         </Modal.Actions>
       </Modal>

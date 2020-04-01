@@ -148,8 +148,8 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
         <CreateConfirmation
           address={address}
           name={name}
-          onCommit={_onCommit}
           onClose={_toggleConfirmation}
+          onCommit={_onCommit}
         />
       )}
       <Modal.Content>

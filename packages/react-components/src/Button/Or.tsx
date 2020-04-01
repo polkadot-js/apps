@@ -20,12 +20,12 @@ function ButtonOr ({ className, style, text }: Props): React.ReactElement<Props>
   return (
     <SUIButton.Or
       className={className}
-      style={style}
       label={
         isUndefined(text)
           ? t('or')
           : text
       }
+      style={style}
     />
   );
 }

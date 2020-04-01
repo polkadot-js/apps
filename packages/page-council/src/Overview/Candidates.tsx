@@ -23,7 +23,12 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
     <>
       <Table>
         <Table.Head>
-          <th className='start' colSpan={2}><h1>{t('runners up')}</h1></th>
+          <th
+            className='start'
+            colSpan={2}
+          >
+            <h1>{t('runners up')}</h1>
+          </th>
           <th>{t('backing')}</th>
         </Table.Head>
         <Table.Body empty={electionsInfo && t('No runners up found')}>
@@ -39,7 +44,12 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
       </Table>
       <Table>
         <Table.Head>
-          <th className='start' colSpan={2}><h1>{t('candidates')}</h1></th>
+          <th
+            className='start'
+            colSpan={2}
+          >
+            <h1>{t('candidates')}</h1>
+          </th>
           <th>{t('backing')}</th>
         </Table.Head>
         <Table.Body empty={electionsInfo && t('No candidates found')}>

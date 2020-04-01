@@ -214,8 +214,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
         <CreateConfirmation
           address={address}
           name={name}
-          onCommit={_onCommit}
           onClose={_toggleConfirmation}
+          onCommit={_onCommit}
         />
       )}
       <Modal.Content>
@@ -253,8 +253,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
             value={seed}
           >
             <Dropdown
-              isButton
               defaultValue={seedType}
+              isButton
               onChange={_selectSeedType}
               options={seedOpt}
             />

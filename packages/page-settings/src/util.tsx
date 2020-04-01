@@ -13,8 +13,8 @@ export function createOption (t: (input: any) => string, { info, isHeader, text,
   if (isHeader) {
     return (
       <Dropdown.Header
-        key={text as string}
         content={withI18n ? t(text) : text}
+        key={text as string}
       />
     );
   }

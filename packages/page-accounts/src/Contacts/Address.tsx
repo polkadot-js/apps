@@ -165,12 +165,13 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       </td>
       <td className='address'>
         <AddressSmall
+          onClickName={_toggleEditName}
           overrideName={
             isEditingName
               ? (
                 <Input
-                  className='name--input'
                   autoFocus
+                  className='name--input'
                   defaultValue={accName}
                   onBlur={_saveName}
                   onChange={setAccName}
@@ -180,7 +181,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
               )
               : undefined
           }
-          onClickName={_toggleEditName}
           toggle={isEditingName}
           value={address}
         />
@@ -189,10 +189,10 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
             {isForgetOpen && (
               <Forget
                 address={current.address}
-                onForget={_onForget}
                 key='modal-forget-account'
                 mode='address'
                 onClose={_toggleForget}
+                onForget={_onForget}
               />
             )}
             {isTransferOpen && (
@@ -209,21 +209,27 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         {isEditingTags
           ? (
             <InputTags
+              defaultValue={tags}
               onBlur={_saveTags}
               onChange={_setTags}
               onClose={_saveTags}
               openOnFocus
-              defaultValue={tags}
               searchInput={{ autoFocus: true }}
               value={tags}
               withLabel={false}
             />
           )
           : (
-            <div className='tags--toggle' onClick={_toggleEditTags}>
+            <div
+              className='tags--toggle'
+              onClick={_toggleEditTags}
+            >
               {tags.length
                 ? tags.map((tag): React.ReactNode => (
-                  <Tag key={tag} label={tag} />
+                  <Tag
+                    key={tag}
+                    label={tag}
+                  />
                 ))
                 : <label>{t('no tags')}</label>
               }
@@ -265,9 +271,9 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           }
         >
           <Menu
-            vertical
-            text
             onClick={_toggleSettingPopup}
+            text
+            vertical
           >
             <Menu.Item
               disabled={!isEditable}

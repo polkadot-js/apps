@@ -65,8 +65,8 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
       <SummaryBox>
         <section>
           <ParachainInfo
-            isBig
             info={parachain.info}
+            isBig
           >
             {(sudoKey && isMine) && (
               <Popup

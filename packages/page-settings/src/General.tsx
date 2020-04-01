@@ -132,19 +132,19 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
           </>
         )}
         <Button
+          icon='save'
           isDisabled={changed === null}
           isPrimary={isModalContent}
-          onClick={
-            changed
-              ? _saveAndReload
-              : _save
-          }
           label={
             changed
               ? t('Save & Reload')
               : t('Save')
           }
-          icon='save'
+          onClick={
+            changed
+              ? _saveAndReload
+              : _save
+          }
         />
       </Button.Group>
     </div>

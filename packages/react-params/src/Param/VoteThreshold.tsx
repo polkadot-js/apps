@@ -52,8 +52,8 @@ function VoteThresholdParam (props: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        options={options}
         onChange={onChange(props)}
+        options={options}
         withLabel={withLabel}
       />
     </Bare>

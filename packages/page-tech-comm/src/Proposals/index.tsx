@@ -25,7 +25,12 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
       </Button.Group>
       <Table>
         <Table.Head>
-          <th className='start' colSpan={2}><h1>{t('proposals')}</h1></th>
+          <th
+            className='start'
+            colSpan={2}
+          >
+            <h1>{t('proposals')}</h1>
+          </th>
           <th>{t('threshold')}</th>
           <th className='address'>{t('aye')}</th>
           <th className='address'>{t('nay')}</th>

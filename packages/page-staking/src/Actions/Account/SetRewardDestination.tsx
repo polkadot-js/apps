@@ -45,10 +45,10 @@ class SetRewardDestination extends TxComponent<Props, State> {
         <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={controllerId}
+            icon='sign-in'
             isDisabled={!canSubmit}
             isPrimary
             label={t('Set reward destination')}
-            icon='sign-in'
             onStart={onClose}
             params={[destination]}
             tx={'staking.setPayee'}
@@ -67,9 +67,9 @@ class SetRewardDestination extends TxComponent<Props, State> {
       <Modal.Content className='ui--signer-Signer-Content'>
         <InputAddress
           className='medium'
-          isDisabled
           defaultValue={controllerId}
           help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
+          isDisabled
           label={t('controller account')}
         />
         <Dropdown

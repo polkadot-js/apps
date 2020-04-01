@@ -194,8 +194,14 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <Modal.Actions
         cancelLabel={signedTx ? t('Close') : undefined}
+        onCancel={
+          isQrVisible
+            ? this.onCancelQr
+            : signedTx
+              ? this.onCancelSign
+              : this.onCancel
+        }
         withOr={!signedTx}
-        onCancel={isQrVisible ? this.onCancelQr : signedTx ? this.onCancelSign : this.onCancel}
       >
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
@@ -203,10 +209,9 @@ class Signer extends React.PureComponent<Props, State> {
             <Button.Or />
             <Button
               className='ui--signer-Signer-Submit'
+              icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : isExternal ? 'qrcode' : 'sign-in'}
               isDisabled={!isSendable}
               isPrimary
-              onClick={isQrVisible ? this.activateQrScanning : this.onSend}
-              tabIndex={2}
               label={
                 isQrVisible
                   ? t('Scan Signature Qr')
@@ -220,7 +225,8 @@ class Signer extends React.PureComponent<Props, State> {
                           ? t('Sign and Submit')
                           : t('Sign (no submission)')
               }
-              icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : isExternal ? 'qrcode' : 'sign-in'}
+              onClick={isQrVisible ? this.activateQrScanning : this.onSend}
+              tabIndex={2}
             />
           </>
         )}
@@ -275,12 +281,12 @@ class Signer extends React.PureComponent<Props, State> {
       <>
         <Toggle
           className='tipToggle'
+          isDisabled={!!signedTx}
           label={
             showTip
               ? t('Include an optional tip for faster processing')
               : t('Do not include a tip for the block author')
           }
-          isDisabled={!!signedTx}
           onChange={this.onShowTip}
           value={showTip}
         />
@@ -288,10 +294,10 @@ class Signer extends React.PureComponent<Props, State> {
           <InputBalance
             defaultValue={new BN(0)}
             help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
-            isZeroable
             isDisabled={!!signedTx}
-            onChange={this.onChangeTip}
+            isZeroable
             label={t('Tip (optional)')}
+            onChange={this.onChangeTip}
           />
         )}
       </>
@@ -304,12 +310,12 @@ class Signer extends React.PureComponent<Props, State> {
 
     return <Toggle
       className='signToggle'
+      isDisabled={isQrVisible || isQrScanning}
       label={
         isSubmit
           ? t('Sign and Submit')
           : t('Sign (no submission)')
       }
-      isDisabled={isQrVisible || isQrScanning}
       onChange={this.onToggleSign}
       value={isSubmit}
     />;
@@ -326,13 +332,29 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <>
         <br />
-        <InputNumber isZeroable={true} label={t('Nonce')} labelExtra={t('Current account nonce: {{accountNonce}}', { replace: { accountNonce } })} isDisabled={!!signedTx} value={accountNonce} onChange={this.onChangeNonce} />
-        <InputNumber isZeroable={true} label={t('Lifetime (# of blocks)')} labelExtra={t('Set to 0 to make transaction immortal')} isDisabled={!!signedTx} value={blocks} onChange={this.onChangeBlocks} />
-        {!!signedTx && <Output
-          label={t('Signed transaction')}
-          value={signedTx}
-          withCopy
-        />}
+        <InputNumber
+          isDisabled={!!signedTx}
+          isZeroable
+          label={t('Nonce')}
+          labelExtra={t('Current account nonce: {{accountNonce}}', { replace: { accountNonce } })}
+          onChange={this.onChangeNonce}
+          value={accountNonce}
+        />
+        <InputNumber
+          isDisabled={!!signedTx}
+          isZeroable
+          label={t('Lifetime (# of blocks)')}
+          labelExtra={t('Set to 0 to make transaction immortal')}
+          onChange={this.onChangeBlocks}
+          value={blocks}
+        />
+        {!!signedTx && (
+          <Output
+            label={t('Signed transaction')}
+            value={signedTx}
+            withCopy
+          />
+        )}
       </>
     );
   }
@@ -374,8 +396,8 @@ class Signer extends React.PureComponent<Props, State> {
         onChange={this.onChangePassword}
         onEnter={this.onSend}
         password={password}
-        value={currentItem.accountId}
         tabIndex={1}
+        value={currentItem.accountId}
       />
     );
   }

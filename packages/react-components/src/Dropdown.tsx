@@ -80,8 +80,8 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
   const dropdown = (
     <SUIDropdown
       allowAdditions={allowAdd}
-      className={dropdownClassName}
       button={isButton}
+      className={dropdownClassName}
       compact={isButton}
       disabled={isDisabled}
       error={isError}

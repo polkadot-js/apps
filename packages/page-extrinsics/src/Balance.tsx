@@ -21,10 +21,10 @@ function BalanceDisplay ({ className, label, params, style }: Props): React.Reac
   return (
     <InputBalance
       className={className}
+      defaultValue={allBalances?.freeBalance}
       isDisabled
       label={label}
       style={style}
-      defaultValue={allBalances?.freeBalance}
     />
   );
 }

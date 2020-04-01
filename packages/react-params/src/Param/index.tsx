@@ -41,8 +41,8 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
       <compRef.current
         className={classes('ui--Param', className)}
         defaultValue={defaultValue}
-        key={`${name}:${type}`}
         isDisabled={isDisabled}
+        key={`${name}:${type}`}
         label={label}
         name={name}
         onChange={onChange}

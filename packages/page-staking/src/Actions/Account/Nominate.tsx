@@ -88,12 +88,12 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
+          icon='hand paper outline'
           isDisabled={!selection?.length}
           isPrimary
+          label={t('Nominate')}
           onStart={onClose}
           params={[selection]}
-          label={t('Nominate')}
-          icon='hand paper outline'
           tx='staking.nominate'
         />
       </Modal.Actions>

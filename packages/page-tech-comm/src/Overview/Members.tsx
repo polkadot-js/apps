@@ -21,7 +21,12 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={3}><h1>{t('members')}</h1></th>
+        <th
+          className='start'
+          colSpan={3}
+        >
+          <h1>{t('members')}</h1>
+        </th>
       </Table.Head>
       <Table.Body empty={members && t('No members found')}>
         {members?.map((accountId): React.ReactNode => (

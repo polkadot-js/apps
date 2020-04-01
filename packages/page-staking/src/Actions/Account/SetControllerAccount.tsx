@@ -71,18 +71,18 @@ class SetControllerAccount extends TxComponent<Props, State> {
           />
           <InputValidationController
             accountId={stashId}
-            defaultController={defaultControllerId}
             controllerId={controllerId}
+            defaultController={defaultControllerId}
             onError={this.onControllerError}
           />
         </Modal.Content>
         <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={stashId}
+            icon='sign-in'
             isDisabled={!canSubmit}
             isPrimary
             label={t('Set controller')}
-            icon='sign-in'
             onStart={onClose}
             params={[controllerId]}
             tx='staking.setController'

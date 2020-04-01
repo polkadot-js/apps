@@ -61,9 +61,9 @@ class Approve extends TxModal<Props, State> {
       <div className='ui--Row-buttons'>
         <Button.Group>
           <Button
+            icon='reply'
             isPrimary
             label={t('Respond')}
-            icon='reply'
             onClick={this.showModal}
           />
         </Button.Group>
@@ -89,8 +89,8 @@ class Approve extends TxModal<Props, State> {
       <Dropdown
         help={t('Propose a majority council motion to either approve or reject this spend proposal')}
         label={t('proposed council action')}
-        options={this.approveOptions()}
         onChange={this.onChangeApproving}
+        options={this.approveOptions()}
         value={isApproving}
       />
     );

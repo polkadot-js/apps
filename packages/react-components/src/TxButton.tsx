@@ -75,7 +75,6 @@ function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, isBa
   return (
     <Button
       className={className}
-      tooltip={tooltip}
       icon={icon || 'check'}
       isBasic={isBasic}
       isDisabled={isSending || isDisabled || needsAccount}
@@ -90,6 +89,7 @@ function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, isBa
       label={label || (isIcon ? '' : t('Submit'))}
       onClick={_onSend}
       size={size}
+      tooltip={tooltip}
     />
   );
 }

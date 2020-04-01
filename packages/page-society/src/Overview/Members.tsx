@@ -31,7 +31,12 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
   return (
     <Table className={className}>
       <Table.Head>
-        <th colSpan={3} className='start'><h1>{t('members')}</h1></th>
+        <th
+          className='start'
+          colSpan={3}
+        >
+          <h1>{t('members')}</h1>
+        </th>
         <th>{t('strikes')}</th>
       </Table.Head>
       <Table.Body empty={info && t('No active members')}>

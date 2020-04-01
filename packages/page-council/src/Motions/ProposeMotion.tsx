@@ -73,9 +73,9 @@ class Propose extends TxModal<Props, State> {
 
     return (
       <Button
+        icon='add'
         isDisabled={!isMember}
         label={t('Propose motion')}
-        icon='add'
         onClick={this.showModal}
       />
     );
@@ -89,9 +89,9 @@ class Propose extends TxModal<Props, State> {
       <>
         <InputNumber
           className='medium'
-          label={t('threshold')}
           help={t('The minimum number of council votes required to approve this motion')}
           isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
+          label={t('threshold')}
           onChange={this.onChangeThreshold}
           onEnter={this.sendTx}
           placeholder={

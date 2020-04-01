@@ -76,10 +76,10 @@ function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, 
         >
           <Input
             autoFocus
-            onChange={_onChangeName}
-            onEnter={_saveSnippet}
             maxLength={50}
             min={1}
+            onChange={_onChangeName}
+            onEnter={_saveSnippet}
             placeholder={t('Name your example')}
             value={snippetName}
             withLabel={false}

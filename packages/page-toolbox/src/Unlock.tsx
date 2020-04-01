@@ -59,10 +59,10 @@ class Unlock extends TxComponent<Props, State> {
     return (
       <Modal.Actions onCancel={this.onCancel}>
         <Button
-          isPrimary
-          onClick={this.onUnlock}
-          label={t('Unlock')}
           icon='unlock'
+          isPrimary
+          label={t('Unlock')}
+          onClick={this.onUnlock}
           ref={this.button}
         />
       </Modal.Actions>
@@ -83,8 +83,8 @@ class Unlock extends TxComponent<Props, State> {
           <div>
             <Password
               autoFocus
-              isError={!!unlockError}
               help={t('The account\'s password specified at the creation of this account.')}
+              isError={!!unlockError}
               label={t('password')}
               onChange={this.onChangePassword}
               onEnter={this.submit}

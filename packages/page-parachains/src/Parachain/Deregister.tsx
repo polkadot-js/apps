@@ -48,8 +48,8 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
   return (
     <Modal
       header={t('Deregister this parachain')}
-      open={isOpen}
       onClose={onClose}
+      open={isOpen}
       small
     >
       <Modal.Content>

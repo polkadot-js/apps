@@ -183,7 +183,10 @@ function renderRows (rows: Row[]): React.ReactNode[] {
         return (
           <tr key={bn}>
             <td key='blockNumber' />
-            <td className='header isLink' colSpan={cols[0].width}>
+            <td
+              className='header isLink'
+              colSpan={cols[0].width}
+            >
               <div className='link'>&#8942;</div>
             </td>
           </tr>

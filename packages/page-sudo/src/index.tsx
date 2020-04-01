@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -31,19 +29,6 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
     }
   ], [t]);
 
-  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode => {
-    // eslint-disable-next-line react/display-name
-    return (): React.ReactNode => {
-      return (
-        <Component
-          allAccounts={allAccounts}
-          sudoKey={sudoKey}
-          isMine={isMine}
-        />
-      );
-    };
-  };
-
   return (
     <main>
       <header>
@@ -55,8 +40,20 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
       {isMine
         ? (
           <Switch>
-            <Route path={`${basePath}/key`} render={_renderComponent(SetKey)} />
-            <Route render={_renderComponent(Sudo)} />
+            <Route path={`${basePath}/key`}>
+              <SetKey
+                allAccounts={allAccounts}
+                isMine={isMine}
+                sudoKey={sudoKey}
+              />
+            </Route>
+            <Route>
+              <Sudo
+                allAccounts={allAccounts}
+                isMine={isMine}
+                sudoKey={sudoKey}
+              />
+            </Route>
           </Switch>
         )
         : (

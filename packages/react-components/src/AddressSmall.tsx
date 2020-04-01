@@ -30,8 +30,8 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
         <AccountName
           className={(overrideName || !onClickName) ? '' : 'name--clickable'}
           defaultName={defaultName}
-          override={overrideName}
           onClick={onClickName}
+          override={overrideName}
           toggle={toggle}
           value={value}
         />

@@ -31,8 +31,8 @@ function PreImageButton ({ imageHash, isImminent, withoutOr }: Props): React.Rea
       />
       {isPreimageOpen && (
         <PreImage
-          isImminent={isImminent}
           imageHash={imageHash}
+          isImminent={isImminent}
           onClose={togglePreimage}
         />
       )}
