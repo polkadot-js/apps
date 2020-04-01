@@ -153,11 +153,15 @@ export default React.memo(styled(StakingApp)`
     display: none;
   }
 
-  .staking--Chart h1 {
-    margin-bottom: 0.5rem;
-  }
-
-  .staking--Chart+.staking--Chart {
+  .staking--Chart {
     margin-top: 1.5rem;
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .ui--Spinner {
+      margin: 2.5rem auto;
+    }
   }
 `);

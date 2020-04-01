@@ -7,15 +7,15 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, Expander, LinkExternal, Tag } from '@polkadot/react-components';
+import { Button, LinkExternal, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance, BlockToTime } from '@polkadot/react-query';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
-import ReferendumVote from './ReferendumVote';
+import ReferendumVotes from './ReferendumVotes';
 import Voting from './Voting';
 
 interface Props {
@@ -54,26 +54,16 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
       </td>
-      <td className='number'>
-        <Expander summary={<><FormatBalance value={votedAye} />{voteCountAye ? ` (${formatNumber(voteCountAye)})` : '' }</>}>
-          {allAye.map((vote) =>
-            <ReferendumVote
-              key={vote.accountId.toString()}
-              vote={vote}
-            />
-          )}
-        </Expander>
-      </td>
-      <td className='number'>
-        <Expander summary={<><FormatBalance value={votedNay} />{voteCountNay ? ` (${formatNumber(voteCountNay)})` : '' }</>}>
-          {allNay.map((vote) =>
-            <ReferendumVote
-              key={vote.accountId.toString()}
-              vote={vote}
-            />
-          )}
-        </Expander>
-      </td>
+      <ReferendumVotes
+        count={voteCountAye}
+        total={votedAye}
+        votes={allAye}
+      />
+      <ReferendumVotes
+        count={voteCountNay}
+        total={votedNay}
+        votes={allNay}
+      />
       <td>
         {isBoolean(isPassing) && (
           <Tag
