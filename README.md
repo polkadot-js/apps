@@ -7,8 +7,9 @@
 
 `cennznet/ui:latest` docker image contains latest changes in `cennznet/apps develop branch`, which depends on:
 
-- @cennznet/types: 1.0.0-beta.1
-- @cennznet/cennznet: 1.0.0-rc2
+- @cennznet/types: 1.0.0
+- @cennznet/crml-generic-asset: 1.0.0
+- @cennznet/cennznet:1.0.0
 - @polkadot/apps: 0.40.0-beta.45
 - @polkadot/api.js: ^1.1.1
 - @polkadot/types: ^1.1.1
