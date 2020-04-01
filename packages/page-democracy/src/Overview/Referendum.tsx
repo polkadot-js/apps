@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import { BlockNumber, Vote } from '@polkadot/types/interfaces';
+import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { AddressMini, Button, Expander, LinkExternal, Tag } from '@polkadot/react-components';
+import { Button, Expander, LinkExternal, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isBoolean } from '@polkadot/util';
@@ -15,17 +15,12 @@ import { formatNumber, isBoolean } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
+import ReferendumVote from './ReferendumVote';
 import Voting from './Voting';
 
 interface Props {
   className?: string;
   value: DeriveReferendumExt;
-}
-
-const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x'];
-
-function voteLabel (vote: Vote): string {
-  return `${sizing[vote.conviction.toNumber()]} - `;
 }
 
 function Referendum ({ className, value: { allAye, allNay, image, imageHash, index, status, isPassing, voteCountAye, voteCountNay, votedAye, votedNay } }: Props): React.ReactElement<Props> | null {
@@ -61,26 +56,20 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
       </td>
       <td className='number'>
         <Expander summary={<><FormatBalance value={votedAye} />{voteCountAye ? ` (${formatNumber(voteCountAye)})` : '' }</>}>
-          {allAye.map(({ accountId, balance, vote }) =>
-            <AddressMini
-              balance={balance}
-              key={accountId.toString()}
-              labelBalance={voteLabel(vote)}
-              value={accountId}
-              withBalance
+          {allAye.map((vote) =>
+            <ReferendumVote
+              key={vote.accountId.toString()}
+              vote={vote}
             />
           )}
         </Expander>
       </td>
       <td className='number'>
         <Expander summary={<><FormatBalance value={votedNay} />{voteCountNay ? ` (${formatNumber(voteCountNay)})` : '' }</>}>
-          {allNay.map(({ accountId, balance, vote }) =>
-            <AddressMini
-              balance={balance}
-              key={accountId.toString()}
-              labelBalance={voteLabel(vote)}
-              value={accountId}
-              withBalance
+          {allNay.map((vote) =>
+            <ReferendumVote
+              key={vote.accountId.toString()}
+              vote={vote}
             />
           )}
         </Expander>
