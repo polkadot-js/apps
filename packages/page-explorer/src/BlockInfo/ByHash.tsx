@@ -35,7 +35,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
     <div className={className}>
       <Table isFixed>
         <Table.Head>
-          <th className='start' colSpan={getHeader ? 1 : 6}><h1>{formatNumber(blockNumber)}</h1></th>
+          <th className='start' colSpan={getHeader ? 1 : 6}><h1>{blockNumber ? formatNumber(blockNumber) : '...'}</h1></th>
           {getHeader && (
             <>
               <th className='start'>{t('hash')}</th>

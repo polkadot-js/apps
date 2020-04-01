@@ -7,7 +7,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { AddressMini, Button, Expander, LinkExternal, Tag } from '@polkadot/react-components';
+import { Button, Expander, LinkExternal, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isBoolean } from '@polkadot/util';
@@ -15,6 +15,7 @@ import { formatNumber, isBoolean } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
+import ReferendumVote from './ReferendumVote';
 import Voting from './Voting';
 
 interface Props {
@@ -55,20 +56,20 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
       </td>
       <td className='number'>
         <Expander summary={<><FormatBalance value={votedAye} />{voteCountAye ? ` (${formatNumber(voteCountAye)})` : '' }</>}>
-          {allAye.map(({ accountId }) =>
-            <AddressMini
-              key={accountId.toString()}
-              value={accountId}
+          {allAye.map((vote) =>
+            <ReferendumVote
+              key={vote.accountId.toString()}
+              vote={vote}
             />
           )}
         </Expander>
       </td>
       <td className='number'>
         <Expander summary={<><FormatBalance value={votedNay} />{voteCountNay ? ` (${formatNumber(voteCountNay)})` : '' }</>}>
-          {allNay.map(({ accountId }) =>
-            <AddressMini
-              key={accountId.toString()}
-              value={accountId}
+          {allNay.map((vote) =>
+            <ReferendumVote
+              key={vote.accountId.toString()}
+              vote={vote}
             />
           )}
         </Expander>
