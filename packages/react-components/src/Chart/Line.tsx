@@ -7,7 +7,7 @@ import { LineProps } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import ChartJs from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import * as Chart from 'react-chartjs-2';
 
 interface State {
   chartData?: ChartJs.ChartData;
@@ -77,6 +77,22 @@ function LineChart ({ className, colors, labels, legends, style, values }: LineP
   const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
 
   useEffect((): void => {
+    // Ok, this does exists, but the export if not there in the typings - so it works,
+    //  but we have to jiggle around here to get it to actually compile :(
+    (Chart as any).Chart.pluginService.register({
+      beforeDraw: (chart: any) => {
+        const ctx = chart.chart.ctx;
+        const chartArea = chart.chartArea;
+
+        ctx.save();
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+        ctx.restore();
+      }
+    });
+  }, []);
+
+  useEffect((): void => {
     const newJsonValues = JSON.stringify(values);
 
     if (newJsonValues !== jsonValues) {
@@ -93,7 +109,7 @@ function LineChart ({ className, colors, labels, legends, style, values }: LineP
       className={className}
       style={style}
     >
-      <Line
+      <Chart.Line
         data={chartData}
         options={chartOptions}
       />
