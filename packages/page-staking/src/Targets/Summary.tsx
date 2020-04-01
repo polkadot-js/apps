@@ -19,20 +19,16 @@ interface Props {
   totalStaked?: BN;
 }
 
-interface StakeInfo {
-  percentage?: string;
-}
-
 function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
-  const [{ percentage }, setStakeInfo] = useState<StakeInfo>({});
+  const [percentage, setPercentage] = useState<string | undefined>();
 
   useEffect((): void => {
-    totalIssuance && totalStaked?.gtn(0) && setStakeInfo({
-      percentage: `${(totalStaked.muln(10000).div(totalIssuance).toNumber() / 100).toFixed(2)}%`
-    });
+    totalIssuance && totalStaked?.gtn(0) && setPercentage(
+      `${(totalStaked.muln(10000).div(totalIssuance).toNumber() / 100).toFixed(2)}%`
+    );
   }, [totalIssuance, totalStaked]);
 
   return (
