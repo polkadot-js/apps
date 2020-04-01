@@ -19,7 +19,7 @@ export default ([
       defaultValue: 'Staking'
     },
     icon: 'certificate',
-    name: 'staking'
+    name: 'staking',
+    useCounter
   },
-  useCounter
 ] as Routes);
