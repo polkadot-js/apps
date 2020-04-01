@@ -12,7 +12,6 @@ import * as Chart from 'react-chartjs-2';
 interface State {
   chartData?: ChartJs.ChartData;
   chartOptions?: ChartJs.ChartOptions;
-  jsonValues?: string;
 }
 
 interface Dataset {
@@ -29,12 +28,40 @@ interface Config {
   datasets: Dataset[];
 }
 
+// Ok, this does exists, but the export if not there in the typings - so it works,
+//  but we have to jiggle around here to get it to actually compile :(
+(Chart as any).Chart.pluginService.register({
+  beforeDraw: (chart: any) => {
+    const ctx = chart.chart.ctx;
+    const chartArea = chart.chartArea;
+
+    ctx.save();
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+    ctx.restore();
+  }
+});
+
 const COLORS = ['#ff8c00', '#008c8c', '#8c008c'];
 
 const alphaColor = (hexColor: string): string =>
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
-function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][], jsonValues: string): State {
+const chartOptions = {
+  // no need for the legend, expect the labels contain everything
+  legend: {
+    display: false
+  },
+  scales: {
+    xAxes: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  }
+};
+
+function calculateOptions (colors: (string | undefined)[] = [], legends: string[], labels: string[], values: (number | BN)[][]): State {
   const chartData = values.reduce((chartData, values, index): Config => {
     const color = colors[index] || alphaColor(COLORS[index]);
     const data = values.map((value): number => BN.isBN(value) ? value.toNumber() : value);
@@ -56,49 +83,16 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
 
   return {
     chartData,
-    chartOptions: {
-      // no need for the legend, expect the labels contain everything
-      legend: {
-        display: false
-      },
-      scales: {
-        xAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    },
-    jsonValues
+    chartOptions
   };
 }
 
 function LineChart ({ className, colors, labels, legends, style, values }: LineProps): React.ReactElement<LineProps> | null {
-  const [{ chartData, chartOptions, jsonValues }, setState] = useState<State>({});
+  const [{ chartData, chartOptions }, setState] = useState<State>({});
 
   useEffect((): void => {
-    // Ok, this does exists, but the export if not there in the typings - so it works,
-    //  but we have to jiggle around here to get it to actually compile :(
-    (Chart as any).Chart.pluginService.register({
-      beforeDraw: (chart: any) => {
-        const ctx = chart.chart.ctx;
-        const chartArea = chart.chartArea;
-
-        ctx.save();
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
-        ctx.restore();
-      }
-    });
-  }, []);
-
-  useEffect((): void => {
-    const newJsonValues = JSON.stringify(values);
-
-    if (newJsonValues !== jsonValues) {
-      setState(calculateOptions(colors, legends, labels, values, newJsonValues));
-    }
-  }, [colors, jsonValues, labels, legends, values]);
+    setState(calculateOptions(colors, legends, labels, values));
+  }, [colors, labels, legends, values]);
 
   if (!chartData) {
     return null;
