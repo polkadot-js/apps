@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { BlockNumber, Vote } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -20,6 +20,12 @@ import Voting from './Voting';
 interface Props {
   className?: string;
   value: DeriveReferendumExt;
+}
+
+const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x'];
+
+function voteLabel (vote: Vote): string {
+  return `${sizing[vote.conviction.toNumber()]} - `;
 }
 
 function Referendum ({ className, value: { allAye, allNay, image, imageHash, index, status, isPassing, voteCountAye, voteCountNay, votedAye, votedNay } }: Props): React.ReactElement<Props> | null {
@@ -55,20 +61,26 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
       </td>
       <td className='number'>
         <Expander summary={<><FormatBalance value={votedAye} />{voteCountAye ? ` (${formatNumber(voteCountAye)})` : '' }</>}>
-          {allAye.map(({ accountId }) =>
+          {allAye.map(({ accountId, balance, vote }) =>
             <AddressMini
+              balance={balance}
               key={accountId.toString()}
+              labelBalance={voteLabel(vote)}
               value={accountId}
+              withBalance
             />
           )}
         </Expander>
       </td>
       <td className='number'>
         <Expander summary={<><FormatBalance value={votedNay} />{voteCountNay ? ` (${formatNumber(voteCountNay)})` : '' }</>}>
-          {allNay.map(({ accountId }) =>
+          {allNay.map(({ accountId, balance, vote }) =>
             <AddressMini
+              balance={balance}
               key={accountId.toString()}
+              labelBalance={voteLabel(vote)}
               value={accountId}
+              withBalance
             />
           )}
         </Expander>
