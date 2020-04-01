@@ -20,6 +20,7 @@ import Overview from './Overview';
 import Summary from './Overview/Summary';
 import Query from './Query';
 import Targets from './Targets';
+import Nomination from './Nomination';
 import { useTranslation } from './translate';
 
 export { default as useCounter } from './useCounter';
@@ -75,12 +76,16 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       hasParams: true,
       name: 'query',
       text: t('Validator stats')
-    }
+    },
+    {
+      name: 'nomination',
+      text: t('Nomination')
+    },
   ], [rewardCount, t]);
   const hiddenTabs = useMemo(
     (): string[] =>
       !hasAccounts
-        ? ['actions', 'query']
+        ? ['actions', 'query', 'nomination']
         : !hasQueries
           ? ['returns', 'query']
           : [],
@@ -127,6 +132,9 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
             setNominators={dispatchNominators}
             stakingOverview={stakingOverview}
           />
+        </Route>
+        <Route path={`${basePath}/nomination`}>
+          <Nomination />
         </Route>
       </Switch>
       <Actions
