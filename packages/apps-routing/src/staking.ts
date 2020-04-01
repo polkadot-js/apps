@@ -21,5 +21,5 @@ export default ([
     icon: 'certificate',
     name: 'staking',
     useCounter
-  },
+  }
 ] as Routes);
