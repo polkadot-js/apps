@@ -66,8 +66,8 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
     return (
       <InputNumber
         autoFocus={autoFocus}
-        className={className}
         bitLength={DEFAULT_BITLENGTH}
+        className={className}
         defaultValue={defaultValue}
         help={help}
         isDisabled={isDisabled}

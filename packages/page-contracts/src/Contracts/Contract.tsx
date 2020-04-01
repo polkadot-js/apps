@@ -64,10 +64,10 @@ function Contract (props: Props): React.ReactElement<Props> | null {
       {isForgetOpen && (
         <Forget
           address={address.toString()}
-          mode='contract'
-          onForget={_onForget}
           key='modal-forget-contract'
+          mode='contract'
           onClose={_toggleForget}
+          onForget={_onForget}
         />
       )}
       <AddressRow

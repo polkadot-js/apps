@@ -68,8 +68,8 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
         doBackup={_doBackup}
         isPassTouched={isPassTouched}
         isPassValid={isPassValid}
-        password={password}
         onChangePass={_onChangePass}
+        password={password}
       />
       <Modal.Actions onCancel={onClose}>
         <Button

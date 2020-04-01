@@ -69,10 +69,10 @@ class Unbond extends TxComponent<Props, State> {
         <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={controllerId}
+            icon='sign-out'
             isDisabled={!canSubmit}
             isPrimary
             label={t('Unbond')}
-            icon='sign-out'
             onStart={onClose}
             params={[maxUnbond]}
             tx='staking.unbond'

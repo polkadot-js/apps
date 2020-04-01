@@ -46,7 +46,10 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
       className={className}
       key={`extrinsic:${index}`}
     >
-      <td colSpan={2} className='top'>
+      <td
+        className='top'
+        colSpan={2}
+      >
         <Expander
           summary={`${section}.${method}`}
           summaryMeta={meta}
@@ -69,7 +72,10 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
           />
         </Expander>
       </td>
-      <td colSpan={2} className='top'>
+      <td
+        className='top'
+        colSpan={2}
+      >
         {thisEvents.map((event, index) =>
           <Event
             className='explorer--BlockByHash-event'
@@ -86,7 +92,10 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
               <div className='explorer--BlockByHash-nonce'>
                 {t('index')} {formatNumber(value.nonce)}
               </div>
-              <LinkExternal data={value.hash.toHex()} type='extrinsic' />
+              <LinkExternal
+                data={value.hash.toHex()}
+                type='extrinsic'
+              />
             </>
           )
           : <div className='explorer--BlockByHash-unsigned'>{t('not signed')}</div>

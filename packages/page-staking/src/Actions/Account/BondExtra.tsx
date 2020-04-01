@@ -57,12 +57,12 @@ class BondExtra extends TxComponent<Props, State> {
         <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={stashId}
+            extrinsic={extrinsic}
+            icon='sign-in'
             isDisabled={!canSubmit}
             isPrimary
             label={t('Bond more')}
-            icon='sign-in'
             onStart={onClose}
-            extrinsic={extrinsic}
             withSpinner
           />
         </Modal.Actions>
@@ -81,7 +81,12 @@ class BondExtra extends TxComponent<Props, State> {
           defaultValue={stashId}
           isDisabled
           label={t('stash account')}
-          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={stashId} />}
+          labelExtra={
+            <Available
+              label={<span className='label'>{t('transferrable')}</span>}
+              params={stashId}
+            />
+          }
         />
         <InputBalance
           autoFocus

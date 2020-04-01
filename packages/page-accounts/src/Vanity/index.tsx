@@ -101,12 +101,12 @@ class VanityApp extends TxComponent<Props, State> {
               : 'sign-in'
           }
           isDisabled={!isMatchValid}
-          onClick={this.toggleStart}
           label={
             isRunning
               ? t('Stop generation')
               : t('Start generation')
           }
+          onClick={this.toggleStart}
         />
       </Button.Group>
     );
@@ -152,8 +152,8 @@ class VanityApp extends TxComponent<Props, State> {
             help={t('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
             isDisabled={isRunning}
             label={t('case sensitive')}
-            options={BOOL_OPTIONS}
             onChange={this.onChangeCase}
+            options={BOOL_OPTIONS}
             value={withCase}
           />
         </div>

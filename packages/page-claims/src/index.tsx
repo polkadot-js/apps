@@ -133,8 +133,8 @@ class ClaimsApp extends TxModal<Props, State> {
                   <Button
                     icon='sign-in'
                     isPrimary
-                    onClick={this.setStep(Step.Sign)}
                     label={t('Continue')}
+                    onClick={this.setStep(Step.Sign)}
                   />
                 </Button.Group>
               )}
@@ -173,8 +173,8 @@ class ClaimsApp extends TxModal<Props, State> {
                       icon='sign-in'
                       isDisabled={!accountId || !signature}
                       isPrimary
-                      onClick={this.setStep(Step.Claim)}
                       label={t('Confirm claim')}
+                      onClick={this.setStep(Step.Claim)}
                     />
                   </Button.Group>
                 )}

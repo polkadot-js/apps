@@ -102,9 +102,9 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         >
           <div className='settings--networkSpecs-colorButton'>
             <Button
-              label={t('Random')}
               icon='sync'
               key='spread'
+              label={t('Random')}
               onClick={_onSetRandomColor}
             />
             <ChainColorIndicator color={networkSpecs.color}/>

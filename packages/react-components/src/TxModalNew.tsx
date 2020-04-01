@@ -114,10 +114,10 @@ function TxModal<P extends Props> ({
         </Modal.Content>
         <Modal.Actions onCancel={onClose}>
           <Button
+            icon={submitButtonIcon}
             isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
             isPrimary
             label={submitButtonLabel}
-            icon={submitButtonIcon}
             onClick={onSend}
             {...submitButtonProps}
           />

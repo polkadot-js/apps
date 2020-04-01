@@ -24,19 +24,19 @@ function AssetCard ({ className, assetId, name, onForget, onSaveName, t }: Props
     <Card className={className}>
       <div>
         <AssetRow
-          isEditable
           assetId={assetId}
-          defaultName={name}
           buttons={(
             <Button
-              isNegative
-              onClick={_onForget}
               icon='trash'
+              isNegative
               key='forget'
+              onClick={_onForget}
               size='small'
               tooltip={t('Forget this asset')}
             />
           )}
+          defaultName={name}
+          isEditable
           onSaveName={_onSaveName}
         />
       </div>

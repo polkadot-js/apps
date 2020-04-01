@@ -67,8 +67,8 @@ class Code extends React.PureComponent<Props, State> {
           {contractAbi
             ? (
               <Expander
-                onClick={this.toggleAbi}
                 isOpen={isAbiOpen}
+                onClick={this.toggleAbi}
                 summary={t('ABI')}
               >
                 {abi}
@@ -87,9 +87,9 @@ class Code extends React.PureComponent<Props, State> {
     return (
       <>
         <Button
+          icon='trash'
           isNegative
           onClick={this.toggleForget}
-          icon='trash'
           size='small'
           tooltip={t('Forget this code hash')}
         />
@@ -124,8 +124,8 @@ class Code extends React.PureComponent<Props, State> {
           onForget={this.onForget}
         >
           <CodeRow
-            isInline
             code={code || ''}
+            isInline
           >
             <p>{t('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
             <p>{t('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>

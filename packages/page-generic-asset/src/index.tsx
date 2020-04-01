@@ -38,8 +38,8 @@ function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/transfer`} component={Transfer} />
-        <Route component={Assets} />
+        <Route path={`${basePath}/transfer`}><Transfer /></Route>
+        <Route><Assets /></Route>
       </Switch>
     </main>
   );

@@ -105,8 +105,8 @@ function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props
       <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
       {count !== 0 && (
         <Badge
-          isInline
           info={count}
+          isInline
           type='counter'
         />
       )}

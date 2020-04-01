@@ -49,8 +49,8 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
           label={t('with an index of')}
         >
           <Nonce
-            className='ui disabled dropdown selection'
             callOnResult={_onChangeAccountNonce}
+            className='ui disabled dropdown selection'
             params={accountId}
           />
         </Labelled>

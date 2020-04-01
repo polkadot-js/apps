@@ -320,11 +320,11 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                 ? (
                   <TxButton
                     accountId={controllerId}
+                    icon='stop'
                     isDisabled={!isOwnController}
                     isPrimary={false}
-                    label={t('Stop')}
-                    icon='stop'
                     key='stop'
+                    label={t('Stop')}
                     tx='staking.chill'
                   />
                 )
@@ -333,30 +333,30 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                     {(!sessionIds.length || hexSessionIdNext === '0x')
                       ? (
                         <Button
+                          icon='sign-in'
                           isDisabled={!isOwnController}
                           key='set'
-                          onClick={toggleSetSession}
                           label={t('Session Key')}
-                          icon='sign-in'
+                          onClick={toggleSetSession}
                         />
                       )
                       : (
                         <Button
+                          icon='check circle outline'
                           isDisabled={!isOwnController}
                           key='validate'
-                          onClick={toggleValidate}
                           label={t('Validate')}
-                          icon='check circle outline'
+                          onClick={toggleValidate}
                         />
                       )
                     }
                     <Button.Or key='nominate.or' />
                     <Button
+                      icon='hand paper outline'
                       isDisabled={!isOwnController}
                       key='nominate'
-                      onClick={toggleNominate}
                       label={t('Nominate')}
-                      icon='hand paper outline'
+                      onClick={toggleNominate}
                     />
                   </Button.Group>
                 )
@@ -374,9 +374,9 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                 }
               >
                 <Menu
-                  vertical
-                  text
                   onClick={toggleSettings}
+                  text
+                  vertical
                 >
                   {api.query.staking.activeEra && (
                     <Menu.Item

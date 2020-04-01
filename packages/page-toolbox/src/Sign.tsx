@@ -162,9 +162,9 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
                 {t('You need to unlock this account to be able to sign data.')}<br/>
                 <Button.Group>
                   <Button
-                    onClick={_toggleUnlock}
-                    label={t('Unlock account')}
                     icon='unlock'
+                    label={t('Unlock account')}
+                    onClick={_toggleUnlock}
                   />
                 </Button.Group>
               </div>

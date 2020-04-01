@@ -34,18 +34,18 @@ function SetKey ({ allAccounts, className, isMine, sudoKey }: Props): React.Reac
             <>
               <InputAddress
                 className='sudoInputAddress'
-                value={selected}
-                label={t('sudo key')}
                 isInput={true}
+                label={t('sudo key')}
                 onChange={setSelected}
                 type='all'
+                value={selected}
               />
               <TxButton
                 accountId={sudoKey}
+                icon='sign-in'
                 isDisabled={!isMine || sudoKey === selected}
                 isPrimary
                 label={t('Reassign')}
-                icon='sign-in'
                 params={[selected]}
                 tx='sudo.setKey'
               />

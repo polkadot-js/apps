@@ -56,8 +56,8 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
 
   return (
     <div
-      key={name}
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
+      key={name}
     >
       <div className='info'>
         <MessageSignature
@@ -137,9 +137,9 @@ function Messages (props: Props): React.ReactElement<Props> {
       {messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
       {isRemovable && (
         <IconLink
-          label={t('Remove ABI')}
-          icon='remove'
           className='remove-abi'
+          icon='remove'
+          label={t('Remove ABI')}
           onClick={onRemove}
         />
       )}

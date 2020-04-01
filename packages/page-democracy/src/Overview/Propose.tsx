@@ -35,7 +35,12 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         <InputAddress
           help={t('The account you want to register the proposal from')}
           label={t('send from account')}
-          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={accountId} />}
+          labelExtra={
+            <Available
+              label={<span className='label'>{t('transferrable')}</span>}
+              params={accountId}
+            />
+          }
           onChange={setAccountId}
           type='account'
         />
@@ -55,10 +60,10 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
+          icon='add'
           isDisabled={!balance || balance.lten(0) || !isHashValid || !accountId}
           isPrimary
           label={t('Submit proposal')}
-          icon='add'
           onStart={onClose}
           params={[hash, balance]}
           tx='democracy.propose'

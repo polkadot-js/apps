@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// only here, needs to be available for the rest of the codebase
+/* eslint-disable react/jsx-max-props-per-line */
+
 import { DeriveStakingValidators } from '@polkadot/api-derive/types';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
@@ -35,7 +38,7 @@ function SummaryBar (): React.ReactElement {
         {validators && (
           <Bubble icon='chess queen' label='validators'>{
             validators.validators.map((accountId, index): React.ReactNode => (
-              <IdentityIcon key={index} value={accountId} size={20} />
+              <IdentityIcon key={index} size={20} value={accountId} />
             ))
           }</Bubble>
         )}

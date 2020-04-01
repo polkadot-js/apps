@@ -251,9 +251,9 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
             value={isAllLocked ? 'all' : balancesAll.lockedBalance}
           >
             <Icon
-              name='info circle'
-              data-tip
               data-for={`${address}-locks-trigger`}
+              data-tip
+              name='info circle'
             />
             <Tooltip
               text={balancesAll.lockedBreakdown.map(({ amount, reasons }, index): React.ReactNode => (
@@ -287,7 +287,10 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
           >
             {otherBonded.length !== 0 && (
               <>&nbsp;(+{otherBonded.map((bonded, index): React.ReactNode =>
-                <FormatBalance key={index} value={bonded} />
+                <FormatBalance
+                  key={index}
+                  value={bonded}
+                />
               )})</>
             )}
           </FormatBalance>
@@ -316,7 +319,12 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
   if (withBalanceToggle) {
     return (
       <>
-        <Expander summary={<FormatBalance className='summary' value={balancesAll?.votingBalance} />}>
+        <Expander summary={
+          <FormatBalance
+            className='summary'
+            value={balancesAll?.votingBalance}
+          />
+        }>
           <div className='body column'>
             {allItems}
           </div>

@@ -79,8 +79,8 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
     <>
       <div className='ui--Row-buttons'>
         <Button
-          label={t('Register a parachain')}
           icon='add'
+          label={t('Register a parachain')}
           onClick={onOpen}
         />
       </div>
@@ -93,9 +93,9 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
           <Modal.Content>
             <InputNumber
               defaultValue={nextFreeId}
-              label={t('parachain id')}
               help={t('The id number to assign to this parachain.')}
               isError={!isIdValid}
+              label={t('parachain id')}
               onChange={setId}
               onEnter={onSendRef.current}
               onEscape={onClose}

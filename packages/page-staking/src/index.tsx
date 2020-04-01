@@ -122,8 +122,8 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
           <Overview
             hasQueries={hasQueries}
             isIntentions
-            recentlyOnline={recentlyOnline}
             next={next}
+            recentlyOnline={recentlyOnline}
             setNominators={dispatchNominators}
             stakingOverview={stakingOverview}
           />
@@ -139,8 +139,8 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
         hasQueries={hasQueries}
-        recentlyOnline={recentlyOnline}
         next={next}
+        recentlyOnline={recentlyOnline}
         setNominators={dispatchNominators}
         stakingOverview={stakingOverview}
       />

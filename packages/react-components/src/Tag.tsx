@@ -32,8 +32,8 @@ function Tag ({ className, color, hover, label }: Props): React.ReactElement<Pro
       {label}
       {hover && (
         <Tooltip
-          trigger={trigger}
           text={hover}
+          trigger={trigger}
         />
       )}
     </Label>

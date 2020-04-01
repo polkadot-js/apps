@@ -115,6 +115,9 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
 
   const typesHasNoEntries = Object.keys(types).length === 0;
 
+  // Trans component
+  /* eslint-disable react/jsx-max-props-per-line */
+
   return (
     <div className={className}>
       <div className='ui--row'>
@@ -146,16 +149,16 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       </div>
       <Button.Group>
         <Button
-          onClick={_clearTypes}
-          label={t('Reset')}
           icon='sync'
+          label={t('Reset')}
+          onClick={_clearTypes}
         />
         <Button.Or />
         <Button
-          isDisabled={!isTypesValid || !isJsonValid}
-          onClick={_saveDeveloper}
-          label={t('Save')}
           icon='save'
+          isDisabled={!isTypesValid || !isJsonValid}
+          label={t('Save')}
+          onClick={_saveDeveloper}
         />
       </Button.Group>
     </div>

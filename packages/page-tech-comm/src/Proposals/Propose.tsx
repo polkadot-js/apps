@@ -46,8 +46,8 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
     <>
       {isOpen && (
         <Modal
-          onClose={onClose}
           header={t('Propose a committee motion')}
+          onClose={onClose}
         >
           <Modal.Content>
             <InputAddress
@@ -60,9 +60,9 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
             />
             <InputNumber
               className='medium'
-              label={t('threshold')}
               help={t('The minimum number of committee votes required to approve this motion')}
               isError={!hasThreshold}
+              label={t('threshold')}
               onChange={_onChangeThreshold}
               placeholder={t('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
               value={threshold || undefined}

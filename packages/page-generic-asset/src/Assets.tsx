@@ -32,14 +32,14 @@ function Assets ({ assets, t }: Props): React.ReactElement<Props> {
       buttons={
         <Button.Group>
           <Button
-            label={t('Register Asset')}
             icon='registered'
+            label={t('Register Asset')}
             onClick={_toggleCreate}
           />
         </Button.Group>
       }
-      isEmpty={emptyScreen}
       emptyText={t('No assets found.')}
+      isEmpty={emptyScreen}
     >
       {isCreateOpen && (
         <CreateModal
@@ -49,11 +49,11 @@ function Assets ({ assets, t }: Props): React.ReactElement<Props> {
       )}
       {assets && Object.entries(assets).map(([id, name]): React.ReactNode => (
         <AssetCard
-          key={id}
           assetId={id}
+          key={id}
           name={name}
-          onSaveName={_onSaveName}
           onForget={_onForget}
+          onSaveName={_onSaveName}
         />
       ))}
     </CardGrid>

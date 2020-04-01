@@ -74,7 +74,12 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           help={t('The account you will send funds from.')}
           isDisabled={!!propSenderId}
           label={t('send from account')}
-          labelExtra={<Available label={transferrable} params={senderId} />}
+          labelExtra={
+            <Available
+              label={transferrable}
+              params={senderId}
+            />
+          }
           onChange={setSenderId}
           type='account'
         />
@@ -83,7 +88,12 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           help={t('Select a contact or paste the address you want to send funds to.')}
           isDisabled={!!propRecipientId}
           label={t('send to address')}
-          labelExtra={<Available label={transferrable} params={recipientId} />}
+          labelExtra={
+            <Available
+              label={transferrable}
+              params={recipientId}
+            />
+          }
           onChange={setRecipientId}
           type='allPlus'
         />
@@ -91,9 +101,9 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           allowAdd
           help={t('Enter the Asset ID of the token you want to transfer.')}
           label={t('asset id')}
+          onAdd={_onAddAssetId}
           onChange={setAssetId}
           options={options}
-          onAdd={_onAddAssetId}
           value={assetId}
         />
         <InputBalance
@@ -113,10 +123,10 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
         <TxButton
           accountId={senderId}
           extrinsic={extrinsic}
+          icon='send'
           isDisabled={!hasAvailable}
           isPrimary
           label={t('Make Transfer')}
-          icon='send'
           onStart={onClose}
         />
       </Button.Group>

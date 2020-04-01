@@ -142,9 +142,9 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
               >
                 {value.map((address, index): React.ReactNode => (
                   <Draggable
-                    key={address}
                     draggableId={address}
                     index={index}
+                    key={address}
                   >
                     {(provided: DraggableProvided, snapshot: DraggableStateSnapshot): React.ReactElement => {
                       const element = (

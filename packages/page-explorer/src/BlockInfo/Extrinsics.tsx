@@ -22,10 +22,23 @@ function Extrinsics ({ className, blockNumber, events, label, value }: Props): R
   const { t } = useTranslation();
 
   return (
-    <Table className={className} isFixed>
+    <Table
+      className={className}
+      isFixed
+    >
       <Table.Head>
-        <th colSpan={2} className='start'><h1>{label || t('extrinsics')}</h1></th>
-        <th colSpan={2} className='start'>{t('events')}</th>
+        <th
+          className='start'
+          colSpan={2}
+        >
+          <h1>{label || t('extrinsics')}</h1>
+        </th>
+        <th
+          className='start'
+          colSpan={2}
+        >
+          {t('events')}
+        </th>
         <th className='address'>{t('signer')}</th>
       </Table.Head>
       <Table.Body empty={t('No pending extrinsics are in the queue')}>

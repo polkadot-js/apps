@@ -68,9 +68,9 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
     <div className={`${className} ${!isVisible && 'staking--hidden'}`}>
       <Button.Group>
         <Button
+          icon='add'
           key='new-stake'
           label={t('New stake')}
-          icon='add'
           onClick={_toggleNewStake}
         />
       </Button.Group>
@@ -79,7 +79,12 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       )}
       <Table>
         <Table.Head>
-          <th className='start' colSpan={2}><h1>{t('stashes')}</h1></th>
+          <th
+            className='start'
+            colSpan={2}
+          >
+            <h1>{t('stashes')}</h1>
+          </th>
           <th className='address'>{t('controller')}</th>
           <th className='number'>{t('rewards')}</th>
           <th className='number'>{t('bonded')}</th>

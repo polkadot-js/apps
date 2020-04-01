@@ -49,8 +49,8 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
 
   return (
     <Responsive
-      onUpdate={handleResize}
       className={classes(className, 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+      onUpdate={handleResize}
     >
       <ChainImg
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
@@ -84,12 +84,12 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                   <Item
                     isCollapsed={isCollapsed}
                     key={route.name}
-                    route={route}
                     onClick={
                       route.Modal
                         ? _toggleModal(route.name)
                         : handleResize
                     }
+                    route={route}
                   />
                 )
                 : (

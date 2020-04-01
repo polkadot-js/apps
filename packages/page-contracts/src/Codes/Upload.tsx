@@ -78,8 +78,8 @@ class Upload extends ContractModal<Props, State> {
         isPrimary
         label={t('Upload')}
         onClick={this.toggleBusy(true)}
-        onSuccess={this.onSuccess}
         onFailed={this.toggleBusy(false)}
+        onSuccess={this.onSuccess}
         params={[gasLimit, wasm]}
         tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
         withSpinner

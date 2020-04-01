@@ -149,10 +149,10 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
             ? { isUnsigned: true }
             : { accountId }
         )}
+        icon='sign-in'
         isDisabled={this.isDisabled()}
         isPrimary
         label={this.submitLabel()}
-        icon='sign-in'
         onClick={this.onSubmit}
         onFailed={this.onFailed}
         onSuccess={this.onSuccess}

@@ -186,11 +186,11 @@ function Status ({ className, stqueue, txqueue }: Props): React.ReactElement<Pro
       {(allSt.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
+            icon='cancel'
             isFluid
             isPrimary
-            onClick={_onDismiss}
             label={t('Dismiss all notifications')}
-            icon='cancel'
+            onClick={_onDismiss}
           />
         </div>
       )}

@@ -47,11 +47,11 @@ class Propose extends TxComponent<Props, State> {
           <Button.Group>
             <TxButton
               accountId={sudoKey}
-              label={t('Submit Sudo')}
               icon='sign-in'
-              tx='sudo.sudo'
               isDisabled={!method || !isValid}
+              label={t('Submit Sudo')}
               params={method ? [createType(registry, 'Proposal', method)] : []}
+              tx='sudo.sudo'
               withSpinner
             />
           </Button.Group>

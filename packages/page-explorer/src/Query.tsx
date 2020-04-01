@@ -46,9 +46,9 @@ function Query ({ className, value: propsValue }: Props): React.ReactElement<Pro
         className='explorer--query'
         defaultValue={propsValue}
         isError={!isValid && value.length !== 0}
-        placeholder={t('block hash or number to query')}
         onChange={_setHash}
         onEnter={_onQuery}
+        placeholder={t('block hash or number to query')}
         withLabel={false}
       >
         <Button

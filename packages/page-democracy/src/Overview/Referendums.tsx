@@ -23,7 +23,12 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={2}><h1>{t('referenda')}</h1></th>
+        <th
+          className='start'
+          colSpan={2}
+        >
+          <h1>{t('referenda')}</h1>
+        </th>
         <th>{t('remaining')}</th>
         <th>{t('activate')}</th>
         <th>{t('aye')}</th>

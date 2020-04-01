@@ -39,15 +39,15 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
             />
             <InputAddress
               className='medium'
-              label={t('beneficiary')}
               help={t('The account to which the proposed balance will be transferred if approved')}
-              type='allPlus'
+              label={t('beneficiary')}
               onChange={setBeneficiary}
+              type='allPlus'
             />
             <InputBalance
               className='medium'
-              isError={!hasValue}
               help={t('The amount that will be allocated from the treasury pot')}
+              isError={!hasValue}
               label={t('value')}
               onChange={setValue}
             />

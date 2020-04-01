@@ -87,10 +87,10 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
           <Modal.Actions onCancel={toggleFasttrack}>
             <TxButton
               accountId={accountId}
+              icon='fast forward'
               isDisabled={!accountId || !proposal || !memberThreshold}
               isPrimary
               label={t('Fast track')}
-              icon='fast forward'
               onStart={toggleFasttrack}
               params={[memberThreshold, proposal]}
               tx='technicalCommittee.propose'

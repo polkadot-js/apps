@@ -50,13 +50,16 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
     <div className={className}>
       <FormatBalance value={total} />
       <Icon
-        name='clock'
-        data-tip
         data-for={trigger}
+        data-tip
+        name='clock'
       />
       <Tooltip
         text={mapped.map(([{ value }, blocks], index): React.ReactNode => (
-          <div className='row' key={index}>
+          <div
+            className='row'
+            key={index}
+          >
             <div>{t('Unbonding {{value}}, ', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
             <BlockToTime
               blocks={blocks}

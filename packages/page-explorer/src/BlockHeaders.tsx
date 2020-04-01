@@ -19,7 +19,12 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   return (
     <Table>
       <Table.Head>
-        <th className='start' colSpan={3}><h1>{t('recent blocks')}</h1></th>
+        <th
+          className='start'
+          colSpan={3}
+        >
+          <h1>{t('recent blocks')}</h1>
+        </th>
       </Table.Head>
       <Table.Body empty={t('No blocks available')}>
         {headers

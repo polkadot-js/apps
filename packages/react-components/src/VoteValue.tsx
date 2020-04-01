@@ -67,7 +67,12 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
       help={t('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isZeroable
       label={t('vote value')}
-      labelExtra={<BalanceVoting label={<label>{t('voting balance')}</label>} params={accountId} />}
+      labelExtra={
+        <BalanceVoting
+          label={<label>{t('voting balance')}</label>}
+          params={accountId}
+        />
+      }
       maxValue={allBalances?.votingBalance}
       onChange={_setValue}
       value={value}

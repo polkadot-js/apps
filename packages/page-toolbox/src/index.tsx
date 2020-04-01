@@ -52,10 +52,10 @@ function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/hash`} component={Hash} />
-        <Route path={`${basePath}/sign`} component={Sign} />
-        <Route path={`${basePath}/verify`} component={Verify} />
-        <Route component={Rpc} />
+        <Route path={`${basePath}/hash`}><Hash /></Route>
+        <Route path={`${basePath}/sign`}><Sign /></Route>
+        <Route path={`${basePath}/verify`}><Verify /></Route>
+        <Route><Rpc /></Route>
       </Switch>
     </main>
   );

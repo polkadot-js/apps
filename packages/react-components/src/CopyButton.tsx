@@ -45,8 +45,8 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
             <Button
               className='icon-button'
               icon={icon}
-              size='mini'
               isPrimary
+              size='mini'
             />
           </span>
         </div>

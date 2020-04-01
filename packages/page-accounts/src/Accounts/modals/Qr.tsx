@@ -93,8 +93,8 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
           icon='sign-in'
           isDisabled={!scanned || !isNameValid}
           isPrimary
-          onClick={_onSave}
           label={t('Create')}
+          onClick={_onSave}
         />
       </Modal.Actions>
     </Modal>
