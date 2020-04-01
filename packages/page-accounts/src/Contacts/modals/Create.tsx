@@ -56,7 +56,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
     }
 
     try {
-      keyring.saveAddress(address, { name: name.trim(), genesisHash: keyring.genesisHash, tags: [] });
+      keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
 
       status.account = address;
       status.status = address ? 'success' : 'error';

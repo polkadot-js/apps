@@ -17,8 +17,8 @@ interface Props {
 
 function ContractCall ({ endowment, fees, onChange }: Props): React.ReactElement<Props> | null {
   const [, setState] = useState<State>({
-    extraFees: new BN(0),
     extraAmount: new BN(0),
+    extraFees: new BN(0),
     extraWarn: false
   });
 

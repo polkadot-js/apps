@@ -10,7 +10,6 @@ import Staking, { useCounter } from '@polkadot/app-staking';
 export default ([
   {
     Component: Staking,
-    useCounter,
     display: {
       needsApi: [
         ['tx.staking.bond']
@@ -21,5 +20,6 @@ export default ([
     },
     icon: 'certificate',
     name: 'staking'
-  }
+  },
+  useCounter
 ] as Routes);

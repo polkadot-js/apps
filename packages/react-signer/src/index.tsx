@@ -15,7 +15,7 @@ interface Props extends BareProps {
 }
 
 function Signer ({ children, className, style }: Props): React.ReactElement<Props> {
-  const { txqueue, queueSetTxStatus } = useContext(StatusContext);
+  const { queueSetTxStatus, txqueue } = useContext(StatusContext);
 
   return (
     <>

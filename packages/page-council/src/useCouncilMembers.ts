@@ -15,8 +15,8 @@ function transform (allAccounts: string[], queryMembers: [AccountId, Balance][])
   const members = queryMembers.map((accountId): string => accountId.toString());
 
   return {
-    members,
-    isMember: members.some((accountId): boolean => allAccounts.includes(accountId))
+    isMember: members.some((accountId): boolean => allAccounts.includes(accountId)),
+    members
   };
 }
 

@@ -81,9 +81,9 @@ function extractExternal (
   const pair = keyring.getPair(publicKey);
 
   return {
+    hardwareType: pair.meta.hardwareType,
     isExternal: !!pair.meta.isExternal,
-    isHardware: !!pair.meta.isHardware,
-    hardwareType: pair.meta.hardwareType
+    isHardware: !!pair.meta.isHardware
   };
 }
 
@@ -189,7 +189,7 @@ class Signer extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { isExternal, isHardware, hardwareType } = extractExternal(currentItem.accountId);
+    const { hardwareType, isExternal, isHardware } = extractExternal(currentItem.accountId);
 
     return (
       <Modal.Actions
@@ -306,7 +306,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderSignToggle (): React.ReactNode {
     const { t } = this.props;
-    const { isSubmit, isQrVisible, isQrScanning } = this.state;
+    const { isQrScanning, isQrVisible, isSubmit } = this.state;
 
     return <Toggle
       className='signToggle'
@@ -518,9 +518,9 @@ class Signer extends React.PureComponent<Props, State> {
       this.setState({
         isQrVisible: true,
         qrAddress: payload.address,
-        qrPayload: createType(registry, 'ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
-        qrResolve: resolve,
-        qrReject: reject
+        qrPayload: registry.createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
+        qrReject: reject,
+        qrResolve: resolve
       });
     });
   };
@@ -563,7 +563,7 @@ class Signer extends React.PureComponent<Props, State> {
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
     const { queueSetTxStatus } = this.props;
     const { isSubmit, showTip, tip } = this.state;
-    const { accountId, extrinsic, id, payload, isUnsigned } = queueTx;
+    const { accountId, extrinsic, id, isUnsigned, payload } = queueTx;
 
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
@@ -627,7 +627,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txSuccessCb, txStartCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
     const { showTip, tip } = this.state;
 

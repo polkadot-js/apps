@@ -20,18 +20,15 @@ interface State {
 }
 
 function stateFromValue (value: string): State {
-  const isValidHex = isHex(value, 256);
-  const isNumber = !isValidHex && /^\d+$/.test(value);
-
   return {
-    value,
-    isValid: isValidHex || isNumber
+    isValid: isHex(value, 256) || /^\d+$/.test(value),
+    value
   };
 }
 
 function Query ({ className, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ value, isValid }, setState] = useState(stateFromValue(propsValue || ''));
+  const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
 
   const _setHash = (value: string): void => setState(stateFromValue(value));
   const _onQuery = (): void => {

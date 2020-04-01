@@ -12,7 +12,7 @@ interface Props {
   value: Bid;
 }
 
-function BidRow ({ value: { who, kind, value } }: Props): React.ReactElement<Props> {
+function BidRow ({ value: { kind, value, who } }: Props): React.ReactElement<Props> {
   return (
     <tr>
       <td className='all top'>

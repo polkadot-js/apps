@@ -24,8 +24,8 @@ export interface TxModalState {
 export default class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
     accountId: null,
-    isOpen: false,
-    isBusy: false
+    isBusy: false,
+    isOpen: false
   } as unknown as S;
 
   public state: S = this.defaultState;

@@ -25,7 +25,7 @@ interface Props {
 function genLinks (systemChain: string, { data, hash, type, withShort }: Props): React.ReactNode[] {
   return Object
     .entries(linked)
-    .map(([name, { isActive, chains, paths, create }]): React.ReactNode | null => {
+    .map(([name, { chains, create, isActive, paths }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 

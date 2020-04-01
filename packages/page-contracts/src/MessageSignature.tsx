@@ -91,10 +91,10 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
       {mutates && (
         <>
           <Icon
-            className="mutates"
+            className='mutates'
             data-for={`mutates-${name}`}
             data-tip
-            name="database"
+            name='database'
           />
           {withTooltip && (
             <Tooltip

@@ -63,7 +63,7 @@ function calcWidth (children: LinkArray): number {
 
 // counts the height of a specific node
 function calcHeight (children: LinkArray): number {
-  return children.reduce((max, { hdr, arr }): number => {
+  return children.reduce((max, { arr, hdr }): number => {
     hdr.height = hdr.isEmpty
       ? 0
       : 1 + calcHeight(arr);

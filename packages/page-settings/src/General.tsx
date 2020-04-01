@@ -35,8 +35,8 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
   }, [t]);
   const translateLanguages = useMemo((): Option[] => {
     return availableLanguages.map(({ text, value, withI18n }) => ({
-      value,
-      text: withI18n ? t(text as string) : text
+      text: withI18n ? t(text as string) : text,
+      value
     }));
   }, [t]);
 
@@ -69,7 +69,7 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
     [settings]
   );
 
-  const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
+  const { i18nLang, icon, ledgerConn, prefix, uiMode } = settings;
 
   return (
     <div className={className}>

@@ -90,7 +90,7 @@ class ABI extends React.PureComponent<Props, State> {
 
   private renderInputFile (): React.ReactNode {
     const { className, help, isDisabled, isRequired, label, t } = this.props;
-    const { isAbiValid, isEmpty, isError, errorText } = this.state;
+    const { errorText, isAbiValid, isEmpty, isError } = this.state;
 
     return (
       <div className={className}>
@@ -168,10 +168,10 @@ class ABI extends React.PureComponent<Props, State> {
       console.error(error);
 
       this.setState({
+        errorText: error,
         isAbiValid: false,
         isEmpty: false,
-        isError: true,
-        errorText: error
+        isError: true
       }, (): void => onChange(null, null));
     }
   }

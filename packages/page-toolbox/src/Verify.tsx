@@ -37,9 +37,9 @@ function Verify (): React.ReactElement<{}> {
   const { t } = useTranslation();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
-  const [{ publicKey, isValidPk }, setPublicKey] = useState<{ publicKey: Uint8Array | null; isValidPk: boolean }>({ publicKey: null, isValidPk: false });
-  const [{ signature, isValidSignature }, setSignature] = useState<{ signature: string; isValidSignature: boolean }>({ signature: '', isValidSignature: false });
-  const [cryptoOptions] = useState([{ value: 'unknown', text: t('Crypto not detected') }].concat(uiSettings.availableCryptos as any[]));
+  const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
+  const [{ isValidSignature, signature }, setSignature] = useState<{ isValidSignature: boolean; signature: string }>({ isValidSignature: false, signature: '' });
+  const [cryptoOptions] = useState([{ text: t('Crypto not detected'), value: 'unknown' }].concat(uiSettings.availableCryptos as any[]));
 
   useEffect((): void => {
     let cryptoType: CryptoTypes = 'unknown';
@@ -87,14 +87,14 @@ function Verify (): React.ReactElement<{}> {
       console.error(err);
     }
 
-    setPublicKey({ publicKey, isValidPk: !!publicKey && publicKey.length === 32 });
+    setPublicKey({ isValidPk: !!publicKey && publicKey.length === 32, publicKey });
   };
 
   const _onChangeData = (data: string): void =>
     setData({ data, isHexData: isHex(data) });
 
   const _onChangeSignature = (signature: string): void =>
-    setSignature({ signature, isValidSignature: isHex(signature) && signature.length === 130 });
+    setSignature({ isValidSignature: isHex(signature) && signature.length === 130, signature });
 
   return (
     <div className='toolbox--Verify'>
@@ -126,7 +126,7 @@ function Verify (): React.ReactElement<{}> {
           <AlignedIcon
             color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
             name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
-            size="big"
+            size='big'
           />
         </div>
         <Input

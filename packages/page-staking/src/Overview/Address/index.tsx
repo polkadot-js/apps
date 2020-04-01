@@ -50,7 +50,7 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
   let stakeOwn: BN | undefined;
 
   if (exposure) {
-    nominators = exposure.others.map(({ who, value }): [string, Balance] => [who.toString(), value.unwrap()]);
+    nominators = exposure.others.map(({ value, who }): [string, Balance] => [who.toString(), value.unwrap()]);
     stakeTotal = exposure.total.unwrap();
     stakeOwn = exposure.own.unwrap();
     stakeOther = stakeTotal.sub(stakeOwn);
@@ -75,7 +75,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
 
   if (filterLower) {
     if (accountInfo) {
-      const { identity, nickname, accountId, accountIndex } = accountInfo;
+      const { accountId, accountIndex, identity, nickname } = accountInfo;
 
       if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
         isVisible = true;
@@ -104,7 +104,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
   const stakingInfo = useCall<DeriveStakingQuery>(isMain && api.derive.staking.query as any, [address]);
-  const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
+  const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect((): void => {

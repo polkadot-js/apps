@@ -220,9 +220,9 @@ class VanityApp extends TxComponent<Props, State> {
 
         return {
           elapsed,
-          matches: newMatches,
           keyCount: newKeyCount,
-          keyTime: newKeyTime
+          keyTime: newKeyTime,
+          matches: newMatches
         };
       }
     );

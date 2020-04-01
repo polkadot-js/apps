@@ -19,7 +19,7 @@ interface Props {
 function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
-  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen, onClose, onOpen } = useModal();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([

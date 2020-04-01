@@ -43,12 +43,12 @@ function calculateOptions (aspectRatio: number, values: HorizBarValue[], jsonVal
 
     return data;
   }, {
-    labels: [] as string[],
     datasets: [{
-      data: [] as number[],
       backgroundColor: [] as string[],
+      data: [] as number[],
       hoverBackgroundColor: [] as string[]
-    }]
+    }],
+    labels: [] as string[]
   });
 
   return {

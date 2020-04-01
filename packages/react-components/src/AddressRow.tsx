@@ -50,8 +50,8 @@ const EMPTY_INFO: DeriveAccountInfo = {
   },
   isCouncil: false,
   isSociety: false,
-  isTechCommittee: false,
-  isSudo: false
+  isSudo: false,
+  isTechCommittee: false
 };
 
 class AddressRow extends Row<ApiProps & Props, State> {

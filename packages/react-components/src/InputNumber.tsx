@@ -70,10 +70,10 @@ function getRegex (isDecimal: boolean): RegExp {
 function getSiOptions (): { text: string; value: string }[] {
   return formatBalance.getOptions()
     .map(({ power, text, value }): { text: string; value: string } => ({
-      value,
       text: power === 0
         ? TokenUnit.abbr
-        : text
+        : text,
+      value
     }));
 }
 
@@ -231,7 +231,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
     }
 
     if (event.key.length === 1 && !isPreKeyDown) {
-      const { selectionStart: i, selectionEnd: j, value } = event.target as HTMLInputElement;
+      const { selectionEnd: j, selectionStart: i, value } = event.target as HTMLInputElement;
       const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
 
       if (!getRegex(isDecimal || !!si).test(newValue)) {

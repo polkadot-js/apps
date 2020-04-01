@@ -23,18 +23,18 @@ interface Props {
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className, isImminent: propsIsImminent, imageHash, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isImminent, setIsImminent] = useState(propsIsImminent || false);
-  const [{ encodedProposal, encodedHash }, setHash] = useState<{ encodedProposal: string; encodedHash: string }>({ encodedProposal: '', encodedHash: ZERO_HASH });
+  const [{ encodedHash, encodedProposal }, setHash] = useState<{ encodedHash: string; encodedProposal: string }>({ encodedHash: ZERO_HASH, encodedProposal: '' });
   const [proposal, setProposal] = useState<any>();
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
 
-    setHash({ encodedProposal, encodedHash: blake2AsHex(encodedProposal) });
+    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal });
   }, [proposal]);
 
   const isMatched = imageHash

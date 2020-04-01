@@ -44,8 +44,8 @@ function Summary (): React.ReactElement<{}> {
           <CardSummary
             label={t('launch period')}
             progress={{
-              value: bestNumber.mod(api.consts.democracy.launchPeriod).addn(1),
               total: api.consts.democracy.launchPeriod,
+              value: bestNumber.mod(api.consts.democracy.launchPeriod).addn(1),
               withTime: true
             }}
           />

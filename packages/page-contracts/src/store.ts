@@ -76,10 +76,10 @@ class Store extends EventEmitter {
     try {
       const abi = json.abi ? JSON.parse(json.abi) : null;
       this.allCode[json.codeHash] = {
-        json,
         contractAbi: abi
           ? new Abi(registry, abi)
-          : undefined
+          : undefined,
+        json
       };
 
       this.emit('new-code');

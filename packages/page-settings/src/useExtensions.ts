@@ -88,7 +88,7 @@ function filterAll (api: ApiPromise, all: ExtensionKnown[]): Extensions {
 }
 
 export default function useExtensions (): Extensions {
-  const { api, isApiReady, isDevelopment, extensions } = useApi();
+  const { api, extensions, isApiReady, isDevelopment } = useApi();
   const [all, setAll] = useState<ExtensionKnown[] | undefined>();
   const [state, setState] = useState<Extensions>({ count: 0 });
   const [trigger, setTrigger] = useState(0);

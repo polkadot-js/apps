@@ -41,8 +41,8 @@ function filterEvents (allAccounts: string[], t: (key: string, opts?: object) =>
           return {
             account,
             action: `${section}.${method}`,
-            status: 'event',
-            message: t('transfer received')
+            message: t('transfer received'),
+            status: 'event'
           };
         }
       } else if (section === 'democracy') {
@@ -50,12 +50,12 @@ function filterEvents (allAccounts: string[], t: (key: string, opts?: object) =>
 
         return {
           action: `${section}.${method}`,
-          status: 'event',
           message: t('update on #{{index}}', {
             replace: {
               index
             }
-          })
+          }),
+          status: 'event'
         };
       }
 

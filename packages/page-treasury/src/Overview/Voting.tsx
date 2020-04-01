@@ -28,7 +28,7 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [{ councilId, councilHash }, setCouncilInfo] = useState<{ councilId: ProposalIndex | null; councilHash: Hash | null }>({ councilId: null, councilHash: null });
+  const [{ councilHash, councilId }, setCouncilInfo] = useState<{ councilHash: Hash | null; councilId: ProposalIndex | null }>({ councilHash: null, councilId: null });
   const [isOpen, toggleOpen] = useToggle();
   const [voteValue, setVoteValue] = useState(true);
 
@@ -53,10 +53,10 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
     const councilProp = councilProposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
 
     if (councilProp && councilProp.votes) {
-      setCouncilInfo({ councilId: councilProp.votes.index, councilHash: councilProp.hash });
+      setCouncilInfo({ councilHash: councilProp.hash, councilId: councilProp.votes.index });
       setCouncilOptId(councilOptId);
     } else {
-      setCouncilInfo({ councilId: null, councilHash: null });
+      setCouncilInfo({ councilHash: null, councilId: null });
     }
   };
 

@@ -87,7 +87,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     _onChangeValues([]);
   };
 
-  const { creator: { method, section, meta } } = key;
+  const { creator: { meta, method, section } } = key;
 
   return (
     <section className='storage--actionrow'>

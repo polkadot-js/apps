@@ -4,6 +4,9 @@
 
 import { Snippet } from '@polkadot/app-js/types';
 
+// We must fix this :(
+/* eslint-disable sort-keys */
+
 export const constsStakingParameters: Snippet = {
   value: 'constsStakingParameters',
   text: 'Get staking parameters',

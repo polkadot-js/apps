@@ -129,7 +129,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
   return [own, other];
 }
 
-function renderExtended ({ balancesAll, address, withExtended }: Props, t: (key: string) => string): React.ReactNode {
+function renderExtended ({ address, balancesAll, withExtended }: Props, t: (key: string) => string): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
@@ -343,7 +343,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const { className, children, extraInfo, withBalanceToggle, withHexSessionId } = props;
+  const { children, className, extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   return (
     <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>

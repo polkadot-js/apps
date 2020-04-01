@@ -97,9 +97,9 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   const validators = sortValidators(
     electedInfo.info.map(({ accountId, exposure: _exposure, validatorPrefs }): ValidatorInfo => {
       const exposure = _exposure || {
-        total: createType(registry, 'Compact<Balance>'),
+        others: createType(registry, 'Vec<IndividualExposure>'),
         own: createType(registry, 'Compact<Balance>'),
-        others: createType(registry, 'Vec<IndividualExposure>')
+        total: createType(registry, 'Compact<Balance>')
       };
       const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
         commission: createType(registry, 'Compact<Perbill>')
@@ -132,11 +132,11 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
         bondOwn,
         bondShare: 0,
         bondTotal,
+        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).toNumber() / 10_000_000),
         isCommission: !!(prefs as ValidatorPrefs).commission,
         isFavorite: favorites.includes(key),
         isNominating,
         key,
-        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).toNumber() / 10_000_000),
         numNominators: exposure.others.length,
         rankBondOther: 0,
         rankBondOwn: 0,
@@ -183,11 +183,11 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1_000));
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [{ nominators, validators, sorted, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
+  const [{ nominators, sorted, totalStaked, validators }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
   const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
   const labels = useMemo(
-    (): Record<string, string> => ({ rankComm: t('commission'), rankBondTotal: t('total stake'), rankBondOwn: t('own stake'), rankBondOther: t('other stake'), rankOverall: t('profit/era est') }),
+    (): Record<string, string> => ({ rankBondOther: t('other stake'), rankBondOwn: t('own stake'), rankBondTotal: t('total stake'), rankComm: t('commission'), rankOverall: t('profit/era est') }),
     [t]
   );
 
@@ -207,7 +207,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
       const { nominators, totalStaked, validators } = extractInfo(allAccounts, amount, electedInfo, favorites, lastReward);
       const sorted = sort(sortBy, sortFromMax, validators);
 
-      setWorkable({ nominators, totalStaked, sorted, validators });
+      setWorkable({ nominators, sorted, totalStaked, validators });
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward, sortBy, sortFromMax]);
 

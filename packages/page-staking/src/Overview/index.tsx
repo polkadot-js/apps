@@ -19,7 +19,7 @@ interface Props extends BareProps {
   stakingOverview?: DeriveStakingOverview;
 }
 
-function Overview ({ className, hasQueries, isIntentions, recentlyOnline, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> {
+function Overview ({ className, hasQueries, isIntentions, next, recentlyOnline, setNominators, stakingOverview }: Props): React.ReactElement<Props> {
   const { byAuthor, lastBlockAuthors } = useContext(BlockAuthorsContext);
 
   return (

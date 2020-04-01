@@ -13,7 +13,7 @@ import Selection from './Selection';
 function RpcApp (): React.ReactElement {
   return (
     <QueueConsumer>
-      {({ txqueue, queueRpc }: QueueProps): React.ReactNode => (
+      {({ queueRpc, txqueue }: QueueProps): React.ReactNode => (
         <>
           <Selection queueRpc={queueRpc} />
           <Results queue={txqueue} />

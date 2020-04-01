@@ -33,7 +33,7 @@ type ModalType = React.FC<ModalProps> & {
 };
 
 function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
-  const { className, children, header, open = true } = props;
+  const { children, className, header, open = true } = props;
 
   return (
     <SUIModal
@@ -51,7 +51,7 @@ function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
   );
 }
 
-function Actions ({ cancelLabel, className, children, withOr = true, onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
+function Actions ({ cancelLabel, children, className, onCancel, withOr = true }: ActionsProps): React.ReactElement<ActionsProps> {
   return (
     <SUIModal.Actions>
       <Button.Group className={className}>

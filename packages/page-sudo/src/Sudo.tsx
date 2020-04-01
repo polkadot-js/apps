@@ -26,13 +26,13 @@ interface State {
 
 class Propose extends TxComponent<Props, State> {
   public state: State = {
-    method: null,
-    isValid: false
+    isValid: false,
+    method: null
   };
 
   public render (): React.ReactNode {
     const { apiDefaultTxSudo, isMine, sudoKey, t } = this.props;
-    const { method, isValid } = this.state;
+    const { isValid, method } = this.state;
 
     return isMine
       ? (
@@ -71,11 +71,10 @@ class Propose extends TxComponent<Props, State> {
     this.setState(
       (prevState: State): State => {
         const { method = prevState.method } = newState;
-        const isValid = !!method;
 
         return {
-          method,
-          isValid
+          isValid: !!method,
+          method
         };
       }
     );

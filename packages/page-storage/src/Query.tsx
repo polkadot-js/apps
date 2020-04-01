@@ -61,16 +61,16 @@ function typeToString ({ creator: { meta: { modifier, type } } }: StorageEntryPr
 function createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
   return {
     Component,
-    // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
-    render: (createComponent: RenderFn): React.ComponentType<any> =>
-      renderHelper(createComponent, defaultProps),
     // In order to modify the parameters which are used to render the default component, we can use this method
     refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> =>
       renderHelper(
         (value: any): React.ReactNode =>
           <pre>{valueToText(type, value, swallowErrors, contentShorten)}</pre>,
         defaultProps
-      )
+      ),
+    // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
+    render: (createComponent: RenderFn): React.ComponentType<any> =>
+      renderHelper(createComponent, defaultProps)
   };
 }
 

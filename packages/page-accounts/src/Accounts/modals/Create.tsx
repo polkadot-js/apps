@@ -97,8 +97,8 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
     derivePath,
     isSeedValid: true,
     pairType,
-    seedType,
-    seed
+    seed,
+    seedType
   };
 }
 
@@ -123,8 +123,8 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
     derivePath,
     isSeedValid,
     pairType,
-    seedType,
-    seed
+    seed,
+    seedType
   };
 }
 
@@ -167,11 +167,11 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid && isSeedValid;
   const seedOpt = useMemo(() => (
     isDevelopment
-      ? [{ value: 'dev', text: t('Development') }]
+      ? [{ text: t('Development'), value: 'dev' }]
       : []
   ).concat(
-    { value: 'bip', text: t('Mnemonic') },
-    { value: 'raw', text: t('Raw seed') }
+    { text: t('Mnemonic'), value: 'bip' },
+    { text: t('Raw seed'), value: 'raw' }
   ), [isDevelopment, t]);
 
   const _onChangePass = (password: string): void =>

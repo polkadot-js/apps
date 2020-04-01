@@ -38,7 +38,7 @@ function Banner ({ className }: Props): React.ReactElement<Props> | null {
               yourBrowser: stringUpperFirst(browserName)
             }
           })}</p>
-          <ul>{availableExtensions[browserName].map(({ desc, name, link }): React.ReactNode => (
+          <ul>{availableExtensions[browserName].map(({ desc, link, name }): React.ReactNode => (
             <li key={name}>
               <a
                 href={link}

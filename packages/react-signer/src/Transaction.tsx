@@ -23,7 +23,7 @@ interface Props {
   value: QueueTx;
 }
 
-function Transaction ({ children, className, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ children, className, hideDetails, isSendable, onError, tip, value: { accountId, extrinsic, isUnsigned } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {

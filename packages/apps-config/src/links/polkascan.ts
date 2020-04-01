@@ -5,7 +5,6 @@
 import BN from 'bn.js';
 
 export default {
-  isActive: true,
   chains: {
     Edgeware: 'edgeware',
     Kulupu: 'kulupu',
@@ -13,6 +12,9 @@ export default {
     'Kusama CC3': 'kusama',
     Westend: 'westend'
   },
+  create: (chain: string, path: string, data: BN | number | string): string =>
+    `https://polkascan.io/pre/${chain}/${path}/${data.toString()}`,
+  isActive: true,
   paths: {
     address: 'module/account',
     block: 'system/block',
@@ -21,7 +23,5 @@ export default {
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
     treasury: 'treasury/proposal'
-  },
-  create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://polkascan.io/pre/${chain}/${path}/${data.toString()}`
+  }
 };

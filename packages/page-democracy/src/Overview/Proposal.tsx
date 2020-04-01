@@ -20,7 +20,7 @@ interface Props {
   value: DeriveProposal;
 }
 
-function Proposal ({ className, value: { balance, index, image, imageHash, proposer, seconds } }: Props): React.ReactElement<Props> {
+function Proposal ({ className, value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const seconding = seconds.filter((_address, index): boolean => index !== 0);
 

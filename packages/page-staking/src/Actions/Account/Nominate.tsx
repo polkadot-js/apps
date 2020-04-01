@@ -24,7 +24,7 @@ interface Props {
 
 const MAX_NOMINEES = 16;
 
-function Nominate ({ className, controllerId, nominees, onClose, next, stakingOverview, stashId }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className, controllerId, next, nominees, onClose, stakingOverview, stashId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
   const [validators, setValidators] = useState<string[]>([]);

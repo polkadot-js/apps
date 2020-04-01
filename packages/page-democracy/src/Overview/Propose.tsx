@@ -19,10 +19,10 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [{ isHashValid, hash }, setHash] = useState<{ isHashValid: boolean; hash?: string }>({ isHashValid: false, hash: '' });
+  const [{ hash, isHashValid }, setHash] = useState<{ hash?: string; isHashValid: boolean }>({ hash: '', isHashValid: false });
 
   const _onChangeHash = useCallback(
-    (hash?: string): void => setHash({ isHashValid: isHex(hash, 256), hash }),
+    (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
     []
   );
 

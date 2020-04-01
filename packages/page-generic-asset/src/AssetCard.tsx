@@ -16,7 +16,7 @@ interface Props extends I18nProps {
   onForget: (id: string) => void;
 }
 
-function AssetCard ({ className, assetId, name, onForget, onSaveName, t }: Props): React.ReactElement<Props> {
+function AssetCard ({ assetId, className, name, onForget, onSaveName, t }: Props): React.ReactElement<Props> {
   const _onForget = (): void => onForget(assetId);
   const _onSaveName = (name: string): void => onSaveName(assetId, name);
 

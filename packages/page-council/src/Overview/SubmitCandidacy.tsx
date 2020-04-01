@@ -12,7 +12,7 @@ function SubmitCandidacy (): React.ReactElement {
   const { api } = useApi();
   const { t } = useTranslation();
   const [accountId, setAcountId] = useState<string | null>(null);
-  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen, onClose, onOpen } = useModal();
 
   return (
     <>

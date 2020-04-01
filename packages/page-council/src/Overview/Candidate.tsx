@@ -18,7 +18,7 @@ interface Props {
   voters?: AccountId[];
 }
 
-function Candidate ({ className, address, balance, isPrime, voters }: Props): React.ReactElement<Props> {
+function Candidate ({ address, balance, className, isPrime, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

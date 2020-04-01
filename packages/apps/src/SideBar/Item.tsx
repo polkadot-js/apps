@@ -44,7 +44,7 @@ function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
   }
 }
 
-function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
+function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
   if (isHidden) {
     return false;
   } else if (needsAccounts && !hasAccounts) {
@@ -73,7 +73,7 @@ function checkVisible (name: string, { api, isApiReady, isApiConnected }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ route, isCollapsed, onClick }: Props): React.ReactElement<Props> | null {
+function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();

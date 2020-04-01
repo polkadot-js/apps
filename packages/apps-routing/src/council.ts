@@ -9,7 +9,6 @@ import Council, { useCounter } from '@polkadot/app-council';
 export default ([
   {
     Component: Council,
-    useCounter,
     display: {
       needsApi: [
         [
@@ -22,6 +21,7 @@ export default ([
       defaultValue: 'Council'
     },
     icon: 'building',
-    name: 'council'
+    name: 'council',
+    useCounter
   }
 ] as Routes);
