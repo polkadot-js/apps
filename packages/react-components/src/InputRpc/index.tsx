@@ -43,6 +43,7 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
     setValue((): DefinitionRpcExt => newValue);
     onChange && onChange(newValue);
   };
+
   const _onSectionChange = (section: string): void => {
     if (section === value.section) {
       return;

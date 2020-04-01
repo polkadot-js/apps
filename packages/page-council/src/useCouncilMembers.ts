@@ -11,6 +11,7 @@ interface Result {
   isMember: boolean;
   members: string[];
 }
+
 function transform (allAccounts: string[], queryMembers: [AccountId, Balance][]): Result {
   const members = queryMembers.map((accountId): string => accountId.toString());
 

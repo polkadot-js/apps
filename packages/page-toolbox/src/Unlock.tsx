@@ -132,6 +132,7 @@ class Unlock extends TxComponent<Props, State> {
 
     if (unlockError) {
       this.setState({ unlockError });
+
       return;
     }
 

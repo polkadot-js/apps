@@ -227,6 +227,7 @@ function InputNumber (props: Props): React.ReactElement<Props> {
   const _onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     if (KEYS_PRE.includes(event.key)) {
       setIsPreKeyDown(true);
+
       return;
     }
 

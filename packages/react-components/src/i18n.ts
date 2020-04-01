@@ -10,6 +10,7 @@ import { initReactI18next } from 'react-i18next';
 import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
 
 const languageDetector = new LanguageDetector();
+
 languageDetector.addDetector({
   lookup: () => {
     const i18nLang = uiSettings.i18nLang;

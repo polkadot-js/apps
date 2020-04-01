@@ -96,12 +96,15 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
   const _onBlur = (): void => {
     onBlur && onBlur();
   };
+
   const _onChange = ({ target }: React.SyntheticEvent<HTMLInputElement>): void => {
     onChange && onChange((target as HTMLInputElement).value);
   };
+
   const _onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     onKeyDown && onKeyDown(event);
   };
+
   const _onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     onKeyUp && onKeyUp(event);
 
@@ -115,6 +118,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
       onEscape();
     }
   };
+
   const _onPaste = (event: React.ClipboardEvent<HTMLInputElement>): void => {
     onPaste && onPaste(event);
   };

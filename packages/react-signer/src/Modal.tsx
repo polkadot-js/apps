@@ -572,6 +572,7 @@ class Signer extends React.PureComponent<Props, State> {
 
       if (unlockError) {
         this.setState({ unlockError });
+
         return;
       }
     }
@@ -740,6 +741,7 @@ class Signer extends React.PureComponent<Props, State> {
       signer = { signPayload: this.signQrPayload };
     } else if (isInjected) {
       const injected = await web3FromSource(source);
+
       signer = injected?.signer;
     }
 
@@ -759,6 +761,7 @@ class Signer extends React.PureComponent<Props, State> {
       this.setState({ signedTx });
     } catch (e) {
       queueSetTxStatus(id, 'error', undefined, e);
+
       if (isFunction(txFailedCb)) {
         txFailedCb(e);
       }

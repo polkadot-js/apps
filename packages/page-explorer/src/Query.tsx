@@ -31,6 +31,7 @@ function Query ({ className, value: propsValue }: Props): React.ReactElement<Pro
   const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
 
   const _setHash = (value: string): void => setState(stateFromValue(value));
+
   const _onQuery = (): void => {
     if (isValid && value.length !== 0) {
       window.location.hash = `/explorer/query/${value}`;

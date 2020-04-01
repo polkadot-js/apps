@@ -101,6 +101,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         if (components[type] === Account) {
           return type;
         }
+
         return 'Tuple';
 
       case TypeDefInfo.Vec:

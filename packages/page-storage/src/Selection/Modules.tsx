@@ -77,11 +77,13 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
       params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
     });
   };
+
   const _onChangeValues = (values: RawParams): void =>
     setValues({
       isValid: areParamsValid(key, values),
       values
     });
+
   const _onChangeKey = (key: StorageEntryPromise): void => {
     setKey(expandKey(api, key));
     _onChangeValues([]);

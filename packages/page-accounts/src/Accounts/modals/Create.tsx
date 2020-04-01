@@ -176,20 +176,27 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
 
   const _onChangePass = (password: string): void =>
     setPassword({ isPassValid: keyring.isPassValid(password), password });
+
   const _onChangePass2 = (password2: string): void =>
     setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 });
+
   const _onChangeDerive = (newDerivePath: string): void =>
     setAddress(updateAddress(seed, newDerivePath, seedType, pairType));
+
   const _onChangeSeed = (newSeed: string): void =>
     setAddress(updateAddress(newSeed, derivePath, seedType, pairType));
+
   const _onChangePairType = (newPairType: KeypairType): void =>
     setAddress(updateAddress(seed, derivePath, seedType, newPairType));
+
   const _selectSeedType = (newSeedType: SeedType): void => {
     if (newSeedType !== seedType) {
       setAddress(generateSeed(null, derivePath, newSeedType, pairType));
     }
   };
+
   const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+
   const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
 
   const _onCommit = (): void => {

@@ -8,6 +8,7 @@ import { identityNodes } from './identityIcons';
 function sanitize (value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || '';
 }
+
 export function getSystemIcon (systemName: string): 'beachball' | 'polkadot' | 'substrate' {
   return (identityNodes[systemName.toLowerCase().replace(/-/g, ' ')] || 'substrate') as 'substrate';
 }

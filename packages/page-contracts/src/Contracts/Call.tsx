@@ -105,6 +105,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   };
 
   const _onClearOutcomes = (): void => setOutcomes([]);
+
   const _onClearOutcome = (outcomeIndex: number) => (): void => {
     setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1)));
   };

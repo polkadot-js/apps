@@ -42,6 +42,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
     setBackupFailed(false);
     setPassword(value);
   };
+
   const _doBackup = (): void => {
     try {
       const addressKeyring = address && keyring.getPair(address);
@@ -52,6 +53,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
     } catch (error) {
       setBackupFailed(true);
       console.error(error);
+
       return;
     }
 

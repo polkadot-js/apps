@@ -47,7 +47,9 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
 
     setAddress({ address: address || input, isAddressExisting, isAddressValid });
   };
+
   const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+
   const _onCommit = (): void => {
     const status = { action: 'create' } as ActionStatus;
 

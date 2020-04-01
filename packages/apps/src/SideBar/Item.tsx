@@ -55,6 +55,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
     return false;
   } else if (needsSudo && !hasSudo) {
     logDisabled(name, 'Sudo key not available');
+
     return false;
   }
 

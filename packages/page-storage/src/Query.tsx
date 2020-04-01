@@ -174,6 +174,7 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
       setSpread({ ...spread });
     };
   };
+
   const _onRemove = (): void => {
     delete cache[value.id];
 

@@ -114,10 +114,12 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
   }, [selected]);
 
   const _clearConsole = (): void => setLogs([]);
+
   const _hookConsole = (type: LogType, args: any[]): void => {
     logs.push({ args, type });
     setLogs(logs.slice(0));
   };
+
   const _stopJs = (): void => {
     if (injectedRef.current) {
       injectedRef.current.api.disconnect();
@@ -126,6 +128,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
 
     setIsRunning(false);
   };
+
   const _runJs = async (): Promise<void> => {
     setIsRunning(true);
     _clearConsole();
@@ -148,6 +151,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
 
     setIsRunning(false);
   };
+
   const _selectExample = (value: string): void => {
     _stopJs();
 
@@ -163,6 +167,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
       }
     }
   };
+
   const _removeSnippet = (): void => {
     const filtered = customExamples.filter((value): boolean => value.value !== selected.value);
     const nextOptions = [...filtered, ...snippets];
@@ -173,6 +178,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     _selectExample(nextOptions[0].value);
     localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
   };
+
   const _saveSnippet = (snippetName: string): void => {
     // The <Dropdown> component doesn't take boolean custom props and no
     // camelCase keys, that's why 'custom' is passed as a string here

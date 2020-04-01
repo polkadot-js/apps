@@ -48,7 +48,9 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
     return null;
   }
 
-  const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
+  const _onChangeVote = (vote?: boolean): void =>
+    setVoteValue(isBoolean(vote) ? vote : true);
+
   const _onChangeProposal = (optionId: number): void => {
     const councilProp = councilProposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
 

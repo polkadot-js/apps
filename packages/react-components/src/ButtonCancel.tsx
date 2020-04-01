@@ -14,6 +14,7 @@ interface Props {
   onClick: () => void;
   tabIndex?: number;
 }
+
 function ButtonCancel ({ className, isDisabled, label, onClick, tabIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
