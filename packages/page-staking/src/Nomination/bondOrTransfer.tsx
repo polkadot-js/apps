@@ -65,9 +65,9 @@ function BondOrTransfer ({ recipientId, senderId, setSenderId, transfer }: Props
           <AddressInfo
             address={senderId}
             withBalance={{
-              available: false,
+              available: true,
               bonded: true,
-              free: false,
+              free: true,
               redeemable: true,
               unlocking: true
             }}

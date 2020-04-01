@@ -210,10 +210,9 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
   if (!balanceDisplay) {
     return null;
   }
-
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
+  console.log('balancesAll', balancesAll);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount.isMax());
-
   const allItems = (
     <>
       {balancesAll && balanceDisplay.total && (
@@ -336,7 +335,7 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const { className, children, extraInfo, withBalanceToggle, withHexSessionId } = props;
-
+  console.log('AddressInfo', props);
   return (
     <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
       <div className={`column ${withBalanceToggle ? 'column--expander' : ''}`}>
