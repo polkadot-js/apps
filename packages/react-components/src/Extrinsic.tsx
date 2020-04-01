@@ -7,7 +7,7 @@ import { BareProps } from '@polkadot/react-components/types';
 import { RawParam } from '@polkadot/react-params/types';
 import { TypeDef } from '@polkadot/types/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { GenericCall, getTypeDef } from '@polkadot/types';
 import { InputExtrinsic } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
@@ -63,7 +63,10 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
     onChange(method);
   }, [extrinsic, onChange, values]);
 
-  const _onChangeMethod = (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) });
+  const _onChangeMethod = useCallback(
+    (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) }),
+    []
+  );
 
   const { fn: { meta, method, section }, params } = extrinsic;
 
