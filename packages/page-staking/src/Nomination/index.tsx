@@ -15,9 +15,9 @@ import {useTranslation} from '@polkadot/app-accounts/translate';
 import React, { useState, useEffect } from 'react';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 // local imports and components
-import AccountSelector from './AccountSelector';
+import AccountSelector from './accountSelector';
 // import SummaryBar from './SummaryBar';
-import BondOrTransfer from './BondOrTransfer';
+import BondOrTransfer from './bondOrTransfer';
 import {Available} from "@polkadot/react-query/index";
 import { useOwnStashes } from '@polkadot/react-hooks';
 import {Button, TxButton} from "@polkadot/react-components/index";

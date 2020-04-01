@@ -4,10 +4,10 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
+import {useApi} from '@polkadot/react-hooks/index';
 import {AddressInfo, Button, InputAddress, InputBalance, TxButton} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
-import Summary from './Summary';
-import {useApi} from "@polkadot/react-hooks/index";
+import Summary from './summary';
 
 interface Props {
   transfer?: boolean | false;
