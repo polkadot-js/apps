@@ -28,13 +28,16 @@ function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, 
   const _onChangeName = (snippetName: string): void => {
     setSnippetName(snippetName);
   };
+
   const _onPopupOpen = (): void => {
     setIsOpen(true);
   };
+
   const _onPopupClose = (): void => {
     setSnippetName('');
     setIsOpen(false);
   };
+
   const _saveSnippet = (): void => {
     saveSnippet(snippetName);
     _onPopupClose();

@@ -38,6 +38,7 @@ function Contract (props: Props): React.ReactElement<Props> | null {
   }
 
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
+
   const _onForget = (): void => {
     if (!address) {
       return;
@@ -56,6 +57,7 @@ function Contract (props: Props): React.ReactElement<Props> | null {
       status.status = 'error';
       status.message = error.message;
     }
+
     _toggleForget();
   };
 

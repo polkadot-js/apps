@@ -42,6 +42,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
     setTypes(types);
     setTypesPlaceholder(typesPlaceholder);
   };
+
   const _clearTypes = (): void => {
     store.remove('types');
 
@@ -53,6 +54,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       typesPlaceholder: null
     });
   };
+
   const _onChangeTypes = (data: Uint8Array): void => {
     const code = u8aToString(data);
 
@@ -81,6 +83,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       });
     }
   };
+
   const _onEditTypes = (code: string): void => {
     try {
       if (!isJsonObject(code)) {
@@ -94,6 +97,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       setTypesPlaceholder(e.message);
     }
   };
+
   const _saveDeveloper = (): void => {
     try {
       registry.register(types);

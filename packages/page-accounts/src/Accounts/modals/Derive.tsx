@@ -103,11 +103,15 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
 
   const _onChangeName = (name: string): void =>
     setName({ isNameValid: !!name.trim(), name });
+
   const _onChangePass = (password: string): void =>
     setPassword({ isPassValid: keyring.isPassValid(password), password });
+
   const _onChangePass2 = (password2: string): void =>
     setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 });
+
   const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
+
   const _onUnlock = (): void => {
     try {
       source.decodePkcs8(rootPass);

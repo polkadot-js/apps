@@ -177,6 +177,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     const { isBusy } = this.state;
 
     onClose && onClose();
+
     if (!isBusy) {
       this.reset();
     }

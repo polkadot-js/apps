@@ -26,6 +26,7 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
     setAccountId(accountId);
     onChange(accountId, accountNonce);
   };
+
   const _onChangeAccountNonce = (accountNonce: BN): void => {
     setAccountNonce(accountNonce);
     onChange(accountId, accountNonce);

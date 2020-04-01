@@ -70,6 +70,7 @@ class ABI extends React.PureComponent<Props, State> {
         isError: false
       };
     }
+
     return null;
   }
 
@@ -149,6 +150,7 @@ class ABI extends React.PureComponent<Props, State> {
   private onChange = (u8a: Uint8Array): void => {
     const { onChange, t } = this.props;
     const json = u8aToString(u8a);
+
     try {
       const abi = JSON.parse(json);
 

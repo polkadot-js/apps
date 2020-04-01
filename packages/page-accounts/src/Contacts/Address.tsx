@@ -96,6 +96,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
   const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
   const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
+
   const _onForget = (): void => {
     if (address) {
       const status: Partial<ActionStatus> = {
@@ -113,6 +114,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       }
     }
   };
+
   const _onGenesisChange = (genesisHash: string | null): void => {
     setGenesisHash(genesisHash);
 
@@ -122,7 +124,9 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
 
     setGenesisHash(genesisHash);
   };
+
   const _onFavorite = (): void => toggleFavorite(address);
+
   const _saveName = (): void => {
     _toggleEditName();
 
@@ -138,6 +142,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       }
     }
   };
+
   const _saveTags = (): void => {
     _toggleEditTags();
 

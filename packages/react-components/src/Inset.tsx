@@ -32,6 +32,7 @@ function Inset ({ children, className, header, href, isCollapsible, isError, isS
   const _onClick = (): void => {
     href && history.push(href);
   };
+
   const _toggleCollapsed = (): void => setIsCollapsed(!isCollapsed);
 
   return (

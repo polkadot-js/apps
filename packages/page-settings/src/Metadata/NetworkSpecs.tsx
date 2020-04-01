@@ -44,14 +44,18 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   const { isApiReady, systemChain } = useApi();
   const [qrData, setQrData] = useState<NetworkSpecsStruct>(initialState);
   const debouncedQrData = useDebounce(qrData, 500);
+
   const reducer = (state: NetworkSpecsStruct, delta: Partial<NetworkSpecsStruct>): NetworkSpecsStruct => {
     const newState = {
       ...state,
       ...delta
     };
+
     setQrData(newState);
+
     return newState;
   };
+
   const [networkSpecs, setNetworkSpecs] = useReducer(reducer, initialState);
 
   useEffect((): void => {

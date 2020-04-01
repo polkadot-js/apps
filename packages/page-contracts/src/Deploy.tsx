@@ -114,6 +114,7 @@ class Deploy extends ContractModal<Props, State> {
 
   private static getConstructorState = (contractAbi: Abi | null = null, ci = 0): Pick<State, never> => {
     const constructorIndex = Math.max(ci, 0);
+
     if (!contractAbi || constructorIndex < 0 || constructorIndex >= contractAbi.constructors.length) {
       return {
         constructOptions: [],

@@ -42,6 +42,7 @@ function InputStorage ({ className, defaultValue, help, label, onChange, style, 
     setValue((): StorageEntryPromise => newValue);
     onChange && onChange(newValue);
   };
+
   const _onSectionChange = (section: string): void => {
     if (section === value.creator.section) {
       return;

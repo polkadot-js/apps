@@ -18,6 +18,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const _onAdd = (): void => {
     isValid && onAdd({ isConst: false, key });
   };
+
   const _onChangeKey = (key: string): void => {
     const u8a = u8aToU8a(key);
     const isValid = u8a.length !== 0;

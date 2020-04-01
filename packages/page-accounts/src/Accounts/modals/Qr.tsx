@@ -28,6 +28,7 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
   const [scanned, setScanned] = useState<Scanned | null>(null);
 
   const _onNameChange = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+
   const _onScan = (scanned: Scanned): void => {
     setScanned(scanned);
 
@@ -35,6 +36,7 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
       _onNameChange(scanned.name);
     }
   };
+
   const _onSave = (): void => {
     if (!scanned || !isNameValid) {
       return;

@@ -74,6 +74,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
   const _toggleUnlock = (): void => setIsUnlockVisible(!isUnlockVisible);
   const _onChangeAccount = (accountId: string | null): void => setCurrentPair(keyring.getPair(accountId || ''));
   const _onChangeData = (data: string): void => setData({ data, isHexData: isHex(data) });
+
   const _onSign = (): void => {
     if (isLocked || !isUsable || !currentPair) {
       return;
@@ -101,6 +102,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
       ));
     }
   };
+
   const _onUnlock = (): void => {
     setIsLocked(false);
     _toggleUnlock();

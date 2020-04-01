@@ -42,6 +42,7 @@ function InputExtrinsic ({ className, defaultValue, help, label, onChange, style
     setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
     onChange(newValue);
   };
+
   const _onSectionChange = (section: string): void => {
     if (section === value.section) {
       return;

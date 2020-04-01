@@ -148,6 +148,7 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
               ? paramValue
               : [paramValue]
           );
+
         return [true, values];
       }
 

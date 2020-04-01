@@ -58,6 +58,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
   const onReorder = (source: DraggableLocation, destination: DraggableLocation): void => {
     const result = Array.from(value);
     const [removed] = result.splice(source.index, 1);
+
     result.splice(destination.index, 0, removed);
 
     onChange(uniquesOf(result));

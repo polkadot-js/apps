@@ -69,6 +69,7 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
         );
       } catch (error) {
         console.log(error);
+
         return null;
       }
     },

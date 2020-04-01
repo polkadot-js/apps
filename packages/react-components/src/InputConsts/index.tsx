@@ -58,6 +58,7 @@ function InputConsts ({ className, defaultValue, help, label, onChange, style, w
     setValue(updated);
     onChange && onChange(updated);
   };
+
   const _onSectionChange = (section: string): void => {
     if (section === value.section) {
       return;
