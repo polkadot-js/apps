@@ -51,7 +51,6 @@ export { default as InputConsts } from './InputConsts';
 export { default as InputError } from './InputError';
 export { default as InputExtrinsic } from './InputExtrinsic';
 export { default as InputFile } from './InputFile';
-export { default as InputFloat } from './InputFloat';
 export { default as InputNumber } from './InputNumber';
 export { default as InputRpc } from './InputRpc';
 export { default as InputStorage } from './InputStorage';
