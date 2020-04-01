@@ -37,9 +37,8 @@
   "Unit": "Unit",
   "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot": "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot",
   "Address Prefix": "Address Prefix",
-  "Prefix indicates the ss58 address format in this network, is a number between 0 ~ 255 describes the precise format of the bytes of the address": "Prefix indicates the ss58 address format in this network, is a number between 0 ~ 255 describes the precise format of the bytes of the address",
+  "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address",
   "Decimals": "Decimals",
   "Decimals decides the smallest unit of the token, which is 1/10^decimals": "Decimals decides the smallest unit of the token, which is 1/10^decimals",
-  "Metadata {{count}}": "Metadata {{count}}",
-  "Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address": "Prefix indicates the his network, is a number between 0 ~ 255 describes the precise format of the bytes of the address"
+  "Metadata {{count}}": "Metadata {{count}}"
 }
