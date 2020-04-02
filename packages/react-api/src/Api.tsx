@@ -65,7 +65,8 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
-  const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
+  // const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
+  const tokenSymbol = 'CPAY';
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const systemChain = _systemChain
     ? _systemChain.toString()
