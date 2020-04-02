@@ -4,10 +4,19 @@
 
 import { Option } from '../types';
 
+const cennznet = {
+  info: 'cennznet',
+  text: 'CENNZnet (UNfrastructure)',
+  value: 'wss://cennznet.unfrastructure.io/public/ws'
+};
+
+const local = {
+  info: 'local',
+  text: 'Local Node (Own, 127.0.0.1:9944)',
+  value: 'ws://127.0.0.1:9944/'
+};
+
 export default [
-  {
-    info: 'local',
-    text: 'Local Node (Own, 127.0.0.1:9944)',
-    value: 'ws://127.0.0.1:9944/'
-  }
+  cennznet, // default
+  local
 ].map((option): Option => ({ ...option, withI18n: true }));
