@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { InputAddress, Labelled } from '@polkadot/react-components';
 import { Nonce } from '@polkadot/react-query';
@@ -22,15 +22,9 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
   const [accountId, setAccountId] = useState<string | null | undefined>(defaultValue);
   const [accountNonce, setAccountNonce] = useState(new BN(0));
 
-  const _onChangeAccountId = (accountId: string | null): void => {
-    setAccountId(accountId);
+  useEffect((): void => {
     onChange(accountId, accountNonce);
-  };
-
-  const _onChangeAccountNonce = (accountNonce: BN): void => {
-    setAccountNonce(accountNonce);
-    onChange(accountId, accountNonce);
-  };
+  }, [accountId, accountNonce, onChange]);
 
   return (
     <div className={`ui--row ${className}`}>
@@ -39,7 +33,7 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
           defaultValue={defaultValue}
           isError={isError}
           label={t('sign data from account')}
-          onChange={_onChangeAccountId}
+          onChange={setAccountId}
           placeholder='0x...'
           type='account'
         />
@@ -50,7 +44,7 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
           label={t('with an index of')}
         >
           <Nonce
-            callOnResult={_onChangeAccountNonce}
+            callOnResult={setAccountNonce}
             className='ui disabled dropdown selection'
             params={accountId}
           />
