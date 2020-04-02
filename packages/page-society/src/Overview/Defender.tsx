@@ -12,7 +12,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import DefenderVoting from './DefenderVoting';
-import VoteDisplay from './VoteDisplay';
+import Votes from './Votes';
 
 interface Props extends OwnMembers {
   className?: string;
@@ -45,7 +45,7 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
           <td className='address all'>
             <AddressSmall value={info.defender} />
           </td>
-          <VoteDisplay votes={votes} />
+          <Votes votes={votes} />
           <td className='button'>
             <DefenderVoting
               isMember={isMember}

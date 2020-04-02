@@ -13,7 +13,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 
 import CandidateVoting from './CandidateVoting';
-import VoteDisplay from './VoteDisplay';
+import Votes from './Votes';
 
 interface Props {
   allMembers: string[];
@@ -43,7 +43,7 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
       <td className='number'>
         <FormatBalance value={value} />
       </td>
-      <VoteDisplay votes={votes} />
+      <Votes votes={votes} />
       <td className='button'>
         <CandidateVoting
           candidateId={accountId.toString()}

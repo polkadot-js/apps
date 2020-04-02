@@ -34,21 +34,17 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
   const threshold = Math.ceil((members.length || 0) * 0.5);
 
   useEffect((): void => {
-    if (slashes?.length) {
-      setEras(
-        slashes.map(([era, slashes]): Option => ({
-          text: t('era {{era}}, {{count}} slashes', {
-            replace: {
-              count: slashes.length,
-              era: era.toNumber()
-            }
-          }),
-          value: era.toNumber()
-        }))
-      );
-    } else {
-      setEras([]);
-    }
+    setEras(
+      (slashes || []).map(([era, slashes]): Option => ({
+        text: t('era {{era}}, {{count}} slashes', {
+          replace: {
+            count: slashes.length,
+            era: era.toNumber()
+          }
+        }),
+        value: era.toNumber()
+      }))
+    );
   }, [slashes, t]);
 
   useEffect((): void => {
