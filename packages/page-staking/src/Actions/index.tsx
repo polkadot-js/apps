@@ -7,12 +7,14 @@ import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Table } from '@polkadot/react-components';
-import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
+import { useCall, useApi, useOwnStashes, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
+import { useTranslation } from '../translate';
 import Account from './Account';
 import StartStaking from './NewStake';
-import { useTranslation } from '../translate';
+import Payouts from './Payouts';
+import useStakerPayouts from './useStakerPayouts';
 
 interface Props {
   allRewards?: Record<string, DeriveStakerReward[]>;
@@ -33,7 +35,8 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
         : undefined
   });
   const ownStashes = useOwnStashes();
-  const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
+  const stakerPayoutsAfter = useStakerPayouts();
+  const [isNewStakeOpen, toggleNewStake] = useToggle();
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
 
@@ -45,12 +48,6 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
     );
   }, [ownStashes, stashTypes]);
 
-  const _toggleNewStake = useCallback(
-    (): void => setIsNewStateOpen(
-      (isNewStakeOpen: boolean) => !isNewStakeOpen
-    ),
-    []
-  );
   const _onUpdateType = useCallback(
     (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
       setStashTypes((stashTypes: Record<string, number>) => ({
@@ -71,11 +68,11 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
           icon='add'
           key='new-stake'
           label={t('New stake')}
-          onClick={_toggleNewStake}
+          onClick={toggleNewStake}
         />
       </Button.Group>
       {isNewStakeOpen && (
-        <StartStaking onClose={_toggleNewStake} />
+        <StartStaking onClose={toggleNewStake} />
       )}
       <Table>
         <Table.Head>
@@ -101,12 +98,17 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
               next={next}
               onUpdateType={_onUpdateType}
               rewards={allRewards && allRewards[stashId]}
+              stakerPayoutsAfter={stakerPayoutsAfter}
               stakingOverview={stakingOverview}
               stashId={stashId}
             />
           ))}
         </Table.Body>
       </Table>
+      <Payouts
+        allRewards={allRewards}
+        stakerPayoutsAfter={stakerPayoutsAfter}
+      />
     </div>
   );
 }
