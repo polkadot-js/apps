@@ -63,7 +63,6 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       })),
     []
   );
-
   return (
     <div className={`${className} ${!isVisible ? 'staking--hidden' : ''}`}>
       <Button.Group>

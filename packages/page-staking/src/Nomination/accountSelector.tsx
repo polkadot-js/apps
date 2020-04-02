@@ -33,7 +33,6 @@ function AccountSelector ({ className, onChange, title, stepsState, setStepsStat
       newStepsState[1] = newStepsState[1] === 'disabled' ? '' : newStepsState[1];
     } else {
       newStepsState[0] = '';
-      newStepsState[1] = 'disabled';
     }
     setStepsState(newStepsState);
   },[balance]);

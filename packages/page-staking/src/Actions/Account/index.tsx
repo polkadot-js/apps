@@ -137,7 +137,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
   useEffect((): void => {
     if (stakingAccount && validateInfo) {
       const state = getStakeState(allAccounts, allStashes, stakingAccount, stashId, validateInfo);
-
       setStakeState(state);
 
       if (state.isStashValidating) {

@@ -97,6 +97,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         <>
             <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <ControllerAccountSelector
+                senderId={senderId}
                 value={controllerAccountId}
                 title={'controller account'}
                 onChange={setControllerAccountId}
@@ -121,6 +122,8 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
                 transfer
                 recipientId={controllerAccountId}
                 senderId={senderId}
+                stepsState={stepsState}
+                setStepsState={setStepsState}
             />
         </>
         }
@@ -143,6 +146,8 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
             <BondOrTransfer
                 recipientId={controllerAccountId}
                 senderId={senderId}
+                stepsState={stepsState}
+                setStepsState={setStepsState}
             />
         </>
         }

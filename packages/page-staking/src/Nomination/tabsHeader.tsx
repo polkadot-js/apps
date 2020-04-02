@@ -12,23 +12,7 @@ function TabsHeader({ stepsState, setCurrentStep, steps }: Props): React.ReactEl
     event.preventDefault();
     setCurrentStep(id);
   }
-
-  /* function getFees(bondedAddress, senderAddress) {
-    const si = formatBalance.findSi('-');
-    const TEN = new BN(10);
-    const basePower = formatBalance.getDefaults().decimals;
-    const siPower = new BN(basePower + si.power);
-    const amount = new BN(1000).mul(TEN.pow(siPower));
-    api.tx.staking.bond(bondedAddress, amount, 2)
-      .paymentInfo(senderAddress).then(bondPaimentInfo => {
-      console.log('bondPaymentInfo', formatBalance(bondPaimentInfo.partialFee));
-      });
-    api.tx.balances.transfer(bondedAddress, amount)
-      .paymentInfo(senderAddress).then(paymentInfo => {
-        console.log('paymentInfo', formatBalance(paymentInfo.partialFee));
-    });
-  } */
-
+  console.log('stepsState', stepsState);
   return (
     <div className="ui ordered top attached steps">
 

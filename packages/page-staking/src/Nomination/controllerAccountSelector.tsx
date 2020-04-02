@@ -9,6 +9,7 @@ import {useTranslation} from '@polkadot/app-accounts/translate';
 import useBondBalance from '@polkadot/app-staking/Nomination/useBondBalance';
 
 interface Props {
+  senderId?: string | null;
   value?: string | null;
   className?: string;
   title?: string;
@@ -18,7 +19,7 @@ interface Props {
   toggleCreate: () => void;
 }
 
-function ControllerAccountSelector ({ className, onChange, title, stepsState, setStepsState, toggleCreate, value }: Props): React.ReactElement<Props> {
+function ControllerAccountSelector ({ className, onChange, title, stepsState, setStepsState, toggleCreate, value, senderId }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
   const bondBalance = useBondBalance(value);
   const { t } = useTranslation();
@@ -30,15 +31,15 @@ function ControllerAccountSelector ({ className, onChange, title, stepsState, se
   },[accountId]);
 
   useEffect(() => {
-    /*const newStepsState = [...stepsState];
-    if (balance && balance.length > 3) {
+    const newStepsState = [...stepsState];
+    if (senderId !== value) {
       newStepsState[1] = 'completed';
       newStepsState[2] = newStepsState[2] === 'disabled' ? '' : newStepsState[2];
     } else {
       newStepsState[1] = '';
       newStepsState[2] = 'disabled';
     }
-    setStepsState(newStepsState);*/
+    setStepsState(newStepsState);
     console.log('bondBalance', bondBalance)
   },[bondBalance]);
 
