@@ -112,7 +112,7 @@ function skipStakingIf ({ stakingInfo, withBalance = true, withValidatorPrefs = 
 }
 
 // calculates the bonded, first being the own, the second being nominated
-function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]): [BN, BN[]] {
+export function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]): [BN, BN[]] {
   let other: BN[] = [];
   let own = new BN(0);
 

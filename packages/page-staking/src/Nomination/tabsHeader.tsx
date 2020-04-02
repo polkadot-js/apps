@@ -1,68 +1,19 @@
-import BN from 'bn.js';
-import React, {useEffect, useState} from 'react';
-import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import {withCalls, withMulti} from '@polkadot/react-api/hoc';
-import {useApi} from '@polkadot/react-hooks/index';
-import { formatBalance } from '@polkadot/util';
+import React from 'react';
 
 interface Props {
   setCurrentStep: (id: string) => void;
-  address?: string | null;
-  sender?: string | null;
-  currentStep?: string | null;
-  stakingInfo?: DeriveStakingAccount;
-  balancesAll?: DeriveBalancesAll;
+  stepsState: string[];
+  steps: string[];
 }
 
-export const steps = ['create', 'transfer', 'bond', 'nominate'];
-
-function TabsHeader({ address, sender, currentStep, setCurrentStep, stakingInfo, balancesAll }: Props): React.ReactElement<Props> {
-  const [bondCompleted, setBondCompleted] = useState<boolean>(true);
-  const [transferCompleted, setTransferCompleted] = useState<boolean>(true);
-  const [nominationCompleted, setNominationCompleted] = useState<boolean>(true);
-  const { api } = useApi();
-
-  console.log('TabsHeader', stakingInfo, balancesAll?.availableBalance);
-  function getStepClass(stepName: string) {
-    const className = ['step'];
-    switch (stepName) {
-      // we need two accounts and 'n' size of transferable funds on main account balance
-      case steps[0]:
-        if (address && sender) {
-          className.push(address ? 'completed' : '');
-        }
-        break;
-      case steps[1]:
-        break;
-      case steps[2]:
-        if (!address) {
-          className.push('disabled');
-        } else if (bondCompleted) {
-          className.push('completed')
-        }
-        break;
-      case steps[3]:
-        if (!bondCompleted) {
-          className.push('disabled');
-        } else if (nominationCompleted) {
-          className.push('completed')
-        }
-        break;
-      default:
-        break;
-    }
-    if (currentStep === stepName && className.indexOf('disabled') === -1) {
-      className.push('active');
-    }
-    return className.join(' ');
-  }
+function TabsHeader({ stepsState, setCurrentStep, steps }: Props): React.ReactElement<Props> {
 
   function setCurrentValue(event: React.MouseEvent, id: string) {
     event.preventDefault();
     setCurrentStep(id);
   }
 
-  function getFees(bondedAddress, senderAddress) {
+  /* function getFees(bondedAddress, senderAddress) {
     const si = formatBalance.findSi('-');
     const TEN = new BN(10);
     const basePower = formatBalance.getDefaults().decimals;
@@ -76,39 +27,45 @@ function TabsHeader({ address, sender, currentStep, setCurrentStep, stakingInfo,
       .paymentInfo(senderAddress).then(paymentInfo => {
         console.log('paymentInfo', formatBalance(paymentInfo.partialFee));
     });
-  }
-
-  useEffect(() => {
-    if (address && sender) {
-      getFees(address, sender);
-    }
-  }, [address, sender]);
+  } */
 
   return (
     <div className="ui ordered top attached steps">
-      <a onClick={event => setCurrentValue(event, steps[0])} className={getStepClass(steps[0])}>
+
+      <a onClick={event => setCurrentValue(event, steps[0])} className={`step ${stepsState[0]}`}>
         <div className="content">
-          <div className="title">Accounts</div>
-          <div className="description">We need 2 accounts for nomination process. Choose or create them.</div>
+          <div className="title">Account</div>
+          <div className="description">
+            {/*Choose account with funds.*/}
+          </div>
         </div>
       </a>
 
-      <a onClick={event => setCurrentValue(event, steps[1])} className={getStepClass(steps[1])}>
+      <a onClick={event => setCurrentValue(event, steps[1])} className={`step ${stepsState[1]}`}>
         <div className="content">
-          <div className="title">Transfer funds to pay nomination fees</div>
+          <div className="title">Controller</div>
           <div className="description">
-            Controller needs a few funds to pay nomination fees
+            {/*Choose or create another account as controller.*/}
+          </div>
+        </div>
+      </a>
+
+      <a onClick={event => setCurrentValue(event, steps[2])} className={`step ${stepsState[2]}`}>
+        <div className="content">
+          <div className="title">Fees</div>
+          <div className="description">
+            {/*Controller needs a few funds to pay nomination fees*/}
             {/*You can un-nominate at any time to unlock your funds.
               Keep in mind that the un-nomination is effective in the next era.*/}
           </div>
         </div>
       </a>
 
-      <a onClick={event => setCurrentValue(event, steps[2])} className={getStepClass(steps[2])}>
+      <a onClick={event => setCurrentValue(event, steps[3])} className={`step ${stepsState[3]}`}>
         <div className="content">
-          <div className="title">Bond coins</div>
+          <div className="title">Bond</div>
           <div className="description">
-            Bond coins to nomination controller account.
+            {/*Bond coins to nomination controller account.*/}
             {/* While your DOTs are staked by nominating a validator, they are 'locked' (bonded).
               You can receive new DOTs in your account but you cannot stake
               as validator or transfer DOTs away from your account. */}
@@ -116,11 +73,11 @@ function TabsHeader({ address, sender, currentStep, setCurrentStep, stakingInfo,
         </div>
       </a>
 
-      <a onClick={event => setCurrentValue(event, steps[3])} className={getStepClass(steps[3])}>
+      <a onClick={event => setCurrentValue(event, steps[4])} className={`step ${stepsState[4]}`}>
         <div className="content">
-          <div className="title">Start nomination</div>
+          <div className="title">Nomination</div>
           <div className="description">
-            Nominate your funds to make profit
+            {/*Nominate your funds to make profit*/}
             {/*You can un-nominate at any time to unlock your funds.
               Keep in mind that the un-nomination is effective in the next era.*/}
           </div>
@@ -131,16 +88,4 @@ function TabsHeader({ address, sender, currentStep, setCurrentStep, stakingInfo,
   )
 };
 
-export default withMulti(
-  TabsHeader,
-  withCalls<Props>(
-    ['derive.balances.all', {
-      paramName: 'address',
-      propName: 'balancesAll',
-    }],
-    ['derive.staking.account', {
-      paramName: 'address',
-      propName: 'stakingInfo',
-    }]
-  )
-);
+export default React.memo(TabsHeader);

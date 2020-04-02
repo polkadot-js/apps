@@ -91,5 +91,6 @@ export { default as VoteAccount } from './VoteAccount';
 export { default as VoteActions } from './VoteActions';
 export { default as VoteToggle } from './VoteToggle';
 export { default as VoteValue } from './VoteValue';
+export { calcBonded } from './AddressInfo';
 
 export { default as media } from './media';

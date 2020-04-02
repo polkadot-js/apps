@@ -4,8 +4,9 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {InputAddress} from '@polkadot/react-components';
-import useBalance from "@polkadot/app-staking/Nomination/useBalance";
+import {Button, InputAddress} from '@polkadot/react-components';
+import {useTranslation} from '@polkadot/app-accounts/translate';
+import useBondBalance from '@polkadot/app-staking/Nomination/useBondBalance';
 
 interface Props {
   value?: string | null;
@@ -14,29 +15,32 @@ interface Props {
   onChange: (accountId: string | null) => void;
   stepsState: string[];
   setStepsState: (stepsState: string[]) => void; // Dispatch<SetStateAction<string>>
+  toggleCreate: () => void;
 }
 
-function AccountSelector ({ className, onChange, title, stepsState, setStepsState, value }: Props): React.ReactElement<Props> {
+function ControllerAccountSelector ({ className, onChange, title, stepsState, setStepsState, toggleCreate, value }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
-  const balance = useBalance(accountId);
+  const bondBalance = useBondBalance(value);
+  const { t } = useTranslation();
 
   useEffect((): void => {
-      if (accountId) {
-        onChange(accountId)
-      }
+    if (accountId) {
+      onChange(accountId)
+    }
   },[accountId]);
 
   useEffect(() => {
-    const newStepsState = [...stepsState];
+    /*const newStepsState = [...stepsState];
     if (balance && balance.length > 3) {
-      newStepsState[0] = 'completed';
-      newStepsState[1] = newStepsState[1] === 'disabled' ? '' : newStepsState[1];
+      newStepsState[1] = 'completed';
+      newStepsState[2] = newStepsState[2] === 'disabled' ? '' : newStepsState[2];
     } else {
-      newStepsState[0] = '';
-      newStepsState[1] = 'disabled';
+      newStepsState[1] = '';
+      newStepsState[2] = 'disabled';
     }
-    setStepsState(newStepsState);
-  },[balance]);
+    setStepsState(newStepsState);*/
+    console.log('bondBalance', bondBalance)
+  },[bondBalance]);
 
   return (
     <section className={className} >
@@ -52,12 +56,18 @@ function AccountSelector ({ className, onChange, title, stepsState, setStepsStat
             type='account'
           />
         </div>
+        <div className="text-block">or</div>
+        <Button
+          icon='add'
+          label={t('Add account')}
+          onClick={toggleCreate}
+        />
       </div>
     </section>
   );
 }
 
-export default React.memo(styled(AccountSelector)`
+export default React.memo(styled(ControllerAccountSelector)`
   align-items: flex-end;
 
   .summary {
