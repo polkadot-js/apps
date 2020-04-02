@@ -5,6 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
 
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
@@ -50,4 +51,9 @@ function Output ({ children, className, help, isError, isHidden, isMonospace, la
   );
 }
 
-export default React.memo(Output);
+export default React.memo(styled(Output)`
+  pre {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`);

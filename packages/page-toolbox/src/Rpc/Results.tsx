@@ -15,9 +15,7 @@ interface Props extends BareProps {
 
 function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
   const filtered = queue
-    .filter(({ error, result }): boolean =>
-      !isUndefined(error) || !isUndefined(result)
-    )
+    .filter(({ error, result }) => !isUndefined(error) || !isUndefined(result))
     .reverse();
 
   if (!filtered.length) {
