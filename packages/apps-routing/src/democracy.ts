@@ -2,23 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routes } from './types';
+import { Route } from './types';
 
 import Democracy, { useCounter } from '@polkadot/app-democracy';
 
-export default ([
-  {
-    Component: Democracy,
-    display: {
-      needsApi: [
-        'tx.democracy.notePreimage'
-      ]
-    },
-    i18n: {
-      defaultValue: 'Democracy'
-    },
-    icon: 'calendar check',
-    name: 'democracy',
-    useCounter
-  }
-] as Routes);
+const route: Route = {
+  Component: Democracy,
+  display: {
+    needsApi: [
+      'tx.democracy.notePreimage'
+    ]
+  },
+  i18n: {
+    defaultValue: 'Democracy'
+  },
+  icon: 'calendar check',
+  name: 'democracy',
+  useCounter
+};
+
+export default route;
