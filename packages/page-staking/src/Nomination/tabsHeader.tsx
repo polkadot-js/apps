@@ -26,8 +26,11 @@ function TabsHeader({ address, sender, currentStep, setCurrentStep, stakingInfo,
   function getStepClass(stepName: string) {
     const className = ['step'];
     switch (stepName) {
+      // we need two accounts and 'n' size of transferable funds on main account balance
       case steps[0]:
-        className.push(address ? 'completed' : '');
+        if (address && sender) {
+          className.push(address ? 'completed' : '');
+        }
         break;
       case steps[1]:
         break;
@@ -85,8 +88,8 @@ function TabsHeader({ address, sender, currentStep, setCurrentStep, stakingInfo,
     <div className="ui ordered top attached steps">
       <a onClick={event => setCurrentValue(event, steps[0])} className={getStepClass(steps[0])}>
         <div className="content">
-          <div className="title">Controller account</div>
-          <div className="description">Choose or create controller account, that needs for nomination process.</div>
+          <div className="title">Accounts</div>
+          <div className="description">We need 2 accounts for nomination process. Choose or create them.</div>
         </div>
       </a>
 

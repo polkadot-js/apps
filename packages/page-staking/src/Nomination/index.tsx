@@ -20,7 +20,7 @@ import AccountSelector from './accountSelector';
 import BondOrTransfer from './bondOrTransfer';
 import {Available} from "@polkadot/react-query/index";
 import { useOwnStashes } from '@polkadot/react-hooks';
-import {Button, TxButton} from "@polkadot/react-components/index";
+import {AddressInfo, Button, TxButton} from "@polkadot/react-components/index";
 import TabsHeader from "@polkadot/app-staking/Nomination/tabsHeader";
 
 const steps = ['create', 'transfer', 'bond', 'nominate'];
@@ -86,37 +86,58 @@ function Nomination (): React.ReactElement<Props> {
       <div className="ui attached segment">
         {currentStep === steps[0] &&
         <>
-            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
+            <Available label={balanceWrapper('Main account balance')} params={senderId} />
             <AccountSelector
-                onChange={setControllerAccountId}
+                title={'main account'}
+                onChange={setSenderId}
                 toggleCreate={toggleCreate}
             />
-            {isCreateOpen && (
-              <CreateModal
-                onClose={toggleCreate}
-                onStatusChange={onStatusChange}
+            <div className="ui divider" />
+            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
+              <AccountSelector
+                  title={'controller account'}
+                  onChange={setControllerAccountId}
+                  toggleCreate={toggleCreate}
               />
-            )}
+              {isCreateOpen && (
+                <CreateModal
+                  onClose={toggleCreate}
+                  onStatusChange={onStatusChange}
+                />
+              )}
         </>
         }
         {currentStep === steps[1] &&
         <>
-            <Available label={balanceWrapper('Account balance')} params={senderId} />
+            <Available label={balanceWrapper('Main account balance')} params={senderId} />
+            <br />
+            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <BondOrTransfer
                 transfer
                 recipientId={controllerAccountId}
                 senderId={senderId}
-                setSenderId={setSenderId}
             />
         </>
         }
         {currentStep === steps[2] &&
         <>
+            <Available label={balanceWrapper('Main account balance')} params={senderId} />
+            <br />
             <Available label={balanceWrapper('Account balance')} params={senderId} />
+            <AddressInfo
+                address={senderId}
+                withBalance={{
+                  available: true,
+                  bonded: true,
+                  free: true,
+                  redeemable: true,
+                  unlocking: true
+                }}
+                withRewardDestination
+            />
             <BondOrTransfer
                 recipientId={controllerAccountId}
                 senderId={senderId}
-                setSenderId={setSenderId}
             />
         </>
         }

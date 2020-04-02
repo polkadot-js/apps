@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import {useApi} from '@polkadot/react-hooks/index';
-import {AddressInfo, Button, InputAddress, InputBalance, TxButton} from '@polkadot/react-components';
+import {Button, InputBalance, TxButton} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import Summary from './summary';
 
@@ -13,10 +13,9 @@ interface Props {
   transfer?: boolean | false;
   recipientId?: string | null;
   senderId?: string | null;
-  setSenderId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-function BondOrTransfer ({ recipientId, senderId, setSenderId, transfer }: Props): React.ReactElement<Props> {
+function BondOrTransfer ({ recipientId, senderId, transfer }: Props): React.ReactElement<Props> {
   const [amount, setAmount] = useState<BN | undefined | null>(null);
 
   const { t } = useTranslation();
@@ -31,13 +30,8 @@ function BondOrTransfer ({ recipientId, senderId, setSenderId, transfer }: Props
       <h1>{ transfer ? 'Transfer' : 'Bond'}</h1>
       <div className='ui--row'>
         <div className='large'>
-          <InputAddress
-            label='Sender address'
-            onChange={setSenderId}
-            type='all'
-          />
           <InputBalance
-            label='amount to bond'
+            label={`amount to ${transfer ? 'transfer' : 'bond'}`}
             onChange={setAmount}
           />
           <Button.Group>
@@ -62,17 +56,6 @@ function BondOrTransfer ({ recipientId, senderId, setSenderId, transfer }: Props
             />
             )}
           </Button.Group>
-          <AddressInfo
-            address={senderId}
-            withBalance={{
-              available: true,
-              bonded: true,
-              free: true,
-              redeemable: true,
-              unlocking: true
-            }}
-            withRewardDestination
-          />
         </div>
         <Summary className='small'>Make a transfer from any account you control to controller account.
           Transfer fees and per-transaction fees apply and will be calculated upon submission.</Summary>

@@ -9,11 +9,12 @@ import {useTranslation} from '@polkadot/app-accounts/translate';
 
 interface Props {
   className?: string;
+  title?: string;
   onChange: (accountId: string | null) => void;
   toggleCreate: () => void;
 }
 
-function AccountSelector ({ className, onChange, toggleCreate }: Props): React.ReactElement<Props> {
+function AccountSelector ({ className, onChange, toggleCreate, title }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
   const { t } = useTranslation();
 
@@ -24,12 +25,12 @@ function AccountSelector ({ className, onChange, toggleCreate }: Props): React.R
 
   return (
     <section className={className} >
-      <h1>Controller account</h1>
+      <h1>{title}</h1>
       <div className='ui--row'>
         <div className='large'>
           <InputAddress
             className='medium'
-            label='my default account'
+            label={`select ${title}`}
             onChange={setAccountId}
             type='account'
           />
