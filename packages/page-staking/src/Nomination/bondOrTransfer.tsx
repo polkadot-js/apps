@@ -48,17 +48,24 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   }
 
   useEffect(() => {
-    const newStepsState = [...stepsState];
-    if (accountBalance && accountBalance.length > 1 && controllerBalance && controllerBalance.length > 1) {
-      newStepsState[2] = 'completed';
-      newStepsState[3] = newStepsState[3] === 'disabled' ? '' : newStepsState[3];
+    if (transfer) {
+      const newStepsState = [...stepsState];
+      if (accountBalance && accountBalance.length > 1 && controllerBalance && controllerBalance.length > 1) {
+        newStepsState[2] = 'completed';
+        newStepsState[3] = newStepsState[3] === 'disabled' ? '' : newStepsState[3];
+      } else {
+        newStepsState[2] = '';
+      }
+      setStepsState(newStepsState);
+      console.log('newStepsState', newStepsState);
+      console.log('accountBalance', accountBalance);
+      console.log('controllerBalance', controllerBalance);
     } else {
-      newStepsState[2] = '';
+      const newStepsState = [...stepsState];
+      newStepsState[3] = 'completed';
+      newStepsState[4] = '';
+      setStepsState(newStepsState);
     }
-    setStepsState(newStepsState);
-    console.log('newStepsState', newStepsState);
-    console.log('accountBalance', accountBalance);
-    console.log('controllerBalance', controllerBalance);
   },[accountBalance, controllerBalance]);
 
   useEffect(() => {
